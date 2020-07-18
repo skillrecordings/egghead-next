@@ -1,6 +1,17 @@
 import Head from 'next/head'
 
-export default function Home() {
+import {getAllLessonIds} from '../lib/lessons'
+
+export async function getStaticProps() {
+  const allLessonData = getAllLessonIds()
+  return {
+    props: {
+      allLessonData,
+    },
+  }
+}
+
+export default function Home({allLessonData}) {
   return (
     <div className="container">
       <Head>
