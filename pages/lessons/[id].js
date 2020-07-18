@@ -29,14 +29,12 @@ const NextUp = ({url}) => {
 
 const Transcript = ({url}) => {
   const {data} = useSWR(url, fetcher)
-  console.log(data)
   return data ? <Markdown>{data.text}</Markdown> : null
 }
 
 export default function Lesson({lessonData}) {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  console.log(lessonData)
 
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -96,11 +94,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}) {
-  const res = await fetch(`https://egghead.io/api/v1/lessons/${params.id}`)
-  const lesson = await res.json()
+  let lessonData = getLessonData(params.id)
+  if (!lessonData) {
+    const res = await fetch(`https://egghead.io/api/v1/lessons/${id}`)
+    lessonData = await res.json()
+    lessonData = {
+      ...lessonData,
+      id: params.id,
+    }
+  }
   return {
     props: {
-      lessonData: lesson,
+      lessonData,
     },
     unstable_revalidate: 10,
   }
