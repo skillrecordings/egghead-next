@@ -1,14 +1,48 @@
 import {getAllLessonIds, getLessonData} from '../../lib/lessons'
+import Link from 'next/link'
 import ReactPlayer from '../../components/ReactPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
+import fetch from 'unfetch'
+import useSWR from 'swr'
+
+const fetcher = (url) => fetch(url).then((r) => r.json())
+
+const NextUp = ({url}) => {
+  const {data} = useSWR(url, fetcher)
+  return data ? (
+    <ul className="list-disc">
+      {data.list.lessons.map((lesson) => {
+        return (
+          <li key={lesson.slug}>
+            <Link href={`/lessons/[id]`} as={lesson.path}>
+              <a className="no-underline hover:underline text-blue-500">
+                {lesson.title}
+              </a>
+            </Link>
+          </li>
+        )
+      })}
+    </ul>
+  ) : null
+}
+
+const Transcript = ({url}) => {
+  const {data} = useSWR(url, fetcher)
+  console.log(data)
+  return data ? <Markdown>{data.text}</Markdown> : null
+}
 
 export default function Lesson({lessonData}) {
   const playerRef = React.useRef(null)
+  console.log(lessonData)
+  const {instructor, next_up_url, transcript_url, primary_tag} = lessonData
+
   return (
     <div className="">
       <div className="">
         <h1>{lessonData.title}</h1>
+        <div>by {instructor.full_name}</div>
         <div
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
@@ -27,6 +61,14 @@ export default function Lesson({lessonData}) {
         </div>
         <div>
           <Markdown>{lessonData.summary}</Markdown>
+        </div>
+        <div>
+          <h1 className="font-bold">Playlist:</h1>
+          <NextUp url={next_up_url} />
+        </div>
+        <div>
+          <h1 className="font-bold">Transcript:</h1>
+          <Transcript url={transcript_url} />
         </div>
       </div>
     </div>

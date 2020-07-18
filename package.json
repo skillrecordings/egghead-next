@@ -16,15 +16,20 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-instantsearch-dom": "^6.6.0",
-    "react-markdown": "^4.3.1"
+    "react-markdown": "^4.3.1",
+    "swr": "^0.2.3",
+    "unfetch": "^4.1.0"
   },
   "devDependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.11",
     "@next/mdx": "^9.4.4",
+    "axios": "^0.19.2",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
+    "pad-number": "^0.0.4",
+    "parse-link-header": "^1.0.1",
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^1.4.0"
   }
