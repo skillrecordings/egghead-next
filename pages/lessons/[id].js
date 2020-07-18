@@ -49,8 +49,8 @@ export default function Lesson({lessonData}) {
   return (
     <div className="">
       <div className="">
-        <h1>{lessonData.title}</h1>
-        <div>by {instructor.full_name}</div>
+        <h1>{get(lessonData, 'title')}</h1>
+        <div>by {get(instructor, 'full_name')}</div>
         <div
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
@@ -68,16 +68,20 @@ export default function Lesson({lessonData}) {
           />
         </div>
         <div>
-          <Markdown>{lessonData.summary}</Markdown>
+          <Markdown>{get(lessonData, 'summary')}</Markdown>
         </div>
-        <div>
-          <h1 className="font-bold">Playlist:</h1>
-          <NextUp url={next_up_url} />
-        </div>
-        <div>
-          <h1 className="font-bold">Transcript:</h1>
-          <Transcript url={transcript_url} />
-        </div>
+        {next_up_url && (
+          <div>
+            <h1 className="font-bold">Playlist:</h1>
+            <NextUp url={next_up_url} />
+          </div>
+        )}
+        {transcript_url && (
+          <div>
+            <h1 className="font-bold">Transcript:</h1>
+            <Transcript url={transcript_url} />
+          </div>
+        )}
       </div>
     </div>
   )
