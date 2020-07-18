@@ -4,7 +4,11 @@ const fs = require('fs')
 const get = require('lodash/get')
 var pad = require('pad-number')
 
-const types = ['lessons', 'series', 'podcasts']
+const LESSONS = 'lessons'
+const COURSES = 'series'
+const PODCASTS = 'podcasts'
+
+const types = [LESSONS]
 
 async function getAllResources(url, type) {
   const result = await axios.get(url)
@@ -19,14 +23,46 @@ async function getAllResources(url, type) {
     return [...resources, ...moreResources]
   }
 
-  return resources
+  switch (type) {
+    case LESSONS:
+      return resources
+        .filter((lesson) => {
+          return lesson.visibility_state === 'indexed'
+        })
+        .map((lesson) => {
+          const {
+            slug,
+            id,
+            instructor,
+            title,
+            primary_tag,
+            url,
+            path,
+            transcript_url,
+          } = lesson
+          return {
+            slug,
+            id,
+            instructor,
+            title,
+            primary_tag,
+            url,
+            path,
+            transcript_url,
+          }
+        })
+    default:
+      return resources
+  }
 }
 
 async function run(type) {
   console.log(`fetching all ${type}`)
+  let numPages = 10
+  if (type === LESSONS) numPages = 150
 
   const resources = await getAllResources(
-    `https://egghead.io/api/v1/${type}?page=1&per_page=100&without_course_or_published_course=false`,
+    `https://egghead.io/api/v1/${type}?page=1&per_page=${numPages}&state=published`,
     type,
   )
 

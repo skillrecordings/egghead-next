@@ -1,9 +1,9 @@
 import {getAllLessonIds, getLessonData} from '../../lib/lessons'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import ReactPlayer from '../../components/ReactPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
-import fetch from 'unfetch'
 import useSWR from 'swr'
 
 const fetcher = (url) => fetch(url).then((r) => r.json())
@@ -34,8 +34,16 @@ const Transcript = ({url}) => {
 }
 
 export default function Lesson({lessonData}) {
+  const router = useRouter()
   const playerRef = React.useRef(null)
   console.log(lessonData)
+
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+
+  if (!lessonData) return null
+
   const {instructor, next_up_url, transcript_url, primary_tag} = lessonData
 
   return (
@@ -84,10 +92,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({params}) {
-  const lessonData = getLessonData(params.id)
+  const res = await fetch(`https://egghead.io/api/v1/lessons/${params.id}`)
+  const lesson = await res.json()
   return {
     props: {
-      lessonData,
+      lessonData: lesson,
     },
     unstable_revalidate: 10,
   }
