@@ -11,14 +11,15 @@
     "algoliasearch": "^4.3.0",
     "load-script": "^1.0.0",
     "lodash": "^4.17.19",
-    "next": "9.4.4",
+    "next": "canary",
     "query-string": "^6.13.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-instantsearch-dom": "^6.6.0",
     "react-markdown": "^4.3.1",
     "swr": "^0.2.3",
-    "unfetch": "^4.1.0"
+    "unfetch": "^4.1.0",
+    "vercel": "^19.1.2"
   },
   "devDependencies": {
     "@emotion/core": "^10.0.28",

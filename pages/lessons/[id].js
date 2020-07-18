@@ -79,7 +79,7 @@ export async function getStaticPaths() {
   const paths = getAllLessonIds()
   return {
     paths,
-    fallback: false,
+    fallback: true,
   }
 }
 
@@ -89,5 +89,6 @@ export async function getStaticProps({params}) {
     props: {
       lessonData,
     },
+    unstable_revalidate: 10,
   }
 }

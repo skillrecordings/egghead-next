@@ -26,7 +26,7 @@ async function run(type) {
   console.log(`fetching all ${type}`)
 
   const resources = await getAllResources(
-    `https://egghead.io/api/v1/${type}?page=1&per_page=10&without_course_or_published_course=false`,
+    `https://egghead.io/api/v1/${type}?page=1&per_page=100&without_course_or_published_course=false`,
     type,
   )
 
