@@ -4,11 +4,10 @@ const fs = require('fs')
 const get = require('lodash/get')
 var pad = require('pad-number')
 
-const LESSONS = 'lessons'
 const COURSES = 'series'
-const PODCASTS = 'podcasts'
+const LESSONS = 'lessons'
 
-const types = [LESSONS]
+const types = [COURSES]
 
 async function getAllResources(url, type) {
   const result = await axios.get(url)
@@ -23,37 +22,44 @@ async function getAllResources(url, type) {
     return [...resources, ...moreResources]
   }
 
-  switch (type) {
-    case LESSONS:
-      return resources
-        .filter((lesson) => {
-          return lesson.visibility_state === 'indexed'
-        })
-        .map((lesson) => {
-          const {
-            slug,
-            id,
-            instructor,
-            title,
-            primary_tag,
-            url,
-            path,
-            transcript_url,
-          } = lesson
+  return resources
+    .filter((series) => {
+      return series.visibility_state === 'indexed'
+    })
+    .map((series) => {
+      const {
+        slug,
+        title,
+        summary,
+        instructor,
+        square_cover_256_url,
+        lessons,
+        rating_out_of_5,
+        rating_count,
+        watched_count,
+      } = series
+      return {
+        slug,
+        title,
+        summary,
+        instructor,
+        square_cover_256_url,
+        lessons: lessons.map((lesson) => {
+          const {slug, title, primary_tag, url, path, transcript_url} = lesson
           return {
             slug,
-            id,
-            instructor,
             title,
             primary_tag,
             url,
             path,
             transcript_url,
           }
-        })
-    default:
-      return resources
-  }
+        }),
+        rating_out_of_5,
+        rating_count,
+        watched_count,
+      }
+    })
 }
 
 async function run(type) {

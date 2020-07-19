@@ -9,6 +9,8 @@ import useSWR from 'swr'
 const fetcher = (url) => fetch(url).then((r) => r.json())
 
 export default function Course({courseData}) {
+  const initialData = courseData
+  const {data} = useSWR(courseData.url, fetcher, {initialData})
   const {
     title,
     summary,
@@ -18,8 +20,9 @@ export default function Course({courseData}) {
     rating_out_of_5,
     rating_count,
     watched_count,
-  } = courseData
+  } = data
   const {avatar_64_url} = instructor
+
   return (
     <div className="">
       <h1>{title}</h1>
