@@ -11,7 +11,7 @@ const createURL = (state) => `?${qs.stringify(state)}`
 const qsSearchState = (query) => (query ? qs.parse(query) : {})
 
 const searchStateToURL = (searchState) =>
-  searchState ? `${window.location.pathname}?${qs.stringify(searchState)}` : ''
+  searchState ? `?${qs.stringify(searchState)}` : ''
 
 const fullTextSearch = {
   appId: '78FD8NWNJK',
@@ -36,10 +36,14 @@ export default function Search({initialSearchState, resultsState}) {
   const onSearchStateChange = (searchState) => {
     clearTimeout(debouncedState.current)
 
-    console.log(searchState)
-
     debouncedState.current = setTimeout(() => {
-      const href = `/search/${searchState.query.split(' ').join('/')}`
+      const {query, ...rest} = searchState
+      const qs = searchStateToURL(rest.refinementList)
+      const href = `/search/${searchState.query.split(' ').join('/')}${qs}`
+
+      //this is all f'd up. The general idea is to build up SEO friendly URLs for search
+      //where the url would be broken up like `/react/hooks/courses/by/kent+c+dodds` which is 100%
+      //possible but also fairly nuanced and complex 😅
 
       router.push(href, href, {
         shallow: true,

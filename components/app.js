@@ -12,7 +12,6 @@ import {
 } from 'react-instantsearch-dom'
 
 const HitComponent = ({hit}) => {
-  console.log(hit)
   const {path, type, image} = hit
   return (
     <div className="hit">
