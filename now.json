@@ -1,0 +1,18 @@
+{
+  "routes": [
+    {
+      "src": "/lessons",
+      "status": 301,
+      "headers": {
+        "Location": "/search?type=lessons"
+      }
+    },
+    {
+      "src": "/courses",
+      "status": 301,
+      "headers": {
+        "Location": "/search?type=courses"
+      }
+    }
+  ]
+}

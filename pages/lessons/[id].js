@@ -85,28 +85,45 @@ export default function Lesson({lessonData}) {
   )
 }
 
-export async function getStaticPaths() {
-  const paths = getAllLessonIds()
-  return {
-    paths,
-    fallback: true,
-  }
-}
-
-export async function getStaticProps({params}) {
-  let lessonData = getLessonData(params.id)
-  if (!lessonData) {
-    const res = await fetch(`https://egghead.io/api/v1/lessons/${id}`)
-    lessonData = await res.json()
-    lessonData = {
-      ...lessonData,
-      id: params.id,
-    }
+// This gets called on every request
+export async function getServerSideProps({params}) {
+  // Fetch data from external API
+  const res = await fetch(`https://egghead.io/api/v1/lessons/${params.id}`)
+  let lessonData = await res.json()
+  console.log(lessonData)
+  lessonData = {
+    ...lessonData,
+    id: params.id,
   }
   return {
     props: {
       lessonData,
     },
-    unstable_revalidate: 10,
   }
 }
+
+// export async function getStaticPaths() {
+//   const paths = getAllLessonIds()
+//   return {
+//     paths,
+//     fallback: true,
+//   }
+// }
+
+// export async function getStaticProps({params}) {
+//   let lessonData = getLessonData(params.id)
+//   if (!lessonData) {
+//     const res = await fetch(`https://egghead.io/api/v1/lessons/${id}`)
+//     lessonData = await res.json()
+//     lessonData = {
+//       ...lessonData,
+//       id: params.id,
+//     }
+//   }
+//   return {
+//     props: {
+//       lessonData,
+//     },
+//     unstable_revalidate: 10,
+//   }
+// }
