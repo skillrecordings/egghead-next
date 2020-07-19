@@ -12,16 +12,18 @@ import {
 } from 'react-instantsearch-dom'
 
 const HitComponent = ({hit}) => {
+  console.log(hit)
+  const {path, type, image} = hit
   return (
     <div className="hit">
       <div>
         <div className="hit-picture">
-          <img src={`${hit.image}`} />
+          <img src={`${image}`} />
         </div>
       </div>
       <div className="hit-content">
         <div>
-          <Link href={`/courses/[id]`} as={hit.path}>
+          <Link href={`/${type}s/[id]`} as={path}>
             <a className="no-underline hover:underline text-blue-500">
               {hit.title}
             </a>
