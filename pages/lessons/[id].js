@@ -28,7 +28,7 @@ const NextUp = ({url}) => {
 
 const Transcript = ({url}) => {
   const {data} = useSWR(url, fetcher)
-  return data ? <Markdown>{data.text}</Markdown> : null
+  return data ? <Markdown className="prose">{data.text}</Markdown> : null
 }
 
 export default function Lesson({lessonData}) {
@@ -65,7 +65,7 @@ export default function Lesson({lessonData}) {
           />
         </div>
         <div>
-          <Markdown>{get(lessonData, 'summary')}</Markdown>
+          <Markdown className="prose">{get(lessonData, 'summary')}</Markdown>
         </div>
         {next_up_url && (
           <div>

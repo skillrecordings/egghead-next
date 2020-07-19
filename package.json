@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.2.0",
     "algoliasearch": "^4.3.0",
     "load-script": "^1.0.0",
     "lodash": "^4.17.19",

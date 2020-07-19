@@ -36,7 +36,7 @@ export default function Course({courseData}) {
         <li>Watched: {watched_count} times</li>
       </ul>
       <div>
-        <Markdown>{summary}</Markdown>
+        <Markdown className="prose">{summary}</Markdown>
       </div>
       <ul className="list-disc">
         {lessons.map((lesson) => {
