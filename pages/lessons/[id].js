@@ -85,9 +85,11 @@ export default function Lesson({lessonData}) {
 }
 
 // This gets called on every request
-export async function getServerSideProps({params}) {
-  const res = await fetch(`https://egghead.io/api/v1/lessons/${params.id}`)
-  let lessonData = await res.json()
+export async function getServerSideProps({res, params}) {
+  const rawData = await fetch(`https://egghead.io/api/v1/lessons/${params.id}`)
+  let lessonData = await rawData.json()
+
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   lessonData = {
     ...lessonData,
