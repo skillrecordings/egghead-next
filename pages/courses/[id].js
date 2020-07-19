@@ -10,18 +10,31 @@ const fetcher = (url) => fetch(url).then((r) => r.json())
 
 export default function Course({courseData}) {
   const {
-    slug,
-    path,
     title,
+    summary,
     instructor,
     square_cover_256_url,
     lessons,
+    rating_out_of_5,
+    rating_count,
+    watched_count,
   } = courseData
+  const {avatar_64_url} = instructor
   return (
     <div className="">
-      <div>by {instructor.full_name}</div>
-      <h1>{courseData.title}</h1>
+      <h1>{title}</h1>
       <img src={square_cover_256_url} />
+      <img src={avatar_64_url} alt={instructor.full_name} />
+      <div>by {instructor.full_name}</div>
+      <ul>
+        <li>
+          Rating: {rating_out_of_5.toFixed(1)}/5 by {rating_count} reviewers
+        </li>
+        <li>Watched: {watched_count} times</li>
+      </ul>
+      <div>
+        <Markdown>{summary}</Markdown>
+      </div>
       <ul className="list-disc">
         {lessons.map((lesson) => {
           return (
