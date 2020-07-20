@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "load-instructors": "node ./scripts/loadStaticDataToFiles.js -i",
+    "load-lessons": "node ./scripts/loadStaticDataToFiles.js -l",
+    "load-series": "node ./scripts/loadStaticDataToFiles.js -s",
+    "load-all": "node ./scripts/loadStaticDataToFiles.js -ils"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.2.0",
@@ -29,6 +33,7 @@
     "@mdx-js/loader": "^1.6.11",
     "@next/mdx": "^9.4.4",
     "axios": "^0.19.2",
+    "command-line-args": "^5.1.1",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
     "pad-number": "^0.0.4",
