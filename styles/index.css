@@ -1,3 +1,25 @@
+/* purgecss start ignore */
+@import url('https://rsms.me/inter/inter.css');
 @tailwind base;
 @tailwind components;
+
+html {
+  font-family: 'Inter', sans-serif;
+}
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+
+html {
+  @apply subpixel-antialiased;
+  font-size: 16px;
+  font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
+}
+body {
+  @apply bg-gray-100;
+}
+/* purgecss end ignore */
+
 @tailwind utilities;
