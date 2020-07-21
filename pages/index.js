@@ -23,21 +23,3 @@ export default function Home() {
     </div>
   )
 }
-
-// This gets called on every request
-export async function getServerSideProps({res, params}) {
-  const rawData = await fetch(`https://egghead.io/api/v1/lessons/${params.id}`)
-  let lessonData = await rawData.json()
-
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate')
-
-  lessonData = {
-    ...lessonData,
-    id: params.id,
-  }
-  return {
-    props: {
-      lessonData,
-    },
-  }
-}

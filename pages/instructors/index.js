@@ -1,33 +1,14 @@
-import { getInstructors } from "../../lib/instructors"
-import Link from "next/link"
+import {getInstructors} from '../../lib/instructors'
+import Link from 'next/link'
 
-export function getStaticProps() {
-  const instructors = getInstructors([
-    "id",
-    "slug",
-    "full_name",
-    "website",
-    "path",
-    "avatar_480_url",
-  ])
-
-  return {
-    props: {
-      instructors,
-    },
-  }
-}
-
-export default function Instructors({ instructors }) {
+export default function Instructors({instructors}) {
   return (
     <ul className="list-disc">
-      {instructors.map(instructor => {
+      {instructors.map((instructor) => {
         return (
           <li key={instructor.id}>
-            <Link
-              href={`/instructors/[slug]`}
-              as={instructor.path}
-            >
+            <Link href={`/instructors/[slug]`} as={instructor.path}>
+              <img src={instructor.avatar_480_url} />
               <a className="no-underline hover:underline text-blue-500">
                 {instructor.full_name}
               </a>
@@ -37,4 +18,21 @@ export default function Instructors({ instructors }) {
       })}
     </ul>
   )
+}
+
+export function getStaticProps() {
+  const instructors = getInstructors([
+    'id',
+    'slug',
+    'full_name',
+    'website',
+    'path',
+    'avatar_480_url',
+  ])
+
+  return {
+    props: {
+      instructors,
+    },
+  }
 }
