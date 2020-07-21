@@ -14,17 +14,25 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Learn More
+## Download Latest Static Data from the egghead API into the `./data` Directory
 
-To learn more about Next.js, take a look at the following resources:
+The following commands download data into json files and place them into the `./data` directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+yarn load-instructors
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
+Other types of data can also be downloaded by following that pattern:
 
-## Deploy on ZEIT Now
+> See the egghead v1 API for available "types": `https://egghead.io/api/v1/${type}`
 
-The easiest way to deploy your Next.js app is to use the [ZEIT Now Platform](https://zeit.co/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+yarn load-lessons
+yarn load-series
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## How Static Data is Loaded
+
+1.  Utilities in `./lib` read the json files from the `./data` directory (see `./lib/courses.js`)
+2.  Routes access these utilities to load the json data (see `./pages/courses.js` )
+3.  The [https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation](`getStaticPaths` static function) pre-renders pages with the data (again, see `./pages/courses.js`)
