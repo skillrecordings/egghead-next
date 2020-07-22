@@ -3,20 +3,20 @@ import Link from 'next/link'
 
 export default function Instructors({instructors}) {
   return (
-    <ul className="list-disc">
+    <div className="grid grid-cols-3 gap-4">
       {instructors.map((instructor) => {
         return (
-          <li key={instructor.id}>
+          <div key={instructor.slug}>
+            <img src={instructor.avatar_480_url} />
             <Link href={`/instructors/[slug]`} as={instructor.path}>
-              <img src={instructor.avatar_480_url} />
               <a className="no-underline hover:underline text-blue-500">
                 {instructor.full_name}
               </a>
             </Link>
-          </li>
+          </div>
         )
       })}
-    </ul>
+    </div>
   )
 }
 

@@ -1,4 +1,3 @@
-import {InstantSearch, SearchBox, Hits} from 'react-instantsearch-dom'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
@@ -7,8 +6,6 @@ import App from '../../components/app'
 import qs from 'qs'
 
 const createURL = (state) => `?${qs.stringify(state)}`
-
-const qsSearchState = (query) => (query ? qs.parse(query) : {})
 
 const searchStateToURL = (searchState) =>
   searchState ? `?${qs.stringify(searchState)}` : ''
@@ -66,7 +63,6 @@ export default function Search({initialSearchState, resultsState}) {
 }
 
 export async function getServerSideProps({query}) {
-  console.log(query)
   const initialSearchState = {query: query.all?.join(' ') || ''}
   const {rawResults} = await findResultsState(App, {
     ...defaultProps,
