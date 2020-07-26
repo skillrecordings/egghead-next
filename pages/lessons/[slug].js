@@ -5,6 +5,28 @@ import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadLesson} from '../../lib/lessons'
+import {GraphQLClient} from 'graphql-request'
+import {useEggheadUser} from '../../hooks/useEggheadUser'
+import {UserContext} from '../../context/userContext'
+
+const API_ENDPOINT = 'https://egghead.io/graphql'
+
+const lessonQuery = /* GraphQL */ `
+  query getLesson($slug: String!) {
+    lesson(slug: $slug) {
+      slug
+      title
+      transcript_url
+      subtitles_url
+      summary
+      hls_url
+      dash_url
+      instructor {
+        full_name
+      }
+    }
+  }
+`
 
 const fetcher = (url) => fetch(url).then((r) => r.json())
 
@@ -32,9 +54,32 @@ const Transcript = ({url}) => {
   return data ? <Markdown className="prose">{data.text}</Markdown> : null
 }
 
-export default function Lesson({lesson}) {
+const lessonLoader = (slug, token) => (query) => {
+  const authorizationHeader = token && {
+    authorization: `Bearer ${token}`,
+  }
+  const variables = {
+    slug: slug,
+  }
+  const graphQLClient = new GraphQLClient(API_ENDPOINT, {
+    headers: {
+      ...authorizationHeader,
+    },
+  })
+  return graphQLClient.request(query, variables)
+}
+
+export default function Lesson({initialLesson}) {
   const router = useRouter()
   const playerRef = React.useRef(null)
+  const {authToken} = useEggheadUser()
+
+  const {data = {}, error} = useSWR(
+    lessonQuery,
+    lessonLoader(initialLesson.slug, authToken()),
+  )
+
+  const lesson = {...initialLesson, ...data.lesson}
 
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -88,10 +133,10 @@ export default function Lesson({lesson}) {
 // This gets called on every request
 export async function getServerSideProps({res, params}) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const lesson = await loadLesson(params.slug)
+  const initialLesson = await loadLesson(params.slug)
   return {
     props: {
-      lesson,
+      initialLesson,
     },
   }
 }

@@ -9,11 +9,14 @@
     "load-instructors": "node ./scripts/loadStaticDataToFiles.js -i",
     "load-lessons": "node ./scripts/loadStaticDataToFiles.js -l",
     "load-series": "node ./scripts/loadStaticDataToFiles.js -s",
-    "load-all": "node ./scripts/loadStaticDataToFiles.js -ils"
+    "load-all": "node ./scripts/loadStaticDataToFiles.js -ils",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.2.0",
     "algoliasearch": "^4.3.0",
+    "client-oauth2": "^4.3.2",
+    "formik": "^2.1.5",
     "graphql-request": "^2.0.0",
     "load-script": "^1.0.0",
     "lodash": "^4.17.19",
@@ -25,21 +28,26 @@
     "react-instantsearch-dom": "^6.6.0",
     "react-markdown": "^4.3.1",
     "swr": "^0.2.3",
-    "unfetch": "^4.1.0",
-    "vercel": "^19.1.2"
+    "yup": "^0.29.1"
   },
   "devDependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.11",
     "@next/mdx": "^9.4.4",
+    "@tailwindcss/typography": "^0.2.0",
+    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/react": "^10.4.7",
     "axios": "^0.19.2",
+    "babel-jest": "^26.1.0",
     "command-line-args": "^5.1.1",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
+    "jest": "^26.1.0",
     "pad-number": "^0.0.4",
     "parse-link-header": "^1.0.1",
     "postcss-preset-env": "^6.7.0",
+    "react-test-renderer": "^16.13.1",
     "tailwindcss": "^1.4.0"
   }
 }

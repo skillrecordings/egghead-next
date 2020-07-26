@@ -17,6 +17,7 @@
 
 # misc
 .DS_Store
+yarn-error.log
 
 # debug
 npm-debug.log*
