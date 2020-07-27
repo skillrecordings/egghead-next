@@ -1,9 +1,5 @@
-import {getAllCourseIds, getCourseData} from '../../lib/courses'
 import Link from 'next/link'
-import ReactPlayer from '../../components/ReactPlayer'
-import get from 'lodash/get'
 import Markdown from 'react-markdown'
-import fetch from 'unfetch'
 import useSWR from 'swr'
 import {loadCourse} from '../../lib/courses'
 
