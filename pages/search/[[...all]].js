@@ -11,8 +11,8 @@ const searchStateToURL = (searchState) =>
   searchState ? `?${qs.stringify(searchState)}` : ''
 
 const fullTextSearch = {
-  appId: '78FD8NWNJK',
-  searchApiKey: 'd1b3f68acf6c2817900630bc0ac6c389',
+  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP,
+  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY,
 }
 
 const searchClient = algoliasearchLite(
