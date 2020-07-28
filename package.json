@@ -14,6 +14,7 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
+    "@mdx-js/react": "^1.6.14",
     "algoliasearch": "^4.3.0",
     "client-oauth2": "^4.3.2",
     "formik": "^2.1.5",
