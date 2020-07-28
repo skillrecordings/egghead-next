@@ -5,14 +5,12 @@ import React from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
 import isEmpty from 'lodash/isEmpty'
-import {useEggheadUser} from '../hooks/useEggheadUser'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
 })
 
 function LoginForm() {
-  const {requestSignInEmail} = useEggheadUser()
   const [clicked, setClicked] = React.useState(false)
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   function handleClickOutside(values) {
@@ -43,7 +41,7 @@ function LoginForm() {
                 validationSchema={loginSchema}
                 onSubmit={(values) => {
                   setIsSubmitted(true)
-                  requestSignInEmail(values.email)
+                  console.log('send an email')
                 }}
               >
                 {(props) => {
@@ -59,7 +57,7 @@ function LoginForm() {
                       <form onSubmit={handleSubmit}>
                         <div>
                           <label
-                            for="email"
+                            htmlFor="email"
                             className="block text-sm font-medium leading-5 text-gray-800"
                           >
                             Email address
