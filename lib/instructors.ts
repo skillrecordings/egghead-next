@@ -22,7 +22,7 @@ export function getInstructors(props) {
 export function getInstructorSlugs() {
   const instructors = getInstructors(['slug', 'id', 'full_name'])
 
-  return map((instructor) => {
+  return map((instructor: object = {}) => {
     return {
       params: {
         ...instructor,

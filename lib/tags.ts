@@ -17,7 +17,7 @@ export function getTags() {
 export function getTagSlugs() {
   const tags = getTags()
 
-  return map((tag) => {
+  return map((tag: any = {}) => {
     const {slug, label} = tag
     return {
       params: {

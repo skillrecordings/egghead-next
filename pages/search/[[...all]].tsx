@@ -12,8 +12,8 @@ const searchStateToURL = (searchState) =>
   searchState ? `?${qs.stringify(searchState)}` : ''
 
 const fullTextSearch = {
-  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP,
-  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY,
+  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
+  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
 }
 
 const searchClient = algoliasearchLite(
@@ -28,7 +28,7 @@ const defaultProps = {
 
 export default function Search({initialSearchState, resultsState}) {
   const [searchState, setSearchState] = React.useState(initialSearchState)
-  const debouncedState = React.useRef(null)
+  const debouncedState = React.useRef<any>()
   const router = useRouter()
 
   const onSearchStateChange = (searchState) => {

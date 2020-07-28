@@ -39,10 +39,21 @@ const HitComponent = ({hit}) => {
   )
 }
 
-export default class extends React.Component {
+interface InstantSearchProps {
+  searchClient: any
+  indexName: string
+}
+
+export default class extends React.Component<InstantSearchProps> {
   render() {
+    const {children, searchClient, indexName, ...rest} = this.props
+
     return (
-      <InstantSearch {...this.props}>
+      <InstantSearch
+        indexName={indexName}
+        searchClient={searchClient}
+        {...rest}
+      >
         <Configure hitsPerPage={12} />
         <header>
           <h1>React InstantSearch + Next.Js</h1>
@@ -66,6 +77,7 @@ export default class extends React.Component {
             on github
           </div>
         </footer>
+        {children}
       </InstantSearch>
     )
   }
