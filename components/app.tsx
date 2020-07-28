@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
 import {
   RefinementList,
@@ -10,6 +9,7 @@ import {
   Pagination,
   InstantSearch,
 } from 'react-instantsearch-dom'
+import {SearchClient} from '@algolia/client-search'
 
 const HitComponent = ({hit}) => {
   const {path, type, image} = hit
@@ -39,32 +39,10 @@ const HitComponent = ({hit}) => {
   )
 }
 
-HitComponent.propTypes = {
-  hit: PropTypes.object,
-}
-
 export default class extends React.Component {
-  static propTypes = {
-    searchState: PropTypes.object,
-    resultsState: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    onSearchStateChange: PropTypes.func,
-    createURL: PropTypes.func,
-    indexName: PropTypes.string,
-    searchClient: PropTypes.object,
-  }
-
   render() {
     return (
-      <InstantSearch
-        searchClient={this.props.searchClient}
-        resultsState={this.props.resultsState}
-        onSearchStateChange={this.props.onSearchStateChange}
-        searchState={this.props.searchState}
-        createURL={this.props.createURL}
-        indexName={this.props.indexName}
-        onSearchParameters={this.props.onSearchParameters}
-        {...this.props}
-      >
+      <InstantSearch {...this.props}>
         <Configure hitsPerPage={12} />
         <header>
           <h1>React InstantSearch + Next.Js</h1>

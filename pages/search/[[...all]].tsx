@@ -1,3 +1,4 @@
+import React from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
@@ -49,21 +50,23 @@ export default function Search({initialSearchState, resultsState}) {
 
     setSearchState(searchState)
   }
+  const customProps = {
+    searchState,
+    resultsState,
+    createURL,
+    onSearchStateChange,
+  }
   return (
     <div>
-      <App
-        {...defaultProps}
-        searchState={searchState}
-        resultsState={resultsState}
-        createURL={createURL}
-        onSearchStateChange={onSearchStateChange}
-      />
+      <App {...defaultProps} {...customProps} />
     </div>
   )
 }
 
 export async function getServerSideProps({query}) {
-  const initialSearchState = {query: query.all?.join(' ') || ''}
+  const {all} = query
+
+  const initialSearchState = all ? {query: all.join(' ') || ''} : {}
   const {rawResults} = await findResultsState(App, {
     ...defaultProps,
     searchState: initialSearchState,

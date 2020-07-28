@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import ReactPlayer from '../../components/ReactPlayer'
@@ -6,8 +7,6 @@ import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadLesson} from '../../lib/lessons'
 import {GraphQLClient} from 'graphql-request'
-import {useEggheadUser} from '../../hooks/useEggheadUser'
-import {UserContext} from '../../context/userContext'
 
 const API_ENDPOINT = 'https://egghead.io/graphql'
 
@@ -72,14 +71,8 @@ const lessonLoader = (slug, token) => (query) => {
 export default function Lesson({initialLesson}) {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken} = useEggheadUser()
 
-  const {data = {}, error} = useSWR(
-    lessonQuery,
-    lessonLoader(initialLesson.slug, authToken()),
-  )
-
-  const lesson = {...initialLesson, ...data.lesson}
+  const lesson = initialLesson
 
   if (router.isFallback) {
     return <div>Loading...</div>
