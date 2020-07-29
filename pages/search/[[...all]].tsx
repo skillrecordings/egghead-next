@@ -1,3 +1,4 @@
+import React from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
@@ -11,8 +12,8 @@ const searchStateToURL = (searchState) =>
   searchState ? `?${qs.stringify(searchState)}` : ''
 
 const fullTextSearch = {
-  appId: '78FD8NWNJK',
-  searchApiKey: 'd1b3f68acf6c2817900630bc0ac6c389',
+  appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
+  searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
 }
 
 const searchClient = algoliasearchLite(
@@ -27,7 +28,7 @@ const defaultProps = {
 
 export default function Search({initialSearchState, resultsState}) {
   const [searchState, setSearchState] = React.useState(initialSearchState)
-  const debouncedState = React.useRef(null)
+  const debouncedState = React.useRef<any>()
   const router = useRouter()
 
   const onSearchStateChange = (searchState) => {
@@ -49,21 +50,23 @@ export default function Search({initialSearchState, resultsState}) {
 
     setSearchState(searchState)
   }
+  const customProps = {
+    searchState,
+    resultsState,
+    createURL,
+    onSearchStateChange,
+  }
   return (
     <div>
-      <App
-        {...defaultProps}
-        searchState={searchState}
-        resultsState={resultsState}
-        createURL={createURL}
-        onSearchStateChange={onSearchStateChange}
-      />
+      <App {...defaultProps} {...customProps} />
     </div>
   )
 }
 
 export async function getServerSideProps({query}) {
-  const initialSearchState = {query: query.all?.join(' ') || ''}
+  const {all} = query
+
+  const initialSearchState = all ? {query: all.join(' ') || ''} : {}
   const {rawResults} = await findResultsState(App, {
     ...defaultProps,
     searchState: initialSearchState,

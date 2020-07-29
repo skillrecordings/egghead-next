@@ -5,7 +5,7 @@ const tagsPath = './data/tags.json'
 
 function readTags() {
   const rawdata = fs.readFileSync(tagsPath)
-  return JSON.parse(rawdata)
+  return JSON.parse(rawdata.toString())
 }
 
 export function getTags() {
@@ -17,7 +17,7 @@ export function getTags() {
 export function getTagSlugs() {
   const tags = getTags()
 
-  return map((tag) => {
+  return map((tag: any = {}) => {
     const {slug, label} = tag
     return {
       params: {

@@ -1,0 +1,4 @@
+{
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "javascript.preferences.quoteStyle": "single",
+}

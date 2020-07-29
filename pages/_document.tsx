@@ -1,8 +1,8 @@
-import Document, {Head, Main, NextScript} from 'next/document'
+import Document, {Head, Main, NextScript, DocumentContext} from 'next/document'
 import {extractCritical} from 'emotion-server'
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx)
     const styles = extractCritical(initialProps.html)
     return {

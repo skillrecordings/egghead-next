@@ -10,7 +10,7 @@ const instructorsPath = './data/instructors.json'
 
 function readInstructors() {
   const rawdata = fs.readFileSync(instructorsPath)
-  return uniqBy('slug', JSON.parse(rawdata))
+  return uniqBy('slug', JSON.parse(rawdata.toString()))
 }
 
 export function getInstructors(props) {
@@ -22,7 +22,7 @@ export function getInstructors(props) {
 export function getInstructorSlugs() {
   const instructors = getInstructors(['slug', 'id', 'full_name'])
 
-  return map((instructor) => {
+  return map((instructor: object = {}) => {
     return {
       params: {
         ...instructor,
