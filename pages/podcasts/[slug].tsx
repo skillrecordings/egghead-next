@@ -19,7 +19,7 @@ export default function Podcast({podcast}) {
 }
 
 export async function getServerSideProps({res, params}) {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate')
   const podcast = await loadPodcast(params.slug)
   return {
     props: {
