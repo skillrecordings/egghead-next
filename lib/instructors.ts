@@ -1,36 +1,17 @@
-import fs from 'fs'
-import {compose, curry, map, pick, find, uniqBy} from 'lodash/fp'
+import {request} from 'graphql-request'
 
-const mapProps = compose(map, pick)
-const findPick = curry((selector, props, data) =>
-  pick(props, find(selector, data)),
-)
+export async function loadInstructors(page = 1) {
+  const endpoint = 'https://egghead.io/graphql'
 
-const instructorsPath = './data/instructors.json'
-
-function readInstructors() {
-  const rawdata = fs.readFileSync(instructorsPath)
-  return uniqBy('slug', JSON.parse(rawdata.toString()))
-}
-
-export function getInstructors(props) {
-  const instructors = readInstructors()
-
-  return mapProps(props)(instructors)
-}
-
-export function getInstructorSlugs() {
-  const instructors = getInstructors(['slug', 'id', 'full_name'])
-
-  return map((instructor: object = {}) => {
-    return {
-      params: {
-        ...instructor,
-      },
+  const query = `query getInstructors($page: Int!){
+    instructors(per_page: 24, page:$page){
+      id
+      full_name
+      avatar_url
+      slug
     }
-  })(instructors)
-}
+  }`
+  const {instructors} = await request(endpoint, query, {page})
 
-export function getInstructor(slug, props) {
-  return findPick({slug}, props, readInstructors())
+  return instructors
 }
