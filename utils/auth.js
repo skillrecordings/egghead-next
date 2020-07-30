@@ -88,13 +88,13 @@ export default class Auth {
     }
   }
 
-  handleAuthentication(location) {
-    if (typeof localStorage === 'undefined') {
-      return
-    }
+  handleAuthentication() {
     return new Promise((resolve, reject) => {
+      if (typeof localStorage === 'undefined') {
+        reject('no localstorage')
+      }
       if (typeof window !== 'undefined') {
-        this.eggheadAuth.token.getToken(location).then(
+        this.eggheadAuth.token.getToken(window.location).then(
           (user) => {
             this.setSession(user).then(
               () => {

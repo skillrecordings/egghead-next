@@ -7,6 +7,7 @@ import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadLesson} from '../../lib/lessons'
 import {GraphQLClient} from 'graphql-request'
+import {useViewer} from '../../context/viewer-context'
 
 const API_ENDPOINT = 'https://egghead.io/graphql'
 
@@ -27,23 +28,29 @@ const lessonQuery = /* GraphQL */ `
   }
 `
 
-const fetcher = (url) => fetch(url).then((r) => r.json())
+const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
 const NextUp = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? (
     <ul className="list-disc">
-      {data.list.lessons.map((lesson) => {
-        return (
-          <li key={lesson.slug}>
-            <Link href={`/lessons/[id]`} as={lesson.path}>
-              <a className="no-underline hover:underline text-blue-500">
-                {lesson.title}
-              </a>
-            </Link>
-          </li>
-        )
-      })}
+      {data.list.lessons.map(
+        (lesson: {
+          slug: string | number | undefined
+          path: string | import('url').UrlObject | undefined
+          title: React.ReactNode
+        }) => {
+          return (
+            <li key={lesson.slug}>
+              <Link href={`/lessons/[id]`} as={lesson.path}>
+                <a className="no-underline hover:underline text-blue-500">
+                  {lesson.title}
+                </a>
+              </Link>
+            </li>
+          )
+        },
+      )}
     </ul>
   ) : null
 }
@@ -53,7 +60,7 @@ const Transcript = ({url}) => {
   return data ? <Markdown className="prose">{data.text}</Markdown> : null
 }
 
-const lessonLoader = (slug, token) => (query) => {
+const lessonLoader = (slug: any, token: any) => (query: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
   }
@@ -71,8 +78,16 @@ const lessonLoader = (slug, token) => (query) => {
 export default function Lesson({initialLesson}) {
   const router = useRouter()
   const playerRef = React.useRef(null)
+  const {authToken, logout} = useViewer()
 
-  const lesson = initialLesson
+  const {data = {}, error} = useSWR(
+    lessonQuery,
+    lessonLoader(initialLesson.slug, authToken),
+  )
+
+  if (error) logout()
+
+  const lesson = {...initialLesson, ...data.lesson}
 
   if (router.isFallback) {
     return <div>Loading...</div>

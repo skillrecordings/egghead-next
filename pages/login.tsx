@@ -4,6 +4,7 @@ import React from 'react'
 
 import * as yup from 'yup'
 import {Formik} from 'formik'
+import {useViewer} from '../context/viewer-context'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -12,6 +13,7 @@ const loginSchema = yup.object().shape({
 function LoginForm() {
   const [clicked, setClicked] = React.useState(false)
   const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const {requestSignInEmail} = useViewer()
 
   return (
     <div className="text-text w-screen absolute left-0 top-0 mx-auto min-h-screen flex flex-col justify-center sm:px-6 lg:px-8 px-5">
@@ -36,7 +38,7 @@ function LoginForm() {
                 validationSchema={loginSchema}
                 onSubmit={(values) => {
                   setIsSubmitted(true)
-                  console.log('send an email')
+                  requestSignInEmail(values.email)
                 }}
               >
                 {(props) => {
