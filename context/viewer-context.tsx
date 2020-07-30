@@ -46,7 +46,7 @@ function useAuthedViewer() {
     let viewerMonitorIntervalId
 
     const loadViewerFromStorage = async () => {
-      const newViewer = await auth.refreshUser(accessToken)
+      const newViewer: any = await auth.refreshUser(accessToken)
       if (!isEqual(newViewer, viewer)) {
         setViewer(newViewer)
       }
@@ -78,7 +78,7 @@ function useAuthedViewer() {
     } else if (noAccessTokenFound) {
       viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
     } else {
-      auth.handleAuthentication().then(setViewer)
+      auth.handleAuthentication().then((viewer: any) => setViewer(viewer))
     }
 
     return clearUserMonitorInterval

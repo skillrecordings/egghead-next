@@ -138,9 +138,9 @@ export default function Lesson({initialLesson}) {
   )
 }
 
-// This gets called on every request
-export async function getServerSideProps({res, params}) {
+export async function getServerSideProps({res, params, req}) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+
   const initialLesson = await loadLesson(params.slug)
   return {
     props: {
