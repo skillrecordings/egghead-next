@@ -1,7 +1,7 @@
 import {request} from 'graphql-request'
 
 export async function loadLesson(slug) {
-  const endpoint = 'https://egghead.io/graphql'
+  const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
   const query = /* GraphQL */ `
     query getLesson($slug: String!) {
