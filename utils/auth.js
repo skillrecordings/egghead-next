@@ -145,21 +145,26 @@ export default class Auth {
   }
 
   refreshUser(accessToken, loadFullUser = false) {
-    if (typeof localStorage === 'undefined') {
-      return
-    }
-    return http
-      .get(`${AUTH_DOMAIN}/api/v1/users/current?minimal=${loadFullUser}`, {
-        headers: {
-          Authorization: `Bearer ${
-            accessToken || localStorage.getItem(ACCESS_TOKEN_KEY)
-          }`,
-        },
-      })
-      .then(({data}) => {
-        localStorage.setItem(USER_KEY, JSON.stringify(data))
-        return data && JSON.parse(localStorage.getItem(USER_KEY))
-      })
+    return new Promise((resolve, reject) => {
+      if (typeof localStorage === 'undefined') {
+        reject('no local storage')
+      }
+      http
+        .get(`${AUTH_DOMAIN}/api/v1/users/current?minimal=${loadFullUser}`, {
+          headers: {
+            Authorization: `Bearer ${
+              accessToken || localStorage.getItem(ACCESS_TOKEN_KEY)
+            }`,
+          },
+        })
+        .then(({data}) => {
+          localStorage.setItem(USER_KEY, JSON.stringify(data))
+          resolve(data && JSON.parse(localStorage.getItem(USER_KEY)))
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
   }
 
   setSession(authResult) {
