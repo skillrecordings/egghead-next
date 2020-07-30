@@ -1,31 +1,25 @@
-import {getInstructor, getInstructorSlugs} from '../../lib/instructors'
-
-export default function Instructor({full_name, twitter}) {
+import {loadInstructor} from '../../lib/instructors'
+export default function Instructor({instructorData}) {
   return (
-    <div>
-      <h2>{full_name}</h2>
-      {twitter && <a href={`https://twitter.com/${twitter}`}>@{twitter}</a>}
+    <div className="flex flex-col items-center">
+      <img
+        className="rounded-full"
+        src={instructorData.avatar_url}
+        alt={`Avatar for ${instructorData.full_name}`}
+      />
+
+      <p>{instructorData.full_name}</p>
     </div>
   )
 }
 
-export function getStaticPaths() {
-  const paths = getInstructorSlugs()
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
-export function getStaticProps({params}) {
-  const props = getInstructor(params.slug, [
-    'id',
-    'slug',
-    'full_name',
-    'twitter',
-  ])
+export async function getServerSideProps({res, params}) {
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  const instructorData = await loadInstructor(params.slug)
 
   return {
-    props,
+    props: {
+      instructorData,
+    },
   }
 }
