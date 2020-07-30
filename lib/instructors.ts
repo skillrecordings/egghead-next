@@ -1,8 +1,8 @@
 import {request} from 'graphql-request'
 
-export async function loadInstructors(page = 1) {
-  const endpoint = 'https://egghead.io/graphql'
+const endpoint = 'https://egghead.io/graphql'
 
+export async function loadInstructors(page: number = 1) {
   const query = `query getInstructors($page: Int!){
     instructors(per_page: 24, page:$page){
       id
@@ -14,4 +14,18 @@ export async function loadInstructors(page = 1) {
   const {instructors} = await request(endpoint, query, {page})
 
   return instructors
+}
+
+export async function loadInstructor(slug: string) {
+  const query = `query getInstructor($slug: String!){
+    instructor(slug: $slug){
+      id
+      full_name
+      avatar_url
+      slug
+    }
+  }`
+  const {instructor} = await request(endpoint, query, {slug})
+
+  return instructor
 }
