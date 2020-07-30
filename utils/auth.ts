@@ -2,6 +2,7 @@ import OAuthClient from 'client-oauth2'
 import {track, identify} from './analytics'
 import axios from 'axios'
 import get from 'lodash/get'
+import cookie from 'js-cookie'
 
 const http = axios.create()
 
@@ -15,7 +16,9 @@ export const EXPIRES_AT_KEY = 'egghead_sellable_expires_at'
 export const VIEWING_AS_USER_KEY = 'egghead_sellable_viewing_as_user'
 
 export default class Auth {
-  constructor(redirectUri) {
+  eggheadAuth: OAuthClient
+
+  constructor(redirectUri?: string) {
     this.eggheadAuth = new OAuthClient({
       clientId: AUTH_CLIENT_ID,
       authorizationUri: `${AUTH_DOMAIN}/oauth/authorize`,
@@ -55,6 +58,10 @@ export default class Auth {
         localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
         localStorage.setItem(USER_KEY, JSON.stringify(user))
         localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
+
+        cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
+          expires: parseInt(expiresAt, 10),
+        })
         return user
       })
       .catch((error) => {
@@ -88,13 +95,13 @@ export default class Auth {
     }
   }
 
-  handleAuthentication(location) {
-    if (typeof localStorage === 'undefined') {
-      return
-    }
+  handleAuthentication() {
     return new Promise((resolve, reject) => {
+      if (typeof localStorage === 'undefined') {
+        reject('no localstorage')
+      }
       if (typeof window !== 'undefined') {
-        this.eggheadAuth.token.getToken(location).then(
+        this.eggheadAuth.token.getToken(window.location).then(
           (user) => {
             this.setSession(user).then(
               () => {
@@ -130,13 +137,16 @@ export default class Auth {
     localStorage.removeItem(EXPIRES_AT_KEY)
     localStorage.removeItem(USER_KEY)
     localStorage.removeItem(VIEWING_AS_USER_KEY)
+
+    cookie.remove(ACCESS_TOKEN_KEY)
   }
 
   isAuthenticated() {
     if (typeof localStorage === 'undefined' || typeof window === 'undefined') {
       return
     }
-    const expiresAt = JSON.parse(localStorage.getItem(EXPIRES_AT_KEY))
+    const storedExpiration = localStorage.getItem(EXPIRES_AT_KEY) || '0'
+    const expiresAt = JSON.parse(storedExpiration)
     const expired = new Date().getTime() > expiresAt
     if (expired) {
       this.clearLocalStorage()
@@ -145,35 +155,43 @@ export default class Auth {
   }
 
   refreshUser(accessToken, loadFullUser = false) {
-    if (typeof localStorage === 'undefined') {
-      return
-    }
-    return http
-      .get(`${AUTH_DOMAIN}/api/v1/users/current?minimal=${loadFullUser}`, {
-        headers: {
-          Authorization: `Bearer ${
-            accessToken || localStorage.getItem(ACCESS_TOKEN_KEY)
-          }`,
-        },
-      })
-      .then(({data}) => {
-        localStorage.setItem(USER_KEY, JSON.stringify(data))
-        return data && JSON.parse(localStorage.getItem(USER_KEY))
-      })
+    return new Promise((resolve, reject) => {
+      if (typeof localStorage === 'undefined') {
+        reject('no local storage')
+      }
+      const token = accessToken || cookie.get(ACCESS_TOKEN_KEY)
+      http
+        .get(`${AUTH_DOMAIN}/api/v1/users/current?minimal=${loadFullUser}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(({data}) => {
+          localStorage.setItem(USER_KEY, JSON.stringify(data))
+          resolve(data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
   }
 
   setSession(authResult) {
-    if (typeof localStorage === 'undefined') {
-      return
-    }
-    const expiresAt = JSON.stringify(
-      authResult.data.expires_in * 1000 + new Date().getTime(),
-    )
+    return new Promise((resolve, reject) => {
+      if (typeof localStorage === 'undefined') {
+        reject('localStorage is not defined')
+      }
+      const expiresAt = JSON.stringify(
+        authResult.data.expires_in * 1000 + new Date().getTime(),
+      )
 
-    localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)
-    localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
-
-    return this.refreshUser(authResult.accessToken)
+      localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)
+      localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
+      cookie.set(ACCESS_TOKEN_KEY, authResult.accessToken, {
+        expires: parseInt(expiresAt, 10),
+      })
+      resolve(this.refreshUser(authResult.accessToken))
+    })
   }
 
   getAuthToken() {
@@ -181,7 +199,7 @@ export default class Auth {
       return
     }
     if (this.isAuthenticated()) {
-      return localStorage.getItem(ACCESS_TOKEN_KEY)
+      return cookie.get(ACCESS_TOKEN_KEY)
     }
   }
 
@@ -195,7 +213,7 @@ export default class Auth {
     }
     const user = localStorage.getItem(USER_KEY)
     if (user) {
-      const parsedUser = JSON.parse(localStorage.getItem(USER_KEY))
+      const parsedUser = JSON.parse(user)
       return parsedUser
     }
   }
