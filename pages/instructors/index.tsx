@@ -1,38 +1,41 @@
-import {getInstructors} from '../../lib/instructors'
+import {loadInstructors} from '../../lib/instructors'
 import Link from 'next/link'
 
-export default function Instructors({instructors}) {
+const InstructorCard = ({instructor}) => {
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {instructors.map((instructor) => {
-        return (
-          <div key={instructor.slug}>
-            <img src={instructor.avatar_480_url} />
-            <Link href={`/instructors/[slug]`} as={instructor.path}>
-              <a className="no-underline hover:underline text-blue-500">
-                {instructor.full_name}
-              </a>
-            </Link>
-          </div>
-        )
-      })}
+    <Link href="/instructors/[slug]" as={`instructors/${instructor.slug}`}>
+      <div className="flex flex-col items-center">
+        <img
+          className="rounded-full"
+          src={instructor.avatar_url}
+          alt={`Avatar for ${instructor.full_name}`}
+        />
+
+        <p>{instructor.full_name}</p>
+      </div>
+    </Link>
+  )
+}
+
+export default function Instructors({instructorsData}) {
+  return (
+    <div className="flex flex-wrap">
+      {instructorsData.map((instructor) => (
+        <div key={instructor.id}>
+          <InstructorCard instructor={instructor}></InstructorCard>
+        </div>
+      ))}
     </div>
   )
 }
 
-export function getStaticProps() {
-  const instructors = getInstructors([
-    'id',
-    'slug',
-    'full_name',
-    'website',
-    'path',
-    'avatar_480_url',
-  ])
+export async function getServerSideProps({res, params}) {
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  const instructorsData = await loadInstructors()
 
   return {
     props: {
-      instructors,
+      instructorsData,
     },
   }
 }
