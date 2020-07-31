@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import noop from '../../lib/noop'
+import noop from '../../utils/noop'
 const {string, bool, number, array, oneOfType, object, func} = PropTypes
 
 export const propTypes = {

@@ -1,8 +1,7 @@
 import {request} from 'graphql-request'
+import config from './config'
 
 export async function loadLesson(slug) {
-  const endpoint = 'https://egghead.io/graphql'
-
   const query = /* GraphQL */ `
     query getLesson($slug: String!) {
       lesson(slug: $slug) {
@@ -19,7 +18,7 @@ export async function loadLesson(slug) {
       }
     }
   `
-  const {lesson} = await request(endpoint, query, {slug})
+  const {lesson} = await request(config.graphQLEndpoint, query, {slug})
 
   return lesson
 }

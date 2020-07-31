@@ -1,8 +1,7 @@
 import {request} from 'graphql-request'
+import config from './config'
 
 export async function loadCourse(slug) {
-  const endpoint = 'https://egghead.io/graphql'
-
   const query = /* GraphQL */ `
     query getCourse($slug: String!) {
       course(slug: $slug) {
@@ -26,7 +25,7 @@ export async function loadCourse(slug) {
       }
     }
   `
-  const {course} = await request(endpoint, query, {slug})
+  const {course} = await request(config.graphQLEndpoint, query, {slug})
 
   return course
 }

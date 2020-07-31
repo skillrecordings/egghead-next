@@ -9,7 +9,7 @@ import {loadLesson} from '../../lib/lessons'
 import {GraphQLClient} from 'graphql-request'
 import {useViewer} from '../../context/viewer-context'
 
-const API_ENDPOINT = 'https://egghead.io/graphql'
+const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
 const lessonQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
