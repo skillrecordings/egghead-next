@@ -20,6 +20,16 @@ html {
 body {
   @apply bg-gray-100;
 }
+
+#__next {
+  @apply flex;
+  @apply flex-col;
+  @apply min-h-screen;
+}
+
+.bg-base-secondary {
+  background-color: #141618;
+}
 /* purgecss end ignore */
 
 @tailwind utilities;

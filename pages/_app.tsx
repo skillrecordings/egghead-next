@@ -10,6 +10,7 @@ import {cache} from 'emotion'
 
 import {globalStyles} from '../shared/styles'
 import '../styles/index.css'
+import AppLayout from '../components/app/Layout'
 
 const shortCodes = {Button, ContainerLayout}
 
@@ -21,7 +22,9 @@ export default class App extends NextApp {
         <MDXProvider components={shortCodes}>
           <CacheProvider value={cache}>
             {globalStyles}
-            <Component {...pageProps} />
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
           </CacheProvider>
         </MDXProvider>
       </ViewerProvider>
