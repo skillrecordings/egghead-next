@@ -1,7 +1,7 @@
 import {request} from 'graphql-request'
 import config from './config'
 
-export async function loadCourse(slug) {
+export async function loadCourse(slug: string) {
   const query = /* GraphQL */ `
     query getCourse($slug: String!) {
       course(slug: $slug) {
@@ -28,4 +28,20 @@ export async function loadCourse(slug) {
   const {course} = await request(config.graphQLEndpoint, query, {slug})
 
   return course
+}
+
+export async function loadAllCourses() {
+  const query = /* GraphQL */ `
+    query getCourses {
+      all_courses {
+        title
+        slug
+        square_cover_480_url
+        description
+      }
+    }
+  `
+  const {all_courses} = await request(config.graphQLEndpoint, query)
+
+  return all_courses
 }

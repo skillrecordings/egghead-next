@@ -1,7 +1,26 @@
 import {request} from 'graphql-request'
 import config from './config'
 
-export async function loadLesson(slug) {
+export async function loadLessons() {
+  const query = /* GraphQL */ `
+    query getLessons {
+      lessons(per_page: 25) {
+        title
+        slug
+        icon_url
+        instructor {
+          full_name
+          avatar_64_url
+        }
+      }
+    }
+  `
+  const {lessons} = await request(config.graphQLEndpoint, query)
+
+  return lessons
+}
+
+export async function loadLesson(slug: string) {
   const query = /* GraphQL */ `
     query getLesson($slug: String!) {
       lesson(slug: $slug) {

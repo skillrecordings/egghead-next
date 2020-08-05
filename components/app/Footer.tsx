@@ -2,9 +2,9 @@ import Link from 'next/link'
 
 function Nav() {
   return (
-    <nav className="grid grid-cols-2 gap-8">
+    <nav className="flex gap-8">
       <div>
-        <h2>Content</h2>
+        <h5 className="font-bold">Content</h5>
         <ul>
           <li>
             <Link href="/browse">
@@ -29,7 +29,7 @@ function Nav() {
         </ul>
       </div>
       <div>
-        <h3>About</h3>
+        <h5 className="font-bold">About</h5>
         <ul>
           <li>
             <Link href="/pricing">
@@ -52,9 +52,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link href="/Store">
-              <a>Store</a>
-            </Link>
+            <a href="https://store.egghead.io">Store</a>
           </li>
         </ul>
       </div>
@@ -65,8 +63,8 @@ function Nav() {
 export default function Footer() {
   return (
     <footer className="max-w-screen-lg w-full mx-auto sm:p-8 p-5">
-      {/* <Nav /> */}
-      <div className="w-full flex items-center justify-between">
+      <Nav />
+      <div className="mt-8 w-full flex items-center justify-between">
         <Link href="/terms">
           <a>Terms & Conditions</a>
         </Link>

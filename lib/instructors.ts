@@ -1,5 +1,10 @@
 import {request} from 'graphql-request'
 
+export type Instructor = {
+  full_name: string
+  avatar_64_url: string
+}
+
 const endpoint = 'https://egghead.io/graphql'
 
 export async function loadInstructors(page: number = 1) {
