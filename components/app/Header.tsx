@@ -13,9 +13,6 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link href="/browse/frameworks">Topics</Link>
-              </li>
-              <li>
                 <Link href="/search">Search Catalog</Link>
               </li>
             </ul>
