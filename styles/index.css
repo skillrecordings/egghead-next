@@ -1,35 +1,15 @@
-/* purgecss start ignore */
-@import url('https://rsms.me/inter/inter.css');
 @tailwind base;
 @tailwind components;
-
-html {
-  font-family: 'Inter', sans-serif;
-}
-@supports (font-variation-settings: normal) {
-  html {
-    font-family: 'Inter var', sans-serif;
-  }
-}
-
-html {
-  @apply subpixel-antialiased;
-  font-size: 16px;
-  font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
-}
-body {
-  @apply bg-gray-100;
-}
+@tailwind utilities;
 
 #__next {
-  @apply flex;
-  @apply flex-col;
-  @apply min-h-screen;
+  @apply flex flex-col min-h-screen;
 }
 
-.bg-base-secondary {
-  background-color: #141618;
+.bmpui-ui-watermark {
+  display: none !important;
 }
-/* purgecss end ignore */
 
-@tailwind utilities;
+.bmpui-ui-titlebar {
+  display: none;
+}

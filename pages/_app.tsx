@@ -8,7 +8,6 @@ import {ViewerProvider} from '../context/viewer-context'
 // Use only { cache } from 'emotion'. Don't use { css }.
 import {cache} from 'emotion'
 
-import {globalStyles} from '../shared/styles'
 import '../styles/index.css'
 import AppLayout from '../components/app/Layout'
 
@@ -21,7 +20,6 @@ export default class App extends NextApp {
       <ViewerProvider>
         <MDXProvider components={shortCodes}>
           <CacheProvider value={cache}>
-            {globalStyles}
             <AppLayout>
               <Component {...pageProps} />
             </AppLayout>

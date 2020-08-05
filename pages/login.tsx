@@ -16,12 +16,11 @@ function LoginForm() {
   const {requestSignInEmail} = useViewer()
 
   return (
-    <div className="text-text w-screen absolute left-0 top-0 mx-auto min-h-screen flex flex-col justify-center sm:px-6 lg:px-8 px-5">
-      <div className="sm:mx-auto bg-background shadow-xl border border-gray-200 sm:w-full sm:max-w-md rounded-lg p-8">
+    <div className="text-text w-full left-0 top-0 mx-auto flex flex-col justify-center sm:px-6 lg:px-8 px-5">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md rounded-lg p-8">
         <h2 className="text-center text-3xl leading-9 font-semibold text-gray-900 mt-6">
           {isSubmitted ? 'Email Sent' : 'Sign in to your account'}
         </h2>
-
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className=" pb-8 px-4 sm:px-8">
             {isSubmitted ? (

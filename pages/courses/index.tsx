@@ -3,27 +3,31 @@ import {loadAllCourses} from '../../lib/courses'
 
 function CourseCard({course}) {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
-      <img
-        className="w-full"
-        src={course.square_cover_480_url}
-        alt={course.title}
-      ></img>
-      <div className="px-6 py-4">
-        <Link href={`/courses/[slug]`} as={`/courses/${course.slug}`}>
-          <div className="font-bold text-xl mb-2">
-            <a>{course.title}</a>
+    <Link href={`/courses/[slug]`} as={`/courses/${course.slug}`}>
+      <a className="rounded-lg border border-gray-200 p-5 hover:shadow-lg">
+        <div className="sm:p-8 p-5">
+          <img
+            loading="lazy"
+            src={course.square_cover_480_url}
+            alt={`illustration for ${course.title}`}
+          />
+        </div>
+        <div className="pt-5">
+          <div className="font-bold text-xl leading-tight text-center mb-2">
+            {course.title}
           </div>
-        </Link>
-        <p className="text-gray-700 text-base truncate">{course.description}</p>
-      </div>
-    </div>
+          {/* <p className="text-gray-700 text-base truncate">
+              {course.description}
+            </p> */}
+        </div>
+      </a>
+    </Link>
   )
 }
 
 export default function Courses({allCourses}) {
   return (
-    <div className="flex flex-wrap">
+    <div className="grid grid-cols-3 gap-5">
       {allCourses.map((course) => (
         <CourseCard key={course.slug} course={course}></CourseCard>
       ))}
