@@ -1,3 +1,7 @@
 export default function Main({children}) {
-  return <main className="px-6 h-full flex-grow">{children}</main>
+  return (
+    <main className="max-w-screen-lg w-full mx-auto sm:p-8 p-5 flex flex-col flex-grow">
+      {children}
+    </main>
+  )
 }

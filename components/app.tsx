@@ -14,28 +14,24 @@ import {SearchClient} from '@algolia/client-search'
 const HitComponent = ({hit}) => {
   const {path, type, image} = hit
   return (
-    <div className="hit">
-      <div>
-        <div className="hit-picture">
-          <img src={`${image}`} />
+    <Link href={`/${type}s/[id]`} as={path}>
+      <a className="grid grid-cols-4 gap-4 items-center mb-5">
+        <div className="col-span-1">
+          <img src={`${image}`} alt={`illustration for ${hit.title}`} />
         </div>
-      </div>
-      <div className="hit-content">
-        <div>
-          <Link href={`/${type}s/[id]`} as={path}>
-            <a className="no-underline hover:underline text-blue-500">
-              {hit.title}
-            </a>
-          </Link>
+        <div className="col-span-3">
+          <h1 className="md:text-3xl text-xl font-semibold leading-tight">
+            {hit.title}
+          </h1>
+          <div>
+            <Highlight attribute="type" hit={hit} />
+          </div>
+          <div>
+            <Highlight attribute="su8mmary" hit={hit} />
+          </div>
         </div>
-        <div className="hit-type">
-          <Highlight attribute="type" hit={hit} />
-        </div>
-        <div className="hit-description">
-          <Highlight attribute="su8mmary" hit={hit} />
-        </div>
-      </div>
-    </div>
+      </a>
+    </Link>
   )
 }
 

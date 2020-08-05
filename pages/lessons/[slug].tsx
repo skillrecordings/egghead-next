@@ -57,7 +57,7 @@ const NextUp = ({url}) => {
 
 const Transcript = ({url}) => {
   const {data} = useSWR(url, fetcher)
-  return data ? <Markdown className="prose">{data.text}</Markdown> : null
+  return data ? <Markdown>{data.text}</Markdown> : null
 }
 
 const lessonLoader = (slug: any, token: any) => (query: string) => {
@@ -98,10 +98,10 @@ export default function Lesson({initialLesson}) {
   const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
 
   return (
-    <div className="">
-      <div className="">
+    <div className="prose lg:prose-xl max-w-none">
+      <div>
         <h1>{get(lesson, 'title')}</h1>
-        <div>by {get(instructor, 'full_name')}</div>
+
         <div
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
@@ -119,17 +119,18 @@ export default function Lesson({initialLesson}) {
           />
         </div>
         <div>
-          <Markdown className="prose">{get(lesson, 'summary')}</Markdown>
+          <Markdown>{get(lesson, 'summary')}</Markdown>
         </div>
+        <div className="mt-8 font-bold">by {get(instructor, 'full_name')}</div>
         {next_up_url && (
           <div>
-            <h1 className="font-bold">Playlist:</h1>
+            <h3>Playlist:</h3>
             <NextUp url={next_up_url} />
           </div>
         )}
         {transcript_url && (
           <div>
-            <h1 className="font-bold">Transcript:</h1>
+            <h3>Transcript:</h3>
             <Transcript url={transcript_url} />
           </div>
         )}
