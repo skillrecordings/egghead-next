@@ -1,13 +1,6 @@
 import {request} from 'graphql-request'
 import config from './config'
 
-export type Course = {
-  title: string
-  slug: string
-  square_cover_480_url: string
-  description: string
-}
-
 export async function loadCourse(slug: string) {
   const query = /* GraphQL */ `
     query getCourse($slug: String!) {
