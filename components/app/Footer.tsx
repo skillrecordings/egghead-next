@@ -59,9 +59,7 @@ function About() {
           </Link>
         </li>
         <li>
-          <Link href="/Store">
-            <a>Store</a>
-          </Link>
+          <a href="https://store.egghead.io">Store</a>
         </li>
       </ul>
     </section>
