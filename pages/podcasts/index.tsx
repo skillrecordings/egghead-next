@@ -11,7 +11,7 @@ export default function PodcastIndex({podcasts}) {
           return (
             <div key={podcast.slug}>
               <Link href={`/podcasts/[slug]`} as={podcast.path}>
-                {podcast.title}
+                <a>{podcast.title}</a>
               </Link>
             </div>
           )
