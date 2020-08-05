@@ -12,9 +12,6 @@ export default function Header() {
                   <a>egghead.io</a>
                 </Link>
               </li>
-              <li>
-                <Link href="/search">Search Catalog</Link>
-              </li>
             </ul>
           </nav>
         </div>
