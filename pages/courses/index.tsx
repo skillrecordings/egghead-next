@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import {loadAllCourses, Course} from '../../lib/courses'
+import {loadAllCourses} from '../../lib/courses'
 
-function CourseCard({course}: {course: Course}) {
+function CourseCard({course}) {
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
       <img
@@ -10,7 +10,7 @@ function CourseCard({course}: {course: Course}) {
         alt={course.title}
       ></img>
       <div className="px-6 py-4">
-        <Link href={`/courses/${course.slug}`}>
+        <Link href={`/courses/[slug]`} as={`/courses/${course.slug}`}>
           <div className="font-bold text-xl mb-2">
             <a>{course.title}</a>
           </div>
@@ -24,8 +24,8 @@ function CourseCard({course}: {course: Course}) {
 export default function Courses({allCourses}) {
   return (
     <div className="flex flex-wrap">
-      {allCourses.map((course: Course) => (
-        <CourseCard course={course}></CourseCard>
+      {allCourses.map((course) => (
+        <CourseCard key={course.slug} course={course}></CourseCard>
       ))}
     </div>
   )
