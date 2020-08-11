@@ -1,7 +1,7 @@
 import config from './config'
-import {last, first} from 'lodash'
+import {last} from 'lodash'
 
-export const buildTitleFromUrl = (url) => {
+export const buildTitleFromUrl = (url: string) => {
   const instructors = last(url.split('/i/'))
 
   if (instructors === 'kent-c-dodds') {

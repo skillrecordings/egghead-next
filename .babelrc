@@ -1,4 +1,4 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["istanbul"]
+  "plugins": ["istanbul", "inline-react-svg"]
 }
