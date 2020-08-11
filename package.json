@@ -17,7 +17,7 @@
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
-    "mod": "codemod"
+    "codemod:tachyons-to-tailwind": "codemod --plugin tachyons-to-tailwind-transform.js"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.14",

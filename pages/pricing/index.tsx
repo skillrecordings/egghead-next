@@ -1,3 +1,3 @@
 export default function Pricing() {
-  return <h2>Pricing</h2>
+  return <h1>Pricing</h1>
 }

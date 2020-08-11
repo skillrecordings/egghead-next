@@ -5,7 +5,8 @@ export default function Podcast({podcast}) {
   console.log({podcast})
   return (
     <div>
-      {podcast.title} <img className="max-w-xs" src={podcast.image_url} />
+      <h1>{podcast.title}</h1>{' '}
+      <img className="max-w-xs" src={podcast.image_url} />
       <iframe
         height="52px"
         width="100%"
