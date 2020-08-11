@@ -16,10 +16,14 @@
     "e2e": "start-test dev 3000 cy:open",
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
-    "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100"
+    "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
+    "codemod:tachyons-to-tailwind": "codemod --plugin tachyons-to-tailwind-transform.js"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.14",
+    "@reach/disclosure": "^0.10.5",
+    "@reach/menu-button": "^0.10.5",
+    "@reach/visually-hidden": "^0.10.4",
     "@tailwindcss/ui": "^0.5.0",
     "algoliasearch": "^4.3.0",
     "client-oauth2": "^4.3.2",
@@ -39,6 +43,9 @@
     "yup": "^0.29.1"
   },
   "devDependencies": {
+    "@babel/generator": "^7.11.0",
+    "@babel/plugin-syntax-jsx": "^7.10.4",
+    "@codemod/cli": "^2.2.1",
     "@cypress/code-coverage": "^3.8.1",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
@@ -56,6 +63,7 @@
     "@types/yup": "^0.29.3",
     "axios": "^0.19.2",
     "babel-jest": "^26.1.0",
+    "babel-plugin-inline-react-svg": "^1.1.1",
     "command-line-args": "^5.1.1",
     "cypress": "^4.11.0",
     "emotion": "^10.0.27",

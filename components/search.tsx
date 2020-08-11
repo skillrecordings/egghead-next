@@ -27,7 +27,7 @@ const HitComponent = ({hit}) => {
             <Highlight attribute="type" hit={hit} />
           </div>
           <div>
-            <Highlight attribute="su8mmary" hit={hit} />
+            <Highlight attribute="summary" hit={hit} />
           </div>
         </div>
       </a>

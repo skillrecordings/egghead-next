@@ -1,5 +1,5 @@
 import fs from 'fs'
-import {map, find} from 'lodash/fp'
+import {map, find, filter, pipe} from 'lodash/fp'
 
 const tagsPath = './data/tags.json'
 
@@ -17,15 +17,22 @@ export function getTags() {
 export function getTagSlugs() {
   const tags = getTags()
 
-  return map((tag: any = {}) => {
-    const {slug, label} = tag
-    return {
-      params: {
-        slug,
-        label,
-      },
-    }
-  })(tags)
+  type Tag = {
+    slug: string
+    label: string
+  }
+  return pipe(
+    filter((tag: Tag) => tag.slug != 'react'),
+    map((tag: Tag) => {
+      const {slug, label} = tag
+      return {
+        params: {
+          slug,
+          label,
+        },
+      }
+    }),
+  )(tags)
 }
 
 export function getTag(slug) {

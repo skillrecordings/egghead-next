@@ -2,7 +2,7 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
-import App from '../../components/app'
+import Search from '../../components/search'
 
 import qs from 'qs'
 
@@ -26,7 +26,7 @@ const defaultProps = {
   indexName: 'content_production',
 }
 
-export default function Search({initialSearchState, resultsState}) {
+export default function SearchIndex({initialSearchState, resultsState}) {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
@@ -58,7 +58,7 @@ export default function Search({initialSearchState, resultsState}) {
   }
   return (
     <div>
-      <App {...defaultProps} {...customProps} />
+      <Search {...defaultProps} {...customProps} />
     </div>
   )
 }
@@ -67,7 +67,7 @@ export async function getServerSideProps({query}) {
   const {all} = query
 
   const initialSearchState = all ? {query: all.join(' ') || ''} : {}
-  const {rawResults} = await findResultsState(App, {
+  const {rawResults} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
   })

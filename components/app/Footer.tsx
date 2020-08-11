@@ -7,18 +7,18 @@ function Nav() {
         <h5 className="font-bold">Content</h5>
         <ul>
           <li>
-            <Link href="/browse">
-              <a>Browse</a>
+            <Link href="/search">
+              <a>Search</a>
             </Link>
           </li>
           <li>
-            <Link href="/courses">
-              <a>Courses</a>
+            <Link href="/learn">
+              <a>Learn</a>
             </Link>
           </li>
           <li>
-            <Link href="/lessons">
-              <a>Lessons</a>
+            <Link href="/talks">
+              <a>Talks</a>
             </Link>
           </li>
           <li>
@@ -65,7 +65,7 @@ export default function Footer() {
     <footer className="max-w-screen-lg w-full mx-auto sm:p-8 p-5">
       <Nav />
       <div className="mt-8 w-full flex items-center justify-between">
-        <Link href="/terms">
+        <Link href="/privacy">
           <a>Terms & Conditions</a>
         </Link>
         <small>©egghead.io</small>
