@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true,
 })
 
-var _slicedToArray = (function() {
+var _slicedToArray = (function () {
   function sliceIterator(arr, i) {
     var _arr = []
     var _n = true
@@ -33,7 +33,7 @@ var _slicedToArray = (function() {
     }
     return _arr
   }
-  return function(arr, i) {
+  return function (arr, i) {
     if (Array.isArray(arr)) {
       return arr
     } else if (Symbol.iterator in Object(arr)) {

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
-import {loadCourse} from '../../lib/courses'
+import {loadCourse} from '@lib/courses'
 
 const fetcher = (url) => fetch(url).then((r) => r.json())
 

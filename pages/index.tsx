@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import Home from '../content/home.mdx'
+import Home from '@content/home.mdx'
 
 export default function Index() {
   return (

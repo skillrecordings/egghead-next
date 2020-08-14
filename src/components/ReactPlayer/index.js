@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { omit } from 'lodash'
+import React, {Component} from 'react'
+import {omit} from 'lodash'
 
-import { propTypes, defaultProps } from './props'
+import {propTypes, defaultProps} from './props'
 import Wistia from './players/Wistia'
 import Bitmovin from './players/Bitmovin'
 import YouTube from './players/YouTube'
@@ -39,7 +39,7 @@ export default class ReactPlayer extends Component {
       this.props.displaySubtitles !== nextProps.displaySubtitles
     )
   }
-  seekTo = fraction => {
+  seekTo = (fraction) => {
     if (this.player) {
       this.player.seekTo(fraction)
     }
@@ -102,23 +102,23 @@ export default class ReactPlayer extends Component {
 
     return players.map(this.renderPlayer)
   }
-  ref = player => {
+  ref = (player) => {
     this.player = player
   }
-  renderPlayer = Player => {
+  renderPlayer = (Player) => {
     const url = this.getUrl()
     const active = Player.canPlay(url)
-    const { ...activeProps } = this.props
-    const props = active ? { ...activeProps, ref: this.ref } : {}
+    const {...activeProps} = this.props
+    const props = active ? {...activeProps, ref: this.ref} : {}
 
     return <Player key={Player.displayName} {...props} />
   }
   render() {
-    const { style, width, height } = this.props
+    const {style, width, height} = this.props
     const otherProps = omit(this.props, Object.keys(propTypes))
     const players = this.renderPlayers()
     return (
-      <div style={{ ...style, width, height }} {...otherProps}>
+      <div style={{...style, width, height}} {...otherProps}>
         {players}
       </div>
     )

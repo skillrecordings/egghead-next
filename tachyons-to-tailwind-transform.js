@@ -251,7 +251,7 @@ function replace(className) {
       // return matchFound ? `${responsivePrefix}${result}` : `UNSUPPORTED-${klass}`;
       return `${responsivePrefix}${result}`
     })
-    .join(' ');
+    .join(' ')
 }
 
 export default function ({types: t}) {

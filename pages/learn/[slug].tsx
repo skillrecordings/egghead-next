@@ -1,4 +1,4 @@
-import {getTagSlugs, getTag} from '../../lib/tags'
+import {getTagSlugs, getTag} from '@lib/tags'
 import Markdown from 'react-markdown'
 
 export default function Tag({tag}) {

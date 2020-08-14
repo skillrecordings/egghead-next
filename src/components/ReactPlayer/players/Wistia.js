@@ -18,7 +18,7 @@ export default class Wistia extends Base {
       window._wq = window._wq || []
       window._wq.push({
         id: this.getID(this.props.wistia_url),
-        onReady: player => {
+        onReady: (player) => {
           this.player = player
           this.rebind()
           this.onReady()
@@ -28,7 +28,7 @@ export default class Wistia extends Base {
   }
 
   rebind() {
-    const { onStart, onPause, onEnded, onPlayerProgress } = this.props
+    const {onStart, onPause, onEnded, onPlayerProgress} = this.props
     this.player.bind('start', onStart)
     this.player.bind('play', this.onPlay)
     this.player.bind('pause', onPause)
@@ -37,7 +37,7 @@ export default class Wistia extends Base {
   }
 
   unbind() {
-    const { onStart, onPause, onEnded, onPlayerProgress } = this.props
+    const {onStart, onPause, onEnded, onPlayerProgress} = this.props
     if (this.player) {
       this.player.unbind('start', onStart)
       this.player.unbind('play', this.onPlay)
@@ -67,7 +67,7 @@ export default class Wistia extends Base {
     this.player.replaceWith(id)
     window._wq.push({
       id: id,
-      onReady: player => {
+      onReady: (player) => {
         this.player = player
         this.rebind()
         this.props.onReady()

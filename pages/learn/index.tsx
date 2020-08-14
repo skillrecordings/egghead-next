@@ -1,4 +1,4 @@
-import {getTags} from '../../lib/tags'
+import {getTags} from '@lib/tags'
 import Link from 'next/link'
 
 export default function Tags({tags}) {

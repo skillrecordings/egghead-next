@@ -1,4 +1,4 @@
-import {loadInstructors} from '../../lib/instructors'
+import {loadInstructors} from '@lib/instructors'
 import Link from 'next/link'
 
 const InstructorCard = ({instructor}) => {

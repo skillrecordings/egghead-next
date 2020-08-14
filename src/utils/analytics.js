@@ -1,7 +1,7 @@
-import isFunction from "lodash/isFunction"
-import isUndefined from "lodash/isUndefined"
-import get from "lodash/get"
-import { USER_KEY } from "./auth"
+import isFunction from 'lodash/isFunction'
+import isUndefined from 'lodash/isUndefined'
+import get from 'lodash/get'
+import {USER_KEY} from './auth'
 
 const getLocalUser = () => {
   const user = localStorage.getItem(USER_KEY)
@@ -32,9 +32,9 @@ export const track = (event, paramsOrCallback, potentialCallback) => {
 
   setTimeout(politelyExit, timeout)
 
-  const userParams = { ...currentUser, ...params }
+  const userParams = {...currentUser, ...params}
 
-  if (get(window, "analytics.track")) {
+  if (get(window, 'analytics.track')) {
     window.analytics.track(event, userParams, politelyExit)
   } else {
     politelyExit()
@@ -42,7 +42,7 @@ export const track = (event, paramsOrCallback, potentialCallback) => {
 }
 
 export const identify = (user) => {
-  if (get(window, "analytics.identify") && user) {
+  if (get(window, 'analytics.identify') && user) {
     if (user.id) {
       window.analytics.identify(user.id, {
         email: user.email,

@@ -1,5 +1,5 @@
 import React from 'react'
-import {loadPodcast} from '../../lib/podcasts'
+import {loadPodcast} from '@lib/podcasts'
 
 export default function Podcast({podcast}) {
   console.log({podcast})
