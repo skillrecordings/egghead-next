@@ -7,7 +7,7 @@ export default function Header() {
       <div className="flex items-center">
         <Link href="/">
           <a className="flex items-center">
-            <Eggo />
+            <Eggo className="w-10 mr-1" />
             <span className="text-xl font-semibold">egghead.io</span>
           </a>
         </Link>

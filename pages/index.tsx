@@ -8,7 +8,9 @@ export default function Index() {
       <Head>
         <title>badass.dev</title>
       </Head>
-      <Home />
+      <div className="prose">
+        <Home />
+      </div>
     </>
   )
 }
