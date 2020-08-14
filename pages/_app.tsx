@@ -2,6 +2,7 @@ import NextApp from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import Button from '@components/Button'
 import ContainerLayout from '@components/ContainerLayout'
+import Course from '@components/mdx/course'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from '@context/viewer-context'
 import Link from 'next/link'
@@ -11,7 +12,7 @@ import {cache} from 'emotion'
 import '../styles/index.css'
 import AppLayout from '@components/app/Layout'
 
-const shortCodes = {Button, ContainerLayout, Link}
+const shortCodes = {Button, ContainerLayout, Link, Course}
 
 export default class App extends NextApp {
   render() {
