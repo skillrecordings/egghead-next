@@ -2,7 +2,7 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
-import Search from '../../components/search'
+import Search from '@components/search'
 
 import qs from 'qs'
 

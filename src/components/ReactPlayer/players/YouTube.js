@@ -2,7 +2,7 @@ import React from 'react'
 import loadScript from 'load-script'
 
 import Base from './Base'
-import { parseStartTime } from '../utils'
+import {parseStartTime} from '../utils'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
@@ -25,7 +25,7 @@ export default class YouTube extends Base {
   }
 
   componentDidMount() {
-    const { url, youtubeConfig } = this.props
+    const {url, youtubeConfig} = this.props
     if (!url && youtubeConfig.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
@@ -39,18 +39,18 @@ export default class YouTube extends Base {
     }
     return new Promise((resolve, reject) => {
       const previousOnReady = window[SDK_GLOBAL_READY]
-      window[SDK_GLOBAL_READY] = function() {
+      window[SDK_GLOBAL_READY] = function () {
         if (previousOnReady) previousOnReady()
         resolve(window[SDK_GLOBAL])
       }
-      loadScript(SDK_URL, err => {
+      loadScript(SDK_URL, (err) => {
         if (err) reject(err)
       })
     })
   }
 
   load(url) {
-    const { playsinline, controls, youtubeConfig = {}, onError } = this.props
+    const {playsinline, controls, youtubeConfig = {}, onError} = this.props
     const id = url && url.match(MATCH_URL)[1]
     if (this.isReady) {
       this.player.cueVideoById({
@@ -64,7 +64,7 @@ export default class YouTube extends Base {
       return
     }
     this.loadingSDK = true
-    this.getSDK().then(YT => {
+    this.getSDK().then((YT) => {
       this.player = new YT.Player(this.container, {
         width: '100%',
         height: '100%',
@@ -81,15 +81,15 @@ export default class YouTube extends Base {
         events: {
           onReady: this.onReady,
           onStateChange: this.onStateChange,
-          onError: event => onError(event.data),
+          onError: (event) => onError(event.data),
         },
       })
     }, onError)
   }
 
-  onStateChange = ({ data }) => {
-    const { onPause, onBuffer } = this.props
-    const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[
+  onStateChange = ({data}) => {
+    const {onPause, onBuffer} = this.props
+    const {PLAYING, PAUSED, BUFFERING, ENDED, CUED} = window[
       SDK_GLOBAL
     ].PlayerState
     if (data === PLAYING) this.onPlay()
@@ -99,7 +99,7 @@ export default class YouTube extends Base {
     if (data === CUED) this.onReady()
   }
   onEnded = () => {
-    const { loop, onEnded } = this.props
+    const {loop, onEnded} = this.props
     if (loop) {
       this.seekTo(0)
     }
@@ -153,7 +153,7 @@ export default class YouTube extends Base {
     return this.player.getVideoLoadedFraction()
   }
 
-  ref = container => {
+  ref = (container) => {
     this.container = container
   }
 

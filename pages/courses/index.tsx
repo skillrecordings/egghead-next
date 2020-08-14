@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import {loadAllCourses} from '../../lib/courses'
+import {loadAllCourses} from '@lib/courses'
 
 function CourseCard({course}) {
   return (

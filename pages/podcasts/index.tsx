@@ -1,5 +1,5 @@
 import React from 'react'
-import {loadPodcasts} from '../../lib/podcasts'
+import {loadPodcasts} from '@lib/podcasts'
 import Link from 'next/link'
 
 export default function PodcastIndex({podcasts}) {

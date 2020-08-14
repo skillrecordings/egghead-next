@@ -1,4 +1,4 @@
-import {loadInstructor} from '../../lib/instructors'
+import {loadInstructor} from '@lib/instructors'
 export default function Instructor({instructorData}) {
   return (
     <div className="flex flex-col items-center">

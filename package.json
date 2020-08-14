@@ -17,7 +17,11 @@
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
-    "codemod:tachyons-to-tailwind": "codemod --plugin tachyons-to-tailwind-transform.js"
+    "codemod:tachyons-to-tailwind": "codemod --plugin tachyons-to-tailwind-transform.js",
+    "format": "yarn format:index && yarn format:pages && yarn format:src",
+    "format:index": "prettier --write \"*.{js,ts,json,md}\"",
+    "format:pages": "prettier --write \"pages/**/*.{js,ts,tsx}\"",
+    "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\""
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.14",
@@ -68,17 +72,46 @@
     "cypress": "^4.11.0",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
+    "husky": "^4.2.5",
     "istanbul-lib-coverage": "^3.0.0",
     "jest": "^26.1.0",
+    "lint-staged": "^10.2.11",
     "nyc": "^15.1.0",
     "pad-number": "^0.0.4",
     "parse-link-header": "^1.0.1",
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.0.5",
     "react-test-renderer": "^16.13.1",
     "start-server-and-test": "^1.11.2",
     "tailwindcss": "^1.4.0",
     "typescript": "^3.9.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ],
+    "pages/**/*.{js, ts, tsx}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx,md,mdx}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": false,
+    "jsxBracketSameLine": false
   },
   "nyc": {
     "exclude": [
