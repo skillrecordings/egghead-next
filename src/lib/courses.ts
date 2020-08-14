@@ -12,6 +12,7 @@ export async function loadCourse(slug: string) {
         average_rating_out_of_5
         rating_count
         watched_count
+        path
         lessons {
           slug
           title
