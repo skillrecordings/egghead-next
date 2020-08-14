@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import {loadCourse} from '@lib/courses'
 import Link from 'next/link'
 
-export default ({slug}) => {
+const CourseWidget = ({slug}) => {
   const {data} = useSWR(slug, loadCourse)
   return (
     <div>
@@ -20,3 +20,5 @@ export default ({slug}) => {
     </div>
   )
 }
+
+export default CourseWidget
