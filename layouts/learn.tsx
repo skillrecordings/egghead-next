@@ -1,11 +1,7 @@
-export default function Layout(frontMatter) {
+export default function LearnLayout(frontMatter) {
   return ({children: content}) => {
-    // React hooks, for example `useState` or `useEffect`, go here.
-    return (
-      <div>
-        <h1>{frontMatter.testing}</h1>
-        {content}
-      </div>
-    )
+    //We can access frontMatter props here.
+    //Leaving the Layout "empty" until we figure out use-cases
+    return <>{content}</>
   }
 }

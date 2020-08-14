@@ -1,9 +1,9 @@
 module.exports = {
   purge: [
-    './components/**/*.js',
+    './src/**/*.js',
     './pages/**/*.js',
     './pages/**/*.tsx',
-    './components/**/*.tsx',
+    './src/**/*.tsx',
   ],
   theme: {
     typography: (theme) => ({
