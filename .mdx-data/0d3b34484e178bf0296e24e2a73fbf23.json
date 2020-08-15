@@ -1,0 +1,12 @@
+{
+  "path": "/talks",
+  "url": "http://localhost:3000/talks",
+  "readingTime": {
+    "text": "1 min read",
+    "minutes": 0.035,
+    "time": 2100,
+    "words": 7
+  },
+  "ogImage": "FIXME",
+  "__resourcePath": "talks/index.mdx"
+}

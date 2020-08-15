@@ -1,0 +1,12 @@
+{
+  "path": "/playground",
+  "url": "http://localhost:3000/playground",
+  "readingTime": {
+    "text": "1 min read",
+    "minutes": 0.075,
+    "time": 4500,
+    "words": 15
+  },
+  "ogImage": "FIXME",
+  "__resourcePath": "playground/index.mdx"
+}
