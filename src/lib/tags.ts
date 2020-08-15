@@ -1,15 +1,14 @@
-import fs from 'fs'
-
 import map from 'lodash/fp/map'
-import find from 'lodash/fp/find'
 import filter from 'lodash/fp/filter'
 import pipe from 'lodash/fp/pipe'
 
-const tagsPath = './data/tags.json'
+import axios from 'axios'
 
-function readTags() {
-  const rawdata = fs.readFileSync(tagsPath)
-  return JSON.parse(rawdata.toString())
+async function readTags() {
+  const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags`
+  const {data} = await axios.get(endpoint)
+
+  return data
 }
 
 export function getTags() {
@@ -18,27 +17,9 @@ export function getTags() {
   return tags
 }
 
-export function getTagSlugs() {
-  const tags = getTags()
+export async function getTag(slug) {
+  const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags/${slug}`
+  const {data} = await axios.get(endpoint)
 
-  type Tag = {
-    slug: string
-    label: string
-  }
-  return pipe(
-    filter((tag: Tag) => tag.slug != 'react'),
-    map((tag: Tag) => {
-      const {slug, label} = tag
-      return {
-        params: {
-          slug,
-          label,
-        },
-      }
-    }),
-  )(tags)
-}
-
-export function getTag(slug) {
-  return find({slug}, readTags())
+  return data
 }
