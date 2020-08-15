@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {omit} from 'lodash'
+import omit from 'lodash/omit'
 
 import {propTypes, defaultProps} from './props'
 import Wistia from './players/Wistia'
