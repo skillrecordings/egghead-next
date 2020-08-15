@@ -40,6 +40,7 @@
     "next": "canary",
     "next-compose-plugins": "^2.2.0",
     "next-mdx-enhanced": "^3.1.0",
+    "next-seo": "^4.7.3",
     "next-svgr": "^0.0.2",
     "qs": "^6.9.4",
     "query-string": "^6.13.1",

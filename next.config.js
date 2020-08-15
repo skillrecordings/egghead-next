@@ -50,7 +50,12 @@ module.exports = withPlugins(
             path,
             url: useURL(path),
             readingTime: readingTime(mdxContent),
-            ogImage: 'FIXME',
+            ogImage: {
+              url:
+                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1566948117/transcript-images/Eggo_Notext.png',
+              width: 1280,
+              height: 720,
+            },
           }
         },
       },

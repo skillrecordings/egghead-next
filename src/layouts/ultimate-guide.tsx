@@ -1,7 +1,7 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
 
-export default function Layout({
+export default function UltimateGuideLayout({
   title,
   description,
   titleAppendSiteName = true,
@@ -11,7 +11,7 @@ export default function Layout({
   return ({children: content}) => {
     // React hooks, for example `useState` or `useEffect`, go here.
 
-    console.log()
+    console.log(frontMatter)
     return (
       <>
         <NextSeo
@@ -27,7 +27,7 @@ export default function Layout({
           canonical={url}
         />
         <div className="prose">
-          <h1>{frontMatter.title}</h1>
+          <h1>{title}</h1>
           {content}
         </div>
       </>
