@@ -1,4 +1,4 @@
-import {getTagSlugs, getTag} from '@lib/tags'
+import {getTag} from '@lib/tags'
 import Markdown from 'react-markdown'
 
 export default function Tag({tag}) {
@@ -10,16 +10,11 @@ export default function Tag({tag}) {
     </div>
   )
 }
-export async function getStaticPaths() {
-  const paths = getTagSlugs()
-  return {
-    paths,
-    fallback: false,
-  }
-}
 
-export async function getStaticProps({params}) {
-  const tag = getTag(params.slug)
+export async function getServerSideProps({res, params, req}) {
+  res.setHeader('Cache-Control', 's-maxage=500, stale-while-revalidate')
+
+  const tag = await getTag(params.slug)
   return {
     props: {
       tag,
