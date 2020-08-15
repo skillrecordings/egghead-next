@@ -1,5 +1,9 @@
 import fs from 'fs'
-import {map, find, filter, pipe} from 'lodash/fp'
+
+import map from 'lodash/fp/map'
+import find from 'lodash/fp/find'
+import filter from 'lodash/fp/filter'
+import pipe from 'lodash/fp/pipe'
 
 const tagsPath = './data/tags.json'
 

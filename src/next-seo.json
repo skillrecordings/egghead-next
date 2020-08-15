@@ -1,0 +1,31 @@
+{
+  "title": "badass.dev",
+  "titleTemplate": "%s | egghead.io",
+  "description": "Badass screencasts for web developers.",
+  "additionalMetaTags": [
+    {"property": "author", "content": "eggheadio"},
+    {
+      "property": "keywords",
+      "content": ""
+    }
+  ],
+  "twitter": {
+    "cardType": "summary",
+    "handle": "eggheadio",
+    "site": "eggheadio"
+  },
+  "openGraph": {
+    "type": "website",
+    "site_name": "badass",
+    "profile": {
+      "firstName": "egghead"
+    },
+    "images": [
+      {
+        "url": "/images/og.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

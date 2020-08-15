@@ -1,6 +1,6 @@
 import React from 'react'
 import loadScript from 'load-script'
-import {get} from 'lodash'
+import get from 'lodash/get'
 
 import Base from './Base'
 

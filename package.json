@@ -21,7 +21,8 @@
     "format": "yarn format:index && yarn format:pages && yarn format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:pages": "prettier --write \"pages/**/*.{js,ts,tsx}\"",
-    "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\""
+    "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.14",
@@ -36,7 +37,11 @@
     "js-cookie": "^2.2.1",
     "load-script": "^1.0.0",
     "lodash": "^4.17.19",
+    "mdx-prism": "^0.3.1",
     "next": "canary",
+    "next-compose-plugins": "^2.2.0",
+    "next-mdx-enhanced": "^3.1.0",
+    "next-seo": "^4.7.3",
     "next-svgr": "^0.0.2",
     "qs": "^6.9.4",
     "query-string": "^6.13.1",
@@ -44,10 +49,16 @@
     "react-dom": "16.13.1",
     "react-instantsearch-dom": "^6.6.0",
     "react-markdown": "^4.3.1",
+    "reading-time": "^1.2.0",
+    "remark-code-titles": "^0.1.1",
+    "remark-footnotes": "^1.0.0",
+    "remark-slug": "^6.0.0",
     "swr": "^0.2.3",
+    "ts-toolbelt": "^6.15.5",
     "yup": "^0.29.1"
   },
   "devDependencies": {
+    "@47ng/check-env": "^2.0.1",
     "@babel/generator": "^7.11.0",
     "@babel/plugin-syntax-jsx": "^7.10.4",
     "@codemod/cli": "^2.2.1",
@@ -55,6 +66,7 @@
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.11",
+    "@next/bundle-analyzer": "^9.5.2",
     "@next/mdx": "^9.4.4",
     "@tailwindcss/typography": "^0.2.0",
     "@testing-library/jest-dom": "^5.11.1",
@@ -73,6 +85,7 @@
     "cypress": "^4.11.0",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
+    "globby": "^11.0.1",
     "husky": "^4.2.5",
     "istanbul-lib-coverage": "^3.0.0",
     "jest": "^26.1.0",
@@ -84,6 +97,7 @@
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
     "react-test-renderer": "^16.13.1",
+    "rehype": "^11.0.0",
     "start-server-and-test": "^1.11.2",
     "tailwindcss": "^1.4.0",
     "typescript": "^3.9.7"

@@ -1,5 +1,5 @@
 import config from './config'
-import {last} from 'lodash'
+import last from 'lodash/last'
 
 export const buildTitleFromUrl = (url: string) => {
   const instructors = last(url.split('/i/'))
