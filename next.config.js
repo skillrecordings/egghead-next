@@ -38,7 +38,7 @@ module.exports = withPlugins(
       rehypePlugins: [require('mdx-prism')],
       extendFrontMatter: {
         process: (mdxContent, frontMatter) => {
-          const pagesDir = nodePath.resolve(__dirname, 'pages')
+          const pagesDir = nodePath.resolve(__dirname, 'src/pages')
           // Somehow the __resourcePath does not start with a /:
           const path = ('/' + frontMatter.__resourcePath)
             .replace(pagesDir, '')
