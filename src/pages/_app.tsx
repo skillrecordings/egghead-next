@@ -5,21 +5,19 @@ import ContainerLayout from '@components/ContainerLayout'
 import Course from '@components/mdx/course'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from '@context/viewer-context'
-import Link from 'next/link'
-// Use only { cache } from 'emotion'. Don't use { css }.
-import {cache} from 'emotion'
+
+import {cache} from 'emotion' // Use only { cache } from 'emotion'. Don't use { css }.
+import AppLayout from '@components/app/Layout'
+import mdxComponents from '@components/mdx'
 
 import '../styles/index.css'
-import AppLayout from '@components/app/Layout'
-
-const shortCodes = {Button, ContainerLayout, Link, Course}
 
 export default class App extends NextApp {
   render() {
     const {Component, pageProps} = this.props
     return (
       <ViewerProvider>
-        <MDXProvider components={shortCodes}>
+        <MDXProvider components={mdxComponents}>
           <CacheProvider value={cache}>
             <AppLayout>
               <Component {...pageProps} />
