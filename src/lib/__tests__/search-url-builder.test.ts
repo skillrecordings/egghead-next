@@ -18,22 +18,22 @@ test('creates a url from empty search state', () => {
 test('creates a url with a query', () => {
   const url = createUrl({query: 'hooks'})
 
-  expect(url).toBe('/search~~q~~hooks')
+  expect(url).toBe('/search--q--hooks')
 })
 
 test('creates link with topic name encoded', () => {
   const url = createUrl({refinementList: {_tags: ['react']}})
-  expect(url).toBe('/search~~in~~react')
+  expect(url).toBe('/search--in--react')
 })
 
 test('creates link with instructor name encoded', () => {
   const url = createUrl({refinementList: {instructor_name: ['Kent C. Dodds']}})
-  expect(url).toBe('/search~~by~~Kent+C.+Dodds')
+  expect(url).toBe('/search--by--Kent+C.+Dodds')
 })
 
 test('creates link with tag encoded', () => {
   const url = createUrl({refinementList: {type: ['course']}})
-  expect(url).toBe('/search~~t~~course')
+  expect(url).toBe('/search--t--course')
 })
 
 test('creates combined url with type, tag, and instructor', () => {
@@ -44,7 +44,7 @@ test('creates combined url with type, tag, and instructor', () => {
       _tags: ['react'],
     },
   })
-  expect(url).toBe('/search~~t~~course~~in~~react~~by~~Kent+C.+Dodds')
+  expect(url).toBe('/search--t--course--in--react--by--Kent+C.+Dodds')
 })
 
 test('creates combined url with type, tag, and multiple instructors', () => {
@@ -56,7 +56,7 @@ test('creates combined url with type, tag, and multiple instructors', () => {
     },
   })
   expect(url).toBe(
-    '/search~~t~~course~~in~~react~~by~~Kent+C.+Dodds~Ceora+Ford',
+    '/search--t--course--in--react--by--Kent+C.+Dodds~Ceora+Ford',
   )
 })
 
@@ -70,14 +70,14 @@ test('creates combined url with query type, tag, and multiple instructors', () =
     },
   })
   expect(url).toBe(
-    '/search~~q~~hooks~~t~~course~~in~~react~~by~~Kent+C.+Dodds~Ceora+Ford',
+    '/search--q--hooks--t--course--in--react--by--Kent+C.+Dodds~Ceora+Ford',
   )
 })
 
 test('parses a url with a query in the path', () => {
   const {query} = parseUrl({
     search: '',
-    pathname: '/search~~q~~hooks',
+    pathname: '/search--q--hooks',
   })
 
   expect(query).toBe('hooks')
@@ -96,7 +96,7 @@ test('parses a complex url with query type tag and multiple instructors', () => 
   const searchParams = parseUrl({
     search: '',
     pathname:
-      '/search~~q~~hooks~~t~~course~~in~~react~aws~~by~~Kent+C.+Dodds~Ceora+Ford',
+      '/search--q--hooks--t--course--in--react~aws--by--Kent+C.+Dodds~Ceora+Ford',
   })
 
   expect(searchParams).toEqual({
@@ -111,7 +111,7 @@ test('parses a complex url with query type multiple tags and multiple instructor
   const searchParams = parseUrl({
     search: '',
     pathname:
-      '/search~~q~~redux+hooks+typescript~~t~~course~~in~~react~aws~~by~~Kent+C.+Dodds~Ceora+Ford',
+      '/search--q--redux+hooks+typescript--t--course--in--react~aws--by--Kent+C.+Dodds~Ceora+Ford',
   })
 
   expect(searchParams).toEqual({
@@ -126,7 +126,7 @@ test('parses a complex url with query multiple types multiple tags and multiple 
   const searchParams = parseUrl({
     search: '',
     pathname:
-      '/search~~q~~redux+hooks+typescript~~t~~course+lesson~~in~~react~aws~~by~~Kent+C.+Dodds~Ceora+Ford',
+      '/search--q--redux+hooks+typescript--t--course+lesson--in--react~aws--by--Kent+C.+Dodds~Ceora+Ford',
   })
 
   expect(searchParams).toEqual({

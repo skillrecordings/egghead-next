@@ -25,24 +25,24 @@ function getCategoryName(slug) {
 export const createUrl = (searchState) => {
   const {refinementList, query} = searchState
   const tags = refinementList?._tags
-    ? `~~in~~${refinementList._tags.map(getCategorySlug).join('~')}`
+    ? `--in--${refinementList._tags.map(getCategorySlug).join('~')}`
     : ''
   const instructors = refinementList?.instructor_name
-    ? `~~by~~${refinementList?.instructor_name.map(getCategorySlug).join('~')}`
+    ? `--by--${refinementList?.instructor_name.map(getCategorySlug).join('~')}`
     : ''
   const type = refinementList?.type
-    ? `~~t~~${refinementList?.type.map(getCategorySlug).join('~')}`
+    ? `--t--${refinementList?.type.map(getCategorySlug).join('~')}`
     : ''
-  const q = query ? `~~q~~${getCategorySlug(query)}` : ''
+  const q = query ? `--q--${getCategorySlug(query)}` : ''
 
   return `${config.searchUrlRoot}${q}${type}${tags}${instructors}`
 }
 
 export const parseUrl = (location) => {
-  const querySplit = location.pathname.split('~~q~~')
-  const instructorSplit = location.pathname.split('~~by~~')
-  const typesSplit = location.pathname.split('~~t~~')
-  const tagsSplit = location.pathname.split('~~in~~')
+  const querySplit = location.pathname.split('--q--')
+  const instructorSplit = location.pathname.split('--by--')
+  const typesSplit = location.pathname.split('--t--')
+  const tagsSplit = location.pathname.split('--in--')
 
   let query = ''
   let tags = []
@@ -51,24 +51,24 @@ export const parseUrl = (location) => {
 
   if (querySplit.length > 1) {
     query = querySplit[querySplit.length - 1]
-      .split('~~')[0]
+      .split('--')[0]
       .split('+')
       .join(' ')
   }
 
   if (instructorSplit.length > 1) {
     instructors = instructorSplit[instructorSplit.length - 1]
-      .split('~~')[0]
+      .split('--')[0]
       .split('~')
       .map((name) => name.split('+').join(' '))
   }
 
   if (typesSplit.length > 1) {
-    types = typesSplit[1].split('~~')[0].split('+')
+    types = typesSplit[1].split('--')[0].split('+')
   }
   if (tagsSplit.length > 1) {
     tags = tagsSplit[1]
-      .split('~~')[0]
+      .split('--')[0]
       .split('~')
       .map((name) => name.split('+').join(' '))
   }
