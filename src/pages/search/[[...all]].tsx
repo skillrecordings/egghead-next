@@ -5,6 +5,7 @@ import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@components/search'
 
 import qs from 'qs'
+import {Head} from 'next/document'
 
 const createURL = (state) => `?${qs.stringify(state)}`
 
@@ -58,6 +59,9 @@ export default function SearchIndex({initialSearchState, resultsState}) {
   console.log(JSON.stringify(searchState))
   return (
     <div>
+      <Head>
+        <meta name="robots" content="noindex" />
+      </Head>
       <Search {...defaultProps} {...customProps} />
     </div>
   )

@@ -1,82 +1,67 @@
 import config from './config'
 import last from 'lodash/last'
+import first from 'lodash/first'
 import qs from 'query-string'
+import slugify from 'slugify'
+import humanize from 'humanize-list'
 
-export const buildTitleFromUrl = (url: string) => {
-  const instructors = last(url.split('/i/'))
+const toTitleCase = (name: string) =>
+  name
+    .split(' ')
+    .map((w) => w[0].toUpperCase() + w.substr(1).toLowerCase())
+    .join(' ')
 
-  if (instructors === 'kent-c-dodds') {
-    return `${config.searchResultCount} Badass Courses from Kent C. Dodds`
+const nameSlugToName = (slug) => {
+  const nameSplit = slug.split('-')
+  if (nameSplit.length === 3) {
+    nameSplit[1] = `${nameSplit[1]}.`
+  }
+  return nameSplit.map(toTitleCase).join(' ')
+}
+
+const tagsForPath = (path) => {
+  const tagsSplit = path.split('-videos-by-')
+
+  return tagsSplit.length > 1 ? tagsSplit[0].split('/s/')[1].split('-and-') : []
+}
+
+export const buildTitleFromUrl = (path: string) => {
+  const instructor = last(path.split('videos-by-'))
+  const tags = tagsForPath(path)
+
+  if (instructor) {
+    return `${config.searchResultCount} Badass${
+      tags ? ` ${humanize(tags.map(toTitleCase), {oxfordComma: true})} ` : ' '
+    }Courses from ${nameSlugToName(instructor)}`
   }
   return `${config.searchResultCount} Badass Courses`
 }
 
-function getCategorySlug(name) {
-  return name.split(' ').map(encodeURIComponent).join('+')
-}
-
-// Returns a name from the category slug.
-// The "+" are replaced by spaces and other
-// characters are decoded.
-function getCategoryName(slug) {
-  return slug.split('+').map(decodeURIComponent).join(' ')
-}
-
 export const createUrl = (searchState) => {
   const {refinementList, query} = searchState
+  const nameToSlug = (name: string) =>
+    slugify(name.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
   const tags = refinementList?._tags
-    ? `--in--${refinementList._tags.map(getCategorySlug).join('~')}`
+    ? `${refinementList._tags.map(nameToSlug).join('-and-')}`
     : ''
-  const instructors = refinementList?.instructor_name
-    ? `--by--${refinementList?.instructor_name.map(getCategorySlug).join('~')}`
-    : ''
-  const type = refinementList?.type
-    ? `--t--${refinementList?.type.map(getCategorySlug).join('~')}`
-    : ''
-  const q = query ? `--q--${getCategorySlug(query)}` : ''
 
-  return `${config.searchUrlRoot}${q}${type}${tags}${instructors}`
+  const instructors = refinementList?.instructor_name
+    ? `${tags && '-'}videos-by-${refinementList?.instructor_name
+        .map(nameToSlug)
+        .join('-and-')}`
+    : ''
+
+  return `${config.searchUrlRoot}/${tags}${instructors}`
 }
 
 export const parseUrl = (location) => {
-  const querySplit = location.pathname.split('--q--')
-  const instructorSplit = location.pathname.split('--by--')
-  const typesSplit = location.pathname.split('--t--')
-  const tagsSplit = location.pathname.split('--in--')
+  const instructorSplit = last(location.pathname.split('videos-by-'))
 
-  let query = ''
-  let tags = []
-  let instructors = []
-  let types = []
-
-  if (querySplit.length > 1) {
-    query = querySplit[querySplit.length - 1]
-      .split('--')[0]
-      .split('+')
-      .join(' ')
-  }
-
-  if (instructorSplit.length > 1) {
-    instructors = instructorSplit[instructorSplit.length - 1]
-      .split('--')[0]
-      .split('~')
-      .map((name) => name.split('+').join(' '))
-  }
-
-  if (typesSplit.length > 1) {
-    types = typesSplit[1].split('--')[0].split('+')
-  }
-  if (tagsSplit.length > 1) {
-    tags = tagsSplit[1]
-      .split('--')[0]
-      .split('~')
-      .map((name) => name.split('+').join(' '))
-  }
+  let tags = tagsForPath(location.pathname)
+  let instructors = [nameSlugToName(instructorSplit)]
 
   return {
-    query,
     tags,
     instructors,
-    types,
   }
 }
