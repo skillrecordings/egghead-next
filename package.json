@@ -39,7 +39,7 @@
     "load-script": "^1.0.0",
     "lodash": "^4.17.19",
     "mdx-prism": "^0.3.1",
-    "next": "canary",
+    "next": "^9.5.3-canary.7",
     "next-compose-plugins": "^2.2.0",
     "next-mdx-enhanced": "^3.1.0",
     "next-seo": "^4.7.3",

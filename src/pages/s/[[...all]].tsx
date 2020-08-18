@@ -35,8 +35,6 @@ export default function SearchIndex({
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  console.log({searchState, initialSearchState, pageTitle})
-
   const onSearchStateChange = (searchState) => {
     clearTimeout(debouncedState.current)
 
@@ -68,6 +66,7 @@ export default function SearchIndex({
 }
 
 export async function getServerSideProps({query}) {
+  console.log(query)
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(query.all)
   const {rawResults} = await findResultsState(Search, {
