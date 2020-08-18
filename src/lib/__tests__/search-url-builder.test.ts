@@ -9,7 +9,7 @@ test('Builds a Title Based on single Tag and Instructor', () => {
   )
 })
 
-test('creates a url from empty search state', () => {
+test('creates a url from an empty search state', () => {
   const url = createUrl({})
 
   expect(url).toBe('/s')
