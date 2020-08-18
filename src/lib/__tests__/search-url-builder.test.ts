@@ -2,7 +2,7 @@ import {buildTitleFromUrl, createUrl, parseUrl} from '../search-url-builder'
 import config from '../config'
 
 test('Builds a Title Based on single Tag and Instructor', () => {
-  const title = buildTitleFromUrl('/s/react-lessons-by-kent-c-dodds')
+  const title = buildTitleFromUrl('react-lessons-by-kent-c-dodds')
 
   expect(title).toBe(
     `${config.searchResultCount} Badass React Courses from Kent C. Dodds`,
@@ -97,41 +97,60 @@ test('creates a url single instructor', () => {
   expect(url).toBe('/s/lessons-by-ceora-ford')
 })
 
+test('parses empty', () => {
+  const searchParams = parseUrl({})
+
+  expect(searchParams).toEqual({})
+})
+
 test('parses a url tag and instructor', () => {
   const searchParams = parseUrl({
-    search: '',
-    pathname: '/s/react-lessons-by-kent-c-dodds',
+    all: ['react-lessons-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
-    tags: ['react'],
-    instructors: ['Kent C. Dodds'],
+    refinementList: {_tags: ['react'], instructor_name: ['Kent C. Dodds']},
+  })
+})
+
+test('parses a url tag and multiple instructors', () => {
+  const searchParams = parseUrl({
+    all: ['react-lessons-by-kent-c-dodds-and-ceora-ford'],
+  })
+
+  expect(searchParams).toEqual({
+    refinementList: {
+      _tags: ['react'],
+      instructor_name: ['Kent C. Dodds', 'Ceora Ford'],
+    },
   })
 })
 
 test('parses a url tag and instructor and query', () => {
   const searchParams = parseUrl({
-    search: '?q=react%20hooks',
-    pathname: '/s/react-lessons-by-kent-c-dodds',
+    q: 'react hooks',
+    all: ['react-lessons-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
+    refinementList: {_tags: ['react'], instructor_name: ['Kent C. Dodds']},
     query: 'react hooks',
-    tags: ['react'],
-    instructors: ['Kent C. Dodds'],
   })
 })
 
 test('parses a url tag and instructor types and query', () => {
   const searchParams = parseUrl({
-    search: '?q=react%20hooks&types=course%2Cpodcast',
-    pathname: '/s/react-lessons-by-kent-c-dodds',
+    q: 'react hooks',
+    types: 'course,podcast',
+    all: ['react-lessons-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
     query: 'react hooks',
-    tags: ['react'],
-    instructors: ['Kent C. Dodds'],
-    types: ['course', 'podcast'],
+    refinementList: {
+      _tags: ['react'],
+      instructor_name: ['Kent C. Dodds'],
+      types: ['course', 'podcast'],
+    },
   })
 })

@@ -6,6 +6,7 @@ import Search from '@components/search'
 
 import qs from 'qs'
 import {Head} from 'next/document'
+import {createUrl, parseUrl} from '@lib/search-url-builder'
 
 const createURL = (state) => `?${qs.stringify(state)}`
 
@@ -34,17 +35,14 @@ export default function SearchIndex({initialSearchState, resultsState}) {
 
   const onSearchStateChange = (searchState) => {
     clearTimeout(debouncedState.current)
+    console.log(searchState)
 
     debouncedState.current = setTimeout(() => {
-      const href = searchStateToUrl(searchState)
+      const href = createUrl(searchState)
 
-      //this is all f'd up. The general idea is to build up SEO friendly URLs for search
-      //where the url would be broken up like `/react/hooks/courses/by/kent+c+dodds` which is 100%
-      //possible but also fairly nuanced and complex 😅
-
-      // router.push(href, href, {
-      //   shallow: true,
-      // })
+      router.push(href, href, {
+        shallow: true,
+      })
     }, 700)
 
     setSearchState(searchState)
@@ -56,21 +54,15 @@ export default function SearchIndex({initialSearchState, resultsState}) {
     onSearchStateChange,
   }
 
-  console.log(JSON.stringify(searchState))
   return (
     <div>
-      <Head>
-        <meta name="robots" content="noindex" />
-      </Head>
       <Search {...defaultProps} {...customProps} />
     </div>
   )
 }
 
-export async function getServerSideProps({query}) {
-  const {all} = query
-
-  const initialSearchState = all ? {query: all.join(' ') || ''} : {}
+export async function getServerSideProps({query, ...rest}) {
+  const initialSearchState = parseUrl(query)
   const {rawResults} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
