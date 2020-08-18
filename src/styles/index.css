@@ -13,3 +13,19 @@
 .bmpui-ui-titlebar {
   display: none;
 }
+
+h1 {
+  @apply text-lg;
+}
+
+@screen lg {
+  h1 {
+    @apply text-2xl;
+  }
+}
+
+@screen xl {
+  h1 {
+    @apply text-3xl;
+  }
+}

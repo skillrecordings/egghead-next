@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import {
   RefinementList,
-  SearchBox,
+  connectSearchBox,
   Hits,
   Configure,
   Highlight,
@@ -10,6 +10,22 @@ import {
   InstantSearch,
 } from 'react-instantsearch-dom'
 import {SearchClient} from '@algolia/client-search'
+
+const SearchBox = ({currentRefinement, isSearchStalled, refine}) => (
+  <form noValidate action="" role="search" className="mx-auto max-w-full">
+    <div className="mr-6 my-2 mx-auto pb-4 flex items-center justify-center">
+      <input
+        type="search"
+        value={currentRefinement}
+        onChange={(event) => refine(event.currentTarget.value)}
+        placeholder="Type here to search..."
+        className="bg-purple-white shadow rounded border-0 p-5 w-4/6"
+      />
+    </div>
+  </form>
+)
+
+const CustomSearchBox = connectSearchBox(SearchBox)
 
 const HitComponent = ({hit}) => {
   const {path, type, image} = hit
@@ -52,32 +68,30 @@ export default class extends React.Component<InstantSearchProps> {
       >
         <Configure hitsPerPage={12} />
         <header>
-          <h1>React InstantSearch + Next.Js</h1>
+          <h1>search your egghead library</h1>
           <SearchBox />
         </header>
         <main>
-          <div className="menu">
-            <RefinementList attribute="type" />
+          <div className="flex flex-wrap overflow-hidden sm:-mx-1 md:-mx-1">
+            <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
+              <RefinementList attribute="type" />
+            </div>
+
+            <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
+              <RefinementList attribute="instructor_name" />
+            </div>
+
+            <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
+              <RefinementList attribute="_tags" />
+            </div>
           </div>
-          <div className="menu">
-            <RefinementList attribute="instructor_name" />
-          </div>
-          <div className="menu">
-            <RefinementList attribute="_tags" />
-          </div>
-          <div className="results">
+
+          <div className="results pt-16">
             <Hits hitComponent={HitComponent} />
           </div>
         </main>
         <footer>
           <Pagination />
-          <div>
-            See{' '}
-            <a href="https://github.com/algolia/react-instantsearch/tree/master/examples/next">
-              source code
-            </a>{' '}
-            on github
-          </div>
         </footer>
         {children}
       </InstantSearch>
