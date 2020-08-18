@@ -26,16 +26,29 @@ const tagsForPath = (path) => {
   return tagsSplit.length > 1 ? tagsSplit[0].split('-and-').sort() : []
 }
 
-export const buildTitleFromUrl = (path: string) => {
+export const titleFromPath = (all = []) => {
+  const year = new Date().getFullYear()
+
+  if (all.length === 0) {
+    return `${config.searchResultCount} Courses for Web Developers in ${year}`
+  }
+
+  const path = all[0] as string
   const instructor = last(path.split('lessons-by-'))
   const tags = tagsForPath(path)
 
   if (instructor) {
-    return `${config.searchResultCount} Badass${
-      tags ? ` ${humanize(tags.map(toTitleCase), {oxfordComma: true})} ` : ' '
-    }Courses from ${nameSlugToName(instructor)}`
+    return `${config.searchResultCount}${
+      tags ? ` ${humanize(tags.map(toTitleCase))} ` : ' '
+    }Courses from ${humanize(
+      instructor.split(`-and-`).map(nameSlugToName),
+    )} in ${year}`
+  } else if (tags) {
+    return `${config.searchResultCount}${
+      tags ? ` ${humanize(tags.map(toTitleCase))} ` : ' '
+    }Courses for Web Developers in ${year}`
   }
-  return `${config.searchResultCount} Badass Courses`
+  return `${config.searchResultCount} Courses for Web Developers`
 }
 
 export const createUrl = (searchState) => {

@@ -1,11 +1,11 @@
-import {buildTitleFromUrl, createUrl, parseUrl} from '../search-url-builder'
+import {titleFromPath, createUrl, parseUrl} from '../search-url-builder'
 import config from '../config'
 
 test('Builds a Title Based on single Tag and Instructor', () => {
-  const title = buildTitleFromUrl('react-lessons-by-kent-c-dodds')
+  const title = titleFromPath(['react-lessons-by-kent-c-dodds'])
 
   expect(title).toBe(
-    `${config.searchResultCount} Badass React Courses from Kent C. Dodds`,
+    `${config.searchResultCount} React Courses from Kent C. Dodds in 2020`,
   )
 })
 

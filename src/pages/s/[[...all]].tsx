@@ -3,15 +3,13 @@ import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@components/search'
+import {NextSeo} from 'next-seo'
 
 import qs from 'qs'
-import {Head} from 'next/document'
-import {createUrl, parseUrl} from '@lib/search-url-builder'
+import {createUrl, parseUrl, titleFromPath} from '@lib/search-url-builder'
+import {isEmpty} from 'lodash'
 
 const createURL = (state) => `?${qs.stringify(state)}`
-
-const searchStateToUrl = (searchState) =>
-  searchState ? `${window.location.pathname}?${qs.stringify(searchState)}` : ''
 
 const fullTextSearch = {
   appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
@@ -28,14 +26,17 @@ const defaultProps = {
   indexName: 'content_production',
 }
 
-export default function SearchIndex({initialSearchState, resultsState}) {
+export default function SearchIndex({
+  initialSearchState,
+  resultsState,
+  pageTitle,
+}) {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
   const onSearchStateChange = (searchState) => {
     clearTimeout(debouncedState.current)
-    console.log(searchState)
 
     debouncedState.current = setTimeout(() => {
       const href = createUrl(searchState)
@@ -56,13 +57,15 @@ export default function SearchIndex({initialSearchState, resultsState}) {
 
   return (
     <div>
+      <NextSeo noindex={!isEmpty(searchState.query)} title={pageTitle} />
       <Search {...defaultProps} {...customProps} />
     </div>
   )
 }
 
-export async function getServerSideProps({query, ...rest}) {
+export async function getServerSideProps({query}) {
   const initialSearchState = parseUrl(query)
+  const pageTitle = titleFromPath(query.all)
   const {rawResults} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
@@ -72,6 +75,7 @@ export async function getServerSideProps({query, ...rest}) {
     props: {
       resultsState: {rawResults},
       initialSearchState,
+      pageTitle,
     },
   }
 }
