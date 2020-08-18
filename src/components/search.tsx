@@ -5,15 +5,12 @@ import {
   RefinementList,
   connectSearchBox,
   connectHits,
-  connectHitInsight,
   Configure,
-  Highlight,
   Pagination,
   InstantSearch,
 } from 'react-instantsearch-dom'
-import {SearchClient} from '@algolia/client-search'
 
-const SearchBox = ({currentRefinement, isSearchStalled, refine}) => (
+const CustomSearchBox = ({currentRefinement, refine}) => (
   <form noValidate action="" role="search" className="mx-auto max-w-full">
     <div className="mr-6 my-2 mx-auto pb-4 flex items-center justify-center">
       <input
@@ -27,7 +24,7 @@ const SearchBox = ({currentRefinement, isSearchStalled, refine}) => (
   </form>
 )
 
-const CustomSearchBox = connectSearchBox(SearchBox)
+const SearchBox = connectSearchBox(CustomSearchBox)
 
 const CustomHits = ({hits}) => (
   <div>
