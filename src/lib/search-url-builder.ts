@@ -55,6 +55,8 @@ export const titleFromPath = (all: string[] = []) => {
 export const createUrl = (searchState) => {
   const {refinementList, query} = searchState
 
+  console.log(JSON.stringify(searchState))
+
   if (isEmpty(refinementList) && isEmpty(query)) return config.searchUrlRoot
 
   const nameToSlug = (name: string) =>
@@ -62,11 +64,11 @@ export const createUrl = (searchState) => {
   const tags = refinementList?._tags
     ? `${refinementList._tags.map(nameToSlug).join('-and-')}`
     : ''
-  const types = get(refinementList, 'types')
+  const type = get(refinementList, 'type')
 
   const queryString = qs.stringify({
     q: query ? `${query.split(' ').join('+')}` : undefined,
-    types: types ? types.join(',') : undefined,
+    type: type ? type.join(',') : undefined,
   })
 
   const instructors = refinementList?.instructor_name
@@ -93,14 +95,14 @@ export const parseUrl = (query) => {
     instructors = compact(instructorSplit.split(`-and-`).map(nameSlugToName))
   }
 
-  const parseTypes = (types) => {
-    return types?.split(',')
+  const parseTypes = (type) => {
+    return type?.split(',')
   }
 
-  const types: string[] = parseTypes(query.types)
+  const type: string[] = parseTypes(query.type)
 
   return pickBy({
     query: query.q,
-    refinementList: pickBy({types, _tags: tags, instructor_name: instructors}),
+    refinementList: pickBy({type, _tags: tags, instructor_name: instructors}),
   })
 }

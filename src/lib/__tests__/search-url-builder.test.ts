@@ -33,11 +33,11 @@ test('creates a url with a query with single tag and instructor filtered by type
     refinementList: {
       instructor_name: ['Kent C. Dodds'],
       _tags: ['react'],
-      types: ['course'],
+      type: ['course'],
     },
   })
 
-  expect(url).toBe('/s/react-lessons-by-kent-c-dodds?q=hooks&types=course')
+  expect(url).toBe('/s/react-lessons-by-kent-c-dodds?q=hooks&type=course')
 })
 
 test('creates a url with a query with single tag and instructor filtered by multiple types', () => {
@@ -46,12 +46,12 @@ test('creates a url with a query with single tag and instructor filtered by mult
     refinementList: {
       instructor_name: ['Kent C. Dodds'],
       _tags: ['react'],
-      types: ['course', 'podcast'],
+      type: ['course', 'podcast'],
     },
   })
 
   expect(url).toBe(
-    '/s/react-lessons-by-kent-c-dodds?q=hooks&types=course%2Cpodcast',
+    '/s/react-lessons-by-kent-c-dodds?q=hooks&type=course%2Cpodcast',
   )
 })
 
@@ -141,7 +141,7 @@ test('parses a url tag and instructor and query', () => {
 test('parses a url tag and instructor types and query', () => {
   const searchParams = parseUrl({
     q: 'react hooks',
-    types: 'course,podcast',
+    type: 'course,podcast',
     all: ['react-lessons-by-kent-c-dodds'],
   })
 
@@ -150,7 +150,7 @@ test('parses a url tag and instructor types and query', () => {
     refinementList: {
       _tags: ['react'],
       instructor_name: ['Kent C. Dodds'],
-      types: ['course', 'podcast'],
+      type: ['course', 'podcast'],
     },
   })
 })

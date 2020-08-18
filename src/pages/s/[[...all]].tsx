@@ -43,6 +43,8 @@ export default function SearchIndex({
     debouncedState.current = setTimeout(() => {
       const href = createUrl(searchState)
 
+      console.log(href)
+
       router.push(href, href, {
         shallow: true,
       })
