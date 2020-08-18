@@ -35,6 +35,8 @@ export default function SearchIndex({
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
+  console.log({searchState, initialSearchState, pageTitle})
+
   const onSearchStateChange = (searchState) => {
     clearTimeout(debouncedState.current)
 
