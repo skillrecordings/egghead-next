@@ -1,0 +1,81 @@
+{
+  "title": "MDX Layouts",
+  "steps": [
+    {
+      "file": "src/pages/learn/react/index.mdx",
+      "line": 2,
+      "description": "Layouts are defined in the frontmatter of mdx files",
+      "selection": {
+        "start": {
+          "line": 2,
+          "character": 1
+        },
+        "end": {
+          "line": 2,
+          "character": 8
+        }
+      }
+    },
+    {
+      "file": "src/layouts/ultimate-guide.tsx",
+      "line": 4,
+      "description": "Notice how the 'ultimate-guide' layout name matches with the name of this `ultimate-guide.tsx` file."
+    },
+    {
+      "file": "next.config.js",
+      "line": 22,
+      "description": "`ultimate-guide.txt` needs to be placed inside of the defined `layoutPath` in `next.config.js`",
+      "selection": {
+        "start": {
+          "line": 23,
+          "character": 12
+        },
+        "end": {
+          "line": 23,
+          "character": 19
+        }
+      }
+    },
+    {
+      "file": "next.config.js",
+      "line": 23,
+      "description": "If a Layout is not provided in the frontMatter, then it will default to a Layout defined at `src/layouts/index.txt`."
+    },
+    {
+      "file": "src/layouts/ultimate-guide.tsx",
+      "line": 31,
+      "description": "The content of the `mdx` file will render wherever you place the `children/content` passed in as props. You can surround the content with anything you'd like to include in the Layout."
+    },
+    {
+      "file": "src/pages/_app.tsx",
+      "line": 28,
+      "description": "The Layout is then surrounded by the `AppLayout` which defines the main header/footer.",
+      "selection": {
+        "start": {
+          "line": 28,
+          "character": 15
+        },
+        "end": {
+          "line": 30,
+          "character": 27
+        }
+      }
+    },
+    {
+      "file": "src/pages/_document.tsx",
+      "line": 32,
+      "description": "Finally, `Main` is rendered into the actually HTML document defined in `_document.tsx`",
+      "selection": {
+        "start": {
+          "line": 32,
+          "character": 11
+        },
+        "end": {
+          "line": 32,
+          "character": 19
+        }
+      }
+    }
+  ],
+  "ref": "jl/codetour"
+}
