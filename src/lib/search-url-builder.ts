@@ -4,7 +4,8 @@ import get from 'lodash/get'
 import qs from 'query-string'
 import slugify from 'slugify'
 import humanize from 'humanize-list'
-import {first, pickBy, isEmpty} from 'lodash'
+import {first, pickBy, isEmpty, compact} from 'lodash'
+import {injectGlobal} from 'emotion'
 
 const toTitleCase = (name: string) => {
   return name
@@ -90,7 +91,7 @@ export const parseUrl = (query) => {
     const firstPath: string = first(query.all) as string
     instructorSplit = last(firstPath.split('lessons-by-'))
     tags = tagsForPath(firstPath)
-    instructors = instructorSplit.split(`-and-`).map(nameSlugToName)
+    instructors = compact(instructorSplit.split(`-and-`).map(nameSlugToName))
   }
 
   const parseTypes = (types) => {
@@ -98,6 +99,9 @@ export const parseUrl = (query) => {
   }
 
   const types: string[] = parseTypes(query.types)
+
+  if (tags.length === 0) tags = undefined
+  if (instructors.length === 0) instructors = undefined
 
   return pickBy({
     query: query.q,
