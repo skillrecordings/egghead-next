@@ -22,7 +22,7 @@ const nameSlugToName = (slug) => {
 }
 
 const tagsForPath = (path) => {
-  const tagsSplit = path.split('-lessons-by-')
+  const tagsSplit = path?.split('-lessons-by-') || []
 
   return tagsSplit.length > 1 ? tagsSplit[0].split('-and-').sort() : []
 }
@@ -90,9 +90,9 @@ export const parseUrl = (query) => {
 
   if (compact(query.all)) {
     const firstPath: string = first(query.all) as string
-    instructorSplit = last(firstPath.split('lessons-by-'))
+    instructorSplit = last(firstPath?.split('lessons-by-'))
     tags = tagsForPath(firstPath)
-    instructors = compact(instructorSplit.split(`-and-`).map(nameSlugToName))
+    instructors = compact(instructorSplit?.split(`-and-`).map(nameSlugToName))
   }
 
   const parseTypes = (type) => {
@@ -101,8 +101,15 @@ export const parseUrl = (query) => {
 
   const type: string[] = parseTypes(query.type)
 
+  tags = isEmpty(tags) ? undefined : tags
+  instructors = isEmpty(instructors) ? undefined : instructors
+
   return pickBy({
     query: query.q,
-    refinementList: pickBy({type, _tags: tags, instructor_name: instructors}),
+    refinementList: pickBy({
+      type,
+      _tags: tags,
+      instructor_name: instructors,
+    }),
   })
 }

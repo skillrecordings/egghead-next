@@ -154,3 +154,15 @@ test('parses a url tag and instructor types and query', () => {
     },
   })
 })
+
+test('parse a url with just the query string', () => {
+  const searchParams = parseUrl({
+    type: 'playlist,course',
+  })
+
+  expect(searchParams).toEqual({
+    refinementList: {
+      type: ['playlist', 'course'],
+    },
+  })
+})
