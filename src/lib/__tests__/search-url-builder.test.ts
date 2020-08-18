@@ -12,7 +12,7 @@ test('Builds a Title Based on single Tag and Instructor', () => {
 test('creates a url from empty search state', () => {
   const url = createUrl({})
 
-  expect(url).toBe('/s/')
+  expect(url).toBe('/s')
 })
 
 test('creates a url with a query with single tag and instructor named Kent C. Dodds', () => {

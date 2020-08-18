@@ -7,15 +7,13 @@ import humanize from 'humanize-list'
 import {first, pickBy, isEmpty} from 'lodash'
 
 const toTitleCase = (name: string) => {
-  console.log('toTitleCase', name)
   return name
     .split(' ')
-    .map((w) => (w[0] ? w[0].toUpperCase() + w.substr(1).toLowerCase() : ''))
+    .map((w) => w[0] && w[0].toUpperCase() + w.substr(1).toLowerCase())
     .join(' ')
 }
 
 const nameSlugToName = (slug) => {
-  console.log('nameSlugToName', slug)
   const nameSplit = slug.split('-')
   if (nameSplit.length === 3) {
     nameSplit[1] = `${nameSplit[1]}.`
@@ -29,7 +27,7 @@ const tagsForPath = (path) => {
   return tagsSplit.length > 1 ? tagsSplit[0].split('-and-').sort() : []
 }
 
-export const titleFromPath = (all = []) => {
+export const titleFromPath = (all: string[] = []) => {
   const year = new Date().getFullYear()
 
   if (all.length === 0) {
@@ -56,6 +54,9 @@ export const titleFromPath = (all = []) => {
 
 export const createUrl = (searchState) => {
   const {refinementList, query} = searchState
+
+  if (isEmpty(refinementList) && isEmpty(query)) return config.searchUrlRoot
+
   const nameToSlug = (name: string) =>
     slugify(name.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
   const tags = refinementList?._tags
@@ -82,7 +83,7 @@ export const createUrl = (searchState) => {
 export const parseUrl = (query) => {
   if (isEmpty(query)) return query
   let instructorSplit
-  let tags = []
+  let tags
   let instructors
 
   if (query.all) {
