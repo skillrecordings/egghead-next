@@ -6,13 +6,16 @@ import slugify from 'slugify'
 import humanize from 'humanize-list'
 import {first, pickBy, isEmpty} from 'lodash'
 
-const toTitleCase = (name: string) =>
-  name
+const toTitleCase = (name: string) => {
+  console.log('toTitleCase', name)
+  return name
     .split(' ')
-    .map((w) => w[0].toUpperCase() + w.substr(1).toLowerCase())
+    .map((w) => (w[0] ? w[0].toUpperCase() + w.substr(1).toLowerCase() : ''))
     .join(' ')
+}
 
 const nameSlugToName = (slug) => {
+  console.log('nameSlugToName', slug)
   const nameSplit = slug.split('-')
   if (nameSplit.length === 3) {
     nameSplit[1] = `${nameSplit[1]}.`
