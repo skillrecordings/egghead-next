@@ -86,7 +86,7 @@ export const parseUrl = (query) => {
   let tags
   let instructors
 
-  if (query.all) {
+  if (compact(query.all)) {
     const firstPath: string = first(query.all) as string
     instructorSplit = last(firstPath.split('lessons-by-'))
     tags = tagsForPath(firstPath)
@@ -98,9 +98,6 @@ export const parseUrl = (query) => {
   }
 
   const types: string[] = parseTypes(query.types)
-
-  if (tags.length === 0) tags = undefined
-  if (instructors.length === 0) instructors = undefined
 
   return pickBy({
     query: query.q,
