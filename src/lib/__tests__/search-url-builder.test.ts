@@ -113,6 +113,26 @@ test('parses a url tag and instructor', () => {
   })
 })
 
+test('parses a url from tag', () => {
+  const searchParams = parseUrl({
+    all: ['react'],
+  })
+
+  expect(searchParams).toEqual({
+    refinementList: {_tags: ['react']},
+  })
+})
+
+test('parses a url from two tag', () => {
+  const searchParams = parseUrl({
+    all: ['react-and-redux'],
+  })
+
+  expect(searchParams).toEqual({
+    refinementList: {_tags: ['react', 'redux']},
+  })
+})
+
 test('parses a url tag and multiple instructors', () => {
   const searchParams = parseUrl({
     all: ['react-lessons-by-kent-c-dodds-and-ceora-ford'],

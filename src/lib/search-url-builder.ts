@@ -6,6 +6,14 @@ import slugify from 'slugify'
 import humanize from 'humanize-list'
 import {first, pickBy, isEmpty, compact} from 'lodash'
 
+const resourceTypes = {
+  resource: 'resources',
+  lessons: 'lessons',
+  talks: 'talks',
+  podcasts: 'podcasts',
+  collections: 'collections',
+}
+
 const toTitleCase = (name: string) => {
   return name
     .split(' ')
@@ -24,7 +32,7 @@ const nameSlugToName = (slug) => {
 const tagsForPath = (path) => {
   const tagsSplit = path?.split('-lessons-by-') || []
 
-  return tagsSplit.length > 1 ? tagsSplit[0].split('-and-').sort() : []
+  return tagsSplit.length >= 1 ? tagsSplit[0].split('-and-').sort() : []
 }
 
 export const titleFromPath = (all: string[] = []) => {
@@ -54,8 +62,6 @@ export const titleFromPath = (all: string[] = []) => {
 
 export const createUrl = (searchState) => {
   const {refinementList, query} = searchState
-
-  console.log(JSON.stringify(searchState))
 
   if (isEmpty(refinementList) && isEmpty(query)) return config.searchUrlRoot
 
@@ -90,9 +96,13 @@ export const parseUrl = (query) => {
 
   if (compact(query.all)) {
     const firstPath: string = first(query.all) as string
-    instructorSplit = last(firstPath?.split('lessons-by-'))
+    instructorSplit = firstPath?.split('lessons-by-')
+    if (instructorSplit?.length > 1) {
+      instructors = last(instructorSplit)
+      instructors = compact(instructors?.split(`-and-`).map(nameSlugToName))
+    }
+
     tags = tagsForPath(firstPath)
-    instructors = compact(instructorSplit?.split(`-and-`).map(nameSlugToName))
   }
 
   const parseTypes = (type) => {
