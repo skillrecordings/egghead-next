@@ -1,6 +1,6 @@
 import config from './config'
 import last from 'lodash/last'
-import first from 'lodash/first'
+import get from 'lodash/get'
 import qs from 'query-string'
 import slugify from 'slugify'
 import humanize from 'humanize-list'
@@ -20,13 +20,15 @@ const nameSlugToName = (slug) => {
 }
 
 const tagsForPath = (path) => {
-  const tagsSplit = path.split('-videos-by-')
+  const tagsSplit = path.split('-lessons-by-')
 
-  return tagsSplit.length > 1 ? tagsSplit[0].split('/s/')[1].split('-and-') : []
+  return tagsSplit.length > 1
+    ? tagsSplit[0].split('/s/')[1].split('-and-').sort()
+    : []
 }
 
 export const buildTitleFromUrl = (path: string) => {
-  const instructor = last(path.split('videos-by-'))
+  const instructor = last(path.split('lessons-by-'))
   const tags = tagsForPath(path)
 
   if (instructor) {
@@ -44,23 +46,39 @@ export const createUrl = (searchState) => {
   const tags = refinementList?._tags
     ? `${refinementList._tags.map(nameToSlug).join('-and-')}`
     : ''
+  const types = get(refinementList, 'types')
+
+  const queryString = qs.stringify({
+    q: query ? `${query.split(' ').join('+')}` : undefined,
+    types: types ? types.join(',') : undefined,
+  })
 
   const instructors = refinementList?.instructor_name
-    ? `${tags && '-'}videos-by-${refinementList?.instructor_name
+    ? `${tags && '-'}lessons-by-${refinementList?.instructor_name
         .map(nameToSlug)
         .join('-and-')}`
     : ''
 
-  return `${config.searchUrlRoot}/${tags}${instructors}`
+  const urlRoot = `${config.searchUrlRoot}/${tags}${instructors}`
+  return `${urlRoot}${queryString && `?${queryString}`}`
 }
 
 export const parseUrl = (location) => {
-  const instructorSplit = last(location.pathname.split('videos-by-'))
+  const instructorSplit = last(location.pathname.split('lessons-by-'))
+  const queryParams = qs.parse(location.search)
+
+  const parseTypes = (types) => {
+    return types?.split(',')
+  }
+
+  const types: string[] = parseTypes(queryParams.types)
 
   let tags = tagsForPath(location.pathname)
   let instructors = [nameSlugToName(instructorSplit)]
 
   return {
+    query: queryParams.q,
+    types,
     tags,
     instructors,
   }
