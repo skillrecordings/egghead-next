@@ -5,7 +5,6 @@ import qs from 'query-string'
 import slugify from 'slugify'
 import humanize from 'humanize-list'
 import {first, pickBy, isEmpty, compact} from 'lodash'
-import {injectGlobal} from 'emotion'
 
 const toTitleCase = (name: string) => {
   return name

@@ -66,6 +66,8 @@ export default function SearchIndex({
 }
 
 export async function getServerSideProps({query}) {
+  console.log('server query', JSON.stringify(query))
+
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(query.all)
   const {rawResults} = await findResultsState(Search, {
