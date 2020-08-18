@@ -26,7 +26,7 @@ export default function Layout({
           }}
           canonical={url}
         />
-        <div className="prose">
+        <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl">
           <h1>{frontMatter.title}</h1>
           {content}
         </div>
