@@ -106,7 +106,7 @@ export default class extends React.Component<InstantSearchProps> {
             </div>
 
             <div className="results pt-16">
-              <Hits hitComponent={HitComponent} />
+              <Hits />
             </div>
           </main>
           <footer>
