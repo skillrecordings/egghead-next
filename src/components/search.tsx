@@ -77,7 +77,6 @@ export default class extends React.Component<InstantSearchProps> {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
             integrity="sha256-HB49n/BZjuqiCtQQf49OdZn63XuKFaxcIHWf0HNKte8="
-            crossorigin="anonymous"
           ></link>
         </Head>
         <InstantSearch
