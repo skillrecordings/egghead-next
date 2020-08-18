@@ -7,6 +7,21 @@ export default function PodcastIndex({podcasts}) {
     <>
       <h1>Podcasts</h1>
       <div>
+        <div>
+          <blockquote>
+            Some of my favorite developer podcasts I've listened to recently are
+            the egghead developer chats where{' '}
+            <a href="https://twitter.com/jhooks">@jhooks</a> is interviewing. He
+            has a great rapport with his guests. You just feel like a fly on the
+            wall during an interesting conversation about software.
+          </blockquote>
+          <p>
+            Tony Cimaglia{' '}
+            <a href="https://twitter.com/TonyCimaglia/status/1295763329999417360">
+              on Twitter
+            </a>
+          </p>
+        </div>
         {podcasts.map((podcast) => {
           return (
             <div key={podcast.slug}>
