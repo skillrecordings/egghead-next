@@ -59,6 +59,12 @@ export default class extends React.Component<InstantSearchProps> {
           <div className="menu">
             <RefinementList attribute="type" />
           </div>
+          <div className="menu">
+            <RefinementList attribute="instructor_name" />
+          </div>
+          <div className="menu">
+            <RefinementList attribute="_tags" />
+          </div>
           <div className="results">
             <Hits hitComponent={HitComponent} />
           </div>

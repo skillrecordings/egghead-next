@@ -3,13 +3,13 @@ import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@components/search'
+import {NextSeo} from 'next-seo'
 
 import qs from 'qs'
+import {createUrl, parseUrl, titleFromPath} from '@lib/search-url-builder'
+import {isEmpty} from 'lodash'
 
 const createURL = (state) => `?${qs.stringify(state)}`
-
-const searchStateToURL = (searchState) =>
-  searchState ? `?${qs.stringify(searchState)}` : ''
 
 const fullTextSearch = {
   appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
@@ -26,7 +26,11 @@ const defaultProps = {
   indexName: 'content_production',
 }
 
-export default function SearchIndex({initialSearchState, resultsState}) {
+export default function SearchIndex({
+  initialSearchState,
+  resultsState,
+  pageTitle,
+}) {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
@@ -35,13 +39,9 @@ export default function SearchIndex({initialSearchState, resultsState}) {
     clearTimeout(debouncedState.current)
 
     debouncedState.current = setTimeout(() => {
-      const {query, ...rest} = searchState
-      const qs = searchStateToURL(rest.refinementList)
-      const href = `/search/${searchState.query.split(' ').join('/')}${qs}`
+      const href = createUrl(searchState)
 
-      //this is all f'd up. The general idea is to build up SEO friendly URLs for search
-      //where the url would be broken up like `/react/hooks/courses/by/kent+c+dodds` which is 100%
-      //possible but also fairly nuanced and complex 😅
+      console.log(href)
 
       router.push(href, href, {
         shallow: true,
@@ -56,17 +56,19 @@ export default function SearchIndex({initialSearchState, resultsState}) {
     createURL,
     onSearchStateChange,
   }
+
   return (
     <div>
+      <NextSeo noindex={!isEmpty(searchState.query)} title={pageTitle} />
       <Search {...defaultProps} {...customProps} />
     </div>
   )
 }
 
 export async function getServerSideProps({query}) {
-  const {all} = query
-
-  const initialSearchState = all ? {query: all.join(' ') || ''} : {}
+  console.log(query)
+  const initialSearchState = parseUrl(query)
+  const pageTitle = titleFromPath(query.all)
   const {rawResults} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
@@ -76,6 +78,7 @@ export async function getServerSideProps({query}) {
     props: {
       resultsState: {rawResults},
       initialSearchState,
+      pageTitle,
     },
   }
 }

@@ -19,7 +19,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/search">
+              <Link href="/s">
                 <a>Search</a>
               </Link>
             </li>
