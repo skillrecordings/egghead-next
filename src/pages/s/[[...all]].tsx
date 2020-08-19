@@ -62,7 +62,8 @@ export default function SearchIndex({
   )
 }
 
-export async function getServerSideProps({query}) {
+export async function getServerSideProps({query, res}) {
+  res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(query.all)
   const {rawResults} = await findResultsState(Search, {
