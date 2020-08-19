@@ -41,7 +41,7 @@ export default function SearchIndex({
     debouncedState.current = setTimeout(() => {
       const href = createUrl(searchState)
 
-      router.push(`/s/[[all]]`, href, {
+      router.push(`/s[[all]]`, href, {
         shallow: true,
       })
     }, 200)

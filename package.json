@@ -46,6 +46,7 @@
     "react-dom": "16.13.1",
     "react-instantsearch-dom": "^6.7.0",
     "react-markdown": "^4.3.1",
+    "react-use": "^15.3.3",
     "reading-time": "^1.2.0",
     "remark-code-titles": "^0.1.1",
     "remark-footnotes": "^1.0.0",
