@@ -5,13 +5,13 @@ import nameToSlug from '@lib/name-to-slug'
 import useSwr from 'swr'
 
 const TagItem = ({item, isFromSearch, refine, createURL}) => {
-  const {data} = useSwr(
-    `https://egghead.io/api/v1/tags/${item.label}`,
-    async (url) => {
-      const result = await fetch(url).then((response) => response.json())
-      return result
-    },
-  )
+  // const {data} = useSwr(
+  //   `https://egghead.io/api/v1/tags/${item.label}`,
+  //   async (url) => {
+  //     const result = await fetch(url).then((response) => response.json())
+  //     return result
+  //   },
+  // )
 
   return (
     <li className="pt-2">
@@ -24,7 +24,7 @@ const TagItem = ({item, isFromSearch, refine, createURL}) => {
         }}
       >
         <div className="flex items-center">
-          <div className="w-6">{data && <img src={data.image_32_url} />}</div>
+          {/* <div className="w-6">{data && <img src={data.image_32_url} />}</div> */}
           <div className={`pl-2 ${isFromSearch && 'font-bold'}`}>
             {item.label}
           </div>
@@ -35,35 +35,33 @@ const TagItem = ({item, isFromSearch, refine, createURL}) => {
 }
 
 const InstructorItem = ({item, isFromSearch, refine, createURL}) => {
-  const {data} = useSwr(
-    `https://egghead.io/api/v1/instructors/${nameToSlug(item.label)}`,
-    async (url) => {
-      const result = await fetch(url).then((response) => response.json())
-      return result
-    },
-  )
+  // const {data} = useSwr(
+  //   `https://egghead.io/api/v1/instructors/${nameToSlug(item.label)}`,
+  //   async (url) => {
+  //     const result = await fetch(url).then((response) => response.json())
+  //     return result
+  //   },
+  // )
 
   return (
     <li className="pt-2">
-      {data && (
-        <a
-          href={createURL(item.value)}
-          style={{fontWeight: item.isRefined ? 600 : 400}}
-          onClick={(event) => {
-            event.preventDefault()
-            refine(item.value)
-          }}
-        >
-          <div className="flex items-center">
-            <div className="w-6">
+      <a
+        href={createURL(item.value)}
+        style={{fontWeight: item.isRefined ? 600 : 400}}
+        onClick={(event) => {
+          event.preventDefault()
+          refine(item.value)
+        }}
+      >
+        <div className="flex items-center">
+          {/* <div className="w-6">
               <img className="rounded-full" src={data.avatar_32_url} />
-            </div>
-            <div className={`pl-2 ${isFromSearch && 'font-bold'}`}>
-              {data.full_name}
-            </div>
+            </div> */}
+          <div className={`pl-2 ${isFromSearch && 'font-bold'}`}>
+            {item.label}
           </div>
-        </a>
-      )}
+        </div>
+      </a>
     </li>
   )
 }
@@ -93,19 +91,6 @@ const RefinementList = ({
   createURL,
   attribute,
 }) => {
-  let RefinementItem
-
-  switch (attribute) {
-    case '_tags':
-      RefinementItem = TagItem
-      break
-    case 'instructor_name':
-      RefinementItem = InstructorItem
-      break
-    default:
-      RefinementItem = Item
-      break
-  }
   return (
     <ul>
       <li>
@@ -117,12 +102,30 @@ const RefinementList = ({
       </li>
       {items.map((item) => (
         <div key={item.label}>
-          <RefinementItem
-            item={item}
-            isFromSearch={isFromSearch}
-            refine={refine}
-            createURL={createURL}
-          />
+          {attribute === `_tags` && (
+            <TagItem
+              item={item}
+              isFromSearch={isFromSearch}
+              refine={refine}
+              createURL={createURL}
+            />
+          )}
+          {attribute === `instructor_name` && (
+            <InstructorItem
+              item={item}
+              isFromSearch={isFromSearch}
+              refine={refine}
+              createURL={createURL}
+            />
+          )}
+          {attribute === `type` && (
+            <Item
+              item={item}
+              isFromSearch={isFromSearch}
+              refine={refine}
+              createURL={createURL}
+            />
+          )}
         </div>
       ))}
     </ul>
