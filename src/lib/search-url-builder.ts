@@ -2,7 +2,7 @@ import config from './config'
 import last from 'lodash/last'
 import get from 'lodash/get'
 import qs from 'query-string'
-import slugify from 'slugify'
+import nameToSlug from './name-to-slug'
 import humanize from 'humanize-list'
 import {first, pickBy, isEmpty, compact} from 'lodash'
 
@@ -24,7 +24,7 @@ const toTitleCase = (name: string) => {
 const nameSlugToName = (slug) => {
   const nameSplit = slug.split('-')
   if (nameSplit.length === 3) {
-    nameSplit[1] = `${nameSplit[1]}.`
+    nameSplit[1] = nameSplit[1].length == 1 ? `${nameSplit[1]}.` : nameSplit[1]
   }
   return nameSplit.map(toTitleCase).join(' ')
 }
@@ -65,8 +65,6 @@ export const createUrl = (searchState) => {
 
   if (isEmpty(refinementList) && isEmpty(query)) return config.searchUrlRoot
 
-  const nameToSlug = (name: string) =>
-    slugify(name.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
   const tags = refinementList?._tags
     ? `${refinementList._tags.map(nameToSlug).sort().join('-and-')}`
     : ''

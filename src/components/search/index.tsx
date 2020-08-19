@@ -67,7 +67,7 @@ export default function Search({
             </div>
             <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
               <h3 className="font-bold">Instructors</h3>
-              <RefinementList attribute="instructor_name" />
+              <RefinementList limit={6} attribute="instructor_name" />
             </div>
             <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
               <h3 className="font-bold">Content Type</h3>
