@@ -6,7 +6,7 @@ export default function Tag({tag}) {
     <div>
       <img src={tag.image_64_url} />
       <div>{tag.label}</div>
-      <Markdown className="prose">{tag.description}</Markdown>
+      <Markdown className="prose max-w-none">{tag.description}</Markdown>
     </div>
   )
 }

@@ -11,8 +11,6 @@ export default function Collection({collectionData}) {
   const {title, description, owner, items} = data
   const {avatar_url} = owner
 
-  console.log(data)
-
   return (
     <div>
       <h1 className="my-8 text-center sm:text-5xl text-4xl font-bold leading-tight">

@@ -66,6 +66,16 @@ test('creates a url with a query with single tag and instructor named Kent C. Do
   expect(url).toBe('/s/react-lessons-by-kent-c-dodds')
 })
 
+test('creates a url with instructor named Kent C. Dodds', () => {
+  const url = createUrl({
+    refinementList: {
+      instructor_name: ['Kent C. Dodds'],
+    },
+  })
+
+  expect(url).toBe('/s/lessons-by-kent-c-dodds')
+})
+
 test('creates a url with a query with single tag and instructor not named Kent C. Dodds', () => {
   const url = createUrl({
     refinementList: {

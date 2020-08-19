@@ -2,7 +2,6 @@ import React from 'react'
 import {loadPodcast} from '@lib/podcasts'
 
 export default function Podcast({podcast}) {
-  console.log({podcast})
   return (
     <div>
       <h1>{podcast.title}</h1>{' '}

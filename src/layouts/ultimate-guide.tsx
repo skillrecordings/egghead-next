@@ -9,9 +9,6 @@ export default function UltimateGuideLayout({
   ...frontMatter
 }) {
   return ({children: content}) => {
-    // React hooks, for example `useState` or `useEffect`, go here.
-
-    console.log(frontMatter)
     return (
       <>
         <NextSeo
@@ -26,7 +23,7 @@ export default function UltimateGuideLayout({
           }}
           canonical={url}
         />
-        <div className="prose">
+        <div className="prose max-w-none">
           <h1>{title}</h1>
           {content}
         </div>

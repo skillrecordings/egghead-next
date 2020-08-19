@@ -68,7 +68,7 @@ export const createUrl = (searchState) => {
   const nameToSlug = (name: string) =>
     slugify(name.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
   const tags = refinementList?._tags
-    ? `${refinementList._tags.map(nameToSlug).join('-and-')}`
+    ? `${refinementList._tags.map(nameToSlug).sort().join('-and-')}`
     : ''
   const type = get(refinementList, 'type')
 
@@ -102,7 +102,13 @@ export const parseUrl = (query) => {
       instructors = compact(instructors?.split(`-and-`).map(nameSlugToName))
     }
 
-    tags = tagsForPath(firstPath)
+    const noInstructorPresentAtAll = firstPath?.includes('-lessons-by-')
+
+    const notJustInstructors = !firstPath?.includes('lessons-by-')
+
+    if (noInstructorPresentAtAll || notJustInstructors) {
+      tags = tagsForPath(firstPath)
+    }
   }
 
   const parseTypes = (type) => {

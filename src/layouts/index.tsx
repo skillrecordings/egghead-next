@@ -9,9 +9,6 @@ export default function Layout({
   ...frontMatter
 }) {
   return ({children: content}) => {
-    // React hooks, for example `useState` or `useEffect`, go here.
-
-    console.log()
     return (
       <>
         <NextSeo
@@ -26,7 +23,7 @@ export default function Layout({
           }}
           canonical={url}
         />
-        <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl">
+        <div className="prose max-w-none">
           <h1>{frontMatter.title}</h1>
           {content}
         </div>

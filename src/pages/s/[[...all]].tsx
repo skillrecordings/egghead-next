@@ -41,12 +41,10 @@ export default function SearchIndex({
     debouncedState.current = setTimeout(() => {
       const href = createUrl(searchState)
 
-      console.log(href)
-
       router.push(href, href, {
         shallow: true,
       })
-    }, 700)
+    }, 200)
 
     setSearchState(searchState)
   }
@@ -56,7 +54,6 @@ export default function SearchIndex({
     createURL,
     onSearchStateChange,
   }
-
   return (
     <div>
       <NextSeo noindex={!isEmpty(searchState.query)} title={pageTitle} />
