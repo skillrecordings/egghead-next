@@ -45,27 +45,25 @@ const InstructorItem = ({item, isFromSearch, refine, createURL}) => {
 
   return (
     <li className="pt-2">
-      <a
-        href={createURL(item.value)}
-        style={{fontWeight: item.isRefined ? 600 : 400}}
-        onClick={(event) => {
-          event.preventDefault()
-          refine(item.value)
-        }}
-      >
-        <div className="flex items-center">
-          <div className="w-6">
-            {data && <img className="rounded-full" src={data.avatar_32_url} />}
+      {data && (
+        <a
+          href={createURL(item.value)}
+          style={{fontWeight: item.isRefined ? 600 : 400}}
+          onClick={(event) => {
+            event.preventDefault()
+            refine(item.value)
+          }}
+        >
+          <div className="flex items-center">
+            <div className="w-6">
+              <img className="rounded-full" src={data.avatar_32_url} />
+            </div>
+            <div className={`pl-2 ${isFromSearch && 'font-bold'}`}>
+              {data.full_name}
+            </div>
           </div>
-          <div className="pl-2">
-            {isFromSearch ? (
-              <Highlight attribute="label" hit={item} />
-            ) : (
-              item.label
-            )}
-          </div>
-        </div>
-      </a>
+        </a>
+      )}
     </li>
   )
 }

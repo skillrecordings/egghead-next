@@ -14,14 +14,7 @@ const resourceTypes = {
   collections: 'collections',
 }
 
-const toTitleCase = (name: string) => {
-  return name
-    .split(' ')
-    .map((w) => w[0] && w[0].toUpperCase() + w.substr(1).toLowerCase())
-    .join(' ')
-}
-
-const nameSlugToName = (slug) => {
+const nameSlugToName = (slug: string) => {
   const nameSplit = slug.split('-')
   if (nameSplit.length === 3) {
     nameSplit[1] = nameSplit[1].length == 1 ? `${nameSplit[1]}.` : nameSplit[1]
@@ -29,7 +22,15 @@ const nameSlugToName = (slug) => {
   return nameSplit.map(toTitleCase).join(' ')
 }
 
-const tagsForPath = (path) => {
+const toTitleCase = (name: string) => {
+  return name
+    .replace('lakomy', 'łakomy')
+    .split(' ')
+    .map((w) => w[0] && w[0].toUpperCase() + w.substr(1).toLowerCase())
+    .join(' ')
+}
+
+const tagsForPath = (path: string) => {
   const tagsSplit = path?.split('-lessons-by-') || []
 
   return tagsSplit.length >= 1 ? tagsSplit[0].split('-and-').sort() : []
