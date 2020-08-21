@@ -13,9 +13,8 @@
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
-    "format": "yarn format:index && yarn format:pages && yarn format:src",
+    "format": "yarn format:index && yarn format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
-    "format:pages": "prettier --write \"pages/**/*.{js,ts,tsx}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
     "analyze": "ANALYZE=true next build"
   },
@@ -111,10 +110,7 @@
     "*.{js,json,md}": [
       "prettier --write"
     ],
-    "pages/**/*.{js, ts, tsx}": [
-      "prettier --write"
-    ],
-    "src/**/*.{ts,tsx,md,mdx}": [
+    "src/**/*.{ts,tsx,md,mdx,js}": [
       "prettier --write"
     ]
   },
