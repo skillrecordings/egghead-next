@@ -7,7 +7,7 @@ import {NextSeo} from 'next-seo'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from '@lib/search-url-builder'
-import {isEmpty} from 'lodash'
+import {isEmpty, get} from 'lodash'
 
 const createURL = (state) => `?${qs.stringify(state)}`
 
@@ -54,9 +54,13 @@ export default function SearchIndex({
     createURL,
     onSearchStateChange,
   }
+
+  const selectedTypes = get(searchState, 'refinementList.type', []) as string[]
+  const noindex = !isEmpty(searchState.query) || !isEmpty(selectedTypes)
+
   return (
     <div>
-      <NextSeo noindex={!isEmpty(searchState.query)} title={pageTitle} />
+      <NextSeo noindex={noindex} title={pageTitle} />
       <Search {...defaultProps} {...customProps} />
     </div>
   )
