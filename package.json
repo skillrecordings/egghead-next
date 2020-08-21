@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node generate-sitemap.js",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "next start",
     "test": "jest --watch",
@@ -39,6 +39,7 @@
     "next-mdx-enhanced": "^3.1.0",
     "next-seo": "^4.7.3",
     "next-svgr": "^0.0.2",
+    "nextjs-sitemap-generator": "^1.1.1",
     "pluralize": "^8.0.0",
     "qs": "^6.9.4",
     "query-string": "^6.13.1",
@@ -100,6 +101,7 @@
     "rehype": "^11.0.0",
     "start-server-and-test": "^1.11.2",
     "tailwindcss": "^1.7.1",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
   },
   "husky": {
