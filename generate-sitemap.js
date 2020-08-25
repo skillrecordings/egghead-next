@@ -62,9 +62,10 @@ const go = async () => {
   // TODO: Playlists, needs GraphQL
   // TODO: Tags, needs GraphQL
 
+  // TODO: changeFreq and priority
   sitemap({
     baseUrl: 'https://next.egghead.io',
-    pagesDirectory: __dirname + '/.next/server/pages',
+    pagesDirectory: process.cwd() + '/.next/server/pages',
     extraPaths: [
       ...courseSlugs,
       ...lessonSlugs,
