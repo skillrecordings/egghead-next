@@ -63,9 +63,15 @@ const go = async () => {
   // TODO: Tags, needs GraphQL
 
   // TODO: changeFreq and priority
+
+  const pagesConfig = lessonSlugs.reduce((acc, slug) => {
+    acc[slug] = {priority: 'O.5', changefreq: 'daily'}
+    return acc
+  }, {})
+
   sitemap({
     baseUrl: 'https://next.egghead.io',
-    pagesDirectory: process.cwd() + '/.next/server/pages',
+    pagesDirectory: '.next/server/pages',
     extraPaths: [
       ...courseSlugs,
       ...lessonSlugs,
@@ -76,6 +82,7 @@ const go = async () => {
     targetDirectory: 'public/',
     ignoredExtensions: ['js', 'map'],
     ignoredPaths: ['[fallback]'],
+    pagesConfig,
   })
 }
 
