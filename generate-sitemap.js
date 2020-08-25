@@ -71,7 +71,7 @@ const go = async () => {
 
   sitemap({
     baseUrl: 'https://next.egghead.io',
-    pagesDirectory: '.next/server/pages',
+    pagesDirectory: `${__dirname}/../.next/server/pages`,
     extraPaths: [
       ...courseSlugs,
       ...lessonSlugs,

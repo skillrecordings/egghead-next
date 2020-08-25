@@ -82,6 +82,7 @@
     "@types/yup": "^0.29.3",
     "axios": "^0.19.2",
     "babel-jest": "^26.3.0",
+    "babel-plugin-apply-mdx-type-prop": "^1.6.16",
     "babel-plugin-inline-react-svg": "^1.1.1",
     "command-line-args": "^5.1.1",
     "cypress": "^4.11.0",
