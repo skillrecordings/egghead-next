@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import ReactPlayer from '@components/ReactPlayer'
+import EggheadPlayer from '@components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
@@ -106,7 +106,7 @@ export default function Lesson({initialLesson}) {
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
         >
-          <ReactPlayer
+          <EggheadPlayer
             ref={playerRef}
             className="absolute top-0 left-0 w-full h-full"
             hls_url={hls_url}

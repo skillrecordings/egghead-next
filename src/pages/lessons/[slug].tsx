@@ -1,13 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import ReactPlayer from '@components/ReactPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadLesson} from '@lib/lessons'
 import {GraphQLClient} from 'graphql-request'
 import {useViewer} from '@context/viewer-context'
+import {EggheadPlayer, useEggheadPlayer} from '@components/EggheadPlayer'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -17,10 +17,15 @@ const lessonQuery = /* GraphQL */ `
       slug
       title
       transcript_url
+      lesson_view_url
       subtitles_url
       summary
       hls_url
       dash_url
+      tags {
+        slug
+        label
+      }
       instructor {
         full_name
       }
@@ -95,6 +100,8 @@ export default function Lesson({initialLesson}) {
 
   if (!lesson) return null
 
+  const {onProgress, onEnded} = useEggheadPlayer(lesson)
+
   const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
 
   return (
@@ -106,7 +113,7 @@ export default function Lesson({initialLesson}) {
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
         >
-          <ReactPlayer
+          <EggheadPlayer
             ref={playerRef}
             className="absolute top-0 left-0 w-full h-full"
             hls_url={hls_url}
@@ -115,6 +122,9 @@ export default function Lesson({initialLesson}) {
             height="auto"
             pip="true"
             controls
+            onProgress={onProgress}
+            onEnded={onEnded}
+            progressFrequency={100}
             subtitlesUrl={get(lesson, 'subtitles_url')}
           />
         </div>
