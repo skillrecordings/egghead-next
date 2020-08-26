@@ -6,6 +6,11 @@ const configuredAhoy = () => {
   if (!isServer) {
     const token = getAccessTokenFromCookie()
     ahoy = window.ahoy = window.ahoy || {}
+    const headers = {
+      ...(token && {Authorization: `Bearer ${token}`}),
+      'Ahoy-Visit': ahoy.getVisitId(),
+      'Ahoy-Visitor': ahoy.getVisitorId(),
+    }
     ahoy.configure({
       urlPrefix: '',
       visitsUrl: `/api/visits`,
@@ -17,16 +22,7 @@ const configuredAhoy = () => {
       trackVisits: true,
       cookies: true,
       cookieDomain: process.env.NEXT_PUBLIC_DEPLOYMENT_URL,
-      headers: token
-        ? {
-            Authorization: `Bearer ${token}`,
-            'Ahoy-Visit': ahoy.getVisitId(),
-            'Ahoy-Visitor': ahoy.getVisitorId(),
-          }
-        : {
-            'Ahoy-Visit': ahoy.getVisitId(),
-            'Ahoy-Visitor': ahoy.getVisitorId(),
-          },
+      headers,
       withCredentials: false,
     })
   }
