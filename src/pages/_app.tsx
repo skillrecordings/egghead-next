@@ -9,6 +9,15 @@ import mdxComponents from '@components/mdx'
 import defaultSeoConfig from 'src/next-seo.json'
 import {useURL} from '@hooks/useUrl'
 import '../styles/index.css'
+import Router from 'next/router'
+
+declare global {
+  interface Window {
+    ahoy: any
+  }
+}
+
+Router.events.on('routeChangeComplete', () => window.ahoy.trackView())
 
 export default class App extends NextApp {
   render() {

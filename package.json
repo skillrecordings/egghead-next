@@ -25,6 +25,7 @@
     "@reach/visually-hidden": "^0.10.4",
     "@tailwindcss/ui": "^0.5.0",
     "algoliasearch": "^4.4.0",
+    "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",
     "formik": "^2.1.5",
     "graphql-request": "^2.0.0",

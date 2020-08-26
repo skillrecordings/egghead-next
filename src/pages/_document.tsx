@@ -27,6 +27,7 @@ export default class MyDocument extends Document {
             rel="icon"
             href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/237/fisted-hand-sign_1f44a.png"
           />
+          <script async src="/ahoy.js" />
         </Head>
         <body>
           <Main />
