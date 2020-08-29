@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import Head from 'next/head'
 import Hits from './hits'
 import SearchBox from './search-box'
@@ -11,23 +11,29 @@ import config from '@lib/config'
 
 import SearchReact from './react.mdx'
 
-export default function Search({
+type SearchProps = {
+  searchClient: any
+  indexName: string
+  searchState: any
+}
+
+const Search: FunctionComponent<SearchProps> = ({
   children = [],
   searchClient,
   indexName,
+  searchState,
   ...rest
-}) {
-  const {searchState} = rest
+}) => {
   const [on, toggle] = useToggle(false)
-  const noInstructorsSelected = (searchState) => {
+  const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
   }
 
-  const noTagsSelected = (searchState) => {
+  const noTagsSelected = (searchState: any) => {
     return get(searchState, 'refinementList._tags', []).length === 0
   }
 
-  const onlyTheseTagsSelected = (tags: string[], searchState) => {
+  const onlyTheseTagsSelected = (tags: string[], searchState: any) => {
     const selectedTags = get(
       searchState,
       'refinementList._tags',
@@ -36,7 +42,10 @@ export default function Search({
     return isEqual(tags, selectedTags)
   }
 
-  const onlyTheseInstructorsSelected = (instructors: string[], searchState) => {
+  const onlyTheseInstructorsSelected = (
+    instructors: string[],
+    searchState: any,
+  ) => {
     const selectedTags = get(
       searchState,
       'refinementList.instructor_name',
@@ -56,6 +65,7 @@ export default function Search({
       <InstantSearch
         indexName={indexName}
         searchClient={searchClient}
+        searchState={searchState}
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
@@ -112,3 +122,5 @@ export default function Search({
     </>
   )
 }
+
+export default Search

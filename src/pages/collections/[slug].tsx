@@ -2,12 +2,18 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadCollection} from '@lib/collections'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 
-const fetcher = (url) => fetch(url).then((r) => r.json())
+const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-export default function Collection({collectionData}) {
-  const initialData = collectionData
-  const {data} = useSWR(collectionData.url, fetcher, {initialData})
+type CollectionProps = {
+  collection: any
+}
+
+const Collection: FunctionComponent<CollectionProps> = ({collection}) => {
+  const initialData = collection
+  const {data} = useSWR(collection.url, fetcher, {initialData})
   const {title, description, owner, items} = data
   const {avatar_url} = owner
 
@@ -28,7 +34,7 @@ export default function Collection({collectionData}) {
         <Markdown>{description}</Markdown>
         <h3>Resources in this collection:</h3>
         <ul>
-          {items.map((lesson) => {
+          {items.map((lesson: any) => {
             return (
               <li key={lesson.slug}>
                 <Link href={`/lessons/[id]`} as={lesson.path}>
@@ -43,13 +49,15 @@ export default function Collection({collectionData}) {
   )
 }
 
-export async function getServerSideProps({res, params}) {
+export default Collection
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const collectionData = await loadCollection(params.slug)
+  const collection = params && (await loadCollection(params.slug as string))
 
   return {
     props: {
-      collectionData,
+      collection,
     },
   }
 }

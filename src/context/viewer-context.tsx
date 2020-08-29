@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import Auth from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
@@ -43,7 +43,7 @@ function useAuthedViewer() {
     const noAccessTokenFound = isEmpty(accessToken)
     const viewerIsPresent = !isEmpty(viewer)
 
-    let viewerMonitorIntervalId
+    let viewerMonitorIntervalId: number | undefined
 
     const loadViewerFromStorage = async () => {
       const newViewer: any = await auth.refreshUser(accessToken)
@@ -68,7 +68,7 @@ function useAuthedViewer() {
     const clearUserMonitorInterval = () => {
       const intervalPresentForClearing = !isEmpty(viewerMonitorIntervalId)
       if (intervalPresentForClearing) {
-        clearInterval(viewerMonitorIntervalId)
+        window.clearInterval(viewerMonitorIntervalId)
       }
     }
 
@@ -102,7 +102,7 @@ function useAuthedViewer() {
   return values
 }
 
-export function ViewerProvider({children}) {
+export const ViewerProvider: FunctionComponent = ({children}) => {
   const values = useAuthedViewer()
 
   return (

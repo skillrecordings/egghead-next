@@ -1,7 +1,13 @@
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 import {getTag} from '@lib/tags'
 import Markdown from 'react-markdown'
 
-export default function Tag({tag}) {
+type TagProps = {
+  tag: any
+}
+
+const Tag: FunctionComponent<TagProps> = ({tag}) => {
   return (
     <div>
       <img src={tag.image_64_url} />
@@ -11,10 +17,16 @@ export default function Tag({tag}) {
   )
 }
 
-export async function getServerSideProps({res, params, req}) {
+export default Tag
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  res,
+  params,
+  req,
+}) {
   res.setHeader('Cache-Control', 's-maxage=500, stale-while-revalidate')
 
-  const tag = await getTag(params.slug)
+  const tag = params && (await getTag(params.slug as string))
   return {
     props: {
       tag,

@@ -61,7 +61,7 @@ export const titleFromPath = (all: string[] = []) => {
   return `${config.searchResultCount} Courses for Web Developers`
 }
 
-export const createUrl = (searchState) => {
+export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
   const {refinementList, query} = searchState
 
   if (isEmpty(refinementList) && isEmpty(query)) return config.searchUrlRoot
@@ -87,7 +87,7 @@ export const createUrl = (searchState) => {
   return `${urlRoot}${queryString && `?${queryString}`}`
 }
 
-export const parseUrl = (query) => {
+export const parseUrl = (query: {all?: any; q?: any; type?: any}) => {
   if (isEmpty(query)) return query
   let instructorSplit
   let tags
@@ -110,7 +110,7 @@ export const parseUrl = (query) => {
     }
   }
 
-  const parseTypes = (type) => {
+  const parseTypes = (type: string) => {
     return type?.split(',')
   }
 

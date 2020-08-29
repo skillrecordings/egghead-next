@@ -1,7 +1,15 @@
 import {loadInstructors} from '@lib/instructors'
 import Link from 'next/link'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 
-const InstructorCard = ({instructor}) => {
+type InstructorCardProps = {
+  instructor: any
+}
+
+const InstructorCard: FunctionComponent<InstructorCardProps> = ({
+  instructor,
+}) => {
   return (
     <Link href="/instructors/[slug]" as={`instructors/${instructor.slug}`}>
       <div className="flex flex-col items-center">
@@ -17,10 +25,14 @@ const InstructorCard = ({instructor}) => {
   )
 }
 
-export default function Instructors({instructorsData}) {
+type InstructorsProps = {
+  instructors: any[]
+}
+
+const Instructors: FunctionComponent<InstructorsProps> = ({instructors}) => {
   return (
     <div className="flex flex-wrap">
-      {instructorsData.map((instructor) => (
+      {instructors.map((instructor) => (
         <div key={instructor.id}>
           <InstructorCard instructor={instructor}></InstructorCard>
         </div>
@@ -29,13 +41,15 @@ export default function Instructors({instructorsData}) {
   )
 }
 
-export async function getServerSideProps({res, params}) {
+export default Instructors
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const instructorsData = await loadInstructors()
+  const instructors = await loadInstructors()
 
   return {
     props: {
-      instructorsData,
+      instructors,
     },
   }
 }

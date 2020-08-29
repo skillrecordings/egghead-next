@@ -1,25 +1,34 @@
 import {loadInstructor} from '@lib/instructors'
-export default function Instructor({instructorData}) {
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
+
+type InstructorProps = {
+  instructor: any
+}
+
+const Instructor: FunctionComponent<InstructorProps> = ({instructor}) => {
   return (
     <div className="flex flex-col items-center">
       <img
         className="rounded-full"
-        src={instructorData.avatar_url}
-        alt={`Avatar for ${instructorData.full_name}`}
+        src={instructor.avatar_url}
+        alt={`Avatar for ${instructor.full_name}`}
       />
 
-      <p>{instructorData.full_name}</p>
+      <p>{instructor.full_name}</p>
     </div>
   )
 }
 
-export async function getServerSideProps({res, params}) {
+export default Instructor
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const instructorData = await loadInstructor(params.slug)
+  const instructor = params && (await loadInstructor(params.slug as string))
 
   return {
     props: {
-      instructorData,
+      instructor,
     },
   }
 }

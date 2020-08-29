@@ -1,8 +1,13 @@
-import React from 'react'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 import {loadPodcasts} from '@lib/podcasts'
 import Link from 'next/link'
 
-export default function PodcastIndex({podcasts}) {
+type PodcastProps = {
+  podcasts: any[]
+}
+
+const PodcastIndex: FunctionComponent<PodcastProps> = ({podcasts}) => {
   return (
     <div className="prose">
       <h1>egghead developer chats</h1>
@@ -58,7 +63,9 @@ export default function PodcastIndex({podcasts}) {
   )
 }
 
-export async function getServerSideProps({res, params}) {
+export default PodcastIndex
+
+export const getServerSideProps: GetServerSideProps = async ({res}) => {
   res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate')
   const podcasts = await loadPodcasts()
   return {

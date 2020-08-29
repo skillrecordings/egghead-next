@@ -2,12 +2,18 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadCourse} from '@lib/courses'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 
-const fetcher = (url) => fetch(url).then((r) => r.json())
+const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-export default function Course({courseData}) {
-  const initialData = courseData
-  const {data} = useSWR(courseData.url, fetcher, {initialData})
+type CourseProps = {
+  course: any
+}
+
+const Course: FunctionComponent<CourseProps> = ({course}) => {
+  const initialData = course
+  const {data} = useSWR(course.url, fetcher, {initialData})
   const {
     title,
     summary,
@@ -49,7 +55,7 @@ export default function Course({courseData}) {
         <Markdown>{description}</Markdown>
         <h3>Lessons in this course</h3>
         <ul>
-          {lessons.map((lesson) => {
+          {lessons.map((lesson: any) => {
             return (
               <li key={lesson.slug}>
                 <Link href={`/lessons/[id]`} as={lesson.path}>
@@ -64,13 +70,15 @@ export default function Course({courseData}) {
   )
 }
 
-export async function getServerSideProps({res, params}) {
+export default Course
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const courseData = await loadCourse(params.slug)
+  const course = params && (await loadCourse(params.slug as string))
 
   return {
     props: {
-      courseData,
+      course,
     },
   }
 }

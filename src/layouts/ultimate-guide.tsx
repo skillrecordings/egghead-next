@@ -1,7 +1,14 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 
-export default function UltimateGuideLayout({children, frontMatter}) {
+type LayoutProps = {
+  frontMatter: any
+}
+
+const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
+  children,
+  frontMatter,
+}) => {
   const {
     title,
     description,
@@ -30,3 +37,5 @@ export default function UltimateGuideLayout({children, frontMatter}) {
     </>
   )
 }
+
+export default UltimateGuideLayout

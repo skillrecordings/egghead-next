@@ -1,7 +1,13 @@
 import {getTags} from '@lib/tags'
 import Link from 'next/link'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 
-export default function Tags({tags}) {
+type TagsProps = {
+  tags: any[]
+}
+
+const Tags: FunctionComponent<TagsProps> = ({tags}) => {
   return (
     <div className="flex flex-wrap">
       {tags.map((tag) => {
@@ -23,7 +29,9 @@ export default function Tags({tags}) {
   )
 }
 
-export async function getServerSideProps({res, params, req}) {
+export default Tags
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=500, stale-while-revalidate')
 
   const tags = await getTags()

@@ -34,7 +34,7 @@ export default class Auth {
     this.monitor = this.monitor.bind(this)
   }
 
-  becomeUser(email, accessToken) {
+  becomeUser(email: any, accessToken: any) {
     if (typeof localStorage === 'undefined') {
       return
     }
@@ -69,7 +69,7 @@ export default class Auth {
       })
   }
 
-  requestSignInEmail(email) {
+  requestSignInEmail(email: any) {
     http.post(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
       {
@@ -89,9 +89,9 @@ export default class Auth {
     this.clearLocalStorage()
   }
 
-  monitor(onInterval, delay = 2000) {
+  monitor(onInterval: {(): void; (...args: any[]): void}, delay = 2000) {
     if (this.isAuthenticated()) {
-      return setInterval(onInterval, delay)
+      return window.setInterval(onInterval, delay)
     }
   }
 
@@ -154,7 +154,10 @@ export default class Auth {
     return !expired
   }
 
-  refreshUser(accessToken, loadFullUser = false) {
+  refreshUser(
+    accessToken: string | string[] | null | undefined,
+    loadFullUser = false,
+  ) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
@@ -176,13 +179,14 @@ export default class Auth {
     })
   }
 
-  setSession(authResult) {
+  setSession(authResult: OAuthClient.Token) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('localStorage is not defined')
       }
+      const expires: unknown = authResult.data.expires_in
       const expiresAt = JSON.stringify(
-        authResult.data.expires_in * 1000 + new Date().getTime(),
+        (expires as number) * 1000 + new Date().getTime(),
       )
 
       localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)

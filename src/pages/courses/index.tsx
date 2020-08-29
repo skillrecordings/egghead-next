@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import {loadAllCourses} from '@lib/courses'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 
-function CourseCard({course}) {
+type CourseCardProps = {
+  course: any
+}
+
+const CourseCard: FunctionComponent<CourseCardProps> = ({course}) => {
   return (
     <Link href={`/courses/[slug]`} as={`/courses/${course.slug}`}>
       <a className="rounded-lg border border-gray-200 p-5 hover:shadow-lg">
@@ -25,23 +31,29 @@ function CourseCard({course}) {
   )
 }
 
-export default function Courses({allCourses}) {
+type CoursesProps = {
+  courses: any[]
+}
+
+const Courses: FunctionComponent<CoursesProps> = ({courses}) => {
   return (
     <div className="grid grid-cols-3 gap-5">
-      {allCourses.map((course) => (
+      {courses.map((course: any) => (
         <CourseCard key={course.slug} course={course}></CourseCard>
       ))}
     </div>
   )
 }
 
-export async function getServerSideProps({res}) {
+export default Courses
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const allCourses = await loadAllCourses()
+  const courses = await loadAllCourses()
 
   return {
     props: {
-      allCourses,
+      courses,
     },
   }
 }

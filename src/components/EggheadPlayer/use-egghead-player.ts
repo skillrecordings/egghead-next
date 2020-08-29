@@ -13,7 +13,17 @@ const getOptions = () =>
       }
     : {}
 
-const toLessonViewParams = ({collection, lesson}) => {
+type LessonViewParams = {
+  props: any
+}
+
+const toLessonViewParams = ({
+  collection,
+  lesson,
+}: {
+  collection: any
+  lesson: any
+}) => {
   if (isEmpty(lesson)) {
     console.error('Cannot track lesson view for undefined lesson.')
     return
@@ -31,9 +41,12 @@ const toLessonViewParams = ({collection, lesson}) => {
   }
 }
 
-let lessonProgress
+let lessonProgress: {[x: string]: number}
 
-const createLessonView = (lesson, collection?) => {
+const createLessonView = (
+  lesson: {lesson_view_url: string},
+  collection?: any,
+) => {
   return axios
     .post(
       lesson.lesson_view_url,
@@ -46,13 +59,17 @@ const createLessonView = (lesson, collection?) => {
     })
 }
 
-const incrementViewSegments = (lessonView) => {
+const incrementViewSegments = (lessonView: {increment_url: string}) => {
   return axios
     .put(lessonView.increment_url, {}, getOptions())
     .then(({data}) => data)
 }
 
-const storeProgress = (playedSeconds, lesson, list?) => {
+const storeProgress = (
+  playedSeconds: number,
+  lesson: any,
+  list?: undefined,
+) => {
   return new Promise((resolve) => {
     const isSegment = Math.round(playedSeconds) % 30 === 0
     if (isSegment) {
@@ -61,7 +78,12 @@ const storeProgress = (playedSeconds, lesson, list?) => {
   })
 }
 
-const onProgress = (lesson) => (progress) => {
+const onProgress = (lesson: {
+  slug: string | number
+  lesson_view_url: any
+  tags: any[]
+  id: string | number
+}) => (progress: {playedSeconds: any}) => {
   const {playedSeconds} = progress
   const roundedProgress = Math.ceil(playedSeconds)
   const isSegment = roundedProgress % 30 === 0
@@ -87,7 +109,7 @@ const onProgress = (lesson) => (progress) => {
     if (roundedProgress === 30) {
       track('started lesson', {
         lesson: lesson.slug,
-        tags: lesson.tags.map((tag) => tag.slug),
+        tags: lesson.tags.map((tag: {slug: any}) => tag.slug),
       })
     }
 
@@ -110,7 +132,10 @@ const setEmailCaptureCookie = (captureCookie = {}) => {
   emailCaptureCookie = cookies.get('egghead-email')
 }
 
-const getOrCreateLessonView = (lesson, collection?) => {
+const getOrCreateLessonView = (
+  lesson: {lesson_view_url: string},
+  collection?: any,
+) => {
   return axios
     .post(
       lesson.lesson_view_url,
@@ -120,7 +145,7 @@ const getOrCreateLessonView = (lesson, collection?) => {
     .then(({data}) => data)
 }
 
-const trackPercentComplete = (lessonView) => {
+const trackPercentComplete = (lessonView: {series: any}) => {
   const series = lessonView.series
   var percents = [0.1, 0.25, 0.5, 0.75]
   if (series && series.progress && series.published_lesson_count) {
@@ -140,7 +165,10 @@ const trackPercentComplete = (lessonView) => {
   return lessonView
 }
 
-const trackStartingCourse = (lessonView) => {
+const trackStartingCourse = (lessonView: {
+  series: {progress: any; slug: string; published_lesson_count: any}
+  lesson_slug: any
+}) => {
   const series = lessonView.series
   const progress = series && lessonView.series.progress
 
@@ -154,7 +182,11 @@ const trackStartingCourse = (lessonView) => {
   return lessonView
 }
 
-const completeLesson = (lessonView) =>
+const completeLesson = (lessonView: {
+  complete_url?: any
+  series: {progress: any; slug: string; published_lesson_count: any}
+  lesson_slug: any
+}) =>
   axios.put(lessonView.complete_url, {}, getOptions()).then(({data}) => {
     const lessonView = data
     const series = lessonView.series
@@ -173,14 +205,18 @@ const completeLesson = (lessonView) =>
     return lessonView
   })
 
-const onComplete = (lesson, collection?) => {
+const onComplete = (lesson: any, collection?: any) => {
   return getOrCreateLessonView(lesson, collection)
     .then(trackStartingCourse)
     .then(completeLesson)
     .then(trackPercentComplete)
 }
 
-const onEnded = (lesson) => async () => {
+const onEnded = (lesson: {
+  lesson_view_url: any
+  slug: any
+  tags: any[]
+}) => async () => {
   setEmailCaptureCookie({
     ...emailCaptureCookie,
     watchCount: emailCaptureCookie.watchCount + 1,
@@ -192,7 +228,7 @@ const onEnded = (lesson) => async () => {
 
   track('finished lesson', {
     lesson: lesson.slug,
-    tags: lesson.tags.map((tag) => tag.slug),
+    tags: lesson.tags.map((tag: {slug: any}) => tag.slug),
   })
 }
 
@@ -202,7 +238,7 @@ function onVideoQualityChanged() {}
 
 function onSubtitleChange() {}
 
-export default function useEggheadPlayer(lesson) {
+export default function useEggheadPlayer(lesson: any) {
   return {
     onProgress: onProgress(lesson),
     onEnded: onEnded(lesson),
