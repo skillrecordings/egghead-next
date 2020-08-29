@@ -2,9 +2,10 @@ import Link from 'next/link'
 import {loadLessons} from '@lib/lessons'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
+import {Resource} from '@interfaces/resource'
 
 type LessonCardProps = {
-  lesson: any
+  lesson: Resource
 }
 
 const LessonCard: FunctionComponent<LessonCardProps> = ({lesson}) => {
@@ -24,13 +25,13 @@ const LessonCard: FunctionComponent<LessonCardProps> = ({lesson}) => {
 }
 
 type CoursesProps = {
-  lessons: any[]
+  lessons: Resource[]
 }
 
 const Courses: FunctionComponent<CoursesProps> = ({lessons}) => {
   return (
     <div className="flex flex-wrap">
-      {lessons.map((lesson) => (
+      {lessons.map((lesson: Resource) => (
         <LessonCard lesson={lesson} key={lesson.slug}></LessonCard>
       ))}
     </div>
@@ -41,7 +42,7 @@ export default Courses
 
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const lessons = await loadLessons()
+  const lessons: Resource[] = await loadLessons()
 
   return {
     props: {
