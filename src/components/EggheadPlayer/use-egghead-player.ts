@@ -3,6 +3,7 @@ import {track} from '@utils/analytics'
 import getAccessTokenFromCookie from '@utils/getAccessTokenFromCookie'
 import axios from 'axios'
 import {isEmpty, pickBy, identity, get} from 'lodash'
+import {LessonResource} from '@types'
 
 const getOptions = () =>
   getAccessTokenFromCookie()
@@ -13,16 +14,12 @@ const getOptions = () =>
       }
     : {}
 
-type LessonViewParams = {
-  props: any
-}
-
 const toLessonViewParams = ({
   collection,
   lesson,
 }: {
   collection: any
-  lesson: any
+  lesson: LessonResource
 }) => {
   if (isEmpty(lesson)) {
     console.error('Cannot track lesson view for undefined lesson.')
@@ -43,20 +40,14 @@ const toLessonViewParams = ({
 
 let lessonProgress: {[x: string]: number}
 
-const createLessonView = (
-  lesson: {lesson_view_url: string},
-  collection?: any,
-) => {
-  return axios
-    .post(
-      lesson.lesson_view_url,
-      toLessonViewParams({lesson, collection}),
-      getOptions(),
-    )
-    .then(({data}) => {
-      const lessonView = data
-      return lessonView
-    })
+const createLessonView = async (lesson: LessonResource, collection?: any) => {
+  const {data} = await axios.post(
+    lesson.lesson_view_url,
+    toLessonViewParams({lesson, collection}),
+    getOptions(),
+  )
+  const lessonView = data
+  return lessonView
 }
 
 const incrementViewSegments = (lessonView: {increment_url: string}) => {
@@ -67,7 +58,7 @@ const incrementViewSegments = (lessonView: {increment_url: string}) => {
 
 const storeProgress = (
   playedSeconds: number,
-  lesson: any,
+  lesson: LessonResource,
   list?: undefined,
 ) => {
   return new Promise((resolve) => {
@@ -78,12 +69,9 @@ const storeProgress = (
   })
 }
 
-const onProgress = (lesson: {
-  slug: string | number
-  lesson_view_url: any
-  tags: any[]
-  id: string | number
-}) => (progress: {playedSeconds: any}) => {
+const onProgress = (lesson: LessonResource) => (progress: {
+  playedSeconds: any
+}) => {
   const {playedSeconds} = progress
   const roundedProgress = Math.ceil(playedSeconds)
   const isSegment = roundedProgress % 30 === 0
@@ -132,17 +120,16 @@ const setEmailCaptureCookie = (captureCookie = {}) => {
   emailCaptureCookie = cookies.get('egghead-email')
 }
 
-const getOrCreateLessonView = (
-  lesson: {lesson_view_url: string},
+const getOrCreateLessonView = async (
+  lesson: LessonResource,
   collection?: any,
 ) => {
-  return axios
-    .post(
-      lesson.lesson_view_url,
-      toLessonViewParams({lesson, collection}),
-      getOptions(),
-    )
-    .then(({data}) => data)
+  const {data} = await axios.post(
+    lesson.lesson_view_url,
+    toLessonViewParams({lesson, collection}),
+    getOptions(),
+  )
+  return data
 }
 
 const trackPercentComplete = (lessonView: {series: any}) => {
