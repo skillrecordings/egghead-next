@@ -1,2 +1,4 @@
+User-agent: AhrefsSiteAudit
+Allow: /
 User-agent: *
 Disallow: /
