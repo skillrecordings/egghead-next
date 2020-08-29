@@ -1,7 +1,8 @@
+import {FunctionComponent} from 'react'
 import Link from 'next/link'
 import Eggo from '../images/eggo.svg'
 
-export default function Header() {
+const Header: FunctionComponent = () => {
   return (
     <header className="p-5 flex items-center justify-between">
       <div className="flex items-center">
@@ -32,3 +33,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

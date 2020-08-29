@@ -8,7 +8,7 @@ export async function loadPodcasts() {
   return data
 }
 
-export async function loadPodcast(slug) {
+export async function loadPodcast(slug: string) {
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/podcasts/${slug}`
 
   const {data} = await axios.get(endpoint)

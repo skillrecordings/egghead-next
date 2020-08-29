@@ -1,8 +1,13 @@
 import useSWR from 'swr'
 import {loadCourse} from '@lib/courses'
 import Link from 'next/link'
+import {FunctionComponent} from 'react'
 
-const CourseWidget = ({slug}) => {
+type CourseWidgetProps = {
+  slug: string
+}
+
+const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
   const {data} = useSWR(slug, loadCourse)
   return (
     <div>

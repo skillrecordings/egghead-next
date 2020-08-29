@@ -1,15 +1,16 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
 import Search from '@components/search'
 import {NextSeo} from 'next-seo'
+import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from '@lib/search-url-builder'
 import {isEmpty, get} from 'lodash'
 
-const createURL = (state) => `?${qs.stringify(state)}`
+const createURL = (state: any) => `?${qs.stringify(state)}`
 
 const fullTextSearch = {
   appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
@@ -26,16 +27,22 @@ const defaultProps = {
   indexName: 'content_production',
 }
 
-export default function SearchIndex({
+type SearchIndexProps = {
+  initialSearchState: any
+  resultsState: any
+  pageTitle: string
+}
+
+const SearchIndex: FunctionComponent<SearchIndexProps> = ({
   initialSearchState,
   resultsState,
   pageTitle,
-}) {
+}) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const onSearchStateChange = (searchState) => {
+  const onSearchStateChange = (searchState: any) => {
     clearTimeout(debouncedState.current)
 
     debouncedState.current = setTimeout(() => {
@@ -66,10 +73,15 @@ export default function SearchIndex({
   )
 }
 
-export async function getServerSideProps({query, res}) {
+export default SearchIndex
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  query,
+  res,
+}) {
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
   const initialSearchState = parseUrl(query)
-  const pageTitle = titleFromPath(query.all)
+  const pageTitle = titleFromPath(query.all as string[])
   const {rawResults} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,

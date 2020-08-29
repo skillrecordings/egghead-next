@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import {loadLessons} from '@lib/lessons'
+import {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 
-function LessonCard({lesson}) {
+type LessonCardProps = {
+  lesson: any
+}
+
+const LessonCard: FunctionComponent<LessonCardProps> = ({lesson}) => {
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
       <img className="w-full" src={lesson.icon_url} alt={lesson.title}></img>
@@ -17,7 +23,11 @@ function LessonCard({lesson}) {
   )
 }
 
-export default function Courses({lessons}) {
+type CoursesProps = {
+  lessons: any[]
+}
+
+const Courses: FunctionComponent<CoursesProps> = ({lessons}) => {
   return (
     <div className="flex flex-wrap">
       {lessons.map((lesson) => (
@@ -27,7 +37,9 @@ export default function Courses({lessons}) {
   )
 }
 
-export async function getServerSideProps({res}) {
+export default Courses
+
+export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const lessons = await loadLessons()
 

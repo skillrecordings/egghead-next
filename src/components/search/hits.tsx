@@ -1,8 +1,12 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {connectHits} from 'react-instantsearch-dom'
 
-const CustomHits = ({hits}) => (
+type CustomHitsProps = {
+  hits: any[]
+}
+
+const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => (
   <div>
     {hits.map((hit) => (
       <HitComponent key={hit.objectID} hit={hit} />
@@ -12,7 +16,11 @@ const CustomHits = ({hits}) => (
 
 const Hits = connectHits(CustomHits)
 
-const HitComponent = ({hit}) => {
+type HitComponentProps = {
+  hit: any
+}
+
+const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
   const {path, type, image, summary, title} = hit
   return (
     <Link href={`/${type}s/[id]`} as={path}>

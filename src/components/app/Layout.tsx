@@ -1,8 +1,9 @@
+import {FunctionComponent} from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import Main from './Main'
 
-export default function Layout({children}) {
+const Layout: FunctionComponent = ({children}) => {
   return (
     <>
       <Header></Header>
@@ -11,3 +12,5 @@ export default function Layout({children}) {
     </>
   )
 }
+
+export default Layout

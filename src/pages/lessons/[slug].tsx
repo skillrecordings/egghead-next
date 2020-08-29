@@ -1,13 +1,14 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
+import EggheadPlayer from '@components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
 import {loadLesson} from '@lib/lessons'
 import {GraphQLClient} from 'graphql-request'
 import {useViewer} from '@context/viewer-context'
-import {EggheadPlayer, useEggheadPlayer} from '@components/EggheadPlayer'
+import {GetServerSideProps} from 'next'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -17,15 +18,10 @@ const lessonQuery = /* GraphQL */ `
       slug
       title
       transcript_url
-      lesson_view_url
       subtitles_url
       summary
       hls_url
       dash_url
-      tags {
-        slug
-        label
-      }
       instructor {
         full_name
       }
@@ -35,7 +31,11 @@ const lessonQuery = /* GraphQL */ `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-const NextUp = ({url}) => {
+type NextUpProps = {
+  url: any
+}
+
+const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? (
     <ul className="list-disc">
@@ -60,7 +60,11 @@ const NextUp = ({url}) => {
   ) : null
 }
 
-const Transcript = ({url}) => {
+type TranscriptProps = {
+  url: any
+}
+
+const Transcript: FunctionComponent<TranscriptProps> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? <Markdown>{data.text}</Markdown> : null
 }
@@ -80,7 +84,11 @@ const lessonLoader = (slug: any, token: any) => (query: string) => {
   return graphQLClient.request(query, variables)
 }
 
-export default function Lesson({initialLesson}) {
+type LessonProps = {
+  initialLesson: any
+}
+
+const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
@@ -99,8 +107,6 @@ export default function Lesson({initialLesson}) {
   }
 
   if (!lesson) return null
-
-  const {onProgress, onEnded} = useEggheadPlayer(lesson)
 
   const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
 
@@ -122,9 +128,6 @@ export default function Lesson({initialLesson}) {
             height="auto"
             pip="true"
             controls
-            onProgress={onProgress}
-            onEnded={onEnded}
-            progressFrequency={100}
             subtitlesUrl={get(lesson, 'subtitles_url')}
           />
         </div>
@@ -149,10 +152,16 @@ export default function Lesson({initialLesson}) {
   )
 }
 
-export async function getServerSideProps({res, params, req}) {
+export default Lesson
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  res,
+  params,
+}) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const initialLesson = await loadLesson(params.slug)
+  const initialLesson = params && (await loadLesson(params.slug as string))
+
   return {
     props: {
       initialLesson,

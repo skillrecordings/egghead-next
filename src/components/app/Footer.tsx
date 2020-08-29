@@ -1,6 +1,7 @@
+import {FunctionComponent} from 'react'
 import Link from 'next/link'
 
-function Nav() {
+const Nav: FunctionComponent = () => {
   return (
     <nav className="flex gap-8">
       <div>
@@ -60,7 +61,7 @@ function Nav() {
   )
 }
 
-export default function Footer() {
+const Footer: FunctionComponent = () => {
   return (
     <footer className="max-w-screen-lg w-full mx-auto sm:p-8 p-5">
       <Nav />
@@ -73,3 +74,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default Footer

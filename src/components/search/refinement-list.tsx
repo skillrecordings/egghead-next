@@ -1,10 +1,25 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {Highlight, connectRefinementList} from 'react-instantsearch-dom'
 import nameToSlug from '@lib/name-to-slug'
 
 import useSwr from 'swr'
 
-const TagItem = ({item, isFromSearch, refine, createURL}) => {
+type RefinementListProps = {
+  items?: any[]
+  item?: any
+  isFromSearch: boolean
+  refine?: any
+  searchForItems?: any
+  createURL: any
+  attribute?: string
+}
+
+const TagItem: FunctionComponent<RefinementListProps> = ({
+  item,
+  isFromSearch,
+  refine,
+  createURL,
+}) => {
   // const {data} = useSwr(
   //   `https://egghead.io/api/v1/tags/${item.label}`,
   //   async (url) => {
@@ -34,7 +49,12 @@ const TagItem = ({item, isFromSearch, refine, createURL}) => {
   )
 }
 
-const InstructorItem = ({item, isFromSearch, refine, createURL}) => {
+const InstructorItem: FunctionComponent<RefinementListProps> = ({
+  item,
+  isFromSearch,
+  refine,
+  createURL,
+}) => {
   // const {data} = useSwr(
   //   `https://egghead.io/api/v1/instructors/${nameToSlug(item.label)}`,
   //   async (url) => {
@@ -66,7 +86,12 @@ const InstructorItem = ({item, isFromSearch, refine, createURL}) => {
   )
 }
 
-const Item = ({item, isFromSearch, refine, createURL}) => {
+const Item: FunctionComponent<RefinementListProps> = ({
+  item,
+  isFromSearch,
+  refine,
+  createURL,
+}) => {
   return (
     <li>
       <a
@@ -83,7 +108,7 @@ const Item = ({item, isFromSearch, refine, createURL}) => {
   )
 }
 
-const RefinementList = ({
+const RefinementList: FunctionComponent<RefinementListProps> = ({
   items,
   isFromSearch,
   refine,
@@ -100,34 +125,35 @@ const RefinementList = ({
           onChange={(event) => searchForItems(event.currentTarget.value)}
         />
       </li>
-      {items.map((item) => (
-        <div key={item.label}>
-          {attribute === `_tags` && (
-            <TagItem
-              item={item}
-              isFromSearch={isFromSearch}
-              refine={refine}
-              createURL={createURL}
-            />
-          )}
-          {attribute === `instructor_name` && (
-            <InstructorItem
-              item={item}
-              isFromSearch={isFromSearch}
-              refine={refine}
-              createURL={createURL}
-            />
-          )}
-          {attribute === `type` && (
-            <Item
-              item={item}
-              isFromSearch={isFromSearch}
-              refine={refine}
-              createURL={createURL}
-            />
-          )}
-        </div>
-      ))}
+      {items &&
+        items.map((item) => (
+          <div key={item.label}>
+            {attribute === `_tags` && (
+              <TagItem
+                item={item}
+                isFromSearch={isFromSearch}
+                refine={refine}
+                createURL={createURL}
+              />
+            )}
+            {attribute === `instructor_name` && (
+              <InstructorItem
+                item={item}
+                isFromSearch={isFromSearch}
+                refine={refine}
+                createURL={createURL}
+              />
+            )}
+            {attribute === `type` && (
+              <Item
+                item={item}
+                isFromSearch={isFromSearch}
+                refine={refine}
+                createURL={createURL}
+              />
+            )}
+          </div>
+        ))}
     </ul>
   )
 }

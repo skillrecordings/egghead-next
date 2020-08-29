@@ -1,7 +1,22 @@
 import {isFunction, isUndefined} from 'lodash'
 import configuredAhoy from './ahoy'
 
-export const track = (event: string, paramsOrCallback?, callback?) => {
+export const track = (
+  event: string,
+  paramsOrCallback?:
+    | {
+        lesson?: any
+        tags?: any
+        course?: any
+        percent_completed?: number
+        first_lesson?: any
+        lesson_count?: any
+        final_lesson?: any
+        enhanced_transcripts_complete?: boolean
+      }
+    | undefined,
+  callback?: {(...args: any[]): any; apply?: any} | undefined,
+) => {
   return new Promise((resolve) => {
     const ahoy = configuredAhoy()
     let wasCalled = false
@@ -35,7 +50,7 @@ export const track = (event: string, paramsOrCallback?, callback?) => {
   })
 }
 
-export const identify = (data) => {
+export const identify = (data: unknown) => {
   return new Promise((resolve) => resolve(data))
 }
 
