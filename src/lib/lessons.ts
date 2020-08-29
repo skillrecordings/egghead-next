@@ -1,7 +1,8 @@
+import {Resource} from '@interfaces/resource'
 import {request} from 'graphql-request'
 import config from './config'
 
-export async function loadLessons() {
+export async function loadLessons(): Promise<Resource[]> {
   const query = /* GraphQL */ `
     query getLessons {
       lessons(per_page: 25) {
