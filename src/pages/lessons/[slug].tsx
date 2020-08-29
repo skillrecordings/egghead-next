@@ -9,6 +9,7 @@ import {loadLesson} from '@lib/lessons'
 import {GraphQLClient} from 'graphql-request'
 import {useViewer} from '@context/viewer-context'
 import {GetServerSideProps} from 'next'
+import {LessonResource} from '@types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -32,7 +33,7 @@ const lessonQuery = /* GraphQL */ `
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
 type NextUpProps = {
-  url: any
+  url: string
 }
 
 const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
@@ -61,7 +62,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
 }
 
 type TranscriptProps = {
-  url: any
+  url: string
 }
 
 const Transcript: FunctionComponent<TranscriptProps> = ({url}) => {
@@ -85,7 +86,7 @@ const lessonLoader = (slug: any, token: any) => (query: string) => {
 }
 
 type LessonProps = {
-  initialLesson: any
+  initialLesson: LessonResource
 }
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
@@ -160,7 +161,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const initialLesson = params && (await loadLesson(params.slug as string))
+  const initialLesson: LessonResource | undefined =
+    params && (await loadLesson(params.slug as string))
 
   return {
     props: {
