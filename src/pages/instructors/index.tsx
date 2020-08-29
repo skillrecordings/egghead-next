@@ -41,6 +41,8 @@ const Instructors: FunctionComponent<InstructorsProps> = ({instructors}) => {
   )
 }
 
+export default Instructors
+
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const instructors = await loadInstructors()
