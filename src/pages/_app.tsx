@@ -1,13 +1,13 @@
 import NextApp from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
-import {ViewerProvider} from '@context/viewer-context'
+import {ViewerProvider} from 'context/viewer-context'
 import {DefaultSeo, SocialProfileJsonLd} from 'next-seo'
 import {cache} from 'emotion' // Use only { cache } from 'emotion'. Don't use { css }.
-import AppLayout from '@components/app/Layout'
-import mdxComponents from '@components/mdx'
-import defaultSeoConfig from 'src/next-seo.json'
-import {useURL} from '@hooks/useUrl'
+import AppLayout from 'components/app/Layout'
+import mdxComponents from 'components/mdx'
+import defaultSeoConfig from 'next-seo.json'
+import {useURL} from 'hooks/useUrl'
 import '../styles/index.css'
 import Router from 'next/router'
 
