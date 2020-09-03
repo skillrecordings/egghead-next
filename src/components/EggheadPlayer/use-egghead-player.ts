@@ -1,9 +1,9 @@
-import cookies from '@utils/cookies'
-import {track} from '@utils/analytics'
-import getAccessTokenFromCookie from '@utils/getAccessTokenFromCookie'
+import cookies from 'utils/cookies'
+import {track} from 'utils/analytics'
+import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 import axios from 'axios'
 import {isEmpty, pickBy, identity, get} from 'lodash'
-import {LessonResource} from '@types'
+import {LessonResource} from 'types'
 
 const getOptions = () =>
   getAccessTokenFromCookie()
