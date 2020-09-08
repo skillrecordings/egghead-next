@@ -10,6 +10,8 @@ import {GraphQLClient} from 'graphql-request'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {LessonResource} from 'types'
+import {useMachine} from '@xstate/react'
+import playerMachine from 'components/EggheadPlayer/machine'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -93,6 +95,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
+  const [playerState, send] = useMachine(playerMachine)
 
   const {data = {}, error} = useSWR(
     lessonQuery,
@@ -109,6 +112,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   if (!lesson) return null
 
+  React.useEffect(() => {
+    if (playerState.value === 'loading') {
+      // here we can do some consideration for the actual state.
+      send('PLAY')
+    }
+  }, [playerState, send])
+
   const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
 
   return (
@@ -120,17 +130,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
         >
-          <EggheadPlayer
-            ref={playerRef}
-            className="absolute top-0 left-0 w-full h-full"
-            hls_url={hls_url}
-            dash_url={dash_url}
-            width="100%"
-            height="auto"
-            pip="true"
-            controls
-            subtitlesUrl={get(lesson, 'subtitles_url')}
-          />
+          {playerState.value === 'playing' && (
+            <EggheadPlayer
+              ref={playerRef}
+              className="absolute top-0 left-0 w-full h-full"
+              hls_url={hls_url}
+              dash_url={dash_url}
+              width="100%"
+              height="auto"
+              pip="true"
+              controls
+              subtitlesUrl={get(lesson, 'subtitles_url')}
+            />
+          )}
         </div>
         <div>
           <Markdown>{get(lesson, 'summary')}</Markdown>

@@ -11,33 +11,32 @@ const loginSchema = yup.object().shape({
 })
 
 function LoginForm() {
-  const [clicked, setClicked] = React.useState(false)
   const [isSubmitted, setIsSubmitted] = React.useState(false)
+  const [isError, setIsError] = React.useState(false)
   const {requestSignInEmail} = useViewer()
 
   return (
     <div className="text-text w-full left-0 top-0 mx-auto flex flex-col justify-center sm:px-6 lg:px-8 px-5">
       <div className="sm:mx-auto sm:w-full sm:max-w-md rounded-lg p-8">
         <h2 className="text-center text-3xl leading-9 font-semibold text-gray-900 mt-6">
-          {isSubmitted ? 'Email Sent' : 'Sign in to your account'}
+          {isSubmitted && 'Email Sent'}
+          {isError && 'Something went wrong!'}
+          {!isSubmitted && !isError && 'Sign into your account'}
         </h2>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className=" pb-8 px-4 sm:px-8">
-            {isSubmitted ? (
-              <div className="text-text">
-                <p>Please check your inbox for your sign in link.</p>
-                <p>
-                  Sometimes this can land in SPAM! While we hope that isn't the
-                  case if it doesn't arrive in a minute or three, please check.
-                </p>
-              </div>
-            ) : (
+            {!isSubmitted && !isError && (
               <Formik
                 initialValues={{email: ''}}
                 validationSchema={loginSchema}
                 onSubmit={(values) => {
-                  setIsSubmitted(true)
                   requestSignInEmail(values.email)
+                    .then(() => {
+                      setIsSubmitted(true)
+                    })
+                    .catch(() => {
+                      setIsError(true)
+                    })
                 }}
               >
                 {(props) => {
@@ -86,6 +85,30 @@ function LoginForm() {
                   )
                 }}
               </Formik>
+            )}
+            {isSubmitted && (
+              <div className="text-text">
+                <p>Please check your inbox for your sign in link.</p>
+                <p>
+                  Sometimes this can land in SPAM! While we hope that isn't the
+                  case if it doesn't arrive in a minute or three, please check.
+                </p>
+              </div>
+            )}
+            {isError && (
+              <div className="text-text">
+                <p>Login Link Not Sent 😅</p>
+                <p className="pt-3">
+                  Are you using an aggressive ad blocker such as Privacy Badger?
+                  Please disable it for this site and reload the page to try
+                  again.
+                </p>
+                <p className="pt-3">
+                  If you <strong>aren't</strong> running aggressive adblocking
+                  please check the console for errors and email
+                  support@egghead.io with any info and we will help you ASAP.
+                </p>
+              </div>
             )}
           </div>
         </div>
