@@ -2,12 +2,12 @@ import React, {FunctionComponent} from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
-import Search from '@components/search'
+import Search from 'components/search'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
-import {createUrl, parseUrl, titleFromPath} from '@lib/search-url-builder'
+import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
 import {isEmpty, get} from 'lodash'
 
 const createURL = (state: any) => `?${qs.stringify(state)}`

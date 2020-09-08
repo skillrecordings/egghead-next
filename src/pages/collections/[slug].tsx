@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
-import {loadCollection} from '@lib/collections'
+import {loadCollection} from 'lib/collections'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 

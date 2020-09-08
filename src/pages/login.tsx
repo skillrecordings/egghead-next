@@ -4,7 +4,7 @@ import React from 'react'
 
 import * as yup from 'yup'
 import {Formik} from 'formik'
-import {useViewer} from '@context/viewer-context'
+import {useViewer} from 'context/viewer-context'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),

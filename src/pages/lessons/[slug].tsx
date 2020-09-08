@@ -1,15 +1,15 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import EggheadPlayer from '@components/EggheadPlayer'
+import EggheadPlayer from 'components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
-import {loadLesson} from '@lib/lessons'
+import {loadLesson} from 'lib/lessons'
 import {GraphQLClient} from 'graphql-request'
-import {useViewer} from '@context/viewer-context'
+import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
-import {LessonResource} from '@types'
+import {LessonResource} from 'types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
