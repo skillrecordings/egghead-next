@@ -24,6 +24,7 @@
     "@reach/menu-button": "^0.10.5",
     "@reach/visually-hidden": "^0.10.4",
     "@tailwindcss/ui": "^0.5.0",
+    "@xstate/react": "^0.8.1",
     "algoliasearch": "^4.4.0",
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",
@@ -54,6 +55,7 @@
     "slugify": "^1.4.5",
     "swr": "^0.2.3",
     "ts-toolbelt": "^6.15.5",
+    "xstate": "^4.13.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {
