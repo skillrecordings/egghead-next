@@ -8,6 +8,7 @@ const readingTime = require('reading-time')
 
 checkEnv({
   required: ['NEXT_PUBLIC_DEPLOYMENT_URL'],
+  unsafe: ['NEXT_PUBLIC_DEVTOOLS'],
 })
 
 const useURL = (path) =>
