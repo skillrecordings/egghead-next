@@ -102,7 +102,7 @@
     "react-test-renderer": "^16.13.1",
     "rehype": "^11.0.0",
     "start-server-and-test": "^1.11.3",
-    "tailwindcss": "^1.7.6",
+    "tailwindcss": "^1.8.6",
     "typescript": "^4.0.2"
   },
   "husky": {
