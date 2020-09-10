@@ -77,7 +77,7 @@
     "@types/mdx-js__react": "^1.5.2",
     "@types/node": "^14.0.26",
     "@types/qs": "^6.9.4",
-    "@types/react": "^16.9.43",
+    "@types/react": "^16.9.49",
     "@types/react-instantsearch-dom": "^6.3.0",
     "@types/yup": "^0.29.3",
     "axios": "^0.19.2",
