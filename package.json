@@ -97,7 +97,7 @@
     "parse-link-header": "^1.0.1",
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.0.5",
+    "prettier": "^2.1.1",
     "react-test-renderer": "^16.13.1",
     "rehype": "^11.0.0",
     "start-server-and-test": "^1.11.3",
