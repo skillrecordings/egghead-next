@@ -91,7 +91,7 @@
     "husky": "^4.3.0",
     "istanbul-lib-coverage": "^3.0.0",
     "jest": "^26.4.2",
-    "lint-staged": "^10.2.11",
+    "lint-staged": "^10.3.0",
     "nyc": "^15.1.0",
     "pad-number": "^0.0.4",
     "parse-link-header": "^1.0.1",
