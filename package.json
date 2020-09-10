@@ -90,7 +90,7 @@
     "globby": "^11.0.1",
     "husky": "^4.2.5",
     "istanbul-lib-coverage": "^3.0.0",
-    "jest": "^26.4.0",
+    "jest": "^26.4.2",
     "lint-staged": "^10.2.11",
     "nyc": "^15.1.0",
     "pad-number": "^0.0.4",
