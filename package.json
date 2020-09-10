@@ -65,7 +65,7 @@
     "@babel/plugin-syntax-jsx": "^7.10.4",
     "@codemod/cli": "^2.2.1",
     "@cypress/code-coverage": "^3.8.1",
-    "@emotion/core": "^10.0.28",
+    "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.11",
     "@next/bundle-analyzer": "^9.5.2",
