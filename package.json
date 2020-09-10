@@ -63,6 +63,7 @@
     "@babel/core": "^7.11.6",
     "@babel/generator": "^7.11.6",
     "@babel/plugin-syntax-jsx": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
     "@codemod/cli": "^2.2.1",
     "@cypress/code-coverage": "^3.8.1",
     "@emotion/core": "^10.0.35",
