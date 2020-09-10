@@ -68,7 +68,7 @@
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.16",
-    "@next/bundle-analyzer": "^9.5.2",
+    "@next/bundle-analyzer": "^9.5.3",
     "@next/mdx": "=9.5.1",
     "@tailwindcss/typography": "^0.2.0",
     "@testing-library/jest-dom": "^5.11.1",
