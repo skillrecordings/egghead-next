@@ -11701,10 +11701,10 @@ svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swr@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-0.2.3.tgz#e0fb260d27f12fafa2388312083368f45127480d"
-  integrity sha512-JhuuD5ojqgjAQpZAhoPBd8Di0Mr1+ykByVKuRJdtKaxkUX/y8kMACWKkLgLQc8pcDOKEAnbIreNjU7HfqI9nHQ==
+swr@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-0.3.1.tgz#b673f32a470418a785d962c86bd96ec555986dd0"
+  integrity sha512-g9JrXXMo54CSc+DU+KS0S8+5r6cpeBmBmVLhCu23ifQL9u0KKirkJpNX3Za3eOttmUuRQLXA8N1YPpoc8ejdpA==
   dependencies:
     fast-deep-equal "2.0.1"
 
