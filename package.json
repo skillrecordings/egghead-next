@@ -21,7 +21,7 @@
   "dependencies": {
     "@mdx-js/react": "^1.6.16",
     "@reach/disclosure": "^0.11.2",
-    "@reach/menu-button": "^0.10.5",
+    "@reach/menu-button": "^0.11.2",
     "@reach/visually-hidden": "^0.10.4",
     "@tailwindcss/ui": "^0.5.0",
     "@xstate/react": "^0.8.1",
