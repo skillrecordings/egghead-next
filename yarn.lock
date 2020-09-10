@@ -1904,6 +1904,14 @@
     "@reach/utils" "0.10.5"
     tslib "^2.0.0"
 
+"@reach/auto-id@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/@reach/auto-id/-/auto-id-0.11.2.tgz#c66a905c5401d1ac3da8d26165b8d27d6e778fa6"
+  integrity sha512-YZ21b0Kb88wJ0t7QjSznWOYskARQMnmXY9Y2XZ5RyYcZ2krT4s3+ghghpfaPs6BKcrZDonZCrU65OFDJPa1jAw==
+  dependencies:
+    "@reach/utils" "0.11.2"
+    tslib "^2.0.0"
+
 "@reach/descendants@0.10.5":
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/@reach/descendants/-/descendants-0.10.5.tgz#2611174e9e9b326dba548356221e2f8c8f5c8612"
@@ -1912,13 +1920,13 @@
     "@reach/utils" "0.10.5"
     tslib "^2.0.0"
 
-"@reach/disclosure@^0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@reach/disclosure/-/disclosure-0.10.5.tgz#33edfda5b6ebdb53e41b3059f6f2f0b731d285f4"
-  integrity sha512-DCae28vcL7wXJNt8hySI2uaowEJ6KPDJ9U14xQMkMs0/lH7Tz8PoAO3llf7csEXk/4kzjnDpkyobDiEV3pz05g==
+"@reach/disclosure@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/@reach/disclosure/-/disclosure-0.11.2.tgz#d572dfe22166646044a5e66d6b495f8eb081ed82"
+  integrity sha512-wCNBiWOVPbhyfUEQo0ixP5nTsXhQKhtfSpNCo/eZXQ+34R4tRqVfnTqf1qVHPdz0rpwW9Td5wgXyqLrpn8SGhw==
   dependencies:
-    "@reach/auto-id" "0.10.5"
-    "@reach/utils" "0.10.5"
+    "@reach/auto-id" "0.11.2"
+    "@reach/utils" "0.11.2"
     tslib "^2.0.0"
 
 "@reach/menu-button@^0.10.5":
@@ -1971,6 +1979,15 @@
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.10.5.tgz#fbac944d29565f6dd7abd0e1b13950e99b1e470b"
   integrity sha512-5E/xxQnUbmpI/LrufBAOXjunl96DnqX6B4zC2MO2KH/dRzLug5gM5VuOwV26egsp0jvsSPxojwciOhS43px3qw==
+  dependencies:
+    "@types/warning" "^3.0.0"
+    tslib "^2.0.0"
+    warning "^4.0.3"
+
+"@reach/utils@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.11.2.tgz#be1f03650db56fd67a16d3fc70e5262cdb139cec"
+  integrity sha512-fBTolYj+rKTROXmf0zHO0rCWSvw7J0ALmYj5QxW4DmITMOH5uyRuWDWOfqohIGFbOtF/sum50WTB3tvx76d+Aw==
   dependencies:
     "@types/warning" "^3.0.0"
     tslib "^2.0.0"
