@@ -57,7 +57,7 @@
     "remark-slug": "^6.0.0",
     "slugify": "^1.4.5",
     "swr": "^0.2.3",
-    "ts-toolbelt": "^6.15.5",
+    "ts-toolbelt": "^8.0.4",
     "xstate": "^4.13.0",
     "yup": "^0.29.3"
   },
