@@ -10,7 +10,3 @@ test('renders deploy link', () => {
   const linkElement = getByText(/Welcome to the WIP/)
   expect(linkElement).toBeInTheDocument()
 })
-
-test('intentional failure', () => {
-  expect(true).toBeFalsy()
-})
