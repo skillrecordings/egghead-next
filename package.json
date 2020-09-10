@@ -73,7 +73,7 @@
     "@tailwindcss/typography": "^0.2.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
-    "@types/lodash": "^4.14.158",
+    "@types/lodash": "^4.14.161",
     "@types/mdx-js__react": "^1.5.2",
     "@types/node": "^14.0.26",
     "@types/qs": "^6.9.4",
