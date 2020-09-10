@@ -8,7 +8,7 @@
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "next start",
     "test": "jest --watch",
-    "test:ci": "jest --ci",
+    "test:ci": "jest --ci --reporters='default' --reporters='./jest/json-reporter'",
     "e2e": "start-test dev 3000 cy:open",
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
