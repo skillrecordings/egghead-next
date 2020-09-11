@@ -120,7 +120,7 @@ export const parseUrl = (query: {all?: any; q?: any; type?: any}) => {
   instructors = isEmpty(instructors) ? undefined : instructors
 
   return pickBy({
-    query: query.q,
+    query: query?.q.replace('+', ' '),
     refinementList: pickBy({
       type,
       _tags: tags,

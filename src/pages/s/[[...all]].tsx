@@ -8,7 +8,8 @@ import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
-import {isEmpty, get} from 'lodash'
+import {isEmpty, get, first} from 'lodash'
+import queryParamsPresent from 'utils/query-params-present'
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
@@ -31,14 +32,17 @@ type SearchIndexProps = {
   initialSearchState: any
   resultsState: any
   pageTitle: string
+  noIndexInitial: boolean
 }
 
 const SearchIndex: FunctionComponent<SearchIndexProps> = ({
   initialSearchState,
   resultsState,
   pageTitle,
+  noIndexInitial,
 }) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
+  const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
@@ -46,7 +50,8 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
     clearTimeout(debouncedState.current)
 
     debouncedState.current = setTimeout(() => {
-      const href = createUrl(searchState)
+      const href: string = createUrl(searchState)
+      setNoIndex(queryParamsPresent(href))
 
       router.push(`/s[[all]]`, href, {
         shallow: true,
@@ -55,6 +60,7 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
 
     setSearchState(searchState)
   }
+
   const customProps = {
     searchState,
     resultsState,
@@ -62,12 +68,9 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
     onSearchStateChange,
   }
 
-  const selectedTypes = get(searchState, 'refinementList.type', []) as string[]
-  const noindex = !isEmpty(searchState.query) || !isEmpty(selectedTypes)
-
   return (
     <div>
-      <NextSeo noindex={noindex} title={pageTitle} />
+      <NextSeo noindex={noIndex} title={pageTitle} />
       <Search {...defaultProps} {...customProps} />
     </div>
   )
@@ -80,18 +83,26 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
 }) {
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
+  const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
-  const pageTitle = titleFromPath(query.all as string[])
-  const {rawResults} = await findResultsState(Search, {
+  const pageTitle = titleFromPath(all as string[])
+  const {rawResults, state} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
   })
+
+  const noHits = isEmpty(get(first(rawResults), 'hits'))
+  const queryParamsPresent = !isEmpty(rest)
+  const userQueryPresent = !isEmpty(state.query)
+
+  const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   return {
     props: {
       resultsState: {rawResults},
       initialSearchState,
       pageTitle,
+      noIndexInitial,
     },
   }
 }
