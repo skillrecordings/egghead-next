@@ -1,4 +1,10 @@
-import Document, {Head, Main, NextScript, DocumentContext} from 'next/document'
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from 'next/document'
 import {extractCritical} from 'emotion-server'
 
 export default class MyDocument extends Document {
@@ -21,7 +27,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <html>
+      <Html>
         <Head>
           <link
             rel="icon"
@@ -33,7 +39,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }

@@ -1,4 +1,4 @@
-class MyCustomReporter {
+class GithubActionsReporter {
   constructor(globalConfig, options) {
     this._globalConfig = globalConfig
     this._options = options
@@ -33,4 +33,4 @@ class MyCustomReporter {
   }
 }
 
-module.exports = MyCustomReporter
+module.exports = GithubActionsReporter
