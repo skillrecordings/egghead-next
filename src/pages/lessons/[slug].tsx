@@ -14,7 +14,6 @@ import {GetServerSideProps} from 'next'
 import {LessonResource} from 'types'
 import {useMachine} from '@xstate/react'
 import playerMachine from 'components/EggheadPlayer/machine'
-import {sum} from 'lodash'
 import Eggo from '../../../public/images/eggo.svg'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
