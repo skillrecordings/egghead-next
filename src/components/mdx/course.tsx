@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import {loadCourse} from '@lib/courses'
+import {loadCourse} from 'lib/courses'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'
 

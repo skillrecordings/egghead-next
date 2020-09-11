@@ -1,4 +1,4 @@
-import {loadInstructor} from '@lib/instructors'
+import {loadInstructor} from 'lib/instructors'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 

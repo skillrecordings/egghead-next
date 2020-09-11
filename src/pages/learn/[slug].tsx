@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
-import {getTag} from '@lib/tags'
+import {getTag} from 'lib/tags'
 import Markdown from 'react-markdown'
 
 type TagProps = {

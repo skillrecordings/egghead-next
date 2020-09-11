@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {Highlight, connectRefinementList} from 'react-instantsearch-dom'
-import nameToSlug from '@lib/name-to-slug'
+import nameToSlug from 'lib/name-to-slug'
 
 import useSwr from 'swr'
 

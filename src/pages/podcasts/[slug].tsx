@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {loadPodcast} from '@lib/podcasts'
+import {loadPodcast} from 'lib/podcasts'
 import {GetServerSideProps} from 'next'
 
 type PodcastProps = {

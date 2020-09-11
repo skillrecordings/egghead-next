@@ -69,8 +69,8 @@ export default class Auth {
       })
   }
 
-  requestSignInEmail(email: any) {
-    http.post(
+  requestSignInEmail(email: string) {
+    return http.post(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
       {
         email,

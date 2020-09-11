@@ -7,7 +7,7 @@ import {Configure, Pagination, InstantSearch} from 'react-instantsearch-dom'
 import {get, isEqual} from 'lodash'
 import {useToggle} from 'react-use'
 
-import config from '@lib/config'
+import config from 'lib/config'
 
 import SearchReact from './react.mdx'
 

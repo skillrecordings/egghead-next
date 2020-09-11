@@ -1,6 +1,6 @@
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
-import {loadPodcasts} from '@lib/podcasts'
+import {loadPodcasts} from 'lib/podcasts'
 import Link from 'next/link'
 
 type PodcastProps = {

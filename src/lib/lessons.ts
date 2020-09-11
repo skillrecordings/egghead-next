@@ -1,4 +1,4 @@
-import {LessonResource} from '@types'
+import {LessonResource} from 'types'
 import {request} from 'graphql-request'
 import config from './config'
 
