@@ -8,7 +8,7 @@ const Nav: FunctionComponent = () => {
         <h5 className="font-bold">Content</h5>
         <ul>
           <li>
-            <Link href="/search">
+            <Link href="/s">
               <a>Search</a>
             </Link>
           </li>
