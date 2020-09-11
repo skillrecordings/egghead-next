@@ -1,4 +1,5 @@
 User-agent: AhrefsSiteAudit
 Allow: /
+Disallow: /_next
 User-agent: *
 Disallow: /
