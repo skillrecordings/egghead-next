@@ -109,7 +109,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
               css={{margin: 0}}
             />
           ) : (
-            <Eggo css={{width: '32px'}} />
+            <Eggo className="w-8 rounded-full" />
           )}
         </a>
         {full_name && <a href={http_url}>{full_name}</a>}
