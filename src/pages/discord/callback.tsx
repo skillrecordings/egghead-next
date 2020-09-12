@@ -6,16 +6,23 @@ import isEmpty from 'lodash/isEmpty'
 import queryString from 'query-string'
 import get from 'lodash/get'
 import axios from 'axios'
+import {Router, useRouter} from 'next/router'
 
 const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
   loginRequired,
 }) => {
   const [syncingAccount, setSyncingAccount] = React.useState(true)
+  const router = useRouter()
 
   React.useEffect(() => {
     async function connectUser() {
       const queryHash = queryString.parse(window.location.search)
       const accessCode = get(queryHash, 'code')
+
+      if (!accessCode) {
+        router.push('/discord')
+        return
+      }
 
       if (!isEmpty(accessCode)) {
         window.history.replaceState({}, document.title, '/discord/callback')
