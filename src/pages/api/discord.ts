@@ -3,7 +3,7 @@ import {Client, GuildMember, User, Guild} from 'discord.js'
 import * as cookie from 'cookie'
 import {Viewer} from 'interfaces/viewer'
 import got from 'got'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const DISCORD_API_BASE = process.env.DISCORD_API_BASE
@@ -99,12 +99,6 @@ async function fetchEggheadUser(token: string) {
   return current
 }
 
-function getAccessTokenFromCookie(serverCookies: string = '') {
-  const parsedCookie = cookie.parse(serverCookies)
-  const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY]
-  return eggheadToken
-}
-
 type UpdateDiscordUserForEggheadParams = {
   discordMember: GuildMember
   eggheadUser: Viewer
@@ -184,7 +178,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const client = await getDiscordBotClient()
       const {discordUser, discordToken} = await loadDiscordUser(req.body.code)
-      const eggheadToken = getAccessTokenFromCookie(
+      const {eggheadToken} = getTokenFromCookieHeaders(
         req.headers.cookie as string,
       )
 

@@ -3,6 +3,7 @@ import {track, identify} from './analytics'
 import axios from 'axios'
 import get from 'lodash/get'
 import cookie from 'js-cookie'
+import * as serverCookie from 'cookie'
 
 const http = axios.create()
 
@@ -14,6 +15,12 @@ export const USER_KEY = 'egghead_sellable_user'
 export const ACCESS_TOKEN_KEY = 'egghead_sellable_access_token'
 export const EXPIRES_AT_KEY = 'egghead_sellable_expires_at'
 export const VIEWING_AS_USER_KEY = 'egghead_sellable_viewing_as_user'
+
+export function getTokenFromCookieHeaders(serverCookies: string = '') {
+  const parsedCookie = serverCookie.parse(serverCookies)
+  const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
+  return {eggheadToken, loginRequired: eggheadToken.length <= 0}
+}
 
 export default class Auth {
   eggheadAuth: OAuthClient
