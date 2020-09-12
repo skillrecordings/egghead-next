@@ -1,108 +1,220 @@
-import axios from 'axios'
-import Discord from 'discord.js'
-import queryString from 'query-string'
-import * as cookie from 'cookie'
-
 import {NextApiRequest, NextApiResponse} from 'next'
+import {Client, GuildMember, User, Guild} from 'discord.js'
+import * as cookie from 'cookie'
+import {Viewer} from 'interfaces/viewer'
+import got from 'got'
+import {ACCESS_TOKEN_KEY} from 'utils/auth'
 
-const api_base = `https://discord.com/api`
+const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
+const DISCORD_API_BASE = process.env.DISCORD_API_BASE
+const DISCORD_MEMBER_ROLE_ID = process.env.DISCORD_EGGHEAD_MEMBER_ROLE_ID
+const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET
+const DISCORD_SCOPES = process.env.DISCORD_SCOPES
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
+const DISCORD_CLIENT_ID = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID
+const DISCORD_REDIRECT_URI = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI
+
+function safeParse(string: string) {
+  try {
+    return JSON.parse(string)
+  } catch (error) {
+    return string
+  }
+}
+
+function handleGotError(error: any) {
+  error.statusCode = error.response.statusCode
+  try {
+    const body = safeParse(error.response.body)
+    error.body = body
+    error.message = JSON.stringify(body, null, 2) || error.message
+  } catch {
+    // ignore
+  }
+  return error
+}
+
+type InviteParams = {
+  discordUserId: string
+  discordUserToken: string
+}
+
+async function inviteToServer({discordUserId, discordUserToken}: InviteParams) {
+  const joinGuildUrl = `${DISCORD_API_BASE}/guilds/${DISCORD_GUILD_ID}/members/${discordUserId}`
+
+  const status = await got
+    .put(joinGuildUrl, {
+      json: {access_token: discordUserToken},
+      headers: {
+        Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+      },
+      hooks: {beforeError: [handleGotError]},
+    })
+    .json()
+
+  return status
+}
 
 async function loadDiscordUser(code: string) {
   const discordParams = {
-    client_id: process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID,
-    client_secret: process.env.DISCORD_CLIENT_SECRET,
+    client_id: DISCORD_CLIENT_ID,
+    client_secret: DISCORD_CLIENT_SECRET,
     grant_type: 'authorization_code',
     code,
-    redirect_uri: process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI,
-    scope: process.env.DISCORD_SCOPES,
+    redirect_uri: DISCORD_REDIRECT_URI,
+    scope: DISCORD_SCOPES,
   }
-  const discordHeaders = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  }
-
-  const tokenResponse = await axios
-    .post(`${api_base}/oauth2/token`, queryString.stringify(discordParams), {
-      headers: discordHeaders,
+  const discordToken: any = await got
+    .post(`${DISCORD_API_BASE}/oauth2/token`, {
+      form: discordParams,
+      hooks: {beforeError: [handleGotError]},
     })
-    .then(({data}) => data)
+    .json()
 
-  const discordUser = await axios
-    .get(`${api_base}/users/@me`, {
+  const discordUser: User = await got
+    .get(`${DISCORD_API_BASE}/users/@me`, {
+      responseType: 'json',
       headers: {
-        Authorization: `Bearer ${tokenResponse.access_token}`,
+        authorization: `${discordToken.token_type} ${discordToken.access_token}`,
       },
+      hooks: {beforeError: [handleGotError]},
     })
-    .then(({data}) => data)
+    .json()
 
-  const joinGuildUrl = `${api_base}/guilds/${process.env.DISCORD_GUILD_ID}/members/${discordUser.id}`
-
-  await axios
-    .put(
-      joinGuildUrl,
-      {access_token: tokenResponse.access_token},
-      {
-        headers: {
-          Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-        },
-      },
-    )
-    .catch(() => console.error('no join'))
-
-  return discordUser
+  return {discordUser, discordToken}
 }
 
 async function fetchEggheadUser(token: string) {
-  const current = await axios
-    .get(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/current`, {
+  const current: Viewer = await got
+    .get(`${EGGHEAD_AUTH_DOMAIN}/api/v1/users/current`, {
+      responseType: 'json',
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      hooks: {beforeError: [handleGotError]},
     })
-    .then(({data}) => data)
+    .json()
 
   return current
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
-    const eggheadToken = cookie.parse(req.headers.cookie as string)
-      .egghead_sellable_access_token
+function getAccessTokenFromCookie(serverCookies: string = '') {
+  const parsedCookie = cookie.parse(serverCookies)
+  const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY]
+  return eggheadToken
+}
 
-    const memberRole = '715324660384006216'
-    const client = new Discord.Client()
-    await client.login(process.env.DISCORD_BOT_TOKEN)
-    const discordUser = await loadDiscordUser(req.body.code)
-    var guild = client.guilds.cache.get(process.env.DISCORD_GUILD_ID as string)
-    var member = await guild?.members.fetch(discordUser.id)
-    const egghead = await fetchEggheadUser(eggheadToken)
+type UpdateDiscordUserForEggheadParams = {
+  discordMember: GuildMember
+  eggheadUser: Viewer
+  eggheadToken: string
+}
 
-    if (member && egghead) {
-      const updateEgghead = await axios
-        .put(
-          `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/${egghead.id}`,
-          {
-            user: {discord_id: member.id},
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${eggheadToken}`,
-            },
-          },
-        )
-        .then(({data}) => data)
+async function updateDiscordRolesForEggheadUser({
+  discordMember,
+  eggheadUser,
+  eggheadToken,
+}: UpdateDiscordUserForEggheadParams) {
+  if (discordMember && eggheadUser) {
+    const updateEgghead: Viewer = await got
+      .put(`${EGGHEAD_AUTH_DOMAIN}/api/v1/users/${eggheadUser.id}`, {
+        responseType: 'json',
+        json: {
+          user: {discord_id: discordMember.id},
+        },
+        headers: {
+          Authorization: `Bearer ${eggheadToken}`,
+        },
+        hooks: {beforeError: [handleGotError]},
+      })
+      .json()
 
-      if (updateEgghead.is_pro) {
-        await member.roles.add(memberRole)
-      } else {
-        await member.roles.remove(memberRole)
-      }
+    if (updateEgghead.is_pro && DISCORD_MEMBER_ROLE_ID) {
+      await discordMember.roles.add(DISCORD_MEMBER_ROLE_ID)
+    } else if (DISCORD_MEMBER_ROLE_ID) {
+      await discordMember.roles.remove(DISCORD_MEMBER_ROLE_ID)
     }
 
-    res.json({member, egghead})
+    return updateEgghead
+  } else {
+    throw new Error(`requires egghead and discord users to ipdate`)
+  }
+}
+
+async function getDiscordBotClient() {
+  const client = new Client()
+  await client.login(DISCORD_BOT_TOKEN)
+  return client
+}
+
+async function fetchOrInviteDiscordMember(
+  client: Client,
+  discordUser: User,
+  discordToken: any,
+): Promise<GuildMember> {
+  const guild: Guild | undefined = client.guilds.cache.get(
+    DISCORD_GUILD_ID as string,
+  )
+  if (guild) {
+    const discordMember: GuildMember = await guild.members
+      .fetch(discordUser.id)
+      .catch(async (e) => {
+        await inviteToServer({
+          discordUserId: discordUser.id,
+          discordUserToken: discordToken.access_token,
+        })
+
+        const newMember = await fetchOrInviteDiscordMember(
+          client,
+          discordUser,
+          discordToken,
+        )
+        return newMember
+      })
+
+    return discordMember
+  } else {
+    throw new Error('no discord guild was found')
+  }
+}
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
+    try {
+      const client = await getDiscordBotClient()
+      const {discordUser, discordToken} = await loadDiscordUser(req.body.code)
+      const eggheadToken = getAccessTokenFromCookie(
+        req.headers.cookie as string,
+      )
+
+      if (discordUser && eggheadToken) {
+        const discordMember: GuildMember = await fetchOrInviteDiscordMember(
+          client,
+          discordUser,
+          discordToken,
+        )
+
+        const eggheadUser: Viewer = await fetchEggheadUser(eggheadToken)
+
+        await updateDiscordRolesForEggheadUser({
+          discordMember,
+          eggheadUser,
+          eggheadToken,
+        })
+
+        res.status(200).json({
+          discordMember,
+          eggheadUser,
+        })
+      } else {
+        res.status(405).end(`requires discord user and egghead auth token`)
+      }
+    } catch (error) {
+      res.status(500).json(error)
+    }
   } else {
     res.statusCode = 404
     res.end()
   }
-
-  // console.log(req.headers)
 }
