@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -12,6 +14,7 @@ import {GetServerSideProps} from 'next'
 import {LessonResource} from 'types'
 import {useMachine} from '@xstate/react'
 import playerMachine from 'components/EggheadPlayer/machine'
+import Eggo from '../../../public/images/eggo.svg'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -27,6 +30,8 @@ const lessonQuery = /* GraphQL */ `
       dash_url
       instructor {
         full_name
+        http_url
+        avatar_64_url
       }
     }
   }
@@ -67,9 +72,51 @@ type TranscriptProps = {
   url: string
 }
 
-const Transcript: FunctionComponent<TranscriptProps> = ({url}) => {
+const Transcript: FunctionComponent<TranscriptProps> = ({
+  url,
+}: TranscriptProps) => {
   const {data} = useSWR(url, fetcher)
   return data ? <Markdown>{data.text}</Markdown> : null
+}
+
+type MetadataProps = {
+  title: string
+  // instructor: any
+  instructor: {
+    full_name: string
+    http_url: string
+    avatar_64_url: string
+  }
+  summary: string
+}
+
+const Metadata: FunctionComponent<MetadataProps> = ({
+  title,
+  instructor,
+  summary,
+}) => {
+  const {full_name, http_url = '#', avatar_64_url} = instructor
+  return (
+    <div>
+      {title && <h3 className="mt-0 text-2xl">{title}</h3>}
+      <div className="flex items-center mt-4">
+        <a href={http_url} className="mr-4">
+          {avatar_64_url ? (
+            <img
+              src={avatar_64_url}
+              alt=""
+              className="w-8 rounded-full"
+              css={{margin: 0}}
+            />
+          ) : (
+            <Eggo className="w-8 rounded-full" />
+          )}
+        </a>
+        {full_name && <a href={http_url}>{full_name}</a>}
+      </div>
+      {summary && <Markdown className="mt-4">{summary}</Markdown>}
+    </div>
+  )
 }
 
 const lessonLoader = (slug: any, token: any) => (query: string) => {
@@ -119,15 +166,24 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [playerState, send])
 
-  const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
+  const {
+    instructor,
+    next_up_url,
+    transcript_url,
+    hls_url,
+    dash_url,
+    title,
+    summary,
+  } = lesson
+  console.log('lesson', lesson)
 
   return (
-    <div className="prose lg:prose-xl max-w-none">
+    <div className="max-w-none">
       <div>
-        <h1>{get(lesson, 'title')}</h1>
+        <h1 className="mb-10">{get(lesson, 'title')}</h1>
 
         <div
-          className="relative overflow-hidden bg-gray-100"
+          className="relative overflow-hidden bg-gray-100 mb-10"
           style={{paddingTop: '56.25%'}}
         >
           {playerState.value === 'playing' && (
@@ -144,10 +200,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             />
           )}
         </div>
-        <div>
-          <Markdown>{get(lesson, 'summary')}</Markdown>
+        <div className="mb-10">
+          <Metadata title={title} instructor={instructor} summary={summary} />
         </div>
-        <div className="mt-8 font-bold">by {get(instructor, 'full_name')}</div>
         {next_up_url && (
           <div>
             <h3>Playlist:</h3>
