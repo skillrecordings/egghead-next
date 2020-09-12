@@ -18,7 +18,7 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
       const accessCode = get(queryHash, 'code')
 
       if (!isEmpty(accessCode)) {
-        window.history.replaceState({}, document.title, '.')
+        window.history.replaceState({}, document.title, '/discord/callback')
       }
 
       await axios
