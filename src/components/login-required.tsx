@@ -15,7 +15,7 @@ const LoginRequired: FunctionComponent<LoginRequiredParams> = ({
       router.push('/login')
     }
   }, [])
-  return <>{children}</>
+  return <>{!loginRequired && children}</>
 }
 
 export default LoginRequired
