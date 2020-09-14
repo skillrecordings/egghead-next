@@ -15,6 +15,8 @@ module.exports = {
     }),
     extend: {},
   },
-  variants: {},
+  variants: {
+    margin: ['responsive', 'first', 'last'],
+  },
   plugins: [require('@tailwindcss/typography', require('@tailwindcss/ui'))],
 }
