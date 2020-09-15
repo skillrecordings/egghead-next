@@ -3,10 +3,8 @@ import {GetServerSideProps} from 'next'
 import {getTokenFromCookieHeaders} from 'utils/auth'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import isEmpty from 'lodash/isEmpty'
-import queryString from 'query-string'
-import get from 'lodash/get'
 import axios from 'axios'
-import {Router, useRouter} from 'next/router'
+import {useRouter} from 'next/router'
 import {Viewer} from 'interfaces/viewer'
 
 type CombinedEggheadDiscordUserData = {
@@ -30,8 +28,7 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
 
   React.useEffect(() => {
     async function connectUser() {
-      const queryHash = queryString.parse(window.location.search)
-      const accessCode = get(queryHash, 'code')
+      const accessCode = router.query.code
 
       if (!accessCode) {
         router.push('/discord')
@@ -57,8 +54,8 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
         {syncingAccount ? (
           <>
             <h1>
-              Currently syncing your egghead account to the egghead Discord
-              server. Please wait! ♻️
+              ♻️ Currently syncing your egghead account to the egghead Discord
+              server. Please wait!
             </h1>
           </>
         ) : (

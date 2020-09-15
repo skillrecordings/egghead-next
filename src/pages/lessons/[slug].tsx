@@ -25,9 +25,14 @@ const lessonQuery = /* GraphQL */ `
       title
       transcript_url
       subtitles_url
+      next_up_url
       summary
       hls_url
       dash_url
+      course {
+        title
+        square_cover_480_url
+      }
       tags {
         name
         http_url
@@ -51,20 +56,33 @@ type NextUpProps = {
 const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? (
-    <ul className="list-disc">
+    <ul>
       {data.list.lessons.map(
-        (lesson: {
-          slug: string | number | undefined
-          path: string | import('url').UrlObject | undefined
-          title: React.ReactNode
-        }) => {
+        (
+          lesson: {
+            slug: string | number | undefined
+            path: string | import('url').UrlObject | undefined
+            title: React.ReactNode
+            completed: any
+          },
+          index = 0,
+        ) => {
           return (
-            <li key={lesson.slug}>
-              <Link href={`/lessons/[id]`} as={lesson.path}>
-                <a className="no-underline hover:underline text-blue-500">
-                  {lesson.title}
-                </a>
-              </Link>
+            <li
+              key={lesson.slug}
+              className="p-4 bg-gray-200 border-gray-100 border-2"
+            >
+              <div className="flex">
+                <div>
+                  {index + 1}{' '}
+                  <input type="checkbox" checked={lesson.completed} readOnly />
+                </div>
+                <Link href={`/lessons/[id]`} as={lesson.path}>
+                  <a className="no-underline hover:underline text-blue-500">
+                    {lesson.title}
+                  </a>
+                </Link>
+              </div>
             </li>
           )
         },
@@ -208,49 +226,63 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
   } = lesson
 
+  console.log(lesson)
+
   return (
     <div className="max-w-none">
       <div>
-        <h1 className="mb-10">{get(lesson, 'title')}</h1>
-
-        <div
-          className="relative overflow-hidden bg-gray-100 mb-10"
-          style={{paddingTop: '56.25%'}}
-        >
-          {playerState.value === 'playing' && (
-            <EggheadPlayer
-              ref={playerRef}
-              className="absolute top-0 left-0 w-full h-full"
-              hls_url={hls_url}
-              dash_url={dash_url}
-              width="100%"
-              height="auto"
-              pip="true"
-              controls
-              subtitlesUrl={get(lesson, 'subtitles_url')}
-            />
+        <div className="flex flex-col space-y-3">
+          {lesson.course && (
+            <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
+              <img className="w-10" src={lesson.course.square_cover_480_url} />
+              {lesson.course.title}
+            </div>
           )}
-        </div>
-        <div className="mb-10">
-          <Metadata
-            title={title}
-            instructor={instructor}
-            tags={tags}
-            summary={summary}
-          />
-        </div>
-        {next_up_url && (
-          <div>
-            <h3>Playlist:</h3>
-            <NextUp url={next_up_url} />
+          <div
+            className="relative overflow-hidden bg-gray-100 mb-10"
+            style={{paddingTop: '56.25%'}}
+          >
+            {playerState.value === 'playing' && (
+              <EggheadPlayer
+                ref={playerRef}
+                className="absolute top-0 left-0 w-full h-full"
+                hls_url={hls_url}
+                dash_url={dash_url}
+                width="100%"
+                height="auto"
+                pip="true"
+                controls
+                subtitlesUrl={get(lesson, 'subtitles_url')}
+              />
+            )}
           </div>
-        )}
-        {transcript_url && (
-          <div>
-            <h3>Transcript:</h3>
-            <Transcript url={transcript_url} />
+          <div className="flex space-x-12">
+            <div className="w-4/6">
+              {transcript_url && (
+                <div>
+                  <h3>Transcript:</h3>
+                  <Transcript url={transcript_url} />
+                </div>
+              )}
+            </div>
+            <div className="w-2/6 flex flex-col space-y-8">
+              <div className="mb-10">
+                <Metadata
+                  title={title}
+                  instructor={instructor}
+                  tags={tags}
+                  summary={summary}
+                />
+              </div>
+              <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
+              {next_up_url && (
+                <div>
+                  <NextUp url={next_up_url} />
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
