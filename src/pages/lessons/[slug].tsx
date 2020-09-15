@@ -99,7 +99,7 @@ type MetadataProps = {
     },
   ]
   summary: string
-  [x: string]: any
+  [cssRelated: string]: any
 }
 
 const Metadata: FunctionComponent<MetadataProps> = ({
