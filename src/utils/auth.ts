@@ -7,7 +7,7 @@ import * as serverCookie from 'cookie'
 
 const http = axios.create()
 
-const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
+export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
 

@@ -7,11 +7,20 @@ import queryString from 'query-string'
 import get from 'lodash/get'
 import axios from 'axios'
 import {Router, useRouter} from 'next/router'
+import {Viewer} from 'interfaces/viewer'
+
+type CombinedEggheadDiscordUserData = {
+  eggheadUser?: Viewer
+  discordMember?: any
+}
 
 const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
   loginRequired,
 }) => {
   const [syncingAccount, setSyncingAccount] = React.useState(true)
+  const [userData, setUserData] = React.useState<
+    CombinedEggheadDiscordUserData
+  >({})
   const router = useRouter()
 
   React.useEffect(() => {
@@ -30,7 +39,7 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
 
       await axios
         .post('/api/discord', {code: accessCode})
-        .then(({data}) => data)
+        .then(({data}) => setUserData(() => data))
 
       setSyncingAccount(false)
     }
@@ -49,6 +58,22 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
       ) : (
         <>
           <h1>Your Discord account has been updated.</h1>
+          {userData && (
+            <div className="flex flex-col space-y-3">
+              {userData.discordMember.guildId ===
+                process.env.NEXT_PUBLIC_DISCORD_GUILD_ID && (
+                <div>We added you to the egghead Discord!</div>
+              )}
+              {userData.eggheadUser && (
+                <div>
+                  We found your egghead account!{' '}
+                  {userData.eggheadUser.is_pro
+                    ? 'You have a pro membership 🎉'
+                    : `You are not a pro member on ${userData.eggheadUser.email}`}
+                </div>
+              )}
+            </div>
+          )}
         </>
       )}
     </LoginRequired>

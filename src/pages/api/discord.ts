@@ -1,6 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Client, GuildMember, User, Guild} from 'discord.js'
-import * as cookie from 'cookie'
 import {Viewer} from 'interfaces/viewer'
 import got from 'got'
 import {getTokenFromCookieHeaders} from 'utils/auth'
@@ -8,7 +7,7 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const DISCORD_API_BASE = process.env.DISCORD_API_BASE
 const DISCORD_MEMBER_ROLE_ID = process.env.DISCORD_EGGHEAD_MEMBER_ROLE_ID
-const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID
+const DISCORD_GUILD_ID = process.env.NEXT_PUBLIC_DISCORD_GUILD_ID
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET
 const DISCORD_SCOPES = process.env.DISCORD_SCOPES
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
