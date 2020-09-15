@@ -12,6 +12,10 @@ import {Viewer} from 'interfaces/viewer'
 type CombinedEggheadDiscordUserData = {
   eggheadUser?: Viewer
   discordMember?: any
+  discordUser?: {
+    username: string
+    discriminator: string
+  }
 }
 
 const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
@@ -57,9 +61,14 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
         </>
       ) : (
         <>
-          <h1>Your Discord account has been updated.</h1>
           {userData && (
             <div className="flex flex-col space-y-3">
+              <h1>
+                Your Discord account{' '}
+                {userData.discordUser &&
+                  `(${userData.discordUser.username}#${userData.discordUser.discriminator})`}{' '}
+                has been updated.
+              </h1>
               {userData.discordMember.guildId ===
                 process.env.NEXT_PUBLIC_DISCORD_GUILD_ID && (
                 <div>We added you to the egghead Discord!</div>
