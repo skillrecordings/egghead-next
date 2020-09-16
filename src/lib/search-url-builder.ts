@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import qs from 'query-string'
 import nameToSlug from './name-to-slug'
 import humanize from 'humanize-list'
-import {first, pickBy, isEmpty, compact} from 'lodash'
+import {first, pickBy, isEmpty} from 'lodash'
 
 const resourceTypes = {
   resource: 'resources',
@@ -33,7 +33,9 @@ const toTitleCase = (name: string) => {
 const tagsForPath = (path: string) => {
   const tagsSplit = path?.split('-lessons-by-') || []
 
-  return tagsSplit.length >= 1 ? tagsSplit[0].split('-and-').sort() : []
+  const tags = tagsSplit.length >= 1 ? tagsSplit[0].split('-and-').sort() : []
+
+  return isEmpty(tags) ? undefined : tags
 }
 
 export const titleFromPath = (all: string[] = []) => {
@@ -47,18 +49,27 @@ export const titleFromPath = (all: string[] = []) => {
   const instructor = last(path.split('lessons-by-'))
   const tags = tagsForPath(path)
 
+  const count = config.searchResultCount
+  const humanizedTags = ` ${humanize(tags?.map(toTitleCase))} `
+  const humanizedInstructors = humanize(
+    instructor?.split(`-and-`).map(nameSlugToName),
+  )
+
   if (instructor) {
-    return `${config.searchResultCount}${
-      tags ? ` ${humanize(tags.map(toTitleCase))} ` : ' '
-    }Courses from ${humanize(
-      instructor.split(`-and-`).map(nameSlugToName),
-    )} in ${year}`
-  } else if (tags) {
-    return `${config.searchResultCount}${
-      tags ? ` ${humanize(tags.map(toTitleCase))} ` : ' '
-    }Courses for Web Developers in ${year}`
+    return `${count}${humanizedTags}Courses from ${humanizedInstructors} in ${year}`
   }
-  return `${config.searchResultCount} Courses for Web Developers`
+
+  //TODO: I think we need more tests around tags and years here...
+
+  return `${count}${humanizedTags} Courses for Web Developers`
+}
+
+const instructorsForPath = (path: string) => {
+  const instructorSplit = path?.split('lessons-by-')
+
+  return instructorSplit?.length > 1
+    ? last(instructorSplit)?.split(`-and-`).map(nameSlugToName)
+    : undefined
 }
 
 export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
@@ -89,35 +100,12 @@ export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
 
 export const parseUrl = (query: {all?: any; q?: any; type?: any}) => {
   if (isEmpty(query)) return query
-  let instructorSplit
-  let tags
-  let instructors
+  const firstPath: string = first(query.all) as string
 
-  if (compact(query.all)) {
-    const firstPath: string = first(query.all) as string
-    instructorSplit = firstPath?.split('lessons-by-')
-    if (instructorSplit?.length > 1) {
-      instructors = last(instructorSplit)
-      instructors = compact(instructors?.split(`-and-`).map(nameSlugToName))
-    }
+  const instructors = instructorsForPath(firstPath)
+  const tags = tagsForPath(firstPath)
 
-    const noInstructorPresentAtAll = firstPath?.includes('-lessons-by-')
-
-    const notJustInstructors = !firstPath?.includes('lessons-by-')
-
-    if (noInstructorPresentAtAll || notJustInstructors) {
-      tags = tagsForPath(firstPath)
-    }
-  }
-
-  const parseTypes = (type: string) => {
-    return type?.split(',')
-  }
-
-  const type: string[] = parseTypes(query.type)
-
-  tags = isEmpty(tags) ? undefined : tags
-  instructors = isEmpty(instructors) ? undefined : instructors
+  const type: string[] = query.type?.split(',')
 
   return pickBy({
     query: query?.q?.replace('+', ' '),
