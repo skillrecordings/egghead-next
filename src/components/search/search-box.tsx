@@ -1,7 +1,15 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {connectSearchBox} from 'react-instantsearch-dom'
 
-const CustomSearchBox = ({currentRefinement, refine}) => (
+type CustomSearchBoxProps = {
+  currentRefinement: any
+  refine: any
+}
+
+const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
+  currentRefinement,
+  refine,
+}) => (
   <form noValidate action="" role="search" className="mx-auto max-w-full">
     <div className="mr-6 my-2 mx-auto pb-4 flex items-center justify-center">
       <input

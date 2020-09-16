@@ -1,0 +1,39 @@
+name: e2e
+on:
+  schedule:
+    - cron:  '*/15 * * * *'
+jobs:
+  e2e:
+    name: cypress
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v1
+      - name: Run Cypress 🌲
+        uses: cypress-io/github-action@v2
+        env:
+          CYPRESS_BASE_URL: https://next.egghead.io
+
+      - name: Cypress tests ✅
+        if: ${{ success() }}
+        run: |
+          curl --request POST \
+          --url https://egghead-cypress-hooks.johnlindquist.vercel.app/api/cypress \
+          --header 'content-type: application/json' \
+          --data '{
+            "context": "e2e",
+            "state": "success",
+            "description": "Cypress tests passed"
+          }'
+
+      - name: Cypress tests 🚨
+        if: ${{ failure() }}
+        run: |
+          curl --request POST \
+          --url https://egghead-cypress-hooks.johnlindquist.vercel.app/api/cypress \
+          --header 'content-type: application/json' \
+          --data '{
+            "context": "e2e",
+            "state": "failure",
+            "description": "Cypress tests failed"            
+          }'

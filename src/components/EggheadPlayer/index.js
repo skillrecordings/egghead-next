@@ -5,9 +5,10 @@ import {propTypes, defaultProps} from './props'
 import Wistia from './players/Wistia'
 import Bitmovin from './players/Bitmovin'
 import YouTube from './players/YouTube'
+import useEggheadPlayer from './use-egghead-player'
 
-export default class ReactPlayer extends Component {
-  static displayName = 'ReactPlayer'
+export default class EggheadPlayer extends Component {
+  static displayName = 'EggheadPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
   componentDidMount() {
@@ -124,3 +125,5 @@ export default class ReactPlayer extends Component {
     )
   }
 }
+
+export {EggheadPlayer, useEggheadPlayer}

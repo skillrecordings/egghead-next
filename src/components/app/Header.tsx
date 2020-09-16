@@ -1,7 +1,11 @@
+import {FunctionComponent} from 'react'
 import Link from 'next/link'
 import Eggo from '../images/eggo.svg'
+import {useViewer} from 'context/viewer-context'
 
-export default function Header() {
+const Header: FunctionComponent = () => {
+  const {viewer, loading} = useViewer()
+
   return (
     <header className="p-5 flex items-center justify-between">
       <div className="flex items-center">
@@ -26,9 +30,24 @@ export default function Header() {
           </ul>
         </nav>
       </div>
-      <Link href="/login">
-        <a>Sign in</a>
-      </Link>
+      {!loading && (
+        <>
+          {viewer ? (
+            <div className="flex space-x-4 justify-center items-center">
+              <div>
+                {viewer.full_name || 'member'} {viewer.is_pro && '⭐️'}
+              </div>
+              <img className="w-8 rounded-full" src={viewer.avatar_url} />
+            </div>
+          ) : (
+            <Link href="/login">
+              <a>Sign in</a>
+            </Link>
+          )}
+        </>
+      )}
     </header>
   )
 }
+
+export default Header

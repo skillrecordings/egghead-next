@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import Auth from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
@@ -13,10 +13,12 @@ type ViewerContextType = {
   authToken?: any
   requestSignInEmail?: any
   logout?: any
+  loading: boolean
 }
 
 const defaultViewerContext: ViewerContextType = {
   authenticated: false,
+  loading: true,
 }
 
 export function useViewer() {
@@ -27,6 +29,7 @@ export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
   const [viewer, setViewer] = React.useState()
+  const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
 
   React.useEffect(() => {
@@ -43,13 +46,15 @@ function useAuthedViewer() {
     const noAccessTokenFound = isEmpty(accessToken)
     const viewerIsPresent = !isEmpty(viewer)
 
-    let viewerMonitorIntervalId
+    let viewerMonitorIntervalId: number | undefined
 
     const loadViewerFromStorage = async () => {
+      console.log(`loading viewer from storage`)
       const newViewer: any = await auth.refreshUser(accessToken)
       if (!isEqual(newViewer, viewer)) {
         setViewer(newViewer)
       }
+      setLoading(() => false)
     }
 
     const clearAccessToken = () => {
@@ -68,7 +73,7 @@ function useAuthedViewer() {
     const clearUserMonitorInterval = () => {
       const intervalPresentForClearing = !isEmpty(viewerMonitorIntervalId)
       if (intervalPresentForClearing) {
-        clearInterval(viewerMonitorIntervalId)
+        window.clearInterval(viewerMonitorIntervalId)
       }
     }
 
@@ -77,12 +82,20 @@ function useAuthedViewer() {
       clearAccessToken()
     } else if (noAccessTokenFound) {
       viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
+      console.log(`checking auth on interval`)
+      setLoading(() => false)
     } else {
-      auth.handleAuthentication().then((viewer: any) => setViewer(viewer))
+      auth.handleAuthentication().then((viewer: any) => {
+        setViewer(viewer)
+        console.log(`handling authentication`)
+        setLoading(() => false)
+      })
     }
 
     return clearUserMonitorInterval
   }, [viewer])
+
+  console.log(loading)
 
   const values = React.useMemo(
     () => ({
@@ -95,14 +108,15 @@ function useAuthedViewer() {
       isAuthenticated: () => auth.isAuthenticated(),
       authToken: auth.getAuthToken(),
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),
+      loading,
     }),
-    [viewer],
+    [viewer, loading],
   )
 
   return values
 }
 
-export function ViewerProvider({children}) {
+export const ViewerProvider: FunctionComponent = ({children}) => {
   const values = useAuthedViewer()
 
   return (

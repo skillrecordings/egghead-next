@@ -1,7 +1,8 @@
+import {LessonResource} from 'types'
 import {request} from 'graphql-request'
 import config from './config'
 
-export async function loadLessons() {
+export async function loadLessons(): Promise<LessonResource[]> {
   const query = /* GraphQL */ `
     query getLessons {
       lessons(per_page: 25) {
@@ -39,5 +40,5 @@ export async function loadLesson(slug: string) {
   `
   const {lesson} = await request(config.graphQLEndpoint, query, {slug})
 
-  return lesson
+  return lesson as LessonResource
 }

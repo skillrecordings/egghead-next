@@ -1,27 +1,19 @@
-name: ci
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+name: Jest Tests CI
+
 on: [deployment_status]
+
 jobs:
-  e2e:
-    # only runs this job on successful deploy
-    if: github.event.deployment_status.state == 'success'
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Print URL 🖨
-        run: echo Testing URL ${{ github.event.deployment_status.target_url }}
-      - name: Checkout 🛎
-        uses: actions/checkout@v1
-      - name: Run Cypress 🌲
-        uses: cypress-io/github-action@v2
-        # with:
-        #   record: true
-        env:
-          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
-          # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
-      # if you are NOT using Cypress GitHub Integration App, then set commit status manually
-      # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions
-      - name: Cypress tests ✅
+      - uses: actions/checkout@v2
+      - name: Test using Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: yarn install
+      - run: yarn test:ci
+      - name: Jest tests ✅
         if: ${{ success() }}
         # set the merge commit status check
         # using GitHub REST API
@@ -32,13 +24,13 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
           --data '{
-            "context": "e2e",
+            "context": "tests",
             "state": "success",
-            "description": "Cypress tests passed",
+            "description": "Jest tests passed",
             "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }'
 
-      - name: Cypress tests 🚨
+      - name: Jest tests 🚨
         if: ${{ failure() }}
         run: |
           curl --request POST \
@@ -46,8 +38,8 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
           --data '{
-            "context": "e2e",
+            "context": "tests",
             "state": "failure",
-            "description": "Cypress tests failed",
+            "description": "Jest tests failed",
             "target_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }'

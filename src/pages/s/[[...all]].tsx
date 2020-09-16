@@ -1,15 +1,17 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
-import Search from '@components/search'
+import Search from 'components/search'
 import {NextSeo} from 'next-seo'
+import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
-import {createUrl, parseUrl, titleFromPath} from '@lib/search-url-builder'
-import {isEmpty, get} from 'lodash'
+import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
+import {isEmpty, get, first} from 'lodash'
+import queryParamsPresent from 'utils/query-params-present'
 
-const createURL = (state) => `?${qs.stringify(state)}`
+const createURL = (state: any) => `?${qs.stringify(state)}`
 
 const fullTextSearch = {
   appId: process.env.NEXT_PUBLIC_ALGOLIA_APP || '',
@@ -26,20 +28,30 @@ const defaultProps = {
   indexName: 'content_production',
 }
 
-export default function SearchIndex({
+type SearchIndexProps = {
+  initialSearchState: any
+  resultsState: any
+  pageTitle: string
+  noIndexInitial: boolean
+}
+
+const SearchIndex: FunctionComponent<SearchIndexProps> = ({
   initialSearchState,
   resultsState,
   pageTitle,
-}) {
+  noIndexInitial,
+}) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
+  const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const onSearchStateChange = (searchState) => {
+  const onSearchStateChange = (searchState: any) => {
     clearTimeout(debouncedState.current)
 
     debouncedState.current = setTimeout(() => {
-      const href = createUrl(searchState)
+      const href: string = createUrl(searchState)
+      setNoIndex(queryParamsPresent(href))
 
       router.push(`/s[[all]]`, href, {
         shallow: true,
@@ -48,6 +60,7 @@ export default function SearchIndex({
 
     setSearchState(searchState)
   }
+
   const customProps = {
     searchState,
     resultsState,
@@ -55,31 +68,41 @@ export default function SearchIndex({
     onSearchStateChange,
   }
 
-  const selectedTypes = get(searchState, 'refinementList.type', []) as string[]
-  const noindex = !isEmpty(searchState.query) || !isEmpty(selectedTypes)
-
   return (
     <div>
-      <NextSeo noindex={noindex} title={pageTitle} />
+      <NextSeo noindex={noIndex} title={pageTitle} />
       <Search {...defaultProps} {...customProps} />
     </div>
   )
 }
 
-export async function getServerSideProps({query, res}) {
+export default SearchIndex
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  query,
+  res,
+}) {
   res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
+  const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
-  const pageTitle = titleFromPath(query.all)
-  const {rawResults} = await findResultsState(Search, {
+  const pageTitle = titleFromPath(all as string[])
+  const {rawResults, state} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
   })
+
+  const noHits = isEmpty(get(first(rawResults), 'hits'))
+  const queryParamsPresent = !isEmpty(rest)
+  const userQueryPresent = !isEmpty(state.query)
+
+  const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   return {
     props: {
       resultsState: {rawResults},
       initialSearchState,
       pageTitle,
+      noIndexInitial,
     },
   }
 }

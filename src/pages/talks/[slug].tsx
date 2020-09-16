@@ -1,13 +1,14 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import ReactPlayer from '@components/ReactPlayer'
+import EggheadPlayer from 'components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
-import {loadLesson} from '@lib/lessons'
+import {loadLesson} from 'lib/lessons'
 import {GraphQLClient} from 'graphql-request'
-import {useViewer} from '@context/viewer-context'
+import {useViewer} from 'context/viewer-context'
+import {GetServerSideProps} from 'next'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -30,7 +31,11 @@ const lessonQuery = /* GraphQL */ `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-const NextUp = ({url}) => {
+type NextUpProps = {
+  url: any
+}
+
+const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? (
     <ul className="list-disc">
@@ -55,7 +60,11 @@ const NextUp = ({url}) => {
   ) : null
 }
 
-const Transcript = ({url}) => {
+type TranscriptProps = {
+  url: any
+}
+
+const Transcript: FunctionComponent<TranscriptProps> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? <Markdown>{data.text}</Markdown> : null
 }
@@ -75,7 +84,11 @@ const lessonLoader = (slug: any, token: any) => (query: string) => {
   return graphQLClient.request(query, variables)
 }
 
-export default function Lesson({initialLesson}) {
+type LessonProps = {
+  initialLesson: any
+}
+
+const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
@@ -106,7 +119,7 @@ export default function Lesson({initialLesson}) {
           className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
         >
-          <ReactPlayer
+          <EggheadPlayer
             ref={playerRef}
             className="absolute top-0 left-0 w-full h-full"
             hls_url={hls_url}
@@ -139,10 +152,16 @@ export default function Lesson({initialLesson}) {
   )
 }
 
-export async function getServerSideProps({res, params, req}) {
+export default Talk
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  res,
+  params,
+}) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const initialLesson = await loadLesson(params.slug)
+  const initialLesson = params && (await loadLesson(params.slug as string))
+
   return {
     props: {
       initialLesson,

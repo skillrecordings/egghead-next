@@ -1,33 +1,41 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 
-export default function Layout({
-  title,
-  description,
-  titleAppendSiteName = true,
-  url,
-  ...frontMatter
-}) {
-  return ({children: content}) => {
-    return (
-      <>
-        <NextSeo
-          title={title}
-          description={description}
-          titleTemplate={titleAppendSiteName ? undefined : '%s'}
-          openGraph={{
-            title,
-            description,
-            url,
-            images: frontMatter.ogImage ? [frontMatter.ogImage] : undefined,
-          }}
-          canonical={url}
-        />
-        <div className="prose max-w-none">
-          <h1>{frontMatter.title}</h1>
-          {content}
-        </div>
-      </>
-    )
-  }
+type LayoutProps = {
+  frontMatter: any
 }
+
+const DefaultLayout: FunctionComponent<LayoutProps> = ({
+  children,
+  frontMatter,
+}) => {
+  const {
+    title,
+    description,
+    titleAppendSiteName = false,
+    url,
+    ogImage,
+  } = frontMatter
+  return (
+    <>
+      <NextSeo
+        title={title}
+        description={description}
+        titleTemplate={titleAppendSiteName ? undefined : '%s'}
+        openGraph={{
+          title,
+          description,
+          url,
+          images: ogImage ? [ogImage] : undefined,
+        }}
+        canonical={url}
+      />
+      <div className="prose max-w-none">
+        <h1>{title}</h1>
+        {children}
+      </div>
+    </>
+  )
+}
+
+export default DefaultLayout

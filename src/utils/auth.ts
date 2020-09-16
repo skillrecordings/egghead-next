@@ -3,10 +3,11 @@ import {track, identify} from './analytics'
 import axios from 'axios'
 import get from 'lodash/get'
 import cookie from 'js-cookie'
+import * as serverCookie from 'cookie'
 
 const http = axios.create()
 
-const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
+export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
 
@@ -14,6 +15,12 @@ export const USER_KEY = 'egghead_sellable_user'
 export const ACCESS_TOKEN_KEY = 'egghead_sellable_access_token'
 export const EXPIRES_AT_KEY = 'egghead_sellable_expires_at'
 export const VIEWING_AS_USER_KEY = 'egghead_sellable_viewing_as_user'
+
+export function getTokenFromCookieHeaders(serverCookies: string = '') {
+  const parsedCookie = serverCookie.parse(serverCookies)
+  const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
+  return {eggheadToken, loginRequired: eggheadToken.length <= 0}
+}
 
 export default class Auth {
   eggheadAuth: OAuthClient
@@ -34,7 +41,7 @@ export default class Auth {
     this.monitor = this.monitor.bind(this)
   }
 
-  becomeUser(email, accessToken) {
+  becomeUser(email: any, accessToken: any) {
     if (typeof localStorage === 'undefined') {
       return
     }
@@ -69,8 +76,8 @@ export default class Auth {
       })
   }
 
-  requestSignInEmail(email) {
-    http.post(
+  requestSignInEmail(email: string) {
+    return http.post(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/send_token`,
       {
         email,
@@ -89,9 +96,9 @@ export default class Auth {
     this.clearLocalStorage()
   }
 
-  monitor(onInterval, delay = 2000) {
+  monitor(onInterval: {(): void; (...args: any[]): void}, delay = 2000) {
     if (this.isAuthenticated()) {
-      return setInterval(onInterval, delay)
+      return window.setInterval(onInterval, delay)
     }
   }
 
@@ -154,7 +161,10 @@ export default class Auth {
     return !expired
   }
 
-  refreshUser(accessToken, loadFullUser = false) {
+  refreshUser(
+    accessToken: string | string[] | null | undefined,
+    loadFullUser = false,
+  ) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
@@ -176,13 +186,14 @@ export default class Auth {
     })
   }
 
-  setSession(authResult) {
+  setSession(authResult: OAuthClient.Token) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('localStorage is not defined')
       }
+      const expires: unknown = authResult.data.expires_in
       const expiresAt = JSON.stringify(
-        authResult.data.expires_in * 1000 + new Date().getTime(),
+        (expires as number) * 1000 + new Date().getTime(),
       )
 
       localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)
