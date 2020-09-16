@@ -1,7 +1,7 @@
 name: e2e
 on:
   schedule:
-    - cron:  '*/15 * * * *'
+    - cron:  '0 23 * * *'
 jobs:
   e2e:
     name: cypress
