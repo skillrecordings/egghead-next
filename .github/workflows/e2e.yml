@@ -1,12 +1,12 @@
 name: e2e
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on:
   schedule:
-    - cron: '28 * * * *'
+    - cron:  '*/10 * * * *'
 jobs:
   e2e:
+    name: 
     runs-on: ubuntu-latest
-    steps:
+    steps: Cypress Tests on next.egghead.io
       - name: Checkout 🛎
         uses: actions/checkout@v1
       - name: Run Cypress 🌲
