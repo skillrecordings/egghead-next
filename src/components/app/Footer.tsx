@@ -63,7 +63,7 @@ const Nav: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <footer className="max-w-screen-lg w-full mx-auto sm:p-8 p-5">
+    <footer className="max-w-screen-2xl w-full mx-auto sm:p-8 p-5">
       <Nav />
       <div className="mt-8 w-full flex items-center justify-between">
         <Link href="/privacy">
