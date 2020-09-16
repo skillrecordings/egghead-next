@@ -7,11 +7,25 @@ import queryString from 'query-string'
 import get from 'lodash/get'
 import axios from 'axios'
 import {Router, useRouter} from 'next/router'
+import {Viewer} from 'interfaces/viewer'
+
+type CombinedEggheadDiscordUserData = {
+  eggheadUser?: Viewer
+  discordMember?: any
+  discordUser?: {
+    username: string
+    discriminator: string
+    email: string
+  }
+}
 
 const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
   loginRequired,
 }) => {
   const [syncingAccount, setSyncingAccount] = React.useState(true)
+  const [userData, setUserData] = React.useState<
+    CombinedEggheadDiscordUserData
+  >({})
   const router = useRouter()
 
   React.useEffect(() => {
@@ -30,7 +44,7 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
 
       await axios
         .post('/api/discord', {code: accessCode})
-        .then(({data}) => data)
+        .then(({data}) => setUserData(() => data))
 
       setSyncingAccount(false)
     }
@@ -39,18 +53,54 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
 
   return (
     <LoginRequired loginRequired={loginRequired}>
-      {syncingAccount ? (
-        <>
-          <h1>
-            Currently syncing your egghead account to the egghead Discord
-            server.
-          </h1>
-        </>
-      ) : (
-        <>
-          <h1>Your Discord account has been updated.</h1>
-        </>
-      )}
+      <div>
+        {syncingAccount ? (
+          <>
+            <h1>
+              Currently syncing your egghead account to the egghead Discord
+              server. Please wait! ♻️
+            </h1>
+          </>
+        ) : (
+          <>
+            {userData && (
+              <div className="flex flex-col space-y-3">
+                <h1>
+                  Your Discord account{' '}
+                  {userData.discordUser &&
+                    `(${userData.discordUser.username}#${userData.discordUser.discriminator} - ${userData.discordUser.email})`}{' '}
+                  has been updated.
+                </h1>
+                {userData.discordMember.guildId ===
+                  process.env.NEXT_PUBLIC_DISCORD_GUILD_ID && (
+                  <div>We added you to the egghead Discord!</div>
+                )}
+                {userData.eggheadUser && (
+                  <div>
+                    We found your egghead account!{' '}
+                    {userData.eggheadUser.is_pro
+                      ? 'You have a pro membership 🎉'
+                      : `You are not a pro member on ${userData.eggheadUser.email}`}
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+        <div className="pt-16">
+          <h2 className="text-2xl font-bold">FAQ</h2>
+          <div>
+            <h3 className="text-lg font-bold">
+              The egghead Discord doesn't show up in my server list?
+            </h3>
+            <p>
+              The authorization flow uses the Discord account currently logged
+              in to the browser. Sometimes this is different than the account
+              logged into the Discord app.
+            </p>
+          </div>
+        </div>
+      </div>
     </LoginRequired>
   )
 }

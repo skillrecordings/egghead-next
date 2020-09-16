@@ -5,4 +5,5 @@ export type Viewer = {
   discord_id?: string
   is_pro?: boolean
   is_instructor?: boolean
+  email?: string
 }
