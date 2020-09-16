@@ -108,7 +108,7 @@ export const parseUrl = (query: {all?: any; q?: any; type?: any}) => {
   const type: string[] = query.type?.split(',')
 
   return pickBy({
-    query: query?.q.replace('+', ' '),
+    query: query?.q?.replace('+', ' '),
     refinementList: pickBy({
       type,
       _tags: tags,
