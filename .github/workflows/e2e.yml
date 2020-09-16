@@ -2,7 +2,7 @@ name: e2e
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on:
   schedule:
-    - cron: '15 * * * *'
+    - cron: '27 * * * *'
 jobs:
   e2e:
     runs-on: ubuntu-latest
