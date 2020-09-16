@@ -99,6 +99,7 @@ type MetadataProps = {
     },
   ]
   summary: string
+  [cssRelated: string]: any
 }
 
 const Metadata: FunctionComponent<MetadataProps> = ({
@@ -106,9 +107,10 @@ const Metadata: FunctionComponent<MetadataProps> = ({
   instructor,
   tags,
   summary,
+  ...restProps
 }: MetadataProps) => {
   return (
-    <div>
+    <div {...restProps}>
       {title && <h3 className="mt-0 text-2xl">{title}</h3>}
       <div className="flex items-center mt-4">
         <a href={get(instructor, 'http_url', '#')} className="mr-4">
@@ -214,7 +216,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <h1 className="mb-10">{get(lesson, 'title')}</h1>
 
         <div
-          className="relative overflow-hidden bg-gray-100 mb-10"
+          className="relative overflow-hidden bg-gray-100"
           style={{paddingTop: '56.25%'}}
         >
           {playerState.value === 'playing' && (
@@ -231,14 +233,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             />
           )}
         </div>
-        <div className="mb-10">
-          <Metadata
-            title={title}
-            instructor={instructor}
-            tags={tags}
-            summary={summary}
-          />
-        </div>
+        <Metadata
+          title={title}
+          instructor={instructor}
+          tags={tags}
+          summary={summary}
+          className="mt-10"
+        />
         {next_up_url && (
           <div>
             <h3>Playlist:</h3>
