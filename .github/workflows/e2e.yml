@@ -1,10 +1,10 @@
 name: e2e
 on:
   schedule:
-    - cron:  '42 * * * *'
+    - cron:  '*/15 * * * *'
 jobs:
   e2e:
-    name: Cypress
+    name: cypress
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
