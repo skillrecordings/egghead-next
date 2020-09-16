@@ -9,6 +9,7 @@ import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
 import {useURL} from 'hooks/useUrl'
 import '../styles/index.css'
+import '@reach/listbox/styles.css'
 import Router from 'next/router'
 
 declare global {

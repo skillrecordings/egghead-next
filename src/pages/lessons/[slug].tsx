@@ -1,20 +1,28 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import EggheadPlayer from 'components/EggheadPlayer'
+import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
-import useSWR from 'swr'
-import {loadLesson} from 'lib/lessons'
-import {GraphQLClient} from 'graphql-request'
-import {useViewer} from 'context/viewer-context'
-import {GetServerSideProps} from 'next'
-import {LessonResource} from 'types'
 import {useMachine} from '@xstate/react'
+import useSWR from 'swr'
+import {
+  ListboxInput,
+  ListboxButton,
+  ListboxPopover,
+  ListboxList,
+  ListboxOption,
+} from '@reach/listbox'
 import playerMachine from 'components/EggheadPlayer/machine'
-import Eggo from '../../../public/images/eggo.svg'
+import EggheadPlayer from 'components/EggheadPlayer'
+import PlayerControls from 'components/PlayerControls'
+import Metadata from 'components/Metadata'
+import {loadLesson} from 'lib/lessons'
+import {useViewer} from 'context/viewer-context'
+import {LessonResource} from 'types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -102,74 +110,6 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   return data ? <Markdown>{data.text}</Markdown> : null
 }
 
-type MetadataProps = {
-  title: string
-  instructor: {
-    full_name: string
-    http_url: string
-    avatar_64_url: string
-  }
-  tags: [
-    {
-      name: string
-      http_url: string
-      image_url: string
-    },
-  ]
-  summary: string
-  [cssRelated: string]: any
-}
-
-const Metadata: FunctionComponent<MetadataProps> = ({
-  title,
-  instructor,
-  tags,
-  summary,
-  ...restProps
-}: MetadataProps) => {
-  return (
-    <div {...restProps}>
-      {title && <h3 className="mt-0 text-2xl">{title}</h3>}
-      <div className="flex items-center mt-4">
-        <a href={get(instructor, 'http_url', '#')} className="mr-4">
-          {get(instructor, 'avatar_64_url') ? (
-            <img
-              src={instructor.avatar_64_url}
-              alt=""
-              className="w-8 rounded-full"
-              css={{margin: 0}}
-            />
-          ) : (
-            <Eggo className="w-8 rounded-full" />
-          )}
-        </a>
-        {get(instructor, 'full_name') && (
-          <a href={get(instructor, 'http_url', '#')}>{instructor.full_name}</a>
-        )}
-        {!isEmpty(tags) && (
-          <div className="flex ml-6">
-            {tags.map((tag, index) => (
-              <a
-                href={tag.http_url}
-                key={index}
-                className="flex items-center ml-4 first:ml-0"
-              >
-                <img
-                  src={tag.image_url}
-                  alt=""
-                  className="w-5 h-5 flex-shrink-0"
-                />
-                <span className="ml-2">{tag.name}</span>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-      {summary && <Markdown className="mt-4">{summary}</Markdown>}
-    </div>
-  )
-}
-
 const lessonLoader = (slug: any, token: any) => (query: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -228,8 +168,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
   } = lesson
 
-  console.log(lesson)
-
   return (
     <div className="max-w-none">
       <div className="space-y-3">
@@ -242,22 +180,30 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
         <div
           className="relative overflow-hidden bg-gray-100"
-          style={{paddingTop: '56.25%'}}
+          css={{paddingTop: '56.25%'}}
         >
-          {playerState.value === 'playing' && (
-            <EggheadPlayer
-              ref={playerRef}
-              className="absolute top-0 left-0 w-full h-full"
-              hls_url={hls_url}
-              dash_url={dash_url}
-              width="100%"
-              height="auto"
-              pip="true"
-              controls
-              subtitlesUrl={get(lesson, 'subtitles_url')}
-            />
-          )}
+          <div className="absolute w-full h-full top-0 left-0">
+            {playerState.value === 'playing' && (
+              <EggheadPlayer
+                ref={playerRef}
+                hls_url={hls_url}
+                dash_url={dash_url}
+                width="100%"
+                height="auto"
+                pip="true"
+                controls
+                subtitlesUrl={get(lesson, 'subtitles_url')}
+              />
+            )}
+          </div>
         </div>
+        <PlayerControls
+          handlerSpeed={() => console.log('handlerSpeed')}
+          handlerRewinding={() => console.log('handlerRewinding')}
+          handlerDownload={() => console.log('handlerDownload')}
+          handlerTheaterMode={() => console.log('handlerTheaterMode')}
+          isPro={true}
+        />
         <div className="flex space-x-12">
           <div className="w-4/6">
             {transcript_url && (
