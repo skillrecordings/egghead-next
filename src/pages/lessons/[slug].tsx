@@ -117,6 +117,7 @@ type MetadataProps = {
     },
   ]
   summary: string
+  [cssRelated: string]: any
 }
 
 const Metadata: FunctionComponent<MetadataProps> = ({
@@ -124,9 +125,10 @@ const Metadata: FunctionComponent<MetadataProps> = ({
   instructor,
   tags,
   summary,
+  ...restProps
 }: MetadataProps) => {
   return (
-    <div>
+    <div {...restProps}>
       {title && <h3 className="mt-0 text-2xl">{title}</h3>}
       <div className="flex items-center mt-4">
         <a href={get(instructor, 'http_url', '#')} className="mr-4">
@@ -230,57 +232,54 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   return (
     <div className="max-w-none">
-      <div>
-        <div className="flex flex-col space-y-3">
-          {lesson.course && (
-            <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
-              <img className="w-10" src={lesson.course.square_cover_480_url} />
-              {lesson.course.title}
-            </div>
+      <div className="space-y-3">
+        {lesson.course && (
+          <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
+            <img className="w-10" src={lesson.course.square_cover_480_url} />
+            {lesson.course.title}
+          </div>
+        )}
+
+        <div
+          className="relative overflow-hidden bg-gray-100"
+          style={{paddingTop: '56.25%'}}
+        >
+          {playerState.value === 'playing' && (
+            <EggheadPlayer
+              ref={playerRef}
+              className="absolute top-0 left-0 w-full h-full"
+              hls_url={hls_url}
+              dash_url={dash_url}
+              width="100%"
+              height="auto"
+              pip="true"
+              controls
+              subtitlesUrl={get(lesson, 'subtitles_url')}
+            />
           )}
-          <div
-            className="relative overflow-hidden bg-gray-100 mb-10"
-            style={{paddingTop: '56.25%'}}
-          >
-            {playerState.value === 'playing' && (
-              <EggheadPlayer
-                ref={playerRef}
-                className="absolute top-0 left-0 w-full h-full"
-                hls_url={hls_url}
-                dash_url={dash_url}
-                width="100%"
-                height="auto"
-                pip="true"
-                controls
-                subtitlesUrl={get(lesson, 'subtitles_url')}
-              />
+        </div>
+        <div className="flex space-x-12">
+          <div className="w-4/6">
+            {transcript_url && (
+              <div>
+                <h3>Transcript:</h3>
+                <Transcript url={transcript_url} />
+              </div>
             )}
           </div>
-          <div className="flex space-x-12">
-            <div className="w-4/6">
-              {transcript_url && (
-                <div>
-                  <h3>Transcript:</h3>
-                  <Transcript url={transcript_url} />
-                </div>
-              )}
-            </div>
-            <div className="w-2/6 flex flex-col space-y-8">
-              <div className="mb-10">
-                <Metadata
-                  title={title}
-                  instructor={instructor}
-                  tags={tags}
-                  summary={summary}
-                />
+          <div className="w-2/6 flex flex-col space-y-8">
+            <Metadata
+              title={title}
+              instructor={instructor}
+              tags={tags}
+              summary={summary}
+            />
+            <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
+            {next_up_url && (
+              <div>
+                <NextUp url={next_up_url} />
               </div>
-              <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
-              {next_up_url && (
-                <div>
-                  <NextUp url={next_up_url} />
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
