@@ -1,12 +1,12 @@
 name: e2e
 on:
   schedule:
-    - cron:  '*/10 * * * *'
+    - cron:  '42 * * * *'
 jobs:
   e2e:
-    name: 
+    name: Cypress
     runs-on: ubuntu-latest
-    steps: Cypress Tests on next.egghead.io
+    steps:
       - name: Checkout 🛎
         uses: actions/checkout@v1
       - name: Run Cypress 🌲
