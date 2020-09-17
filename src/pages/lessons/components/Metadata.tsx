@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
-import Eggo from './images/eggo.svg'
+import Eggo from '../../../components/images/eggo.svg'
 
 type MetadataProps = {
   title: string

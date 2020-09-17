@@ -11,7 +11,7 @@ import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
 import playerMachine from 'components/EggheadPlayer/machine'
 import EggheadPlayer from 'components/EggheadPlayer'
-import PlayerControls from 'components/PlayerControls'
+import PlayerControls from 'pages/lessons/components/PlayerControls'
 import Metadata from 'pages/lessons/components/Metadata'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -194,7 +194,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         </div>
         <PlayerControls
           nextLessonUrl={nextLessonUrl}
-          handlerSpeed={() => console.log('handlerSpeed')}
           handlerDownload={() => console.log('handlerDownload')}
           isPro={true}
         />
