@@ -1,8 +1,7 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 
 type PlayerControlsProps = {
-  nextLessonUrl: string
   handlerDownload: any
   isPro: boolean
 }
@@ -10,19 +9,13 @@ type PlayerControlsProps = {
 const availableSpeeds: string[] = ['0.85', '1', '1.25', '1.5', '1.75', '2']
 
 const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
-  nextLessonUrl = '',
+  children,
   handlerDownload,
   isPro,
-}: PlayerControlsProps) => {
+}) => {
   return (
     <div className="flex items-center justify-between mt-4">
-      <div>
-        {nextLessonUrl && (
-          <Link href={nextLessonUrl}>
-            <a className="bg-gray-300 rounded p-2">Next lesson</a>
-          </Link>
-        )}
-      </div>
+      {children}
       {isPro ? (
         <>
           <div className="flex items-center">

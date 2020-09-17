@@ -9,7 +9,7 @@ import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
-import playerMachine from 'components/EggheadPlayer/machine'
+import playerMachine from 'pages/lessons/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import PlayerControls from 'pages/lessons/components/PlayerControls'
 import Metadata from 'pages/lessons/components/Metadata'
@@ -116,6 +116,21 @@ const lessonLoader = (slug: string, token: string) => {
   return graphQLClient.request(lessonQuery, variables)
 }
 
+const NextResourceButton: FunctionComponent<{
+  path: string
+  onClick: () => void
+}> = ({children, path, onClick}) => {
+  return (
+    <div>
+      <Link href={`/lessons/[id]`} as={path}>
+        <a className="bg-gray-300 rounded p-2" onClick={onClick}>
+          {children || 'Next Lesson'}
+        </a>
+      </Link>
+    </div>
+  )
+}
+
 type LessonProps = {
   initialLesson: LessonResource
 }
@@ -125,6 +140,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
+
+  console.log({playerState})
 
   const {data = {}, error} = useSWR(
     [initialLesson.slug, authToken],
@@ -140,13 +157,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   if (!lesson) return null
 
-  React.useEffect(() => {
-    if (playerState.value === 'loading') {
-      // here we can do some consideration for the actual state.
-      send('PLAY')
-    }
-  }, [playerState, send])
-
   const {
     instructor,
     next_up_url,
@@ -158,10 +168,36 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
   } = lesson
 
-  console.log(lesson)
+  const currentState = playerState.value
+
+  console.log(`The current player state: ${currentState}`)
+
+  React.useEffect(() => {
+    switch (currentState) {
+      case 'loading':
+        if (!isEmpty(data.lesson)) {
+          send('LOADED')
+        }
+        break
+      case 'loaded':
+        if (hls_url || dash_url) {
+          send('PLAY')
+        } else {
+          send('SUBSCRIBE')
+        }
+      case 'completed':
+        send('NEXT')
+      default:
+        break
+    }
+  }, [currentState, data.lesson])
 
   const nextUpData = useNextUpData(next_up_url)
-  const nextLessonUrl = get(nextUpData, 'next_lesson')
+  const nextUpPath = get(nextUpData, 'next_lesson')
+  const playerVisible: boolean =
+    playerState.value === 'playing' || playerState.value === 'paused'
+
+  console.log(nextUpPath)
 
   return (
     <div className="max-w-none" key={lesson.slug}>
@@ -178,7 +214,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           css={{paddingTop: '56.25%'}}
         >
           <div className="absolute w-full h-full top-0 left-0">
-            {playerState.value === 'playing' && (
+            {playerVisible && (
               <EggheadPlayer
                 ref={playerRef}
                 hls_url={hls_url}
@@ -187,16 +223,39 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 height="auto"
                 pip="true"
                 controls
+                onPlay={() => send('PLAY')}
+                onPause={() => send('PAUSE')}
+                onEnded={() => send('COMPLETE')}
                 subtitlesUrl={get(lesson, 'subtitles_url')}
               />
+            )}
+
+            {playerState.value === 'subscribe' && (
+              <div className="flex justify-center items-center h-full">
+                <Link href="/pricing">
+                  <a>Get Access to This Video</a>
+                </Link>
+              </div>
+            )}
+
+            {playerState.value === 'showingNext' && (
+              <div className="flex justify-center items-center h-full">
+                <NextResourceButton
+                  path={nextUpPath}
+                  onClick={() => send('LOAD')}
+                >
+                  Load the Next Video
+                </NextResourceButton>
+              </div>
             )}
           </div>
         </div>
         <PlayerControls
-          nextLessonUrl={nextLessonUrl}
           handlerDownload={() => console.log('handlerDownload')}
           isPro={true}
-        />
+        >
+          <NextResourceButton path={nextUpPath} onClick={() => send('LOAD')} />
+        </PlayerControls>
         <div className="flex space-x-12">
           <div className="w-4/6">
             {transcript_url && (
