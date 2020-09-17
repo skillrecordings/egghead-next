@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useState} from 'react'
+import Link from 'next'
 import {
   ListboxInput,
   ListboxButton,
@@ -9,50 +10,80 @@ import {
   ListboxOption,
 } from '@reach/listbox'
 import {isEmpty, get} from 'lodash'
+import IconChevronRight from './images/icon-chevron-double-right.svg'
+import IconDownload from './images/icon-download.svg'
 
 type PlayerControlsProps = {
+  nextLessonUrl: string
   handlerSpeed: any
-  handlerRewinding: any
+  // handlerRewind: any
   handlerDownload: any
   isPro: boolean
 }
 
+const availableSpeeds = [0.85, 1, 1.25, 1.5, 1.75, 2]
+
 const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
+  nextLessonUrl = '',
   handlerSpeed,
-  handlerRewinding,
+  // handlerRewind,
   handlerDownload,
   isPro,
-}: PlayerControlsProps) => (
-  <div className="flex items-center mt-4">
-    {isPro ? (
-      <>
-        <ListboxInput defaultValue="1.0" onChange={handlerSpeed}>
-          <ListboxButton className="w-20" />
-          <ListboxPopover>
-            <ListboxList>
-              <ListboxOption value="0.85">x0.85</ListboxOption>
-              <ListboxOption value="1.0">x1</ListboxOption>
-              <ListboxOption value="1.25">x1.25</ListboxOption>
-              <ListboxOption value="1.5">x1.5</ListboxOption>
-              <ListboxOption value="1.75">x1.75</ListboxOption>
-              <ListboxOption value="2.0">x2</ListboxOption>
-            </ListboxList>
-          </ListboxPopover>
-        </ListboxInput>
-        <button onClick={handlerRewinding} className="ml-4">
-          rewind
-        </button>
-        <button onClick={handlerRewinding} className="ml-4">
-          forward
-        </button>
-        <button onClick={handlerDownload} className="ml-4">
-          download
-        </button>
-      </>
-    ) : (
-      <div>This stuff if for Pro members only</div>
-    )}
-  </div>
-)
+}: PlayerControlsProps) => {
+  console.log('nextLessonUrl', nextLessonUrl)
+  const [speed, setSpeed] = useState(1)
+  // const setSpeedHandler = (value) => {
+  //   setSpeed(value)
+  // }
+  return (
+    <div className="flex items-center justify-between mt-4">
+      {isPro ? (
+        <>
+          <div>
+            {nextLessonUrl && (
+              <a href={nextLessonUrl} className="bg-gray-300 rounded p-2">
+                Next lesson
+              </a>
+              // <Link href={nextLessonUrl}>
+              //   <a className="bg-gray-300 rounded">Next lesson</a>
+              // </Link>
+            )}
+          </div>
+          <div className="flex items-center">
+            {/* <ListboxInput value={'' + speed} onChange={setSpeed}>
+              <ListboxButton className="w-20 bg-gray-300 rounded">
+                <IconChevronRight className="w-4" /> x{speed}
+              </ListboxButton>
+              <ListboxPopover>
+                <ListboxList>
+                  {availableSpeeds.map((option) => (
+                    <ListboxOption key={option} value={'' + option}>
+                      {`x${option}`}
+                    </ListboxOption>
+                  ))}
+                </ListboxList>
+              </ListboxPopover>
+            </ListboxInput> */}
+            {/* <button onClick={handlerRewind} className="ml-4">
+            rewind
+          </button>
+          <button onClick={handlerRewind} className="ml-4">
+            forward
+          </button> */}
+            <button
+              onClick={handlerDownload}
+              className="ml-4 bg-gray-300 rounded p-2"
+            >
+              <IconDownload className="w-4" />
+              {/* <IconChevronRight className="w-4" /> */}
+            </button>
+          </div>
+        </>
+      ) : (
+        <div>This stuff if for Pro members only</div>
+      )}
+    </div>
+  )
+}
 
 export default PlayerControls

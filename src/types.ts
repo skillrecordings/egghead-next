@@ -12,3 +12,10 @@ export type LessonResource = Resource & {
   id: string | number
   tags: any[]
 }
+
+export type Lesson = {
+  slug: string | number | undefined
+  path: string | import('url').UrlObject | undefined
+  title: React.ReactNode
+  completed: any
+}

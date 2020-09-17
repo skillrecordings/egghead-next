@@ -9,20 +9,13 @@ import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
-import {
-  ListboxInput,
-  ListboxButton,
-  ListboxPopover,
-  ListboxList,
-  ListboxOption,
-} from '@reach/listbox'
 import playerMachine from 'components/EggheadPlayer/machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import PlayerControls from 'components/PlayerControls'
 import Metadata from 'components/Metadata'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
-import {LessonResource} from 'types'
+import * as Types from 'types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -57,44 +50,42 @@ const lessonQuery = /* GraphQL */ `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-type NextUpProps = {
-  url: string
+const getNextUpData = (url: string) => {
+  const {data} = useSWR(url, fetcher)
+  return data
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
+type NextUpProps = {
+  data: {
+    list: {
+      lessons: Types.Lesson[]
+    }
+  }
+}
+
+const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
   return data ? (
     <ul>
-      {data.list.lessons.map(
-        (
-          lesson: {
-            slug: string | number | undefined
-            path: string | import('url').UrlObject | undefined
-            title: React.ReactNode
-            completed: any
-          },
-          index = 0,
-        ) => {
-          return (
-            <li
-              key={lesson.slug}
-              className="p-4 bg-gray-200 border-gray-100 border-2"
-            >
-              <div className="flex">
-                <div>
-                  {index + 1}{' '}
-                  <input type="checkbox" checked={lesson.completed} readOnly />
-                </div>
-                <Link href={`/lessons/[id]`} as={lesson.path}>
-                  <a className="no-underline hover:underline text-blue-500">
-                    {lesson.title}
-                  </a>
-                </Link>
+      {data.list.lessons.map((lesson, index = 0) => {
+        return (
+          <li
+            key={lesson.slug}
+            className="p-4 bg-gray-200 border-gray-100 border-2"
+          >
+            <div className="flex">
+              <div>
+                {index + 1}{' '}
+                <input type="checkbox" checked={lesson.completed} readOnly />
               </div>
-            </li>
-          )
-        },
-      )}
+              <Link href={`/lessons/[id]`} as={lesson.path}>
+                <a className="no-underline hover:underline text-blue-500">
+                  {lesson.title}
+                </a>
+              </Link>
+            </div>
+          </li>
+        )
+      })}
     </ul>
   ) : null
 }
@@ -126,7 +117,7 @@ const lessonLoader = (slug: any, token: any) => (query: string) => {
 }
 
 type LessonProps = {
-  initialLesson: LessonResource
+  initialLesson: Types.LessonResource
 }
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
@@ -143,7 +134,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   if (error) logout()
 
   const lesson = {...initialLesson, ...data.lesson}
-
   if (router.isFallback) {
     return <div>Loading...</div>
   }
@@ -167,6 +157,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     tags,
     summary,
   } = lesson
+
+  const nextUpData = getNextUpData(next_up_url)
+  console.log('nextUpData', nextUpData)
+  const nextLessonUrl = get(nextUpData, 'next_lesson')
+
+  console.log('clicked')
 
   return (
     <div className="max-w-none">
@@ -198,10 +194,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           </div>
         </div>
         <PlayerControls
+          nextLessonUrl={nextLessonUrl}
           handlerSpeed={() => console.log('handlerSpeed')}
-          handlerRewinding={() => console.log('handlerRewinding')}
           handlerDownload={() => console.log('handlerDownload')}
-          handlerTheaterMode={() => console.log('handlerTheaterMode')}
           isPro={true}
         />
         <div className="flex space-x-12">
@@ -221,9 +216,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               summary={summary}
             />
             <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
-            {next_up_url && (
+            {nextUpData && (
               <div>
-                <NextUp url={next_up_url} />
+                <NextUp data={nextUpData} />
               </div>
             )}
           </div>
@@ -241,7 +236,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const initialLesson: LessonResource | undefined =
+  const initialLesson: Types.LessonResource | undefined =
     params && (await loadLesson(params.slug as string))
 
   return {
