@@ -159,10 +159,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   } = lesson
 
   const nextUpData = getNextUpData(next_up_url)
-  console.log('nextUpData', nextUpData)
   const nextLessonUrl = get(nextUpData, 'next_lesson')
-
-  console.log('clicked')
 
   return (
     <div className="max-w-none">
