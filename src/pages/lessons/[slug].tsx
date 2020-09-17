@@ -15,7 +15,7 @@ import PlayerControls from 'components/PlayerControls'
 import Metadata from 'components/Metadata'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
-import * as Types from 'types'
+import {LessonResource} from 'types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -50,7 +50,7 @@ const lessonQuery = /* GraphQL */ `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-const getNextUpData = (url: string) => {
+const useNextUpData = (url: string) => {
   const {data} = useSWR(url, fetcher)
   return data
 }
@@ -58,12 +58,12 @@ const getNextUpData = (url: string) => {
 type NextUpProps = {
   data: {
     list: {
-      lessons: Types.Lesson[]
+      lessons: LessonResource[]
     }
   }
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
+const NextUp: FunctionComponent<NextUpProps> = ({children, data}) => {
   return data ? (
     <ul>
       {data.list.lessons.map((lesson, index = 0) => {
@@ -101,7 +101,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   return data ? <Markdown>{data.text}</Markdown> : null
 }
 
-const lessonLoader = (slug: any, token: any) => (query: string) => {
+const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
   }
@@ -113,11 +113,11 @@ const lessonLoader = (slug: any, token: any) => (query: string) => {
       ...authorizationHeader,
     },
   })
-  return graphQLClient.request(query, variables)
+  return graphQLClient.request(lessonQuery, variables)
 }
 
 type LessonProps = {
-  initialLesson: Types.LessonResource
+  initialLesson: LessonResource
 }
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
@@ -127,8 +127,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [playerState, send] = useMachine(playerMachine)
 
   const {data = {}, error} = useSWR(
-    lessonQuery,
-    lessonLoader(initialLesson.slug, authToken),
+    [initialLesson.slug, authToken],
+    lessonLoader,
   )
 
   if (error) logout()
@@ -158,11 +158,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
   } = lesson
 
-  const nextUpData = getNextUpData(next_up_url)
+  console.log(lesson)
+
+  const nextUpData = useNextUpData(next_up_url)
   const nextLessonUrl = get(nextUpData, 'next_lesson')
 
   return (
-    <div className="max-w-none">
+    <div className="max-w-none" key={lesson.slug}>
       <div className="space-y-3">
         {lesson.course && (
           <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
@@ -233,7 +235,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const initialLesson: Types.LessonResource | undefined =
+  const initialLesson: LessonResource | undefined =
     params && (await loadLesson(params.slug as string))
 
   return {

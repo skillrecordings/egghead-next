@@ -3,6 +3,8 @@ export type Resource = {
   slug: string
   description: string
   icon_url?: string
+  completed: boolean
+  path: string
 }
 
 export type LessonResource = Resource & {
@@ -11,11 +13,5 @@ export type LessonResource = Resource & {
   lesson_view_url: string
   id: string | number
   tags: any[]
-}
-
-export type Lesson = {
-  slug: string | number | undefined
-  path: string | import('url').UrlObject | undefined
-  title: React.ReactNode
-  completed: any
+  lessons: any[]
 }

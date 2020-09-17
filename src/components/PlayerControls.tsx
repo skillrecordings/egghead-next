@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
 import React, {FunctionComponent, useState} from 'react'
 import Link from 'next/link'
 import {
@@ -9,7 +7,6 @@ import {
   ListboxList,
   ListboxOption,
 } from '@reach/listbox'
-import {isEmpty, get} from 'lodash'
 import IconChevronRight from './images/icon-chevron-double-right.svg'
 import IconDownload from './images/icon-download.svg'
 
@@ -30,9 +27,11 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
 }: PlayerControlsProps) => {
   console.log('nextLessonUrl', nextLessonUrl)
   const [speed, setSpeed] = useState<string>('1')
-  // const setSpeedHandler = (value) => {
-  //   setSpeed(value)
-  // }
+  const speedValueChanged = (value: string) => {
+    handlerSpeed(value)
+    setSpeed(value)
+  }
+
   return (
     <div className="flex items-center justify-between mt-4">
       {isPro ? (
@@ -45,7 +44,7 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
             )}
           </div>
           <div className="flex items-center">
-            <ListboxInput value={speed} onChange={setSpeed}>
+            <ListboxInput value={speed} onChange={speedValueChanged}>
               <ListboxButton className="w-20 bg-gray-300 rounded">
                 <IconChevronRight className="w-4" /> x{speed}
               </ListboxButton>
