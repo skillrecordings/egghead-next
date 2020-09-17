@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 import React, {FunctionComponent, useState} from 'react'
-import Link from 'next'
+import Link from 'next/link'
 import {
   ListboxInput,
   ListboxButton,
@@ -16,7 +16,6 @@ import IconDownload from './images/icon-download.svg'
 type PlayerControlsProps = {
   nextLessonUrl: string
   handlerSpeed: any
-  // handlerRewind: any
   handlerDownload: any
   isPro: boolean
 }
@@ -26,7 +25,6 @@ const availableSpeeds = [0.85, 1, 1.25, 1.5, 1.75, 2]
 const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
   nextLessonUrl = '',
   handlerSpeed,
-  // handlerRewind,
   handlerDownload,
   isPro,
 }: PlayerControlsProps) => {
@@ -41,12 +39,9 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
         <>
           <div>
             {nextLessonUrl && (
-              <a href={nextLessonUrl} className="bg-gray-300 rounded p-2">
-                Next lesson
-              </a>
-              // <Link href={nextLessonUrl}>
-              //   <a className="bg-gray-300 rounded">Next lesson</a>
-              // </Link>
+              <Link href={nextLessonUrl}>
+                <a className="bg-gray-300 rounded p-2">Next lesson</a>
+              </Link>
             )}
           </div>
           <div className="flex items-center">
@@ -64,18 +59,11 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
                 </ListboxList>
               </ListboxPopover>
             </ListboxInput> */}
-            {/* <button onClick={handlerRewind} className="ml-4">
-            rewind
-          </button>
-          <button onClick={handlerRewind} className="ml-4">
-            forward
-          </button> */}
             <button
               onClick={handlerDownload}
               className="ml-4 bg-gray-300 rounded p-2"
             >
               <IconDownload className="w-4" />
-              {/* <IconChevronRight className="w-4" /> */}
             </button>
           </div>
         </>
