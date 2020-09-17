@@ -20,7 +20,7 @@ type PlayerControlsProps = {
   isPro: boolean
 }
 
-const availableSpeeds = [0.85, 1, 1.25, 1.5, 1.75, 2]
+const availableSpeeds: string[] = ['0.85', '1', '1.25', '1.5', '1.75', '2']
 
 const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
   nextLessonUrl = '',
@@ -29,7 +29,7 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
   isPro,
 }: PlayerControlsProps) => {
   console.log('nextLessonUrl', nextLessonUrl)
-  const [speed, setSpeed] = useState(1)
+  const [speed, setSpeed] = useState<string>('1')
   // const setSpeedHandler = (value) => {
   //   setSpeed(value)
   // }
@@ -45,20 +45,20 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
             )}
           </div>
           <div className="flex items-center">
-            {/* <ListboxInput value={'' + speed} onChange={setSpeed}>
+            <ListboxInput value={speed} onChange={setSpeed}>
               <ListboxButton className="w-20 bg-gray-300 rounded">
                 <IconChevronRight className="w-4" /> x{speed}
               </ListboxButton>
               <ListboxPopover>
                 <ListboxList>
                   {availableSpeeds.map((option) => (
-                    <ListboxOption key={option} value={'' + option}>
+                    <ListboxOption key={option} value={option}>
                       {`x${option}`}
                     </ListboxOption>
                   ))}
                 </ListboxList>
               </ListboxPopover>
-            </ListboxInput> */}
+            </ListboxInput>
             <button
               onClick={handlerDownload}
               className="ml-4 bg-gray-300 rounded p-2"
