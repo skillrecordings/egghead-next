@@ -25,7 +25,6 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
   handlerDownload,
   isPro,
 }: PlayerControlsProps) => {
-  console.log('nextLessonUrl', nextLessonUrl)
   const [speed, setSpeed] = useState<string>('1')
   const speedValueChanged = (value: string) => {
     handlerSpeed(value)
@@ -62,7 +61,20 @@ const PlayerControls: FunctionComponent<PlayerControlsProps> = ({
               onClick={handlerDownload}
               className="ml-4 bg-gray-300 rounded p-2"
             >
-              <IconDownload className="w-4" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="red"
+                className="w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
             </button>
           </div>
         </>

@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
@@ -39,8 +37,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
             <img
               src={instructor.avatar_64_url}
               alt=""
-              className="w-8 rounded-full"
-              css={{margin: 0}}
+              className="w-8 rounded-full m-0"
             />
           ) : (
             <Eggo className="w-8 rounded-full" />
