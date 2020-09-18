@@ -201,13 +201,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   return (
     <div className="max-w-none" key={lesson.slug}>
       <div className="space-y-3">
-        {lesson.course && (
-          <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
-            <img className="w-10" src={lesson.course.square_cover_480_url} />
-            {lesson.course.title}
-          </div>
-        )}
-
         <div
           className="relative overflow-hidden bg-gray-100"
           css={{paddingTop: '56.25%'}}
