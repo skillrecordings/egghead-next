@@ -23,7 +23,7 @@ type HitComponentProps = {
 const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
   const {path, type, image, summary, title} = hit
   return (
-    <Link href={`/${type}s/[id]`} as={path}>
+    <Link href={path}>
       <a className="grid grid-cols-4 gap-4 items-center mb-5">
         <div className="col-span-1 items-center flex justify-center">
           <img

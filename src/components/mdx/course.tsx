@@ -13,7 +13,7 @@ const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
     <div>
       {data && (
         <>
-          <Link href="/courses/[slug]" as={data.path}>
+          <Link href={data.path}>
             <a>
               <img className="w-64" src={data.square_cover_480_url} />
               {data.title}

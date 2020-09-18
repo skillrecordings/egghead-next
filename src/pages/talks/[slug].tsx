@@ -9,6 +9,7 @@ import {loadLesson} from 'lib/lessons'
 import {GraphQLClient} from 'graphql-request'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
+import {LessonResource} from 'types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -39,23 +40,17 @@ const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? (
     <ul className="list-disc">
-      {data.list.lessons.map(
-        (lesson: {
-          slug: string | number | undefined
-          path: string | import('url').UrlObject | undefined
-          title: React.ReactNode
-        }) => {
-          return (
-            <li key={lesson.slug}>
-              <Link href={`/lessons/[id]`} as={lesson.path}>
-                <a className="no-underline hover:underline text-blue-500">
-                  {lesson.title}
-                </a>
-              </Link>
-            </li>
-          )
-        },
-      )}
+      {data.list.lessons.map((lesson: LessonResource) => {
+        return (
+          <li key={lesson.slug}>
+            <Link href={lesson.path}>
+              <a className="no-underline hover:underline text-blue-500">
+                {lesson.title}
+              </a>
+            </Link>
+          </li>
+        )
+      })}
     </ul>
   ) : null
 }

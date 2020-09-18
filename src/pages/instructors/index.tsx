@@ -11,7 +11,7 @@ const InstructorCard: FunctionComponent<InstructorCardProps> = ({
   instructor,
 }) => {
   return (
-    <Link href="/instructors/[slug]" as={`instructors/${instructor.slug}`}>
+    <Link href={`instructors/${instructor.slug}`}>
       <div className="flex flex-col items-center">
         <img
           className="rounded-full"
