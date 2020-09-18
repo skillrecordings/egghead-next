@@ -11,7 +11,6 @@ import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
-import PlayerControls from 'components/pages/lessons/PlayerControls'
 import Metadata from 'components/pages/lessons/Metadata'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -250,12 +249,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </div>
         </div>
-        <PlayerControls
-          handlerDownload={() => console.log('handlerDownload')}
-          isPro={true}
-        >
-          <NextResourceButton path={nextUpPath} onClick={() => send('LOAD')} />
-        </PlayerControls>
         <div className="flex space-x-12">
           <div className="w-4/6">
             {transcript_url && (
