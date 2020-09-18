@@ -1,20 +1,21 @@
 /** @jsx jsx */
 import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
+import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import EggheadPlayer from 'components/EggheadPlayer'
+import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
-import useSWR from 'swr'
-import {loadLesson} from 'lib/lessons'
-import {GraphQLClient} from 'graphql-request'
-import {useViewer} from 'context/viewer-context'
-import {GetServerSideProps} from 'next'
-import {LessonResource} from 'types'
 import {useMachine} from '@xstate/react'
-import playerMachine from 'components/EggheadPlayer/machine'
-import Eggo from '../../../public/images/eggo.svg'
+import useSWR from 'swr'
+import playerMachine from 'machines/lesson-player-machine'
+import EggheadPlayer from 'components/EggheadPlayer'
+import PlayerControls from 'components/pages/lessons/PlayerControls'
+import Metadata from 'components/pages/lessons/Metadata'
+import {loadLesson} from 'lib/lessons'
+import {useViewer} from 'context/viewer-context'
+import {LessonResource} from 'types'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -49,44 +50,42 @@ const lessonQuery = /* GraphQL */ `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
-type NextUpProps = {
-  url: string
+const useNextUpData = (url: string) => {
+  const {data} = useSWR(url, fetcher)
+  return data
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
+type NextUpProps = {
+  data: {
+    list: {
+      lessons: LessonResource[]
+    }
+  }
+}
+
+const NextUp: FunctionComponent<NextUpProps> = ({children, data}) => {
   return data ? (
     <ul>
-      {data.list.lessons.map(
-        (
-          lesson: {
-            slug: string | number | undefined
-            path: string | import('url').UrlObject | undefined
-            title: React.ReactNode
-            completed: any
-          },
-          index = 0,
-        ) => {
-          return (
-            <li
-              key={lesson.slug}
-              className="p-4 bg-gray-200 border-gray-100 border-2"
-            >
-              <div className="flex">
-                <div>
-                  {index + 1}{' '}
-                  <input type="checkbox" checked={lesson.completed} readOnly />
-                </div>
-                <Link href={`/lessons/[id]`} as={lesson.path}>
-                  <a className="no-underline hover:underline text-blue-500">
-                    {lesson.title}
-                  </a>
-                </Link>
+      {data.list.lessons.map((lesson, index = 0) => {
+        return (
+          <li
+            key={lesson.slug}
+            className="p-4 bg-gray-200 border-gray-100 border-2"
+          >
+            <div className="flex">
+              <div>
+                {index + 1}{' '}
+                <input type="checkbox" checked={lesson.completed} readOnly />
               </div>
-            </li>
-          )
-        },
-      )}
+              <Link href={`/lessons/[id]`} as={lesson.path}>
+                <a className="no-underline hover:underline text-blue-500">
+                  {lesson.title}
+                </a>
+              </Link>
+            </div>
+          </li>
+        )
+      })}
     </ul>
   ) : null
 }
@@ -102,75 +101,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   return data ? <Markdown>{data.text}</Markdown> : null
 }
 
-type MetadataProps = {
-  title: string
-  instructor: {
-    full_name: string
-    http_url: string
-    avatar_64_url: string
-  }
-  tags: [
-    {
-      name: string
-      http_url: string
-      image_url: string
-    },
-  ]
-  summary: string
-  [cssRelated: string]: any
-}
-
-const Metadata: FunctionComponent<MetadataProps> = ({
-  title,
-  instructor,
-  tags,
-  summary,
-  ...restProps
-}: MetadataProps) => {
-  return (
-    <div {...restProps}>
-      {title && <h3 className="mt-0 text-2xl">{title}</h3>}
-      <div className="flex items-center mt-4">
-        <a href={get(instructor, 'http_url', '#')} className="mr-4">
-          {get(instructor, 'avatar_64_url') ? (
-            <img
-              src={instructor.avatar_64_url}
-              alt=""
-              className="w-8 rounded-full"
-              css={{margin: 0}}
-            />
-          ) : (
-            <Eggo className="w-8 rounded-full" />
-          )}
-        </a>
-        {get(instructor, 'full_name') && (
-          <a href={get(instructor, 'http_url', '#')}>{instructor.full_name}</a>
-        )}
-        {!isEmpty(tags) && (
-          <div className="flex ml-6">
-            {tags.map((tag, index) => (
-              <a
-                href={tag.http_url}
-                key={index}
-                className="flex items-center ml-4 first:ml-0"
-              >
-                <img
-                  src={tag.image_url}
-                  alt=""
-                  className="w-5 h-5 flex-shrink-0"
-                />
-                <span className="ml-2">{tag.name}</span>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-      {summary && <Markdown className="mt-4">{summary}</Markdown>}
-    </div>
-  )
-}
-
-const lessonLoader = (slug: any, token: any) => (query: string) => {
+const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
   }
@@ -182,7 +113,22 @@ const lessonLoader = (slug: any, token: any) => (query: string) => {
       ...authorizationHeader,
     },
   })
-  return graphQLClient.request(query, variables)
+  return graphQLClient.request(lessonQuery, variables)
+}
+
+const NextResourceButton: FunctionComponent<{
+  path: string
+  onClick: () => void
+}> = ({children, path, onClick}) => {
+  return (
+    <div>
+      <Link href={`/lessons/[id]`} as={path}>
+        <a className="bg-gray-300 rounded p-2" onClick={onClick}>
+          {children || 'Next Lesson'}
+        </a>
+      </Link>
+    </div>
+  )
 }
 
 type LessonProps = {
@@ -195,27 +141,21 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
+  console.log({playerState})
+
   const {data = {}, error} = useSWR(
-    lessonQuery,
-    lessonLoader(initialLesson.slug, authToken),
+    [initialLesson.slug, authToken],
+    lessonLoader,
   )
 
   if (error) logout()
 
   const lesson = {...initialLesson, ...data.lesson}
-
   if (router.isFallback) {
     return <div>Loading...</div>
   }
 
   if (!lesson) return null
-
-  React.useEffect(() => {
-    if (playerState.value === 'loading') {
-      // here we can do some consideration for the actual state.
-      send('PLAY')
-    }
-  }, [playerState, send])
 
   const {
     instructor,
@@ -228,10 +168,39 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
   } = lesson
 
-  console.log(lesson)
+  const currentState = playerState.value
+
+  console.log(`The current player state: ${currentState}`)
+
+  React.useEffect(() => {
+    switch (currentState) {
+      case 'loading':
+        if (!isEmpty(data.lesson)) {
+          send('LOADED')
+        }
+        break
+      case 'loaded':
+        if (hls_url || dash_url) {
+          send('PLAY')
+        } else {
+          send('SUBSCRIBE')
+        }
+      case 'completed':
+        send('NEXT')
+      default:
+        break
+    }
+  }, [currentState, data.lesson])
+
+  const nextUpData = useNextUpData(next_up_url)
+  const nextUpPath = get(nextUpData, 'next_lesson')
+  const playerVisible: boolean =
+    playerState.value === 'playing' || playerState.value === 'paused'
+
+  console.log(nextUpPath)
 
   return (
-    <div className="max-w-none">
+    <div className="max-w-none" key={lesson.slug}>
       <div className="space-y-3">
         {lesson.course && (
           <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
@@ -242,22 +211,51 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
         <div
           className="relative overflow-hidden bg-gray-100"
-          style={{paddingTop: '56.25%'}}
+          css={{paddingTop: '56.25%'}}
         >
-          {playerState.value === 'playing' && (
-            <EggheadPlayer
-              ref={playerRef}
-              className="absolute top-0 left-0 w-full h-full"
-              hls_url={hls_url}
-              dash_url={dash_url}
-              width="100%"
-              height="auto"
-              pip="true"
-              controls
-              subtitlesUrl={get(lesson, 'subtitles_url')}
-            />
-          )}
+          <div className="absolute w-full h-full top-0 left-0">
+            {playerVisible && (
+              <EggheadPlayer
+                ref={playerRef}
+                hls_url={hls_url}
+                dash_url={dash_url}
+                width="100%"
+                height="auto"
+                pip="true"
+                controls
+                onPlay={() => send('PLAY')}
+                onPause={() => send('PAUSE')}
+                onEnded={() => send('COMPLETE')}
+                subtitlesUrl={get(lesson, 'subtitles_url')}
+              />
+            )}
+
+            {playerState.value === 'subscribe' && (
+              <div className="flex justify-center items-center h-full">
+                <Link href="/pricing">
+                  <a>Get Access to This Video</a>
+                </Link>
+              </div>
+            )}
+
+            {playerState.value === 'showingNext' && (
+              <div className="flex justify-center items-center h-full">
+                <NextResourceButton
+                  path={nextUpPath}
+                  onClick={() => send('LOAD')}
+                >
+                  Load the Next Video
+                </NextResourceButton>
+              </div>
+            )}
+          </div>
         </div>
+        <PlayerControls
+          handlerDownload={() => console.log('handlerDownload')}
+          isPro={true}
+        >
+          <NextResourceButton path={nextUpPath} onClick={() => send('LOAD')} />
+        </PlayerControls>
         <div className="flex space-x-12">
           <div className="w-4/6">
             {transcript_url && (
@@ -275,9 +273,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               summary={summary}
             />
             <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
-            {next_up_url && (
+            {nextUpData && (
               <div>
-                <NextUp url={next_up_url} />
+                <NextUp data={nextUpData} />
               </div>
             )}
           </div>

@@ -1940,6 +1940,27 @@
     "@reach/utils" "0.11.2"
     tslib "^2.0.0"
 
+"@reach/listbox@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/@reach/listbox/-/listbox-0.11.2.tgz#838211ca6f7b36694dd00c016440faf91b31b849"
+  integrity sha512-m/roUli2fEhP1CmM/qjxQZb8O3XCZzEBxKIh6m7jmVlakFyq2bVLcP8yW1mBbTGUHInhbU1cyP5FKT3CKrJGfg==
+  dependencies:
+    "@reach/auto-id" "0.11.2"
+    "@reach/descendants" "0.11.2"
+    "@reach/machine" "0.11.2"
+    "@reach/popover" "0.11.2"
+    "@reach/utils" "0.11.2"
+    prop-types "^15.7.2"
+
+"@reach/machine@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/@reach/machine/-/machine-0.11.2.tgz#b3bd75196e4d10482698d4d23ea35a2d096a3566"
+  integrity sha512-jWf1M1jPXqMuH+ayse4XlsGn5DeEpOwYvFgNFh59BG0Bt/XXKpona1c80Y/GoW4wGmJQCGjYD5nKFKCxbKvrbg==
+  dependencies:
+    "@reach/utils" "0.11.2"
+    "@xstate/fsm" "1.4.0"
+    tslib "^2.0.0"
+
 "@reach/menu-button@^0.11.2":
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/@reach/menu-button/-/menu-button-0.11.2.tgz#7c1a955431b6b5c25e77eeaceac347bfc728bee9"
@@ -2646,6 +2667,11 @@
   version "1.9.5"
   resolved "https://registry.yarnpkg.com/@xobotyi/scrollbar-width/-/scrollbar-width-1.9.5.tgz#80224a6919272f405b87913ca13b92929bdf3c4d"
   integrity sha512-N8tkAACJx2ww8vFMneJmaAgmjAG1tnVBZJRLRcx061tmsLRZHSEZSLuGWnwPtunsSLvSqXQ2wfp7Mgqg1I+2dQ==
+
+"@xstate/fsm@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@xstate/fsm/-/fsm-1.4.0.tgz#6fd082336fde4d026e9e448576189ee5265fa51a"
+  integrity sha512-uTHDeu2xI5E1IFwf37JFQM31RrH7mY7877RqPBS4ZqSNUwoLDuct8AhBWaXGnVizBAYyimVwgCyGa9z/NiRhXA==
 
 "@xstate/react@^0.8.1":
   version "0.8.1"
