@@ -76,7 +76,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
                 {index + 1}{' '}
                 <input type="checkbox" checked={lesson.completed} readOnly />
               </div>
-              <Link href={`/lessons/[id]`} as={lesson.path}>
+              <Link href={lesson.path}>
                 <a className="no-underline hover:underline text-blue-500">
                   {lesson.title}
                 </a>
@@ -115,7 +115,7 @@ const NextResourceButton: FunctionComponent<{
   className: string
 }> = ({children, path, onClick, className = ''}) => {
   return (
-    <Link href={`/lessons/[id]`} as={path}>
+    <Link href={path}>
       <a className={className} onClick={onClick}>
         {children || 'Next Lesson'}
       </a>
