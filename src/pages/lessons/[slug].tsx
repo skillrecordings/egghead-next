@@ -11,7 +11,6 @@ import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
-import PlayerControls from 'components/pages/lessons/PlayerControls'
 import Metadata from 'components/pages/lessons/Metadata'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -63,7 +62,7 @@ type NextUpProps = {
   }
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({children, data}) => {
+const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
   return data ? (
     <ul>
       {data.list.lessons.map((lesson, index = 0) => {
@@ -90,13 +89,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({children, data}) => {
   ) : null
 }
 
-type TranscriptProps = {
-  url: string
-}
-
-const Transcript: FunctionComponent<TranscriptProps> = ({
-  url,
-}: TranscriptProps) => {
+const Transcript: FunctionComponent<{url: string}> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? <Markdown>{data.text}</Markdown> : null
 }
@@ -119,14 +112,23 @@ const lessonLoader = (slug: string, token: string) => {
 const NextResourceButton: FunctionComponent<{
   path: string
   onClick: () => void
-}> = ({children, path, onClick}) => {
+  className: string
+}> = ({children, path, onClick, className = ''}) => {
   return (
-    <div>
-      <Link href={path}>
-        <a className="bg-gray-300 rounded p-2" onClick={onClick}>
-          {children || 'Next Lesson'}
-        </a>
-      </Link>
+    <Link href={path}>
+      <a className={className} onClick={onClick}>
+        {children || 'Next Lesson'}
+      </a>
+    </Link>
+  )
+}
+
+const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
+  children,
+}) => {
+  return (
+    <div className="flex flex-col justify-center items-center h-full">
+      {children}
     </div>
   )
 }
@@ -140,8 +142,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
-
-  console.log({playerState})
 
   const {data = {}, error} = useSWR(
     [initialLesson.slug, authToken],
@@ -168,12 +168,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
   } = lesson
 
-  const currentState = playerState.value
+  const currentPlayerState = playerState.value
 
-  console.log(`The current player state: ${currentState}`)
+  console.log(`The current player state: ${currentPlayerState}`)
 
   React.useEffect(() => {
-    switch (currentState) {
+    switch (currentPlayerState) {
       case 'loading':
         if (!isEmpty(data.lesson)) {
           send('LOADED')
@@ -190,27 +190,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       default:
         break
     }
-  }, [currentState, data.lesson])
+  }, [currentPlayerState, data.lesson])
 
   const nextUpData = useNextUpData(next_up_url)
   const nextUpPath = get(nextUpData, 'next_lesson')
+  const nextLessonTitle = get(nextUpData, 'next_lesson_title')
   const playerVisible: boolean =
     playerState.value === 'playing' || playerState.value === 'paused'
-
-  console.log(nextUpPath)
 
   return (
     <div className="max-w-none" key={lesson.slug}>
       <div className="space-y-3">
-        {lesson.course && (
-          <div className="flex align-middle items-center space-x-6 w-100 p-3 bg-gray-200">
-            <img className="w-10" src={lesson.course.square_cover_480_url} />
-            {lesson.course.title}
-          </div>
-        )}
-
         <div
-          className="relative overflow-hidden bg-gray-100"
+          className="relative overflow-hidden bg-gray-200"
           css={{paddingTop: '56.25%'}}
         >
           <div className="absolute w-full h-full top-0 left-0">
@@ -231,31 +223,49 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
 
             {playerState.value === 'subscribe' && (
-              <div className="flex justify-center items-center h-full">
+              <OverlayWrapper>
                 <Link href="/pricing">
                   <a>Get Access to This Video</a>
                 </Link>
-              </div>
+              </OverlayWrapper>
             )}
 
             {playerState.value === 'showingNext' && (
-              <div className="flex justify-center items-center h-full">
-                <NextResourceButton
-                  path={nextUpPath}
-                  onClick={() => send('LOAD')}
-                >
-                  Load the Next Video
-                </NextResourceButton>
-              </div>
+              <OverlayWrapper>
+                <img
+                  src={lesson.course.square_cover_480_url}
+                  alt=""
+                  className="w-32"
+                />
+                <div className="mt-8">Up Next</div>
+                <h3 className="text-xl font-semibold mt-4">
+                  {nextLessonTitle}
+                </h3>
+                <div className="flex mt-16">
+                  <button
+                    className="bg-gray-300 rounded p-2 flex items-center"
+                    onClick={() => send('LOAD')}
+                  >
+                    <IconRefresh className="w-6 mr-3" /> Watch Again
+                  </button>
+                  <NextResourceButton
+                    path={nextUpPath}
+                    onClick={() => send('LOAD')}
+                    className="bg-gray-300 rounded p-2 flex items-center ml-4"
+                  >
+                    <IconPlay className="w-6 mr-3" /> Load the Next Video
+                  </NextResourceButton>
+                </div>
+                <div className="mt-20">
+                  Feeling stuck?{' '}
+                  <a href="#" className="font-semibold">
+                    Get help from egghead community
+                  </a>
+                </div>
+              </OverlayWrapper>
             )}
           </div>
         </div>
-        <PlayerControls
-          handlerDownload={() => console.log('handlerDownload')}
-          isPro={true}
-        >
-          <NextResourceButton path={nextUpPath} onClick={() => send('LOAD')} />
-        </PlayerControls>
         <div className="flex space-x-12">
           <div className="w-4/6">
             {transcript_url && (
@@ -302,3 +312,56 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   }
 }
+
+const IconDownload: FunctionComponent<{className: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+    />
+  </svg>
+)
+
+const IconPlay: FunctionComponent<{className: string}> = ({className = ''}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+    className={className}
+  >
+    <path
+      fillRule="evenodd"
+      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+      clipRule="evenodd"
+    />
+  </svg>
+)
+
+const IconRefresh: FunctionComponent<{className: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+    />
+  </svg>
+)
