@@ -51,7 +51,7 @@ const PodcastIndex: FunctionComponent<PodcastProps> = ({podcasts}) => {
           {podcasts.map((podcast) => {
             return (
               <div key={podcast.slug}>
-                <Link href={`/podcasts/[slug]`} as={podcast.path}>
+                <Link href={podcast.path}>
                   <a>{podcast.title}</a>
                 </Link>
               </div>

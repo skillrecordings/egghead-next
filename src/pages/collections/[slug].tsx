@@ -37,7 +37,7 @@ const Collection: FunctionComponent<CollectionProps> = ({collection}) => {
           {items.map((lesson: any) => {
             return (
               <li key={lesson.slug}>
-                <Link href={`/lessons/[id]`} as={lesson.path}>
+                <Link href={lesson.path}>
                   <a>{lesson.title}</a>
                 </Link>
               </li>
