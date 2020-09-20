@@ -72,7 +72,7 @@ export default class Auth {
         return user
       })
       .catch((error) => {
-        this.clearLocalStorage()
+        this.logout()
       })
   }
 
@@ -123,12 +123,14 @@ export default class Auth {
               },
               (error) => {
                 console.error(error)
+                this.logout()
                 reject(error)
               },
             )
           },
           (error) => {
             console.error(error)
+            this.logout()
             reject(error)
           },
         )
@@ -156,7 +158,7 @@ export default class Auth {
     const expiresAt = JSON.parse(storedExpiration)
     const expired = new Date().getTime() > expiresAt
     if (expired) {
-      this.clearLocalStorage()
+      this.logout()
     }
     return !expired
   }
@@ -181,6 +183,7 @@ export default class Auth {
           resolve(data)
         })
         .catch((error) => {
+          this.logout()
           reject(error)
         })
     })

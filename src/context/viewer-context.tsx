@@ -95,8 +95,6 @@ function useAuthedViewer() {
     return clearUserMonitorInterval
   }, [viewer])
 
-  console.log(loading)
-
   const values = React.useMemo(
     () => ({
       viewer,
