@@ -53,10 +53,11 @@ const useNextUpData = (url: string) => {
   const {data: nextUpData} = useSWR(url, fetcher)
   const nextUpPath = get(nextUpData, 'next_lesson')
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
-  return {nextUpData, nextUpPath, nextLessonTitle}
+  return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
 type NextUpProps = {
+  current: LessonResource
   data: {
     list: {
       lessons: LessonResource[]
@@ -64,7 +65,7 @@ type NextUpProps = {
   }
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
+const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
   return data ? (
     <ul>
       {data.list.lessons.map((lesson, index = 0) => {
@@ -74,15 +75,21 @@ const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
             className="p-4 bg-gray-200 border-gray-100 border-2"
           >
             <div className="flex">
-              <div>
+              <div className="w-2/12">
                 {index + 1}{' '}
                 <input type="checkbox" checked={lesson.completed} readOnly />
               </div>
-              <Link href={lesson.path}>
-                <a className="no-underline hover:underline text-blue-500">
-                  {lesson.title}
-                </a>
-              </Link>
+              <div className="w-full">
+                {lesson.slug !== current.slug ? (
+                  <Link href={lesson.path}>
+                    <a className="no-underline hover:underline text-blue-500">
+                      {lesson.title}
+                    </a>
+                  </Link>
+                ) : (
+                  <div>{lesson.title}</div>
+                )}
+              </div>
             </div>
           </li>
         )
@@ -116,9 +123,8 @@ const NextResourceButton: FunctionComponent<{
   onClick: () => void
   className: string
 }> = ({children, path, onClick, className = ''}) => {
-  if (!path) return null
   return (
-    <Link href={path}>
+    <Link href={path || '#'}>
       <a className={className} onClick={onClick}>
         {children || 'Next Lesson'}
       </a>
@@ -167,6 +173,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     hls_url,
     dash_url,
     title,
+    slug,
     tags,
     summary,
   } = lesson
@@ -290,7 +297,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
             {nextUpData && (
               <div>
-                <NextUp data={nextUpData} />
+                <NextUp data={nextUpData} current={lesson} />
               </div>
             )}
           </div>
