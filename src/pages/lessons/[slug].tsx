@@ -50,8 +50,10 @@ const lessonQuery = /* GraphQL */ `
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
 const useNextUpData = (url: string) => {
-  const {data} = useSWR(url, fetcher)
-  return data
+  const {data: nextUpData} = useSWR(url, fetcher)
+  const nextUpPath = get(nextUpData, 'next_lesson')
+  const nextLessonTitle = get(nextUpData, 'next_lesson_title')
+  return {nextUpData, nextUpPath, nextLessonTitle}
 }
 
 type NextUpProps = {
@@ -114,6 +116,7 @@ const NextResourceButton: FunctionComponent<{
   onClick: () => void
   className: string
 }> = ({children, path, onClick, className = ''}) => {
+  if (!path) return null
   return (
     <Link href={path}>
       <a className={className} onClick={onClick}>
@@ -185,16 +188,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         } else {
           send('SUBSCRIBE')
         }
+        break
       case 'completed':
         send('NEXT')
+        break
       default:
+        send('LOAD')
         break
     }
   }, [currentPlayerState, data.lesson])
 
-  const nextUpData = useNextUpData(next_up_url)
-  const nextUpPath = get(nextUpData, 'next_lesson')
-  const nextLessonTitle = get(nextUpData, 'next_lesson_title')
+  const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
+
   const playerVisible: boolean =
     playerState.value === 'playing' || playerState.value === 'paused'
 
@@ -222,7 +227,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               />
             )}
 
-            {playerState.value === 'subscribe' && (
+            {playerState.value === 'subscribing' && (
               <OverlayWrapper>
                 <Link href="/pricing">
                   <a>Get Access to This Video</a>
