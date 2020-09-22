@@ -65,7 +65,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
       {course && (
         <div className="pt-6">
           <h4 className="font-medium">Course</h4>
-          <div className="flex items-center mt-2">
+          <div className="flex items-center mt-3">
             <Link href={`/courses/${course.slug}`}>
               <a className="no-underline">
                 <img
@@ -81,6 +81,28 @@ const Metadata: FunctionComponent<MetadataProps> = ({
               </a>
             </Link>
           </div>
+        </div>
+      )}
+      {!isEmpty(tags) && (
+        <div className="pt-6">
+          <h4 className="font-medium">Tech used</h4>
+          <ul className="space-y-3 mt-3">
+            {tags.map((tag, index) => (
+              <li key={index}>
+                <a
+                  href={tag.http_url}
+                  className="flex items-center ml-4 first:ml-0"
+                >
+                  <img
+                    src={tag.image_url}
+                    alt=""
+                    className="w-5 h-5 flex-shrink-0"
+                  />
+                  <span className="ml-2">{tag.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       <div className="pt-6">
@@ -100,24 +122,6 @@ const Metadata: FunctionComponent<MetadataProps> = ({
             <a href={get(instructor, 'http_url', '#')}>
               {instructor.full_name}
             </a>
-          )}
-          {!isEmpty(tags) && (
-            <div className="flex ml-6">
-              {tags.map((tag, index) => (
-                <a
-                  href={tag.http_url}
-                  key={index}
-                  className="flex items-center ml-4 first:ml-0"
-                >
-                  <img
-                    src={tag.image_url}
-                    alt=""
-                    className="w-5 h-5 flex-shrink-0"
-                  />
-                  <span className="ml-2">{tag.name}</span>
-                </a>
-              ))}
-            </div>
           )}
         </div>
       </div>
