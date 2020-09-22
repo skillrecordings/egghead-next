@@ -11,7 +11,7 @@ import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
-import Metadata from 'components/pages/lessons/Metadata'
+import LessonInfo from 'components/pages/lessons/LessonInfo'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -245,7 +245,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </div>
           <div className="w-2/6 flex flex-col space-y-8">
-            <Metadata
+            <LessonInfo
               title={title}
               instructor={instructor}
               tags={tags}
