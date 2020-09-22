@@ -199,9 +199,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       case 'completed':
         send('NEXT')
         break
-      default:
-        send('LOAD')
-        break
     }
   }, [currentPlayerState, data.lesson])
 
