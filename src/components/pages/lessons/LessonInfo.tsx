@@ -6,7 +6,7 @@ import Eggo from '../../../components/images/eggo.svg'
 import {LessonResource} from 'types'
 
 type NextUpProps = {
-  current: LessonResource
+  currentLessonSlug: string
   data: {
     list: {
       lessons: LessonResource[]
@@ -14,7 +14,7 @@ type NextUpProps = {
   }
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
+const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
   return data ? (
     <ul>
       {data.list.lessons.map((lesson, index = 0) => {
@@ -29,7 +29,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
                 <input type="checkbox" checked={lesson.completed} readOnly />
               </div>
               <div className="w-full">
-                {lesson.slug !== current.slug ? (
+                {lesson.slug !== currentLessonSlug ? (
                   <Link href={lesson.path}>
                     <a className="no-underline hover:underline text-blue-500">
                       {lesson.title}
@@ -80,7 +80,6 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
   lesson,
   ...restProps
 }: LessonInfo) => {
-  console.log('course', course)
   return (
     <div {...restProps}>
       <div className="space-y-4">
@@ -183,7 +182,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
       </div>
       {nextUpData && (
         <div className="pt-6">
-          <NextUp data={nextUpData} current={lesson} />
+          <NextUp data={nextUpData} currentLessonSlug={lesson.slug} />
         </div>
       )}
     </div>
