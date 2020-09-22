@@ -195,7 +195,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
           Share this lesson with your friends
         </h4>
         <div className="flex items-center mt-3">
-          <div>sdsfsd</div>
+          <div>work in progress...</div>
         </div>
       </div>
       {nextUpData && (
