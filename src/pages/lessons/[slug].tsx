@@ -11,7 +11,7 @@ import {useMachine} from '@xstate/react'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
-import Metadata from 'components/pages/lessons/Metadata'
+import LessonInfo from 'components/pages/lessons/LessonInfo'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -29,9 +29,11 @@ const lessonQuery = /* GraphQL */ `
       summary
       hls_url
       dash_url
+      free_forever
       course {
         title
         square_cover_480_url
+        slug
       }
       tags {
         name
@@ -54,48 +56,6 @@ const useNextUpData = (url: string) => {
   const nextUpPath = get(nextUpData, 'next_lesson')
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
-}
-
-type NextUpProps = {
-  current: LessonResource
-  data: {
-    list: {
-      lessons: LessonResource[]
-    }
-  }
-}
-
-const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
-  return data ? (
-    <ul>
-      {data.list.lessons.map((lesson, index = 0) => {
-        return (
-          <li
-            key={lesson.slug}
-            className="p-4 bg-gray-200 border-gray-100 border-2"
-          >
-            <div className="flex">
-              <div className="w-2/12">
-                {index + 1}{' '}
-                <input type="checkbox" checked={lesson.completed} readOnly />
-              </div>
-              <div className="w-full">
-                {lesson.slug !== current.slug ? (
-                  <Link href={lesson.path}>
-                    <a className="no-underline hover:underline text-blue-500">
-                      {lesson.title}
-                    </a>
-                  </Link>
-                ) : (
-                  <div>{lesson.title}</div>
-                )}
-              </div>
-            </div>
-          </li>
-        )
-      })}
-    </ul>
-  ) : null
 }
 
 const Transcript: FunctionComponent<{url: string}> = ({url}) => {
@@ -173,10 +133,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     hls_url,
     dash_url,
     title,
-    slug,
     tags,
     summary,
+    course,
+    free_forever,
   } = lesson
+  console.log('lesson', lesson)
 
   const currentPlayerState = playerState.value
 
@@ -209,7 +171,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   return (
     <div className="max-w-none" key={lesson.slug}>
-      <div className="space-y-3">
+      <div className="space-y-10">
         <div
           className="relative overflow-hidden bg-gray-200"
           css={{paddingTop: '56.25%'}}
@@ -285,18 +247,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </div>
           <div className="w-2/6 flex flex-col space-y-8">
-            <Metadata
+            <LessonInfo
               title={title}
               instructor={instructor}
               tags={tags}
               summary={summary}
+              course={course}
+              nextUpData={nextUpData}
+              lessonSlug={lesson.slug}
+              isCommunityResource={free_forever}
+              className="space-y-6 divide-y-2 divide-gray-300"
             />
-            <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
-            {nextUpData && (
-              <div>
-                <NextUp data={nextUpData} current={lesson} />
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -321,25 +282,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   }
 }
-
-const IconDownload: FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    className={className}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-    />
-  </svg>
-)
 
 const IconPlay: FunctionComponent<{className: string}> = ({className = ''}) => (
   <svg
