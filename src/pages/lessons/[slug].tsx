@@ -32,6 +32,7 @@ const lessonQuery = /* GraphQL */ `
       course {
         title
         square_cover_480_url
+        slug
       }
       tags {
         name
@@ -176,6 +177,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     slug,
     tags,
     summary,
+    course,
   } = lesson
 
   const currentPlayerState = playerState.value
@@ -290,6 +292,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               instructor={instructor}
               tags={tags}
               summary={summary}
+              course={course}
+              className="space-y-6 divide-y-2 divide-gray-300"
             />
             <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
             {nextUpData && (
@@ -321,25 +325,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   }
 }
-
-const IconDownload: FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    className={className}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-    />
-  </svg>
-)
 
 const IconPlay: FunctionComponent<{className: string}> = ({className = ''}) => (
   <svg
