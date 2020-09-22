@@ -57,48 +57,6 @@ const useNextUpData = (url: string) => {
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
-type NextUpProps = {
-  current: LessonResource
-  data: {
-    list: {
-      lessons: LessonResource[]
-    }
-  }
-}
-
-const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
-  return data ? (
-    <ul>
-      {data.list.lessons.map((lesson, index = 0) => {
-        return (
-          <li
-            key={lesson.slug}
-            className="p-4 bg-gray-200 border-gray-100 border-2"
-          >
-            <div className="flex">
-              <div className="w-2/12">
-                {index + 1}{' '}
-                <input type="checkbox" checked={lesson.completed} readOnly />
-              </div>
-              <div className="w-full">
-                {lesson.slug !== current.slug ? (
-                  <Link href={lesson.path}>
-                    <a className="no-underline hover:underline text-blue-500">
-                      {lesson.title}
-                    </a>
-                  </Link>
-                ) : (
-                  <div>{lesson.title}</div>
-                )}
-              </div>
-            </div>
-          </li>
-        )
-      })}
-    </ul>
-  ) : null
-}
-
 const Transcript: FunctionComponent<{url: string}> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? <Markdown>{data.text}</Markdown> : null
@@ -211,7 +169,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   return (
     <div className="max-w-none" key={lesson.slug}>
-      <div className="space-y-3">
+      <div className="space-y-10">
         <div
           className="relative overflow-hidden bg-gray-200"
           css={{paddingTop: '56.25%'}}
@@ -293,14 +251,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               tags={tags}
               summary={summary}
               course={course}
+              nextUpData={nextUpData}
+              lesson={lesson}
               className="space-y-6 divide-y-2 divide-gray-300"
             />
-            <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
-            {nextUpData && (
-              <div>
-                <NextUp data={nextUpData} current={lesson} />
-              </div>
-            )}
           </div>
         </div>
       </div>

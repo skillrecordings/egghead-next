@@ -3,6 +3,49 @@ import Link from 'next/link'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import Eggo from '../../../components/images/eggo.svg'
+import {LessonResource} from 'types'
+
+type NextUpProps = {
+  current: LessonResource
+  data: {
+    list: {
+      lessons: LessonResource[]
+    }
+  }
+}
+
+const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
+  return data ? (
+    <ul>
+      {data.list.lessons.map((lesson, index = 0) => {
+        return (
+          <li
+            key={lesson.slug}
+            className="p-4 bg-gray-200 border-gray-100 border-2"
+          >
+            <div className="flex">
+              <div className="w-2/12">
+                {index + 1}{' '}
+                <input type="checkbox" checked={lesson.completed} readOnly />
+              </div>
+              <div className="w-full">
+                {lesson.slug !== current.slug ? (
+                  <Link href={lesson.path}>
+                    <a className="no-underline hover:underline text-blue-500">
+                      {lesson.title}
+                    </a>
+                  </Link>
+                ) : (
+                  <div>{lesson.title}</div>
+                )}
+              </div>
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  ) : null
+}
 
 type MetadataProps = {
   title: string
@@ -33,13 +76,15 @@ const Metadata: FunctionComponent<MetadataProps> = ({
   tags,
   summary,
   course,
+  nextUpData,
+  lesson,
   ...restProps
 }: MetadataProps) => {
   console.log('course', course)
   return (
     <div {...restProps}>
       <div className="space-y-4">
-        {title && <h3 className="mt-0 text-2xl">{title}</h3>}
+        {title && <h3 className="font-medium text-xl">{title}</h3>}
         {summary && <Markdown>{summary}</Markdown>}
         {
           <ul className="space-y-3">
@@ -64,7 +109,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
       </div>
       {course && (
         <div className="pt-6">
-          <h4 className="font-medium">Course</h4>
+          <h4 className="font-medium text-lg">Course</h4>
           <div className="flex items-center mt-3">
             <Link href={`/courses/${course.slug}`}>
               <a className="no-underline">
@@ -85,7 +130,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
       )}
       {!isEmpty(tags) && (
         <div className="pt-6">
-          <h4 className="font-medium">Tech used</h4>
+          <h4 className="font-medium text-lg">Tech used</h4>
           <ul className="space-y-3 mt-3">
             {tags.map((tag, index) => (
               <li key={index}>
@@ -105,26 +150,42 @@ const Metadata: FunctionComponent<MetadataProps> = ({
           </ul>
         </div>
       )}
-      <div className="pt-6">
-        <div className="flex items-center">
-          <a href={get(instructor, 'http_url', '#')} className="mr-4">
-            {get(instructor, 'avatar_64_url') ? (
-              <img
-                src={instructor.avatar_64_url}
-                alt=""
-                className="w-8 rounded-full m-0"
-              />
-            ) : (
-              <Eggo className="w-8 rounded-full" />
-            )}
-          </a>
-          {get(instructor, 'full_name') && (
-            <a href={get(instructor, 'http_url', '#')}>
-              {instructor.full_name}
+      {instructor && (
+        <div className="pt-6">
+          <h4 className="font-medium text-lg">Instructor</h4>
+          <div className="flex items-center mt-3">
+            <a href={get(instructor, 'http_url', '#')} className="mr-4">
+              {get(instructor, 'avatar_64_url') ? (
+                <img
+                  src={instructor.avatar_64_url}
+                  alt=""
+                  className="w-10 rounded-full m-0"
+                />
+              ) : (
+                <Eggo className="w-8 rounded-full" />
+              )}
             </a>
-          )}
+            {get(instructor, 'full_name') && (
+              <a href={get(instructor, 'http_url', '#')}>
+                {instructor.full_name}
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+      <div className="pt-6">
+        <h4 className="font-medium text-lg">
+          Share this lesson with your friends
+        </h4>
+        <div className="flex items-center mt-3">
+          <div>sdsfsd</div>
         </div>
       </div>
+      {nextUpData && (
+        <div className="pt-6">
+          <NextUp data={nextUpData} current={lesson} />
+        </div>
+      )}
     </div>
   )
 }
