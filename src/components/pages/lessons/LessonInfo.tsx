@@ -47,7 +47,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, current}) => {
   ) : null
 }
 
-type MetadataProps = {
+type LessonInfo = {
   title: string
   instructor: {
     full_name: string
@@ -70,7 +70,7 @@ type MetadataProps = {
   [cssRelated: string]: any
 }
 
-const Metadata: FunctionComponent<MetadataProps> = ({
+const LessonInfo: FunctionComponent<LessonInfo> = ({
   title,
   instructor,
   tags,
@@ -79,7 +79,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
   nextUpData,
   lesson,
   ...restProps
-}: MetadataProps) => {
+}: LessonInfo) => {
   console.log('course', course)
   return (
     <div {...restProps}>
@@ -190,7 +190,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({
   )
 }
 
-export default Metadata
+export default LessonInfo
 
 const IconDownload: FunctionComponent<{className?: string}> = ({
   className = '',
