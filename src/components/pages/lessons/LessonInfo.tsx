@@ -92,7 +92,7 @@ const CopyToClipboard: FunctionComponent<{
         <button
           type="button"
           disabled={copied}
-          onClick={() => copyHandler()}
+          onClick={copyHandler}
           className={`rounded p-2 flex justify-center items-center bg-gray-200 hover:bg-gray-400 transition-colors duration-150 ease-in-out ${className}`}
           style={{minWidth: '210px'}}
         >
