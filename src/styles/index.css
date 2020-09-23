@@ -20,16 +20,12 @@ h1 {
 
 @screen lg {
   h1 {
-    @apply text-2xl;
+    @apply text-xl;
   }
 }
 
 @screen xl {
   h1 {
-    @apply text-3xl;
+    @apply text-2xl;
   }
-}
-
-.prose h1, h2, h3, h4, p, ul, ol, li, span, img {
-  @apply max-w-2xl mx-auto
 }
