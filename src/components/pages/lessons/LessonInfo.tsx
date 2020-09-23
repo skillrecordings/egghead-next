@@ -53,24 +53,21 @@ const TweetLink: FunctionComponent<{
   path: string
   className?: string
 }> = ({title, path, className = ''}) => {
-  if (title && path) {
-    return (
-      <a
-        className={`flex items-center rounded p-2 bg-gray-200 hover:bg-gray-400 transition-colors ease-in-out duration-150 ${className}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
-          title + ', lesson by @eggheadio',
-        )}&url=${encodeURIComponent(
-          `${process.env.NEXT_PUBLIC_REDIRECT_URI}${path}`,
-        )}`}
-      >
-        <IconTwitter className="w-5 mr-2" />
-        <span>Tweet</span>
-      </a>
-    )
-  }
-  return null
+  return title && path ? (
+    <a
+      className={`flex items-center rounded p-2 bg-gray-200 hover:bg-gray-400 transition-colors ease-in-out duration-150 ${className}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
+        title + ', lesson by @eggheadio',
+      )}&url=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_REDIRECT_URI}${path}`,
+      )}`}
+    >
+      <IconTwitter className="w-5 mr-2" />
+      <span>Tweet</span>
+    </a>
+  ) : null
 }
 const CopyToClipboard: FunctionComponent<{
   path: string
