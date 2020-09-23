@@ -70,15 +70,15 @@ const TweetLink: FunctionComponent<{
   ) : null
 }
 const CopyToClipboard: FunctionComponent<{
-  path: string
+  stringToCopy: string
   className?: string
-}> = ({path, className = ''}) => {
-  if (path) {
+}> = ({stringToCopy, className = ''}) => {
+  if (stringToCopy) {
     const [copied, setCopied] = useState(false)
     const [state, copyToClipboard] = useCopyToClipboard()
 
     const copyHandler = () => {
-      copyToClipboard(`${process.env.NEXT_PUBLIC_REDIRECT_URI}${path}`)
+      copyToClipboard(stringToCopy)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     }
@@ -259,7 +259,10 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         <div className="flex items-center mt-3">
           <div className="flex items-center">
             <TweetLink title={lesson.title} path={lesson.path} />
-            <CopyToClipboard path={lesson.path} className="ml-4" />
+            <CopyToClipboard
+              stringToCopy={`${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`}
+              className="ml-4"
+            />
           </div>
         </div>
       </div>
