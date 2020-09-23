@@ -48,13 +48,15 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
   ) : null
 }
 
-const CopyToClipboard: FunctionComponent<{url: string}> = ({url}) => {
-  if (url) {
+const CopyToClipboard: FunctionComponent<{linkToCopy: string}> = ({
+  linkToCopy,
+}) => {
+  if (linkToCopy) {
     const [copied, setCopied] = useState(false)
     const [state, copyToClipboard] = useCopyToClipboard()
 
     const copyHandler = () => {
-      copyToClipboard(url)
+      copyToClipboard(linkToCopy)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     }
@@ -218,8 +220,10 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
             </h4>
           </div>
           <div className="mt-3">
-            A Community Resource means that it’s free to access for all. The
-            instructor of this lesson requested it to be open to the public.{' '}
+            <span>
+              A Community Resource means that it’s free to access for all. The
+              instructor of this lesson requested it to be open to the public.
+            </span>
             <a href="#" className="font-medium hover:text-blue-500">
               View More Community Resources
             </a>
@@ -232,7 +236,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         </h4>
         <div className="flex items-center mt-3">
           <div className="flex items-center">
-            <CopyToClipboard url={lesson.http_url} />
+            <CopyToClipboard linkToCopy={lesson.http_url} />
           </div>
         </div>
       </div>
