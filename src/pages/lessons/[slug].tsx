@@ -30,7 +30,6 @@ const lessonQuery = /* GraphQL */ `
       hls_url
       dash_url
       free_forever
-      http_url
       path
       course {
         title
