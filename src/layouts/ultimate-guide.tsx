@@ -30,7 +30,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="prose md:prose-xl max-w-2xl mx-auto">
+      <div className="prose md:prose-xl max-w-2xl mx-auto leading-6">
         <h1 className="text-xl">{title}</h1>
         {children}
       </div>

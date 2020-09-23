@@ -18,6 +18,7 @@ module.exports = {
       default: {
         css: {
           color: theme('colors.gray.800'),
+          marginTop: '3em',
         },
       },
     }),
