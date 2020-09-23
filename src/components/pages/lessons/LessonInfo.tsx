@@ -51,7 +51,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
 const TweetLink: FunctionComponent<{
   source: {
     title: string
-    slug: string
+    path: string
   }
   className?: string
 }> = ({source, className = ''}) => {
@@ -64,7 +64,7 @@ const TweetLink: FunctionComponent<{
         href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
           source.title + ', lesson by @eggheadio',
         )}&url=${encodeURIComponent(
-          `https://next.egghead.io/lessons/${source.slug}/`,
+          `${process.env.NEXT_PUBLIC_REDIRECT_URI}${source.path}`,
         )}`}
       >
         <IconTwitter className="w-5 mr-2" />

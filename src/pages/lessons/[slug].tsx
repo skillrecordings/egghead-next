@@ -31,6 +31,7 @@ const lessonQuery = /* GraphQL */ `
       dash_url
       free_forever
       http_url
+      path
       course {
         title
         square_cover_480_url
