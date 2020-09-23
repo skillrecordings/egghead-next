@@ -31,5 +31,5 @@ h1 {
 
 /* Contain typography styles */
 .prose h1, h2, h3, h4, p, ul, ol, li, span {
-  @apply max-w-2xl mx-auto
+  @apply max-w-2xl mx-auto leading-loose
 }
