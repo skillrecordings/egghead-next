@@ -3,9 +3,11 @@ import React from 'react'
 
 const ResourceLink = ({url, title}) => {
   return (
-    <div className="max-w-2xl mt-0 mx-auto rounded shadow px-8 py-6 flex">
+    <div className="max-w-2xl rounded shadow px-8 py-6 flex my-6">
       <div className="w-full">
-        <p className="text-gray-500 text-sm">Recommended Resource</p>
+        <p className="prose-reset text-gray-500 text-sm">
+          Recommended Resource
+        </p>
         <a href={url}>{title}</a>
       </div>
       <div className="w-10">
