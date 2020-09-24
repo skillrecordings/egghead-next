@@ -49,19 +49,26 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
 }
 
 const TweetLink: FunctionComponent<{
-  title: string
-  path: string
+  lesson: {
+    title: string
+    path: string
+  }
+  instructor: {
+    twitter: string
+  }
   className?: string
-}> = ({title, path, className = ''}) => {
-  return title && path ? (
+}> = ({lesson, instructor, className = ''}) => {
+  return get(lesson, 'title') && get(lesson, 'path') ? (
     <a
       className={`flex items-center rounded p-2 bg-gray-200 hover:bg-gray-400 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
-        title + ', lesson by @eggheadio',
+        lesson.title +
+          ` ${get(instructor, 'twitter') ? `by @${instructor.twitter}` : ''}` +
+          ', lesson on @eggheadio',
       )}&url=${encodeURIComponent(
-        `${process.env.NEXT_PUBLIC_REDIRECT_URI}${path}`,
+        `${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`,
       )}`}
     >
       <IconTwitter className="w-5 mr-2" />
@@ -113,7 +120,8 @@ type LessonInfo = {
   instructor: {
     full_name: string
     http_url: string
-    avatar_64_url: string
+    avatar_64_url?: string
+    twitter?: string
   }
   tags: [
     {
@@ -258,7 +266,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         </h4>
         <div className="flex items-center mt-3">
           <div className="flex items-center">
-            <TweetLink title={lesson.title} path={lesson.path} />
+            <TweetLink lesson={lesson} instructor={instructor} />
             <CopyToClipboard
               stringToCopy={`${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`}
               className="ml-4"

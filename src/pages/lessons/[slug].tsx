@@ -45,6 +45,7 @@ const lessonQuery = /* GraphQL */ `
         full_name
         http_url
         avatar_64_url
+        twitter
       }
     }
   }
