@@ -21,15 +21,6 @@ module.exports = {
           marginTop: '3em',
         },
       },
-      // ----- Trying to create a class that overrides the prose margins for text in specific MDX components. This doesn't work right now. Solved it in styles/index.css -----
-      // 'prose-reset': {
-      //   css: {
-      //       h3: {
-      //         margin: 0,
-      //         padding: 0,
-      //       }
-      //   }
-      // },
     }),
     extend: {},
   },
