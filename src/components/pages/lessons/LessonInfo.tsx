@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
+import Dialog from 'components/Dialog'
 import Eggo from '../../../components/images/eggo.svg'
 import {LessonResource} from 'types'
 
@@ -175,7 +176,16 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
             </li>
             <li className="flex items-center">
               <IconFlag className="w-5 mr-2" />
-              <button className="hover:text-blue-500">Flag to review</button>
+              <Dialog
+                ariaLabel="flag-for-revision"
+                title="Flag lesson for revision"
+                buttonText="Flag for revision"
+                buttonStyles="hover:text-blue-500"
+              >
+                <div className="text-center">
+                  Flag to review form goes here...
+                </div>
+              </Dialog>
             </li>
           </ul>
         }
