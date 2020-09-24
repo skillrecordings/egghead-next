@@ -30,6 +30,7 @@ const lessonQuery = /* GraphQL */ `
       hls_url
       dash_url
       free_forever
+      path
       course {
         title
         square_cover_480_url
@@ -42,8 +43,9 @@ const lessonQuery = /* GraphQL */ `
       }
       instructor {
         full_name
-        http_url
         avatar_64_url
+        slug
+        twitter
       }
     }
   }
@@ -136,9 +138,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     tags,
     summary,
     course,
-    free_forever,
   } = lesson
-  console.log('lesson', lesson)
 
   const currentPlayerState = playerState.value
 
@@ -254,8 +254,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               summary={summary}
               course={course}
               nextUpData={nextUpData}
-              lessonSlug={lesson.slug}
-              isCommunityResource={free_forever}
+              lesson={lesson}
               className="space-y-6 divide-y-2 divide-gray-300"
             />
           </div>
