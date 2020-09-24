@@ -54,7 +54,7 @@ const TweetLink: FunctionComponent<{
     path: string
   }
   instructor: {
-    twitter: string
+    twitter?: string
   }
   className?: string
 }> = ({lesson, instructor, className = ''}) => {
@@ -65,7 +65,11 @@ const TweetLink: FunctionComponent<{
       rel="noopener noreferrer"
       href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
         lesson.title +
-          ` ${get(instructor, 'twitter') ? `by @${instructor.twitter}` : ''}` +
+          `${
+            isEmpty(get(instructor, 'twitter'))
+              ? ''
+              : ` by @${instructor.twitter}`
+          }` +
           ', lesson on @eggheadio',
       )}&url=${encodeURIComponent(
         `${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`,
