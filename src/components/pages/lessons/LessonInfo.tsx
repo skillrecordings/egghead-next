@@ -54,6 +54,7 @@ const TweetLink: FunctionComponent<{
     path: string
   }
   instructor: {
+    slug: string
     twitter?: string
   }
   className?: string
@@ -123,8 +124,8 @@ type LessonInfo = {
   title: string
   instructor: {
     full_name: string
-    http_url: string
     avatar_64_url?: string
+    slug: string
     twitter?: string
   }
   tags: [
@@ -226,21 +227,23 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         <div className="pt-6">
           <h4 className="font-medium text-lg">Instructor</h4>
           <div className="flex items-center mt-3">
-            <a href={get(instructor, 'http_url', '#')} className="mr-4">
-              {get(instructor, 'avatar_64_url') ? (
-                <img
-                  src={instructor.avatar_64_url}
-                  alt=""
-                  className="w-10 rounded-full m-0"
-                />
-              ) : (
-                <Eggo className="w-8 rounded-full" />
-              )}
-            </a>
-            {get(instructor, 'full_name') && (
-              <a href={get(instructor, 'http_url', '#')}>
-                {instructor.full_name}
+            <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
+              <a className="mr-4">
+                {get(instructor, 'avatar_64_url') ? (
+                  <img
+                    src={instructor.avatar_64_url}
+                    alt=""
+                    className="w-10 rounded-full m-0"
+                  />
+                ) : (
+                  <Eggo className="w-8 rounded-full" />
+                )}
               </a>
+            </Link>
+            {get(instructor, 'full_name') && (
+              <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
+                <a>{instructor.full_name}</a>
+              </Link>
             )}
           </div>
         </div>
