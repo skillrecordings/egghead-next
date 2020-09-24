@@ -178,8 +178,8 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
               <IconFlag className="w-5 mr-2" />
               <Dialog
                 ariaLabel="flag-for-revision"
-                title="Flag lesson to review"
-                buttonText="Flag to review"
+                title="Flag lesson for revision"
+                buttonText="Flag for revision"
                 buttonStyles="hover:text-blue-500"
               >
                 <div className="text-center">
