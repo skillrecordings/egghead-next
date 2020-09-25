@@ -25,6 +25,8 @@ export default function DOMScroller({children}) {
     opacity: 0,
     top: 0,
     maxWidth: '100%',
+    maxHeight: '90vh',
+    margin: '0 1em',
     [bpMaxMD]: {
       display: 'none',
     },
@@ -102,7 +104,6 @@ export default function DOMScroller({children}) {
           ref={img1}
           css={{
             margin: '0 1em',
-            justifyContent: 'flex-start',
             objectFit: 'contain',
             maxWidth: '300px',
           }}

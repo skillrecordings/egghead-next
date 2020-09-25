@@ -134,12 +134,12 @@ export default function NodesScroller() {
         flexDirection: 'row',
         paddingTop: '1em',
         marginTop: '-3%',
-        marginBottom: '135%',
+        marginBottom: '120%',
         [bpMaxMD]: {
           marginLeft: 0,
           width: '100%',
           flexDirection: 'column',
-          marginBottom: '70%',
+          marginBottom: '120%',
           zIndex: 0,
         },
       }}
@@ -221,10 +221,10 @@ export default function NodesScroller() {
       <div
         ref={textRef}
         css={{
-          width: '40%',
+          width: '35%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: 'flex-start',
           paddingLeft: '4em',
           marginTop: '80vh',
           [bpMaxMD]: {
