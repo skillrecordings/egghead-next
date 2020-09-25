@@ -15,7 +15,7 @@
 }
 
 h1 {
-  @apply text-lg;
+  @apply text-xl;
 }
 
 @screen lg {
@@ -24,8 +24,20 @@ h1 {
   }
 }
 
-@screen xl {
-  h1 {
-    @apply text-3xl;
+/* Code block styles */
+.prose pre {
+  @apply mx-2 px-10 py-8 bg-gray-800 text-gray-200 rounded-md;
+}
+
+/* Contain typography to constrained width */
+.prose h1, h2, h3, h4, h5, p, ul, ol, li, span {
+  @apply max-w-2xl mx-auto leading-loose;
+}
+
+#__next {
+  .prose-reset {
+    * {
+      @apply m-0 p-0;
+    }
   }
 }
