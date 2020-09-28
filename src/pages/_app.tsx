@@ -11,6 +11,7 @@ import {useURL} from 'hooks/useUrl'
 import '../styles/index.css'
 import '@reach/listbox/styles.css'
 import '@reach/dialog/styles.css'
+import '@reach/tabs/styles.css'
 import Router from 'next/router'
 
 declare global {

@@ -8,6 +8,7 @@ import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
+import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
@@ -239,12 +240,26 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         </div>
         <div className="flex space-x-12">
           <div className="w-4/6">
-            {transcript_url && (
-              <div>
-                <h3>Transcript:</h3>
-                <Transcript url={transcript_url} />
-              </div>
-            )}
+            <Tabs>
+              <TabList css={{background: 'none'}}>
+                {transcript_url && <Tab>Transcript</Tab>}
+                <Tab>Code</Tab>
+                <Tab>Comments</Tab>
+              </TabList>
+              <TabPanels className="mt-6">
+                {transcript_url && (
+                  <TabPanel>
+                    <Transcript url={transcript_url} />
+                  </TabPanel>
+                )}
+                <TabPanel>
+                  <p>Code</p>
+                </TabPanel>
+                <TabPanel>
+                  <p>Comments</p>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </div>
           <div className="w-2/6 flex flex-col space-y-8">
             <LessonInfo
