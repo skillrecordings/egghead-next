@@ -115,6 +115,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
+  const currentPlayerState = playerState.value
+
   const {data = {}, error} = useSWR(
     [initialLesson.slug, authToken],
     lessonLoader,
@@ -141,8 +143,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     course,
   } = lesson
 
-  const currentPlayerState = playerState.value
-
   console.log(`The current player state: ${currentPlayerState}`)
 
   React.useEffect(() => {
@@ -168,7 +168,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
   const playerVisible: boolean =
-    playerState.value === 'playing' || playerState.value === 'paused'
+    currentPlayerState === 'playing' || currentPlayerState === 'paused'
 
   return (
     <div className="max-w-none" key={lesson.slug}>
@@ -194,7 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               />
             )}
 
-            {playerState.value === 'subscribing' && (
+            {currentPlayerState === 'subscribing' && (
               <OverlayWrapper>
                 <Link href="/pricing">
                   <a>Get Access to This Video</a>
@@ -202,7 +202,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </OverlayWrapper>
             )}
 
-            {playerState.value === 'showingNext' && (
+            {currentPlayerState === 'showingNext' && (
               <OverlayWrapper>
                 <img
                   src={lesson.course.square_cover_480_url}
