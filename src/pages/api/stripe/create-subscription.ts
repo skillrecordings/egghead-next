@@ -32,6 +32,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       expand: ['latest_invoice.payment_intent', 'plan.product'],
     })
 
+    // TODO before we return this, we can record it on egghead-rails side
+    // as needed and strip the response down. If they are logged in we
+    // have user information that we can utilize. If they aren't logged in
+    // we drop them into a "thanks" state and tell them to check their inbox
+    // where a shiny new magic link is available to drop them into an onboarding
+    // flow (to the extent it's available)
+
     res.json(subscription)
   } else {
     res.statusCode = 404

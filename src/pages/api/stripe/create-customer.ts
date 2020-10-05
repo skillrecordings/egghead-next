@@ -12,13 +12,17 @@ import {NextApiRequest, NextApiResponse} from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // Create a new customer object
+    // Create a new Stripe customer object
+    // This doesn't do anything on the egghead side. We **probably** want to capture
+    // this at the contact level and associate it with an existing contact
+    // if possible
     const customer = await stripe.customers.create({
       email: req.body.email,
     })
 
-    // save the customer.id as stripeCustomerId
-    // in your database.
+    // update/create a Contact as required with appropriate StripeID
+    // Should this be a StripeCustomer so a given Contact can have
+    // multiple StripeCustomers based on client_id/site?
 
     res.status(200).json(customer)
   } else {

@@ -48,6 +48,7 @@ export default function Pricing() {
         type: 'updateCustomerEmail',
         customerEmail: emailInputRef.current.value,
       })
+      // TODO: check email against records
       axios
         .post(`/api/stripe/create-customer`, {
           email: emailInputRef.current.value,
@@ -130,6 +131,7 @@ const CheckoutForm: React.FunctionComponent<CheckoutFormProps> = ({
         .post(`/api/stripe/create-subscription`, {
           customerId: stripeCustomerId,
           paymentMethodId: paymentMethod.id,
+          // TODO: integrate prices via egghead API using SSR
           priceId: `price_1HYiOG2nImeJXwdJ7ExDNeMV`,
         })
         .then(({data}) => {
@@ -148,6 +150,8 @@ const CheckoutForm: React.FunctionComponent<CheckoutFormProps> = ({
           const {status: paymentStatus} = paymentIntent
           const {id: priceId, product} = plan
           const {id: productId} = product
+          // TODO: This is the egghead integration point where we need to
+          // transfer this to there.
           console.log({
             customerEmail,
             subscriptionId,
@@ -160,7 +164,6 @@ const CheckoutForm: React.FunctionComponent<CheckoutFormProps> = ({
             productId,
           })
         })
-      console.log('[PaymentMethod]', paymentMethod)
     }
   }
 
