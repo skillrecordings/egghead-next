@@ -35,6 +35,9 @@
     "@tailwindcss/ui": "^0.6.2",
     "@xstate/react": "^1.0.1",
     "algoliasearch": "^4.5.1",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.9.0",
+    "@xstate/inspect": "^0.1.1",
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",
     "cookie": "^0.4.1",
@@ -73,6 +76,7 @@
     "swr": "^0.3.5",
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^8.0.7",
+    "stripe": "^8.107.0",
     "xstate": "^4.13.0",
     "yup": "^0.29.3"
   },
