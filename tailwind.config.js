@@ -24,26 +24,26 @@ module.exports = {
             textDecoration: 'underline',
           },
           h1: {
-            lineHeight: '1.25',
+            lineHeight: theme('lineHeight.tight'),
           },
           h2: {
-            lineHeight: '1.33',
+            lineHeight: theme('lineHeight.snug'),
           },
           h3: {
-            lineHeight: '1.4',
+            lineHeight: theme('lineHeight.normal'),
           },
         },
       },
       xl: {
         css: {
           h1: {
-            lineHeight: '1.25',
+            lineHeight: theme('lineHeight.tight'),
           },
           h2: {
-            lineHeight: '1.33',
+            lineHeight: theme('lineHeight.snug'),
           },
           h3: {
-            lineHeight: '1.4',
+            lineHeight: theme('lineHeight.normal'),
           },
         },
       },
