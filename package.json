@@ -38,6 +38,7 @@
     "cookie": "^0.4.1",
     "discord.js": "^12.3.1",
     "formik": "^2.1.5",
+    "framer-motion": "^2.7.7",
     "got": "^11.6.2",
     "graphql": "^15.3.0",
     "graphql-request": "^3.1.0",
