@@ -37,6 +37,7 @@
     "client-oauth2": "^4.3.3",
     "cookie": "^0.4.1",
     "discord.js": "^12.3.1",
+    "facepaint": "^1.2.1",
     "formik": "^2.1.5",
     "got": "^11.6.2",
     "graphql": "^15.3.0",
