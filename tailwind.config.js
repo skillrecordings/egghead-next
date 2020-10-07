@@ -18,6 +18,33 @@ module.exports = {
       default: {
         css: {
           color: theme('colors.gray.800'),
+          marginTop: '3em',
+          a: {
+            color: theme('colors.blue.600'),
+            textDecoration: 'underline',
+          },
+          h1: {
+            lineHeight: '1.25',
+          },
+          h2: {
+            lineHeight: '1.33',
+          },
+          h3: {
+            lineHeight: '1.4',
+          },
+        },
+      },
+      xl: {
+        css: {
+          h1: {
+            lineHeight: '1.25',
+          },
+          h2: {
+            lineHeight: '1.33',
+          },
+          h3: {
+            lineHeight: '1.4',
+          },
         },
       },
     }),
