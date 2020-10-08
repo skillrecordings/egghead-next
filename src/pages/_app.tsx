@@ -25,6 +25,12 @@ Router.events.on('routeChangeComplete', () => window.ahoy.trackView())
 export default class App extends NextApp {
   render() {
     const {Component, pageProps} = this.props
+    const {pathname} = this.props.router
+
+    if (pathname.endsWith(`/embed`)) {
+      return <Component {...pageProps}></Component>
+    }
+
     return (
       <>
         <DefaultSeo {...defaultSeoConfig} />
