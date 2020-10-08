@@ -46,7 +46,7 @@
     "load-script": "^1.0.0",
     "lodash": "^4.17.20",
     "mdx-prism": "^0.3.1",
-    "next": "^9.5.3",
+    "next": "^9.5.4",
     "next-compose-plugins": "^2.2.0",
     "next-mdx-enhanced": "^4.0.0",
     "next-seo": "^4.7.3",
