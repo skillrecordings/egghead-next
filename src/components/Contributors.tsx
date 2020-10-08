@@ -3,11 +3,7 @@ import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
 
 type ContributorsProps = {
-  children: React.ReactNode
-  ariaLabel: string
-  title: string
-  buttonText: string
-  buttonStyles: string
+  contributors: string[]
 }
 const Contributors: FunctionComponent<ContributorsProps> = ({contributors}) => {
   return (
