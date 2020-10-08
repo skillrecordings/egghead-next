@@ -14,16 +14,6 @@
   display: none;
 }
 
-h1 {
-  @apply text-xl;
-}
-
-@screen lg {
-  h1 {
-    @apply text-2xl;
-  }
-}
-
 /* Code block styles */
 .prose pre {
   @apply mx-2 px-8 py-6 bg-gray-800 text-gray-200 rounded-md;
