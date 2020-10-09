@@ -8,10 +8,11 @@ import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
+import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
-import Metadata from 'components/pages/lessons/Metadata'
+import LessonInfo from 'components/pages/lessons/LessonInfo'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -29,9 +30,12 @@ const lessonQuery = /* GraphQL */ `
       summary
       hls_url
       dash_url
+      free_forever
+      path
       course {
         title
         square_cover_480_url
+        slug
       }
       tags {
         name
@@ -40,8 +44,9 @@ const lessonQuery = /* GraphQL */ `
       }
       instructor {
         full_name
-        http_url
         avatar_64_url
+        slug
+        twitter
       }
     }
   }
@@ -53,42 +58,7 @@ const useNextUpData = (url: string) => {
   const {data: nextUpData} = useSWR(url, fetcher)
   const nextUpPath = get(nextUpData, 'next_lesson')
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
-  return {nextUpData, nextUpPath, nextLessonTitle}
-}
-
-type NextUpProps = {
-  data: {
-    list: {
-      lessons: LessonResource[]
-    }
-  }
-}
-
-const NextUp: FunctionComponent<NextUpProps> = ({data}) => {
-  return data ? (
-    <ul>
-      {data.list.lessons.map((lesson, index = 0) => {
-        return (
-          <li
-            key={lesson.slug}
-            className="p-4 bg-gray-200 border-gray-100 border-2"
-          >
-            <div className="flex">
-              <div>
-                {index + 1}{' '}
-                <input type="checkbox" checked={lesson.completed} readOnly />
-              </div>
-              <Link href={lesson.path}>
-                <a className="no-underline hover:underline text-blue-500">
-                  {lesson.title}
-                </a>
-              </Link>
-            </div>
-          </li>
-        )
-      })}
-    </ul>
-  ) : null
+  return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
 const Transcript: FunctionComponent<{url: string}> = ({url}) => {
@@ -116,9 +86,8 @@ const NextResourceButton: FunctionComponent<{
   onClick: () => void
   className: string
 }> = ({children, path, onClick, className = ''}) => {
-  if (!path) return null
   return (
-    <Link href={path}>
+    <Link href={path || '#'}>
       <a className={className} onClick={onClick}>
         {children || 'Next Lesson'}
       </a>
@@ -146,6 +115,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
+  const currentPlayerState = playerState.value
+
   const {data = {}, error} = useSWR(
     [initialLesson.slug, authToken],
     lessonLoader,
@@ -169,9 +140,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     title,
     tags,
     summary,
+    course,
   } = lesson
-
-  const currentPlayerState = playerState.value
 
   console.log(`The current player state: ${currentPlayerState}`)
 
@@ -192,20 +162,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       case 'completed':
         send('NEXT')
         break
-      default:
-        send('LOAD')
-        break
     }
   }, [currentPlayerState, data.lesson])
 
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
   const playerVisible: boolean =
-    playerState.value === 'playing' || playerState.value === 'paused'
+    currentPlayerState === 'playing' || currentPlayerState === 'paused'
 
   return (
     <div className="max-w-none" key={lesson.slug}>
-      <div className="space-y-3">
+      <div className="space-y-10">
         <div
           className="relative overflow-hidden bg-gray-200"
           css={{paddingTop: '56.25%'}}
@@ -227,7 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               />
             )}
 
-            {playerState.value === 'subscribing' && (
+            {currentPlayerState === 'subscribing' && (
               <OverlayWrapper>
                 <Link href="/pricing">
                   <a>Get Access to This Video</a>
@@ -235,7 +202,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </OverlayWrapper>
             )}
 
-            {playerState.value === 'showingNext' && (
+            {currentPlayerState === 'showingNext' && (
               <OverlayWrapper>
                 <img
                   src={lesson.course.square_cover_480_url}
@@ -273,26 +240,38 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         </div>
         <div className="flex space-x-12">
           <div className="w-4/6">
-            {transcript_url && (
-              <div>
-                <h3>Transcript:</h3>
-                <Transcript url={transcript_url} />
-              </div>
-            )}
+            <Tabs>
+              <TabList css={{background: 'none'}}>
+                {transcript_url && <Tab>Transcript</Tab>}
+                <Tab>Code</Tab>
+                <Tab>Comments</Tab>
+              </TabList>
+              <TabPanels className="mt-6">
+                {transcript_url && (
+                  <TabPanel>
+                    <Transcript url={transcript_url} />
+                  </TabPanel>
+                )}
+                <TabPanel>
+                  <p>Code</p>
+                </TabPanel>
+                <TabPanel>
+                  <p>Comments</p>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </div>
           <div className="w-2/6 flex flex-col space-y-8">
-            <Metadata
+            <LessonInfo
               title={title}
               instructor={instructor}
               tags={tags}
               summary={summary}
+              course={course}
+              nextUpData={nextUpData}
+              lesson={lesson}
+              className="space-y-6 divide-y-2 divide-gray-300"
             />
-            <div className="p-3 bg-gray-200">Social Sharing and Flagging</div>
-            {nextUpData && (
-              <div>
-                <NextUp data={nextUpData} />
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -317,25 +296,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   }
 }
-
-const IconDownload: FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    className={className}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-    />
-  </svg>
-)
 
 const IconPlay: FunctionComponent<{className: string}> = ({className = ''}) => (
   <svg

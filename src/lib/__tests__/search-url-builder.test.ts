@@ -123,6 +123,16 @@ test('parses a url tag and instructor', () => {
   })
 })
 
+test('parses a url with only instructor', () => {
+  const searchParams = parseUrl({
+    all: ['lessons-by-kent-c-dodds'],
+  })
+
+  expect(searchParams).toEqual({
+    refinementList: {_tags: [], instructor_name: ['Kent C. Dodds']},
+  })
+})
+
 test('parses a url from tag', () => {
   const searchParams = parseUrl({
     all: ['react'],
@@ -192,6 +202,7 @@ test('parse a url with just the query string', () => {
 
   expect(searchParams).toEqual({
     refinementList: {
+      _tags: [],
       type: ['playlist', 'course'],
     },
   })
