@@ -31,7 +31,7 @@
     "@reach/tabs": "^0.11.2",
     "@reach/visually-hidden": "^0.11.1",
     "@tailwindcss/ui": "^0.6.0",
-    "@xstate/react": "^0.8.1",
+    "@xstate/react": "^1.0.1",
     "algoliasearch": "^4.4.0",
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",
