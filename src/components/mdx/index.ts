@@ -7,6 +7,7 @@ import QuestionReveal from './QuestionReveal'
 import Callout from './Callout'
 import ProseSection from './ProseSection'
 import CheatSheet from './CheatSheet'
+import DefaultLayout from '../../layouts'
 
 const mdxComponents = {
   Course,
@@ -18,6 +19,7 @@ const mdxComponents = {
   Callout,
   ProseSection,
   CheatSheet,
+  DefaultLayout,
 }
 
 export default mdxComponents
