@@ -9,13 +9,8 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
   children,
   frontMatter,
 }) => {
-  const {
-    title,
-    description,
-    titleAppendSiteName = false,
-    url,
-    ogImage,
-  } = frontMatter
+  const {title, description, titleAppendSiteName = false, url, ogImage} =
+    frontMatter || {}
   return (
     <>
       <NextSeo

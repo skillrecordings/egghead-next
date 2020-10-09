@@ -1,6 +1,11 @@
----
-layout: 'ultimate-guide'
-title: 'React Hooks Ultimate Guide'
----
+export const meta = {
+  title: `React Hooks`,
+  contributors: ['Joel Hooks'],
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
 
 These will be hooks.

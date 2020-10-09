@@ -1,6 +1,11 @@
----
-layout: 'ultimate-guide'
-title: 'React Accessibility Ultimate Guide'
----
+export const meta = {
+  title: `React Accessibility`,
+  contributors: ['Joel Hooks'],
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
 
 There will be accessible components.

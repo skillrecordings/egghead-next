@@ -1,6 +1,11 @@
----
-layout: 'ultimate-guide'
-title: 'React Component Ultimate Guide'
----
+export const meta = {
+  title: `React Components`,
+  contributors: ['Joel Hooks'],
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
 
 These will be components.
