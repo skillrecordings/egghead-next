@@ -14,16 +14,6 @@
   display: none;
 }
 
-h1 {
-  @apply text-xl;
-}
-
-@screen lg {
-  h1 {
-    @apply text-2xl;
-  }
-}
-
 /* Code block styles */
 .prose pre {
   @apply mx-2 px-8 py-6 bg-gray-800 text-gray-200 rounded-md;
@@ -33,12 +23,16 @@ pre {
   @apply mx-2 px-8 py-6 bg-gray-800 text-gray-200 rounded-md;
 }
 
-/* Contain typography to constrained width */
-.prose h1, h2, h3, h4, h5, p, ul, ol, li, span {
-  @apply max-w-2xl mx-auto;
-}
-
-h1, h2, h3, h4, h5, p, ul, ol, li, span {
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul,
+ol,
+li,
+span {
   @apply max-w-2xl mx-auto;
 }
 
