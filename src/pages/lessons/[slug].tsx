@@ -8,6 +8,7 @@ import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
+import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
@@ -30,6 +31,7 @@ const lessonQuery = /* GraphQL */ `
       hls_url
       dash_url
       free_forever
+      path
       course {
         title
         square_cover_480_url
@@ -42,8 +44,9 @@ const lessonQuery = /* GraphQL */ `
       }
       instructor {
         full_name
-        http_url
         avatar_64_url
+        slug
+        twitter
       }
     }
   }
@@ -112,6 +115,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
+  const currentPlayerState = playerState.value
+
   const {data = {}, error} = useSWR(
     [initialLesson.slug, authToken],
     lessonLoader,
@@ -136,11 +141,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     tags,
     summary,
     course,
-    free_forever,
   } = lesson
-  console.log('lesson', lesson)
-
-  const currentPlayerState = playerState.value
 
   console.log(`The current player state: ${currentPlayerState}`)
 
@@ -167,7 +168,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
   const playerVisible: boolean =
-    playerState.value === 'playing' || playerState.value === 'paused'
+    currentPlayerState === 'playing' || currentPlayerState === 'paused'
 
   return (
     <div className="max-w-none" key={lesson.slug}>
@@ -193,7 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               />
             )}
 
-            {playerState.value === 'subscribing' && (
+            {currentPlayerState === 'subscribing' && (
               <OverlayWrapper>
                 <Link href="/pricing">
                   <a>Get Access to This Video</a>
@@ -201,7 +202,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </OverlayWrapper>
             )}
 
-            {playerState.value === 'showingNext' && (
+            {currentPlayerState === 'showingNext' && (
               <OverlayWrapper>
                 <img
                   src={lesson.course.square_cover_480_url}
@@ -239,12 +240,26 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         </div>
         <div className="flex space-x-12">
           <div className="w-4/6">
-            {transcript_url && (
-              <div>
-                <h3>Transcript:</h3>
-                <Transcript url={transcript_url} />
-              </div>
-            )}
+            <Tabs>
+              <TabList css={{background: 'none'}}>
+                {transcript_url && <Tab>Transcript</Tab>}
+                <Tab>Code</Tab>
+                <Tab>Comments</Tab>
+              </TabList>
+              <TabPanels className="mt-6">
+                {transcript_url && (
+                  <TabPanel>
+                    <Transcript url={transcript_url} />
+                  </TabPanel>
+                )}
+                <TabPanel>
+                  <p>Code</p>
+                </TabPanel>
+                <TabPanel>
+                  <p>Comments</p>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </div>
           <div className="w-2/6 flex flex-col space-y-8">
             <LessonInfo
@@ -254,8 +269,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               summary={summary}
               course={course}
               nextUpData={nextUpData}
-              lessonSlug={lesson.slug}
-              isCommunityResource={free_forever}
+              lesson={lesson}
               className="space-y-6 divide-y-2 divide-gray-300"
             />
           </div>

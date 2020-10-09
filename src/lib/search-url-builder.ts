@@ -4,7 +4,7 @@ import get from 'lodash/get'
 import qs from 'query-string'
 import nameToSlug from './name-to-slug'
 import humanize from 'humanize-list'
-import {first, pickBy, isEmpty} from 'lodash'
+import {first, pickBy, isEmpty, isUndefined} from 'lodash'
 
 const resourceTypes = {
   resource: 'resources',
@@ -31,11 +31,12 @@ const toTitleCase = (name: string) => {
 }
 
 const tagsForPath = (path: string) => {
-  const tagsSplit = path?.split('-lessons-by-') || []
+  const [tagsString] = path?.split('-lessons-by-') ?? []
 
-  const tags = tagsSplit.length >= 1 ? tagsSplit[0].split('-and-').sort() : []
+  if (isUndefined(tagsString)) return []
+  if (tagsString.startsWith('lessons-by')) return []
 
-  return isEmpty(tags) ? undefined : tags
+  return tagsString.split('-and-').sort()
 }
 
 export const titleFromPath = (all: string[] = []) => {

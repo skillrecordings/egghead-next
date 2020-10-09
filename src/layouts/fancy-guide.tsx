@@ -1,11 +1,12 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
+// import Contributors from '../components/Contributors'
 
 type LayoutProps = {
   frontMatter: any
 }
 
-const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
+const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
   children,
   frontMatter,
 }) => {
@@ -15,7 +16,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
     titleAppendSiteName = false,
     url,
     ogImage,
-    contributors,
+    // contributors,
   } = frontMatter
   return (
     <>
@@ -31,12 +32,16 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="prose md:prose-xl max-w-2xl mx-auto leading-6">
-        <h1>{title}</h1>
+      <div className="md:max-w-4xl mx-auto leading-relaxed ">
+        <h1 className="mt-8 font-extrabold mb-8 lg:mb-10 leading-tight text-5xl md:text-6xl">
+          {title}
+        </h1>
+        {/* <Contributors contributors={contributors} /> */}
+        <hr className="md:max-w-2xl mx-auto mt-8" />
         {children}
       </div>
     </>
   )
 }
 
-export default UltimateGuideLayout
+export default FancyGuideLayout
