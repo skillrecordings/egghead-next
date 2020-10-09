@@ -3024,6 +3024,11 @@ array-unique@^0.3.2:
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
+arraybuffer-slice@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/arraybuffer-slice/-/arraybuffer-slice-0.1.2.tgz#19582c4b0d1b073eaba87af0b8a3be3b9a6098f7"
+  integrity sha1-GVgsSw0bBz6rqHrwuKO+O5pgmPc=
+
 asn1.js@^5.2.0:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-5.4.1.tgz#11a980b84ebb91781ce35b0fdc2ee294e3783f07"
@@ -7775,6 +7780,11 @@ js-levenshtein@^1.1.3:
   resolved "https://registry.yarnpkg.com/js-levenshtein/-/js-levenshtein-1.1.6.tgz#c6cee58eb3550372df8deb85fad5ce66ce01d59d"
   integrity sha512-X2BB11YZtrRqY4EnQcLX5Rh373zbK4alC1FW7D7MBhL2gtcC17cTnr6DmfHZeS0s2rTHjUTMMHfG7gO8SSdw+g==
 
+js-polyfills@0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/js-polyfills/-/js-polyfills-0.1.22.tgz#eacae1260a4682ded23e4f1ab432f5639bb22f1b"
+  integrity sha1-6srhJgpGgt7SPk8atDL1Y5uyLxs=
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -12154,6 +12164,11 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
+text-encoding@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/text-encoding/-/text-encoding-0.6.0.tgz#7bfd681e71760cb11024661ac60477e2ab4e359a"
+  integrity sha1-e/1oHnF2DLEQJGYaxgR34qtONZo=
+
 throat@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-5.0.0.tgz#c5199235803aad18754a667d659b5e72ce16764b"
@@ -12208,6 +12223,16 @@ timers-browserify@^2.0.4:
   integrity sha512-60aV6sgJ5YEbzUdn9c8kYGIqOubPoUdqQCul3SBAsRCZ40s6Y5cMcrW4dt3/k/EsbLVJNl9n6Vz3fTc+k2GeKQ==
   dependencies:
     setimmediate "^1.0.4"
+
+tincanjs@^0.50.0:
+  version "0.50.0"
+  resolved "https://registry.yarnpkg.com/tincanjs/-/tincanjs-0.50.0.tgz#ae78ed0188b2a30bdba5a0313b38f9024695f4ec"
+  integrity sha1-rnjtAYiyowvbpaAxOzj5AkaV9Ow=
+  dependencies:
+    arraybuffer-slice "0.1.2"
+    js-polyfills "0.1.22"
+    text-encoding "0.6.0"
+    xhr2 "0.0.7"
 
 tiny-emitter@^2.0.0:
   version "2.1.0"
@@ -13210,6 +13235,11 @@ x-is-string@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/x-is-string/-/x-is-string-0.1.0.tgz#474b50865af3a49a9c4657f05acd145458f77d82"
   integrity sha1-R0tQhlrzpJqcRlfwWs0UVFj3fYI=
+
+xhr2@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.0.7.tgz#fcb61f704e80c3aabe424295479407c6072d25b3"
+  integrity sha1-/LYfcE6Aw6q+QkKVR5QHxgctJbM=
 
 xml-name-validator@^3.0.0:
   version "3.0.0"

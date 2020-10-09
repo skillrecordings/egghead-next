@@ -69,6 +69,7 @@
     "remark-slug": "^6.0.0",
     "slugify": "^1.4.5",
     "swr": "^0.3.5",
+    "tincanjs": "^0.50.0",
     "ts-toolbelt": "^8.0.6",
     "xstate": "^4.13.0",
     "yup": "^0.29.3"
