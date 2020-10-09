@@ -5,6 +5,7 @@ const withPlugins = require('next-compose-plugins')
 const withMdxEnhanced = require('next-mdx-enhanced')
 const checkEnv = require('@47ng/check-env').default
 const readingTime = require('reading-time')
+const withImages = require('next-images')
 
 checkEnv({
   required: ['NEXT_PUBLIC_DEPLOYMENT_URL'],
@@ -18,6 +19,7 @@ module.exports = withPlugins([
     enabled: process.env.ANALYZE === 'true',
   }),
   withSvgr,
+  withImages(),
   withMdxEnhanced({
     layoutPath: 'src/layouts',
     defaultLayout: true,
