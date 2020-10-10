@@ -200,7 +200,7 @@ export default class Bitmovin extends Base {
     } = this.props
 
     this.player.on(this.player.exports.PlayerEvent.Play, this.onPlay)
-    this.player.on(this.player.exports.PlayerEvent.Pause, onPause)
+    this.player.on(this.player.exports.PlayerEvent.Paused, onPause)
     this.player.on(this.player.exports.PlayerEvent.Error, onError)
     this.player.on(this.player.exports.PlayerEvent.PlaybackFinished, onEnded)
     this.player.on(
@@ -233,7 +233,7 @@ export default class Bitmovin extends Base {
       onVideoQualityChanged,
     } = this.props
     this.player.off(this.player.exports.PlayerEvent.Play, this.onPlay)
-    this.player.off(this.player.exports.PlayerEvent.Pause, onPause)
+    this.player.off(this.player.exports.PlayerEvent.Paused, onPause)
     this.player.off(this.player.exports.PlayerEvent.Error, onError)
     this.player.off(
       this.player.exports.PlayerEvent.VideoAdaptation,

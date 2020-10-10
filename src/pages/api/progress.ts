@@ -1,13 +1,14 @@
 import TinCan from 'tincanjs'
-import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {connectScrollTo} from 'react-instantsearch-dom'
+import fetchEggheadUser from 'api/egghead/users/from-token'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const SCORM_CLOUD_ENDPOINT = `https://cloud.scorm.com/lrs/PZ9CYEKKV8/`
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.query)
-  if (req.method === 'GET') {
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
+
+  if (req.method === 'POST') {
     try {
       const lrs = new TinCan.LRS({
         endpoint: SCORM_CLOUD_ENDPOINT,
@@ -16,13 +17,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         allowFail: false,
       })
 
-      const verb = req.query.verb
+      const eggheadViewer = await fetchEggheadUser(eggheadToken, true)
+
+      const {verb, target} = req.body
 
       const statement: any = new TinCan.Statement({
         actor: {
           account: {
-            homePage: 'https://egghead.io',
-            name: '1',
+            mbox: `mailto:${eggheadViewer.email}`,
+            homePage: `https://egghead.io/users/${eggheadViewer.id}`,
+            name: `${eggheadViewer.id}`,
           },
         },
         verb: {
@@ -31,50 +35,31 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             'en-US': verb,
           },
         },
-        target: {
-          id: 'egghead::lesson::420',
-          definition: {
-            name: {
-              'en-US': 'Taming the Shrew',
-            },
-            description: {
-              'en-US': 'This is a really great video lesson',
-            },
-            type: 'https://egghead.io/xapi/types#video',
-            moreinfo: 'https://egghead.io/lessons/420',
-          },
-        },
+        target: target,
       })
 
-      lrs.saveStatement(statement, {
-        callback: function (err: any, xhr: any) {
-          if (err !== null) {
-            if (xhr !== null) {
-              console.log(
-                'Failed to save statement: ' +
-                  xhr.responseText +
-                  ' (' +
-                  xhr.status +
-                  ')',
-              )
-              res
-                .status(500)
-                .end(
+      const result: any = await new Promise((resolve, reject) => {
+        lrs.saveStatement(statement, {
+          callback: function (err: any, xhr: any) {
+            if (err !== null) {
+              if (xhr !== null) {
+                reject(
                   'failed to save statement: ' +
                     xhr.responseText +
                     ' (' +
                     xhr.status +
                     ')',
                 )
+                return
+              }
+              reject('failed to save statement: ' + err)
               return
             }
-            res.status(500).end('failed to save statement: ' + err)
-            return
-          }
-
-          res.status(200).json(statement)
-        },
+            resolve(statement)
+          },
+        })
       })
+      res.status(200).json(result)
     } catch (ex) {
       res.status(500).end('failed to create lrs')
     }
