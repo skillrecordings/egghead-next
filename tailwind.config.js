@@ -55,7 +55,7 @@ module.exports = {
           },
           h2: {
             lineHeight: theme('lineHeight.snug'),
-            fontSize: theme('fontSize.xl'),
+            fontSize: theme('fontSize.2xl'),
           },
           h3: {
             lineHeight: theme('lineHeight.normal'),
