@@ -20,7 +20,8 @@
     "format": "yarn format:index && yarn format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "make-tags-sitemap": "NODE_ENV=production node algolia-sitemap.js"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.16",
