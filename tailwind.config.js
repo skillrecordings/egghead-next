@@ -55,11 +55,11 @@ module.exports = {
           },
           h2: {
             lineHeight: theme('lineHeight.snug'),
-            fontSize: theme('fontSize.2xl'),
+            fontSize: theme('fontSize.xl'),
           },
           h3: {
             lineHeight: theme('lineHeight.normal'),
-            fontSize: theme('fontSize.xl'),
+            fontSize: theme('fontSize.lg'),
           },
         },
       },
