@@ -1,6 +1,10 @@
----
-layout: 'ultimate-guide'
-title: '30x500'
----
+export const meta = {
+  title: `Our 30x500 Guide`,
+}
 
-- [Sales Safari in a Nutshell](./30x500/sales-safari)
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+
+
+)
