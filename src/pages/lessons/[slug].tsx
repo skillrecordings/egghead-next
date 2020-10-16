@@ -143,8 +143,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     course,
   } = lesson
 
-  console.log(`The current player state: ${currentPlayerState}`)
-
   React.useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
