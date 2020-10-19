@@ -19,7 +19,7 @@ const Collection: FunctionComponent<CollectionProps> = ({collection}) => {
 
   return (
     <div>
-      <h1 className="my-8 text-center sm:text-5xl text-4xl font-bold leading-tight">
+      <h1 className="my-8 text-center sm:text-5xl text-4xl font-bold">
         {title}
       </h1>
       <div className="flex items-center justify-center flex-wrap sm:gap-8 gap-5">

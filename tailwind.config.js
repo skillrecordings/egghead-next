@@ -59,7 +59,7 @@ module.exports = {
           },
           h3: {
             lineHeight: theme('lineHeight.normal'),
-            fontSize: theme('fontSize.xl'),
+            fontSize: theme('fontSize.lg'),
           },
         },
       },
