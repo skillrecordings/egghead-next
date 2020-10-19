@@ -34,6 +34,21 @@ export default class MyDocument extends Document {
             href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/237/fisted-hand-sign_1f44a.png"
           />
           <script async src="/ahoy.js" />
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-36512724-7"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                      window.dataLayer = window.dataLayer || [];
+                      function gtag(){dataLayer.push(arguments)}
+                      gtag('js', new Date());
+                      
+                      gtag('config', 'UA-36512724-7');
+                        `,
+            }}
+          ></script>
         </Head>
         <body>
           <Main />
