@@ -1,6 +1,10 @@
----
-layout: 'ultimate-guide'
-title: 'React State Management Ultimate Guide'
----
+export const meta = {
+  title: `React State Management`,
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
 
 There will be managed state.

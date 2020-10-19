@@ -149,12 +149,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     switch (currentPlayerState) {
       case 'loading':
         if (!isEmpty(data.lesson)) {
-          send('LOADED')
+          const event: {type: 'LOADED'; lesson: any} = {
+            type: 'LOADED',
+            lesson: data.lesson,
+          }
+          send(event)
         }
         break
       case 'loaded':
         if (hls_url || dash_url) {
-          send('PLAY')
+          send('VIEW')
         } else {
           send('SUBSCRIBE')
         }
@@ -168,7 +172,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
   const playerVisible: boolean =
-    currentPlayerState === 'playing' || currentPlayerState === 'paused'
+    currentPlayerState === 'playing' ||
+    currentPlayerState === 'paused' ||
+    currentPlayerState === 'viewing'
 
   return (
     <div className="max-w-none" key={lesson.slug}>

@@ -1,3 +1,10 @@
-# Humans of egghead
+export const meta = {
+  title: `Humans of egghead`,
+}
+
+import DefaultLayout from 'layouts'
+export default ({children}) => (
+  <DefaultLayout frontMatter={meta}>{children}</DefaultLayout>
+)
 
 These are our stories.

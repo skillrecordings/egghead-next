@@ -53,7 +53,7 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
-      router.push(`/s[[all]]`, href, {
+      router.push(`/s/[[all]]`, href, {
         shallow: true,
       })
     }, 200)
