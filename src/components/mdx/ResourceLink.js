@@ -10,7 +10,7 @@ const ResourceLink = ({url, title}) => {
             Recommended Resource
           </p>
           <a href={url}>
-            <h3 className="text-2xl font-medium text-purple-600 leading-normal">
+            <h3 className="text-xl font-medium text-purple-600 leading-normal">
               {title}
             </h3>
           </a>

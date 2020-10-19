@@ -1,0 +1,8 @@
+export const meta = {
+  title: `Our 30x500 Guide`,
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
