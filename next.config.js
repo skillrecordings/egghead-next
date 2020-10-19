@@ -11,19 +11,29 @@ checkEnv({
   required: ['NEXT_PUBLIC_DEPLOYMENT_URL'],
 })
 
-module.exports = withPlugins([
-  withBundleAnalyzer({
-    enabled: process.env.ANALYZE === 'true',
-  }),
-  withSvgr,
-  withImages(),
-  withMDX({
-    pageExtensions: ['ts', 'tsx', 'mdx'],
-    remarkPlugins: [
-      require('remark-slug'),
-      require('remark-footnotes'),
-      require('remark-code-titles'),
-    ],
-    rehypePlugins: [require('mdx-prism')],
-  }),
-])
+const nextConfig = {
+  reactStrictMode: true,
+  experimental: {
+    reactMode: 'concurrent',
+  },
+}
+
+module.exports = withPlugins(
+  [
+    withBundleAnalyzer({
+      enabled: process.env.ANALYZE === 'true',
+    }),
+    withSvgr,
+    withImages(),
+    withMDX({
+      pageExtensions: ['ts', 'tsx', 'mdx'],
+      remarkPlugins: [
+        require('remark-slug'),
+        require('remark-footnotes'),
+        require('remark-code-titles'),
+      ],
+      rehypePlugins: [require('mdx-prism')],
+    }),
+  ],
+  nextConfig,
+)
