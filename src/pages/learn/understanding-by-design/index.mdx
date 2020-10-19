@@ -1,7 +1,12 @@
----
-title: 'Understanding by Design in a Nutshell'
-contributors: ['Taylor Bell', 'Joel Hooks']
----
+export const meta = {
+  title: `Understanding by Design in a Nutshell`,
+  contributors: ['Taylor Bell', 'Joel Hooks'],
+}
+
+import DefaultLayout from 'layouts'
+export default ({children}) => (
+  <DefaultLayout frontMatter={meta}>{children}</DefaultLayout>
+)
 
 # Understanding by Design
 

@@ -1,8 +1,12 @@
----
-layout: 'ultimate-guide'
-title: 'React Ultimate Guide'
-contributors: ['Joel Hooks', 'Will Johnson']
----
+export const meta = {
+  title: `React Ultimate Guide`,
+  contributors: ['Joel Hooks', 'Will Johnson'],
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
 
 ## Get Started with React!
 

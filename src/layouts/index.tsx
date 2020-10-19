@@ -9,13 +9,8 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
   children,
   frontMatter,
 }) => {
-  const {
-    title,
-    description,
-    titleAppendSiteName = false,
-    url,
-    ogImage,
-  } = frontMatter
+  const {title, description, titleAppendSiteName = false, url, ogImage} =
+    frontMatter || {}
   return (
     <>
       <NextSeo
@@ -30,8 +25,8 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="prose max-w-none">
-        <h1>{title}</h1>
+      <div className="prose md:prose-xl max-w-2xl mx-auto leading-6">
+        <h1 className="text-xl">{title}</h1>
         {children}
       </div>
     </>

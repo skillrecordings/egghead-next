@@ -1,13 +1,14 @@
-import cookies from 'browser-cookies'
+import cookies from 'js-cookie'
 import {isString} from 'lodash'
 
 const cookieUtil = {
-  set(name: string, value: any) {
+  set(name: string, value: any, options: any = {}) {
     const use_secure_cookie = location.protocol === 'https:'
     cookies.set(name, isString(value) ? value : JSON.stringify(value), {
       secure: use_secure_cookie,
       path: '/',
       expires: 365,
+      ...options,
     })
     return cookies.get(name)
   },
@@ -18,6 +19,9 @@ const cookieUtil = {
     } catch (e) {
       return value
     }
+  },
+  remove(name: string) {
+    cookies.remove(name)
   },
 }
 
