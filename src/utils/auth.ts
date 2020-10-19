@@ -2,7 +2,7 @@ import OAuthClient from 'client-oauth2'
 import {track, identify} from './analytics'
 import axios from 'axios'
 import get from 'lodash/get'
-import cookie from 'js-cookie'
+import cookie from './cookies'
 import * as serverCookie from 'cookie'
 
 const http = axios.create()

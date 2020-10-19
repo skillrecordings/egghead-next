@@ -1,4 +1,4 @@
-import cookies from 'browser-cookies'
+import cookies from 'js-cookie'
 import {isString} from 'lodash'
 
 const cookieUtil = {
@@ -18,6 +18,9 @@ const cookieUtil = {
     } catch (e) {
       return value
     }
+  },
+  remove(name: string) {
+    cookies.remove(name)
   },
 }
 
