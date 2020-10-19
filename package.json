@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "NODE_ENV=production next-sitemap",
+    "postbuild": "NODE_ENV=production next-sitemap && yarn make-tags-sitemap",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "next start",
     "test": "jest --watch",
@@ -20,7 +20,8 @@
     "format": "yarn format:index && yarn format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.18",
