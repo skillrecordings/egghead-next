@@ -33,9 +33,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
           />
         </div>
         <div className="col-span-3">
-          <h1 className="md:text-2xl text-xl font-semibold leading-tight">
-            {title}
-          </h1>
+          <h1 className="md:text-2xl text-xl font-semibold">{title}</h1>
           <div>{type}</div>
           <p className="prose max-w-none">{summary}</p>
         </div>
