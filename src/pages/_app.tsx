@@ -1,4 +1,3 @@
-import * as React from 'react'
 import NextApp from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
@@ -27,7 +26,7 @@ export default class App extends NextApp {
   render() {
     const {Component, pageProps} = this.props
     return (
-      <React.StrictMode>
+      <>
         <DefaultSeo {...defaultSeoConfig} />
         <SocialProfileJsonLd
           type="Organization"
@@ -44,7 +43,7 @@ export default class App extends NextApp {
             </CacheProvider>
           </MDXProvider>
         </ViewerProvider>
-      </React.StrictMode>
+      </>
     )
   }
 }
