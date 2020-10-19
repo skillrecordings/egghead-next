@@ -103,7 +103,7 @@
     "babel-plugin-apply-mdx-type-prop": "^1.6.18",
     "babel-plugin-inline-react-svg": "^1.1.1",
     "command-line-args": "^5.1.1",
-    "cypress": "^5.1.0",
+    "cypress": "^5.4.0",
     "dotenv-flow": "^3.2.0",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
