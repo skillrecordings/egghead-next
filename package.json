@@ -7,8 +7,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "yarn make-tags-sitemap",
     "build": "next build",
-    "postbuild": "NODE_ENV=production next-sitemap && yarn make-tags-sitemap",
+    "postbuild": "NODE_ENV=production next-sitemap",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "next start",
     "test": "jest --watch",
