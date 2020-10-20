@@ -23,7 +23,10 @@ const go = async () => {
   const tags = await axios.get('https://egghead.io/api/v1/tags?size=300')
   const tagSlugs = tags.data.map(({slug}) => slug).sort()
 
-  console.log({tagSlugs: tagSlugs.length})
+  console.log(`Saving tags to ./src/pages/site-directory/tags.json`)
+  const stream = fs.createWriteStream(`./src/pages/site-directory/tags.json`)
+  stream.write(JSON.stringify(tags.data))
+  stream.end()
 
   try {
     if (tagSlugs.length) {

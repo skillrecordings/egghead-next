@@ -1,0 +1,5 @@
+- `yarn prebuild`
+  - runs a script to generate sitemaps
+  - downloads the latest `tags.json` into `src/pages/site-directory`
+- `site-directory/index.tsx` and `site-directory/[tag].tsx`
+  - Load the `site-directory/tags.json` to avoid making 160 calls to the egghead api
