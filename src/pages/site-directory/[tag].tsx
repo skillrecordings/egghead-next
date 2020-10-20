@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
+import humanize from 'humanize-list'
 
 const createPath = (tags: string[]) => {
   return tags.sort().join('-and-')
@@ -16,23 +17,27 @@ const Tag = (props: any) => {
       {tagSlugs
         .filter((slug) => tag != slug)
         .map((slug) => {
-          let path = createPath([tag, slug])
+          let sortSlugs = [tag, slug].sort()
+          let path = createPath(sortSlugs)
+          let human = humanize(sortSlugs)
           return (
             <div key={path}>
               <hr />
               <Link href={`/s/${path}`}>
-                <a>{path}</a>
+                <a>{human}</a>
               </Link>
               <br />
 
               {tagSlugs
                 .filter((third) => tag != slug && tag != third && slug != third)
                 .map((third) => {
-                  let path = createPath([tag, slug, third])
+                  let sortSlugs = [tag, slug, third].sort()
+                  let path = createPath(sortSlugs)
+                  let human = humanize(sortSlugs, {oxfordComma: true})
                   return (
                     <span key={path}>
                       <Link href={`/s/${path}`}>
-                        <a>{path}</a>
+                        <a>{human}</a>
                       </Link>{' '}
                       |{' '}
                     </span>

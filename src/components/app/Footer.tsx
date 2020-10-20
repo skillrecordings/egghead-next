@@ -27,6 +27,11 @@ const Nav: FunctionComponent = () => {
               <a>Podcasts</a>
             </Link>
           </li>
+          <li>
+            <Link href="/site-directory">
+              <a>Directory</a>
+            </Link>
+          </li>
         </ul>
       </div>
       <div>
