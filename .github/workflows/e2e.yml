@@ -21,7 +21,7 @@ jobs:
         run: |
           
           curl --request POST \
-          --url https://hooks.slack.com/services/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 \
+          --url https://hooks.slack.com/services/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 \
           --header 'content-type: application/json' \
           --data '{
             "text": "All systems operational ✅"
@@ -31,7 +31,7 @@ jobs:
         if: ${{ failure() }}
         run: |
           curl --request POST \
-          --url https://hooks.slack.com/services/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 \
+          --url https://hooks.slack.com/services/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 \
           --header 'content-type: application/json' \
           --data '{
             "text": "🚨 Check logs: https://github.com/eggheadio/egghead-next/actions?query=workflow%3Ae2e"            
