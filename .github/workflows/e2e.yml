@@ -19,23 +19,20 @@ jobs:
       - name: Cypress tests ✅
         if: ${{ success() }}
         run: |
+          
           curl --request POST \
-          --url https://egghead-cypress-hooks.johnlindquist.vercel.app/api/cypress \
+          --url https://hooks.slack.com/services/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 \
           --header 'content-type: application/json' \
           --data '{
-            "context": "e2e",
-            "state": "success",
-            "description": "Cypress tests passed"
+            "text": "All systems operational ✅"
           }'
 
       - name: Cypress tests 🚨
         if: ${{ failure() }}
         run: |
           curl --request POST \
-          --url https://egghead-cypress-hooks.johnlindquist.vercel.app/api/cypress \
+          --url https://hooks.slack.com/services/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 \
           --header 'content-type: application/json' \
           --data '{
-            "context": "e2e",
-            "state": "failure",
-            "description": "Cypress tests failed"            
+            "text": "🚨 Check logs: https://github.com/eggheadio/egghead-next/actions?query=workflow%3Ae2e"            
           }'
