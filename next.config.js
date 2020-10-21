@@ -13,9 +13,6 @@ checkEnv({
 
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    reactMode: 'concurrent',
-  },
   async redirects() {
     return [
       {
