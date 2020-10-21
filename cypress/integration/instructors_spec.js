@@ -6,8 +6,8 @@ describe('instructors', () => {
 })
 
 describe('instructor/john-lindquist', () => {
-  it('instructors/john-lindquist loads', () => {
+  it('instructors/john-lindquist redirects to search page', () => {
     cy.visit('/instructors/john-lindquist')
-    cy.get('img').should('have.length', 1)
+    cy.url().should('include', '/s/lessons-by-john-lindquist')
   })
 })
