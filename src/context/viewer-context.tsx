@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import Auth from '../utils/auth'
+import Auth, {USER_KEY} from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
@@ -28,7 +28,7 @@ export function useViewer() {
 export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
-  const [viewer, setViewer] = React.useState()
+  const [viewer, setViewer] = React.useState(auth.getLocalUser())
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
 
