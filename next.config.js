@@ -16,6 +16,15 @@ const nextConfig = {
   experimental: {
     reactMode: 'concurrent',
   },
+  async redirects() {
+    return [
+      {
+        source: '/instructors/:instructor',
+        destination: '/s/lessons-by-:instructor',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = withPlugins(
