@@ -54,7 +54,7 @@
     "next": "^9.5.5",
     "next-compose-plugins": "^2.2.0",
     "next-images": "^1.6.0",
-    "next-seo": "^4.10.1",
+    "next-seo": "^4.14.0",
     "next-svgr": "^0.0.2",
     "nextjs-sitemap-generator": "^1.1.1",
     "pluralize": "^8.0.0",
