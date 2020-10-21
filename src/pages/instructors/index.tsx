@@ -11,17 +11,16 @@ const InstructorCard: FunctionComponent<InstructorCardProps> = ({
   instructor,
 }) => {
   return (
-    <Link href={`instructors/${instructor.slug}`}>
-      <div className="flex flex-col items-center">
-        <img
-          className="rounded-full"
-          src={instructor.avatar_url}
-          alt={`Avatar for ${instructor.full_name}`}
-        />
-
-        <p>{instructor.full_name}</p>
-      </div>
-    </Link>
+    <div className="flex flex-col items-center">
+      <img
+        className="rounded-full"
+        src={instructor.avatar_url}
+        alt={`Avatar for ${instructor.full_name}`}
+      />
+      <Link href={`/instructors/${instructor.slug}`}>
+        <a>{instructor.full_name}</a>
+      </Link>
+    </div>
   )
 }
 
