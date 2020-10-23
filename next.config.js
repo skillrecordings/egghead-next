@@ -20,6 +20,16 @@ const nextConfig = {
         destination: '/s/lessons-by-:instructor',
         permanent: true,
       },
+      {
+        source: '/podcasts',
+        destination: '/s?type=podcast',
+        permanent: true,
+      },
+      {
+        source: '/talks',
+        destination: '/s?type=talk',
+        permanent: true,
+      },
     ]
   },
 }
