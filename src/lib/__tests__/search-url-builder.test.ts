@@ -2,7 +2,7 @@ import {titleFromPath, createUrl, parseUrl} from '../search-url-builder'
 import config from '../config'
 
 test('Builds a Title Based on single Tag and Instructor', () => {
-  const title = titleFromPath(['react-lessons-by-kent-c-dodds'])
+  const title = titleFromPath(['react-content-by-kent-c-dodds'])
 
   expect(title).toBe(
     `${config.searchResultCount} React Courses from Kent C. Dodds in 2020`,
@@ -24,7 +24,7 @@ test('creates a url with a query with single tag and instructor named Kent C. Do
     },
   })
 
-  expect(url).toBe('/s/react-lessons-by-kent-c-dodds?q=hooks')
+  expect(url).toBe('/s/react-content-by-kent-c-dodds?q=hooks')
 })
 
 test('creates a url with a query with single tag and instructor filtered by type', () => {
@@ -37,7 +37,7 @@ test('creates a url with a query with single tag and instructor filtered by type
     },
   })
 
-  expect(url).toBe('/s/react-lessons-by-kent-c-dodds?q=hooks&type=course')
+  expect(url).toBe('/s/react-content-by-kent-c-dodds?q=hooks&type=course')
 })
 
 test('creates a url with a query with single tag and instructor filtered by multiple types', () => {
@@ -51,7 +51,7 @@ test('creates a url with a query with single tag and instructor filtered by mult
   })
 
   expect(url).toBe(
-    '/s/react-lessons-by-kent-c-dodds?q=hooks&type=course%2Cpodcast',
+    '/s/react-content-by-kent-c-dodds?q=hooks&type=course%2Cpodcast',
   )
 })
 
@@ -63,7 +63,7 @@ test('creates a url with a query with single tag and instructor named Kent C. Do
     },
   })
 
-  expect(url).toBe('/s/react-lessons-by-kent-c-dodds')
+  expect(url).toBe('/s/react-content-by-kent-c-dodds')
 })
 
 test('creates a url with instructor named Kent C. Dodds', () => {
@@ -73,7 +73,7 @@ test('creates a url with instructor named Kent C. Dodds', () => {
     },
   })
 
-  expect(url).toBe('/s/lessons-by-kent-c-dodds')
+  expect(url).toBe('/s/content-by-kent-c-dodds')
 })
 
 test('creates a url with a query with single tag and instructor not named Kent C. Dodds', () => {
@@ -84,7 +84,7 @@ test('creates a url with a query with single tag and instructor not named Kent C
     },
   })
 
-  expect(url).toBe('/s/react-lessons-by-ceora-ford')
+  expect(url).toBe('/s/react-content-by-ceora-ford')
 })
 
 test('creates a url multiple tags', () => {
@@ -104,7 +104,7 @@ test('creates a url single instructor', () => {
     },
   })
 
-  expect(url).toBe('/s/lessons-by-ceora-ford')
+  expect(url).toBe('/s/content-by-ceora-ford')
 })
 
 test('parses empty', () => {
@@ -115,7 +115,7 @@ test('parses empty', () => {
 
 test('parses a url tag and instructor', () => {
   const searchParams = parseUrl({
-    all: ['react-lessons-by-kent-c-dodds'],
+    all: ['react-content-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
@@ -125,7 +125,7 @@ test('parses a url tag and instructor', () => {
 
 test('parses a url with only instructor', () => {
   const searchParams = parseUrl({
-    all: ['lessons-by-kent-c-dodds'],
+    all: ['content-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
@@ -155,7 +155,7 @@ test('parses a url from two tag', () => {
 
 test('parses a url tag and multiple instructors', () => {
   const searchParams = parseUrl({
-    all: ['react-lessons-by-kent-c-dodds-and-ceora-ford'],
+    all: ['react-content-by-kent-c-dodds-and-ceora-ford'],
   })
 
   expect(searchParams).toEqual({
@@ -169,7 +169,7 @@ test('parses a url tag and multiple instructors', () => {
 test('parses a url tag and instructor and query', () => {
   const searchParams = parseUrl({
     q: 'react hooks',
-    all: ['react-lessons-by-kent-c-dodds'],
+    all: ['react-content-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
@@ -182,7 +182,7 @@ test('parses a url tag and instructor types and query', () => {
   const searchParams = parseUrl({
     q: 'react hooks',
     type: 'course,podcast',
-    all: ['react-lessons-by-kent-c-dodds'],
+    all: ['react-content-by-kent-c-dodds'],
   })
 
   expect(searchParams).toEqual({
