@@ -86,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
-  const {rawResults, state} = await findResultsState(Search, {
+  const {rawResults, metadata, state} = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
   })
@@ -98,11 +98,13 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   return {
-    props: {
-      resultsState: {rawResults},
-      initialSearchState,
-      pageTitle,
-      noIndexInitial,
-    },
+    props: JSON.parse(
+      JSON.stringify({
+        resultsState: {rawResults, metadata, state},
+        initialSearchState,
+        pageTitle,
+        noIndexInitial,
+      }),
+    ),
   }
 }
