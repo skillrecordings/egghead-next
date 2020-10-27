@@ -28,7 +28,7 @@ export function useViewer() {
 export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
-  const [viewer, setViewer] = React.useState()
+  const [viewer, setViewer] = React.useState(auth.getLocalUser())
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
 
