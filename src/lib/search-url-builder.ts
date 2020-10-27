@@ -31,7 +31,7 @@ const toTitleCase = (name: string) => {
 }
 
 const tagsForPath = (path: string) => {
-  const [tagsString] = path?.split('-lessons-by-') ?? []
+  const [tagsString] = path?.split('-content-by-') ?? []
 
   if (isUndefined(tagsString)) return []
   if (tagsString.startsWith('lessons-by')) return []
@@ -47,7 +47,7 @@ export const titleFromPath = (all: string[] = []) => {
   }
 
   const path = all[0] as string
-  const instructor = last(path.split('lessons-by-'))
+  const instructor = last(path.split('content-by-'))
   const tags = tagsForPath(path)
 
   const count = config.searchResultCount
@@ -66,7 +66,7 @@ export const titleFromPath = (all: string[] = []) => {
 }
 
 const instructorsForPath = (path: string) => {
-  const instructorSplit = path?.split('lessons-by-')
+  const instructorSplit = path?.split('content-by-')
 
   return instructorSplit?.length > 1
     ? last(instructorSplit)?.split(`-and-`).map(nameSlugToName)
@@ -89,7 +89,7 @@ export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
   })
 
   const instructors = refinementList?.instructor_name
-    ? `${tags && '-'}lessons-by-${refinementList?.instructor_name
+    ? `${tags && '-'}content-by-${refinementList?.instructor_name
         .map(nameToSlug)
         .sort()
         .join('-and-')}`

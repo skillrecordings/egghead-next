@@ -8,6 +8,6 @@ describe('instructors', () => {
 describe('instructor/john-lindquist', () => {
   it('instructors/john-lindquist redirects to search page', () => {
     cy.visit('/instructors/john-lindquist')
-    cy.url().should('include', '/s/lessons-by-john-lindquist')
+    cy.url().should('include', '/s/content-by-john-lindquist')
   })
 })

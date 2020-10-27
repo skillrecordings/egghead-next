@@ -17,7 +17,7 @@ const nextConfig = {
     return [
       {
         source: '/instructors/:instructor',
-        destination: '/s/lessons-by-:instructor',
+        destination: '/s/content-by-:instructor',
         permanent: true,
       },
       {
