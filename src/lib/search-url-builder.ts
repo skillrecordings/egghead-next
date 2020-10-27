@@ -14,6 +14,8 @@ const resourceTypes = {
   collections: 'collections',
 }
 
+const CREATOR_DELINIATOR = 'resources-by'
+
 const nameSlugToName = (slug: string) => {
   const nameSplit = slug.split('-')
   if (nameSplit.length === 3) {
@@ -31,10 +33,10 @@ const toTitleCase = (name: string) => {
 }
 
 const tagsForPath = (path: string) => {
-  const [tagsString] = path?.split('-content-by-') ?? []
+  const [tagsString] = path?.split(`-${CREATOR_DELINIATOR}-`) ?? []
 
   if (isUndefined(tagsString)) return []
-  if (tagsString.startsWith('content-by')) return []
+  if (tagsString.startsWith(CREATOR_DELINIATOR)) return []
 
   return tagsString.split('-and-').sort()
 }
@@ -43,11 +45,11 @@ export const titleFromPath = (all: string[] = []) => {
   const year = new Date().getFullYear()
 
   if (all.length === 0) {
-    return `${config.searchResultCount} Courses for Web Developers in ${year}`
+    return `Resources for Web Developers in ${year}`
   }
 
   const path = all[0] as string
-  const instructor = last(path.split('content-by-'))
+  const instructor = last(path.split(`${CREATOR_DELINIATOR}-`))
   const tags = tagsForPath(path)
 
   const count = config.searchResultCount
@@ -57,16 +59,16 @@ export const titleFromPath = (all: string[] = []) => {
   )
 
   if (instructor) {
-    return `${count}${humanizedTags}Courses from ${humanizedInstructors} in ${year}`
+    return `${humanizedTags} Resources from ${humanizedInstructors} in ${year}`
   }
 
   //TODO: I think we need more tests around tags and years here...
 
-  return `${count}${humanizedTags} Courses for Web Developers`
+  return `${count}${humanizedTags} Resources for Web Developers`
 }
 
 const instructorsForPath = (path: string) => {
-  const instructorSplit = path?.split('content-by-')
+  const instructorSplit = path?.split(`${CREATOR_DELINIATOR}-`)
 
   return instructorSplit?.length > 1
     ? last(instructorSplit)?.split(`-and-`).map(nameSlugToName)
@@ -89,7 +91,9 @@ export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
   })
 
   const instructors = refinementList?.instructor_name
-    ? `${tags && '-'}content-by-${refinementList?.instructor_name
+    ? `${
+        tags && '-'
+      }${CREATOR_DELINIATOR}-${refinementList?.instructor_name
         .map(nameToSlug)
         .sort()
         .join('-and-')}`
