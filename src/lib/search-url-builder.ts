@@ -34,7 +34,7 @@ const tagsForPath = (path: string) => {
   const [tagsString] = path?.split('-content-by-') ?? []
 
   if (isUndefined(tagsString)) return []
-  if (tagsString.startsWith('lessons-by')) return []
+  if (tagsString.startsWith('content-by')) return []
 
   return tagsString.split('-and-').sort()
 }
