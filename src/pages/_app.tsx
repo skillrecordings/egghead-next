@@ -13,6 +13,7 @@ import '@reach/listbox/styles.css'
 import '@reach/dialog/styles.css'
 // import '@reach/tabs/styles.css'
 import Router from 'next/router'
+import {ConvertkitProvider} from 'hooks/use-convertkit'
 
 declare global {
   interface Window {
@@ -34,15 +35,17 @@ export default class App extends NextApp {
           url={useURL()}
           sameAs={['https://twitter.com/eggheadio']}
         />
-        <ViewerProvider>
-          <MDXProvider components={mdxComponents}>
-            <CacheProvider value={cache}>
-              <AppLayout>
-                <Component {...pageProps} />
-              </AppLayout>
-            </CacheProvider>
-          </MDXProvider>
-        </ViewerProvider>
+        <ConvertkitProvider>
+          <ViewerProvider>
+            <MDXProvider components={mdxComponents}>
+              <CacheProvider value={cache}>
+                <AppLayout>
+                  <Component {...pageProps} />
+                </AppLayout>
+              </CacheProvider>
+            </MDXProvider>
+          </ViewerProvider>
+        </ConvertkitProvider>
       </>
     )
   }
