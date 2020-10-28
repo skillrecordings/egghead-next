@@ -64,7 +64,11 @@ module.exports = {
         },
       },
     }),
-    extend: {},
+    extend: {
+      height: {
+        80: '30rem',
+      },
+    },
   },
   variants: {
     margin: ['responsive', 'first', 'last'],

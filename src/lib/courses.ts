@@ -13,6 +13,7 @@ export async function loadCourse(slug: string) {
         rating_count
         watched_count
         path
+        summary
         lessons {
           slug
           title
@@ -20,8 +21,18 @@ export async function loadCourse(slug: string) {
           path
         }
         instructor {
+          id
           full_name
+          slug
+          avatar_url
           avatar_64_url
+          bio_short
+          twitter
+        }
+        primary_tag {
+          name
+          image_url
+          slug
         }
       }
     }
