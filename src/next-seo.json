@@ -1,7 +1,7 @@
 {
-  "title": "badass.dev",
+  "title": "Learn the skills you need to be a badass web developer.",
   "titleTemplate": "%s | egghead.io",
-  "description": "Badass screencasts for web developers.",
+  "description": "egghead.io delivers the best courses you need to help you climb the career ladder as a modern software engineer.",
   "additionalMetaTags": [
     {"property": "author", "content": "eggheadio"},
     {
@@ -16,16 +16,11 @@
   },
   "openGraph": {
     "type": "website",
-    "site_name": "badass",
+    "title": "Learn the skills you need to be a badass web developer.",
+    "description": "egghead.io delivers the best courses you need to help you climb the career ladder as a modern software engineer.",
+    "site_name": "egghead",
     "profile": {
       "firstName": "egghead"
-    },
-    "images": [
-      {
-        "url": "/images/og.jpg",
-        "width": 1280,
-        "height": 720
-      }
-    ]
+    }
   }
 }

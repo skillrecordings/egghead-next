@@ -16,6 +16,8 @@ import LessonInfo from 'components/pages/lessons/LessonInfo'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
+import {NextSeo} from 'next-seo'
+import removeMarkdown from 'remove-markdown'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -31,6 +33,7 @@ const lessonQuery = /* GraphQL */ `
       hls_url
       dash_url
       free_forever
+      http_url
       path
       course {
         title
@@ -137,10 +140,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     transcript_url,
     hls_url,
     dash_url,
+    http_url,
     title,
     tags,
     summary,
     course,
+    slug,
   } = lesson
 
   React.useEffect(() => {
@@ -175,111 +180,135 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     currentPlayerState === 'viewing'
 
   return (
-    <div className="max-w-none" key={lesson.slug}>
-      <div className="space-y-10">
-        <div
-          className="relative overflow-hidden bg-gray-200"
-          css={{paddingTop: '56.25%'}}
-        >
-          <div className="absolute w-full h-full top-0 left-0">
-            {playerVisible && (
-              <EggheadPlayer
-                ref={playerRef}
-                hls_url={hls_url}
-                dash_url={dash_url}
-                width="100%"
-                height="auto"
-                pip="true"
-                controls
-                onPlay={() => send('PLAY')}
-                onPause={() => send('PAUSE')}
-                onEnded={() => send('COMPLETE')}
-                subtitlesUrl={get(lesson, 'subtitles_url')}
-              />
-            )}
-
-            {currentPlayerState === 'subscribing' && (
-              <OverlayWrapper>
-                <Link href="/pricing">
-                  <a>Get Access to This Video</a>
-                </Link>
-              </OverlayWrapper>
-            )}
-
-            {currentPlayerState === 'showingNext' && (
-              <OverlayWrapper>
-                <img
-                  src={lesson.course.square_cover_480_url}
-                  alt=""
-                  className="w-32"
+    <>
+      <NextSeo
+        description={removeMarkdown(summary)}
+        canonical={http_url}
+        title={title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          handle: instructor.twitter,
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title,
+          url: http_url,
+          description: removeMarkdown(summary),
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://og-image-react-egghead.now.sh/lesson/${slug}?v=20201027`,
+            },
+          ],
+        }}
+      />
+      <div className="max-w-none" key={lesson.slug}>
+        <div className="space-y-10">
+          <div
+            className="relative overflow-hidden bg-gray-200"
+            css={{paddingTop: '56.25%'}}
+          >
+            <div className="absolute w-full h-full top-0 left-0">
+              {playerVisible && (
+                <EggheadPlayer
+                  ref={playerRef}
+                  hls_url={hls_url}
+                  dash_url={dash_url}
+                  width="100%"
+                  height="auto"
+                  pip="true"
+                  controls
+                  onPlay={() => send('PLAY')}
+                  onPause={() => send('PAUSE')}
+                  onEnded={() => send('COMPLETE')}
+                  subtitlesUrl={get(lesson, 'subtitles_url')}
                 />
-                <div className="mt-8">Up Next</div>
-                <h3 className="text-xl font-semibold mt-4">
-                  {nextLessonTitle}
-                </h3>
-                <div className="flex mt-16">
-                  <button
-                    className="bg-gray-300 rounded p-2 flex items-center"
-                    onClick={() => send('LOAD')}
-                  >
-                    <IconRefresh className="w-6 mr-3" /> Watch Again
-                  </button>
-                  <NextResourceButton
-                    path={nextUpPath}
-                    onClick={() => send('LOAD')}
-                    className="bg-gray-300 rounded p-2 flex items-center ml-4"
-                  >
-                    <IconPlay className="w-6 mr-3" /> Load the Next Video
-                  </NextResourceButton>
-                </div>
-                <div className="mt-20">
-                  Feeling stuck?{' '}
-                  <a href="#" className="font-semibold">
-                    Get help from egghead community
-                  </a>
-                </div>
-              </OverlayWrapper>
-            )}
+              )}
+
+              {currentPlayerState === 'subscribing' && (
+                <OverlayWrapper>
+                  <Link href="/pricing">
+                    <a>Get Access to This Video</a>
+                  </Link>
+                </OverlayWrapper>
+              )}
+
+              {currentPlayerState === 'showingNext' && (
+                <OverlayWrapper>
+                  <img
+                    src={lesson.course.square_cover_480_url}
+                    alt=""
+                    className="w-32"
+                  />
+                  <div className="mt-8">Up Next</div>
+                  <h3 className="text-xl font-semibold mt-4">
+                    {nextLessonTitle}
+                  </h3>
+                  <div className="flex mt-16">
+                    <button
+                      className="bg-gray-300 rounded p-2 flex items-center"
+                      onClick={() => send('LOAD')}
+                    >
+                      <IconRefresh className="w-6 mr-3" /> Watch Again
+                    </button>
+                    <NextResourceButton
+                      path={nextUpPath}
+                      onClick={() => send('LOAD')}
+                      className="bg-gray-300 rounded p-2 flex items-center ml-4"
+                    >
+                      <IconPlay className="w-6 mr-3" /> Load the Next Video
+                    </NextResourceButton>
+                  </div>
+                  <div className="mt-20">
+                    Feeling stuck?{' '}
+                    <a href="#" className="font-semibold">
+                      Get help from egghead community
+                    </a>
+                  </div>
+                </OverlayWrapper>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="flex space-x-12">
-          <div className="w-4/6">
-            <Tabs>
-              <TabList css={{background: 'none'}}>
-                {transcript_url && <Tab>Transcript</Tab>}
-                <Tab>Code</Tab>
-                <Tab>Comments</Tab>
-              </TabList>
-              <TabPanels className="mt-6">
-                {transcript_url && (
+          <div className="flex space-x-12">
+            <div className="w-4/6">
+              <Tabs>
+                <TabList css={{background: 'none'}}>
+                  {transcript_url && <Tab>Transcript</Tab>}
+                  <Tab>Code</Tab>
+                  <Tab>Comments</Tab>
+                </TabList>
+                <TabPanels className="mt-6">
+                  {transcript_url && (
+                    <TabPanel>
+                      <Transcript url={transcript_url} />
+                    </TabPanel>
+                  )}
                   <TabPanel>
-                    <Transcript url={transcript_url} />
+                    <p>Code</p>
                   </TabPanel>
-                )}
-                <TabPanel>
-                  <p>Code</p>
-                </TabPanel>
-                <TabPanel>
-                  <p>Comments</p>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </div>
-          <div className="w-2/6 flex flex-col space-y-8">
-            <LessonInfo
-              title={title}
-              instructor={instructor}
-              tags={tags}
-              summary={summary}
-              course={course}
-              nextUpData={nextUpData}
-              lesson={lesson}
-              className="space-y-6 divide-y-2 divide-gray-300"
-            />
+                  <TabPanel>
+                    <p>Comments</p>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </div>
+            <div className="w-2/6 flex flex-col space-y-8">
+              <LessonInfo
+                title={title}
+                instructor={instructor}
+                tags={tags}
+                summary={summary}
+                course={course}
+                nextUpData={nextUpData}
+                lesson={lesson}
+                className="space-y-6 divide-y-2 divide-gray-300"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
