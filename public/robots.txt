@@ -1,6 +1,5 @@
 User-agent: Twitterbot
-Allow: /
-Disallow: /_next
+Disallow: 
 User-agent: AhrefsSiteAudit
 Allow: /
 Disallow: /_next
