@@ -4,6 +4,8 @@ import useSWR from 'swr'
 import {loadCourse} from 'lib/courses'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
+import {NextSeo} from 'next-seo'
+import removeMarkdown from 'remove-markdown'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
@@ -16,6 +18,7 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
   const {data} = useSWR(course.url, fetcher, {initialData})
   const {
     title,
+    slug,
     summary,
     description,
     instructor,
@@ -24,11 +27,34 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
     average_rating_out_of_5,
     rating_count,
     watched_count,
+    http_url,
   } = data
   const {avatar_64_url} = instructor
 
   return (
     <div>
+      <NextSeo
+        description={removeMarkdown(summary)}
+        canonical={http_url}
+        title={title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          handle: instructor.twitter,
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title,
+          url: http_url,
+          description: removeMarkdown(summary),
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://og-image-egghead-course.now.sh/${slug}?v=20201027`,
+            },
+          ],
+        }}
+      />
       <img
         src={square_cover_480_url}
         className="mx-auto"
