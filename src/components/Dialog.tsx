@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import {jsx} from '@emotion/core'
 import React, {FunctionComponent, useState} from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
