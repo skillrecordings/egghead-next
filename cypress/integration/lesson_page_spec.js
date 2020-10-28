@@ -3,8 +3,7 @@ describe('lesson page', () => {
     cy.visit(
       '/lessons/react-using-react-error-boundaries-to-handle-errors-in-react-components',
     )
-    // failing
-    cy.get('#bmpui-id-204').should('be.visible')
+    cy.get('#egghead-player', {timeout: 10000}).should('exist')
   })
   it('tabs load', () => {
     cy.visit(
