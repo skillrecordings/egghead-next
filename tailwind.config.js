@@ -5,6 +5,12 @@ module.exports = {
     './pages/**/*.tsx',
     './src/**/*.tsx',
   ],
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+    defaultLineHeights: true,
+    standardFontWeights: true,
+  },
   theme: {
     screens: {
       sm: '640px',
