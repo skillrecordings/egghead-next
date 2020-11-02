@@ -5,6 +5,10 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('no Stripe secret key found')
 }
 
+if (!process.env.EGGHEAD_SUPPORT_BOT_TOKEN) {
+  throw new Error('no egghead support+bot token found')
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
 })
@@ -19,6 +23,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (!emailIsValid(email)) {
       res.status(400).end()
     } else {
+      const userUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/${email}?by_email=true`
+
+      console.log('LOADING')
+
+      const eggheadUser = await axios
+        .get(userUrl, {
+          headers: {
+            Authorization: `Bearer ${process.env.EGGHEAD_SUPPORT_BOT_TOKEN}`,
+          },
+        })
+        .then(({data}) => data)
+      console.log('LOADED USER FROM EGGHEAD')
+      console.log(eggheadUser)
+
       // Create a new Stripe customer object
       // This doesn't do anything on the egghead side. We **probably** want to capture
       // this at the contact level and associate it with an existing contact
@@ -27,13 +45,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         email: req.body.email,
       })
 
-      const eggheadContact = axios
-        .get(
-          `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/customer?email=${email}`,
-        )
-        .then(({data}) => data)
+      // const eggheadContact = axios
+      //   .get(
+      //     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/customer?email=${email}`,
+      //   )
+      //   .then(({data}) => data)
 
-      console.log(eggheadContact)
+      // console.log(eggheadContact)
 
       // update/create a Contact as required with appropriate StripeID
       // Should this be a StripeCustomer so a given Contact can have
