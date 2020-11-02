@@ -33,7 +33,7 @@ ul,
 ol,
 li,
 span {
-  @apply max-w-2xl mx-auto;
+  @apply max-w-2xl;
 }
 
 #__next {
@@ -44,8 +44,17 @@ span {
   }
 }
 
-h1, h2, h3, h4, h5, p, ul, ol, li, span {
-  @apply max-w-2xl mx-auto;
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul,
+ol,
+li,
+span {
+  @apply max-w-2xl;
 }
 
 #__next {
