@@ -74,7 +74,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
         </div>
         {instructor_url && (
           <Link href={instructor_url}>
-            <a className="flex items-center hover:underline sm:mt-0 mt-1 sm:pl-4 pl-0">
+            <a className="flex items-center hover:underline sm:mt-0 mt-1 sm:ml-4 ml-0">
               <img
                 className="sm:w-8 sm:h-8 w-6 h-6 rounded-full"
                 src={`${instructor_avatar_url}`}
