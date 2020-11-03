@@ -34,7 +34,7 @@
     "@reach/visually-hidden": "^0.11.1",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.10.0",
-    "@tailwindcss/ui": "^0.6.2",
+    "@tailwindcss/ui": "^0.7.2",
     "@xstate/react": "^1.0.1",
     "algoliasearch": "^4.5.1",
     "browser-cookies": "^1.2.0",

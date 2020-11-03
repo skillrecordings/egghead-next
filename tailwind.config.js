@@ -12,24 +12,6 @@ module.exports = {
     standardFontWeights: true,
   },
   theme: {
-    screens: {
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1440px',
-      '3xl': '1920px',
-    },
-    fontSize: {
-      // Set in Major Third typescale (1.25)
-      base: '1em',
-      lg: '1.25em',
-      xl: '1.563em',
-      '2xl': '1.953em',
-      '3xl': '2.441em',
-      '4xl': '3.052em',
-      '5xl': '3.815em',
-    },
     typography: (theme) => ({
       default: {
         css: {
@@ -70,7 +52,27 @@ module.exports = {
         },
       },
     }),
-    extend: {},
+    extend: {
+      screens: {
+        xs: '320px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1440px',
+        '3xl': '1920px',
+      },
+      fontSize: {
+        // Set in Major Third typescale (1.25)
+        base: '1em',
+        lg: '1.25em',
+        xl: '1.563em',
+        '2xl': '1.953em',
+        '3xl': '2.441em',
+        '4xl': '3.052em',
+        '5xl': '3.815em',
+      },
+    },
   },
   variants: {
     margin: ['responsive', 'first', 'last'],
