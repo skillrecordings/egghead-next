@@ -16,9 +16,16 @@ function LoginForm() {
   const {requestSignInEmail} = useViewer()
 
   return (
-    <div className="text-text w-full left-0 top-0 mx-auto flex flex-col justify-center sm:px-6 lg:px-8 px-5">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md rounded-lg p-8">
-        <h2 className="text-center text-3xl leading-9 font-semibold text-gray-900 mt-6">
+    <div className="text-text w-full  mx-auto flex flex-col justify-center sm:mt-24 mt-5">
+      <img
+        className="sm:w-40 sm:h-40 w-32 h-32 mx-auto mb-8"
+        src={
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1604394864/climbers.png'
+        }
+        alt="egghead climbers"
+      />
+      <div className="sm:mx-auto sm:w-full sm:max-w-md rounded-lg">
+        <h2 className="text-center text-3xl leading-9 font-semibold text-gray-900">
           {isSubmitted && 'Email Sent'}
           {isError && 'Something went wrong!'}
           {!isSubmitted && !isError && 'Sign into your account'}
@@ -53,7 +60,7 @@ function LoginForm() {
                         <div>
                           <label
                             htmlFor="email"
-                            className="block text-sm font-medium leading-5 text-gray-800"
+                            className="block leading-6 text-gray-800"
                           >
                             Email address
                           </label>
@@ -67,17 +74,17 @@ function LoginForm() {
                               onBlur={handleBlur}
                               placeholder="you@company.com"
                               required
-                              className="bg-gray-100 focus:outline-none focus:shadow-outline border-2 border-gray-200 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
+                              className="bg-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
                             />
                           </div>
                         </div>
-                        <div className="shadow-sm flex justify-center w-full mt-6">
+                        <div className="flex justify-center items-center w-full mt-6">
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="transition duration-150 w-full ease-in-out bg-blue-500 hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded"
+                            className=" transition duration-150 ease-in-out bg-gray-900 hover:bg-gray-700 hover:shadow-xl text-white font-semibold py-3 px-5 rounded"
                           >
-                            Email a Login Link
+                            Email a login link
                           </button>
                         </div>
                       </form>
@@ -118,11 +125,7 @@ function LoginForm() {
 }
 
 function Login() {
-  return (
-    <div className="container">
-      <LoginForm />
-    </div>
-  )
+  return <LoginForm />
 }
 
 export default Login
