@@ -24,7 +24,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchState,
   ...rest
 }) => {
-  const [on, toggle] = useToggle(false)
+  const [isFilterShown, setShowFilter] = useToggle(false)
   const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
   }
@@ -60,7 +60,7 @@ const Search: FunctionComponent<SearchProps> = ({
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
-        ></link>
+        />
       </Head>
       <InstantSearch
         indexName={indexName}
@@ -71,13 +71,39 @@ const Search: FunctionComponent<SearchProps> = ({
         <Configure hitsPerPage={config.searchResultCount} />
 
         <main>
-          <div>
-            <button onClick={toggle}>{on ? 'open' : 'close'} filters</button>
-          </div>
+          {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
+            noTagsSelected(searchState) && <div>Learn from Kent</div>}
+
+          {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
+            onlyTheseTagsSelected(['react'], searchState) && (
+              <div>Learn React from Kent</div>
+            )}
+
+          {noInstructorsSelected(searchState) &&
+            onlyTheseTagsSelected(['react'], searchState) && (
+              <SearchReact></SearchReact>
+            )}
+
+          <header className="flex ">
+            <SearchBox className="w-full" />
+            <button
+              onClick={setShowFilter}
+              className="ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border border-transparent focus:border-blue-500"
+            >
+              <span className="sm:block hidden">Filter</span>
+              {isFilterShown ? (
+                // prettier-ignore
+                <svg className="sm:ml-1" width="14" height="14" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 0 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
+              ) : (
+                // prettier-ignore
+                <svg className="sm:ml-1" xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12"><g fill="none" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" transform="translate(1 1)"><line x1="3.5" x2="3.5" y1="5"/><line x1=".5" x2="3.5" y1="2.5" y2="2.5"/><line x1="5.5" x2="11.5" y1="2.5" y2="2.5"/><line x1="8.5" x2="8.5" y1="10" y2="5"/><line x1="11.5" x2="8.5" y1="7.5" y2="7.5"/><line x1="6.5" x2=".5" y1="7.5" y2="7.5"/></g></svg>
+              )}
+            </button>
+          </header>
           <div
             className={`${
-              on && 'hidden'
-            } flex flex-wrap overflow-hidden sm:-mx-1 md:-mx-1`}
+              isFilterShown ? '' : 'hidden'
+            } flex flex-wrap overflow-hidden p-4 rounded-md shadow-md`}
           >
             <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
               <h3 className="font-bold">Topics</h3>
@@ -92,31 +118,14 @@ const Search: FunctionComponent<SearchProps> = ({
               <RefinementList attribute="type" />
             </div>
           </div>
-
-          {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-            noTagsSelected(searchState) && <div>Learn from Kent</div>}
-
-          {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-            onlyTheseTagsSelected(['react'], searchState) && (
-              <div>Learn React from Kent</div>
-            )}
-
-          {noInstructorsSelected(searchState) &&
-            onlyTheseTagsSelected(['react'], searchState) && (
-              <SearchReact></SearchReact>
-            )}
-
-          <header>
-            <SearchBox />
-          </header>
-
-          <div className="results pt-16">
+          <div className="mt-6">
             <Hits />
           </div>
+          <div className="w-full flex items-start mt-8 overflow-x-auto">
+            <Pagination padding={3} showLast />
+          </div>
         </main>
-        <footer>
-          <Pagination />
-        </footer>
+
         {children}
       </InstantSearch>
     </>

@@ -30,37 +30,64 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
     title,
     duration,
     instructor_avatar_url,
+    instructor_url,
     instructor_name,
   } = hit
 
+  const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
+
   return (
-    <Link href={path}>
-      <a className="flex items-center mb-5 w-full">
+    <div className="flex items-center mb-5 w-full">
+      {hasImage && (
         <div className="col-span-1 items-center flex justify-center">
-          <img
-            className="w-16"
-            src={`${image}`}
-            alt={`illustration for ${title}`}
-          />
+          <Link href={path}>
+            <a className="flex-shrink-0">
+              <img
+                className={`${
+                  type === 'lesson'
+                    ? 'w-8 h-8 m-4'
+                    : 'sm:w-16 sm:h-16 w-12 h-12'
+                } `}
+                src={`${image}`}
+                alt={`illustration for ${title}`}
+              />
+            </a>
+          </Link>
         </div>
-        <div className="flex items-center pl-4 w-full">
-          <div className="flex flex-col w-2/3">
-            <h2 className="text-lg font-semibold ml-0">{title}</h2>
-            <div className="text-base text-gray-600">
-              {type} • {convertTimeWithTitles(duration)}
-            </div>
-          </div>
-          <div className="flex pl-6">
-            <img
-              className="w-6 h-6 rounded-full"
-              src={`${instructor_avatar_url}`}
-              alt={`illustration for ${title}`}
-            />
-            <div className="pl-2 text-gray-600">{instructor_name}</div>
+      )}
+      <div
+        className={`${
+          hasImage ? 'pl-4' : ''
+        } flex sm:flex-row flex-col sm:items-center items-start w-full`}
+      >
+        <div className="flex flex-col sm:w-2/3 w-full">
+          <Link href={path}>
+            <a className="self-start">
+              <h2 className="sm:text-lg text-base font-semibold leading-tight hover:underline">
+                {title}
+              </h2>
+            </a>
+          </Link>
+          <div className="sm:text-base text-sm text-gray-600">
+            {type} • {convertTimeWithTitles(duration)}
           </div>
         </div>
-      </a>
-    </Link>
+        {instructor_url && (
+          <Link href={instructor_url}>
+            <a className="flex items-center hover:underline sm:mt-0 mt-1 sm:pl-4 pl-0">
+              <img
+                className="sm:w-8 sm:h-8 w-6 h-6 rounded-full"
+                src={`${instructor_avatar_url}`}
+                alt={`illustration for ${title}`}
+              />
+              <div className="sm:pl-2 pl-1 sm:text-base text-sm text-gray-700">
+                {instructor_name}
+              </div>
+            </a>
+          </Link>
+        )}
+      </div>
+    </div>
   )
 }
 
