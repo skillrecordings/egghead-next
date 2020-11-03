@@ -18,13 +18,13 @@ const Header: FunctionComponent = () => {
           </a>
         </Link>
         <nav className="pl-5 overflow-x-auto">
-          <ul className="flex sm:gap-8 gap-5 items-center">
-            <li>
+          <ul className="flex items-center">
+            <li className="sm:mr-8 mr-5">
               <Link href="/learn" activeClassName="underline">
                 <a>Topics</a>
               </Link>
             </li>
-            <li>
+            <li className="sm:mr-8 mr-5">
               <Link href="/s" activeClassName="underline">
                 <a>Search</a>
               </Link>
