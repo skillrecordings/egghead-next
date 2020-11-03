@@ -12,15 +12,18 @@ import {
 } from 'react-instantsearch-dom'
 import {get, isEqual, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
+import Image from 'next/image'
 
 import config from 'lib/config'
 
 import SearchReact from './curated/react'
+import ReactMarkdown from 'react-markdown'
 
 type SearchProps = {
   searchClient: any
   indexName: string
   searchState: any
+  instructor?: any
 }
 
 const Search: FunctionComponent<SearchProps> = ({
@@ -28,7 +31,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchClient,
   indexName,
   searchState,
-
+  instructor,
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
@@ -157,13 +160,24 @@ const Search: FunctionComponent<SearchProps> = ({
             </motion.div>
 
             <motion.div layout>
-              {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-                noTagsSelected(searchState) && <div>Learn from Kent</div>}
-
-              {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-                onlyTheseTagsSelected(['react'], searchState) && (
-                  <div>Learn React from Kent</div>
-                )}
+              {!isEmpty(instructor) && (
+                <div className="p-16 flex">
+                  <Image
+                    className="rounded-full"
+                    height="128"
+                    width="128"
+                    src={instructor.avatar_url}
+                  />
+                  <div className="pl-4">
+                    <h1 className="text-2xl font-bold">
+                      {instructor.full_name}
+                    </h1>
+                    <ReactMarkdown className="prose mt-0">
+                      {instructor.bio_short}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              )}
 
               {noInstructorsSelected(searchState) &&
                 onlyTheseTagsSelected(['react'], searchState) && (
