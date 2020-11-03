@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from 'react'
+import {motion, AnimateSharedLayout} from 'framer-motion'
 import Head from 'next/head'
 import Hits from './hits'
 import SearchBox from './search-box'
@@ -107,46 +108,53 @@ const Search: FunctionComponent<SearchProps> = ({
               )}
             </button>
           </header>
+          <AnimateSharedLayout>
+            <motion.div
+              layout
+              className={`${
+                isFilterShown
+                  ? 'h-auto sm:p-8 p-5 border-gray-200'
+                  : 'h-0 p-0 border-transparent'
+              } grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 overflow-hidden rounded-md shadow-lg border border-transparent my-2`}
+            >
+              <div>
+                <h3 className="font-semibold mb-1">Topics</h3>
+                <RefinementList limit={6} attribute="_tags" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">Instructors</h3>
+                <RefinementList limit={6} attribute="instructor_name" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">Content Type</h3>
+                <RefinementList attribute="type" />
+              </div>
+            </motion.div>
 
-          <div
-            className={`${
-              isFilterShown ? '' : 'hidden'
-            } flex flex-wrap overflow-hidden p-4 rounded-md shadow-md`}
-          >
-            <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
-              <h3 className="font-bold">Topics</h3>
-              <RefinementList limit={6} attribute="_tags" />
-            </div>
-            <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
-              <h3 className="font-bold">Instructors</h3>
-              <RefinementList limit={6} attribute="instructor_name" />
-            </div>
-            <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-full md:my-1 md:px-1 md:w-full lg:w-1/3 xl:w-1/3">
-              <h3 className="font-bold">Content Type</h3>
-              <RefinementList attribute="type" />
-            </div>
-          </div>
+            <motion.div layout>
+              {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
+                noTagsSelected(searchState) && <div>Learn from Kent</div>}
 
-          {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-            noTagsSelected(searchState) && <div>Learn from Kent</div>}
+              {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
+                onlyTheseTagsSelected(['react'], searchState) && (
+                  <div>Learn React from Kent</div>
+                )}
 
-          {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-            onlyTheseTagsSelected(['react'], searchState) && (
-              <div>Learn React from Kent</div>
-            )}
-
-          {noInstructorsSelected(searchState) &&
-            onlyTheseTagsSelected(['react'], searchState) && (
-              <SearchReact></SearchReact>
-            )}
-
-          <div className="mt-6">
-            <Hits />
-          </div>
-
-          <div className="w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto">
-            <Pagination />
-          </div>
+              {noInstructorsSelected(searchState) &&
+                onlyTheseTagsSelected(['react'], searchState) && (
+                  <SearchReact></SearchReact>
+                )}
+            </motion.div>
+            <motion.div layout className="mt-6">
+              <Hits />
+            </motion.div>
+            <motion.div
+              layout
+              className="w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto"
+            >
+              <Pagination />
+            </motion.div>
+          </AnimateSharedLayout>
         </div>
         {children}
       </InstantSearch>
