@@ -113,9 +113,9 @@ const Search: FunctionComponent<SearchProps> = ({
               layout
               className={`${
                 isFilterShown
-                  ? 'h-auto sm:p-8 p-5 border-gray-200'
-                  : 'h-0 p-0 border-transparent'
-              } grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 overflow-hidden rounded-md shadow-lg border border-transparent my-2`}
+                  ? 'h-auto sm:p-8 p-5 border-gray-200 my-2'
+                  : 'h-0 sm:p-0 p-0 border-transparent my-0'
+              } grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 overflow-hidden rounded-md shadow-lg border border-transparent `}
             >
               <div>
                 <h3 className="font-semibold mb-1">Topics</h3>
