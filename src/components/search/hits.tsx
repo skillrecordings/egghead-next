@@ -60,7 +60,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
           hasImage ? 'pl-4' : ''
         } flex sm:flex-row flex-col sm:items-center items-start w-full`}
       >
-        <div className="flex flex-col sm:w-2/3 w-full">
+        <div className="flex flex-col sm:w-3/4 w-full">
           <Link href={path}>
             <a className="self-start">
               <h2 className="sm:text-lg text-base font-semibold leading-tight hover:underline">
@@ -74,11 +74,13 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
         </div>
         {instructor_url && (
           <Link href={instructor_url}>
-            <a className="flex items-center hover:underline sm:mt-0 mt-1 sm:ml-4 ml-0">
-              <img
+            <a className="flex items-center hover:underline sm:mt-0 mt-1 sm:ml-8 ml-0 flex-shrink-0">
+              <div
                 className="sm:w-8 sm:h-8 w-6 h-6 rounded-full"
-                src={`${instructor_avatar_url}`}
-                alt={`illustration for ${title}`}
+                style={{
+                  background: `url(${instructor_avatar_url})`,
+                  backgroundSize: 'cover',
+                }}
               />
               <div className="sm:pl-2 pl-1 text-sm text-gray-700">
                 {instructor_name}

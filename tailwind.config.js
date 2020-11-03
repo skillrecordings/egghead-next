@@ -3,6 +3,7 @@ module.exports = {
     './src/**/*.js',
     './pages/**/*.js',
     './pages/**/*.tsx',
+    './components/**/*.mdx',
     './src/**/*.tsx',
   ],
   future: {

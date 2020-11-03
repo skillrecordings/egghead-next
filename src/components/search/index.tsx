@@ -143,7 +143,8 @@ const Search: FunctionComponent<SearchProps> = ({
           <div className="mt-6">
             <Hits />
           </div>
-          <div className="w-full flex items-center justify-start mt-8 mb-4 overflow-x-auto">
+
+          <div className="w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto">
             <Pagination />
           </div>
         </div>
