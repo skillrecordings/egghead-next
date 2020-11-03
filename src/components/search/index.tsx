@@ -10,7 +10,7 @@ import {useToggle} from 'react-use'
 
 import config from 'lib/config'
 
-import SearchReact from './react.mdx'
+import SearchReact from './curated/react'
 
 type SearchProps = {
   searchClient: any
