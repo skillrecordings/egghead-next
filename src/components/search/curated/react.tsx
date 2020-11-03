@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 
 const SearchReact = () => {
-  const description = `Learn React using the best screencast tutorial videos online.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
   const title = `Advanced React Tutorials for ${new Date().getFullYear()}`
   return (
     <>
