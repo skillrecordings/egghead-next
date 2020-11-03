@@ -85,12 +85,14 @@ const Search: FunctionComponent<SearchProps> = ({
       </Head>
       {instructor && (
         <NextSeo
+          title={`Learn web development from ${instructor.full_name} on egghead`}
           twitter={{
             handle: instructor.twitter,
             site: `@eggheadio`,
             cardType: 'summary_large_image',
           }}
           openGraph={{
+            title: `Learn web development from ${instructor.full_name} on egghead`,
             images: [
               {
                 url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
