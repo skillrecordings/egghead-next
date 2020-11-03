@@ -20,7 +20,7 @@ const SearchReact = () => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png`,
+              url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1604437767/eggo/React_Planet.png`,
             },
           ],
         }}
