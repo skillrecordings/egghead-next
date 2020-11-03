@@ -18,6 +18,7 @@ import config from 'lib/config'
 
 import SearchReact from './curated/react'
 import ReactMarkdown from 'react-markdown'
+import {NextSeo} from 'next-seo'
 
 type SearchProps = {
   searchClient: any
@@ -82,6 +83,22 @@ const Search: FunctionComponent<SearchProps> = ({
           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
         />
       </Head>
+      {instructor && (
+        <NextSeo
+          twitter={{
+            handle: instructor.twitter,
+            site: `@eggheadio`,
+            cardType: 'summary_large_image',
+          }}
+          openGraph={{
+            images: [
+              {
+                url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
+              },
+            ],
+          }}
+        />
+      )}
       <InstantSearch
         indexName={indexName}
         searchClient={searchClient}
