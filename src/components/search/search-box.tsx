@@ -13,7 +13,6 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   refine,
   className,
 }) => {
-  console.log(currentRefinement)
   return (
     <form
       noValidate

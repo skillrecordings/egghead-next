@@ -37,7 +37,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
   return (
-    <div className="flex items-center mb-5 w-full">
+    <div className="flex items-center py-3 w-full">
       {hasImage && (
         <div className="col-span-1 items-center flex justify-center">
           <Link href={path}>
@@ -68,8 +68,8 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
               </h2>
             </a>
           </Link>
-          <div className="sm:text-base text-sm text-gray-600">
-            {type} • {convertTimeWithTitles(duration)}
+          <div className="sm:text-sm text-sm font-light text-gray-600">
+            {type}・{convertTimeWithTitles(duration)}
           </div>
         </div>
         {instructor_url && (
@@ -80,7 +80,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                 src={`${instructor_avatar_url}`}
                 alt={`illustration for ${title}`}
               />
-              <div className="sm:pl-2 pl-1 sm:text-base text-sm text-gray-700">
+              <div className="sm:pl-2 pl-1 text-sm text-gray-700">
                 {instructor_name}
               </div>
             </a>

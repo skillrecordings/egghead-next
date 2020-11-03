@@ -1,5 +1,5 @@
 import {FunctionComponent} from 'react'
-import Link from 'next/link'
+import Link from '../Link'
 import Eggo from '../images/eggo.svg'
 
 const Nav: FunctionComponent = () => {
@@ -12,27 +12,27 @@ const Nav: FunctionComponent = () => {
           </h5>
           <ul>
             <li>
-              <Link href="/s">
+              <Link href="/s" activeClassName="underline">
                 <a>Search</a>
               </Link>
             </li>
             <li>
-              <Link href="/learn">
+              <Link href="/learn" activeClassName="underline">
                 <a>Learn</a>
               </Link>
             </li>
             <li>
-              <Link href="/talks">
+              <Link href="/talks" activeClassName="underline">
                 <a>Talks</a>
               </Link>
             </li>
             <li>
-              <Link href="/podcasts">
+              <Link href="/podcasts" activeClassName="underline">
                 <a>Podcasts</a>
               </Link>
             </li>
             <li>
-              <Link href="/site-directory">
+              <Link href="/site-directory" activeClassName="underline">
                 <a>Directory</a>
               </Link>
             </li>
@@ -44,22 +44,22 @@ const Nav: FunctionComponent = () => {
           </h5>
           <ul>
             <li>
-              <Link href="/pricing">
+              <Link href="/pricing" activeClassName="underline">
                 <a>Pricing</a>
               </Link>
             </li>
             <li>
-              <Link href="/instructors">
+              <Link href="/instructors" activeClassName="underline">
                 <a>Instructors</a>
               </Link>
             </li>
             <li>
-              <Link href="/stories">
+              <Link href="/stories" activeClassName="underline">
                 <a>Stories</a>
               </Link>
             </li>
             <li>
-              <Link href="/team">
+              <Link href="/team" activeClassName="underline">
                 <a>Team</a>
               </Link>
             </li>
@@ -80,7 +80,7 @@ const Nav: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <footer className="max-w-screen-2xl w-full mx-auto sm:p-8 p-3">
+    <footer className="max-w-screen-3xl w-full mx-auto sm:p-8 p-3">
       <Nav />
       <div className="text-xs mt-8 w-full flex items-center sm:justify-end text-gray-600">
         <div className="pr-6">©egghead.io</div>
