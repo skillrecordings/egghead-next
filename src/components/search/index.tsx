@@ -117,7 +117,7 @@ const Search: FunctionComponent<SearchProps> = ({
           <AnimateSharedLayout>
             <motion.div
               layout
-              className={`overflow-hidden rounded-md shadow-lg ${
+              className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
                 isFilterShown
                   ? 'h-auto border-gray-200 my-2'
                   : 'h-0 border-transparent my-0'
@@ -127,7 +127,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 layout
                 className={`${
                   isFilterShown ? 'top-full ' : 'top-0'
-                } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 border border-transparent relative`}
+                } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5  relative`}
               >
                 <div>
                   <h3 className="font-semibold mb-1">Topics</h3>
