@@ -12,7 +12,7 @@ const SearchReact = () => {
         titleTemplate={'%s | egghead.io'}
         twitter={{
           site: `@eggheadio`,
-          cardType: 'summary',
+          cardType: 'summary_large_image',
         }}
         openGraph={{
           title,
