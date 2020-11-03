@@ -18,7 +18,6 @@ const Link: FunctionComponent<LinkProps> = ({
   ...props
 }) => {
   const router = useRouter()
-  console.log(router)
   let className = children?.props?.className || ''
   if (router.asPath === href) {
     className = `${className} ${activeClassName}`
