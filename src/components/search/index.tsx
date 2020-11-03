@@ -140,9 +140,11 @@ const Search: FunctionComponent<SearchProps> = ({
                   <h3 className="font-semibold mb-1">Content Type</h3>
                   <RefinementList attribute="type" />
                 </div>
-                <div className="absolute top-0 right-0 mr-3 mt-3">
-                  <ClearRefinements />
-                </div>
+                {isRefinementOn && (
+                  <div className="absolute top-0 right-0 mr-3 mt-3">
+                    <ClearRefinements />
+                  </div>
+                )}
               </motion.div>
             </motion.div>
             <motion.div layout>
