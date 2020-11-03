@@ -14,7 +14,7 @@ const resourceTypes = {
   collections: 'collections',
 }
 
-const CREATOR_DELINIATOR = 'resources-by'
+export const CREATOR_DELINIATOR = 'resources-by'
 
 const nameSlugToName = (slug: string) => {
   const nameSplit = slug.split('-')
@@ -53,7 +53,7 @@ export const titleFromPath = (all: string[] = []) => {
   const tags = tagsForPath(path)
 
   const count = config.searchResultCount
-  const humanizedTags = ` ${humanize(tags?.map(toTitleCase))} `
+  const humanizedTags = `${humanize(tags?.map(toTitleCase))}`
   const humanizedInstructors = humanize(
     instructor?.split(`-and-`).map(nameSlugToName),
   )
