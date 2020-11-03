@@ -46,3 +46,6 @@ pre {
 .ais-Pagination-link--selected:hover {
   @apply bg-blue-700 text-white !important;
 }
+.ais-ClearRefinements-button {
+  @apply bg-transparent text-blue-600 text-sm !important;
+}
