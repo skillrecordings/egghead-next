@@ -29,6 +29,7 @@ export async function loadInstructor(slug: string) {
       avatar_url
       slug
       bio_short
+      twitter
     }
   }`
   const {instructor} = await request(endpoint, query, {slug})
