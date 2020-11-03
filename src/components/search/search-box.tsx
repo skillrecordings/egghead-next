@@ -1,6 +1,4 @@
-import current from 'pages/api/users/current'
 import React, {FunctionComponent} from 'react'
-import {useRouter} from 'next/router'
 import {connectSearchBox} from 'react-instantsearch-dom'
 
 type CustomSearchBoxProps = {
@@ -14,8 +12,6 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   refine,
   className,
 }) => {
-  const router = useRouter()
-
   return (
     <form
       noValidate

@@ -21,7 +21,6 @@ type SearchProps = {
   searchClient: any
   indexName: string
   searchState: any
-  currentRefinement: any
 }
 
 const Search: FunctionComponent<SearchProps> = ({
@@ -29,7 +28,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchClient,
   indexName,
   searchState,
-  currentRefinement,
+
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
