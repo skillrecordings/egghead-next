@@ -12,7 +12,7 @@ const SearchReact = () => {
         titleTemplate={'%s | egghead.io'}
         twitter={{
           site: `@eggheadio`,
-          cardType: 'summary_large_image',
+          cardType: 'summary',
         }}
         openGraph={{
           title,
@@ -20,7 +20,7 @@ const SearchReact = () => {
           site_name: 'egghead',
           images: [
             {
-              url: ``,
+              url: `https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png`,
             },
           ],
         }}
