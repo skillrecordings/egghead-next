@@ -21,7 +21,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
       className={`${className ? className : ''}`}
       onSubmit={(e) => e.preventDefault()}
     >
-      <div className="relative ">
+      <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           {/* prettier-ignore */}
           <svg className="text-gray-500" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
