@@ -87,13 +87,13 @@ const Search: FunctionComponent<SearchProps> = ({
       >
         <Configure hitsPerPage={config.searchResultCount} />
         <div className="max-w-screen-lg mx-auto">
-          <header className="flex ">
+          <header className="flex">
             <SearchBox className="w-full" />
             <button
               onClick={setShowFilter}
               className={`ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border-2 ${
-                isRefinementOn ? 'border-blue-500' : 'border-transparent'
-              } focus:border-blue-300 focus:outline-none`}
+                isRefinementOn ? 'border-blue-400' : 'border-transparent'
+              } focus:border-blue-600 focus:outline-none`}
             >
               <span className="sm:block hidden">Filter</span>
               {numberOfRefinements > 0 ? (
@@ -130,15 +130,23 @@ const Search: FunctionComponent<SearchProps> = ({
               >
                 <div>
                   <h3 className="font-semibold mb-1">Topics</h3>
-                  <RefinementList limit={6} attribute="_tags" />
+                  <RefinementList
+                    isShown={isFilterShown}
+                    limit={6}
+                    attribute="_tags"
+                  />
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Instructors</h3>
-                  <RefinementList limit={6} attribute="instructor_name" />
+                  <RefinementList
+                    isShown={isFilterShown}
+                    limit={6}
+                    attribute="instructor_name"
+                  />
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Content Type</h3>
-                  <RefinementList attribute="type" />
+                  <RefinementList isShown={isFilterShown} attribute="type" />
                 </div>
                 {isRefinementOn && (
                   <div className="absolute top-0 right-0 mr-3 mt-3">
@@ -147,6 +155,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 )}
               </motion.div>
             </motion.div>
+
             <motion.div layout>
               {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
                 noTagsSelected(searchState) && <div>Learn from Kent</div>}

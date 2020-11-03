@@ -12,6 +12,8 @@ type RefinementListProps = {
   searchForItems?: any
   createURL: any
   attribute?: string
+  isShown?: boolean
+  tabIndex?: number
 }
 
 const TagItem: FunctionComponent<RefinementListProps> = ({
@@ -19,6 +21,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
   isFromSearch,
   refine,
   createURL,
+  tabIndex,
 }) => {
   // const {data} = useSwr(
   //   `https://egghead.io/api/v1/tags/${item.label}`,
@@ -31,6 +34,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
   return (
     <li>
       <a
+        tabIndex={tabIndex}
         className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
@@ -73,6 +77,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
   isFromSearch,
   refine,
   createURL,
+  tabIndex,
 }) => {
   // const {data} = useSwr(
   //   `https://egghead.io/api/v1/instructors/${nameToSlug(item.label)}`,
@@ -85,6 +90,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
   return (
     <li>
       <a
+        tabIndex={tabIndex}
         className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
@@ -130,10 +136,12 @@ const Item: FunctionComponent<RefinementListProps> = ({
   isFromSearch,
   refine,
   createURL,
+  tabIndex,
 }) => {
   return (
     <li>
       <a
+        tabIndex={tabIndex}
         className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
@@ -174,6 +182,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
   searchForItems,
   createURL,
   attribute,
+  isShown,
 }) => {
   function label(attribute: any) {
     switch (attribute) {
@@ -190,6 +199,8 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
         break
     }
   }
+  const tabIndex = isShown ? 0 : -1
+
   return (
     <div>
       <div className="relative">
@@ -200,6 +211,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
               <svg className="text-gray-500" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
             </div>
             <input
+              tabIndex={tabIndex}
               type="search"
               className="bg-gray-200 rounded-md px-3 pl-8 py-2 w-full"
               placeholder={`Search ${label(attribute)}`}
@@ -214,6 +226,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
             <>
               {attribute === `_tags` && (
                 <TagItem
+                  tabIndex={tabIndex}
                   key={item.label}
                   item={item}
                   isFromSearch={isFromSearch}
@@ -223,6 +236,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
               )}
               {attribute === `instructor_name` && (
                 <InstructorItem
+                  tabIndex={tabIndex}
                   key={item.label}
                   item={item}
                   isFromSearch={isFromSearch}
@@ -232,6 +246,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
               )}
               {attribute === `type` && (
                 <Item
+                  tabIndex={tabIndex}
                   key={item.label}
                   item={item}
                   isFromSearch={isFromSearch}
