@@ -1,41 +1,30 @@
-import React, {FunctionComponent} from 'react'
-import {connectPagination} from 'react-instantsearch-dom'
+import React from 'react'
+import {Pagination as AlgoliaPagination} from 'react-instantsearch-dom'
 
-type PaginationProps = {
-  currentRefinement: any
-  nbPages: any
-  refine: any
-  createURL: any
+const Pagination = () => {
+  return (
+    <AlgoliaPagination
+      padding={3}
+      showLast
+      translations={{
+        first:
+          // prettier-ignore
+          <svg className="my-1"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor" fillRule="evenodd" transform="translate(2 3)"><path d="M5.29342709,9.707 C4.90304515,9.31650015 4.90304515,8.68349985 5.29342709,8.293 L8.58642709,5 L5.29342709,1.707 C4.91445488,1.31462111 4.91987472,0.690915223 5.30560852,0.305181425 C5.69134232,-0.0805523739 6.31504821,-0.0859722095 6.70742709,0.293 L10.7074271,4.293 C11.097809,4.68349985 11.097809,5.31650015 10.7074271,5.707 L6.70742709,9.707 C6.31692724,10.0973819 5.68392694,10.0973819 5.29342709,9.707 Z" transform="matrix(-1 0 0 1 16 0)"/><path d="M0.293427093,9.707 C-0.0969548458,9.31650015 -0.0969548458,8.68349985 0.293427093,8.293 L3.58642709,5 L0.293427093,1.707 C-0.085545117,1.31462111 -0.0801252814,0.690915223 0.305608517,0.305181425 C0.691342315,-0.0805523739 1.31504821,-0.0859722095 1.70742709,0.293 L5.70742709,4.293 C6.09780903,4.68349985 6.09780903,5.31650015 5.70742709,5.707 L1.70742709,9.707 C1.31692724,10.0973819 0.683926944,10.0973819 0.293427093,9.707 Z" transform="matrix(-1 0 0 1 6 0)"/></g></svg>,
+        previous:
+          // prettier-ignore
+          <svg className="my-1 mx-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" fillRule="evenodd" d="M0.293,9.707 C-0.0973819383,9.31650015 -0.0973819383,8.68349985 0.293,8.293 L3.586,5 L0.293,1.707 C-0.0859722095,1.31462111 -0.0805523739,0.690915223 0.305181425,0.305181425 C0.690915223,-0.0805523739 1.31462111,-0.0859722095 1.707,0.293 L5.707,4.293 C6.09738194,4.68349985 6.09738194,5.31650015 5.707,5.707 L1.707,9.707 C1.31650015,10.0973819 0.683499851,10.0973819 0.293,9.707 Z" transform="matrix(-1 0 0 1 11 3)"/></svg>,
+        next:
+          // prettier-ignore
+          <svg className="my-1 mx-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" fillRule="evenodd" d="M0.293,9.707 C-0.0973819383,9.31650015 -0.0973819383,8.68349985 0.293,8.293 L3.586,5 L0.293,1.707 C-0.0859722095,1.31462111 -0.0805523739,0.690915223 0.305181425,0.305181425 C0.690915223,-0.0805523739 1.31462111,-0.0859722095 1.707,0.293 L5.707,4.293 C6.09738194,4.68349985 6.09738194,5.31650015 5.707,5.707 L1.707,9.707 C1.31650015,10.0973819 0.683499851,10.0973819 0.293,9.707 Z" transform="translate(5 3)"/></svg>,
+        last:
+          // prettier-ignore
+          <svg className="my-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="currentColor" fillRule="evenodd" transform="translate(3 3)"><path d="M0.293,9.707 C-0.0973819383,9.31650015 -0.0973819383,8.68349985 0.293,8.293 L3.586,5 L0.293,1.707 C-0.0859722095,1.31462111 -0.0805523739,0.690915223 0.305181425,0.305181425 C0.690915223,-0.0805523739 1.31462111,-0.0859722095 1.707,0.293 L5.707,4.293 C6.09738194,4.68349985 6.09738194,5.31650015 5.707,5.707 L1.707,9.707 C1.31650015,10.0973819 0.683499851,10.0973819 0.293,9.707 Z"/><path d="M5.293,9.707 C4.90261806,9.31650015 4.90261806,8.68349985 5.293,8.293 L8.586,5 L5.293,1.707 C4.91402779,1.31462111 4.91944763,0.690915223 5.30518142,0.305181425 C5.69091522,-0.0805523739 6.31462111,-0.0859722095 6.707,0.293 L10.707,4.293 C11.0973819,4.68349985 11.0973819,5.31650015 10.707,5.707 L6.707,9.707 C6.31650015,10.0973819 5.68349985,10.0973819 5.293,9.707 Z"/></g></svg>,
+        page(currentRefinement: any) {
+          return <div className="px-1">{currentRefinement}</div>
+        },
+      }}
+    />
+  )
 }
 
-const Pagination: FunctionComponent<PaginationProps> = ({
-  currentRefinement,
-  nbPages,
-  refine,
-  createURL,
-}) => (
-  <ul>
-    {new Array(nbPages).fill(null).map((_, index) => {
-      const page = index + 1
-
-      return (
-        <li key={index}>
-          <a
-            href={createURL(page)}
-            style={{fontWeight: currentRefinement === page ? 'bold' : 'normal'}}
-            onClick={(event) => {
-              event.preventDefault()
-              refine(page)
-            }}
-          >
-            {page}
-          </a>
-        </li>
-      )
-    })}
-  </ul>
-)
-
-const CustomPagination = connectPagination(Pagination)
-
-export default CustomPagination
+export default Pagination

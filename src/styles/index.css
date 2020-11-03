@@ -30,3 +30,19 @@ pre {
     }
   }
 }
+
+/* Algolia Pagination */
+
+.ais-Pagination-link {
+  @apply text-gray-700 border-gray-200 bg-gray-200 transition-all ease-out duration-150 !important;
+}
+.ais-Pagination-link:hover {
+  @apply bg-gray-300 text-gray-800 !important;
+}
+
+.ais-Pagination-link--selected {
+  @apply bg-blue-600 border-blue-600 text-white !important;
+}
+.ais-Pagination-link--selected:hover {
+  @apply bg-blue-700 text-white !important;
+}
