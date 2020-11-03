@@ -1,10 +1,14 @@
----
-layout: 'ultimate-guide'
-title: 'Is React.js a framework or a toolit?'
-contributors: ['Joel Hooks']
-updatedOn: '2020-08-21'
-bigIdeas: ['metaframeworks']
----
+export const meta = {
+  title: `Is React.js a framework or a toolit?`,
+  contributors: ['Joel Hooks'],
+  updatedOn: '2020-08-21',
+  bigIdeas: ['metaframeworks'],
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide frontMatter={meta}>{children}</UltimateGuide>
+)
 
 Technically [React](/learn/react) is a toolkit that you can utilize as a framework. React is a toolkit and not a framework because React has very few opinions about how you should construct applications. Typically you would expect a framework to provide structure and standard practices for building your web applications.
 
