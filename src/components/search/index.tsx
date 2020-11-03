@@ -5,7 +5,11 @@ import Hits from './hits'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
-import {Configure, InstantSearch} from 'react-instantsearch-dom'
+import {
+  Configure,
+  InstantSearch,
+  ClearRefinements,
+} from 'react-instantsearch-dom'
 import {get, isEqual, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
 
@@ -17,6 +21,7 @@ type SearchProps = {
   searchClient: any
   indexName: string
   searchState: any
+  currentRefinement: any
 }
 
 const Search: FunctionComponent<SearchProps> = ({
@@ -24,6 +29,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchClient,
   indexName,
   searchState,
+  currentRefinement,
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
@@ -111,26 +117,35 @@ const Search: FunctionComponent<SearchProps> = ({
           <AnimateSharedLayout>
             <motion.div
               layout
-              className={`${
+              className={`overflow-hidden rounded-md shadow-lg ${
                 isFilterShown
-                  ? 'h-auto sm:p-8 p-5 border-gray-200 my-2'
-                  : 'h-0 sm:p-0 p-0 border-transparent my-0'
-              } grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 overflow-hidden rounded-md shadow-lg border border-transparent `}
+                  ? 'h-auto border-gray-200 my-2'
+                  : 'h-0 border-transparent my-0'
+              }`}
             >
-              <div>
-                <h3 className="font-semibold mb-1">Topics</h3>
-                <RefinementList limit={6} attribute="_tags" />
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">Instructors</h3>
-                <RefinementList limit={6} attribute="instructor_name" />
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">Content Type</h3>
-                <RefinementList attribute="type" />
-              </div>
+              <motion.div
+                layout
+                className={`${
+                  isFilterShown ? 'top-full ' : 'top-0'
+                } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 border border-transparent relative`}
+              >
+                <div>
+                  <h3 className="font-semibold mb-1">Topics</h3>
+                  <RefinementList limit={6} attribute="_tags" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Instructors</h3>
+                  <RefinementList limit={6} attribute="instructor_name" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Content Type</h3>
+                  <RefinementList attribute="type" />
+                </div>
+                <div className="absolute top-0 right-0 mr-3 mt-3">
+                  <ClearRefinements />
+                </div>
+              </motion.div>
             </motion.div>
-
             <motion.div layout>
               {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
                 noTagsSelected(searchState) && <div>Learn from Kent</div>}
