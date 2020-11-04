@@ -7,6 +7,7 @@ import {get, first} from 'lodash'
 import {GetServerSideProps} from 'next'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import Image from 'next/image'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
@@ -83,6 +84,8 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
     average_rating_out_of_5,
     rating_count,
     watched_count,
+    http_url,
+    summary,
     primary_tag,
   } = data
 
@@ -130,6 +133,28 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
 
   return (
     <>
+      <NextSeo
+        description={removeMarkdown(summary)}
+        canonical={http_url}
+        title={title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          handle: instructor.twitter,
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title,
+          url: http_url,
+          description: removeMarkdown(summary),
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://og-image-egghead-course.now.sh/${slug}?v=20201027`,
+            },
+          ],
+        }}
+      />
       {/* Look into exporting layouts like MDX does rather than using "absolute" */}
       <div className="max-w-screen-lg mx-auto">
         <div className="md:mt-10 mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
@@ -215,10 +240,11 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
             </main>
           </div>
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
-            <img
+            <Image
               src={square_cover_large_url}
               alt={`illustration for ${title}`}
-              className="h-64 w-64"
+              height={256}
+              width={256}
             />
             {/* <button className="flex items-center">
               <PlayIcon className="flex-shrink-0"></PlayIcon>
@@ -243,7 +269,7 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
 export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
   const course = params && (await loadCourse(params.slug as string))
 
   return {
