@@ -83,24 +83,7 @@ const Search: FunctionComponent<SearchProps> = ({
           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
         />
       </Head>
-      {instructor && (
-        <NextSeo
-          title={`Learn web development from ${instructor.full_name} on egghead`}
-          twitter={{
-            handle: instructor.twitter,
-            site: `@eggheadio`,
-            cardType: 'summary_large_image',
-          }}
-          openGraph={{
-            title: `Learn web development from ${instructor.full_name} on egghead`,
-            images: [
-              {
-                url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
-              },
-            ],
-          }}
-        />
-      )}
+
       <InstantSearch
         indexName={indexName}
         searchClient={searchClient}
@@ -181,13 +164,32 @@ const Search: FunctionComponent<SearchProps> = ({
             <motion.div layout>
               {!isEmpty(instructor) && (
                 <div className="p-16 flex">
-                  <Image
-                    className="rounded-full"
-                    height="128"
-                    width="128"
-                    src={instructor.avatar_url}
+                  <NextSeo
+                    title={`Learn web development from ${instructor.full_name} on egghead`}
+                    twitter={{
+                      handle: instructor.twitter,
+                      site: `@eggheadio`,
+                      cardType: 'summary_large_image',
+                    }}
+                    openGraph={{
+                      title: `Learn web development from ${instructor.full_name} on egghead`,
+                      images: [
+                        {
+                          url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
+                        },
+                      ],
+                    }}
                   />
-                  <div className="pl-4">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      className="rounded-full"
+                      width={128}
+                      height={128}
+                      layout="intrinsic"
+                      src={instructor.avatar_url}
+                    />
+                  </div>
+                  <div className="pl-8">
                     <h1 className="text-2xl font-bold">
                       {instructor.full_name}
                     </h1>
