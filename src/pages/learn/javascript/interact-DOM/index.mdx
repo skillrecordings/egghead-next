@@ -1,0 +1,34 @@
+export const meta = {
+  title: `Interact with the DOM using JavaScript`,
+  contributors: ['Hiro Nishimura', 'Maggie Appleton'],
+}
+
+import FancyGuide from 'layouts/fancy-guide'
+export default ({children}) => (
+  <FancyGuide frontMatter={meta}>{children}</FancyGuide>
+)
+
+<ProseSection>
+
+
+## How can I interact with the DOM?
+
+There are many ways you can interact with the DOM. Some examples include removing/changing HTML elements in the DOM, changing element attributes (like href, src, alt, custom), insert new HTML elements, and attach event listeners to elements (like click, keypress, submit, etc.).
+
+Because the changes you make by interacting with the DOM only persist during the interaction, if you refresh the web page, all of the changes you made will go away, and the page will be reset.
+
+<div style={{ backgroundColor: '#F1F0F4', height: 'auto', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', margin: '3em', textAlign: 'center' }}>
+
+
+Copy and paste this code into the console:
+
+let currentParagraph = document.querySelector("#thisParagraph");
+currentParagraph.textContent = "Magic!"
+
+----- we'll assign the id "thisParagraph" to the current paragraph for this to work ------
+
+</div>
+
+
+</ProseSection>
+

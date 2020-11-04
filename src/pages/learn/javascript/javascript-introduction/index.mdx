@@ -1,0 +1,156 @@
+export const meta = {
+  title: `The Real Introduction to JavaScript`,
+  contributors: ['Hiro Nishimura', 'Maggie Appleton'],
+}
+
+import FancyGuide from 'layouts/fancy-guide'
+export default ({children}) => (
+  <FancyGuide frontMatter={meta}>{children}</FancyGuide>
+)
+
+<ProseSection>
+
+
+Once you’ve become familiar with HTML and CSS, you might begin to see the word “JavaScript” pop up fairly regularly. (And no, it has nothing to do with “Java,” which is an entirely different coding language.)
+
+JavaScript code looks something like this:
+
+```js
+const podcastPlaylist = document.getElementById('podcastPlaylist')
+
+const newPodcast = document.createTextNode('Planet Money')
+
+podcastPlaylist.appendChild(newPodcast)
+```
+
+Don't worry if you've no idea what that says. By the end of the article you'll be much less confused.
+
+First we need to find out what _is_ JavaScript, and whether _you_ need to learn it. What can you do with JavaScript that you cant' do with HTML or CSS?
+Where should you get started without becoming completely overwhelmed?
+
+I’m sure you’re filled with loads of questions, so let’s get started!
+
+## What _is_ JavaScript, anyways?
+
+JavaScript is a vital programming language for web development, written using “scripts.”
+
+JavaScript scripts can be written directly into a website's HTML, and are loaded automatically when a website is loaded in the browser.
+
+The point of JavaScript is that it adds interactivity, animation, and automation into websites. This allows developers to create sites that behave like desktop programs (think about how Google Docs allows you to write documents in your browser like you’re using Microsoft Word!).
+
+<!-- animated interaction visual -->
+
+## If I know HTML and CSS, why do I need to know JavaScript?
+
+HTML, CSS, and JavaScript work together to create the amazing internet experience that we’ve come to love and expect from modern websites.
+
+<!-- layers of a website being built from HTML to CSS to JS -->
+
+We use HTML to create the “content” of a webpage, whether it be writing text, embedding images, or creating links.
+
+We use CSS to make the HTML document from a “top to bottom” plain web document into a colorful and styled web page. You can define image sizes, element positioning, and font colors with CSS to bring life to the HTML page.
+
+Then, after all that, JavaScript comes in to bring a pop of life and enthusiasm into the visitor experience!
+
+JavaScript can create custom experiences for the audience depending on a plethora of information it can collect about the browser and the viewer. It can figure out what time of the day it is, and change its greeting (“Good afternoon!”). It is also “event-driven,” so they can respond to actions, like mouse clicks and text input from the viewer. You experience this a lot when you are searching for an answer on Google, and it provides you with a variety of changing suggestions as you type until you find the question you were looking for.
+
+## Let’s take a look at some JavaScript code...
+
+When you look at JavaScript code, it looks different from what you’re used to from HTML and CSS.
+
+<!-- JS code example with divs -->
+
+When we take a closer look, we can identify some familiar code, like `<div>`, and can begin to see that JavaScript is interacting with HTML and CSS.
+
+<!--[insert example code where JavaScript is embedded within a `<div>`] -->
+
+## How do I download, install, or get JavaScript?
+
+Great news! You don’t have to download anything to start working with JavaScript! This is because JavaScript is already running in your browser, and is free to use for everyone!
+
+### JavaScript is a "client-side" language
+
+JavaScript is a “client-side” programming language, which means that it is read and executed in the web browser (client).
+
+You can compare this with “server-side” programming languages, which runs on remote computers (likely a server).
+
+JavaScript is supported by all major browsers as well as all major operating systems, which means it can be utilized almost universally.
+
+You can begin manipulating JavaScript right from your browser by opening the Developer Tools console. Let’s give it a try!
+
+<Callout>
+
+
+How can I access the JavaScript console in my Chrome browser?
+
+</Callout>
+
+
+Type in “about:blank” in Chrome address bar, and then right click on the page, and select “Inspect” To open the JavaScript console.
+
+<!-- image -->
+
+<!--
+Let’s write your first line of JavaScript!
+[An embedded exercise with very very basic JavaScript that is easy to explain, component by component… maybe could be addition of numbers… Gives the feeling of accomplishment (addition “makes sense” inherently to most of us), and we can claim to have written JavaScript!]
+Let’s get started with JavaScript!
+[I think this article might be good with very basic concepts as intro, and below here, we can link the different articles about different JavaScript concepts/components? I think we’re creating things in “building-blocks” style, so below here can kind of be a “table of contents” to get started with JavaScript, linking to different articles.]
+
+[Potential articles that could be linked here:]
+What’s the ES6, and why is it important?
+What’s the DOM?
+-->
+
+---
+
+# Variables, Objects, and Arrays
+
+JavaScript introduces a lot of new concepts like “Variables”, “Objects,” and “Arrays.”
+
+These are all ways of storing information so we can reuse them later. Like storage boxes we keep things in and can pass around.
+
+### Variables
+
+Variables let us assign names to pieces of information so we can store them. Later on we can then use our stored information.
+
+We can create a new variable by typing `const` before the name of our variable, then using the equals sign to assign it to a piece of information, like a word.
+
+```js
+const firstName = 'Monty'
+const lastName = 'Python'
+
+const fullName = firstName + lastName
+```
+
+Here we've first created two variables, firstName and lastName. Then assigned them to the words "Monty" and "Python."
+
+We've then declared a third variable called `fullName` and assigned it to the combination of `firstName` and `lastName`. That means the `fullName` variable currently says "Monty Python"
+
+Variables help us to move information around, change it, and apply logic to it. It's like a giant puzzle we get to play with.
+
+### Objects
+
+This is what an object looks like. It holds information in "properties" with "values" attached
+
+```js
+const hulk = {
+  fullName: 'The Hulk',
+  strengths: 'Able to reach high shelves',
+  weaknesses: 'Takes up all the legroom on airplanes',
+}
+```
+
+So our `hulk` object has a property of `fullName` with the value "The Hulk" stored in it.
+
+### Arrays
+
+Here's what an array looks like. It stores a sequence of information like numbers or words:
+
+```js
+const teaBreaks = ['10:15', '12:30', '14:30', '16:00']
+```
+
+Variables, objects, and arrays are only a few of the features JavaScript has to help us write code but that's enough to give you a taster.
+
+</ProseSection>
+

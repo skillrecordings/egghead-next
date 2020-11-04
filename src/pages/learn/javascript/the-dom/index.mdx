@@ -1,0 +1,227 @@
+export const meta = {
+  title: `What is the DOM?`,
+  contributors: ['Hiro Nishimura', 'Maggie Appleton'],
+}
+
+import FancyGuide from 'layouts/fancy-guide'
+export default ({children}) => (
+  <FancyGuide frontMatter={meta}>{children}</FancyGuide>
+)
+
+import DOMScroller from './DOMScroller.js'
+import NodesScroller from './NodesScroller.js'
+
+<ProseSection>
+
+
+## “The DOM.”
+
+It seems to appear everywhere the moment you begin looking for resources about JavaScript. Everyone seems to be quick to whip out the acronym and talk about it, but no one seems to have a simple explanation for what it is.
+
+So... what exactly _is_ the DOM?
+
+## What the DOM is and isn’t
+
+First, let’s make lists of what the DOM _is_, and _isn’t_.
+
+#### The DOM _is_...
+
+- The DOM is an acronym for “Document Object Model.”
+- The DOM is a “tree.”
+- The DOM shows relationships between elements, referred to as parents, children, and siblings.
+- The DOM is a type of API (Application Programming Interface).
+
+#### The DOM _is not_...
+
+- The DOM is _not_ the source HTML, or the code you write. As a matter of fact, the DOM is not a programming language at all.
+- The DOM is not what you see in the browser or in your browser’s DevTools.
+- It is also not what you see in the Render Tree (though the DOM Tree is an ingredient in generating a Render Tree).
+
+If you’re furrowing your brows right now, don’t worry. We’re going to go over this and much more in this article!
+
+## So, what _is_ “the DOM,” really?
+
+The DOM, or Document Object Model, is an API that helps developers interact with “document nodes” within the browser. It is not a programming language, but can interact with different programming languages to create the web browsing experience.
+
+<Callout>
+
+
+#### What’s an API?
+
+An API lists out operations that developers can use, along with descriptions on what these operations do. The developers then take these APIs to create apps without having to reinvent the wheel.
+
+<p style={{marginBottom: '1em', fontSize: '0.8em', opacity: '0.75'}}>
+  Read freeCodeCamp's article{' '}
+  <a href="https://www.freecodecamp.org/news/what-is-an-api-in-english-please-b880a3214a82/">
+    'What is an API? In English, please'
+  </a>
+</p>
+
+</Callout>
+
+
+The DOM tree shows relationships between different “nodes” (or elements) within a web page, and your web browsers use the DOM Tree to determine how to display these web pages.
+
+You can think of the DOM as the “final output” of your browser after reading your code.
+
+<DOMScroller>
+
+
+```
+<html>
+ <head></head>
+ <body>
+   <img src="logo.svg" />
+   <nav></nav>
+   <h1>Welcome to the DOM</h1>
+   <div>
+     <p>It's a lovely place</p>
+    </div>
+ </body>
+</html>
+```
+
+</DOMScroller>
+
+
+The DOM can interact with different web page documents like HTML, SVG, and XML. However, we will be focusing on just the HTML in this article.
+
+<QuestionReveal question="What does the acronym 'DOM' stand for?">
+
+
+Document Object Model
+
+</QuestionReveal>
+
+
+## The DOM Node Tree
+
+There are a lot of words and technical jargon that we can print onto this page to explain the DOM and what it does, but I think the best way to introduce it is by showing you what it “looks like.”
+
+The visual representation of the DOM looks like a “tree” of “nodes.” However, you won’t ever see the “tree” in actuality. I know. I seem to be talking in circles, don’t I?
+
+Let’s just get right down to it, and show you an actual **DOM Node Tree** (or **DOM Tree**, as it’s commonly referred to).
+
+<NodesScroller />
+
+## Types of HTML Nodes
+
+“Nodes” can be thought of in this context as “HTML Elements.” The DOM Tree is a tree structure representing different elements of an HTML page, and each HTML element is a “node.”
+
+There are 12 different node types in the DOM:
+
+- Element
+- Text
+- Attr
+- CDATASection
+- EntityReference
+- Entity
+- Comment
+- ProcessingInstruction
+- Document
+- Notation
+- DocumentFragment
+- DocumentType
+
+Some node types can have “children,” which can be other types of nodes.
+
+For example, a `<div>` node element can have an `<h1>` child node element, which can have child nodes types like attr (attributes) and text.
+
+![](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1600109597/egghead-next-ebombs/wtf-DOM/Artboard_4.png)
+
+<Callout>
+
+
+You can learn more about the HTML DOM node types on [w3schools](https://www.w3schools.com/jsref/prop_node_nodetype.asp)!
+
+</Callout>
+
+
+## Finding the Developer Tools in your browser
+
+Though your browser does not show you the DOM Tree as a “tree” like we saw earlier, you can see the browser’s rendition of the DOM Tree in the **Developer Tools**.
+
+In Chrome, you can access the Developer Tools by clicking on the three vertical dots at the top right corner of the browser, and navigating to **More Tools > Developer Tools**. You can also right click anywhere on the browser screen, and click on “**Inspect**.”
+
+<img
+  style={{
+    width: '100%',
+    margin: '3em auto',
+    boxShadow:
+      '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '0.2em',
+  }}
+  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1600110509/egghead-next-ebombs/wtf-DOM/Chrome_Mac_OS.png"
+/>
+
+This will pop open the Developer Tools – a set of utilities web developers use to inspect and understand what's happening behind the scenes on a website.
+
+The “Elements” tab in here can be thought of as the DOM Panel. What shows up is the browser’s rendition of the DOM Tree.
+
+<img
+  style={{
+    width: '100%',
+    margin: '3em auto',
+    boxShadow:
+      '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    borderRadius: '0.2em',
+  }}
+  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1600110509/egghead-next-ebombs/wtf-DOM/Chrome_Mac_OS-1.png"
+/>
+
+Notice how it doesn’t look like the “branches and nodes” that we illustrated in the previous section. However, each node (or HTML element) is sectioned off by a little arrow which you can click to open and inspect each element separately.
+
+<Callout>
+
+
+Try opening up your own Developer Tools and inspecting this paragraph.
+
+</Callout>
+
+
+## The DOM Tree is not the source code
+
+Now, you might be thinking, “The Elements tab in the Developer Tools looks suspiciously like the HTML of the website… But didn’t they just say what shows up in the HTML isn’t the DOM?”
+
+The DOM is not the code you write, because the DOM is the _result of your code_; the final output from your browser when all of your code is crunched, and effects applied.
+
+There are few instances when the DOM is not the same as the source HTML. For example, when the HTML has invalid code, the DOM may fix the invalid HTML before showing it. In that case, when the visitor opens Developer Tools on their browser to inspect the code, they will see corrected HTML code instead of what the code’s author wrote.
+
+Another instance when HTML may not match what shows up in the DOM is when the HTML is modified by JavaScript. When you go to a web page, the browser takes the HTML and converts the HTML elements into the DOM. JavaScript then interacts with the DOM as API for HTML, and changes how elements show up on the browser. By manipulating the DOM with code, you can change how the web page shows up in the browser without changing the HTML.
+
+## JavaScript can only affect elements that exist in the DOM
+
+One thing to note is that what shows up in the Developer Tools may _also_ not always be the DOM. (I know, I know…)
+
+For example, if the code uses **CSS pseudo-elements**, the DOM does not include it in its tree, because the DOM builds itself from the source HTML document, not the styles applied to the elements (including CSS). Therefore, JavaScript cannot target pseudo-elements because they are not part of the DOM.
+
+Though JavaScript cannot target CSS pseudo-elements, you can still interact with the CSS in the Styles tab of the Developer Tools!
+
+## JavaScript and the DOM
+
+What does the DOM have to do with JavaScript? Well JavaScript can interact with and manipulate the DOM.
+
+When we combine the DOM with JavaScript, we're able to create dynamic HTML and make our web pages do all the fancy effects we’ve come to love and expect from modern websites.
+
+### JavaScript can…
+
+- Change, add, or remove HTML elements and attributes
+- Change CSS styles
+- Create and react to HTML events like clicks or hovers
+
+You can use JavaScript to read or change the DOM "programmatically" (aka. "through code").
+
+## So, the DOM…
+
+We went through a lot of information about the DOM in this article, and your mind might be spinning… and that’s ok!
+
+You’ll be working with and manipulating the DOM a lot as you progress through your JavaScript journey, and will no doubt become very friendly with it.
+
+You just need to understand that it’s a type of API that helps you build documents on the web (also known as websites), as well as add, modify, and delete elements within these documents.
+
+Your web browser uses the DOM to determine how to display web pages to your audiences. By using coding languages like JavaScript, you can manipulate the DOM to change how the website shows up to visitors without changing the source HTML.
+
+</ProseSection>
+
