@@ -1,0 +1,100 @@
+export const meta = {
+  title: `WTF is JSX?`,
+  contributors: ['Hiro Nishimura'],
+}
+
+import FancyGuideLayout from 'layouts/fancy-guide'
+export default ({children}) => (
+  <FancyGuideLayout frontMatter={meta}>{children}</FancyGuideLayout>
+)
+
+<ProseSection>
+
+
+When you peer closely at some React code, you might begin to find some suspiciously-HTML-like code embedded inside the JavaScript.
+
+<!-- [Insert example of simple React code with some JSX] -->
+
+What is this suspiciously-HTML-like code, and how does it work within React?
+
+## JSX: JavaScript XML
+
+These snippets of suspiciously-HTML-like code are not HTML, but a syntax extension to JavaScript based on ES6 called “JavaScript XML.”
+
+More commonly referred to as “JSX,” JavaScript XML is a form of markup that allows us to write HTML in React by converting HTML tags into React elements.
+
+Utilizing JSX allows us to write HTML elements in JavaScript, which is then rendered to the DOM.
+
+<Callout>
+
+
+ES6 (aka: ECMAScript 6, JavaScript 6, or ECMAScript 2015) is the “6th version” of JavaScript, released in 2015. Some notable features include the addition of Constants, Block-Scoped Variables and Functions, Arrow Functions, and Default Function Parameters, amongst others.
+
+</Callout>
+
+
+Let’s take a look at an example of what happens when JSX is “translated” into React!
+
+<!--[insert example comparison code that compared JSX and JSX output (not this one; this one was yoinked from here)] -->
+
+Comparing the JSX code to the output, you might notice that when JSX is “translated” into React, it adds quite a bit of complexity to the code.
+
+Utilizing JSX instead of writing directly in React allows you to write cleaner code that is easier to write, edit, and read.
+
+When you write code in JSX, it is converted “behind the scenes” into JavaScript during runtime. The “translation” from JSX into JavaScript and React is done through the use of [Babel](https://babeljs.io/), which compiles your code into an older version of JavaScript (ES5) that all browsers support.
+
+By “translating” your ES6 into ES5, you don’t have to worry about your code not working on various browsers that don’t yet support ES6!
+
+As you can see, each tag in JSX serves as a “function call” that creates an element using
+`createElement()`.
+
+With the magic of Babel “translation,” you don’t have to worry about inserting the `createElement()` yourself!
+
+## Why JSX?
+
+Using JSX when writing React is not a requirement, but it makes creating React applications easier, allowing you to describe what the UI should look like in HTML. According to its creators, JSX is a “template language” that comes with the “full power of JavaScript.”
+
+Not only do people find JSX to be helpful visual aids when working with JavaScript UI, utilizing JSX allows React to show more useful error messages and warnings for easier debugging. If HTML is not correct or misses a parent element, JSX will throw an error your way so you can immediately correct it.
+
+When coding, one option is to separate the markup and logic in separate files. React decided to combine them into loosely coupled units called “components.” Utilizing JSX allows us to combine the markup (JSX) and logic (JavaScript), creating an output that is “translated” into JavaScript function calls.
+
+## JSX Syntax
+
+First, let’s review some good housekeeping tips to write clean JSX code:
+
+- Split code over multiple lines to make it easier to read
+- Wrap the function in parentheses ( ) to avoid automatic semicolon insertion
+- HTML must be wrapped in _one_ top-level element
+- Write expressions inside curly braces { }
+- Use an array when you have more than one child element
+
+Each tag in JSX is a” function call” that creates an element. When the JSX is “translated” in to React, you get back something like this:
+
+`function createElement(elementType, props, ...children) {}`
+
+This is because each tag creates an element using the `createElement()` function.
+There are 3 parameters passed into
+`createElement()`:
+
+`elementType` define type of element to create
+
+`props` define attributes for element (ie: `id` or `style`)
+
+`props` stands for “properties,” and they are arguments passed into React components
+
+`children` define the element’s child(ren) - if any
+
+<!--[insert example comparison code that compared JSX and JSX output (not this one; this one was yoinked from here) - this is same one from above!!] -->
+
+Looking back again at the JSX and output example from above, can you identify how the 3 parameters are being declared in JSX to be rendered into React?
+
+- Parameter 1:
+- Parameter 2:
+- Parameter 3:
+
+### In Conclusion.. JSX is cool!
+
+JSX stands for “JavaScript XML,” and it is a syntax extension to JavaScript based in ES6, the newest “version” of JavaScript. JSX allows you to write HTML in React by converting HTML into React components, helping you to more easily create user interfaces for your web applications. While it’s not necessary to use JSX when coding in React, it makes the development and debugging process easier for many developers.
+
+</ProseSection>
+
