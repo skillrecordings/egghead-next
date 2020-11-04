@@ -65,7 +65,9 @@ const useNextUpData = (url: string) => {
 
 const Transcript: FunctionComponent<{url: string}> = ({url}) => {
   const {data} = useSWR(url, fetcher)
-  return data ? <Markdown>{data.text}</Markdown> : null
+  return data ? (
+    <Markdown className="prose prose-xl">{data.text}</Markdown>
+  ) : null
 }
 
 const lessonLoader = (slug: string, token: string) => {
@@ -114,7 +116,7 @@ type LessonProps = {
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken, logout} = useViewer()
+  const {authToken, logout, viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
   const currentPlayerState = playerState.value
@@ -159,7 +161,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'loaded':
-        if (hls_url || dash_url) {
+        if (isEmpty(viewer)) {
+          send('JOIN')
+        } else if (hls_url || dash_url) {
           send('VIEW')
         } else {
           send('SUBSCRIBE')
@@ -225,6 +229,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 />
               )}
 
+              {currentPlayerState === 'joining' && (
+                <>
+                  <OverlayWrapper>
+                    <h2 className="text-xl font-bold">
+                      This Lesson is Free to Watch
+                    </h2>
+                    <Link href="/login">
+                      <a>Click here to Create an Account or Login to View</a>
+                    </Link>
+                  </OverlayWrapper>
+                </>
+              )}
               {currentPlayerState === 'subscribing' && (
                 <OverlayWrapper>
                   <Link href="/pricing">
@@ -232,7 +248,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </Link>
                 </OverlayWrapper>
               )}
-
               {currentPlayerState === 'showingNext' && (
                 <OverlayWrapper>
                   <img
@@ -274,7 +289,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               <Tabs>
                 <TabList css={{background: 'none'}}>
                   {transcript_url && <Tab>Transcript</Tab>}
-                  <Tab>Code</Tab>
                   <Tab>Comments</Tab>
                 </TabList>
                 <TabPanels className="mt-6">
@@ -283,9 +297,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <Transcript url={transcript_url} />
                     </TabPanel>
                   )}
-                  <TabPanel>
-                    <p>Code</p>
-                  </TabPanel>
                   <TabPanel>
                     <p>Comments</p>
                   </TabPanel>
@@ -317,7 +328,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
   params,
 }) {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
 
   const initialLesson: LessonResource | undefined =
     params && (await loadLesson(params.slug as string))

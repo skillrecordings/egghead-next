@@ -25,6 +25,7 @@
     "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js"
   },
   "dependencies": {
+    "@emotion/babel-preset-css-prop": "^10.1.0",
     "@mdx-js/react": "^1.6.19",
     "@reach/dialog": "^0.11.2",
     "@reach/disclosure": "^0.11.2",
