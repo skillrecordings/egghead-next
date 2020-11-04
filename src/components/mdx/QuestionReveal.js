@@ -10,7 +10,7 @@ const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
       <div className="text-gray-600 text-base mx-auto text-center mt-3">
         Test Your Knowledge
       </div>
-      <div className="relative flex items-center justify-center font-sans text-center text-2xl font-semibold leading-normal mt-2">
+      <div className="relative flex items-center justify-center font-sans text-center text-xl font-semibold leading-normal mt-2">
         {question}
       </div>
       <div className="relative flex items-center justify-center p-8 bg-gray-50 rounded-lg mt-2">
@@ -50,7 +50,7 @@ const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
           }}
           className={!isShown && `max-h-48 overflow-hidden`}
         >
-          <div className="font-sans text-xl font-normal text-gray-700">
+          <div className="font-sans text-lg font-normal text-gray-700">
             {children}
           </div>
         </motion.div>
