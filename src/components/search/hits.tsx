@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {connectHits} from 'react-instantsearch-dom'
-import formatDuration from 'utils/format-duration'
 import {convertTimeWithTitles} from 'utils/time-utils'
 
 type CustomHitsProps = {
