@@ -12,9 +12,8 @@ import {
   ClearRefinements,
 } from 'react-instantsearch-dom'
 import {get, isEqual, isEmpty} from 'lodash'
-import {useToggle} from 'react-use'
+import {useToggle, useClickAway} from 'react-use'
 import Image from 'next/image'
-import {useClickAway} from 'react-use'
 
 import config from 'lib/config'
 
