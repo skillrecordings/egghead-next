@@ -68,7 +68,8 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
             </a>
           </Link>
           <div className="sm:text-sm text-sm font-light text-gray-600">
-            {instructor_name && (
+            {instructor_name && !instructor_url && <>{instructor_name}・</>}
+            {instructor_name && instructor_url && (
               <>
                 <Link href={instructor_url}>
                   <a className="hover:underline">{instructor_name}</a>
