@@ -9,11 +9,11 @@ export async function loadCourse(slug: string) {
         title
         description
         square_cover_480_url
+        square_cover_large_url
         average_rating_out_of_5
         rating_count
         watched_count
         path
-        summary
         lessons {
           slug
           title
