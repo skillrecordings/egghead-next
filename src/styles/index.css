@@ -23,23 +23,29 @@ pre {
   @apply mx-2 px-8 py-6 bg-gray-800 text-gray-200 rounded-md;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-p,
-ul,
-ol,
-li,
-span {
-  @apply max-w-2xl;
-}
-
 #__next {
   .prose-reset {
     * {
       @apply m-0 p-0;
     }
   }
+}
+
+/* Algolia Pagination */
+
+.ais-Pagination-link {
+  @apply text-gray-700 border-gray-200 bg-gray-200 transition-all ease-out duration-150 !important;
+}
+.ais-Pagination-link:hover {
+  @apply bg-gray-300 text-gray-800 !important;
+}
+
+.ais-Pagination-link--selected {
+  @apply bg-blue-600 border-blue-600 text-white !important;
+}
+.ais-Pagination-link--selected:hover {
+  @apply bg-blue-700 text-white !important;
+}
+.ais-ClearRefinements-button {
+  @apply bg-transparent text-blue-600 text-sm !important;
 }

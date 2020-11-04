@@ -2,6 +2,7 @@
   "redirects": [
     {"source": "/lessons", "destination": "/s?type=lesson"},
     {"source": "/courses", "destination": "/s?type=course"},
-    {"source": "/search", "destination": "/s"}
+    {"source": "/search", "destination": "/s"},
+    {"source": "/instructors", "destination": "/s"}
   ]
 }

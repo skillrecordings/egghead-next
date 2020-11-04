@@ -13,11 +13,24 @@ checkEnv({
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['d2eip9sf3oo6c2.cloudfront.net'],
+  },
   async redirects() {
     return [
       {
         source: '/instructors/:instructor',
-        destination: '/s/lessons-by-:instructor',
+        destination: '/s/content-by-:instructor',
+        permanent: true,
+      },
+      {
+        source: '/podcasts',
+        destination: '/s?type=podcast',
+        permanent: true,
+      },
+      {
+        source: '/talks',
+        destination: '/s?type=talk',
         permanent: true,
       },
     ]

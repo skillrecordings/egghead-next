@@ -4,6 +4,8 @@ import useSWR from 'swr'
 import {loadCourse} from 'lib/courses'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
+import {NextSeo} from 'next-seo'
+import removeMarkdown from 'remove-markdown'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
@@ -81,6 +83,7 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
   const {data} = useSWR(course.url, fetcher, {initialData})
   const {
     title,
+    slug,
     summary,
     description,
     instructor,
