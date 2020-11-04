@@ -139,7 +139,7 @@ export default function NodesScroller() {
           marginLeft: 0,
           width: '100%',
           flexDirection: 'column',
-          marginBottom: '70%',
+          marginBottom: '130%',
           zIndex: 0,
         },
       }}
