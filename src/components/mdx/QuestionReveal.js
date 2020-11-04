@@ -8,9 +8,9 @@ const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
   return (
     <div className="shadow border-gray-100 border-2 p-8 bg-gray-50 rounded-lg mt-12">
       <div className="text-gray-600 text-base mx-auto text-center mt-3">
-        Question Time
+        Test Your Knowledge
       </div>
-      <div className="relative flex items-center justify-center font-sans text-center text-4xl font-semibold leading-normal mt-2">
+      <div className="relative flex items-center justify-center font-sans text-center text-xl font-semibold leading-normal mt-2">
         {question}
       </div>
       <div className="relative flex items-center justify-center p-8 bg-gray-50 rounded-lg mt-2">
@@ -23,7 +23,7 @@ const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
               exit={{opacity: 0}}
               transition={{duration: 1, type: 'spring'}}
             >
-              <div className="font-sans text-2xl font-normal text-gray-700">
+              <div className="font-sans text-lg font-normal text-gray-700">
                 What's the answer?
               </div>
               <button
@@ -48,9 +48,11 @@ const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
               display: isShown ? 'inherit' : 'none',
             },
           }}
-          className={!isShown && `max-h-64 overflow-hidden`}
+          className={!isShown && `max-h-48 overflow-hidden`}
         >
-          {children}
+          <div className="font-sans text-lg font-normal text-gray-700">
+            {children}
+          </div>
         </motion.div>
       </div>
     </div>
