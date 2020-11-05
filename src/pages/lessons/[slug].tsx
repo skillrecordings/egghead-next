@@ -237,15 +237,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       This Lesson is Free to Watch
                     </h2>
                     <Link href="/login">
-                      <a>Click here to Create an Account or Login to View</a>
+                      <a className="no-underline hover:underline text-blue-500">
+                        Click here to Create an Account or Login to View
+                      </a>
                     </Link>
                   </OverlayWrapper>
                 </>
               )}
               {currentPlayerState === 'subscribing' && (
                 <OverlayWrapper>
+                  <h2 className="text-xl font-bold">
+                    This Lesson is an egghead Member Exclusive
+                  </h2>
                   <Link href="/pricing">
-                    <a>Get Access to This Video</a>
+                    <a className="no-underline hover:underline text-blue-500">
+                      Click here to join today and unlock this lesson!
+                    </a>
                   </Link>
                 </OverlayWrapper>
               )}
