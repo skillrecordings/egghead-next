@@ -28,41 +28,39 @@ const Stack: FunctionComponent<StackProps> = ({resources}) => {
     return null
   })
 
-  return (
-    res.length === resources.length && (
-      <ul className="-mb-3">
-        {res &&
-          res.map((resource) => {
-            return resource ? (
-              <li key={resource?.slug}>
-                <Link href={resource?.path}>
-                  <a className="flex font-semibold py-2 hover:underline cursor-pointer leading-tight">
-                    {resource && (
-                      <Image
-                        src={
-                          resource?.icon_url ||
-                          resource?.square_cover_480_url ||
-                          resource?.image_thumb_url
-                        }
-                        width={24}
-                        height={24}
-                        alt={resource?.title}
-                      />
-                    )}
-                    <span className="ml-2">{resource?.title}</span>
-                  </a>
-                </Link>
-              </li>
-            ) : (
-              <div
-                style={{height: 40}}
-                className="w-full animate-pulse bg-gray-200 rounded-md duration-75"
-              />
-            )
-          })}
-      </ul>
-    )
-  )
+  return res.length === resources.length ? (
+    <ul className="-mb-3">
+      {res &&
+        res.map((resource) => {
+          return resource ? (
+            <li key={resource?.slug}>
+              <Link href={resource?.path}>
+                <a className="flex font-semibold py-2 hover:underline cursor-pointer leading-tight">
+                  {resource && (
+                    <Image
+                      src={
+                        resource?.icon_url ||
+                        resource?.square_cover_480_url ||
+                        resource?.image_thumb_url
+                      }
+                      width={24}
+                      height={24}
+                      alt={resource?.title}
+                    />
+                  )}
+                  <span className="ml-2">{resource?.title}</span>
+                </a>
+              </Link>
+            </li>
+          ) : (
+            <div
+              style={{height: 40}}
+              className="w-full animate-pulse bg-gray-200 rounded-md duration-75"
+            />
+          )
+        })}
+    </ul>
+  ) : null
 }
 
 export default Stack
