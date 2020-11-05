@@ -7,12 +7,14 @@ jobs:
     name: cypress
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12.x'
       - name: Checkout 🛎
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta        
+        uses: actions/checkout@v2
         with:
           ref: main
-          node-version: '12.x'
       - name: Run Cypress 🌲
       - uses: cypress-io/github-action@v2
         env:
