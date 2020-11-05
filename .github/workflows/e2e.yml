@@ -16,7 +16,7 @@ jobs:
         with:
           ref: main
       - name: Run Cypress 🌲
-      - uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v2
         env:
           CYPRESS_BASE_URL: https://next.egghead.io
 
