@@ -160,7 +160,6 @@ const Search: FunctionComponent<SearchProps> = ({
                   </motion.div>
                 )}
             </AnimatePresence>
-
             <motion.div layout ref={refinementRef}>
               <motion.header layout className="flex mt-4">
                 <SearchBox className="w-full" />
@@ -188,6 +187,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   )}
                 </button>
               </motion.header>
+
               <motion.div
                 layout
                 className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
@@ -233,7 +233,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 </motion.div>
               </motion.div>
             </motion.div>
-            <motion.div layout className="mt-6">
+            <motion.div layout className="mt-4">
               <Hits />
             </motion.div>
             <motion.div

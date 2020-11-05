@@ -32,6 +32,8 @@ export async function loadLesson(slug: string) {
         summary
         hls_url
         dash_url
+        icon_url
+        path
         instructor {
           full_name
         }
