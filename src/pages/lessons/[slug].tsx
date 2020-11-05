@@ -147,6 +147,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
     course,
     slug,
+    free_forever,
   } = lesson
 
   React.useEffect(() => {
@@ -161,7 +162,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'loaded':
-        if (isEmpty(viewer)) {
+        if (isEmpty(viewer) && free_forever) {
           send('JOIN')
         } else if (hls_url || dash_url) {
           send('VIEW')
