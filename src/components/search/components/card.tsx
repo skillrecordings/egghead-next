@@ -27,7 +27,7 @@ const Card: FunctionComponent<CardProps> = ({
           {description}
         </Markdown>
       )}
-      {children}
+      <div className="mt-6">{children}</div>
     </div>
   )
 }

@@ -29,7 +29,7 @@ const Stack: FunctionComponent<StackProps> = ({resources}) => {
   })
 
   return res.length === resources.length ? (
-    <ul className="mt-6 -mb-3">
+    <ul className="-mb-3">
       {res &&
         res.map((resource) => {
           return resource ? (
