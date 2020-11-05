@@ -233,7 +233,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 </motion.div>
               </motion.div>
             </motion.div>
-            <motion.div layout className="mt-6">
+            <motion.div layout className="mt-4">
               <Hits />
             </motion.div>
             <motion.div
