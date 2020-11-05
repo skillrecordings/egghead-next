@@ -34,7 +34,7 @@ const Stack: FunctionComponent<StackProps> = ({resources}) => {
         res.map((resource) => {
           return resource ? (
             <li key={resource?.slug}>
-              <Link href={resource?.slug}>
+              <Link href={resource?.path}>
                 <a className="flex font-semibold py-2 hover:underline cursor-pointer leading-tight">
                   {resource && (
                     <Image
