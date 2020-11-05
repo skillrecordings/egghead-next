@@ -160,7 +160,6 @@ const Search: FunctionComponent<SearchProps> = ({
                   </motion.div>
                 )}
             </AnimatePresence>
-
             <motion.div layout ref={refinementRef}>
               <motion.header layout className="flex mt-4">
                 <SearchBox className="w-full" />
@@ -188,50 +187,58 @@ const Search: FunctionComponent<SearchProps> = ({
                   )}
                 </button>
               </motion.header>
-              <motion.div
-                layout
-                className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
-                  isFilterShown
-                    ? 'h-auto border-gray-200 my-2'
-                    : 'h-0 border-transparent my-0'
-                }`}
-              >
+              <AnimatePresence>
                 <motion.div
-                  layout
-                  className={`${
-                    isFilterShown ? 'top-full ' : 'top-0'
-                  } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5  relative`}
+                  initial={{opacity: 0}}
+                  animate={{opacity: 1}}
+                  exit={{opacity: 0}}
+                  layoutId="refinement"
+                  className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
+                    isFilterShown
+                      ? 'h-auto border-gray-200 my-2'
+                      : 'h-0 border-transparent my-0'
+                  }`}
                 >
-                  <div>
-                    <h3 className="font-semibold mb-1">Topics</h3>
-                    <RefinementList
-                      isShown={isFilterShown}
-                      limit={6}
-                      attribute="_tags"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Instructors</h3>
-                    <RefinementList
-                      isShown={isFilterShown}
-                      limit={6}
-                      attribute="instructor_name"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Content Type</h3>
-                    <RefinementList isShown={isFilterShown} attribute="type" />
-                  </div>
-                  {isRefinementOn && (
-                    <div
-                      className="absolute top-0 right-0 mr-3 mt-3"
-                      onClick={setShowFilter}
-                    >
-                      <ClearRefinements />
+                  <motion.div
+                    layout
+                    className={`${
+                      isFilterShown ? 'top-full ' : 'top-0'
+                    } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5  relative`}
+                  >
+                    <div>
+                      <h3 className="font-semibold mb-1">Topics</h3>
+                      <RefinementList
+                        isShown={isFilterShown}
+                        limit={6}
+                        attribute="_tags"
+                      />
                     </div>
-                  )}
+                    <div>
+                      <h3 className="font-semibold mb-1">Instructors</h3>
+                      <RefinementList
+                        isShown={isFilterShown}
+                        limit={6}
+                        attribute="instructor_name"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Content Type</h3>
+                      <RefinementList
+                        isShown={isFilterShown}
+                        attribute="type"
+                      />
+                    </div>
+                    {isRefinementOn && (
+                      <div
+                        className="absolute top-0 right-0 mr-3 mt-3"
+                        onClick={setShowFilter}
+                      >
+                        <ClearRefinements />
+                      </div>
+                    )}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              </AnimatePresence>
             </motion.div>
             <motion.div layout className="mt-6">
               <Hits />
