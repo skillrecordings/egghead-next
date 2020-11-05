@@ -37,16 +37,18 @@ const Stack: FunctionComponent<StackProps> = ({resources}) => {
               <Link href={resource?.path}>
                 <a className="flex font-semibold py-2 hover:underline cursor-pointer leading-tight">
                   {resource && (
-                    <Image
-                      src={
-                        resource?.icon_url ||
-                        resource?.square_cover_480_url ||
-                        resource?.image_thumb_url
-                      }
-                      width={24}
-                      height={24}
-                      alt={resource?.title}
-                    />
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={
+                          resource?.icon_url ||
+                          resource?.square_cover_480_url ||
+                          resource?.image_thumb_url
+                        }
+                        width={24}
+                        height={24}
+                        alt={resource?.title}
+                      />
+                    </div>
                   )}
                   <span className="ml-2">{resource?.title}</span>
                 </a>
