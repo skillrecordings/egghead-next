@@ -108,7 +108,10 @@ const CopyToClipboard: FunctionComponent<{
           ) : (
             <>
               <IconLink className="w-5 mr-2" />
-              <span>Copy link to clipboard</span>
+              <span>
+                Copy link
+                <span className="hidden lg:inline"> to clipboard</span>
+              </span>
             </>
           )}
         </button>
