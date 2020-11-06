@@ -159,7 +159,9 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
     <div {...restProps}>
       <div className="space-y-4">
         {title && (
-          <h1 className="font-semibold leading-tight text-xl">{title}</h1>
+          <h1 className="font-semibold leading-tight text-lg lg:text-xl">
+            {title}
+          </h1>
         )}
         {summary && <Markdown className="prose">{summary}</Markdown>}
         {
