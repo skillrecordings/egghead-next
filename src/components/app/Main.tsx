@@ -2,7 +2,7 @@ import {FunctionComponent} from 'react'
 
 const Main: FunctionComponent = ({children}) => {
   return (
-    <div className="w-full sm:px-8 px-3 flex flex-col flex-grow">
+    <div className="w-full px-3 sm:px-4 lg:px-8 flex flex-col flex-grow">
       {children}
     </div>
   )
