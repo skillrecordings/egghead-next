@@ -22,7 +22,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
     <ul>
       {data.list.lessons.map((lesson, index = 0) => {
         return (
-          <li key={lesson.slug} className="p-3">
+          <li key={lesson.slug} className="py-3 pr-3">
             <div className="flex">
               <div className="flex items-center mr-3">
                 <div className="mr-2 text-xs text-gray-600">{index + 1}</div>
