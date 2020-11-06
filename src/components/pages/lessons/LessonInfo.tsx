@@ -102,7 +102,6 @@ const CopyToClipboard: FunctionComponent<{
           disabled={copied}
           onClick={copyHandler}
           className={`rounded p-2 flex justify-center items-center bg-gray-200 hover:bg-gray-400 transition-colors duration-150 ease-in-out ${className}`}
-          style={{minWidth: '210px'}}
         >
           {state.error ? (
             'Unable to copy!'
@@ -111,7 +110,10 @@ const CopyToClipboard: FunctionComponent<{
           ) : (
             <>
               <IconLink className="w-5 mr-2" />
-              <span>Copy link to clipboard</span>
+              <span>
+                Copy link
+                <span className="hidden lg:inline"> to clipboard</span>
+              </span>
             </>
           )}
         </button>
@@ -158,7 +160,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
   return (
     <div {...restProps}>
       <div className="space-y-4">
-        {title && <h3 className="font-medium text-xl">{title}</h3>}
+        {title && <h3 className="font-medium text-lg xl:text-xl">{title}</h3>}
         {summary && <Markdown>{summary}</Markdown>}
         {
           <ul className="space-y-3">
@@ -191,29 +193,31 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         }
       </div>
       {course && (
-        <div className="pt-6">
-          <h4 className="font-medium text-lg">Course</h4>
+        <div className="pt-4 lg:pt-6">
+          <h4 className="font-medium text-md lg:text-lg">Course</h4>
           <div className="flex items-center mt-3">
             <Link href={`/courses/${course.slug}`}>
-              <a className="no-underline">
+              <a className="no-underline flex-shrink-0">
                 <img
                   src={course.square_cover_480_url}
                   alt=""
-                  className="w-16 mr-4"
+                  className="w-12 xl:w-16 mr-2 xl:mr-4"
                 />
               </a>
             </Link>
             <Link href={`/courses/${course.slug}`}>
               <a className="no-underline">
-                <h3 className="font-medium text-xl">{course.title}</h3>
+                <h3 className="font-medium text-md lg:text-lg leading-6">
+                  {course.title}
+                </h3>
               </a>
             </Link>
           </div>
         </div>
       )}
       {!isEmpty(tags) && (
-        <div className="pt-6">
-          <h4 className="font-medium text-lg">Tech used</h4>
+        <div className="pt-4 lg:pt-6">
+          <h4 className="font-medium text-md lg:text-lg">Tech used</h4>
           <ul className="space-y-3 mt-3">
             {tags.map((tag, index) => (
               <li key={index}>
@@ -234,8 +238,8 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         </div>
       )}
       {instructor && (
-        <div className="pt-6">
-          <h4 className="font-medium text-lg">Instructor</h4>
+        <div className="pt-4 lg:pt-6">
+          <h4 className="font-medium text-md lg:text-lg">Instructor</h4>
           <div className="flex items-center mt-3">
             <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
               <a className="mr-4">
@@ -259,10 +263,10 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         </div>
       )}
       {get(lesson, 'free_forever') && (
-        <div className="pt-6">
+        <div className="pt-4 lg:pt-6">
           <div className="flex items-center">
-            <IconCommunityResource className="w-6 mr-3 text-yellow-500" />
-            <h4 className="font-medium text-lg">
+            <IconCommunityResource className="w-6 mr-3 text-yellow-500 flex-shrink-0" />
+            <h4 className="font-medium text-md lg:text-lg">
               This lesson is a Community Resource
             </h4>
           </div>
@@ -277,8 +281,8 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
           </div>
         </div>
       )}
-      <div className="pt-6">
-        <h4 className="font-medium text-lg">
+      <div className="pt-4 lg:pt-6">
+        <h4 className="font-medium text-md lg:text-lg">
           Share this lesson with your friends
         </h4>
         <div className="flex items-center mt-3">
@@ -292,7 +296,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         </div>
       </div>
       {nextUpData && (
-        <div className="pt-6">
+        <div className="pt-4 xl:pt-6">
           <NextUp data={nextUpData} currentLessonSlug={lesson.slug} />
         </div>
       )}

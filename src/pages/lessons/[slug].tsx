@@ -292,8 +292,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
             </div>
           </div>
-          <div className="flex space-x-12">
-            <div className="w-4/6">
+          <div className="flex md:space-x-12 flex-col md:flex-row">
+            <div className="md:w-4/6">
               <Tabs>
                 <TabList css={{background: 'none'}}>
                   {transcript_url && <Tab>Transcript</Tab>}
@@ -311,7 +311,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </TabPanels>
               </Tabs>
             </div>
-            <div className="w-2/6 flex flex-col space-y-8">
+            <div className="md:w-2/6 flex flex-col space-y-8 mt-8 md:mt-0">
               <LessonInfo
                 title={title}
                 instructor={instructor}
@@ -320,7 +320,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 course={course}
                 nextUpData={nextUpData}
                 lesson={lesson}
-                className="space-y-6 divide-y-2 divide-gray-300"
+                className="space-y-4 lg:space-y-6 divide-y-2 divide-gray-300"
               />
             </div>
           </div>
