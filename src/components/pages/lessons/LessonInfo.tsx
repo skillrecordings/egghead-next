@@ -202,20 +202,19 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         <div className="pt-6">
           <div className="flex items-center">
             <Link href={`/courses/${course.slug}`}>
-              <a>
+              <a className="flex-shrink-0 relative block w-12 h-12 lg:w-20 lg:h-20">
                 <Image
-                  width={80}
-                  height={80}
                   src={course.square_cover_480_url}
                   alt={`illustration for ${course.title}`}
+                  layout="fill"
                 />
               </a>
             </Link>
-            <div className="ml-4">
-              <h4 className="text-gray-600">Course</h4>
+            <div className="ml-2 lg:ml-4">
+              <h4 className="text-gray-600 mb-1">Course</h4>
               <Link href={`/courses/${course.slug}`}>
                 <a className="hover:underline">
-                  <h3 className="font-semibold leading-tight text-lg">
+                  <h3 className="font-semibold leading-tight text-md lg:text-lg">
                     {course.title}
                   </h3>
                 </a>
@@ -248,7 +247,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
       {instructor && (
         <div className="pt-6">
           <h4 className="font-semibold">Instructor</h4>
-          <div className="flex items-center mt-3">
+          <div className="flex items-center mt-3 flex-shrink-0">
             <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
               <a className="mr-2">
                 {get(instructor, 'avatar_64_url') ? (
@@ -273,8 +272,8 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
       {get(lesson, 'free_forever') && (
         <div className="pt-6">
           <div className="flex items-center">
-            <IconCommunityResource className="w-6 mr-3 text-yellow-500" />
-            <h4 className="font-medium text-lg">
+            <IconCommunityResource className="w-6 mr-3 text-yellow-500 flex-shrink-0" />
+            <h4 className="font-semibold">
               This lesson is a Community Resource
             </h4>
           </div>
