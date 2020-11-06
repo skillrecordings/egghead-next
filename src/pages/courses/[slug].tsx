@@ -1,3 +1,4 @@
+import {jsx} from '@emotion/core'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
@@ -6,13 +7,15 @@ import {FunctionComponent} from 'react'
 import {get, first} from 'lodash'
 import {GetServerSideProps} from 'next'
 import {NextSeo} from 'next-seo'
-import removeMarkdown from 'remove-markdown'
 import Image from 'next/image'
+import removeMarkdown from 'remove-markdown'
+import getDependencies from '../../../data/courseDependencies'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
 type CourseProps = {
   course: any
+  dependencies: any
 }
 
 const StarIcon: FunctionComponent<{className?: string}> = ({className}) => {
@@ -66,13 +69,15 @@ const PrimaryTag: FunctionComponent<{version?: string}> = ({version}) => {
 const PlayIcon: FunctionComponent<{className: string}> = ({className}) => {
   return (
     // prettier-ignore
-    <svg className={className ? className : ""} xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16"><g fill="none" fill-rule="evenodd" transform="translate(-5 -4)"><polygon points="0 0 24 0 24 24 0 24"/><path fill="currentColor" fillRule="nonzero" d="M19.376,12.416 L8.777,19.482 C8.62358728,19.5840889 8.42645668,19.5935191 8.26399944,19.5065407 C8.10154219,19.4195623 8,19.2502759 8,19.066 L8,4.934 C8,4.74972414 8.10154219,4.58043768 8.26399944,4.49345928 C8.42645668,4.40648088 8.62358728,4.41591114 8.777,4.518 L19.376,11.584 C19.5150776,11.6767366 19.5986122,11.8328395 19.5986122,12 C19.5986122,12.1671605 19.5150776,12.3232634 19.376,12.416 Z"/></g></svg>
+    <svg className={className ? className : ""} xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16"><g fill="none" fillRule="evenodd" transform="translate(-5 -4)"><polygon points="0 0 24 0 24 24 0 24"/><path fill="currentColor" fillRule="nonzero" d="M19.376,12.416 L8.777,19.482 C8.62358728,19.5840889 8.42645668,19.5935191 8.26399944,19.5065407 C8.10154219,19.4195623 8,19.2502759 8,19.066 L8,4.934 C8,4.74972414 8.10154219,4.58043768 8.26399944,4.49345928 C8.42645668,4.40648088 8.62358728,4.41591114 8.777,4.518 L19.376,11.584 C19.5150776,11.6767366 19.5986122,11.8328395 19.5986122,12 C19.5986122,12.1671605 19.5150776,12.3232634 19.376,12.416 Z"/></g></svg>
   )
 }
 
-const Course: FunctionComponent<CourseProps> = ({course}) => {
+const Course: FunctionComponent<CourseProps> = ({course, dependencies}) => {
   const initialData = course
   const {data} = useSWR(course.url, fetcher, {initialData})
+  const {topics, notes, prerequisites, projects, illustrator} = dependencies
+
   const {
     title,
     slug,
@@ -117,9 +122,10 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
           }}
         />
         <div className="sm:pl-2 pl-1">
+          <h4 className="text-gray-700 text-sm">Instructor</h4>
           <Link href={`/s/${url}`}>
             <a className="flex hover:underline flex-shrink-0">
-              <span className="font-semibold">{name}</span>
+              <span className="font-semibold text-base">{name}</span>
             </a>
           </Link>
           {bio_short && (
@@ -171,8 +177,9 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
                 >
                   <Link href={`/s/${tagSlug}`}>
                     <a className="mx-2 inline-flex items-center hover:underline">
-                      <img
-                        className="w-6 h-6"
+                      <Image
+                        width={24}
+                        height={24}
                         src={tagImage}
                         alt={`${tagName} logo`}
                       />
@@ -181,18 +188,28 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
                   </Link>
                 </UserRating>
               </div>
-              <Markdown className="prose text-gray-900 mt-4">
+              <Markdown className="prose md:prose-lg text-gray-900 mt-6">
                 {description}
               </Markdown>
-              <Link href={firstLessonURL}>
-                <a className="inline-flex items-center mt-6 mb-4 px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                  <PlayIcon className="text-blue-100 mr-2" />
-                  Start Watching
-                </a>
-              </Link>
+              {topics && (
+                <div className="mt-8">
+                  <h2 className="text-lg font-semibold mb-3">
+                    What you'll learn
+                  </h2>
+                  <div className="prose">
+                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                      {topics?.map((topic: string) => (
+                        <li key={topic} className="text-gray-900 leading-6">
+                          {topic}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </header>
             <main>
-              <section className="my-6">
+              <section className="mt-8">
                 <div className="mb-2 flex justify-between items-center">
                   <h2 className="text-lg font-semibold">
                     Course content{' '}
@@ -206,7 +223,7 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
                     {lessons.map((lesson: any, i: number) => {
                       const lessonURL = `/lessons/${lesson.slug}`
                       return (
-                        <li>
+                        <li key={lesson.id}>
                           <div className="font-semibold flex items-center leading-tight py-2">
                             <div className="flex items-center mr-2 flex-grow">
                               <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
@@ -215,8 +232,15 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
                               <PlayIcon className="text-gray-500 mx-1" />
                             </div>
                             <Link href={lessonURL}>
-                              <a className="hover:underline font-semibold flex items-center leading-tight w-full">
-                                <Markdown className="prose text-gray-900 mt-0 leading-tight">
+                              <a className="hover:underline font-semibold flex items-center w-full">
+                                <Markdown
+                                  className="prose md:prose-lg text-gray-900 mt-0"
+                                  css={{
+                                    p: {
+                                      lineHeight: 1.3,
+                                    },
+                                  }}
+                                >
                                   {lesson.title}
                                 </Markdown>
                               </a>
@@ -246,18 +270,32 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
               height={256}
               width={256}
             />
-            {/* <button className="flex items-center">
-              <PlayIcon className="flex-shrink-0"></PlayIcon>
-              Preview this course
-            </button> */}
-            <div className="pt-16 md:block hidden">
-              <Instructor
-                name={full_name}
-                avatar_url={avatar_64_url}
-                url={instructor_slug}
-                bio_short={bio_short}
-                twitter={twitter}
-              />
+            <div className="md:block hidden">
+              <div className="py-6 border-b border-gray-200 w-full flex justify-center">
+                <Link href={firstLessonURL}>
+                  <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                    <PlayIcon className="text-blue-100 mr-2" />
+                    Start Watching
+                  </a>
+                </Link>
+              </div>
+              <div className="py-6 border-b border-gray-200">
+                <Instructor
+                  name={full_name}
+                  avatar_url={avatar_64_url}
+                  url={instructor_slug}
+                  bio_short={bio_short}
+                  twitter={twitter}
+                />
+              </div>
+              {illustrator && (
+                <div className="w-full py-6 border-b border-gray-200">
+                  <h4 className="font-semibold">Credits</h4>
+                  <span className="text-sm">
+                    {illustrator?.name} (illustration)
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -271,10 +309,11 @@ export default Course
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
   const course = params && (await loadCourse(params.slug as string))
-
+  const dependencies = getDependencies(course.slug)
   return {
     props: {
       course,
+      dependencies,
     },
   }
 }

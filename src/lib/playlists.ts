@@ -16,6 +16,11 @@ export async function loadPlaylist(slug: string) {
           summary
           path
         }
+        owner {
+          id
+          full_name
+          avatar_url
+        }
       }
     }
   `

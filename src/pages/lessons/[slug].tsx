@@ -66,7 +66,7 @@ const useNextUpData = (url: string) => {
 const Transcript: FunctionComponent<{url: string}> = ({url}) => {
   const {data} = useSWR(url, fetcher)
   return data ? (
-    <Markdown className="prose prose-xl">{data.text}</Markdown>
+    <Markdown className="prose md:prose-xl">{data.text}</Markdown>
   ) : null
 }
 
@@ -191,7 +191,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
-          handle: instructor.twitter,
+          handle: instructor?.twitter,
           site: `@eggheadio`,
           cardType: 'summary_large_image',
         }}
@@ -207,7 +207,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div className="max-w-none" key={lesson.slug}>
+      <div key={lesson.slug}>
         <div className="space-y-10">
           <div
             className="relative overflow-hidden bg-gray-200"
@@ -292,10 +292,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
             </div>
           </div>
-          <div className="flex space-x-12">
-            <div className="w-4/6">
+          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto">
+            <div className="md:col-span-8">
               <Tabs>
-                <TabList css={{background: 'none'}}>
+                <TabList
+                  css={{background: 'none'}}
+                  className="text-lg font-semibold"
+                >
                   {transcript_url && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
@@ -311,7 +314,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </TabPanels>
               </Tabs>
             </div>
-            <div className="w-2/6 flex flex-col space-y-8">
+            <div className="md:col-span-4 flex flex-col space-y-8 md:mt-0 mt-8">
               <LessonInfo
                 title={title}
                 instructor={instructor}
@@ -320,7 +323,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 course={course}
                 nextUpData={nextUpData}
                 lesson={lesson}
-                className="space-y-6 divide-y-2 divide-gray-300"
+                className="space-y-6 divide-y divide-gray-200"
               />
             </div>
           </div>
