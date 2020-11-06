@@ -3,6 +3,7 @@ import Card from '../components/card'
 import Stack from '../components/stack'
 import Callout from '../components/callout'
 import Topic from '../components/topic'
+import Resource from '../components/resource'
 
 const SearchReact = () => {
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
@@ -94,22 +95,23 @@ be successful on your React journey.
             />
           </Card>
           <Card title="React Hooks" description="Simplify your code base">
-            <Stack
-              resources={[
-                {
-                  type: 'playlist',
-                  slug: 'build-advanced-component-with-react-hooks-cd6a',
-                },
-                {
-                  type: 'playlist',
-                  slug: 'learn-apollo-client-hooks-9226f672',
-                },
-                {
-                  type: 'playlist',
-                  slug: 'react-crash-course-58eb',
-                },
-              ]}
-            />
+            <ul className="-mb-2">
+              <Resource
+                title="Build Advanced Component with React Hooks"
+                path="/playlists/build-advanced-component-with-react-hooks-cd6a"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png"
+              />
+              <Resource
+                title="Learn Apollo Client Hooks"
+                path="/playlists/learn-apollo-client-hooks-9226f672"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/034/thumb/graphqllogo.png"
+              />
+              <Resource
+                title="React Crash Course (with hooks)"
+                path="/playlists/react-crash-course-58eb"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png"
+              />
+            </ul>
           </Card>
           <Card
             title=" Build Professional Real World Apps"

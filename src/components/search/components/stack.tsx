@@ -29,15 +29,15 @@ const Stack: FunctionComponent<StackProps> = ({resources}) => {
   })
 
   return res.length === resources.length ? (
-    <ul className="-mb-3">
+    <ul className="-mb-2">
       {res &&
         res.map((resource) => {
           return resource ? (
             <li key={resource?.slug}>
               <Link href={resource?.path}>
-                <a className="flex font-semibold py-2 hover:underline cursor-pointer leading-tight">
+                <a className="flex items-center font-semibold py-2 hover:underline cursor-pointer leading-tight">
                   {resource && (
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 flex items-center">
                       <Image
                         src={
                           resource?.icon_url ||

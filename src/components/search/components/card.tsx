@@ -17,7 +17,7 @@ const Card: FunctionComponent<CardProps> = ({
 }) => {
   return (
     <div
-      className={`md:p-8 p-5 rounded-md overflow-hidden border border-gray-200 ${
+      className={`md:p-6 p-4 rounded-md overflow-hidden border border-gray-200 ${
         className ? className : ''
       }`}
     >
