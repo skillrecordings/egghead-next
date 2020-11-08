@@ -15,6 +15,7 @@ export async function loadCourse(slug: string) {
         watched_count
         path
         lessons {
+          id
           slug
           title
           summary
