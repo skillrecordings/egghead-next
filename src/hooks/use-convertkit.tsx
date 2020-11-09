@@ -16,6 +16,12 @@ export const ConvertkitProvider: React.FunctionComponent = ({children}) => {
 
       if (!isEmpty(ckSubscriberId)) {
         cookie.set('ck_subscriber_id', ckSubscriberId)
+
+        window.history.replaceState(
+          null,
+          document.title,
+          window.location.pathname,
+        )
       }
     }
 
