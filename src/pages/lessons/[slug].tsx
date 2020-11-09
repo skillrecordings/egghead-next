@@ -1,4 +1,3 @@
-import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
