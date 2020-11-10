@@ -14,7 +14,7 @@ checkEnv({
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['d2eip9sf3oo6c2.cloudfront.net'],
+    domains: ['d2eip9sf3oo6c2.cloudfront.net', 'image.simplecastcdn.com'],
   },
   async redirects() {
     return [
