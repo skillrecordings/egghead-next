@@ -2,7 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+yarn
+```
+
+Run the development server:
 
 ```bash
 yarn dev
@@ -11,6 +17,24 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.mdx`. The page auto-updates as you edit the file.
+
+## Running the Tests
+
+```bash
+npx cypress run
+```
+
+To run just a single spec file, e.g.:
+
+```bash
+npx cypress run --spec "cypress/integration/spec.js"
+```
+
+### Running the Tests in the Cypress Test Runner
+
+```bash
+npx cypress open
+```
 
 ## MDX Layouts
 
