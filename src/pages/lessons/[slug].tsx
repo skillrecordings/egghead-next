@@ -11,6 +11,7 @@ import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import LessonInfo from 'components/pages/lessons/LessonInfo'
+import Transcript from 'components/pages/lessons/Transcript'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -62,12 +63,12 @@ const useNextUpData = (url: string) => {
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
-const Transcript: FunctionComponent<{url: string}> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
-  return data ? (
-    <Markdown className="prose md:prose-xl">{data.text}</Markdown>
-  ) : null
-}
+// const Transcript: FunctionComponent<{url: string}> = ({url}) => {
+//   const {data} = useSWR(url, fetcher)
+//   return data ? (
+//     <Markdown className="prose md:prose-xl">{data.text}</Markdown>
+//   ) : null
+// }
 
 const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
@@ -304,7 +305,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <TabPanels className="mt-6">
                   {transcript_url && (
                     <TabPanel>
-                      <Transcript url={transcript_url} />
+                      <Transcript
+                        player={playerRef}
+                        url={transcript_url}
+                        fetcher={fetcher}
+                      />
                     </TabPanel>
                   )}
                   <TabPanel>
