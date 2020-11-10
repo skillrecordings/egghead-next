@@ -15,3 +15,17 @@ export type LessonResource = Resource & {
   tags: any[]
   lessons: any[]
 }
+
+export type PodcastResource = Resource & {
+  duration: number
+  episode_number: number
+  published_at: string
+  summary: string
+  transcript: string
+  simplecast_uid: string
+  id: number
+  image_url: string
+  contributors: Array<string>
+  url: string
+  path: string
+}

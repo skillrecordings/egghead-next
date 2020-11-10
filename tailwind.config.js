@@ -29,6 +29,11 @@ module.exports = {
           900: '#233876',
         },
       },
+      margin: {
+        '-3': '-0.75em',
+        '-4': '-1rem',
+        '-8': '-2rem',
+      },
       typography: (theme) => ({
         default: {
           css: {
@@ -92,6 +97,7 @@ module.exports = {
   variants: {
     margin: ['responsive', 'first', 'last'],
     padding: ['responsive', 'first', 'last'],
+    scale: ['hover'],
   },
   plugins: [require('@tailwindcss/typography', require('@tailwindcss/ui'))],
 }
