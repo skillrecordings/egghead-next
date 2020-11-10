@@ -1,12 +1,16 @@
 name: e2e
 on:
   schedule:
-    - cron:  '*/15 * * * *'
+    - cron: '*/15 * * * *'
 jobs:
   e2e:
     name: cypress
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12.x'
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
@@ -19,7 +23,7 @@ jobs:
       - name: Cypress tests ✅
         if: ${{ success() }}
         run: |
-          
+
           curl --request POST \
           --url ${{ secrets.EGGHEAD_STATUS_WEBHOOK }} \
           --header 'content-type: application/json' \

@@ -32,8 +32,7 @@ module.exports = {
       typography: (theme) => ({
         default: {
           css: {
-            color: theme('colors.gray.800'),
-            marginTop: '3em',
+            color: theme('colors.gray.900'),
             a: {
               color: theme('colors.blue.600'),
               textDecoration: 'underline',

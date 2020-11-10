@@ -1,5 +1,6 @@
 import React, {FunctionComponent, useState} from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
@@ -21,24 +22,21 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
     <ul>
       {data.list.lessons.map((lesson, index = 0) => {
         return (
-          <li
-            key={lesson.slug}
-            className="p-4 bg-gray-200 border-gray-100 border-2"
-          >
+          <li key={lesson.slug} className="py-3 pr-3">
             <div className="flex">
-              <div className="w-2/12">
-                {index + 1}{' '}
-                <input type="checkbox" checked={lesson.completed} readOnly />
+              <div className="flex items-center mr-3">
+                <div className="mr-2 text-xs text-gray-600">{index + 1}</div>
+                {/* <input type="checkbox" checked={lesson.completed} readOnly /> */}
               </div>
-              <div className="w-full">
+              <div className="w-full leading-tight">
                 {lesson.slug !== currentLessonSlug ? (
                   <Link href={lesson.path}>
-                    <a className="no-underline hover:underline text-blue-500">
+                    <a className="font-semibold no-underline hover:underline text-blue-600">
                       {lesson.title}
                     </a>
                   </Link>
                 ) : (
-                  <div>{lesson.title}</div>
+                  <div className="font-semibold">► {lesson.title}</div>
                 )}
               </div>
             </div>
@@ -62,7 +60,7 @@ const TweetLink: FunctionComponent<{
 }> = ({lesson, instructor, className = ''}) => {
   return get(lesson, 'title') && get(lesson, 'path') ? (
     <a
-      className={`flex items-center rounded p-2 bg-gray-200 hover:bg-gray-400 transition-colors ease-in-out duration-150 ${className}`}
+      className={`flex text-sm items-center rounded px-3 py-2 bg-gray-200 hover:bg-gray-300 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
@@ -101,8 +99,7 @@ const CopyToClipboard: FunctionComponent<{
           type="button"
           disabled={copied}
           onClick={copyHandler}
-          className={`rounded p-2 flex justify-center items-center bg-gray-200 hover:bg-gray-400 transition-colors duration-150 ease-in-out ${className}`}
-          style={{minWidth: '210px'}}
+          className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-gray-200 hover:bg-gray-300 transition-colors duration-150 ease-in-out ${className}`}
         >
           {state.error ? (
             'Unable to copy!'
@@ -111,7 +108,10 @@ const CopyToClipboard: FunctionComponent<{
           ) : (
             <>
               <IconLink className="w-5 mr-2" />
-              <span>Copy link to clipboard</span>
+              <span>
+                Copy link
+                <span className="hidden lg:inline"> to clipboard</span>
+              </span>
             </>
           )}
         </button>
@@ -158,76 +158,89 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
   return (
     <div {...restProps}>
       <div className="space-y-4">
-        {title && <h3 className="font-medium text-xl">{title}</h3>}
-        {summary && <Markdown>{summary}</Markdown>}
+        {title && (
+          <h1 className="font-semibold leading-tight text-lg lg:text-xl">
+            {title}
+          </h1>
+        )}
+        {summary && <Markdown className="prose">{summary}</Markdown>}
         {
           <ul className="space-y-3">
             <li className="flex items-center">
-              <IconExternalLink className="w-5 mr-2" />
-              <a href="#" className="hover:text-blue-500">
-                Code on GitHub
+              <a
+                href="#"
+                className="flex items-center text-blue-600 hover:underline"
+              >
+                <IconExternalLink className="w-5 mr-1 text-blue-700" />
+                Open code for this lesson on GitHub
               </a>
             </li>
             <li className="flex items-center">
-              <IconDownload className="w-5 mr-2" />
-              <a href="#" className="hover:text-blue-500">
+              <a
+                href="#"
+                className="flex items-center text-blue-600 hover:underline"
+              >
+                <IconDownload className="w-5 mr-1 text-blue-700" />
                 Download
               </a>
             </li>
-            <li className="flex items-center">
-              <IconFlag className="w-5 mr-2" />
+            {/* <li className="flex items-center">
+              <IconFlag className="w-5 mr-1" />
               <Dialog
                 ariaLabel="flag-for-revision"
                 title="Flag lesson for revision"
                 buttonText="Flag for revision"
-                buttonStyles="hover:text-blue-500"
+                buttonStyles="text-blue-600 hover:underline"
               >
                 <div className="text-center">
                   Flag to review form goes here...
                 </div>
               </Dialog>
-            </li>
+            </li> */}
           </ul>
         }
       </div>
       {course && (
         <div className="pt-6">
-          <h4 className="font-medium text-lg">Course</h4>
-          <div className="flex items-center mt-3">
+          <div className="flex items-center">
             <Link href={`/courses/${course.slug}`}>
-              <a className="no-underline">
-                <img
+              <a className="flex-shrink-0 relative block w-12 h-12 lg:w-20 lg:h-20">
+                <Image
                   src={course.square_cover_480_url}
-                  alt=""
-                  className="w-16 mr-4"
+                  alt={`illustration for ${course.title}`}
+                  layout="fill"
                 />
               </a>
             </Link>
-            <Link href={`/courses/${course.slug}`}>
-              <a className="no-underline">
-                <h3 className="font-medium text-xl">{course.title}</h3>
-              </a>
-            </Link>
+            <div className="ml-2 lg:ml-4">
+              <h4 className="text-gray-600 mb-1">Course</h4>
+              <Link href={`/courses/${course.slug}`}>
+                <a className="hover:underline">
+                  <h3 className="font-semibold leading-tight text-md lg:text-lg">
+                    {course.title}
+                  </h3>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       )}
       {!isEmpty(tags) && (
         <div className="pt-6">
-          <h4 className="font-medium text-lg">Tech used</h4>
+          <h4 className="font-semibold">Tech used</h4>
           <ul className="space-y-3 mt-3">
             {tags.map((tag, index) => (
               <li key={index}>
-                <a
-                  href={tag.http_url}
-                  className="flex items-center ml-4 first:ml-0"
-                >
-                  <img
-                    src={tag.image_url}
-                    alt=""
-                    className="w-5 h-5 flex-shrink-0"
-                  />
-                  <span className="ml-2">{tag.name}</span>
-                </a>
+                <Link href={`/s/${tag.name}`}>
+                  <a className="flex items-center ml-4 first:ml-0 hover:underline">
+                    <img
+                      src={tag.image_url}
+                      alt={tag.name}
+                      className="w-5 h-5 flex-shrink-0"
+                    />
+                    <span className="ml-2">{tag.name}</span>
+                  </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -235,10 +248,10 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
       )}
       {instructor && (
         <div className="pt-6">
-          <h4 className="font-medium text-lg">Instructor</h4>
-          <div className="flex items-center mt-3">
+          <h4 className="font-semibold">Instructor</h4>
+          <div className="flex items-center mt-3 flex-shrink-0">
             <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-              <a className="mr-4">
+              <a className="mr-2">
                 {get(instructor, 'avatar_64_url') ? (
                   <img
                     src={instructor.avatar_64_url}
@@ -252,7 +265,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
             </Link>
             {get(instructor, 'full_name') && (
               <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-                <a>{instructor.full_name}</a>
+                <a className="hover:underline">{instructor.full_name}</a>
               </Link>
             )}
           </div>
@@ -261,8 +274,8 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
       {get(lesson, 'free_forever') && (
         <div className="pt-6">
           <div className="flex items-center">
-            <IconCommunityResource className="w-6 mr-3 text-yellow-500" />
-            <h4 className="font-medium text-lg">
+            <IconCommunityResource className="w-6 mr-3 text-yellow-500 flex-shrink-0" />
+            <h4 className="font-semibold">
               This lesson is a Community Resource
             </h4>
           </div>
@@ -278,15 +291,13 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
         </div>
       )}
       <div className="pt-6">
-        <h4 className="font-medium text-lg">
-          Share this lesson with your friends
-        </h4>
+        <h4 className="font-semibold">Share this lesson with your friends</h4>
         <div className="flex items-center mt-3">
           <div className="flex items-center">
             <TweetLink lesson={lesson} instructor={instructor} />
             <CopyToClipboard
               stringToCopy={`${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`}
-              className="ml-4"
+              className="ml-2"
             />
           </div>
         </div>

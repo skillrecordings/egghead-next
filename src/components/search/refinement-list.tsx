@@ -32,7 +32,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
   // )
 
   return (
-    <li>
+    <li key={item.label}>
       <a
         tabIndex={tabIndex}
         className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
@@ -88,7 +88,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
   // )
 
   return (
-    <li>
+    <li key={item.label}>
       <a
         tabIndex={tabIndex}
         className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
@@ -139,7 +139,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
   tabIndex,
 }) => {
   return (
-    <li>
+    <li key={item.label}>
       <a
         tabIndex={tabIndex}
         className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
@@ -222,40 +222,45 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
       </div>
       <ul className={`${attribute !== 'type' && 'mt-2'}`}>
         {items &&
-          items.map((item) => (
-            <>
-              {attribute === `_tags` && (
-                <TagItem
-                  tabIndex={tabIndex}
-                  key={item.label}
-                  item={item}
-                  isFromSearch={isFromSearch}
-                  refine={refine}
-                  createURL={createURL}
-                />
-              )}
-              {attribute === `instructor_name` && (
-                <InstructorItem
-                  tabIndex={tabIndex}
-                  key={item.label}
-                  item={item}
-                  isFromSearch={isFromSearch}
-                  refine={refine}
-                  createURL={createURL}
-                />
-              )}
-              {attribute === `type` && (
-                <Item
-                  tabIndex={tabIndex}
-                  key={item.label}
-                  item={item}
-                  isFromSearch={isFromSearch}
-                  refine={refine}
-                  createURL={createURL}
-                />
-              )}
-            </>
-          ))}
+          items.map((item) => {
+            switch (attribute) {
+              case `_tags`:
+                return (
+                  <TagItem
+                    tabIndex={tabIndex}
+                    key={item.label}
+                    item={item}
+                    isFromSearch={isFromSearch}
+                    refine={refine}
+                    createURL={createURL}
+                  />
+                )
+              case `instructor_name`:
+                return (
+                  <InstructorItem
+                    tabIndex={tabIndex}
+                    key={item.label}
+                    item={item}
+                    isFromSearch={isFromSearch}
+                    refine={refine}
+                    createURL={createURL}
+                  />
+                )
+              case `type`:
+                return (
+                  <Item
+                    tabIndex={tabIndex}
+                    key={item.label}
+                    item={item}
+                    isFromSearch={isFromSearch}
+                    refine={refine}
+                    createURL={createURL}
+                  />
+                )
+              default:
+                return null
+            }
+          })}
       </ul>
     </div>
   )

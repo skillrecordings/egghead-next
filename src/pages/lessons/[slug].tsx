@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
@@ -66,7 +65,9 @@ const useNextUpData = (url: string) => {
 
 const Transcript: FunctionComponent<{url: string}> = ({url}) => {
   const {data} = useSWR(url, fetcher)
-  return data ? <Markdown>{data.text}</Markdown> : null
+  return data ? (
+    <Markdown className="prose md:prose-xl">{data.text}</Markdown>
+  ) : null
 }
 
 const lessonLoader = (slug: string, token: string) => {
@@ -115,7 +116,7 @@ type LessonProps = {
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken, logout} = useViewer()
+  const {authToken, logout, viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
   const currentPlayerState = playerState.value
@@ -146,6 +147,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     summary,
     course,
     slug,
+    free_forever,
   } = lesson
 
   React.useEffect(() => {
@@ -160,7 +162,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'loaded':
-        if (hls_url || dash_url) {
+        if (isEmpty(viewer) && free_forever) {
+          send('JOIN')
+        } else if (hls_url || dash_url) {
           send('VIEW')
         } else {
           send('SUBSCRIBE')
@@ -187,7 +191,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
-          handle: instructor.twitter,
+          handle: instructor?.twitter,
           site: `@eggheadio`,
           cardType: 'summary_large_image',
         }}
@@ -203,7 +207,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div className="max-w-none" key={lesson.slug}>
+      <div key={lesson.slug}>
         <div className="space-y-10">
           <div
             className="relative overflow-hidden bg-gray-200"
@@ -226,14 +230,32 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 />
               )}
 
+              {currentPlayerState === 'joining' && (
+                <>
+                  <OverlayWrapper>
+                    <h2 className="text-xl font-bold">
+                      This Lesson is Free to Watch
+                    </h2>
+                    <Link href="/login">
+                      <a className="no-underline hover:underline text-blue-500">
+                        Click here to Create an Account or Login to View
+                      </a>
+                    </Link>
+                  </OverlayWrapper>
+                </>
+              )}
               {currentPlayerState === 'subscribing' && (
                 <OverlayWrapper>
+                  <h2 className="text-xl font-bold">
+                    This Lesson is an egghead Member Exclusive
+                  </h2>
                   <Link href="/pricing">
-                    <a>Get Access to This Video</a>
+                    <a className="no-underline hover:underline text-blue-500">
+                      Click here to join today and unlock this lesson!
+                    </a>
                   </Link>
                 </OverlayWrapper>
               )}
-
               {currentPlayerState === 'showingNext' && (
                 <OverlayWrapper>
                   <img
@@ -270,12 +292,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
             </div>
           </div>
-          <div className="flex space-x-12">
-            <div className="w-4/6">
+          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto">
+            <div className="md:col-span-8">
               <Tabs>
-                <TabList css={{background: 'none'}}>
+                <TabList
+                  css={{background: 'none'}}
+                  className="text-lg font-semibold"
+                >
                   {transcript_url && <Tab>Transcript</Tab>}
-                  <Tab>Code</Tab>
                   <Tab>Comments</Tab>
                 </TabList>
                 <TabPanels className="mt-6">
@@ -285,15 +309,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </TabPanel>
                   )}
                   <TabPanel>
-                    <p>Code</p>
-                  </TabPanel>
-                  <TabPanel>
                     <p>Comments</p>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
             </div>
-            <div className="w-2/6 flex flex-col space-y-8">
+            <div className="md:col-span-4 flex flex-col space-y-8 md:mt-0 mt-8">
               <LessonInfo
                 title={title}
                 instructor={instructor}
@@ -302,7 +323,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 course={course}
                 nextUpData={nextUpData}
                 lesson={lesson}
-                className="space-y-6 divide-y-2 divide-gray-300"
+                className="space-y-6 divide-y divide-gray-200"
               />
             </div>
           </div>
@@ -318,7 +339,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
   params,
 }) {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
 
   const initialLesson: LessonResource | undefined =
     params && (await loadLesson(params.slug as string))

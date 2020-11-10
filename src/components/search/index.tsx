@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
-import {motion, AnimateSharedLayout} from 'framer-motion'
+import {useRouter} from 'next/router'
+import {motion, AnimateSharedLayout, AnimatePresence} from 'framer-motion'
 import Head from 'next/head'
 import Hits from './hits'
 import SearchBox from './search-box'
@@ -11,16 +12,20 @@ import {
   ClearRefinements,
 } from 'react-instantsearch-dom'
 import {get, isEqual, isEmpty} from 'lodash'
-import {useToggle} from 'react-use'
+import {useToggle, useClickAway} from 'react-use'
+import Image from 'next/image'
 
 import config from 'lib/config'
 
 import SearchReact from './curated/react'
+import ReactMarkdown from 'react-markdown'
+import {NextSeo} from 'next-seo'
 
 type SearchProps = {
   searchClient: any
   indexName: string
   searchState: any
+  instructor?: any
 }
 
 const Search: FunctionComponent<SearchProps> = ({
@@ -28,7 +33,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchClient,
   indexName,
   searchState,
-
+  instructor,
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
@@ -71,6 +76,14 @@ const Search: FunctionComponent<SearchProps> = ({
     get(searchState, 'refinementList._tags', []).length +
     get(searchState, 'refinementList.type', []).length
 
+  const refinementRef = React.useRef(null)
+  useClickAway(refinementRef, () => setShowFilter(false))
+  const router = useRouter()
+
+  React.useEffect(() => {
+    setShowFilter(false)
+  }, [router])
+
   return (
     <>
       <Head>
@@ -79,6 +92,7 @@ const Search: FunctionComponent<SearchProps> = ({
           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
         />
       </Head>
+
       <InstantSearch
         indexName={indexName}
         searchClient={searchClient}
@@ -86,91 +100,140 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <div className="max-w-screen-lg mx-auto">
-          <header className="flex">
-            <SearchBox className="w-full" />
-            <button
-              onClick={setShowFilter}
-              className={`ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border-2 ${
-                isRefinementOn ? 'border-blue-400' : 'border-transparent'
-              } focus:border-blue-600 focus:outline-none`}
-            >
-              <span className="sm:block hidden">Filter</span>
-              {numberOfRefinements > 0 ? (
-                <div className="-mr-1 w-6 h-6 transform scale-75 flex items-center justify-center bg-blue-600 rounded-full text-white text-xs font-bold">
-                  {numberOfRefinements}
-                </div>
-              ) : (
-                <>
-                  {isFilterShown ? (
-                    // prettier-ignore
-                    <svg className="sm:ml-1" width="14" height="14" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 0 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
-                  ) : (
-                    // prettier-ignore
-                    <svg className="sm:ml-1" xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12"><g fill="none" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" transform="translate(1 1)"><line x1="3.5" x2="3.5" y1="5"/><line x1=".5" x2="3.5" y1="2.5" y2="2.5"/><line x1="5.5" x2="11.5" y1="2.5" y2="2.5"/><line x1="8.5" x2="8.5" y1="10" y2="5"/><line x1="11.5" x2="8.5" y1="7.5" y2="7.5"/><line x1="6.5" x2=".5" y1="7.5" y2="7.5"/></g></svg>
-                  )}
-                </>
-              )}
-            </button>
-          </header>
-          <AnimateSharedLayout>
-            <motion.div
-              layout
-              className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
-                isFilterShown
-                  ? 'h-auto border-gray-200 my-2'
-                  : 'h-0 border-transparent my-0'
-              }`}
-            >
-              <motion.div
-                layout
-                className={`${
-                  isFilterShown ? 'top-full ' : 'top-0'
-                } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5  relative`}
-              >
-                <div>
-                  <h3 className="font-semibold mb-1">Topics</h3>
-                  <RefinementList
-                    isShown={isFilterShown}
-                    limit={6}
-                    attribute="_tags"
+        <AnimateSharedLayout>
+          <motion.div layout className="max-w-screen-lg mx-auto">
+            <AnimatePresence>
+              {!isEmpty(instructor) && (
+                <motion.div
+                  layout
+                  initial={{opacity: 0}}
+                  animate={{opacity: 1}}
+                  exit={{opacity: 0}}
+                  className="p-16 flex"
+                >
+                  <NextSeo
+                    title={`Learn web development from ${instructor.full_name} on egghead`}
+                    twitter={{
+                      handle: instructor.twitter,
+                      site: `@eggheadio`,
+                      cardType: 'summary_large_image',
+                    }}
+                    openGraph={{
+                      title: `Learn web development from ${instructor.full_name} on egghead`,
+                      images: [
+                        {
+                          url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
+                        },
+                      ],
+                    }}
                   />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Instructors</h3>
-                  <RefinementList
-                    isShown={isFilterShown}
-                    limit={6}
-                    attribute="instructor_name"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">Content Type</h3>
-                  <RefinementList isShown={isFilterShown} attribute="type" />
-                </div>
-                {isRefinementOn && (
-                  <div className="absolute top-0 right-0 mr-3 mt-3">
-                    <ClearRefinements />
+                  <div className="flex items-center justify-center">
+                    <Image
+                      className="rounded-full"
+                      width={128}
+                      height={128}
+                      layout="intrinsic"
+                      src={instructor.avatar_url}
+                    />
                   </div>
-                )}
-              </motion.div>
-            </motion.div>
-
-            <motion.div layout>
-              {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-                noTagsSelected(searchState) && <div>Learn from Kent</div>}
-
-              {onlyTheseInstructorsSelected(['Kent C. Dodds'], searchState) &&
-                onlyTheseTagsSelected(['react'], searchState) && (
-                  <div>Learn React from Kent</div>
-                )}
-
+                  <div className="pl-8">
+                    <h1 className="text-2xl font-bold">
+                      {instructor.full_name}
+                    </h1>
+                    <ReactMarkdown className="prose mt-0">
+                      {instructor.bio_short}
+                    </ReactMarkdown>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
               {noInstructorsSelected(searchState) &&
                 onlyTheseTagsSelected(['react'], searchState) && (
-                  <SearchReact></SearchReact>
+                  <motion.div
+                    layout
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
+                  >
+                    <SearchReact />
+                  </motion.div>
                 )}
+            </AnimatePresence>
+            <motion.div layout ref={refinementRef}>
+              <motion.header layout className="flex mt-4">
+                <SearchBox className="w-full" />
+                <button
+                  onClick={setShowFilter}
+                  className={`ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border-2 ${
+                    isRefinementOn ? 'border-blue-400' : 'border-transparent'
+                  } focus:border-blue-600 focus:outline-none`}
+                >
+                  <span className="sm:block hidden">Filter</span>
+                  {numberOfRefinements > 0 ? (
+                    <div className="-mr-1 w-6 h-6 transform scale-75 flex items-center justify-center bg-blue-600 rounded-full text-white text-xs font-bold">
+                      {numberOfRefinements}
+                    </div>
+                  ) : (
+                    <>
+                      {isFilterShown ? (
+                        // prettier-ignore
+                        <svg className="sm:ml-1" width="14" height="14" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 0 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
+                      ) : (
+                        // prettier-ignore
+                        <svg className="sm:ml-1" xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12"><g fill="none" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" transform="translate(1 1)"><line x1="3.5" x2="3.5" y1="5"/><line x1=".5" x2="3.5" y1="2.5" y2="2.5"/><line x1="5.5" x2="11.5" y1="2.5" y2="2.5"/><line x1="8.5" x2="8.5" y1="10" y2="5"/><line x1="11.5" x2="8.5" y1="7.5" y2="7.5"/><line x1="6.5" x2=".5" y1="7.5" y2="7.5"/></g></svg>
+                      )}
+                    </>
+                  )}
+                </button>
+              </motion.header>
+
+              <motion.div
+                layout
+                className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
+                  isFilterShown
+                    ? 'h-auto border-gray-200 my-2'
+                    : 'h-0 border-transparent my-0'
+                }`}
+              >
+                <motion.div
+                  layout
+                  className={`${
+                    isFilterShown ? 'top-full ' : 'top-0'
+                  } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5  relative`}
+                >
+                  <div>
+                    <h3 className="font-semibold mb-1">Topics</h3>
+                    <RefinementList
+                      isShown={isFilterShown}
+                      limit={6}
+                      attribute="_tags"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Instructors</h3>
+                    <RefinementList
+                      isShown={isFilterShown}
+                      limit={6}
+                      attribute="instructor_name"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Content Type</h3>
+                    <RefinementList isShown={isFilterShown} attribute="type" />
+                  </div>
+                  {isRefinementOn && (
+                    <div
+                      className="absolute top-0 right-0 mr-3 mt-3"
+                      onClick={setShowFilter}
+                    >
+                      <ClearRefinements />
+                    </div>
+                  )}
+                </motion.div>
+              </motion.div>
             </motion.div>
-            <motion.div layout className="mt-6">
+            <motion.div layout className="mt-4">
               <Hits />
             </motion.div>
             <motion.div
@@ -179,9 +242,9 @@ const Search: FunctionComponent<SearchProps> = ({
             >
               <Pagination />
             </motion.div>
-          </AnimateSharedLayout>
-        </div>
-        {children}
+            {children}
+          </motion.div>
+        </AnimateSharedLayout>
       </InstantSearch>
     </>
   )

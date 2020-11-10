@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {connectHits} from 'react-instantsearch-dom'
-import formatDuration from 'utils/format-duration'
 import {convertTimeWithTitles} from 'utils/time-utils'
 
 type CustomHitsProps = {
@@ -69,25 +68,18 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
             </a>
           </Link>
           <div className="sm:text-sm text-sm font-light text-gray-600">
-            {type}・{convertTimeWithTitles(duration)}
+            {instructor_name && !instructor_url && <>{instructor_name}・</>}
+            {instructor_name && instructor_url && (
+              <>
+                <Link href={instructor_url}>
+                  <a className="hover:underline">{instructor_name}</a>
+                </Link>
+                ・
+              </>
+            )}
+            {convertTimeWithTitles(duration)}
           </div>
         </div>
-        {instructor_url && (
-          <Link href={instructor_url}>
-            <a className="flex items-center hover:underline sm:mt-0 mt-1 sm:ml-8 ml-0 flex-shrink-0">
-              <div
-                className="sm:w-8 sm:h-8 w-6 h-6 rounded-full"
-                style={{
-                  background: `url(${instructor_avatar_url})`,
-                  backgroundSize: 'cover',
-                }}
-              />
-              <div className="sm:pl-2 pl-1 text-sm text-gray-700">
-                {instructor_name}
-              </div>
-            </a>
-          </Link>
-        )}
       </div>
     </div>
   )
