@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from 'react'
+import {css} from '@emotion/core'
 import {PodcastResource} from 'types'
 import Image from 'next/image'
 
@@ -6,15 +7,27 @@ type PodcastCardProps = {
   podcast: PodcastResource
 }
 
+const IMAGE_SIZE = 220
+
 const PodcastCard: FunctionComponent<PodcastCardProps> = ({
   podcast: {title, path, image_url, contributors},
 }) => (
   <li className="list-none bg-white p-3 text-center max-w-xs shadow-md rounded-md transform transition-transform duration-300 hover:scale-105">
-    <a title="View podcast" href={path} className="flex flex-col h-full">
-      <div className="mb-0 h-cardimage w-cardimage flex-grow-0">
+    <a
+      title="View podcast"
+      href={path}
+      className="flex flex-col h-full items-center"
+    >
+      <div
+        css={{
+          height: `${IMAGE_SIZE}px`,
+          width: `${IMAGE_SIZE}px`,
+        }}
+        className="mb-0 flex-grow-0"
+      >
         <Image
-          width={200}
-          height={200}
+          width={IMAGE_SIZE}
+          height={IMAGE_SIZE}
           src={image_url}
           className="object-cover mx-auto"
         />

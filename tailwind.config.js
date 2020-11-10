@@ -73,12 +73,6 @@ module.exports = {
           },
         },
       }),
-      height: {
-        cardImage: '200px',
-      },
-      width: {
-        cardImage: '200px',
-      },
       screens: {
         xs: '320px',
         sm: '640px',
