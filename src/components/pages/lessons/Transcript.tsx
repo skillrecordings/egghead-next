@@ -35,11 +35,10 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
 }: TranscriptProps) => {
   const {data} = useSWR(url, fetcher)
   const dataText = get(data, 'text')
-  console.log('player: ', player)
 
   const [transcript, setTranscript] = useState(null)
 
-  const LinkReference = (props: any) => {
+  const LinkReference = (props) => {
     const children = get(props, 'children', [''])
     const linkText: any = first(children)
     const secondsToSeek = hmsToSeconds(
@@ -48,7 +47,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
 
     return (
       <button
-        className="text-primary hover:underline"
+        className="text-blue-600 hover:underline"
         onClick={() => {
           const duration = player.current.getDuration()
           const fractionToSeek = secondsToSeek / duration
@@ -71,27 +70,27 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
         dataText.match(
           /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g, // https://regexr.com/58bnr
         )
-      let transcript = dataText
+      let result = dataText
       matches &&
-        matches.forEach((match: any, i: any) => {
-          transcript = transcript.replace(
+        matches.forEach((match: any, i: number) => {
+          result = result.replace(
             match,
             `[${match.replace('[', '').replace(']', '')}]`,
           )
           if (i === matches.length - 1) {
-            setTranscript(transcript)
+            setTranscript(result)
           }
         })
     }
   }, [dataText])
 
-  if (isEmpty(transcript) || !dataText) {
+  if (!dataText) {
     return null
   }
 
   return (
     <ReactMarkdown
-      source={transcript || ''}
+      children={transcript || ''}
       skipHtml={false}
       renderers={{linkReference: LinkReference}}
       className="prose md:prose-xl"
