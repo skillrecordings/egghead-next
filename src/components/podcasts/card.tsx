@@ -3,17 +3,11 @@ import {PodcastResource} from 'types'
 import Image from 'next/image'
 
 type PodcastCardProps = {
-  title: string
-  path: string
-  imageUrl: string
-  contributors: Array<string>
+  podcast: PodcastResource
 }
 
 const PodcastCard: FunctionComponent<PodcastCardProps> = ({
-  title,
-  path,
-  imageUrl,
-  contributors,
+  podcast: {title, path, image_url, contributors},
 }) => (
   <li className="list-none bg-white p-3 text-center max-w-xs shadow-md rounded-md transform transition-transform duration-300 hover:scale-105">
     <a title="View podcast" href={path} className="flex flex-col h-full">
@@ -21,7 +15,7 @@ const PodcastCard: FunctionComponent<PodcastCardProps> = ({
         <Image
           width={200}
           height={200}
-          src={imageUrl}
+          src={image_url}
           className="object-cover mx-auto"
         />
       </div>

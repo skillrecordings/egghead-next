@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown/with-html'
 import {loadPodcast, loadPodcasts} from 'lib/podcasts'
-import Rss from '../../components/images/rss.svg'
-import Spotify from '../../components/images/spotify.svg'
-import ApplePodcasts from '../../components/images/apple-podcasts.svg'
-import PodcastCard from '../../components/podcasts/card'
+import Rss from 'components/images/rss.svg'
+import Spotify from 'components/images/spotify.svg'
+import ApplePodcasts from 'components/images/apple-podcasts.svg'
+import PodcastCard from 'components/podcasts/card'
 import {GetServerSideProps} from 'next'
 import {PodcastResource} from 'types'
 
@@ -25,13 +25,7 @@ const MorePodcasts: FunctionComponent<MorePodcastProps> = ({podcasts}) => (
       </h3>
       <ul className="mb-10 justify-items-center grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {podcasts.map((podcast: PodcastResource) => (
-          <PodcastCard
-            title={podcast.title}
-            imageUrl={podcast.image_url}
-            path={podcast.path}
-            contributors={podcast.contributors}
-            key={podcast.id}
-          />
+          <PodcastCard podcast={podcast} key={podcast.id} />
         ))}
       </ul>
       <a
