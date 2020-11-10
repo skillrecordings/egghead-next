@@ -36,7 +36,6 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
 
   const LinkReference = (props: any) => {
     const children = get(props, 'children', [''])
-    console.log('LinkReference -> children', children)
     const linkText: any = first(children)
     const secondsToSeek = hmsToSeconds(
       linkText.props.children.replace('[', '').replace(']', ''),
