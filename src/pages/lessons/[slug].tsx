@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -118,6 +118,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerRef = React.useRef(null)
   const {authToken, logout, viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const currentPlayerState = playerState.value
 
@@ -219,6 +220,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   ref={playerRef}
                   hls_url={hls_url}
                   dash_url={dash_url}
+                  playing={isPlaying}
                   width="100%"
                   height="auto"
                   pip="true"
@@ -309,6 +311,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         player={playerRef}
                         url={transcript_url}
                         fetcher={fetcher}
+                        setIsPlaying={setIsPlaying}
                       />
                     </TabPanel>
                   )}

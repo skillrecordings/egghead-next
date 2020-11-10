@@ -14,6 +14,7 @@ type TranscriptProps = {
   player: any
   fetcher: any
   url: string
+  setIsPlaying: any
 }
 
 const hmsToSeconds = (str: string) => {
@@ -32,6 +33,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
   fetcher,
   url,
+  setIsPlaying,
 }: TranscriptProps) => {
   const {data} = useSWR(url, fetcher)
   const dataText = get(data, 'text')
@@ -52,6 +54,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
           const duration = player.current.getDuration()
           const fractionToSeek = secondsToSeek / duration
           player.current.seekTo(fractionToSeek)
+          setIsPlaying(true)
           scroll.scrollToTop({
             duration: 300,
             smooth: 'true',
