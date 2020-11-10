@@ -1,14 +1,8 @@
 import React, {FunctionComponent, useState, useEffect} from 'react'
 import useSWR from 'swr'
 import {animateScroll as scroll} from 'react-scroll'
-import Link from 'next/link'
-import Image from 'next/image'
-import {isEmpty, get, first} from 'lodash'
+import {get, first} from 'lodash'
 import ReactMarkdown from 'react-markdown'
-import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
-import Dialog from 'components/Dialog'
-import Eggo from '../../../components/images/eggo.svg'
-import {LessonResource} from 'types'
 
 type TranscriptProps = {
   player: any
@@ -40,8 +34,9 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
 
   const [transcript, setTranscript] = useState(null)
 
-  const LinkReference = (props) => {
+  const LinkReference = (props: any) => {
     const children = get(props, 'children', [''])
+    console.log('LinkReference -> children', children)
     const linkText: any = first(children)
     const secondsToSeek = hmsToSeconds(
       linkText.props.children.replace('[', '').replace(']', ''),

@@ -4,7 +4,6 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
-import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
@@ -62,13 +61,6 @@ const useNextUpData = (url: string) => {
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
-
-// const Transcript: FunctionComponent<{url: string}> = ({url}) => {
-//   const {data} = useSWR(url, fetcher)
-//   return data ? (
-//     <Markdown className="prose md:prose-xl">{data.text}</Markdown>
-//   ) : null
-// }
 
 const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
