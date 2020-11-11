@@ -126,19 +126,25 @@ const reactTopics = [
 
 export function TopicListComponent() {
   return (
-    <section className="mb-12">
+    <section className="mt-6 mb-12">
       <br />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid sm:grid-col-1 md:grid-cols-3 gap-4">
         {reactTopics.map((topicList, i) => {
           return (
-            <div>
-              <p className="font-medium mb-2">{reactTopics[i].topicTitle}</p>
+            <div className="mb-8">
+              <p className="font-medium text-lg mb-2 pb-2 border-b border-grey-lighter">
+                {reactTopics[i].topicTitle}
+              </p>
               <p>
                 {reactTopics[i].topics.map((topicItem, i) => {
                   return (
-                    <details className="mb-2 border border-gray-300 px-4 py-2 rounded">
-                      <summary>{topicItem.headline}</summary>
-                      <p>{topicItem.points}</p>
+                    <details className="question py-4 border-b border-grey-lighter">
+                      <summary className="flex items-center">
+                        {topicItem.headline}
+                      </summary>
+                      <p className="mt-4 leading-normal text-md">
+                        {topicItem.points}
+                      </p>
                     </details>
                   )
                 })}
