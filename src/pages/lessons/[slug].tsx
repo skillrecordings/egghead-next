@@ -1,17 +1,16 @@
-import {jsx} from '@emotion/core'
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
-import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import LessonInfo from 'components/pages/lessons/LessonInfo'
+import Transcript from 'components/pages/lessons/Transcript'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -63,13 +62,6 @@ const useNextUpData = (url: string) => {
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
-const Transcript: FunctionComponent<{url: string}> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
-  return data ? (
-    <Markdown className="prose md:prose-xl">{data.text}</Markdown>
-  ) : null
-}
-
 const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -118,6 +110,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerRef = React.useRef(null)
   const {authToken, logout, viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const currentPlayerState = playerState.value
 
@@ -219,6 +212,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   ref={playerRef}
                   hls_url={hls_url}
                   dash_url={dash_url}
+                  playing={isPlaying}
                   width="100%"
                   height="auto"
                   pip="true"
@@ -305,7 +299,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <TabPanels className="mt-6">
                   {transcript_url && (
                     <TabPanel>
-                      <Transcript url={transcript_url} />
+                      <Transcript
+                        player={playerRef}
+                        url={transcript_url}
+                        fetcher={fetcher}
+                        setIsPlaying={setIsPlaying}
+                      />
                     </TabPanel>
                   )}
                   <TabPanel>
