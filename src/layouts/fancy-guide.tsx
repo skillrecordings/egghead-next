@@ -36,7 +36,7 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
         <h1 className="mt-8 font-extrabold mb-8 lg:mb-10 leading-tight text-5xl md:text-6xl">
           {title}
         </h1>
-        <Contributors contributors={contributors} />
+        {contributors && <Contributors contributors={contributors} />}
         <hr className="md:max-w-2xl mx-auto mt-8" />
         {children}
       </div>
