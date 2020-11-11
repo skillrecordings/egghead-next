@@ -22,7 +22,9 @@
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
     "analyze": "ANALYZE=true next build",
-    "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js"
+    "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.2.0",
@@ -91,6 +93,10 @@
     "@mdx-js/loader": "^1.6.19",
     "@next/bundle-analyzer": "^10.0.1",
     "@next/mdx": "^9.5.5",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/react": "^6.0.28",
     "@tailwindcss/typography": "^0.2.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
@@ -104,6 +110,7 @@
     "@types/yup": "^0.29.9",
     "axios": "^0.21.0",
     "babel-jest": "^26.5.2",
+    "babel-loader": "^8.2.0",
     "babel-plugin-apply-mdx-type-prop": "^1.6.19",
     "babel-plugin-inline-react-svg": "^1.1.2",
     "command-line-args": "^5.1.1",
@@ -124,6 +131,7 @@
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.1.2",
+    "react-is": "^17.0.1",
     "react-test-renderer": "^16.14.0",
     "rehype": "^11.0.0",
     "start-server-and-test": "^1.11.5",
