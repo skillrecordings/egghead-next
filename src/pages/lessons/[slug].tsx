@@ -307,7 +307,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         url={transcript_url}
                         fetcher={fetcher}
                         setIsPlaying={setIsPlaying}
-                        send={send}
                       />
                     </TabPanel>
                   )}
