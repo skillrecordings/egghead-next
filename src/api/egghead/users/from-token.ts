@@ -1,6 +1,6 @@
 import axios from 'axios'
-const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 import {Viewer} from 'interfaces/viewer'
+const EGGHEAD_AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 
 export default async function fetchEggheadUser(token: string, minimal = false) {
   const current: Viewer = await axios

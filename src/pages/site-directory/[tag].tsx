@@ -16,7 +16,7 @@ const Tag = (props: any) => {
     <>
       <h2>{tag}</h2>
       {tagSlugs
-        .filter((slug) => tag != slug)
+        .filter((slug) => tag !== slug)
         .map((slug) => {
           const sortSlugs = [tag, slug].sort()
           const path = createPath(sortSlugs)
@@ -30,7 +30,9 @@ const Tag = (props: any) => {
               <br />
 
               {tagSlugs
-                .filter((third) => tag != slug && tag != third && slug != third)
+                .filter(
+                  (third) => tag !== slug && tag !== third && slug !== third,
+                )
                 .map((third) => {
                   const sortSlugs = [tag, slug, third].sort()
                   const path = createPath(sortSlugs)

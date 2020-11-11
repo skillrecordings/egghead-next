@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const visits = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const response = await axios
       .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/ahoy/visits`, req.body, {
@@ -16,3 +16,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end()
   }
 }
+
+export default visits

@@ -40,7 +40,7 @@ async function fetchEggheadUser(token: any) {
   return current
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
       const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(
@@ -92,3 +92,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(404).end()
   }
 }
+
+export default subscriber

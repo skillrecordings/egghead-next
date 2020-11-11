@@ -1,4 +1,3 @@
-import {jsx} from '@emotion/core'
 import React from 'react'
 
 import * as yup from 'yup'

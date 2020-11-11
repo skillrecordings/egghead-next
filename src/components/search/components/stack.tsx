@@ -12,7 +12,7 @@ type StackProps = {
   resources: StackResource[]
 }
 
-const StackResource = ({slug, type}: StackResource) => {
+const StackResourceItem = ({slug, type}: StackResource) => {
   let loader
   switch (type) {
     case 'lesson':
@@ -58,7 +58,7 @@ const Stack: FunctionComponent<StackProps> = ({resources = []}) => {
   return (
     <ul className="-mb-2">
       {resources.map((resource) => (
-        <StackResource
+        <StackResourceItem
           key={resource.slug}
           slug={resource.slug}
           type={resource.type}

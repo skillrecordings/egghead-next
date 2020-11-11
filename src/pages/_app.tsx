@@ -8,7 +8,6 @@ import {cache} from 'emotion' // Use only { cache } from 'emotion'. Don't use { 
 import AppLayout from 'components/app/Layout'
 import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
-import {useURL} from 'hooks/useUrl'
 import '@reach/listbox/styles.css'
 import '@reach/dialog/styles.css'
 import '@reach/tabs/styles.css'

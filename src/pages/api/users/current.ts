@@ -2,7 +2,7 @@ import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
 import {getTokenFromCookieHeaders, AUTH_DOMAIN} from 'utils/auth'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const current = async (req: NextApiRequest, res: NextApiResponse) => {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
 
   if (req.method === 'get' && eggheadToken) {
@@ -23,3 +23,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end()
   }
 }
+
+export default current
