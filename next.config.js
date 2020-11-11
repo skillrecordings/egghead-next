@@ -33,6 +33,11 @@ const nextConfig = {
         destination: '/s?type=talk',
         permanent: true,
       },
+      {
+        source: '/courses',
+        destination: '/s?type=course',
+        permanent: true,
+      },
     ]
   },
 }
