@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {getTags} from 'lib/tags'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'

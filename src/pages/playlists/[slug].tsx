@@ -1,3 +1,4 @@
+import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'

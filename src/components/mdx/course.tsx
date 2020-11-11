@@ -1,3 +1,4 @@
+import * as React from 'react'
 import useSWR from 'swr'
 import {loadCourse} from 'lib/courses'
 import Link from 'next/link'

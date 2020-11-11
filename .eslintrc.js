@@ -19,10 +19,12 @@ module.exports = {
         es6: true,
       },
       extends: [
+        'plugin:react/recommended',
         'plugin:react-hooks/recommended', // React hooks rules
         'plugin:jsx-a11y/recommended', // Accessibility rules
       ],
       rules: {
+        'react/no-unescaped-entities': 'off',
         'react/prop-types': 'off', // We will use TypeScript's types for component props instead
         'jsx-a11y/anchor-is-valid': 'off', // This rule is not compatible with Next.js's <Link /> components
       },

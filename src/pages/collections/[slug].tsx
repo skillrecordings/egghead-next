@@ -1,3 +1,4 @@
+import * as React from 'react'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'

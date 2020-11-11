@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {jsx} from '@emotion/core'
 import Link from 'next/link'
 import Markdown from 'react-markdown'

@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import React, {useRef, useState, useEffect} from 'react'
+import React, {useRef, useEffect} from 'react'
 import {gsap} from 'gsap/dist/gsap'
 import {bpMaxMD} from '../../../../utils/breakpoints.js'
 import {jsx} from '@emotion/core'

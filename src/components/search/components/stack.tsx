@@ -58,7 +58,11 @@ const Stack: FunctionComponent<StackProps> = ({resources = []}) => {
   return (
     <ul className="-mb-2">
       {resources.map((resource) => (
-        <StackResource slug={resource.slug} type={resource.type} />
+        <StackResource
+          key={resource.slug}
+          slug={resource.slug}
+          type={resource.type}
+        />
       ))}
     </ul>
   )

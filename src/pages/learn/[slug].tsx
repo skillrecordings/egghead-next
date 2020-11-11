@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {getTag} from 'lib/tags'
