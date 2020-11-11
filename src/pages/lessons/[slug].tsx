@@ -303,7 +303,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         player={playerRef}
                         url={transcript_url}
                         fetcher={fetcher}
-                        send={send}
+                        playVideo={() => send('PLAY')}
                       />
                     </TabPanel>
                   )}
