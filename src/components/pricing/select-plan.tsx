@@ -20,9 +20,8 @@ const SelectPlan: React.FunctionComponent<SelectPlanProps> = ({
                 Annual Membership
               </h3>
               <p className="mt-6 text-base leading-6 text-gray-500">
-                Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque
-                amet indis perferendis blanditiis repellendus etur quidem
-                assumenda.
+                an egghead Pro Membership will unlock all of the premium courses
+                and content on egghead.io
               </p>
               <div className="mt-8">
                 <div className="flex items-center">
