@@ -218,7 +218,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   pip="true"
                   controls
                   onPlay={() => send('PLAY')}
-                  onPause={() => send('PAUSE')}
+                  onPause={() => {
+                    send('PAUSE')
+                    setIsPlaying(false)
+                  }}
                   onEnded={() => send('COMPLETE')}
                   subtitlesUrl={get(lesson, 'subtitles_url')}
                 />
@@ -304,6 +307,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         url={transcript_url}
                         fetcher={fetcher}
                         setIsPlaying={setIsPlaying}
+                        send={send}
                       />
                     </TabPanel>
                   )}
