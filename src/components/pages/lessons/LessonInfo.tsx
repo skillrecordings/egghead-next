@@ -84,10 +84,9 @@ const CopyToClipboard: FunctionComponent<{
   stringToCopy: string
   className?: string
 }> = ({stringToCopy, className = ''}) => {
+  const [copied, setCopied] = useState(false)
+  const [state, copyToClipboard] = useCopyToClipboard()
   if (stringToCopy) {
-    const [copied, setCopied] = useState(false)
-    const [state, copyToClipboard] = useCopyToClipboard()
-
     const copyHandler = () => {
       copyToClipboard(stringToCopy)
       setCopied(true)

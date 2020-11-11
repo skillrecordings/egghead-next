@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

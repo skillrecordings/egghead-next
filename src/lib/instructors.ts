@@ -7,7 +7,7 @@ export type Instructor = {
 
 const endpoint = 'https://egghead.io/graphql'
 
-export async function loadInstructors(page: number = 1) {
+export async function loadInstructors(page = 1) {
   const query = `query getInstructors($page: Int!){
     instructors(per_page: 24, page:$page){
       id

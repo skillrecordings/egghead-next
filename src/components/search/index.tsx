@@ -78,11 +78,10 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const refinementRef = React.useRef(null)
   useClickAway(refinementRef, () => setShowFilter(false))
-  const router = useRouter()
 
   React.useEffect(() => {
     setShowFilter(false)
-  }, [router])
+  }, [setShowFilter])
 
   return (
     <>
@@ -223,12 +222,12 @@ const Search: FunctionComponent<SearchProps> = ({
                     <RefinementList isShown={isFilterShown} attribute="type" />
                   </div>
                   {isRefinementOn && (
-                    <div
+                    <button
                       className="absolute top-0 right-0 mr-3 mt-3"
                       onClick={setShowFilter}
                     >
                       <ClearRefinements />
-                    </div>
+                    </button>
                   )}
                 </motion.div>
               </motion.div>

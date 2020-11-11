@@ -12,7 +12,7 @@ type TranscriptProps = {
 }
 
 const hmsToSeconds = (str: string) => {
-  var p = str.split(':') || [],
+  let p = str.split(':') || [],
     s = 0,
     m = 1
 
@@ -31,6 +31,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
 }: TranscriptProps) => {
   const {data} = useSWR(url, fetcher)
   const dataText = get(data, 'text')
+  const currentPlayer = player.current
 
   const [transcript, setTranscript] = useState(null)
 
@@ -61,8 +62,8 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   }
 
   useEffect(() => {
-    if (dataText && player.current) {
-      let matches =
+    if (dataText && currentPlayer) {
+      const matches =
         dataText &&
         dataText.match(
           /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g, // https://regexr.com/58bnr
@@ -83,7 +84,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     } else if (dataText) {
       setTranscript(dataText)
     }
-  }, [dataText, player.current])
+  }, [dataText, currentPlayer])
 
   if (!dataText) {
     return null
@@ -91,11 +92,12 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
 
   return (
     <ReactMarkdown
-      children={transcript || ''}
       skipHtml={false}
       renderers={{link: LinkReference}}
       className="prose md:prose-xl"
-    />
+    >
+      {transcript || ''}
+    </ReactMarkdown>
   )
 }
 

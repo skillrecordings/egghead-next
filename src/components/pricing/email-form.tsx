@@ -18,13 +18,12 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
   const [isError, setIsError] = React.useState<boolean | string>(false)
 
   const validateEmail = async (email: string) => {
+    setIsSubmitted(true)
     const isPro = await axios
       .post(`/api/users/check-pro-status`, {
         email,
       })
       .then(({data}) => data)
-
-    console.log(isPro)
 
     if (isPro) {
       setIsError(
@@ -77,7 +76,6 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
                           </label>
                           <div className="mt-1 rounded-md shadow-sm">
                             <input
-                              autoFocus
                               id="email"
                               type="email"
                               value={values.email}

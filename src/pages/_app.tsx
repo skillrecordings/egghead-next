@@ -1,3 +1,4 @@
+import * as React from 'react'
 import NextApp from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
@@ -32,7 +33,7 @@ export default class App extends NextApp {
         <SocialProfileJsonLd
           type="Organization"
           name="egghead.io"
-          url={useURL()}
+          url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
           sameAs={['https://twitter.com/eggheadio']}
         />
         <ConvertkitProvider>

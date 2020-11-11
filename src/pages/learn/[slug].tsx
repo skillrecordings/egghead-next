@@ -10,7 +10,7 @@ type TagProps = {
 const Tag: FunctionComponent<TagProps> = ({tag}) => {
   return (
     <div>
-      <img src={tag.image_64_url} />
+      <img alt="" src={tag.image_64_url} />
       <div>{tag.label}</div>
       <Markdown className="prose max-w-none">{tag.description}</Markdown>
     </div>

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../Link'
 import Eggo from '../images/eggo.svg'

@@ -17,9 +17,9 @@ const Tag = (props: any) => {
       {tagSlugs
         .filter((slug) => tag != slug)
         .map((slug) => {
-          let sortSlugs = [tag, slug].sort()
-          let path = createPath(sortSlugs)
-          let human = humanize(sortSlugs)
+          const sortSlugs = [tag, slug].sort()
+          const path = createPath(sortSlugs)
+          const human = humanize(sortSlugs)
           return (
             <div key={path}>
               <hr />
@@ -31,9 +31,9 @@ const Tag = (props: any) => {
               {tagSlugs
                 .filter((third) => tag != slug && tag != third && slug != third)
                 .map((third) => {
-                  let sortSlugs = [tag, slug, third].sort()
-                  let path = createPath(sortSlugs)
-                  let human = humanize(sortSlugs, {oxfordComma: true})
+                  const sortSlugs = [tag, slug, third].sort()
+                  const path = createPath(sortSlugs)
+                  const human = humanize(sortSlugs, {oxfordComma: true})
                   return (
                     <span key={path}>
                       <Link href={`/s/${path}`}>

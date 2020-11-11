@@ -15,7 +15,11 @@ const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
         <>
           <Link href={data.path}>
             <a>
-              <img className="w-64" src={data.square_cover_480_url} />
+              <img
+                alt="illustration"
+                className="w-64"
+                src={data.square_cover_480_url}
+              />
               {data.title}
             </a>
           </Link>{' '}
