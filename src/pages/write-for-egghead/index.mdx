@@ -3,6 +3,7 @@ export const meta = {
 }
 
 import FancyGuide from 'layouts/fancy-guide'
+import {TopicListComponent} from './topics.js'
 
 export default ({children}) => (
   <FancyGuide frontMatter={meta}>{children}</FancyGuide>
@@ -11,13 +12,111 @@ export default ({children}) => (
 <ProseSection>
 
 
-Trying to get better at technical writing and explaining your ideas clearly?
+## Trying to get better at technical writing and explaining your ideas clearly?
 
 Writing for egghead is a great way to explore new topics, flex your skills, and get helpful guidance along the way.
 
 Anyone can write for egghead, you just need to let us know you're up for it <span>✋🏾</span>
 
+<a href="/write-for-egghead#pitch-form">
+  <button className="mt-4 flex items-center sm:px-5 px-3 py-2 rounded-md border-1 focus:border-blue-600 focus:outline-none bg-blue-600 border-blue-800 text-blue-100">
+    Join our Writing Crew
+  </button>
+</a>
+
+## Topic Ideas
+
+We're currently prioritising React articles, but we're always open to a wide variety of ideas.
+
+### Browse Our Topic Garden <span>🌱</span>
+
 </ProseSection>
 
 
-<button>Join our Writing Crew</button>
+<TopicListComponent />
+
+<ProseSection>
+
+
+## Your Audience
+
+Folks who come to egghead are already advanced beginners, intermediate, or expert developers.
+
+They know the basics of web development, and you can safely assume they've been writing JavaScript for at least a few months. Imagine a recent boot camp graduate or someone already working as a junior on a technical team.
+
+They have limited knowledge about the specific thing you're teaching, but infinite intelligence.
+
+## Tone and Voice
+
+You should be friendly, confident, and enthusiastic.
+
+Make your writing clear and free of unnecessary jargon. If jargon is needed, define it and link to helpful resources.
+
+We recommend using [Hemmingway App](http://www.hemingwayapp.com/) to check the readability level of your writing.
+
+## Mediums and Formats
+
+Because our site is built on Next.js with MDX, you have the ability to add interactive React components into your article (we know, so cool!)
+
+We strongly encourage including visual, code snippets, demos, and interactive elements that [make programming learnable](http://worrydream.com/LearnableProgramming/).
+Wild, interesting experimentation with the medium of the web is very welcome here.
+
+To cite the marvellous [Bret Victor](http://worrydream.com/):
+
+> "**programming is a way of thinking, not a rote skill"** and **"people understand what they can see."**
+
+Show, don't tell.
+
+### Recipes for Article Types
+
+- Constructive critique and analysis of an existing site or system
+- Common mistakes you see within a specific niche/tool/framework
+- X meets Y
+- How to do X in Y framework
+- A review and summary of existing resources on a topic
+- A creative application of a tool/technique with a code demo
+- Dig in deep on how a system works - "What's behind the curtain?"
+- Interview chat with an expert you find interesting over video and write up notes on the conversation
+- Sketchnotes, diagrams, and illustrated explanations
+- Step-by-step scrollytelling explanations
+
+## Examples of Great articles
+
+## Payment
+
+We pay a flat rate for each article.
+
+The compensation amount is adjusted to the meatiness of the article. Long, in-depth articles that require deep research are compensated more than shorter, snappier articles.
+
+## Cross-posting and Canonical Links
+
+If you already have a blog or digital garden where you publish your writing, you're welcome to cross-post your article there.
+
+You just need to make sure the canonical URL links to the egghead version, and at the top of the article link to the original version on egghead.
+
+If you're not sure how to set a canonical URL [read this guide](https://ahrefs.com/blog/canonical-tags/)
+
+## The Process
+
+1. Submit your article idea through the form
+2. We'll review your idea and email you if it aligns with our audience and goals
+3.
+
+<section id="pitch-form">
+
+
+## Ready to Pitch?
+
+Just fill out this form
+
+<form>
+
+
+</form>
+
+
+</section>
+
+
+</ProseSection>
+
