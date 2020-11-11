@@ -15,8 +15,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       const userUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/${email}?by_email=true`
 
-      console.log('LOADING')
-
       const eggheadUser = await axios
         .get(userUrl, {
           headers: {
@@ -24,8 +22,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           },
         })
         .then(({data}) => data)
-      console.log('LOADED USER FROM EGGHEAD')
-      console.log(eggheadUser)
 
       res.status(200).json(!isEmpty(eggheadUser.subscription))
     }
