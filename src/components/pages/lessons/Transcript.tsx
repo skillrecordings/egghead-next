@@ -72,7 +72,9 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
         matches.forEach((match: any, i: number) => {
           result = result.replace(
             match,
-            `[${match.replace('[', '').replace(']', '')}]`,
+            `[${match.replace('[', '').replace(']', '')}](${match
+              .replace('[', '')
+              .replace(']', '')})`,
           )
           if (i === matches.length - 1) {
             setTranscript(result)
@@ -89,7 +91,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     <ReactMarkdown
       children={transcript || ''}
       skipHtml={false}
-      renderers={{linkReference: LinkReference}}
+      renderers={{link: LinkReference}}
       className="prose md:prose-xl"
     />
   )
