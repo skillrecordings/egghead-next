@@ -1,42 +1,40 @@
 import React from 'react'
 
-const topicLists = [
-  {
-    topicTitle: 'General Topics',
-    topics: [
-      {headline: 'Vue 3'},
-      {headline: 'Svelte'},
-      {headline: 'TypeScript'},
-      {headline: 'Accessibility'},
-      {headline: 'Cloudflare Workers'},
-      {headline: 'Observability'},
-      {headline: 'Serverless'},
-      {headline: 'AWS (most of it!)'},
-      {headline: 'Next.js'},
-      {headline: 'E-Commerce'},
-      {headline: 'React Concurrent Mode Patterns'},
-      {headline: 'Zustand'},
-      {headline: 'React-Query'},
-      {headline: 'Http Caching'},
-      {headline: 'Mdx'},
-      {headline: 'How to Give a Great Technical Talk'},
-      {headline: 'Tailwind'},
-      {headline: 'Design Systems'},
-      {headline: 'React-Three-Fiber'},
-      {headline: '"Advanced Beginner" Css'},
-      {headline: 'Design Patterns'},
-      {headline: 'Functional Programming'},
-      {headline: 'Open Source Development'},
-      {headline: 'Github Actions'},
-      {headline: 'Vs Code (Tools in General)'},
-      {headline: 'Design for Developers'},
-      {headline: 'Problem Solving'},
-      {headline: 'Debugging'},
-      {headline: 'Performance Testing and Tuning'},
-      {headline: 'Digital Gardens'},
-      {headline: 'Patterns of Learning'},
-    ],
-  },
+const generalTopicList = [
+  {headline: 'Vue 3'},
+  {headline: 'Svelte'},
+  {headline: 'TypeScript'},
+  {headline: 'Accessibility'},
+  {headline: 'Cloudflare Workers'},
+  {headline: 'Observability'},
+  {headline: 'Serverless'},
+  {headline: 'AWS (most of it!)'},
+  {headline: 'Next.js'},
+  {headline: 'E-Commerce'},
+  {headline: 'React Concurrent Mode Patterns'},
+  {headline: 'Zustand'},
+  {headline: 'React-Query'},
+  {headline: 'Http Caching'},
+  {headline: 'Mdx'},
+  {headline: 'How to Give a Great Technical Talk'},
+  {headline: 'Tailwind'},
+  {headline: 'Design Systems'},
+  {headline: 'React-Three-Fiber'},
+  {headline: '"Advanced Beginner" CSS'},
+  {headline: 'Design Patterns'},
+  {headline: 'Functional Programming'},
+  {headline: 'Open Source Development'},
+  {headline: 'Github Actions'},
+  {headline: 'VS Code (Tools in General)'},
+  {headline: 'Design for Developers'},
+  {headline: 'Problem Solving'},
+  {headline: 'Debugging'},
+  {headline: 'Performance Testing and Tuning'},
+  {headline: 'Digital Gardens'},
+  {headline: 'Patterns of Learning'},
+]
+
+const reactTopics = [
   {
     topicTitle: 'Beginners React',
     topics: [
@@ -128,24 +126,41 @@ const topicLists = [
 
 export function TopicListComponent() {
   return (
-    <>
-      {topicLists.map((topicList, i) => {
-        return (
-          <>
-            <p>{topicLists[i].topicTitle}</p>
-            <p>
-              {topicLists[i].topics.map((topicItem, i) => {
-                return (
-                  <div>
-                    <p>{topicItem.headline}</p>
-                    <ul>{topicItem.points}</ul>
-                  </div>
-                )
-              })}
-            </p>
-          </>
-        )
-      })}
-    </>
+    <section className="mb-12">
+      <br />
+      <h4 className="text-lg font-semibold mb-4 text-center">React Topics</h4>
+      <div className="grid grid-cols-3 gap-10">
+        {reactTopics.map((topicList, i) => {
+          return (
+            <div>
+              <p className="font-medium mb-2">{reactTopics[i].topicTitle}</p>
+              <p>
+                {reactTopics[i].topics.map((topicItem, i) => {
+                  return (
+                    <details className="mb-4">
+                      <summary>{topicItem.headline}</summary>
+                      <p>{topicItem.points}</p>
+                    </details>
+                  )
+                })}
+              </p>
+            </div>
+          )
+        })}
+      </div>
+
+      <br />
+
+      <h4 className="text-lg font-semibold mb-4 text-center">General Topics</h4>
+      <div className="flex flex-wrap">
+        {generalTopicList.map((x, i) => {
+          return (
+            <div className="py-2 px-4 border-2 border-gray-200 mr-2 mb-2 rounded-md">
+              <p>{x.headline}</p>
+            </div>
+          )
+        })}
+      </div>
+    </section>
   )
 }
