@@ -1,14 +1,14 @@
 import React, {FunctionComponent, useState, useEffect} from 'react'
 import useSWR from 'swr'
 import {animateScroll as scroll} from 'react-scroll'
-import {get, first} from 'lodash'
+import {get, first, noop} from 'lodash'
 import ReactMarkdown from 'react-markdown'
 
 type TranscriptProps = {
   player: any
   fetcher: any
   url: string
-  setIsPlaying: any
+  playVideo: () => any
 }
 
 const hmsToSeconds = (str: string) => {
@@ -27,7 +27,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
   fetcher,
   url,
-  setIsPlaying,
+  playVideo = noop,
 }: TranscriptProps) => {
   const {data} = useSWR(url, fetcher)
   const dataText = get(data, 'text')
@@ -48,7 +48,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
           const duration = player.current.getDuration()
           const fractionToSeek = secondsToSeek / duration
           player.current.seekTo(fractionToSeek)
-          setIsPlaying(true)
+          playVideo()
           scroll.scrollToTop({
             duration: 300,
             smooth: 'true',
@@ -61,7 +61,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   }
 
   useEffect(() => {
-    if (dataText) {
+    if (dataText && player.current) {
       let matches =
         dataText &&
         dataText.match(
@@ -80,8 +80,10 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
             setTranscript(result)
           }
         })
+    } else if (dataText) {
+      setTranscript(dataText)
     }
-  }, [dataText])
+  }, [dataText, player.current])
 
   if (!dataText) {
     return null

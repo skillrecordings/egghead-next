@@ -110,7 +110,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerRef = React.useRef(null)
   const {authToken, logout, viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
-  const [isPlaying, setIsPlaying] = useState(false)
 
   const currentPlayerState = playerState.value
 
@@ -171,10 +170,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
-  const playerVisible: boolean =
-    currentPlayerState === 'playing' ||
-    currentPlayerState === 'paused' ||
-    currentPlayerState === 'viewing'
+  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
+    playerState.matches,
+  )
 
   return (
     <>
@@ -212,13 +210,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   ref={playerRef}
                   hls_url={hls_url}
                   dash_url={dash_url}
-                  playing={isPlaying}
+                  playing={playerState.matches('playing')}
                   width="100%"
                   height="auto"
                   pip="true"
                   controls
                   onPlay={() => send('PLAY')}
-                  onPause={() => send('PAUSE')}
+                  onPause={() => {
+                    send('PAUSE')
+                  }}
                   onEnded={() => send('COMPLETE')}
                   subtitlesUrl={get(lesson, 'subtitles_url')}
                 />
@@ -303,7 +303,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         player={playerRef}
                         url={transcript_url}
                         fetcher={fetcher}
-                        setIsPlaying={setIsPlaying}
+                        playVideo={() => send('PLAY')}
                       />
                     </TabPanel>
                   )}
