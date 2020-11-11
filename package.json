@@ -24,7 +24,9 @@
     "analyze": "ANALYZE=true next build",
     "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "lint": "eslint --ext ts --ext tsx --fix"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.2.0",
@@ -113,6 +115,8 @@
     "@types/react": "^16.9.55",
     "@types/react-instantsearch-dom": "^6.3.0",
     "@types/yup": "^0.29.9",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "axios": "^0.21.0",
     "babel-jest": "^26.5.2",
     "babel-loader": "^8.2.0",
@@ -123,6 +127,10 @@
     "dotenv-flow": "^3.2.0",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
+    "eslint": "^7.13.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "globby": "^11.0.1",
     "graphql": "^15.4.0",
     "husky": "^4.3.0",
@@ -155,6 +163,9 @@
     ],
     "src/**/*.{ts,tsx,md,mdx,js}": [
       "prettier --write"
+    ],
+    "src/**/*.{ts,tsx}": [
+      "yarn type-check && yarn lint"
     ]
   },
   "prettier": {
