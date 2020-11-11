@@ -18,7 +18,7 @@ const stripeCheckoutRedirect = async (priceId: string, email: string) => {
         email: email,
         client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
         success_url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/pricing`,
+        cancel_url: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/pricing`,
       }),
     )
     .then(({data}) => {
