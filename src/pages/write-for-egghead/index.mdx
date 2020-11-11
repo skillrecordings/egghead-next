@@ -110,23 +110,69 @@ If you're not sure how to set a canonical URL [read this guide](https://ahrefs.c
 
 Just fill out this form
 
-<form>
-  <label for="name">Full Name</label>
+<form className="max-w-md">
+  <label for="name" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Full Name</label>
   <input
     id="name"
     type="text"
     name="name"
-    className="border-2 border-gray-200"
+    class="form-input block pl-7 pr-12 sm:text-sm sm:leading-5 p-2 mb-4 border rounded border-gray-300 bg-gray-50 w-full" placeholder="Lucy Suchman"
   ></input>
-  <br />
-  <label for="email">Email</label>
+  <label for="email" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Email</label>
   <input
     id="email"
     type="text"
     name="email"
-    className="border-2 border-gray-200"
+    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-4 border rounded border-gray-300 bg-gray-50" placeholder="lucy@xerox.com"
   ></input>
+  <label for="writing-links" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Link to your blog or previous writing work</label>
+  <input
+    id="writing-links"
+    type="text"
+    name="writing-links"
+    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-4 border rounded border-gray-300 bg-gray-50" placeholder="lucy.com/blog"
+  ></input>
+  <label for="headline" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Article Headline</label>
+  <input
+    id="headline"
+    type="text"
+    name="headline"
+    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-4 border rounded border-gray-300 bg-gray-50" placeholder=""
+  ></input>
+  <label for="audience" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Who is the article for? (skill level, prerequisites)</label>
+  <input
+    id="audience"
+    type="text"
+    name="audience"
+    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-4 border rounded border-gray-300 bg-gray-50" placeholder="intermediate React devs who want to improve their CSS"
+  ></input>
+  <label for="draft" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Excerpt or introductory paragraph (~300 words)</label>
+  <textarea
+    id="draft"
+    type="text"
+    name="draft"
+    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-4 border rounded border-gray-300 bg-gray-50" placeholder="Links to full article drafts also welcome"
+  ></textarea>
+
+
+  <label for="relationships" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Do you have professional relationships with any services, tools, or frameworks mentioned in the article? (ie. employee or developer advocate)</label>
+<fieldset class="mt-2 flex flex-row">
+  <div class="mt-2 flex items-center mr-4">
+    <input id="relationships-yes" name="relationships" type="radio" class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"></input>
+    <label for="relationships-yes" class="ml-3">
+      <span class="block text-sm leading-5 font-medium text-gray-700">Yes</span>
+    </label>
+  </div>
+  <div class="mt-2 flex items-center">
+    <input id="relationships-no" name="relationships" type="radio" class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"></input>
+    <label for="relationships-no" class="ml-3">
+      <span class="block text-sm leading-5 font-medium text-gray-700">No</span>
+    </label>
+  
+</div>
+</fieldset>
 </form>
+
 
 <button className="mt-4 flex items-center sm:px-5 px-3 py-2 rounded-md border-1 focus:border-blue-600 focus:outline-none bg-blue-600 border-blue-800 text-blue-100">
   Pitch it

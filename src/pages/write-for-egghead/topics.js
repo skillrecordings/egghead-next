@@ -128,8 +128,7 @@ export function TopicListComponent() {
   return (
     <section className="mb-12">
       <br />
-      <h4 className="text-lg font-semibold mb-4 text-center">React Topics</h4>
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-3 gap-4">
         {reactTopics.map((topicList, i) => {
           return (
             <div>
@@ -137,7 +136,7 @@ export function TopicListComponent() {
               <p>
                 {reactTopics[i].topics.map((topicItem, i) => {
                   return (
-                    <details className="mb-4">
+                    <details className="mb-2 border border-gray-300 px-4 py-2 rounded">
                       <summary>{topicItem.headline}</summary>
                       <p>{topicItem.points}</p>
                     </details>
@@ -151,11 +150,11 @@ export function TopicListComponent() {
 
       <br />
 
-      <h4 className="text-lg font-semibold mb-4 text-center">General Topics</h4>
+      <h4 className="text-lg font-semibold mb-4">General Topics</h4>
       <div className="flex flex-wrap">
         {generalTopicList.map((x, i) => {
           return (
-            <div className="py-2 px-4 border-2 border-gray-200 mr-2 mb-2 rounded-md">
+            <div className="py-2 px-4 border border-gray-300 mr-2 mb-2 rounded-md">
               <p>{x.headline}</p>
             </div>
           )
