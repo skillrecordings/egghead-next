@@ -4,6 +4,7 @@ export const meta = {
 
 import FancyGuide from 'layouts/fancy-guide'
 import {TopicListComponent} from './topics.js'
+import RainbowMDX from './mdx-demo.js'
 
 export default ({children}) => (
   <FancyGuide frontMatter={meta}>{children}</FancyGuide>
@@ -58,14 +59,16 @@ We recommend using [Hemmingway App](http://www.hemingwayapp.com/) to check the r
 
 Because our site is built on Next.js with MDX, you have the ability to add interactive React components into your article (we know, so cool!)
 
+<RainbowMDX />
+
 We strongly encourage including visual, code snippets, demos, and interactive elements that [make programming learnable](http://worrydream.com/LearnableProgramming/).
 Wild, interesting experimentation with the medium of the web is very welcome here.
 
 To cite the marvellous [Bret Victor](http://worrydream.com/):
 
-> "**programming is a way of thinking, not a rote skill"** and **"people understand what they can see."**
+> "programming is a way of thinking, not a rote skill" and "people understand what they can see."
 
-Show, don't tell.
+**Show, don't tell**
 
 ### Recipes for Article Types
 
@@ -90,9 +93,7 @@ The compensation amount is adjusted to the meatiness of the article. Long, in-de
 
 ## Cross-posting and Canonical Links
 
-If you already have a blog or digital garden where you publish your writing, you're welcome to cross-post your article there.
-
-You just need to make sure the canonical URL links to the egghead version, and at the top of the article link to the original version on egghead.
+If you already have a blog or digital garden where you publish your writing, you're welcome to cross-post your article there. You just need to make sure the canonical URL links to the egghead version, and at the top of the article link to the original version on egghead.
 
 If you're not sure how to set a canonical URL [read this guide](https://ahrefs.com/blog/canonical-tags/)
 
@@ -110,10 +111,26 @@ If you're not sure how to set a canonical URL [read this guide](https://ahrefs.c
 Just fill out this form
 
 <form>
-
-
+  <label for="name">Full Name</label>
+  <input
+    id="name"
+    type="text"
+    name="name"
+    className="border-2 border-gray-200"
+  ></input>
+  <br />
+  <label for="email">Email</label>
+  <input
+    id="email"
+    type="text"
+    name="email"
+    className="border-2 border-gray-200"
+  ></input>
 </form>
 
+<button className="mt-4 flex items-center sm:px-5 px-3 py-2 rounded-md border-1 focus:border-blue-600 focus:outline-none bg-blue-600 border-blue-800 text-blue-100">
+  Pitch it
+</button>
 
 </section>
 
