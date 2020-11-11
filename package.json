@@ -91,7 +91,7 @@
     "@emotion/core": "^10.1.1",
     "@emotion/styled": "^10.0.27",
     "@mdx-js/loader": "^1.6.19",
-    "@next/bundle-analyzer": "^9.5.5",
+    "@next/bundle-analyzer": "^10.0.1",
     "@next/mdx": "^9.5.5",
     "@storybook/addon-actions": "^6.0.28",
     "@storybook/addon-essentials": "^6.0.28",
