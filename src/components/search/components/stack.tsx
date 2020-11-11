@@ -30,16 +30,16 @@ const StackResource = ({slug, type}: StackResource) => {
   const {data: resource} = useSWR(slug, loader)
   if (!resource) return null
   return (
-    <li key={resource?.slug}>
-      <Link href={resource?.path}>
+    <li key={resource.slug}>
+      <Link href={resource.path}>
         <a className="flex items-center font-semibold py-2 hover:underline cursor-pointer leading-tight">
           {resource && (
             <div className="flex-shrink-0 flex items-center">
               <Image
                 src={
-                  resource?.icon_url ||
-                  resource?.square_cover_480_url ||
-                  resource?.image_thumb_url
+                  resource.icon_url ||
+                  resource.square_cover_480_url ||
+                  resource.image_thumb_url
                 }
                 width={24}
                 height={24}
@@ -47,7 +47,7 @@ const StackResource = ({slug, type}: StackResource) => {
               />
             </div>
           )}
-          <span className="ml-2">{resource?.title}</span>
+          <span className="ml-2">{resource.title}</span>
         </a>
       </Link>
     </li>
