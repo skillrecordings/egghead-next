@@ -1,9 +1,13 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import getTracer from 'utils/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
 const {first} = require('lodash')
+
+const tracer = getTracer('subscriber-api')
 
 const enableLog = true
 const log = (...args: string[]) => enableLog && console.log(...args)
@@ -41,6 +45,7 @@ async function fetchEggheadUser(token: any) {
 }
 
 const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
+  setupHttpTracing({name: subscriber.name, tracer, req, res})
   if (req.method === 'GET') {
     try {
       const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(

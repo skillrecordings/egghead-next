@@ -16,6 +16,10 @@ import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import getTracer from 'utils/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
+
+const tracer = getTracer('lesson-page')
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -344,9 +348,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 export default Lesson
 
 export const getServerSideProps: GetServerSideProps = async function ({
+  req,
   res,
   params,
 }) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
 
   const initialLesson: LessonResource | undefined =

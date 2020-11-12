@@ -137,7 +137,6 @@ const playerMachine = Machine<
   {
     actions: {
       sendTelemetry: (context, event) => {
-        console.log(context, event)
         function verbForEvent(event: string) {
           switch (event) {
             case 'PAUSE':
