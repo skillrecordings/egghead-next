@@ -54,7 +54,9 @@ export const identify = (data: unknown) => {
   return new Promise((resolve) => resolve(data))
 }
 
-export default {
+const analytics = {
   track,
   identify,
 }
+
+export default analytics

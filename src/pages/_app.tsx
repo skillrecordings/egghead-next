@@ -1,3 +1,4 @@
+import * as React from 'react'
 import NextApp from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
@@ -7,7 +8,6 @@ import {cache} from 'emotion' // Use only { cache } from 'emotion'. Don't use { 
 import AppLayout from 'components/app/Layout'
 import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
-import {useURL} from 'hooks/useUrl'
 import '@reach/listbox/styles.css'
 import '@reach/dialog/styles.css'
 import '@reach/tabs/styles.css'
@@ -32,7 +32,7 @@ export default class App extends NextApp {
         <SocialProfileJsonLd
           type="Organization"
           name="egghead.io"
-          url={useURL()}
+          url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
           sameAs={['https://twitter.com/eggheadio']}
         />
         <ConvertkitProvider>

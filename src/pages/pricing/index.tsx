@@ -9,10 +9,7 @@ import SelectPlan from 'components/pricing/select-plan'
 import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  res,
-  params,
-}) {
+export const getServerSideProps: GetServerSideProps = async function ({res}) {
   res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
 
   if (!process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PRICE_ID)

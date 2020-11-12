@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../Link'
 import Eggo from '../images/eggo.svg'
@@ -36,7 +37,11 @@ const Header: FunctionComponent = () => {
                     <span>
                       {viewer.full_name || 'member'} {viewer.is_pro && '⭐️'}
                     </span>
-                    <img className="w-8 rounded-full" src={viewer.avatar_url} />
+                    <img
+                      alt="avatar"
+                      className="w-8 rounded-full"
+                      src={viewer.avatar_url}
+                    />
                   </li>
                 ) : (
                   <li>

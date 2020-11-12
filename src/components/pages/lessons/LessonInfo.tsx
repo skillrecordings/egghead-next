@@ -4,7 +4,6 @@ import Image from 'next/image'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
-import Dialog from 'components/Dialog'
 import Eggo from '../../../components/images/eggo.svg'
 import {LessonResource} from 'types'
 
@@ -84,10 +83,9 @@ const CopyToClipboard: FunctionComponent<{
   stringToCopy: string
   className?: string
 }> = ({stringToCopy, className = ''}) => {
+  const [copied, setCopied] = useState(false)
+  const [state, copyToClipboard] = useCopyToClipboard()
   if (stringToCopy) {
-    const [copied, setCopied] = useState(false)
-    const [state, copyToClipboard] = useCopyToClipboard()
-
     const copyHandler = () => {
       copyToClipboard(stringToCopy)
       setCopied(true)
@@ -121,7 +119,7 @@ const CopyToClipboard: FunctionComponent<{
   return null
 }
 
-type LessonInfo = {
+type LessonInfoProps = {
   title: string
   instructor: {
     full_name: string
@@ -145,7 +143,7 @@ type LessonInfo = {
   [cssRelated: string]: any
 }
 
-const LessonInfo: FunctionComponent<LessonInfo> = ({
+const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   title,
   instructor,
   tags,
@@ -154,7 +152,7 @@ const LessonInfo: FunctionComponent<LessonInfo> = ({
   nextUpData,
   lesson,
   ...restProps
-}: LessonInfo) => {
+}) => {
   return (
     <div {...restProps}>
       <div className="space-y-4">
@@ -347,23 +345,6 @@ const IconExternalLink: FunctionComponent<{className?: string}> = ({
       strokeLinejoin="round"
       strokeWidth={2}
       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-    />
-  </svg>
-)
-
-const IconFlag: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className={className}
-  >
-    <path
-      fillRule="evenodd"
-      d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"
-      clipRule="evenodd"
     />
   </svg>
 )

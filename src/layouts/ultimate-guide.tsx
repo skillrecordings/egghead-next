@@ -15,7 +15,6 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
     titleAppendSiteName = false,
     url,
     ogImage,
-    contributors,
   } = frontMatter
   return (
     <>

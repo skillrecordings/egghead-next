@@ -1,6 +1,4 @@
-import {jsx} from '@emotion/core'
-import React, {FunctionComponent, useState} from 'react'
-import VisuallyHidden from '@reach/visually-hidden'
+import React, {FunctionComponent} from 'react'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
 
 type DialogProps = {

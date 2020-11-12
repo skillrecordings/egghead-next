@@ -28,7 +28,6 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
     image,
     title,
     duration,
-    instructor_avatar_url,
     instructor_url,
     instructor_name,
   } = hit

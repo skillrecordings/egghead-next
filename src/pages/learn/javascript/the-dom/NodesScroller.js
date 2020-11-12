@@ -1,9 +1,8 @@
-/** @jsx jsx */
-import React, {useRef, useEffect} from 'react'
+import * as React from 'react'
+import {useRef, useEffect} from 'react'
 import {gsap} from 'gsap/dist/gsap'
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger'
 import {bpMaxMD} from '../../../../utils/breakpoints.js'
-import {jsx} from '@emotion/core'
 
 gsap.registerPlugin(ScrollTrigger)
 

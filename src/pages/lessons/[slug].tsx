@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -79,14 +79,11 @@ const lessonLoader = (slug: string, token: string) => {
 
 const NextResourceButton: FunctionComponent<{
   path: string
-  onClick: () => void
   className: string
-}> = ({children, path, onClick, className = ''}) => {
+}> = ({children, path, className = ''}) => {
   return (
     <Link href={path || '#'}>
-      <a className={className} onClick={onClick}>
-        {children || 'Next Lesson'}
-      </a>
+      <a className={className}>{children || 'Next Lesson'}</a>
     </Link>
   )
 }
@@ -121,11 +118,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   if (error) logout()
 
   const lesson = {...initialLesson, ...data.lesson}
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-
-  if (!lesson) return null
 
   const {
     instructor,
@@ -166,7 +158,25 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         send('NEXT')
         break
     }
-  }, [currentPlayerState, data.lesson])
+  }, [
+    currentPlayerState,
+    dash_url,
+    data.lesson,
+    free_forever,
+    hls_url,
+    send,
+    viewer,
+  ])
+
+  React.useEffect(() => {
+    const handleRouteChange = () => {
+      send('LOAD')
+    }
+    router.events.on('routeChangeStart', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [router.events, send])
 
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
@@ -270,7 +280,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </button>
                     <NextResourceButton
                       path={nextUpPath}
-                      onClick={() => send('LOAD')}
                       className="bg-gray-300 rounded p-2 flex items-center ml-4"
                     >
                       <IconPlay className="w-6 mr-3" /> Load the Next Video

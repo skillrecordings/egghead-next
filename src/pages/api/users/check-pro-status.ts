@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-if (!process.env.EGGHEAD_SUPPORT_BOT_TOKEN) {
-  throw new Error('no egghead support+bot token found')
-}
-
 import {NextApiRequest, NextApiResponse} from 'next'
 import emailIsValid from 'utils/email-is-valid'
 import {isEmpty} from 'lodash'
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+
+if (!process.env.EGGHEAD_SUPPORT_BOT_TOKEN) {
+  throw new Error('no egghead support+bot token found')
+}
+const checkProStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const {email} = req.body
     if (!emailIsValid(email)) {
@@ -30,3 +30,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end()
   }
 }
+
+export default checkProStatus

@@ -1,8 +1,5 @@
 import React, {FunctionComponent} from 'react'
 import {Highlight, connectRefinementList} from 'react-instantsearch-dom'
-import nameToSlug from 'lib/name-to-slug'
-
-import useSwr from 'swr'
 
 type RefinementListProps = {
   items?: any[]
@@ -188,13 +185,10 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
     switch (attribute) {
       case '_tags':
         return 'topics'
-        break
       case 'instructor_name':
         return 'instructors'
-        break
       case 'type':
         return 'type'
-        break
       default:
         break
     }

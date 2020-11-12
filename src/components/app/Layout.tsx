@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Header from './Header'
 import Footer from './Footer'

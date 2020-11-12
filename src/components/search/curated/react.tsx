@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {NextSeo} from 'next-seo'
 import Card from '../components/card'
 import Stack from '../components/stack'
