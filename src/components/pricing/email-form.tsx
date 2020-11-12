@@ -104,11 +104,8 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
             )}
             {isSubmitted && (
               <div className="text-text">
-                <p>Please check your inbox for your sign in link.</p>
-                <p>
-                  Sometimes this can land in SPAM! While we hope that isn't the
-                  case if it doesn't arrive in a minute or three, please check.
-                </p>
+                <p>Redirecting to Stripe payments.</p>
+          
               </div>
             )}
             {isError && (
