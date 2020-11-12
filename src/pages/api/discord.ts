@@ -172,7 +172,7 @@ async function fetchOrInviteDiscordMember(
   }
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const discord = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       const client = await getDiscordBotClient()
@@ -212,3 +212,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end()
   }
 }
+
+export default discord

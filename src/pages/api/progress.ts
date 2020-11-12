@@ -5,7 +5,7 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const SCORM_CLOUD_ENDPOINT = `https://cloud.scorm.com/lrs/PZ9CYEKKV8/`
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const progress = async (req: NextApiRequest, res: NextApiResponse) => {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
 
   if (req.method === 'POST') {
@@ -68,3 +68,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end()
   }
 }
+
+export default progress

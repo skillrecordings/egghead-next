@@ -25,8 +25,7 @@
     "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
-    "lint": "eslint --ext ts --ext tsx --fix"
+    "lint": "eslint --ext ts --ext tsx --fix src/"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.2.0",
@@ -60,16 +59,16 @@
     "lodash": "^4.17.20",
     "mdx-prism": "^0.3.1",
     "next": "^10.0.1",
-    "next-compose-plugins": "^2.2.0",
+    "next-compose-plugins": "^2.2.1",
     "next-images": "^1.6.2",
-    "next-seo": "^4.15.1",
+    "next-seo": "^4.17.0",
     "next-svgr": "^0.0.2",
     "nextjs-sitemap-generator": "^1.1.1",
     "pluralize": "^8.0.0",
     "qs": "^6.9.4",
     "query-string": "^6.13.6",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "react": "^0.0.0-experimental-4ead6b530",
+    "react-dom": "^0.0.0-experimental-4ead6b530",
     "react-instantsearch-dom": "^6.8.2",
     "react-markdown": "^5.0.2",
     "react-scroll": "^1.8.1",
@@ -115,9 +114,10 @@
     "@types/react": "^16.9.55",
     "@types/react-instantsearch-dom": "^6.3.0",
     "@types/yup": "^0.29.9",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
     "axios": "^0.21.0",
+    "babel-eslint": "^10.0.0",
     "babel-jest": "^26.5.2",
     "babel-loader": "^8.2.0",
     "babel-plugin-apply-mdx-type-prop": "^1.6.19",
@@ -127,10 +127,16 @@
     "dotenv-flow": "^3.2.0",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
-    "eslint": "^7.13.0",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint": "^7.5.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.0.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-app": "^6.2.2",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-testing-library": "^3.10.0",
     "globby": "^11.0.1",
     "graphql": "^15.4.0",
     "husky": "^4.3.0",
@@ -165,7 +171,7 @@
       "prettier --write"
     ],
     "src/**/*.{ts,tsx}": [
-      "yarn type-check && yarn lint"
+      "yarn lint"
     ]
   },
   "prettier": {

@@ -4,7 +4,6 @@ import {
   parseUrl,
   CREATOR_DELINIATOR,
 } from '../search-url-builder'
-import config from '../config'
 
 test('Builds a Title Based on single Tag and Instructor', () => {
   const title = titleFromPath([`react-${CREATOR_DELINIATOR}-kent-c-dodds`])
@@ -16,18 +15,6 @@ test('creates a url from an empty search state', () => {
   const url = createUrl({})
 
   expect(url).toBe('/s')
-})
-
-test('creates a url with a query with single tag and instructor named Kent C. Dodds', () => {
-  const url = createUrl({
-    query: 'hooks',
-    refinementList: {
-      instructor_name: ['Kent C. Dodds'],
-      _tags: ['react'],
-    },
-  })
-
-  expect(url).toBe(`/s/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks`)
 })
 
 test('creates a url with a query with single tag and instructor filtered by type', () => {

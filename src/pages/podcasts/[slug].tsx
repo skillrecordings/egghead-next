@@ -72,7 +72,7 @@ const Podcast: FunctionComponent<PodcastProps> = ({
   return (
     <>
       <div className="prose md:prose-xl max-w-2xl w-full mx-auto leading-6 mb-10">
-        <img className="max-w-xs mx-auto mb-0" src={image_url} />
+        <img alt="guest" className="max-w-xs mx-auto mb-0" src={image_url} />
         <div className="text-sm uppercase font-light text-center text-gray-500">{`Episode ${episode_number} ${
           contributors && contributors.length > 0
             ? `• ${contributors.join(' && ')}`
@@ -81,6 +81,7 @@ const Podcast: FunctionComponent<PodcastProps> = ({
         <h1>{title}</h1>
         <div className="bg-white flex flex-col sm:flex-row mb-10 sticky top-0 z-10">
           <iframe
+            title="simplecast player"
             height="52px"
             width="100%"
             frameBorder="no"

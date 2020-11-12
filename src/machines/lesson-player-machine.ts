@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import LessonInfo from 'components/pages/lessons/LessonInfo'
 import {Machine, assign} from 'xstate'
 
 interface PlayerStateSchema {

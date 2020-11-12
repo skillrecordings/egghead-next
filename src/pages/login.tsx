@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import {jsx} from '@emotion/core'
 import React from 'react'
 
 import * as yup from 'yup'
@@ -66,7 +64,6 @@ function LoginForm() {
                           </label>
                           <div className="mt-1 rounded-md shadow-sm">
                             <input
-                              autoFocus
                               id="email"
                               type="email"
                               value={values.email}
@@ -104,7 +101,12 @@ function LoginForm() {
             )}
             {isError && (
               <div className="text-text">
-                <p>Login Link Not Sent 😅</p>
+                <p>
+                  Login Link Not Sent{' '}
+                  <span role="img" aria-label="sweating">
+                    😅
+                  </span>
+                </p>
                 <p className="pt-3">
                   Are you using an aggressive ad blocker such as Privacy Badger?
                   Please disable it for this site and reload the page to try

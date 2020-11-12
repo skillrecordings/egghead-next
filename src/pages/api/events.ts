@@ -1,7 +1,7 @@
-import axios from 'axios'
+// import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const events = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       // const response = await axios
@@ -19,3 +19,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.end()
   }
 }
+
+export default events

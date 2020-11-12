@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {getTags} from 'lib/tags'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'
@@ -15,7 +16,7 @@ const Tags: FunctionComponent<TagsProps> = ({tags}) => {
           <div className="flex justify-center" key={tag.slug}>
             <Link href={`/learn/${tag.slug}`}>
               <a className="flex flex-col items-center justify-center rounded-lg hover:shadow-sm border border-transparent hover:border-gray-200 sm:p-8 p-5 w-full transition-all ease-in-out duration-150">
-                <img src={tag.image_64_url} className="w-10 h-10 mb-4" />
+                <img alt="" src={tag.image_64_url} className="w-10 h-10 mb-4" />
                 <span className="text-lg text-center">{tag.label}</span>
               </a>
             </Link>

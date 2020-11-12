@@ -1,8 +1,6 @@
-/** @jsx jsx */
-import React, {useRef, useState, useEffect} from 'react'
+import React, {useRef, useEffect} from 'react'
 import {gsap} from 'gsap/dist/gsap'
 import {bpMaxMD} from '../../../../utils/breakpoints.js'
-import {jsx} from '@emotion/core'
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -99,6 +97,7 @@ export default function DOMScroller({children}) {
         }}
       >
         <img
+          alt=""
           ref={img1}
           css={{
             margin: '0 1em',
@@ -113,6 +112,7 @@ export default function DOMScroller({children}) {
         </span>
       </div>
       <img
+        alt=""
         ref={img2}
         css={{
           ...imageStyle,
@@ -121,6 +121,7 @@ export default function DOMScroller({children}) {
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1599816716/egghead-next-ebombs/wtf-DOM/dom2.jpg"
       />
       <img
+        alt=""
         ref={img3}
         css={{
           ...imageStyle,
