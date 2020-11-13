@@ -41,6 +41,31 @@ const nextConfig = {
         destination: '/s?type=course',
         permanent: true,
       },
+      {source: '/lessons', destination: '/s?type=lesson', permanent: true},
+      {source: '/search', destination: '/s', permanent: true},
+      {source: '/instructors', destination: '/s', permanent: true},
+      {source: '/browse', destination: '/s', permanent: true},
+      {source: '/browse/:context', destination: '/s', permanent: true},
+      {
+        source: '/browse/:context/:tag',
+        destination: '/s/:tag',
+        permanent: true,
+      },
+      {
+        source: '/courses/:title/:all*',
+        destination: 'https://app.egghead.io/courses/:title/:all*',
+        permanent: true,
+      },
+      {
+        source: '/users/:all*',
+        destination: 'https://app.egghead.io/users/:all*',
+        permanent: true,
+      },
+      {
+        source: '/admin/:all*',
+        destination: 'https://app.egghead.io/admin/:all*',
+        permanent: true,
+      },
     ]
   },
 }
