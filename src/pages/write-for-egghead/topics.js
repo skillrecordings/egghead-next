@@ -41,7 +41,7 @@ const reactTopics = [
       {
         headline: 'What are the essential principles of React?',
         points: `- React is made up of reusable components
-                - modern web development is component based
+                - Modern web development is component based
                 - components can be portable
                 - components can be reusable assets
             - React is declarative
@@ -75,7 +75,7 @@ const reactTopics = [
         headline:
           'How does useState compare with all of the other tools of state management?',
         points: `- Any tool outside of React, that you may have heard of, has one thing going against it and that's that you have to install it. It has a different release cycle from React.
-                - **useState is your first line of defense for managing state in React applications, and you can build an entire application just using useState to manage your state.**
+                - useState is your first line of defense for managing state in React applications, and you can build an entire application just using useState to manage your state.
                 - There's also useReducer, which is another way to manage state, and that's also blessed, but that's for more advanced use cases.`,
       },
       {
@@ -100,18 +100,18 @@ const reactTopics = [
     topics: [
       {
         headline: 'Where should State live?',
-        points: `- You should never have State in two places at any time. **Do not duplicate State.**
+        points: `- You should never have State in two places at any time. Do not duplicate State.
                 - You need to have a single source of truth, and it needs to live in one place.
                     - It can live in memory, local storage, session storage, URL bar and the browser history.
-                    - Example of implementing **State in browser history.**`,
+                    - Example of implementing State in browser history.`,
       },
       {
         headline: 'How do determine the right amount of UI abstraction?',
-        points: `- **For client state:** there's no need to go outside of React. Unless I want to, like going for Redux because of the dev tools.
-                - **For server-state:** I'm going to reach for React Query, Apollo, SWR.
+        points: `- For client state: there's no need to go outside of React. Unless I want to, like going for Redux because of the dev tools.
+                - For server-state: I'm going to reach for React Query, Apollo, SWR.
                 - Keeping track of local state is easy, it's predictable. You can control everything inside your application.
                 - When you start consuming stuff outside of your app, you are no longer in control. They are reading a snapchat of an API endpoint. People treat data as they own it, which they don't. And that's really hard to keep track of.
-                - **Rule:** Who owns this code?
+                - Rule: Who owns this code?
                     - If you can answer this question correctly, then you'll know what tool to use.`,
       },
       {
