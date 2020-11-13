@@ -126,26 +126,39 @@ const reactTopics = [
 
 export function TopicListComponent() {
   return (
-    <section className="mt-6 mb-12">
+    <section className="mt-4 mb-4">
       <br />
       <div className="grid sm:grid-col-1 md:grid-cols-3 gap-4">
         {reactTopics.map((topicList, i) => {
           return (
             <div className="mb-8">
-              <p className="font-medium text-lg mb-2 pb-2 border-b border-grey-lighter">
+              <p className="mb-2 pb-2 text-gray-600 border-b border-grey-lighter text-lg">
                 {reactTopics[i].topicTitle}
               </p>
               <p>
-                {reactTopics[i].topics.map((topicItem, i) => {
+                {reactTopics[i].topics.map((topicItem) => {
                   return (
-                    <details className="question py-4 border-b border-grey-lighter">
-                      <summary className="flex items-center">
-                        {topicItem.headline}
-                      </summary>
-                      <p className="mt-4 leading-normal text-md">
-                        {topicItem.points}
-                      </p>
-                    </details>
+                    <div>
+                      <button class="border-grey-lighter mt-4 text-left justify-between items-start text-gray-400 focus:outline-none focus:text-gray-900">
+                        <details>
+                          <summary class="font-medium text-gray-900">
+                            {topicItem.headline}
+                          </summary>
+                          <p class="mt-2 text-base leading-6 text-gray-700">
+                            {topicItem.points}
+                          </p>
+                        </details>
+                      </button>
+                    </div>
+
+                    // <button className="question py-4 border-b border-grey-lighter">
+                    //   <summary className="flex items-center">
+                    //     {topicItem.headline}
+                    //   </summary>
+                    //   <p className="mt-4 leading-normal text-md">
+                    //     {topicItem.points}
+                    //   </p>
+                    // </details>
                   )
                 })}
               </p>
@@ -156,7 +169,7 @@ export function TopicListComponent() {
 
       <br />
 
-      <h4 className="text-lg font-semibold mb-4">General Topics</h4>
+      <h4 className="text-gray-600 text-lg mb-4">General Topics</h4>
       <div className="flex flex-wrap">
         {generalTopicList.map((x, i) => {
           return (
