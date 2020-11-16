@@ -150,15 +150,6 @@ export function TopicListComponent() {
                         </details>
                       </button>
                     </div>
-
-                    // <button className="question py-4 border-b border-grey-lighter">
-                    //   <summary className="flex items-center">
-                    //     {topicItem.headline}
-                    //   </summary>
-                    //   <p className="mt-4 leading-normal text-md">
-                    //     {topicItem.points}
-                    //   </p>
-                    // </details>
                   )
                 })}
               </p>
