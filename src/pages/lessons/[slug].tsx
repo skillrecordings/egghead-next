@@ -1,12 +1,13 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {GraphQLClient} from 'graphql-request'
-import {isEmpty, get} from 'lodash'
+import {isEmpty, get, isFinite} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
+import {useWindowSize} from 'react-use'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import LessonInfo from 'components/pages/lessons/LessonInfo'
@@ -18,6 +19,7 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
+import {number} from 'yup'
 
 const tracer = getTracer('lesson-page')
 
@@ -106,7 +108,11 @@ type LessonProps = {
   initialLesson: LessonResource
 }
 
+const OFFSET_Y = 80
+
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
+  const {height} = useWindowSize()
+  const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout, viewer} = useViewer()
@@ -139,6 +145,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   } = lesson
 
   React.useEffect(() => {
+    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
     switch (currentPlayerState) {
       case 'loading':
         if (!isEmpty(data.lesson)) {
@@ -170,6 +177,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     hls_url,
     send,
     viewer,
+    height,
   ])
 
   React.useEffect(() => {
@@ -212,91 +220,94 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div key={lesson.slug} className="max-w-screen-2xl m-auto">
+      {/* <div key={lesson.slug} className="w-full max-w-screen-2xl m-auto"> */}
+      <div key={lesson.slug} className="w-full m-auto">
         <div className="space-y-10">
-          <div
-            className="relative overflow-hidden bg-gray-200"
-            css={{paddingTop: '56.25%'}}
-          >
-            <div className="absolute w-full h-full top-0 left-0">
-              {playerVisible && (
-                <EggheadPlayer
-                  ref={playerRef}
-                  hls_url={hls_url}
-                  dash_url={dash_url}
-                  playing={playerState.matches('playing')}
-                  width="100%"
-                  height="auto"
-                  pip="true"
-                  controls
-                  onPlay={() => send('PLAY')}
-                  onPause={() => {
-                    send('PAUSE')
-                  }}
-                  onEnded={() => send('COMPLETE')}
-                  subtitlesUrl={get(lesson, 'subtitles_url')}
-                />
-              )}
+          <div className="w-full m-auto" css={{maxWidth: lessonMaxWidth}}>
+            <div
+              className="w-full relative overflow-hidden bg-gray-200"
+              css={{paddingTop: '56.25%'}}
+            >
+              <div className="absolute w-full h-full top-0 left-0">
+                {playerVisible && (
+                  <EggheadPlayer
+                    ref={playerRef}
+                    hls_url={hls_url}
+                    dash_url={dash_url}
+                    playing={playerState.matches('playing')}
+                    width="100%"
+                    height="auto"
+                    pip="true"
+                    controls
+                    onPlay={() => send('PLAY')}
+                    onPause={() => {
+                      send('PAUSE')
+                    }}
+                    onEnded={() => send('COMPLETE')}
+                    subtitlesUrl={get(lesson, 'subtitles_url')}
+                  />
+                )}
 
-              {currentPlayerState === 'joining' && (
-                <>
+                {currentPlayerState === 'joining' && (
+                  <>
+                    <OverlayWrapper>
+                      <h2 className="text-xl font-bold">
+                        This Lesson is Free to Watch
+                      </h2>
+                      <Link href="/login">
+                        <a className="no-underline hover:underline text-blue-500">
+                          Click here to Create an Account or Login to View
+                        </a>
+                      </Link>
+                    </OverlayWrapper>
+                  </>
+                )}
+                {currentPlayerState === 'subscribing' && (
                   <OverlayWrapper>
                     <h2 className="text-xl font-bold">
-                      This Lesson is Free to Watch
+                      This Lesson is an egghead Member Exclusive
                     </h2>
-                    <Link href="/login">
+                    <Link href="/pricing">
                       <a className="no-underline hover:underline text-blue-500">
-                        Click here to Create an Account or Login to View
+                        Click here to join today and unlock this lesson!
                       </a>
                     </Link>
                   </OverlayWrapper>
-                </>
-              )}
-              {currentPlayerState === 'subscribing' && (
-                <OverlayWrapper>
-                  <h2 className="text-xl font-bold">
-                    This Lesson is an egghead Member Exclusive
-                  </h2>
-                  <Link href="/pricing">
-                    <a className="no-underline hover:underline text-blue-500">
-                      Click here to join today and unlock this lesson!
-                    </a>
-                  </Link>
-                </OverlayWrapper>
-              )}
-              {currentPlayerState === 'showingNext' && (
-                <OverlayWrapper>
-                  <img
-                    src={lesson.course.square_cover_480_url}
-                    alt=""
-                    className="w-32"
-                  />
-                  <div className="mt-8">Up Next</div>
-                  <h3 className="text-xl font-semibold mt-4">
-                    {nextLessonTitle}
-                  </h3>
-                  <div className="flex mt-16">
-                    <button
-                      className="bg-gray-300 rounded p-2 flex items-center"
-                      onClick={() => send('LOAD')}
-                    >
-                      <IconRefresh className="w-6 mr-3" /> Watch Again
-                    </button>
-                    <NextResourceButton
-                      path={nextUpPath}
-                      className="bg-gray-300 rounded p-2 flex items-center ml-4"
-                    >
-                      <IconPlay className="w-6 mr-3" /> Load the Next Video
-                    </NextResourceButton>
-                  </div>
-                  <div className="mt-20">
-                    Feeling stuck?{' '}
-                    <a href="#" className="font-semibold">
-                      Get help from egghead community
-                    </a>
-                  </div>
-                </OverlayWrapper>
-              )}
+                )}
+                {currentPlayerState === 'showingNext' && (
+                  <OverlayWrapper>
+                    <img
+                      src={lesson.course.square_cover_480_url}
+                      alt=""
+                      className="w-32"
+                    />
+                    <div className="mt-8">Up Next</div>
+                    <h3 className="text-xl font-semibold mt-4">
+                      {nextLessonTitle}
+                    </h3>
+                    <div className="flex mt-16">
+                      <button
+                        className="bg-gray-300 rounded p-2 flex items-center"
+                        onClick={() => send('LOAD')}
+                      >
+                        <IconRefresh className="w-6 mr-3" /> Watch Again
+                      </button>
+                      <NextResourceButton
+                        path={nextUpPath}
+                        className="bg-gray-300 rounded p-2 flex items-center ml-4"
+                      >
+                        <IconPlay className="w-6 mr-3" /> Load the Next Video
+                      </NextResourceButton>
+                    </div>
+                    <div className="mt-20">
+                      Feeling stuck?{' '}
+                      <a href="#" className="font-semibold">
+                        Get help from egghead community
+                      </a>
+                    </div>
+                  </OverlayWrapper>
+                )}
+              </div>
             </div>
           </div>
           <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto">
