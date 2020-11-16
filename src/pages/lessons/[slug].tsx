@@ -212,7 +212,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div key={lesson.slug}>
+      <div key={lesson.slug} className="max-w-screen-2xl m-auto">
         <div className="space-y-10">
           <div
             className="relative overflow-hidden bg-gray-200"
