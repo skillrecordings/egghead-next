@@ -3,7 +3,8 @@ export const meta = {
 }
 
 import FancyGuide from 'layouts/fancy-guide'
-import {TopicListComponent} from './topics.js'
+import {TopicListComponent} from './topics.tsx'
+import {WritingSubmissionForm} from './WritingSubmissionForm.tsx'
 
 export default ({children}) => (
   <FancyGuide frontMatter={meta}>{children}</FancyGuide>
@@ -31,6 +32,11 @@ Anyone can write for egghead, you just need to let us know you're up for it <spa
 We're currently prioritising React articles, but we're always open to a wide variety of ideas.
 
 ### Browse Our Topic Garden <span>🌱</span>
+
+Take a look at [our list of potential React topics in Notion](https://www.notion.so/egghead/egghead-next-React-Evergreen-Content-Seedlings-8d7f4e234cbc43838c12793382d076bf).  
+Each comes with an outline of the key concepts you can structure an article around.
+
+We're also happy to accept articles on any of the following topics:
 
 </ProseSection>
 
@@ -133,103 +139,7 @@ If you're not sure how to set a canonical URL [read this guide](https://ahrefs.c
 
 Fill out this form and we'll get in touch if we're interested.
 
-<form className="max-w-md">
-  <label for="name" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Full Name</label>
-  <input
-    id="name"
-    type="text"
-    name="name"
-    class="form-input block pl-7 pr-12 sm:text-sm sm:leading-5 p-2 mb-6 border rounded border-gray-300 bg-gray-50 w-full" placeholder="Lucy Suchman"
-  ></input>
-  <label for="email" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Email</label>
-  <input
-    id="email"
-    type="text"
-    name="email"
-    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-6 border rounded border-gray-300 bg-gray-50" placeholder="lucy@xerox.com"
-  ></input>
-  <label for="writing-links" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Link to your blog or previous writing work</label>
-  <input
-    id="writing-links"
-    type="text"
-    name="writing-links"
-    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-6 border rounded border-gray-300 bg-gray-50" placeholder="lucy.com/blog"
-  ></input>
-  <label for="headline" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Article Headline</label>
-  <input
-    id="headline"
-    type="text"
-    name="headline"
-    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-6 border rounded border-gray-300 bg-gray-50" placeholder=""
-  ></input>
-  <label for="audience" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Who is the article for? What's their skill level? What will they learn by the end?</label>
-  <textarea
-    id="audience"
-    type="text"
-    name="audience"
-    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-6 border rounded border-gray-300 bg-gray-50" placeholder="Intermediate React devs who will learn how to implement flexbox and grid layouts in Tailwinds CSS"
-  ></textarea>
-  <label for="draft" class="block text-sm leading-5 font-medium text-gray-700 mb-2">Introductory paragraph and outline of the main points (~400 words)</label>
-  <textarea
-    id="draft"
-    type="text"
-    name="draft"
-    class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-6 border rounded border-gray-300 bg-gray-50" placeholder="Links to full article drafts also welcome"
-  ></textarea>
-
-
-<label
-  for="relationships"
-  class="block text-sm leading-5 font-medium text-gray-700 mb-2"
->
-  Do you have professional relationships with any services, tools, or frameworks
-  mentioned in the article? (ie. employee or developer advocate)
-</label>
-<fieldset class="mt-2 flex flex-row mb-6">
-  <div class="mt-2 flex items-center mr-4">
-    <input
-      id="relationships-yes"
-      name="relationships"
-      type="radio"
-      class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-    ></input>
-    <label for="relationships-yes" class="ml-3">
-      <span class="block text-sm leading-5 font-medium text-gray-700">Yes</span>
-    </label>
-  </div>
-  <div class="mt-2 flex items-center">
-    <input
-      id="relationships-no"
-      name="relationships"
-      type="radio"
-      class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-    ></input>
-    <label for="relationships-no" class="ml-3">
-      <span class="block text-sm leading-5 font-medium text-gray-700">No</span>
-    </label>
-  </div>
-</fieldset>
-
-<label
-  for="paypal"
-  class="block text-sm leading-5 font-medium text-gray-700 mb-2"
->
-  What's your Paypal email address?
-</label>
-<input
-  id="paypal"
-  type="text"
-  name="paypal"
-  class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5 p-2  mb-6 border rounded border-gray-300 bg-gray-50"
-  placeholder="lucygetspaid@xerox.com"
-></input>
-
-</form>
-
-
-<button className="mt-6 flex items-center sm:px-5 px-3 py-2 rounded-md border-1 focus:border-blue-600 focus:outline-none bg-blue-600 border-blue-800 text-blue-100">
-  Pitch it
-</button>
+<WritingSubmissionForm />
 
 </section>
 

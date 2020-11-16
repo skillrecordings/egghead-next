@@ -126,9 +126,11 @@ const reactTopics = [
 
 export function TopicListComponent() {
   return (
-    <section className="mt-4 mb-4">
+    <div className="mb-2">
       <br />
-      <div className="grid sm:grid-col-1 md:grid-cols-3 gap-4">
+
+      {/* React Topics */}
+      {/* <div className="grid sm:grid-col-1 md:grid-cols-3 gap-4">
         {reactTopics.map((topicList, i) => {
           return (
             <div className="mb-8">
@@ -156,11 +158,9 @@ export function TopicListComponent() {
             </div>
           )
         })}
-      </div>
+      </div> */}
 
-      <br />
-
-      <h4 className="text-gray-600 text-lg mb-4">General Topics</h4>
+      {/*  General Topics */}
       <div className="flex flex-wrap">
         {generalTopicList.map((x, i) => {
           return (
@@ -170,6 +170,6 @@ export function TopicListComponent() {
           )
         })}
       </div>
-    </section>
+    </div>
   )
 }
