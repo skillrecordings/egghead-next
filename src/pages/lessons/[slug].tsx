@@ -108,6 +108,7 @@ type LessonProps = {
 }
 
 const OFFSET_Y = 80
+const VIDEO_MIN_HEIGHT = 360
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
@@ -223,7 +224,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       />
       <div key={lesson.slug} className="w-full m-auto">
         <div className="space-y-10">
-          <div className="w-full m-auto" css={{maxWidth: lessonMaxWidth}}>
+          <div
+            className="w-full m-auto"
+            css={{
+              '@media (min-width: 768px)': {
+                maxWidth:
+                  height > VIDEO_MIN_HEIGHT + OFFSET_Y ? lessonMaxWidth : 576,
+                minHeight: VIDEO_MIN_HEIGHT,
+              },
+            }}
+          >
             <div
               className="w-full relative overflow-hidden bg-gray-200"
               css={{paddingTop: '56.25%'}}
