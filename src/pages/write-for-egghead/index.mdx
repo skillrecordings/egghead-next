@@ -3,7 +3,7 @@ export const meta = {
 }
 
 import FancyGuide from 'layouts/fancy-guide'
-import {TopicListComponent} from './topics.tsx'
+import TopicList from 'components/write-for-egghead/topic-list.tsx'
 
 export default ({children}) => (
   <FancyGuide frontMatter={meta}>{children}</FancyGuide>
@@ -40,7 +40,7 @@ We're also happy to accept articles on any of the following topics:
 </ProseSection>
 
 
-<TopicListComponent />
+<TopicList />
 
 <ProseSection>
 
