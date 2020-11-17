@@ -219,7 +219,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      {/* <div key={lesson.slug} className="w-full max-w-screen-2xl m-auto"> */}
       <div key={lesson.slug} className="w-full m-auto">
         <div className="space-y-10">
           <div className="w-full m-auto" css={{maxWidth: lessonMaxWidth}}>
@@ -309,7 +308,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
           </div>
-          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto">
+          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl mx-auto">
             <div className="md:col-span-8">
               <Tabs>
                 <TabList
