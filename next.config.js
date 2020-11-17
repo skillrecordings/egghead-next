@@ -98,7 +98,7 @@ const nextConfig = {
       },
       {
         source: '/api/v1/:all*',
-        destination: 'https://app.egghead.io/api/:all*',
+        destination: 'https://app.egghead.io/api/v1/:all*',
         permanent: true,
       },
       {
