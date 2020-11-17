@@ -72,8 +72,6 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           .then(({data}: {data: any}) => data.subscriber)
       }
 
-      const hour = 3600000
-      const oneYear = 365 * 24 * hour
       const ckCookie = serverCookie.serialize(
         'ck_subscriber_id',
         subscriber.id,
@@ -81,7 +79,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           secure: process.env.NODE_ENV === 'production',
           httpOnly: true,
           path: '/',
-          maxAge: oneYear,
+          expires: 365,
         },
       )
 
