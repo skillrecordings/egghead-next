@@ -66,6 +66,36 @@ const nextConfig = {
         destination: 'https://app.egghead.io/admin/:all*',
         permanent: true,
       },
+      {
+        source: '/feed',
+        destination: 'https://app.egghead.io/feed',
+        permanent: true,
+      },
+      {
+        source: '/lessons/pro_feed',
+        destination: 'https://app.egghead.io/lessons/pro_feed',
+        permanent: true,
+      },
+      {
+        source: '/lessons/feed',
+        destination: 'https://app.egghead.io/lessons/feed',
+        permanent: true,
+      },
+      {
+        source: '/courses/:id/course_feed',
+        destination: 'https://app.egghead.io/courses/:id/course_feed',
+        permanent: true,
+      },
+      {
+        source: '/instructors/:id/feed',
+        destination: 'https://app.egghead.io/instructors/:id/feed',
+        permanent: true,
+      },
+      {
+        source: '/playlists/:id/playlist_feed',
+        destination: 'https://app.egghead.io/playlists/:id/playlist_feed',
+        permanent: true,
+      },
     ]
   },
 }
