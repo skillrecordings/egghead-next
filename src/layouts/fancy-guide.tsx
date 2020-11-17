@@ -3,12 +3,19 @@ import {NextSeo} from 'next-seo'
 import Contributors from '../components/Contributors'
 
 type LayoutProps = {
-  frontMatter: any
+  meta?: {
+    title?: string
+    description?: string
+    titleAppendSiteName?: boolean
+    url?: string
+    ogImage?: any
+    contributors?: string[]
+  }
 }
 
 const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
   children,
-  frontMatter,
+  meta = {},
 }) => {
   const {
     title,
@@ -17,7 +24,7 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
     url,
     ogImage,
     contributors,
-  } = frontMatter
+  } = meta
   return (
     <>
       <NextSeo

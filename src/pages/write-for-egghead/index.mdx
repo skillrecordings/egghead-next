@@ -1,13 +1,12 @@
 export const meta = {
   title: `Writing for egghead`,
+  description: `egghead accepts proposals for written articles, tutorials, and other editorial content. If you'd like to write for egghead here are the details you'll need to get started.`,
 }
 
 import FancyGuide from 'layouts/fancy-guide'
 import TopicList from 'components/write-for-egghead/topic-list.tsx'
 
-export default ({children}) => (
-  <FancyGuide frontMatter={meta}>{children}</FancyGuide>
-)
+export default ({children}) => <FancyGuide meta={meta}>{children}</FancyGuide>
 
 <ProseSection>
 
