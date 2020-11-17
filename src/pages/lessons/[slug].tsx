@@ -353,7 +353,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   const initialLesson: LessonResource | undefined =
     params && (await loadLesson(params.slug as string))
