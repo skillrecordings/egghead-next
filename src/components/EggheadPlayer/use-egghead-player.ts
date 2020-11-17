@@ -104,7 +104,7 @@ const onProgress = (lesson: LessonResource) => (progress: {
     storeProgress(roundedProgress, lesson)
   } else {
     const segments = lessonProgress[lesson.slug] / 30
-    let lessonViews = cookies.get('egghead-lessonViews') || {}
+    const lessonViews = cookies.get('egghead-lessonViews') || {}
     lessonViews[lesson.id] = segments
 
     cookies.set('egghead-lessonViews', lessonViews)
@@ -134,10 +134,10 @@ const getOrCreateLessonView = async (
 
 const trackPercentComplete = (lessonView: {series: any}) => {
   const series = lessonView.series
-  var percents = [0.1, 0.25, 0.5, 0.75]
+  const percents = [0.1, 0.25, 0.5, 0.75]
   if (series && series.progress && series.published_lesson_count) {
     percents.forEach((percent) => {
-      var trackPercent =
+      const trackPercent =
           Math.ceil(series.published_lesson_count * percent) ===
           series.progress.completed_lesson_count,
         percentCompleted = Math.floor(percent * 100)

@@ -13,6 +13,9 @@ checkEnv({
 
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    reactMode: 'concurrent',
+  },
   images: {
     domains: ['d2eip9sf3oo6c2.cloudfront.net', 'image.simplecastcdn.com'],
   },
@@ -31,6 +34,76 @@ const nextConfig = {
       {
         source: '/talks',
         destination: '/s?type=talk',
+        permanent: true,
+      },
+      {
+        source: '/courses',
+        destination: '/s?type=course',
+        permanent: true,
+      },
+      {source: '/lessons', destination: '/s?type=lesson', permanent: true},
+      {source: '/search', destination: '/s', permanent: true},
+      {source: '/instructors', destination: '/s', permanent: true},
+      {source: '/browse', destination: '/s', permanent: true},
+      {source: '/browse/:context', destination: '/s', permanent: true},
+      {
+        source: '/browse/:context/:tag',
+        destination: '/s/:tag',
+        permanent: true,
+      },
+      {
+        source: '/courses/:title/:all*',
+        destination: 'https://app.egghead.io/courses/:title/:all*',
+        permanent: true,
+      },
+      {
+        source: '/users/:all*',
+        destination: 'https://app.egghead.io/users/:all*',
+        permanent: true,
+      },
+      {
+        source: '/admin/:all*',
+        destination: 'https://app.egghead.io/admin/:all*',
+        permanent: true,
+      },
+      {
+        source: '/feed',
+        destination: 'https://app.egghead.io/feed',
+        permanent: true,
+      },
+      {
+        source: '/lessons/pro_feed',
+        destination: 'https://app.egghead.io/lessons/pro_feed',
+        permanent: true,
+      },
+      {
+        source: '/lessons/feed',
+        destination: 'https://app.egghead.io/lessons/feed',
+        permanent: true,
+      },
+      {
+        source: '/courses/:id/course_feed',
+        destination: 'https://app.egghead.io/courses/:id/course_feed',
+        permanent: true,
+      },
+      {
+        source: '/instructors/:id/feed',
+        destination: 'https://app.egghead.io/instructors/:id/feed',
+        permanent: true,
+      },
+      {
+        source: '/playlists/:id/playlist_feed',
+        destination: 'https://app.egghead.io/playlists/:id/playlist_feed',
+        permanent: true,
+      },
+      {
+        source: '/api/v1/:all*',
+        destination: 'https://app.egghead.io/api/v1/:all*',
+        permanent: true,
+      },
+      {
+        source: '/graphql',
+        destination: 'https://app.egghead.io/graphql',
         permanent: true,
       },
     ]

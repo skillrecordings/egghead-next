@@ -1,5 +1,3 @@
-import {number} from 'yup'
-
 const formatDuration = (duration: number) => {
   const mins = Math.floor(duration / 60)
   const secs = duration % 60

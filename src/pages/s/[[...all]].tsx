@@ -14,6 +14,11 @@ import queryParamsPresent from 'utils/query-params-present'
 import {loadInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
+import getTracer from 'utils/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
+
+const tracer = getTracer('search-page')
+
 const createURL = (state: any) => `?${qs.stringify(state)}`
 
 const fullTextSearch = {
@@ -106,9 +111,11 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
 export default SearchIndex
 
 export const getServerSideProps: GetServerSideProps = async function ({
+  req,
   query,
   res,
 }) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate')
   const {all, ...rest} = query
   const initialSearchState = parseUrl(query)

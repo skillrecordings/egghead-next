@@ -1,22 +1,25 @@
-import {jsx} from '@emotion/core'
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get} from 'lodash'
-import Markdown from 'react-markdown'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import LessonInfo from 'components/pages/lessons/LessonInfo'
+import Transcript from 'components/pages/lessons/Transcript'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import getTracer from 'utils/honeycomb-tracer'
+import {setupHttpTracing} from '@vercel/tracing-js'
+
+const tracer = getTracer('lesson-page')
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -63,13 +66,6 @@ const useNextUpData = (url: string) => {
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
-const Transcript: FunctionComponent<{url: string}> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
-  return data ? (
-    <Markdown className="prose md:prose-xl">{data.text}</Markdown>
-  ) : null
-}
-
 const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -87,14 +83,11 @@ const lessonLoader = (slug: string, token: string) => {
 
 const NextResourceButton: FunctionComponent<{
   path: string
-  onClick: () => void
   className: string
-}> = ({children, path, onClick, className = ''}) => {
+}> = ({children, path, className = ''}) => {
   return (
     <Link href={path || '#'}>
-      <a className={className} onClick={onClick}>
-        {children || 'Next Lesson'}
-      </a>
+      <a className={className}>{children || 'Next Lesson'}</a>
     </Link>
   )
 }
@@ -129,11 +122,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   if (error) logout()
 
   const lesson = {...initialLesson, ...data.lesson}
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-
-  if (!lesson) return null
 
   const {
     instructor,
@@ -174,14 +162,31 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         send('NEXT')
         break
     }
-  }, [currentPlayerState, data.lesson])
+  }, [
+    currentPlayerState,
+    dash_url,
+    data.lesson,
+    free_forever,
+    hls_url,
+    send,
+    viewer,
+  ])
+
+  React.useEffect(() => {
+    const handleRouteChange = () => {
+      send('LOAD')
+    }
+    router.events.on('routeChangeStart', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [router.events, send])
 
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
-  const playerVisible: boolean =
-    currentPlayerState === 'playing' ||
-    currentPlayerState === 'paused' ||
-    currentPlayerState === 'viewing'
+  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
+    playerState.matches,
+  )
 
   return (
     <>
@@ -219,12 +224,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   ref={playerRef}
                   hls_url={hls_url}
                   dash_url={dash_url}
+                  playing={playerState.matches('playing')}
                   width="100%"
                   height="auto"
                   pip="true"
                   controls
                   onPlay={() => send('PLAY')}
-                  onPause={() => send('PAUSE')}
+                  onPause={() => {
+                    send('PAUSE')
+                  }}
                   onEnded={() => send('COMPLETE')}
                   subtitlesUrl={get(lesson, 'subtitles_url')}
                 />
@@ -276,7 +284,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </button>
                     <NextResourceButton
                       path={nextUpPath}
-                      onClick={() => send('LOAD')}
                       className="bg-gray-300 rounded p-2 flex items-center ml-4"
                     >
                       <IconPlay className="w-6 mr-3" /> Load the Next Video
@@ -305,7 +312,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <TabPanels className="mt-6">
                   {transcript_url && (
                     <TabPanel>
-                      <Transcript url={transcript_url} />
+                      <Transcript
+                        player={playerRef}
+                        url={transcript_url}
+                        fetcher={fetcher}
+                        playVideo={() => send('PLAY')}
+                      />
                     </TabPanel>
                   )}
                   <TabPanel>
@@ -336,10 +348,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 export default Lesson
 
 export const getServerSideProps: GetServerSideProps = async function ({
+  req,
   res,
   params,
 }) {
-  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   const initialLesson: LessonResource | undefined =
     params && (await loadLesson(params.slug as string))

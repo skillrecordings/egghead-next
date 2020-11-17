@@ -1,3 +1,4 @@
+import * as React from 'react'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
 import useSWR from 'swr'
@@ -25,7 +26,7 @@ const Collection: FunctionComponent<CollectionProps> = ({collection}) => {
       <div className="flex items-center justify-center flex-wrap sm:gap-8 gap-5">
         <div className="flex items-center">
           <div className="overflow-hidden rounded-full w-12 h-12">
-            <img src={avatar_url} alt={`photo of ${owner.full_name}`} />
+            <img src={avatar_url} alt={`${owner.full_name}`} />
           </div>
           <span className="ml-2">{owner.full_name}</span>
         </div>

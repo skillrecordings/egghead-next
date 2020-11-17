@@ -54,7 +54,10 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
         {syncingAccount ? (
           <>
             <h1>
-              ♻️ Currently syncing your egghead account to the egghead Discord
+              <span role="img" aria-label="recycle">
+                ♻️
+              </span>{' '}
+              Currently syncing your egghead account to the egghead Discord
               server. Please wait!
             </h1>
           </>

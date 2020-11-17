@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from 'react'
-import {useRouter} from 'next/router'
 import {motion, AnimateSharedLayout, AnimatePresence} from 'framer-motion'
 import Head from 'next/head'
 import Hits from './hits'
@@ -41,10 +40,6 @@ const Search: FunctionComponent<SearchProps> = ({
     return get(searchState, 'refinementList.instructor_name', []).length === 0
   }
 
-  const noTagsSelected = (searchState: any) => {
-    return get(searchState, 'refinementList._tags', []).length === 0
-  }
-
   const onlyTheseTagsSelected = (tags: string[], searchState: any) => {
     const selectedTags = get(
       searchState,
@@ -52,18 +47,6 @@ const Search: FunctionComponent<SearchProps> = ({
       [],
     ) as string[]
     return isEqual(tags, selectedTags)
-  }
-
-  const onlyTheseInstructorsSelected = (
-    instructors: string[],
-    searchState: any,
-  ) => {
-    const selectedTags = get(
-      searchState,
-      'refinementList.instructor_name',
-      [],
-    ) as string[]
-    return isEqual(instructors, selectedTags)
   }
 
   const isRefinementOn =
@@ -78,11 +61,10 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const refinementRef = React.useRef(null)
   useClickAway(refinementRef, () => setShowFilter(false))
-  const router = useRouter()
 
   React.useEffect(() => {
     setShowFilter(false)
-  }, [router])
+  }, [setShowFilter])
 
   return (
     <>
@@ -223,12 +205,12 @@ const Search: FunctionComponent<SearchProps> = ({
                     <RefinementList isShown={isFilterShown} attribute="type" />
                   </div>
                   {isRefinementOn && (
-                    <div
+                    <button
                       className="absolute top-0 right-0 mr-3 mt-3"
                       onClick={setShowFilter}
                     >
                       <ClearRefinements />
-                    </div>
+                    </button>
                   )}
                 </motion.div>
               </motion.div>

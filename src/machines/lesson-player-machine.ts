@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import LessonInfo from 'components/pages/lessons/LessonInfo'
 import {Machine, assign} from 'xstate'
 
 interface PlayerStateSchema {
@@ -138,7 +137,6 @@ const playerMachine = Machine<
   {
     actions: {
       sendTelemetry: (context, event) => {
-        console.log(context, event)
         function verbForEvent(event: string) {
           switch (event) {
             case 'PAUSE':

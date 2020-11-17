@@ -6,20 +6,12 @@ import nameToSlug from './name-to-slug'
 import humanize from 'humanize-list'
 import {first, pickBy, isEmpty, isUndefined} from 'lodash'
 
-const resourceTypes = {
-  resource: 'resources',
-  lessons: 'lessons',
-  talks: 'talks',
-  podcasts: 'podcasts',
-  collections: 'collections',
-}
-
 export const CREATOR_DELINIATOR = 'resources-by'
 
 const nameSlugToName = (slug: string) => {
   const nameSplit = slug.split('-')
   if (nameSplit.length === 3) {
-    nameSplit[1] = nameSplit[1].length == 1 ? `${nameSplit[1]}.` : nameSplit[1]
+    nameSplit[1] = nameSplit[1].length === 1 ? `${nameSplit[1]}.` : nameSplit[1]
   }
   return nameSplit.map(toTitleCase).join(' ')
 }

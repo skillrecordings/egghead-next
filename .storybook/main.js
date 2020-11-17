@@ -4,6 +4,10 @@ module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
   webpackFinal: (config) => {
+    // Resolve aliases like "import utils/time-utils"
+    config.resolve.modules.push(process.cwd() + '/node_modules')
+    config.resolve.modules.push(process.cwd() + '/src')
+
     // Necessary to "mock" next/image in Storybook land
     config.plugins.push(
       new webpack.DefinePlugin({
