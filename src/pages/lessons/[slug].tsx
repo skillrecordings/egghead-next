@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent, useState, useEffect} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -143,8 +143,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
-  React.useEffect(() => {
-    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
+  useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
         if (!isEmpty(data.lesson)) {
@@ -176,10 +175,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     hls_url,
     send,
     viewer,
-    height,
   ])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleRouteChange = () => {
       send('LOAD')
     }
@@ -188,6 +186,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       router.events.off('routeChangeStart', handleRouteChange)
     }
   }, [router.events, send])
+
+  useEffect(() => {
+    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
+  }, [height])
 
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
