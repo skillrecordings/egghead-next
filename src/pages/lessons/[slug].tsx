@@ -19,7 +19,6 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {number} from 'yup'
 
 const tracer = getTracer('lesson-page')
 
