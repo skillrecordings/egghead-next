@@ -124,7 +124,7 @@ const reactTopics = [
   },
 ]
 
-export function TopicListComponent() {
+export default function TopicListComponent() {
   return (
     <div className="mb-2">
       <br />
