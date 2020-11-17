@@ -96,6 +96,16 @@ const nextConfig = {
         destination: 'https://app.egghead.io/playlists/:id/playlist_feed',
         permanent: true,
       },
+      {
+        source: '/api/:all*',
+        destination: 'https://app.egghead.io/api/:all*',
+        permanent: true,
+      },
+      {
+        source: '/graphql',
+        destination: 'https://app.egghead.io/graphql',
+        permanent: true,
+      },
     ]
   },
 }
