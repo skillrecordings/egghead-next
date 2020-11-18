@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {convertTimeWithTitles} from 'utils/time-utils'
+import capitalize from 'lodash/capitalize'
 
 type HitComponentProps = {
   hit: any
@@ -50,7 +51,6 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
               <h2 className="sm:text-lg text-base font-semibold leading-tight hover:underline">
                 {title}
               </h2>
-              <label className='uppercase text-gray-500 text-sm'>{type}</label>
             </a>
           </Link>
           <div className="sm:text-sm text-sm font-light text-gray-600">
@@ -63,7 +63,8 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                 ・
               </>
             )}
-            {convertTimeWithTitles(duration)}
+            {duration && <>{convertTimeWithTitles(duration)}・</>}
+            {capitalize(type)}
           </div>
         </div>
       </div>

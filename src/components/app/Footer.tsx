@@ -3,7 +3,7 @@ import {FunctionComponent} from 'react'
 import Link from '../Link'
 import Eggo from '../images/eggo.svg'
 
-const Nav: FunctionComponent = () => {
+const FooterNavigation: FunctionComponent = () => {
   return (
     <nav className="flex items-start justify-between w-full border-t border-gray-200 sm:py-10 py-6">
       <div className="grid grid-cols-2 gap-10 leading-relaxed sm:text-base text-sm">
@@ -82,7 +82,7 @@ const Nav: FunctionComponent = () => {
 const Footer: FunctionComponent = () => {
   return (
     <footer className="max-w-screen-3xl w-full mx-auto sm:p-8 p-3">
-      <Nav />
+      <FooterNavigation />
       <div className="text-xs mt-8 w-full flex items-center sm:justify-end text-gray-600">
         <div className="pr-6">©egghead.io</div>
         <Link href="/privacy">
