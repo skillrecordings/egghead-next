@@ -7,9 +7,9 @@ import Main from './Main'
 const Layout: FunctionComponent = ({children}) => {
   return (
     <>
-      <Header></Header>
+      <Header />
       <Main>{children}</Main>
-      <Footer></Footer>
+      <Footer />
     </>
   )
 }
