@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState, useEffect} from 'react'
+import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -108,10 +108,11 @@ type LessonProps = {
 }
 
 const OFFSET_Y = 80
-const VIDEO_MIN_HEIGHT = 360
+const VIDEO_MIN_HEIGHT = 480
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
+  console.log('height: ', height)
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
@@ -144,7 +145,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
-  useEffect(() => {
+  React.useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
         if (!isEmpty(data.lesson)) {
@@ -178,7 +179,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     viewer,
   ])
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleRouteChange = () => {
       send('LOAD')
     }
@@ -188,7 +189,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [router.events, send])
 
-  useEffect(() => {
+  React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
@@ -222,14 +223,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div key={lesson.slug} className="w-full m-auto">
-        <div className="space-y-10">
+      <div key={lesson.slug} className="space-y-10 w-full">
+        <div className="bg-black -mt-3 sm:-mt-5">
           <div
             className="w-full m-auto"
             css={{
-              '@media (min-width: 768px)': {
+              '@media (min-width: 860px) and (max-height: 560px)': {
                 maxWidth:
-                  height > VIDEO_MIN_HEIGHT + OFFSET_Y ? lessonMaxWidth : 576,
+                  height > VIDEO_MIN_HEIGHT + OFFSET_Y
+                    ? lessonMaxWidth
+                    : VIDEO_MIN_HEIGHT * 1.6,
                 minHeight: VIDEO_MIN_HEIGHT,
               },
             }}
@@ -320,6 +323,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="px-3 sm:px-4 lg:px-8">
           <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl mx-auto">
             <div className="md:col-span-8">
               <Tabs>
