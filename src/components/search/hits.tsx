@@ -7,11 +7,11 @@ type CustomHitsProps = {
 }
 
 const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => (
-  <div>
+  <>
     {hits.map((hit) => (
       <HitComponent key={hit.objectID} hit={hit} />
     ))}
-  </div>
+  </>
 )
 
 const Hits = connectHits(CustomHits)

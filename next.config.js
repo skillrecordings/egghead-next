@@ -13,9 +13,6 @@ checkEnv({
 
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    reactMode: 'concurrent',
-  },
   images: {
     domains: ['d2eip9sf3oo6c2.cloudfront.net', 'image.simplecastcdn.com'],
   },
