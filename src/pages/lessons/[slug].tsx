@@ -228,12 +228,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           <div
             className="w-full m-auto"
             css={{
-              '@media (min-width: 860px) and (max-height: 560px)': {
+              '@media (min-width: 960px)': {
                 maxWidth:
                   height > VIDEO_MIN_HEIGHT + OFFSET_Y
                     ? lessonMaxWidth
                     : VIDEO_MIN_HEIGHT * 1.6,
-                minHeight: VIDEO_MIN_HEIGHT,
+              },
+              '@media (min-width: 960px) and (max-height: 560px)': {
+                minHeight: '432px',
               },
             }}
           >
