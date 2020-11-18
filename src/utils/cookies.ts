@@ -20,8 +20,8 @@ const cookieUtil = {
       return value
     }
   },
-  remove(name: string) {
-    cookies.remove(name)
+  remove(name: string, options: any = {}) {
+    cookies.remove(name, options)
   },
 }
 

@@ -1,0 +1,26 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import Podcast from './podcast'
+
+export const podcast = {
+  id: 7,
+  title:
+    'Kent C. Dodds Chats About How Epic React was Designed for Learner Success',
+  image_url:
+    'https://image.simplecastcdn.com/images/e21d35da-a28e-4f59-97cc-3c82e6b81011/83951ec7-07a5-40d2-9cb3-82985c7bb2b4/kent-logo.jpg',
+  path: '/#',
+  contributors: ['Joel Hooks'],
+  description: 'Some awesome podcast',
+  episode_number: 1,
+}
+
+<Meta title="Components/Podcasts/Podcast" />
+
+# "More Podcasts" Component
+
+"More Podcasts" component for podcast UI.
+
+<Canvas>
+  <Story name="Default">
+    <Podcast podcast={podcast} />
+  </Story>
+</Canvas>

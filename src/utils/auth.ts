@@ -68,6 +68,7 @@ export default class Auth {
 
         cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
           expires: parseInt(expiresAt, 10),
+          domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
         })
         return user
       })
@@ -147,7 +148,9 @@ export default class Auth {
     localStorage.removeItem(USER_KEY)
     localStorage.removeItem(VIEWING_AS_USER_KEY)
 
-    cookie.remove(ACCESS_TOKEN_KEY)
+    cookie.remove(ACCESS_TOKEN_KEY, {
+      domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+    })
   }
 
   isAuthenticated() {
@@ -198,11 +201,19 @@ export default class Auth {
       const expiresAt = JSON.stringify(
         (expires as number) * 1000 + new Date().getTime(),
       )
+      const now: number = new Date().getTime()
+
+      const expiresInDays = Math.floor(
+        (Number(expiresAt) - now) / (60 * 60 * 24 * 1000),
+      )
+
+      console.log(expiresInDays)
 
       localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)
       localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
       cookie.set(ACCESS_TOKEN_KEY, authResult.accessToken, {
-        expires: parseInt(expiresAt, 10),
+        expires: expiresInDays,
+        domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
       })
       resolve(this.refreshUser(authResult.accessToken))
     })
