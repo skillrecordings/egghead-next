@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -7,6 +7,7 @@ import {isEmpty, get} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
+import {useWindowSize} from 'react-use'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import LessonInfo from 'components/pages/lessons/LessonInfo'
@@ -106,7 +107,13 @@ type LessonProps = {
   initialLesson: LessonResource
 }
 
+const OFFSET_Y = 80
+const VIDEO_MIN_HEIGHT = 480
+
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
+  const {height} = useWindowSize()
+  console.log('height: ', height)
+  const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout, viewer} = useViewer()
@@ -182,6 +189,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [router.events, send])
 
+  React.useEffect(() => {
+    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
+  }, [height])
+
   const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
   const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
@@ -212,94 +223,109 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div key={lesson.slug}>
-        <div className="space-y-10">
+      <div key={lesson.slug} className="space-y-10 w-full">
+        <div className="bg-black -mt-3 sm:-mt-5">
           <div
-            className="relative overflow-hidden bg-gray-200"
-            css={{paddingTop: '56.25%'}}
+            className="w-full m-auto"
+            css={{
+              '@media (min-width: 860px) and (max-height: 560px)': {
+                maxWidth:
+                  height > VIDEO_MIN_HEIGHT + OFFSET_Y
+                    ? lessonMaxWidth
+                    : VIDEO_MIN_HEIGHT * 1.6,
+                minHeight: VIDEO_MIN_HEIGHT,
+              },
+            }}
           >
-            <div className="absolute w-full h-full top-0 left-0">
-              {playerVisible && (
-                <EggheadPlayer
-                  ref={playerRef}
-                  hls_url={hls_url}
-                  dash_url={dash_url}
-                  playing={playerState.matches('playing')}
-                  width="100%"
-                  height="auto"
-                  pip="true"
-                  controls
-                  onPlay={() => send('PLAY')}
-                  onPause={() => {
-                    send('PAUSE')
-                  }}
-                  onEnded={() => send('COMPLETE')}
-                  subtitlesUrl={get(lesson, 'subtitles_url')}
-                />
-              )}
+            <div
+              className="w-full relative overflow-hidden bg-gray-200"
+              css={{paddingTop: '56.25%'}}
+            >
+              <div className="absolute w-full h-full top-0 left-0">
+                {playerVisible && (
+                  <EggheadPlayer
+                    ref={playerRef}
+                    hls_url={hls_url}
+                    dash_url={dash_url}
+                    playing={playerState.matches('playing')}
+                    width="100%"
+                    height="auto"
+                    pip="true"
+                    controls
+                    onPlay={() => send('PLAY')}
+                    onPause={() => {
+                      send('PAUSE')
+                    }}
+                    onEnded={() => send('COMPLETE')}
+                    subtitlesUrl={get(lesson, 'subtitles_url')}
+                  />
+                )}
 
-              {currentPlayerState === 'joining' && (
-                <>
+                {currentPlayerState === 'joining' && (
+                  <>
+                    <OverlayWrapper>
+                      <h2 className="text-xl font-bold">
+                        This Lesson is Free to Watch
+                      </h2>
+                      <Link href="/login">
+                        <a className="no-underline hover:underline text-blue-500">
+                          Click here to Create an Account or Login to View
+                        </a>
+                      </Link>
+                    </OverlayWrapper>
+                  </>
+                )}
+                {currentPlayerState === 'subscribing' && (
                   <OverlayWrapper>
                     <h2 className="text-xl font-bold">
-                      This Lesson is Free to Watch
+                      This Lesson is an egghead Member Exclusive
                     </h2>
-                    <Link href="/login">
+                    <Link href="/pricing">
                       <a className="no-underline hover:underline text-blue-500">
-                        Click here to Create an Account or Login to View
+                        Click here to join today and unlock this lesson!
                       </a>
                     </Link>
                   </OverlayWrapper>
-                </>
-              )}
-              {currentPlayerState === 'subscribing' && (
-                <OverlayWrapper>
-                  <h2 className="text-xl font-bold">
-                    This Lesson is an egghead Member Exclusive
-                  </h2>
-                  <Link href="/pricing">
-                    <a className="no-underline hover:underline text-blue-500">
-                      Click here to join today and unlock this lesson!
-                    </a>
-                  </Link>
-                </OverlayWrapper>
-              )}
-              {currentPlayerState === 'showingNext' && (
-                <OverlayWrapper>
-                  <img
-                    src={lesson.course.square_cover_480_url}
-                    alt=""
-                    className="w-32"
-                  />
-                  <div className="mt-8">Up Next</div>
-                  <h3 className="text-xl font-semibold mt-4">
-                    {nextLessonTitle}
-                  </h3>
-                  <div className="flex mt-16">
-                    <button
-                      className="bg-gray-300 rounded p-2 flex items-center"
-                      onClick={() => send('LOAD')}
-                    >
-                      <IconRefresh className="w-6 mr-3" /> Watch Again
-                    </button>
-                    <NextResourceButton
-                      path={nextUpPath}
-                      className="bg-gray-300 rounded p-2 flex items-center ml-4"
-                    >
-                      <IconPlay className="w-6 mr-3" /> Load the Next Video
-                    </NextResourceButton>
-                  </div>
-                  <div className="mt-20">
-                    Feeling stuck?{' '}
-                    <a href="#" className="font-semibold">
-                      Get help from egghead community
-                    </a>
-                  </div>
-                </OverlayWrapper>
-              )}
+                )}
+                {currentPlayerState === 'showingNext' && (
+                  <OverlayWrapper>
+                    <img
+                      src={lesson.course.square_cover_480_url}
+                      alt=""
+                      className="w-32"
+                    />
+                    <div className="mt-8">Up Next</div>
+                    <h3 className="text-xl font-semibold mt-4">
+                      {nextLessonTitle}
+                    </h3>
+                    <div className="flex mt-16">
+                      <button
+                        className="bg-gray-300 rounded p-2 flex items-center"
+                        onClick={() => send('LOAD')}
+                      >
+                        <IconRefresh className="w-6 mr-3" /> Watch Again
+                      </button>
+                      <NextResourceButton
+                        path={nextUpPath}
+                        className="bg-gray-300 rounded p-2 flex items-center ml-4"
+                      >
+                        <IconPlay className="w-6 mr-3" /> Load the Next Video
+                      </NextResourceButton>
+                    </div>
+                    <div className="mt-20">
+                      Feeling stuck?{' '}
+                      <a href="#" className="font-semibold">
+                        Get help from egghead community
+                      </a>
+                    </div>
+                  </OverlayWrapper>
+                )}
+              </div>
             </div>
           </div>
-          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto">
+        </div>
+        <div className="px-3 sm:px-4 lg:px-8">
+          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl mx-auto">
             <div className="md:col-span-8">
               <Tabs>
                 <TabList
