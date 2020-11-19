@@ -64,6 +64,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/gifts/:all*',
+        destination: 'https://app.egghead.io/gifts/:all*',
+        permanent: true,
+      },
+      {
         source: '/feed',
         destination: 'https://app.egghead.io/feed',
         permanent: true,
