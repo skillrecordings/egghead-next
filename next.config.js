@@ -49,8 +49,8 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/courses/:title/:all*',
-        destination: 'https://app.egghead.io/courses/:title/:all*',
+        source: '/courses/:title/:rest(.+)',
+        destination: 'https://app.egghead.io/courses/:title/:rest',
         permanent: true,
       },
       {
