@@ -31,6 +31,9 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
         title={title}
         description={description}
         titleTemplate={titleAppendSiteName ? undefined : '%s'}
+        twitter={{
+          cardType: ogImage ? 'summary_large_image' : 'summary',
+        }}
         openGraph={{
           title,
           description,
@@ -39,8 +42,8 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="md:max-w-4xl mx-auto leading-relaxed mb-16">
-        <h1 className="font-extrabold mb-12 mt-16 lg:mb-10 leading-tight text-5xl md:text-6xl">
+      <div className="sm:px-8 px-5 max-w-4xl mx-auto leading-relaxed mb-16">
+        <h1 className="font-extrabold sm:mb-12 mb-6 sm:mt-16 mt-8 lg:mb-10 leading-tight md:text-6xl text-4xl">
           {title}
         </h1>
         {contributors && (

@@ -42,7 +42,10 @@ const TopicList = () => {
       <div className="flex flex-wrap">
         {generalTopicList.map((x, i) => {
           return (
-            <div className="py-2 px-4 border border-gray-300 mr-2 mb-2 rounded-md">
+            <div
+              key={x.headline}
+              className="py-2 px-4 border border-gray-300 mr-2 mb-2 rounded-md"
+            >
               <p>{x.headline}</p>
             </div>
           )

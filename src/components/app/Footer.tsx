@@ -5,7 +5,7 @@ import Eggo from '../images/eggo.svg'
 
 const FooterNavigation: FunctionComponent = () => {
   return (
-    <nav className="flex items-start justify-between w-full border-t border-gray-200 sm:py-10 py-6">
+    <nav className="flex sm:flex-row flex-col sm:items-end items-center justify-between w-full border-t border-gray-200 sm:pt-10 pt-6">
       <div className="grid grid-cols-2 gap-10 leading-relaxed sm:text-base text-sm">
         <div>
           <h5 className="font-semibold tracking-wide text-xs text-gray-600 mb-2 uppercase">
@@ -70,11 +70,19 @@ const FooterNavigation: FunctionComponent = () => {
           </ul>
         </div>
       </div>
-      <Link href="/">
-        <a>
-          <Eggo className="sm:w-10 w-8" />
-        </a>
-      </Link>
+      <div className="h-full flex flex-col sm:items-end items-center sm:mt-0 mt-16">
+        <Link href="/">
+          <a>
+            <Eggo className="sm:w-10 w-8" />
+          </a>
+        </Link>
+        <div className="text-xs mt-8 w-full flex items-center sm:justify-end text-gray-600">
+          <div className="pr-6">©egghead.io</div>
+          <Link href="/privacy">
+            <a>Terms & Conditions</a>
+          </Link>
+        </div>
+      </div>
     </nav>
   )
 }
@@ -83,12 +91,6 @@ const Footer: FunctionComponent = () => {
   return (
     <footer className="max-w-screen-3xl w-full mx-auto sm:p-8 p-3">
       <FooterNavigation />
-      <div className="text-xs mt-8 w-full flex items-center sm:justify-end text-gray-600">
-        <div className="pr-6">©egghead.io</div>
-        <Link href="/privacy">
-          <a>Terms & Conditions</a>
-        </Link>
-      </div>
     </footer>
   )
 }
