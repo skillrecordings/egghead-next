@@ -42,7 +42,7 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="sm:px-8 px-5 max-w-4xl mx-auto leading-relaxed mb-16">
+      <div className="max-w-4xl mx-auto leading-relaxed mb-16">
         <h1 className="font-extrabold sm:mb-12 mb-6 sm:mt-16 mt-8 lg:mb-10 leading-tight md:text-6xl text-4xl">
           {title}
         </h1>
