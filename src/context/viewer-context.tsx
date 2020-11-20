@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
+import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
 
 export const auth = new Auth()
 
@@ -31,6 +32,7 @@ export const ViewerContext = React.createContext(defaultViewerContext)
 function useAuthedViewer() {
   const router = useRouter()
   const [viewer, setViewer] = React.useState()
+  const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
 
@@ -43,17 +45,18 @@ function useAuthedViewer() {
   })
 
   React.useEffect(() => {
+    const authToken = getAccessTokenFromCookie()
     const queryHash = queryString.parse(window.location.hash)
     const accessToken = get(queryHash, 'access_token')
     const noAccessTokenFound = isEmpty(accessToken)
-    const viewerIsPresent = !isEmpty(viewer)
+    const viewerIsPresent = !isEmpty(viewerId)
 
     let viewerMonitorIntervalId: number | undefined
 
     const loadViewerFromStorage = async () => {
       console.log(`loading viewer from storage`)
       const newViewer: any = await auth.refreshUser()
-      if (!isEqual(newViewer, viewer)) {
+      if (!isEqual(newViewer.id, viewerId)) {
         setViewer(newViewer)
       }
       setLoading(() => false)
@@ -79,7 +82,19 @@ function useAuthedViewer() {
       }
     }
 
-    if (viewerIsPresent) {
+    if (authToken) {
+      auth
+        .refreshUser()
+        .then((refreshedViewer: any) => {
+          setViewer(refreshedViewer)
+          console.log(`refresh user from cookie auth token`)
+          setLoading(() => false)
+        })
+        .catch((error) => {
+          // if it is a 403, clear out the token and then call auth.monitor?
+          console.log('Catching this error: ', error.message)
+        })
+    } else if (viewerIsPresent) {
       loadViewerFromStorage()
       clearAccessToken()
     } else if (noAccessTokenFound) {
@@ -95,7 +110,7 @@ function useAuthedViewer() {
     }
 
     return clearUserMonitorInterval
-  }, [viewer])
+  }, [viewerId])
 
   const values = React.useMemo(
     () => ({

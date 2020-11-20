@@ -215,11 +215,11 @@ export default class Auth {
     })
   }
 
-  getAuthToken() {
+  getAuthToken(force = false) {
     if (typeof localStorage === 'undefined') {
       return
     }
-    if (this.isAuthenticated()) {
+    if (force || this.isAuthenticated()) {
       return cookie.get(ACCESS_TOKEN_KEY)
     }
   }
