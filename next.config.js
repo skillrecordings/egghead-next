@@ -54,6 +54,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/lessons/:title/:rest(.+)',
+        destination: 'https://app.egghead.io/lessons/:title/:rest',
+        permanent: true,
+      },
+      {
+        source: '/podcasts/:title/:rest(.+)',
+        destination: 'https://app.egghead.io/podcasts/:title/:rest',
+        permanent: true,
+      },
+      {
         source: '/users/:all*',
         destination: 'https://app.egghead.io/users/:all*',
         permanent: true,

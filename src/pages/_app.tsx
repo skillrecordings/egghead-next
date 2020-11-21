@@ -14,6 +14,7 @@ import '@reach/tabs/styles.css'
 import '../styles/index.css'
 import Router from 'next/router'
 import {ConvertkitProvider} from 'hooks/use-convertkit'
+import {FacebookPixel} from 'components/facebook-pixel'
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ export default class App extends NextApp {
     const {Component, pageProps} = this.props
     return (
       <>
+        <FacebookPixel />
         <DefaultSeo {...defaultSeoConfig} />
         <SocialProfileJsonLd
           type="Organization"
