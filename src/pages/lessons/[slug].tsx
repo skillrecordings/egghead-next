@@ -112,7 +112,6 @@ const VIDEO_MIN_HEIGHT = 480
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
-  console.log('height: ', height)
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
@@ -224,7 +223,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }}
       />
       <div key={lesson.slug} className="space-y-10 w-full">
-        <div className="bg-black -mt-3 sm:-mt-5">
+        <div className="bg-black -mt-3 sm:-mt-5 sm:-mx-8 -mx-5">
           <div
             className="w-full m-auto"
             css={{
@@ -264,26 +263,24 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
 
                 {currentPlayerState === 'joining' && (
-                  <>
-                    <OverlayWrapper>
-                      <h2 className="text-xl font-bold">
-                        This Lesson is Free to Watch
-                      </h2>
-                      <Link href="/login">
-                        <a className="no-underline hover:underline text-blue-500">
-                          Click here to Create an Account or Login to View
-                        </a>
-                      </Link>
-                    </OverlayWrapper>
-                  </>
+                  <OverlayWrapper>
+                    <h2 className="sm:text-xl text-lg leading-tight font-bold text-center">
+                      This Lesson is Free to Watch
+                    </h2>
+                    <Link href="/login">
+                      <a className="no-underline hover:underline text-blue-500 mt-5 text-center">
+                        Click here to Create an Account or Login to View
+                      </a>
+                    </Link>
+                  </OverlayWrapper>
                 )}
                 {currentPlayerState === 'subscribing' && (
                   <OverlayWrapper>
-                    <h2 className="text-xl font-bold">
+                    <h2 className="sm:text-xl text-lg leading-tight font-bold text-center">
                       This Lesson is an egghead Member Exclusive
                     </h2>
                     <Link href="/pricing">
-                      <a className="no-underline hover:underline text-blue-500">
+                      <a className="no-underline hover:underline text-blue-500 mt-5 text-center">
                         Click here to join today and unlock this lesson!
                       </a>
                     </Link>
@@ -326,7 +323,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             </div>
           </div>
         </div>
-        <div className="px-3 sm:px-4 lg:px-8">
+        <div className="">
           <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl mx-auto">
             <div className="md:col-span-8">
               <Tabs>

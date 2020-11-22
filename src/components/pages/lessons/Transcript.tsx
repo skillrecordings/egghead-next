@@ -94,7 +94,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     <ReactMarkdown
       skipHtml={false}
       renderers={{link: LinkReference}}
-      className="prose md:prose-xl"
+      className="prose md:prose-xl max-w-none"
     >
       {transcript || ''}
     </ReactMarkdown>
