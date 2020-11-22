@@ -3,6 +3,7 @@ import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import * as serverCookie from 'cookie'
 
 const session = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log(req.method)
   if (req.method === 'DELETE') {
     res.setHeader('Set-Cookie', [
       serverCookie.serialize(ACCESS_TOKEN_KEY, '', {
@@ -13,7 +14,7 @@ const session = async (req: NextApiRequest, res: NextApiResponse) => {
       }),
     ])
 
-    res.writeHead(302)
+    res.writeHead(200)
     res.end()
   } else {
     res.statusCode = 404

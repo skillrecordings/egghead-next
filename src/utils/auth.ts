@@ -94,7 +94,7 @@ export default class Auth {
 
   logout() {
     track('logged out')
-    this.clearLocalStorage()
+    return this.clearLocalStorage()
   }
 
   monitor(onInterval: {(): void; (...args: any[]): void}, delay = 2000) {
@@ -140,19 +140,16 @@ export default class Auth {
   }
 
   clearLocalStorage() {
-    if (typeof localStorage === 'undefined') {
-      return
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(ACCESS_TOKEN_KEY)
+      localStorage.removeItem(EXPIRES_AT_KEY)
+      localStorage.removeItem(USER_KEY)
+      localStorage.removeItem(VIEWING_AS_USER_KEY)
     }
-    localStorage.removeItem(ACCESS_TOKEN_KEY)
-    localStorage.removeItem(EXPIRES_AT_KEY)
-    localStorage.removeItem(USER_KEY)
-    localStorage.removeItem(VIEWING_AS_USER_KEY)
 
-    // cookie.remove(ACCESS_TOKEN_KEY, {
-    //   domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-    // })
-
-    axios.delete(`/api/v1/users/session`)
+    return axios
+      .delete(`/api/users/session`)
+      .catch((error) => console.error(error))
   }
 
   isAuthenticated() {

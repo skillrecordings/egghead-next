@@ -35,7 +35,7 @@ const Header: FunctionComponent = () => {
                 {viewer ? (
                   <li className="flex items-center justify-center">
                     <span>
-                      {viewer.full_name || 'member'} {viewer.is_pro && '⭐️'}
+                      {viewer.full_name || 'member'} {viewer.is_pro && ' ⭐️'}
                     </span>
                     <img
                       alt="avatar"
