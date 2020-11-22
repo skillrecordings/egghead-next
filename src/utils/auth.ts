@@ -11,10 +11,10 @@ export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
 
-export const USER_KEY = 'egghead_sellable_user'
-export const ACCESS_TOKEN_KEY = 'egghead_sellable_access_token'
-export const EXPIRES_AT_KEY = 'egghead_sellable_expires_at'
-export const VIEWING_AS_USER_KEY = 'egghead_sellable_viewing_as_user'
+export const USER_KEY = 'eh_user_2020_11_22'
+export const ACCESS_TOKEN_KEY = 'eh_token_2020_11_22'
+export const EXPIRES_AT_KEY = 'eh_token_expiration'
+export const VIEWING_AS_USER_KEY = 'eh_viewing_as_user_2020_11_22'
 
 export function getTokenFromCookieHeaders(serverCookies = '') {
   const parsedCookie = serverCookie.parse(serverCookies)
