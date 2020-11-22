@@ -32,14 +32,7 @@ const eggAxios = axios.create({
 })
 
 async function fetchEggheadUser(token: any) {
-  const {data: current} = await eggAxios.get(
-    `/api/v1/users/current?minimal=true`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  )
+  const {data: current} = await eggAxios.get(`/api/users/current?minimal=true`)
   log('successfully fetched egghead user')
   return current
 }
@@ -84,7 +77,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       )
 
       res.setHeader('Set-Cookie', ckCookie)
-      res.setHeader('Cache-Control', 'max-age=10')
+      res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
       res.status(200).json(subscriber)
     } catch (error) {
       console.log(error)

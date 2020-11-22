@@ -15,6 +15,7 @@ import '../styles/index.css'
 import Router from 'next/router'
 import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {FacebookPixel} from 'components/facebook-pixel'
+import configuredAhoy from 'utils/ahoy'
 
 declare global {
   interface Window {
@@ -22,7 +23,10 @@ declare global {
   }
 }
 
-Router.events.on('routeChangeComplete', () => window.ahoy.trackView())
+Router.events.on('routeChangeComplete', async () => {
+  const ahoy = await configuredAhoy()
+  if (ahoy) ahoy.trackView()
+})
 
 export default class App extends NextApp {
   render() {

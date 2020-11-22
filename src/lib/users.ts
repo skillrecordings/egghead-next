@@ -5,14 +5,7 @@ export async function loadCurrentUser(
   loadFullUser: boolean = true,
 ) {
   const user = await axios
-    .get(
-      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/current?minimal=${loadFullUser}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    )
+    .get(`/api/users/current?minimal=${loadFullUser}`)
     .then(({data}) => data)
 
   return user

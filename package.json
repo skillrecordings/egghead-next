@@ -42,6 +42,7 @@
     "@types/react-scroll": "^1.8.2",
     "@vercel/tracing-js": "^0.5.0",
     "@xstate/react": "^1.0.2",
+    "ahoy.js": "^0.3.7",
     "algoliasearch": "^4.6.0",
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",

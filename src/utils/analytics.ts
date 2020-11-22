@@ -3,22 +3,11 @@ import configuredAhoy from './ahoy'
 
 export const track = (
   event: string,
-  paramsOrCallback?:
-    | {
-        lesson?: any
-        tags?: any
-        course?: any
-        percent_completed?: number
-        first_lesson?: any
-        lesson_count?: any
-        final_lesson?: any
-        enhanced_transcripts_complete?: boolean
-      }
-    | undefined,
-  callback?: {(...args: any[]): any; apply?: any} | undefined,
+  paramsOrCallback?: any,
+  callback?: any,
 ) => {
-  return new Promise((resolve) => {
-    const ahoy = configuredAhoy()
+  return new Promise(async (resolve) => {
+    const ahoy = await configuredAhoy()
     let wasCalled = false
 
     const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback
@@ -51,7 +40,7 @@ export const track = (
 }
 
 export const identify = (data: unknown) => {
-  return new Promise((resolve) => resolve(data))
+  return Promise.resolve(data)
 }
 
 const analytics = {

@@ -148,9 +148,11 @@ export default class Auth {
     localStorage.removeItem(USER_KEY)
     localStorage.removeItem(VIEWING_AS_USER_KEY)
 
-    cookie.remove(ACCESS_TOKEN_KEY, {
-      domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-    })
+    // cookie.remove(ACCESS_TOKEN_KEY, {
+    //   domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+    // })
+
+    axios.delete(`/api/v1/users/session`)
   }
 
   isAuthenticated() {
@@ -160,7 +162,7 @@ export default class Auth {
     const storedExpiration = localStorage.getItem(EXPIRES_AT_KEY) || '0'
     const expiresAt = JSON.parse(storedExpiration)
     const expired = new Date().getTime() > expiresAt
-    if (expired) {
+    if (expiresAt > 0 && expired) {
       this.logout()
     }
     return !expired
@@ -174,13 +176,8 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
       }
-      const token = accessToken || cookie.get(ACCESS_TOKEN_KEY)
       http
-        .get(`${AUTH_DOMAIN}/api/v1/users/current?minimal=${loadFullUser}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .get(`/api/users/current?minimal=${loadFullUser}`, {})
         .then(({data}) => {
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)

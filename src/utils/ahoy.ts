@@ -1,13 +1,9 @@
-import getAccessTokenFromCookie from './getAccessTokenFromCookie'
-
-const configuredAhoy = () => {
+const configuredAhoy = async () => {
   const isServer = typeof window === 'undefined'
-  let ahoy
   if (!isServer) {
-    const token = getAccessTokenFromCookie()
-    ahoy = window.ahoy = window.ahoy || {}
+    const module = await import('ahoy.js')
+    const ahoy = module.default
     const headers = {
-      ...(token && {Authorization: `Bearer ${token}`}),
       'Ahoy-Visit': ahoy.getVisitId(),
       'Ahoy-Visitor': ahoy.getVisitorId(),
     }
@@ -25,8 +21,9 @@ const configuredAhoy = () => {
       headers,
       withCredentials: false,
     })
+    return ahoy
   }
-  return ahoy
+  return Promise.resolve()
 }
 
 export default configuredAhoy

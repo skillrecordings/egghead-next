@@ -1,19 +1,22 @@
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
+import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 
 const visits = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const response = await axios
+    const token = getAccessTokenFromCookie()
+    await axios
       .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/ahoy/visits`, req.body, {
-        headers: req.headers,
+        headers: {
+          ...(token && {Authorization: `Bearer ${token}`}),
+          ...req.headers,
+        },
       })
       .then(({data}) => data)
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(response))
+    res.status(200).end()
   } else {
     res.statusCode = 404
-    res.end()
+    res.status(404).end()
   }
 }
 
