@@ -46,7 +46,7 @@ export const track = (
     if (ahoy && isFunction(ahoy.track)) {
       ahoy.track(event, params)
     }
-    resolve()
+    resolve(true)
   })
 }
 
