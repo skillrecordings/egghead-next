@@ -18,42 +18,41 @@ const Header: FunctionComponent = () => {
             </span>
           </a>
         </Link>
-        <nav className="pl-5 overflow-x-auto">
-          <ul className="flex items-center">
-            <li className="sm:mr-8 mr-5">
-              <Link href="/learn" activeClassName="underline">
-                <a>Topics</a>
-              </Link>
-            </li>
-            <li className="sm:mr-8 mr-5">
-              <Link href="/s" activeClassName="underline">
-                <a>Search</a>
-              </Link>
-            </li>
-            {!loading && (
-              <>
-                {viewer ? (
-                  <li className="flex items-center justify-center">
-                    <span>
-                      {viewer.full_name || 'member'} {viewer.is_pro && ' ⭐️'}
-                    </span>
-                    <img
-                      alt="avatar"
-                      className="w-8 rounded-full"
-                      src={viewer.avatar_url}
-                    />
-                  </li>
-                ) : (
-                  <li>
-                    <Link href="/login" activeClassName="underline">
-                      <a>Sign in</a>
-                    </Link>
-                  </li>
-                )}
-              </>
-            )}
-          </ul>
-        </nav>
+        {!loading && (
+          <nav className="pl-5 overflow-x-auto">
+            <ul className="flex items-center">
+              <li className="sm:mr-8 mr-5">
+                <Link href="/learn" activeClassName="underline">
+                  <a>Topics</a>
+                </Link>
+              </li>
+              <li className="sm:mr-8 mr-5">
+                <Link href="/s" activeClassName="underline">
+                  <a>Search</a>
+                </Link>
+              </li>
+
+              {viewer ? (
+                <li className="flex items-center justify-center">
+                  <span>
+                    {viewer.full_name || 'member'} {viewer.is_pro && ' ⭐️'}
+                  </span>
+                  <img
+                    alt="avatar"
+                    className="w-8 rounded-full"
+                    src={viewer.avatar_url}
+                  />
+                </li>
+              ) : (
+                <li>
+                  <Link href="/login" activeClassName="underline">
+                    <a>Sign in</a>
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </nav>
+        )}
       </div>
     </header>
   )

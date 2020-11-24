@@ -109,17 +109,19 @@ export default class Auth {
         reject('no localstorage')
       }
       if (typeof window !== 'undefined') {
-        this.eggheadAuth.token.getToken(window.location).then(
+        const uri = window.location.href
+        console.log(uri)
+        window.history.pushState(
+          '',
+          document.title,
+          window.location.pathname + window.location.search,
+        )
+        this.eggheadAuth.token.getToken(uri).then(
           (user) => {
             this.setSession(user).then(
               () => {
                 identify(user)
                 track('authentication success')
-                window.history.pushState(
-                  '',
-                  document.title,
-                  window.location.pathname + window.location.search,
-                )
                 resolve(user)
               },
               (error) => {
