@@ -4,7 +4,7 @@ import {getTokenFromCookieHeaders, AUTH_DOMAIN} from 'utils/auth'
 
 const current = async (req: NextApiRequest, res: NextApiResponse) => {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-  if (req.method === 'GET') {
+  if (req.method === 'GET' && eggheadToken) {
     await axios
       .get(
         `${AUTH_DOMAIN}/api/v1/users/current?minimal=${
@@ -25,7 +25,7 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(error.response.status).end(error.response.statusText)
       })
   } else {
-    res.status(404).end()
+    res.status(200).end()
   }
 }
 

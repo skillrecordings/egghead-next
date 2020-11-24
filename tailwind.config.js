@@ -7,12 +7,6 @@ module.exports = {
     './components/**/*.mdx',
     './src/**/*.tsx',
   ],
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-    defaultLineHeights: true,
-    standardFontWeights: true,
-  },
   theme: {
     extend: {
       colors: {
