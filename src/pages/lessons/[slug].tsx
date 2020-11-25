@@ -54,6 +54,15 @@ const lessonQuery = /* GraphQL */ `
         slug
         twitter
       }
+      code {
+        embed_url
+        code_diff_url
+        github {
+          repo
+          user
+          branch
+        }
+      }
     }
   }
 `
@@ -143,6 +152,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     slug,
     free_forever,
   } = lesson
+
+  console.log('lesson: ', lesson)
 
   React.useEffect(() => {
     switch (currentPlayerState) {
