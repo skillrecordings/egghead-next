@@ -9,7 +9,7 @@ const Header: FunctionComponent = () => {
 
   return (
     <header className="px-4 py-3 sm:mb-5 mb-3 shadow-sm border-b border-gray-100 flex items-center justify-between">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto">
         <Link href="/">
           <a className="flex items-center">
             <Eggo className="w-8 mr-1" />
