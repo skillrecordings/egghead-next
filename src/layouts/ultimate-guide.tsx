@@ -32,7 +32,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="prose md:prose-xl max-w-2xl w-full mx-auto leading-6">
+      <div className="prose md:prose-xl max-w-4xl w-full mx-auto leading-relaxed">
         <h1 className="mt-8 font-extrabold mb-8 lg:mb-10 leading-tight text-5xl md:text-6xl">
           {title}
         </h1>
