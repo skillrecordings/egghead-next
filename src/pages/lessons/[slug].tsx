@@ -19,6 +19,8 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
+import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
+import JoinCTA from 'components/pages/lessons/JoinCTA copy'
 
 const tracer = getTracer('lesson-page')
 
@@ -239,7 +241,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className="w-full relative overflow-hidden bg-gray-200"
+              className="w-full relative overflow-hidden bg-black text-white"
               css={{paddingTop: '56.25%'}}
             >
               <div className="absolute w-full h-full top-0 left-0">
@@ -264,26 +266,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
                 {currentPlayerState === 'joining' && (
                   <OverlayWrapper>
-                    <h2 className="sm:text-xl text-lg leading-tight font-bold text-center">
-                      This Lesson is Free to Watch
-                    </h2>
-                    <Link href="/login">
-                      <a className="no-underline hover:underline text-blue-500 mt-5 text-center">
-                        Click here to Create an Account or Login to View
-                      </a>
-                    </Link>
+                    <CreateAccountCTA />
                   </OverlayWrapper>
                 )}
                 {currentPlayerState === 'subscribing' && (
                   <OverlayWrapper>
-                    <h2 className="sm:text-xl text-lg leading-tight font-bold text-center">
-                      This Lesson is an egghead Member Exclusive
-                    </h2>
-                    <Link href="/pricing">
-                      <a className="no-underline hover:underline text-blue-500 mt-5 text-center">
-                        Click here to join today and unlock this lesson!
-                      </a>
-                    </Link>
+                    <JoinCTA />
                   </OverlayWrapper>
                 )}
                 {currentPlayerState === 'showingNext' && (
