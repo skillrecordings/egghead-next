@@ -1,13 +1,11 @@
 import React, {FunctionComponent, useState, useEffect} from 'react'
-import useSWR from 'swr'
 import {animateScroll as scroll} from 'react-scroll'
 import {get, first, noop} from 'lodash'
 import ReactMarkdown from 'react-markdown'
 
 type TranscriptProps = {
   player: any
-  fetcher: any
-  url: string
+  transcriptText: any
   playVideo: () => any
 }
 
@@ -25,12 +23,9 @@ const hmsToSeconds = (str: string) => {
 
 const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
-  fetcher,
-  url,
   playVideo = noop,
+  transcriptText,
 }: TranscriptProps) => {
-  const {data} = useSWR(url, fetcher)
-  const dataText = get(data, 'text')
   const currentPlayer = player.current
 
   const [transcript, setTranscript] = useState(null)
@@ -62,13 +57,13 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   }
 
   useEffect(() => {
-    if (dataText && currentPlayer) {
+    if (transcriptText && currentPlayer) {
       const matches =
-        dataText &&
-        dataText.match(
+        transcriptText &&
+        transcriptText.match(
           /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g, // https://regexr.com/58bnr
         )
-      let result = dataText
+      let result = transcriptText
       matches &&
         matches.forEach((match: any, i: number) => {
           result = result.replace(
@@ -81,12 +76,12 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
             setTranscript(result)
           }
         })
-    } else if (dataText) {
-      setTranscript(dataText)
+    } else if (transcriptText) {
+      setTranscript(transcriptText)
     }
-  }, [dataText, currentPlayer])
+  }, [transcriptText, currentPlayer])
 
-  if (!dataText) {
+  if (!transcriptText) {
     return null
   }
 
