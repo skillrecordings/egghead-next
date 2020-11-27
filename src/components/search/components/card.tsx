@@ -4,7 +4,7 @@ import Markdown from 'react-markdown'
 type CardProps = {
   title: string
   description?: string
-  children?: React.ReactElement
+  children?: React.ReactNode
   imageUrl?: string
   className?: string
 }
@@ -17,7 +17,7 @@ const Card: FunctionComponent<CardProps> = ({
 }) => {
   return (
     <div
-      className={`md:p-6 p-4 rounded-md overflow-hidden border border-gray-200 ${
+      className={`md:p-6 p-4 rounded-md overflow-hidden border border-gray-100 ${
         className ? className : ''
       }`}
     >
