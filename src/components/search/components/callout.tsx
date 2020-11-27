@@ -16,7 +16,7 @@ const Callout: FunctionComponent<CalloutProps> = ({
 }) => {
   return (
     <div
-      className={`md:p-8 p-5 rounded-md overflow-hidden border border-gray-200 ${
+      className={`md:p-8 p-5 rounded-md overflow-hidden border border-gray-100 ${
         className ? className : ''
       }`}
     >

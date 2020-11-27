@@ -5,9 +5,7 @@ import Footer from './Footer'
 const Main: FunctionComponent = ({children}) => {
   return (
     <>
-      <div className="w-full flex flex-col flex-grow sm:px-8 px-5">
-        {children}
-      </div>
+      <div className="w-full flex flex-col flex-grow px-5">{children}</div>
       <Footer />
     </>
   )
