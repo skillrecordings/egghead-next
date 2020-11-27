@@ -155,8 +155,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
-  console.log('lesson: ', lesson)
-
   React.useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
