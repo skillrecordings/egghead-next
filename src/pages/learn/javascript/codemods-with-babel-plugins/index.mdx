@@ -3,14 +3,10 @@ export const meta = {
   contributors: ['Laurie Barth'],
 }
 
-import FancyGuideLayout from 'layouts/fancy-guide'
-
+import UltimateGuide from 'layouts/ultimate-guide'
 export default ({children}) => (
-  <FancyGuideLayout frontMatter={meta}>{children}</FancyGuideLayout>
+  <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )
-
-<ProseSection>
-
 
 Codemods are an incredibly powerful tool that not everyone has heard of, so let's start there. A codemod is an automated way to transform one set of syntax into another. They're often written to ship with API changes or other things that fundamentally change the interface developers interact with. This makes sense because you want users to adopt your latest and greatest improvements, but if you've changed things enough that all their existing code needs to be rewritten, that's a bit of a barrier. Writing a codemod automates those changes and let's them benefit right away.
 
@@ -315,7 +311,6 @@ Let's assume that the example code is something like this:
 
 ```jsx
 import Egghead from 'egghead'
-
 ;<Egghead video={src} />
 ```
 
@@ -346,6 +341,3 @@ Codemods can be incredibly involved, so knowing all these plugin tips is useful.
 ## Make your own
 
 Now it's time to dive in and make your own. I highly recommend starting with ASTExplorer to learn the syntax and get comfortable with it if you aren't already. And remember, custom Babel plugins aren't just for codemods.
-
-</ProseSection>
-

@@ -1,13 +1,14 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
+import Contributors from 'components/Contributors'
 
 type LayoutProps = {
-  frontMatter: any
+  meta: any
 }
 
 const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
   children,
-  frontMatter,
+  meta,
 }) => {
   const {
     title,
@@ -15,7 +16,8 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
     titleAppendSiteName = false,
     url,
     ogImage,
-  } = frontMatter
+    contributors,
+  } = meta
   return (
     <>
       <NextSeo
@@ -34,6 +36,13 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         <h1 className="mt-8 font-extrabold mb-8 lg:mb-10 leading-tight text-5xl md:text-6xl">
           {title}
         </h1>
+        {contributors && (
+          <>
+            <Contributors contributors={contributors} />{' '}
+            <hr className="md:max-w-2xl mx-auto mt-8 mb-8" />
+          </>
+        )}
+        {children}
         {children}
       </div>
     </>
