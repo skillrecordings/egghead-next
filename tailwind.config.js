@@ -86,6 +86,9 @@ module.exports = {
         '4xl': '3.052em',
         '5xl': '3.815em',
       },
+      lineHeight: {
+        tighter: 1.1,
+      },
     },
   },
   variants: {
@@ -93,5 +96,5 @@ module.exports = {
     padding: ['responsive', 'first', 'last'],
     scale: ['hover'],
   },
-  plugins: [require('@tailwindcss/typography', require('@tailwindcss/ui'))],
+  plugins: [require('@tailwindcss/typography')],
 }

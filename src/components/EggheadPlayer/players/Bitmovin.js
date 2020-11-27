@@ -67,7 +67,7 @@ export default class Bitmovin extends Base {
   }
 
   getConfig(props) {
-    const {poster, title, description} = props || this.props
+    const {poster, title, description, preload} = props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
       remotecontrol: {
@@ -91,6 +91,10 @@ export default class Bitmovin extends Base {
       tweaks: {
         startup_threshold: STARTUP_THRESHOLD_SECONDS,
         max_buffer_level: MAX_BUFFER_LEVEL_SECONDS,
+      },
+      adaptation: {
+        desktop: {preload: preload},
+        mobile: {preload: preload},
       },
     }
   }
@@ -149,12 +153,13 @@ export default class Bitmovin extends Base {
 
       this.player.load(this.getSource()).then(
         () => {
+          this.player.setPosterImage(this.props.poster)
+
           const {videoQualityCookie} = this.props
           if (videoQualityCookie) {
             this.player.setVideoQuality(videoQualityCookie.id)
           }
 
-          this.player.setPosterImage(this.props.poster)
           if (subtitlesUrl) {
             this.addSubtitles(subtitlesUrl)
           }
