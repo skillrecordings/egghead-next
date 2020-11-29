@@ -1,15 +1,20 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
+import {useMachine} from '@xstate/react'
 import EggheadPlayer from 'components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
+import Image from 'next/image'
 import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
 import {GraphQLClient} from 'graphql-request'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {LessonResource} from 'types'
+import playerMachine from 'machines/lesson-player-machine'
+import {useWindowSize} from 'react-use'
+import Transcript from 'components/pages/lessons/Transcript'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -25,6 +30,8 @@ const lessonQuery = /* GraphQL */ `
       dash_url
       instructor {
         full_name
+        slug
+        avatar_url
       }
     }
   }
@@ -55,15 +62,6 @@ const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
   ) : null
 }
 
-type TranscriptProps = {
-  url: any
-}
-
-const Transcript: FunctionComponent<TranscriptProps> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
-  return data ? <Markdown>{data.text}</Markdown> : null
-}
-
 const lessonLoader = (slug: any, token: any) => (query: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -83,10 +81,20 @@ type LessonProps = {
   initialLesson: any
 }
 
+const OFFSET_Y = 80
+const VIDEO_MIN_HEIGHT = 480
+
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
+  const [, send] = useMachine(playerMachine)
+  const {height} = useWindowSize()
+  const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
+
+  React.useEffect(() => {
+    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
+  }, [height])
 
   const {data = {}, error} = useSWR(
     lessonQuery,
@@ -106,40 +114,89 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
 
   return (
-    <div className="prose lg:prose-xl max-w-none">
+    <div>
       <div>
-        <h1>{get(lesson, 'title')}</h1>
+        <div className="bg-black -mt-3 sm:-mt-5 sm:-mx-8 -mx-5">
+          <div
+            className="w-full m-auto"
+            css={{
+              '@media (min-width: 960px)': {
+                maxWidth:
+                  height > VIDEO_MIN_HEIGHT + OFFSET_Y
+                    ? lessonMaxWidth
+                    : VIDEO_MIN_HEIGHT * 1.6,
+              },
+              '@media (min-width: 960px) and (max-height: 560px)': {
+                minHeight: '432px',
+              },
+            }}
+          >
+            <div
+              className="w-full relative overflow-hidden bg-black text-white"
+              css={{paddingTop: '56.25%'}}
+            >
+              <div className="absolute w-full h-full top-0 left-0">
+                <EggheadPlayer
+                  ref={playerRef}
+                  hls_url={hls_url}
+                  dash_url={dash_url}
+                  width="100%"
+                  height="auto"
+                  pip="true"
+                  controls
+                  subtitlesUrl={get(lesson, 'subtitles_url')}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <main className="max-w-screen-lg mx-auto pt-8">
+          <article>
+            <header className="mb-6">
+              <h1 className="text-2xl font-bold tracking-tight leading-tight">
+                {get(lesson, 'title')}
+              </h1>
+              <div className="mt-2 flex items-center">
+                <Link href={`/s/resources-by-${get(instructor, 'slug')}`}>
+                  <a className="text-base text-gray-800 hover:text-blue-600 transition-colors ease-in-out duration-300 flex items-center">
+                    {instructor.avatar_url && (
+                      <Image
+                        src={get(instructor, 'avatar_url')}
+                        width={32}
+                        height={32}
+                        alt={get(instructor, 'full_name')}
+                        className="rounded-full"
+                      />
+                    )}
+                    <span className="ml-1">{get(instructor, 'full_name')}</span>
+                  </a>
+                </Link>
+              </div>
+            </header>
+            <Markdown className="prose lg:prose-lg max-w-none text-gray-900">
+              {get(lesson, 'summary')}
+            </Markdown>
+            {transcript_url && (
+              <div className="sm:mt-16 mt-8">
+                <h3 className="text-lg font-bold tracking-tight leading-tight mb-4">
+                  Transcript
+                </h3>
+                <Transcript
+                  className="prose max-w-none text-gray-800"
+                  player={playerRef}
+                  url={transcript_url}
+                  fetcher={fetcher}
+                  playVideo={() => send('PLAY')}
+                />
+              </div>
+            )}
+          </article>
+        </main>
 
-        <div
-          className="relative overflow-hidden bg-gray-100"
-          style={{paddingTop: '56.25%'}}
-        >
-          <EggheadPlayer
-            ref={playerRef}
-            className="absolute top-0 left-0 w-full h-full"
-            hls_url={hls_url}
-            dash_url={dash_url}
-            width="100%"
-            height="auto"
-            pip="true"
-            controls
-            subtitlesUrl={get(lesson, 'subtitles_url')}
-          />
-        </div>
-        <div>
-          <Markdown>{get(lesson, 'summary')}</Markdown>
-        </div>
-        <div className="mt-8 font-bold">by {get(instructor, 'full_name')}</div>
         {next_up_url && (
           <div>
             <h3>Playlist:</h3>
             <NextUp url={next_up_url} />
-          </div>
-        )}
-        {transcript_url && (
-          <div>
-            <h3>Transcript:</h3>
-            <Transcript url={transcript_url} />
           </div>
         )}
       </div>

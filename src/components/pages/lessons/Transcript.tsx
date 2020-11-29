@@ -6,6 +6,9 @@ import ReactMarkdown from 'react-markdown'
 type TranscriptProps = {
   player: any
   transcriptText: any
+  fetcher: any
+  url: string
+  className?: string
   playVideo: () => any
 }
 
@@ -23,6 +26,9 @@ const hmsToSeconds = (str: string) => {
 
 const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
+  fetcher,
+  url,
+  className,
   playVideo = noop,
   transcriptText,
 }: TranscriptProps) => {
@@ -89,7 +95,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     <ReactMarkdown
       skipHtml={false}
       renderers={{link: LinkReference}}
-      className="prose md:prose-xl max-w-none"
+      className={className ? className : 'prose md:prose-xl max-w-none'}
     >
       {transcript || ''}
     </ReactMarkdown>

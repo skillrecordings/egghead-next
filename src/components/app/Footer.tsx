@@ -89,7 +89,7 @@ const FooterNavigation: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <footer className="max-w-screen-3xl w-full mx-auto p-5">
+    <footer className="max-w-screen-2xl w-full mx-auto p-5">
       <FooterNavigation />
     </footer>
   )

@@ -4,9 +4,7 @@ export const meta = {
 }
 
 import FancyGuide from 'layouts/fancy-guide'
-export default ({children}) => (
-  <FancyGuide frontMatter={meta}>{children}</FancyGuide>
-)
+export default ({children}) => <FancyGuide meta={meta}>{children}</FancyGuide>
 
 <ProseSection>
 

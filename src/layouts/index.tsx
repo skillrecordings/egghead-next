@@ -2,15 +2,12 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 
 type LayoutProps = {
-  frontMatter: any
+  meta: any
 }
 
-const DefaultLayout: FunctionComponent<LayoutProps> = ({
-  children,
-  frontMatter,
-}) => {
+const DefaultLayout: FunctionComponent<LayoutProps> = ({children, meta}) => {
   const {title, description, titleAppendSiteName = false, url, ogImage} =
-    frontMatter || {}
+    meta || {}
   return (
     <>
       <NextSeo
