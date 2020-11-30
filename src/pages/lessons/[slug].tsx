@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {GraphQLClient} from 'graphql-request'
-import {isEmpty, get} from 'lodash'
+import {isEmpty, get, first} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import useSWR from 'swr'
@@ -155,6 +155,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
+  const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
+
   React.useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
@@ -233,7 +235,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
-      <div key={lesson.slug} className="space-y-10 w-full">
+      <div key={lesson.slug} className="space-y-8 w-full">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div
             className="w-full m-auto"
@@ -251,9 +253,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           >
             <div
               className="w-full relative overflow-hidden bg-black text-white"
-              css={{paddingTop: '56.25%'}}
+              css={{
+                '@media (max-width: 640px)': {
+                  paddingTop: playerVisible ? '56.25%' : '0',
+                },
+
+                paddingTop: '56.25%',
+              }}
             >
-              <div className="absolute w-full h-full top-0 left-0">
+              <div
+                className={`${
+                  playerVisible ? 'absolute' : 'sm:absolute sm:py-0 py-5'
+                } w-full h-full top-0 left-0`}
+              >
                 {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
@@ -275,7 +287,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
                 {currentPlayerState === 'joining' && (
                   <OverlayWrapper>
-                    <CreateAccountCTA />
+                    <CreateAccountCTA
+                      lesson={get(lesson, 'slug')}
+                      technology={primary_tag}
+                    />
                   </OverlayWrapper>
                 )}
                 {currentPlayerState === 'subscribing' && (
@@ -320,9 +335,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             </div>
           </div>
         </div>
-        <div className="">
-          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl mx-auto">
-            <div className="md:col-span-8">
+        <div>
+          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl xl:px-5 mx-auto">
+            <div className="md:col-span-8 md:row-start-1 row-start-2">
               <Tabs>
                 <TabList
                   css={{background: 'none'}}
@@ -348,7 +363,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </TabPanels>
               </Tabs>
             </div>
-            <div className="md:col-span-4 flex flex-col space-y-8 md:mt-0 mt-8">
+            <div className="md:col-span-4 flex flex-col space-y-8">
               <LessonInfo
                 title={title}
                 instructor={instructor}
@@ -357,7 +372,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 course={course}
                 nextUpData={nextUpData}
                 lesson={lesson}
-                className="space-y-6 divide-y divide-gray-200"
+                className="space-y-6 divide-y divide-cool-gray-100"
               />
             </div>
           </div>
