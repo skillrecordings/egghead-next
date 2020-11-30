@@ -4,6 +4,7 @@ import axios from 'axios'
 import get from 'lodash/get'
 import cookie from './cookies'
 import * as serverCookie from 'cookie'
+import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
 
 const http = axios.create()
 
@@ -149,9 +150,11 @@ export default class Auth {
       localStorage.removeItem(VIEWING_AS_USER_KEY)
     }
 
-    return axios
-      .delete(`/api/users/session`)
-      .catch((error) => console.error(error))
+    if (getAccessTokenFromCookie()) {
+      return axios
+        .delete(`/api/users/session`)
+        .catch((error) => console.error(error))
+    }
   }
 
   isAuthenticated() {
