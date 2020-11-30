@@ -8,6 +8,7 @@ type TranscriptProps = {
   player: any
   fetcher: any
   url: string
+  className?: string
   playVideo: () => any
 }
 
@@ -27,6 +28,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
   fetcher,
   url,
+  className,
   playVideo = noop,
 }: TranscriptProps) => {
   const {data} = useSWR(url, fetcher)
@@ -94,7 +96,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     <ReactMarkdown
       skipHtml={false}
       renderers={{link: LinkReference}}
-      className="prose md:prose-xl max-w-none"
+      className={className ? className : 'prose md:prose-xl max-w-none'}
     >
       {transcript || ''}
     </ReactMarkdown>
