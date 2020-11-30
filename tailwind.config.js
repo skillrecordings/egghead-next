@@ -68,7 +68,7 @@ module.exports = {
         },
       }),
       screens: {
-        xs: '320px',
+        xs: '375px',
         sm: '640px',
         md: '768px',
         lg: '1024px',
@@ -96,5 +96,10 @@ module.exports = {
     padding: ['responsive', 'first', 'last'],
     scale: ['hover'],
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/ui'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
