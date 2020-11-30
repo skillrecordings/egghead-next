@@ -1,19 +1,44 @@
 import React, {FunctionComponent} from 'react'
-import Link from 'next/link'
+import LoginForm from 'components/pages/login'
+import {track} from 'utils/analytics'
 
-type CreateAccountCTAProps = {}
+type CreateAccountCTAProps = {
+  lesson: string
+  technology: string
+}
 
-const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = () => {
+const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
+  lesson,
+  technology,
+}) => {
+  const trackEmailCapture = (email: string) => {
+    track('submitted email - blocked lesson', {
+      lesson,
+      technology,
+      email,
+    })
+  }
+
   return (
     <div className="flex flex-col items-center px-5">
-      <h2 className="sm:text-2xl text-xl leading-tighter tracking-tight font-light text-center max-w-sm">
-        This lesson is <strong className="font-bold">free to watch</strong>.
-      </h2>
-      <Link href="/login">
-        <a className="mt-8 text-white py-3 px-5 rounded-md text-base font-semibold bg-blue-600 hover:bg-indigo-600 hover:shadow-xl transition-all ease-in-out duration-300 hover:scale-105 transform">
-          Click here to Create an account or Login to view
-        </a>
-      </Link>
+      <LoginForm
+        image={<></>}
+        className="w-full mx-auto flex flex-col items-center justify-center text-white"
+        label="Your email:"
+        formClassName="max-w-sm mx-auto w-full"
+        button="Create account or login to view"
+        track={trackEmailCapture}
+      >
+        <div className="text-center">
+          <h2 className="sm:text-4xl text-2xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
+            This lesson is <strong className="font-bold">free to watch</strong>{' '}
+            with an egghead account.
+          </h2>
+          <p className="font-normal text-blue-300 sm:text-lg text-base mt-4">
+            Enter your email to unlock this free lesson.
+          </p>
+        </div>
+      </LoginForm>
     </div>
   )
 }

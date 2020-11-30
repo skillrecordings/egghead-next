@@ -18,13 +18,16 @@ type NextUpProps = {
 
 const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
   return data ? (
-    <ul>
+    <ol>
+      <span className="font-semibold">Lessons</span>
       {data.list.lessons.map((lesson, index = 0) => {
         return (
-          <li key={lesson.slug} className="py-3 pr-3">
+          <li key={lesson.slug} className="py-2 pr-3">
             <div className="flex">
-              <div className="flex items-center mr-3">
-                <div className="mr-2 text-xs text-gray-600">{index + 1}</div>
+              <div className="flex items-center mr-2">
+                <div className="mr-1 text-xs text-cool-gray-400">
+                  {index + 1}
+                </div>
                 {/* <input type="checkbox" checked={lesson.completed} readOnly /> */}
               </div>
               <div className="w-full leading-tight">
@@ -42,7 +45,7 @@ const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
           </li>
         )
       })}
-    </ul>
+    </ol>
   ) : null
 }
 
@@ -59,7 +62,7 @@ const TweetLink: FunctionComponent<{
 }> = ({lesson, instructor, className = ''}) => {
   return get(lesson, 'title') && get(lesson, 'path') ? (
     <a
-      className={`flex text-sm items-center rounded px-3 py-2 bg-gray-200 hover:bg-gray-300 transition-colors ease-in-out duration-150 ${className}`}
+      className={`flex text-sm items-center rounded px-3 py-2 bg-cool-gray-100 hover:bg-gray-300 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
@@ -97,7 +100,7 @@ const CopyToClipboard: FunctionComponent<{
           type="button"
           disabled={copied}
           onClick={copyHandler}
-          className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-gray-200 hover:bg-gray-300 transition-colors duration-150 ease-in-out ${className}`}
+          className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-cool-gray-100 hover:bg-gray-300 transition-colors duration-150 ease-in-out ${className}`}
         >
           {state.error ? (
             'Unable to copy!'
@@ -272,19 +275,16 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
       {get(lesson, 'free_forever') && (
         <div className="pt-6">
           <div className="flex items-center">
-            <IconCommunityResource className="w-6 mr-3 text-yellow-500 flex-shrink-0" />
+            <IconCommunityResource className="w-6 mr-2 text-yellow-300 flex-shrink-0" />
             <h4 className="font-semibold">
               This lesson is a Community Resource
             </h4>
           </div>
           <div className="mt-3">
-            <span>
+            <p className="text-sm text-cool-gray-600">
               A Community Resource means that it’s free to access for all. The
               instructor of this lesson requested it to be open to the public.
-            </span>
-            <a href="#" className="font-medium hover:text-blue-500">
-              View More Community Resources
-            </a>
+            </p>
           </div>
         </div>
       )}
