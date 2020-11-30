@@ -22,9 +22,9 @@ import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 
 type SearchProps = {
-  searchClient: any
-  indexName: string
-  searchState: any
+  searchClient?: any
+  indexName?: string
+  searchState?: any
   instructor?: any
 }
 
