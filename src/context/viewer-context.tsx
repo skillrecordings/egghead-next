@@ -50,7 +50,7 @@ function useAuthedViewer() {
 
     const loadViewerFromStorage = async () => {
       console.log(`loading viewer from storage`)
-      const newViewer: any = await auth.refreshUser(accessToken)
+      const newViewer: any = await auth.refreshUser()
       if (!isEqual(newViewer, viewer)) {
         setViewer(newViewer)
       }

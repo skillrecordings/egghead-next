@@ -167,10 +167,7 @@ export default class Auth {
     return !expired
   }
 
-  refreshUser(
-    accessToken: string | string[] | null | undefined,
-    loadFullUser = false,
-  ) {
+  refreshUser(loadFullUser = false) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
@@ -211,7 +208,7 @@ export default class Auth {
         expires: expiresInDays,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
       })
-      resolve(this.refreshUser(authResult.accessToken))
+      resolve(this.refreshUser())
     })
   }
 
