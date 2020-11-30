@@ -32,7 +32,7 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
         <div className="text-center">
           <h2 className="sm:text-4xl text-2xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
             This lesson is <strong className="font-bold">free to watch</strong>{' '}
-            with egghead account.
+            with an egghead account.
           </h2>
           <p className="font-normal text-blue-300 sm:text-lg text-base mt-4">
             Enter your email to unlock this free lesson.
