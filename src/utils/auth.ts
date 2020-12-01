@@ -118,12 +118,15 @@ export default class Auth {
           window.location.pathname + window.location.search,
         )
         this.eggheadAuth.token.getToken(uri).then(
-          (user) => {
-            this.setSession(user).then(
-              () => {
-                identify(user)
+          (authResult) => {
+            this.setSession(
+              authResult.accessToken,
+              authResult.data.expires_in,
+            ).then(
+              (user) => {
+                identify(authResult)
                 track('authentication success')
-                resolve(user)
+                resolve(authResult)
               },
               (error) => {
                 console.error(error)
@@ -188,25 +191,24 @@ export default class Auth {
     })
   }
 
-  setSession(authResult: OAuthClient.Token) {
+  setSession(accessToken: string, expiresInSeconds: string) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('localStorage is not defined')
       }
-      const expiresInSeconds: number = Number(authResult.data.expires_in)
       const now: number = new Date().getTime()
 
       const millisecondsInASecond = 1000
-      const expiresAt = expiresInSeconds * millisecondsInASecond + now
+      const expiresAt = Number(expiresInSeconds) * millisecondsInASecond + now
 
       const millisecondsInADay = 60 * 60 * 24 * 1000
       const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
 
       console.log(expiresInDays)
 
-      localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
       localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(expiresAt))
-      cookie.set(ACCESS_TOKEN_KEY, authResult.accessToken, {
+      cookie.set(ACCESS_TOKEN_KEY, accessToken, {
         expires: expiresInDays,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
       })

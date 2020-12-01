@@ -126,7 +126,7 @@ function useAuthedViewer() {
         auth.logout()
         logoutCallback()
       },
-      setSession: (session: any) => auth.setSession(session),
+      setSession: auth.setSession,
       isAuthenticated: () => auth.isAuthenticated(),
       authToken: auth.getAuthToken(),
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),
