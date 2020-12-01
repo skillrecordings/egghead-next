@@ -6,8 +6,6 @@ import ReactMarkdown from 'react-markdown'
 type TranscriptProps = {
   player: any
   transcriptText: any
-  fetcher: any
-  url: string
   className?: string
   playVideo: () => any
 }
@@ -26,8 +24,6 @@ const hmsToSeconds = (str: string) => {
 
 const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
-  fetcher,
-  url,
   className,
   playVideo = noop,
   transcriptText,
