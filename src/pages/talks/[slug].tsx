@@ -39,6 +39,11 @@ const lessonQuery = /* GraphQL */ `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
+const useTranscriptData = (url: string) => {
+  const {data: transcriptData} = useSWR(url, fetcher)
+  return get(transcriptData, 'text')
+}
+
 type NextUpProps = {
   url: any
 }
@@ -101,17 +106,18 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     lessonLoader(initialLesson.slug, authToken),
   )
 
-  if (error) logout()
-
   const lesson = {...initialLesson, ...data.lesson}
+  const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
+
+  const transcriptText = useTranscriptData(transcript_url)
+
+  if (error) logout()
 
   if (router.isFallback) {
     return <div>Loading...</div>
   }
 
   if (!lesson) return null
-
-  const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
 
   return (
     <div>
@@ -176,7 +182,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <Markdown className="prose lg:prose-lg max-w-none text-gray-900">
               {get(lesson, 'summary')}
             </Markdown>
-            {transcript_url && (
+            {transcriptText && (
               <div className="sm:mt-16 mt-8">
                 <h3 className="text-lg font-bold tracking-tight leading-tight mb-4">
                   Transcript
@@ -184,8 +190,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <Transcript
                   className="prose max-w-none text-gray-800"
                   player={playerRef}
-                  url={transcript_url}
-                  fetcher={fetcher}
+                  transcriptText={transcriptText}
                   playVideo={() => send('PLAY')}
                 />
               </div>
