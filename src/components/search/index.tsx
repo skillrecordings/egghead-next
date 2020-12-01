@@ -21,7 +21,7 @@ import SearchReact from './curated/react'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 
-const ALGOLIA_INDEX_NAME = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME
+const ALGOLIA_INDEX_NAME = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || ``
 
 type SearchProps = {
   searchClient?: any
