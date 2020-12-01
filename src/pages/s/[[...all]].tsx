@@ -26,6 +26,8 @@ const fullTextSearch = {
   searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
 }
 
+const ALGOLIA_INDEX_NAME = 'content_production'
+
 const searchClient = algoliasearchLite(
   fullTextSearch.appId,
   fullTextSearch.searchApiKey,
