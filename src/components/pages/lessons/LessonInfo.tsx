@@ -232,7 +232,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
           <ul className="space-y-3 mt-3">
             {tags.map((tag, index) => (
               <li key={index}>
-                <Link href={`/s/${tag.name}`}>
+                <Link href={`/q/${tag.name}`}>
                   <a className="flex items-center ml-4 first:ml-0 hover:underline">
                     <img
                       src={tag.image_url}

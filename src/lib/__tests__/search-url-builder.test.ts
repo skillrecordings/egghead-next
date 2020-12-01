@@ -1,3 +1,4 @@
+import config from '../config'
 import {
   titleFromPath,
   createUrl,
@@ -14,7 +15,7 @@ test('Builds a Title Based on single Tag and Instructor', () => {
 test('creates a url from an empty search state', () => {
   const url = createUrl({})
 
-  expect(url).toBe('/s')
+  expect(url).toBe(config.searchUrlRoot)
 })
 
 test('creates a url with a query with single tag and instructor filtered by type', () => {
@@ -28,7 +29,7 @@ test('creates a url with a query with single tag and instructor filtered by type
   })
 
   expect(url).toBe(
-    `/s/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course`,
+    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course`,
   )
 })
 
@@ -43,7 +44,7 @@ test('creates a url with a query with single tag and instructor filtered by mult
   })
 
   expect(url).toBe(
-    `/s/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course%2Cpodcast`,
+    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course%2Cpodcast`,
   )
 })
 
@@ -55,7 +56,9 @@ test('creates a url with a query with single tag and instructor named Kent C. Do
     },
   })
 
-  expect(url).toBe(`/s/react-${CREATOR_DELINIATOR}-kent-c-dodds`)
+  expect(url).toBe(
+    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds`,
+  )
 })
 
 test('creates a url with instructor named Kent C. Dodds', () => {
@@ -65,7 +68,7 @@ test('creates a url with instructor named Kent C. Dodds', () => {
     },
   })
 
-  expect(url).toBe(`/s/${CREATOR_DELINIATOR}-kent-c-dodds`)
+  expect(url).toBe(`${config.searchUrlRoot}/${CREATOR_DELINIATOR}-kent-c-dodds`)
 })
 
 test('creates a url with a query with single tag and instructor not named Kent C. Dodds', () => {
@@ -76,7 +79,9 @@ test('creates a url with a query with single tag and instructor not named Kent C
     },
   })
 
-  expect(url).toBe(`/s/react-${CREATOR_DELINIATOR}-ceora-ford`)
+  expect(url).toBe(
+    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-ceora-ford`,
+  )
 })
 
 test('creates a url multiple tags', () => {
@@ -86,7 +91,7 @@ test('creates a url multiple tags', () => {
     },
   })
 
-  expect(url).toBe('/s/react-and-redux')
+  expect(url).toBe(`${config.searchUrlRoot}/react-and-redux`)
 })
 
 test('creates a url single instructor', () => {
@@ -96,7 +101,7 @@ test('creates a url single instructor', () => {
     },
   })
 
-  expect(url).toBe(`/s/${CREATOR_DELINIATOR}-ceora-ford`)
+  expect(url).toBe(`${config.searchUrlRoot}/${CREATOR_DELINIATOR}-ceora-ford`)
 })
 
 test('parses empty', () => {

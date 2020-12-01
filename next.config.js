@@ -24,32 +24,37 @@ const nextConfig = {
     return [
       {
         source: '/instructors/:instructor',
-        destination: '/s/content-by-:instructor',
+        destination: '/q/content-by-:instructor',
         permanent: true,
       },
       {
         source: '/podcasts',
-        destination: '/s?type=podcast',
+        destination: '/q?type=podcast',
         permanent: true,
       },
       {
         source: '/talks',
-        destination: '/s?type=talk',
+        destination: '/q?type=talk',
         permanent: true,
       },
       {
         source: '/courses',
-        destination: '/s?type=course',
+        destination: '/q?type=course',
         permanent: true,
       },
-      {source: '/lessons', destination: '/s?type=lesson', permanent: true},
-      {source: '/search', destination: '/s', permanent: true},
-      {source: '/instructors', destination: '/s', permanent: true},
-      {source: '/browse', destination: '/s', permanent: true},
-      {source: '/browse/:context', destination: '/s', permanent: true},
+      {source: '/lessons', destination: '/q?type=lesson', permanent: true},
+      {source: '/qearch', destination: '/q', permanent: true},
+      {source: '/instructors', destination: '/q', permanent: true},
+      {source: '/browse', destination: '/q', permanent: true},
+      {source: '/browse/:context', destination: '/q', permanent: true},
       {
         source: '/browse/:context/:tag',
-        destination: '/s/:tag',
+        destination: '/q/:tag',
+        permanent: true,
+      },
+      {
+        source: '/s/:all*',
+        destination: 'https://app.egghead.io/s/:all*',
         permanent: true,
       },
       {

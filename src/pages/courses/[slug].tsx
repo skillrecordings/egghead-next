@@ -99,7 +99,7 @@ const Course: FunctionComponent<CourseProps> = ({course, dependencies}) => {
         />
         <div className="sm:pl-2 pl-1">
           <h4 className="text-gray-700 text-sm">Instructor</h4>
-          <Link href={`/s/${url}`}>
+          <Link href={`/q/${url}`}>
             <a className="flex hover:underline flex-shrink-0">
               <span className="font-semibold text-base">{name}</span>
             </a>
@@ -151,7 +151,7 @@ const Course: FunctionComponent<CourseProps> = ({course, dependencies}) => {
                   rating={average_rating_out_of_5}
                   count={rating_count}
                 >
-                  <Link href={`/s/${tagSlug}`}>
+                  <Link href={`/q/${tagSlug}`}>
                     <a className="mx-2 inline-flex items-center hover:underline">
                       <Image
                         width={24}
