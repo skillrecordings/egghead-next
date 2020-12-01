@@ -60,22 +60,24 @@ const TweetLink: FunctionComponent<{
   }
   className?: string
 }> = ({lesson, instructor, className = ''}) => {
+  const encodeTweetUrl = () => {
+    const twitterBase = `https://twitter.com/intent/tweet/?text=`
+    const instructorTwitterText = isEmpty(get(instructor, 'twitter'))
+      ? ''
+      : ` by @${instructor.twitter}`
+    const tweetText = `${lesson.title} ${instructorTwitterText}, lesson on @eggheadio`
+    const encodeLessonUrl = encodeURIComponent(
+      process.env.NEXT_PUBLIC_REDIRECT_URI + lesson.path,
+    )
+    const tweetParams = `&url=${encodeLessonUrl}`
+    return twitterBase + tweetText + tweetParams
+  }
   return get(lesson, 'title') && get(lesson, 'path') ? (
     <a
       className={`flex text-sm items-center rounded px-3 py-2 bg-cool-gray-100 hover:bg-gray-300 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
-      href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
-        lesson.title +
-          `${
-            isEmpty(get(instructor, 'twitter'))
-              ? ''
-              : ` by @${instructor.twitter}`
-          }` +
-          ', lesson on @eggheadio',
-      )}&url=${encodeURIComponent(
-        `${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`,
-      )}`}
+      href={encodeTweetUrl()}
     >
       <IconTwitter className="w-5 mr-2" />
       <span>Tweet</span>
@@ -120,6 +122,21 @@ const CopyToClipboard: FunctionComponent<{
     )
   }
   return null
+}
+
+const CodeLink: FunctionComponent<{url: string}> = ({url, children}) => {
+  return (
+    <li className="flex items-center">
+      <a
+        href={url}
+        rel="noreferrer"
+        target="_blank"
+        className="flex items-center text-blue-600 hover:underline"
+      >
+        <IconExternalLink className="w-5 mr-1 text-blue-700" /> {children}
+      </a>
+    </li>
+  )
 }
 
 type LessonInfoProps = {
@@ -167,15 +184,16 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         {summary && <Markdown className="prose">{summary}</Markdown>}
         {
           <ul className="space-y-3">
-            <li className="flex items-center">
-              <a
-                href="#"
-                className="flex items-center text-blue-600 hover:underline"
-              >
-                <IconExternalLink className="w-5 mr-1 text-blue-700" />
+            {lesson?.code_url && (
+              <CodeLink url={lesson.code_url}>
+                Open code for this lesson
+              </CodeLink>
+            )}
+            {lesson?.repo_url && (
+              <CodeLink url={lesson.repo_url}>
                 Open code for this lesson on GitHub
-              </a>
-            </li>
+              </CodeLink>
+            )}
             <li className="flex items-center">
               <a
                 href="#"
