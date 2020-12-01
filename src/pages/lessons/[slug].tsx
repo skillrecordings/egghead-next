@@ -56,6 +56,8 @@ const lessonQuery = /* GraphQL */ `
         slug
         twitter
       }
+      repo_url
+      code_url
     }
   }
 `

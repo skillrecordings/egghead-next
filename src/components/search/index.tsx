@@ -21,17 +21,18 @@ import SearchReact from './curated/react'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 
+const ALGOLIA_INDEX_NAME =
+  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
+
 type SearchProps = {
-  searchClient: any
-  indexName: string
-  searchState: any
+  searchClient?: any
+  searchState?: any
   instructor?: any
 }
 
 const Search: FunctionComponent<SearchProps> = ({
   children = [],
   searchClient,
-  indexName,
   searchState,
   instructor,
   ...rest
@@ -79,7 +80,7 @@ const Search: FunctionComponent<SearchProps> = ({
       </Head>
 
       <InstantSearch
-        indexName={indexName}
+        indexName={ALGOLIA_INDEX_NAME}
         searchClient={searchClient}
         searchState={searchState}
         {...rest}

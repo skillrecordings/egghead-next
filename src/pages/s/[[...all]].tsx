@@ -26,6 +26,9 @@ const fullTextSearch = {
   searchApiKey: process.env.NEXT_PUBLIC_ALGOLIA_KEY || '',
 }
 
+const ALGOLIA_INDEX_NAME =
+  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
+
 const searchClient = algoliasearchLite(
   fullTextSearch.appId,
   fullTextSearch.searchApiKey,
@@ -33,7 +36,6 @@ const searchClient = algoliasearchLite(
 
 const defaultProps = {
   searchClient,
-  indexName: 'content_production',
 }
 
 const getInstructorsFromSearchState = (searchState: any) => {
@@ -123,6 +125,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const resultsState = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
+    indexName: ALGOLIA_INDEX_NAME,
   })
 
   let initialInstructor = null
