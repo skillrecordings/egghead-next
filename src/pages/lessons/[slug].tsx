@@ -71,6 +71,11 @@ const useNextUpData = (url: string) => {
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }
 
+const useTranscriptData = (url: string) => {
+  const {data: transcriptData} = useSWR(url, fetcher)
+  return get(transcriptData, 'text')
+}
+
 const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -148,6 +153,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
+  const transcriptText = useTranscriptData(transcript_url)
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   React.useEffect(() => {
@@ -336,17 +342,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   css={{background: 'none'}}
                   className="text-lg font-semibold"
                 >
-                  {transcript_url && <Tab>Transcript</Tab>}
+                  {transcriptText && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
                 <TabPanels className="mt-6">
-                  {transcript_url && (
+                  {transcriptText && (
                     <TabPanel>
                       <Transcript
                         player={playerRef}
-                        url={transcript_url}
-                        fetcher={fetcher}
                         playVideo={() => send('PLAY')}
+                        transcriptText={transcriptText}
                       />
                     </TabPanel>
                   )}
