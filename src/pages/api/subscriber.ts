@@ -70,7 +70,6 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         subscriber.id,
         {
           secure: process.env.NODE_ENV === 'production',
-          httpOnly: true,
           path: '/',
           maxAge: 31556952,
         },
