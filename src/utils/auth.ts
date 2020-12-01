@@ -193,20 +193,19 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         reject('localStorage is not defined')
       }
-      const expires: unknown = authResult.data.expires_in
-      const expiresAt = JSON.stringify(
-        (expires as number) * 1000 + new Date().getTime(),
-      )
+      const expiresInSeconds: number = Number(authResult.data.expires_in)
       const now: number = new Date().getTime()
 
-      const expiresInDays = Math.floor(
-        (Number(expiresAt) - now) / (60 * 60 * 24 * 1000),
-      )
+      const millisecondsInASecond = 1000
+      const expiresAt = expiresInSeconds * millisecondsInASecond + now
+
+      const millisecondsInADay = 60 * 60 * 24 * 1000
+      const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
 
       console.log(expiresInDays)
 
       localStorage.setItem(ACCESS_TOKEN_KEY, authResult.accessToken)
-      localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
+      localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(expiresAt))
       cookie.set(ACCESS_TOKEN_KEY, authResult.accessToken, {
         expires: expiresInDays,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
