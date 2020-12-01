@@ -23,7 +23,7 @@ import {NextSeo} from 'next-seo'
 
 type SearchProps = {
   searchClient?: any
-  indexName?: string
+  indexName: string
   searchState?: any
   instructor?: any
 }
