@@ -156,8 +156,6 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   lesson,
   ...restProps
 }) => {
-  const code_url = get(lesson, 'code_url')
-  const repo_url = get(lesson, 'repo_url')
   return (
     <div {...restProps}>
       <div className="space-y-4">
@@ -169,10 +167,10 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         {summary && <Markdown className="prose">{summary}</Markdown>}
         {
           <ul className="space-y-3">
-            {code_url && (
+            {lesson.code_url && (
               <li className="flex items-center">
                 <a
-                  href={repo_url}
+                  href={lesson.repo_url}
                   target="_blank"
                   className="flex items-center text-blue-600 hover:underline"
                 >
@@ -181,10 +179,10 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
                 </a>
               </li>
             )}
-            {repo_url && (
+            {lesson.repo_url && (
               <li className="flex items-center">
                 <a
-                  href={code_url}
+                  href={lesson.code_url}
                   target="_blank"
                   className="flex items-center text-blue-600 hover:underline"
                 >
