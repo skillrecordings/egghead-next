@@ -37,6 +37,9 @@ export default class Auth {
     this.login = this.login.bind(this)
     this.logout = this.logout.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
+    this.handleCookieBasedAccessTokenAuthentication = this.handleCookieBasedAccessTokenAuthentication.bind(
+      this,
+    )
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.refreshUser = this.refreshUser.bind(this)
     this.monitor = this.monitor.bind(this)
@@ -104,6 +107,32 @@ export default class Auth {
     }
   }
 
+  handleCookieBasedAccessTokenAuthentication(
+    accessToken: string,
+    expiresInSeconds: string,
+  ) {
+    // handle any previous location redirects here
+
+    return this.handleNewSession(accessToken, expiresInSeconds)
+  }
+
+  handleNewSession(accessToken: string, expiresInSeconds: string) {
+    return new Promise((resolve, reject) => {
+      this.setSession(accessToken, expiresInSeconds).then(
+        (user) => {
+          identify(user)
+          track('authentication success')
+          resolve(user)
+        },
+        (error) => {
+          console.error(error)
+          this.logout()
+          reject(error)
+        },
+      )
+    })
+  }
+
   handleAuthentication() {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
@@ -119,21 +148,11 @@ export default class Auth {
         )
         this.eggheadAuth.token.getToken(uri).then(
           (authResult) => {
-            this.setSession(
+            const user = this.handleNewSession(
               authResult.accessToken,
               authResult.data.expires_in,
-            ).then(
-              (user) => {
-                identify(authResult)
-                track('authentication success')
-                resolve(authResult)
-              },
-              (error) => {
-                console.error(error)
-                this.logout()
-                reject(error)
-              },
             )
+            resolve(user)
           },
           (error) => {
             console.error(error)

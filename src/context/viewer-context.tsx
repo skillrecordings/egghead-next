@@ -83,8 +83,12 @@ function useAuthedViewer() {
     }
 
     if (authToken) {
+      const sixtyDaysInSeconds = JSON.stringify(60 * 24 * 60 * 60)
       auth
-        .refreshUser()
+        .handleCookieBasedAccessTokenAuthentication(
+          authToken,
+          sixtyDaysInSeconds,
+        )
         .then((refreshedViewer: any) => {
           setViewer(refreshedViewer)
           console.log(`refresh user from cookie auth token`)
