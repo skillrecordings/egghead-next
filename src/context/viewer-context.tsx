@@ -4,6 +4,7 @@ import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import {useRouter} from 'next/router'
 
 export const auth = new Auth()
 
@@ -28,6 +29,7 @@ export function useViewer() {
 export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
+  const router = useRouter()
   const [viewer, setViewer] = React.useState()
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
@@ -50,7 +52,7 @@ function useAuthedViewer() {
 
     const loadViewerFromStorage = async () => {
       console.log(`loading viewer from storage`)
-      const newViewer: any = await auth.refreshUser(accessToken)
+      const newViewer: any = await auth.refreshUser()
       if (!isEqual(newViewer, viewer)) {
         setViewer(newViewer)
       }
@@ -98,9 +100,16 @@ function useAuthedViewer() {
   const values = React.useMemo(
     () => ({
       viewer,
-      logout: () => {
+      logout: (callback: Function | null) => {
+        const defaultCallback = () => {
+          if (typeof window !== 'undefined') {
+            router.reload()
+          }
+        }
+        const logoutCallback = callback || defaultCallback
+
         auth.logout()
-        window.location.reload()
+        logoutCallback()
       },
       setSession: (session: any) => auth.setSession(session),
       isAuthenticated: () => auth.isAuthenticated(),
