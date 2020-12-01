@@ -10,7 +10,7 @@
     }
   ],
   "twitter": {
-    "cardType": "summary",
+    "cardType": "summary_large_image",
     "handle": "eggheadio",
     "site": "eggheadio"
   },
@@ -21,6 +21,11 @@
     "site_name": "egghead",
     "profile": {
       "firstName": "egghead"
-    }
+    },
+    "images": [
+      {
+        "url": "https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606837120/next.egghead.io/cards/default-card_2x.png"
+      }
+    ]
   }
 }
