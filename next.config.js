@@ -43,7 +43,7 @@ const nextConfig = {
         permanent: true,
       },
       {source: '/lessons', destination: '/q?type=lesson', permanent: true},
-      {source: '/qearch', destination: '/q', permanent: true},
+      {source: '/search', destination: '/q', permanent: true},
       {source: '/instructors', destination: '/q', permanent: true},
       {source: '/browse', destination: '/q', permanent: true},
       {source: '/browse/:context', destination: '/q', permanent: true},
