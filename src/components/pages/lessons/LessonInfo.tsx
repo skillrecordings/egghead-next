@@ -167,10 +167,10 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         {summary && <Markdown className="prose">{summary}</Markdown>}
         {
           <ul className="space-y-3">
-            {lesson.code_url && (
+            {lesson?.code_url && (
               <li className="flex items-center">
                 <a
-                  href={lesson.repo_url}
+                  href={lesson.code_url}
                   target="_blank"
                   className="flex items-center text-blue-600 hover:underline"
                 >
@@ -179,10 +179,10 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
                 </a>
               </li>
             )}
-            {lesson.repo_url && (
+            {lesson?.repo_url && (
               <li className="flex items-center">
                 <a
-                  href={lesson.code_url}
+                  href={lesson.repo_url}
                   target="_blank"
                   className="flex items-center text-blue-600 hover:underline"
                 >
