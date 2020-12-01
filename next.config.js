@@ -7,6 +7,8 @@ const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
 })
 
+const searchUrlRoot = `/q`
+
 checkEnv({
   required: ['NEXT_PUBLIC_DEPLOYMENT_URL'],
 })
@@ -24,29 +26,33 @@ const nextConfig = {
     return [
       {
         source: '/instructors/:instructor',
-        destination: '/q/content-by-:instructor',
+        destination: `${searchUrlRoot}/content-by-:instructor`,
         permanent: true,
       },
       {
         source: '/podcasts',
-        destination: '/q?type=podcast',
+        destination: `${searchUrlRoot}?type=podcast`,
         permanent: true,
       },
       {
         source: '/talks',
-        destination: '/q?type=talk',
+        destination: `${searchUrlRoot}?type=talk`,
         permanent: true,
       },
       {
         source: '/courses',
-        destination: '/q?type=course',
+        destination: `${searchUrlRoot}?type=course`,
         permanent: true,
       },
-      {source: '/lessons', destination: '/q?type=lesson', permanent: true},
-      {source: '/search', destination: '/q', permanent: true},
-      {source: '/instructors', destination: '/q', permanent: true},
-      {source: '/browse', destination: '/q', permanent: true},
-      {source: '/browse/:context', destination: '/q', permanent: true},
+      {
+        source: '/lessons',
+        destination: `${searchUrlRoot}?type=lesson`,
+        permanent: true,
+      },
+      {source: '/search', destination: searchUrlRoot, permanent: true},
+      {source: '/instructors', destination: searchUrlRoot, permanent: true},
+      {source: '/browse', destination: searchUrlRoot, permanent: true},
+      {source: '/browse/:context', destination: searchUrlRoot, permanent: true},
       {
         source: '/browse/:context/:tag',
         destination: '/q/:tag',
