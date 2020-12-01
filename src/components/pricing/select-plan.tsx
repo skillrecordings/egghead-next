@@ -1,3 +1,4 @@
+import {useViewer} from 'context/viewer-context'
 import * as React from 'react'
 
 type SelectPlanProps = {
@@ -9,6 +10,7 @@ const SelectPlan: React.FunctionComponent<SelectPlanProps> = ({
   price,
   onClickCheckout,
 }) => {
+  const {viewer, loading} = useViewer()
   return (
     <div className="mt-8 bg-white pb-16 sm:mt-12 sm:pb-20 lg:pb-28">
       <div className="relative">
@@ -87,9 +89,16 @@ const SelectPlan: React.FunctionComponent<SelectPlanProps> = ({
                 <div className="rounded-md shadow">
                   <button
                     onClick={onClickCheckout}
-                    className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    disabled={viewer?.is_pro}
+                    className={`${
+                      loading || viewer?.is_pro ? 'opacity-40' : 'opacity-100'
+                    } w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
                   >
-                    Get Access
+                    {!loading
+                      ? viewer?.is_pro
+                        ? `Already a Member!`
+                        : `Get Access`
+                      : '--'}
                   </button>
                 </div>
               </div>
