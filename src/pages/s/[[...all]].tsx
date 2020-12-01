@@ -33,7 +33,6 @@ const searchClient = algoliasearchLite(
 
 const defaultProps = {
   searchClient,
-  indexName: 'content_production',
 }
 
 const getInstructorsFromSearchState = (searchState: any) => {
