@@ -35,6 +35,7 @@ function useAuthedViewer() {
   const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
+  const authToken = getAccessTokenFromCookie()
 
   React.useEffect(() => {
     setViewer(auth.getLocalUser())
@@ -45,7 +46,6 @@ function useAuthedViewer() {
   })
 
   React.useEffect(() => {
-    const authToken = getAccessTokenFromCookie()
     const queryHash = queryString.parse(window.location.hash)
     const accessToken = get(queryHash, 'access_token')
     const noAccessTokenFound = isEmpty(accessToken)
@@ -82,22 +82,23 @@ function useAuthedViewer() {
       }
     }
 
-    if (authToken) {
-      const sixtyDaysInSeconds = JSON.stringify(60 * 24 * 60 * 60)
-      auth
-        .handleCookieBasedAccessTokenAuthentication(
-          authToken,
-          sixtyDaysInSeconds,
-        )
+    const loadViewerFromToken = async () => {
+      await auth
+        .handleCookieBasedAccessTokenAuthentication(authToken)
         .then((refreshedViewer: any) => {
           setViewer(refreshedViewer)
-          console.log(`refresh user from cookie auth token`)
           setLoading(() => false)
         })
         .catch((error) => {
           // if it is a 403, clear out the token and then call auth.monitor?
+          // auth does a logout on any error currently -jh
           console.log('Catching this error: ', error.message)
         })
+    }
+
+    if (authToken) {
+      console.log(`refresh user from cookie auth token`)
+      loadViewerFromToken()
     } else if (viewerIsPresent) {
       loadViewerFromStorage()
       clearAccessToken()
@@ -114,7 +115,7 @@ function useAuthedViewer() {
     }
 
     return clearUserMonitorInterval
-  }, [viewerId])
+  }, [viewerId, authToken])
 
   const values = React.useMemo(
     () => ({

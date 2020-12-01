@@ -23,6 +23,8 @@ export function getTokenFromCookieHeaders(serverCookies = '') {
   return {eggheadToken, loginRequired: eggheadToken.length <= 0}
 }
 
+const SIXTY_DAYS_IN_SECONDS = JSON.stringify(60 * 24 * 60 * 60)
+
 export default class Auth {
   eggheadAuth: OAuthClient
 
@@ -109,7 +111,7 @@ export default class Auth {
 
   handleCookieBasedAccessTokenAuthentication(
     accessToken: string,
-    expiresInSeconds: string,
+    expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
   ) {
     // handle any previous location redirects here
 
