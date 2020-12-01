@@ -55,7 +55,7 @@ const nextConfig = {
       {source: '/browse/:context', destination: searchUrlRoot, permanent: true},
       {
         source: '/browse/:context/:tag',
-        destination: '/q/:tag',
+        destination: `${searchUrlRoot}/:tag`,
         permanent: true,
       },
       {
