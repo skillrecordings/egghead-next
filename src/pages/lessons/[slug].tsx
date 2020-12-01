@@ -73,8 +73,7 @@ const useNextUpData = (url: string) => {
 
 const useTranscriptData = (url: string) => {
   const {data: transcriptData} = useSWR(url, fetcher)
-  const transcriptText = get(transcriptData, 'text')
-  return transcriptText
+  return get(transcriptData, 'text')
 }
 
 const lessonLoader = (slug: string, token: string) => {
