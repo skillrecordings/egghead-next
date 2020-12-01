@@ -7,69 +7,6 @@ import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
 import Eggo from '../../../components/images/eggo.svg'
 import {LessonResource} from 'types'
 
-type LinkToGithubProps = {
-  user: string
-  repo: string
-  branch: string
-}
-
-const LinkToGithub: FunctionComponent<LinkToGithubProps> = ({
-  user,
-  repo,
-  branch,
-}) => {
-  let url
-  if (branch) {
-    url = `https://github.com/${
-      user ? user : 'eggheadio'
-    }/${repo}/tree/${branch}`
-  } else {
-    url = `https://github.com/${user ? user : 'eggheadio'}/${repo}`
-  }
-  return (
-    <a
-      href={url}
-      target="_blank"
-      className="flex items-center text-blue-600 hover:underline"
-    >
-      <IconExternalLink className="w-5 mr-1 text-blue-700" /> Open code for this
-      lesson on GitHub
-    </a>
-  )
-}
-
-type LinkToCodeProps = {
-  code_diff_url: string
-  embed_url: string
-  github: {
-    branch: string
-    repo: string
-    user: string
-  }
-}
-
-const LinkToCode: FunctionComponent<LinkToCodeProps> = ({
-  code_diff_url,
-  embed_url,
-  github,
-}) => {
-  if (github) {
-    return <LinkToGithub {...github} />
-  } else if (embed_url || code_diff_url) {
-    return (
-      <a
-        href={embed_url || code_diff_url}
-        target="_blank"
-        className="flex items-center text-blue-600 hover:underline"
-      >
-        <IconExternalLink className="w-5 mr-1 text-blue-700" /> Open code for
-        this lesson
-      </a>
-    )
-  }
-  return null
-}
-
 type NextUpProps = {
   currentLessonSlug: string
   data: {
@@ -219,7 +156,8 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   lesson,
   ...restProps
 }) => {
-  const hasCode = !Object.values(lesson.code || {}).every((x) => x === null)
+  const code_url = get(lesson, 'code_url')
+  const repo_url = get(lesson, 'repo_url')
   return (
     <div {...restProps}>
       <div className="space-y-4">
@@ -231,9 +169,28 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         {summary && <Markdown className="prose">{summary}</Markdown>}
         {
           <ul className="space-y-3">
-            {hasCode && (
+            {code_url && (
               <li className="flex items-center">
-                <LinkToCode {...lesson.code} />
+                <a
+                  href={repo_url}
+                  target="_blank"
+                  className="flex items-center text-blue-600 hover:underline"
+                >
+                  <IconExternalLink className="w-5 mr-1 text-blue-700" /> Open
+                  code for this lesson
+                </a>
+              </li>
+            )}
+            {repo_url && (
+              <li className="flex items-center">
+                <a
+                  href={code_url}
+                  target="_blank"
+                  className="flex items-center text-blue-600 hover:underline"
+                >
+                  <IconExternalLink className="w-5 mr-1 text-blue-700" /> Open
+                  code for this lesson on GitHub
+                </a>
               </li>
             )}
             <li className="flex items-center">

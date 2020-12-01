@@ -56,15 +56,8 @@ const lessonQuery = /* GraphQL */ `
         slug
         twitter
       }
-      code {
-        embed_url
-        code_diff_url
-        github {
-          repo
-          user
-          branch
-        }
-      }
+      repo_url
+      code_url
     }
   }
 `
