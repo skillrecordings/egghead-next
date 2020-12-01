@@ -24,7 +24,7 @@ const Tag = (props: any) => {
           return (
             <div key={path}>
               <hr />
-              <Link href={`/s/${path}`}>
+              <Link href={`/q/${path}`}>
                 <a>{human}</a>
               </Link>
               <br />
@@ -39,7 +39,7 @@ const Tag = (props: any) => {
                   const human = humanize(sortSlugs, {oxfordComma: true})
                   return (
                     <span key={path}>
-                      <Link href={`/s/${path}`}>
+                      <Link href={`/q/${path}`}>
                         <a>{human}</a>
                       </Link>{' '}
                       |{' '}

@@ -18,7 +18,7 @@ const Home: FunctionComponent<HomeProps> = () => {
       description:
         'A keyboard is the gateway to code. Your hands are the tools that manage the keyboard. Many people develop pain in their hands from repetitive stress injuries that can seriously damage their ability to code. This talk is about making your keyboard experience as gentle as possible on your hands so your hands are happier and you work more effeciently.',
       instructor: 'John Lindquist',
-      instructor_path: '/s/resources-by-john-lindquist',
+      instructor_path: '/q/resources-by-john-lindquist',
       path:
         'talks/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard',
       poster:
