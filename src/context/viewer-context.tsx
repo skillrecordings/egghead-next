@@ -83,17 +83,11 @@ function useAuthedViewer() {
     }
 
     const loadViewerFromToken = async () => {
-      await auth
-        .handleCookieBasedAccessTokenAuthentication(authToken)
-        .then((refreshedViewer: any) => {
-          setViewer(refreshedViewer)
-          setLoading(() => false)
-        })
-        .catch((error) => {
-          // if it is a 403, clear out the token and then call auth.monitor?
-          // auth does a logout on any error currently -jh
-          console.log('Catching this error: ', error.message)
-        })
+      const viewer: any = await auth.handleCookieBasedAccessTokenAuthentication(
+        authToken,
+      )
+      setViewer(viewer)
+      setLoading(() => false)
     }
 
     if (authToken) {
