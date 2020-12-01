@@ -124,6 +124,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const resultsState = await findResultsState(Search, {
     ...defaultProps,
     searchState: initialSearchState,
+    indexName: ALGOLIA_INDEX_NAME,
   })
 
   let initialInstructor = null
