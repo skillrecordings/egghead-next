@@ -27,8 +27,8 @@ const Header: FunctionComponent = () => {
                 </Link>
               </li>
               <li className="sm:mr-8 mr-5">
-                <Link href="/s" activeClassName="underline">
-                  <a>Search</a>
+                <Link href="/q" activeClassName="underline">
+                  <a>Content</a>
                 </Link>
               </li>
 
