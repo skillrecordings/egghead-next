@@ -14,13 +14,9 @@ module.exports = {
         disallow: '',
       },
       {
-        userAgent: 'AhrefsSiteAudit',
+        userAgent: '*',
         allow: ['/'],
         disallow: ['/discord', '/_next', '/purchase'],
-      },
-      {
-        userAgent: '*',
-        disallow: ['/'],
       },
     ],
     additionalSitemaps: [
@@ -31,6 +27,7 @@ module.exports = {
       'https://next.egghead.io/tags-sitemap-4.xml',
       'https://next.egghead.io/tags-sitemap-5.xml',
       'https://next.egghead.io/tags-sitemap-6.xml',
+      'http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz',
     ],
   },
 }
