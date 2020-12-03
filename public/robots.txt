@@ -5,8 +5,8 @@ Allow: /
 Disallow: /discord
 Disallow: /_next
 Disallow: /purchase
-Host: https://next.egghead.io
-Sitemap: https://next.egghead.io/sitemap.xml
+Host: https://egghead.io
+Sitemap: https://egghead.io/sitemap.xml
 Sitemap: https://next.egghead.io/tags-sitemap-0.xml
 Sitemap: https://next.egghead.io/tags-sitemap-1.xml
 Sitemap: https://next.egghead.io/tags-sitemap-2.xml
