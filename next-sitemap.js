@@ -6,7 +6,14 @@ module.exports = {
   priority: 0.7,
   sitemapSize: 5000,
   generateRobotsTxt: true,
-  exclude: ['/purchase/*', '/discord/*'],
+  exclude: [
+    '/purchase/*',
+    '/discord',
+    '/discord/callback',
+    '/login',
+    '/logout',
+    '/404',
+  ],
   robotsTxtOptions: {
     policies: [
       {
