@@ -115,6 +115,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     title,
     summary,
     http_url,
+    slug,
   } = lesson
 
   if (error) logout()
