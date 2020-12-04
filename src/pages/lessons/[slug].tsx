@@ -26,38 +26,11 @@ const tracer = getTracer('lesson-page')
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
-const lessonQuery = /* GraphQL */ `
+const lessonMediaUrlQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
     lesson(slug: $slug) {
-      slug
-      title
-      transcript_url
-      subtitles_url
-      next_up_url
-      summary
       hls_url
       dash_url
-      free_forever
-      http_url
-      path
-      course {
-        title
-        square_cover_480_url
-        slug
-      }
-      tags {
-        name
-        http_url
-        image_url
-      }
-      instructor {
-        full_name
-        avatar_64_url
-        slug
-        twitter
-      }
-      repo_url
-      code_url
     }
   }
 `
@@ -69,11 +42,6 @@ const useNextUpData = (url: string) => {
   const nextUpPath = get(nextUpData, 'next_lesson')
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
-}
-
-const useTranscriptData = (url: string) => {
-  const {data: transcriptData} = useSWR(url, fetcher)
-  return get(transcriptData, 'text')
 }
 
 const lessonLoader = (slug: string, token: string) => {
@@ -88,7 +56,7 @@ const lessonLoader = (slug: string, token: string) => {
       ...authorizationHeader,
     },
   })
-  return graphQLClient.request(lessonQuery, variables)
+  return graphQLClient.request(lessonMediaUrlQuery, variables)
 }
 
 const NextResourceButton: FunctionComponent<{
@@ -153,7 +121,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
-  const transcriptText = useTranscriptData(transcript_url)
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   React.useEffect(() => {
@@ -342,17 +309,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   css={{background: 'none'}}
                   className="text-lg font-semibold"
                 >
-                  {transcriptText && <Tab>Transcript</Tab>}
+                  {transcript_url && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
                 <TabPanels className="mt-6">
-                  {transcriptText && (
+                  {transcript_url && (
                     <TabPanel>
-                      <Transcript
-                        player={playerRef}
-                        playVideo={() => send('PLAY')}
-                        transcriptText={transcriptText}
-                      />
+                      {!playerState.matches('loading') && (
+                        <Transcript
+                          player={playerRef}
+                          playVideo={() => send('PLAY')}
+                          transcriptUrl={transcript_url}
+                        />
+                      )}
                     </TabPanel>
                   )}
                   <TabPanel>
