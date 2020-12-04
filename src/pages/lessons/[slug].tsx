@@ -21,6 +21,7 @@ import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA copy'
+import Head from 'next/head'
 
 const tracer = getTracer('lesson-page')
 
@@ -201,6 +202,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
+      <Head>
+        <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
+      </Head>
       <div key={lesson.slug} className="space-y-8 w-full">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div

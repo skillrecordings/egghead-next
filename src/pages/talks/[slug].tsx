@@ -15,6 +15,9 @@ import {LessonResource} from 'types'
 import playerMachine from 'machines/lesson-player-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from 'components/pages/lessons/Transcript'
+import {NextSeo} from 'next-seo'
+import Head from 'next/head'
+import removeMarkdown from 'remove-markdown'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -23,6 +26,7 @@ const lessonQuery = /* GraphQL */ `
     lesson(slug: $slug) {
       slug
       title
+      http_url
       transcript_url
       subtitles_url
       summary
@@ -38,11 +42,6 @@ const lessonQuery = /* GraphQL */ `
 `
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
-
-const useTranscriptData = (url: string) => {
-  const {data: transcriptData} = useSWR(url, fetcher)
-  return get(transcriptData, 'text')
-}
 
 type NextUpProps = {
   url: any
@@ -107,9 +106,16 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   )
 
   const lesson = {...initialLesson, ...data.lesson}
-  const {instructor, next_up_url, transcript_url, hls_url, dash_url} = lesson
-
-  const transcriptText = useTranscriptData(transcript_url)
+  const {
+    instructor,
+    next_up_url,
+    transcript_url,
+    hls_url,
+    dash_url,
+    title,
+    summary,
+    http_url,
+  } = lesson
 
   if (error) logout()
 
@@ -120,7 +126,32 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   if (!lesson) return null
 
   return (
-    <div>
+    <>
+      <NextSeo
+        description={removeMarkdown(summary)}
+        canonical={http_url}
+        title={title}
+        titleTemplate={'%s | conference talk | egghead.io'}
+        twitter={{
+          handle: instructor?.twitter,
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title,
+          url: http_url,
+          description: removeMarkdown(summary),
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://og-image-react-egghead.now.sh/talk/${slug}?v=20201027`,
+            },
+          ],
+        }}
+      />
+      <Head>
+        <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
+      </Head>
       <div>
         <div className="bg-black -mt-3 sm:-mt-5 sm:-mx-8 -mx-5">
           <div
@@ -182,7 +213,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <Markdown className="prose lg:prose-lg max-w-none text-gray-900">
               {get(lesson, 'summary')}
             </Markdown>
-            {transcriptText && (
+            {transcript_url && (
               <div className="sm:mt-16 mt-8">
                 <h3 className="text-lg font-bold tracking-tight leading-tight mb-4">
                   Transcript
@@ -190,7 +221,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <Transcript
                   className="prose max-w-none text-gray-800"
                   player={playerRef}
-                  transcriptText={transcriptText}
+                  transcriptUrl={transcript_url}
                   playVideo={() => send('PLAY')}
                 />
               </div>
@@ -205,7 +236,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
           </div>
         )}
       </div>
-    </div>
+    </>
   )
 }
 
