@@ -29,9 +29,14 @@ module.exports = {
         '-8': '-2rem',
       },
       typography: (theme) => ({
-        default: {
+        DEFAULT: {
           css: {
             color: theme('colors.gray.900'),
+            code: {
+              padding: '3px 5px',
+              borderRadius: 5,
+              background: theme('colors.gray.100'),
+            },
             a: {
               color: theme('colors.blue.600'),
               textDecoration: 'underline',
