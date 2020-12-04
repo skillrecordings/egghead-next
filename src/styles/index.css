@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+code::before {
+  content: '' !important;
+}
+code::after {
+  content: '' !important;
+}
+
+code {
+  font-size: 80% !important;
+}
+
+pre > code {
+  font-size: 90% !important;
+}
+
+pre {
+  line-height: 1.5 !important;
+}
+
 #__next {
   @apply flex flex-col min-h-screen;
 }
