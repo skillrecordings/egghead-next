@@ -16,7 +16,7 @@ const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
 const MAX_BUFFER_LEVEL_SECONDS = 120
-const STARTUP_THRESHOLD_SECONDS = 5
+const STARTUP_THRESHOLD_SECONDS = 2
 const ALLOW_PLAYBACK_SPEED = true
 
 export default class Bitmovin extends Base {

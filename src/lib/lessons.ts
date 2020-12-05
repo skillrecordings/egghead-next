@@ -29,14 +29,31 @@ export async function loadLesson(slug: string) {
         title
         transcript_url
         subtitles_url
+        next_up_url
         summary
         hls_url
         dash_url
-        icon_url
+        free_forever
+        http_url
         path
+        course {
+          title
+          square_cover_480_url
+          slug
+        }
+        tags {
+          name
+          http_url
+          image_url
+        }
         instructor {
           full_name
+          avatar_64_url
+          slug
+          twitter
         }
+        repo_url
+        code_url
       }
     }
   `
