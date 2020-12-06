@@ -10,8 +10,7 @@ import {get, first} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {getTokenFromCookieHeaders} from 'utils/auth'
-
-const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
+import fetcher from 'utils/fetcher'
 
 type PlaylistProps = {
   playlist: any
@@ -39,6 +38,8 @@ const Playlist: FunctionComponent<PlaylistProps> = ({playlist}) => {
   const {full_name, avatar_url} = owner
 
   const firstLessonURL = `/lessons/${get(first(lessons), 'slug')}`
+
+  console.log(data)
 
   const Instructor: FunctionComponent<{
     name: string
