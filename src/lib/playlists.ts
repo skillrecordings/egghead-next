@@ -12,6 +12,45 @@ export async function loadPlaylist(slug: string, token: string) {
         description
         image_thumb_url
         path
+        items {
+          ... on Course {
+            slug
+            title
+            summary
+            description
+            path
+          }
+          ... on Playlist {
+            slug
+            title
+            description
+            path
+          }
+          ... on Lesson {
+            slug
+            title
+            summary
+            path
+          }
+          ... on File {
+            slug
+            title
+            type
+          }
+          ... on Download {
+            slug
+            title
+            type
+          }
+          ... on Url {
+            title
+            type
+          }
+          ... on GenericResource {
+            title
+            type
+          }
+        }
         lessons {
           slug
           title
