@@ -22,6 +22,7 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA copy'
 import Head from 'next/head'
+import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 
 const tracer = getTracer('lesson-page')
 
@@ -36,15 +37,6 @@ const lessonMediaUrlQuery = /* GraphQL */ `
   }
 `
 
-const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
-
-const useNextUpData = (url: string) => {
-  const {data: nextUpData} = useSWR(url, fetcher)
-  const nextUpPath = get(nextUpData, 'next_lesson')
-  const nextLessonTitle = get(nextUpData, 'next_lesson_title')
-  return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
-}
-
 const lessonLoader = (slug: string, token: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -58,17 +50,6 @@ const lessonLoader = (slug: string, token: string) => {
     },
   })
   return graphQLClient.request(lessonMediaUrlQuery, variables)
-}
-
-const NextResourceButton: FunctionComponent<{
-  path: string
-  className: string
-}> = ({children, path, className = ''}) => {
-  return (
-    <Link href={path || '#'}>
-      <a className={className}>{children || 'Next Lesson'}</a>
-    </Link>
-  )
 }
 
 const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
@@ -172,8 +153,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
-
   const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
     playerState.matches,
   )
@@ -273,35 +252,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
                 {currentPlayerState === 'showingNext' && (
                   <OverlayWrapper>
-                    <img
-                      src={lesson.course.square_cover_480_url}
-                      alt=""
-                      className="w-32"
+                    <NextUpOverlay
+                      lesson={lesson}
+                      send={send}
+                      url={next_up_url}
                     />
-                    <div className="mt-8">Up Next</div>
-                    <h3 className="text-xl font-semibold mt-4">
-                      {nextLessonTitle}
-                    </h3>
-                    <div className="flex mt-16">
-                      <button
-                        className="bg-gray-300 rounded p-2 flex items-center"
-                        onClick={() => send('LOAD')}
-                      >
-                        <IconRefresh className="w-6 mr-3" /> Watch Again
-                      </button>
-                      <NextResourceButton
-                        path={nextUpPath}
-                        className="bg-gray-300 rounded p-2 flex items-center ml-4"
-                      >
-                        <IconPlay className="w-6 mr-3" /> Load the Next Video
-                      </NextResourceButton>
-                    </div>
-                    <div className="mt-20">
-                      Feeling stuck?{' '}
-                      <a href="#" className="font-semibold">
-                        Get help from egghead community
-                      </a>
-                    </div>
                   </OverlayWrapper>
                 )}
               </div>
@@ -344,8 +299,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 tags={tags}
                 summary={summary}
                 course={course}
-                nextUpData={nextUpData}
+                nextUpUrl={next_up_url}
                 lesson={lesson}
+                playerState={playerState}
                 className="space-y-6 divide-y divide-cool-gray-100"
               />
             </div>
@@ -375,37 +331,3 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   }
 }
-
-const IconPlay: FunctionComponent<{className: string}> = ({className = ''}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className={className}
-  >
-    <path
-      fillRule="evenodd"
-      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-      clipRule="evenodd"
-    />
-  </svg>
-)
-
-const IconRefresh: FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    className={className}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-    />
-  </svg>
-)
