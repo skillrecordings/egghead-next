@@ -39,8 +39,6 @@ const Playlist: FunctionComponent<PlaylistProps> = ({playlist}) => {
 
   const firstLessonURL = `/lessons/${get(first(lessons), 'slug')}`
 
-  console.log(data)
-
   const Instructor: FunctionComponent<{
     name: string
     avatar_url: string
