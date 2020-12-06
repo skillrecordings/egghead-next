@@ -71,16 +71,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   React.useEffect(() => {
-    const mediaIsPresent = hls_url && dash_url
     switch (currentPlayerState) {
       case 'loading':
-        if (mediaIsPresent) {
-          const event: {type: 'LOADED'; lesson: any} = {
-            type: 'LOADED',
-            lesson: initialLesson,
-          }
-          send(event)
+        const event: {type: 'LOADED'; lesson: any} = {
+          type: 'LOADED',
+          lesson: initialLesson,
         }
+        send(event)
         break
       case 'loaded':
         if (isEmpty(viewer) && free_forever) {
@@ -203,7 +200,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   />
                 )}
 
-                {currentPlayerState === 'joining' && (
+                {playerState.matches('joining') && (
                   <OverlayWrapper>
                     <CreateAccountCTA
                       lesson={get(lesson, 'slug')}
@@ -211,12 +208,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     />
                   </OverlayWrapper>
                 )}
-                {currentPlayerState === 'subscribing' && (
+                {playerState.matches('subscribing') && (
                   <OverlayWrapper>
                     <JoinCTA />
                   </OverlayWrapper>
                 )}
-                {currentPlayerState === 'showingNext' && (
+                {playerState.matches('showingNext') && (
                   <OverlayWrapper>
                     <NextUpOverlay
                       lesson={lesson}
