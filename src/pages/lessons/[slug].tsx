@@ -203,7 +203,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }}
       />
       <Head>
-        <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
+        <script
+          async
+          src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
+        />
       </Head>
       <div key={lesson.slug} className="space-y-8 w-full">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
