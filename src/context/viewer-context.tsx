@@ -55,11 +55,22 @@ function useAuthedViewer() {
 
     const loadViewerFromStorage = async () => {
       console.log(`loading viewer from storage`)
-      const newViewer: any = await auth.refreshUser()
-      if (!isEqual(newViewer.id, viewerId)) {
-        setViewer(newViewer)
+
+      const localViewer = auth.getLocalUser()
+
+      if (localViewer) {
+        if (!isEqual(localViewer.id, viewerId)) {
+          setViewer(localViewer)
+        }
+        setLoading(() => false)
       }
-      setLoading(() => false)
+
+      auth.refreshUser().then((newViewer: any) => {
+        if (!isEqual(newViewer.id, viewerId)) {
+          setViewer(newViewer)
+        }
+        setLoading(() => false)
+      })
     }
 
     const clearAccessToken = () => {
@@ -83,11 +94,20 @@ function useAuthedViewer() {
     }
 
     const loadViewerFromToken = async () => {
-      const viewer: any = await auth.handleCookieBasedAccessTokenAuthentication(
-        authToken,
-      )
-      setViewer(viewer)
-      setLoading(() => false)
+      const localViewer = auth.getLocalUser()
+
+      if (localViewer) {
+        if (!isEqual(localViewer.id, viewerId)) {
+          setViewer(localViewer)
+        }
+        setLoading(() => false)
+      }
+      auth
+        .handleCookieBasedAccessTokenAuthentication(authToken)
+        .then((viewer: any) => {
+          setViewer(viewer)
+          setLoading(() => false)
+        })
     }
 
     if (authToken) {

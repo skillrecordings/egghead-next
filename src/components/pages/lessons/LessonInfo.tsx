@@ -5,46 +5,45 @@ import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
 import Eggo from '../../../components/images/eggo.svg'
-import {LessonResource} from 'types'
+import {useNextUpData} from 'hooks/use-next-up-data'
 
 type NextUpProps = {
   currentLessonSlug: string
-  data: {
-    list: {
-      lessons: LessonResource[]
-    }
-  }
+  url: string
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({data, currentLessonSlug}) => {
-  return data ? (
+const NextUp: FunctionComponent<NextUpProps> = ({url, currentLessonSlug}) => {
+  const {nextUpData} = useNextUpData(url)
+  return nextUpData ? (
     <ol>
       <span className="font-semibold">Lessons</span>
-      {data.list.lessons.map((lesson, index = 0) => {
-        return (
-          <li key={lesson.slug} className="py-2 pr-3">
-            <div className="flex">
-              <div className="flex items-center mr-2">
-                <div className="mr-1 text-xs text-cool-gray-400">
-                  {index + 1}
+      {nextUpData.list.lessons.map(
+        (lesson: {slug: any; title: any; path: any}, index = 0) => {
+          return (
+            <li key={lesson.slug} className="py-2 pr-3">
+              <div className="flex">
+                <div className="flex items-center mr-2">
+                  <div className="mr-1 text-xs text-cool-gray-400">
+                    {index + 1}
+                  </div>
+                  {/* <input type="checkbox" checked={lesson.completed} readOnly /> */}
                 </div>
-                {/* <input type="checkbox" checked={lesson.completed} readOnly /> */}
+                <div className="w-full leading-tight">
+                  {lesson.slug !== currentLessonSlug ? (
+                    <Link href={lesson.path}>
+                      <a className="font-semibold no-underline hover:underline text-blue-600">
+                        {lesson.title}
+                      </a>
+                    </Link>
+                  ) : (
+                    <div className="font-semibold">► {lesson.title}</div>
+                  )}
+                </div>
               </div>
-              <div className="w-full leading-tight">
-                {lesson.slug !== currentLessonSlug ? (
-                  <Link href={lesson.path}>
-                    <a className="font-semibold no-underline hover:underline text-blue-600">
-                      {lesson.title}
-                    </a>
-                  </Link>
-                ) : (
-                  <div className="font-semibold">► {lesson.title}</div>
-                )}
-              </div>
-            </div>
-          </li>
-        )
-      })}
+            </li>
+          )
+        },
+      )}
     </ol>
   ) : null
 }
@@ -161,6 +160,8 @@ type LessonInfoProps = {
     slug: string
   }
   [cssRelated: string]: any
+  nextUpUrl: string
+  playerState: any
 }
 
 const LessonInfo: FunctionComponent<LessonInfoProps> = ({
@@ -169,8 +170,9 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   tags,
   summary,
   course,
-  nextUpData,
+  nextUpUrl,
   lesson,
+  playerState,
   ...restProps
 }) => {
   return (
@@ -318,9 +320,9 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
           </div>
         </div>
       </div>
-      {nextUpData && (
+      {!playerState.matches('loading') && nextUpUrl && (
         <div className="pt-6">
-          <NextUp data={nextUpData} currentLessonSlug={lesson.slug} />
+          <NextUp url={nextUpUrl} currentLessonSlug={lesson.slug} />
         </div>
       )}
     </div>

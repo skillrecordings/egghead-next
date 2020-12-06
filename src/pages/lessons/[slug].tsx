@@ -1,12 +1,9 @@
 import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
-import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get, first} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import useSWR from 'swr'
 import {useWindowSize} from 'react-use'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
@@ -21,86 +18,11 @@ import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA copy'
+import Head from 'next/head'
+import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const tracer = getTracer('lesson-page')
-
-const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
-
-const lessonQuery = /* GraphQL */ `
-  query getLesson($slug: String!) {
-    lesson(slug: $slug) {
-      slug
-      title
-      transcript_url
-      subtitles_url
-      next_up_url
-      summary
-      hls_url
-      dash_url
-      free_forever
-      http_url
-      path
-      course {
-        title
-        square_cover_480_url
-        slug
-      }
-      tags {
-        name
-        http_url
-        image_url
-      }
-      instructor {
-        full_name
-        avatar_64_url
-        slug
-        twitter
-      }
-      repo_url
-      code_url
-    }
-  }
-`
-
-const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
-
-const useNextUpData = (url: string) => {
-  const {data: nextUpData} = useSWR(url, fetcher)
-  const nextUpPath = get(nextUpData, 'next_lesson')
-  const nextLessonTitle = get(nextUpData, 'next_lesson_title')
-  return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
-}
-
-const useTranscriptData = (url: string) => {
-  const {data: transcriptData} = useSWR(url, fetcher)
-  return get(transcriptData, 'text')
-}
-
-const lessonLoader = (slug: string, token: string) => {
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
-  const variables = {
-    slug: slug,
-  }
-  const graphQLClient = new GraphQLClient(API_ENDPOINT, {
-    headers: {
-      ...authorizationHeader,
-    },
-  })
-  return graphQLClient.request(lessonQuery, variables)
-}
-
-const NextResourceButton: FunctionComponent<{
-  path: string
-  className: string
-}> = ({children, path, className = ''}) => {
-  return (
-    <Link href={path || '#'}>
-      <a className={className}>{children || 'Next Lesson'}</a>
-    </Link>
-  )
-}
 
 const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
   children,
@@ -124,19 +46,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken, logout, viewer} = useViewer()
+  const {viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
   const currentPlayerState = playerState.value
 
-  const {data = {}, error} = useSWR(
-    [initialLesson.slug, authToken],
-    lessonLoader,
-  )
-
-  if (error) logout()
-
-  const lesson = {...initialLesson, ...data.lesson}
+  const lesson: any = {...initialLesson}
 
   const {
     instructor,
@@ -153,16 +68,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
-  const transcriptText = useTranscriptData(transcript_url)
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   React.useEffect(() => {
+    const mediaIsPresent = hls_url && dash_url
     switch (currentPlayerState) {
       case 'loading':
-        if (!isEmpty(data.lesson)) {
+        if (mediaIsPresent) {
           const event: {type: 'LOADED'; lesson: any} = {
             type: 'LOADED',
-            lesson: data.lesson,
+            lesson: initialLesson,
           }
           send(event)
         }
@@ -183,11 +98,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [
     currentPlayerState,
     dash_url,
-    data.lesson,
     free_forever,
     hls_url,
     send,
     viewer,
+    initialLesson,
   ])
 
   React.useEffect(() => {
@@ -203,8 +118,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
-
-  const {nextUpData, nextUpPath, nextLessonTitle} = useNextUpData(next_up_url)
 
   const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
     playerState.matches,
@@ -234,6 +147,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           ],
         }}
       />
+      <Head>
+        <script
+          async
+          src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
+        />
+      </Head>
       <div key={lesson.slug} className="space-y-8 w-full">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div
@@ -299,35 +218,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
                 {currentPlayerState === 'showingNext' && (
                   <OverlayWrapper>
-                    <img
-                      src={lesson.course.square_cover_480_url}
-                      alt=""
-                      className="w-32"
+                    <NextUpOverlay
+                      lesson={lesson}
+                      send={send}
+                      url={next_up_url}
                     />
-                    <div className="mt-8">Up Next</div>
-                    <h3 className="text-xl font-semibold mt-4">
-                      {nextLessonTitle}
-                    </h3>
-                    <div className="flex mt-16">
-                      <button
-                        className="bg-gray-300 rounded p-2 flex items-center"
-                        onClick={() => send('LOAD')}
-                      >
-                        <IconRefresh className="w-6 mr-3" /> Watch Again
-                      </button>
-                      <NextResourceButton
-                        path={nextUpPath}
-                        className="bg-gray-300 rounded p-2 flex items-center ml-4"
-                      >
-                        <IconPlay className="w-6 mr-3" /> Load the Next Video
-                      </NextResourceButton>
-                    </div>
-                    <div className="mt-20">
-                      Feeling stuck?{' '}
-                      <a href="#" className="font-semibold">
-                        Get help from egghead community
-                      </a>
-                    </div>
                   </OverlayWrapper>
                 )}
               </div>
@@ -342,17 +237,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   css={{background: 'none'}}
                   className="text-lg font-semibold"
                 >
-                  {transcriptText && <Tab>Transcript</Tab>}
+                  {transcript_url && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
                 <TabPanels className="mt-6">
-                  {transcriptText && (
+                  {transcript_url && (
                     <TabPanel>
-                      <Transcript
-                        player={playerRef}
-                        playVideo={() => send('PLAY')}
-                        transcriptText={transcriptText}
-                      />
+                      {!playerState.matches('loading') && (
+                        <Transcript
+                          player={playerRef}
+                          playVideo={() => send('PLAY')}
+                          transcriptUrl={transcript_url}
+                        />
+                      )}
                     </TabPanel>
                   )}
                   <TabPanel>
@@ -368,8 +265,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 tags={tags}
                 summary={summary}
                 course={course}
-                nextUpData={nextUpData}
+                nextUpUrl={next_up_url}
                 lesson={lesson}
+                playerState={playerState}
                 className="space-y-6 divide-y divide-cool-gray-100"
               />
             </div>
@@ -388,10 +286,15 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader(
+    'Link',
+    'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
+  )
 
   const initialLesson: LessonResource | undefined =
-    params && (await loadLesson(params.slug as string))
+    params && (await loadLesson(params.slug as string, eggheadToken))
 
   return {
     props: {
@@ -399,37 +302,3 @@ export const getServerSideProps: GetServerSideProps = async function ({
     },
   }
 }
-
-const IconPlay: FunctionComponent<{className: string}> = ({className = ''}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-    className={className}
-  >
-    <path
-      fillRule="evenodd"
-      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-      clipRule="evenodd"
-    />
-  </svg>
-)
-
-const IconRefresh: FunctionComponent<{className: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    className={className}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-    />
-  </svg>
-)
