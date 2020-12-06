@@ -18,6 +18,7 @@ import Transcript from 'components/pages/lessons/Transcript'
 import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -245,11 +246,14 @@ export default Talk
 
 export const getServerSideProps: GetServerSideProps = async function ({
   res,
+  req,
   params,
 }) {
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const initialLesson = params && (await loadLesson(params.slug as string))
+  const initialLesson =
+    params && (await loadLesson(params.slug as string, eggheadToken))
 
   return {
     props: {

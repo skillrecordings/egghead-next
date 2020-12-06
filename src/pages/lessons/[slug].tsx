@@ -1,12 +1,9 @@
 import React, {FunctionComponent, useState} from 'react'
 import {GetServerSideProps} from 'next'
-import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {GraphQLClient} from 'graphql-request'
 import {isEmpty, get, first} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import useSWR from 'swr'
 import {useWindowSize} from 'react-use'
 import playerMachine from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
@@ -23,34 +20,9 @@ import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA copy'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const tracer = getTracer('lesson-page')
-
-const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
-
-const lessonMediaUrlQuery = /* GraphQL */ `
-  query getLesson($slug: String!) {
-    lesson(slug: $slug) {
-      hls_url
-      dash_url
-    }
-  }
-`
-
-const lessonLoader = (slug: string, token: string) => {
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
-  const variables = {
-    slug: slug,
-  }
-  const graphQLClient = new GraphQLClient(API_ENDPOINT, {
-    headers: {
-      ...authorizationHeader,
-    },
-  })
-  return graphQLClient.request(lessonMediaUrlQuery, variables)
-}
 
 const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
   children,
@@ -74,19 +46,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken, logout, viewer} = useViewer()
+  const {viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
 
   const currentPlayerState = playerState.value
 
-  const {data = {}, error} = useSWR(
-    [initialLesson.slug, authToken],
-    lessonLoader,
-  )
-
-  if (error) logout()
-
-  const lesson = {...initialLesson, ...data.lesson}
+  const lesson: any = {...initialLesson}
 
   const {
     instructor,
@@ -106,12 +71,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   React.useEffect(() => {
+    const mediaIsPresent = hls_url && dash_url
     switch (currentPlayerState) {
       case 'loading':
-        if (!isEmpty(data.lesson)) {
+        if (mediaIsPresent) {
           const event: {type: 'LOADED'; lesson: any} = {
             type: 'LOADED',
-            lesson: data.lesson,
+            lesson: initialLesson,
           }
           send(event)
         }
@@ -132,11 +98,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [
     currentPlayerState,
     dash_url,
-    data.lesson,
     free_forever,
     hls_url,
     send,
     viewer,
+    initialLesson,
   ])
 
   React.useEffect(() => {
@@ -320,10 +286,15 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader(
+    'Link',
+    'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
+  )
 
   const initialLesson: LessonResource | undefined =
-    params && (await loadLesson(params.slug as string))
+    params && (await loadLesson(params.slug as string, eggheadToken))
 
   return {
     props: {
