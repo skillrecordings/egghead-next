@@ -9,6 +9,7 @@ import {GetServerSideProps} from 'next'
 import {get, first} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
@@ -173,9 +174,15 @@ const Playlist: FunctionComponent<PlaylistProps> = ({playlist}) => {
 
 export default Playlist
 
-export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  params,
+}) => {
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const playlist = params && (await loadPlaylist(params.slug as string))
+  const playlist =
+    params && (await loadPlaylist(params.slug as string, eggheadToken))
 
   return {
     props: {

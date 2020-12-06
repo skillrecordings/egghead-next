@@ -1,7 +1,9 @@
-import {request} from 'graphql-request'
+import {GraphQLClient} from 'graphql-request'
 import config from './config'
 
-export async function loadPlaylist(slug: string) {
+const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+
+export async function loadPlaylist(slug: string, token: string) {
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
       playlist(slug: $slug) {
@@ -24,7 +26,18 @@ export async function loadPlaylist(slug: string) {
       }
     }
   `
-  const {playlist} = await request(config.graphQLEndpoint, query, {slug})
+  const authorizationHeader = token && {
+    authorization: `Bearer ${token}`,
+  }
+  const variables = {
+    slug: slug,
+  }
+
+  graphQLClient.setHeaders({
+    ...authorizationHeader,
+  })
+
+  const {playlist} = await graphQLClient.request(query, variables)
 
   return playlist
 }
@@ -39,7 +52,7 @@ export async function loadAllPlaylists() {
       }
     }
   `
-  const {all_playlists} = await request(config.graphQLEndpoint, query)
+  const {all_playlists} = await graphQLClient.request(query)
 
   return all_playlists
 }
