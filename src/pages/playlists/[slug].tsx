@@ -179,7 +179,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const playlist =
     params && (await loadPlaylist(params.slug as string, eggheadToken))
 

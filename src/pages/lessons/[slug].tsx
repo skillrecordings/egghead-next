@@ -287,7 +287,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   res.setHeader(
     'Link',
     'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',

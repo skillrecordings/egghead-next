@@ -250,7 +250,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }) {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
   const initialLesson =
     params && (await loadLesson(params.slug as string, eggheadToken))
