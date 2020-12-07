@@ -62,12 +62,14 @@ const playerMachine = Machine<
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
           PAUSE: 'paused',
+          LOAD: 'loading',
         },
       },
       viewing: {
         entry: ['sendTelemetry'],
         on: {
           PLAY: 'playing',
+          LOAD: 'loading',
         },
       },
       playing: {
@@ -77,12 +79,14 @@ const playerMachine = Machine<
           COMPLETE: 'completed',
           RATE: 'rating',
           PAUSE: 'paused',
+          LOAD: 'loading',
         },
       },
       paused: {
         entry: ['sendTelemetry'],
         on: {
           PLAY: 'playing',
+          LOAD: 'loading',
         },
       },
       completed: {
@@ -93,6 +97,7 @@ const playerMachine = Machine<
           JOIN: 'joining',
           RATE: 'rating',
           QUIZ: 'quizzing',
+          LOAD: 'loading',
         },
       },
       quizzing: {
@@ -101,6 +106,7 @@ const playerMachine = Machine<
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
           RATE: 'rating',
+          LOAD: 'loading',
         },
       },
       rating: {
@@ -109,6 +115,7 @@ const playerMachine = Machine<
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
           QUIZ: 'quizzing',
+          LOAD: 'loading',
         },
       },
       subscribing: {
@@ -117,6 +124,7 @@ const playerMachine = Machine<
           JOIN: 'joining',
           RATE: 'rating',
           QUIZ: 'quizzing',
+          LOAD: 'loading',
         },
       },
       joining: {
@@ -125,6 +133,7 @@ const playerMachine = Machine<
           SUBSCRIBE: 'subscribing',
           RATE: 'rating',
           QUIZ: 'quizzing',
+          LOAD: 'loading',
         },
       },
       showingNext: {

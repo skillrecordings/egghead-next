@@ -54,7 +54,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const lesson: any = {...initialLesson}
 
-  const {data} = useSWR(initialLesson.media_url, fetcher)
+  const {data} = useSWR(lesson.media_url, fetcher)
 
   const {
     instructor,
@@ -92,6 +92,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           send('SUBSCRIBE')
         }
         break
+      case 'viewing':
+        if (!data) {
+          send('LOAD')
+        }
+        break
       case 'completed':
         send('NEXT')
         break
@@ -112,9 +117,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
-    playerState.matches,
-  )
+  const playerVisible: boolean =
+    ['playing', 'paused', 'viewing'].some(playerState.matches) && data
 
   const transcriptAvailable = transcript || transcript_url
 
