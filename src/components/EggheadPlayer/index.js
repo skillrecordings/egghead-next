@@ -111,8 +111,16 @@ export default class EggheadPlayer extends Component {
     const active = Player.canPlay(url)
     const {...activeProps} = this.props
     const props = active ? {...activeProps, ref: this.ref} : {}
+    const {onPlaybackRateChange, playbackRate} = useEggheadPlayer()
 
-    return <Player key={Player.displayName} {...props} />
+    return (
+      <Player
+        key={Player.displayName}
+        {...props}
+        playbackRate={playbackRate || props.playbackRate}
+        onPlaybackRateChange={(rate) => onPlaybackRateChange(rate)}
+      />
+    )
   }
   render() {
     const {style, width, height} = this.props
