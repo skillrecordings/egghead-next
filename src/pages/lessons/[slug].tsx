@@ -59,6 +59,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {
     instructor,
     next_up_url,
+    transcript,
     transcript_url,
     http_url,
     title,
@@ -114,6 +115,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
     playerState.matches,
   )
+
+  const transcriptAvailable = transcript || transcript_url
 
   return (
     <>
@@ -229,19 +232,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   css={{background: 'none'}}
                   className="text-lg font-semibold"
                 >
-                  {transcript_url && <Tab>Transcript</Tab>}
+                  {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
                 <TabPanels className="mt-6">
-                  {transcript_url && (
+                  {transcriptAvailable && (
                     <TabPanel>
-                      {!playerState.matches('loading') && (
-                        <Transcript
-                          player={playerRef}
-                          playVideo={() => send('PLAY')}
-                          transcriptUrl={transcript_url}
-                        />
-                      )}
+                      <Transcript
+                        player={playerRef}
+                        playerAvailable={playerVisible}
+                        playVideo={() => send('PLAY')}
+                        transcriptUrl={transcript_url}
+                        initialTranscript={transcript}
+                      />
                     </TabPanel>
                   )}
                   <TabPanel>

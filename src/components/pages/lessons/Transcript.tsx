@@ -11,6 +11,8 @@ type TranscriptProps = {
   transcriptUrl: string
   className?: string
   playVideo: () => any
+  initialTranscript?: string
+  playerAvailable: boolean
 }
 
 const hmsToSeconds = (str: string) => {
@@ -27,6 +29,7 @@ const hmsToSeconds = (str: string) => {
 
 const useTranscriptData = (url: string) => {
   const {data: transcriptData} = useSWR(url, fetcher)
+  console.log(transcriptData)
   return get(transcriptData, 'text')
 }
 
@@ -35,10 +38,11 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   className,
   playVideo = noop,
   transcriptUrl,
+  initialTranscript = '',
+  playerAvailable,
 }: TranscriptProps) => {
-  const currentPlayer = player.current
   const transcriptText = useTranscriptData(transcriptUrl)
-  const [transcript, setTranscript] = useState(null)
+  const [transcript, setTranscript] = useState<string>()
 
   const LinkReference = (props: any) => {
     const children = get(props, 'children', [''])
@@ -67,7 +71,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   }
 
   useEffect(() => {
-    if (transcriptText && currentPlayer) {
+    if (transcriptText && playerAvailable) {
       const matches =
         transcriptText &&
         transcriptText.match(
@@ -78,7 +82,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
         matches.forEach((match: any, i: number) => {
           result = result.replace(
             match,
-            `[${match.replace('[', '').replace(']', '')}](${match
+            `[[${match.replace('[', '').replace(']', '')}]](${match
               .replace('[', '')
               .replace(']', '')})`,
           )
@@ -88,10 +92,12 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
         })
     } else if (transcriptText) {
       setTranscript(transcriptText)
+    } else {
+      setTranscript(initialTranscript)
     }
-  }, [transcriptText, currentPlayer])
+  }, [transcriptText, playerAvailable, initialTranscript])
 
-  if (!transcriptText) {
+  if (!transcript) {
     return null
   }
 
