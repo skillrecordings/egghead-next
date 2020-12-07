@@ -10,21 +10,27 @@ const NextUpOverlay: React.FunctionComponent<{
   const {nextLessonTitle, nextUpPath} = useNextUpData(url)
   return (
     <>
-      <img src={lesson.course.square_cover_480_url} alt="" className="w-32" />
+      <img
+        src={lesson.course.square_cover_480_url}
+        alt={`illustration of ${lesson.course.title} course`}
+        className="w-32"
+      />
       <div className="mt-8">Up Next</div>
-      <h3 className="text-xl font-semibold mt-4">{nextLessonTitle}</h3>
+      <h3 className="text-xl font-semibold mt-4 text-center">
+        {nextLessonTitle}
+      </h3>
       <div className="flex mt-16">
         <button
-          className="bg-gray-300 rounded p-2 flex items-center"
+          className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
           onClick={() => send('LOAD')}
         >
-          <IconRefresh className="w-6 mr-3" /> Watch Again
+          <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
         <NextResourceButton
           path={nextUpPath}
-          className="bg-gray-300 rounded p-2 flex items-center ml-4"
+          className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
         >
-          <IconPlay className="w-6 mr-3" /> Load the Next Video
+          <IconPlay className="w-6 mr-2" /> Play next
         </NextResourceButton>
       </div>
       <div className="mt-20">
