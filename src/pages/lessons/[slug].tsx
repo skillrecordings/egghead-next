@@ -20,7 +20,8 @@ import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA copy'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
-import {getTokenFromCookieHeaders} from 'utils/auth'
+import useSWR from 'swr'
+import fetcher from 'utils/fetcher'
 
 const tracer = getTracer('lesson-page')
 
@@ -53,12 +54,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const lesson: any = {...initialLesson}
 
+  const {data} = useSWR(initialLesson.media_url, fetcher)
+
   const {
     instructor,
     next_up_url,
     transcript_url,
-    hls_url,
-    dash_url,
     http_url,
     title,
     tags,
@@ -73,16 +74,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
-        const event: {type: 'LOADED'; lesson: any} = {
-          type: 'LOADED',
-          lesson: initialLesson,
+        if (data) {
+          const event: {type: 'LOADED'; lesson: any} = {
+            type: 'LOADED',
+            lesson: initialLesson,
+          }
+          send(event)
         }
-        send(event)
         break
       case 'loaded':
         if (isEmpty(viewer) && free_forever) {
           send('JOIN')
-        } else if (hls_url || dash_url) {
+        } else if (data.hls_url || data.dash_url) {
           send('VIEW')
         } else {
           send('SUBSCRIBE')
@@ -92,15 +95,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         send('NEXT')
         break
     }
-  }, [
-    currentPlayerState,
-    dash_url,
-    free_forever,
-    hls_url,
-    send,
-    viewer,
-    initialLesson,
-  ])
+  }, [currentPlayerState, data, free_forever, send, viewer, initialLesson])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
@@ -184,8 +179,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
-                    hls_url={hls_url}
-                    dash_url={dash_url}
+                    hls_url={data.hls_url}
+                    dash_url={data.dash_url}
                     playing={playerState.matches('playing')}
                     width="100%"
                     height="auto"
@@ -283,14 +278,14 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   res.setHeader(
     'Link',
     'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
   )
 
   const initialLesson: LessonResource | undefined =
-    params && (await loadLesson(params.slug as string, eggheadToken))
+    params && (await loadLesson(params.slug as string))
 
   return {
     props: {

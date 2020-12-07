@@ -10,6 +10,7 @@ export type Resource = {
 export type LessonResource = Resource & {
   dash_url: string
   hls_url: string
+  media_url: string
   lesson_view_url: string
   id: string | number
   tags: any[]

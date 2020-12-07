@@ -23,7 +23,7 @@ export async function loadLessons(): Promise<LessonResource[]> {
   return lessons
 }
 
-export async function loadLesson(slug: string, token: string) {
+export async function loadLesson(slug: string, token?: string) {
   const query = /* GraphQL */ `
     query getLesson($slug: String!) {
       lesson(slug: $slug) {
@@ -37,6 +37,7 @@ export async function loadLesson(slug: string, token: string) {
         dash_url
         free_forever
         http_url
+        media_url
         path
         course {
           title
