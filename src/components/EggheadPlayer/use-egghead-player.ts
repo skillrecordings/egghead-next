@@ -2,7 +2,7 @@ import cookies from 'utils/cookies'
 import {track} from 'utils/analytics'
 import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 import axios from 'axios'
-import {isEmpty, pickBy, identity, get} from 'lodash'
+import {isEmpty, pickBy, identity, get, isNumber} from 'lodash'
 import {LessonResource} from 'types'
 
 const getOptions = () =>
@@ -225,12 +225,22 @@ function onVideoQualityChanged() {}
 
 function onSubtitleChange() {}
 
+function onPlaybackRateChange(rate: number) {
+  cookies.set('egghead-playback-rate', rate)
+}
+
 export default function useEggheadPlayer(lesson: any) {
+  const playbackRate = isNumber(cookies.get('egghead-playback-rate'))
+    ? cookies.get('egghead-playback-rate')
+    : 1
+
   return {
     onProgress: onProgress(lesson),
     onEnded: onEnded(lesson),
     onError,
     onVideoQualityChanged,
     onSubtitleChange,
+    onPlaybackRateChange,
+    playbackRate,
   }
 }
