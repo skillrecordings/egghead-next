@@ -93,7 +93,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
-  const [, send] = useMachine(playerMachine)
+  const [playerState, send] = useMachine(playerMachine)
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
 
@@ -126,6 +126,10 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   if (!lesson) return null
+
+  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
+    playerState.matches,
+  )
 
   return (
     <>
@@ -225,6 +229,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   player={playerRef}
                   transcriptUrl={transcript_url}
                   playVideo={() => send('PLAY')}
+                  playerAvailable={playerVisible}
                 />
               </div>
             )}
