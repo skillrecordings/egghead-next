@@ -225,12 +225,6 @@ function onVideoQualityChanged() {}
 
 function onSubtitleChange() {}
 
-function onPlaybackRateChange(speed: number) {
-  cookies.set('egghead-playback-rate', speed)
-}
-
-const playbackRate = cookies.get('egghead-playback-rate')
-
 export default function useEggheadPlayer(lesson: any) {
   return {
     onProgress: onProgress(lesson),
@@ -238,7 +232,5 @@ export default function useEggheadPlayer(lesson: any) {
     onError,
     onVideoQualityChanged,
     onSubtitleChange,
-    onPlaybackRateChange,
-    playbackRate,
   }
 }
