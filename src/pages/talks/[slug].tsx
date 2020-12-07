@@ -18,6 +18,7 @@ import Transcript from 'components/pages/lessons/Transcript'
 import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -92,7 +93,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {authToken, logout} = useViewer()
-  const [, send] = useMachine(playerMachine)
+  const [playerState, send] = useMachine(playerMachine)
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
 
@@ -125,6 +126,10 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   if (!lesson) return null
+
+  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
+    playerState.matches,
+  )
 
   return (
     <>
@@ -224,6 +229,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   player={playerRef}
                   transcriptUrl={transcript_url}
                   playVideo={() => send('PLAY')}
+                  playerAvailable={playerVisible}
                 />
               </div>
             )}
@@ -245,11 +251,13 @@ export default Talk
 
 export const getServerSideProps: GetServerSideProps = async function ({
   res,
+  req,
   params,
 }) {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
 
-  const initialLesson = params && (await loadLesson(params.slug as string))
+  const initialLesson =
+    params && (await loadLesson(params.slug as string, eggheadToken))
 
   return {
     props: {

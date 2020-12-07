@@ -194,13 +194,13 @@ export default class Auth {
     return !expired
   }
 
-  refreshUser(loadFullUser = false) {
+  refreshUser(minimalUser = true) {
     return new Promise((resolve, reject) => {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
       }
       http
-        .get(`/api/users/current?minimal=${loadFullUser}`, {})
+        .get(`/api/users/current?minimal=${minimalUser}`, {})
         .then(({data}) => {
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)

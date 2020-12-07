@@ -32,7 +32,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-cool-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
         href={createURL(item.value)}
@@ -88,7 +88,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-cool-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
         href={createURL(item.value)}
@@ -139,7 +139,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-cool-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
         href={createURL(item.value)}
@@ -202,12 +202,12 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
           <>
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               {/* prettier-ignore */}
-              <svg className="text-gray-500" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
+              <svg className="text-cool-gray-500" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
             </div>
             <input
               tabIndex={tabIndex}
               type="search"
-              className="bg-gray-200 rounded-md px-3 pl-8 py-2 w-full"
+              className="form-input bg-cool-gray-100 border-none rounded-md px-3 pl-8 py-2 w-full"
               placeholder={`Search ${label(attribute)}`}
               onChange={(event) => searchForItems(event.currentTarget.value)}
             />

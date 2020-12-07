@@ -32,7 +32,17 @@ const eggAxios = axios.create({
 })
 
 async function fetchEggheadUser(token: any) {
-  const {data: current} = await eggAxios.get(`/api/users/current?minimal=true`)
+  const authorizationHeader = token && {
+    authorization: `Bearer ${token}`,
+  }
+  const {data: current} = await eggAxios.get(
+    `/api/v1/users/current?minimal=true`,
+    {
+      headers: {
+        ...authorizationHeader,
+      },
+    },
+  )
   log('successfully fetched egghead user')
   return current
 }
