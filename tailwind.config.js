@@ -1,3 +1,6 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   purge: [
     './src/**/*.js',
@@ -10,64 +13,39 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        blue: {
-          50: '#EBF5FF',
-          100: '#E1EFFE',
-          200: '#C3DDFD',
-          300: '#A4CAFE',
-          400: '#76A9FA',
-          500: '#3F83F8',
-          600: '#1C64F2',
-          700: '#1A56DB',
-          800: '#1E429F',
-          900: '#233876',
-        },
-      },
-      margin: {
-        '-3': '-0.75em',
-        '-4': '-1rem',
-        '-8': '-2rem',
+        gray: colors.coolGray,
+        black: defaultTheme.colors.gray['900'],
+        brand: defaultTheme.colors.blue['600'],
       },
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: theme('colors.gray.900'),
+            // color: theme('colors.black'),
+            a: {
+              color: `#2563eb !important`,
+            },
+            // 'strong > a': {
+            //   color: `#2563eb !important`,
+            // },
             code: {
               padding: '3px 5px',
               borderRadius: 5,
               background: theme('colors.gray.100'),
             },
-            a: {
-              color: theme('colors.blue.600'),
-              textDecoration: 'underline',
-            },
             h1: {
-              lineHeight: theme('lineHeight.tight'),
               fontSize: theme('fontSize.3xl'),
-            },
-            h2: {
-              lineHeight: theme('lineHeight.snug'),
-              fontSize: theme('fontSize.xl'),
-            },
-            h3: {
-              lineHeight: theme('lineHeight.normal'),
-              fontSize: theme('fontSize.lg'),
-            },
-          },
-        },
-        xl: {
-          css: {
-            h1: {
               lineHeight: theme('lineHeight.tight'),
-              fontSize: theme('fontSize.4xl'),
+              fontWeight: theme('fontWeight.bold'),
             },
             h2: {
+              fontSize: theme('fontSize.xl'),
               lineHeight: theme('lineHeight.snug'),
-              fontSize: theme('fontSize.2xl'),
+              fontWeight: theme('fontWeight.bold'),
             },
             h3: {
-              lineHeight: theme('lineHeight.normal'),
               fontSize: theme('fontSize.lg'),
+              lineHeight: theme('lineHeight.normal'),
+              fontWeight: theme('fontWeight.bold'),
             },
           },
         },

@@ -6,45 +6,87 @@ import Markdown from 'react-markdown'
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
 import Eggo from '../../../components/images/eggo.svg'
 import {useNextUpData} from 'hooks/use-next-up-data'
+import {Element, scroller} from 'react-scroll'
 
-type NextUpProps = {
+type NextUpListProps = {
   currentLessonSlug: string
   url: string
 }
 
-const NextUp: FunctionComponent<NextUpProps> = ({url, currentLessonSlug}) => {
+const NextUpList: FunctionComponent<NextUpListProps> = ({
+  url,
+  currentLessonSlug,
+}) => {
   const {nextUpData} = useNextUpData(url)
+  const [activeElement] = React.useState(currentLessonSlug)
+  const scrollableNodeRef: any = React.createRef()
+
+  React.useEffect(() => {
+    nextUpData &&
+      scroller.scrollTo(activeElement, {
+        duration: 0,
+        delay: 0,
+        containerId: 'scroll-container',
+      })
+  }, [activeElement, nextUpData])
+
   return nextUpData ? (
-    <ol>
-      <span className="font-semibold">Lessons</span>
-      {nextUpData.list.lessons.map(
-        (lesson: {slug: any; title: any; path: any}, index = 0) => {
-          return (
-            <li key={lesson.slug} className="py-2 pr-3">
-              <div className="flex">
-                <div className="flex items-center mr-2">
-                  <div className="mr-1 text-xs text-cool-gray-400">
-                    {index + 1}
+    <div className="pt-6">
+      <span className="font-semibold ">Lessons</span>
+      <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
+        <ol
+          ref={scrollableNodeRef}
+          id="scroll-container"
+          className="overflow-y-auto h-full"
+          css={{maxHeight: 600}}
+        >
+          {nextUpData.list.lessons.map(
+            (lesson: {slug: any; title: any; path: any}, index = 0) => {
+              const Item: FunctionComponent<{className?: string}> = ({
+                className,
+              }) => {
+                return (
+                  <div
+                    className={`flex p-3 ${
+                      className ? className : ''
+                    } transition-colors ease-in-out duration-150`}
+                  >
+                    <div className="flex items-center mr-2">
+                      <div className="mr-1 text-xs opacity-50 tracking-tight">
+                        {index + 1}
+                      </div>
+                      {/* <input
+                type="form-checkbox"
+                checked={lesson.completed}
+                readOnly
+              /> */}
+                    </div>
+                    <div className="w-full leading-tight">{lesson.title}</div>
                   </div>
-                  {/* <input type="checkbox" checked={lesson.completed} readOnly /> */}
-                </div>
-                <div className="w-full leading-tight">
-                  {lesson.slug !== currentLessonSlug ? (
-                    <Link href={lesson.path}>
-                      <a className="font-semibold no-underline hover:underline text-blue-600">
-                        {lesson.title}
-                      </a>
-                    </Link>
-                  ) : (
-                    <div className="font-semibold">► {lesson.title}</div>
-                  )}
-                </div>
-              </div>
-            </li>
-          )
-        },
-      )}
-    </ol>
+                )
+              }
+
+              return (
+                <li key={lesson.slug}>
+                  <Element name={lesson.slug} />
+                  <div>
+                    {lesson.slug !== currentLessonSlug ? (
+                      <Link href={lesson.path}>
+                        <a className="font-semibold">
+                          <Item className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100" />
+                        </a>
+                      </Link>
+                    ) : (
+                      <Item className="font-semibold bg-blue-50 text-blue-600" />
+                    )}
+                  </div>
+                </li>
+              )
+            },
+          )}
+        </ol>
+      </div>
+    </div>
   ) : null
 }
 
@@ -73,7 +115,7 @@ const TweetLink: FunctionComponent<{
   }
   return get(lesson, 'title') && get(lesson, 'path') ? (
     <a
-      className={`flex text-sm items-center rounded px-3 py-2 bg-cool-gray-100 hover:bg-gray-300 transition-colors ease-in-out duration-150 ${className}`}
+      className={`flex text-sm items-center rounded px-3 py-2 bg-gray-100 hover:bg-gray-200 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={encodeTweetUrl()}
@@ -101,7 +143,7 @@ const CopyToClipboard: FunctionComponent<{
           type="button"
           disabled={copied}
           onClick={copyHandler}
-          className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-cool-gray-100 hover:bg-gray-300 transition-colors duration-150 ease-in-out ${className}`}
+          className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out ${className}`}
         >
           {state.error ? (
             'Unable to copy!'
@@ -123,16 +165,21 @@ const CopyToClipboard: FunctionComponent<{
   return null
 }
 
-const CodeLink: FunctionComponent<{url: string}> = ({url, children}) => {
+const CodeLink: FunctionComponent<{url: string; icon?: React.ReactElement}> = ({
+  url,
+  icon,
+  children,
+}) => {
   return (
     <li className="flex items-center">
       <a
         href={url}
         rel="noreferrer"
         target="_blank"
-        className="flex items-center text-blue-600 hover:underline"
+        className="flex items-center text-blue-600 hover:underline font-semibold"
       >
-        <IconExternalLink className="w-5 mr-1 text-blue-700" /> {children}
+        {icon ? icon : <IconCode />}
+        {children}
       </a>
     </li>
   )
@@ -184,28 +231,26 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
           </h1>
         )}
         {summary && <Markdown className="prose">{summary}</Markdown>}
-        {
-          <ul className="space-y-3">
-            {lesson?.code_url && (
-              <CodeLink url={lesson.code_url}>
-                Open code for this lesson
-              </CodeLink>
-            )}
-            {lesson?.repo_url && (
-              <CodeLink url={lesson.repo_url}>
-                Open code for this lesson on GitHub
-              </CodeLink>
-            )}
-            <li className="flex items-center">
-              <a
-                href="#"
-                className="flex items-center text-blue-600 hover:underline"
-              >
-                <IconDownload className="w-5 mr-1 text-blue-700" />
-                Download
-              </a>
-            </li>
-            {/* <li className="flex items-center">
+      </div>
+      <ul className="space-y-3 pt-6">
+        {lesson?.code_url && (
+          <CodeLink url={lesson.code_url}>Open code for this lesson</CodeLink>
+        )}
+        {lesson?.repo_url && (
+          <CodeLink url={lesson.repo_url} icon={<IconGithub />}>
+            Open code on GitHub
+          </CodeLink>
+        )}
+        <li className="flex items-center">
+          <a
+            href="#"
+            className="flex items-center text-blue-600 hover:underline font-semibold"
+          >
+            <IconDownload className="w-5 mr-2 text-blue-700" />
+            Download
+          </a>
+        </li>
+        {/* <li className="flex items-center">
               <IconFlag className="w-5 mr-1" />
               <Dialog
                 ariaLabel="flag-for-revision"
@@ -218,9 +263,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
                 </div>
               </Dialog>
             </li> */}
-          </ul>
-        }
-      </div>
+      </ul>
       {course && (
         <div className="pt-6">
           <div className="flex items-center">
@@ -246,52 +289,61 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
           </div>
         </div>
       )}
-      {!isEmpty(tags) && (
-        <div className="pt-6">
-          <h4 className="font-semibold">Tech used</h4>
-          <ul className="space-y-3 mt-3">
-            {tags.map((tag, index) => (
-              <li key={index}>
-                <Link href={`/q/${tag.name}`}>
-                  <a className="flex items-center ml-4 first:ml-0 hover:underline">
-                    <img
-                      src={tag.image_url}
-                      alt={tag.name}
-                      className="w-5 h-5 flex-shrink-0"
-                    />
-                    <span className="ml-2">{tag.name}</span>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {instructor && (
-        <div className="pt-6">
-          <h4 className="font-semibold">Instructor</h4>
-          <div className="flex items-center mt-3 flex-shrink-0">
-            <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-              <a className="mr-2">
-                {get(instructor, 'avatar_64_url') ? (
-                  <img
-                    src={instructor.avatar_64_url}
-                    alt=""
-                    className="w-10 rounded-full m-0"
-                  />
-                ) : (
-                  <Eggo className="w-8 rounded-full" />
-                )}
-              </a>
-            </Link>
-            {get(instructor, 'full_name') && (
+      <div className="pt-6 grid xl:grid-cols-2 md:grid-cols-1 grid-cols-2 gap-5">
+        {instructor && (
+          <div>
+            <h4 className="font-semibold">Instructor</h4>
+            <div className="flex items-center mt-3 flex-shrink-0">
               <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-                <a className="hover:underline">{instructor.full_name}</a>
+                <a className="mr-2">
+                  {get(instructor, 'avatar_64_url') ? (
+                    <img
+                      src={instructor.avatar_64_url}
+                      alt=""
+                      className="w-10 rounded-full m-0"
+                    />
+                  ) : (
+                    <Eggo className="w-8 rounded-full" />
+                  )}
+                </a>
               </Link>
-            )}
+              {get(instructor, 'full_name') && (
+                <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
+                  <a className="hover:underline">{instructor.full_name}</a>
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        {!isEmpty(tags) && (
+          <div>
+            <h4 className="font-semibold">Tech used</h4>
+            <ul
+              className="grid gap-3 mt-5"
+              css={{
+                gridTemplateColumns: 'repeat(auto-fill, minmax(70px, 1fr))',
+              }}
+            >
+              {tags.map((tag, index) => (
+                <li key={index}>
+                  <Link href={`/q/${tag.name}`}>
+                    <a className="inline-flex items-center first:ml-0 hover:underline">
+                      <Image
+                        src={tag.image_url}
+                        alt={tag.name}
+                        width={24}
+                        height={24}
+                        className="flex-shrink-0"
+                      />
+                      <span className="ml-1 capitalize">{tag.name}</span>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
       {get(lesson, 'free_forever') && (
         <div className="pt-6">
           <div className="flex items-center">
@@ -321,9 +373,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         </div>
       </div>
       {!playerState.matches('loading') && nextUpUrl && (
-        <div className="pt-6">
-          <NextUp url={nextUpUrl} currentLessonSlug={lesson.slug} />
-        </div>
+        <NextUpList url={nextUpUrl} currentLessonSlug={lesson.slug} />
       )}
     </div>
   )
@@ -350,21 +400,41 @@ const IconDownload: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-const IconExternalLink: FunctionComponent<{className?: string}> = ({
-  className = '',
+const IconCode: FunctionComponent<{className?: string}> = ({
+  className = 'w-5 mr-2 text-blue-700',
 }) => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
     className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width="22"
+    height="18"
+    viewBox="0 0 22 18"
   >
     <path
+      fill="none"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}
-      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+      d="M8,16 L12,0 M16,4 L20,8 L16,12 M4,12 L0,8 L4,4"
+      transform="translate(1 1)"
+    />
+  </svg>
+)
+
+const IconGithub: FunctionComponent<{className?: string}> = ({
+  className = 'w-5 mr-2 text-blue-700',
+}) => (
+  <svg
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+  >
+    <path
+      fill="currentColor"
+      d="M10,-3.37507799e-14 C4.47500147,-3.37507799e-14 -1.03028697e-13,4.475 -1.03028697e-13,10 C-0.00232469848,14.3054085 2.75290297,18.1283977 6.83800147,19.488 C7.33800147,19.575 7.52500147,19.275 7.52500147,19.012 C7.52500147,18.775 7.51200147,17.988 7.51200147,17.15 C5,17.613 4.35000147,16.538 4.15000147,15.975 C4.03700147,15.687 3.55000147,14.8 3.12500147,14.562 C2.77500147,14.375 2.27500147,13.912 3.11200147,13.9 C3.90000147,13.887 4.46200147,14.625 4.65000147,14.925 C5.55000147,16.437 6.98800147,16.012 7.56200147,15.75 C7.65000147,15.1 7.91200147,14.663 8.20000147,14.413 C5.97500147,14.163 3.65000147,13.3 3.65000147,9.475 C3.65000147,8.387 4.03700147,7.488 4.67500147,6.787 C4.57500147,6.537 4.22500147,5.512 4.77500147,4.137 C4.77500147,4.137 5.61200147,3.875 7.52500147,5.163 C8.33906435,4.93706071 9.18016765,4.82334354 10.0250015,4.825 C10.8750015,4.825 11.7250015,4.937 12.5250015,5.162 C14.4370015,3.862 15.2750015,4.138 15.2750015,4.138 C15.8250015,5.513 15.4750015,6.538 15.3750015,6.788 C16.0120015,7.488 16.4000015,8.375 16.4000015,9.475 C16.4000015,13.313 14.0630015,14.163 11.8380015,14.413 C12.2000015,14.725 12.5130015,15.325 12.5130015,16.263 C12.5130015,17.6 12.5,18.675 12.5,19.013 C12.5,19.275 12.6880015,19.587 13.1880015,19.487 C17.2582356,18.112772 19.9988381,14.295964 20,10 C20,4.475 15.5250015,-3.37507799e-14 10,-3.37507799e-14 Z"
     />
   </svg>
 )

@@ -22,10 +22,10 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({children, meta}) => {
         }}
         canonical={url}
       />
-      <div className="prose md:prose-xl max-w-screen-md mx-auto sm:pt-10 pt-4">
-        {title && <h1 className="text-xl leading-tight">{title}</h1>}
+      {title && <h1 className="text-2xl leading-tight">{title}</h1>}
+      <main className="prose md:prose-lg max-w-screen-md mx-auto sm:pt-10 pt-4">
         {children}
-      </div>
+      </main>
     </>
   )
 }

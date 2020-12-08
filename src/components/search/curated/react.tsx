@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {NextSeo} from 'next-seo'
 import Card from '../components/card'
-import Stack from '../components/stack'
 import Callout from '../components/callout'
 import Topic from '../components/topic'
 import Resource from '../components/resource'
@@ -72,28 +71,28 @@ be successful on your React journey.
             title="State Management in React"
             description="Learn how to store state in React, the right way"
           >
-            <Stack
-              resources={[
-                {
-                  type: 'playlist',
-                  slug:
-                    'up-and-running-with-recoil-a-new-state-management-library-for-react-78b8',
-                },
-                {
-                  type: 'course',
-                  slug: 'manage-react-form-state-with-redux-form',
-                },
-                {
-                  type: 'course',
-                  slug: 'react-context-for-state-management',
-                },
-                {
-                  type: 'lesson',
-                  slug:
-                    'react-update-state-asynchronously-in-react-using-promise-and-setstate',
-                },
-              ]}
-            />
+            <ul className="-mb-2">
+              <Resource
+                title="Up and running with Recoil - a new state management library for React"
+                path="/playlists/up-and-running-with-recoil-a-new-state-management-library-for-react-78b8"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png"
+              />
+              <Resource
+                title="Manage React Form State with redux-form"
+                path="/courses/manage-react-form-state-with-redux-form"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/197/full/Manage_React_Form.png"
+              />
+              <Resource
+                title="React Context for State Management"
+                path="/courses/react-context-for-state-management"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/262/full/EGH_ReactContext_Final.png"
+              />
+              <Resource
+                title="Update state asynchronously in React using Promise and `setState()`"
+                path="/lessons/react-update-state-asynchronously-in-react-using-promise-and-setstate"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png"
+              />
+            </ul>
           </Card>
           <Card title="React Hooks" description="Simplify your code base">
             <ul className="-mb-2">
@@ -118,23 +117,23 @@ be successful on your React journey.
             title=" Build Professional Real World Apps"
             description="Level up your React development career"
           >
-            <Stack
-              resources={[
-                {
-                  type: 'course',
-                  slug: 'progressive-web-apps-in-react-with-create-react-app',
-                },
-                {
-                  type: 'course',
-                  slug: 'build-a-react-app-with-redux',
-                },
-                {
-                  type: 'playlist',
-                  slug:
-                    'build-a-name-picker-app-intro-to-react-hooks-context-api-1ded',
-                },
-              ]}
-            />
+            <ul className="-mb-2">
+              <Resource
+                title="Progressive Web Apps in React with create-react-app"
+                path="/courses/progressive-web-apps-in-react-with-create-react-app"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/266/full/EGH_PWAReact_Final.png"
+              />
+              <Resource
+                title="Build A React App With Redux"
+                path="/courses/build-a-react-app-with-redux"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/135/full/EGH_ReactRedux_Final.png"
+              />
+              <Resource
+                title={`Build a "Name Picker" app - Intro to React, Hooks & Context API`}
+                path="/playlists/build-a-name-picker-app-intro-to-react-hooks-context-api-1ded"
+                imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/262/full/EGH_ReactContext_Final.png"
+              />
+            </ul>
           </Card>
         </div>
         <aside className="md:col-span-4 rounded-md overflow-hidden border-0 border-gray-100">
