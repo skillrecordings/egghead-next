@@ -20,13 +20,12 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            // color: theme('colors.black'),
             a: {
-              color: `#2563eb !important`,
+              color: `${theme('colors.blue.600')} !important`,
             },
-            // 'strong > a': {
-            //   color: `#2563eb !important`,
-            // },
+            'strong > a': {
+              color: `${theme('colors.blue.600')} !important`,
+            },
             code: {
               padding: '3px 5px',
               borderRadius: 5,
