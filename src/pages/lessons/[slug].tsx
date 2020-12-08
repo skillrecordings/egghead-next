@@ -153,7 +153,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         />
       </Head>
       <div key={lesson.slug} className="space-y-8 w-full">
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
+        <div className="-mt-3 sm:-mt-5 -mx-5" css={{background: 'black'}}>
           <div
             className="w-full m-auto"
             css={{
@@ -169,13 +169,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className="w-full relative overflow-hidden bg-black text-white"
+              className="w-full relative overflow-hidden text-white"
               css={{
+                background: 'black',
+                paddingTop: '56.25%',
                 '@media (max-width: 640px)': {
                   paddingTop: playerVisible ? '56.25%' : '0',
                 },
-
-                paddingTop: '56.25%',
               }}
             >
               <div
@@ -229,7 +229,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           </div>
         </div>
         <div>
-          <div className="grid md:gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl xl:px-5 mx-auto">
+          <div className="grid gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl xl:px-5 mx-auto divide-y md:divide-transparent divide-cool-gray-100">
             <div className="md:col-span-8 md:row-start-1 row-start-2">
               <Tabs>
                 <TabList
@@ -243,6 +243,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
+                        className="prose sm:prose-lg max-w-none"
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}

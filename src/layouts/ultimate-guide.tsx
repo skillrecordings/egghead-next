@@ -32,18 +32,17 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="prose md:prose-xl max-w-4xl w-full mx-auto leading-relaxed">
-        <h1 className="mt-8 font-extrabold mb-8 lg:mb-10 leading-tight text-5xl md:text-6xl">
+      <div className="mx-auto max-w-screen-md sm:mt-14 mt-8">
+        <h1 className="max-w-screen-md w-full font-extrabold mb-8 lg:mb-10 lg:text-6xl md:text-5xl text-4xl leading-tighter">
           {title}
         </h1>
         {contributors && (
           <>
             <Contributors contributors={contributors} />{' '}
-            <hr className="md:max-w-2xl mx-auto mt-8 mb-8" />
+            <hr className="w-8 border border-blue-600 my-8" />
           </>
         )}
-        {children}
-        {children}
+        <main className="prose md:prose-lg max-w-none">{children}</main>
       </div>
     </>
   )
