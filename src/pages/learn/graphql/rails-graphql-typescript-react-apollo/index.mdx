@@ -67,7 +67,7 @@ require('channels')
 
 This file is served out of the application via this line in the application layout (`app/views/layouts/application.html.erb`):
 
-```erb
+```
 <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 ```
 
@@ -86,7 +86,7 @@ When you run `rails s` and access `http://localhost:3000`, Rails will compile th
 
 This `app/javascript/packs/application.js` will be the file that will be the place we load our JavaScript into our application. It doesn't have to be the _only_ place, we could in fact spread this out over multiple different packs, if we wished:
 
-```erb
+```
 <%= javascript_pack_tag 'users', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'books', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'checkout', 'data-turbolinks-track': 'reload' %>
@@ -477,7 +477,7 @@ Once this route has been changed, we can go to http://localhost:3000 and see the
 
 This view is not currently rendering our React component, but we can make it do so by bringing in the `hello_react.jsx` file with this addition to `app/views/home/index.html.erb`:
 
-```erb
+```
 <%= javascript_pack_tag "hello_react" %>
 ```
 
@@ -497,7 +497,7 @@ So to work around that, we'll devise a way to mount React components at particul
 
 What we now want to be able to do is to be able to put a React component anywhere in our view. Let's say that we wanted our "Hello React!" to appear _between_ the `h1` and `p` tags in `app/views/home/index.html.erb`:
 
-```erb
+```
 <h1>Home#index</h1>
 <%# React component goes here %>
 <p>Find me in app/views/home/index.html.erb</p>
@@ -518,7 +518,7 @@ So what can we do instead?
 
 Well, another way we can approach this problem is to have our code look for particular types of elements on the page, and then choose to put React components into those particular elements. For example, we can make it so if we were to write this code:
 
-```erb
+```
 <h1>Home#index</h1>
 <div data-react-component='Hello'></div>
 <p>Find me in app/views/home/index.html.erb</p>
@@ -545,7 +545,7 @@ end
 
 This code in `app/views/home/index.html.erb` will generate that `div`:
 
-```erb
+```
 <%= react_component "Hello" %>
 ```
 
@@ -567,7 +567,7 @@ end
 
 This takes a list of properties and passes them through as an extra `data-props` attribute on our `div`, and so allows us to write code such as:
 
-```erb
+```
 <%= react_component "Hello", { name: "React" } %>
 ```
 
@@ -757,7 +757,7 @@ This will now automatically render our `Hello` and `Books` components whenever t
 
 To request the `Books` component to be rendered, we'll go over to `app/views/home/index.html.erb` and add this line in:
 
-```erb
+```
 <%= react_component "Books" %>
 ```
 
