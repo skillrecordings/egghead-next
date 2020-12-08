@@ -29,7 +29,6 @@ const hmsToSeconds = (str: string) => {
 
 const useTranscriptData = (url: string) => {
   const {data: transcriptData} = useSWR(url, fetcher)
-  console.log(transcriptData)
   return get(transcriptData, 'text')
 }
 
