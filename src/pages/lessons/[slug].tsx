@@ -22,6 +22,7 @@ import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
+import Eggo from '../../components/images/eggo.svg'
 
 const tracer = getTracer('lesson-page')
 
@@ -34,6 +35,12 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
     </div>
   )
 }
+
+const Loader = () => (
+  <div className="grid place-items-center w-full h-full">
+    <Eggo className="w-8 mr-1 animate-spin" />
+  </div>
+)
 
 type LessonProps = {
   initialLesson: LessonResource
@@ -117,8 +124,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
+  const loaderVisible = ['loading'].some(playerState.matches)
+
   const playerVisible: boolean =
-    ['playing', 'paused', 'viewing'].some(playerState.matches) && data
+    ['playing', 'paused', 'viewing'].some(playerState.matches) &&
+    data &&
+    !loaderVisible
 
   const transcriptAvailable = transcript || transcript_url
 
@@ -183,6 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   playerVisible ? 'absolute' : 'sm:absolute sm:py-0 py-5'
                 } w-full h-full top-0 left-0`}
               >
+                {loaderVisible && <Loader />}
                 {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
