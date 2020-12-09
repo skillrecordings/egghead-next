@@ -2,7 +2,6 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Contributors from 'components/Contributors'
 import Image from 'next/image'
-import first from 'lodash/first'
 
 type LayoutProps = {
   meta: any
@@ -22,7 +21,9 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
     contributors,
   } = meta
 
-  const author: string | undefined = contributors && first(contributors)
+  const defaultOgImage: string = `https://og-image-react-egghead.now.sh/article/${encodeURIComponent(
+    title,
+  )}`
 
   return (
     <>
@@ -38,9 +39,8 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
             ? [ogImage]
             : [
                 {
-                  url: `https://og-image-react-egghead.now.sh/article/Codemods%20with%20Babel%20Plugins?author=${
-                    author ? encodeURIComponent(author) : ''
-                  }`,
+                  url: defaultOgImage,
+                  alt: title,
                 },
               ],
         }}
