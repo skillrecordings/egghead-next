@@ -15,6 +15,7 @@ import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
+import {isBrowser} from 'utils/is-browser'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA'
@@ -37,7 +38,7 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
 }
 
 const Loader = () => (
-  <div className="grid place-items-center w-full h-full">
+  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black">
     <Eggo className="w-8 mr-1 animate-spin" />
   </div>
 )
@@ -51,6 +52,8 @@ const VIDEO_MIN_HEIGHT = 480
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
+
+  const clientHeight = isBrowser() ? height : 0
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
@@ -121,15 +124,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [router.events, send])
 
   React.useEffect(() => {
-    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
-  }, [height])
+    setLessonMaxWidth(Math.round((clientHeight - OFFSET_Y) * 1.6))
+  }, [clientHeight])
 
-  const loaderVisible = ['loading'].some(playerState.matches)
+  const loaderVisible = playerState.matches('loading')
 
   const playerVisible: boolean =
-    ['playing', 'paused', 'viewing'].some(playerState.matches) &&
-    data &&
-    !loaderVisible
+    ['playing', 'paused', 'viewing'].some(playerState.matches) && !isEmpty(data)
 
   const transcriptAvailable = transcript || transcript_url
 
@@ -164,7 +165,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         />
       </Head>
       <div key={lesson.slug} className="space-y-8 w-full">
-        <div className="-mt-3 sm:-mt-5 -mx-5" css={{background: 'black'}}>
+        <div className="-mt-3 sm:-mt-5 -mx-5 bg-black">
           <div
             className="w-full m-auto"
             css={{
