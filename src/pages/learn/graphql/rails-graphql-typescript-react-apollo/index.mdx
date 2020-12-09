@@ -60,10 +60,8 @@ require('channels')
 // const imagePath = (name) => images(name, true)
 ```
 
-<aside>
-  While these dependencies are typically JavaScript, although they could be CSS
-  or images too.
-</aside>
+While these dependencies are typically JavaScript, although they could be CSS
+or images too.
 
 This file is served out of the application via this line in the application layout (`app/views/layouts/application.html.erb`):
 
@@ -73,16 +71,13 @@ This file is served out of the application via this line in the application layo
 
 When you run `rails s` and access `http://localhost:3000`, Rails will compile the Webpack assets and serve them through the Rails server itself.
 
-<aside>
-  <header>What about webpack-dev-server?</header>
-  If you don't want to wait for a request to tell Webpack to compile assets, you
-  can run <code>bin/webpack-dev-server</code> as a separate process and your assets
-  will be compiled as soon as they change, rather than whenever the page is refreshed.
-  The difference is usually about half a second, but in larger applications it can
-  be much longer than that. My advice would be to <em>always</em> rely on <code>
-    bin/webpack-dev-server
-  </code>.
-</aside>
+What about webpack-dev-server?
+
+If you don't want to wait for a request to tell Webpack to compile assets, you
+can run <code>bin/webpack-dev-server</code> as a separate process and your assets
+will be compiled as soon as they change, rather than whenever the page is refreshed.
+The difference is usually about half a second, but in larger applications it can
+be much longer than that. My advice would be to <em>always</em> rely on <code>bin/webpack-dev-server</code>.
 
 This `app/javascript/packs/application.js` will be the file that will be the place we load our JavaScript into our application. It doesn't have to be the _only_ place, we could in fact spread this out over multiple different packs, if we wished:
 
@@ -166,7 +161,7 @@ The second route is where our GraphiQL and our frontend will send GraphQL querie
 
 Let's now setup a GraphQL object to represent books in our GraphQL API by running this command:
 
-```
+```shell
 rails g graphql:object Book
 ```
 
@@ -198,20 +193,15 @@ module Types
 end
 ```
 
-<aside>
-  <header>
-    Fetching all records from a database considered dangerous
-  </header>
+Fetching all records from a database considered dangerous
 
 Fetching all the records at once in a table might mean you end up with a lot of records. In the past, you might've used something like <a href='https://github.com/mislav/will_paginate'>will_paginate</a> or <a href='https://github.com/kaminari/kaminari'>Kaminari</a> to do pagination in your application.
 
 GraphQL uses [connections](https://graphql-ruby.org/pagination/connection_concepts) for this, but we will not be covering that in this guide.
 
-</aside>
-
 This will allow us to query our GraphQL endpoint and retrieve all the books by using this GraphQL query through GraphiQL:
 
-```
+```graphql
 query allBooks {
   books {
     id
@@ -252,7 +242,7 @@ This will ensure that local requests -- requests from the same machine the appli
 
 Load up GraphQL playground and put in `http://localhost:3000/graphql` as the endpoint. In the left panel, enter:
 
-```
+```graphql
 query allBooks {
   books {
     id
@@ -263,7 +253,7 @@ query allBooks {
 
 And then hit the Play button in between the panels. When the request succeeds, we'll see the data come back through from the GraphQL API:
 
-![GraphQL Playground](/images/graphql/graphql-playground.png)
+![GraphQL Playground](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504974/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/graphql-playground.png)
 
 When we see this, we'll know that we've setup our GraphQL code correctly within the Rails application. This means we can now proceed to setting up the frontend of our application.
 
@@ -342,49 +332,35 @@ isProductionEnv && [
 
 PropTypes allows us to specify the types for React components. A small example of this is available in `app/javascript/packs/hello_react.jsx`:
 
-```
+```jsx
 Hello.defaultProps = {
-  name: 'David'
+  name: 'David',
 }
 
 Hello.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
 }
 ```
 
 We will not be using PropTypes in our code because we'll be using TypeScript instead.
 
-<aside>
-  <header>PropTypes has been succeeded by TypeScript</header>
+PropTypes has been succeeded by TypeScript
 
-{' '}
+Why on earth are there <em>two</em> ways to specify types in a React codebase? That might be what you're thinking right now. A little bit of history is that PropTypes has existed for a long time, while TypeScript has gained preference recently.
 
-<p>
-  Why on earth are there <em>two</em> ways to specify types in a React codebase?
-  That might be what you're thinking right now. A little bit of history is that
-  PropTypes has existed for a long time, while TypeScript has gained preference
-  recently.
-</p>
+PropTypes allows us to specify that the `name` property for the
 
-{' '}
+`Hello` component is going to be a string. When we load this code in the
+browser, PropTypes will run and then validate that `name` is indeed a
+string. If it's not, then we'll see an error appear in the developer console (if
+we're looking there!). This is what we'd call a <em>runtime</em> type check -- the
+code is type checked when it runs.
 
-<p>
-  PropTypes allows us to specify that the <code>name</code> property for the{' '}
-  <code>Hello</code> component is going to be a string. When we load this code
-  in the browser, PropTypes will run and then validate that <code>name</code> is
-  indeed a string. If it's not, then we'll see an error appear in the developer
-  console (if we're looking there!). This is what we'd call a <em>runtime</em>{' '}
-  type check -- the code is type checked when it runs.
-</p>
-
-  <p>
-    TypeScript allows us to do the same sort of validation, but it will run at <em>compile time</em>, right when the code is being "translated" into JavaScript for the browser's consumption. This is the right step (imo) because while you're writing the code you want to know if you've made a mistake -- not when you're running it! The other advantage is that TypeScript has excellent editor integration, and it will warn you about incorrect types. We'll see a few of these examples later on in this guide.
-  </p>
-</aside>
+TypeScript allows us to do the same sort of validation, but it will run at <em>compile time</em>, right when the code is being "translated" into JavaScript for the browser's consumption. This is the right step (imo) because while you're writing the code you want to know if you've made a mistake -- not when you're running it! The other advantage is that TypeScript has excellent editor integration, and it will warn you about incorrect types. We'll see a few of these examples later on in this guide.
 
 So let's remove this configuration from `babel.config.js`, as well as removing the `prop-types` and associated babel plugin:
 
-- ` yarn remove prop-types babel-plugin-transform-react-remove-prop-types`
+- `yarn remove prop-types babel-plugin-transform-react-remove-prop-types`
 
 This will mean that the packages that have been added by `webpacker:install:react` are now just:
 
@@ -473,7 +449,7 @@ root to: "home#index"
 
 Once this route has been changed, we can go to http://localhost:3000 and see the view that was generated:
 
-![Simple Rails View](/images/graphql/simple-rails-view.png)
+![Simple Rails View](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504973/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/simple-rails-view.png)
 
 This view is not currently rendering our React component, but we can make it do so by bringing in the `hello_react.jsx` file with this addition to `app/views/home/index.html.erb`:
 
@@ -483,7 +459,7 @@ This view is not currently rendering our React component, but we can make it do 
 
 When we refresh the page, we'll see the React component appended to the bottom of the page:
 
-![Simple Rails View with React Component](/images/graphql/simple-rails-view-with-react.png)
+![Simple Rails View with React Component](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504974/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/simple-rails-view-with-react.png)
 
 Excellent! We now have a way to make React components appear on our Rails views.
 
@@ -573,7 +549,7 @@ This takes a list of properties and passes them through as an extra `data-props`
 
 However, if we go and refresh that page again, we'll see the component is not being rendered in that spot -- it's still being rendered at the bottom of the page:
 
-![Simple Rails View with React Component](/images/graphql/simple-rails-view-with-react.png)
+![Simple Rails View with React Component](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504974/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/simple-rails-view-with-react.png)
 
 But if we inspect the source code for our page, we'll see that the `<div>` _exists_`:
 
@@ -678,7 +654,7 @@ Then, now that the `mount` function has all three of the `mountPoint`, the `Comp
 
 Let's refresh the page. This time we'll see the component is now in between the `<h1>` and `<p>` tags:
 
-!["Hello React" is in between the tags](/images/graphql/hello-react-mounted.png)
+!["Hello React" is in between the tags](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504973/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/hello-react-mounted.png)
 
 Hooray! We now have an ability to put our React components wherever we like on the page. This will enable us to intermingle our Rails view code with React components -- we can put static HTML rendered server-side by Rails right next to dynamic HTML rendered client-side by React.
 
@@ -763,7 +739,7 @@ To request the `Books` component to be rendered, we'll go over to `app/views/hom
 
 Now when we refresh this page, we'll see our (very short!) list of books:
 
-![List of books](/images/graphql/books-component-appears.png)
+![List of books](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505162/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/books-component-appears.png)
 
 Success! The books component is now rendering on the page.
 
@@ -900,7 +876,7 @@ When we refresh the page now, we'll see that the data is being loaded from our A
 
 We're not completely done yet. There's one more issue hanging around. That issue is that the `data` variable that is coming back from our query is completely untyped. I can see this in Visual Studio Code by hovering my cursor over `data`. Here's what I see:
 
-![data is you... no, it's any](/images/graphql/data-is-any.png)
+![data is you... no, it's any](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505162/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/data-is-any.png)
 
 This is problematic, because it means that we're not having the properties we call on `data` be typechecked. This means we can write this code:
 
@@ -1001,22 +977,15 @@ This command will prompt us for a few separate things:
 7. **Name config file**: Leave it as the default, `codegen.yml`
 8. **Script in package.json**: `gql:codegen`
 
-<aside>
-  <header>Why not use a URL for schema?</header>
+Why not use a URL for schema?
 
-{' '}
+You might've noticed that the default option for "Schema" above is a URL. We{' '}
 
-<p>
-  You might've noticed that the default option for "Schema" above is a URL. We{' '}
-  <em>could</em> put in http://localhost:3000/graphql here, and Codegen would
-  still work. The only thing about that is that we must have a Rails server
-  running at all times to have our Codegen command work.
-</p>
+<em>could</em> put in http://localhost:3000/graphql here, and Codegen would still
+work. The only thing about that is that we must have a Rails server running at all
+times to have our Codegen command work.
 
-  <p>
-    I think it's better having a schema file that is generated through a Rake task, and then you don't have to remember to run a Rails server. You might think differently, though! And that's alright too.
-  </p>
-</aside>
+I think it's better having a schema file that is generated through a Rake task, and then you don't have to remember to run a Rails server. You might think differently, though! And that's alright too.
 
 This `init` script will then install more `codegen` packages that will assist us. These packages will appear within the `package.json` `devDependencies` list:
 
@@ -1042,24 +1011,24 @@ Let's go through what each of these Codegen packages provides us, to better unde
 
 The first package, `@graphql-codegen/typescript`, generates TypeScript types from objects in the schema. If we go to `app/javascript/graphql/types.tsx`, here's a couple of the types that we will see:
 
-```
+```tsx
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: string
+  String: string
+  Boolean: boolean
+  Int: number
+  Float: number
   /** An ISO 8601-encoded datetime */
-  ISO8601DateTime: any;
-};
+  ISO8601DateTime: any
+}
 
 export type Book = {
-  __typename?: 'Book';
-  createdAt: Scalars['ISO8601DateTime'];
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  updatedAt: Scalars['ISO8601DateTime'];
-};
+  __typename?: 'Book'
+  createdAt: Scalars['ISO8601DateTime']
+  id: Scalars['ID']
+  title?: Maybe<Scalars['String']>
+  updatedAt: Scalars['ISO8601DateTime']
+}
 ```
 
 First, there are some scalars that define shortcuts to common types. These are used a little further down when the `Book` type is defined to specify the types of fields that are available for `Book` objects according to our API. You will notice there that the `title` property is specified with a question-mark. That means that this property can be missing completely from the returned object.
@@ -1110,7 +1079,7 @@ This says to `useQuery`, that the type of data being returned by this function w
 
 If we look a little further down in our file, we'll see that the code is failing because we're trying to access the `id` property from a `Book` object:
 
-![Property 'id' does not exist](/images/graphql/property-id-does-not-exist.png)
+![Property 'id' does not exist](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505165/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/property-id-does-not-exist.png)
 
 We're seeing this message from TypeScript because our type for `AllBooksQuery` does not specify that books returned from that query have an `id` property. TypeScript is smart enough to know that we're making a mistake here, and it quickly points it out!
 
@@ -1143,7 +1112,7 @@ export type AllBooksQuery = {__typename?: 'Query'} & {
 
 This is a type that now specifies that `Book` can have `title` _and_ `id` specified. If we look back at the place where the error previously was occurring, we'll now see that it is fine:
 
-![property id is fine](/images/graphql/property-id-is-fine.png)
+![property id is fine](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505162/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/property-id-is-fine.png)
 
 This is the benefit that we get out of using `@graphql-codegen/typescript-operations`. This package inspects the queries that are used in our application, and it will generate types from them. Those types can then be used by TypeScript to inform us if we're requesting correct or incorrect properties.
 
@@ -1211,7 +1180,7 @@ Next, we'll run `yarn gql:codegen` to regenerate the types for this query.
 
 Once that command completes, we'll see that the `id` property is missing again:
 
-![Property 'id' does not exist](/images/graphql/property-id-does-not-exist.png)
+![Property 'id' does not exist](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505165/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/property-id-does-not-exist.png)
 
 Excellent! This means that it is all working as it should.
 
