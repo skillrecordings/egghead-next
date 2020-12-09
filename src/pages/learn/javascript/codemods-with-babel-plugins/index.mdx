@@ -1,14 +1,20 @@
 export const meta = {
   title: `Codemods with Babel Plugins`,
   contributors: ['Laurie Barth'],
+  coverImage: {
+    url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607523756/egghead-next-ebombs/article-illustrations/codemods.png',
+    alt: 'abstract illustration of 3d spheres shaping into rings',
+  },
+  ogImage: {
+    url: `https://og-image-react-egghead.now.sh/article/Codemods%20with%20Babel%20Plugins?bgImage=https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607527530/egghead-next-ebombs/article-illustrations/card.png&author=Laurie%20Barth`,
+  },
 }
 
 import UltimateGuide from 'layouts/ultimate-guide'
 export default ({children}) => (
   <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )
-
-<img src="https://res.cloudinary.com/dg3gyk0gu/image/upload/c_scale,f_auto,q_100,w_1200/v1607462484/egghead-next-ebombs/article-illustrations/codemods.png" />
 
 Codemods are an incredibly powerful tool that not everyone has heard of, so let's start there. A codemod is an automated way to transform one set of syntax into another. They're often written to ship with API changes or other things that fundamentally change the interface developers interact with. This makes sense because you want users to adopt your latest and greatest improvements, but if you've changed things enough that all their existing code needs to be rewritten, that's a bit of a barrier. Writing a codemod automates those changes and let's them benefit right away.
 

@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Contributors from 'components/Contributors'
+import Image from 'next/image'
 
 type LayoutProps = {
   meta: any
@@ -16,6 +17,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
     titleAppendSiteName = false,
     url,
     ogImage,
+    coverImage,
     contributors,
   } = meta
   return (
@@ -32,17 +34,35 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="mx-auto max-w-screen-md sm:mt-14 mt-8">
-        <h1 className="max-w-screen-md w-full font-extrabold mb-8 lg:mb-10 lg:text-6xl md:text-5xl text-4xl leading-tighter">
-          {title}
-        </h1>
-        {contributors && (
-          <>
-            <Contributors contributors={contributors} />{' '}
-            <hr className="w-8 border border-blue-600 my-8" />
-          </>
-        )}
-        <main className="prose md:prose-lg max-w-none">{children}</main>
+      <div>
+        <article className="mx-auto max-w-screen-md sm:mt-14 mt-8">
+          <header>
+            <h1 className="max-w-screen-md w-full font-extrabold mb-8 lg:mb-10 lg:text-6xl md:text-5xl text-4xl leading-tighter">
+              {title}
+            </h1>
+            {contributors && (
+              <>
+                <Contributors contributors={contributors} />{' '}
+                {!coverImage && (
+                  <hr className="w-8 border border-blue-600 my-8" />
+                )}
+              </>
+            )}
+            {coverImage && (
+              <div className="mt-4">
+                <Image
+                  src={coverImage.url}
+                  alt={coverImage.alt || title}
+                  width={1280}
+                  height={720}
+                />
+              </div>
+            )}
+          </header>
+          <main className="prose md:prose-lg max-w-none">
+            <div>{children}</div>
+          </main>
+        </article>
       </div>
     </>
   )
