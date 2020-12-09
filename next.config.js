@@ -39,7 +39,7 @@ const nextConfig = {
 
 {
         source: '/pricing',
-        destination: `https://egghead.imo/pricing`,
+        destination: `https://egghead.io/pricing`,
         permanent: false,
       },
 
