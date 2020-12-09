@@ -3,6 +3,7 @@ import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import {isEmpty, get, first} from 'lodash'
 import {useMachine} from '@xstate/react'
+import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {useWindowSize} from 'react-use'
 import playerMachine from 'machines/lesson-player-machine'
@@ -23,7 +24,6 @@ import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
-import Eggo from '../../components/images/eggo.svg'
 
 const tracer = getTracer('lesson-page')
 
@@ -39,7 +39,22 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
 
 const Loader = () => (
   <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black">
-    <Eggo className="w-8 mr-1 animate-spin" />
+    <svg
+      className="text-indigo-300"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <motion.g
+        animate={{rotateZ: [0, 360]}}
+        transition={{repeat: Infinity}}
+        fill="currentColor"
+      >
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"></path>
+      </motion.g>
+    </svg>
   </div>
 )
 
