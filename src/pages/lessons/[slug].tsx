@@ -3,6 +3,7 @@ import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import {isEmpty, get, first} from 'lodash'
 import {useMachine} from '@xstate/react'
+import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {useWindowSize} from 'react-use'
 import playerMachine from 'machines/lesson-player-machine'
@@ -15,6 +16,7 @@ import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
+import {isBrowser} from 'utils/is-browser'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA'
@@ -29,11 +31,32 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col justify-center items-center h-full">
+    <div className="flex flex-col justify-center items-center h-full px-3">
       {children}
     </div>
   )
 }
+
+const Loader = () => (
+  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black">
+    <svg
+      className="text-indigo-300"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <motion.g
+        animate={{rotateZ: [0, 360]}}
+        transition={{repeat: Infinity}}
+        fill="currentColor"
+      >
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"></path>
+      </motion.g>
+    </svg>
+  </div>
+)
 
 type LessonProps = {
   initialLesson: LessonResource
@@ -44,6 +67,8 @@ const VIDEO_MIN_HEIGHT = 480
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
+
+  const clientHeight = isBrowser() ? height : 0
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
@@ -114,11 +139,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [router.events, send])
 
   React.useEffect(() => {
-    setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
-  }, [height])
+    setLessonMaxWidth(Math.round((clientHeight - OFFSET_Y) * 1.6))
+  }, [clientHeight])
+
+  const loaderVisible = playerState.matches('loading')
 
   const playerVisible: boolean =
-    ['playing', 'paused', 'viewing'].some(playerState.matches) && data
+    ['playing', 'paused', 'loaded', 'viewing'].some(playerState.matches) &&
+    !isEmpty(data)
 
   const transcriptAvailable = transcript || transcript_url
 
@@ -153,7 +181,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         />
       </Head>
       <div key={lesson.slug} className="space-y-8 w-full">
-        <div className="-mt-3 sm:-mt-5 -mx-5" css={{background: 'black'}}>
+        <div className="-mt-3 sm:-mt-5 -mx-5 bg-black">
           <div
             className="w-full m-auto"
             css={{
@@ -169,20 +197,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className="w-full relative overflow-hidden text-white"
+              className="w-full relative overflow-hidden text-white bg-black"
               css={{
-                background: 'black',
                 paddingTop: '56.25%',
-                '@media (max-width: 640px)': {
-                  paddingTop: playerVisible ? '56.25%' : '0',
+                '@media (max-width: 639px)': {
+                  paddingTop: playerVisible || loaderVisible ? '56.25%' : '0',
                 },
               }}
             >
               <div
                 className={`${
-                  playerVisible ? 'absolute' : 'sm:absolute sm:py-0 py-5'
+                  playerVisible || loaderVisible
+                    ? 'absolute'
+                    : 'sm:absolute sm:py-0 py-5'
                 } w-full h-full top-0 left-0`}
               >
+                {loaderVisible && <Loader />}
                 {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
