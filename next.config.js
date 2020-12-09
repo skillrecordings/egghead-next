@@ -36,6 +36,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
+
+{
+        source: '/pricing',
+        destination: `https://egghead.io/pricing`,
+        permanent: true,
+      },
+
       {
         source: '/instructors/:instructor',
         destination: `${searchUrlRoot}/content-by-:instructor`,
