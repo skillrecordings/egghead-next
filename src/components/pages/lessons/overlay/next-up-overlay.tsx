@@ -13,13 +13,13 @@ const NextUpOverlay: React.FunctionComponent<{
       <img
         src={lesson.course.square_cover_480_url}
         alt={`illustration of ${lesson.course.title} course`}
-        className="w-32"
+        className="w-12 md:w-16 lg:w-32"
       />
-      <div className="mt-8">Up Next</div>
-      <h3 className="text-xl font-semibold mt-4 text-center">
+      <div className="mt-4 md:mt-6 lg:mt-8">Up Next</div>
+      <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center">
         {nextLessonTitle}
       </h3>
-      <div className="flex mt-16">
+      <div className="flex mt-6 md:mt-10 lg:mt-16">
         <button
           className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
           onClick={() => send('LOAD')}
@@ -33,7 +33,7 @@ const NextUpOverlay: React.FunctionComponent<{
           <IconPlay className="w-6 mr-2" /> Play next
         </NextResourceButton>
       </div>
-      <div className="mt-20">
+      <div className="mt-8 text-xs md:mt-12 lg:mt-20">
         Feeling stuck?{' '}
         <a href="#" className="font-semibold">
           Get help from egghead community
