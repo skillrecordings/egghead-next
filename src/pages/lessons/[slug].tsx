@@ -31,7 +31,7 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col justify-center items-center h-full">
+    <div className="flex flex-col justify-center items-center h-full px-3">
       {children}
     </div>
   )
@@ -145,7 +145,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const loaderVisible = playerState.matches('loading')
 
   const playerVisible: boolean =
-    ['playing', 'paused', 'viewing'].some(playerState.matches) && !isEmpty(data)
+    ['playing', 'paused', 'loaded', 'viewing'].some(playerState.matches) &&
+    !isEmpty(data)
 
   const transcriptAvailable = transcript || transcript_url
 
@@ -196,18 +197,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className="w-full relative overflow-hidden text-white"
+              className="w-full relative overflow-hidden text-white bg-black"
               css={{
-                background: 'black',
                 paddingTop: '56.25%',
-                '@media (max-width: 640px)': {
-                  paddingTop: playerVisible ? '56.25%' : '0',
+                '@media (max-width: 639px)': {
+                  paddingTop: playerVisible || loaderVisible ? '56.25%' : '0',
                 },
               }}
             >
               <div
                 className={`${
-                  playerVisible ? 'absolute' : 'sm:absolute sm:py-0 py-5'
+                  playerVisible || loaderVisible
+                    ? 'absolute'
+                    : 'sm:absolute sm:py-0 py-5'
                 } w-full h-full top-0 left-0`}
               >
                 {loaderVisible && <Loader />}
