@@ -13,7 +13,7 @@ const FooterNavigation: FunctionComponent = () => {
           </h5>
           <ul>
             <li>
-              <Link href="/s" activeClassName="underline">
+              <Link href="/q" activeClassName="underline">
                 <a>Search</a>
               </Link>
             </li>
