@@ -24,7 +24,7 @@ function useTokenSigner(): void {
   )
 
   React.useEffect(() => {
-    const signReferralToken = async (referralToken: string) => {
+    const requestSignedReferralToken = async (referralToken: string) => {
       const existingReferralToken = cookie.get('rc')
 
       if (!!existingReferralToken) {
@@ -52,14 +52,6 @@ function useTokenSigner(): void {
             return null
           })
       }
-    }
-
-    const requestSignedReferralToken = async (
-      unsignedReferralToken: string,
-    ) => {
-      console.log(`request a signing of the referral token`)
-
-      await signReferralToken(unsignedReferralToken)
     }
 
     if (!!referralQueryParam) {
