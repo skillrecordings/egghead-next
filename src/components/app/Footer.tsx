@@ -20,10 +20,10 @@ const content = [
     path: '/podcasts',
     label: 'Podcasts',
   },
-  // {
-  //   path: '/site-directory',
-  //   label: 'Directory',
-  // },
+  {
+    path: '/site-directory',
+    label: 'Directory',
+  },
 ]
 
 const about = [
