@@ -3,85 +3,102 @@ import {FunctionComponent} from 'react'
 import Link from '../Link'
 import Eggo from '../images/eggo.svg'
 
+const content = [
+  {
+    path: '/q',
+    label: 'Content',
+  },
+  {
+    path: '/learn',
+    label: 'Topics',
+  },
+  {
+    path: '/talks',
+    label: 'Talks',
+  },
+  {
+    path: '/podcasts',
+    label: 'Podcasts',
+  },
+  // {
+  //   path: '/site-directory',
+  //   label: 'Directory',
+  // },
+]
+
+const about = [
+  {
+    path: '/pricing',
+    label: 'Pricing',
+  },
+  {
+    path: 'https://store.egghead.io/',
+    label: 'Store',
+  },
+  // {
+  //   path: '/instructors',
+  //   label: 'Instructors',
+  // },
+  // {
+  //   path: '/stories',
+  //   label: 'Stories',
+  // },
+  // {
+  //   path: '/team',
+  //   label: 'Team',
+  // },
+]
+
+// const Title: FunctionComponent<{children: React.ReactNode}> = ({children}) => (
+//   <h5 className="font-light font-mono tracking-wider text-xs text-gray-600 mb-2 uppercase">
+//     {children}
+//   </h5>
+// )
+
+const Item: FunctionComponent<{children: React.ReactNode; path: string}> = ({
+  children,
+  path,
+}) => (
+  <li className="py-1 md:text-sm text-base leading-relaxed">
+    <Link href={path} activeClassName="underline">
+      <a className="hover:text-brand transition-colors ease-in-out duration-150">
+        {children}
+      </a>
+    </Link>
+  </li>
+)
+
 const FooterNavigation: FunctionComponent = () => {
   return (
-    <nav className="flex sm:flex-row flex-col sm:items-end items-center justify-between w-full sm:pt-10 pt-6">
-      <div className="grid grid-cols-2 gap-10 leading-relaxed sm:text-base text-sm">
-        <div>
-          <h5 className="font-semibold tracking-wide text-xs text-gray-600 mb-2 uppercase">
-            Content
-          </h5>
-          <ul>
-            <li>
-              <Link href="/s" activeClassName="underline">
-                <a>Search</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/learn" activeClassName="underline">
-                <a>Learn</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/talks" activeClassName="underline">
-                <a>Talks</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/podcasts" activeClassName="underline">
-                <a>Podcasts</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/site-directory" activeClassName="underline">
-                <a>Directory</a>
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h5 className="font-semibold tracking-wide text-xs text-gray-600 mb-2 uppercase">
-            About
-          </h5>
-          <ul>
-            <li>
-              <Link href="/pricing" activeClassName="underline">
-                <a>Pricing</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/instructors" activeClassName="underline">
-                <a>Instructors</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/stories" activeClassName="underline">
-                <a>Stories</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/team" activeClassName="underline">
-                <a>Team</a>
-              </Link>
-            </li>
-            <li>
-              <a href="https://store.egghead.io">Store</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="h-full flex flex-col sm:items-end items-center sm:mt-0 mt-16">
+    <nav className="w-full md:space-y-0 space-y-6 flex md:flex-row flex-col items-start justify-between gap-6 md:pt-14 pt-16 lg:pb-40 pb-16">
+      <div className="space-y-5 h-full flex flex-col md:items-start items-center lg:w-72 w-full">
         <Link href="/">
-          <a>
-            <Eggo className="sm:w-10 w-8" />
+          <a className="flex md:flex-row flex-col lg:items-start md:items-center items-center md:text-left text-center md:space-x-2 md:space-y-0 space-y-2">
+            <Eggo className="md:w-8 w-12 flex-shrink-0" />
+            <div className="mt-1 text-lg font-semibold leading-tighter tracking-tight">
+              {/* egghead.io */}
+              Learn the skills you need to be a badass web developer.
+            </div>
           </a>
         </Link>
-        <div className="text-xs mt-8 w-full flex items-center sm:justify-end text-gray-600">
-          <div className="pr-6">©egghead.io</div>
-          <Link href="/privacy">
-            <a>Terms & Conditions</a>
-          </Link>
-        </div>
+      </div>
+      <div className="grid md:grid-cols-2 grid-cols-1 lg:pr-6 md:gap-10 md:text-left text-center md:items-start items-center md:w-auto w-full">
+        {/* <Title>Content</Title> */}
+        <ul>
+          {content.map((link) => (
+            <Item path={link.path} key={link.path}>
+              {link.label}
+            </Item>
+          ))}
+        </ul>
+        {/* <Title>About</Title> */}
+        <ul>
+          {about.map((link) => (
+            <Item path={link.path} key={link.path}>
+              {link.label}
+            </Item>
+          ))}
+        </ul>
       </div>
     </nav>
   )
@@ -89,9 +106,17 @@ const FooterNavigation: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <footer className="max-w-screen-2xl w-full mx-auto p-5">
-      <FooterNavigation />
-    </footer>
+    <div className="bg-gray-50 mt-16">
+      <footer className="max-w-screen-2xl w-full mx-auto px-4">
+        <FooterNavigation />
+        <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500">
+          <div>©egghead.io</div>
+          <Link href="/privacy">
+            <a>Terms & Conditions</a>
+          </Link>
+        </small>
+      </footer>
+    </div>
   )
 }
 
