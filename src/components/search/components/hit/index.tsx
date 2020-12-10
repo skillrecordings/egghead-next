@@ -62,7 +62,10 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                 ・
               </>
             )}
-            {duration && <>{convertTimeWithTitles(duration)}・</>}
+
+            {duration && convertTimeWithTitles(duration) !== '' && (
+              <>{convertTimeWithTitles(duration)}・</>
+            )}
             {capitalize(type)}
           </div>
         </div>

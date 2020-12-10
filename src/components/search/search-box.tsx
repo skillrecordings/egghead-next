@@ -5,12 +5,14 @@ type CustomSearchBoxProps = {
   currentRefinement: any
   refine: any
   className?: any
+  placeholder?: string | undefined
 }
 
 const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   currentRefinement,
   refine,
   className,
+  placeholder = 'What do you want to learn today?',
 }) => {
   return (
     <form
@@ -29,7 +31,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
           type="search"
           value={currentRefinement}
           onChange={(event) => refine(event.currentTarget.value)}
-          placeholder="What do you want to learn today?"
+          placeholder={placeholder}
           className="form-input bg-cool-gray-100 rounded-md px-5 py-3 pl-10 w-full border border-transparent focus:outline-none focus:border-cool-gray-400 placeholder-cool-gray-600"
         />
       </div>

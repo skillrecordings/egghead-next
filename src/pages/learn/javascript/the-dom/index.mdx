@@ -1,6 +1,6 @@
 export const meta = {
   title: `What is the DOM?`,
-  contributors: ['Hiro Nishimura', 'Maggie Appleton'],
+  contributors: [{name: 'Hiro Nishimura'}, {name: 'Maggie Appleton'}],
 }
 
 import FancyGuide from 'layouts/fancy-guide'
@@ -10,7 +10,6 @@ import DOMScroller from './DOMScroller.js'
 import NodesScroller from './NodesScroller.js'
 
 <ProseSection>
-
 
 ## “The DOM.”
 
@@ -43,7 +42,6 @@ The DOM, or Document Object Model, is an API that helps developers interact with
 
 <Callout>
 
-
 #### What’s an API?
 
 An API lists out operations that developers can use, along with descriptions on what these operations do. The developers then take these APIs to create apps without having to reinvent the wheel.
@@ -57,13 +55,11 @@ An API lists out operations that developers can use, along with descriptions on 
 
 </Callout>
 
-
 The DOM tree shows relationships between different “nodes” (or elements) within a web page, and your web browsers use the DOM Tree to determine how to display these web pages.
 
 You can think of the DOM as the “final output” of your browser after reading your code.
 
 <DOMScroller>
-
 
 ```
 <html>
@@ -81,16 +77,13 @@ You can think of the DOM as the “final output” of your browser after reading
 
 </DOMScroller>
 
-
 The DOM can interact with different web page documents like HTML, SVG, and XML. However, we will be focusing on just the HTML in this article.
 
 <QuestionReveal question="What does the acronym 'DOM' stand for?">
 
-
 Document Object Model
 
 </QuestionReveal>
-
 
 ## The DOM Node Tree
 
@@ -129,11 +122,9 @@ For example, a `<div>` node element can have an `<h1>` child node element, which
 
 <Callout>
 
-
 You can learn more about the HTML DOM node types on [w3schools](https://www.w3schools.com/jsref/prop_node_nodetype.asp)!
 
 </Callout>
-
 
 ## Finding the Developer Tools in your browser
 
@@ -173,11 +164,9 @@ Notice how it doesn’t look like the “branches and nodes” that we illustrat
 
 <Callout>
 
-
 Try opening up your own Developer Tools and inspecting this paragraph.
 
 </Callout>
-
 
 ## The DOM Tree is not the source code
 
@@ -222,4 +211,3 @@ You just need to understand that it’s a type of API that helps you build docum
 Your web browser uses the DOM to determine how to display web pages to your audiences. By using coding languages like JavaScript, you can manipulate the DOM to change how the website shows up to visitors without changing the source HTML.
 
 </ProseSection>
-

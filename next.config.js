@@ -11,7 +11,7 @@ const withMDX = require('@next/mdx')({
       [
         rehypeShiki,
         {
-          theme: './src/styles/material-theme-palenight.json',
+          theme: './src/styles/material-theme-dark.json',
           useBackground: true,
         },
       ],
@@ -36,8 +36,7 @@ const nextConfig = {
   },
   async redirects() {
     return [
-
-{
+      {
         source: '/pricing',
         destination: `https://egghead.io/pricing`,
         permanent: true,
