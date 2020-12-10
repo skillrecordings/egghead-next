@@ -9,7 +9,7 @@ type LayoutProps = {
     titleAppendSiteName?: boolean
     url?: string
     ogImage?: any
-    contributors?: string[]
+    contributors?: {name: string; type: string; image: string; path: string}[]
   }
 }
 
@@ -42,17 +42,17 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div className="max-w-screen-md mx-auto mb-16">
-        <h1 className="font-extrabold sm:mb-12 mb-6 sm:mt-16 mt-8 lg:mb-10 leading-tight md:text-6xl text-4xl">
-          {title}
-        </h1>
-        {contributors && (
-          <>
-            <Contributors contributors={contributors} />{' '}
-            <hr className="w-8 border border-blue-600 my-8" />
-          </>
-        )}
-        {children}
+      <div>
+        <article className="max-w-screen-md mx-auto mb-16">
+          <h1 className="font-extrabold sm:mb-12 mb-6 sm:mt-16 mt-8 lg:mb-10 leading-tight md:text-6xl text-4xl">
+            {title}
+          </h1>
+
+          <main>{children}</main>
+          <footer>
+            <Contributors contributors={contributors} />
+          </footer>
+        </article>
       </div>
     </>
   )
