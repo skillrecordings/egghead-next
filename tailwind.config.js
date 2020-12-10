@@ -20,6 +20,7 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
+            color: `${theme('colors.black')} !important`,
             a: {
               color: `${theme('colors.blue.600')} !important`,
             },
@@ -44,7 +45,7 @@ module.exports = {
             h3: {
               fontSize: theme('fontSize.lg'),
               lineHeight: theme('lineHeight.normal'),
-              fontWeight: theme('fontWeight.bold'),
+              fontWeight: theme('fontWeight.extrabold'),
             },
           },
         },

@@ -1,6 +1,21 @@
 export const meta = {
   title: `Codemods with Babel Plugins`,
-  contributors: ['Laurie Barth'],
+  description: `A codemod is an automated way to transform one set of syntax into another. They're often written to ship with API changes or other things that fundamentally change the interface developers interact with.`,
+  author: {
+    name: 'Laurie Barth',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/281/square_128/laurie_b.jpg',
+    path: '/q/resources-by-laurie-barth',
+  },
+  contributors: [
+    {
+      name: 'Maggie Appleton',
+      type: 'illustration',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/281/square_128/laurie_b.jpg',
+      path: '/q/resource-by-laurie-barth',
+    },
+  ],
   coverImage: {
     url:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607523756/egghead-next-ebombs/article-illustrations/codemods.png',
@@ -17,7 +32,11 @@ export default ({children}) => (
   <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )
 
-Codemods are an incredibly powerful tool that not everyone has heard of, so let's start there. A codemod is an automated way to transform one set of syntax into another. They're often written to ship with API changes or other things that fundamentally change the interface developers interact with. This makes sense because you want users to adopt your latest and greatest improvements, but if you've changed things enough that all their existing code needs to be rewritten, that's a bit of a barrier. Writing a codemod automates those changes and let's them benefit right away.
+<div className="prose-reset text-lg font-medium pb-8">
+
+Codemods are an incredibly powerful tool that not everyone has heard of, so let's start there. <mark className="bg-pink-100">A codemod is an automated way to transform one set of syntax into another.</mark> They're often written to ship with API changes or other things that fundamentally change the interface developers interact with. This makes sense because you want users to adopt your latest and greatest improvements, but if you've changed things enough that all their existing code needs to be rewritten, that's a bit of a barrier. Writing a codemod automates those changes and let's them benefit right away.
+
+</div>
 
 So codemods are great, right? Right! Except there is something I noticed when searching around the internet for write-ups on them. Almost every tutorial is written using the [JSCodeShift API](<[https://github.com/facebook/jscodeshift](https://github.com/facebook/jscodeshift)>) or explains how to make a Babel plugin to do the transform without any of the other necessary context.
 
@@ -320,6 +339,7 @@ Let's assume that the example code is something like this:
 
 ```jsx
 import Egghead from 'egghead'
+
 ;<Egghead video={src} />
 ```
 
