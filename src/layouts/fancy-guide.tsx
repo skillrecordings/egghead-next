@@ -50,7 +50,7 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
 
           <main>{children}</main>
           <footer>
-            <Contributors contributors={contributors} />
+            {contributors && <Contributors contributors={contributors} />}
           </footer>
         </article>
       </div>
