@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
 import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
+import useTokenSigner from '../hooks/use-token-signer'
 
 export const auth = new Auth()
 
@@ -36,6 +37,8 @@ function useAuthedViewer() {
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
   const authToken = getAccessTokenFromCookie()
+
+  useTokenSigner()
 
   React.useEffect(() => {
     setViewer(auth.getLocalUser())
