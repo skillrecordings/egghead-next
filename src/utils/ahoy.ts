@@ -5,9 +5,11 @@ const configuredAhoy = async () => {
   if (!isServer) {
     const module = await import('ahoy.js')
     const ahoy = module.default
-    const {token} = getAccessTokenFromCookie()
+    const token = getAccessTokenFromCookie()
+
+    console.log(token)
     const authorizationHeader = token && {
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     }
     const headers = {
       'Ahoy-Visit': ahoy.getVisitId(),
