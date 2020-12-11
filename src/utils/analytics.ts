@@ -1,5 +1,4 @@
 import {isFunction, isUndefined} from 'lodash'
-import configuredAhoy from './ahoy'
 
 export const track = (
   event: string,
@@ -7,7 +6,7 @@ export const track = (
   callback?: any,
 ) => {
   return new Promise(async (resolve) => {
-    const ahoy = await configuredAhoy()
+    const ahoy = window.ahoy
     let wasCalled = false
 
     const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback

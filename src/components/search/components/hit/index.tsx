@@ -2,6 +2,7 @@ import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import capitalize from 'lodash/capitalize'
+import {track} from 'utils/analytics'
 
 type HitComponentProps = {
   hit: any
@@ -10,13 +11,16 @@ type HitComponentProps = {
 const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
   const {
     path,
-    type,
     image,
     title,
+    slug,
     duration,
+    type,
     instructor_url,
     instructor_name,
   } = hit
+
+  console.log(hit)
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
@@ -46,7 +50,15 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
       >
         <div className="flex flex-col sm:w-3/4 w-full">
           <Link href={path}>
-            <a className="self-start">
+            <a
+              onClick={() =>
+                track(`click content (search)`, {
+                  content: slug,
+                  type: type,
+                })
+              }
+              className="self-start"
+            >
               <h2 className="sm:text-lg text-base font-semibold leading-tight hover:underline">
                 {title}
               </h2>
@@ -57,7 +69,16 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
             {instructor_name && instructor_url && (
               <>
                 <Link href={instructor_url}>
-                  <a className="hover:underline">{instructor_name}</a>
+                  <a
+                    onClick={() =>
+                      track(`click instructor (search)`, {
+                        instructor: instructor_name,
+                      })
+                    }
+                    className="hover:underline"
+                  >
+                    {instructor_name}
+                  </a>
                 </Link>
                 ・
               </>

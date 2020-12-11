@@ -2,6 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../Link'
 import Eggo from '../images/eggo.svg'
+import {track} from 'utils/analytics'
 
 const content = [
   {
@@ -55,13 +56,17 @@ const about = [
 //   </h5>
 // )
 
-const Item: FunctionComponent<{children: React.ReactNode; path: string}> = ({
-  children,
-  path,
-}) => (
+const Item: FunctionComponent<{
+  children: React.ReactNode
+  path: string
+  onClick: any
+}> = ({children, path, onClick}) => (
   <li className="py-1 md:text-sm text-base leading-relaxed">
     <Link href={path} activeClassName="underline">
-      <a className="hover:text-brand transition-colors ease-in-out duration-150">
+      <a
+        onClick={onClick}
+        className="hover:text-brand transition-colors ease-in-out duration-150"
+      >
         {children}
       </a>
     </Link>
@@ -86,16 +91,24 @@ const FooterNavigation: FunctionComponent = () => {
         {/* <Title>Content</Title> */}
         <ul>
           {content.map((link) => (
-            <Item path={link.path} key={link.path}>
-              {link.label}
+            <Item
+              onClick={() => track(`clicked ${link.label} (footer)`)}
+              path={link.path}
+              key={link.path}
+            >
+              {link.label}**
             </Item>
           ))}
         </ul>
         {/* <Title>About</Title> */}
         <ul>
           {about.map((link) => (
-            <Item path={link.path} key={link.path}>
-              {link.label}
+            <Item
+              onClick={() => track(`clicked ${link.label} (footer)`)}
+              path={link.path}
+              key={link.path}
+            >
+              {link.label}*
             </Item>
           ))}
         </ul>
@@ -112,7 +125,9 @@ const Footer: FunctionComponent = () => {
         <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500">
           <div>©egghead.io</div>
           <Link href="/privacy">
-            <a>Terms & Conditions</a>
+            <a onClick={() => track(`clicked Privacy (footer)`)}>
+              Terms & Conditions
+            </a>
           </Link>
         </small>
       </footer>
