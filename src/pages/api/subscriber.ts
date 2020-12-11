@@ -75,19 +75,23 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
           .then(({data}: {data: any}) => data.subscriber)
       }
 
-      const ckCookie = serverCookie.serialize(
-        'ck_subscriber_id',
-        subscriber.id,
-        {
-          secure: process.env.NODE_ENV === 'production',
-          path: '/',
-          maxAge: 31556952,
-        },
-      )
+      if (subscriber) {
+        const ckCookie = serverCookie.serialize(
+          'ck_subscriber_id',
+          subscriber.id,
+          {
+            secure: process.env.NODE_ENV === 'production',
+            path: '/',
+            maxAge: 31556952,
+          },
+        )
 
-      res.setHeader('Set-Cookie', ckCookie)
-      res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
-      res.status(200).json(subscriber)
+        res.setHeader('Set-Cookie', ckCookie)
+        res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
+        res.status(200).json(subscriber)
+      } else {
+        res.status(200).end()
+      }
     } catch (error) {
       console.log(error)
       res.status(200).end()
