@@ -96,7 +96,7 @@ const FooterNavigation: FunctionComponent = () => {
               path={link.path}
               key={link.path}
             >
-              {link.label}**
+              {link.label}
             </Item>
           ))}
         </ul>
@@ -108,7 +108,7 @@ const FooterNavigation: FunctionComponent = () => {
               path={link.path}
               key={link.path}
             >
-              {link.label}*
+              {link.label}
             </Item>
           ))}
         </ul>
