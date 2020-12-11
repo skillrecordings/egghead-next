@@ -6,8 +6,6 @@ const configuredAhoy = async () => {
     const module = await import('ahoy.js')
     const ahoy = module.default
     const token = getAccessTokenFromCookie()
-
-    console.log(token)
     const authorizationHeader = token && {
       Authorization: `Bearer ${token}`,
     }
