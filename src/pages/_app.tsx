@@ -13,10 +13,9 @@ import '@reach/dialog/styles.css'
 import '@reach/tabs/styles.css'
 import '../styles/index.css'
 import 'focus-visible'
-import Router from 'next/router'
 import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {FacebookPixel} from 'components/facebook-pixel'
-import configuredAhoy from 'utils/ahoy'
+import {Ahoy} from 'components/ahoy'
 
 declare global {
   interface Window {
@@ -24,16 +23,12 @@ declare global {
   }
 }
 
-Router.events.on('routeChangeComplete', async () => {
-  const ahoy = await configuredAhoy()
-  if (ahoy) ahoy.trackView()
-})
-
 export default class App extends NextApp {
   render() {
     const {Component, pageProps} = this.props
     return (
       <>
+        <Ahoy />
         <FacebookPixel />
         <DefaultSeo {...defaultSeoConfig} />
         <SocialProfileJsonLd
