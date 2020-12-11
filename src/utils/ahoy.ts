@@ -15,16 +15,14 @@ const configuredAhoy = async () => {
       ...authorizationHeader,
     }
     ahoy.configure({
-      urlPrefix: '',
       visitsUrl: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/ahoy/visits`,
       eventsUrl: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/ahoy/events`,
-      page: null,
       platform: 'Web',
       useBeacon: true,
       startOnReady: true,
       trackVisits: true,
       cookies: true,
-      cookieDomain: process.env.NEXT_PUBLIC_DEPLOYMENT_URL,
+      cookieDomain: process.env.NEXT_PUBLIC_AHOY_COOKIE_DOMAIN || 'egghead.io',
       headers,
       withCredentials: false,
     })
