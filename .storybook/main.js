@@ -1,4 +1,3 @@
-const path = require('path')
 const webpack = require('webpack')
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -28,9 +27,8 @@ module.exports = {
 
     // Add loader to process CSS
     config.module.rules.push({
-      test: /\.css$/,
+      test: /\.css$/i,
       loaders: ['style-loader', 'css-loader', 'postcss-loader'],
-      include: path.resolve(__dirname, '../'),
     })
 
     return config
