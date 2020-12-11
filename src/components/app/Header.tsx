@@ -3,6 +3,7 @@ import {FunctionComponent} from 'react'
 import Link from '../Link'
 import Eggo from '../images/eggo.svg'
 import {useViewer} from 'context/viewer-context'
+import {track} from 'utils/analytics'
 
 const Header: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -23,12 +24,14 @@ const Header: FunctionComponent = () => {
             <ul className="flex items-center">
               <li className="sm:mr-8 mr-5">
                 <Link href="/learn" activeClassName="underline">
-                  <a>Topics</a>
+                  <a onClick={() => track('clicked Topics (header)')}>Topics</a>
                 </Link>
               </li>
               <li className="sm:mr-8 mr-5">
                 <Link href="/q" activeClassName="underline">
-                  <a>Content</a>
+                  <a onClick={() => track('clicked Content (header)')}>
+                    Content
+                  </a>
                 </Link>
               </li>
 
@@ -46,7 +49,9 @@ const Header: FunctionComponent = () => {
               ) : (
                 <li>
                   <Link href="/login" activeClassName="underline">
-                    <a>Sign in</a>
+                    <a onClick={() => track('clicked Sign in (header)')}>
+                      Sign in
+                    </a>
                   </Link>
                 </li>
               )}
