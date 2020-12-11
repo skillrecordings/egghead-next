@@ -20,8 +20,6 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
     instructor_name,
   } = hit
 
-  console.log(hit)
-
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
   return (
