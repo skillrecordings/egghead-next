@@ -23,7 +23,11 @@ const checkProStatus = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         .then(({data}) => data)
 
-      res.status(200).json(!isEmpty(eggheadUser.subscription))
+      const hasProAccess =
+        !isEmpty(eggheadUser) &&
+        (eggheadUser.is_pro || eggheadUser.is_instructor)
+
+      res.status(200).json(hasProAccess)
     }
   } else {
     res.statusCode = 404

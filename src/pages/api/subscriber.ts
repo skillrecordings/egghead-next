@@ -43,7 +43,6 @@ async function fetchEggheadUser(token: any) {
       },
     },
   )
-  log('successfully fetched egghead user')
   return current
 }
 
