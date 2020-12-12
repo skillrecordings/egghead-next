@@ -208,7 +208,11 @@ const options = {
 }
 ```
 
-`cloneInputAst` and `code` are both set to false because it improves performance. If we're parsing a large project to modify code, this is useful. We also want to set `ast` to true because by default, Babel won't return the AST.
+The first is `cloneInputAst`. By default, this option is set to `true` and ensures that the transformFromAstSync method will clone the input AST to avoid mutations. However, recast uses the AST to store metadata information, allowing it to preserve formatting. If we let Babel clone it, that information gets lost. So we set `cloneInputAst` to `false` in order to preserve the work recast has done.
+
+Second, we set `code` to `false` to improve performance. If we're parsing a large project to modify code, this is useful. 
+
+Finally, we want to set `ast` to true because by default, Babel won't return the AST.
 
 Put it all together and we're running our Babel plugin within recast, preserving formatting!
 
@@ -256,11 +260,11 @@ We're now able to run our codemod via CLI:
 jscodeshift -t <transform-filename> <transform-target-dir>
 ```
 
-This command spins up workers for us an handles batching.
+This command spins up workers for us and handles batching.
 
 We're also able to make use of `testUtils` and set up a full testing suite. We make a `transforms` folder that includes a `egghead-codemod.js` file with all the code we've written so far. Inside that same directory we need `__tests__` and `__testfixtures__`.
 
-Inside `__tests__` we can create another directory that matches the name of our codemod file, `egghead-codemod`. Inside it, we can put as many input/output files as we like. For example, `example.input.js`:
+Inside `__testfixtures__`, we can put as many input/output files as we like. For example, `example.input.js`:
 
 ```jsx
 <Egghead video={src} />
@@ -283,7 +287,7 @@ const defineTest = require(`jscodeshift/dist/testUtils`).defineTest
 
 describe(`codemods`, () => {
   tests.forEach((test) =>
-    defineTest(__dirname, `egghead-codemod`, null, `egghead-codemod/${test}`),
+    defineTest(__dirname, `egghead-codemod`, null, `${test}`),
   )
 })
 ```
@@ -334,7 +338,7 @@ export function updateContent(babel) {
 
 This allows us to write full replacement statements instead of having to change each part of the ImportDeclaration. It's also worth noting that this takes a template literal, so we can use variables as well.
 
-If you want to make a change to both an import and the thing that uses it, you can take advantage of the fact that `path` comes with scope information. This is quite undocumented, some asking around.
+If you want to make a change to both an import and the thing that uses it, you can take advantage of the fact that `path` comes with scope information. This is quite undocumented, so it took some asking around.
 
 Let's assume that the example code is something like this:
 
