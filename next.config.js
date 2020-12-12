@@ -37,11 +37,6 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/pricing',
-        destination: `/pricing`,
-        permanent: true,
-      },
-      {
         source: '/instructors/:instructor',
         destination: `${searchUrlRoot}/content-by-:instructor`,
         permanent: true,
