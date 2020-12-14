@@ -15,7 +15,23 @@ const Course: FunctionComponent<CourseProps> = () => {
     title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607676496/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout.png',
-    summary: `#### A snazzy subheadline\nIn this course, Colby Fayock guides you through building an ecommerce site with Next.js. You can’t do real ecommerce if you can’t accept payments.  Colby’s course delves into several topics outside of just eCommerce. You’ll learn things applicable to the JAMStack as an ecosystem and have plenty of opportunities to further enhance your own custom store.`,
+    summary: `#### Accept payments & sell products powered by the best of the JAMStack
+
+There are as many ways to build an e-commerce store on the internet as there are products to sell. 
+One thing is for certain, e-commerce is here to stay and as professional developers we need to understand
+how to build fully custom stores for our clients using the best modern tools available.
+
+* React: flexible and customizable while following modern best practices
+* Next.js: lightening fast with guide rails to help your project perform like consumers expect
+* Stripe Checkout: let's you offload reams of complicated business logic to a trusted third party
+that maintains regulatory compliance, global payments, and a standard UX.
+
+Your store will have well managed local component state using React Hooks and you'll 
+also have clear and cohesive shared (global) state with React Context.
+
+Finally you'll deploy your custom store to Vercel (the platform behind Next.js) as well as learn
+how to make your Next.js e-commerce store portable to deploy to other platforms.
+`,
     instructor: {
       name: 'Colby Fayock',
       path: '/q/resources-by-colby-fayock',
@@ -106,7 +122,7 @@ const Course: FunctionComponent<CourseProps> = () => {
             </div>
             <div className="space-y-3">
               <div className="uppercase font-medium tracking-wide text-sm md:text-left text-center text-pink-600">
-                Learn how to
+                Portfolio Project
               </div>
               <h1 className="md:text-4xl text-3xl md:text-left text-center font-medium leading-tighter pb-6">
                 {course.title}
