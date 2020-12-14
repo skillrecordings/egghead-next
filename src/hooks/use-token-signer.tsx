@@ -16,11 +16,26 @@ function getSingleQueryValue(
   }
 }
 
+function createPermanentCookie(name: string, value: string) {
+  // this is what permanent means for Rails cookies
+  const twenty_years = 365 * 20
+  const permanent = twenty_years
+
+  cookie.set(name, value, {
+    expires: permanent,
+    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+  })
+}
+
 function useTokenSigner(): void {
   const router = useRouter()
 
   const referralQueryParam: string | undefined = getSingleQueryValue(
     router.query.rc,
+  )
+
+  const affiliateQueryParam: string | undefined = getSingleQueryValue(
+    router.query.af,
   )
 
   React.useEffect(() => {
@@ -38,13 +53,8 @@ function useTokenSigner(): void {
           )
           .then(({data}) => {
             const newReferralToken = data.signed_referral_token
-            const twenty_years = 365 * 20
-            const permanent = twenty_years // this is what permanent means for Rails cookies
 
-            cookie.set('rc', newReferralToken, {
-              expires: permanent,
-              domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
-            })
+            createPermanentCookie('rc', newReferralToken)
 
             return newReferralToken
           })
@@ -60,6 +70,49 @@ function useTokenSigner(): void {
 
     return () => {}
   }, [referralQueryParam])
+
+  React.useEffect(() => {
+    const requestSignedAffiliateToken = async (affiliateToken: string) => {
+      const existingAffiliateToken = cookie.get('af')
+
+      if (!!existingAffiliateToken) {
+        Promise.resolve(existingAffiliateToken)
+      } else {
+        return http
+          .post(
+            `${AUTH_DOMAIN}/api/v1/sign_affiliate_token`,
+            {af: affiliateToken},
+            {},
+          )
+          .then(({data}) => {
+            const newAffiliateToken = data.signed_affiliate_token
+
+            createPermanentCookie('af', newAffiliateToken)
+
+            // remove `af` from the URL params
+            const {af, ...updatedQuery} = router.query
+            router.push(
+              {pathname: router.pathname, query: updatedQuery},
+              undefined,
+              {
+                shallow: true,
+              },
+            )
+
+            return newAffiliateToken
+          })
+          .catch((error) => {
+            return null
+          })
+      }
+    }
+
+    if (!!affiliateQueryParam) {
+      requestSignedAffiliateToken(affiliateQueryParam)
+    }
+
+    return () => {}
+  }, [affiliateQueryParam, router])
 }
 
 export default useTokenSigner
