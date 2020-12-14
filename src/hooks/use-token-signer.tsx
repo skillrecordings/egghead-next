@@ -87,7 +87,9 @@ function useTokenSigner(): void {
           .then(({data}) => {
             const newAffiliateToken = data.signed_affiliate_token
 
-            createPermanentCookie('af', newAffiliateToken)
+            // Store this as `signed_af` to differentiate from unsigned legacy
+            // af cookies.
+            createPermanentCookie('signed_af', newAffiliateToken)
 
             // remove `af` from the URL params
             const {af, ...updatedQuery} = router.query
