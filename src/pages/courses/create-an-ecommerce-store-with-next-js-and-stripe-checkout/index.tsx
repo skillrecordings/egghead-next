@@ -29,14 +29,14 @@ that maintains regulatory compliance, global payments, and a standard UX.
 Your store will have well managed local component state using React Hooks and you'll 
 also have clear and cohesive shared (global) state with React Context.
 
-Finally you'll deploy your custom store to Vercel (the platform behind Next.js) as well as learn
+Finally you'll deploy your custom store to Vercel (the platform behind Next.js) as well as
 how to make your Next.js e-commerce store portable to deploy to other platforms.
 `,
     instructor: {
       name: 'Colby Fayock',
       path: '/q/resources-by-colby-fayock',
       bio:
-        'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customising his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
+        'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
     },
     tags: [
       {
@@ -139,7 +139,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           <div className="mt-20 bg-gray-50 -mx-5 pt-24 xl:px-0 px-5">
             <div className="max-w-screen-lg mx-auto">
               <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
-                What You’ll Learn (in under 2 hours)
+                What You’ll Build for Your Portfolio
               </div>
               <h2 className="sm:text-2xl text-2xl sm:text-left text-center leading-tighter pb-16">
                 How to build a start-to-finish dynamic Next.js app
