@@ -15,7 +15,7 @@ const Course: FunctionComponent<CourseProps> = () => {
     title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607676496/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout.png',
-    summary: `#### Accept payments & sell products powered by the best of the JAMStack
+    summary: `#### Accept payments & sell products powered by Stripe and the best of the JAMStack
 
 There are as many ways to build an e-commerce store on the internet as there are products to sell. 
 One thing is for certain, e-commerce is here to stay and as professional developers we need to understand
