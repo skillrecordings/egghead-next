@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {useViewer} from 'context/viewer-context'
 import {useRouter} from 'next/router'
 
@@ -5,13 +6,15 @@ function Logout() {
   const router = useRouter()
   const {logout} = useViewer()
 
-  const redirectToIndex = () => {
-    if (typeof window !== 'undefined') {
-      router.replace('/')
+  React.useEffect(() => {
+    const redirectToIndex = () => {
+      if (typeof window !== 'undefined') {
+        router.replace('/')
+      }
     }
-  }
 
-  logout(redirectToIndex)
+    logout(redirectToIndex)
+  }, [])
 
   return null
 }
