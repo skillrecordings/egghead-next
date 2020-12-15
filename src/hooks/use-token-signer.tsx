@@ -79,8 +79,6 @@ function useTokenSigner(): void {
     if (!!referralQueryParam) {
       requestSignedReferralToken(referralQueryParam)
     }
-
-    return () => {}
   }, [referralQueryParam, removeQueryFromUrl])
 
   React.useEffect(() => {
@@ -118,8 +116,6 @@ function useTokenSigner(): void {
     if (!!affiliateQueryParam) {
       requestSignedAffiliateToken(affiliateQueryParam)
     }
-
-    return () => {}
   }, [affiliateQueryParam, removeQueryFromUrl])
 }
 
