@@ -53,7 +53,7 @@ What are we trying to accomplish in this tutorial?
 
 ## Babel Transform
 
-The first thing we're going to do is write a minimal transform that we can run as we setup the rest of our structure. We'll need to install `@babel/core`.
+The first thing we're going to do is write a minimal transform that we can run as we set up the rest of our structure. We'll need to install `@babel/core`.
 
 What's nice is that we can test this code without the rest of our setup, using [ASTExplorer](<[https://astexplorer.net/](https://astexplorer.net/)>). Using the `transform` toggle at the top select babel v7 and start writing your plugin! Let's walk through an example.
 
@@ -69,7 +69,7 @@ To this:
 <Egghead content={src} />
 ```
 
-Let's write a transform for this. The first thing to note is that `babel` is passed into every plugin and includes `types`. If you look at the [API](<[https://babeljs.io/docs/en/babel-types](https://babeljs.io/docs/en/babel-types)>) you'll notice that it includes all of the AST (Abstract Syntax Tree) types your code is parsed into. It also includes helper methods like `isIdentifier` that can substitute for `type === 'Identifier'`. We're going to use this.
+Let's write a transform for this. The first thing to note is that `babel` is passed into every plugin and includes `types`. If you look at the [API](<[https://babeljs.io/docs/en/babel-types](https://babeljs.io/docs/en/babel-types)>) you'll notice that it includes all of the AST (Abstract Syntax Tree) types your code is parsed into. It also includes helper methods like `isIdentifier` that can substitute for `type === 'Identifier'` which makes the code a bit easier to follow.
 
 ```jsx
 export function updateContent(babel) {
@@ -82,7 +82,7 @@ export function updateContent(babel) {
 }
 ```
 
-We've made a function that acts as our plugin, we're pulled `types` out of the included `babel` object and we're ready to return a visitor object. Our main functionality will live inside that object.
+We've made a function that acts as our plugin, we've pulled `types` out of the included `babel` object and we're ready to return a visitor object. Our main functionality will live inside that object.
 
 Using the AST we see that `video` is a `JSXIdentifier`, so we're going to visit that type.
 
@@ -173,13 +173,13 @@ export function babelRecast(code, filePath) {
 }
 ```
 
-There is a lot going on here, so it's worth talking through it. `parser` is still taking a custom parser, but it's one we're defining ourselves using the Babel parsing function `parseSync`. We're passing a few plugins as well as an override. The override looks for TypeScript files and includes the TypeScript syntax plugin when it finds out. The test RegEx is compared to the `filename` that we're passing into the function.
+There is a lot going on here, so it's worth talking through it. `parser` is still taking a custom parser, but it's one we're defining ourselves using the Babel parsing function `parseSync`. We're passing a few plugins as well as an override. The override looks for TypeScript files and includes the TypeScript syntax plugin when it finds one. The test RegEx is compared to the `filename` that we're passing into the function.
 
 The last piece is the strangest. `tokens:true`. Inside of recast, it checks to see if the custom parser has been successful. It does so by looking at `ast.tokens`, otherwise it falls back to esprima. `tokens` are not returned by default, so we need to return them as part of the AST so recast respects our custom parser.
 
 ### Running the plugin with recast
 
-To make the example easier to follow we're going to use the first of our parsing examples. And grab another thing from `@babel/core`, `transformFromAstSync`. This function will transform our code while it's an AST.
+To make the example easier to follow we're going to use the first of our parsing examples. Using the AST we get as a result, we'll import `transformFromAstSync` from `@babel/core`. This function will take our code when it's in the form of an AST and transform it.
 
 ```jsx
 import {parse, print} from 'recast'
@@ -190,14 +190,18 @@ export function babelRecast(code) {
 
   const options = {plugins: [updateContent]}
 
-  const transformedAST = transformFromAstSync(ast, code, options)
+  const {ast: transformedAST} = transformFromAstSync(ast, code, options)
 
   const result = print(transformedAST).code
   return result
 }
 ```
 
-This is essentially what we're trying to do, but there are a few more options it makes sense to set.
+So that's it? Not quite. 
+
+#### Important options for our Babel transform
+
+There are a few key options we need to pass to the `transformFromAstSync` function.
 
 ```jsx
 const options = {
@@ -208,9 +212,15 @@ const options = {
 }
 ```
 
-`cloneInputAst` and `code` are both set to false because it improves performance. If we're parsing a large project to modify code, this is useful. We also want to set `ast` to true because by default, Babel won't return the AST.
+The first is `cloneInputAst`. By default, this option is set to `true` and ensures that the transformFromAstSync method will clone the input AST to avoid mutations. However, recast uses the AST to store metadata information, allowing it to preserve formatting. If we let Babel clone it, that information gets lost. So we set `cloneInputAst` to `false` in order to preserve the work recast has done.
 
-Put it all together and we're running our Babel plugin within recast, preserving formatting!
+Second, we set `code` to `false` to improve performance. If we're parsing a large project to modify code, this is useful. 
+
+Finally, we want to set `ast` to true because by default, Babel won't return the AST.
+
+#### A working recast implementation
+
+Let's put it all together. We're using a Babel parser inside recast to get our code as an AST. Then we pass our plugin, which does the actual code transformation, to the `transformFromAstSync` function and get the resulting `ast`. Note that we alias this to `transformedAST` because we already have an `ast` variable in this scope. Lastly, we use the recast `print` function to turn our transformed AST back into code and return it. 
 
 ```jsx
 import {parse, print} from 'recast'
@@ -226,12 +236,14 @@ export function babelRecast(code) {
     plugins: [updateContent],
   }
 
-  const transformedAST = transformFromAstSync(ast, code, options)
+  const {ast: transformedAST} = transformFromAstSync(ast, code, options)
 
   const result = print(transformedAST).code
   return result
 }
 ```
+
+Now we're running our Babel plugin within recast, preserving formatting!
 
 ## Wrapping our transform
 
@@ -256,11 +268,11 @@ We're now able to run our codemod via CLI:
 jscodeshift -t <transform-filename> <transform-target-dir>
 ```
 
-This command spins up workers for us an handles batching.
+This command spins up workers for us and handles batching.
 
 We're also able to make use of `testUtils` and set up a full testing suite. We make a `transforms` folder that includes a `egghead-codemod.js` file with all the code we've written so far. Inside that same directory we need `__tests__` and `__testfixtures__`.
 
-Inside `__tests__` we can create another directory that matches the name of our codemod file, `egghead-codemod`. Inside it, we can put as many input/output files as we like. For example, `example.input.js`:
+Inside `__testfixtures__`, we can put as many input/output files as we like. For example, `example.input.js`:
 
 ```jsx
 <Egghead video={src} />
@@ -283,7 +295,7 @@ const defineTest = require(`jscodeshift/dist/testUtils`).defineTest
 
 describe(`codemods`, () => {
   tests.forEach((test) =>
-    defineTest(__dirname, `egghead-codemod`, null, `egghead-codemod/${test}`),
+    defineTest(__dirname, `egghead-codemod`, null, `${test}`),
   )
 })
 ```
@@ -334,7 +346,7 @@ export function updateContent(babel) {
 
 This allows us to write full replacement statements instead of having to change each part of the ImportDeclaration. It's also worth noting that this takes a template literal, so we can use variables as well.
 
-If you want to make a change to both an import and the thing that uses it, you can take advantage of the fact that `path` comes with scope information. This is quite undocumented, some asking around.
+If you want to make a change to both an import and the thing that uses it, you can take advantage of the fact that `path` comes with scope information. This is quite undocumented, so it took some asking around.
 
 Let's assume that the example code is something like this:
 
