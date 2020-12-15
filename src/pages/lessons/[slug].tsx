@@ -77,7 +77,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [playerState, send] = useMachine(playerMachine)
 
   const currentPlayerState = playerState.value
-  const ratingPlayerState = 'rating'
 
   const lesson: any = {...initialLesson}
 
@@ -215,7 +214,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 } w-full h-full top-0 left-0`}
               >
                 {loaderVisible && <Loader />}
-                {/* {playerVisible && (
+                {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
                     hls_url={data.hls_url}
@@ -255,8 +254,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       url={next_up_url}
                     />
                   </OverlayWrapper>
-                )} */}
-                {ratingPlayerState === 'rating' && (
+                )}
+                {playerState.matches('rating') && (
                   <OverlayWrapper>
                     <RateCourseOverlay course={lesson.course} send={send} />
                   </OverlayWrapper>
