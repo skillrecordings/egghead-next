@@ -124,7 +124,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'completed':
-        send('NEXT')
+        // send('NEXT')
+        send('RATE')
         break
     }
   }, [currentPlayerState, data, free_forever, send, viewer, initialLesson])
