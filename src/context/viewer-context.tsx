@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import Auth from '../utils/auth'
+import Auth, {AUTH_DOMAIN} from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
 import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
 import useTokenSigner from '../hooks/use-token-signer'
+import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
 
 export const auth = new Auth()
 
@@ -39,6 +40,7 @@ function useAuthedViewer() {
   const authToken = getAccessTokenFromCookie()
 
   useTokenSigner()
+  useAffiliateAssigner(viewerId, authToken)
 
   React.useEffect(() => {
     setViewer(auth.getLocalUser())

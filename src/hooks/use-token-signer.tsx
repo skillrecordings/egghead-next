@@ -4,6 +4,9 @@ import axios from 'axios'
 import cookie from '../utils/cookies'
 import {AUTH_DOMAIN} from '../utils/auth'
 
+export const AFFILIATE_TOKEN_KEY = 'af'
+export const SIGNED_AFFILIATE_TOKEN_KEY = 'signed_af'
+
 const http = axios.create()
 
 function getSingleQueryValue(
@@ -56,6 +59,8 @@ function useTokenSigner(): void {
 
             createPermanentCookie('rc', newReferralToken)
 
+            // TODO: Remove `rc` from URL query params, similar to `af`.
+
             return newReferralToken
           })
           .catch((error) => {
@@ -73,7 +78,9 @@ function useTokenSigner(): void {
 
   React.useEffect(() => {
     const requestSignedAffiliateToken = async (affiliateToken: string) => {
-      const existingAffiliateToken = cookie.get('af')
+      const existingAffiliateToken =
+        cookie.get(AFFILIATE_TOKEN_KEY) ||
+        cookie.get(SIGNED_AFFILIATE_TOKEN_KEY)
 
       if (!!existingAffiliateToken) {
         Promise.resolve(existingAffiliateToken)
@@ -89,7 +96,7 @@ function useTokenSigner(): void {
 
             // Store this as `signed_af` to differentiate from unsigned legacy
             // af cookies.
-            createPermanentCookie('signed_af', newAffiliateToken)
+            createPermanentCookie(SIGNED_AFFILIATE_TOKEN_KEY, newAffiliateToken)
 
             // remove `af` from the URL params
             const {af, ...updatedQuery} = router.query
