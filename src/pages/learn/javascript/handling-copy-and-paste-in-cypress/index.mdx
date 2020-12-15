@@ -106,7 +106,7 @@ module.exports = (
 Now that we have defined our task, we can use it in our test:
 
 ```js
-it.only('copies text from textarea', () => {
+it('copies text from textarea', () => {
   const textToCopy = 'Wubba lubba dub dub'
 
   cy.visit('index.html')
@@ -121,9 +121,9 @@ it.only('copies text from textarea', () => {
 
 Our task will return the content of our clipboard. This enables us to write an assertion, just as we would normally do with any other element.
 
-However, this test will work only if you run your test in Electron. Because our `.click()` command is fired with JavaScript it has an `isTrusted` property set to false. Whenever a [click event is dispatched or created by a script](https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted), it has this property set to it. Cypress uses JavaScript to fire its events, so they differ from real user interaction.
+However, this test will only work if you run this test in Electron. Our `.click()` command will fire an event that will have a property called `isTrusted` which is going to be set to `false`. Whenever a [click event is dispatched or created by a script](https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted), it has this property set. And since Cypress uses JavaScript to fire its events, they differ from real user interaction.
 
-There is a way of firing real click events in Chrome, using [cypress-real-events](https://github.com/dmtrKovalenko/cypress-real-events) plugin. This plugin adds some real events to your app (hase a hover command too!). Firing a real event here will copy the desired text to the clipboard.
+There is a way of firing real click events, using [cypress-real-events](https://github.com/dmtrKovalenko/cypress-real-events) plugin. This plugin adds some real events to your app. And it has a hover command too! It uses Chrome Devtools Protocol, so the same methods that can be found in Devtools used for triggering hover, active state etc. Using a `.realClick()` command from this plugin, the Chrome-friendly code will look like this:
 
 ```js
 it('copies text from textarea', () => {
