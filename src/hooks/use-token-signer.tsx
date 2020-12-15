@@ -41,6 +41,13 @@ function useTokenSigner(): void {
     router.query.af,
   )
 
+  const removeQueryFromUrl = (paramName: string) => {
+    const {[paramName]: _paramToRemove, ...updatedQuery} = router.query
+    router.push({pathname: router.pathname, query: updatedQuery}, undefined, {
+      shallow: true,
+    })
+  }
+
   React.useEffect(() => {
     const requestSignedReferralToken = async (referralToken: string) => {
       const existingReferralToken = cookie.get('rc')
@@ -59,7 +66,7 @@ function useTokenSigner(): void {
 
             createPermanentCookie('rc', newReferralToken)
 
-            // TODO: Remove `rc` from URL query params, similar to `af`.
+            removeQueryFromUrl('rc')
 
             return newReferralToken
           })
@@ -74,7 +81,7 @@ function useTokenSigner(): void {
     }
 
     return () => {}
-  }, [referralQueryParam])
+  }, [referralQueryParam, removeQueryFromUrl])
 
   React.useEffect(() => {
     const requestSignedAffiliateToken = async (affiliateToken: string) => {
@@ -98,15 +105,7 @@ function useTokenSigner(): void {
             // af cookies.
             createPermanentCookie(SIGNED_AFFILIATE_TOKEN_KEY, newAffiliateToken)
 
-            // remove `af` from the URL params
-            const {af, ...updatedQuery} = router.query
-            router.push(
-              {pathname: router.pathname, query: updatedQuery},
-              undefined,
-              {
-                shallow: true,
-              },
-            )
+            removeQueryFromUrl('af')
 
             return newAffiliateToken
           })
@@ -121,7 +120,7 @@ function useTokenSigner(): void {
     }
 
     return () => {}
-  }, [affiliateQueryParam, router])
+  }, [affiliateQueryParam, removeQueryFromUrl])
 }
 
 export default useTokenSigner
