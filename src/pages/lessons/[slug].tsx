@@ -22,6 +22,7 @@ import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
 
@@ -76,6 +77,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [playerState, send] = useMachine(playerMachine)
 
   const currentPlayerState = playerState.value
+  const ratingPlayerState = 'rating'
 
   const lesson: any = {...initialLesson}
 
@@ -213,7 +215,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 } w-full h-full top-0 left-0`}
               >
                 {loaderVisible && <Loader />}
-                {playerVisible && (
+                {/* {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
                     hls_url={data.hls_url}
@@ -252,6 +254,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       send={send}
                       url={next_up_url}
                     />
+                  </OverlayWrapper>
+                )} */}
+                {ratingPlayerState === 'rating' && (
+                  <OverlayWrapper>
+                    <RateCourseOverlay course={lesson.course} send={send} />
                   </OverlayWrapper>
                 )}
               </div>
