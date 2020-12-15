@@ -15176,13 +15176,6 @@ postcss-nested@^5.0.1:
   dependencies:
     postcss-selector-parser "^6.0.4"
 
-postcss-nested@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-5.0.3.tgz#2f46d77a06fc98d9c22344fd097396f5431386db"
-  integrity sha512-R2LHPw+u5hFfDgJG748KpGbJyTv7Yr33/2tIMWxquYuHTd9EXu27PYnKi7BxMXLtzKC0a0WVsqHtd7qIluQu/g==
-  dependencies:
-    postcss-selector-parser "^6.0.4"
-
 postcss-nesting@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/postcss-nesting/-/postcss-nesting-7.0.1.tgz#b50ad7b7f0173e5b5e3880c3501344703e04c052"

@@ -159,7 +159,7 @@
     "pad-number": "^0.0.4",
     "parse-link-header": "^1.0.1",
     "postcss": "^8.1.10",
-    "postcss-nested": "^5.0.3",
+    "postcss-nested": "^5.0.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.2.0",
     "react-is": "^17.0.1",
