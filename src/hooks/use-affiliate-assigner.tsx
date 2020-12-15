@@ -11,7 +11,7 @@ const http = axios.create()
 function useAffiliateAssigner(
   viewerId: string | null,
   authToken: string | null,
-): void {
+) {
   const {token, signed} = getAffiliateTokenFromCookie()
 
   React.useEffect(() => {
