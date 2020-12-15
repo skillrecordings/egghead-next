@@ -1,13 +1,12 @@
 export const meta = {
   title: `The Real Introduction to JavaScript`,
-  contributors: ['Hiro Nishimura', 'Maggie Appleton'],
+  contributors: [{name: 'Hiro Nishimura'}, {name: 'Maggie Appleton'}],
 }
 
 import FancyGuide from 'layouts/fancy-guide'
 export default ({children}) => <FancyGuide meta={meta}>{children}</FancyGuide>
 
 <ProseSection>
-
 
 Once you’ve become familiar with HTML and CSS, you might begin to see the word “JavaScript” pop up fairly regularly. (And no, it has nothing to do with “Java,” which is an entirely different coding language.)
 
@@ -78,11 +77,9 @@ You can begin manipulating JavaScript right from your browser by opening the Dev
 
 <Callout>
 
-
 How can I access the JavaScript console in my Chrome browser?
 
 </Callout>
-
 
 Type in “about:blank” in Chrome address bar, and then right click on the page, and select “Inspect” To open the JavaScript console.
 
@@ -151,4 +148,3 @@ const teaBreaks = ['10:15', '12:30', '14:30', '16:00']
 Variables, objects, and arrays are only a few of the features JavaScript has to help us write code but that's enough to give you a taster.
 
 </ProseSection>
-

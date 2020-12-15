@@ -11,7 +11,7 @@ const withMDX = require('@next/mdx')({
       [
         rehypeShiki,
         {
-          theme: './src/styles/material-theme-palenight.json',
+          theme: './src/styles/material-theme-dark.json',
           useBackground: true,
         },
       ],

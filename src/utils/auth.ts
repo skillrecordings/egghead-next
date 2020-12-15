@@ -115,7 +115,13 @@ export default class Auth {
   ) {
     // handle any previous location redirects here
 
-    return this.handleNewSession(accessToken, expiresInSeconds)
+    return this.handleNewSession(accessToken, expiresInSeconds).catch((e) => {
+      if (e.isAxiosError && e.response.status === 403) {
+        // do nothing, logout has been called to clear local session data
+      } else {
+        return Promise.reject(e)
+      }
+    })
   }
 
   handleNewSession(accessToken: string, expiresInSeconds: string) {

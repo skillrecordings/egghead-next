@@ -1,13 +1,12 @@
 export const meta = {
   title: `Interact with the DOM using JavaScript`,
-  contributors: ['Hiro Nishimura', 'Maggie Appleton'],
+  contributors: [{name: 'Hiro Nishimura'}, {name: 'Maggie Appleton'}],
 }
 
 import FancyGuide from 'layouts/fancy-guide'
 export default ({children}) => <FancyGuide meta={meta}>{children}</FancyGuide>
 
 <ProseSection>
-
 
 ## How can I interact with the DOM?
 
@@ -16,7 +15,6 @@ There are many ways you can interact with the DOM. Some examples include removin
 Because the changes you make by interacting with the DOM only persist during the interaction, if you refresh the web page, all of the changes you made will go away, and the page will be reset.
 
 <div style={{ backgroundColor: '#F1F0F4', height: 'auto', display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', margin: '3em', textAlign: 'center' }}>
-
 
 Copy and paste this code into the console:
 
@@ -27,6 +25,4 @@ currentParagraph.textContent = "Magic!"
 
 </div>
 
-
 </ProseSection>
-

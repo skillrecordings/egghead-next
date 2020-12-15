@@ -70,6 +70,10 @@ const Search: FunctionComponent<SearchProps> = ({
     setShowFilter(false)
   }, [router, setShowFilter])
 
+  const searchBoxPlaceholder = !isEmpty(instructor)
+    ? `Search resources by ${instructor.full_name}`
+    : undefined
+
   return (
     <>
       <Head>
@@ -95,7 +99,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   initial={{opacity: 0}}
                   animate={{opacity: 1}}
                   exit={{opacity: 0}}
-                  className="p-16 flex"
+                  className="md:p-16 p-0 flex md:flex-row flex-col md:space-y-0 space-y-2"
                 >
                   <NextSeo
                     title={`Learn web development from ${instructor.full_name} on egghead`}
@@ -113,7 +117,7 @@ const Search: FunctionComponent<SearchProps> = ({
                       ],
                     }}
                   />
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center md:justify-center justify-start flex-shrink-0">
                     <Image
                       className="rounded-full"
                       width={128}
@@ -122,7 +126,7 @@ const Search: FunctionComponent<SearchProps> = ({
                       src={instructor.avatar_url}
                     />
                   </div>
-                  <div className="pl-8">
+                  <div className="md:pl-8">
                     <h1 className="text-2xl font-bold">
                       {instructor.full_name}
                     </h1>
@@ -148,7 +152,10 @@ const Search: FunctionComponent<SearchProps> = ({
             </AnimatePresence>
             <motion.div layout ref={refinementRef}>
               <motion.header layout className="flex mt-4">
-                <SearchBox className="w-full" />
+                <SearchBox
+                  placeholder={searchBoxPlaceholder}
+                  className="w-full"
+                />
                 <button
                   onClick={setShowFilter}
                   className={`ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border-2 ${

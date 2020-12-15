@@ -18,6 +18,7 @@ type ViewerContextType = {
   requestSignInEmail?: any
   logout?: any
   loading: boolean
+  refreshUser?: any
 }
 
 const defaultViewerContext: ViewerContextType = {
@@ -155,6 +156,7 @@ function useAuthedViewer() {
       authToken: auth.getAuthToken(),
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),
       loading,
+      refreshUser: auth.refreshUser,
     }),
     [viewer, loading],
   )
