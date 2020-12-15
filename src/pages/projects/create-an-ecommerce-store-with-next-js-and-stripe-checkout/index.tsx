@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
 import Eggo from '../../../components/images/eggo.svg'
+import removeMarkdown from 'remove-markdown'
+import {NextSeo} from 'next-seo'
 
 type CourseProps = {
   course: any
@@ -13,8 +15,9 @@ type CourseProps = {
 const Course: FunctionComponent<CourseProps> = () => {
   const course = {
     title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
+    slug: `create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607676496/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034857/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout_1.png',
     summary: `#### Accept payments & sell products powered by Stripe and the best of the JAMStack
 
 There are as many ways to build an e-commerce store on the internet as there are products to sell. 
@@ -32,11 +35,17 @@ also have clear and cohesive shared (global) state with React Context.
 Finally you'll deploy your custom store to Vercel (the platform behind Next.js) as well as
 how to make your Next.js e-commerce store portable to deploy to other platforms.
 `,
+    podcast: {
+      id: '',
+    },
     instructor: {
       name: 'Colby Fayock',
       path: '/q/resources-by-colby-fayock',
       bio:
         'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
+      twitter: 'colbyfayock',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
     },
     tags: [
       {
@@ -73,12 +82,12 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           },
         ],
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607692473/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
       },
       {
         title: 'Integrate Stripe Checkout into Next.js',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607692473/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
         lessons: [
           {
             title: 'Create a New React Application with Next.js',
@@ -100,123 +109,153 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       {
         title: 'Manage Shopping Cart State',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607692473/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
       },
     ],
   }
 
   return (
-    <div>
-      <article className="">
-        <header className="relative -mx-5">
-          <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-1 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500" />
-          <div className="flex md:flex-row flex-col md:space-x-10 md:space-y-0 space-y-6 items-center md:py-16 py-8 max-w-screen-lg mx-auto">
-            <div className="flex-shrink-0">
-              <Image
-                src={course.image}
-                alt={course.title}
-                width={256}
-                height={256}
-                quality={100}
-              />
-            </div>
-            <div className="space-y-3">
-              <div className="uppercase font-medium tracking-wide text-sm md:text-left text-center text-pink-600">
-                Portfolio Project
-              </div>
-              <h1 className="md:text-4xl text-3xl md:text-left text-center font-medium leading-tighter pb-6">
-                {course.title}
-              </h1>
-              <Tags tags={course.tags} />
-            </div>
-          </div>
-        </header>
-        <main>
-          <Markdown
-            className="prose prose-lg md:prose-xl max-w-screen-lg mx-auto"
-            source={course.summary}
-          />
-          <div className="mt-20 bg-gray-50 -mx-5 pt-24 xl:px-0 px-5">
-            <div className="max-w-screen-lg mx-auto">
-              <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
-                What You’ll Build for Your Portfolio
-              </div>
-              <h2 className="sm:text-2xl text-2xl sm:text-left text-center leading-tighter pb-16">
-                How to build a start-to-finish dynamic Next.js app
-              </h2>
-              {course.resources.map((part, idx) => {
-                const isLast = idx === course.resources.length - 1
-                return <Part part={part} idx={idx} isLast={isLast} />
-              })}
-            </div>
-          </div>
-          <div className="bg-cool-gray-800 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white ">
-            <div className="max-w-screen-lg mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
-              <div>
-                <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
-                  What You’ll Build
-                </div>
-                <p className="text-xl mt-4 max-w-md md:mx-0 mx-auto">
-                  By the end of this project, you’ll have your own dynamic
-                  eCommerce store with a working checkout flow.
-                </p>
-                <ul className="mt-6 leading-10 list-none list-inside text-lg">
-                  {[
-                    'Manage local state with React Hooks',
-                    'Manage global state with React Context',
-                    'Purchasing flow with Stripe Checkout',
-                  ].map((i) => (
-                    <li className="space-x-2" key={i}>
-                      <span className="text-purple-300">✓</span>
-                      <span>{i}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
+    <>
+      <NextSeo
+        description={removeMarkdown(course.summary)}
+        title={course.title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          handle: course.instructor.twitter,
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title: course.title,
+          // url: http_url,
+          description: removeMarkdown(course.summary),
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608044328/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/card_2x.png`,
+            },
+          ],
+        }}
+      />
+      <div>
+        <article className="">
+          <header className="relative -mx-5">
+            <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-1 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500" />
+            <div className="flex md:flex-row flex-col md:space-x-10 md:space-y-0 space-y-6 items-center md:pb-16 pb-8 md:pt-8 pt-4 max-w-screen-lg mx-auto">
+              <div className="flex-shrink-0">
                 <Image
-                  className="rounded-md"
-                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607692473/next.egghead.io/pages/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png"
-                  width={1128 / 2}
-                  height={698 / 2}
-                  alt="a screenshot of space jelly shop interface"
+                  src={course.image}
+                  alt={course.title}
+                  width={256}
+                  height={256}
+                  quality={100}
                 />
               </div>
-            </div>
-            <div className="mt-16 font-light text-cool-gray-200 grid md:grid-cols-5 grid-cols-2 lg:grid-rows-2 text-center max-w-screen-lg mx-auto md:gap-x-12 gap-x-3 md:gap-y-6 gap-y-5">
-              {[
-                'React Context API',
-                'Data Fetching',
-                'React useState',
-                'Custom React Hooks',
-                'Stripe Integration',
-                'Manage API keys',
-                'Pre-rendering',
-                'Dynamic Routing',
-                'CSS Grid',
-                'Vercel deploys',
-              ].map((i) => (
-                <div className="" key={i}>
-                  {i}
+              <div className="space-y-3">
+                <div className="uppercase font-medium tracking-wide text-xs md:text-left text-center text-pink-600">
+                  Portfolio Project
                 </div>
-              ))}
+                <h1 className="md:text-3xl text-3xl md:text-left text-center font-bold tracking-tight leading-tighter pb-6">
+                  {course.title}
+                </h1>
+                <Tags tags={course.tags} />
+              </div>
             </div>
-          </div>
-        </main>
-      </article>
-      <div className="w-full mx-auto max-w-screen-lg grid md:grid-cols-2 lg:gap-40 md:gap-24 gap-5">
-        <Instructor instructor={course.instructor} />
-        <div className="py-16 prose">
-          <h3>Lorem ipsum</h3>
-          <ul className="">
-            {['something', 'something', 'something'].map((i) => (
-              <li>{i}</li>
-            ))}
-          </ul>
+          </header>
+          <main>
+            <Markdown
+              className="prose prose-lg md:prose-xl max-w-screen-lg mx-auto"
+              source={course.summary}
+            />
+            <div className="mt-20 bg-gray-50 -mx-5 pt-24 xl:px-0 px-5">
+              <div className="max-w-screen-lg mx-auto">
+                <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
+                  What You’ll Build for Your Portfolio
+                </div>
+                <h2 className="sm:text-2xl text-2xl sm:text-left text-center leading-tighter pb-16">
+                  How to build a start-to-finish dynamic Next.js app
+                </h2>
+                {course.resources.map((part, idx) => {
+                  const isLast = idx === course.resources.length - 1
+                  return <Part part={part} idx={idx} isLast={isLast} />
+                })}
+              </div>
+            </div>
+            <div className="bg-gray-800 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white ">
+              <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
+                <div>
+                  <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
+                    What You’ll Build
+                  </div>
+                  <p className="text-xl mt-4 max-w-md md:mx-0 mx-auto">
+                    By the end of this project, you’ll have your own dynamic
+                    eCommerce store with a working checkout flow.
+                  </p>
+                  <ul className="mt-6 leading-10 list-none list-inside text-lg">
+                    {[
+                      'Manage local state with React Hooks',
+                      'Manage global state with React Context',
+                      'Purchasing flow with Stripe Checkout',
+                    ].map((i) => (
+                      <li className="space-x-2" key={i}>
+                        <span className="text-purple-300">✓</span>
+                        <span>{i}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <Image
+                    className="rounded-md"
+                    src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png"
+                    width={1128 / 2}
+                    height={698 / 2}
+                    alt="a screenshot of space jelly shop interface"
+                  />
+                </div>
+              </div>
+              <div className="mt-16 font-light text-gray-200 grid md:grid-cols-5 grid-cols-2 lg:grid-rows-2 text-center max-w-screen-xl mx-auto md:gap-x-12 gap-x-3 md:gap-y-6 gap-y-5">
+                {[
+                  'React Context API',
+                  'Data Fetching',
+                  'React useState',
+                  'Custom React Hooks',
+                  'Stripe Integration',
+                  'Manage API keys',
+                  'Pre-rendering',
+                  'Dynamic Routing',
+                  'CSS Grid',
+                  'Vercel deploys',
+                ].map((i) => (
+                  <div className="" key={i}>
+                    {i}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </main>
+        </article>
+        <div className="w-full mx-auto max-w-screen-xl items-center grid md:grid-cols-2 lg:gap-40 md:gap-24 gap-5">
+          <Instructor instructor={course.instructor} />
+          {course.podcast.id && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2">
+                Listen to Colby tell you about this project
+              </h3>
+              <iframe
+                height="52px"
+                width="100%"
+                frameBorder="no"
+                scrolling="no"
+                seamless
+                src={`https://player.simplecast.com/${course.podcast.id}?dark=false`}
+              />
+            </div>
+          )}
         </div>
+        <Join />
       </div>
-      <Join />
-    </div>
+    </>
   )
 }
 
@@ -224,8 +263,8 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
 
 const Join: FunctionComponent<{}> = () => {
   return (
-    <div className="md:mt-24 mt-0 py-48 text-center bg-black text-white -mb-16 -mx-5 xl:px-0 px-5">
-      <div className="max-w-screen-lg mx-auto flex flex-col items-center space-y-6">
+    <div className="md:mt-24 mt-0 py-48 text-center bg-black text-white -mx-5 xl:px-0 px-5">
+      <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
         <div>
           <Eggo className="w-16" />
         </div>
@@ -247,16 +286,14 @@ const Join: FunctionComponent<{}> = () => {
 }
 
 const Instructor: FunctionComponent<{
-  instructor: {name: string; bio: string; path: string}
-}> = ({instructor: {name, bio, path}}) => {
+  instructor: {name: string; bio: string; path: string; image: string}
+}> = ({instructor: {name, bio, path, image}}) => {
   return (
     <div className="flex flex-col space-y-2 md:items-start md:text-left text-center items-center -mt-20">
       <div className="rounded-full bg-white p-1 overflow-hidden">
         <Image
           className="rounded-full"
-          src={
-            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG'
-          }
+          src={image}
           width={160}
           height={160}
           alt="Colby Fayock"
