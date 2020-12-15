@@ -10,7 +10,7 @@ type ContributorsProps = {
 }
 const Contributors: FunctionComponent<ContributorsProps> = ({contributors}) => {
   return contributors && contributors[0].name ? (
-    <div className="border-t mt-8 border-gray-200 py-10">
+    <div>
       <h5 className="text-xs text-gray-500 uppercase tracking-wider font-semibold">
         Contributors
       </h5>

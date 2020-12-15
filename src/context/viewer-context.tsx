@@ -1,11 +1,13 @@
 import React, {FunctionComponent} from 'react'
-import Auth from '../utils/auth'
+import Auth, {AUTH_DOMAIN} from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
 import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
+import useTokenSigner from '../hooks/use-token-signer'
+import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
 
 export const auth = new Auth()
 
@@ -16,6 +18,7 @@ type ViewerContextType = {
   requestSignInEmail?: any
   logout?: any
   loading: boolean
+  refreshUser?: any
 }
 
 const defaultViewerContext: ViewerContextType = {
@@ -36,6 +39,9 @@ function useAuthedViewer() {
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
   const authToken = getAccessTokenFromCookie()
+
+  useTokenSigner()
+  useAffiliateAssigner(viewerId, authToken)
 
   React.useEffect(() => {
     setViewer(auth.getLocalUser())
@@ -150,6 +156,7 @@ function useAuthedViewer() {
       authToken: auth.getAuthToken(),
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),
       loading,
+      refreshUser: auth.refreshUser,
     }),
     [viewer, loading],
   )

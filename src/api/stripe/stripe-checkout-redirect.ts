@@ -17,7 +17,7 @@ const stripeCheckoutRedirect = async (priceId: string, email: string) => {
       site: 'egghead.io',
       email: email,
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-      success_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/confirm/membership?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`,
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
