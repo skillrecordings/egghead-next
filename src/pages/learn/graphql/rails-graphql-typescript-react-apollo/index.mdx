@@ -1,6 +1,21 @@
 export const meta = {
   title: `Rails + GraphQL + TypeScript + React + Apollo`,
-  contributors: ['Ryan Bigg'],
+  state: 'draft',
+  author: {
+    name: 'Ryan Bigg',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608026938/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/ryan-bigg.jpg',
+    path: 'https://ryanbigg.com/',
+  },
+  coverImage: {
+    url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608031669/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/rails-graphql-typescript-react-apollo_2x.png',
+    alt:
+      'abstract illustration of user interface built using Rails, GraphQL, TypeScript, React, and Apollo',
+  },
+  ogImage: {
+    url: `https://og-image-react-egghead.now.sh/article/Rails%20+%20GraphQL%20+%20TypeScript%20+%20React%20+%20Apollo?bgImage=https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608031567/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/rails-graphql-typescript-react-apollo-card.png&author=Ryan%20Bigg&state=draft`,
+  },
 }
 
 import UltimateGuide from 'layouts/ultimate-guide'
@@ -8,7 +23,11 @@ export default ({children}) => (
   <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )
 
-This is going to be a long post about how to setup a Rails application to serve a GraphQL API, that is then consumed using a combination of Apollo, React and TypeScript on the frontend. All within the same application.
+<div className="prose-reset text-lg font-medium pb-8">
+
+This is going to be a long post about <mark>how to setup a Rails application to serve a GraphQL API</mark>, that is then <mark>consumed using a combination of Apollo, React and TypeScript</mark> on the frontend. All within the same application.
+
+</div>
 
 I believe this is a good choice of stack for a two main reasons:
 
