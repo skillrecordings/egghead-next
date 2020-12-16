@@ -30,7 +30,7 @@ const lessonQuery = /* GraphQL */ `
       http_url
       transcript_url
       subtitles_url
-      summary
+      description
       hls_url
       dash_url
       instructor {
@@ -114,7 +114,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     hls_url,
     dash_url,
     title,
-    summary,
+    description,
     http_url,
     slug,
   } = lesson
@@ -134,7 +134,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   return (
     <>
       <NextSeo
-        description={removeMarkdown(summary)}
+        description={removeMarkdown(description)}
         canonical={http_url}
         title={title}
         titleTemplate={'%s | conference talk | egghead.io'}
@@ -146,7 +146,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
         openGraph={{
           title,
           url: http_url,
-          description: removeMarkdown(summary),
+          description: removeMarkdown(description),
           site_name: 'egghead',
           images: [
             {
@@ -217,7 +217,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </header>
             <Markdown className="prose lg:prose-lg max-w-none text-gray-900">
-              {get(lesson, 'summary')}
+              {get(lesson, 'description')}
             </Markdown>
             {transcript_url && (
               <div className="sm:mt-16 mt-8">
