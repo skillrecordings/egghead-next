@@ -1,6 +1,6 @@
 import {find} from 'lodash'
 
-const courseDependenciesData = (courseSlug) =>
+export default (courseSlug) =>
   find(
     [
       {
@@ -26,6 +26,13 @@ const courseDependenciesData = (courseSlug) =>
           {
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
+          },
+        ],
+        projects: [
+          {
+            label:
+              'Create an eCommerce Store with Next.js and Stripe Checkout Workshop Repo',
+            url: 'https://github.com/colbyfayock/space-jelly-store-workshop/',
           },
         ],
       },
@@ -3125,5 +3132,3 @@ const courseDependenciesData = (courseSlug) =>
     ],
     {slug: courseSlug},
   )
-
-export default courseDependenciesData
