@@ -76,6 +76,14 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           },
           {
             title:
+              'Add and Style a Grid of Products with Images in a Next.js React App',
+            path:
+              '/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+          },
+          {
+            title:
               'Add and Configure Products in the Stripe Dashboard for an Online Store',
             path:
               '/lessons/next-js-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store',
@@ -252,7 +260,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
             <div className="mt-20 bg-gray-50 -mx-5 pt-24 xl:px-0 px-5">
               <div className="max-w-screen-lg mx-auto">
                 <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
-                  What You’ll Build for Your Portfolio
+                  What You’ll Learn
                 </div>
                 <h2 className="sm:text-2xl text-2xl sm:text-left font-semibold text-center leading-tighter pb-16">
                   How to build a start-to-finish dynamic Next.js app
@@ -263,11 +271,11 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 })}
               </div>
             </div>
-            <div className="bg-gray-800 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
+            <div className="bg-gray-900 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
               <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
                 <div>
                   <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
-                    What You’ll Build
+                    What You’ll Build for Your Portfolio
                   </div>
                   <p className="text-xl mt-4 max-w-md md:mx-0 mx-auto">
                     By the end of this project, you’ll have your own dynamic
