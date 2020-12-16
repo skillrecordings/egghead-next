@@ -49,9 +49,19 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const firstLessonURL = get(first(lessons), 'path')
   const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
 
+  const PlayButton = () => {
+    return (
+      <Link href={firstLessonURL}>
+        <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+          <PlayIcon className="text-blue-100 mr-2" />
+          Start Watching
+        </a>
+      </Link>
+    )
+  }
+
   return (
     <>
-      {' '}
       <NextSeo
         description={removeMarkdown(description)}
         canonical={http_url}
@@ -74,8 +84,8 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           ],
         }}
       />
-      <div className="max-w-screen-lg mx-auto">
-        <div className="md:mt-10 mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
+      <div className="max-w-screen-xl mx-auto sm:pb-16 pb-8">
+        <div className="mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
           <div className="md:col-span-3 md:row-start-auto row-start-2 flex flex-col h-full justify-center max-w-screen-2xl w-full mx-auto">
             <header>
               <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
@@ -99,6 +109,9 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 </UserRating>
+              </div>
+              <div className="md:hidden flex items-center justify-center w-full mt-5">
+                <PlayButton />
               </div>
               <Markdown className="prose md:prose-lg text-gray-900 mt-6">
                 {description}
@@ -137,7 +150,6 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               )}
             </header>
-
             <main>
               <section className="mt-8">
                 <div className="mb-2 flex justify-between items-center">
@@ -183,16 +195,11 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               height={256}
               width={256}
             />
-            <div className="md:block hidden">
-              <div className="py-6 border-b border-gray-200 w-full flex justify-center">
-                <Link href={firstLessonURL}>
-                  <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                    <PlayIcon className="text-blue-100 mr-2" />
-                    Start Watching
-                  </a>
-                </Link>
+            <div className="md:block hidden space-y-10">
+              <div className="w-full flex justify-center mt-10">
+                <PlayButton />
               </div>
-              <div className="py-6 border-b border-gray-200">
+              <div className="">
                 <InstructorProfile
                   name={full_name}
                   avatar_url={avatar_64_url}
@@ -202,7 +209,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 />
               </div>
               {illustrator && (
-                <div className="w-full py-6 border-b border-gray-200">
+                <div className="w-full">
                   <h4 className="font-semibold">Credits</h4>
                   <span className="text-sm">
                     {illustrator?.name} (illustration)
