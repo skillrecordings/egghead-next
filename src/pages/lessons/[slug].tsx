@@ -97,6 +97,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   } = lesson
 
   const {enhancedTranscript} = useEnhancedTranscript(transcript_url)
+  const transcriptAvailable = transcript || enhancedTranscript
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
@@ -150,8 +151,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerVisible: boolean =
     ['playing', 'paused', 'loaded', 'viewing'].some(playerState.matches) &&
     !isEmpty(data)
-
-  const transcriptAvailable = transcript || enhancedTranscript
 
   return (
     <>
