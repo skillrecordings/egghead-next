@@ -31,6 +31,7 @@ module.exports = {
       'https://next.egghead.io/tags-sitemap-4.xml',
       'https://next.egghead.io/tags-sitemap-5.xml',
       'https://next.egghead.io/tags-sitemap-6.xml',
+      'https://next.egghead.io/tags-sitemap-7.xml',
     ],
   },
 }
