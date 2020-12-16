@@ -25,11 +25,11 @@ export default ({children}) => (
 
 <div className="prose-reset text-lg font-medium pb-8">
 
-This is going to be a long post about <mark>how to setup a Rails application to serve a GraphQL API</mark>, that is then <mark>consumed using a combination of Apollo, React and TypeScript</mark> on the frontend. All within the same application.
+This is going to be a long post about <mark>how to setup a Rails application to serve a GraphQL API</mark>, that is then <mark>consumed using a combination of Apollo, React, and TypeScript</mark> on the frontend. All within the same application.
 
 </div>
 
-I believe this is a good choice of stack for a two main reasons:
+I believe this is a good choice of stack for two main reasons:
 
 1. GraphQL provides a much cleaner query API than a REST API does -- especially because I can request only the data I want at any time.
 2. With TypeScript and another utility called `graphql-codegen`, I can ensure the types that are served by my API match exactly to the types used in my frontend at all times.
@@ -44,15 +44,15 @@ There's no fancy configuration here, just plain Rails.
 
 This guide is written in a way that should allow you to apply the same concepts to your existing applications if you have one of those you want to use.
 
-This guide is for **intermediate** Rails developers, and it will gloss over a few of the fundamental Rails concepts such as models, migrations, views, routes and controllers. I will assume you know those by now.
+This guide is for **intermediate** Rails developers, and it will gloss over a few of the fundamental Rails concepts such as models, migrations, views, routes, and controllers. I will assume you know those by now.
 
-What won't be glossed over is the GraphQL, TypeScript, React and Apollo setup. After all, that's why you're reading this post in the first place.
+What won't be glossed over is the GraphQL, TypeScript, React, and Apollo setup. After all, that's why you're reading this post in the first place.
 
-This guide will _feel_ long, but most of it talks about things that are a one-time setup cost. We pay this large cost _now_ so that our application is easier to developer over the much, much longer term.
+This guide will _feel_ long, but most of it talks about things that are a one-time setup cost. We pay this large cost _now_ so that our application is easier to develop over the much, much longer term.
 
 ## JavaScript? In my Rails app?
 
-For a long time there's been efforts to have one flavour or another of JavaScript be a part of Rails itself. It started out with [Prototype.js](http://prototypejs.org/), and moved onto [jQuery](https://jquery.com/), to now a situation where Rails does not thrust its opinion of a JavaScript framework into your application -- you're free to choose.
+For a long time, there have been efforts to have one flavor or another of JavaScript be a part of Rails itself. It started out with [Prototype.js](http://prototypejs.org/), and moved onto [jQuery](https://jquery.com/), to now a situation where Rails does not thrust its opinion of a JavaScript framework into your application -- you're free to choose.
 
 There has been a modern push for Rails applications to integrate further with modern JavaScript frameworks, such as React and Vue. Nowhere is this more evident than the fact that modern Rails applications now include a gem called `webpacker`. This gem provides an interface between the Rails application and any dependencies provided from the frontend by Webpack.
 
@@ -95,7 +95,7 @@ What about webpack-dev-server?
 If you don't want to wait for a request to tell Webpack to compile assets, you
 can run <code>bin/webpack-dev-server</code> as a separate process and your assets
 will be compiled as soon as they change, rather than whenever the page is refreshed.
-The difference is usually about half a second, but in larger applications it can
+The difference is usually about half a second, but in larger applications, it can
 be much longer than that. My advice would be to <em>always</em> rely on <code>bin/webpack-dev-server</code>.
 
 This `app/javascript/packs/application.js` will be the file that will be the place we load our JavaScript into our application. It doesn't have to be the _only_ place, we could in fact spread this out over multiple different packs, if we wished:
@@ -106,11 +106,11 @@ This `app/javascript/packs/application.js` will be the file that will be the pla
 <%= javascript_pack_tag 'checkout', 'data-turbolinks-track': 'reload' %>
 ```
 
-If we approached it this way, then we could split our code up and only load whatever assets we needed to load on certain pages. Perhaps we only want to load the `users` content on some pages, and the `checkout` code on others.
+If we approached it this way, then we could split our code up and only load whatever assets we needed to load on certain pages. Perhaps we only want to load the `users` content on some pages and the `checkout` code on others.
 
 For this tutorial, we'll stick with _one_ `application.js` file.
 
-We'll come back to this `app/javascript/packs/application.js` file later on when we get to implementing some frontend code. Before we need to build our frontend, we'll need to serve some data out of our Rails application. And to serve that data we're going to use GraphQL.
+We'll return to this `app/javascript/packs/application.js` file later on when we implement some frontend code. Before we need to build our frontend, we'll need to serve some data out of our Rails application. And to serve that data, we're going to use GraphQL.
 
 ## Setting up our Rails application
 
@@ -133,11 +133,11 @@ rails c
 >> Book.create!(title: "Active Rails")
 ```
 
-With our model setup with some data, we can now proceed to adding our GraphQL API which will serve this data for the model.
+With our model setup with some data, we can now add our GraphQL API, which will serve this data for the model.
 
 ## Setting up GraphQL
 
-There is a gem called `graphql` which has all the things we need to have to use GraphQL within our Rails application. Let's add it as a dependency of our application now:
+There is a gem called `graphql`, which has all the things we need to have to use GraphQL within our Rails application. Let's add it as a dependency of our application now:
 
 ```
 bundle add graphql
@@ -174,7 +174,7 @@ end
 post "/graphql", to: "graphql#execute"
 ```
 
-The first route enables GraphiQL, a graphical interface to GraphQL which is then accessible in our application at http://localhost:3000/graphiql.
+The first route enables GraphiQL, a graphical interface to GraphQL, which is then accessible in our application at http://localhost:3000/graphiql.
 
 The second route is where our GraphiQL and our frontend will send GraphQL queries to. The `GraphqlController` was generated for us by the earlier `rails g graphql:install` invocation.
 
@@ -257,7 +257,7 @@ To make this application work with our Rails application, we'll need to make one
 protect_from_forgery with: :null_session, unless: -> { request.local? }
 ```
 
-This will ensure that local requests -- requests from the same machine the application is running on, are allowed through, but everything else must send through a CSRF token. The CSRF token is provided by our Rails application, and we'll see that used a little later on when we get to using Apollo. The CSRF token will be validated by Rails, and only requests that use a valid CSRF token will be permitted to make requests to our API.
+This will ensure that local requests -- requests from the same machine the application is running on are allowed through, but everything else must send through a CSRF token. Our Rails application provides the CSRF token, and we'll see that used a little later on when we get to using Apollo. The CSRF token will be validated by Rails, and only requests that use a valid CSRF token will be permitted to make requests to our API.
 
 Load up GraphQL playground and put in `http://localhost:3000/graphql` as the endpoint. In the left panel, enter:
 
@@ -274,22 +274,22 @@ And then hit the Play button in between the panels. When the request succeeds, w
 
 ![GraphQL Playground](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504974/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/graphql-playground.png)
 
-When we see this, we'll know that we've setup our GraphQL code correctly within the Rails application. This means we can now proceed to setting up the frontend of our application.
+We'll know that we've setup our GraphQL code correctly within the Rails application when we see this. This means we can now proceed to set up the frontend of our application.
 
 ## TypeScript + React setup
 
-There's two different ways we could go here:
+There are two different ways we could go here:
 
 1. We could add React and Apollo to our application and live a happy and fruitful life using JavaScript.
-2. We could add React, Apollo **and TypeScript** to our application and live a happy and fruitful life with an extra guarantee our code will be type-checked and we won't fall into [the easy trap of comparing a string to a number](https://www.destroyallsoftware.com/talks/wat).
+2. We could add React, Apollo, **and TypeScript** to our application and live a happy and fruitful life with an extra guarantee our code will be type-checked, and we won't fall into [the easy trap of comparing a string to a number](https://www.destroyallsoftware.com/talks/wat).
 
-I prefer the second route, even if it is a bit more work in the setup. The second path eases the cognitive load involved with remembering the types of things -- like we would have to do in a traditional Ruby or JavaScript application. TypeScript can _tell us_ the types of our variables, especially in an editor like Visual Studio Code which has frankly _excellent_ TypeScript integration.
+I prefer the second route, even if it is a bit more work in the setup. The second path eases the cognitive load involved with remembering the types of things -- like we would have to do in a traditional Ruby or JavaScript application. TypeScript can _tell us_ the types of our variables, especially in an editor like Visual Studio Code, which frankly has _excellent_ TypeScript integration.
 
-On top of this, there is another package we'll use later on called Codegen that will generate TypeScript types for us, directly from our Ruby GraphQL API.
+On top of this, there is another package we'll use later on called Codegen that will generate TypeScript types for us directly from our Ruby GraphQL API.
 
 ### TypeScript
 
-To start off, we'll add TypeScript to our Rails application which we can do by running this command:
+To start off, we'll add TypeScript to our Rails application, which we can do by running this command:
 
 ```
 rails webpacker:install:typescript
@@ -310,7 +310,7 @@ console.log('Hello world from typescript');
 
 We can delete this file, as we won't be needing it.
 
-One extra bit of configuration that we'll need to do here is to set a configuration value in `tsconfig.json`. Add this line in to the `compilerOptions` list:
+One extra bit of configuration that we'll need to do here is to set a configuration value in `tsconfig.json`. Add this line to the `compilerOptions` list:
 
 ```
 "jsx": "react"
@@ -363,7 +363,7 @@ Hello.propTypes = {
 
 We will not be using PropTypes in our code because we'll be using TypeScript instead.
 
-PropTypes has been succeeded by TypeScript
+PropTypes has been succeeded by TypeScript.
 
 Why on earth are there <em>two</em> ways to specify types in a React codebase? That might be what you're thinking right now. A little bit of history is that PropTypes has existed for a long time, while TypeScript has gained preference recently.
 
@@ -373,9 +373,9 @@ PropTypes allows us to specify that the `name` property for the
 browser, PropTypes will run and then validate that `name` is indeed a
 string. If it's not, then we'll see an error appear in the developer console (if
 we're looking there!). This is what we'd call a <em>runtime</em> type check -- the
-code is type checked when it runs.
+code is type-checked when it runs.
 
-TypeScript allows us to do the same sort of validation, but it will run at <em>compile time</em>, right when the code is being "translated" into JavaScript for the browser's consumption. This is the right step (imo) because while you're writing the code you want to know if you've made a mistake -- not when you're running it! The other advantage is that TypeScript has excellent editor integration, and it will warn you about incorrect types. We'll see a few of these examples later on in this guide.
+TypeScript allows us to do the same sort of validation, but it will run at <em>compile time</em>, right when the code is being "translated" into JavaScript for the browser's consumption. This is the right step (imo) because while you're writing the code, you want to know if you've made a mistake -- not when you're running it! The other advantage is that TypeScript has excellent editor integration, and it will warn you about incorrect types. We'll see a few of these examples later on in this guide.
 
 So let's remove this configuration from `babel.config.js`, as well as removing the `prop-types` and associated babel plugin:
 
@@ -454,13 +454,13 @@ To get started, we'll create a new controller, view, and route by running this c
 rails g controller home index
 ```
 
-The route this generates will be in `config/routes.rb`, and will look like this:
+The route this generates will be in `config/routes.rb` and will look like this:
 
 ```ruby
 get 'home/index'
 ```
 
-Let's change this to be a `root` route, just so we can visit it using http://localhost:3000/ instead of http://localhost:3000/home/index.
+Let's change this to be a `root` route so that we can visit it using http://localhost:3000/ instead of http://localhost:3000/home/index.
 
 ```ruby
 root to: "home#index"
@@ -482,7 +482,7 @@ When we refresh the page, we'll see the React component appended to the bottom o
 
 Excellent! We now have a way to make React components appear on our Rails views.
 
-There's a caveat to this however: these components will _always_ appear at the _bottom_ of our pages! If we were to add a footer to the bottom of the `<body>` tag within our application layout, these React components would appear underneath that footer. That is not ideal!
+However, there's a caveat to this: these components will _always_ appear at the _bottom_ of our pages! If we were to add a footer to the bottom of the `<body>` tag within our application layout, these React components would appear underneath that footer. That is not ideal!
 
 What would be better for us is to be able to insert these components wherever we wish on the page. This will enable us to have Rails-generated HTML sitting along-side React components that also generate their own HTML.
 
@@ -521,7 +521,7 @@ Well, another way we can approach this problem is to have our code look for part
 <%= javascript_pack_tag "hello_react" %>
 ```
 
-Then a component called `Hello` would be added in between those `<h1>` and `<p>` tags.
+A component called `Hello` would be added between those `<h1>` and `<p>` tags.
 
 To put this little `div` tag inside our views, we can write a helper in `app/helpers/application_helper.rb`:
 
@@ -576,11 +576,11 @@ But if we inspect the source code for our page, we'll see that the `<div>` _exis
 <div data-react-component="Hello"></div>
 ```
 
-In order to fix this up, we're going to need to write some additional code that will scan for these tags containing the `data-react-component` attribute, and then act on those tags.
+In order to fix this up, we're going to need to write some additional code that will scan for these tags containing the `data-react-component` attribute and then act on those tags.
 
 ### Scanning for and mounting React components
 
-The code that we're going to use to do this scanning and mounting the React components is the most complicated code we'll come across in this guide. Please bare with me! What we'll do here is that we'll work on making this code work, then we'll go through it top-to-bottom.
+The code that we're going to use to do this scanning and mounting the React components is the most complicated code we'll come across in this guide. Please bear with me! What we'll do here is work on making this code work, then we'll go through it top-to-bottom.
 
 We'll put this code in a file called `app/javascript/mount.tsx`:
 
@@ -629,7 +629,7 @@ import ReactDOM from 'react-dom'
 export default (props) => <div>Hello {props.name}!</div>
 ```
 
-With this change to `hello_react.js`, we've removed the code that was previously automatically inserting the component at the bottom of the page, and instead we're now exporting this component and leaving the rendering of that component as something else's job.
+With this change to `hello_react.js`, we've removed the code that was previously automatically inserting the component at the bottom of the page, and instead, we're now exporting this component and leaving the rendering of that component as something else's job.
 
 That _something else_ is that `mount.tsx` code that we wrote. Let's look at that again, step by step:
 
@@ -650,7 +650,7 @@ mountPoints.forEach((mountPoint) => {
   const Component = components[componentName];
 ```
 
-For all of the elements mentioned, we attempt to find out their component name by accessing the `data-react-component` property by using a combination of `dataset` and `["reactComponent"]`. Once we have that name, we can then attempt to find that component by a name using `components[componentName]`. As long as we've chosen to mount a component in `application.js` with this function, it will be available here.
+We attempt to find out their component name for all of the elements mentioned by accessing the `data-react-component` property by using a combination of `dataset` and `["reactComponent"]`. Once we have that name, we can then attempt to find that component by a name using `components[componentName]`. As long as we've chosen to mount a component in `application.js` with this function, it will be available here.
 
 Let's look at the final few lines:
 
@@ -675,15 +675,15 @@ Let's refresh the page. This time we'll see the component is now in between the 
 
 !["Hello React" is in between the tags](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504973/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/hello-react-mounted.png)
 
-Hooray! We now have an ability to put our React components wherever we like on the page. This will enable us to intermingle our Rails view code with React components -- we can put static HTML rendered server-side by Rails right next to dynamic HTML rendered client-side by React.
+Hooray! We now have the ability to put our React components wherever we like on the page. This will enable us to intermingle our Rails view code with React components -- we can put static HTML rendered server-side by Rails right next to dynamic HTML rendered client-side by React.
 
 ## Books React Component
 
-Let's now look at something a bit more complex than putting "Hello React!" on the page. This time, we're going to build another component, called `Books`. This component will render hard-coded data from a TypeScript file, onto `div` tags on the page.
+Let's now look at something a bit more complex than putting "Hello React!" on the page. This time, we're going to build another component, called `Books`. This component will render hard-coded data from a TypeScript file onto `div` tags on the page.
 
-When we write this file, we'll be declaring types using TypeScript, and using those to guide us in what properties are available inside each of the components we build.
+When we write this file, we'll be declaring types using TypeScript and using those to guide us in what properties are available inside each of the components we build.
 
-We'll eventually use this file to pull in and display the data from our Rails application's GraphQL. Before we get there though, it will help to build a scaffold using static data so that we can experiment with it, if necessary.
+We'll eventually use this file to pull in and display the data from our Rails application's GraphQL. Before we get there, though, it will help to build a scaffold using static data so that we can experiment with it, if necessary.
 
 Let's create a new file at `app/javascripts/Books/index.tsx`.
 
@@ -731,15 +731,15 @@ Next, we define the shape of the data that will be coming through to our compone
 
 Next, we define a `Book` component that will render a simple `<li>` tag with a book's title.
 
-Then we get to the `Books` component. This one uses the `loading` and `data` variables set outside of the component to pretend like it's loading data from our GraphQL service, and then uses the `Book` component to render that data.
+Then we get to the `Books` component. This one uses the `loading` and `data` variables set outside of the component to pretend like it's loading data from our GraphQL service and then uses the `Book` component to render that data.
 
 Finally, the `Books` component is exported as the default export. This will allow us to import it into other files using `import Books from "./Books"`.
 
-What we have here is the barest of bones required to render data using React and TypeScript in our application. This is just a few steps up from our "Hello React" example, and moves us closer towards having this frontend talk to our GraphQL backend.
+What we have here are the barest of bones required to render data using React and TypeScript in our application. This is just a few steps up from our "Hello React" example and moves us closer towards having this frontend talk to our GraphQL backend.
 
 ### Mounting the Books component
 
-In order to use this component we will need to mount it within our application. We can do this by going to `app/javascript/application.js` and changing the end of that file to this:
+To use this component, we will need to mount it within our application. We can do this by going to `app/javascript/application.js` and changing the end of that file to this:
 
 ```
 import Hello from "./hello_react";
@@ -760,7 +760,7 @@ Now when we refresh this page, we'll see our (very short!) list of books:
 
 ![List of books](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505162/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/books-component-appears.png)
 
-Success! The books component is now rendering on the page.
+Success! The Books component is now rendering on the page.
 
 One of the great things about this Webpacker setup that we have got going is that if you edit the code in `Books/index.tsx` and save the file, the browser will automatically refresh. Go ahead and try it out now!
 
@@ -823,9 +823,9 @@ This code does two main things.
 
 The first thing is that it defines `client`, which sets the groundwork for how Apollo is configured to connect to our API. By using `HttpLink`, and _not_ passing it a URL, Apollo will default to making requests to `/graphql` -- which is exactly where our GraphQL API is hosted.
 
-This `client` variable uses the `csrfToken` from the page as well, ensuring that the requests pass the CSRF protections built into the `GraphqlController` for our Rails application. If we did not do this, in a production environment users would not be able to make requests through to our GraphQL API as Rails would block their attempts due to null CSRF tokens being passed in.
+This `client` variable uses the `csrfToken` from the page as well, ensuring that the requests pass the CSRF protections built into the `GraphqlController` for our Rails application. If we did not do this, in a production environment, users would not be able to make requests through to our GraphQL API as Rails would block their attempts due to null CSRF tokens being passed in.
 
-The second thing this code does is the `withProvider` variable. This is a function that wraps a passed in component in the `ApolloProvider` component, allowing that wrapped component to make calls to the GraphQL API.
+The second thing this code does is the `withProvider` variable. This function wraps a passed in component in the `ApolloProvider` component, allowing that wrapped component to make calls to the GraphQL API.
 
 ### Using Apollo in our Books component
 
@@ -914,7 +914,7 @@ return (
 
 And TypeScript won't tell us that `notBooks` is not a part of the returned data. Further to this, the `book` type is _also_ `any`, and the correctness of that data is only enforced by the earlier `BookType` declaration we made earlier, and that we're still using in the `Book` component.
 
-We need to rectify this and ensure that we have accurate types from our data, right from the moment they come out of the API responses.
+We need to rectify this and ensure that we have accurate types from our data right from the moment they come out of the API responses.
 
 ## Sharing types between backend + frontend
 
@@ -933,11 +933,11 @@ module Types
 end
 ```
 
-These types are here so that we know what kind of data we're working with. We know that `title` is going to be a string, and that `created_at` is _also_ going to be returned as a string... except it's a string formatted as an `ISO8601` timestamp as indicated by its special typing.
+These types are here so that we know what kind of data we're working with. We know that `title` is going to be a string and that `created_at` is _also_ going to be returned as a string... except it's a string formatted as an `ISO8601` timestamp as indicated by its special typing.
 
 We want these types in our React code so that we can be sure we're working with them correctly. But these types are in Ruby, not in JavaScript. So how do we get them out of Ruby, and into JavaScript?
 
-The way we can do this is with a Rake task built into the `graphql` gem itself which will allow us to dump the GraphQL schema out to a particular file. This schema will be a JSON representation of our GraphQL API, and enables [introspection](https://graphql.org/learn/introspection/) of the API. If you've ever wondered how GraphQL apps like GraphQL Playground and GraphiQL know what fields are available, this is how! The application reads that schema, and from that it will know the fields and their types.
+The way we can do this is with a Rake task built into the `graphql` gem itself which will allow us to dump the GraphQL schema out to a particular file. This schema will be a JSON representation of our GraphQL API, and enables [introspection](https://graphql.org/learn/introspection/) of the API. If you've ever wondered how GraphQL apps like GraphQL Playground and GraphiQL know what fields are available, this is how! The application reads that schema, and from that, it will know the fields and their types.
 
 We can dump the schema for this application by using a Rake task that is built into the `graphql` gem. That task needs some configuration so that it can find out where our Ruby schema is, and where to dump the JSON schema definitions to.
 
@@ -945,7 +945,7 @@ Once we have that schema dumped, we can generate types from that dump by using a
 
 ### Dumping types from the GraphQL backend
 
-Let's start by dumping the types from the backend using a Rake task. Let's create this Rake task and specify its configuration adding these lines to the `Rakefile` within our application:
+Let's start by dumping the types from the backend using a Rake task. Let's create this Rake task and specify its configuration, adding these lines to the `Rakefile` within our application:
 
 ```
 require "graphql/rake_task"
@@ -961,7 +961,7 @@ The `GraphQL::RakeTask.new` initializer is responsible for registering the Rake 
 
 The `directory` option tells this Rake task where we want to put the JSON schema definitions.
 
-And finally, `dependencies` tells the Rake task to first run the `environment` Rake task. This `environment` Rake task is responsible for loading the Rails application environment, and it will load the `BooksSchema` class as a part of that work.
+And finally, `dependencies` tells the Rake task first to run the `environment` Rake task. This `environment` Rake task is responsible for loading the Rails application environment, and it will load the `BooksSchema` class as a part of that work.
 
 With the Rake task setup, we can now run it by running this command:
 
@@ -1052,7 +1052,7 @@ export type Book = {
 
 First, there are some scalars that define shortcuts to common types. These are used a little further down when the `Book` type is defined to specify the types of fields that are available for `Book` objects according to our API. You will notice there that the `title` property is specified with a question-mark. That means that this property can be missing completely from the returned object.
 
-These types provide us the ground work for types in our application's TypeScript code. If we were to use these, we could leverage the shared types between the backend and the frontend. Our frontend _couldn't_ use types that aren't correct according to the backend.
+These types provide us the groundwork for types in our application's TypeScript code. If we were to use these, we could leverage the shared types between the backend and the frontend. Our frontend _couldn't_ use types that aren't correct according to the backend.
 
 But this picture is not complete without the two other packages here, so let's cover those first before we look into how we can use those types.
 
@@ -1115,7 +1115,7 @@ const booksQuery = gql`
 `
 ```
 
-And then by re-generating the types using:
+And then by regenerating the types using:
 
 ```
 yarn gql:codegen
@@ -1183,7 +1183,7 @@ That is quite messy and would require us to import all of these different things
 
 Instead of doing that, we can use `@graphql-codegen/typescript-react-apollo` and that will provide us small functions like `useAllBooksQuery` that we can use to ensure we have accurate types from the backend all the way through to the frontend.
 
-To ensure that this is working as intended we'll try to replicate that "Property 'id' is missing" error we saw before. We can replicate that error by removing the `id` field from the `booksQuery` in `Books/index.tsx`:
+To ensure that this is working as intended, we'll try to replicate that "Property 'id' is missing" error we saw before. We can replicate that error by removing the `id` field from the `booksQuery` in `Books/index.tsx`:
 
 ```tsx
 const booksQuery = gql`
@@ -1205,9 +1205,9 @@ Excellent! This means that it is all working as it should.
 
 ## What we've accomplished
 
-By using the `graphql` gem within the Ruby part of our Rails application, we've been able to expose data from our database through a GraphQL API. We then read that data using a combination of React, Apollo and TypeScript on the frontend.
+By using the `graphql` gem within the Ruby part of our Rails application, we've been able to expose data from our database through a GraphQL API. We then read that data using a combination of React, Apollo, and TypeScript on the frontend.
 
-When we're using TypeScript, we need to be able to know the types of our data. This will ensure that our program is as correct as it can be. While we _could_ define these types ourselves -- as we saw earlier on when we were setting up TypeScript -- it is instead better to automatically generate them from the GraphQL API's types instead. The way we do this is with a combination of the `graphql` gem's Rake task (defined in `Rakefile`), and another command called `yarn gql:codegen`. The latter command outputs types to `app/javascript/graphql/types.tsx`, and then it's from that file we can import things like the `useBooksQuery` function, and `Book` type, if we require it.
+When we're using TypeScript, we need to be able to know the types of our data. This will ensure that our program is as correct as it can be. While we _could_ define these types ourselves -- as we saw earlier on when we were setting up TypeScript -- it is instead better to automatically generate them from the GraphQL API's types instead. The way we do this is with a combination of the `graphql` gem's Rake task (defined in `Rakefile`), and another command called `yarn gql:codegen`. The latter command outputs types to `app/javascript/graphql/types.tsx`, and then it's from that file we can import things like the `useBooksQuery` function and `Book` type, if we require it.
 
 One other thing to remember is that thanks to the `@graphql-codegen/typescript-operations`
 
