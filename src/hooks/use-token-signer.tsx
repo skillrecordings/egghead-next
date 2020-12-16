@@ -4,6 +4,7 @@ import axios from 'axios'
 import cookie from '../utils/cookies'
 import {AUTH_DOMAIN} from '../utils/auth'
 
+const REFERRAL_TOKEN_KEY = 'rc'
 export const AFFILIATE_TOKEN_KEY = 'af'
 export const SIGNED_AFFILIATE_TOKEN_KEY = 'signed_af'
 
@@ -33,7 +34,7 @@ function createPermanentCookie(name: string, value: string) {
 async function requestSignedReferralToken(
   referralToken: string,
 ): Promise<string | null> {
-  const existingReferralToken = cookie.get('rc')
+  const existingReferralToken = cookie.get(REFERRAL_TOKEN_KEY)
 
   if (!!existingReferralToken) {
     return Promise.resolve(existingReferralToken)
@@ -43,7 +44,7 @@ async function requestSignedReferralToken(
       .then(({data}) => {
         const newReferralToken = data.signed_token
 
-        createPermanentCookie('rc', newReferralToken)
+        createPermanentCookie(REFERRAL_TOKEN_KEY, newReferralToken)
 
         return newReferralToken
       })
