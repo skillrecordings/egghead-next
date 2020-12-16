@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 async function readTags() {
-  const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags`
+  const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags?size=40`
   const {data} = await axios.get(endpoint)
 
   return data

@@ -38,12 +38,12 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
 }
 
 const Loader = () => (
-  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black">
+  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0">
     <svg
-      className="text-indigo-300"
+      className="text-gray-200"
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width={32}
+      height={32}
       viewBox="0 0 24 24"
     >
       <motion.g
@@ -180,8 +180,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div key={lesson.slug} className="space-y-8 w-full">
-        <div className="-mt-3 sm:-mt-5 -mx-5 bg-black">
+      <div key={lesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div
             className="w-full m-auto"
             css={{
@@ -197,7 +197,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className="w-full relative overflow-hidden text-white bg-black"
+              className="w-full relative overflow-hidden text-white"
               css={{
                 paddingTop: '56.25%',
                 '@media (max-width: 639px)': {
@@ -259,7 +259,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           </div>
         </div>
         <div>
-          <div className="grid gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-2xl xl:px-5 mx-auto divide-y md:divide-transparent divide-cool-gray-100">
+          <div className="grid gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto divide-y md:divide-transparent divide-gray-50">
             <div className="md:col-span-8 md:row-start-1 row-start-2">
               <Tabs>
                 <TabList
@@ -298,7 +298,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 nextUpUrl={next_up_url}
                 lesson={lesson}
                 playerState={playerState}
-                className="space-y-6 divide-y divide-cool-gray-100"
+                className="space-y-6 divide-y divide-gray-100"
               />
             </div>
           </div>
