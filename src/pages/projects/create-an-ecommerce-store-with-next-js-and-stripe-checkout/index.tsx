@@ -62,54 +62,136 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
     resources: [
       {
         title: 'Bootstrap a Next.js Ecommerce App',
+        image:
+          'https://dcv19h61vib2d.cloudfront.net/thumbs/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli-qtgBZ7pkE/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli-qtgBZ7pkE.jpg',
         // body: `* Create a New React Application with Next.js\n* Add a Grid of Products with Images to a Next.js React App\n* Add and Configure Products in the Stripe Dashboard for an Online Store\n* Dynamically Manage a Grid of Products in an Online Store with a JSON Document\n* Host & Deploy a Next.js React app on Vercel`,
-        // body: `Lorem ipsum **dolor sit** amet\n`,
         lessons: [
           {
-            title: 'Create a New React Application with Next.js',
-            path: '/lessons/react-create-a-new-react-application-with-next-js',
-          },
-          {
-            title: 'Add a Grid of Products with Images to a Next.js React App',
+            title:
+              'Create a New React Application with the Next.js create-next-app CLI',
             path:
-              '/lessons/react-add-a-grid-of-products-with-images-to-a-next-js-react-app',
+              '/lessons/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
             title:
               'Add and Configure Products in the Stripe Dashboard for an Online Store',
             path:
-              '/lessons/add-and-configure-products-in-the-stripe-dashboard-for-an-online-store',
+              '/lessons/next-js-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+          },
+          {
+            title:
+              'Dynamically Manage a Grid of Products in an Online Store with a JSON Document',
+            path:
+              '/lessons/javascript-dynamically-manage-a-grid-of-products-in-an-online-store-with-a-json-document',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_280/javascriptlang.png',
+          },
+          {
+            title:
+              'Host & Deploy a Next.js React App on Vercel imported from GitHub',
+            path:
+              '/lessons/next-js-host-deploy-a-next-js-react-app-on-vercel-imported-from-github',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
         ],
-        image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
       },
       {
         title: 'Integrate Stripe Checkout into Next.js',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
+          'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store-ayqt2WDSr/egghead-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store-ayqt2WDSr.jpg',
         lessons: [
           {
-            title: 'Create a New React Application with Next.js',
-            path: '/lessons/react-create-a-new-react-application-with-next-js',
-          },
-          {
-            title: 'Add a Grid of Products with Images to a Next.js React App',
+            title:
+              'Configure a Stripe Checkout Domain for Client-Only Integration',
             path:
-              '/lessons/react-add-a-grid-of-products-with-images-to-a-next-js-react-app',
+              '/lessons/stripe-configure-a-stripe-checkout-domain-for-client-only-integration',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/294/square_280/Artboard.png',
           },
           {
             title:
-              'Add and Configure Products in the Stripe Dashboard for an Online Store',
+              'Add a Stripe API Key as an Environment Variable in Next.js & Vercel',
             path:
-              '/lessons/add-and-configure-products-in-the-stripe-dashboard-for-an-online-store',
+              '/lessons/next-js-add-a-stripe-api-key-as-an-environment-variable-in-next-js-vercel',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+          },
+          {
+            title:
+              'Integrate Stripe Checkout to Purchase Products in Next.js with Stripe @stripe/stripe-js Cl',
+            path:
+              '/lessons/stripe-integrate-stripe-checkout-to-purchase-products-in-next-js-with-stripe-stripe-stripe-js-cl',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/294/square_280/Artboard.png',
           },
         ],
       },
       {
         title: 'Manage Shopping Cart State',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png',
+          'https://dcv19h61vib2d.cloudfront.net/thumbs/javascript-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page-hToRGvLze/javascript-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page-hToRGvLze.jpg',
+        lessons: [
+          {
+            title:
+              'Create a Shopping Cart with the useState React Hook to Manage Product Quantity and Total',
+            path:
+              '/lessons/react-create-a-shopping-cart-with-the-usestate-react-hook-to-manage-product-quantity-and-total',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+          },
+          {
+            title: 'Create a Custom React Hook to Manage Cart State',
+            path:
+              '/lessons/react-create-a-custom-react-hook-to-manage-cart-state',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+          },
+          {
+            title:
+              'Use the React Context API to Globally Manage Cart State in a Next.js App',
+            path:
+              '/lessons/react-use-the-react-context-api-to-globally-manage-cart-state-in-a-next-js-app',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+          },
+          {
+            title:
+              'Store and Load Cart State from Local Storage to Persist Cart Data When Reloading the Page',
+            path:
+              '/lessons/react-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+          },
+          {
+            title:
+              'Use Next.js Dynamic Routes to Create Product Pages for an Online Store',
+            path:
+              '/lessons/next-js-use-next-js-dynamic-routes-to-create-product-pages-for-an-online-store',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+          },
+          {
+            title:
+              'Create a Shopping Cart Page to Manage Products to Purchase in a Next.js App',
+            path:
+              '/lessons/next-js-create-a-shopping-cart-page-to-manage-products-to-purchase-in-a-next-js-app',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+          },
+          {
+            title:
+              'Add a Quantity Input to the Cart Page to Add or Remove Items from a Shopping Cart in Next',
+            path:
+              '/lessons/react-add-a-quantity-input-to-the-cart-page-to-add-or-remove-items-from-a-shopping-cart-in-next',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+          },
+        ],
       },
     ],
   }
@@ -172,7 +254,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
                   What You’ll Build for Your Portfolio
                 </div>
-                <h2 className="sm:text-2xl text-2xl sm:text-left text-center leading-tighter pb-16">
+                <h2 className="sm:text-2xl text-2xl sm:text-left font-semibold text-center leading-tighter pb-16">
                   How to build a start-to-finish dynamic Next.js app
                 </h2>
                 {course.resources.map((part, idx) => {
@@ -181,7 +263,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 })}
               </div>
             </div>
-            <div className="bg-gray-800 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white ">
+            <div className="bg-gray-800 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
               <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
                 <div>
                   <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
@@ -204,7 +286,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                     ))}
                   </ul>
                 </div>
-                <div>
+                <div className="md:row-start-auto row-start-1">
                   <Image
                     className="rounded-md"
                     src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png"
@@ -263,7 +345,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
 
 const Join: FunctionComponent<{}> = () => {
   return (
-    <div className="md:mt-24 mt-0 py-48 text-center bg-black text-white -mx-5 xl:px-0 px-5">
+    <div className="md:mt-24 mt-16 md:py-48 py-24 text-center bg-black text-white -mx-5 xl:px-0 px-5">
       <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
         <div>
           <Eggo className="w-16" />
@@ -336,28 +418,44 @@ const Part: FunctionComponent<{
   isLast: boolean
 }> = ({part: {title, body, image, lessons}, idx, isLast = false}) => {
   const index = idx + 1
-  const gap = isLast ? 'pb-24' : 'pb-10'
+  const gap = isLast ? 'md:pb-24 pb-10' : 'pb-10'
   const FlagIcon = () => {
     return (
       //prettier-ignore
       <svg width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M3 6a3 3 0 0 1 3-3h10a1 1 0 0 1 .8 1.6L14.25 8l2.55 3.4A1 1 0 0 1 16 13H6a1 1 0 0 0-1 1v3a1 1 0 1 1-2 0V6z" fill="currentColor"/></g></svg>
     )
   }
-  return (
-    <div className="flex space-x-6">
-      <div className={`space-y-2 flex flex-col items-end py-1 ${gap}`}>
-        {/* <div className="uppercase font-semibold text-sm text-blue-500">Part {index}</div> */}
-        <div>
-          <Image
-            className="block rounded-sm overflow-hidden"
-            src={image}
-            alt={title}
-            width={1280 / 4}
-            height={720 / 4}
-          />
-        </div>
+  const Thumbnail = () => {
+    return image ? (
+      <div className="rounded-sm overflow-hidden shadow-md flex">
+        <Image
+          className="block"
+          src={image}
+          alt={title}
+          width={1280 / 4}
+          height={720 / 4}
+        />
       </div>
-      <div className="flex flex-col items-center relative">
+    ) : null
+  }
+
+  return (
+    <div className="flex md:flex-row flex-col md:space-x-6">
+      <div
+        className={`space-y-2 flex flex-col md:items-end items-center py-1 ${gap}`}
+      >
+        {/* <div className="uppercase font-semibold text-sm text-blue-500">Part {index}</div> */}
+        {lessons ? (
+          <Link href={lessons[0].path}>
+            <a>
+              <Thumbnail />
+            </a>
+          </Link>
+        ) : (
+          <Thumbnail />
+        )}
+      </div>
+      <div className="md:flex hidden flex-col items-center relative">
         <div className="flex items-center justify-center text-center text-xs text-gray-400 font-semibold w-6 h-6 rounded-full border-2 border-gray-200 flex-shrink-0">
           <small>{index}</small>
         </div>
@@ -368,7 +466,7 @@ const Part: FunctionComponent<{
           </div>
         )} */}
       </div>
-      <div className={`w-full ${gap}`}>
+      <div className={`md:w-full ${gap}`}>
         <h3 className="text-lg font-bold relative transform -translate-y-1">
           {title}
         </h3>
