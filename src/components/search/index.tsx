@@ -91,7 +91,10 @@ const Search: FunctionComponent<SearchProps> = ({
       >
         <Configure hitsPerPage={config.searchResultCount} />
         <AnimateSharedLayout>
-          <motion.div layout className="max-w-screen-lg mx-auto">
+          <motion.div
+            layout
+            className="max-w-screen-xl sm:pb-16 pb-8 md:-mt-4 -mt-2 mx-auto"
+          >
             <AnimatePresence>
               {!isEmpty(instructor) && (
                 <motion.div

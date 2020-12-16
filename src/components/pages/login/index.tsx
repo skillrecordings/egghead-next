@@ -46,7 +46,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
       className={
         className
           ? className
-          : 'w-full mx-auto flex flex-col items-center justify-center sm:mt-24 mt-5 text-cool-gray-900'
+          : 'w-full mx-auto flex flex-col items-center justify-center sm:mt-24 mt-5 text-gray-900'
       }
     >
       {image}
@@ -107,7 +107,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                         <div className="mt-1 relative rounded-md shadow-sm">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg
-                              className="h-5 w-5 text-cool-gray-400"
+                              className="h-5 w-5 text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -124,7 +124,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             onChange={handleChange}
                             onBlur={handleBlur}
                             placeholder="you@company.com"
-                            className="py-3 text-cool-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
+                            className="py-3 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
                             required
                           />
                         </div>

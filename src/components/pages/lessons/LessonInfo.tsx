@@ -353,7 +353,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
             </h4>
           </div>
           <div className="mt-3">
-            <p className="text-sm text-cool-gray-600">
+            <p className="text-sm text-gray-600">
               A Community Resource means that it’s free to access for all. The
               instructor of this lesson requested it to be open to the public.
             </p>

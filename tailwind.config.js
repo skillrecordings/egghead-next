@@ -11,12 +11,22 @@ module.exports = {
     './src/**/*.tsx',
   ],
   theme: {
+    colors: {
+      ...defaultTheme.colors,
+      ...colors,
+      black: defaultTheme.colors.gray['900'],
+      brand: defaultTheme.colors.blue['600'],
+      gray: colors.blueGray,
+      // red: colors.red,
+      // blue: colors.blue,
+      // yellow: colors.amber,
+    },
     extend: {
-      colors: {
-        gray: colors.coolGray,
-        black: defaultTheme.colors.gray['900'],
-        brand: defaultTheme.colors.blue['600'],
-      },
+      // colors: {
+      //   gray: colors.coolGray,
+      //   black: defaultTheme.colors.gray['900'],
+      //   brand: defaultTheme.colors.blue['600'],
+      // },
       typography: (theme) => ({
         DEFAULT: {
           css: {
