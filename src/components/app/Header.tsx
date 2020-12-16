@@ -9,7 +9,7 @@ const Header: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
 
   return (
-    <header className="px-5 py-3 sm:mb-5 mb-3 shadow-sm border-b border-gray-100 flex items-center justify-between">
+    <header className="px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 flex items-center justify-between">
       <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
         <div className="flex items-center">
           <Link href="/">
@@ -21,12 +21,12 @@ const Header: FunctionComponent = () => {
             </a>
           </Link>
           {!loading && (
-            <nav className="sm:pl-5 pl-2 overflow-x-auto text-sm">
+            <nav className="sm:pl-5 pl-2 text-sm font-medium">
               <ul className="flex items-center space-x-1">
                 <li className="">
-                  <Link href="/q" activeClassName="bg-gray-100 opacity-100">
+                  <Link href="/q" activeClassName="bg-gray-100">
                     <a
-                      className="px-3 py-2 opacity-75 hover:opacity-100 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
+                      className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
                       onClick={() => track('clicked Content (header)')}
                     >
                       Content
@@ -34,9 +34,9 @@ const Header: FunctionComponent = () => {
                   </Link>
                 </li>
                 <li className="">
-                  <Link href="/learn" activeClassName="bg-gray-100 opacity-100">
+                  <Link href="/learn" activeClassName="bg-gray-100">
                     <a
-                      className="px-3 py-2 opacity-75 hover:opacity-100 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
+                      className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
                       onClick={() => track('clicked Topics (header)')}
                     >
                       Topics
@@ -50,7 +50,7 @@ const Header: FunctionComponent = () => {
         {!loading && (
           <div className="text-sm">
             {viewer ? (
-              <li className="flex items-center justify-center space-x-1">
+              <div className="flex items-center justify-center space-x-1">
                 <span>
                   {viewer.name || viewer.full_name || 'member'}{' '}
                   {viewer.is_pro && ' ⭐️'}
@@ -60,15 +60,18 @@ const Header: FunctionComponent = () => {
                   className="w-8 rounded-full"
                   src={viewer.avatar_url}
                 />
-              </li>
+              </div>
             ) : (
-              <li>
-                <Link href="/login" activeClassName="underline">
-                  <a onClick={() => track('clicked Sign in (header)')}>
+              <div>
+                <Link href="/login" activeClassName="bg-gray-100">
+                  <a
+                    onClick={() => track('clicked Sign in (header)')}
+                    className="px-3 py-2  hover:opacity-100 hover:bg-gray-100  active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                  >
                     Sign in
                   </a>
                 </Link>
-              </li>
+              </div>
             )}
           </div>
         )}

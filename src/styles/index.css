@@ -27,7 +27,7 @@ pre {
 }
 
 #__next {
-  @apply flex flex-col min-h-screen text-black;
+  @apply flex flex-col min-h-screen text-gray-900;
 }
 
 .bmpui-ui-watermark {

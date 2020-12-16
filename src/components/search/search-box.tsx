@@ -32,7 +32,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
           value={currentRefinement}
           onChange={(event) => refine(event.currentTarget.value)}
           placeholder={placeholder}
-          className="form-input bg-gray-100 rounded-md px-5 py-3 pl-10 w-full border border-transparent focus:outline-none focus:border-cool-gray-400 placeholder-cool-gray-600"
+          className="form-input bg-gray-100 rounded-md px-5 py-3 pl-10 w-full border border-transparent focus:outline-none focus:border-gray-400 placeholder-gray-600"
         />
       </div>
     </form>

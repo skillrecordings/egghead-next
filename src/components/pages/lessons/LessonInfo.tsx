@@ -38,7 +38,10 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
           ref={scrollableNodeRef}
           id="scroll-container"
           className="overflow-y-auto h-full"
-          css={{maxHeight: 600}}
+          css={{
+            '@media only screen and (min-width: 640px)': {maxHeight: 600},
+            maxHeight: 300,
+          }}
         >
           {nextUpData.list.lessons.map(
             (lesson: {slug: any; title: any; path: any}, index = 0) => {
@@ -226,7 +229,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
     <div {...restProps}>
       <div className="space-y-4">
         {title && (
-          <h1 className="font-semibold leading-tight text-lg lg:text-xl">
+          <h1 className="font-bold leading-tighter text-lg lg:text-xl">
             {title}
           </h1>
         )}
@@ -241,15 +244,17 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
             Open code on GitHub
           </CodeLink>
         )}
-        <li className="flex items-center">
-          <a
-            href="#"
-            className="flex items-center text-blue-600 hover:underline font-semibold"
-          >
-            <IconDownload className="w-5 mr-2 text-blue-700" />
-            Download
-          </a>
-        </li>
+        {lesson.download_url && (
+          <li className="flex items-center">
+            <a
+              href={lesson.download_url}
+              className="flex items-center text-blue-600 hover:underline font-semibold"
+            >
+              <IconDownload className="w-5 mr-2 text-blue-700" />
+              Download
+            </a>
+          </li>
+        )}
         {/* <li className="flex items-center">
               <IconFlag className="w-5 mr-1" />
               <Dialog

@@ -65,7 +65,7 @@ const Item: FunctionComponent<{
     <Link href={path} activeClassName="underline">
       <a
         onClick={onClick}
-        className="hover:text-brand transition-colors ease-in-out duration-150"
+        className="hover:text-blue-600 transition-colors ease-in-out duration-150"
       >
         {children}
       </a>
