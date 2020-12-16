@@ -229,7 +229,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       />
       <div>
         <article className="">
-          <header className="relative -mx-5">
+          <header className="relative -mx-5 px-5">
             <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-1 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500" />
             <div className="flex md:flex-row flex-col md:space-x-10 md:space-y-0 space-y-6 items-center md:pb-16 pb-8 md:pt-8 pt-4 max-w-screen-lg mx-auto">
               <div className="flex-shrink-0">
@@ -329,7 +329,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           <Instructor instructor={course.instructor} />
           {course.podcast.id && (
             <div>
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-lg font-semibold mb-2 md:text-left text-center">
                 Listen to Colby tell you about this project
               </h3>
               <iframe
