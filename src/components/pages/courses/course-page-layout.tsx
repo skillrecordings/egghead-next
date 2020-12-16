@@ -103,6 +103,23 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <Markdown className="prose md:prose-lg text-gray-900 mt-6">
                 {description}
               </Markdown>
+              <div className="pt-5 md:hidden block">
+                <InstructorProfile
+                  name={full_name}
+                  avatar_url={avatar_64_url}
+                  url={instructor_slug}
+                  bio_short={bio_short}
+                  twitter={twitter}
+                />
+                {illustrator && (
+                  <div className="w-full py-6">
+                    <h4 className="font-semibold">Credits</h4>
+                    <span className="text-sm">
+                      {illustrator?.name} (illustration)
+                    </span>
+                  </div>
+                )}
+              </div>
               {topics && (
                 <div className="mt-8">
                   <h2 className="text-lg font-semibold mb-3">
@@ -157,23 +174,6 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </ul>
                 </div>
               </section>
-              <div className="pt-5 md:hidden block">
-                <InstructorProfile
-                  name={full_name}
-                  avatar_url={avatar_64_url}
-                  url={instructor_slug}
-                  bio_short={bio_short}
-                  twitter={twitter}
-                />
-                {illustrator && (
-                  <div className="w-full py-6 border-b border-gray-200">
-                    <h4 className="font-semibold">Credits</h4>
-                    <span className="text-sm">
-                      {illustrator?.name} (illustration)
-                    </span>
-                  </div>
-                )}
-              </div>
             </main>
           </div>
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
@@ -200,15 +200,15 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   bio_short={bio_short}
                   twitter={twitter}
                 />
-                {illustrator && (
-                  <div className="w-full py-6 border-b border-gray-200">
-                    <h4 className="font-semibold">Credits</h4>
-                    <span className="text-sm">
-                      {illustrator?.name} (illustration)
-                    </span>
-                  </div>
-                )}
               </div>
+              {illustrator && (
+                <div className="w-full py-6 border-b border-gray-200">
+                  <h4 className="font-semibold">Credits</h4>
+                  <span className="text-sm">
+                    {illustrator?.name} (illustration)
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
