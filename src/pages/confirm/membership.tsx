@@ -33,7 +33,14 @@ const ConfirmMembership: React.FunctionComponent = () => {
       {session.status === 'paid' && (
         <div className="sm:py-40 py-32 px-8 max-w-screen-md mx-auto min-h-screen flex flex-col items-center justify-center">
           <div className="prose px-5 hide-toc">
-            <h2>Thank you for joining egghead!</h2>
+            {viewer ? (
+              <h2>Thank you for joining egghead!</h2>
+            ) : (
+              <h2>
+                Thank you for joining egghead! Please check your inbox to
+                confirm your email.
+              </h2>
+            )}
             {viewer ? (
               <p>
                 We've charged your credit card{' '}

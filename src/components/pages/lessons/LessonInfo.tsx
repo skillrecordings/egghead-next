@@ -203,7 +203,7 @@ type LessonInfoProps = {
       image_url: string
     },
   ]
-  summary: string
+  description: string
   course: {
     title: string
     square_cover_480_url: string
@@ -218,7 +218,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   title,
   instructor,
   tags,
-  summary,
+  description,
   course,
   nextUpUrl,
   lesson,
@@ -233,7 +233,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
             {title}
           </h1>
         )}
-        {summary && <Markdown className="prose">{summary}</Markdown>}
+        {description && <Markdown className="prose">{description}</Markdown>}
       </div>
       <ul className="space-y-3 pt-6">
         {lesson?.code_url && (

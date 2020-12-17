@@ -2,16 +2,13 @@ import React, {FunctionComponent, useState, useEffect} from 'react'
 import {animateScroll as scroll} from 'react-scroll'
 import {get, first, noop} from 'lodash'
 import ReactMarkdown from 'react-markdown'
-import useSWR from 'swr'
-
-const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
 
 type TranscriptProps = {
   player: any
-  transcriptUrl: string
   className?: string
   playVideo: () => any
   initialTranscript?: string
+  enhancedTranscript: string
   playerAvailable: boolean
 }
 
@@ -27,20 +24,15 @@ const hmsToSeconds = (str: string) => {
   return s
 }
 
-const useTranscriptData = (url: string) => {
-  const {data: transcriptData} = useSWR(url, fetcher)
-  return get(transcriptData, 'text')
-}
-
 const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
   className,
   playVideo = noop,
-  transcriptUrl,
   initialTranscript = '',
+  enhancedTranscript,
   playerAvailable,
 }: TranscriptProps) => {
-  const transcriptText = useTranscriptData(transcriptUrl)
+  const transcriptText = enhancedTranscript || initialTranscript
   const [transcript, setTranscript] = useState<string>()
 
   const LinkReference = (props: any) => {
@@ -89,10 +81,8 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
             setTranscript(result)
           }
         })
-    } else if (transcriptText) {
-      setTranscript(transcriptText)
     } else {
-      setTranscript(initialTranscript)
+      setTranscript(transcriptText)
     }
   }, [transcriptText, playerAvailable, initialTranscript])
 
