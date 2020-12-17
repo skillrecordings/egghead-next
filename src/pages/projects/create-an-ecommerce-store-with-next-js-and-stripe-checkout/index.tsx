@@ -230,14 +230,14 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       <div>
         <article className="">
           <header className="relative -mx-5 px-5">
-            <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-1 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-teal-500" />
+            <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-3 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500" />
             <div className="flex md:flex-row flex-col md:space-x-10 md:space-y-0 space-y-6 items-center md:pb-16 pb-8 md:pt-8 pt-4 max-w-screen-lg mx-auto">
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 mt-8">
                 <Image
                   src={course.image}
                   alt={course.title}
-                  width={256}
-                  height={256}
+                  width={288}
+                  height={288}
                   quality={100}
                 />
               </div>
@@ -245,7 +245,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 <div className="uppercase font-medium tracking-wide text-xs md:text-left text-center text-pink-600">
                   Portfolio Project
                 </div>
-                <h1 className="md:text-3xl text-3xl md:text-left text-center font-bold tracking-tight leading-tighter pb-6">
+                <h1 className="md:text-3xl text-3xl md:text-left text-center font-bold tracking-tight leading-snug pb-6 max-w-screen-sm">
                   {course.title}
                 </h1>
                 <Tags tags={course.tags} />
@@ -254,7 +254,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           </header>
           <main>
             <Markdown
-              className="prose prose-lg md:prose-xl max-w-screen-lg mx-auto"
+              className="prose prose-lg md:prose-xl max-w-screen-md mx-auto"
               source={course.summary}
             />
             <div className="mt-20 bg-gray-50 -mx-5 pt-24 xl:px-0 px-5">
