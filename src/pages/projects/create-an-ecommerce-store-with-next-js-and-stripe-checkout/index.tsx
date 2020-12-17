@@ -63,7 +63,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       {
         title: 'Bootstrap a Next.js Ecommerce App',
         image:
-          'https://dcv19h61vib2d.cloudfront.net/thumbs/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli-qtgBZ7pkE/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli-qtgBZ7pkE.jpg',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608205688/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/ecommerce-stripe-icon-2.png',
         // body: `* Create a New React Application with Next.js\n* Add a Grid of Products with Images to a Next.js React App\n* Add and Configure Products in the Stripe Dashboard for an Online Store\n* Dynamically Manage a Grid of Products in an Online Store with a JSON Document\n* Host & Deploy a Next.js React app on Vercel`,
         lessons: [
           {
@@ -111,7 +111,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       {
         title: 'Integrate Stripe Checkout into Next.js',
         image:
-          'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store-ayqt2WDSr/egghead-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store-ayqt2WDSr.jpg',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608205688/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/ecommerce-stripe-icon-3.png',
         lessons: [
           {
             title:
@@ -142,7 +142,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       {
         title: 'Manage Shopping Cart State',
         image:
-          'https://dcv19h61vib2d.cloudfront.net/thumbs/javascript-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page-hToRGvLze/javascript-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page-hToRGvLze.jpg',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608205688/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/ecommerce-stripe-icon-1.png',
         lessons: [
           {
             title:
@@ -230,7 +230,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       <div>
         <article className="">
           <header className="relative -mx-5 px-5">
-            <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-3 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500" />
+            <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-3 w-full bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-500" />
             <div className="flex md:flex-row flex-col md:space-x-10 md:space-y-0 space-y-6 items-center md:pb-16 pb-8 md:pt-8 pt-4 max-w-screen-lg mx-auto">
               <div className="flex-shrink-0 mt-8">
                 <Image
@@ -259,10 +259,10 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
             />
             <div className="mt-20 bg-gray-50 -mx-5 pt-24 xl:px-0 px-5">
               <div className="max-w-screen-lg mx-auto">
-                <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
+                <div className="mb-4 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
                   What You’ll Build for Your Portfolio
                 </div>
-                <h2 className="sm:text-2xl text-2xl sm:text-left font-semibold text-center leading-tighter pb-16">
+                <h2 className="sm:text-2xl text-3xl sm:text-left font-semibold text-center leading-tighter pb-12">
                   How to build a start-to-finish dynamic Next.js app
                 </h2>
                 {course.resources.map((part, idx) => {
@@ -435,20 +435,20 @@ const Part: FunctionComponent<{
   }
   const Thumbnail = () => {
     return image ? (
-      <div className="rounded-sm overflow-hidden shadow-md flex">
+      <div className="overflow-hidden flex">
         <Image
           className="block"
           src={image}
           alt={title}
-          width={1280 / 4}
-          height={720 / 4}
+          width={202}
+          height={171}
         />
       </div>
     ) : null
   }
 
   return (
-    <div className="flex md:flex-row flex-col md:space-x-6">
+    <div className="flex md:flex-row flex-col md:space-x-6 mt-4">
       <div
         className={`space-y-2 flex flex-col md:items-end items-center py-1 ${gap}`}
       >
@@ -475,7 +475,7 @@ const Part: FunctionComponent<{
         )} */}
       </div>
       <div className={`md:w-full ${gap}`}>
-        <h3 className="text-lg font-bold relative transform -translate-y-1">
+        <h3 className="text-lg font-bold relative transform -translate-y-1 pb-1">
           {title}
         </h3>
         {body && <Markdown className="prose" source={body} />}
