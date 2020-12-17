@@ -197,7 +197,7 @@ export function babelRecast(code) {
 }
 ```
 
-So that's it? Not quite. 
+So that's it? Not quite.
 
 #### Important options for our Babel transform
 
@@ -214,13 +214,13 @@ const options = {
 
 The first is `cloneInputAst`. By default, this option is set to `true` and ensures that the transformFromAstSync method will clone the input AST to avoid mutations. However, recast uses the AST to store metadata information, allowing it to preserve formatting. If we let Babel clone it, that information gets lost. So we set `cloneInputAst` to `false` in order to preserve the work recast has done.
 
-Second, we set `code` to `false` to improve performance. If we're parsing a large project to modify code, this is useful. 
+Second, we set `code` to `false` to improve performance. If we're parsing a large project to modify code, this is useful.
 
 Finally, we want to set `ast` to true because by default, Babel won't return the AST.
 
 #### A working recast implementation
 
-Let's put it all together. We're using a Babel parser inside recast to get our code as an AST. Then we pass our plugin, which does the actual code transformation, to the `transformFromAstSync` function and get the resulting `ast`. Note that we alias this to `transformedAST` because we already have an `ast` variable in this scope. Lastly, we use the recast `print` function to turn our transformed AST back into code and return it. 
+Let's put it all together. We're using a Babel parser inside recast to get our code as an AST. Then we pass our plugin, which does the actual code transformation, to the `transformFromAstSync` function and get the resulting `ast`. Note that we alias this to `transformedAST` because we already have an `ast` variable in this scope. Lastly, we use the recast `print` function to turn our transformed AST back into code and return it.
 
 ```jsx
 import {parse, print} from 'recast'
@@ -352,7 +352,6 @@ Let's assume that the example code is something like this:
 
 ```jsx
 import Egghead from 'egghead'
-
 ;<Egghead video={src} />
 ```
 
