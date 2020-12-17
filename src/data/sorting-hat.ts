@@ -99,7 +99,7 @@ const sortingHat = {
       },
       {
         answer: `been_awhile`,
-        label: `It's been awhile...`,
+        label: `It's been a while...`,
       },
       {
         answer: `no_portfolio`,
@@ -115,7 +115,7 @@ const sortingHat = {
   },
   portfolio_faq: {
     question_heading: `Want to learn more?`,
-    question_text: `We thing developer portfolios are a great lever for career advancement.`,
+    question_text: `We think developer portfolios are a great lever for career advancement.`,
     question_type: `cta-link`,
     url: `https://joelhooks.com/developer-portfolio`,
     button_label: `Click to Learn More`,
@@ -130,7 +130,7 @@ const sortingHat = {
     choices: [
       {
         answer: `newer_skills`,
-        label: `Updating an older skill set`,
+        label: `Getting a more modern skill set`,
       },
       {
         answer: `full_stack`,
