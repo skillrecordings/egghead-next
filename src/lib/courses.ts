@@ -18,7 +18,7 @@ export async function loadCourse(slug: string) {
           id
           slug
           title
-          summary
+          description
           path
         }
         instructor {

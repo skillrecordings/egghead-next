@@ -1,0 +1,141 @@
+export const meta = {
+  title: `Handling copy and paste in Cypress`,
+  description: `There are no out of the box ways of handling copy and paste in Cypress, but there are ways of effectively testing it.`,
+  state: 'draft',
+  author: {
+    name: 'Filip Hric',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607904938/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/QSeXT_1d_400x400.jpg',
+    path: 'https://filiphric.com/',
+  },
+  contributors: [
+    {
+      name: 'Lauro Silva',
+      type: 'Content Review',
+      image:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607909398/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/Zx-2ko9t_400x400.jpg',
+      path: '/q/resource-by-lauro-silva',
+    },
+  ],
+  coverImage: {
+    url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607937478/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/copy-and-paste.png',
+    alt: 'abstract illustration of copy and paste',
+  },
+  ogImage: {
+    url: `https://og-image-react-egghead.now.sh/article/Handling%20copy%20and%20paste%20in%20Cypress?bgImage=https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607941112/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/card.png&author=Filip%20Hric&state=draft`,
+  },
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+
+export default ({children}) => (
+  <UltimateGuide meta={meta}>{children}</UltimateGuide>
+)
+
+<div className="prose-reset text-lg font-medium pb-8 mt-8">
+
+Clipboard or pasting text is not available out of the box in Cypress. But as [Gleb](https://twitter.com/bahmutov) says: _ "It's just JavaScript"._ And he's right. Cypress is pure JavaScript, so you can do anything that JS allows you to do.
+
+</div>
+
+## Pasting text
+
+Let's look at the first example. I have a very simple app here that has two input fields. The first input field will check the validity of the input. If inserted text is not an email, it will throw an error. By the way, you can check out these examples [in my repo on GitHub](https://github.com/filiphric/copy-paste).
+
+![Copy paste app preview](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607904678/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/app.png)
+
+In the simplest form we can paste a text into our email field with the following code:
+
+```js {10}
+it('pastes text to textarea', () => {
+  const textToPaste = 'this is not a valid email'
+
+  cy.visit('index.html')
+
+  cy.get("[type='email']").invoke('val', textToPaste)
+})
+```
+
+Instead of typing our text, we are using the `.invoke()` command to change our input's value. This way, we are immediately getting into the final state of what our users would experience. You might notice, though, that something is missing from our app:
+
+![Missing validation](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607904671/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/missing-validation.png)
+
+We do not see our validation message. This is because our validation was not triggered. The reason for that becomes more apparent when we look into the event listeners panel. There are a couple of event listeners bound to this input field.
+
+![Event listeners](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607904678/next.egghead.io/pages/learn/javascript/handling-copy-and-paste-in-cypress/event-listeners.png)
+
+These event listeners handle our validation. Our input field is not validated until a user clicks away from it or presses the TAB button. This will trigger a blur event and make our input field invalid.
+
+These event listeners are very commonly used with forms. Different frameworks use different approaches to input fields. It is very useful to look into what kind of event listeners are bound into your app elements. It can help you better understand what happens when the user interacts with your input field. In our case, we need to fire the `blur` event to our input field:
+
+```js
+it('pastes text to textarea', () => {
+  const textToPaste = 'this is not a valid email'
+
+  cy.visit('index.html')
+
+  cy.get("[type='email']").invoke('val', textToPaste).trigger('blur')
+})
+```
+
+We can either use `.trigger()` command or use `.focus()` and `.blur()` commands from Cypress to trigger our events. I like to prefer `.trigger()` just because it gives you a wider variety of events you can trigger. E.g., in an app that I test for work, there's a `compositionend` event that I need to trigger from time to time.
+
+To simulate pasting a text, you often need to mimic a sequence of events that happen over an element you interact with. Fun tip for you: To see your events happen inside your app, open your Chrome console and type in `monitorEvents($0)`. The `$0` stands for the active element, so make sure you select it via the elements panel first.
+
+## Copying to clipboard
+
+Let's now look into the other side of the story. For our next test, we want to copy a text from our `textarea`. To make sure this action was successful, we want to test the contents of our clipboard. To do that, we can install a tool called [clipboardy](https://www.npmjs.com/package/clipboardy) and run it as a plugin in Cypress. To setup this plugin, we define a new task in our `plugins/index.ts` file:
+
+```js fileName=plugins/index.ts
+const clipboardy = require('clipboardy')
+
+module.exports = (
+  on: Cypress.PluginEvents,
+  config: Cypress.PluginConfigOptions,
+) => {
+  on('task', {
+    // Clipboard test plugin
+    getClipboard: () => {
+      const clipboard: string = clipboardy.readSync()
+      return clipboard
+    },
+  })
+}
+```
+
+Now that we have defined our task, we can use it in our test:
+
+```js
+it.only('copies text from textarea', () => {
+  const textToCopy = 'Wubba lubba dub dub'
+
+  cy.visit('index.html')
+
+  cy.get('#copyText').invoke('val', textToCopy)
+
+  cy.get('button').click()
+
+  cy.task('getClipboard').should('eq', textToCopy)
+})
+```
+
+Our task will return the content of our clipboard. This enables us to write an assertion, just as we would normally do with any other element.
+
+However, this test will work only if you run your test in Electron. Because our `.click()` command is fired with JavaScript, it has an `isTrusted` property set to false. Whenever a [click event is dispatched or created by a script](https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted), it has this property set to it. Cypress uses JavaScript to fire its events, so they differ from real user interaction.
+
+There is a way of firing real click events in Chrome, using [cypress-real-events](https://github.com/dmtrKovalenko/cypress-real-events) plugin. This plugin adds some real events to your app (it has a hover command, too!). Firing a real event here will copy the desired text to the clipboard.
+
+```js
+it('copies text from textarea', () => {
+  const textToCopy = 'Wubba lubba dub dub'
+
+  cy.visit('index.html')
+
+  cy.get('#copyText').invoke('val', textToCopy)
+
+  cy.get('#button').realClick()
+
+  cy.task('getClipboard').should('eq', textToCopy)
+})
+```

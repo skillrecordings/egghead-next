@@ -2940,5 +2940,23 @@
     "http_url": "https://egghead.io/browse/libraries/flux",
     "path": "/browse/libraries/flux",
     "search_url": "https://egghead.io/search?topic=flux"
+  },
+  {
+    "id": 1293,
+    "label": "Cloudflare",
+    "name": "cloudflare",
+    "description": "Cloudflare secures and ensures the reliability of your external-facing resources such as websites, APIs, and applications. It protects your internal resources such as behind-the-firewall applications, teams, and devices. And it is your platform for developing globally-scalable applications.",
+    "slug": "cloudflare",
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/thumb/cloudflare-2000.png",
+    "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/thumb/cloudflare-2000.png",
+    "image_480_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_480/cloudflare-2000.png",
+    "image_280_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_280/cloudflare-2000.png",
+    "image_256_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_256/cloudflare-2000.png",
+    "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_128/cloudflare-2000.png",
+    "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_64/cloudflare-2000.png",
+    "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_32/cloudflare-2000.png",
+    "http_url": "https://egghead.io/browse/libraries/cloudflare",
+    "path": "/browse/libraries/cloudflare",
+    "search_url": "https://egghead.io/search?topic=cloudflare"
   }
 ]

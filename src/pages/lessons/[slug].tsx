@@ -89,7 +89,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     http_url,
     title,
     tags,
-    summary,
+    description,
     course,
     slug,
     free_forever,
@@ -153,7 +153,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   return (
     <>
       <NextSeo
-        description={removeMarkdown(summary)}
+        description={removeMarkdown(description)}
         canonical={http_url}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -165,7 +165,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         openGraph={{
           title,
           url: http_url,
-          description: removeMarkdown(summary),
+          description: removeMarkdown(description),
           site_name: 'egghead',
           images: [
             {
@@ -293,7 +293,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 title={title}
                 instructor={instructor}
                 tags={tags}
-                summary={summary}
+                description={description}
                 course={course}
                 nextUpUrl={next_up_url}
                 lesson={lesson}

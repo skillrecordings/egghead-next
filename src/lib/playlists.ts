@@ -42,7 +42,7 @@ export async function loadPlaylist(slug: string, token?: string) {
           ... on Lesson {
             slug
             title
-            summary
+            description
             path
             http_url
             icon_url
@@ -83,12 +83,6 @@ export async function loadPlaylist(slug: string, token?: string) {
             square_cover_url
             type
           }
-        }
-        lessons {
-          slug
-          title
-          summary
-          path
         }
         instructor {
           id
