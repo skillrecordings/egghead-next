@@ -93,6 +93,8 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
                   alt={coverImage.alt || title}
                   width={1280}
                   height={720}
+                  quality={100}
+                  className="rounded-lg"
                 />
               </div>
             )}
