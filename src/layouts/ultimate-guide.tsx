@@ -99,6 +99,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
               </div>
             )}
           </header>
+
           <main className="prose md:prose-lg max-w-none">
             <div>{children}</div>
           </main>
