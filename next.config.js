@@ -30,6 +30,7 @@ const nextConfig = {
   images: {
     domains: [
       'd2eip9sf3oo6c2.cloudfront.net',
+      'dcv19h61vib2d.cloudfront.net',
       'image.simplecastcdn.com',
       'res.cloudinary.com',
     ],
