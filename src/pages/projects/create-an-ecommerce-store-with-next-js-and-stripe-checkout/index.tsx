@@ -271,8 +271,8 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 })}
               </div>
             </div>
-            <div className="bg-gray-900 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
-              <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
+            <div className="bg-gradient-to-b from-gray-700 to-gray-900 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
+              <div className="max-w-screen-lg mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
                 <div>
                   {/* <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
                     What You’ll Build for Your Portfolio
@@ -281,13 +281,13 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                     By the end of this project, you’ll have your own dynamic
                     eCommerce store with a working checkout flow.
                   </p>
-                  <ul className="mt-6 leading-10 list-none list-inside text-lg">
+                  <ul className="text-blueGray-200 mt-6 leading-10 list-none list-inside text-lg font-light">
                     {[
                       'Manage local state with React Hooks',
                       'Manage global state with React Context',
                       'Purchasing flow with Stripe Checkout',
                     ].map((i) => (
-                      <li className="space-x-2" key={i}>
+                      <li className="space-x-4" key={i}>
                         <span className="text-purple-300">✓</span>
                         <span>{i}</span>
                       </li>
@@ -296,7 +296,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 </div>
                 <div className="md:row-start-auto row-start-1">
                   <Image
-                    className="rounded-md"
+                    className="rounded-md shadow-lg"
                     src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png"
                     width={1128 / 2}
                     height={698 / 2}
@@ -304,7 +304,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                   />
                 </div>
               </div>
-              <div className="mt-16 font-light text-gray-200 grid md:grid-cols-5 grid-cols-2 lg:grid-rows-2 text-center max-w-screen-xl mx-auto md:gap-x-12 gap-x-3 md:gap-y-6 gap-y-5">
+              <div className="mt-16 font-light text-purple-300 grid md:grid-cols-5 grid-cols-2 lg:grid-rows-2 text-center max-w-screen-lg mx-auto md:gap-x-12 gap-x-3 md:gap-y-6 gap-y-5 tracking-wide">
                 {[
                   'React Context API',
                   'Data Fetching',
@@ -325,7 +325,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
             </div>
           </main>
         </article>
-        <div className="w-full mx-auto max-w-screen-xl items-center grid md:grid-cols-2 lg:gap-40 md:gap-24 gap-5">
+        <div className="w-full mx-auto max-w-screen-lg items-center grid md:grid-cols-2 lg:gap-40 md:gap-24 gap-5">
           <Instructor instructor={course.instructor} />
           {course.podcast.id && (
             <div>
