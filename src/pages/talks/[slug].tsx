@@ -121,7 +121,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     slug,
   } = lesson
 
-  const {enhancedTranscript} = useEnhancedTranscript(transcript_url)
+  const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
 
   if (error) logout()
