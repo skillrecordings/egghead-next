@@ -19,6 +19,7 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
 import {getTokenFromCookieHeaders} from 'utils/auth'
+import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 
 const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
@@ -110,6 +111,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {
     instructor,
     next_up_url,
+    transcript,
     transcript_url,
     hls_url,
     dash_url,
@@ -118,6 +120,9 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     http_url,
     slug,
   } = lesson
+
+  const enhancedTranscript = useEnhancedTranscript(transcript_url)
+  const transcriptAvailable = transcript || enhancedTranscript
 
   if (error) logout()
 
@@ -219,7 +224,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <Markdown className="prose lg:prose-lg max-w-none text-gray-900">
               {get(lesson, 'description')}
             </Markdown>
-            {transcript_url && (
+            {transcriptAvailable && (
               <div className="sm:mt-16 mt-8">
                 <h3 className="text-lg font-bold tracking-tight leading-tight mb-4">
                   Transcript
@@ -227,9 +232,10 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <Transcript
                   className="prose max-w-none text-gray-800"
                   player={playerRef}
-                  transcriptUrl={transcript_url}
                   playVideo={() => send('PLAY')}
                   playerAvailable={playerVisible}
+                  initialTranscript={transcript}
+                  enhancedTranscript={enhancedTranscript}
                 />
               </div>
             )}

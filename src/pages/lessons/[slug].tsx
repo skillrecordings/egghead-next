@@ -24,6 +24,7 @@ import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
+import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 
 const tracer = getTracer('lesson-page')
 
@@ -95,6 +96,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
+  const enhancedTranscript = useEnhancedTranscript(transcript_url)
+  const transcriptAvailable = transcript || enhancedTranscript
+
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   React.useEffect(() => {
@@ -147,8 +151,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerVisible: boolean =
     ['playing', 'paused', 'loaded', 'viewing'].some(playerState.matches) &&
     !isEmpty(data)
-
-  const transcriptAvailable = transcript || transcript_url
 
   return (
     <>
@@ -277,8 +279,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}
-                        transcriptUrl={transcript_url}
                         initialTranscript={transcript}
+                        enhancedTranscript={enhancedTranscript}
                       />
                     </TabPanel>
                   )}
