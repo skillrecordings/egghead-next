@@ -13,7 +13,7 @@ const sortingHat = {
       },
       {
         answer: `optimizing_code`,
-        label: `Optimize my code`,
+        label: `Optimizing my code`,
       },
     ],
     next: {
