@@ -33,7 +33,7 @@ export async function loadLesson(slug: string, token?: string) {
         transcript
         subtitles_url
         next_up_url
-        summary
+        description
         hls_url
         dash_url
         free_forever
