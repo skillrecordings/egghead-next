@@ -96,7 +96,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
   } = lesson
 
-  const {enhancedTranscript} = useEnhancedTranscript(transcript_url)
+  const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
