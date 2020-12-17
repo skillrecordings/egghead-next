@@ -1,5 +1,6 @@
 import {useNextUpData} from 'hooks/use-next-up-data'
 import Link from 'next/link'
+import Image from 'next/image'
 import * as React from 'react'
 
 const NextUpOverlay: React.FunctionComponent<{
@@ -8,13 +9,18 @@ const NextUpOverlay: React.FunctionComponent<{
   url: string
 }> = ({lesson, send, url}) => {
   const {nextLessonTitle, nextUpPath} = useNextUpData(url)
+  const courseImage = lesson?.course?.square_cover_480_url
   return (
     <>
-      <img
-        src={lesson.course.square_cover_480_url}
-        alt={`illustration of ${lesson.course.title} course`}
-        className="w-12 md:w-16 lg:w-32"
-      />
+      {courseImage && (
+        <div className="w-12 h-12 md:w-16 md:h-16 lg:w-32 lg:h-32 relative">
+          <Image
+            src={courseImage}
+            alt={`illustration of ${lesson.course.title} course`}
+            layout="fill"
+          />
+        </div>
+      )}
       <div className="mt-4 md:mt-6 lg:mt-8">Up Next</div>
       <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center">
         {nextLessonTitle}
