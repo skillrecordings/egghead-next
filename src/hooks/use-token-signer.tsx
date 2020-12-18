@@ -4,6 +4,7 @@ import axios from 'axios'
 import cookie from '../utils/cookies'
 import {AUTH_DOMAIN} from '../utils/auth'
 
+const REFERRAL_TOKEN_KEY = 'rc'
 export const AFFILIATE_TOKEN_KEY = 'af'
 export const SIGNED_AFFILIATE_TOKEN_KEY = 'signed_af'
 
@@ -30,7 +31,56 @@ function createPermanentCookie(name: string, value: string) {
   })
 }
 
-function useTokenSigner(): void {
+async function requestSignedReferralToken(
+  referralToken: string,
+): Promise<string | null> {
+  const existingReferralToken = cookie.get(REFERRAL_TOKEN_KEY)
+
+  if (!!existingReferralToken) {
+    return Promise.resolve(existingReferralToken)
+  } else {
+    return http
+      .get(`${AUTH_DOMAIN}/api/v1/tokens/${referralToken}/signed`)
+      .then(({data}) => {
+        const newReferralToken = data.signed_token
+
+        createPermanentCookie(REFERRAL_TOKEN_KEY, newReferralToken)
+
+        return newReferralToken
+      })
+      .catch((_error) => {
+        return null
+      })
+  }
+}
+
+async function requestSignedAffiliateToken(
+  affiliateToken: string,
+): Promise<string | null> {
+  const existingAffiliateToken =
+    cookie.get(AFFILIATE_TOKEN_KEY) || cookie.get(SIGNED_AFFILIATE_TOKEN_KEY)
+
+  if (!!existingAffiliateToken) {
+    return Promise.resolve(existingAffiliateToken)
+  } else {
+    return http
+      .get(`${AUTH_DOMAIN}/api/v1/tokens/${affiliateToken}/signed`)
+      .then(({data}) => {
+        const newAffiliateToken = data.signed_token
+
+        // Store this as `signed_af` to differentiate from unsigned legacy
+        // af cookies.
+        createPermanentCookie(SIGNED_AFFILIATE_TOKEN_KEY, newAffiliateToken)
+
+        return newAffiliateToken
+      })
+      .catch((_error) => {
+        return null
+      })
+  }
+}
+
+function useTokenSigner() {
   const router = useRouter()
 
   const referralQueryParam: string | undefined = getSingleQueryValue(
@@ -41,80 +91,33 @@ function useTokenSigner(): void {
     router.query.af,
   )
 
-  const removeQueryFromUrl = (paramName: string) => {
-    const {[paramName]: _paramToRemove, ...updatedQuery} = router.query
-    router.push({pathname: router.pathname, query: updatedQuery}, undefined, {
-      shallow: true,
-    })
-  }
+  const removeQueryFromUrl = React.useCallback(
+    (paramName: string) => {
+      const {[paramName]: _paramToRemove, ...updatedQuery} = router.query
+      router.push({pathname: router.pathname, query: updatedQuery}, undefined, {
+        shallow: true,
+      })
+    },
+    [router],
+  )
 
   React.useEffect(() => {
-    const requestSignedReferralToken = async (referralToken: string) => {
-      const existingReferralToken = cookie.get('rc')
-
-      if (!!existingReferralToken) {
-        Promise.resolve(existingReferralToken)
-      } else {
-        return http
-          .post(
-            `${AUTH_DOMAIN}/api/v1/sign_referral_token`,
-            {rc: referralToken},
-            {},
-          )
-          .then(({data}) => {
-            const newReferralToken = data.signed_referral_token
-
-            createPermanentCookie('rc', newReferralToken)
-
-            removeQueryFromUrl('rc')
-
-            return newReferralToken
-          })
-          .catch((error) => {
-            return null
-          })
-      }
-    }
-
     if (!!referralQueryParam) {
-      requestSignedReferralToken(referralQueryParam)
+      requestSignedReferralToken(referralQueryParam).then((token) => {
+        if (token) {
+          removeQueryFromUrl('rc')
+        }
+      })
     }
   }, [referralQueryParam, removeQueryFromUrl])
 
   React.useEffect(() => {
-    const requestSignedAffiliateToken = async (affiliateToken: string) => {
-      const existingAffiliateToken =
-        cookie.get(AFFILIATE_TOKEN_KEY) ||
-        cookie.get(SIGNED_AFFILIATE_TOKEN_KEY)
-
-      if (!!existingAffiliateToken) {
-        Promise.resolve(existingAffiliateToken)
-      } else {
-        return http
-          .post(
-            `${AUTH_DOMAIN}/api/v1/sign_affiliate_token`,
-            {af: affiliateToken},
-            {},
-          )
-          .then(({data}) => {
-            const newAffiliateToken = data.signed_affiliate_token
-
-            // Store this as `signed_af` to differentiate from unsigned legacy
-            // af cookies.
-            createPermanentCookie(SIGNED_AFFILIATE_TOKEN_KEY, newAffiliateToken)
-
-            removeQueryFromUrl('af')
-
-            return newAffiliateToken
-          })
-          .catch((error) => {
-            return null
-          })
-      }
-    }
-
     if (!!affiliateQueryParam) {
-      requestSignedAffiliateToken(affiliateQueryParam)
+      requestSignedAffiliateToken(affiliateQueryParam).then((token) => {
+        if (token) {
+          removeQueryFromUrl('af')
+        }
+      })
     }
   }, [affiliateQueryParam, removeQueryFromUrl])
 }
