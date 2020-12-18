@@ -6,6 +6,8 @@ import Markdown from 'react-markdown'
 import Eggo from '../../../components/images/eggo.svg'
 import removeMarkdown from 'remove-markdown'
 import {NextSeo} from 'next-seo'
+import {track} from 'utils/analytics'
+import {first, get} from 'lodash'
 
 type CourseProps = {
   course: any
@@ -40,6 +42,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
     },
     instructor: {
       name: 'Colby Fayock',
+      slug: 'colby-kayock',
       path: '/q/resources-by-colby-fayock',
       bio:
         'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
@@ -67,6 +70,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
         // body: `* Create a New React Application with Next.js\n* Add a Grid of Products with Images to a Next.js React App\n* Add and Configure Products in the Stripe Dashboard for an Online Store\n* Dynamically Manage a Grid of Products in an Online Store with a JSON Document\n* Host & Deploy a Next.js React app on Vercel`,
         lessons: [
           {
+            slug: `next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli`,
             title:
               'Create a New React Application with the Next.js create-next-app CLI',
             path:
@@ -75,6 +79,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
+            slug: `next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app`,
             title:
               'Add and Style a Grid of Products with Images in a Next.js React App',
             path:
@@ -83,6 +88,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
+            slug: `next-js-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store`,
             title:
               'Add and Configure Products in the Stripe Dashboard for an Online Store',
             path:
@@ -91,6 +97,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
+            slug: `javascript-dynamically-manage-a-grid-of-products-in-an-online-store-with-a-json-document`,
             title:
               'Dynamically Manage a Grid of Products in an Online Store with a JSON Document',
             path:
@@ -99,6 +106,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_280/javascriptlang.png',
           },
           {
+            slug: `next-js-host-deploy-a-next-js-react-app-on-vercel-imported-from-github`,
             title:
               'Host & Deploy a Next.js React App on Vercel imported from GitHub',
             path:
@@ -114,6 +122,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608205688/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/ecommerce-stripe-icon-3.png',
         lessons: [
           {
+            slug: `stripe-configure-a-stripe-checkout-domain-for-client-only-integration`,
             title:
               'Configure a Stripe Checkout Domain for Client-Only Integration',
             path:
@@ -122,6 +131,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/294/square_280/Artboard.png',
           },
           {
+            slug: `next-js-add-a-stripe-api-key-as-an-environment-variable-in-next-js-vercel`,
             title:
               'Add a Stripe API Key as an Environment Variable in Next.js & Vercel',
             path:
@@ -130,6 +140,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
+            slug: `stripe-integrate-stripe-checkout-to-purchase-products-in-next-js-with-stripe-stripe-stripe-js-cl`,
             title:
               'Integrate Stripe Checkout to Purchase Products in Next.js with Stripe @stripe/stripe-js Cl',
             path:
@@ -145,6 +156,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608205688/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/ecommerce-stripe-icon-1.png',
         lessons: [
           {
+            slug: `react-create-a-shopping-cart-with-the-usestate-react-hook-to-manage-product-quantity-and-total`,
             title:
               'Create a Shopping Cart with the useState React Hook to Manage Product Quantity and Total',
             path:
@@ -153,6 +165,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
           {
+            slug: `react-create-a-custom-react-hook-to-manage-cart-state`,
             title: 'Create a Custom React Hook to Manage Cart State',
             path:
               '/lessons/react-create-a-custom-react-hook-to-manage-cart-state',
@@ -160,6 +173,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
           {
+            slug: `react-use-the-react-context-api-to-globally-manage-cart-state-in-a-next-js-app`,
             title:
               'Use the React Context API to Globally Manage Cart State in a Next.js App',
             path:
@@ -168,6 +182,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
           {
+            slug: `react-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page`,
             title:
               'Store and Load Cart State from Local Storage to Persist Cart Data When Reloading the Page',
             path:
@@ -176,6 +191,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
           {
+            slug: `next-js-use-next-js-dynamic-routes-to-create-product-pages-for-an-online-store`,
             title:
               'Use Next.js Dynamic Routes to Create Product Pages for an Online Store',
             path:
@@ -184,6 +200,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
+            slug: `next-js-create-a-shopping-cart-page-to-manage-products-to-purchase-in-a-next-js-app`,
             title:
               'Create a Shopping Cart Page to Manage Products to Purchase in a Next.js App',
             path:
@@ -192,6 +209,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
           {
+            slug: `react-add-a-quantity-input-to-the-cart-page-to-add-or-remove-items-from-a-shopping-cart-in-next`,
             title:
               'Add a Quantity Input to the Cart Page to Add or Remove Items from a Shopping Cart in Next',
             path:
@@ -333,6 +351,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 Listen to Colby tell you about this project
               </h3>
               <iframe
+                title="project podcast"
                 height="52px"
                 width="100%"
                 frameBorder="no"
@@ -366,7 +385,15 @@ const Join: FunctionComponent<{}> = () => {
           from <strong>$20/month</strong>
         </div>
         <Link href="/pricing">
-          <a className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl">
+          <a
+            onClick={() =>
+              track('clicked join CTA', {
+                project:
+                  'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+              })
+            }
+            className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
+          >
             Level-up your career
           </a>
         </Link>
@@ -376,7 +403,13 @@ const Join: FunctionComponent<{}> = () => {
 }
 
 const Instructor: FunctionComponent<{
-  instructor: {name: string; bio: string; path: string; image: string}
+  instructor: {
+    name: string
+    bio: string
+    path: string
+    image: string
+    slug: string
+  }
 }> = ({instructor: {name, bio, path, image}}) => {
   return (
     <div className="flex flex-col space-y-2 md:items-start md:text-left text-center items-center -mt-20">
@@ -393,7 +426,18 @@ const Instructor: FunctionComponent<{
         Meet Your Instructor
       </div>
       <Link href={path}>
-        <a className="text-lg font-semibold">{name}</a>
+        <a
+          onClick={() => {
+            track(`clicked instructor profile link`, {
+              project:
+                'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+              instructor: slug,
+            })
+          }}
+          className="text-lg font-semibold"
+        >
+          {name}
+        </a>
       </Link>
       <Markdown className="prose max-w-xl" source={bio} />
     </div>
@@ -420,7 +464,7 @@ const Part: FunctionComponent<{
     title: string
     body?: string
     image: string
-    lessons?: {title: string; path: string}[]
+    lessons?: {title: string; path: string; slug: string}[]
   }
   idx: number
   isLast: boolean
@@ -454,8 +498,16 @@ const Part: FunctionComponent<{
       >
         {/* <div className="uppercase font-semibold text-sm text-blue-500">Part {index}</div> */}
         {lessons ? (
-          <Link href={lessons[0].path}>
-            <a>
+          <Link href={get(first(lessons), 'path', '#')}>
+            <a
+              onClick={() => {
+                track(`clicked first lesson thumbnail`, {
+                  lesson: get(first(lessons), 'slug'),
+                  project:
+                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                })
+              }}
+            >
               <Thumbnail />
             </a>
           </Link>
@@ -485,7 +537,16 @@ const Part: FunctionComponent<{
               <li>
                 {l.path ? (
                   <Link href={l.path}>
-                    <a className="py-1 flex space-x-2 items-center text-gray-700 hover:text-blue-600 group">
+                    <a
+                      onClick={() => {
+                        track(`clicked lesson in list`, {
+                          lesson: l.slug,
+                          project:
+                            'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                        })
+                      }}
+                      className="py-1 flex space-x-2 items-center text-gray-700 hover:text-blue-600 group"
+                    >
                       {/* prettier-ignore */}
                       <div className="flex-shrink-0"><svg className="text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
                       <div className="font-semibold">{l.title}</div>

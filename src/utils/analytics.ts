@@ -35,6 +35,11 @@ export const track = (
     if (ahoy && isFunction(ahoy.track)) {
       ahoy.track(event, params)
     }
+
+    if (window.fbq) {
+      window.fbq('trackCustom', event, params)
+    }
+
     const token = getAccessTokenFromCookie()
     if (token && window._cio && isFunction(window._cio.track)) {
       window._cio.track(event, params)
