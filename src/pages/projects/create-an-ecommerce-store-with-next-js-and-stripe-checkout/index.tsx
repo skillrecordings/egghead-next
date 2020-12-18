@@ -42,7 +42,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
     },
     instructor: {
       name: 'Colby Fayock',
-      slug: 'colby-kayock',
+      slug: 'colby-fayock',
       path: '/q/resources-by-colby-fayock',
       bio:
         'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
