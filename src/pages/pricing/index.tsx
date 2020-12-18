@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent, SyntheticEvent} from 'react'
 
+import axios from 'axios'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {loadPrice} from 'lib/stripe/price'
@@ -12,10 +13,17 @@ import emailIsValid from 'utils/email-is-valid'
 export const getServerSideProps: GetServerSideProps = async function ({res}) {
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  if (!process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PRICE_ID)
-    throw new Error('no annual price to load 😭')
+  const {data: pricingData} = await axios.get(
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/pricing`,
+  )
+  // TODO: Is finding the annual plan by name reliable?
+  const proYearly: {price_id: string} | undefined = pricingData.plans.find(
+    (plan: any) => plan.name === 'Pro Yearly',
+  )
 
-  const price = await loadPrice(process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PRICE_ID)
+  if (!proYearly?.price_id) throw new Error('no annual price to load 😭')
+
+  const price = await loadPrice(proYearly.price_id)
 
   return {
     props: {
