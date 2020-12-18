@@ -1,4 +1,5 @@
 import {isFunction, isUndefined} from 'lodash'
+import getAccessTokenFromCookie from './getAccessTokenFromCookie'
 
 export const track = (
   event: string,
@@ -34,11 +35,25 @@ export const track = (
     if (ahoy && isFunction(ahoy.track)) {
       ahoy.track(event, params)
     }
+    const token = getAccessTokenFromCookie()
+    if (token && window._cio && isFunction(window._cio.track)) {
+      window._cio.track(event, params)
+    }
+
     resolve(true)
   })
 }
 
-export const identify = (data: unknown) => {
+export const identify = (data: any) => {
+  if (window._cio && isFunction(window._cio.identify)) {
+    window._cio.identify({
+      id: data.id,
+      email: data.email,
+      first_name: data.name,
+      pro: data.is_pro,
+      instructor: data.is_instructor,
+    })
+  }
   return Promise.resolve(data)
 }
 
