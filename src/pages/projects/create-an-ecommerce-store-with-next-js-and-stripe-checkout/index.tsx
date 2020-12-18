@@ -348,7 +348,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
           {course.podcast.id && (
             <div>
               <h3 className="text-lg font-semibold mb-2 md:text-left text-center">
-                Listen to Colby tell you about this project
+                Listen to Colby tell you about this Portfolio Project
               </h3>
               <iframe
                 title="project podcast"
@@ -378,11 +378,10 @@ const Join: FunctionComponent<{}> = () => {
           <Eggo className="w-16" />
         </div>
         <h2 className="lg:text-2xl  text-xl font-semibold leading-tighter max-w-2xl">
-          Unlock this and all of the premium courses and content with egghead
-          Pro Membership
+          Add this project to your portfolio with your egghead Pro Membership
         </h2>
         <div>
-          from <strong>$20/month</strong>
+          from just <strong>$20/month</strong>
         </div>
         <Link href="/pricing">
           <a
@@ -394,7 +393,7 @@ const Join: FunctionComponent<{}> = () => {
             }
             className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
           >
-            Level-up your career
+            Build this E-Commerce Store
           </a>
         </Link>
       </div>
