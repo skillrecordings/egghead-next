@@ -1,5 +1,7 @@
 import {isFunction, isUndefined} from 'lodash'
-import getAccessTokenFromCookie from './getAccessTokenFromCookie'
+import Auth from './auth'
+
+const auth = new Auth()
 
 export const track = (
   event: string,
@@ -10,12 +12,7 @@ export const track = (
     const ahoy = window.ahoy
     let wasCalled = false
 
-    const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback
-    const timeout = 1250
-
-    if (isUndefined(callback) && isFunction(paramsOrCallback)) {
-      callback = paramsOrCallback
-    }
+    const viewer = auth.getLocalUser()
 
     function politelyExit() {
       if (isFunction(callback) && !wasCalled) {
@@ -24,39 +21,51 @@ export const track = (
       }
     }
 
-    const store = console.error
+    if (viewer && viewer.opted_out) {
+      resolve(false)
+    } else {
+      const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback
+      const timeout = 1250
 
-    console.error = () => {}
+      if (isUndefined(callback) && isFunction(paramsOrCallback)) {
+        callback = paramsOrCallback
+      }
 
-    setTimeout(politelyExit, timeout)
+      const store = console.error
 
-    console.error = store
+      console.error = () => {}
 
-    if (ahoy && isFunction(ahoy.track)) {
-      ahoy.track(event, params)
+      setTimeout(politelyExit, timeout)
+
+      console.error = store
+
+      if (ahoy && isFunction(ahoy.track)) {
+        ahoy.track(event, params)
+      }
+
+      if (window.fbq) {
+        window.fbq('trackCustom', event, params)
+      }
+
+      if (viewer && window._cio && isFunction(window._cio.track)) {
+        window._cio.track(event, params)
+      }
+
+      resolve(true)
     }
-
-    if (window.fbq) {
-      window.fbq('trackCustom', event, params)
-    }
-
-    const token = getAccessTokenFromCookie()
-    if (token && window._cio && isFunction(window._cio.track)) {
-      window._cio.track(event, params)
-    }
-
-    resolve(true)
   })
 }
 
 export const identify = (data: any) => {
-  if (window._cio && isFunction(window._cio.identify)) {
+  if (!data.opted_out && window._cio && isFunction(window._cio.identify)) {
     window._cio.identify({
-      id: data.id,
+      id: data.contact_id,
       email: data.email,
       first_name: data.name,
       pro: data.is_pro,
       instructor: data.is_instructor,
+      created_at: data.created_at,
+      discord_id: data.discord_id,
     })
   }
   return Promise.resolve(data)
