@@ -2,12 +2,12 @@ import {useViewer} from 'context/viewer-context'
 import * as React from 'react'
 
 type SelectPlanProps = {
-  price: number
+  prices: any
   onClickCheckout: React.MouseEventHandler
 }
 
 const SelectPlan: React.FunctionComponent<SelectPlanProps> = ({
-  price,
+  prices,
   onClickCheckout,
 }) => {
   const {viewer, loading} = useViewer()
@@ -79,7 +79,11 @@ const SelectPlan: React.FunctionComponent<SelectPlanProps> = ({
                 One low price...
               </p>
               <div className="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900">
-                <span>${price}</span>
+                {prices ? (
+                  <span>${prices.annualPrice.price}</span>
+                ) : (
+                  <span>$ ---</span>
+                )}
                 <span className="ml-3 text-base leading-7 font-medium text-gray-500">
                   USD
                 </span>
