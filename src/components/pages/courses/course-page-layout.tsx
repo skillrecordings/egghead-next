@@ -6,7 +6,7 @@ import UserRating from 'components/pages/courses/user-rating'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first} from 'lodash'
+import {get, first, filter} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 
@@ -48,6 +48,8 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const image_url = square_cover_480_url || image_thumb_url
   const firstLessonURL = get(first(lessons), 'path')
   const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
+
+  const playlists = filter(course.items, {type: 'playlist'}) || []
 
   const PlayButton = () => {
     return firstLessonURL ? (
@@ -159,6 +161,54 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       ({lessons.length} lessons)
                     </span>
                   </h2>
+                </div>
+                <div>
+                  <ul>
+                    {playlists.map((playlist: any, i: number) => {
+                      return (
+                        <li key={playlist.slug}>
+                          <div className="font-semibold flex items-center leading-tight py-2">
+                            <Link href={playlist.path}>
+                              <a className="hover:underline font-semibold flex items-center w-full">
+                                <Markdown className="prose md:prose-lg text-gray-900 mt-0">
+                                  {playlist.title}
+                                </Markdown>
+                              </a>
+                            </Link>
+                          </div>
+                          <div>
+                            <ul className="ml-8">
+                              {playlist?.lessons.map(
+                                (lesson: any, i: number) => {
+                                  return (
+                                    <li
+                                      key={`${playlist.slug}::${lesson.slug}`}
+                                    >
+                                      <div className="flex items-center leading-tight py-2">
+                                        <div className="flex items-center mr-2 flex-grow">
+                                          <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
+                                            {i + 1}
+                                          </small>
+                                          <PlayIcon className="text-gray-500 mx-1" />
+                                        </div>
+                                        <Link href={lesson.path}>
+                                          <a className="hover:underline flex items-center w-full">
+                                            <Markdown className="prose md:prose-lg text-gray-700 mt-0">
+                                              {lesson.title}
+                                            </Markdown>
+                                          </a>
+                                        </Link>
+                                      </div>
+                                    </li>
+                                  )
+                                },
+                              )}
+                            </ul>
+                          </div>
+                        </li>
+                      )
+                    })}
+                  </ul>
                 </div>
                 <div>
                   <ul>

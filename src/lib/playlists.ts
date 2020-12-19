@@ -38,6 +38,13 @@ export async function loadPlaylist(slug: string, token?: string) {
             path
             square_cover_url
             type
+            url
+            lessons {
+              title
+              path
+              slug
+              icon_url
+            }
           }
           ... on Lesson {
             slug
