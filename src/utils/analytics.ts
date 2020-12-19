@@ -63,7 +63,12 @@ export const track = (
 }
 
 export const identify = (data: any) => {
-  if (!data.opted_out && window._cio && isFunction(window._cio.identify)) {
+  if (
+    !data.opted_out &&
+    data.contact_id &&
+    window._cio &&
+    isFunction(window._cio.identify)
+  ) {
     window._cio.identify({
       id: data.contact_id,
       email: data.email,
