@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import {LessonResource} from 'types'
+import {track} from 'utils/analytics'
 
 type JoinCTAProps = {
   lesson: LessonResource
