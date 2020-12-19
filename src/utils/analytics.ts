@@ -1,13 +1,13 @@
 import {isFunction, isUndefined} from 'lodash'
 import Auth from './auth'
 
-const auth = new Auth()
-
 export const track = (
   event: string,
   paramsOrCallback?: any,
   callback?: any,
 ) => {
+  const auth = new Auth()
+
   return new Promise(async (resolve) => {
     const ahoy = window.ahoy
     let wasCalled = false
