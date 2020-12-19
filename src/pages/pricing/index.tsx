@@ -1,13 +1,13 @@
 import * as React from 'react'
 import {FunctionComponent, SyntheticEvent} from 'react'
-import queryString from 'query-string'
 import {useViewer} from 'context/viewer-context'
-import {loadPrices} from 'lib/prices'
+
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import SelectPlan from 'components/pricing/select-plan'
 import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
+import {usePricing, Prices} from 'hooks/use-pricing'
 
 type PricingProps = {
   annualPrice: {
@@ -17,23 +17,6 @@ type PricingProps = {
     }
     unit_amount: number
   }
-}
-
-type Prices = {
-  annualPrice?: any
-}
-
-const usePricing = () => {
-  const [prices, setPrices] = React.useState<Prices>({})
-  React.useEffect(() => {
-    const run = async (options: {en?: string; dc?: string}) => {
-      const prices = await loadPrices(options)
-      setPrices(prices)
-    }
-    run(queryString.parse(window.location.search))
-  }, [])
-
-  return prices
 }
 
 const Pricing: FunctionComponent<PricingProps> = () => {
