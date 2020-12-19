@@ -50,14 +50,14 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
 
   const PlayButton = () => {
-    return (
+    return firstLessonURL ? (
       <Link href={firstLessonURL}>
         <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
           <PlayIcon className="text-blue-100 mr-2" />
           Start Watching
         </a>
       </Link>
-    )
+    ) : null
   }
 
   return (
