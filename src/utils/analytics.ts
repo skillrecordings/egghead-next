@@ -1,4 +1,5 @@
 import {isFunction, isUndefined} from 'lodash'
+import {Viewer} from 'types'
 import Auth from './auth'
 
 export const track = (
@@ -12,13 +13,14 @@ export const track = (
     const ahoy = window.ahoy
     let wasCalled = false
 
-    const viewer = auth.getLocalUser()
+    const viewer: Viewer = auth.getLocalUser()
 
     function politelyExit() {
       if (isFunction(callback) && !wasCalled) {
         wasCalled = true
         callback.apply(null, [event, wasCalled])
       }
+      resolve(true)
     }
 
     const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback
@@ -56,11 +58,11 @@ export const track = (
       window._cio.track(event, params)
     }
 
-    resolve(true)
+    politelyExit()
   })
 }
 
-export const identify = (data: any) => {
+export const identify = (data: Viewer) => {
   if (
     !data.opted_out &&
     data.email &&
@@ -76,6 +78,7 @@ export const identify = (data: any) => {
       instructor: data.is_instructor,
       created_at: data.created_at,
       discord_id: data.discord_id,
+      timezone: data.timezone,
     })
   }
   return Promise.resolve(data)
