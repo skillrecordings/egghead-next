@@ -77,9 +77,9 @@ const Pricing: FunctionComponent<PricingProps> = () => {
               <p className="text-lg leading-6 font-medium text-gray-900">
                 One low price...
               </p>
-              <div className="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900">
+              <div className="mt-4 flex items-center justify-center text-3xl md:text-5xl leading-none font-extrabold text-gray-900">
                 {prices.annualPrice ? (
-                  <span>${prices.annualPrice.price}</span>
+                  <span>{prices.annualPrice.price}</span>
                 ) : (
                   <span>$ ---</span>
                 )}
