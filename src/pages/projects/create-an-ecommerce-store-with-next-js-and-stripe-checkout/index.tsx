@@ -409,7 +409,7 @@ const Instructor: FunctionComponent<{
     image: string
     slug: string
   }
-}> = ({instructor: {name, bio, path, image}}) => {
+}> = ({instructor: {name, bio, path, image, slug}}) => {
   return (
     <div className="flex flex-col space-y-2 md:items-start md:text-left text-center items-center -mt-20">
       <div className="rounded-full bg-white p-1 overflow-hidden">
