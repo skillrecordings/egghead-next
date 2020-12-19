@@ -129,7 +129,6 @@ export default class Auth {
       this.setSession(accessToken, expiresInSeconds).then(
         (user) => {
           identify(user)
-          track('authentication success')
           resolve(user)
         },
         (error) => {
@@ -208,6 +207,7 @@ export default class Auth {
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {})
         .then(({data}) => {
+          if (data) identify(data)
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)
         })

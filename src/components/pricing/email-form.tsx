@@ -2,6 +2,7 @@ import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import {Formik} from 'formik'
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
+import {track} from 'utils/analytics'
 import axios from 'utils/configured-axios'
 import * as yup from 'yup'
 
@@ -31,7 +32,9 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
       )
     } else {
       setIsError(false)
-      stripeCheckoutRedirect(priceId, email)
+      track('checkout: redirect to stripe', {priceId}).then(() =>
+        stripeCheckoutRedirect(priceId, email),
+      )
     }
   }
 
@@ -54,7 +57,10 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
               <Formik
                 initialValues={{email: ''}}
                 validationSchema={loginSchema}
-                onSubmit={(values) => validateEmail(values.email)}
+                onSubmit={(values) => {
+                  track('checkout: submitted email', {email: values.email})
+                  validateEmail(values.email)
+                }}
               >
                 {(props) => {
                   const {
@@ -105,7 +111,6 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
             {isSubmitted && (
               <div className="text-text">
                 <p>Redirecting to Stripe payments.</p>
-          
               </div>
             )}
             {isError && (

@@ -27,7 +27,14 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
       {hasImage && (
         <div className="col-span-1 items-center flex justify-center">
           <Link href={path}>
-            <a className="flex-shrink-0">
+            <a
+              onClick={() => {
+                track(`clicked search result image`, {
+                  [type]: slug,
+                })
+              }}
+              className="flex-shrink-0"
+            >
               <img
                 className={`${
                   type === 'lesson'
@@ -50,9 +57,8 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
           <Link href={path}>
             <a
               onClick={() =>
-                track(`click content (search)`, {
-                  content: slug,
-                  type: type,
+                track(`clicked search result title`, {
+                  [type]: slug,
                 })
               }
               className="self-start"
@@ -69,7 +75,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                 <Link href={instructor_url}>
                   <a
                     onClick={() =>
-                      track(`click instructor (search)`, {
+                      track(`clicked search result creator`, {
                         instructor: instructor_name,
                       })
                     }

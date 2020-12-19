@@ -20,6 +20,8 @@ import {Ahoy} from 'components/ahoy'
 declare global {
   interface Window {
     ahoy: any
+    _cio: any
+    fbq: any
   }
 }
 

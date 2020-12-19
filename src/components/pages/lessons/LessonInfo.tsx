@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent, SyntheticEvent, useState} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {isEmpty, get} from 'lodash'
@@ -7,6 +7,7 @@ import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
 import Eggo from '../../../components/images/eggo.svg'
 import {useNextUpData} from 'hooks/use-next-up-data'
 import {Element, scroller} from 'react-scroll'
+import {track} from 'utils/analytics'
 
 type NextUpListProps = {
   currentLessonSlug: string
@@ -75,7 +76,14 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
                   <div>
                     {lesson.slug !== currentLessonSlug ? (
                       <Link href={lesson.path}>
-                        <a className="font-semibold">
+                        <a
+                          onClick={() => {
+                            track(`clicked next up lesson`, {
+                              lesson: lesson.slug,
+                            })
+                          }}
+                          className="font-semibold"
+                        >
                           <Item className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100" />
                         </a>
                       </Link>
@@ -168,16 +176,17 @@ const CopyToClipboard: FunctionComponent<{
   return null
 }
 
-const CodeLink: FunctionComponent<{url: string; icon?: React.ReactElement}> = ({
-  url,
-  icon,
-  children,
-}) => {
+const CodeLink: FunctionComponent<{
+  url: string
+  icon?: React.ReactElement
+  onClick?: () => void
+}> = ({url, icon, onClick = () => {}, children}) => {
   return (
     <li className="flex items-center">
       <a
         href={url}
         rel="noreferrer"
+        onClick={onClick}
         target="_blank"
         className="flex items-center text-blue-600 hover:underline font-semibold"
       >
@@ -237,16 +246,38 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
       </div>
       <ul className="space-y-3 pt-6">
         {lesson?.code_url && (
-          <CodeLink url={lesson.code_url}>Open code for this lesson</CodeLink>
+          <CodeLink
+            onClick={() => {
+              track(`clicked open code`, {
+                lesson: lesson.slug,
+              })
+            }}
+            url={lesson.code_url}
+          >
+            Open code for this lesson
+          </CodeLink>
         )}
         {lesson?.repo_url && (
-          <CodeLink url={lesson.repo_url} icon={<IconGithub />}>
+          <CodeLink
+            onClick={() => {
+              track(`clicked open github`, {
+                lesson: lesson.slug,
+              })
+            }}
+            url={lesson.repo_url}
+            icon={<IconGithub />}
+          >
             Open code on GitHub
           </CodeLink>
         )}
         {lesson.download_url && (
           <li className="flex items-center">
             <a
+              onClick={() => {
+                track(`clicked download lesson`, {
+                  lesson: lesson.slug,
+                })
+              }}
               href={lesson.download_url}
               className="flex items-center text-blue-600 hover:underline font-semibold"
             >
@@ -284,7 +315,14 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
             <div className="ml-2 lg:ml-4">
               <h4 className="text-gray-600 mb-1">Course</h4>
               <Link href={`/courses/${course.slug}`}>
-                <a className="hover:underline">
+                <a
+                  onClick={() => {
+                    track(`clicked open course`, {
+                      lesson: lesson.slug,
+                    })
+                  }}
+                  className="hover:underline"
+                >
                   <h3 className="font-semibold leading-tight text-md lg:text-lg">
                     {course.title}
                   </h3>
@@ -300,7 +338,15 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
             <h4 className="font-semibold">Instructor</h4>
             <div className="flex items-center mt-3 flex-shrink-0">
               <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-                <a className="mr-2">
+                <a
+                  onClick={() => {
+                    track(`clicked view instructor`, {
+                      lesson: lesson.slug,
+                      location: 'avatar',
+                    })
+                  }}
+                  className="mr-2"
+                >
                   {get(instructor, 'avatar_64_url') ? (
                     <img
                       src={instructor.avatar_64_url}
@@ -314,7 +360,17 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
               </Link>
               {get(instructor, 'full_name') && (
                 <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-                  <a className="hover:underline">{instructor.full_name}</a>
+                  <a
+                    onClick={() => {
+                      track(`clicked view instructor`, {
+                        lesson: lesson.slug,
+                        location: 'text link',
+                      })
+                    }}
+                    className="hover:underline"
+                  >
+                    {instructor.full_name}
+                  </a>
                 </Link>
               )}
             </div>
@@ -332,7 +388,15 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
               {tags.map((tag, index) => (
                 <li key={index}>
                   <Link href={`/q/${tag.name}`}>
-                    <a className="inline-flex items-center first:ml-0 hover:underline">
+                    <a
+                      onClick={() => {
+                        track(`clicked view topic`, {
+                          lesson: lesson.slug,
+                          topic: tag.name,
+                        })
+                      }}
+                      className="inline-flex items-center first:ml-0 hover:underline"
+                    >
                       <Image
                         src={tag.image_url}
                         alt={tag.name}
