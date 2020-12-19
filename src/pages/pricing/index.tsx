@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent, SyntheticEvent} from 'react'
-
+import queryString from 'query-string'
 import {useViewer} from 'context/viewer-context'
 import {loadPrices} from 'lib/prices'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
@@ -8,7 +8,6 @@ import SelectPlan from 'components/pricing/select-plan'
 import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
-import useSWR from 'swr'
 
 type PricingProps = {
   annualPrice: {
@@ -20,24 +19,34 @@ type PricingProps = {
   }
 }
 
+type Prices = {
+  annualPrice?: any
+}
+
 const usePricing = () => {
+  const [prices, setPrices] = React.useState<Prices>({})
   React.useEffect(() => {
-    // check for coupons
-    // load prices from egghead api, send coupons for validation
+    const run = async (options: {en?: string; dc?: string}) => {
+      const prices = await loadPrices(options)
+      setPrices(prices)
+    }
+    run(queryString.parse(window.location.search))
   }, [])
+
+  return prices
 }
 
 const Pricing: FunctionComponent<PricingProps> = () => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()
-  const {data} = useSWR('pricing', loadPrices)
+  const prices: Prices = usePricing()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
 
-    if (!data?.annualPrice) return
+    if (!prices.annualPrice) return
 
-    const {annualPrice} = data
+    const {annualPrice} = prices
     await track('checkout: selected plan', {
       priceId: annualPrice.price_id,
     })
@@ -80,10 +89,10 @@ const Pricing: FunctionComponent<PricingProps> = () => {
           </div>
         )}
         {!needsEmail && (
-          <SelectPlan prices={data} onClickCheckout={onClickCheckout} />
+          <SelectPlan prices={prices} onClickCheckout={onClickCheckout} />
         )}
-        {data && needsEmail && (
-          <EmailForm priceId={data.annualPrice.price_id} />
+        {prices.annualPrice && needsEmail && (
+          <EmailForm priceId={prices.annualPrice.price_id} />
         )}
       </div>
     </>
