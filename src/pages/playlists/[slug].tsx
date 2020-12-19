@@ -13,16 +13,18 @@ type PlaylistProps = {
 
 const Playlist: FunctionComponent<PlaylistProps> = ({playlist}) => {
   const initialData = playlist
-  const {data} = useSWR(playlist.url, fetcher, {initialData})
+  const {data} = useSWR(playlist.url, fetcher)
 
-  const {slug, items} = data
+  const course = {...initialData, ...data}
+
+  const {slug, items} = course
 
   const lessons = filter(items, {type: 'lesson'})
 
   return (
     <CoursePageLayout
       lessons={lessons}
-      course={data}
+      course={course}
       ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
     />
   )
