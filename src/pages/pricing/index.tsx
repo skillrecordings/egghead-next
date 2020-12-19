@@ -22,7 +22,7 @@ type PricingProps = {
 const Pricing: FunctionComponent<PricingProps> = () => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()
-  const prices: Prices = usePricing()
+  const {prices, pricesLoading} = usePricing()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
@@ -72,7 +72,43 @@ const Pricing: FunctionComponent<PricingProps> = () => {
           </div>
         )}
         {!needsEmail && (
-          <SelectPlan prices={prices} onClickCheckout={onClickCheckout} />
+          <SelectPlan>
+            <div className="py-8 px-6 text-center bg-gray-50 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
+              <p className="text-lg leading-6 font-medium text-gray-900">
+                One low price...
+              </p>
+              <div className="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900">
+                {prices.annualPrice ? (
+                  <span>${prices.annualPrice.price}</span>
+                ) : (
+                  <span>$ ---</span>
+                )}
+                <span className="ml-3 text-base leading-7 font-medium text-gray-500">
+                  USD
+                </span>
+              </div>
+
+              <div className="mt-6">
+                <div className="rounded-md shadow">
+                  <button
+                    onClick={onClickCheckout}
+                    disabled={!prices.annualPrice || viewer?.is_pro}
+                    className={`${
+                      !prices || pricesLoading || viewer?.is_pro
+                        ? 'opacity-40'
+                        : 'opacity-100'
+                    } w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
+                  >
+                    {prices.annualPrice && !pricesLoading
+                      ? viewer?.is_pro
+                        ? `Already a Member!`
+                        : `Get Access`
+                      : '--'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </SelectPlan>
         )}
         {prices.annualPrice && needsEmail && (
           <EmailForm priceId={prices.annualPrice.price_id} />

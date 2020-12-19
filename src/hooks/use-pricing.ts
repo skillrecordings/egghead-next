@@ -8,15 +8,17 @@ export type Prices = {
 
 export const usePricing = () => {
   const [prices, setPrices] = React.useState<Prices>({})
+  const [pricesLoading, setPricesLoading] = React.useState(true)
   React.useEffect(() => {
     const run = async (options: {en?: string; dc?: string}) => {
-      const prices = await loadPrices(options)
-      setPrices(prices)
+      const newPrices = await loadPrices(options)
+      setPrices(newPrices)
+      setPricesLoading(false)
     }
     run(queryString.parse(window.location.search))
   }, [])
 
-  return prices
+  return {prices, pricesLoading}
 }
 
 export default usePricing
