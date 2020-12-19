@@ -47,7 +47,13 @@ export const track = (
         window.fbq('trackCustom', event, params)
       }
 
-      if (viewer && window._cio && isFunction(window._cio.track)) {
+      if (
+        viewer &&
+        viewer.contact_id &&
+        window._cio &&
+        isFunction(window._cio.track)
+      ) {
+        identify(viewer)
         window._cio.track(event, params)
       }
 
