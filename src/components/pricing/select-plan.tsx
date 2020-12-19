@@ -93,12 +93,12 @@ const SelectPlan: React.FunctionComponent<SelectPlanProps> = ({
                 <div className="rounded-md shadow">
                   <button
                     onClick={onClickCheckout}
-                    disabled={viewer?.is_pro}
+                    disabled={!prices || viewer?.is_pro}
                     className={`${
                       loading || viewer?.is_pro ? 'opacity-40' : 'opacity-100'
                     } w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
                   >
-                    {!loading
+                    {prices && !loading
                       ? viewer?.is_pro
                         ? `Already a Member!`
                         : `Get Access`
