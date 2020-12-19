@@ -82,7 +82,8 @@ const FooterNavigation: FunctionComponent = () => {
             <Eggo className="md:w-8 w-12 flex-shrink-0" />
             <div className="mt-1 text-lg font-semibold leading-tighter tracking-tight">
               {/* egghead.io */}
-              Learn the skills you need to be a badass web developer.
+              Build your Developer Portfolio and climb the engineering career
+              ladder.
             </div>
           </a>
         </Link>

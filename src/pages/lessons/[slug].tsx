@@ -246,7 +246,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
                 {playerState.matches('subscribing') && (
                   <OverlayWrapper>
-                    <JoinCTA />
+                    <JoinCTA lesson={lesson} />
                   </OverlayWrapper>
                 )}
                 {playerState.matches('showingNext') && (

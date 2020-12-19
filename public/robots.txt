@@ -16,3 +16,4 @@ Sitemap: https://next.egghead.io/tags-sitemap-3.xml
 Sitemap: https://next.egghead.io/tags-sitemap-4.xml
 Sitemap: https://next.egghead.io/tags-sitemap-5.xml
 Sitemap: https://next.egghead.io/tags-sitemap-6.xml
+Sitemap: https://next.egghead.io/tags-sitemap-7.xml

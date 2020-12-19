@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import {track} from 'utils/analytics'
 import {Machine, assign} from 'xstate'
 
 interface PlayerStateSchema {
@@ -151,7 +152,7 @@ const playerMachine = Machine<
             case 'PAUSE':
               return 'paused'
             case 'PLAY':
-              return 'interacted'
+              return 'played'
             case 'VIEW':
               return 'viewed'
             case 'COMPLETE':
@@ -163,6 +164,10 @@ const playerMachine = Machine<
         const verb = verbForEvent(event.type)
 
         if (!verb) return
+
+        track(`${verb} video`, {
+          lesson: context.lesson.slug,
+        })
 
         Axios.post(`/api/progress`, {
           verb,
