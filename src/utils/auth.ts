@@ -140,7 +140,7 @@ export default class Auth {
   handleNewSession(accessToken: string, expiresInSeconds: string) {
     return new Promise((resolve, reject) => {
       this.setSession(accessToken, expiresInSeconds).then(
-        (user) => {
+        (user: any) => {
           identify(user)
           resolve(user)
         },
