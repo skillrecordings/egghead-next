@@ -152,7 +152,7 @@ const playerMachine = Machine<
             case 'PAUSE':
               return 'paused'
             case 'PLAY':
-              return 'interacted'
+              return 'played'
             case 'VIEW':
               return 'viewed'
             case 'COMPLETE':
