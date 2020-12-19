@@ -20,6 +20,13 @@ type PricingProps = {
   }
 }
 
+const usePricing = () => {
+  React.useEffect(() => {
+    // check for coupons
+    // load prices from egghead api, send coupons for validation
+  }, [])
+}
+
 const Pricing: FunctionComponent<PricingProps> = () => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()

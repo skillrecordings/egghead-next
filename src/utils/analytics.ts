@@ -76,7 +76,6 @@ export const identify = (data: any) => {
       instructor: data.is_instructor,
       created_at: data.created_at,
       discord_id: data.discord_id,
-      timezone: data.timezone,
     })
   }
   return Promise.resolve(data)
