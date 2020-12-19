@@ -10,17 +10,17 @@ export const FacebookPixel = function () {
     let fb: any
 
     function onRouteChange(url: string) {
-      fb.pageView()
+      fb?.pageView()
     }
 
     import('react-facebook-pixel')
       .then((module) => (fb = module.default))
       .then(() => {
-        fb.init(FACEBOOK_PIXEL_ID, {
+        fb?.init(FACEBOOK_PIXEL_ID, {
           autoConfig: true,
           debug: true,
         })
-        fb.pageView()
+        fb?.pageView()
       })
 
     router.events.on('routeChangeComplete', onRouteChange)

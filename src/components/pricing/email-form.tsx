@@ -108,7 +108,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
                 }}
               </Formik>
             )}
-            {isSubmitted && (
+            {isSubmitted && !isError && (
               <div className="text-text">
                 <p>Redirecting to Stripe payments.</p>
               </div>

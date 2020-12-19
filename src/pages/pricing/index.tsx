@@ -1,14 +1,13 @@
 import * as React from 'react'
 import {FunctionComponent, SyntheticEvent} from 'react'
-
 import {useViewer} from 'context/viewer-context'
-import {loadPrices} from 'lib/prices'
+
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import SelectPlan from 'components/pricing/select-plan'
 import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
-import useSWR from 'swr'
+import {usePricing, Prices} from 'hooks/use-pricing'
 
 type PricingProps = {
   annualPrice: {
@@ -20,24 +19,17 @@ type PricingProps = {
   }
 }
 
-const usePricing = () => {
-  React.useEffect(() => {
-    // check for coupons
-    // load prices from egghead api, send coupons for validation
-  }, [])
-}
-
 const Pricing: FunctionComponent<PricingProps> = () => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()
-  const {data} = useSWR('pricing', loadPrices)
+  const {prices, pricesLoading} = usePricing()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
 
-    if (!data?.annualPrice) return
+    if (!prices.annualPrice) return
 
-    const {annualPrice} = data
+    const {annualPrice} = prices
     await track('checkout: selected plan', {
       priceId: annualPrice.price_id,
     })
@@ -80,10 +72,48 @@ const Pricing: FunctionComponent<PricingProps> = () => {
           </div>
         )}
         {!needsEmail && (
-          <SelectPlan prices={data} onClickCheckout={onClickCheckout} />
+          <SelectPlan>
+            <div className="py-8 px-6 text-center bg-gray-50 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
+              <p className="text-lg leading-6 font-medium text-gray-900">
+                One low price...
+              </p>
+              <div className="mt-4 flex items-center justify-center text-5xl leading-none font-extrabold text-gray-900">
+                {prices.annualPrice ? (
+                  <span>${prices.annualPrice.price}</span>
+                ) : (
+                  <span>$ ---</span>
+                )}
+                <span className="ml-3 text-base leading-7 font-medium text-gray-500">
+                  USD
+                </span>
+              </div>
+
+              <div className="mt-6">
+                <div className="rounded-md shadow">
+                  <button
+                    onClick={onClickCheckout}
+                    disabled={
+                      pricesLoading || !prices.annualPrice || viewer?.is_pro
+                    }
+                    className={`${
+                      pricesLoading || viewer?.is_pro
+                        ? 'opacity-40'
+                        : 'opacity-100'
+                    } w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
+                  >
+                    {!pricesLoading && prices.annualPrice
+                      ? viewer?.is_pro
+                        ? `Already a Member!`
+                        : `Get Access`
+                      : '--'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </SelectPlan>
         )}
-        {data && needsEmail && (
-          <EmailForm priceId={data.annualPrice.price_id} />
+        {prices.annualPrice && needsEmail && (
+          <EmailForm priceId={prices.annualPrice.price_id} />
         )}
       </div>
     </>
