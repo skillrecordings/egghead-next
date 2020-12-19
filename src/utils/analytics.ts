@@ -21,50 +21,49 @@ export const track = (
       }
     }
 
-    if (viewer && viewer.opted_out) {
-      resolve(false)
-    } else {
-      const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback
-      const timeout = 1250
+    const params = isFunction(paramsOrCallback) ? {} : paramsOrCallback
+    const timeout = 1250
 
-      if (isUndefined(callback) && isFunction(paramsOrCallback)) {
-        callback = paramsOrCallback
-      }
-
-      const store = console.error
-
-      console.error = () => {}
-
-      setTimeout(politelyExit, timeout)
-
-      console.error = store
-
-      if (ahoy && isFunction(ahoy.track)) {
-        ahoy.track(event, params)
-      }
-
-      if (window.fbq) {
-        window.fbq('trackCustom', event, params)
-      }
-
-      if (
-        viewer &&
-        viewer.contact_id &&
-        window._cio &&
-        isFunction(window._cio.track)
-      ) {
-        identify(viewer)
-        window._cio.track(event, params)
-      }
-
-      resolve(true)
+    if (isUndefined(callback) && isFunction(paramsOrCallback)) {
+      callback = paramsOrCallback
     }
+
+    const store = console.error
+
+    console.error = () => {}
+
+    setTimeout(politelyExit, timeout)
+
+    console.error = store
+
+    if (ahoy && isFunction(ahoy.track)) {
+      ahoy.track(event, params)
+    }
+
+    if (window.fbq) {
+      window.fbq('trackCustom', event, params)
+    }
+
+    if (
+      viewer &&
+      !viewer.opted_out &&
+      viewer.contact_id &&
+      viewer.email &&
+      window._cio &&
+      isFunction(window._cio.track)
+    ) {
+      identify(viewer)
+      window._cio.track(event, params)
+    }
+
+    resolve(true)
   })
 }
 
 export const identify = (data: any) => {
   if (
     !data.opted_out &&
+    data.email &&
     data.contact_id &&
     window._cio &&
     isFunction(window._cio.identify)
