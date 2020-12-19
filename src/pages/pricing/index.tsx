@@ -2,28 +2,13 @@ import * as React from 'react'
 import {FunctionComponent, SyntheticEvent} from 'react'
 
 import {useViewer} from 'context/viewer-context'
-import {GetServerSideProps} from 'next'
-import {loadPrice} from 'lib/stripe/price'
+import {loadPrices} from 'lib/prices'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import SelectPlan from 'components/pricing/select-plan'
 import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
-
-export const getServerSideProps: GetServerSideProps = async function ({res}) {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-
-  if (!process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PRICE_ID)
-    throw new Error('no annual price to load 😭')
-
-  const price = await loadPrice(process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PRICE_ID)
-
-  return {
-    props: {
-      annualPrice: price,
-    },
-  }
-}
+import useSWR from 'swr'
 
 type PricingProps = {
   annualPrice: {
@@ -35,26 +20,32 @@ type PricingProps = {
   }
 }
 
-const Pricing: FunctionComponent<PricingProps> = ({annualPrice}) => {
+const Pricing: FunctionComponent<PricingProps> = () => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()
+  const {data} = useSWR('pricing', loadPrices)
+
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
+
+    if (!data?.annualPrice) return
+
+    const {annualPrice} = data
     await track('checkout: selected plan', {
-      priceId: annualPrice.id,
+      priceId: annualPrice.price_id,
     })
 
     if (emailIsValid(viewer?.email)) {
       await track('checkout: valid email present', {
-        priceId: annualPrice.id,
+        priceId: annualPrice.price_id,
       })
       await track('checkout: redirect to stripe', {
-        priceId: annualPrice.id,
+        priceId: annualPrice.price_id,
       })
-      stripeCheckoutRedirect(annualPrice.id, viewer.email)
+      stripeCheckoutRedirect(annualPrice.price_id, viewer.email)
     } else {
       await track('checkout: get email', {
-        priceId: annualPrice.id,
+        priceId: annualPrice.price_id,
       })
       setNeedsEmail(true)
     }
@@ -82,12 +73,11 @@ const Pricing: FunctionComponent<PricingProps> = ({annualPrice}) => {
           </div>
         )}
         {!needsEmail && (
-          <SelectPlan
-            price={annualPrice.unit_amount / 100}
-            onClickCheckout={onClickCheckout}
-          />
+          <SelectPlan prices={data} onClickCheckout={onClickCheckout} />
         )}
-        {needsEmail && <EmailForm priceId={annualPrice.id} />}
+        {data && needsEmail && (
+          <EmailForm priceId={data.annualPrice.price_id} />
+        )}
       </div>
     </>
   )
