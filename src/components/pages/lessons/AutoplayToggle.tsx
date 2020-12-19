@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
+import {track} from 'utils/analytics'
 import cookies from 'utils/cookies'
-import useEggheadPlayer from 'components/EggheadPlayer/use-egghead-player'
 
 type AutoplayToggleProps = {}
 
@@ -14,7 +14,10 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = () => {
   return (
     <div className="flex">
       <button
-        onClick={() => setAutoplay(!autoplay)}
+        onClick={() => {
+          track(`clicked toggle autoplay ${autoplay ? 'off' : 'on'}`)
+          setAutoplay(!autoplay)
+        }}
         type="button"
         name="autoplay"
         id="autoplay"

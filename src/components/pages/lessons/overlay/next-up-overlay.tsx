@@ -2,6 +2,7 @@ import {useNextUpData} from 'hooks/use-next-up-data'
 import Link from 'next/link'
 import Image from 'next/image'
 import * as React from 'react'
+import {track} from 'utils/analytics'
 
 const NextUpOverlay: React.FunctionComponent<{
   lesson: any
@@ -28,20 +29,39 @@ const NextUpOverlay: React.FunctionComponent<{
       <div className="flex mt-6 md:mt-10 lg:mt-16">
         <button
           className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
-          onClick={() => send('LOAD')}
+          onClick={() => {
+            track('clicked rewatch video', {
+              lesson: lesson.slug,
+            })
+            send('LOAD')
+          }}
         >
           <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
-        <NextResourceButton
-          path={nextUpPath}
-          className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
-        >
-          <IconPlay className="w-6 mr-2" /> Play next
-        </NextResourceButton>
+        <Link href={nextUpPath || '#'}>
+          <a
+            onClick={() => {
+              track('clicked play next', {
+                lesson: lesson.slug,
+              })
+            }}
+            className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
+          >
+            <IconPlay className="w-6 mr-2" /> Play next
+          </a>
+        </Link>
       </div>
       <div className="mt-8 text-xs md:mt-12 lg:mt-20">
         Feeling stuck?{' '}
-        <a href="#" className="font-semibold">
+        <a
+          onClick={() => {
+            track('clicked feeling stuck', {
+              lesson: lesson.slug,
+            })
+          }}
+          href="#"
+          className="font-semibold"
+        >
           Get help from egghead community
         </a>
       </div>
@@ -50,17 +70,6 @@ const NextUpOverlay: React.FunctionComponent<{
 }
 
 export default NextUpOverlay
-
-const NextResourceButton: React.FunctionComponent<{
-  path: string
-  className: string
-}> = ({children, path, className = ''}) => {
-  return (
-    <Link href={path || '#'}>
-      <a className={className}>{children || 'Next Lesson'}</a>
-    </Link>
-  )
-}
 
 const IconPlay: React.FunctionComponent<{className: string}> = ({
   className = '',
