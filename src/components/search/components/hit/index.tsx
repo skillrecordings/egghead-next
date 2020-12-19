@@ -57,7 +57,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
           <Link href={path}>
             <a
               onClick={() =>
-                track(`click content (search)`, {
+                track(`clicked search result title`, {
                   [type]: slug,
                 })
               }
@@ -75,7 +75,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                 <Link href={instructor_url}>
                   <a
                     onClick={() =>
-                      track(`click instructor (search)`, {
+                      track(`clicked search result creator`, {
                         instructor: instructor_name,
                       })
                     }

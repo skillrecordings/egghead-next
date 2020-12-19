@@ -27,9 +27,13 @@ const Header: FunctionComponent = () => {
                   <Link href="/q" activeClassName="bg-gray-100">
                     <a
                       className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
-                      onClick={() => track('clicked Content (header)')}
+                      onClick={() =>
+                        track('clicked learning resources', {
+                          location: 'header',
+                        })
+                      }
                     >
-                      Content
+                      Learning Resources
                     </a>
                   </Link>
                 </li>
@@ -37,9 +41,13 @@ const Header: FunctionComponent = () => {
                   <Link href="/learn" activeClassName="bg-gray-100">
                     <a
                       className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
-                      onClick={() => track('clicked Topics (header)')}
+                      onClick={() =>
+                        track('clicked topic index', {
+                          location: 'header',
+                        })
+                      }
                     >
-                      Topics
+                      Topic Index
                     </a>
                   </Link>
                 </li>
@@ -50,10 +58,17 @@ const Header: FunctionComponent = () => {
         {!loading && (
           <div className="text-sm">
             {viewer ? (
-              <div className="flex items-center justify-center space-x-1">
+              <div
+                onClick={() => {
+                  track(`clicked user name area`, {
+                    location: 'header',
+                  })
+                }}
+                className="flex items-center justify-center space-x-1"
+              >
                 <span>
-                  {viewer.name || viewer.full_name || 'member'}{' '}
-                  {viewer.is_pro && ' ⭐️'}
+                  {viewer.name || viewer.full_name || viewer.email}{' '}
+                  {viewer.is_pro && ' ⭐️ '}
                 </span>
                 <img
                   alt="avatar"
@@ -65,7 +80,11 @@ const Header: FunctionComponent = () => {
               <div>
                 <Link href="/login" activeClassName="bg-gray-100">
                   <a
-                    onClick={() => track('clicked Sign in (header)')}
+                    onClick={() =>
+                      track('clicked sign in', {
+                        location: 'header',
+                      })
+                    }
                     className="px-3 py-2  hover:opacity-100 hover:bg-gray-100  active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
                   >
                     Sign in
