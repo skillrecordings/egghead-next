@@ -166,9 +166,7 @@ const playerMachine = Machine<
         if (!verb) return
 
         track(`${verb} video`, {
-          type: 'lesson',
-          slug: context.lesson.slug,
-          title: context.lesson.title,
+          lesson: context.lesson.slug,
         })
 
         Axios.post(`/api/progress`, {
