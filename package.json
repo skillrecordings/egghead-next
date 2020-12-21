@@ -93,7 +93,7 @@
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^8.0.7",
     "xstate": "^4.14.1",
-    "yup": "^0.31.0"
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@47ng/check-env": "^2.0.1",
