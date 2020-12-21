@@ -30,3 +30,17 @@ export type PodcastResource = Resource & {
   url: string
   path: string
 }
+
+export type Viewer = {
+  id: number
+  email: string
+  contact_id: string
+  name: string
+  is_pro: boolean
+  is_instructor: boolean
+  created_at: number
+  discord_id: string
+  timezone: string
+  opted_out: boolean
+  purchases: any[]
+}

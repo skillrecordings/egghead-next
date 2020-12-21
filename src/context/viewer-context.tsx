@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import Auth, {AUTH_DOMAIN} from '../utils/auth'
+import Auth from '../utils/auth'
 import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
