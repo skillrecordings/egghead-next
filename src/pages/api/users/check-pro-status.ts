@@ -27,7 +27,12 @@ const checkProStatus = async (req: NextApiRequest, res: NextApiResponse) => {
         !isEmpty(eggheadUser) &&
         (eggheadUser.is_pro || eggheadUser.is_instructor)
 
-      res.status(200).json(hasProAccess)
+      const stripeCustomerId = !isEmpty(eggheadUser) &&
+        eggheadUser.subscription && {
+          stripeCustomerId: eggheadUser.subscription.stripe_customer_id,
+        }
+
+      res.status(200).json({hasProAccess, ...stripeCustomerId})
     }
   } else {
     res.statusCode = 404

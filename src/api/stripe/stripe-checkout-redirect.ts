@@ -8,14 +8,26 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
-const stripeCheckoutRedirect = async (priceId: string, email: string) => {
+const stripeCheckoutRedirect = async (
+  priceId: string,
+  email: string,
+  stripeCustomerId: string,
+) => {
   const referralCookieToken = cookie.get('rc')
+
+  const identifier = stripeCustomerId
+    ? {
+        stripe_customer_id: stripeCustomerId,
+      }
+    : {
+        email,
+      }
 
   return await axios
     .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/subscription`, {
+      ...identifier,
       price_id: priceId,
       site: 'egghead.io',
-      email: email,
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
       success_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/confirm/membership?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`,
@@ -24,6 +36,7 @@ const stripeCheckoutRedirect = async (priceId: string, email: string) => {
       },
     })
     .then(({data}) => {
+      console.log({data})
       stripePromise.then((stripe: any) => {
         if (!stripe) throw new Error('Stripe not loaded 😭')
         stripe

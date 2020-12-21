@@ -20,20 +20,20 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
 
   const validateEmail = async (email: string) => {
     setIsSubmitted(true)
-    const isPro = await axios
+    const {hasProAccess, stripeCustomerId} = await axios
       .post(`/api/users/check-pro-status`, {
         email,
       })
       .then(({data}) => data)
 
-    if (isPro) {
+    if (hasProAccess) {
       setIsError(
         `You've already got a pro account at ${email}. [Please login](/login).`,
       )
     } else {
       setIsError(false)
       track('checkout: redirect to stripe', {priceId}).then(() =>
-        stripeCheckoutRedirect(priceId, email),
+        stripeCheckoutRedirect(priceId, email, stripeCustomerId),
       )
     }
   }
