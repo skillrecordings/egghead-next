@@ -39,6 +39,7 @@ function useAuthedViewer() {
   const [loading, setLoading] = React.useState(true)
   const previousViewer = React.useRef(viewer)
   const authToken = getAccessTokenFromCookie()
+  const [performingLogout, setPerformingLogout] = React.useState(false)
 
   useTokenSigner()
   useAffiliateAssigner(viewerId, authToken)
@@ -116,31 +117,33 @@ function useAuthedViewer() {
         })
     }
 
-    if (authToken) {
-      console.log(`refresh user from cookie auth token`)
-      loadViewerFromToken()
-    } else if (viewerIsPresent) {
-      loadViewerFromStorage()
-      clearAccessToken()
-    } else if (noAccessTokenFound) {
-      viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
-      console.log(`checking auth on interval`)
-      setLoading(() => false)
-    } else {
-      auth.handleAuthentication().then((viewer: any) => {
-        setViewer(viewer)
-        console.log(`handling authentication`)
+    if (!performingLogout) {
+      if (authToken) {
+        console.log(`refresh user from cookie auth token`)
+        loadViewerFromToken()
+      } else if (viewerIsPresent) {
+        loadViewerFromStorage()
+        clearAccessToken()
+      } else if (noAccessTokenFound) {
+        viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
+        console.log(`checking auth on interval`)
         setLoading(() => false)
-      })
+      } else {
+        auth.handleAuthentication().then((viewer: any) => {
+          setViewer(viewer)
+          console.log(`handling authentication`)
+          setLoading(() => false)
+        })
+      }
     }
 
     return clearUserMonitorInterval
-  }, [viewerId, authToken])
+  }, [viewerId, authToken, performingLogout])
 
   const values = React.useMemo(
     () => ({
       viewer,
-      logout: (callback: Function | null) => {
+      logout: async (callback: Function | null) => {
         const defaultCallback = () => {
           if (typeof window !== 'undefined') {
             router.reload()
@@ -148,7 +151,12 @@ function useAuthedViewer() {
         }
         const logoutCallback = callback || defaultCallback
 
-        auth.logout()
+        setPerformingLogout(true)
+
+        await auth.logout()
+
+        setPerformingLogout(false)
+
         logoutCallback()
       },
       setSession: auth.setSession,

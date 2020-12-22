@@ -113,7 +113,7 @@ export default class Auth {
 
   logout() {
     track('logged out')
-    return this.clearLocalStorage()
+    return this.clearSessionStorage()
   }
 
   monitor(onInterval: {(): void; (...args: any[]): void}, delay = 2000) {
@@ -184,7 +184,15 @@ export default class Auth {
     })
   }
 
-  clearLocalStorage() {
+  async clearSessionStorage() {
+    let deleteSessionResponse = null
+
+    if (getAccessTokenFromCookie()) {
+      deleteSessionResponse = await axios
+        .delete(`/api/users/session`)
+        .catch((error) => console.error(error))
+    }
+
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem(ACCESS_TOKEN_KEY)
       localStorage.removeItem(EXPIRES_AT_KEY)
@@ -192,11 +200,7 @@ export default class Auth {
       localStorage.removeItem(VIEWING_AS_USER_KEY)
     }
 
-    if (getAccessTokenFromCookie()) {
-      return axios
-        .delete(`/api/users/session`)
-        .catch((error) => console.error(error))
-    }
+    return deleteSessionResponse || Promise.resolve()
   }
 
   isAuthenticated() {
