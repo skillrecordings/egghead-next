@@ -112,8 +112,10 @@ export default class Auth {
   }
 
   logout() {
-    track('logged out')
-    return this.clearLocalStorage()
+    return new Promise((resolve) => {
+      track('logged out')
+      resolve(this.clearLocalStorage())
+    })
   }
 
   monitor(onInterval: {(): void; (...args: any[]): void}, delay = 2000) {
@@ -146,8 +148,7 @@ export default class Auth {
         },
         (error) => {
           console.error(error)
-          this.logout()
-          reject(error)
+          this.logout().then(() => reject(error))
         },
       )
     })
@@ -176,8 +177,7 @@ export default class Auth {
           },
           (error) => {
             console.error(error)
-            this.logout()
-            reject(error)
+            this.logout().then(() => reject(error))
           },
         )
       }
@@ -185,18 +185,24 @@ export default class Auth {
   }
 
   clearLocalStorage() {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem(ACCESS_TOKEN_KEY)
-      localStorage.removeItem(EXPIRES_AT_KEY)
-      localStorage.removeItem(USER_KEY)
-      localStorage.removeItem(VIEWING_AS_USER_KEY)
-    }
+    return new Promise((resolve, reject) => {
+      const removeLocalStorage = () => {
+        cookie.remove(ACCESS_TOKEN_KEY, {
+          domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+        })
 
-    if (getAccessTokenFromCookie()) {
-      return axios
-        .delete(`/api/users/session`)
-        .catch((error) => console.error(error))
-    }
+        if (typeof localStorage !== 'undefined') {
+          localStorage.removeItem(ACCESS_TOKEN_KEY)
+          localStorage.removeItem(EXPIRES_AT_KEY)
+          localStorage.removeItem(USER_KEY)
+          localStorage.removeItem(VIEWING_AS_USER_KEY)
+        }
+
+        return resolve(true)
+      }
+
+      return removeLocalStorage()
+    })
   }
 
   isAuthenticated() {
@@ -217,16 +223,19 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         reject('no local storage')
       }
+
       http
         .get(`/api/users/current?minimal=${minimalUser}`, {})
         .then(({data}) => {
+          if (!this.isAuthenticated()) {
+            return reject('not authenticated')
+          }
           if (data) identify(data)
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)
         })
         .catch((error) => {
-          this.logout()
-          reject(error)
+          this.logout().then(() => reject(error))
         })
     })
   }
@@ -236,6 +245,7 @@ export default class Auth {
       if (typeof localStorage === 'undefined') {
         reject('localStorage is not defined')
       }
+
       const now: number = new Date().getTime()
 
       const millisecondsInASecond = 1000
@@ -243,8 +253,6 @@ export default class Auth {
 
       const millisecondsInADay = 60 * 60 * 24 * 1000
       const expiresInDays = Math.floor((expiresAt - now) / millisecondsInADay)
-
-      console.log(expiresInDays)
 
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
       localStorage.setItem(EXPIRES_AT_KEY, JSON.stringify(expiresAt))
