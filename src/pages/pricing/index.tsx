@@ -41,7 +41,11 @@ const Pricing: FunctionComponent<PricingProps> = () => {
       await track('checkout: redirect to stripe', {
         priceId: annualPrice.price_id,
       })
-      stripeCheckoutRedirect(annualPrice.price_id, viewer.email)
+      stripeCheckoutRedirect(
+        annualPrice.price_id,
+        viewer.email,
+        viewer.subscription?.stripe_subscription_id,
+      )
     } else {
       await track('checkout: get email', {
         priceId: annualPrice.price_id,
