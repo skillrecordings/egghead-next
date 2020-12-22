@@ -11,12 +11,13 @@ const StripeCheckoutSession = async (
       if (!req.query.session_id) throw new Error('no session id')
       const session = await stripe.checkout.sessions.retrieve(
         req.query.session_id,
+        {expand: ['customer']},
       )
       if (!session)
         throw new Error(`no session loaded for ${req.query.session_id}`)
 
       res.status(200).json({
-        email: session.customer_email,
+        email: session.customer.email,
         amount: session.amount_total / 100,
         status: session.payment_status,
       })
