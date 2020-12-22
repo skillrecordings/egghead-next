@@ -58,11 +58,8 @@ function useAuthedViewer() {
     const viewerIsPresent = !isEmpty(viewerId)
     const authToken = getAccessTokenFromCookie()
 
-    console.log({loggingOut})
-
     if (loggingOut) {
       const doLogout = async () => {
-        console.log('do the actual logout')
         await auth.logout()
         if (typeof window !== 'undefined') {
           window.location.href = '/'
@@ -155,8 +152,7 @@ function useAuthedViewer() {
   const values = React.useMemo(
     () => ({
       viewer,
-      logout: async () => {
-        console.log('LOGOUT REQUESTED')
+      logout: () => {
         setLoggingOut(true)
       },
       setSession: auth.setSession,
