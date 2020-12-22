@@ -75,6 +75,13 @@ const Header: FunctionComponent = () => {
                   className="w-8 rounded-full"
                   src={viewer.avatar_url}
                 />
+                {viewer.accounts && (
+                  <div>
+                    <Link href={`/accounts/${viewer.accounts[0].slug}`}>
+                      <a>account</a>
+                    </Link>
+                  </div>
+                )}
               </div>
             ) : (
               <div>
