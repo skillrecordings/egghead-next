@@ -8,7 +8,6 @@ const session = async (req: NextApiRequest, res: NextApiResponse) => {
       serverCookie.serialize(ACCESS_TOKEN_KEY, '', {
         maxAge: -1,
         path: '/',
-        httpOnly: true,
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
       }),
     ])
