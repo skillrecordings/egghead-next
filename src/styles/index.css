@@ -48,15 +48,11 @@ pre {
   @apply sm:mx-0 -mx-5 sm:rounded-md rounded-none;
 }
 
-#__next {
-  .prose-reset {
-    * {
-      font-size: inherit !important;
-      font-weight: inherit !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-  }
+#__next .prose-reset * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /*
