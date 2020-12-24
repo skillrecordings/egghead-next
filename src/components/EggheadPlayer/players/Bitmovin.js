@@ -67,8 +67,14 @@ export default class Bitmovin extends Base {
   }
 
   getConfig(props) {
-    const {poster, title, description, preload, onPlaybackRateChange} =
-      props || this.props
+    const {
+      poster,
+      title,
+      description,
+      preload,
+      onPlaybackRateChange,
+      onVolumeChange,
+    } = props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
       remotecontrol: {
@@ -100,6 +106,9 @@ export default class Bitmovin extends Base {
       events: {
         playbackspeedchanged: (e) => {
           onPlaybackRateChange(e.to)
+        },
+        volumechanged: (e) => {
+          onVolumeChange(e.targetVolume)
         },
       },
     }
@@ -147,7 +156,7 @@ export default class Bitmovin extends Base {
   }
 
   componentDidMount() {
-    const {subtitlesUrl, playbackRate} = this.props
+    const {subtitlesUrl, playbackRate, volumeRate} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
     this.getSDK().then((script) => {
@@ -160,6 +169,7 @@ export default class Bitmovin extends Base {
       this.player.load(this.getSource()).then(
         () => {
           this.player.setPlaybackSpeed(playbackRate)
+          this.player.setVolume(volumeRate)
           this.player.setPosterImage(this.props.poster)
 
           const {videoQualityCookie} = this.props
