@@ -36,6 +36,7 @@ export const propTypes = {
   videoQualityCookie: object,
   preload: bool,
   onPlaybackRateChange: func,
+  onVolumeChange: func,
 }
 
 export const defaultProps = {
@@ -64,4 +65,5 @@ export const defaultProps = {
   videoQualityCookie: null,
   preload: true,
   onPlaybackRateChange: noop,
+  onVolumeChange: noop,
 }
