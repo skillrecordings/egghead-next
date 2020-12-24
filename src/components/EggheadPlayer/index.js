@@ -123,8 +123,8 @@ export default class EggheadPlayer extends Component {
         key={Player.displayName}
         {...props}
         playbackRate={playbackRate}
-        volumeRate={volumeRate}
         onPlaybackRateChange={onPlaybackRateChange}
+        volume={volumeRate || props.volume}
         onVolumeChange={onVolumeChange}
       />
     )

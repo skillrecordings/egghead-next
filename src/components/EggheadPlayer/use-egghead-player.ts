@@ -238,9 +238,7 @@ export default function useEggheadPlayer(lesson: any) {
     ? cookies.get('egghead-playback-rate')
     : 1
 
-  const volumeRate = isNumber(cookies.get('egghead-volume-rate'))
-    ? cookies.get('egghead-volume-rate')
-    : 100
+  const volumeRate = cookies.get('egghead-volume-rate')
 
   return {
     onProgress: onProgress(lesson),

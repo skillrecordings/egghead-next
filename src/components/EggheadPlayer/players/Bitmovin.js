@@ -156,7 +156,7 @@ export default class Bitmovin extends Base {
   }
 
   componentDidMount() {
-    const {subtitlesUrl, playbackRate, volumeRate} = this.props
+    const {subtitlesUrl, playbackRate, volume} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
     this.getSDK().then((script) => {
@@ -169,7 +169,7 @@ export default class Bitmovin extends Base {
       this.player.load(this.getSource()).then(
         () => {
           this.player.setPlaybackSpeed(playbackRate)
-          this.player.setVolume(volumeRate)
+          this.player.setVolume(volume)
           this.player.setPosterImage(this.props.poster)
 
           const {videoQualityCookie} = this.props

@@ -43,7 +43,7 @@ export const defaultProps = {
   playing: false,
   loop: false,
   controls: false,
-  volume: 50,
+  volume: 80,
   playbackRate: 1,
   width: 640,
   height: 360,
