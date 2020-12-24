@@ -4,10 +4,10 @@ import Link from '../Link'
 import Eggo from '../images/eggo.svg'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
+import {isEmpty} from 'lodash'
 
 const Header: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
-
   return (
     <header className="px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 flex items-center justify-between">
       <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
@@ -75,7 +75,7 @@ const Header: FunctionComponent = () => {
                   className="w-8 rounded-full"
                   src={viewer.avatar_url}
                 />
-                {viewer.accounts && (
+                {!isEmpty(viewer.accounts) && (
                   <div>
                     <Link href={`/accounts/${viewer.accounts[0].slug}`}>
                       <a>account</a>

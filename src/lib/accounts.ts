@@ -8,6 +8,7 @@ export async function loadAccount(slug: string, token: string) {
   const query = /* GraphQL */ `
     query getAccount($slug: String!) {
       account(slug: $slug) {
+        slug
         stripe_customer_id
         subscriptions {
           stripe_subscription_id
