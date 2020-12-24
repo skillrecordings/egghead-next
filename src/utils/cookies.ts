@@ -7,7 +7,7 @@ const cookieUtil = {
     cookies.set(name, isString(value) ? value : JSON.stringify(value), {
       secure: use_secure_cookie,
       path: '/',
-      expires: 365,
+      expires: 3650000,
       ...options,
     })
     return cookies.get(name)
