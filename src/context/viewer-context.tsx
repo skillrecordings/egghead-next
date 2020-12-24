@@ -37,11 +37,11 @@ function useAuthedViewer() {
   const [viewer, setViewer] = React.useState()
   const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
+  const [loggingOut, setLoggingOut] = React.useState(false)
   const previousViewer = React.useRef(viewer)
-  const authToken = getAccessTokenFromCookie()
 
   useTokenSigner()
-  useAffiliateAssigner(viewerId, authToken)
+  useAffiliateAssigner(viewerId, getAccessTokenFromCookie())
 
   React.useEffect(() => {
     setViewer(auth.getLocalUser())
@@ -56,6 +56,18 @@ function useAuthedViewer() {
     const accessToken = get(queryHash, 'access_token')
     const noAccessTokenFound = isEmpty(accessToken)
     const viewerIsPresent = !isEmpty(viewerId)
+    const authToken = getAccessTokenFromCookie()
+
+    if (loggingOut) {
+      const doLogout = async () => {
+        await auth.logout()
+        if (typeof window !== 'undefined') {
+          window.location.href = '/'
+        }
+      }
+      doLogout()
+      return
+    }
 
     let viewerMonitorIntervalId: number | undefined
 
@@ -135,21 +147,13 @@ function useAuthedViewer() {
     }
 
     return clearUserMonitorInterval
-  }, [viewerId, authToken])
+  }, [viewerId, loggingOut])
 
   const values = React.useMemo(
     () => ({
       viewer,
-      logout: (callback: Function | null) => {
-        const defaultCallback = () => {
-          if (typeof window !== 'undefined') {
-            router.reload()
-          }
-        }
-        const logoutCallback = callback || defaultCallback
-
-        auth.logout()
-        logoutCallback()
+      logout: () => {
+        setLoggingOut(true)
       },
       setSession: auth.setSession,
       isAuthenticated: () => auth.isAuthenticated(),
