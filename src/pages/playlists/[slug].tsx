@@ -19,7 +19,9 @@ const Playlist: FunctionComponent<PlaylistProps> = ({playlist}) => {
 
   const {slug, items} = course
 
-  const lessons = filter(items, {type: 'lesson'})
+  const lessons = filter(items, (item) => {
+    return ['lesson', 'talk'].includes(item.type)
+  })
 
   return (
     <CoursePageLayout
