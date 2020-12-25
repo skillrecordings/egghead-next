@@ -229,10 +229,18 @@ function onPlaybackRateChange(rate: number) {
   cookies.set('egghead-playback-rate', rate)
 }
 
+function onVolumeChange(targetVolume: number) {
+  cookies.set('egghead-volume-rate', targetVolume)
+}
+
 export default function useEggheadPlayer(lesson: any) {
   const playbackRate = isNumber(cookies.get('egghead-playback-rate'))
     ? cookies.get('egghead-playback-rate')
     : 1
+
+  const volumeRate = isNumber(cookies.get('egghead-volume-rate'))
+    ? cookies.get('egghead-volume-rate')
+    : 100
 
   return {
     onProgress: onProgress(lesson),
@@ -242,5 +250,7 @@ export default function useEggheadPlayer(lesson: any) {
     onSubtitleChange,
     onPlaybackRateChange,
     playbackRate,
+    onVolumeChange,
+    volumeRate,
   }
 }
