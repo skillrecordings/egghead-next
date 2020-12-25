@@ -1,3 +1,4 @@
+import {first, get} from 'lodash'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
@@ -30,15 +31,17 @@ const StripeCheckoutSession = async (
       const subscription = customer.subscriptions?.data[0]
 
       if (subscription) {
-        const {price} = subscription.items.data[0]
+        const price = get(first(subscription.items.data), 'price')
 
         const {product: product_id} = price
 
         const product = await stripe.products.retrieve(product_id)
 
-        res.status(200).json({url: session.url, subscription, price, product})
+        res
+          .status(200)
+          .json({portalUrl: session.url, subscription, price, product})
       } else {
-        res.status(200).json({url: session.url, customer})
+        res.status(200).json({portalUrl: session.url, customer})
       }
     } catch (error) {
       console.error(JSON.stringify(error))

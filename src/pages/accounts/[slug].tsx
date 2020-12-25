@@ -5,7 +5,6 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import axios from 'axios'
 import Link from 'next/link'
-import {useViewer} from 'context/viewer-context'
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
@@ -32,8 +31,7 @@ type ViewerAccount = {
 const Account: React.FunctionComponent<
   LoginRequiredParams & {account: ViewerAccount}
 > = ({loginRequired, account = {}}) => {
-  const [billingSessionUrl, setBillingSessionUrl] = React.useState<string>()
-  const [subscription, setSubscription] = React.useState<any>()
+  const [subscriptionData, setSubscriptionData] = React.useState<any>()
   const {stripe_customer_id, slug} = account
 
   const recur = (price: any) => {
@@ -58,23 +56,20 @@ const Account: React.FunctionComponent<
         })
         .then(({data}) => {
           if (data.subscription) {
-            setSubscription(data)
+            setSubscriptionData(data)
           }
-          setBillingSessionUrl(data.url)
         })
-    } else {
-      setBillingSessionUrl(``)
     }
   }, [stripe_customer_id, slug])
 
-  const subscriptionName = subscription && subscription.product.name
+  const subscriptionName = subscriptionData && subscriptionData.product.name
   const subscriptionPrice =
-    subscription &&
+    subscriptionData &&
     new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: subscription.price.currency,
+      currency: subscriptionData.price.currency,
       minimumFractionDigits: 0,
-    }).format(subscription.price.unit_amount / 100)
+    }).format(subscriptionData.price.unit_amount / 100)
 
   return (
     <LoginRequired loginRequired={loginRequired}>
@@ -87,16 +82,16 @@ const Account: React.FunctionComponent<
                 <div className="border border-accents-1	max-w-3xl w-full p rounded-md m-auto my-8">
                   <div className="px-5 py-4">
                     <h3 className="text-2xl mb-1 font-medium">
-                      You're a Pro Member
+                      You've got a {subscriptionName}
                     </h3>
                     <p className="text-accents-5">
                       You can update your plan and payment information below.
                     </p>
                     <div className="text-xl mt-8 mb-4 font-semibold">
-                      {!billingSessionUrl ? (
+                      {!subscriptionData?.portalUrl ? (
                         <div className="h-12 mb-6">loading</div>
                       ) : subscriptionPrice ? (
-                        `${subscriptionPrice}/${recur(subscription.price)}`
+                        `${subscriptionPrice}/${recur(subscriptionData.price)}`
                       ) : (
                         <Link href="/pricing">
                           <a>Join today!</a>
@@ -104,23 +99,26 @@ const Account: React.FunctionComponent<
                       )}
                     </div>
                   </div>
-                  <div className="border-t border-accents-1 bg-primary-2 p-4 text-accents-3 rounded-b-md">
-                    <div className="flex flex-col items-start justify-between  sm:items-center">
-                      {subscription?.subscription.cancel_at_period_end && (
-                        <p className="pb-4 sm:pb-0">
-                          Your account is currently cancelled. You'll have
-                          access until the end of your current billing period.
-                          You can also renew at any time.
-                        </p>
-                      )}
-                      <a
-                        className="w-full mt-4 text-center transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
-                        href={billingSessionUrl}
-                      >
-                        Manage Your Membership
-                      </a>
+                  {subscriptionData && (
+                    <div className="border-t border-accents-1 bg-primary-2 p-4 text-accents-3 rounded-b-md">
+                      <div className="flex flex-col items-start justify-between  sm:items-center">
+                        {subscriptionData?.subscription
+                          .cancel_at_period_end && (
+                          <p className="pb-4 sm:pb-0">
+                            Your account is currently cancelled. You'll have
+                            access until the end of your current billing period.
+                            You can also renew at any time.
+                          </p>
+                        )}
+                        <a
+                          className="w-full mt-4 text-center transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                          href={subscriptionData?.portalUrl}
+                        >
+                          Manage Your Membership
+                        </a>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </section>
