@@ -25,7 +25,7 @@ const cioIdentify = (id: string, answers: any) => {
     })
   }
 }
-// http://next.egghead.af:3000/ask?cio_id=co_b6f9rsaq0z8k5
+
 const sortingHatReducer = (state: any, action: any) => {
   const getSavedState = () => {
     const savedState = localStorage.getItem(SORTING_HAT_KEY)
