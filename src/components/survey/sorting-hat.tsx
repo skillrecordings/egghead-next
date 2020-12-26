@@ -18,7 +18,6 @@ const SORTING_HAT_KEY = `egghead_sorting_hat`
 
 const cioIdentify = (id: string, answers: any) => {
   if (id) {
-    console.log('identify?', id, answers)
     window._cio.identify({
       id,
       ...answers,
@@ -56,7 +55,7 @@ const sortingHatReducer = (state: any, action: any) => {
           ...savedState.answers,
           ...action.subscriber.attributes,
         }
-        console.log('load')
+
         return {
           ...state,
           ...savedState,
@@ -128,8 +127,6 @@ const SortingHat: React.FunctionComponent = () => {
   )
   const {subscriber, loadingSubscriber} = useCio()
   const question: any = sortingHatData[state.currentQuestion]
-
-  console.log(subscriber)
 
   React.useEffect(() => {
     dispatch({type: `load`, subscriber, loadingSubscriber})
