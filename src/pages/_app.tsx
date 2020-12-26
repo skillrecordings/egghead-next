@@ -16,6 +16,7 @@ import 'focus-visible'
 import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {FacebookPixel} from 'components/facebook-pixel'
 import {Ahoy} from 'components/ahoy'
+import {CioProvider} from 'hooks/use-cio'
 
 declare global {
   interface Window {
@@ -39,17 +40,19 @@ export default class App extends NextApp {
           url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
           sameAs={['https://twitter.com/eggheadio']}
         />
-        <ConvertkitProvider>
-          <ViewerProvider>
-            <MDXProvider components={mdxComponents}>
-              <CacheProvider value={cache}>
-                <AppLayout>
-                  <Component {...pageProps} />
-                </AppLayout>
-              </CacheProvider>
-            </MDXProvider>
-          </ViewerProvider>
-        </ConvertkitProvider>
+        <CioProvider>
+          <ConvertkitProvider>
+            <ViewerProvider>
+              <MDXProvider components={mdxComponents}>
+                <CacheProvider value={cache}>
+                  <AppLayout>
+                    <Component {...pageProps} />
+                  </AppLayout>
+                </CacheProvider>
+              </MDXProvider>
+            </ViewerProvider>
+          </ConvertkitProvider>
+        </CioProvider>
       </>
     )
   }
