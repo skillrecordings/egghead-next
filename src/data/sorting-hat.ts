@@ -1,7 +1,7 @@
 const sortingHat: any = {
   biggest_path: {
-    heading: `Welcome!`,
-    subheading: `What brings you to egghead?`,
+    heading: `Welcome to egghead! Can you take a quick survey?`,
+    subheading: `What brings you here today?`,
     type: `multiple-choice`,
     first: true,
     random: true,
@@ -198,11 +198,13 @@ Thanks for letting us know!`,
     heading: `Awesome, thanks!`,
     image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608163615/value-paths/yohann_kunders.jpg`,
     subheading: `Be on the lookout for an email from Yohann. He's super easy to get along with and curious about your goals.`,
+    final: true,
     type: `cta-email`,
     button_label: `Chat soon!`,
   },
   opt_out: {
     heading: `We understand.`,
+    final: true,
     subheading: `We won't ask you any more of these questions.`,
     type: `opt-out`,
   },

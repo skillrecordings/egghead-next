@@ -9,8 +9,6 @@ const {first} = require('lodash')
 
 const tracer = getTracer('subscriber-api')
 
-const enableLog = true
-
 function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
@@ -61,7 +59,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!cioId) {
         const eggheadUser = await fetchEggheadUser(eggheadToken)
 
-        if (!eggheadUser || eggheadUser.opted_out)
+        if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id)
           throw new Error('cannot identify user')
 
         await cioAxios.put(
@@ -76,6 +74,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
         )
+
         subscriber = await cioAxios
           .post(
             `/customers/attributes`,
@@ -109,13 +108,13 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         res.setHeader('Set-Cookie', cioCookie)
-        // res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
+        res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
         res.status(200).json(subscriber)
       } else {
         res.status(200).end()
       }
     } catch (error) {
-      console.log(error)
+      console.error(error.message)
       res.status(200).end()
     }
   } else {
