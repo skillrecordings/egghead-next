@@ -1,4 +1,5 @@
 import axios from 'axios'
+import LastResource from 'components/last-resource'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
@@ -42,28 +43,38 @@ const ConfirmMembership: React.FunctionComponent = () => {
               </h2>
             )}
             {viewer ? (
-              <p>
-                We've charged your credit card{' '}
-                <strong>${session.amount} for an egghead membership</strong> and
-                sent a receipt to <strong>{session.email}</strong>. If you have
-                any issues, please email support{' '}
-                <strong>
-                  <a href="mailto:support@egghead.io">support@egghead.io</a>
-                </strong>{' '}
-                and we will help you as soon as possible.
-              </p>
+              <div>
+                <p>
+                  We've charged your credit card{' '}
+                  <strong>${session.amount} for an egghead membership</strong>{' '}
+                  and sent a receipt to <strong>{session.email}</strong>. If you
+                  have any issues, please email support{' '}
+                  <strong>
+                    <a href="mailto:support@egghead.io">support@egghead.io</a>
+                  </strong>{' '}
+                  and we will help you as soon as possible.
+                </p>
+                <LastResource
+                  className="hover:underline font-semibold text-blue-600"
+                  location="membership welcome"
+                >
+                  <strong>Continue learning:</strong>
+                </LastResource>
+              </div>
             ) : (
-              <p>
-                We've charged your credit card{' '}
-                <strong>${session.amount} for an egghead membership</strong> and
-                sent an email to <strong>{session.email}</strong> so you can log
-                in and access your membership. If you have any issues, please
-                email support{' '}
-                <strong>
-                  <a href="mailto:support@egghead.io">support@egghead.io</a>
-                </strong>{' '}
-                and we will help you as soon as possible.
-              </p>
+              <div>
+                <p>
+                  We've charged your credit card{' '}
+                  <strong>${session.amount} for an egghead membership</strong>{' '}
+                  and sent an email to <strong>{session.email}</strong> so you
+                  can log in and access your membership. If you have any issues,
+                  please email support{' '}
+                  <strong>
+                    <a href="mailto:support@egghead.io">support@egghead.io</a>
+                  </strong>{' '}
+                  and we will help you as soon as possible.
+                </p>
+              </div>
             )}
           </div>
         </div>
