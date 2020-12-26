@@ -59,6 +59,8 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!cioId) {
         const eggheadUser = await fetchEggheadUser(eggheadToken)
 
+        console.log(eggheadUser)
+
         if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id)
           throw new Error('cannot identify user')
 
