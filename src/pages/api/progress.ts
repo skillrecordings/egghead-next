@@ -60,8 +60,8 @@ const progress = async (req: NextApiRequest, res: NextApiResponse) => {
         })
       })
       res.status(200).json(result)
-    } catch (ex) {
-      res.status(500).end('failed to create lrs')
+    } catch (error) {
+      res.status(200).json(JSON.stringify({error}))
     }
   } else {
     res.statusCode = 404
