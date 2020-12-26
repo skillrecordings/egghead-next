@@ -10,7 +10,7 @@ const cookieUtil = {
       expires: 365,
       ...options,
     })
-    return cookies.get(name)
+    return this.get(name)
   },
   get(name: string) {
     const value = cookies.get(name) as string

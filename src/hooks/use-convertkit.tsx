@@ -4,7 +4,10 @@ import {isEmpty, get} from 'lodash'
 import cookie from '../utils/cookies'
 import axios from 'axios'
 
-export const ConverkitContext = React.createContext({})
+export const ConverkitContext = React.createContext<{
+  subscriber?: any
+  loadingSubscriber: boolean
+}>({loadingSubscriber: true})
 
 export const ConvertkitProvider: React.FunctionComponent = ({children}) => {
   const [subscriber, setSubscriber] = React.useState()

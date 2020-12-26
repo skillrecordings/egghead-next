@@ -62,7 +62,7 @@ export const track = (
   })
 }
 
-export const identify = (data: Viewer) => {
+export const identify = (data: Viewer, properties?: any) => {
   if (
     !data.opted_out &&
     data.email &&
@@ -79,6 +79,7 @@ export const identify = (data: Viewer) => {
       created_at: data.created_at,
       discord_id: data.discord_id,
       timezone: data.timezone,
+      ...properties,
     })
   }
   return Promise.resolve(data)

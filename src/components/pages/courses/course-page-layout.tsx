@@ -99,17 +99,19 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   rating={average_rating_out_of_5}
                   count={watched_count}
                 >
-                  <Link href={`/q/${tagSlug}`}>
-                    <a className="mx-2 inline-flex items-center hover:underline">
-                      <Image
-                        width={24}
-                        height={24}
-                        src={tagImage}
-                        alt={`${tagName} logo`}
-                      />
-                      <div className="font-semibold ml-1">{tagName}</div>
-                    </a>
-                  </Link>
+                  {tagSlug && (
+                    <Link href={`/q/${tagSlug}`}>
+                      <a className="mx-2 inline-flex items-center hover:underline">
+                        <Image
+                          width={24}
+                          height={24}
+                          src={tagImage}
+                          alt={`${tagName} logo`}
+                        />
+                        <div className="font-semibold ml-1">{tagName}</div>
+                      </a>
+                    </Link>
+                  )}
                 </UserRating>
               </div>
               <div className="md:hidden flex items-center justify-center w-full mt-5">
@@ -168,13 +170,15 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       return (
                         <li key={playlist.slug}>
                           <div className="font-semibold flex items-center leading-tight py-2">
-                            <Link href={playlist.path}>
-                              <a className="hover:underline font-semibold flex items-center w-full">
-                                <Markdown className="prose md:prose-lg text-gray-900 mt-0">
-                                  {playlist.title}
-                                </Markdown>
-                              </a>
-                            </Link>
+                            {playlist.path && (
+                              <Link href={playlist.path}>
+                                <a className="hover:underline font-semibold flex items-center w-full">
+                                  <Markdown className="prose md:prose-lg text-gray-900 mt-0">
+                                    {playlist.title}
+                                  </Markdown>
+                                </a>
+                              </Link>
+                            )}
                           </div>
                           <div>
                             <ul className="ml-8">
@@ -191,13 +195,15 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                           </small>
                                           <PlayIcon className="text-gray-500 mx-1" />
                                         </div>
-                                        <Link href={lesson.path}>
-                                          <a className="hover:underline flex items-center w-full">
-                                            <Markdown className="prose md:prose-lg text-gray-700 mt-0">
-                                              {lesson.title}
-                                            </Markdown>
-                                          </a>
-                                        </Link>
+                                        {lesson.path && (
+                                          <Link href={lesson.path}>
+                                            <a className="hover:underline flex items-center w-full">
+                                              <Markdown className="prose md:prose-lg text-gray-700 mt-0">
+                                                {lesson.title}
+                                              </Markdown>
+                                            </a>
+                                          </Link>
+                                        )}
                                       </div>
                                     </li>
                                   )
@@ -222,13 +228,15 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                               </small>
                               <PlayIcon className="text-gray-500 mx-1" />
                             </div>
-                            <Link href={lesson.path}>
-                              <a className="hover:underline font-semibold flex items-center w-full">
-                                <Markdown className="prose md:prose-lg text-gray-900 mt-0">
-                                  {lesson.title}
-                                </Markdown>
-                              </a>
-                            </Link>
+                            {lesson.path && (
+                              <Link href={lesson.path}>
+                                <a className="hover:underline font-semibold flex items-center w-full">
+                                  <Markdown className="prose md:prose-lg text-gray-900 mt-0">
+                                    {lesson.title}
+                                  </Markdown>
+                                </a>
+                              </Link>
+                            )}
                           </div>
                         </li>
                       )

@@ -25,6 +25,7 @@ import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
+import useLastResource from 'hooks/use-last-resource'
 
 const tracer = getTracer('lesson-page')
 
@@ -79,6 +80,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const currentPlayerState = playerState.value
 
   const lesson: any = {...initialLesson}
+
+  useLastResource(lesson)
 
   const {data} = useSWR(lesson.media_url, fetcher)
 
