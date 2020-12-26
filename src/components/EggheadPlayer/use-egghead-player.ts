@@ -225,22 +225,21 @@ function onVideoQualityChanged() {}
 
 function onSubtitleChange() {}
 
-function onPlaybackRateChange(rate: number) {
-  cookies.set('egghead-playback-rate', rate)
+const getPlayerPrefs = () => cookies.get('egghead-player-prefs')
+
+function onPlaybackRateChange(playbackRate: number) {
+  cookies.set('egghead-player-prefs', {...getPlayerPrefs(), playbackRate})
 }
 
-function onVolumeChange(targetVolume: number) {
-  cookies.set('egghead-volume-rate', targetVolume)
+function onVolumeChange(volumeRate: number) {
+  cookies.set('egghead-player-prefs', {...getPlayerPrefs(), volumeRate})
 }
 
 export default function useEggheadPlayer(lesson: any) {
-  const playbackRate = isNumber(cookies.get('egghead-playback-rate'))
-    ? cookies.get('egghead-playback-rate')
-    : 1
+  const playbackRate = getPlayerPrefs()?.playbackRate
+  const volumeRate = getPlayerPrefs()?.volumeRate
 
-  const volumeRate = isNumber(cookies.get('egghead-volume-rate'))
-    ? cookies.get('egghead-volume-rate')
-    : 100
+  console.log('egghead-player-prefs: ', cookies.get('egghead-player-prefs'))
 
   return {
     onProgress: onProgress(lesson),
