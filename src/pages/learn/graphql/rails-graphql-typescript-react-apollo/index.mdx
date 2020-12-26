@@ -880,7 +880,7 @@ The last thing to do here is to use the `withProvider` function to wrap the `Boo
 First, we'll need to import it.
 
 ```tsx
-import {withProvider} from '../graphqlProbider'
+import {withProvider} from '../graphqlProvider'
 ```
 
 Then we can wrap our `Books` component when we export it:
@@ -998,7 +998,7 @@ This command will prompt us for a few separate things:
 
 Why not use a URL for schema?
 
-You might've noticed that the default option for "Schema" above is a URL. We{' '}
+You might've noticed that the default option for "Schema" above is a URL. We
 
 <em>could</em> put in http://localhost:3000/graphql here, and Codegen would still
 work. The only thing about that is that we must have a Rails server running at all
