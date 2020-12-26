@@ -36,14 +36,13 @@ const useLastResource = (resource?: any) => {
 
   React.useEffect(() => {
     const savedResource = cookie.get(LAST_RESOURCE_COOKIE_NAME)
-    const isResourceUpdated =
-      resource && savedResource && savedResource.slug !== resource.slug
+    const isResourceUpdated = resource && savedResource?.slug !== resource.slug
     if (isResourceUpdated) {
       updateResource(resource)
     } else if (savedResource) {
       updateResource(savedResource)
     }
-  }, [resource?.slug])
+  }, [])
 
   return {lastResource: state.resource, clearResource, updateResource}
 }
