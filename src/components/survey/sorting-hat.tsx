@@ -20,6 +20,7 @@ const cioIdentify = (id: string, answers: any) => {
   if (id) {
     window._cio.identify({
       id,
+
       ...answers,
     })
   }
@@ -27,7 +28,7 @@ const cioIdentify = (id: string, answers: any) => {
 
 const sortingHatReducer = (state: any, action: any) => {
   const getSavedState = () => {
-    const savedState = localStorage.getItem(SORTING_HAT_KEY)
+    const savedState = false //localStorage.getItem(SORTING_HAT_KEY)
     if (savedState) {
       return JSON.parse(savedState)
     } else {
@@ -89,7 +90,7 @@ const sortingHatReducer = (state: any, action: any) => {
 
       const updatedState = {...state, answers, currentQuestion: nextQuestion}
 
-      localStorage.setItem(SORTING_HAT_KEY, JSON.stringify(updatedState))
+      // localStorage.setItem(SORTING_HAT_KEY, JSON.stringify(updatedState))
 
       if (state.subscriber) {
         cioIdentify(state.subscriber.id, answers)
