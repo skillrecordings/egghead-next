@@ -6,13 +6,14 @@ export const LAST_RESOURCE_COOKIE_NAME = 'last-resource'
 function reducer(_: any, action: any) {
   switch (action.type) {
     case 'update':
-      const {title, path, image_url, type, description} = action.resource
+      const {title, path, image_url, type, description, slug} = action.resource
       const resource = cookie.set(LAST_RESOURCE_COOKIE_NAME, {
         title,
         path,
         image_url,
         type,
         description,
+        slug,
       })
       return {resource}
     case 'clear':
