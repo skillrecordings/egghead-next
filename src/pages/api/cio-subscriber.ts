@@ -64,18 +64,22 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id)
           throw new Error('cannot identify user')
 
-        await cioAxios.put(
-          `customers/${eggheadUser.contact_id}`,
-          {
-            email: eggheadUser.email,
-            created_at: eggheadUser.created_at,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-            },
-          },
-        )
+        // await cioAxios
+        //   .put(
+        //     `customers/${eggheadUser.contact_id}`,
+        //     {
+        //       email: eggheadUser.email,
+        //       created_at: eggheadUser.created_at,
+        //     },
+        //     {
+        //       headers: {
+        //         Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+        //       },
+        //     },
+        //   )
+        //   .catch((error: any) => {
+        //     console.error(error)
+        //   })
 
         subscriber = await cioAxios
           .post(
@@ -88,6 +92,9 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           )
           .then(({data}: {data: any}) => first(data.customers))
+          .catch((error: any) => {
+            console.error(error)
+          })
       } else {
         subscriber = await cioAxios
           .post(
