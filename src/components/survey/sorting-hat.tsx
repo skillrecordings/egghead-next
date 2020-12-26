@@ -56,7 +56,7 @@ const sortingHatReducer = (state: any, action: any) => {
           ...savedState.answers,
           ...action.subscriber.attributes,
         }
-
+        console.log('load')
         return {
           ...state,
           ...savedState,
@@ -66,7 +66,7 @@ const sortingHatReducer = (state: any, action: any) => {
             savedState.currentQuestion,
             answers,
           ),
-          loading: state.subscriber,
+          loading: false,
         }
       } else if (action.loadingSubscriber === false) {
         return {
