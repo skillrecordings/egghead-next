@@ -275,7 +275,7 @@ const SortingHat: React.FunctionComponent = () => {
             dispatch({type: 'dismiss'})
           }}
         >
-          stop showing this survey
+          close
         </button>
       </div>
     </div>
