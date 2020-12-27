@@ -11,11 +11,11 @@ const sortingHat: any = {
     choices: [
       {
         answer: `leveling_up`,
-        label: `Level up my dev skills`,
+        label: `Level up my programming skills`,
       },
       {
         answer: `optimizing_code`,
-        label: `Optimizing my code`,
+        label: `Help on a specific web development project`,
       },
     ],
     next: {
@@ -25,7 +25,7 @@ const sortingHat: any = {
     },
   },
   level_up_reason: {
-    heading: `Oh nice, dev skills!`,
+    heading: `Oh nice, you're working on your dev skills!`,
     subheading: `What's your biggest motivation?`,
     type: `multiple-choice`,
     random: true,
@@ -38,7 +38,7 @@ const sortingHat: any = {
       },
       {
         answer: `advancing_career`,
-        label: `Advancing my career`,
+        label: `Getting a good/better developer job`,
       },
       {
         answer: `new_role`,
@@ -47,6 +47,7 @@ const sortingHat: any = {
       },
     ],
     next: {
+      open_source: ``,
       bigger_projects: `level_up_goal`,
       advancing_career: `last_portfolio_update`,
       new_role: `level_up_goal`,
@@ -54,8 +55,8 @@ const sortingHat: any = {
     },
   },
   optimizing_reason: {
-    heading: `Ok, optimizing code!`,
-    subheading: `What's the biggest reason?`,
+    heading: `Ok, you're working on a specific code project!`,
+    subheading: `What's the biggest concern?`,
     type: `multiple-choice`,
     random: true,
     other: true,
@@ -70,14 +71,20 @@ const sortingHat: any = {
         label: `Faster performance`,
       },
       {
+        answer: `best_practice`,
+        label: `Using modern best practices`,
+      },
+      {
         answer: `launch_prep`,
-        label: `Preparing to launch an app`,
+        label: `Launching for real users`,
       },
     ],
     next: {
+      best_practice: `thanks`,
       performance: `thanks`,
       maintainability: `thanks`,
       launch_prep: `thanks`,
+      other: `egghead_help_freeform`,
     },
   },
   egghead_help_freeform: {
@@ -140,11 +147,11 @@ const sortingHat: any = {
       },
       {
         answer: `full_stack`,
-        label: `Becoming more "full stack"`,
+        label: `Becoming a more "full stack" developer`,
       },
       {
         answer: `beyond_basics`,
-        label: `Advancing beyond the basics`,
+        label: `Advancing beyond the basics on real-world projects`,
       },
     ],
     next: {
