@@ -41,11 +41,14 @@ pre {
 /* Code block styles */
 
 .prose pre {
-  @apply sm:mx-0 -mx-5 sm:rounded-md rounded-none;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #011627 !important;
+  @apply sm:mx-0 -mx-5 sm:rounded-md rounded-sm;
 }
 
 pre {
-  @apply sm:mx-0 -mx-5 sm:rounded-md rounded-none;
+  @apply sm:mx-0 -mx-5 sm:rounded-md rounded-sm;
 }
 
 #__next .prose-reset * {

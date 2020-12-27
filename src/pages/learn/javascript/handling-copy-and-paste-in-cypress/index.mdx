@@ -69,7 +69,7 @@ These event listeners handle our validation. Our input field is not validated un
 
 These event listeners are very commonly used with forms. Different frameworks use different approaches to input fields. It is very useful to look into what kind of event listeners are bound into your app elements. It can help you better understand what happens when the user interacts with your input field. In our case, we need to fire the `blur` event to our input field:
 
-```js
+```js {6}
 it('pastes text to textarea', () => {
   const textToPaste = 'this is not a valid email'
 

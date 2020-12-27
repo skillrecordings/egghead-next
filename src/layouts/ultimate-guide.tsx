@@ -1,9 +1,14 @@
 import React, {FunctionComponent} from 'react'
+import {MDXProvider} from '@mdx-js/react'
 import {NextSeo} from 'next-seo'
 import Contributors from 'components/Contributors'
 import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
+
+import Code from 'components/mdx/Code'
+
+const components = {code: Code}
 
 type LayoutProps = {
   meta?: {
@@ -101,7 +106,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
           </header>
 
           <main className="prose md:prose-lg max-w-none">
-            <div>{children}</div>
+            <MDXProvider components={components}>{children}</MDXProvider>
           </main>
           <footer className="mt-8 border-t border-gray-200 py-10 flex sm:flex-row flex-col-reverse justify-between sm:items-start items-center sm:text-left text-center">
             {contributors && <Contributors contributors={contributors} />}
