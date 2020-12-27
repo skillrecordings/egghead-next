@@ -40,7 +40,7 @@ const LastResource: React.FunctionComponent<{
             trackAndClearResource('clicked stop showing last resource')
           }}
         >
-          stop showing this
+          x
         </button>
       </div>
     </div>

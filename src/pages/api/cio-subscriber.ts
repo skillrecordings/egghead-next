@@ -12,7 +12,7 @@ const tracer = getTracer('subscriber-api')
 function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
-  const cioId = parsedCookie['cio_id'] || ''
+  const cioId = parsedCookie['cio_id'] || parsedCookie['_cioid'] || ''
   return {cioId, eggheadToken, loginRequired: eggheadToken.length <= 0}
 }
 
@@ -59,21 +59,27 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!cioId) {
         const eggheadUser = await fetchEggheadUser(eggheadToken)
 
+        console.log(eggheadUser)
+
         if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id)
           throw new Error('cannot identify user')
 
-        await cioAxios.put(
-          `customers/${eggheadUser.contact_id}`,
-          {
-            email: eggheadUser.email,
-            created_at: eggheadUser.created_at,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-            },
-          },
-        )
+        // await cioAxios
+        //   .put(
+        //     `customers/${eggheadUser.contact_id}`,
+        //     {
+        //       email: eggheadUser.email,
+        //       created_at: eggheadUser.created_at,
+        //     },
+        //     {
+        //       headers: {
+        //         Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+        //       },
+        //     },
+        //   )
+        //   .catch((error: any) => {
+        //     console.error(error)
+        //   })
 
         subscriber = await cioAxios
           .post(
@@ -86,6 +92,9 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           )
           .then(({data}: {data: any}) => first(data.customers))
+          .catch((error: any) => {
+            console.error(error)
+          })
       } else {
         subscriber = await cioAxios
           .post(
@@ -108,13 +117,14 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         res.setHeader('Set-Cookie', cioCookie)
-        res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
+        // res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
         res.status(200).json(subscriber)
       } else {
+        console.error('no subscriber was loaded')
         res.status(200).end()
       }
     } catch (error) {
-      console.error(error.message)
+      console.error(error)
       res.status(200).end()
     }
   } else {

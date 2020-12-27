@@ -26,6 +26,7 @@ import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
+import SortingHat from 'components/survey/sorting-hat'
 
 const tracer = getTracer('lesson-page')
 
@@ -266,6 +267,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div>
           <div className="grid gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto divide-y md:divide-transparent divide-gray-50">
             <div className="md:col-span-8 md:row-start-1 row-start-2">
+              <SortingHat />
               <Tabs>
                 <TabList
                   css={{background: 'none'}}
