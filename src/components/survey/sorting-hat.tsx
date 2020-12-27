@@ -15,7 +15,22 @@ const sortingHatInitialState = {
   answers: {},
 }
 
-// const SORTING_HAT_KEY = `egghead_sorting_hat`
+const findCurrentQuestion = (
+  data: any,
+  question: string,
+  answers: any,
+): string => {
+  if (question && answers[question]) {
+    const possibleNext = data[question].next?.[answers[question]]
+    if (![answers[possibleNext]]) {
+      return possibleNext
+    } else {
+      return findCurrentQuestion(data, possibleNext, answers)
+    }
+  } else {
+    return question || 'thanks'
+  }
+}
 
 const cioIdentify = (id: string, answers: any) => {
   if (id) {
@@ -27,91 +42,76 @@ const cioIdentify = (id: string, answers: any) => {
   }
 }
 
+const SORTING_HAT_FINISHED_KEY = `sorting_hat_finished_at`
+
 const sortingHatReducer = (state: any, action: any) => {
   const question: any = sortingHatData[state.currentQuestion]
   const now = Math.round(Date.now() / 1000)
-  let attributes = get(action.subscriber, 'attributes', {})
+
   const answers = {
     ...state.answers,
-    ...state.subscriber?.attributes,
-    [state.currentQuestion]: action.answer,
+    ...(!!action.answer && {[state.currentQuestion]: action.answer}),
   }
 
-  const findCurrentQuestion = (question: string, answers: any): string => {
-    if (question && answers[question]) {
-      const possibleNext = sortingHatData[question].next?.[answers[question]]
-      if (![answers[possibleNext]]) {
-        return possibleNext
-      } else {
-        return findCurrentQuestion(possibleNext, answers)
-      }
-    } else {
-      return question || 'thanks'
-    }
-  }
   switch (action.type) {
     case `load`:
       if (action.subscriber) {
-        cioIdentify(action.subscriber.id, state.answers)
-        const answers = {
-          ...state.answers,
-          ...action.subscriber.attributes,
-        }
+        const {subscriber} = action
+        const surveyIncomplete = isEmpty(
+          subscriber.attributes[SORTING_HAT_FINISHED_KEY],
+        )
 
-        if (isEmpty(attributes.sorting_hat_finished_at)) {
+        cioIdentify(subscriber.id, state.answers)
+
+        if (surveyIncomplete) {
+          const currentQuestion = findCurrentQuestion(
+            sortingHatData,
+            state.currentQuestion,
+            {
+              ...answers,
+              ...subscriber.attributes,
+            },
+          )
+
           return {
             ...state,
+            loading: false,
             answers,
             question,
-            subscriber: {
-              ...action.subscriber,
-              attributes,
-            },
-            currentQuestion: findCurrentQuestion(
-              state.currentQuestion,
-              answers,
-            ),
-            loading: false,
+            subscriber,
+            currentQuestion,
           }
         } else {
           return {closed: true}
         }
       } else if (action.loadingSubscriber === false) {
-        return {
-          closed: true,
-          error: 'You must be logged in to take the survey!',
-        }
+        return {closed: true}
       } else {
         return state
       }
     case `answered`:
-      const isFinal = question.final
+      const {subscriber, currentQuestion} = state
+      if (subscriber) {
+        const isFinal = question.final
+        let attributes = get(subscriber, 'attributes', {})
+        const nextQuestionKey = findCurrentQuestion(
+          sortingHatData,
+          question.next[action.answer],
+          {
+            ...answers,
+            ...subscriber.attributes, // answers might be persisted on the CIO subscriber
+          },
+        )
 
-      const nextQuestion = findCurrentQuestion(
-        question.next[action.answer],
-        answers,
-      )
-
-      if (isEmpty(attributes.sorting_hat_started_at)) {
-        cioIdentify(action.subscriber.id, {
-          sorting_hat_started_at: now,
-        })
-        track(`started survey`, {
-          survey: 'sorting hat',
-          version: sortingHatData.version,
-        })
-        attributes = {...attributes, sorting_hat_started_at: now}
-      }
-
-      if (state.subscriber) {
         track(`answered survey question`, {
           survey: 'sorting hat',
           version: sortingHatData.version,
-          question: state.currentQuestion,
+          question: currentQuestion,
           answer: action.answer,
         })
+
         if (isFinal) {
-          cioIdentify(state.subscriber.id, {
+          cioIdentify(subscriber.id, {
             ...answers,
             last_surveyed_at: Math.round(Date.now() / 1000),
             sorting_hat_finished_at: now,
@@ -121,14 +121,32 @@ const sortingHatReducer = (state: any, action: any) => {
             version: sortingHatData.version,
           })
         } else {
-          cioIdentify(state.subscriber.id, answers)
+          cioIdentify(subscriber.id, answers)
         }
-      }
-      return {
-        ...state,
-        answers,
-        currentQuestion: nextQuestion,
-        question: sortingHatData[nextQuestion],
+
+        if (isEmpty(attributes.sorting_hat_started_at)) {
+          cioIdentify(subscriber.id, {
+            sorting_hat_started_at: now,
+          })
+          track(`started survey`, {
+            survey: 'sorting hat',
+            version: sortingHatData.version,
+          })
+          attributes = {...attributes, sorting_hat_started_at: now}
+        }
+
+        return {
+          ...state,
+          answers,
+          subscriber: {
+            ...subscriber,
+            ...attributes,
+          },
+          currentQuestion: nextQuestionKey,
+          question: sortingHatData[nextQuestionKey],
+        }
+      } else {
+        return state
       }
     case `closed`:
       if (state.subscriber && question.final) {
