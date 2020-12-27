@@ -133,8 +133,7 @@ const Code: FunctionComponent<CodeProps> = ({
       {...defaultProps}
       theme={theme}
       code={children.trim()}
-      // @ts-ignore
-      language={language}
+      language={language as any}
     >
       {({tokens, getLineProps, getTokenProps}) => (
         <div>
