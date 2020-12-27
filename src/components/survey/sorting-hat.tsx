@@ -68,6 +68,7 @@ const sortingHatReducer = (state: any, action: any) => {
             ...state,
             ...savedState,
             answers,
+            question,
             subscriber: {
               ...action.subscriber,
               attributes,
@@ -114,10 +115,6 @@ const sortingHatReducer = (state: any, action: any) => {
         attributes = {...attributes, sorting_hat_started_at: now}
       }
 
-      const updatedState = {...state, answers, currentQuestion: nextQuestion}
-
-      // localStorage.setItem(SORTING_HAT_KEY, JSON.stringify(updatedState))
-
       if (state.subscriber) {
         track(`answered survey question`, {
           survey: 'sorting hat',
@@ -139,7 +136,12 @@ const sortingHatReducer = (state: any, action: any) => {
           cioIdentify(state.subscriber.id, answers)
         }
       }
-      return updatedState
+      return {
+        ...state,
+        answers,
+        currentQuestion: nextQuestion,
+        question: sortingHatData[nextQuestion],
+      }
     case `closed`:
       if (state.subscriber && question.final) {
         cioIdentify(state.subscriber.id, {
@@ -188,7 +190,7 @@ const SortingHat: React.FunctionComponent = () => {
     sortingHatInitialState,
   )
   const {subscriber, loadingSubscriber} = useCio()
-  const question: any = sortingHatData[state.currentQuestion]
+  const question: any = state.question
 
   React.useEffect(() => {
     dispatch({type: `load`, subscriber, loadingSubscriber})
@@ -202,9 +204,9 @@ const SortingHat: React.FunctionComponent = () => {
     }
   }
 
-  return state.loading || state.closed ? null : (
+  return !question || state.loading || state.closed ? null : (
     <div className="border p-6 mb-16">
-      {question?.type === 'multiple-choice' && (
+      {question.type === 'multiple-choice' && (
         <div>
           <QuestionHeading question={question} />
           <MultipleChoiceQuestion
@@ -213,13 +215,13 @@ const SortingHat: React.FunctionComponent = () => {
           ></MultipleChoiceQuestion>
         </div>
       )}
-      {question?.type === 'multi-line' && (
+      {question.type === 'multi-line' && (
         <div>
           <QuestionHeading question={question} />
           <MultiLine question={question} onAnswer={onAnswer} />
         </div>
       )}
-      {question?.type === 'cta-done' && (
+      {question.type === 'cta-done' && (
         <div>
           <QuestionHeading question={question} />
           <button
@@ -230,7 +232,7 @@ const SortingHat: React.FunctionComponent = () => {
           </button>
         </div>
       )}
-      {question?.type === 'cta-email' && (
+      {question.type === 'cta-email' && (
         <div>
           <QuestionHeading question={question} />
           <Image
@@ -247,7 +249,7 @@ const SortingHat: React.FunctionComponent = () => {
           </button>
         </div>
       )}
-      {question?.type === 'cta-link' && (
+      {question.type === 'cta-link' && (
         <div>
           <QuestionHeading question={question} />
           <Link href={question.url}>
@@ -255,7 +257,7 @@ const SortingHat: React.FunctionComponent = () => {
           </Link>
         </div>
       )}
-      {question?.type === 'opt-out' && (
+      {question.type === 'opt-out' && (
         <div>
           <QuestionHeading question={question} />
           <button

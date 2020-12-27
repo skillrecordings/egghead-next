@@ -1,7 +1,7 @@
 const sortingHat: any = {
   version: '1.0.0',
   biggest_path: {
-    heading: `Welcome to egghead! Can you take a quick survey?`,
+    heading: `Welcome!`,
     subheading: `What brings you here today?`,
     type: `multiple-choice`,
     first: true,
