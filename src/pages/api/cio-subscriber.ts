@@ -117,7 +117,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         res.setHeader('Set-Cookie', cioCookie)
-        res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
+        // res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
         res.status(200).json(subscriber)
       } else {
         console.error('no subscriber was loaded')
