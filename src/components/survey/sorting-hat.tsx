@@ -22,7 +22,6 @@ const cioIdentify = (id: string, answers: any) => {
     window._cio.identify({
       id,
       sorting_hat_version: sortingHatData.version,
-      last_surveyed_at: Math.round(Date.now() / 1000),
       ...answers,
     })
   }
@@ -129,6 +128,7 @@ const sortingHatReducer = (state: any, action: any) => {
         if (isFinal) {
           cioIdentify(state.subscriber.id, {
             ...answers,
+            last_surveyed_at: Math.round(Date.now() / 1000),
             sorting_hat_finished_at: now,
           })
           track(`finished survey`, {
@@ -144,6 +144,7 @@ const sortingHatReducer = (state: any, action: any) => {
       if (state.subscriber && question.final) {
         cioIdentify(state.subscriber.id, {
           ...answers,
+          last_surveyed_at: Math.round(Date.now() / 1000),
           sorting_hat_finished_at: Math.round(Date.now() / 1000),
         })
       }
@@ -152,6 +153,7 @@ const sortingHatReducer = (state: any, action: any) => {
       if (state.subscriber) {
         cioIdentify(state.subscriber.id, {
           ...answers,
+          last_surveyed_at: Math.round(Date.now() / 1000),
           sorting_hat_finished_at: Math.round(Date.now() / 1000),
         })
         track(`dismissed survey`, {
@@ -202,16 +204,6 @@ const SortingHat: React.FunctionComponent = () => {
 
   return state.loading || state.closed ? null : (
     <div className="border p-6 mb-16">
-      <div className="w-100 flex items-center justify-end">
-        <button
-          className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out "
-          onClick={() => {
-            dispatch({type: 'dismiss'})
-          }}
-        >
-          stop showing this survey
-        </button>
-      </div>
       {question?.type === 'multiple-choice' && (
         <div>
           <QuestionHeading question={question} />
@@ -274,6 +266,16 @@ const SortingHat: React.FunctionComponent = () => {
           </button>
         </div>
       )}
+      <div className="w-100 flex items-center justify-end mt-2">
+        <button
+          className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out "
+          onClick={() => {
+            dispatch({type: 'dismiss'})
+          }}
+        >
+          stop showing this survey
+        </button>
+      </div>
     </div>
   )
 }
