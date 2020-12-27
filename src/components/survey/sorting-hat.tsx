@@ -31,15 +31,12 @@ const sortingHatReducer = (state: any, action: any) => {
   const question: any = sortingHatData[state.currentQuestion]
   const now = Math.round(Date.now() / 1000)
   let attributes = get(action.subscriber, 'attributes', {})
-
-  const getSavedState = () => {
-    const savedState = false //localStorage.getItem(SORTING_HAT_KEY)
-    if (savedState) {
-      return JSON.parse(savedState)
-    } else {
-      return false
-    }
+  const answers = {
+    ...state.answers,
+    ...state.subscriber?.attributes,
+    [state.currentQuestion]: action.answer,
   }
+
   const findCurrentQuestion = (question: string, answers: any): string => {
     if (question && answers[question]) {
       const possibleNext = sortingHatData[question].next?.[answers[question]]
@@ -54,19 +51,16 @@ const sortingHatReducer = (state: any, action: any) => {
   }
   switch (action.type) {
     case `load`:
-      const savedState = getSavedState() || state
-
       if (action.subscriber) {
-        cioIdentify(action.subscriber.id, savedState.answers)
+        cioIdentify(action.subscriber.id, state.answers)
         const answers = {
-          ...savedState.answers,
+          ...state.answers,
           ...action.subscriber.attributes,
         }
 
         if (isEmpty(attributes.sorting_hat_finished_at)) {
           return {
             ...state,
-            ...savedState,
             answers,
             question,
             subscriber: {
@@ -74,7 +68,7 @@ const sortingHatReducer = (state: any, action: any) => {
               attributes,
             },
             currentQuestion: findCurrentQuestion(
-              savedState.currentQuestion,
+              state.currentQuestion,
               answers,
             ),
             loading: false,
@@ -92,12 +86,6 @@ const sortingHatReducer = (state: any, action: any) => {
       }
     case `answered`:
       const isFinal = question.final
-
-      const answers = {
-        ...state.answers,
-        ...state.subscriber.attributes,
-        [state.currentQuestion]: action.answer,
-      }
 
       const nextQuestion = findCurrentQuestion(
         question.next[action.answer],
@@ -209,10 +197,7 @@ const SortingHat: React.FunctionComponent = () => {
       {question.type === 'multiple-choice' && (
         <div>
           <QuestionHeading question={question} />
-          <MultipleChoiceQuestion
-            onAnswer={onAnswer}
-            question={question}
-          ></MultipleChoiceQuestion>
+          <MultipleChoiceQuestion onAnswer={onAnswer} question={question} />
         </div>
       )}
       {question.type === 'multi-line' && (
