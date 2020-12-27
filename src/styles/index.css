@@ -41,7 +41,6 @@ pre {
 /* Code block styles */
 
 .prose pre {
-  margin: 0 !important;
   padding: 0 !important;
   background: #011627 !important;
   @apply sm:mx-0 -mx-5 sm:rounded-md rounded-sm;

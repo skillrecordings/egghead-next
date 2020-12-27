@@ -69,7 +69,7 @@ const Code: FunctionComponent<CodeProps> = ({
     padding: 10px;
   `
 
-  const PreStyles = styled.pre`
+  const PreStyles = styled.div`
     float: left;
     min-width: 100%;
     overflow: initial;
