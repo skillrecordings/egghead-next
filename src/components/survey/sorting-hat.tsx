@@ -148,6 +148,18 @@ const sortingHatReducer = (state: any, action: any) => {
         })
       }
       return {closed: true}
+    case `dismiss`:
+      if (state.subscriber) {
+        cioIdentify(state.subscriber.id, {
+          ...answers,
+          sorting_hat_finished_at: Math.round(Date.now() / 1000),
+        })
+        track(`dismissed survey`, {
+          survey: 'sorting hat',
+          version: sortingHatData.version,
+        })
+      }
+      return {closed: true}
     default:
       break
   }
@@ -190,6 +202,16 @@ const SortingHat: React.FunctionComponent = () => {
 
   return state.loading || state.closed ? null : (
     <div className="border p-6 mb-16">
+      <div className="w-100 flex items-center justify-end">
+        <button
+          className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out "
+          onClick={() => {
+            dispatch({type: 'dismiss'})
+          }}
+        >
+          stop showing this survey
+        </button>
+      </div>
       {question?.type === 'multiple-choice' && (
         <div>
           <QuestionHeading question={question} />
