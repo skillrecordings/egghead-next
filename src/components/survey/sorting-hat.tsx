@@ -21,6 +21,7 @@ const cioIdentify = (id: string, answers: any) => {
   if (id) {
     window._cio.identify({
       id,
+      sorting_hat_version: sortingHatData.version,
       last_surveyed_at: Math.round(Date.now() / 1000),
       ...answers,
     })
@@ -69,6 +70,7 @@ const sortingHatReducer = (state: any, action: any) => {
           })
           track(`started survey`, {
             survey: 'sorting hat',
+            version: sortingHatData.version,
           })
           attributes = {...attributes, sorting_hat_started_at: now}
         }
@@ -120,6 +122,7 @@ const sortingHatReducer = (state: any, action: any) => {
       if (state.subscriber) {
         track(`answered survey question`, {
           survey: 'sorting hat',
+          version: sortingHatData.version,
           question: state.currentQuestion,
           answer: action.answer,
         })
@@ -130,6 +133,7 @@ const sortingHatReducer = (state: any, action: any) => {
           })
           track(`finished survey`, {
             survey: 'sorting hat',
+            version: sortingHatData.version,
           })
         } else {
           cioIdentify(state.subscriber.id, answers)
