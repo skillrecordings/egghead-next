@@ -89,7 +89,7 @@ const sortingHat: any = {
   },
   egghead_help_freeform: {
     heading: `Ohh, tell us more!`,
-    subheading: `What **are** you hoping egghead can help you with, in the big picture?`,
+    subheading: `What **are** you hoping egghead can help you with, in the big picture? Feel free to write as much as you like. We are excited to read it.`,
     type: `multi-line`,
     other: true,
     other_label: `I'd rather not say...`,
@@ -163,7 +163,7 @@ const sortingHat: any = {
   },
   bigger_project_freeform: {
     heading: `Ohh, "something else" you say?`,
-    subheading: `How can we help you start working on bigger projects?`,
+    subheading: `How can we help you start working on bigger projects? Feel free to write as much as you like. We are excited to read it.`,
     type: `multi-line`,
     other: true,
     other_label: `I'd rather not say...`,
