@@ -31,6 +31,7 @@ const cioIdentify = (id: string, answers: any) => {
 const sortingHatReducer = (state: any, action: any) => {
   const question: any = sortingHatData[state.currentQuestion]
   const now = Math.round(Date.now() / 1000)
+  let attributes = get(action.subscriber, 'attributes', {})
 
   const getSavedState = () => {
     const savedState = false //localStorage.getItem(SORTING_HAT_KEY)
@@ -57,22 +58,10 @@ const sortingHatReducer = (state: any, action: any) => {
       const savedState = getSavedState() || state
 
       if (action.subscriber) {
-        let attributes = get(action.subscriber, 'attributes', {})
         cioIdentify(action.subscriber.id, savedState.answers)
         const answers = {
           ...savedState.answers,
           ...action.subscriber.attributes,
-        }
-
-        if (isEmpty(attributes.sorting_hat_started_at)) {
-          cioIdentify(action.subscriber.id, {
-            sorting_hat_started_at: now,
-          })
-          track(`started survey`, {
-            survey: 'sorting hat',
-            version: sortingHatData.version,
-          })
-          attributes = {...attributes, sorting_hat_started_at: now}
         }
 
         if (isEmpty(attributes.sorting_hat_finished_at)) {
@@ -114,6 +103,17 @@ const sortingHatReducer = (state: any, action: any) => {
         question.next[action.answer],
         answers,
       )
+
+      if (isEmpty(attributes.sorting_hat_started_at)) {
+        cioIdentify(action.subscriber.id, {
+          sorting_hat_started_at: now,
+        })
+        track(`started survey`, {
+          survey: 'sorting hat',
+          version: sortingHatData.version,
+        })
+        attributes = {...attributes, sorting_hat_started_at: now}
+      }
 
       const updatedState = {...state, answers, currentQuestion: nextQuestion}
 
