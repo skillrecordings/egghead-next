@@ -4,13 +4,19 @@ import {isEmpty, get} from 'lodash'
 import cookie from '../utils/cookies'
 import axios from 'axios'
 
+export type CIOSubscriber = {
+  id: string
+  email: string
+  attributes: any
+}
+
 export const CioContext = React.createContext<{
-  subscriber?: any
+  subscriber?: CIOSubscriber
   loadingSubscriber: boolean
 }>({loadingSubscriber: true})
 
 export const CioProvider: React.FunctionComponent = ({children}) => {
-  const [subscriber, setSubscriber] = React.useState()
+  const [subscriber, setSubscriber] = React.useState<CIOSubscriber>()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
