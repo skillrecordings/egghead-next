@@ -16,7 +16,7 @@ const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
 const MAX_BUFFER_LEVEL_SECONDS = 120
-const STARTUP_THRESHOLD_SECONDS = 2
+const STARTUP_THRESHOLD_SECONDS = 5
 const ALLOW_PLAYBACK_SPEED = true
 
 export default class Bitmovin extends Base {
@@ -156,7 +156,7 @@ export default class Bitmovin extends Base {
   }
 
   componentDidMount() {
-    const {subtitlesUrl, playbackRate, volumeRate} = this.props
+    const {subtitlesUrl, playbackRate, volume} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
     this.getSDK().then((script) => {
@@ -169,7 +169,7 @@ export default class Bitmovin extends Base {
       this.player.load(this.getSource()).then(
         () => {
           this.player.setPlaybackSpeed(playbackRate)
-          this.player.setVolume(volumeRate)
+          this.player.setVolume(volume)
           this.player.setPosterImage(this.props.poster)
 
           const {videoQualityCookie} = this.props
