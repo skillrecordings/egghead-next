@@ -162,7 +162,6 @@ export default class Auth {
       }
       if (typeof window !== 'undefined') {
         const uri = window.location.href
-        console.log(uri)
         window.history.pushState(
           '',
           document.title,
