@@ -9,18 +9,26 @@ type LinkProps = {
   href: Url
   children: React.ReactElement
   activeClassName?: string
+  partialMatch?: boolean
 }
 
 const Link: FunctionComponent<LinkProps> = ({
   href,
   children,
   activeClassName,
+  partialMatch = false,
   ...props
 }) => {
   const router = useRouter()
   let className = children?.props?.className || ''
-  if (router.asPath.includes(`${href}`)) {
-    className = `${className} ${activeClassName}`
+  if (partialMatch) {
+    if (router.asPath.includes(`${href}`)) {
+      className = `${className} ${activeClassName}`
+    }
+  } else {
+    if (router.asPath === href) {
+      className = `${className} ${activeClassName}`
+    }
   }
 
   return (
