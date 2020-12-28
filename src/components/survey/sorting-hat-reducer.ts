@@ -1,6 +1,6 @@
-import sortingHatData, {SurveyQuestion} from '../../data/sorting-hat'
-import {CIOSubscriber} from '../../hooks/use-cio'
-import {track} from '../../utils/analytics'
+import sortingHatData, {SurveyQuestion} from 'data/sorting-hat'
+import {CIOSubscriber} from 'hooks/use-cio'
+import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 
 const SORTING_HAT_FINISHED_KEY = `sorting_hat_finished_at`
