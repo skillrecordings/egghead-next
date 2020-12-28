@@ -5,7 +5,7 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import axios from 'axios'
 import Link from 'next/link'
-import {useViewer} from '../../context/viewer-context'
+import {useViewer} from 'context/viewer-context'
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     req.headers.cookie as string,
   )
   const account: any =
-    params && (await loadAccount(params.slug as string, eggheadToken))
+    params?.slug && (await loadAccount(params.slug as string, eggheadToken))
   return {
     props: {
       loginRequired,

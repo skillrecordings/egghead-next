@@ -1,5 +1,4 @@
 import {GraphQLClient} from 'graphql-request'
-import {getAuthorizationHeader} from 'utils/auth'
 import config from './config'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
@@ -17,7 +16,7 @@ export async function loadAccount(slug: string, token: string) {
     }
   `
   const variables = {
-    slug: slug,
+    slug,
   }
 
   const authorizationHeader = token && {
@@ -28,7 +27,14 @@ export async function loadAccount(slug: string, token: string) {
     ...authorizationHeader,
   })
 
-  const {account} = await graphQLClient.request(query, variables)
+  console.log(`load account: ${slug}`)
 
-  return account
+  try {
+    const {account} = await graphQLClient.request(query, variables)
+    console.log(`account loaded`)
+    return account
+  } catch (e) {
+    console.error(e)
+    return
+  }
 }
