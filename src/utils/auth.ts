@@ -102,6 +102,7 @@ export default class Auth {
       {
         email,
         client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+        redirect_uri: AUTH_REDIRECT_URL,
       },
     )
   }
@@ -161,7 +162,6 @@ export default class Auth {
       }
       if (typeof window !== 'undefined') {
         const uri = window.location.href
-        console.log(uri)
         window.history.pushState(
           '',
           document.title,

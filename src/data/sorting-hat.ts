@@ -1,19 +1,43 @@
-const sortingHat = {
+export type MultipleChoiceAnswer = {
+  answer: string
+  label: string
+  always_last?: boolean
+}
+
+export type SurveyQuestion = {
+  heading: string
+  subheading: string
+  type: string
+  first?: boolean
+  random?: boolean
+  other?: boolean
+  other_label?: string
+  choices: MultipleChoiceAnswer[]
+  next: any
+  image: string
+  button_label: string
+  url: string
+  final: boolean
+}
+
+const sortingHat: any = {
+  version: '1.0.0',
   biggest_path: {
-    question_heading: `Welcome!`,
-    question_text: `What brings you to egghead?`,
-    question_type: `multiple-choice`,
+    heading: `Welcome!`,
+    subheading: `What brings you here today?`,
+    type: `multiple-choice`,
+    first: true,
     random: true,
     other: true,
     other_label: `something else`,
     choices: [
       {
         answer: `leveling_up`,
-        label: `Level up my dev skills`,
+        label: `Level up my programming skills`,
       },
       {
         answer: `optimizing_code`,
-        label: `Optimizing my code`,
+        label: `Help on a specific web development project`,
       },
     ],
     next: {
@@ -23,9 +47,9 @@ const sortingHat = {
     },
   },
   level_up_reason: {
-    question_heading: `Oh nice, dev skills!`,
-    question_text: `What's your biggest motivation?`,
-    question_type: `multiple-choice`,
+    heading: `Oh nice, you're working on your dev skills!`,
+    subheading: `What's your biggest motivation?`,
+    type: `multiple-choice`,
     random: true,
     other: true,
     other_label: `none of the above`,
@@ -36,7 +60,7 @@ const sortingHat = {
       },
       {
         answer: `advancing_career`,
-        label: `Advancing my career`,
+        label: `Getting a good/better developer job`,
       },
       {
         answer: `new_role`,
@@ -45,6 +69,7 @@ const sortingHat = {
       },
     ],
     next: {
+      open_source: ``,
       bigger_projects: `level_up_goal`,
       advancing_career: `last_portfolio_update`,
       new_role: `level_up_goal`,
@@ -52,9 +77,9 @@ const sortingHat = {
     },
   },
   optimizing_reason: {
-    question_heading: `Ok, optimizing code!`,
-    question_text: `What's the biggest reason?`,
-    question_type: `multiple-choice`,
+    heading: `Ok, you're working on a specific code project!`,
+    subheading: `What's the biggest concern?`,
+    type: `multiple-choice`,
     random: true,
     other: true,
     other_label: `none of the above`,
@@ -68,16 +93,26 @@ const sortingHat = {
         label: `Faster performance`,
       },
       {
+        answer: `best_practice`,
+        label: `Using modern best practices`,
+      },
+      {
         answer: `launch_prep`,
-        label: `Preparing to launch an app`,
+        label: `Launching for real users`,
       },
     ],
-    next: `thanks`,
+    next: {
+      best_practice: `thanks`,
+      performance: `thanks`,
+      maintainability: `thanks`,
+      launch_prep: `thanks`,
+      other: `egghead_help_freeform`,
+    },
   },
   egghead_help_freeform: {
-    question_heading: `Ohh, tell us more!`,
-    question_text: `What **are** you hoping egghead can help you with, in the big picture?`,
-    question_type: `multi-line`,
+    heading: `Ohh, tell us more!`,
+    subheading: `What **are** you hoping egghead can help you with, in the big picture? Feel free to write as much as you like. We are excited to read it.`,
+    type: `multi-line`,
     other: true,
     other_label: `I'd rather not say...`,
     next: {
@@ -86,9 +121,9 @@ const sortingHat = {
     },
   },
   last_portfolio_update: {
-    question_heading: `Career Advancement. Gotcha.`,
-    question_text: `When did you last update your developer portfolio?`,
-    question_type: `multiple-choice`,
+    heading: `Career Advancement. Gotcha.`,
+    subheading: `When did you last update your developer portfolio?`,
+    type: `multiple-choice`,
     random: true,
     other: true,
     other_label: `what's a developer portfolio?`,
@@ -114,16 +149,17 @@ const sortingHat = {
     },
   },
   portfolio_faq: {
-    question_heading: `Want to learn more?`,
-    question_text: `We think developer portfolios are a great lever for career advancement.`,
-    question_type: `cta-link`,
+    heading: `Want to learn more?`,
+    subheading: `We think developer portfolios are a great lever for career advancement.`,
+    type: `cta-link`,
     url: `https://joelhooks.com/developer-portfolio`,
-    button_label: `Click to Learn More`,
+    button_label: `Click to Learn More About Developer Portfolios`,
+    final: true,
   },
   level_up_goal: {
-    question_heading: `OK, working on bigger projects.`,
-    question_text: `Which do you think would unlock more ambitious dev projects?`,
-    question_type: `multiple-choice`,
+    heading: `OK, working on bigger projects.`,
+    subheading: `Which do you think would unlock more ambitious dev projects?`,
+    type: `multiple-choice`,
     random: true,
     other: true,
     other_label: `something else`,
@@ -134,21 +170,24 @@ const sortingHat = {
       },
       {
         answer: `full_stack`,
-        label: `Becoming more "full stack"`,
+        label: `Becoming a more "full stack" developer`,
       },
       {
         answer: `beyond_basics`,
-        label: `Advancing beyond the basics`,
+        label: `Advancing beyond the basics on real-world projects`,
       },
     ],
     next: {
+      beyond_basics: `thanks`,
+      full_stack: `thanks`,
+      newer_skills: `thanks`,
       other: `bigger_project_freeform`,
     },
   },
   bigger_project_freeform: {
-    question_heading: `Ohh, "something else" you say?`,
-    question_text: `How can we help you start working on bigger projects?`,
-    question_type: `multi-line`,
+    heading: `Ohh, "something else" you say?`,
+    subheading: `How can we help you start working on bigger projects? Feel free to write as much as you like. We are excited to read it.`,
+    type: `multi-line`,
     other: true,
     other_label: `I'd rather not say...`,
     next: {
@@ -157,10 +196,10 @@ const sortingHat = {
     },
   },
   portfolio_outreach: {
-    question_heading: `Understood!`,
-    question_text: `Would it be ok if one of us reached out to chat about this? 
+    heading: `Understood!`,
+    subheading: `Would it be ok if one of us reached out to chat about this? 
 Not a sales call, just trying to learn more about developers in your situation.`,
-    question_type: `multiple-choice`,
+    type: `multiple-choice`,
     choices: [
       {
         answer: `ok`,
@@ -172,30 +211,33 @@ Not a sales call, just trying to learn more about developers in your situation.`
       },
     ],
     next: {
-      no: `opt_out`,
+      no: `thanks`,
       ok: `talk_soon`,
     },
   },
   thanks: {
-    question_heading: `We appreciate you!`,
-    question_text: `Understanding your situation helps us showcase the resources that 
+    heading: `We appreciate you!`,
+    subheading: `Understanding your situation helps us showcase the resources that 
 you'll find most useful.
 
 Thanks for letting us know!`,
-    question_type: `cta-done`,
+    type: `cta-done`,
+    final: true,
     button_label: `Click to Close`,
   },
   talk_soon: {
-    question_heading: `Awesome, thanks!`,
-    question_image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608163615/value-paths/yohann_kunders.jpg`,
-    question_text: `Be on the lookout for an email from Yohann. He's super easy to get along with and curious about your goals.`,
-    question_type: `cta-email`,
+    heading: `Awesome, thanks!`,
+    image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608163615/value-paths/yohann_kunders.jpg`,
+    subheading: `Be on the lookout for an email from Yohann. He's super easy to get along with and curious about your goals.`,
+    final: true,
+    type: `cta-email`,
     button_label: `Chat soon!`,
   },
-  no_contact: {
-    question_heading: `We understand.`,
-    question_text: `We won't ask you any more of these questions.`,
-    question_type: `opt-out`,
+  opt_out: {
+    heading: `We understand.`,
+    final: true,
+    subheading: `We won't ask you any more of these questions.`,
+    type: `opt-out`,
   },
 }
 

@@ -12,7 +12,7 @@ const withMDX = require('@next/mdx')({
         rehypeShiki,
         {
           theme: './src/styles/material-theme-dark.json',
-          useBackground: true,
+          useBackground: false,
         },
       ],
     ],
@@ -39,7 +39,7 @@ const nextConfig = {
     return [
       {
         source: '/instructors/:instructor',
-        destination: `${searchUrlRoot}/content-by-:instructor`,
+        destination: `${searchUrlRoot}/resources-by-:instructor`,
         permanent: true,
       },
       {
