@@ -22,8 +22,10 @@ pre > code {
   font-size: 90% !important;
 }
 
-pre {
-  line-height: 1.5 !important;
+pre > code {
+  ::selection {
+    @apply bg-blue-700;
+  }
 }
 
 #__next {
@@ -36,16 +38,6 @@ pre {
 
 .bmpui-ui-titlebar {
   display: none;
-}
-
-/* Code block styles */
-
-.prose pre {
-  @apply sm:mx-0 -mx-5 sm:rounded-md rounded-none;
-}
-
-pre {
-  @apply sm:mx-0 -mx-5 sm:rounded-md rounded-none;
 }
 
 #__next .prose-reset * {

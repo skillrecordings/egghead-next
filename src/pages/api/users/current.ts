@@ -21,7 +21,7 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).json(data)
       })
       .catch((error) => {
-        console.error(error.response.statusText)
+        console.error(error)
         res.status(error.response.status).end(error.response.statusText)
       })
   } else {
