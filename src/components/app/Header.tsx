@@ -6,6 +6,9 @@ import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 
+const ACCOUNT_LINK_ENABLED =
+  process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
+
 const Header: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
   return (
@@ -75,7 +78,7 @@ const Header: FunctionComponent = () => {
                   className="w-8 rounded-full"
                   src={viewer.avatar_url}
                 />
-                {!isEmpty(viewer.accounts) && (
+                {ACCOUNT_LINK_ENABLED && !isEmpty(viewer.accounts) && (
                   <div>
                     <Link href={`/accounts/${viewer.accounts[0].slug}`}>
                       <a>account</a>
