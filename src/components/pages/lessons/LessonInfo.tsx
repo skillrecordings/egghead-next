@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {isEmpty, get} from 'lodash'
 import Markdown from 'react-markdown'
-import useCopyToClipboard from 'react-use/lib/useCopyToClipboard'
+import useClipboard from 'react-use-clipboard'
 import Eggo from '../../../components/images/eggo.svg'
 import {useNextUpData} from 'hooks/use-next-up-data'
 import {Element, scroller} from 'react-scroll'
@@ -139,41 +139,32 @@ const TweetLink: FunctionComponent<{
 const CopyToClipboard: FunctionComponent<{
   stringToCopy: string
   className?: string
-}> = ({stringToCopy, className = ''}) => {
-  const [copied, setCopied] = useState(false)
-  const [state, copyToClipboard] = useCopyToClipboard()
-  if (stringToCopy) {
-    const copyHandler = () => {
-      copyToClipboard(stringToCopy)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
-    return (
-      <div>
-        <button
-          type="button"
-          disabled={copied}
-          onClick={copyHandler}
-          className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out ${className}`}
-        >
-          {state.error ? (
-            'Unable to copy!'
-          ) : copied ? (
-            'Copied!'
-          ) : (
-            <>
-              <IconLink className="w-5 mr-2" />
-              <span>
-                Copy link
-                <span className="hidden lg:inline"> to clipboard</span>
-              </span>
-            </>
-          )}
-        </button>
-      </div>
-    )
-  }
-  return null
+}> = ({stringToCopy = '', className = ''}) => {
+  const [isCopied, setCopied] = useClipboard(stringToCopy, {
+    successDuration: 1000,
+  })
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={setCopied}
+        className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out ${className}`}
+      >
+        {isCopied ? (
+          'Copied'
+        ) : (
+          <>
+            <IconLink className="w-5 mr-2" />
+            <span>
+              Copy link
+              <span className="hidden lg:inline"> to clipboard</span>
+            </span>
+          </>
+        )}
+      </button>
+    </div>
+  )
 }
 
 const CodeLink: FunctionComponent<{
