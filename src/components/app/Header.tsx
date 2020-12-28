@@ -87,7 +87,21 @@ const Header: FunctionComponent = () => {
                 )}
               </div>
             ) : (
-              <div>
+              <div className="flex flex-row space-x-2">
+                <div>
+                  <Link href="/pricing" activeClassName="hidden">
+                    <a
+                      onClick={() =>
+                        track('clicked pricing', {
+                          location: 'header',
+                        })
+                      }
+                      className="px-3 py-2 bg-green-300  hover:opacity-100 hover:bg-green-100  active:bg-green-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                    >
+                      Join egghead
+                    </a>
+                  </Link>
+                </div>
                 <Link href="/login" activeClassName="bg-gray-100">
                   <a
                     onClick={() =>
