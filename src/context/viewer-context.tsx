@@ -72,8 +72,6 @@ function useAuthedViewer() {
     let viewerMonitorIntervalId: number | undefined
 
     const loadViewerFromStorage = async () => {
-      console.log(`loading viewer from storage`)
-
       const localViewer = auth.getLocalUser()
 
       if (localViewer) {
@@ -129,19 +127,16 @@ function useAuthedViewer() {
     }
 
     if (authToken) {
-      console.log(`refresh user from cookie auth token`)
       loadViewerFromToken()
     } else if (viewerIsPresent) {
       loadViewerFromStorage()
       clearAccessToken()
     } else if (noAccessTokenFound) {
       viewerMonitorIntervalId = auth.monitor(setViewerOnInterval)
-      console.log(`checking auth on interval`)
       setLoading(() => false)
     } else {
       auth.handleAuthentication().then((viewer: any) => {
         setViewer(viewer)
-        console.log(`handling authentication`)
         setLoading(() => false)
       })
     }
