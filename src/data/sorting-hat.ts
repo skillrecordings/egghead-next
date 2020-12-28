@@ -1,3 +1,25 @@
+export type MultipleChoiceAnswer = {
+  answer: string
+  label: string
+  always_last?: boolean
+}
+
+export type SurveyQuestion = {
+  heading: string
+  subheading: string
+  type: string
+  first?: boolean
+  random?: boolean
+  other?: boolean
+  other_label?: string
+  choices: MultipleChoiceAnswer[]
+  next: any
+  image: string
+  button_label: string
+  url: string
+  final: boolean
+}
+
 const sortingHat: any = {
   version: '1.0.0',
   biggest_path: {
@@ -131,7 +153,8 @@ const sortingHat: any = {
     subheading: `We think developer portfolios are a great lever for career advancement.`,
     type: `cta-link`,
     url: `https://joelhooks.com/developer-portfolio`,
-    button_label: `Click to Learn More`,
+    button_label: `Click to Learn More About Developer Portfolios`,
+    final: true,
   },
   level_up_goal: {
     heading: `OK, working on bigger projects.`,
@@ -188,7 +211,7 @@ Not a sales call, just trying to learn more about developers in your situation.`
       },
     ],
     next: {
-      no: `opt_out`,
+      no: `thanks`,
       ok: `talk_soon`,
     },
   },

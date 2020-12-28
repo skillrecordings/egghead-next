@@ -1,12 +1,39 @@
 import * as React from 'react'
 import {Formik, Form, Field} from 'formik'
-import {shuffle} from 'lodash'
+import {shuffle, find, reject} from 'lodash'
+import {MultipleChoiceAnswer, SurveyQuestion} from 'data/sorting-hat'
 
 const MultipleChoiceQuestion: React.FunctionComponent<{
   onAnswer: (answer: string) => void
-  question: any
+  question: SurveyQuestion
 }> = ({onAnswer, question}) => {
-  const choices = question.random ? shuffle(question.choices) : question.choices
+  const [choices, setChoices] = React.useState<MultipleChoiceAnswer[]>([])
+
+  React.useEffect(() => {
+    const lastChoice = find(question.choices, {always_last: true})
+    let orderedChoices = question.choices
+
+    if (question.random) {
+      if (lastChoice) {
+        orderedChoices = [
+          ...shuffle(reject(question.choices, {answer: lastChoice.answer})),
+          lastChoice,
+        ]
+      } else {
+        orderedChoices = shuffle(question.choices)
+      }
+    } else {
+      if (lastChoice) {
+        orderedChoices = [
+          ...reject(question.choices, {answer: lastChoice.answer}),
+          lastChoice,
+        ]
+      }
+    }
+
+    setChoices(orderedChoices)
+  }, [question])
+
   return (
     <div>
       <Formik
@@ -21,7 +48,7 @@ const MultipleChoiceQuestion: React.FunctionComponent<{
               <div id="question-set">Choose one:</div>
               <div role="group" aria-labelledby="question-set">
                 <ul className="list-none">
-                  {choices.map((choice: any) => {
+                  {choices.map((choice: MultipleChoiceAnswer) => {
                     return (
                       <li key={choice.answer} className="w-full py-2">
                         <label className="inline-block py-3 px-5 cursor-pointer text-center appearance-none transition duration-150 w-full ease-in-out bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-lg">

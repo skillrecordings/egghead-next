@@ -16,7 +16,6 @@ const MultiLine: React.FunctionComponent<{
       <Formik
         initialValues={initialValues}
         onSubmit={(values: any) => {
-          debugger
           const comment = (values.answered && values.comment) || `other`
           onAnswer(comment)
         }}
