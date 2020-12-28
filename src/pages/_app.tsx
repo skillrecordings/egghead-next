@@ -29,6 +29,16 @@ declare global {
 export default class App extends NextApp {
   render() {
     const {Component, pageProps} = this.props
+    const AppComponent = Component as any
+
+    const getLayout =
+      AppComponent.getLayout ||
+      ((Page: any) => (
+        <AppLayout>
+          <Page {...pageProps} />
+        </AppLayout>
+      ))
+
     return (
       <>
         <Ahoy />
@@ -45,9 +55,7 @@ export default class App extends NextApp {
             <ViewerProvider>
               <MDXProvider components={mdxComponents}>
                 <CacheProvider value={cache}>
-                  <AppLayout>
-                    <Component {...pageProps} />
-                  </AppLayout>
+                  {getLayout(Component)}
                 </CacheProvider>
               </MDXProvider>
             </ViewerProvider>
