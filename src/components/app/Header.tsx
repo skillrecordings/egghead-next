@@ -81,7 +81,15 @@ const Header: FunctionComponent = () => {
                 {ACCOUNT_LINK_ENABLED && !isEmpty(viewer.accounts) && (
                   <div>
                     <Link href={`/accounts/${viewer.accounts[0].slug}`}>
-                      <a>account</a>
+                      <a
+                        onClick={() =>
+                          track('clicked account', {
+                            location: 'header',
+                          })
+                        }
+                      >
+                        account
+                      </a>
                     </Link>
                   </div>
                 )}
