@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import {track} from '../../utils/analytics'
 
 const ResourceLink = ({url, title}) => {
   return (
@@ -9,7 +10,16 @@ const ResourceLink = ({url, title}) => {
           <p className=" text-gray-500 text-sm align-top justify-start pb-1">
             Recommended Resource
           </p>
-          <a href={url}>
+          <a
+            onClick={() => {
+              track(`clicked resource link`, {
+                title,
+                url,
+              })
+            }}
+            target="_blank"
+            href={url}
+          >
             <h3 className="text-xl font-medium text-purple-600 leading-normal">
               {title}
             </h3>
