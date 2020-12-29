@@ -102,7 +102,7 @@ const onProgress = (lesson: LessonResource) => (progress: {
       })
     }
 
-    console.log(storeProgress(roundedProgress, lesson))
+    storeProgress(roundedProgress, lesson)
   } else {
     const segments = lessonProgress[lesson.slug] / 30
     const lessonViews = cookies.get('egghead-lessonViews') || {}
