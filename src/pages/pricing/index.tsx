@@ -17,9 +17,10 @@ type PricingProps = {
     }
     unit_amount: number
   }
+  redirectURL?: string
 }
 
-const Pricing: FunctionComponent<PricingProps> = () => {
+const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()
   const {prices, pricesLoading} = usePricing()
@@ -45,6 +46,7 @@ const Pricing: FunctionComponent<PricingProps> = () => {
         annualPrice.price_id,
         viewer.email,
         viewer.subscription?.stripe_subscription_id,
+        redirectURL,
       )
     } else {
       await track('checkout: get email', {
@@ -117,11 +119,30 @@ const Pricing: FunctionComponent<PricingProps> = () => {
           </SelectPlan>
         )}
         {prices.annualPrice && needsEmail && (
-          <EmailForm priceId={prices.annualPrice.price_id} />
+          <EmailForm
+            priceId={prices.annualPrice.price_id}
+            redirectURL={redirectURL}
+          />
         )}
       </div>
     </>
   )
+}
+
+export async function getServerSideProps(context: any) {
+  let redirectURL = null
+  try {
+    const referer = context.req.headers.referer
+    const refererURL = new URL(referer)
+    if (refererURL.origin === process.env.NEXT_PUBLIC_REDIRECT_URI)
+      redirectURL = referer
+  } catch (_e) {
+    // no redirect URL from referer
+  }
+
+  return {
+    props: {redirectURL}, // will be passed to the page component as props
+  }
 }
 
 export default Pricing
