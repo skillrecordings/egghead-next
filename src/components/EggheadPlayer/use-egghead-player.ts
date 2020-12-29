@@ -3,7 +3,7 @@ import cookies from 'utils/cookies'
 import {track} from 'utils/analytics'
 import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 import axios from 'axios'
-import {isEmpty, pickBy, identity, get, isNumber} from 'lodash'
+import {get, identity, isEmpty, pickBy} from 'lodash'
 import {LessonResource} from 'types'
 
 const getOptions = () =>
@@ -47,8 +47,8 @@ const createLessonView = async (lesson: LessonResource, collection?: any) => {
     toLessonViewParams({lesson, collection}),
     getOptions(),
   )
-  const lessonView = data
-  return lessonView
+  console.log(data)
+  return data
 }
 
 const incrementViewSegments = (lessonView: {increment_url: string}) => {
@@ -102,7 +102,7 @@ const onProgress = (lesson: LessonResource) => (progress: {
       })
     }
 
-    storeProgress(roundedProgress, lesson)
+    console.log(storeProgress(roundedProgress, lesson))
   } else {
     const segments = lessonProgress[lesson.slug] / 30
     const lessonViews = cookies.get('egghead-lessonViews') || {}
@@ -213,48 +213,45 @@ const onEnded = (lesson: {
   if (lesson.lesson_view_url) {
     onComplete(lesson)
   }
-
-  track('finished lesson', {
-    lesson: lesson.slug,
-    tags: lesson.tags.map((tag: {slug: any}) => tag.slug),
-  })
 }
 
 function onError() {}
-
-function onVideoQualityChanged() {}
-
-function onSubtitleChange() {}
 
 const PLAY_PREFS_KEY = 'egghead-player-prefs'
 
 const defaultPlayerPreferences = {
   volumeRate: 80,
   playbackRate: 1,
-  autoPlay: false,
+  autoplay: false,
+  videoQuality: {
+    bitrate: null,
+    height: null,
+    id: 'auto',
+    width: null,
+  },
+  subtitle: {
+    id: null,
+    kind: null,
+    label: 'off',
+    lang: null,
+  },
+  muted: false,
 }
 
-const getPlayerPrefs = () => {
+export const getPlayerPrefs = () => {
   return (
     cookies.get(PLAY_PREFS_KEY) ||
     cookies.set(PLAY_PREFS_KEY, defaultPlayerPreferences)
   )
 }
 
-const setPlayerPrefs = (options: any) => {
-  cookies.set(PLAY_PREFS_KEY, {
+export const savePlayerPrefs = (options: any) => {
+  console.log(`storing preference`, options)
+  return cookies.set(PLAY_PREFS_KEY, {
     ...defaultPlayerPreferences,
     ...getPlayerPrefs(),
     ...options,
   })
-}
-
-function onPlaybackRateChange(playbackRate: number) {
-  setPlayerPrefs({playbackRate})
-}
-
-function onVolumeChange(volumeRate: number) {
-  setPlayerPrefs({volumeRate})
 }
 
 export default function useEggheadPlayer(lesson: LessonResource) {
@@ -270,14 +267,15 @@ export default function useEggheadPlayer(lesson: LessonResource) {
 
   const onEndedCallback = React.useCallback(onEnded(lesson), [lesson.slug])
 
+  const setPlayerPrefsCallback = React.useCallback((options: any) => {
+    setPlayerPrefs(savePlayerPrefs(options))
+  }, [])
+
   return {
     onProgress: onProgressCallback,
     onEnded: onEndedCallback,
     onError,
-    onVideoQualityChanged,
-    onSubtitleChange,
-    onPlaybackRateChange,
-    onVolumeChange,
+    setPlayerPrefs: setPlayerPrefsCallback,
     ...playerPrefs,
   }
 }

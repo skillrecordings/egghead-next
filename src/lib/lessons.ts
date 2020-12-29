@@ -39,6 +39,7 @@ export async function loadLesson(slug: string, token?: string) {
         free_forever
         http_url
         media_url
+        lesson_view_url
         path
         course {
           title
