@@ -8,6 +8,7 @@ import Callout from './Callout'
 import ProseSection from './ProseSection'
 import CheatSheet from './CheatSheet'
 import DefaultLayout from '../../layouts'
+import CodeBlock from './CodeBlock'
 
 const mdxComponents = {
   Course,
@@ -20,6 +21,14 @@ const mdxComponents = {
   ProseSection,
   CheatSheet,
   DefaultLayout,
+  pre: (props: any) => (
+    <CodeBlock
+      language={props.children.props.className}
+      metastring={props.children.props.metastring}
+    >
+      {props.children.props.children}
+    </CodeBlock>
+  ),
 }
 
 export default mdxComponents
