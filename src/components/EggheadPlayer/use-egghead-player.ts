@@ -47,7 +47,7 @@ const createLessonView = async (lesson: LessonResource, collection?: any) => {
     toLessonViewParams({lesson, collection}),
     getOptions(),
   )
-  console.log(data)
+
   return data
 }
 
