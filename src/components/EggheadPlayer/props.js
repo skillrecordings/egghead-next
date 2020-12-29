@@ -51,6 +51,7 @@ export const defaultProps = {
   progressFrequency: 1000,
   playsinline: false,
   displaySubtitles: false,
+  preload: true,
   onReady: noop,
   onStart: noop,
   onPlay: noop,
@@ -63,7 +64,6 @@ export const defaultProps = {
   onSubtitleChange: noop,
   onVideoQualityChanged: noop,
   videoQualityCookie: null,
-  preload: true,
   onPlaybackRateChange: noop,
   onVolumeChange: noop,
 }

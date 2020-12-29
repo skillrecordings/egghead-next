@@ -1,3 +1,4 @@
+import * as React from 'react'
 import cookies from 'utils/cookies'
 import {track} from 'utils/analytics'
 import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
@@ -225,31 +226,58 @@ function onVideoQualityChanged() {}
 
 function onSubtitleChange() {}
 
-const getPlayerPrefs = () => cookies.get('egghead-player-prefs')
+const PLAY_PREFS_KEY = 'egghead-player-prefs'
+
+const defaultPlayerPreferences = {
+  volumeRate: 80,
+  playbackRate: 1,
+  autoPlay: false,
+}
+
+const getPlayerPrefs = () => {
+  return (
+    cookies.get(PLAY_PREFS_KEY) ||
+    cookies.set(PLAY_PREFS_KEY, defaultPlayerPreferences)
+  )
+}
+
+const setPlayerPrefs = (options: any) => {
+  cookies.set(PLAY_PREFS_KEY, {
+    ...defaultPlayerPreferences,
+    ...getPlayerPrefs(),
+    ...options,
+  })
+}
 
 function onPlaybackRateChange(playbackRate: number) {
-  cookies.set('egghead-player-prefs', {...getPlayerPrefs(), playbackRate})
+  setPlayerPrefs({playbackRate})
 }
 
 function onVolumeChange(volumeRate: number) {
-  cookies.set('egghead-player-prefs', {...getPlayerPrefs(), volumeRate})
+  setPlayerPrefs({volumeRate})
 }
 
-export default function useEggheadPlayer(lesson: any) {
-  const playbackRate = getPlayerPrefs()?.playbackRate
-  const volumeRate = getPlayerPrefs()?.volumeRate
+export default function useEggheadPlayer(lesson: LessonResource) {
+  const [playerPrefs, setPlayerPrefs] = React.useState<any>()
 
-  console.log('egghead-player-prefs: ', cookies.get('egghead-player-prefs'))
+  React.useEffect(() => {
+    setPlayerPrefs(getPlayerPrefs())
+  }, [lesson.slug])
+
+  const onProgressCallback = React.useCallback(onProgress(lesson), [
+    lesson.slug,
+  ])
+
+  const onEndedCallback = React.useCallback(onEnded(lesson), [lesson.slug])
 
   return {
-    onProgress: onProgress(lesson),
-    onEnded: onEnded(lesson),
+    onProgress: onProgressCallback,
+    onEnded: onEndedCallback,
     onError,
     onVideoQualityChanged,
     onSubtitleChange,
     onPlaybackRateChange,
-    playbackRate,
     onVolumeChange,
-    volumeRate,
+    ...playerPrefs,
   }
 }
