@@ -97,10 +97,10 @@ const Account: React.FunctionComponent<
                           {!subscriptionData?.portalUrl ? (
                             <div className="h-12 mb-6">loading</div>
                           ) : subscriptionPrice ? (
-                            <div>
-                              {`${subscriptionPrice}/${recur(
+                            <div className="flex flex-col space-x-2 items-center">
+                              <div>{`${subscriptionPrice}/${recur(
                                 subscriptionData.price,
-                              )}`}{' '}
+                              )}`}</div>
                               {subscriptionData?.subscription
                                 ?.cancel_at_period_end && (
                                 <div className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100">
