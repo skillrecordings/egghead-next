@@ -73,14 +73,14 @@ const VIDEO_MIN_HEIGHT = 480
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
   const [lesson, setLesson] = React.useState<any>(initialLesson)
-  const slug = initialLesson.slug
+  const {slug} = lesson
   const clientHeight = isBrowser() ? height : 0
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
-  const {onProgress, onEnded} = useEggheadPlayer(initialLesson)
+  const {onProgress, onEnded} = useEggheadPlayer(lesson)
 
   const currentPlayerState = playerState.value
 
