@@ -5,6 +5,7 @@ import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import fetcher from 'utils/fetcher'
 import CoursePageLayout from 'components/pages/courses/course-page-layout'
+import useLastResource from '../../hooks/use-last-resource'
 
 type CourseProps = {
   course: any
@@ -15,6 +16,12 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
   const {data} = useSWR(course.url, fetcher, {initialData})
 
   const {slug, lessons} = data
+
+  useLastResource({
+    ...course,
+    type: `course`,
+    image_url: course.square_cover_480_url,
+  })
 
   return (
     <CoursePageLayout

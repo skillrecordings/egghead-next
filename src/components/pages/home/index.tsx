@@ -3,22 +3,25 @@ import Card from './components/card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find} from 'lodash'
+import {map, get, find, take, reject} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './components/header'
 import data from './data'
 import SortingHat from '../../survey/sorting-hat'
+import useLastResource from '../../../hooks/use-last-resource'
 
 type HomeProps = {}
 
 const Home: FunctionComponent<HomeProps> = () => {
   const {viewer, loading} = useViewer()
 
+  const {lastResource} = useLastResource()
+
   const video: any = find(data, {id: 'video'})
   const schedule: any = find(data, {id: 'schedule'})
-  const featured: any = get(find(data, {id: 'featured'}), 'resources', {})
+  let featured: any = get(find(data, {id: 'featured'}), 'resources', {})
   const devEssentials: any = find(data, {id: 'devEssentials'})
   const freeCourses: any = find(data, {id: 'freeCourses'})
   const stateManagement: any = find(data, {
@@ -30,6 +33,21 @@ const Home: FunctionComponent<HomeProps> = () => {
   const topics: any = find(data, {id: 'topics'})
   const swag: any = find(data, {id: 'swag'})
 
+  if (lastResource) {
+    console.log(lastResource)
+    featured = [
+      {
+        name: `Keep Watching`,
+        title: lastResource.title,
+        path: lastResource.path,
+        image: lastResource.image_url,
+      },
+      ...take(reject(featured, {path: lastResource.path}), 2),
+    ]
+  }
+
+  console.log(featured)
+
   type CardProps = {
     data: any
     className?: string
@@ -40,16 +58,18 @@ const Home: FunctionComponent<HomeProps> = () => {
     return (
       <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
         <>
-          <Link href={path}>
-            <a className="mb-2 sm:w-auto w-24">
-              <Image
-                width={140}
-                height={140}
-                src={image}
-                alt={`illustration for ${title}`}
-              />
-            </a>
-          </Link>
+          {image && (
+            <Link href={path}>
+              <a className="mb-2 sm:w-auto w-24">
+                <Image
+                  width={140}
+                  height={140}
+                  src={image}
+                  alt={`illustration for ${title}`}
+                />
+              </a>
+            </Link>
+          )}
           <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
             {name}
           </h2>
@@ -98,16 +118,18 @@ const Home: FunctionComponent<HomeProps> = () => {
                       className ? className : ''
                     }`}
                   >
-                    <Link href={path}>
-                      <a className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center ">
-                        <Image
-                          src={image}
-                          width={imageSize}
-                          height={imageSize}
-                          alt={`illustration for ${title}`}
-                        />
-                      </a>
-                    </Link>
+                    {image && (
+                      <Link href={path}>
+                        <a className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center ">
+                          <Image
+                            src={image}
+                            width={imageSize}
+                            height={imageSize}
+                            alt={`illustration for ${title}`}
+                          />
+                        </a>
+                      </Link>
+                    )}
                     <div className="ml-3">
                       <Link href={path}>
                         <a className="hover:text-blue-600">
@@ -227,16 +249,18 @@ const Home: FunctionComponent<HomeProps> = () => {
             <Card className="border-none my-4">
               <>
                 <div className="flex space-x-5">
-                  <Link href={portfolioProject.path}>
-                    <a className="block flex-shrink-0 sm:w-auto w-20">
-                      <Image
-                        src={portfolioProject.image}
-                        width={160}
-                        height={160}
-                        alt={`illustration for ${portfolioProject.title}`}
-                      />
-                    </a>
-                  </Link>
+                  {portfolioProject.image && (
+                    <Link href={portfolioProject.path}>
+                      <a className="block flex-shrink-0 sm:w-auto w-20">
+                        <Image
+                          src={portfolioProject.image}
+                          width={160}
+                          height={160}
+                          alt={`illustration for ${portfolioProject.title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
                   <div className="flex flex-col justify-center items-start">
                     <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
                       {portfolioProject.name}
@@ -265,16 +289,18 @@ const Home: FunctionComponent<HomeProps> = () => {
             <Card className="border-none my-4">
               <>
                 <div className="flex space-x-5">
-                  <Link href={sideProject.path}>
-                    <a className="block flex-shrink-0 sm:w-auto w-20">
-                      <Image
-                        src={sideProject.image}
-                        width={160}
-                        height={160}
-                        alt={`illustration for ${sideProject.title}`}
-                      />
-                    </a>
-                  </Link>
+                  {sideProject.image && (
+                    <Link href={sideProject.path}>
+                      <a className="block flex-shrink-0 sm:w-auto w-20">
+                        <Image
+                          src={sideProject.image}
+                          width={160}
+                          height={160}
+                          alt={`illustration for ${sideProject.title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
                   <div className="flex flex-col justify-center items-start">
                     <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
                       {sideProject.name}
@@ -317,12 +343,14 @@ const Home: FunctionComponent<HomeProps> = () => {
                     <li className="inline-block mr-2" key={resource.path}>
                       <Link href={resource.path}>
                         <a className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600">
-                          <Image
-                            src={resource.image}
-                            width={24}
-                            height={24}
-                            alt={`${resource.title} logo`}
-                          />{' '}
+                          {resource.image && (
+                            <Image
+                              src={resource.image}
+                              width={24}
+                              height={24}
+                              alt={`${resource.title} logo`}
+                            />
+                          )}{' '}
                           <span>{resource.title}</span>
                         </a>
                       </Link>
@@ -388,19 +416,21 @@ const Home: FunctionComponent<HomeProps> = () => {
                       className="py-1 flex flex-col items-center text-center  text-gray-600 hover:text-blue-600"
                       key={resource.path}
                     >
-                      <div className="flex-shrink-0">
-                        <Link href={resource.path}>
-                          <a>
-                            <Image
-                              className="rounded-lg"
-                              src={resource.image}
-                              alt={resource.title}
-                              width={205}
-                              height={205}
-                            />
-                          </a>
-                        </Link>
-                      </div>
+                      {resource.image && (
+                        <div className="flex-shrink-0">
+                          <Link href={resource.path}>
+                            <a>
+                              <Image
+                                className="rounded-lg"
+                                src={resource.image}
+                                alt={resource.title}
+                                width={205}
+                                height={205}
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                      )}
                       <Link href={resource.path}>
                         <a className="text-xs leading-tight">
                           {resource.title}

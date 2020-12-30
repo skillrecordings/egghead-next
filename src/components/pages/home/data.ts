@@ -8,7 +8,7 @@ const data = [
     instructor: 'John Lindquist',
     instructor_path: '/q/resources-by-john-lindquist',
     path:
-      'talks/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard',
+      '/talks/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard',
     poster:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606471489/next.egghead.io/posters/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard_2x_shrink.png',
     hls_url:
@@ -31,7 +31,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/409/013/square_280/EGH_RealtimeGraphqL.png',
         path:
-          'playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
+          '/playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
       },
       {
         name: 'Featured Course',
@@ -39,7 +39,7 @@ const data = [
         byline: 'Juri Strumpflohner',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/full/EGH_ScalingReactNx.png',
-        path: 'playlists/scale-react-development-with-nx-4038',
+        path: '/playlists/scale-react-development-with-nx-4038',
       },
       {
         name: 'Level Up',
@@ -47,7 +47,7 @@ const data = [
         byline: 'Tyler Clark',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
-        path: 'courses/advanced-javascript-foundations',
+        path: '/courses/advanced-javascript-foundations',
       },
     ],
   },
@@ -62,14 +62,14 @@ const data = [
         byline: 'Kyle Shevlin・53m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/403/thumb/IntroxState_1000.png',
-        path: 'courses/introduction-to-state-machines-using-xstate',
+        path: '/courses/introduction-to-state-machines-using-xstate',
       },
       {
         title: 'Immutable JavaScript Data Structures with Immer',
         byline: 'Michel Weststrate・59m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/312/thumb/ImmuateableImmer_Final.png',
-        path: 'courses/immutable-javascript-data-structures-with-immer',
+        path: '/courses/immutable-javascript-data-structures-with-immer',
       },
       {
         title: 'Write Your First Program with the Rust Language',
@@ -77,7 +77,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/448/thumb/EGH_BuildaRustApp_Final.png',
 
-        path: 'courses/write-your-first-program-with-the-rust-language',
+        path: '/courses/write-your-first-program-with-the-rust-language',
       },
       {
         title: 'Develop Accessible Web Apps with React',
@@ -85,7 +85,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
 
-        path: 'courses/develop-accessible-web-apps-with-react',
+        path: '/courses/develop-accessible-web-apps-with-react',
       },
       {
         title:
@@ -95,7 +95,7 @@ const data = [
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/211/thumb/EGH_GraphQL-AWs_Final.png',
 
         path:
-          'courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
+          '/courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
       },
       {
         title: 'GraphQL Data in React with Apollo Client',
@@ -103,7 +103,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/231/thumb/EGH_Apollo-GraphQL-React_Final.png',
 
-        path: 'courses/graphql-data-in-react-with-apollo-client',
+        path: '/courses/graphql-data-in-react-with-apollo-client',
       },
     ],
   },
@@ -118,28 +118,28 @@ const data = [
         byline: 'Mike Sherov・50m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png',
-        path: 'courses/web-security-essentials-mitm-csrf-and-xss',
+        path: '/courses/web-security-essentials-mitm-csrf-and-xss',
       },
       {
         title: "The Beginner's Guide to React",
         byline: 'Kent C. Dodds・2h 27m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/full/EGH_BeginnersReact2.png',
-        path: 'courses/the-beginner-s-guide-to-react',
+        path: '/courses/the-beginner-s-guide-to-react',
       },
       {
         title: 'Fix Common Git Mistakes',
         byline: 'Chris Achard・44m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/401/full/GitMistakes_1000.png',
-        path: 'courses/fix-common-git-mistakes',
+        path: '/courses/fix-common-git-mistakes',
       },
       {
         title: 'GraphQL Query Language',
         byline: 'Eve Porcello・30m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/236/full/EGH_GraphQLQuery_Final.png',
-        path: 'courses/graphql-query-language',
+        path: '/courses/graphql-query-language',
       },
       {
         title: 'Build an App with the AWS Cloud Development Kit',
@@ -147,14 +147,14 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
 
-        path: 'courses/build-an-app-with-the-aws-cloud-development-kit',
+        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
       },
       {
         title: 'Debug the DOM in Chrome with the Devtools Elements panel',
         byline: 'Mykola Bilokonsky・25m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/060/full/EGH_Chrome_Elements.png',
-        path: 'courses/using-chrome-developer-tools-elements',
+        path: '/courses/using-chrome-developer-tools-elements',
       },
     ],
   },
@@ -170,7 +170,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
         path:
-          'lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
+          '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
       },
       {
         title: 'XState for State Management in React Apps with David Khourshid',
@@ -178,7 +178,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/282/thumb/xstate.png',
         path:
-          'lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
+          '/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
       },
       {
         title: 'State Management in React with Chance Strickland',
@@ -186,7 +186,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
-          'lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
+          '/lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
       },
       {
         title:
@@ -195,7 +195,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
-          'lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
+          '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
       },
       {
         title: 'Managing Complex State in React with Jared Palmer',
@@ -203,7 +203,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
-          'lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
+          '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
       },
     ],
   },
@@ -211,7 +211,7 @@ const data = [
     id: 'sideProject',
     name: 'Weekend Side Project',
     title: 'Build a Video Chat App with Twilio and Gatsby',
-    path: 'courses/build-a-video-chat-app-with-twilio-and-gatsby',
+    path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/395/full/TwilioGatsby_Final.png',
     byline: 'Jason Lengstorf',
@@ -222,7 +222,8 @@ const data = [
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-    path: 'projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    path:
+      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/square_480/ecommerce-stripe-next.png',
     byline: 'Colby Fayok',
@@ -233,7 +234,7 @@ const data = [
     id: 'mdxConf',
     name: 'Future of Markdown',
     title: 'MDX Conf 2020',
-    path: 'playlists/mdx-conf-3fc2',
+    path: '/playlists/mdx-conf-3fc2',
     byline: 'Chris Biscardi',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png',
@@ -243,37 +244,37 @@ const data = [
       {
         title: 'Demystifying MDX',
         byline: 'Cole Bremis',
-        path: 'talks/mdx-demystifying-mdx',
+        path: '/talks/mdx-demystifying-mdx',
       },
       {
         title: 'MDX v2 Syntax',
         byline: 'Laurie Barth',
-        path: 'talks/egghead-mdx-v2-syntax',
+        path: '/talks/egghead-mdx-v2-syntax',
       },
       {
         title: 'MDX and VueJS/NuxtJS',
         byline: 'Cole Bremis',
-        path: 'talks/mdx-mdx-and-vuejs-nuxtjs',
+        path: '/talks/mdx-mdx-and-vuejs-nuxtjs',
       },
       {
         title: 'Migrating to MDX',
         byline: 'Monica Powell',
-        path: 'talks/mdx-migrating-to-mdx',
+        path: '/talks/mdx-migrating-to-mdx',
       },
       {
         title: 'Personal Site Playground with MDX',
         byline: 'Prince Wilson',
-        path: 'talks/mdx-personal-site-playgrounds-with-mdx',
+        path: '/talks/mdx-personal-site-playgrounds-with-mdx',
       },
       {
         title: 'The X in MDX',
         byline: 'Rodrigo Pombo',
-        path: 'talks/mdx-the-x-in-mdx',
+        path: '/talks/mdx-the-x-in-mdx',
       },
       {
         title: 'Digital Gardening with MDX Magic',
         byline: 'Kathleen McMahon',
-        path: 'talks/mdx-digital-gardening-with-mdx-magic',
+        path: '/talks/mdx-digital-gardening-with-mdx-magic',
       },
     ],
   },
@@ -296,55 +297,55 @@ const data = [
     resources: [
       {
         title: 'React',
-        path: 's/react',
+        path: '/q/react',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
       },
       {
         title: 'JavaScript',
-        path: 's/javascript',
+        path: '/q/javascript',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
       },
       {
         title: 'Angular',
-        path: 's/angular',
+        path: '/q/angular',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/300/thumb/angular2.png',
       },
       {
         title: 'Node',
-        path: 's/node',
+        path: '/q/node',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png',
       },
       {
         title: 'Gatsby',
-        path: 's/gatsby',
+        path: '/q/gatsby',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/211/thumb/gatsby.png',
       },
       {
         title: 'GraphQL',
-        path: 's/graphql',
+        path: '/q/graphql',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/034/thumb/graphqllogo.png',
       },
       {
         title: 'AWS',
-        path: 's/aws',
+        path: '/q/aws',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
       },
       {
         title: 'RxJS',
-        path: 's/rxjs',
+        path: '/q/rxjs',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/375/thumb/rxlogo.png',
       },
       {
         title: 'Redux',
-        path: 's/redux',
+        path: '/q/redux',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
       },

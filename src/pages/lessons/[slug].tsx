@@ -83,7 +83,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const currentPlayerState = playerState.value
 
-  useLastResource(lesson)
+  useLastResource({...lesson, image_url: lesson.icon_url})
 
   const {data} = useSWR(lesson.media_url, fetcher)
 
