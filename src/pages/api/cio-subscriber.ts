@@ -124,7 +124,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).end()
       }
     } catch (error) {
-      console.error(error)
+      // console.error(error)
       res.status(200).end()
     }
   } else {

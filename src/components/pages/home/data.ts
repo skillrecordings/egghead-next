@@ -146,7 +146,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
-          'lessons/egghead-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
+          'lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
       },
     ],
   },
@@ -215,10 +215,9 @@ const data = [
     title: 'Upcoming Events',
     resources: [
       {
-        title: 'egghead talk with James Quick and Jason Lengstorf',
-        byline: 'Dec 2nd @ 12PM PST',
-        path:
-          'https://egghead.zoom.us/webinar/register/5416061508899/WN_cvmQMHRzRj6aad9pkBWoFg',
+        title: 'egghead is closed for a break',
+        byline: ' we will be back on Jan 4th @ 9AM PST',
+        path: '',
         calendar: '',
       },
     ],

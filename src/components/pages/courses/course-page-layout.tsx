@@ -9,6 +9,7 @@ import getDependencies from 'data/courseDependencies'
 import {get, first, filter} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import {track} from '../../../utils/analytics'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -54,7 +55,14 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const PlayButton = () => {
     return firstLessonURL ? (
       <Link href={firstLessonURL}>
-        <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+        <a
+          onClick={() => {
+            track(`clicked start watching course`, {
+              course: course.slug,
+            })
+          }}
+          className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+        >
           <PlayIcon className="text-blue-100 mr-2" />
           Start Watching
         </a>
@@ -172,7 +180,18 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           <div className="font-semibold flex items-center leading-tight py-2">
                             {playlist.path && (
                               <Link href={playlist.path}>
-                                <a className="hover:underline font-semibold flex items-center w-full">
+                                <a
+                                  onClick={() => {
+                                    track(
+                                      `clicked collection link on course page`,
+                                      {
+                                        course: course.slug,
+                                        collection: playlist.slug,
+                                      },
+                                    )
+                                  }}
+                                  className="hover:underline font-semibold flex items-center w-full"
+                                >
                                   <Markdown className="prose md:prose-lg text-gray-900 mt-0">
                                     {playlist.title}
                                   </Markdown>
@@ -197,7 +216,19 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                         </div>
                                         {lesson.path && (
                                           <Link href={lesson.path}>
-                                            <a className="hover:underline flex items-center w-full">
+                                            <a
+                                              onClick={() => {
+                                                track(
+                                                  `clicked collection video link on course page`,
+                                                  {
+                                                    course: course.slug,
+                                                    video: lesson.slug,
+                                                    collection: playlist.slug,
+                                                  },
+                                                )
+                                              }}
+                                              className="hover:underline flex items-center w-full"
+                                            >
                                               <Markdown className="prose md:prose-lg text-gray-700 mt-0">
                                                 {lesson.title}
                                               </Markdown>
@@ -230,7 +261,15 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                             </div>
                             {lesson.path && (
                               <Link href={lesson.path}>
-                                <a className="hover:underline font-semibold flex items-center w-full">
+                                <a
+                                  onClick={() => {
+                                    track(`clicked video link on course page`, {
+                                      course: course.slug,
+                                      video: lesson.slug,
+                                    })
+                                  }}
+                                  className="hover:underline font-semibold flex items-center w-full"
+                                >
                                   <Markdown className="prose md:prose-lg text-gray-900 mt-0">
                                     {lesson.title}
                                   </Markdown>

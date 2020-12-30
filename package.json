@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "yarn make-tags-sitemap",
-    "build": "next build",
+    "build": "yarn test:ci && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "next start",

@@ -2,10 +2,14 @@ import React, {Component} from 'react'
 import omit from 'lodash/omit'
 
 import {propTypes, defaultProps} from './props'
-import Wistia from './players/Wistia'
 import Bitmovin from './players/Bitmovin'
 import YouTube from './players/YouTube'
-import useEggheadPlayer from './use-egghead-player'
+import {track} from 'utils/analytics'
+
+import useEggheadPlayer, {
+  getPlayerPrefs,
+  savePlayerPrefs,
+} from './use-egghead-player'
 
 export default class EggheadPlayer extends Component {
   static displayName = 'EggheadPlayer'
@@ -17,18 +21,10 @@ export default class EggheadPlayer extends Component {
   componentWillUnmount() {
     clearTimeout(this.progressTimeout)
   }
-  getUrl = () =>
-    this.props.dash_url ||
-    this.props.hls_url ||
-    this.props.wistia_url ||
-    this.props.url
+  getUrl = () => this.props.dash_url || this.props.hls_url || this.props.url
   shouldComponentUpdate(nextProps) {
     const url = this.getUrl()
-    const nextUrl =
-      nextProps.dash_url ||
-      nextProps.hls_url ||
-      nextProps.wistia_url ||
-      nextProps.url
+    const nextUrl = nextProps.dash_url || nextProps.hls_url || nextProps.url
     return (
       url !== nextUrl ||
       this.props.playing !== nextProps.playing ||
@@ -97,8 +93,6 @@ export default class EggheadPlayer extends Component {
       players.push(YouTube)
     } else if (Bitmovin.canPlay(url)) {
       players.push(Bitmovin)
-    } else if (Wistia.canPlay(url)) {
-      players.push(Wistia)
     }
 
     return players.map(this.renderPlayer)
@@ -109,23 +103,78 @@ export default class EggheadPlayer extends Component {
   renderPlayer = (Player) => {
     const url = this.getUrl()
     const active = Player.canPlay(url)
-    const {...activeProps} = this.props
+    const {resource, ...activeProps} = this.props
     const props = active ? {...activeProps, ref: this.ref} : {}
     const {
-      onPlaybackRateChange,
       playbackRate,
-      onVolumeChange,
       volumeRate,
-    } = useEggheadPlayer()
+      videoQuality,
+      subtitle,
+      muted,
+      autoplay,
+    } = getPlayerPrefs()
+
+    const displaySubtitles = props.subtitlesUrl && subtitle?.label !== 'off'
+
+    const onVideoQualityChanged = ({targetQuality}) => {
+      const videoQuality = {
+        id: targetQuality.id,
+        bitrate: targetQuality.bitrate,
+        label: targetQuality.label,
+        width: targetQuality.width,
+        height: targetQuality.height,
+      }
+
+      savePlayerPrefs({videoQuality})
+
+      track(`set video quality`, {
+        quality: targetQuality.label || 'auto',
+        video: resource.slug,
+      })
+    }
+
+    const onSubtitleChange = ({targetSubtitle}) => {
+      const subtitle = {
+        id: targetSubtitle.id,
+        kind: targetSubtitle.kind,
+        label: targetSubtitle.label,
+        lang: targetSubtitle.lang,
+      }
+
+      savePlayerPrefs({subtitle})
+
+      track(`set video subtitles`, {
+        language: subtitle.lang || 'none',
+        video: resource.slug,
+      })
+    }
 
     return (
       <Player
         key={Player.displayName}
         {...props}
+        displaySubtitles={displaySubtitles}
         playbackRate={playbackRate || props.playbackRate}
-        onPlaybackRateChange={onPlaybackRateChange}
-        volume={volumeRate || props.volume}
-        onVolumeChange={onVolumeChange}
+        volume={volumeRate ?? props.volume}
+        videoQualityCookie={videoQuality}
+        muted={muted}
+        autoplay={autoplay}
+        onPlaybackRateChange={(playbackRate) => {
+          savePlayerPrefs({playbackRate})
+          track(`set playback rate`, {
+            playbackRate,
+            video: resource.slug,
+          })
+        }}
+        onVolumeChange={(volumeRate) => {
+          savePlayerPrefs({volumeRate})
+          track(`set volume`, {
+            volume: volumeRate,
+            video: resource.slug,
+          })
+        }}
+        onVideoQualityChanged={onVideoQualityChanged}
+        onSubtitleChange={onSubtitleChange}
       />
     )
   }

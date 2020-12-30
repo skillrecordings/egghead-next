@@ -9,6 +9,7 @@ import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './components/header'
 import data from './data'
+import SortingHat from '../../survey/sorting-hat'
 
 type HomeProps = {}
 
@@ -223,9 +224,15 @@ const Home: FunctionComponent<HomeProps> = () => {
             </div>
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
               <CardVerticalWithStack data={devEssentials} />
-              <CardVerticalWithStack
-                className="sm:py-3 py-2"
-                data={stateManagement}
+
+              <SortingHat
+                className="sm:py-3 py-2 h-full flex flex-col justify-between"
+                alternative={
+                  <CardVerticalWithStack
+                    className="sm:py-3 py-2"
+                    data={stateManagement}
+                  />
+                }
               />
             </div>
             <Card className="border-none my-4">

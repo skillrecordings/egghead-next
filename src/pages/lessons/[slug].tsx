@@ -28,6 +28,8 @@ import fetcher from 'utils/fetcher'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
+import {useEggheadPlayer} from '../../components/EggheadPlayer'
+import getAccessTokenFromCookie from '../../utils/getAccessTokenFromCookie'
 
 const tracer = getTracer('lesson-page')
 
@@ -71,21 +73,30 @@ const VIDEO_MIN_HEIGHT = 480
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
-
+  const [lesson, setLesson] = React.useState<any>(initialLesson)
+  const {slug} = lesson
   const clientHeight = isBrowser() ? height : 0
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
+  const {onProgress, onEnded} = useEggheadPlayer(lesson)
 
   const currentPlayerState = playerState.value
-
-  const lesson: any = {...initialLesson}
 
   useLastResource(lesson)
 
   const {data} = useSWR(lesson.media_url, fetcher)
+
+  React.useEffect(() => {
+    const token = getAccessTokenFromCookie()
+    loadLesson(slug, token).then((loadedLesson) => {
+      setLesson((lesson: any) => {
+        return {...lesson, loadedLesson}
+      })
+    })
+  }, [slug])
 
   const {
     instructor,
@@ -97,7 +108,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     tags,
     description,
     course,
-    slug,
     free_forever,
   } = lesson
 
@@ -224,6 +234,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 {playerVisible && (
                   <EggheadPlayer
                     ref={playerRef}
+                    resource={lesson}
                     hls_url={data.hls_url}
                     dash_url={data.dash_url}
                     playing={playerState.matches('playing')}
@@ -235,7 +246,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     onPause={() => {
                       send('PAUSE')
                     }}
-                    onEnded={() => send('COMPLETE')}
+                    onProgress={onProgress}
+                    onEnded={() => {
+                      onEnded()
+                      send('COMPLETE')
+                    }}
                     subtitlesUrl={get(lesson, 'subtitles_url')}
                   />
                 )}
