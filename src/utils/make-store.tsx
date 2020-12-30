@@ -21,7 +21,6 @@ export default function makeStore(
     children,
   }): JSX.Element => {
     const [store, dispatch] = React.useReducer(reducer, initialState)
-    console.log('store provider', store)
     return (
       <>
         <dispatchContext.Provider value={dispatch}>

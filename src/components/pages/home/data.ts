@@ -34,7 +34,7 @@ const data = [
           'playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
       },
       {
-        name: 'Featured Playlist',
+        name: 'Featured Course',
         title: 'Scale React Development with NX',
         byline: 'Juri Strumpflohner',
         image:
@@ -48,6 +48,62 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
         path: 'courses/advanced-javascript-foundations',
+      },
+    ],
+  },
+  {
+    id: 'freeCourses',
+    name: 'Free Courses',
+    title: 'Learn Something New',
+    description: '',
+    resources: [
+      {
+        title: 'Introduction to State Machines Using XState',
+        byline: 'Kyle Shevlin・53m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/403/thumb/IntroxState_1000.png',
+        path: 'courses/introduction-to-state-machines-using-xstate',
+      },
+      {
+        title: 'Immutable JavaScript Data Structures with Immer',
+        byline: 'Michel Weststrate・59m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/312/thumb/ImmuateableImmer_Final.png',
+        path: 'courses/immutable-javascript-data-structures-with-immer',
+      },
+      {
+        title: 'Write Your First Program with the Rust Language',
+        byline: 'Pascal Precht・20m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/448/thumb/EGH_BuildaRustApp_Final.png',
+
+        path: 'courses/write-your-first-program-with-the-rust-language',
+      },
+      {
+        title: 'Develop Accessible Web Apps with React',
+        byline: 'Erin Doyle・88m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+
+        path: 'courses/develop-accessible-web-apps-with-react',
+      },
+      {
+        title:
+          'Scalable Offline-Ready GraphQL Applications with AWS AppSync & React',
+        byline: 'nader dabit・64m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/211/thumb/EGH_GraphQL-AWs_Final.png',
+
+        path:
+          'courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
+      },
+      {
+        title: 'GraphQL Data in React with Apollo Client',
+        byline: 'Nik Graf・23m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/231/thumb/EGH_Apollo-GraphQL-React_Final.png',
+
+        path: 'courses/graphql-data-in-react-with-apollo-client',
       },
     ],
   },
@@ -86,11 +142,12 @@ const data = [
         path: 'courses/graphql-query-language',
       },
       {
-        title: 'Develop Accessible Web Apps with React',
-        byline: 'Erin Doyle・1h 28m・Course',
+        title: 'Build an App with the AWS Cloud Development Kit',
+        byline: 'Tomasz Łakomy・1h 4m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/full/AccessibleReact_1000.png',
-        path: 'courses/develop-accessible-web-apps-with-react',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+
+        path: 'courses/build-an-app-with-the-aws-cloud-development-kit',
       },
       {
         title: 'Debug the DOM in Chrome with the Devtools Elements panel',
@@ -160,6 +217,17 @@ const data = [
     byline: 'Jason Lengstorf',
     description:
       'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
+  },
+  {
+    id: 'portfolioProject',
+    name: 'Portfolio Project',
+    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    path: 'projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/square_480/ecommerce-stripe-next.png',
+    byline: 'Colby Fayok',
+    description:
+      'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
   },
   {
     id: 'mdxConf',

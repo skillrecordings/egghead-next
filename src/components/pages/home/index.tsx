@@ -20,10 +20,12 @@ const Home: FunctionComponent<HomeProps> = () => {
   const schedule: any = find(data, {id: 'schedule'})
   const featured: any = get(find(data, {id: 'featured'}), 'resources', {})
   const devEssentials: any = find(data, {id: 'devEssentials'})
+  const freeCourses: any = find(data, {id: 'freeCourses'})
   const stateManagement: any = find(data, {
     id: 'stateManagement',
   })
   const sideProject: any = find(data, {id: 'sideProject'})
+  const portfolioProject: any = find(data, {id: 'portfolioProject'})
   const mdxConf: any = find(data, {id: 'mdxConf'})
   const topics: any = find(data, {id: 'topics'})
   const swag: any = find(data, {id: 'swag'})
@@ -222,18 +224,43 @@ const Home: FunctionComponent<HomeProps> = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+            <Card className="border-none my-4">
+              <>
+                <div className="flex space-x-5">
+                  <Link href={portfolioProject.path}>
+                    <a className="block flex-shrink-0 sm:w-auto w-20">
+                      <Image
+                        src={portfolioProject.image}
+                        width={160}
+                        height={160}
+                        alt={`illustration for ${portfolioProject.title}`}
+                      />
+                    </a>
+                  </Link>
+                  <div className="flex flex-col justify-center items-start">
+                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+                      {portfolioProject.name}
+                    </h2>
+                    <Link href={portfolioProject.path}>
+                      <a className="hover:text-blue-600">
+                        <h3 className="text-xl font-bold leading-tighter">
+                          {portfolioProject.title}
+                        </h3>
+                      </a>
+                    </Link>
+                    <div className="text-xs text-gray-600 mb-2">
+                      {portfolioProject.byline}
+                    </div>
+                    <Markdown className="prose prose-sm max-w-none">
+                      {portfolioProject.description}
+                    </Markdown>
+                  </div>
+                </div>
+              </>
+            </Card>
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
               <CardVerticalWithStack data={devEssentials} />
-
-              <SortingHat
-                className="sm:py-3 py-2 h-full flex flex-col justify-between"
-                alternative={
-                  <CardVerticalWithStack
-                    className="sm:py-3 py-2"
-                    data={stateManagement}
-                  />
-                }
-              />
+              <CardVerticalWithStack data={freeCourses} />
             </div>
             <Card className="border-none my-4">
               <>
@@ -271,6 +298,39 @@ const Home: FunctionComponent<HomeProps> = () => {
             </Card>
           </div>
           <aside className="lg:col-span-4 space-y-5">
+            <SortingHat
+              className="sm:py-3 py-2 h-full flex flex-col justify-between"
+              alternative={
+                <CardVerticalWithStack
+                  className="sm:py-3 py-2"
+                  data={stateManagement}
+                />
+              }
+            />
+            <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
+              <h2 className="uppercase font-semibold text-xs text-gray-700">
+                {topics.name}
+              </h2>
+              <div>
+                <ul className="space-y-2">
+                  {map(get(topics, 'resources'), (resource) => (
+                    <li className="inline-block mr-2" key={resource.path}>
+                      <Link href={resource.path}>
+                        <a className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600">
+                          <Image
+                            src={resource.image}
+                            width={24}
+                            height={24}
+                            alt={`${resource.title} logo`}
+                          />{' '}
+                          <span>{resource.title}</span>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Card>
             <Card>
               <>
                 <h2 className="uppercase font-semibold text-xs text-gray-700 mb-1">
@@ -305,30 +365,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                 </ul>
               </>
             </Card>
-            <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
-              <h2 className="uppercase font-semibold text-xs text-gray-700">
-                {topics.name}
-              </h2>
-              <div>
-                <ul className="space-y-2">
-                  {map(get(topics, 'resources'), (resource) => (
-                    <li className="inline-block mr-2" key={resource.path}>
-                      <Link href={resource.path}>
-                        <a className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600">
-                          <Image
-                            src={resource.image}
-                            width={24}
-                            height={24}
-                            alt={`${resource.title} logo`}
-                          />{' '}
-                          <span>{resource.title}</span>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Card>
+
             <Card>
               <>
                 <Link href={swag.path}>

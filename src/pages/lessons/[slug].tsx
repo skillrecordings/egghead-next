@@ -73,7 +73,6 @@ const VIDEO_MIN_HEIGHT = 480
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
   const [lesson, setLesson] = React.useState<any>(initialLesson)
-  const {slug} = initialLesson
   const clientHeight = isBrowser() ? height : 0
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
@@ -89,13 +88,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {data} = useSWR(lesson.media_url, fetcher)
 
   React.useEffect(() => {
-    const token = getAccessTokenFromCookie()
     setLesson(initialLesson)
-    loadLesson(slug, token).then((loadedLesson) => {
-      console.log('loaded lesson')
-      setLesson({...loadedLesson})
-    })
-  }, [slug])
+    loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
+  }, [initialLesson])
 
   const {
     instructor,
@@ -108,6 +103,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     description,
     course,
     free_forever,
+    slug,
   } = lesson
 
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
