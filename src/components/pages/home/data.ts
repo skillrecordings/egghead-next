@@ -146,7 +146,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
-          'lessons/egghead-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
+          'lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
       },
     ],
   },
