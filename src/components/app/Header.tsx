@@ -36,7 +36,7 @@ const Header: FunctionComponent = () => {
                         })
                       }
                     >
-                      Learning Resources
+                      Search Learning Resources
                     </a>
                   </Link>
                 </li>
