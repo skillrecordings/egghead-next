@@ -90,7 +90,7 @@ const Header: FunctionComponent = () => {
                           location: 'header',
                         })
                       }
-                      className="px-3 py-2 bg-green-300  hover:opacity-100 hover:bg-green-100  active:bg-green-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                      className="inline-flex md:w-auto w-full px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
                     >
                       Join egghead
                     </a>
