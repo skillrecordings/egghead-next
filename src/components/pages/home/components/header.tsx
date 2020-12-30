@@ -17,7 +17,7 @@ type HeaderProps = {
 }
 
 const Header: FunctionComponent<HeaderProps> = ({
-  heading = `Craft your developer portfolio and get a better job 2021`,
+  heading = `Craft your developer portfolio and get a better job in 2021`,
   subheading = `egghead curates high-quality in-depth web
   tutorials, projects, and resources for professional web developers`,
   primaryCta = {label: 'Create an account', url: '/login'},
