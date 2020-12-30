@@ -40,20 +40,6 @@ const Header: FunctionComponent = () => {
                     </a>
                   </Link>
                 </li>
-                <li className="">
-                  <Link href="/learn" activeClassName="bg-gray-100">
-                    <a
-                      className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
-                      onClick={() =>
-                        track('clicked topic index', {
-                          location: 'header',
-                        })
-                      }
-                    >
-                      Topic Index
-                    </a>
-                  </Link>
-                </li>
               </ul>
             </nav>
           )}
