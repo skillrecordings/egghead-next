@@ -25,7 +25,7 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
 }
 
 const SortingHat: React.FunctionComponent<{
-  className: any
+  className?: any
   alternative?: JSX.Element
 }> = ({className, alternative}) => {
   const [state, dispatch] = React.useReducer(
