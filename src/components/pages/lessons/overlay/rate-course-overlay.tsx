@@ -1,5 +1,7 @@
 import React from 'react'
 import {Formik} from 'formik'
+import axios from 'utils/configured-axios'
+import {track} from 'utils/analytics'
 
 const rangeArr = [1, 2, 3, 4, 5, 6, 7]
 
@@ -15,11 +17,12 @@ const rangeArrMobile = [
 
 const RateCourseOverlay: React.FunctionComponent<{
   course: any
-  send: any
-}> = ({course, send}) => {
+  onRated: () => void
+  rateUrl: any
+}> = ({course, onRated, rateUrl}) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
-  const {title, square_cover_480_url} = course
+  const {title, square_cover_480_url, slug} = course
   return (
     <>
       {isError && (
@@ -45,14 +48,17 @@ const RateCourseOverlay: React.FunctionComponent<{
           <Formik
             initialValues={{'rate-input': ''}}
             onSubmit={(values) => {
-              console.log('submit with value: ', values['rate-input'])
-              // someRateCourseHandler(values['rate-input'])
-              //   .then(() => {
-              //     setIsSubmitted(true)
-              //   })
-              //   .catch(() => {
-              //     setIsError(true)
-              //   })
+              const rating = values['rate-input']
+              setIsSubmitted(true)
+              axios
+                .post(rateUrl, {rating})
+                .then((response) => {
+                  track('rated course', {
+                    course: slug,
+                    rating,
+                  })
+                })
+                .finally(onRated)
             }}
           >
             {(props) => {

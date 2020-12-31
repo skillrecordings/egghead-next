@@ -1,12 +1,12 @@
 import React, {FunctionComponent} from 'react'
 import {track} from 'utils/analytics'
 import cookies from 'utils/cookies'
+import {useEggheadPlayerPrefs} from '../../EggheadPlayer/use-egghead-player'
 
 type AutoplayToggleProps = {}
 
 const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = () => {
-  //   const {autoplay, setAutoplay} = useEggheadPlayer()
-  const [autoplay, setAutoplay] = React.useState(false)
+  const {autoplay, setPlayerPrefs} = useEggheadPlayerPrefs()
   React.useEffect(() => {
     cookies.set('egghead-autoplay', autoplay)
   }, [autoplay])
@@ -16,7 +16,7 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = () => {
       <button
         onClick={() => {
           track(`clicked toggle autoplay ${autoplay ? 'off' : 'on'}`)
-          setAutoplay(!autoplay)
+          setPlayerPrefs({autoplay: !autoplay})
         }}
         type="button"
         name="autoplay"
@@ -34,7 +34,7 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = () => {
           className={`${
             autoplay ? 'translate-x-5' : 'translate-x-0'
           } inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
-        ></span>
+        />
       </button>
       <div className="ml-2">Autoplay</div>
     </div>

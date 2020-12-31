@@ -8,17 +8,18 @@ import Eggo from '../../../components/images/eggo.svg'
 import {useNextUpData} from 'hooks/use-next-up-data'
 import {Element, scroller} from 'react-scroll'
 import {track} from 'utils/analytics'
+import {LessonResource} from '../../../types'
 
 type NextUpListProps = {
   currentLessonSlug: string
-  url: string
+  nextUp: any
 }
 
 const NextUpList: FunctionComponent<NextUpListProps> = ({
-  url,
+  nextUp,
   currentLessonSlug,
 }) => {
-  const {nextUpData} = useNextUpData(url)
+  const {nextUpData} = nextUp
   const [activeElement] = React.useState(currentLessonSlug)
   const scrollableNodeRef: any = React.createRef()
 
@@ -44,61 +45,78 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
             maxHeight: 300,
           }}
         >
-          {nextUpData.list.lessons.map(
-            (lesson: {slug: any; title: any; path: any}, index = 0) => {
-              const Item: FunctionComponent<{className?: string}> = ({
-                className,
-              }) => {
-                return (
-                  <div
-                    className={`flex p-3 ${
-                      className ? className : ''
-                    } transition-colors ease-in-out duration-150`}
-                  >
-                    <div className="flex items-center mr-2">
-                      <div className="mr-1 text-xs opacity-50 tracking-tight">
-                        {index + 1}
-                      </div>
-                      {/* <input
-                type="form-checkbox"
-                checked={lesson.completed}
-                readOnly
-              /> */}
-                    </div>
-                    <div className="w-full leading-tight">{lesson.title}</div>
-                  </div>
-                )
-              }
-
-              return (
-                <li key={lesson.slug}>
-                  <Element name={lesson.slug} />
-                  <div>
-                    {lesson.slug !== currentLessonSlug ? (
-                      <Link href={lesson.path}>
-                        <a
-                          onClick={() => {
-                            track(`clicked next up lesson`, {
-                              lesson: lesson.slug,
-                            })
-                          }}
-                          className="font-semibold"
-                        >
-                          <Item className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100" />
-                        </a>
-                      </Link>
-                    ) : (
-                      <Item className="font-semibold bg-blue-50 text-blue-600" />
-                    )}
-                  </div>
-                </li>
-              )
-            },
-          )}
+          {nextUpData.list.lessons.map((lesson: LessonResource, index = 0) => {
+            const completedLessons = get(
+              nextUpData.list,
+              'progress.completed_lessons',
+              [],
+            ).map((lesson: LessonResource) => lesson.slug)
+            const completed = completedLessons.includes(lesson.slug)
+            return (
+              <li key={lesson.slug}>
+                <Element name={lesson.slug} />
+                <div>
+                  {lesson.slug !== currentLessonSlug ? (
+                    <Link href={lesson.path}>
+                      <a
+                        onClick={() => {
+                          track(`clicked next up lesson`, {
+                            lesson: lesson.slug,
+                          })
+                        }}
+                        className="font-semibold"
+                      >
+                        <Item
+                          title={lesson.title}
+                          index={index}
+                          completed={completed}
+                          className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
+                        />
+                      </a>
+                    </Link>
+                  ) : (
+                    <Item
+                      title={lesson.title}
+                      index={index}
+                      completed={completed}
+                      className="font-semibold bg-blue-50 text-blue-600"
+                    />
+                  )}
+                </div>
+              </li>
+            )
+          })}
         </ol>
       </div>
     </div>
   ) : null
+}
+
+const Item: FunctionComponent<{
+  className?: string
+  title: string
+  index: number
+  completed: boolean
+}> = ({className, title, index, completed}) => {
+  return (
+    <div
+      className={`flex p-3 ${
+        className ? className : ''
+      } transition-colors ease-in-out duration-150`}
+    >
+      <div className="flex items-center mr-2">
+        <div className="mr-1 text-xs opacity-50 tracking-tight">
+          {completed ? `✔️` : index + 1}
+        </div>
+        {/* <input
+                type="form-checkbox"
+                checked={lesson.completed}
+                readOnly
+              /> */}
+      </div>
+      <div className="w-full leading-tight">{title}</div>
+    </div>
+  )
 }
 
 const TweetLink: FunctionComponent<{
@@ -210,7 +228,7 @@ type LessonInfoProps = {
     slug: string
   }
   [cssRelated: string]: any
-  nextUpUrl: string
+  nextUp: any
   playerState: any
 }
 
@@ -220,7 +238,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   tags,
   description,
   course,
-  nextUpUrl,
+  nextUp,
   lesson,
   playerState,
   ...restProps
@@ -432,8 +450,8 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
           </div>
         </div>
       </div>
-      {!playerState.matches('loading') && nextUpUrl && (
-        <NextUpList url={nextUpUrl} currentLessonSlug={lesson.slug} />
+      {!playerState.matches('loading') && nextUp && (
+        <NextUpList nextUp={nextUp} currentLessonSlug={lesson.slug} />
       )}
     </div>
   )

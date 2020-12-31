@@ -7,9 +7,9 @@ import {track} from 'utils/analytics'
 const NextUpOverlay: React.FunctionComponent<{
   lesson: any
   send: any
-  url: string
-}> = ({lesson, send, url}) => {
-  const {nextLessonTitle, nextUpPath} = useNextUpData(url)
+  nextUp: any
+}> = ({lesson, send, nextUp}) => {
+  const {nextLessonTitle, nextUpPath} = nextUp
   const courseImage = lesson?.course?.square_cover_480_url
   return (
     <>
