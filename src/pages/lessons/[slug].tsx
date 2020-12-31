@@ -132,24 +132,20 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       const progress = getProgress()
       if (progress?.rate_url) {
         send('RATE')
+      } else if (autoplay && nextUp.nextUpPath) {
+        // this is sloppy and transitions weird so we might consider
+        // a "next" overlay with a 3-5 second "about to play" spinner
+        // instead of just lurching forward
+        // so instead of LOAD this might call NEXT but the next overlay
+        // would read the autoplay preference and present the appropriate
+        // UI
+        send('LOAD')
+        setTimeout(() => {
+          console.log(`autoplaying ${nextUp.nextUpPath}`)
+          router.push(nextUp.nextUpPath)
+        }, 1250)
       } else if (nextUp.nextUpPath) {
-        if (autoplay) {
-          // this is sloppy and transitions weird so we might consider
-          // a "next" overlay with a 3-5 second "about to play" spinner
-          // instead of just lurching forward
-          // so instead of LOAD this might call NEXT but the next overlay
-          // would read the autoplay preference and present the appropriate
-          // UI
-          send('LOAD')
-          setTimeout(() => {
-            console.log(`autoplaying ${nextUp.nextUpPath}`)
-            router.push(nextUp.nextUpPath)
-          }, 1250)
-        } else if (progress) {
-          send('NEXT')
-        } else {
-          send(`RECOMMEND`)
-        }
+        send(`NEXT`)
       } else {
         send(`RECOMMEND`)
       }
