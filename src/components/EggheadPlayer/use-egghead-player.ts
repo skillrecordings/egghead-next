@@ -224,7 +224,7 @@ const PLAY_PREFS_KEY = 'egghead-player-prefs'
 const defaultPlayerPreferences = {
   volumeRate: 80,
   playbackRate: 1,
-  autoplay: true,
+  autoplay: false,
   videoQuality: {
     bitrate: null,
     height: null,
