@@ -5,6 +5,7 @@ import Eggo from '../images/eggo.svg'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
+import FeedbackInput from 'components/feedback-input'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -55,6 +56,7 @@ const Header: FunctionComponent = () => {
                 }}
                 className="flex items-center justify-center space-x-1"
               >
+                <FeedbackInput dark={false} />
                 <span>
                   {viewer.name || viewer.full_name || viewer.email}{' '}
                   {viewer.is_pro && ' ⭐️ '}

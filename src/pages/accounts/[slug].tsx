@@ -42,7 +42,6 @@ const Account: React.FunctionComponent<
       recurring: {interval, interval_count},
     } = price
 
-    console.log(interval, interval_count)
     if (interval === 'month' && interval_count === 3) return 'quarter'
     if (interval === 'month' && interval_count === 6) return '6-months'
     if (interval === 'month' && interval_count === 1) return 'month'
@@ -58,7 +57,6 @@ const Account: React.FunctionComponent<
           },
         })
         .then(({data}) => {
-          console.log(data)
           if (data) {
             setSubscriptionData(data)
           }

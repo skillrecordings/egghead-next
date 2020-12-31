@@ -74,7 +74,6 @@ const VIDEO_MIN_HEIGHT = 480
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
   const [lesson, setLesson] = React.useState<any>(initialLesson)
-  const {slug} = lesson
   const clientHeight = isBrowser() ? height : 0
   const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
   const router = useRouter()
@@ -85,18 +84,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const currentPlayerState = playerState.value
 
-  useLastResource(lesson)
+  useLastResource({...lesson, image_url: lesson.icon_url})
 
   const {data} = useSWR(lesson.media_url, fetcher)
 
   React.useEffect(() => {
-    const token = getAccessTokenFromCookie()
-    loadLesson(slug, token).then((loadedLesson) => {
-      setLesson((lesson: any) => {
-        return {...lesson, loadedLesson}
-      })
-    })
-  }, [slug])
+    setLesson(initialLesson)
+    loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
+  }, [initialLesson])
 
   const {
     instructor,
@@ -109,6 +104,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     description,
     course,
     free_forever,
+    slug,
   } = lesson
 
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
@@ -198,7 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div key={lesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
+      <div key={initialLesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div
             className="w-full m-auto"

@@ -41,6 +41,7 @@ export async function loadLesson(slug: string, token?: string) {
         media_url
         lesson_view_url
         path
+        icon_url
         course {
           title
           square_cover_480_url
