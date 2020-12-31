@@ -6,7 +6,7 @@ import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {useWindowSize} from 'react-use'
-import playerMachine from 'machines/lesson-player-machine'
+import playerMachine, {PlayerStateEvent} from 'machines/lesson-player-machine'
 import EggheadPlayer from 'components/EggheadPlayer'
 import LessonInfo from 'components/pages/lessons/LessonInfo'
 import Transcript from 'components/pages/lessons/Transcript'
@@ -22,13 +22,16 @@ import CreateAccountCTA from 'components/pages/lessons/CreateAccountCTA'
 import JoinCTA from 'components/pages/lessons/JoinCTA'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import useSWR from 'swr'
 import fetcher from 'utils/fetcher'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
-import {useEggheadPlayer} from '../../components/EggheadPlayer'
-import getAccessTokenFromCookie from '../../utils/getAccessTokenFromCookie'
+import {useEggheadPlayer} from 'components/EggheadPlayer'
+import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
+import {useNextUpData} from 'hooks/use-next-up-data'
+import AutoplayToggle from 'components/pages/lessons/AutoplayToggle'
 
 const tracer = getTracer('lesson-page')
 
@@ -79,7 +82,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
-  const {onProgress, onEnded} = useEggheadPlayer(lesson)
+  const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
+  const [lessonView, setLessonView] = React.useState<any>()
 
   const currentPlayerState = playerState.value
 
@@ -106,16 +110,53 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     slug,
   } = lesson
 
+  const nextUp = useNextUpData(next_up_url)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
+  const getProgress = () => {
+    if (lessonView?.collection_progress) {
+      return lessonView.collection_progress
+    } else if (nextUp.nextUpData?.list?.progress) {
+      return nextUp.nextUpData.list.progress
+    }
+  }
+
+  const completeVideo = () => {
+    if (lessonView) {
+      const progress = getProgress()
+      if (progress?.rate_url) {
+        send('RATE')
+      } else {
+        if (autoplay && nextUp.nextUpPath) {
+          // this is sloppy and transitions weird so we might consider
+          // a "next" overlay with a 3-5 second "about to play" spinner
+          // instead of just lurching forward
+          // so instead of LOAD this might call NEXT but the next overlay
+          // would read the autoplay preference and present the appropriate
+          // UI
+          send('LOAD')
+          setTimeout(() => {
+            console.log(`autoplaying ${nextUp.nextUpPath}`)
+            router.push(nextUp.nextUpPath)
+          }, 1250)
+        } else {
+          console.log('display next lesson')
+          send('NEXT')
+        }
+      }
+    } else {
+      console.error('no lesson view')
+    }
+  }
+
   React.useEffect(() => {
     switch (currentPlayerState) {
       case 'loading':
         if (data) {
-          const event: {type: 'LOADED'; lesson: any} = {
+          const event: PlayerStateEvent = {
             type: 'LOADED',
             lesson: initialLesson,
           }
@@ -137,7 +178,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'completed':
-        send('NEXT')
+        completeVideo()
         break
     }
   }, [currentPlayerState, data, free_forever, send, viewer, initialLesson])
@@ -240,10 +281,20 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     onPause={() => {
                       send('PAUSE')
                     }}
-                    onProgress={onProgress}
+                    onProgress={({...progress}) => {
+                      onProgress(progress).then((lessonView: any) => {
+                        if (lessonView) {
+                          setLessonView(lessonView)
+                        }
+                      })
+                    }}
                     onEnded={() => {
-                      onEnded()
-                      send('COMPLETE')
+                      onEnded().then((lessonView: any) => {
+                        if (lessonView) {
+                          setLessonView(lessonView)
+                        }
+                        send('COMPLETE')
+                      })
                     }}
                     subtitlesUrl={get(lesson, 'subtitles_url')}
                   />
@@ -267,7 +318,21 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     <NextUpOverlay
                       lesson={lesson}
                       send={send}
-                      url={next_up_url}
+                      nextUp={nextUp}
+                    />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('rating') && (
+                  <OverlayWrapper>
+                    <RateCourseOverlay
+                      course={lesson.course}
+                      onRated={() => {
+                        // next in this scenario needs to be considered
+                        // we should also consider adding the ability to
+                        // comment
+                        send('NEXT')
+                      }}
+                      rateUrl={lessonView.collection_progress.rate_url}
                     />
                   </OverlayWrapper>
                 )}
@@ -307,13 +372,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </Tabs>
             </div>
             <div className="md:col-span-4 flex flex-col space-y-8">
+              <div className="flex justify-end">
+                <AutoplayToggle />
+              </div>
               <LessonInfo
                 title={title}
                 instructor={instructor}
                 tags={tags}
                 description={description}
                 course={course}
-                nextUpUrl={next_up_url}
+                nextUp={nextUp}
                 lesson={lesson}
                 playerState={playerState}
                 className="space-y-6 divide-y divide-gray-100"

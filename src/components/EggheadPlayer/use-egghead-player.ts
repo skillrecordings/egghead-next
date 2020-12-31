@@ -70,7 +70,7 @@ const storeProgress = (
   })
 }
 
-const onProgress = (lesson: LessonResource) => (progress: {
+const onProgress = (lesson: LessonResource) => async (progress: {
   playedSeconds: any
 }) => {
   const {playedSeconds} = progress
@@ -102,13 +102,13 @@ const onProgress = (lesson: LessonResource) => (progress: {
       })
     }
 
-    storeProgress(roundedProgress, lesson)
+    return await storeProgress(roundedProgress, lesson)
   } else {
     const segments = lessonProgress[lesson.slug] / 30
     const lessonViews = cookies.get('egghead-lessonViews') || {}
     lessonViews[lesson.id] = segments
 
-    cookies.set('egghead-lessonViews', lessonViews)
+    return Promise.resolve(cookies.set('egghead-lessonViews', lessonViews))
   }
 }
 
@@ -211,7 +211,9 @@ const onEnded = (lesson: {
   })
 
   if (lesson.lesson_view_url) {
-    onComplete(lesson)
+    return await onComplete(lesson)
+  } else {
+    return Promise.resolve()
   }
 }
 
@@ -256,6 +258,22 @@ export const savePlayerPrefs = (options: any) => {
     ...getPlayerPrefs(),
     ...options,
   })
+}
+
+export const useEggheadPlayerPrefs = () => {
+  const [playerPrefs, setPlayerPrefs] = React.useState<any>()
+  React.useEffect(() => {
+    setPlayerPrefs(getPlayerPrefs())
+  }, [])
+
+  const setPlayerPrefsCallback = React.useCallback((options: any) => {
+    setPlayerPrefs(savePlayerPrefs(options))
+  }, [])
+
+  return {
+    setPlayerPrefs: setPlayerPrefsCallback,
+    ...playerPrefs,
+  }
 }
 
 export default function useEggheadPlayer(lesson: LessonResource) {
