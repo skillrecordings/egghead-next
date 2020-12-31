@@ -96,6 +96,7 @@ class FeedbackInput extends Component {
         track(`sent feedback`, {
           comment: this.state.feedbackText,
           emotion: slackEmojiCode,
+          url: window.location.toString(),
         })
         this.setState({
           loading: false,
