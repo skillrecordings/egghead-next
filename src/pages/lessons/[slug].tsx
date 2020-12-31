@@ -32,6 +32,7 @@ import {useEggheadPlayer} from 'components/EggheadPlayer'
 import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 import {useNextUpData} from 'hooks/use-next-up-data'
 import AutoplayToggle from 'components/pages/lessons/AutoplayToggle'
+import RecommendNextStepOverlay from '../../components/pages/lessons/overlay/recommend-next-step=overlay'
 
 const tracer = getTracer('lesson-page')
 
@@ -124,13 +125,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
+  console.log(playerState)
+
   const completeVideo = () => {
     if (lessonView) {
       const progress = getProgress()
       if (progress?.rate_url) {
         send('RATE')
-      } else {
-        if (autoplay && nextUp.nextUpPath) {
+      } else if (nextUp.nextUpPath) {
+        if (autoplay) {
           // this is sloppy and transitions weird so we might consider
           // a "next" overlay with a 3-5 second "about to play" spinner
           // instead of just lurching forward
@@ -142,10 +145,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             console.log(`autoplaying ${nextUp.nextUpPath}`)
             router.push(nextUp.nextUpPath)
           }, 1250)
-        } else {
-          console.log('display next lesson')
+        } else if (progress) {
           send('NEXT')
+        } else {
+          send(`RECOMMEND`)
         }
+      } else {
+        send(`RECOMMEND`)
       }
     } else {
       console.error('no lesson view')
@@ -181,7 +187,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         completeVideo()
         break
     }
-  }, [currentPlayerState, data, free_forever, send, viewer, initialLesson])
+  }, [currentPlayerState, data, initialLesson])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
@@ -200,8 +206,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const loaderVisible = playerState.matches('loading')
 
   const playerVisible: boolean =
-    ['playing', 'paused', 'loaded', 'viewing'].some(playerState.matches) &&
-    !isEmpty(data)
+    ['playing', 'paused', 'loaded', 'viewing', 'completed'].some(
+      playerState.matches,
+    ) && !isEmpty(data)
 
   return (
     <>
@@ -334,6 +341,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       }}
                       rateUrl={lessonView.collection_progress.rate_url}
                     />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('recommending') && (
+                  <OverlayWrapper>
+                    <RecommendNextStepOverlay lesson={lesson} />
                   </OverlayWrapper>
                 )}
               </div>

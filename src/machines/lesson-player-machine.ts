@@ -15,6 +15,7 @@ interface PlayerStateSchema {
     showingNext: {}
     joining: {}
     completed: {}
+    recommending: {}
   }
 }
 
@@ -31,6 +32,7 @@ export type PlayerStateEvent =
   | {type: 'NEXT'}
   | {type: 'RATE'}
   | {type: 'LOAD'}
+  | {type: 'RECOMMEND'}
 
 interface PlayerContext {
   lesson: any
@@ -97,6 +99,7 @@ const playerMachine = Machine<
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
           RATE: 'rating',
+          RECOMMEND: 'recommending',
           QUIZ: 'quizzing',
           LOAD: 'loading',
         },
@@ -113,6 +116,7 @@ const playerMachine = Machine<
       rating: {
         on: {
           NEXT: 'showingNext',
+          RECOMMEND: 'recommending',
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
           QUIZ: 'quizzing',
@@ -122,6 +126,7 @@ const playerMachine = Machine<
       subscribing: {
         on: {
           NEXT: 'showingNext',
+          RECOMMEND: 'recommending',
           JOIN: 'joining',
           RATE: 'rating',
           QUIZ: 'quizzing',
@@ -132,12 +137,18 @@ const playerMachine = Machine<
         on: {
           NEXT: 'showingNext',
           SUBSCRIBE: 'subscribing',
+          RECOMMEND: 'recommending',
           RATE: 'rating',
           QUIZ: 'quizzing',
           LOAD: 'loading',
         },
       },
       showingNext: {
+        on: {
+          LOAD: 'loading',
+        },
+      },
+      recommending: {
         on: {
           LOAD: 'loading',
         },
