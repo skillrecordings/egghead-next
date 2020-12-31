@@ -125,8 +125,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  console.log(playerState)
-
   const completeVideo = () => {
     if (lessonView) {
       const progress = getProgress()
