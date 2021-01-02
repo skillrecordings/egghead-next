@@ -84,6 +84,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: `/playlists/:title/:rest(.+)`,
+        destination: `${appUrl}/playlists/:title/:rest`,
+        permanent: true,
+      },
+      {
         source: `/lessons/:title/:rest(.+)`,
         destination: `${appUrl}/lessons/:title/:rest`,
         permanent: true,
