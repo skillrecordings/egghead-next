@@ -136,7 +136,14 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 >
                   {tagSlug && (
                     <Link href={`/q/${tagSlug}`}>
-                      <a className="mx-2 inline-flex items-center hover:underline">
+                      <a
+                        onClick={() => {
+                          track(`clicked topic tag`, {
+                            course: course.slug,
+                          })
+                        }}
+                        className="mx-2 inline-flex items-center hover:underline"
+                      >
                         <Image
                           width={24}
                           height={24}
@@ -153,7 +160,13 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {download_url ? (
                   <Link href={download_url}>
-                    <a>
+                    <a
+                      onClick={() => {
+                        track(`clicked download course`, {
+                          course: course.slug,
+                        })
+                      }}
+                    >
                       <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
@@ -166,7 +179,13 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
                 {rss_url ? (
                   <Link href={rss_url}>
-                    <a>
+                    <a
+                      onClick={() => {
+                        track(`clicked rss feed link`, {
+                          course: course.slug,
+                        })
+                      }}
+                    >
                       <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>

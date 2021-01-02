@@ -15,7 +15,9 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({enabled}) => {
       <button
         onClick={() => {
           if (enabled) {
-            track(`clicked toggle autoplay ${autoplay ? 'off' : 'on'}`)
+            track(`clicked toggle autoplay`, {
+              state: !autoplay ? 'off' : 'on',
+            })
             setPlayerPrefs({autoplay: !autoplay})
           }
         }}
@@ -39,7 +41,7 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({enabled}) => {
           } inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
         />
       </button>
-      <div className={`ml-2 ${!enabled && `opacity-30`}`}>Autoplay</div>
+      <div className={`ml-2 ${!enabled && 'opacity-30'}`}>Autoplay</div>
     </div>
   )
 }
