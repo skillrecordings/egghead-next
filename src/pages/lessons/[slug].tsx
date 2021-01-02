@@ -33,8 +33,37 @@ import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 import {useNextUpData} from 'hooks/use-next-up-data'
 import AutoplayToggle from 'components/pages/lessons/AutoplayToggle'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
+import Markdown from 'react-markdown'
+import useClipboard from 'react-use-clipboard'
+import Link from 'next/link'
+import {track} from '../../utils/analytics'
+import Eggo from '../../components/images/eggo.svg'
+import Image from 'next/image'
+import axios from '../../utils/configured-axios'
 
 const tracer = getTracer('lesson-page')
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  params,
+}) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  res.setHeader(
+    'Link',
+    'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
+  )
+
+  const initialLesson: LessonResource | undefined =
+    params && (await loadLesson(params.slug as string))
+
+  return {
+    props: {
+      initialLesson,
+    },
+  }
+}
 
 const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
   children,
@@ -106,7 +135,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     title,
     tags,
     description,
-    course,
+    collection,
     free_forever,
     slug,
   } = lesson
@@ -326,7 +355,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 {playerState.matches('rating') && (
                   <OverlayWrapper>
                     <RateCourseOverlay
-                      course={lesson.course}
+                      course={lesson.collection}
                       onRated={() => {
                         // next in this scenario needs to be considered
                         // we should also consider adding the ability to
@@ -348,8 +377,121 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         </div>
         <div>
           <div className="grid gap-8 md:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto divide-y md:divide-transparent divide-gray-50">
-            <div className="md:col-span-8 md:row-start-1 row-start-2">
-              <SortingHat />
+            <div className="md:col-span-8 md:row-start-1 row-start-2 space-y-10">
+              <div className="space-y-4">
+                <SortingHat />
+                {title && (
+                  <h1 className="font-bold leading-tighter text-lg lg:text-xl">
+                    {title}
+                  </h1>
+                )}
+                <div className="pt-2 grid xl:grid-cols-2 md:grid-cols-1 grid-cols-2 gap-5">
+                  {instructor && (
+                    <div>
+                      <h4 className="font-semibold">Instructor</h4>
+                      <div className="flex items-center mt-3 flex-shrink-0">
+                        <Link
+                          href={`/instructors/${get(instructor, 'slug', '#')}`}
+                        >
+                          <a
+                            onClick={() => {
+                              track(`clicked view instructor`, {
+                                lesson: lesson.slug,
+                                location: 'avatar',
+                              })
+                            }}
+                            className="mr-2"
+                          >
+                            {get(instructor, 'avatar_64_url') ? (
+                              <img
+                                src={instructor.avatar_64_url}
+                                alt=""
+                                className="w-10 rounded-full m-0"
+                              />
+                            ) : (
+                              <Eggo className="w-8 rounded-full" />
+                            )}
+                          </a>
+                        </Link>
+                        {get(instructor, 'full_name') && (
+                          <Link
+                            href={`/instructors/${get(
+                              instructor,
+                              'slug',
+                              '#',
+                            )}`}
+                          >
+                            <a
+                              onClick={() => {
+                                track(`clicked view instructor`, {
+                                  lesson: lesson.slug,
+                                  location: 'text link',
+                                })
+                              }}
+                              className="hover:underline"
+                            >
+                              {instructor.full_name}
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {!isEmpty(tags) && (
+                    <div>
+                      <h4 className="font-semibold">Tech used</h4>
+                      <ul
+                        className="grid gap-3 mt-5"
+                        css={{
+                          gridTemplateColumns:
+                            'repeat(auto-fill, minmax(100px, 1fr))',
+                        }}
+                      >
+                        {tags.map((tag: any, index: number) => (
+                          <li key={index}>
+                            <Link href={`/q/${tag.name}`}>
+                              <a
+                                onClick={() => {
+                                  track(`clicked view topic`, {
+                                    lesson: lesson.slug,
+                                    topic: tag.name,
+                                  })
+                                }}
+                                className="inline-flex items-center first:ml-0 hover:underline"
+                              >
+                                <Image
+                                  src={tag.image_url}
+                                  alt={tag.name}
+                                  width={24}
+                                  height={24}
+                                  className="flex-shrink-0"
+                                />
+                                <span className="ml-1">{tag.label}</span>
+                              </a>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                {description && <Markdown>{description}</Markdown>}
+                <div>
+                  <h4 className="font-semibold">
+                    Share this lesson with your friends
+                  </h4>
+                  <div className="flex items-center mt-3">
+                    <div className="flex items-center">
+                      <TweetLink lesson={lesson} instructor={instructor} />
+                      <CopyToClipboard
+                        stringToCopy={`${process.env.NEXT_PUBLIC_REDIRECT_URI}${lesson.path}`}
+                        className="ml-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <Tabs>
                 <TabList
                   css={{background: 'none'}}
@@ -378,15 +520,49 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </Tabs>
             </div>
             <div className="md:col-span-4 flex flex-col space-y-8">
-              <div className="flex justify-end">
-                <AutoplayToggle />
+              <div className="flex justify-end space-x-6">
+                {lesson.download_url && viewer?.is_pro ? (
+                  <div className="flex items-center">
+                    <a
+                      onClick={(e) => {
+                        e.preventDefault()
+                        axios.get(lesson.download_url).then(({data}) => {
+                          window.location.href = data
+                        })
+                        track(`clicked download lesson`, {
+                          lesson: lesson.slug,
+                        })
+                      }}
+                      href={lesson.download_url}
+                      className="flex items-center text-blue-600 hover:underline font-semibold"
+                    >
+                      <IconDownload className="w-5 mr-2 text-blue-700" />
+                      Download Video
+                    </a>
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <div
+                      onClick={() => {
+                        track(`clicked download lesson blocked`, {
+                          lesson: lesson.slug,
+                        })
+                      }}
+                      className="flex items-center text-blue-600 opacity-30 font-semibold"
+                    >
+                      <IconDownload className="w-5 mr-2 text-blue-700" />
+                      Download Video {!viewer?.is_pro && `(members only)`}
+                    </div>
+                  </div>
+                )}
+                <AutoplayToggle enabled={playerVisible && next_up_url} />
               </div>
               <LessonInfo
                 title={title}
                 instructor={instructor}
                 tags={tags}
                 description={description}
-                course={course}
+                course={collection}
                 nextUp={nextUp}
                 lesson={lesson}
                 playerState={playerState}
@@ -402,24 +578,121 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
 export default Lesson
 
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  params,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  res.setHeader(
-    'Link',
-    'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
-  )
-
-  const initialLesson: LessonResource | undefined =
-    params && (await loadLesson(params.slug as string))
-
-  return {
-    props: {
-      initialLesson,
-    },
+const TweetLink: FunctionComponent<{
+  lesson: {
+    title: string
+    path: string
   }
+  instructor: {
+    slug: string
+    twitter?: string
+  }
+  className?: string
+}> = ({lesson, instructor, className = ''}) => {
+  const encodeTweetUrl = () => {
+    const twitterBase = `https://twitter.com/intent/tweet/?text=`
+    const instructorTwitterText = isEmpty(get(instructor, 'twitter'))
+      ? ''
+      : ` by @${instructor.twitter}`
+    const tweetText = `${lesson.title} ${instructorTwitterText}, lesson on @eggheadio`
+    const encodeLessonUrl = encodeURIComponent(
+      process.env.NEXT_PUBLIC_REDIRECT_URI + lesson.path,
+    )
+    const tweetParams = `&url=${encodeLessonUrl}`
+    return twitterBase + tweetText + tweetParams
+  }
+  return get(lesson, 'title') && get(lesson, 'path') ? (
+    <a
+      className={`flex text-sm items-center rounded px-3 py-2 bg-gray-100 hover:bg-gray-200 transition-colors ease-in-out duration-150 ${className}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={encodeTweetUrl()}
+    >
+      <IconTwitter className="w-5 mr-2" />
+      <span>Tweet</span>
+    </a>
+  ) : null
 }
+const CopyToClipboard: FunctionComponent<{
+  stringToCopy: string
+  className?: string
+}> = ({stringToCopy = '', className = ''}) => {
+  const [isCopied, setCopied] = useClipboard(stringToCopy, {
+    successDuration: 1000,
+  })
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={setCopied}
+        className={`rounded text-sm px-3 py-2 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out ${className}`}
+      >
+        {isCopied ? (
+          'Copied'
+        ) : (
+          <>
+            <IconLink className="w-5 mr-2" />
+            <span>
+              Copy link
+              <span className="hidden lg:inline"> to clipboard</span>
+            </span>
+          </>
+        )}
+      </button>
+    </div>
+  )
+}
+
+const IconLink: FunctionComponent<{className?: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+    />
+  </svg>
+)
+
+const IconTwitter: FunctionComponent<{className?: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={className}
+  >
+    <g fill="currentColor">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M22.162 5.656a8.384 8.384 0 0 1-2.402.658A4.196 4.196 0 0 0 21.6 4c-.82.488-1.719.83-2.656 1.015a4.182 4.182 0 0 0-7.126 3.814 11.874 11.874 0 0 1-8.62-4.37 4.168 4.168 0 0 0-.566 2.103c0 1.45.738 2.731 1.86 3.481a4.168 4.168 0 0 1-1.894-.523v.052a4.185 4.185 0 0 0 3.355 4.101 4.21 4.21 0 0 1-1.89.072A4.185 4.185 0 0 0 7.97 16.65a8.394 8.394 0 0 1-6.191 1.732 11.83 11.83 0 0 0 6.41 1.88c7.693 0 11.9-6.373 11.9-11.9 0-.18-.005-.362-.013-.54a8.496 8.496 0 0 0 2.087-2.165z"></path>
+    </g>
+  </svg>
+)
+
+const IconDownload: FunctionComponent<{className?: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+    />
+  </svg>
+)

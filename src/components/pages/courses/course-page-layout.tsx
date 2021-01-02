@@ -9,12 +9,23 @@ import getDependencies from 'data/courseDependencies'
 import {get, first, filter} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
-import {track} from '../../../utils/analytics'
+import {track} from 'utils/analytics'
+import FolderDownloadIcon from '../../icons/folder-download'
+import RSSIcon from '../../icons/rss'
+import {convertTimeWithTitles} from 'utils/time-utils'
+import ClockIcon from '../../icons/clock'
+import {LessonResource} from '../../../types'
 
 type CoursePageLayoutProps = {
   lessons: any
   course: any
   ogImageUrl: string
+}
+
+const defaultProgress = {
+  completed_lesson_count: 0,
+  completed_lesson: [],
+  is_completed: false,
 }
 
 const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
@@ -36,7 +47,17 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     primary_tag,
     http_url,
     description,
+    rss_url,
+    download_url,
+    duration,
+    collection_progress = defaultProgress,
   } = course
+
+  const completedLessonSlugs = get(
+    collection_progress,
+    'completed_lessons',
+    [],
+  ).map((lesson: LessonResource) => lesson.slug)
 
   const {
     full_name,
@@ -101,7 +122,13 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
                 {title}
               </h1>
-              <div className="flex items-center md:justify-start justify-center mt-4">
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {duration && (
+                  <div className="flex flex-row items-center">
+                    <ClockIcon className="w-4 h-4 mr-1" />{' '}
+                    {convertTimeWithTitles(duration)}
+                  </div>
+                )}
                 <UserRating
                   className="mr-3"
                   rating={average_rating_out_of_5}
@@ -122,6 +149,36 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   )}
                 </UserRating>
               </div>
+
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {download_url ? (
+                  <Link href={download_url}>
+                    <a>
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                        <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                    <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
+                  </div>
+                )}
+                {rss_url ? (
+                  <Link href={rss_url}>
+                    <a>
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                        <RSSIcon className="w-4 h-4 mr-1" /> RSS
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                    <RSSIcon className="w-4 h-4 mr-1" /> RSS
+                  </div>
+                )}
+              </div>
+
               <div className="md:hidden flex items-center justify-center w-full mt-5">
                 <PlayButton />
               </div>
@@ -202,7 +259,10 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           <div>
                             <ul className="ml-8">
                               {playlist?.lessons.map(
-                                (lesson: any, i: number) => {
+                                (lesson: LessonResource, index: number) => {
+                                  const isComplete = completedLessonSlugs.includes(
+                                    lesson.slug,
+                                  )
                                   return (
                                     <li
                                       key={`${playlist.slug}::${lesson.slug}`}
@@ -210,7 +270,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                       <div className="flex items-center leading-tight py-2">
                                         <div className="flex items-center mr-2 flex-grow">
                                           <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
-                                            {i + 1}
+                                            {isComplete ? `✔️` : index + 1}
                                           </small>
                                           <PlayIcon className="text-gray-500 mx-1" />
                                         </div>
@@ -249,13 +309,16 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
                 <div>
                   <ul>
-                    {lessons.map((lesson: any, i: number) => {
+                    {lessons.map((lesson: LessonResource, index: number) => {
+                      const isComplete = completedLessonSlugs.includes(
+                        lesson.slug,
+                      )
                       return (
                         <li key={lesson.slug}>
                           <div className="font-semibold flex items-center leading-tight py-2">
                             <div className="flex items-center mr-2 flex-grow">
                               <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
-                                {i + 1}
+                                {isComplete ? `✔️` : index + 1}
                               </small>
                               <PlayIcon className="text-gray-500 mx-1" />
                             </div>

@@ -11,11 +11,12 @@ type CourseProps = {
   course: any
 }
 
-const Course: FunctionComponent<CourseProps> = ({course}) => {
-  const initialData = course
-  const {data} = useSWR(course.url, fetcher, {initialData})
+const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
+  const {data} = useSWR(initialCourse.url, fetcher)
 
-  const {slug, lessons} = data
+  const course = {...initialCourse, ...data}
+
+  const {slug, lessons} = course
 
   useLastResource({
     ...course,
@@ -26,7 +27,7 @@ const Course: FunctionComponent<CourseProps> = ({course}) => {
   return (
     <CoursePageLayout
       lessons={lessons}
-      course={data}
+      course={course}
       ogImageUrl={`https://og-image-egghead-course.now.sh/${slug}?v=20201027`}
     />
   )
