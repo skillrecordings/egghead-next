@@ -34,7 +34,6 @@ const Home: FunctionComponent<HomeProps> = () => {
   const swag: any = find(data, {id: 'swag'})
 
   if (lastResource) {
-    console.log(lastResource)
     featured = [
       {
         name: `Keep Watching`,
@@ -45,8 +44,6 @@ const Home: FunctionComponent<HomeProps> = () => {
       ...take(reject(featured, {path: lastResource.path}), 2),
     ]
   }
-
-  console.log(featured)
 
   type CardProps = {
     data: any
