@@ -32,7 +32,7 @@ import {useEggheadPlayer} from 'components/EggheadPlayer'
 import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
 import {useNextUpData} from 'hooks/use-next-up-data'
 import AutoplayToggle from 'components/pages/lessons/AutoplayToggle'
-import RecommendNextStepOverlay from '../../components/pages/lessons/overlay/recommend-next-step=overlay'
+import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 
 const tracer = getTracer('lesson-page')
 
