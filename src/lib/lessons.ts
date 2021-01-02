@@ -42,6 +42,23 @@ export async function loadLesson(slug: string, token?: string) {
         lesson_view_url
         path
         icon_url
+        download_url
+        collection {
+          ... on Playlist {
+            title
+            slug
+            type
+            square_cover_480_url
+            path
+          }
+          ... on Course {
+            title
+            slug
+            type
+            square_cover_480_url
+            path
+          }
+        }
         course {
           title
           square_cover_480_url
@@ -49,6 +66,7 @@ export async function loadLesson(slug: string, token?: string) {
         }
         tags {
           name
+          label
           http_url
           image_url
         }

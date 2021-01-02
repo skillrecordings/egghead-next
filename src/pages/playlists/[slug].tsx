@@ -6,17 +6,18 @@ import {GetServerSideProps} from 'next'
 import {filter} from 'lodash'
 import fetcher from 'utils/fetcher'
 import CoursePageLayout from 'components/pages/courses/course-page-layout'
-import useLastResource from '../../hooks/use-last-resource'
+import useLastResource from 'hooks/use-last-resource'
 
 type PlaylistProps = {
   playlist: any
 }
 
-const Playlist: FunctionComponent<PlaylistProps> = ({playlist}) => {
-  const initialData = playlist
-  const {data} = useSWR(playlist.url, fetcher)
+const Playlist: FunctionComponent<PlaylistProps> = ({
+  playlist: initialPlaylist,
+}) => {
+  const {data} = useSWR(initialPlaylist.url, fetcher)
 
-  const course = {...initialData, ...data}
+  const course = {...initialPlaylist, ...data}
 
   const {slug, items} = course
 
