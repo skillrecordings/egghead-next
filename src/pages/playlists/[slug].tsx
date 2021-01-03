@@ -47,12 +47,20 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   params,
 }) => {
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  const playlist = params && (await loadPlaylist(params.slug as string))
+  const slug = params && (params.slug as string)
+  const playlist = slug && (await loadPlaylist(slug))
 
-  return {
-    props: {
-      playlist,
-    },
+  if (playlist?.slug != slug) {
+    res.setHeader('Location', playlist.path)
+    res.statusCode = 302
+    res.end()
+    return {props: {}}
+  } else {
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    return {
+      props: {
+        playlist,
+      },
+    }
   }
 }
