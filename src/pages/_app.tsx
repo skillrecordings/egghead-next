@@ -18,6 +18,14 @@ import {FacebookPixel} from 'components/facebook-pixel'
 import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
 
+let Devtools: React.FunctionComponent = () => <></>
+
+if (process.env.NEXT_PUBLIC_USE_UIDEVTOOLS) {
+  import('@ui-devtools/tailwind').then((module: any) => {
+    Devtools = module.Devtools
+  })
+}
+
 declare global {
   interface Window {
     ahoy: any
@@ -50,17 +58,19 @@ export default class App extends NextApp {
           url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
           sameAs={['https://twitter.com/eggheadio']}
         />
-        <CioProvider>
-          <ConvertkitProvider>
-            <ViewerProvider>
-              <MDXProvider components={mdxComponents}>
-                <CacheProvider value={cache}>
-                  {getLayout(Component)}
-                </CacheProvider>
-              </MDXProvider>
-            </ViewerProvider>
-          </ConvertkitProvider>
-        </CioProvider>
+        <>
+          <CioProvider>
+            <ConvertkitProvider>
+              <ViewerProvider>
+                <MDXProvider components={mdxComponents}>
+                  <CacheProvider value={cache}>
+                    {getLayout(Component)}
+                  </CacheProvider>
+                </MDXProvider>
+              </ViewerProvider>
+            </ConvertkitProvider>
+          </CioProvider>
+        </>
       </>
     )
   }
