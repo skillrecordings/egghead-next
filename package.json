@@ -50,6 +50,7 @@
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",
     "cookie": "^0.4.1",
+    "date-fns": "^2.16.1",
     "discord.js": "^12.5.1",
     "facepaint": "^1.2.1",
     "focus-visible": "^5.2.0",
