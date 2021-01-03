@@ -2,10 +2,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+We are using ui-devtools, which is awesome for Tailwind apps, but it requires a license. If you have a license, no changes
+are required, but if you don't have a license you'll want to run Yarn without installing optional dependencies:
 
 ```bash
-yarn dev
+yarn install --ignore-optional
+```
+
+Now, run the development server:
+
+```bash
+vercel dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
