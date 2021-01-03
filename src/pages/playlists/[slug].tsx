@@ -17,7 +17,7 @@ const Playlist: FunctionComponent<PlaylistProps> = ({
 }) => {
   const {data} = useSWR(initialPlaylist.url, fetcher)
 
-  const course = {...initialPlaylist, ...data}
+  const course = {...data, ...initialPlaylist}
 
   const {slug, items} = course
 

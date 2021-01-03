@@ -12,9 +12,9 @@ type CourseProps = {
 }
 
 const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
-  const {data} = useSWR(initialCourse.url, fetcher)
+  const {data} = useSWR(`${initialCourse.url}`, fetcher)
 
-  const course = {...initialCourse, ...data}
+  const course = {...data, ...initialCourse}
 
   const {slug, lessons} = course
 

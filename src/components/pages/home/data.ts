@@ -49,6 +49,14 @@ const data = [
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
         path: '/courses/advanced-javascript-foundations',
       },
+      {
+        name: 'Deep Knowledge',
+        title: 'Composing Closures and Callbacks in JavaScript',
+        byline: 'John Lindquist',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/square_480/EGH_ComposingCallbacks_Final.png',
+        path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
+      },
     ],
   },
   {
