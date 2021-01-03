@@ -9,57 +9,16 @@ import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './components/header'
 import data from './data'
-import SortingHat from '../../survey/sorting-hat'
-import useLastResource from '../../../hooks/use-last-resource'
-import axios from 'axios'
+import SortingHat from 'components/survey/sorting-hat'
+import useLastResource from 'hooks/use-last-resource'
+import useEggheadSchedule from 'hooks/use-egghead-schedule'
 
 type HomeProps = {}
 
-type ScheduleEvent = {
-  title: string
-  subtitle: string
-  expiresAt: number
-  calendarUrl: string
-  description: string
-  informationUrl: string
-}
-
-type Schedule = {
-  id: string
-  name: string
-  title: string
-  resources: ScheduleEvent[]
-}
-
-const useSchedule = (): [Schedule, boolean] => {
-  const [schedule, setSchedule] = React.useState([])
-  const [scheduleLoading, setScheduleLoading] = React.useState(true)
-
-  React.useEffect(() => {
-    axios
-      .get(`/api/schedule`)
-      .then(({data}) => setSchedule(data))
-      .finally(() => setScheduleLoading(false))
-  }, [])
-
-  return [
-    {
-      id: 'schedule',
-      name: 'Schedule',
-      title: 'Upcoming Events',
-      resources: schedule,
-    },
-    scheduleLoading,
-  ]
-}
-
 const Home: FunctionComponent<HomeProps> = () => {
   const {viewer, loading} = useViewer()
-
   const {lastResource} = useLastResource()
-
-  const [schedule, scheduleLoading] = useSchedule()
-
+  const [schedule, scheduleLoading] = useEggheadSchedule()
   const video: any = find(data, {id: 'video'})
 
   let featured: any = get(find(data, {id: 'featured'}), 'resources', {})
