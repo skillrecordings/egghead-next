@@ -36,11 +36,19 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
 export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
-  res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate')
   const course = params && (await loadCourse(params.slug as string))
-  return {
-    props: {
-      course,
-    },
+
+  if (course && course?.slug !== params?.slug) {
+    res.setHeader('Location', course.path)
+    res.statusCode = 302
+    res.end()
+    return {props: {}}
+  } else {
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    return {
+      props: {
+        course,
+      },
+    }
   }
 }

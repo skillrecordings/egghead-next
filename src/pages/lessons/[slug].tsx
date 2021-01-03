@@ -49,19 +49,26 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  res.setHeader(
-    'Link',
-    'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
-  )
 
   const initialLesson: LessonResource | undefined =
     params && (await loadLesson(params.slug as string))
 
-  return {
-    props: {
-      initialLesson,
-    },
+  if (initialLesson && initialLesson?.slug !== params?.slug) {
+    res.setHeader('Location', initialLesson.path)
+    res.statusCode = 302
+    res.end()
+    return {props: {}}
+  } else {
+    res.setHeader(
+      'Link',
+      'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
+    )
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    return {
+      props: {
+        initialLesson,
+      },
+    }
   }
 }
 
