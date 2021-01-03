@@ -23,7 +23,6 @@ const events = async (req: NextApiRequest, res: NextApiResponse) => {
         const eventExpiration = new Date(expirationDate).getTime()
         const expired = now > eventExpiration
 
-        console.log(expired)
         if (expired) return acc
 
         return [
