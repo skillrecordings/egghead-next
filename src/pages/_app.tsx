@@ -18,11 +18,11 @@ import {FacebookPixel} from 'components/facebook-pixel'
 import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
 
-let Devtools: React.FunctionComponent = () => <></>
+let UIDevtools: React.FunctionComponent = ({children}) => <>{children}</>
 
-if (process.env.NEXT_PUBLIC_USE_UIDEVTOOLS) {
+if (process.env.NEXT_PUBLIC_USE_UIDEVTOOLS === 'true') {
   import('@ui-devtools/tailwind').then((module: any) => {
-    Devtools = module.Devtools
+    UIDevtools = module.Devtools
   })
 }
 
@@ -58,7 +58,7 @@ export default class App extends NextApp {
           url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
           sameAs={['https://twitter.com/eggheadio']}
         />
-        <>
+        <UIDevtools>
           <CioProvider>
             <ConvertkitProvider>
               <ViewerProvider>
@@ -70,7 +70,7 @@ export default class App extends NextApp {
               </ViewerProvider>
             </ConvertkitProvider>
           </CioProvider>
-        </>
+        </UIDevtools>
       </>
     )
   }
