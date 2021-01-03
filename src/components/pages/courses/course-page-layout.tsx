@@ -272,7 +272,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold">
                     Course content{' '}
                     <span className="text-sm text-gray-600 font-normal">
-                      ({lessons.length || playlistLessons.length} lessons)
+                      ({lessons.length + playlistLessons.length} lessons)
                     </span>
                   </h2>
                 </div>
