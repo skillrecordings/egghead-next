@@ -93,8 +93,6 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         ),
       )
 
-  console.log(course)
-
   const PlayButton: React.FunctionComponent<{lesson: LessonResource}> = ({
     lesson,
   }) => {
