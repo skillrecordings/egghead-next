@@ -46,6 +46,7 @@
     "@vercel/tracing-js": "^0.5.0",
     "@xstate/react": "^1.1.0",
     "ahoy.js": "^0.3.8",
+    "airtable": "^0.10.1",
     "algoliasearch": "^4.8.3",
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",

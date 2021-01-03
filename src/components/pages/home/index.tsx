@@ -3,7 +3,7 @@ import Card from './components/card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, take, reject} from 'lodash'
+import {map, get, find, take, reject, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
@@ -11,16 +11,57 @@ import Header from './components/header'
 import data from './data'
 import SortingHat from '../../survey/sorting-hat'
 import useLastResource from '../../../hooks/use-last-resource'
+import axios from 'axios'
 
 type HomeProps = {}
+
+type ScheduleEvent = {
+  title: string
+  subtitle: string
+  expiresAt: number
+  calendarUrl: string
+  description: string
+  informationUrl: string
+}
+
+type Schedule = {
+  id: string
+  name: string
+  title: string
+  resources: ScheduleEvent[]
+}
+
+const useSchedule = (): [Schedule, boolean] => {
+  const [schedule, setSchedule] = React.useState([])
+  const [scheduleLoading, setScheduleLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    axios
+      .get(`/api/schedule`)
+      .then(({data}) => setSchedule(data))
+      .finally(() => setScheduleLoading(false))
+  }, [])
+
+  return [
+    {
+      id: 'schedule',
+      name: 'Schedule',
+      title: 'Upcoming Events',
+      resources: schedule,
+    },
+    scheduleLoading,
+  ]
+}
 
 const Home: FunctionComponent<HomeProps> = () => {
   const {viewer, loading} = useViewer()
 
   const {lastResource} = useLastResource()
 
+  const [schedule, scheduleLoading] = useSchedule()
+
   const video: any = find(data, {id: 'video'})
-  const schedule: any = find(data, {id: 'schedule'})
+
   let featured: any = get(find(data, {id: 'featured'}), 'resources', {})
   const devEssentials: any = find(data, {id: 'devEssentials'})
   const freeCourses: any = find(data, {id: 'freeCourses'})
@@ -196,33 +237,52 @@ const Home: FunctionComponent<HomeProps> = () => {
               <h2 className="uppercase font-semibold text-xs text-blue-200">
                 {schedule.title}
               </h2>
-              <ul className="mt-4 leading-tight space-y-3 relative z-10">
-                {map(get(schedule, 'resources'), (resource) => (
-                  <li className="w-full" key={resource.path}>
-                    <div className="font-semibold">
-                      <div>
-                        <a className="hover:underline" href={resource.path}>
-                          {resource.title}
-                        </a>
+              {!isEmpty(schedule.resources) ? (
+                <ul className="mt-4 leading-tight space-y-3 relative z-10">
+                  {map(get(schedule, 'resources'), (resource: any) => (
+                    <li className="w-full" key={resource.path}>
+                      <div className="font-semibold">
+                        <div>
+                          {resource.path ? (
+                            <Link href={resource.path}>
+                              <a className="hover:underline">
+                                {resource.title}
+                              </a>
+                            </Link>
+                          ) : (
+                            resource.title
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="w-full flex items-center mt-1">
-                      <time className="mr-1 tabular-nums text-xs">
-                        {resource.byline}
-                      </time>
-                      {resource.calendar && (
-                        <a
-                          href={resource.calendar}
-                          className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out"
-                        >
-                          {/* prettier-ignore */}
-                          <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
-                        </a>
-                      )}
+                      <div className="w-full flex items-center mt-1">
+                        {resource.subtitle && (
+                          <time className="mr-1 tabular-nums text-xs">
+                            {resource.subtitle}
+                          </time>
+                        )}
+                        {resource.calendar && (
+                          <Link href={resource.calendarUrl}>
+                            <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
+                              {/* prettier-ignore */}
+                              <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="mt-4 leading-tight space-y-3 relative z-10">
+                  <li className="w-full">
+                    <div className="font-semibold">
+                      {scheduleLoading
+                        ? ``
+                        : `Nothing is scheduled at this time!`}
                     </div>
                   </li>
-                ))}
-              </ul>
+                </ul>
+              )}
               <div
                 className="absolute top-0 left-0 w-full h-full sm:opacity-75 opacity-25 pointer-events-none z-0"
                 css={{

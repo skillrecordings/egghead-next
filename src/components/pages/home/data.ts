@@ -287,19 +287,6 @@ const data = [
     ],
   },
   {
-    id: 'schedule',
-    name: 'Schedule',
-    title: 'Upcoming Events',
-    resources: [
-      {
-        title: 'egghead is closed for a break',
-        byline: ' we will be back on Jan 4th @ 9AM PST',
-        path: '',
-        calendar: '',
-      },
-    ],
-  },
-  {
     id: 'topics',
     name: 'Popular Topics',
     resources: [
