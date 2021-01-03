@@ -238,7 +238,9 @@ const Home: FunctionComponent<HomeProps> = () => {
         </div>
         <div className="grid lg:grid-cols-12 grid-cols-1 gap-5">
           <div className="lg:col-span-8 space-y-5">
-            <div className="grid sm:grid-cols-3 grid-cols-2 sm:gap-5 gap-3">
+            <div
+              className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
+            >
               {map(featured, (resource) => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}

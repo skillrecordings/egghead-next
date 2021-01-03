@@ -6,7 +6,7 @@ import UserRating from 'components/pages/courses/user-rating'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter} from 'lodash'
+import {get, first, filter, isEmpty} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -50,7 +50,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     rss_url,
     download_url,
     duration,
-    collection_progress = defaultProgress,
+    collection_progress,
   } = course
 
   const completedLessonSlugs = get(
@@ -68,24 +68,54 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   } = instructor
 
   const image_url = square_cover_480_url || image_thumb_url
-  const firstLessonURL = get(first(lessons), 'path')
   const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
 
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
-  const PlayButton = () => {
-    return firstLessonURL ? (
-      <Link href={firstLessonURL}>
+  const playlistLessons = playlists.reduce((acc, playlist) => {
+    return [...acc, ...playlist.lessons]
+  }, [])
+
+  // this is a pretty sloppy approach to fetching the next lesson
+  // via playlist lessons, but those are for nested playlists in
+  // playlists
+  const nextLesson: any = isEmpty(playlistLessons)
+    ? first(
+        lessons.filter(
+          (lesson: LessonResource) =>
+            !completedLessonSlugs.includes(lesson.slug),
+        ),
+      )
+    : first(
+        playlistLessons.filter(
+          (lesson: LessonResource) =>
+            !completedLessonSlugs.includes(lesson.slug),
+        ),
+      )
+
+  console.log(course)
+
+  const PlayButton: React.FunctionComponent<{lesson: LessonResource}> = ({
+    lesson,
+  }) => {
+    console.log({lesson})
+    const isContinuing =
+      lesson && lesson != first(lessons) && lesson != first(playlistLessons)
+    return lesson ? (
+      <Link href={lesson.path}>
         <a
           onClick={() => {
-            track(`clicked start watching course`, {
-              course: course.slug,
-            })
+            track(
+              `clicked ${isContinuing ? 'continue' : 'start'} watching course`,
+              {
+                course: course.slug,
+              },
+            )
           }}
           className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
         >
           <PlayIcon className="text-blue-100 mr-2" />
-          Start Watching
+          {isContinuing ? 'Continue' : 'Start'} Watching
         </a>
       </Link>
     ) : null
@@ -199,7 +229,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               </div>
 
               <div className="md:hidden flex items-center justify-center w-full mt-5">
-                <PlayButton />
+                <PlayButton lesson={nextLesson} />
               </div>
               <Markdown className="prose md:prose-lg text-gray-900 mt-6">
                 {description}
@@ -244,7 +274,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold">
                     Course content{' '}
                     <span className="text-sm text-gray-600 font-normal">
-                      ({lessons.length} lessons)
+                      ({lessons.length || playlistLessons.length} lessons)
                     </span>
                   </h2>
                 </div>
@@ -277,7 +307,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           </div>
                           <div>
                             <ul className="ml-8">
-                              {playlist?.lessons.map(
+                              {playlist?.lessons?.map(
                                 (lesson: LessonResource, index: number) => {
                                   const isComplete = completedLessonSlugs.includes(
                                     lesson.slug,
@@ -376,7 +406,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             />
             <div className="md:block hidden space-y-10">
               <div className="w-full flex justify-center mt-10">
-                <PlayButton />
+                <PlayButton lesson={nextLesson} />
               </div>
               <div className="">
                 <InstructorProfile
