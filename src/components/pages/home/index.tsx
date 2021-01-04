@@ -3,35 +3,33 @@ import Card from './components/card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, take, reject} from 'lodash'
+import {map, get, find, take, reject, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './components/header'
-import data from './data'
-import SortingHat from '../../survey/sorting-hat'
-import useLastResource from '../../../hooks/use-last-resource'
+import homepageData from './homepage-data'
+import SortingHat from 'components/survey/sorting-hat'
+import useLastResource from 'hooks/use-last-resource'
+import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 
-type HomeProps = {}
-
-const Home: FunctionComponent<HomeProps> = () => {
+const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
-
   const {lastResource} = useLastResource()
+  const [schedule, scheduleLoading] = useEggheadSchedule()
+  const video: any = find(homepageData, {id: 'video'})
 
-  const video: any = find(data, {id: 'video'})
-  const schedule: any = find(data, {id: 'schedule'})
-  let featured: any = get(find(data, {id: 'featured'}), 'resources', {})
-  const devEssentials: any = find(data, {id: 'devEssentials'})
-  const freeCourses: any = find(data, {id: 'freeCourses'})
-  const stateManagement: any = find(data, {
+  let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
+  const devEssentials: any = find(homepageData, {id: 'devEssentials'})
+  const freeCourses: any = find(homepageData, {id: 'freeCourses'})
+  const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
-  const sideProject: any = find(data, {id: 'sideProject'})
-  const portfolioProject: any = find(data, {id: 'portfolioProject'})
-  const mdxConf: any = find(data, {id: 'mdxConf'})
-  const topics: any = find(data, {id: 'topics'})
-  const swag: any = find(data, {id: 'swag'})
+  const sideProject: any = find(homepageData, {id: 'sideProject'})
+  const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
+  const mdxConf: any = find(homepageData, {id: 'mdxConf'})
+  const topics: any = find(homepageData, {id: 'topics'})
+  const swag: any = find(homepageData, {id: 'swag'})
 
   if (lastResource) {
     featured = [
@@ -194,35 +192,54 @@ const Home: FunctionComponent<HomeProps> = () => {
           <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
             <>
               <h2 className="uppercase font-semibold text-xs text-blue-200">
-                {schedule.title}
+                Upcoming Events
               </h2>
-              <ul className="mt-4 leading-tight space-y-3 relative z-10">
-                {map(get(schedule, 'resources'), (resource) => (
-                  <li className="w-full" key={resource.path}>
-                    <div className="font-semibold">
-                      <div>
-                        <a className="hover:underline" href={resource.path}>
-                          {resource.title}
-                        </a>
+              {!isEmpty(schedule) ? (
+                <ul className="mt-4 leading-tight space-y-3 relative z-10">
+                  {map(schedule, (resource: ScheduleEvent) => (
+                    <li className="w-full" key={resource.informationUrl}>
+                      <div className="font-semibold">
+                        <div>
+                          {resource.informationUrl ? (
+                            <Link href={resource.informationUrl}>
+                              <a className="hover:underline">
+                                {resource.title}
+                              </a>
+                            </Link>
+                          ) : (
+                            resource.title
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="w-full flex items-center mt-1">
-                      <time className="mr-1 tabular-nums text-xs">
-                        {resource.byline}
-                      </time>
-                      {resource.calendar && (
-                        <a
-                          href={resource.calendar}
-                          className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out"
-                        >
-                          {/* prettier-ignore */}
-                          <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
-                        </a>
-                      )}
+                      <div className="w-full flex items-center mt-1">
+                        {resource.subtitle && (
+                          <time className="mr-1 tabular-nums text-xs">
+                            {resource.subtitle}
+                          </time>
+                        )}
+                        {resource.calendarUrl && (
+                          <Link href={resource.calendarUrl}>
+                            <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
+                              {/* prettier-ignore */}
+                              <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="mt-4 leading-tight space-y-3 relative z-10">
+                  <li className="w-full">
+                    <div className="font-semibold">
+                      {scheduleLoading
+                        ? ``
+                        : `Nothing is scheduled at this time!`}
                     </div>
                   </li>
-                ))}
-              </ul>
+                </ul>
+              )}
               <div
                 className="absolute top-0 left-0 w-full h-full sm:opacity-75 opacity-25 pointer-events-none z-0"
                 css={{
