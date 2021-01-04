@@ -1,14 +1,15 @@
 require('dotenv-flow').config()
 const fs = require('fs')
 const axios = require('axios')
+const {format} = require('date-fns')
 
 const head = `
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`.trim()
 const tail = `\n</urlset>`
-const domain = process.env.NEXT_PUBLIC_REDIRECT_URI
+const domain = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
 const changefreq = 'daily'
-const lastmod = `2020-10-10`
+const lastmod = format(new Date(), 'yyyy/MM/dd')
 const priority = `0.5`
 
 //10000 lines is ~20 MB file
@@ -20,7 +21,7 @@ const lineMax = 100000
  * Build sitemap with generator
  */
 const go = async () => {
-  const tags = await axios.get('https://egghead.io/api/v1/tags?size=300')
+  const tags = await axios.get(`https://app.egghead.io/api/v1/tags?size=300`)
   const tagSlugs = tags.data.map(({slug}) => slug).sort()
 
   console.log(`Saving tags to ./src/pages/site-directory/tags.json`)
@@ -117,7 +118,7 @@ const buildSitemap = async (tagGenerator) => {
     if (end) break
     result += `
 <url>
-  <loc>${domain}/s/${value}</loc>
+  <loc>${domain}/q/${value}</loc>
   <changefreq>${changefreq}</changefreq>
   <priority>${priority}</priority>
   <lastmod>${lastmod}</lastmod>

@@ -36,7 +36,6 @@ const stripeCheckoutRedirect = async (
       },
     })
     .then(({data}) => {
-      console.log({data})
       stripePromise.then((stripe: any) => {
         if (!stripe) throw new Error('Stripe not loaded 😭')
         stripe

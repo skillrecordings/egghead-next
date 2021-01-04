@@ -25,7 +25,6 @@ export const CioProvider: React.FunctionComponent = ({children}) => {
 
       if (!isEmpty(cioSubscriberId)) {
         cookie.set('cio_id', cioSubscriberId)
-        console.log(window.location.pathname, document.title)
         setTimeout(() => {
           window.history.replaceState(
             null,

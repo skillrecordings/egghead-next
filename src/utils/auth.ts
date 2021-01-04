@@ -85,6 +85,10 @@ export default class Auth {
         localStorage.setItem(USER_KEY, JSON.stringify(user))
         localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
 
+        if (user.contact_id) {
+          cookie.set('cio_id', user.contact_id)
+        }
+
         cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
           expires: parseInt(expiresAt, 10),
           domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
@@ -231,6 +235,9 @@ export default class Auth {
             return reject('not authenticated')
           }
           if (data) identify(data)
+          if (data.contact_id) {
+            cookie.set('cio_id', data.contact_id)
+          }
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)
         })

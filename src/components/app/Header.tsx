@@ -5,6 +5,7 @@ import Eggo from '../images/eggo.svg'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
+import FeedbackInput from 'components/feedback-input'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -36,21 +37,7 @@ const Header: FunctionComponent = () => {
                         })
                       }
                     >
-                      Learning Resources
-                    </a>
-                  </Link>
-                </li>
-                <li className="">
-                  <Link href="/learn" activeClassName="bg-gray-100">
-                    <a
-                      className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
-                      onClick={() =>
-                        track('clicked topic index', {
-                          location: 'header',
-                        })
-                      }
-                    >
-                      Topic Index
+                      Search Learning Resources
                     </a>
                   </Link>
                 </li>
@@ -67,8 +54,9 @@ const Header: FunctionComponent = () => {
                     location: 'header',
                   })
                 }}
-                className="flex items-center justify-center space-x-1"
+                className="flex items-center justify-center space-x-2"
               >
+                <FeedbackInput dark={false} />
                 <span>
                   {viewer.name || viewer.full_name || viewer.email}{' '}
                   {viewer.is_pro && ' ⭐️ '}
@@ -87,12 +75,29 @@ const Header: FunctionComponent = () => {
                             location: 'header',
                           })
                         }
+                        className="hover:text-blue-700 hover:underline"
                       >
                         account
                       </a>
                     </Link>
                   </div>
                 )}
+                {/*{!isEmpty(viewer) && (*/}
+                {/*  <div>*/}
+                {/*    <Link href={`/bookmarks`}>*/}
+                {/*      <a*/}
+                {/*        onClick={() =>*/}
+                {/*          track('clicked bookmarks', {*/}
+                {/*            location: 'header',*/}
+                {/*          })*/}
+                {/*        }*/}
+                {/*        className="hover:text-blue-700 hover:underline"*/}
+                {/*      >*/}
+                {/*        bookmarks*/}
+                {/*      </a>*/}
+                {/*    </Link>*/}
+                {/*  </div>*/}
+                {/*)}*/}
               </div>
             ) : (
               <div className="flex flex-row space-x-2">
@@ -104,7 +109,7 @@ const Header: FunctionComponent = () => {
                           location: 'header',
                         })
                       }
-                      className="px-3 py-2 bg-green-300  hover:opacity-100 hover:bg-green-100  active:bg-green-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                      className="inline-flex md:w-auto w-full px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
                     >
                       Join egghead
                     </a>

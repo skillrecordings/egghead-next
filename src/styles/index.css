@@ -36,6 +36,14 @@ pre > code {
   display: none !important;
 }
 
+.bmpui-ui-hugereplaybutton {
+  display: none !important;
+}
+
+.bmpui-ui-recommendation-overlay {
+  background-color: transparent;
+}
+
 .bmpui-ui-titlebar {
   display: none;
 }

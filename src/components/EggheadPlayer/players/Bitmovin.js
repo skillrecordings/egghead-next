@@ -4,6 +4,9 @@ import get from 'lodash/get'
 
 import Base from './Base'
 
+import {track} from 'utils/analytics'
+import {savePlayerPrefs} from '../use-egghead-player'
+
 const SDK_URL = '//cdn.bitmovin.com/player/web/8/bitmovinplayer.js'
 const SDK_GLOBAL = 'bitmovin'
 const BITMOVIN_PUBLIC_KEY = 'b8b63d1d-d00d-4a79-9e21-6a4694dd95b3'
@@ -15,8 +18,8 @@ const HIGHEST_BITRATE = 2400000
 const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
-const MAX_BUFFER_LEVEL_SECONDS = 120
-const STARTUP_THRESHOLD_SECONDS = 5
+const MAX_BUFFER_LEVEL_SECONDS = 240
+const STARTUP_THRESHOLD_SECONDS = 3
 const ALLOW_PLAYBACK_SPEED = true
 
 export default class Bitmovin extends Base {
@@ -74,6 +77,8 @@ export default class Bitmovin extends Base {
       preload,
       onPlaybackRateChange,
       onVolumeChange,
+      muted,
+      autoplay,
     } = props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
@@ -91,11 +96,14 @@ export default class Bitmovin extends Base {
       poster: poster,
       playback: {
         restoreUserSettings: true,
+        muted,
+        autoplay,
       },
       cast: {
         enable: true,
       },
       tweaks: {
+        autoqualityswitching: false,
         startup_threshold: STARTUP_THRESHOLD_SECONDS,
         max_buffer_level: MAX_BUFFER_LEVEL_SECONDS,
       },
@@ -105,10 +113,25 @@ export default class Bitmovin extends Base {
       },
       events: {
         playbackspeedchanged: (e) => {
+          track('set played speed', {
+            speed: e.to,
+          })
           onPlaybackRateChange(e.to)
         },
         volumechanged: (e) => {
           onVolumeChange(e.targetVolume)
+        },
+        stallstarted: () => {
+          track('video stall started')
+        },
+        stallended: () => {
+          track('video stall ended')
+        },
+        unmuted: () => {
+          savePlayerPrefs({muted: false})
+        },
+        muted: () => {
+          savePlayerPrefs({muted: true})
         },
       },
     }
@@ -159,6 +182,7 @@ export default class Bitmovin extends Base {
     const {subtitlesUrl, playbackRate, volume} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
+
     this.getSDK().then((script) => {
       this.loadingSDK = false
       this.player = new window.bitmovin.player.Player(
@@ -219,12 +243,14 @@ export default class Bitmovin extends Base {
       onPlayerProgress,
       onSubtitleChange,
       onVideoQualityChanged,
+      onMuted,
     } = this.props
 
     this.player.on(this.player.exports.PlayerEvent.Play, this.onPlay)
     this.player.on(this.player.exports.PlayerEvent.Paused, onPause)
     this.player.on(this.player.exports.PlayerEvent.Error, onError)
     this.player.on(this.player.exports.PlayerEvent.PlaybackFinished, onEnded)
+    this.player.on(this.player.exports.PlayerEvent.Muted, onMuted)
     this.player.on(
       this.player.exports.PlayerEvent.VideoAdaptation,
       this.onVideoAdaptation,
@@ -253,6 +279,7 @@ export default class Bitmovin extends Base {
       onPlayerProgress,
       onSubtitleChange,
       onVideoQualityChanged,
+      onMuted,
     } = this.props
     this.player.off(this.player.exports.PlayerEvent.Play, this.onPlay)
     this.player.off(this.player.exports.PlayerEvent.Paused, onPause)
@@ -274,6 +301,7 @@ export default class Bitmovin extends Base {
       this.player.exports.PlayerEvent.SubtitleChanged,
       onSubtitleChange,
     )
+    this.player.off(this.player.exports.PlayerEvent.Muted, onMuted)
     document.removeEventListener('keydown', this.handleArrowPress)
     this.container.removeEventListener('keypress', this.containerListenForPlay)
   }

@@ -3,29 +3,45 @@ import Card from './components/card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find} from 'lodash'
+import {map, get, find, take, reject, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './components/header'
-import data from './data'
+import homepageData from './homepage-data'
+import SortingHat from 'components/survey/sorting-hat'
+import useLastResource from 'hooks/use-last-resource'
+import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 
-type HomeProps = {}
-
-const Home: FunctionComponent<HomeProps> = () => {
+const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
+  const {lastResource} = useLastResource()
+  const [schedule, scheduleLoading] = useEggheadSchedule()
+  const video: any = find(homepageData, {id: 'video'})
 
-  const video: any = find(data, {id: 'video'})
-  const schedule: any = find(data, {id: 'schedule'})
-  const featured: any = get(find(data, {id: 'featured'}), 'resources', {})
-  const devEssentials: any = find(data, {id: 'devEssentials'})
-  const stateManagement: any = find(data, {
+  let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
+  const devEssentials: any = find(homepageData, {id: 'devEssentials'})
+  const freeCourses: any = find(homepageData, {id: 'freeCourses'})
+  const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
-  const sideProject: any = find(data, {id: 'sideProject'})
-  const mdxConf: any = find(data, {id: 'mdxConf'})
-  const topics: any = find(data, {id: 'topics'})
-  const swag: any = find(data, {id: 'swag'})
+  const sideProject: any = find(homepageData, {id: 'sideProject'})
+  const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
+  const mdxConf: any = find(homepageData, {id: 'mdxConf'})
+  const topics: any = find(homepageData, {id: 'topics'})
+  const swag: any = find(homepageData, {id: 'swag'})
+
+  if (lastResource) {
+    featured = [
+      {
+        name: `Keep Watching`,
+        title: lastResource.title,
+        path: lastResource.path,
+        image: lastResource.image_url,
+      },
+      ...take(reject(featured, {path: lastResource.path}), featured.length-1),
+    ]
+  }
 
   type CardProps = {
     data: any
@@ -37,16 +53,18 @@ const Home: FunctionComponent<HomeProps> = () => {
     return (
       <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
         <>
-          <Link href={path}>
-            <a className="mb-2 sm:w-auto w-24">
-              <Image
-                width={140}
-                height={140}
-                src={image}
-                alt={`illustration for ${title}`}
-              />
-            </a>
-          </Link>
+          {image && (
+            <Link href={path}>
+              <a className="mb-2 sm:w-auto w-24">
+                <Image
+                  width={140}
+                  height={140}
+                  src={image}
+                  alt={`illustration for ${title}`}
+                />
+              </a>
+            </Link>
+          )}
           <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
             {name}
           </h2>
@@ -95,16 +113,18 @@ const Home: FunctionComponent<HomeProps> = () => {
                       className ? className : ''
                     }`}
                   >
-                    <Link href={path}>
-                      <a className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center ">
-                        <Image
-                          src={image}
-                          width={imageSize}
-                          height={imageSize}
-                          alt={`illustration for ${title}`}
-                        />
-                      </a>
-                    </Link>
+                    {image && (
+                      <Link href={path}>
+                        <a className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center ">
+                          <Image
+                            src={image}
+                            width={imageSize}
+                            height={imageSize}
+                            alt={`illustration for ${title}`}
+                          />
+                        </a>
+                      </Link>
+                    )}
                     <div className="ml-3">
                       <Link href={path}>
                         <a className="hover:text-blue-600">
@@ -172,35 +192,54 @@ const Home: FunctionComponent<HomeProps> = () => {
           <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
             <>
               <h2 className="uppercase font-semibold text-xs text-blue-200">
-                {schedule.title}
+                Upcoming Events
               </h2>
-              <ul className="mt-4 leading-tight space-y-3 relative z-10">
-                {map(get(schedule, 'resources'), (resource) => (
-                  <li className="w-full" key={resource.path}>
-                    <div className="font-semibold">
-                      <div>
-                        <a className="hover:underline" href={resource.path}>
-                          {resource.title}
-                        </a>
+              {!isEmpty(schedule) ? (
+                <ul className="mt-4 leading-tight space-y-3 relative z-10">
+                  {map(schedule, (resource: ScheduleEvent) => (
+                    <li className="w-full" key={resource.informationUrl}>
+                      <div className="font-semibold">
+                        <div>
+                          {resource.informationUrl ? (
+                            <Link href={resource.informationUrl}>
+                              <a className="hover:underline">
+                                {resource.title}
+                              </a>
+                            </Link>
+                          ) : (
+                            resource.title
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="w-full flex items-center mt-1">
-                      <time className="mr-1 tabular-nums text-xs">
-                        {resource.byline}
-                      </time>
-                      {resource.calendar && (
-                        <a
-                          href={resource.calendar}
-                          className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out"
-                        >
-                          {/* prettier-ignore */}
-                          <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
-                        </a>
-                      )}
+                      <div className="w-full flex items-center mt-1">
+                        {resource.subtitle && (
+                          <time className="mr-1 tabular-nums text-xs">
+                            {resource.subtitle}
+                          </time>
+                        )}
+                        {resource.calendarUrl && (
+                          <Link href={resource.calendarUrl}>
+                            <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
+                              {/* prettier-ignore */}
+                              <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
+                            </a>
+                          </Link>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="mt-4 leading-tight space-y-3 relative z-10">
+                  <li className="w-full">
+                    <div className="font-semibold">
+                      {scheduleLoading
+                        ? ``
+                        : `Nothing is scheduled at this time!`}
                     </div>
                   </li>
-                ))}
-              </ul>
+                </ul>
+              )}
               <div
                 className="absolute top-0 left-0 w-full h-full sm:opacity-75 opacity-25 pointer-events-none z-0"
                 css={{
@@ -216,31 +255,68 @@ const Home: FunctionComponent<HomeProps> = () => {
         </div>
         <div className="grid lg:grid-cols-12 grid-cols-1 gap-5">
           <div className="lg:col-span-8 space-y-5">
-            <div className="grid sm:grid-cols-3 grid-cols-2 sm:gap-5 gap-3">
+            <div
+              className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
+            >
               {map(featured, (resource) => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+            <Card className="border-none my-4">
+              <>
+                <div className="flex space-x-5">
+                  {portfolioProject.image && (
+                    <Link href={portfolioProject.path}>
+                      <a className="block flex-shrink-0 sm:w-auto w-20">
+                        <Image
+                          src={portfolioProject.image}
+                          width={160}
+                          height={160}
+                          alt={`illustration for ${portfolioProject.title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
+                  <div className="flex flex-col justify-center items-start">
+                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+                      {portfolioProject.name}
+                    </h2>
+                    <Link href={portfolioProject.path}>
+                      <a className="hover:text-blue-600">
+                        <h3 className="text-xl font-bold leading-tighter">
+                          {portfolioProject.title}
+                        </h3>
+                      </a>
+                    </Link>
+                    <div className="text-xs text-gray-600 mb-2">
+                      {portfolioProject.byline}
+                    </div>
+                    <Markdown className="prose prose-sm max-w-none">
+                      {portfolioProject.description}
+                    </Markdown>
+                  </div>
+                </div>
+              </>
+            </Card>
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
               <CardVerticalWithStack data={devEssentials} />
-              <CardVerticalWithStack
-                className="sm:py-3 py-2"
-                data={stateManagement}
-              />
+              <CardVerticalWithStack data={freeCourses} />
             </div>
             <Card className="border-none my-4">
               <>
                 <div className="flex space-x-5">
-                  <Link href={sideProject.path}>
-                    <a className="block flex-shrink-0 sm:w-auto w-20">
-                      <Image
-                        src={sideProject.image}
-                        width={160}
-                        height={160}
-                        alt={`illustration for ${sideProject.title}`}
-                      />
-                    </a>
-                  </Link>
+                  {sideProject.image && (
+                    <Link href={sideProject.path}>
+                      <a className="block flex-shrink-0 sm:w-auto w-20">
+                        <Image
+                          src={sideProject.image}
+                          width={160}
+                          height={160}
+                          alt={`illustration for ${sideProject.title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
                   <div className="flex flex-col justify-center items-start">
                     <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
                       {sideProject.name}
@@ -264,6 +340,41 @@ const Home: FunctionComponent<HomeProps> = () => {
             </Card>
           </div>
           <aside className="lg:col-span-4 space-y-5">
+            <SortingHat
+              className="sm:py-3 py-2 h-full flex flex-col justify-between"
+              alternative={
+                <CardVerticalWithStack
+                  className="sm:py-3 py-2"
+                  data={stateManagement}
+                />
+              }
+            />
+            <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
+              <h2 className="uppercase font-semibold text-xs text-gray-700">
+                {topics.name}
+              </h2>
+              <div>
+                <ul className="space-y-2">
+                  {map(get(topics, 'resources'), (resource) => (
+                    <li className="inline-block mr-2" key={resource.path}>
+                      <Link href={resource.path}>
+                        <a className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600">
+                          {resource.image && (
+                            <Image
+                              src={resource.image}
+                              width={24}
+                              height={24}
+                              alt={`${resource.title} logo`}
+                            />
+                          )}{' '}
+                          <span>{resource.title}</span>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Card>
             <Card>
               <>
                 <h2 className="uppercase font-semibold text-xs text-gray-700 mb-1">
@@ -298,30 +409,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                 </ul>
               </>
             </Card>
-            <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
-              <h2 className="uppercase font-semibold text-xs text-gray-700">
-                {topics.name}
-              </h2>
-              <div>
-                <ul className="space-y-2">
-                  {map(get(topics, 'resources'), (resource) => (
-                    <li className="inline-block mr-2" key={resource.path}>
-                      <Link href={resource.path}>
-                        <a className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600">
-                          <Image
-                            src={resource.image}
-                            width={24}
-                            height={24}
-                            alt={`${resource.title} logo`}
-                          />{' '}
-                          <span>{resource.title}</span>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Card>
+
             <Card>
               <>
                 <Link href={swag.path}>
@@ -344,19 +432,21 @@ const Home: FunctionComponent<HomeProps> = () => {
                       className="py-1 flex flex-col items-center text-center  text-gray-600 hover:text-blue-600"
                       key={resource.path}
                     >
-                      <div className="flex-shrink-0">
-                        <Link href={resource.path}>
-                          <a>
-                            <Image
-                              className="rounded-lg"
-                              src={resource.image}
-                              alt={resource.title}
-                              width={205}
-                              height={205}
-                            />
-                          </a>
-                        </Link>
-                      </div>
+                      {resource.image && (
+                        <div className="flex-shrink-0">
+                          <Link href={resource.path}>
+                            <a>
+                              <Image
+                                className="rounded-lg"
+                                src={resource.image}
+                                alt={resource.title}
+                                width={205}
+                                height={205}
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                      )}
                       <Link href={resource.path}>
                         <a className="text-xs leading-tight">
                           {resource.title}

@@ -8,6 +8,8 @@ import removeMarkdown from 'remove-markdown'
 import {NextSeo} from 'next-seo'
 import {track} from 'utils/analytics'
 import {first, get} from 'lodash'
+import {useViewer} from '../../../context/viewer-context'
+import useLastResource from '../../../hooks/use-last-resource'
 
 type CourseProps = {
   course: any
@@ -15,6 +17,16 @@ type CourseProps = {
 }
 
 const Course: FunctionComponent<CourseProps> = () => {
+  useLastResource({
+    title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
+    path: `/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
+    slug: `create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
+    type: `project`,
+    description: `Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio`,
+    image_url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034857/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout_1.png',
+  })
+
   const course = {
     title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
     slug: `create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
@@ -285,7 +297,14 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 </h2>
                 {course.resources.map((part, idx) => {
                   const isLast = idx === course.resources.length - 1
-                  return <Part part={part} idx={idx} isLast={isLast} />
+                  return (
+                    <Part
+                      key={part.title}
+                      part={part}
+                      idx={idx}
+                      isLast={isLast}
+                    />
+                  )
                 })}
               </div>
             </div>
@@ -370,7 +389,8 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
 
 // ——— COMPONENTS
 
-const Join: FunctionComponent<{}> = () => {
+const Join: FunctionComponent = () => {
+  const {viewer} = useViewer()
   return (
     <div className="md:mt-24 mt-16 md:py-48 py-24 text-center bg-black text-white -mx-5 xl:px-0 px-5">
       <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
@@ -380,22 +400,42 @@ const Join: FunctionComponent<{}> = () => {
         <h2 className="lg:text-2xl  text-xl font-semibold leading-tighter max-w-2xl">
           Add this project to your portfolio with your egghead Pro Membership
         </h2>
-        <div>
-          from just <strong>$20/month</strong>
-        </div>
-        <Link href="/pricing">
-          <a
-            onClick={() =>
-              track('clicked join CTA', {
-                project:
-                  'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-              })
-            }
-            className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
-          >
-            Build this E-Commerce Store
-          </a>
-        </Link>
+        {viewer?.is_pro ? (
+          <>
+            <Link href="/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c">
+              <a
+                onClick={() =>
+                  track('clicked project', {
+                    project:
+                      'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                  })
+                }
+                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
+              >
+                Build this E-Commerce Store
+              </a>
+            </Link>
+          </>
+        ) : (
+          <>
+            <div>
+              from just <strong>$20/month</strong>
+            </div>
+            <Link href="/pricing">
+              <a
+                onClick={() =>
+                  track('clicked join CTA', {
+                    project:
+                      'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                  })
+                }
+                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
+              >
+                Build this E-Commerce Store
+              </a>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   )
