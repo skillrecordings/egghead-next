@@ -82,22 +82,22 @@ const Header: FunctionComponent = () => {
                     </Link>
                   </div>
                 )}
-                {!isEmpty(viewer) && (
-                  <div>
-                    <Link href={`/bookmarks`}>
-                      <a
-                        onClick={() =>
-                          track('clicked bookmarks', {
-                            location: 'header',
-                          })
-                        }
-                        className="hover:text-blue-700 hover:underline"
-                      >
-                        bookmarks
-                      </a>
-                    </Link>
-                  </div>
-                )}
+                {/*{!isEmpty(viewer) && (*/}
+                {/*  <div>*/}
+                {/*    <Link href={`/bookmarks`}>*/}
+                {/*      <a*/}
+                {/*        onClick={() =>*/}
+                {/*          track('clicked bookmarks', {*/}
+                {/*            location: 'header',*/}
+                {/*          })*/}
+                {/*        }*/}
+                {/*        className="hover:text-blue-700 hover:underline"*/}
+                {/*      >*/}
+                {/*        bookmarks*/}
+                {/*      </a>*/}
+                {/*    </Link>*/}
+                {/*  </div>*/}
+                {/*)}*/}
               </div>
             ) : (
               <div className="flex flex-row space-x-2">
