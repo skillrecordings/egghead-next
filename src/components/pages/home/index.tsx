@@ -39,7 +39,7 @@ const Home: FunctionComponent = () => {
         path: lastResource.path,
         image: lastResource.image_url,
       },
-      ...take(reject(featured, {path: lastResource.path}), 2),
+      ...take(reject(featured, {path: lastResource.path}), featured.length-1),
     ]
   }
 
