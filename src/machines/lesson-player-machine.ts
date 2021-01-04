@@ -49,6 +49,11 @@ const playerMachine = Machine<
     context: {lesson: {}},
     states: {
       loading: {
+        entry: [
+          assign({
+            lesson: null,
+          }),
+        ],
         on: {
           LOADED: 'loaded',
         },
