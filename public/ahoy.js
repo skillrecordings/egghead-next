@@ -440,8 +440,8 @@
 
   function getClosestSection(element) {
     for (; element && element !== document; element = element.parentNode) {
-      if (element.hasAttribute('homepageData-section')) {
-        return element.getAttribute('homepageData-section')
+      if (element.hasAttribute('data-section')) {
+        return element.getAttribute('data-section')
       }
     }
 

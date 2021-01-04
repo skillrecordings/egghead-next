@@ -31,7 +31,7 @@ This is going to be a long post about <mark>how to setup a Rails application to 
 
 I believe this is a good choice of stack for two main reasons:
 
-1. GraphQL provides a much cleaner query API than a REST API does -- especially because I can request only the homepageData I want at any time.
+1. GraphQL provides a much cleaner query API than a REST API does -- especially because I can request only the data I want at any time.
 2. With TypeScript and another utility called `graphql-codegen`, I can ensure the types that are served by my API match exactly to the types used in my frontend at all times.
 
 For this post, all the code is written from the perspective of having just run the command to create a new Rails application:
@@ -85,7 +85,7 @@ or images too.
 This file is served out of the application via this line in the application layout (`app/views/layouts/application.html.erb`):
 
 ```
-<%= javascript_pack_tag 'application', 'homepageData-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 ```
 
 When you run `rails s` and access `http://localhost:3000`, Rails will compile the Webpack assets and serve them through the Rails server itself.
@@ -101,20 +101,20 @@ be much longer than that. My advice would be to <em>always</em> rely on <code>bi
 This `app/javascript/packs/application.js` will be the file that will be the place we load our JavaScript into our application. It doesn't have to be the _only_ place, we could in fact spread this out over multiple different packs, if we wished:
 
 ```
-<%= javascript_pack_tag 'users', 'homepageData-turbolinks-track': 'reload' %>
-<%= javascript_pack_tag 'books', 'homepageData-turbolinks-track': 'reload' %>
-<%= javascript_pack_tag 'checkout', 'homepageData-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'users', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'books', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'checkout', 'data-turbolinks-track': 'reload' %>
 ```
 
 If we approached it this way, then we could split our code up and only load whatever assets we needed to load on certain pages. Perhaps we only want to load the `users` content on some pages and the `checkout` code on others.
 
 For this tutorial, we'll stick with _one_ `application.js` file.
 
-We'll return to this `app/javascript/packs/application.js` file later on when we implement some frontend code. Before we need to build our frontend, we'll need to serve some homepageData out of our Rails application. And to serve that homepageData, we're going to use GraphQL.
+We'll return to this `app/javascript/packs/application.js` file later on when we implement some frontend code. Before we need to build our frontend, we'll need to serve some data out of our Rails application. And to serve that data, we're going to use GraphQL.
 
 ## Setting up our Rails application
 
-Before we get to setup GraphQL, we'll quickly setup a model and some homepageData in our database. Then we'll get to GraphQL.
+Before we get to setup GraphQL, we'll quickly setup a model and some data in our database. Then we'll get to GraphQL.
 
 ### Model setup
 
@@ -125,7 +125,7 @@ rails g model book title:string
 rails db:migrate
 ```
 
-After this, we'll need to create at least one book so that we have some homepageData to be served through the API:
+After this, we'll need to create at least one book so that we have some data to be served through the API:
 
 ```
 rails c
@@ -133,7 +133,7 @@ rails c
 >> Book.create!(title: "Active Rails")
 ```
 
-With our model setup with some homepageData, we can now add our GraphQL API, which will serve this homepageData for the model.
+With our model setup with some data, we can now add our GraphQL API, which will serve this data for the model.
 
 ## Setting up GraphQL
 
@@ -270,7 +270,7 @@ query allBooks {
 }
 ```
 
-And then hit the Play button in between the panels. When the request succeeds, we'll see the homepageData come back through from the GraphQL API:
+And then hit the Play button in between the panels. When the request succeeds, we'll see the data come back through from the GraphQL API:
 
 ![GraphQL Playground](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607504974/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/graphql-playground.png)
 
@@ -515,7 +515,7 @@ Well, another way we can approach this problem is to have our code look for part
 
 ```
 <h1>Home#index</h1>
-<div homepageData-react-component='Hello'></div>
+<div data-react-component='Hello'></div>
 <p>Find me in app/views/home/index.html.erb</p>
 
 <%= javascript_pack_tag "hello_react" %>
@@ -530,7 +530,7 @@ module ApplicationHelper
   def react_component(component_name)
     content_tag(
       "div",
-      homepageData: {
+      data: {
         react_component: component_name
       }
     ) { "" }
@@ -551,7 +551,7 @@ module ApplicationHelper
   def react_component(component_name, **props)
     content_tag(
       "div",
-      homepageData: {
+      data: {
         react_component: component_name,
         props: props.to_json,
       }
@@ -560,7 +560,7 @@ module ApplicationHelper
 end
 ```
 
-This takes a list of properties and passes them through as an extra `homepageData-props` attribute on our `div`, and so allows us to write code such as:
+This takes a list of properties and passes them through as an extra `data-props` attribute on our `div`, and so allows us to write code such as:
 
 ```
 <%= react_component "Hello", { name: "React" } %>
@@ -573,10 +573,10 @@ However, if we go and refresh that page again, we'll see the component is not be
 But if we inspect the source code for our page, we'll see that the `<div>` _exists_`:
 
 ```html
-<div homepageData-react-component="Hello"></div>
+<div data-react-component="Hello"></div>
 ```
 
-In order to fix this up, we're going to need to write some additional code that will scan for these tags containing the `homepageData-react-component` attribute and then act on those tags.
+In order to fix this up, we're going to need to write some additional code that will scan for these tags containing the `data-react-component` attribute and then act on those tags.
 
 ### Scanning for and mounting React components
 
@@ -590,9 +590,7 @@ import ReactDOM from 'react-dom'
 
 export default function mount(components = {}) {
   document.addEventListener('DOMContentLoaded', () => {
-    const mountPoints = document.querySelectorAll(
-      '[homepageData-react-component]',
-    )
+    const mountPoints = document.querySelectorAll('[data-react-component]')
     mountPoints.forEach((mountPoint) => {
       const dataset = (mountPoint as HTMLElement).dataset
       const componentName = dataset['reactComponent']
@@ -638,10 +636,10 @@ That _something else_ is that `mount.tsx` code that we wrote. Let's look at that
 ```tsx
 export default function mount(components = {}) {
   document.addEventListener("DOMContentLoaded", () => {
-    const mountPoints = document.querySelectorAll("[homepageData-react-component]");
+    const mountPoints = document.querySelectorAll("[data-react-component]");
 ```
 
-This code defines the `mount` function that we use in `application.js`. This function adds an event listener that waits for the `DOMContentLoaded` event to happen, just like the old code we had in `hello_react.js` did. Then we go a different path from there. Instead of rendering a _specific_ React component, we're instead going on a search for which ones the page wants us to render. We find all the elements that are "mount points" for our React components by using `querySelectorAll` and looking for those elements that match the CSS selector `[homepageData-react-component]`.
+This code defines the `mount` function that we use in `application.js`. This function adds an event listener that waits for the `DOMContentLoaded` event to happen, just like the old code we had in `hello_react.js` did. Then we go a different path from there. Instead of rendering a _specific_ React component, we're instead going on a search for which ones the page wants us to render. We find all the elements that are "mount points" for our React components by using `querySelectorAll` and looking for those elements that match the CSS selector `[data-react-component]`.
 
 Let's look at the next couple of lines:
 
@@ -652,7 +650,7 @@ mountPoints.forEach((mountPoint) => {
   const Component = components[componentName];
 ```
 
-We attempt to find out their component name for all of the elements mentioned by accessing the `homepageData-react-component` property by using a combination of `dataset` and `["reactComponent"]`. Once we have that name, we can then attempt to find that component by a name using `components[componentName]`. As long as we've chosen to mount a component in `application.js` with this function, it will be available here.
+We attempt to find out their component name for all of the elements mentioned by accessing the `data-react-component` property by using a combination of `dataset` and `["reactComponent"]`. Once we have that name, we can then attempt to find that component by a name using `components[componentName]`. As long as we've chosen to mount a component in `application.js` with this function, it will be available here.
 
 Let's look at the final few lines:
 
@@ -665,13 +663,10 @@ if (Component) {
 }
 ```
 
-If this code finds a component, it attempts to parse the json contained in `dataset["props"]`. This will pull out the JSON from the `homepageData-props` attribute on the `<div>`:
+If this code finds a component, it attempts to parse the json contained in `dataset["props"]`. This will pull out the JSON from the `data-props` attribute on the `<div>`:
 
 ```html
-<div
-  homepageData-react-component="Hello"
-  homepageData-props='{"name":"React"}'
-></div>
+<div data-react-component="Hello" data-props='{"name":"React"}'></div>
 ```
 
 Then, now that the `mount` function has all three of the `mountPoint`, the `Component` and the `props` determined, it can use `ReactDOM.render` to put this code directly onto the page, exactly where we said it should go.
@@ -684,18 +679,18 @@ Hooray! We now have the ability to put our React components wherever we like on 
 
 ## Books React Component
 
-Let's now look at something a bit more complex than putting "Hello React!" on the page. This time, we're going to build another component, called `Books`. This component will render hard-coded homepageData from a TypeScript file onto `div` tags on the page.
+Let's now look at something a bit more complex than putting "Hello React!" on the page. This time, we're going to build another component, called `Books`. This component will render hard-coded data from a TypeScript file onto `div` tags on the page.
 
 When we write this file, we'll be declaring types using TypeScript and using those to guide us in what properties are available inside each of the components we build.
 
-We'll eventually use this file to pull in and display the homepageData from our Rails application's GraphQL. Before we get there, though, it will help to build a scaffold using static homepageData so that we can experiment with it, if necessary.
+We'll eventually use this file to pull in and display the data from our Rails application's GraphQL. Before we get there, though, it will help to build a scaffold using static data so that we can experiment with it, if necessary.
 
 Let's create a new file at `app/javascripts/Books/index.tsx`.
 
 ```tsx
 import React from 'react'
 
-const homepageData = {
+const data = {
   books: [
     {
       id: '1',
@@ -719,7 +714,7 @@ const Books = () => {
     <div>
       <h1>Books</h1>
       <ul>
-        {homepageData.books.map((book) => (
+        {data.books.map((book) => (
           <Book {...book} key={book.id} />
         ))}
       </ul>
@@ -732,15 +727,15 @@ export default Books
 
 In this file, we start by importing React. This is necessary because we're using JSX in this file.
 
-Next, we define the shape of the homepageData that will be coming through to our component, mimicking the shape of the homepageData that GraphQL gives us.
+Next, we define the shape of the data that will be coming through to our component, mimicking the shape of the data that GraphQL gives us.
 
 Next, we define a `Book` component that will render a simple `<li>` tag with a book's title.
 
-Then we get to the `Books` component. This one uses the `loading` and `homepageData` variables set outside of the component to pretend like it's loading homepageData from our GraphQL service and then uses the `Book` component to render that homepageData.
+Then we get to the `Books` component. This one uses the `loading` and `data` variables set outside of the component to pretend like it's loading data from our GraphQL service and then uses the `Book` component to render that data.
 
 Finally, the `Books` component is exported as the default export. This will allow us to import it into other files using `import Books from "./Books"`.
 
-What we have here are the barest of bones required to render homepageData using React and TypeScript in our application. This is just a few steps up from our "Hello React" example and moves us closer towards having this frontend talk to our GraphQL backend.
+What we have here are the barest of bones required to render data using React and TypeScript in our application. This is just a few steps up from our "Hello React" example and moves us closer towards having this frontend talk to our GraphQL backend.
 
 ### Mounting the Books component
 
@@ -769,13 +764,13 @@ Success! The Books component is now rendering on the page.
 
 One of the great things about this Webpacker setup that we have got going is that if you edit the code in `Books/index.tsx` and save the file, the browser will automatically refresh. Go ahead and try it out now!
 
-The component is still working with homepageData that we've coded in ourselves. The next piece of this puzzle is to configure the frontend code so that instead of pulling the homepageData in from a hardcoded source, it pulls it in from the GraphQL API provided by Rails.
+The component is still working with data that we've coded in ourselves. The next piece of this puzzle is to configure the frontend code so that instead of pulling the data in from a hardcoded source, it pulls it in from the GraphQL API provided by Rails.
 
 We can do this using a JavaScript package called Apollo.
 
 ## Apollo
 
-The [Apollo Client](https://www.apollographql.com/docs/react/) is a widely-used package that is used to provide an easy way of communicating between the frontend and a GraphQL API. We'll use this package to replace the hard-coded homepageData within `Books/index.tsx`.
+The [Apollo Client](https://www.apollographql.com/docs/react/) is a widely-used package that is used to provide an easy way of communicating between the frontend and a GraphQL API. We'll use this package to replace the hard-coded data within `Books/index.tsx`.
 
 ### Setting up Apollo
 
@@ -834,7 +829,7 @@ The second thing this code does is the `withProvider` variable. This function wr
 
 ### Using Apollo in our Books component
 
-With this code setup, we can now turn our attention back to `Books/index.tsx`. We want to convert this code to do a GraphQL query to load its homepageData. We can start this process by defining a GraphQL query at the top of this file:
+With this code setup, we can now turn our attention back to `Books/index.tsx`. We want to convert this code to do a GraphQL query to load its data. We can start this process by defining a GraphQL query at the top of this file:
 
 ```tsx
 import React from 'react'
@@ -859,7 +854,7 @@ Then we can use it inside the `Books` component:
 
 ```tsx
 const Books = () => {
-  const {homepageData, loading, error} = useQuery(booksQuery)
+  const {data, loading, error} = useQuery(booksQuery)
 
   if (loading) {
     return <span>Loading...</span>
@@ -869,7 +864,7 @@ const Books = () => {
     <div>
       <h1>Books</h1>
       <ul>
-        {homepageData.books.map((book) => (
+        {data.books.map((book) => (
           <Book {...book} key={book.id} />
         ))}
       </ul>
@@ -878,7 +873,7 @@ const Books = () => {
 }
 ```
 
-Note that for the most part, the API is the same. We are still using the `loading` variable, and the homepageData is available at `homepageData.books`.
+Note that for the most part, the API is the same. We are still using the `loading` variable, and the data is available at `data.books`.
 
 The last thing to do here is to use the `withProvider` function to wrap the `Books` component.
 
@@ -896,20 +891,20 @@ export default withProvider(Books)
 
 This will make it so that the `Books` component has access to the Apollo client we have configured, and that will mean the `Books` component will be able to run its GraphQL query.
 
-When we refresh the page now, we'll see that the homepageData is being loaded from our API! We've now successfully connected our first React component back through to our GraphQL API.
+When we refresh the page now, we'll see that the data is being loaded from our API! We've now successfully connected our first React component back through to our GraphQL API.
 
-We're not completely done yet. There's one more issue hanging around. That issue is that the `homepageData` variable that is coming back from our query is completely untyped. I can see this in Visual Studio Code by hovering my cursor over `homepageData`. Here's what I see:
+We're not completely done yet. There's one more issue hanging around. That issue is that the `data` variable that is coming back from our query is completely untyped. I can see this in Visual Studio Code by hovering my cursor over `data`. Here's what I see:
 
-![homepageData is you... no, it's any](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505162/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/homepageData-is-any.png)
+![data is you... no, it's any](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1607505162/next.egghead.io/pages/learn/graphql/rails-graphql-typescript-react-apollo/data-is-any.png)
 
-This is problematic, because it means that we're not having the properties we call on `homepageData` be typechecked. This means we can write this code:
+This is problematic, because it means that we're not having the properties we call on `data` be typechecked. This means we can write this code:
 
 ```tsx
 return (
   <div>
     <h1>Books</h1>
     <ul>
-      {homepageData.notBooks.map((book) => (
+      {data.notBooks.map((book) => (
         <Book {...book} key={book.id} />
       ))}
     </ul>
@@ -917,9 +912,9 @@ return (
 )
 ```
 
-And TypeScript won't tell us that `notBooks` is not a part of the returned homepageData. Further to this, the `book` type is _also_ `any`, and the correctness of that homepageData is only enforced by the earlier `BookType` declaration we made earlier, and that we're still using in the `Book` component.
+And TypeScript won't tell us that `notBooks` is not a part of the returned data. Further to this, the `book` type is _also_ `any`, and the correctness of that data is only enforced by the earlier `BookType` declaration we made earlier, and that we're still using in the `Book` component.
 
-We need to rectify this and ensure that we have accurate types from our homepageData right from the moment they come out of the API responses.
+We need to rectify this and ensure that we have accurate types from our data right from the moment they come out of the API responses.
 
 ## Sharing types between backend + frontend
 
@@ -938,7 +933,7 @@ module Types
 end
 ```
 
-These types are here so that we know what kind of homepageData we're working with. We know that `title` is going to be a string and that `created_at` is _also_ going to be returned as a string... except it's a string formatted as an `ISO8601` timestamp as indicated by its special typing.
+These types are here so that we know what kind of data we're working with. We know that `title` is going to be a string and that `created_at` is _also_ going to be returned as a string... except it's a string formatted as an `ISO8601` timestamp as indicated by its special typing.
 
 We want these types in our React code so that we can be sure we're working with them correctly. But these types are in Ruby, not in JavaScript. So how do we get them out of Ruby, and into JavaScript?
 
@@ -1089,17 +1084,17 @@ export type AllBooksQuery = (
 );
 ```
 
-The first type here says that the `allBooks` query does not take any variables. The second type specifies that when the `AllBooksQuery` returns homepageData, it does so with a key called `books`, and that the value for that `books` key will be an array of items that are shaped as the `Book` type specifies, but _just_ the `title` field from that type -- as indicated by `Pick<Book, 'title'>`.
+The first type here says that the `allBooks` query does not take any variables. The second type specifies that when the `AllBooksQuery` returns data, it does so with a key called `books`, and that the value for that `books` key will be an array of items that are shaped as the `Book` type specifies, but _just_ the `title` field from that type -- as indicated by `Pick<Book, 'title'>`.
 
-This type can be used to ensure that we're only accessing homepageData that our GraphQL query returns. The second type here specifies that _yes_ the query _does_ return an array of books... but it also says that the information that will come from that query _only_ consists of the `title` field. There is no other field there.
+This type can be used to ensure that we're only accessing data that our GraphQL query returns. The second type here specifies that _yes_ the query _does_ return an array of books... but it also says that the information that will come from that query _only_ consists of the `title` field. There is no other field there.
 
 We can use this second type in our code by specifying it as a generic in `Books/index.tsx`:
 
 ```tsx
-const {homepageData, loading, error} = useQuery<AllBooksQuery>(booksQuery)
+const {data, loading, error} = useQuery<AllBooksQuery>(booksQuery)
 ```
 
-This says to `useQuery`, that the type of homepageData being returned by this function will match the shape specified by `AllBooksQuery`.
+This says to `useQuery`, that the type of data being returned by this function will match the shape specified by `AllBooksQuery`.
 
 If we look a little further down in our file, we'll see that the code is failing because we're trying to access the `id` property from a `Book` object:
 
@@ -1169,7 +1164,7 @@ And then using it in place of our previous `useQuery` invocation in that same fi
 
 ```tsx
 const Books = () => {
-  const { homepageData, loading, error } = useAllBooksQuery();
+  const { data, loading, error } = useAllBooksQuery();
 ```
 
 Isn't this much nicer than what we just had there?
@@ -1178,7 +1173,7 @@ By invoking this function, we are getting Codegen to do the heavy lifting of spe
 
 ```tsx
 const Books = () => {
-  const { homepageData, loading, error } = useQuery<
+  const { data, loading, error } = useQuery<
     AllBooksQuery,
     AllBooksQueryVariables
   >(AllBooksDocument, baseOptions);
@@ -1210,9 +1205,9 @@ Excellent! This means that it is all working as it should.
 
 ## What we've accomplished
 
-By using the `graphql` gem within the Ruby part of our Rails application, we've been able to expose homepageData from our database through a GraphQL API. We then read that homepageData using a combination of React, Apollo, and TypeScript on the frontend.
+By using the `graphql` gem within the Ruby part of our Rails application, we've been able to expose data from our database through a GraphQL API. We then read that data using a combination of React, Apollo, and TypeScript on the frontend.
 
-When we're using TypeScript, we need to be able to know the types of our homepageData. This will ensure that our program is as correct as it can be. While we _could_ define these types ourselves -- as we saw earlier on when we were setting up TypeScript -- it is instead better to automatically generate them from the GraphQL API's types instead. The way we do this is with a combination of the `graphql` gem's Rake task (defined in `Rakefile`), and another command called `yarn gql:codegen`. The latter command outputs types to `app/javascript/graphql/types.tsx`, and then it's from that file we can import things like the `useBooksQuery` function and `Book` type, if we require it.
+When we're using TypeScript, we need to be able to know the types of our data. This will ensure that our program is as correct as it can be. While we _could_ define these types ourselves -- as we saw earlier on when we were setting up TypeScript -- it is instead better to automatically generate them from the GraphQL API's types instead. The way we do this is with a combination of the `graphql` gem's Rake task (defined in `Rakefile`), and another command called `yarn gql:codegen`. The latter command outputs types to `app/javascript/graphql/types.tsx`, and then it's from that file we can import things like the `useBooksQuery` function and `Book` type, if we require it.
 
 One other thing to remember is that thanks to the `@graphql-codegen/typescript-operations`
 

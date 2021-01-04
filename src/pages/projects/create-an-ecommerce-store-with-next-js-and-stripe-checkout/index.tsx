@@ -198,7 +198,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
             title:
               'Store and Load Cart State from Local Storage to Persist Cart Data When Reloading the Page',
             path:
-              '/lessons/react-store-and-load-cart-state-from-local-storage-to-persist-cart-homepageData-when-reloading-the-page',
+              '/lessons/react-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },

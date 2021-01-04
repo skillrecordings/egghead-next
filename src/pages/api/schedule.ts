@@ -1,8 +1,5 @@
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
-import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
-
-import {format} from 'date-fns'
 
 const AIRTABLE_SCHEDULE_URL = `https://api.airtable.com/v0/appt9rslO0tkAwXUm/schedule`
 

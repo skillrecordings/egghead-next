@@ -137,7 +137,7 @@ export default class Auth {
 
     return this.handleNewSession(accessToken, expiresInSeconds).catch((e) => {
       if (e.isAxiosError && e.response.status === 403) {
-        // do nothing, logout has been called to clear local session homepageData
+        // do nothing, logout has been called to clear local session data
       } else {
         return Promise.reject(e)
       }
