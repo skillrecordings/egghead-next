@@ -5,6 +5,7 @@ export type Resource = {
   icon_url?: string
   completed: boolean
   path: string
+  type: string
 }
 
 export type LessonResource = Resource & {

@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import {useViewer} from 'context/viewer-context'
 
 function Logout() {
@@ -10,6 +9,10 @@ function Logout() {
   }, [])
 
   return null
+}
+
+Logout.getLayout = (Page: any) => {
+  return <Page />
 }
 
 export default Logout

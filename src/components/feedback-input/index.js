@@ -185,132 +185,133 @@ class FeedbackInput extends Component {
     } = this.state
 
     return (
-      <ClickedOutside onClickOutside={this.handleClickOutside}>
-        <FeedbackInputMain
-          title="Share any feedback about our products and services"
-          className={`
+      <FeedbackErrorBoundary>
+        <ClickedOutside onClickOutside={this.handleClickOutside}>
+          <FeedbackInputMain
+            title="Share any feedback about our products and services"
+            className={`
             ${focused ? 'focused' : ''}
             ${errorMessage != null ? 'error' : ''}
             ${loading ? 'loading' : ''}
             ${success ? 'success' : ''}
             ${this.props.dark ? 'dark' : ''}
           `}
-        >
-          <div
-            css={css`
-              position: absolute;
-              z-index: 100;
-              width: ${focused ? '230px' : '100%'};
-              height: ${focused ? '160px' : '34px'};
-              overflow: hidden;
-              border: 1px solid rgba(255, 255, 255, 0.1);
-              border-radius: 5px;
-              transition: background 150ms;
-              &:hover {
-                color: white;
-                background: #232c3b;
-              }
-            `}
           >
-            {!focused && (
-              <div
-                css={css`
-                  pointer-events: none;
-                  display: flex;
-                  align-items: center;
-                  font-size: 14px;
-                  width: 100%;
-                  height: 100%;
-                  position: absolute;
-                  z-index: 1;
-                  padding: 7px;
-                `}
-              >
-                Feedback
-              </div>
-            )}
-            <FeedbackInputTextarea
-              type="text"
-              innerRef={(textarea) => (this.textarea = textarea)}
-              placeholder={
-                focused ? 'tell us how you feel about it...' : 'Feedback'
-              }
-              onFocus={this.onFocus}
-              onChange={(event) => {
-                this.setState({
-                  feedbackText: event.target.value,
-                  valid: size(event.target.value) > 5,
-                })
-              }}
+            <div
               css={css`
+                position: absolute;
+                z-index: 100;
+                width: ${focused ? '230px' : '100%'};
+                height: ${focused ? '160px' : '34px'};
                 overflow: hidden;
-                background: #232c3b
-                  ${!focused &&
-                  `cursor: pointer;
-              `};
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 5px;
+                transition: background 150ms;
+                &:hover {
+                  color: white;
+                  background: #232c3b;
+                }
               `}
-              disabled={loading === true || errorMessage != null}
-              aria-label="give feedback"
-            />
-
-            {errorMessage != null && focused && (
-              <FeedbackInputErrorMessage>
-                <span>{errorMessage}</span>
-
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    this.onErrorDismiss()
-                  }}
-                >
-                  TRY AGAIN
-                </a>
-              </FeedbackInputErrorMessage>
-            )}
-
-            {success && focused && (
-              <FeedbackInputSuccessMessage>
-                <p>Your feedback has been sent.</p>
-                <p>Thank you! 🎉</p>
-              </FeedbackInputSuccessMessage>
-            )}
-
-            {errorMessage == null && !success && focused && (
-              <FeedbackInputControls>
-                <span
-                  className="emojis"
+            >
+              {!focused && (
+                <div
                   css={css`
-                    width: 24px;
-                  `}
-                >
-                  <EmojiSelector
-                    onShow={this.onEmojiShown}
-                    onHide={this.onEmojiHidden}
-                    onSelect={this.onEmojiSelect}
-                    loading={loading}
-                    dark={this.props.dark}
-                  />
-                </span>
-                <span
-                  css={css`
-                    color: white;
-                    flex-grow: 1;
+                    pointer-events: none;
+                    display: flex;
                     align-items: center;
-                    margin-left: 5px;
-                    margin-top: 3px;
-                    font-size: 10px;
-                    opacity: ${emojiShown ? '0;' : ''};
+                    font-size: 14px;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    z-index: 1;
+                    padding: 7px;
                   `}
                 >
-                  {`<- pick one`}
-                </span>
-                <span className={`buttons ${emojiShown ? 'hidden' : ''}`}>
-                  <button
-                    onClick={this.onSubmit}
-                    className="button-reset py-1 px-2 mr-2  cursor-pointer bg-white text-gray-600 rounded-md"
-                    css={`
-                      ${css`
+                  Feedback
+                </div>
+              )}
+              <FeedbackInputTextarea
+                type="text"
+                innerRef={(textarea) => (this.textarea = textarea)}
+                placeholder={
+                  focused ? 'tell us how you feel about it...' : 'Feedback'
+                }
+                onFocus={this.onFocus}
+                onChange={(event) => {
+                  this.setState({
+                    feedbackText: event.target.value,
+                    valid: size(event.target.value) > 5,
+                  })
+                }}
+                css={css`
+                  overflow: hidden;
+                  background: #232c3b
+                    ${!focused &&
+                    `cursor: pointer;
+              `};
+                `}
+                disabled={loading === true || errorMessage != null}
+                aria-label="give feedback"
+              />
+
+              {errorMessage != null && focused && (
+                <FeedbackInputErrorMessage>
+                  <span>{errorMessage}</span>
+
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      this.onErrorDismiss()
+                    }}
+                  >
+                    TRY AGAIN
+                  </a>
+                </FeedbackInputErrorMessage>
+              )}
+
+              {success && focused && (
+                <FeedbackInputSuccessMessage>
+                  <p>Your feedback has been sent.</p>
+                  <p>Thank you! 🎉</p>
+                </FeedbackInputSuccessMessage>
+              )}
+
+              {errorMessage == null && !success && focused && (
+                <FeedbackInputControls>
+                  <span
+                    className="emojis"
+                    css={css`
+                      width: 24px;
+                    `}
+                  >
+                    <EmojiSelector
+                      onShow={this.onEmojiShown}
+                      onHide={this.onEmojiHidden}
+                      onSelect={this.onEmojiSelect}
+                      loading={loading}
+                      dark={this.props.dark}
+                    />
+                  </span>
+                  <span
+                    css={css`
+                      color: white;
+                      flex-grow: 1;
+                      align-items: center;
+                      margin-left: 5px;
+                      margin-top: 3px;
+                      font-size: 10px;
+                      opacity: ${emojiShown ? '0;' : ''};
+                    `}
+                  >
+                    {`<- pick one`}
+                  </span>
+                  <span className={`buttons ${emojiShown ? 'hidden' : ''}`}>
+                    <button
+                      onClick={this.onSubmit}
+                      className="button-reset py-1 px-2 mr-2  cursor-pointer bg-white text-gray-600 rounded-md"
+                      css={`
+                        ${css`
                         font-size: 12px;
                         &:disabled {
                           opacity: 0.2;
@@ -318,17 +319,18 @@ class FeedbackInput extends Component {
                           cursor: ${loading ? 'wait;' : 'not-allowed;'}
                         }
                       `}
-                    `}
-                    disabled={loading || !valid}
-                  >
-                    {loading ? 'Sending...' : 'Send'}
-                  </button>
-                </span>
-              </FeedbackInputControls>
-            )}
-          </div>
-        </FeedbackInputMain>
-      </ClickedOutside>
+                      `}
+                      disabled={loading || !valid}
+                    >
+                      {loading ? 'Sending...' : 'Send'}
+                    </button>
+                  </span>
+                </FeedbackInputControls>
+              )}
+            </div>
+          </FeedbackInputMain>
+        </ClickedOutside>
+      </FeedbackErrorBoundary>
     )
   }
 }
@@ -778,3 +780,26 @@ ClickedOutside.propTypes = {
 }
 
 export default FeedbackInput
+
+class FeedbackErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {hasError: false}
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return {hasError: true}
+  }
+
+  componentDidCatch(error, errorInfo) {}
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>
+    }
+
+    return this.props.children
+  }
+}
