@@ -54,7 +54,7 @@ const Header: FunctionComponent = () => {
                     location: 'header',
                   })
                 }}
-                className="flex items-center justify-center space-x-1"
+                className="flex items-center justify-center space-x-2"
               >
                 <FeedbackInput dark={false} />
                 <span>
@@ -75,8 +75,25 @@ const Header: FunctionComponent = () => {
                             location: 'header',
                           })
                         }
+                        className="hover:text-blue-700 hover:underline"
                       >
                         account
+                      </a>
+                    </Link>
+                  </div>
+                )}
+                {!isEmpty(viewer) && (
+                  <div>
+                    <Link href={`/bookmarks`}>
+                      <a
+                        onClick={() =>
+                          track('clicked bookmarks', {
+                            location: 'header',
+                          })
+                        }
+                        className="hover:text-blue-700 hover:underline"
+                      >
+                        bookmarks
                       </a>
                     </Link>
                   </div>

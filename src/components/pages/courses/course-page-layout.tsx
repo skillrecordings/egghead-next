@@ -15,6 +15,8 @@ import RSSIcon from '../../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../../icons/clock'
 import {LessonResource} from '../../../types'
+import BookmarkIcon from '../../icons/bookmark'
+import axios from 'utils/configured-axios'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -34,6 +36,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   ogImageUrl,
 }) => {
   const dependencies: any = getDependencies(course.slug)
+  const [isFavorite, setIsFavorite] = React.useState(false)
 
   const {topics, illustrator} = dependencies
 
@@ -49,9 +52,15 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     description,
     rss_url,
     download_url,
+    toggle_favorite_url,
     duration,
     collection_progress,
+    favorited,
   } = course
+
+  React.useEffect(() => {
+    setIsFavorite(favorited)
+  }, [favorited])
 
   const completedLessonSlugs = get(
     collection_progress,
@@ -186,6 +195,32 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               </div>
 
               <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {toggle_favorite_url ? (
+                  <button
+                    onClick={() => {
+                      track(
+                        `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
+                        {
+                          course: course.slug,
+                        },
+                      )
+                      axios.post(toggle_favorite_url)
+                      setIsFavorite(!isFavorite)
+                    }}
+                  >
+                    <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <BookmarkIcon
+                        className={`w-4 h-4 mr-1`}
+                        fill={isFavorite}
+                      />{' '}
+                      Bookmark
+                    </div>
+                  </button>
+                ) : (
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                    <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
+                  </div>
+                )}
                 {download_url ? (
                   <Link href={download_url}>
                     <a
