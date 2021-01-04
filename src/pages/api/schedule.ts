@@ -14,8 +14,6 @@ const events = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const {records = []} = data
 
-      console.log(data)
-
       const events = records.reduce((acc: any, potentialEvent: any) => {
         const {expirationDate, ...rawEvent} = potentialEvent.fields
         const now = new Date().getTime()
