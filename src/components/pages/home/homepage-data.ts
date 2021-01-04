@@ -1,4 +1,4 @@
-const data = [
+const homepageData = [
   {
     id: 'video',
     name: 'Work Smarter',
@@ -77,7 +77,8 @@ const data = [
         byline: 'Michel Weststrate・59m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/312/thumb/ImmuateableImmer_Final.png',
-        path: '/courses/immutable-javascript-data-structures-with-immer',
+        path:
+          '/courses/immutable-javascript-homepageData-structures-with-immer',
       },
       {
         title: 'Write Your First Program with the Rust Language',
@@ -111,7 +112,7 @@ const data = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/231/thumb/EGH_Apollo-GraphQL-React_Final.png',
 
-        path: '/courses/graphql-data-in-react-with-apollo-client',
+        path: '/courses/graphql-homepageData-in-react-with-apollo-client',
       },
     ],
   },
@@ -380,4 +381,4 @@ const data = [
   },
 ]
 
-export default data
+export default homepageData

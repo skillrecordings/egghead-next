@@ -8,30 +8,28 @@ import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './components/header'
-import data from './data'
+import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
 import useLastResource from 'hooks/use-last-resource'
-import useEggheadSchedule from 'hooks/use-egghead-schedule'
+import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 
-type HomeProps = {}
-
-const Home: FunctionComponent<HomeProps> = () => {
+const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
   const {lastResource} = useLastResource()
   const [schedule, scheduleLoading] = useEggheadSchedule()
-  const video: any = find(data, {id: 'video'})
+  const video: any = find(homepageData, {id: 'video'})
 
-  let featured: any = get(find(data, {id: 'featured'}), 'resources', {})
-  const devEssentials: any = find(data, {id: 'devEssentials'})
-  const freeCourses: any = find(data, {id: 'freeCourses'})
-  const stateManagement: any = find(data, {
+  let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
+  const devEssentials: any = find(homepageData, {id: 'devEssentials'})
+  const freeCourses: any = find(homepageData, {id: 'freeCourses'})
+  const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
-  const sideProject: any = find(data, {id: 'sideProject'})
-  const portfolioProject: any = find(data, {id: 'portfolioProject'})
-  const mdxConf: any = find(data, {id: 'mdxConf'})
-  const topics: any = find(data, {id: 'topics'})
-  const swag: any = find(data, {id: 'swag'})
+  const sideProject: any = find(homepageData, {id: 'sideProject'})
+  const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
+  const mdxConf: any = find(homepageData, {id: 'mdxConf'})
+  const topics: any = find(homepageData, {id: 'topics'})
+  const swag: any = find(homepageData, {id: 'swag'})
 
   if (lastResource) {
     featured = [
@@ -194,16 +192,16 @@ const Home: FunctionComponent<HomeProps> = () => {
           <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
             <>
               <h2 className="uppercase font-semibold text-xs text-blue-200">
-                {schedule.title}
+                Upcoming Events
               </h2>
-              {!isEmpty(schedule.resources) ? (
+              {!isEmpty(schedule) ? (
                 <ul className="mt-4 leading-tight space-y-3 relative z-10">
-                  {map(get(schedule, 'resources'), (resource: any) => (
-                    <li className="w-full" key={resource.path}>
+                  {map(schedule, (resource: ScheduleEvent) => (
+                    <li className="w-full" key={resource.informationUrl}>
                       <div className="font-semibold">
                         <div>
-                          {resource.path ? (
-                            <Link href={resource.path}>
+                          {resource.informationUrl ? (
+                            <Link href={resource.informationUrl}>
                               <a className="hover:underline">
                                 {resource.title}
                               </a>
@@ -219,7 +217,7 @@ const Home: FunctionComponent<HomeProps> = () => {
                             {resource.subtitle}
                           </time>
                         )}
-                        {resource.calendar && (
+                        {resource.calendarUrl && (
                           <Link href={resource.calendarUrl}>
                             <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
                               {/* prettier-ignore */}

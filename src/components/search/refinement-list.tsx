@@ -20,7 +20,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
   createURL,
   tabIndex,
 }) => {
-  // const {data} = useSwr(
+  // const {homepageData} = useSwr(
   //   `https://egghead.io/api/v1/tags/${item.label}`,
   //   async (url) => {
   //     const result = await fetch(url).then((response) => response.json())
@@ -42,7 +42,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
         }}
       >
         <div className="flex items-center">
-          {/* <div className="w-6">{data && <img src={data.image_32_url} />}</div> */}
+          {/* <div className="w-6">{homepageData && <img src={homepageData.image_32_url} />}</div> */}
           {/* ${isFromSearch && 'font-bold'} */}
           <div className={`pl-2`}>{item.label}</div>
           {item.isRefined && ( // prettier-ignore
@@ -76,7 +76,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
   createURL,
   tabIndex,
 }) => {
-  // const {data} = useSwr(
+  // const {homepageData} = useSwr(
   //   `https://egghead.io/api/v1/instructors/${nameToSlug(item.label)}`,
   //   async (url) => {
   //     const result = await fetch(url).then((response) => response.json())
@@ -99,7 +99,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
       >
         <div className="flex items-center">
           {/* <div className="w-6">
-              <img className="rounded-full" src={data.avatar_32_url} />
+              <img className="rounded-full" src={homepageData.avatar_32_url} />
             </div> */}
           <div className={`w-full flex items-center justify-between`}>
             <span>{item.label}</span>

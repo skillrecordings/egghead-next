@@ -1,7 +1,7 @@
 import * as React from 'react'
 import axios from 'axios'
 
-type ScheduleEvent = {
+export type ScheduleEvent = {
   title: string
   subtitle: string
   expiresAt: number
@@ -10,14 +10,7 @@ type ScheduleEvent = {
   informationUrl: string
 }
 
-type Schedule = {
-  id: string
-  name: string
-  title: string
-  resources: ScheduleEvent[]
-}
-
-const useSchedule = (): [Schedule, boolean] => {
+const useSchedule = (): [ScheduleEvent[], boolean] => {
   const [schedule, setSchedule] = React.useState([])
   const [scheduleLoading, setScheduleLoading] = React.useState(true)
 
@@ -28,15 +21,7 @@ const useSchedule = (): [Schedule, boolean] => {
       .finally(() => setScheduleLoading(false))
   }, [])
 
-  return [
-    {
-      id: 'schedule',
-      name: 'Schedule',
-      title: 'Upcoming Events',
-      resources: schedule,
-    },
-    scheduleLoading,
-  ]
+  return [schedule, scheduleLoading]
 }
 
 export default useSchedule
