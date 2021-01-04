@@ -16,6 +16,8 @@ export async function loadPlaylist(slug: string, token?: string) {
         rating_count
         watched_count
         path
+        url
+        duration
         primary_tag {
           name
           image_url

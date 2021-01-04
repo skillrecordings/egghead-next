@@ -126,7 +126,7 @@ const Footer: FunctionComponent = () => {
         <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500">
           <div>©egghead.io</div>
           <Link href="/privacy">
-            <a onClick={() => track(`clicked Privacy (footer)`)}>
+            <a onClick={() => track(`clicked privacy`, {location: 'footer'})}>
               Terms & Conditions
             </a>
           </Link>

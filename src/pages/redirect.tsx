@@ -18,4 +18,8 @@ const Redirect = () => {
   return null
 }
 
+Redirect.getLayout = (Page: any) => {
+  return <Page />
+}
+
 export default Redirect

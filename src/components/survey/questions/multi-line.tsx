@@ -28,7 +28,7 @@ const MultiLine: React.FunctionComponent<{
                   className="text-grey-darkest flex-1 p-2 m-1 bg-transparent"
                   name="comment"
                   value={values.comment}
-                  rows={16}
+                  rows={8}
                   as="textarea"
                   onChange={(event: {target: {value: any}}) => {
                     setValues({...values, comment: event.target.value})
