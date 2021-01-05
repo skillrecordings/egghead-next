@@ -9,7 +9,7 @@ type JoinCTAProps = {
 
 const JoinCTA: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   return (
-    <div className="flex flex-col items-center px-5">
+    <div className="flex flex-col items-center px-5 md:py-0 py-12">
       <h2 className="sm:text-2xl text-xl leading-tighter tracking-tight font-light text-center">
         This lesson is an{' '}
         <strong className="font-bold">egghead member exclusive</strong>.

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../Link'
-import Eggo from '../images/eggo.svg'
+import Eggo from 'components/icons/eggo'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
@@ -25,12 +25,12 @@ const Header: FunctionComponent = () => {
             </a>
           </Link>
           {!loading && (
-            <nav className="sm:pl-5 pl-2 text-sm font-medium">
+            <nav className="sm:pl-5 pl-0 text-sm font-medium">
               <ul className="flex items-center space-x-1">
                 <li className="">
                   <Link href="/q" activeClassName="bg-gray-100">
                     <a
-                      className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300"
+                      className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                       onClick={() =>
                         track('clicked learning resources', {
                           location: 'header',

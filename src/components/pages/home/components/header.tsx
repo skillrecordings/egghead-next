@@ -56,6 +56,7 @@ const Header: FunctionComponent<HeaderProps> = ({
       <Image
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608137337/next.egghead.io/pages/home/header_2x.png"
         layout="fill"
+        priority={true}
         quality={100}
         objectFit="cover"
         className="absolute left-0 top-0 z-0"

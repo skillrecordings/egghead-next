@@ -169,7 +169,8 @@ const homepageData = [
   {
     id: 'stateManagement',
     name: 'Research Panel',
-    title: 'React State Management in 2020',
+    title: 'React State Management in 2021',
+    path: '/playlists/react-state-management-in-2021-6732',
     description: '',
     resources: [
       {
