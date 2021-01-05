@@ -6,6 +6,7 @@ import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 import FeedbackInput from 'components/feedback-input'
+import Feedback from 'components/feedback-input/new'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -57,6 +58,7 @@ const Header: FunctionComponent = () => {
                 className="flex items-center justify-center space-x-2"
               >
                 <FeedbackInput dark={false} />
+                <Feedback user={viewer}>Feedback</Feedback>
                 <span>
                   {viewer.name || viewer.full_name || viewer.email}{' '}
                   {viewer.is_pro && ' ⭐️ '}
