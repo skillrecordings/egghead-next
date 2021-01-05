@@ -22,6 +22,7 @@ export const useNextForCollection = (
 
 export const useNextUpData = (url: string) => {
   const {data: nextUpData} = useSWR(url, fetcher)
+
   const nextUpPath = get(nextUpData, 'next_lesson')
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
 
