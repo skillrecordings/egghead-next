@@ -8,7 +8,7 @@ export const useNextForCollection = (
 ) => {
   const lessons = collection.lessons || []
 
-  const lessonSlugs = lessons.map((lesson) => {
+  const lessonSlugs = lessons.map((lesson: any) => {
     return lesson.slug
   })
   const indexOfCurrent = lessonSlugs.indexOf(currentItemSlug)
