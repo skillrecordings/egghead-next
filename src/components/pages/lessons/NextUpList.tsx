@@ -8,65 +8,60 @@ import {track} from 'utils/analytics'
 
 type NextUpListProps = {
   currentLessonSlug: string
-  course: any
-  progress: any
+  nextUp: any
 }
 
-const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
-  course,
+const NextUpList: FunctionComponent<NextUpListProps> = ({
+  nextUp,
   currentLessonSlug,
-  progress,
 }) => {
-  const {lessons} = course
-  const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
+  const {nextUpData} = nextUp
+  const [activeElement] = React.useState(currentLessonSlug)
   const scrollableNodeRef: any = React.createRef()
 
   React.useEffect(() => {
-    setActiveElement(currentLessonSlug)
-    scroller.scrollTo(activeElement, {
-      duration: 0,
-      delay: 0,
-      containerId: 'scroller-container',
-    })
-  }, [activeElement, setActiveElement, currentLessonSlug])
+    nextUpData &&
+      scroller.scrollTo(activeElement, {
+        duration: 0,
+        delay: 0,
+        containerId: 'scroll-container',
+      })
+  }, [activeElement, nextUpData])
 
-  return lessons ? (
-    <div>
-      {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
-        Lessons
-      </span> */}
-      <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
-        <ol
-          ref={scrollableNodeRef}
-          id="scroller-container"
-          className="overflow-y-auto h-full"
-          css={{
-            '@media only screen and (min-width: 640px)': {maxHeight: 600},
-            maxHeight: 300,
-          }}
-        >
-          {lessons.map((lesson: LessonResource, index = 0) => {
-            const completedLessons = get(progress, 'completed_lessons', []).map(
-              (lesson: LessonResource) => lesson.slug,
-            )
-            const completed = completedLessons.includes(lesson.slug)
-            return (
-              <li key={lesson.slug}>
-                <Element name={lesson.slug} />
-                <div>
-                  <Item
-                    active={lesson.slug === currentLessonSlug}
-                    lesson={lesson}
-                    index={index}
-                    completed={completed}
-                    className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
-                  />
-                </div>
-              </li>
-            )
-          })}
-        </ol>
-      </div>
+  return nextUpData ? (
+    <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
+      <ol
+        ref={scrollableNodeRef}
+        id="scroll-container"
+        className="overflow-y-auto h-full"
+        css={{
+          '@media only screen and (min-width: 640px)': {maxHeight: 600},
+          maxHeight: 300,
+        }}
+      >
+        {nextUpData.list.lessons.map((lesson: LessonResource, index = 0) => {
+          const completedLessons = get(
+            nextUpData.list,
+            'progress.completed_lessons',
+            [],
+          ).map((lesson: LessonResource) => lesson.slug)
+          const completed = completedLessons.includes(lesson.slug)
+          return (
+            <li key={lesson.slug}>
+              <Element name={lesson.slug} />
+              <div>
+                <Item
+                  active={lesson.slug === currentLessonSlug}
+                  lesson={lesson}
+                  index={index}
+                  completed={completed}
+                  className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
+                />
+              </div>
+            </li>
+          )
+        })}
+      </ol>
     </div>
   ) : null
 }
@@ -138,4 +133,4 @@ const CheckIcon = () => (
   </svg>
 )
 
-export default CollectionLessonsList
+export default NextUpList
