@@ -5,7 +5,6 @@ import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import {useNextForCollection} from '../../../hooks/use-next-up-data'
 
 type NextUpListProps = {
   currentLessonSlug: string
@@ -19,26 +18,27 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   progress,
 }) => {
   const {lessons} = course
-  const [activeElement] = React.useState(currentLessonSlug)
+  const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
   const scrollableNodeRef: any = React.createRef()
-  const nextLesson = useNextForCollection(course, currentLessonSlug)
 
   React.useEffect(() => {
-    course &&
-      scroller.scrollTo(activeElement, {
-        duration: 0,
-        delay: 0,
-        containerId: 'scroll-container',
-      })
-  }, [activeElement, course])
+    setActiveElement(currentLessonSlug)
+    scroller.scrollTo(activeElement, {
+      duration: 0,
+      delay: 0,
+      containerId: 'scroller-container',
+    })
+  }, [activeElement, setActiveElement, currentLessonSlug])
 
   return lessons ? (
-    <div className="pt-6">
-      <span className="font-semibold ">Course Lessons</span>
+    <div>
+      {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
+        Lessons
+      </span> */}
       <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
         <ol
           ref={scrollableNodeRef}
-          id="scroll-container"
+          id="scroller-container"
           className="overflow-y-auto h-full"
           css={{
             '@media only screen and (min-width: 640px)': {maxHeight: 600},
@@ -54,32 +54,13 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
               <li key={lesson.slug}>
                 <Element name={lesson.slug} />
                 <div>
-                  {lesson.slug !== currentLessonSlug ? (
-                    <Link href={lesson.path}>
-                      <a
-                        onClick={() => {
-                          track(`clicked next up lesson`, {
-                            lesson: lesson.slug,
-                          })
-                        }}
-                        className="font-semibold"
-                      >
-                        <Item
-                          title={lesson.title}
-                          index={index}
-                          completed={completed}
-                          className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
-                        />
-                      </a>
-                    </Link>
-                  ) : (
-                    <Item
-                      title={lesson.title}
-                      index={index}
-                      completed={completed}
-                      className="font-semibold bg-blue-50 text-blue-600"
-                    />
-                  )}
+                  <Item
+                    active={lesson.slug === currentLessonSlug}
+                    lesson={lesson}
+                    index={index}
+                    completed={completed}
+                    className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
+                  />
                 </div>
               </li>
             )
@@ -91,30 +72,70 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
 }
 
 const Item: FunctionComponent<{
+  lesson: any
+  active: boolean
   className?: string
-  title: string
   index: number
   completed: boolean
-}> = ({className, title, index, completed}) => {
-  return (
+}> = ({lesson, className, index, completed, active = false, ...props}) => {
+  const Item = () => (
     <div
-      className={`flex p-3 ${
-        className ? className : ''
+      className={`group flex p-3 ${
+        active
+          ? 'font-semibold bg-blue-600 text-white'
+          : 'hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100'
       } transition-colors ease-in-out duration-150`}
+      {...props}
     >
-      <div className="flex items-center mr-2">
-        <div className="mr-1 text-xs opacity-50 tracking-tight">
-          {completed ? `✔️` : index + 1}
+      <div className="flex items-start">
+        <div
+          className={`w-6 leading-5 pt-px text-xs ${
+            completed
+              ? `opacity-100 ${active ? 'text-white' : 'text-blue-600'}`
+              : 'opacity-60 group-hover:opacity-100'
+          } font-normal tracking-tight`}
+        >
+          {completed ? <CheckIcon /> : index + 1}
         </div>
-        {/* <input
-                type="form-checkbox"
-                checked={lesson.completed}
-                readOnly
-              /> */}
       </div>
-      <div className="w-full leading-tight">{title}</div>
+      <div className="w-full leading-tight">{lesson.title}</div>
     </div>
   )
+  return active ? (
+    <Item />
+  ) : (
+    <Link href={lesson.path}>
+      <a
+        onClick={() => {
+          track(`clicked next up lesson`, {
+            lesson: lesson.slug,
+          })
+        }}
+        className="font-semibold"
+      >
+        <Item />
+      </a>
+    </Link>
+  )
 }
+
+const CheckIcon = () => (
+  <svg
+    className="transform -translate-x-1"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g fill="none">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.707-9.293a1 1 0 0 0-1.414-1.414L9 10.586 7.707 9.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4z"
+        fill="currentColor"
+      />
+    </g>
+  </svg>
+)
 
 export default CollectionLessonsList
