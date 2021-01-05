@@ -190,6 +190,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         console.log(`autoplaying ${nextUp.nextUpPath}`)
         router.push(nextUp.nextUpPath)
       }, 1250)
+    } else if (nextUp.nextUpPath) {
+      send(`NEXT`)
+    } else {
+      send(`RECOMMEND`)
     }
   }
 
