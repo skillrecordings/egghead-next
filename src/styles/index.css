@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+#__next {
+  @apply flex flex-col min-h-screen text-gray-900;
+}
+
+#__next .prose-reset * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ——— Code Blocks ——— */
+
 code::before {
   content: none !important;
 }
@@ -18,6 +31,10 @@ code {
   font-size: 80% !important;
 }
 
+pre {
+  @apply sm:rounded-md rounded-none !important;
+}
+
 pre > code {
   font-size: 90% !important;
 }
@@ -28,9 +45,7 @@ pre > code {
   }
 }
 
-#__next {
-  @apply flex flex-col min-h-screen text-gray-900;
-}
+/* ——— Player ——— */
 
 .bmpui-ui-watermark {
   display: none !important;
@@ -48,22 +63,7 @@ pre > code {
   display: none;
 }
 
-#__next .prose-reset * {
-  font-size: inherit !important;
-  font-weight: inherit !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/*
-  This will hide the focus indicator if the element receives focus via the mouse,
-  but it will still show up on keyboard focus.
-*/
-.js-focus-visible :focus:not(.focus-visible) {
-  outline: none;
-}
-
-/* Algolia Pagination */
+/* ——— Algolia Pagination ——— */
 
 .ais-Pagination-link {
   @apply text-gray-700 border-gray-200 bg-gray-200 transition-all ease-out duration-150 !important;
@@ -80,4 +80,25 @@ pre > code {
 }
 .ais-ClearRefinements-button {
   @apply bg-transparent text-blue-600 text-sm !important;
+}
+
+/* ——— Reach UI Tabs ——— */
+
+/* styles all tabs */
+[data-reach-tab] {
+  /* @apply px-4 hover:bg-gray-50 hover:text-blue-600 transition-colors ease-in-out duration-200; */
+  @apply px-4 rounded-lg hover:bg-gray-50 hover:text-blue-600 border-none transition-colors ease-in-out duration-200;
+}
+/* styles only the selected tab */
+[data-reach-tab][data-selected] {
+  /* @apply text-blue-600 border-b-2 border-blue-600; */
+  @apply bg-blue-50 text-blue-600  border-none;
+}
+
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
 }
