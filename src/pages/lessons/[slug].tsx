@@ -36,10 +36,11 @@ import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend
 import Markdown from 'react-markdown'
 import useClipboard from 'react-use-clipboard'
 import Link from 'next/link'
-import {track} from '../../utils/analytics'
-import Eggo from '../../components/images/eggo.svg'
+import {track} from 'utils/analytics'
+import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
-import axios from '../../utils/configured-axios'
+import axios from 'utils/configured-axios'
+import cookieUtil from 'utils/cookies'
 
 const tracer = getTracer('lesson-page')
 
@@ -109,6 +110,7 @@ type LessonProps = {
 
 const OFFSET_Y = 80
 const VIDEO_MIN_HEIGHT = 480
+const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {height} = useWindowSize()
@@ -121,6 +123,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [playerState, send] = useMachine(playerMachine)
   const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
   const [lessonView, setLessonView] = React.useState<any>()
+  const [watchCount, setWatchCount] = React.useState<number>(0)
 
   const currentPlayerState = playerState.value
 
@@ -131,6 +134,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     setLesson(initialLesson)
     loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
+    if (cookieUtil.get(`egghead-watch-count`)) {
+      setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
+    } else {
+      setWatchCount(
+        Number(
+          cookieUtil.set(`egghead-watch-count`, 0, {
+            expires: 7,
+          }),
+        ),
+      )
+    }
   }, [initialLesson])
 
   const {
@@ -161,30 +175,43 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
+  const checkAutoPlay = () => {
+    if (autoplay && nextUp.nextUpPath) {
+      // this is sloppy and transitions weird so we might consider
+      // a "next" overlay with a 3-5 second "about to play" spinner
+      // instead of just lurching forward
+      // so instead of LOAD this might call NEXT but the next overlay
+      // would read the autoplay preference and present the appropriate
+      // UI
+      send('LOAD')
+      setLesson({})
+      setTimeout(() => {
+        console.log(`autoplaying ${nextUp.nextUpPath}`)
+        router.push(nextUp.nextUpPath)
+      }, 1250)
+    }
+  }
+
   const completeVideo = () => {
     if (lessonView) {
       const progress = getProgress()
       if (progress?.rate_url) {
         send('RATE')
       } else if (autoplay && nextUp.nextUpPath) {
-        // this is sloppy and transitions weird so we might consider
-        // a "next" overlay with a 3-5 second "about to play" spinner
-        // instead of just lurching forward
-        // so instead of LOAD this might call NEXT but the next overlay
-        // would read the autoplay preference and present the appropriate
-        // UI
-        send('LOAD')
-        setTimeout(() => {
-          console.log(`autoplaying ${nextUp.nextUpPath}`)
-          router.push(nextUp.nextUpPath)
-        }, 1250)
+        checkAutoPlay()
       } else if (nextUp.nextUpPath) {
         send(`NEXT`)
       } else {
         send(`RECOMMEND`)
       }
     } else {
-      console.error('no lesson view')
+      const newWatchCount = Number(
+        cookieUtil.set(`egghead-watch-count`, watchCount + 1, {
+          expires: 15,
+        }),
+      )
+      setWatchCount(newWatchCount)
+      checkAutoPlay()
     }
   }
 
@@ -194,16 +221,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         if (data) {
           const event: PlayerStateEvent = {
             type: 'LOADED',
-            lesson: initialLesson,
+            lesson: lesson,
           }
           send(event)
         }
         break
       case 'loaded':
         if (isEmpty(viewer) && free_forever) {
-          send('JOIN')
+          if (watchCount < MAX_FREE_VIEWS && (data.hls_url || data.dash_url)) {
+            send('VIEW')
+          } else {
+            send('JOIN')
+          }
         } else if (data.hls_url || data.dash_url) {
-          send('VIEW')
         } else {
           send('SUBSCRIBE')
         }
@@ -217,7 +247,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         completeVideo()
         break
     }
-  }, [currentPlayerState, data, initialLesson])
+  }, [currentPlayerState, data, lesson])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
