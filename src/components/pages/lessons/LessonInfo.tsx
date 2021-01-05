@@ -4,6 +4,8 @@ import Image from 'next/image'
 import {get} from 'lodash'
 import {track} from 'utils/analytics'
 import NextUpList from './next-up-list'
+import {useNextForCollection} from '../../../hooks/use-next-up-data'
+import CollectionLessonsList from './collection-lessons-list'
 
 type LessonInfoProps = {
   title: string
@@ -26,10 +28,12 @@ type LessonInfoProps = {
     square_cover_480_url: string
     slug: string
     path: string
+    lessons: any[]
   }
   [cssRelated: string]: any
   nextUp: any
   playerState: any
+  progress: any
 }
 
 const LessonInfo: FunctionComponent<LessonInfoProps> = ({
@@ -41,6 +45,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   nextUp,
   lesson,
   playerState,
+  progress,
   ...restProps
 }) => {
   return (
@@ -78,8 +83,15 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         </div>
       )}
 
-      {!playerState.matches('loading') && nextUp && (
+      {!playerState.matches('loading') && !course && nextUp && (
         <NextUpList nextUp={nextUp} currentLessonSlug={lesson.slug} />
+      )}
+      {course && course.lessons && (
+        <CollectionLessonsList
+          course={course}
+          currentLessonSlug={lesson.slug}
+          progress={progress}
+        />
       )}
       {get(lesson, 'free_forever') && (
         <div className="pt-6">
