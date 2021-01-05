@@ -54,35 +54,6 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
         </div>
       )}
       <ul className="space-y-4">
-        {lesson?.code_url && (
-          <li>
-            <CodeLink
-              onClick={() => {
-                track(`clicked open code`, {
-                  lesson: lesson.slug,
-                })
-              }}
-              url={lesson.code_url}
-            >
-              Open code for this lesson
-            </CodeLink>
-          </li>
-        )}
-        {lesson?.repo_url && (
-          <li>
-            <CodeLink
-              onClick={() => {
-                track(`clicked open github`, {
-                  lesson: lesson.slug,
-                })
-              }}
-              url={lesson.repo_url}
-              icon={<IconGithub />}
-            >
-              Open code on GitHub
-            </CodeLink>
-          </li>
-        )}
         {/* <li className="flex items-center">
               <IconFlag className="w-5 mr-1" />
               <Dialog

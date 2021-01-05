@@ -8,7 +8,8 @@ const NextUpOverlay: React.FunctionComponent<{
   lesson: any
   send: any
   nextUp: any
-}> = ({lesson, send, nextUp}) => {
+  nextLesson: any
+}> = ({lesson, send, nextUp, nextLesson}) => {
   const {nextLessonTitle, nextUpPath} = nextUp
   const courseImage = lesson?.course?.square_cover_480_url
   return (
@@ -24,7 +25,7 @@ const NextUpOverlay: React.FunctionComponent<{
       )}
       <div className="mt-4 md:mt-6 lg:mt-8">Up Next</div>
       <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center">
-        {nextLessonTitle}
+        {nextLesson.title || nextLessonTitle}
       </h3>
       <div className="flex mt-6 md:mt-10 lg:mt-16">
         <button
@@ -38,7 +39,7 @@ const NextUpOverlay: React.FunctionComponent<{
         >
           <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
-        <Link href={nextUpPath || '#'}>
+        <Link href={nextLesson.path || nextUpPath || '#'}>
           <a
             onClick={() => {
               track('clicked play next', {

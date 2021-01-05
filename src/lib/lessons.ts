@@ -50,6 +50,12 @@ export async function loadLesson(slug: string, token?: string) {
             type
             square_cover_480_url
             path
+            lessons {
+              slug
+              type
+              path
+              title
+            }
           }
           ... on Course {
             title
@@ -57,6 +63,12 @@ export async function loadLesson(slug: string, token?: string) {
             type
             square_cover_480_url
             path
+            lessons {
+              slug
+              type
+              path
+              title
+            }
           }
         }
         course {
