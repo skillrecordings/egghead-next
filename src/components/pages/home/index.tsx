@@ -39,7 +39,7 @@ const Home: FunctionComponent = () => {
         path: lastResource.path,
         image: lastResource.image_url,
       },
-      ...take(reject(featured, {path: lastResource.path}), featured.length-1),
+      ...take(reject(featured, {path: lastResource.path}), featured.length - 1),
     ]
   }
 
@@ -179,6 +179,7 @@ const Home: FunctionComponent = () => {
               <div className="sm:w-full -m-5 flex items-center flex-grow bg-black">
                 <EggheadPlayer
                   preload={false}
+                  autoplay={false}
                   poster={video.poster}
                   hls_url={video.hls_url}
                   dash_url={video.dash_url}
