@@ -30,7 +30,7 @@ import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
 import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
-import {useNextUpData} from 'hooks/use-next-up-data'
+import {useNextForCollection, useNextUpData} from 'hooks/use-next-up-data'
 import AutoplayToggle from 'components/pages/lessons/AutoplayToggle'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
@@ -163,8 +163,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   } = lesson
 
   const nextUp = useNextUpData(next_up_url)
+  const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
+
+  console.log({nextLesson})
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
@@ -177,7 +180,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const checkAutoPlay = () => {
-    if (autoplay && nextUp.nextUpPath) {
+    if (autoplay && (nextLesson || nextUp.nextUpPath)) {
       // this is sloppy and transitions weird so we might consider
       // a "next" overlay with a 3-5 second "about to play" spinner
       // instead of just lurching forward
@@ -187,10 +190,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       send('LOAD')
       setLesson({})
       setTimeout(() => {
-        console.log(`autoplaying ${nextUp.nextUpPath}`)
-        router.push(nextUp.nextUpPath)
+        console.log(`autoplaying ${nextLesson.path || nextUp.nextUpPath}`)
+        router.push(nextLesson.path || nextUp.nextUpPath)
       }, 1250)
-    } else if (nextUp.nextUpPath) {
+    } else if (nextLesson || nextUp.nextUpPath) {
       send(`NEXT`)
     } else {
       send(`RECOMMEND`)
@@ -202,9 +205,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       const progress = getProgress()
       if (progress?.rate_url) {
         send('RATE')
-      } else if (autoplay && nextUp.nextUpPath) {
+      } else if (autoplay && (nextLesson || nextUp.nextUpPath)) {
         checkAutoPlay()
-      } else if (nextUp.nextUpPath) {
+      } else if (nextLesson || nextUp.nextUpPath) {
         send(`NEXT`)
       } else {
         send(`RECOMMEND`)
@@ -393,6 +396,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     <NextUpOverlay
                       lesson={lesson}
                       send={send}
+                      nextLesson={nextLesson}
                       nextUp={nextUp}
                     />
                   </OverlayWrapper>
@@ -611,6 +615,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 nextUp={nextUp}
                 lesson={lesson}
                 playerState={playerState}
+                progress={lessonView?.collection_progress}
                 className="space-y-6 divide-y divide-gray-100"
               />
             </div>
