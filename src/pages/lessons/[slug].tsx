@@ -134,6 +134,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {data} = useSWR(lesson.media_url, fetcher)
 
   React.useEffect(() => {
+    send('LOAD')
     setLesson(initialLesson)
     loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
     if (cookieUtil.get(`egghead-watch-count`)) {
@@ -191,7 +192,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         console.log(`autoplaying ${nextUp.nextUpPath}`)
         router.push(nextUp.nextUpPath)
       }, 1250)
-      checkAutoPlay()
+    } else if (nextUp.nextUpPath) {
+      send(`NEXT`)
+    } else {
+      send(`RECOMMEND`)
     }
   }
 
@@ -241,7 +245,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'loaded':
-        if (isEmpty(viewer) && free_forever) {
+        if (!data) {
+          send('LOAD')
+        } else if (isEmpty(viewer) && free_forever) {
           if (watchCount < MAX_FREE_VIEWS && (data.hls_url || data.dash_url)) {
             send('VIEW')
           } else {
