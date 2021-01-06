@@ -29,7 +29,6 @@ import fetcher from 'utils/fetcher'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
-// import {useEggheadPlayer} from 'components/EggheadPlayer'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
@@ -116,24 +115,16 @@ type LessonProps = {
   initialLesson: LessonResource
 }
 
-const OFFSET_Y = 80
-const VIDEO_MIN_HEIGHT = 480
-
 const HEADER_HEIGHT = 80;
 const CONTENT_OFFSET = 100;
 const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET;
 const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
-  // const isWide = !md
   const {xs, sm, md, lg} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
-  // console.log('theaterQQQ: ', theater)
   const {height} = useWindowSize()
-  // const clientHeight = isBrowser() ? height : 0
-  const maxWidth = isBrowser() ? Math.round((height - HEIGHT_OFFSET) * 1.77) : '100%'
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
-  console.log('maxWidth: ', maxWidth)
   const [theaterMode, setTheaterMode] = React.useState(theater || false)
   const toggleTheaterMode = () => {
     setPlayerPrefs({theater: !theaterMode})
@@ -142,31 +133,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const theaterModeOn = () => {
     setTheaterMode(true);
   }
-
-  React.useEffect(() => {
-    if (md) {
-      theaterModeOn()
-      window.addEventListener("resize", theaterModeOn)
-    } else {
-      setTheaterMode(theater)
-    }
-    return () => {
-      window.removeEventListener("resize", theaterModeOn)
-    }
-  }, [md, theater])
-
-  React.useEffect(() => {
-    setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
-  }, [height])
-
-
-
-
-
-  
   const [lesson, setLesson] = React.useState<any>(initialLesson)
-  // const clientHeight = isBrowser() ? height : 0
-  // const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()
@@ -174,42 +141,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
-
   const currentPlayerState = playerState.value
-
   useLastResource({...lesson, image_url: lesson.icon_url})
-
   const {data} = useSWR(lesson.media_url, fetcher)
-
-  React.useEffect(() => {
-    send('LOAD')
-    setLesson(initialLesson)
-    loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
-    if (cookieUtil.get(`egghead-watch-count`)) {
-      setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
-    } else {
-      setWatchCount(
-        Number(
-          cookieUtil.set(`egghead-watch-count`, 0, {
-            expires: 7,
-          }),
-        ),
-      )
-    }
-  }, [initialLesson])
-
   const {
     instructor,
     next_up_url,
@@ -223,14 +157,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
     slug,
   } = lesson
-
   const nextUp = useNextUpData(next_up_url)
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
-
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
-
   const getProgress = () => {
     if (lessonView?.collection_progress) {
       return lessonView.collection_progress
@@ -238,6 +169,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       return nextUp.nextUpData.list.progress
     }
   }
+
+  const loaderVisible = playerState.matches('loading')
+
+  const playerVisible: boolean =
+    ['playing', 'paused', 'loaded', 'viewing', 'completed'].some(
+      playerState.matches,
+    ) && !isEmpty(data)
 
   const checkAutoPlay = () => {
     if (autoplay && (nextLesson || nextUp.nextUpPath)) {
@@ -341,16 +279,38 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [router.events, send])
 
-  
+  React.useEffect(() => {
+    send('LOAD')
+    setLesson(initialLesson)
+    loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
+    if (cookieUtil.get(`egghead-watch-count`)) {
+      setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
+    } else {
+      setWatchCount(
+        Number(
+          cookieUtil.set(`egghead-watch-count`, 0, {
+            expires: 7,
+          }),
+        ),
+      )
+    }
+  }, [initialLesson])
 
-  const loaderVisible = playerState.matches('loading')
+  React.useEffect(() => {
+    if (md) {
+      theaterModeOn()
+      window.addEventListener("resize", theaterModeOn)
+    } else {
+      setTheaterMode(theater)
+    }
+    return () => {
+      window.removeEventListener("resize", theaterModeOn)
+    }
+  }, [md, theater])
 
-  const playerVisible: boolean =
-    ['playing', 'paused', 'loaded', 'viewing', 'completed'].some(
-      playerState.matches,
-    ) && !isEmpty(data)
-
-    console.log('theaterMode: ', theaterMode)
+  React.useEffect(() => {
+    setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
+  }, [height])
 
   return (
     <>
@@ -504,7 +464,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             )}
           </div>
-          <div className="flex items-center justify-end p-4 bg-black">
+          <div className="flex items-center justify-end p-4 bg-black" css={{maxWidth: lessonMaxWidth}}>
             {!md ? (
               <button onClick={toggleTheaterMode} className="text-white">
                 {theaterMode ? 'O' : 'o'}
@@ -513,116 +473,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               "Some other options"
             )}
           </div>
-          {/* <div
-            className="w-full m-auto flex"
-            css={{
-              '@media (min-width: 960px)': {
-                maxWidth:
-                  height > VIDEO_MIN_HEIGHT + OFFSET_Y
-                    ? lessonMaxWidth
-                    : VIDEO_MIN_HEIGHT * 1.6,
-              },
-              '@media (min-width: 960px) and (max-height: 560px)': {
-                minHeight: '432px',
-              },
-            }}
-          >
-            <div
-              className="w-full relative overflow-hidden text-white"
-              css={{
-                paddingTop: '56.25%',
-                '@media (max-width: 639px)': {
-                  paddingTop: playerVisible || loaderVisible ? '56.25%' : '0',
-                },
-              }}
-            >
-              <div
-                className={`${
-                  playerVisible || loaderVisible
-                    ? 'absolute'
-                    : 'sm:absolute sm:py-0 py-5'
-                } w-full h-full top-0 left-0`}
-              >
-                {loaderVisible && <Loader />}
-                {playerVisible && (
-                  <EggheadPlayer
-                    ref={playerRef}
-                    resource={lesson}
-                    hls_url={data.hls_url}
-                    dash_url={data.dash_url}
-                    playing={playerState.matches('playing')}
-                    width="100%"
-                    height="auto"
-                    pip="true"
-                    controls
-                    onPlay={() => send('PLAY')}
-                    onPause={() => {
-                      send('PAUSE')
-                    }}
-                    onProgress={({...progress}) => {
-                      onProgress(progress).then((lessonView: any) => {
-                        if (lessonView) {
-                          setLessonView(lessonView)
-                        }
-                      })
-                    }}
-                    onEnded={() => {
-                      onEnded().then((lessonView: any) => {
-                        if (lessonView) {
-                          setLessonView(lessonView)
-                        }
-                        send('COMPLETE')
-                      })
-                    }}
-                    subtitlesUrl={get(lesson, 'subtitles_url')}
-                  />
-                )}
-
-                {playerState.matches('joining') && (
-                  <OverlayWrapper>
-                    <CreateAccountCTA
-                      lesson={get(lesson, 'slug')}
-                      technology={primary_tag}
-                    />
-                  </OverlayWrapper>
-                )}
-                {playerState.matches('subscribing') && (
-                  <OverlayWrapper>
-                    <JoinCTA lesson={lesson} />
-                  </OverlayWrapper>
-                )}
-                {playerState.matches('showingNext') && (
-                  <OverlayWrapper>
-                    <NextUpOverlay
-                      lesson={lesson}
-                      send={send}
-                      nextLesson={nextLesson}
-                      nextUp={nextUp}
-                    />
-                  </OverlayWrapper>
-                )}
-                {playerState.matches('rating') && (
-                  <OverlayWrapper>
-                    <RateCourseOverlay
-                      course={lesson.collection}
-                      onRated={() => {
-                        // next in this scenario needs to be considered
-                        // we should also consider adding the ability to
-                        // comment
-                        send('NEXT')
-                      }}
-                      rateUrl={lessonView.collection_progress.rate_url}
-                    />
-                  </OverlayWrapper>
-                )}
-                {playerState.matches('recommending') && (
-                  <OverlayWrapper>
-                    <RecommendNextStepOverlay lesson={lesson} />
-                  </OverlayWrapper>
-                )}
-              </div>
-            </div>
-          </div> */}
         </div>
 
         <div>
