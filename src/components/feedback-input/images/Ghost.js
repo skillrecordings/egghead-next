@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default () => (
+const Ghost = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="16"
@@ -30,3 +30,5 @@ export default () => (
     </g>
   </svg>
 )
+
+export default Ghost
