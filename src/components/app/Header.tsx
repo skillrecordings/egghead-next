@@ -57,16 +57,9 @@ const Header: FunctionComponent = () => {
                 className="flex items-center justify-center space-x-2"
               >
                 <FeedbackInput dark={false} />
-                <span>
-                  {viewer.name || viewer.full_name || viewer.email}{' '}
-                  {viewer.is_pro && ' ⭐️ '}
-                </span>
-                <img
-                  alt="avatar"
-                  className="w-8 rounded-full"
-                  src={viewer.avatar_url}
-                />
-                {ACCOUNT_LINK_ENABLED && !isEmpty(viewer.accounts) && (
+                <span>{viewer.is_pro && ' ⭐️ '}</span>
+
+                {ACCOUNT_LINK_ENABLED && !isEmpty(viewer.accounts) ? (
                   <div>
                     <Link href={`/accounts/${viewer.accounts[0].slug}`}>
                       <a
@@ -77,27 +70,37 @@ const Header: FunctionComponent = () => {
                         }
                         className="hover:text-blue-700 hover:underline"
                       >
-                        account
+                        <img
+                          alt="avatar"
+                          className="w-8 rounded-full"
+                          src={viewer.avatar_url}
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                ) : (
+                  <img
+                    alt="avatar"
+                    className="w-8 rounded-full"
+                    src={viewer.avatar_url}
+                  />
+                )}
+                {!isEmpty(viewer) && (
+                  <div>
+                    <Link href={`/bookmarks`}>
+                      <a
+                        onClick={() =>
+                          track('clicked bookmarks', {
+                            location: 'header',
+                          })
+                        }
+                        className="hover:text-blue-700 hover:underline"
+                      >
+                        bookmarks
                       </a>
                     </Link>
                   </div>
                 )}
-                {/*{!isEmpty(viewer) && (*/}
-                {/*  <div>*/}
-                {/*    <Link href={`/bookmarks`}>*/}
-                {/*      <a*/}
-                {/*        onClick={() =>*/}
-                {/*          track('clicked bookmarks', {*/}
-                {/*            location: 'header',*/}
-                {/*          })*/}
-                {/*        }*/}
-                {/*        className="hover:text-blue-700 hover:underline"*/}
-                {/*      >*/}
-                {/*        bookmarks*/}
-                {/*      </a>*/}
-                {/*    </Link>*/}
-                {/*  </div>*/}
-                {/*)}*/}
               </div>
             ) : (
               <div className="flex flex-row space-x-2">
