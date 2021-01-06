@@ -42,9 +42,6 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
   children,
   user,
 }) => {
-  const isMobile = useMedia('(max-width: 640px)')
-  const isTablet = useMedia('(max-width: 768px)')
-
   const [showDialog, setShowDialog] = React.useState(false)
   const [state, setState] = React.useState<{
     loading: boolean
@@ -63,7 +60,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
     setShowDialog(false)
   }
 
-  useInterval(() => closeDialog(), state.success ? 2650 : null)
+  useInterval(() => closeDialog(), state.success ? 2000 : null)
 
   function handleSubmit(values: any, actions: any) {
     const slackEmojiCode = isEmpty(values.emoji)
@@ -122,7 +119,6 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       <DialogOverlay
         isOpen={showDialog}
         onDismiss={closeDialog}
-        dangerouslyBypassScrollLock
         css={{
           background: 'rgba(14, 24, 42, 0.5)',
           backdropFilter: 'blur(2px)',
@@ -134,10 +130,8 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
         }}
       >
         <DialogContent
-          aria-label="send me your feedback"
-          className={`${
-            state.success ? 'border-green-500' : 'border-blue-500'
-          }  rounded-lg shadow-lg max-w-screen-sm text-text border relative bg-background`}
+          aria-label="write us feedback"
+          className={`bg-white shadow-lg rounded-lg max-w-screen-sm text-text border relative`}
           css={{
             width: '100%',
             zIndex: 50,
@@ -148,11 +142,13 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
               <motion.div
                 animate={{opacity: [0, 1]}}
                 initial={{opacity: 0}}
-                className="relative flex items-center justify-center"
+                className="relative flex flex-col items-center justify-center"
               >
-                {/* prettier-ignore */}
-                <div className="w-10 h-10 bg-green-500 flex items-center justify-center rounded-full p-2"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z" fill="currentColor"/></g></svg></div>
-                <h4 className="text-lg text-center ml-4 font-semibold">
+                <div className="text-white w-16 h-16 bg-green-500 flex items-center justify-center rounded-full p-2">
+                  {/* prettier-ignore */}
+                  <svg width="32" height="32" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0z" fill="currentColor"/></g></svg>
+                </div>
+                <h4 className="text-lg text-center mt-4 font-semibold">
                   Thank you!
                 </h4>
               </motion.div>
@@ -163,6 +159,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                 </h4>
                 <Formik
                   initialValues={{feedback: '', emoji: ''}}
+                  enableReinitialize={true}
                   validationSchema={feedbackSchema}
                   validateOnBlur={false}
                   onSubmit={(values, actions) => handleSubmit(values, actions)}
@@ -170,64 +167,63 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                   {({errors, isValid, touched, isSubmitting, values}) => {
                     return (
                       <Form>
-                        <div className="flex items-center justify-center mb-3">
-                          <div id="emoji" className="mr-3">
-                            Pick an emoji
-                          </div>
-                          <div
-                            role="group"
-                            aria-labelledby="emoji"
-                            className="flex items-center"
-                          >
-                            {Array.from(EMOJIS.values()).map((emoji) => {
-                              return (
-                                <label
-                                  className="flex items-center my-2"
-                                  key={emoji}
-                                >
-                                  <Field
-                                    disabled={isSubmitting || state.loading}
-                                    type="radio"
-                                    name="emoji"
-                                    value={emoji}
-                                    className="form-radio hidden"
-                                  />
-                                  <div
-                                    className={`mr-2 p-3 flex items-center border border-transparent justify-center cursor-pointer rounded-full hover:bg-gray-100 transition-colors ease-in-out duration-200 ${
-                                      values.emoji === emoji
-                                        ? 'bg-gray-200 border border-gray-300'
-                                        : ''
-                                    }`}
-                                  >
-                                    <Emoji code={emoji} />
-                                  </div>
-                                </label>
-                              )
-                            })}
-                          </div>
-                        </div>
-
                         <label
                           htmlFor="feedback"
-                          className="hidden text-sm font-medium leading-5 text-gray-700"
+                          className="sr-only text-sm font-medium leading-5 text-gray-700"
                         >
                           Your feedback
                         </label>
                         <Field
                           disabled={isSubmitting || state.loading}
-                          className="form-input bg-background border border-gray-200 focus:shadow-outline-blue text-text w-full h-40"
+                          className="mt-4 form-input bg-background border border-gray-200 focus:shadow-outline-blue text-text w-full h-40"
                           component="textarea"
                           name="feedback"
                           id="feedback"
                           placeholder="Type your feedback here..."
                           aria-label="Enter your feedback"
                         />
-                        <div className="mt-3 w-full flex items-start justify-between">
+                        <div className="w-full flex flex-col items-center justify-between">
+                          <div className="flex items-center justify-center mb-3">
+                            <div id="emoji" className="mr-3">
+                              Pick an emoji:
+                            </div>
+                            <div
+                              role="group"
+                              aria-labelledby="emoji"
+                              className="flex items-center"
+                            >
+                              {Array.from(EMOJIS.values()).map((emoji) => {
+                                return (
+                                  <label
+                                    className="flex items-center my-2"
+                                    key={emoji}
+                                  >
+                                    <Field
+                                      disabled={isSubmitting || state.loading}
+                                      type="radio"
+                                      name="emoji"
+                                      value={emoji}
+                                      className="form-radio hidden"
+                                    />
+                                    <div
+                                      className={`p-3 transform hover:scale-110 flex items-center border border-transparent justify-center cursor-pointer rounded-full  transition-all ease-in-out duration-100 ${
+                                        values.emoji === emoji
+                                          ? 'bg-blue-100 border border-blue-200'
+                                          : 'hover:border-blue-200'
+                                      }`}
+                                    >
+                                      <Emoji code={emoji} />
+                                    </div>
+                                  </label>
+                                )
+                              })}
+                            </div>
+                          </div>
                           <ErrorMessage
                             name="feedback"
                             render={(msg) => (
-                              <div className="flex items-start mr-3">
-                                <div className="px-3 py-2 rounded-tl-none rounded-lg bg-gray-300 flex items-center">
+                              <div className="flex items-start">
+                                <div className="mt-3 px-3 pb-4 flex items-center">
                                   {msg}
                                   {state.errorMessage &&
                                     ` & ${state.errorMessage}`}
@@ -235,19 +231,38 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                               </div>
                             )}
                           />
-                          <div />
                           <button
                             className={`${
-                              errors.feedback &&
-                              touched.feedback &&
-                              'cursor-not-allowed'
-                            } mr-2 block font-semibold px-4 py-2 text-base bg-blue-500 hover:bg-blue-600 transition-colors ease-in-out duration-200 text-white rounded-md leading-6`}
+                              errors.feedback && touched.feedback
+                                ? 'cursor-not-allowed'
+                                : ''
+                            } mt-3 block font-semibold px-5 py-3 text-base hover:scale-105 transform bg-blue-600 hover:bg-blue-700 transition-all ease-in-out duration-200 text-white rounded-md leading-6`}
                             disabled={!isValid || isSubmitting || state.loading}
                             type="submit"
                           >
-                            {isSubmitting || state.loading
-                              ? 'Sending...'
-                              : 'Send'}
+                            {isSubmitting || state.loading ? (
+                              <div className="flex items-center justify-center space-x-2">
+                                <svg
+                                  className="text-blue-100"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width={24}
+                                  height={24}
+                                  viewBox="0 0 24 24"
+                                >
+                                  <motion.g
+                                    animate={{rotateZ: [0, 360]}}
+                                    transition={{repeat: Infinity}}
+                                    fill="currentColor"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"></path>
+                                  </motion.g>
+                                </svg>
+                                <span>Sending...</span>
+                              </div>
+                            ) : (
+                              'Send feedback'
+                            )}
                           </button>
                         </div>
                       </Form>
@@ -257,24 +272,21 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
               </>
             )}
           </div>
-          <div className="block absolute top-0 right-0 sm:pt-4 sm:pr-4 pt-3 pr-3">
+          <div className="block absolute top-0 right-0 pt-2 pr-2">
             <button
               onClick={closeDialog}
               type="button"
-              className={`${
-                state.success
-                  ? 'text-gray-700'
-                  : 'text-gray-600 hover:bg-gray-200 p-2 focus:shadow-outline-blue '
-              } hover:text-text rounded-full focus:outline-none focus:text-text transition-colors ease-in-out duration-200`}
+              className={`text-gray-600 hover:bg-blue-100 hover:text-blue-600 p-2 focus:shadow-outline-blue transition-all rounded-full transform hover:scale-110 ease-in-out duration-200`}
               aria-label="Close"
             >
+              <span className="sr-only">close feedback dialog</span>
               {/* prettier-ignore */}
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             {state.success && (
               <svg
-                className="w-12 text-green-400 absolute pointer-events-none sm:top-1 sm:right-1 top-0 right-0"
-                viewBox="-10 -10 60 60"
+                className="w-12 text-blue-600 absolute pointer-events-none top-2 right-0"
+                viewBox="-5 -5 60 60"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 {/* prettier-ignore */}
@@ -284,7 +296,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         opacity: [0.2, 1],
                       }}
                       transition={{
-                        duration: 2.5,
+                        duration: 1.9,
                         type: 'spring',
                       }}
                     />
