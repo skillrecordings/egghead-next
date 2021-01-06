@@ -26,6 +26,5 @@ export const useNextUpData = (url: string) => {
   const nextUpPath = get(nextUpData, 'next_lesson')
   const nextLessonTitle = get(nextUpData, 'next_lesson_title')
 
-  console.log({nextUpData})
   return {nextUpData, nextUpPath, nextLessonTitle, nextUpLoading: !nextUpData}
 }

@@ -105,7 +105,6 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const PlayButton: React.FunctionComponent<{lesson: LessonResource}> = ({
     lesson,
   }) => {
-    console.log({lesson})
     const isContinuing =
       lesson && lesson != first(lessons) && lesson != first(playlistLessons)
     return lesson ? (
