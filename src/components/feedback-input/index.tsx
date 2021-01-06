@@ -73,7 +73,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       .post('/api/v1/feedback', {
         feedback: {
           url: window.location.toString(),
-          site: process.env.NEXT_PUBLIC_DEPLOYMENT_URL,
+          site: `egghead-next`,
           comment: values.feedback,
           user: user,
           emotion: slackEmojiCode,
