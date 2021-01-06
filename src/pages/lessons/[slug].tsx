@@ -467,7 +467,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           {!md && (
             <div className="flex items-center justify-center py-4 bg-black border-gray-900 border-t">
               <div
-                className="flex-grow flex justify-end"
+                className={`flex-grow flex justify-end ${theaterMode ? 'pr-4' : ''}`}
                 css={{
                   maxWidth: lessonMaxWidth,
                   "@media (min-width: 1024px)": {
