@@ -1,7 +1,7 @@
 import * as React from 'react'
 import cookies from 'utils/cookies'
 import {track} from 'utils/analytics'
-import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
+import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import axios from 'axios'
 import {get, identity, isEmpty, pickBy} from 'lodash'
 import {LessonResource} from 'types'

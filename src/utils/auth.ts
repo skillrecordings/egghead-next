@@ -4,7 +4,7 @@ import axios from 'axios'
 import get from 'lodash/get'
 import cookie from './cookies'
 import * as serverCookie from 'cookie'
-import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
+import getAccessTokenFromCookie from './get-access-token-from-cookie'
 
 const http = axios.create()
 

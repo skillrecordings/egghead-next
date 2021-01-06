@@ -1,4 +1,4 @@
-import getAccessTokenFromCookie from './getAccessTokenFromCookie'
+import getAccessTokenFromCookie from './get-access-token-from-cookie'
 
 const fetcher = (url: RequestInfo) => {
   const token = getAccessTokenFromCookie()
