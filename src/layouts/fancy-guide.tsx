@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
-import Contributors from '../components/Contributors'
+import Contributors from '../components/Contributors_'
 
 type LayoutProps = {
   meta?: {

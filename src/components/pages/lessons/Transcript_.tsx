@@ -2,7 +2,7 @@ import React, {FunctionComponent, useState, useEffect} from 'react'
 import {animateScroll as scroll} from 'react-scroll'
 import {get, first, noop} from 'lodash'
 import ReactMarkdown from 'react-markdown'
-import CodeBlock from 'components/CodeBlock'
+import CodeBlock from 'components/code-block'
 
 type TranscriptProps = {
   player: any
