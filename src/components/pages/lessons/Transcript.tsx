@@ -2,6 +2,7 @@ import React, {FunctionComponent, useState, useEffect} from 'react'
 import {animateScroll as scroll} from 'react-scroll'
 import {get, first, noop} from 'lodash'
 import ReactMarkdown from 'react-markdown'
+import CodeBlock from 'components/CodeBlock'
 
 type TranscriptProps = {
   player: any
@@ -24,6 +25,9 @@ const hmsToSeconds = (str: string) => {
   return s
 }
 
+// https://regexr.com/58bnr
+const regex = /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g
+
 const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
   className,
@@ -38,36 +42,35 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   const LinkReference = (props: any) => {
     const children = get(props, 'children', [''])
     const linkText: any = first(children)
-    const secondsToSeek = hmsToSeconds(
-      linkText.props.children.replace('[', '').replace(']', ''),
-    )
+    const value: string = linkText.props.children
+    const number: string = value.replace('[', '').replace(']', '')
+    const secondsToSeek = hmsToSeconds(number)
 
-    return (
-      <button
-        className="text-blue-600 hover:underline"
-        onClick={() => {
-          const duration = player.current.getDuration()
-          const fractionToSeek = secondsToSeek / duration
-          player.current.seekTo(fractionToSeek)
-          playVideo()
-          scroll.scrollToTop({
-            duration: 300,
-            smooth: 'true',
-          })
-        }}
-      >
-        {children}
-      </button>
-    )
+    if (value.match(regex)) {
+      return (
+        <button
+          className="text-blue-600 hover:underline"
+          onClick={() => {
+            const duration = player.current.getDuration()
+            const fractionToSeek = secondsToSeek / duration
+            player.current.seekTo(fractionToSeek)
+            playVideo()
+            scroll.scrollToTop({
+              duration: 300,
+              smooth: 'true',
+            })
+          }}
+        >
+          {number}
+        </button>
+      )
+    }
+    return <a href={props.href}>{value}</a>
   }
 
   useEffect(() => {
     if (transcriptText && playerAvailable) {
-      const matches =
-        transcriptText &&
-        transcriptText.match(
-          /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g, // https://regexr.com/58bnr
-        )
+      const matches = transcriptText && transcriptText.match(regex)
       let result = transcriptText
       matches &&
         matches.forEach((match: any, i: number) => {
@@ -91,13 +94,20 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
   }
 
   return (
-    <ReactMarkdown
-      skipHtml={false}
-      renderers={{link: LinkReference}}
-      className={className ? className : 'prose md:prose-xl max-w-none'}
-    >
-      {transcript || ''}
-    </ReactMarkdown>
+    <>
+      <ReactMarkdown
+        skipHtml={false}
+        renderers={{
+          link: LinkReference,
+          code: (props) => {
+            return <CodeBlock {...props} />
+          },
+        }}
+        className={className ? className : 'prose md:prose-xl max-w-none'}
+      >
+        {transcript || ''}
+      </ReactMarkdown>
+    </>
   )
 }
 

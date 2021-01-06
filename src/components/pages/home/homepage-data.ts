@@ -42,12 +42,12 @@ const homepageData = [
         path: '/playlists/scale-react-development-with-nx-4038',
       },
       {
-        name: 'Level Up',
-        title: 'Advanced JavaScript Foundations',
-        byline: 'Tyler Clark',
+        name: 'Cutting Edge',
+        title: 'Introduction to Cloudflare Workers',
+        byline: 'Free course by Kristian Freeman',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
-        path: '/courses/advanced-javascript-foundations',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
+        path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
       {
         name: 'Deep Knowledge',

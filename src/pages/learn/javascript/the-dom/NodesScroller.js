@@ -2,7 +2,7 @@ import * as React from 'react'
 import {useRef, useEffect} from 'react'
 import {gsap} from 'gsap/dist/gsap'
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger'
-import {bpMaxMD} from '../../../../utils/breakpoints.js'
+import {bpMaxMD} from 'utils/breakpoints'
 
 gsap.registerPlugin(ScrollTrigger)
 

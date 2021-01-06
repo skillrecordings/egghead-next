@@ -93,7 +93,6 @@ const onProgress = (lesson: LessonResource) => async (progress: {
   }
 
   lessonProgress[lesson.slug] = roundedProgress
-
   if (lesson.lesson_view_url) {
     if (roundedProgress === 30) {
       track('started lesson', {
@@ -252,7 +251,6 @@ export const getPlayerPrefs = () => {
 }
 
 export const savePlayerPrefs = (options: any) => {
-  console.log(`storing preference`, options)
   return cookies.set(PLAY_PREFS_KEY, {
     ...defaultPlayerPreferences,
     ...getPlayerPrefs(),
@@ -283,11 +281,9 @@ export default function useEggheadPlayer(lesson: LessonResource) {
     setPlayerPrefs(getPlayerPrefs())
   }, [lesson.slug])
 
-  const onProgressCallback = React.useCallback(onProgress(lesson), [
-    lesson.slug,
-  ])
+  const onProgressCallback = React.useCallback(onProgress(lesson), [lesson])
 
-  const onEndedCallback = React.useCallback(onEnded(lesson), [lesson.slug])
+  const onEndedCallback = React.useCallback(onEnded(lesson), [lesson])
 
   const setPlayerPrefsCallback = React.useCallback((options: any) => {
     setPlayerPrefs(savePlayerPrefs(options))

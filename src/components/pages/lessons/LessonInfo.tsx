@@ -1,11 +1,6 @@
-import React, {FunctionComponent, SyntheticEvent, useState} from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
+import React, {FunctionComponent} from 'react'
 import {get} from 'lodash'
 import {track} from 'utils/analytics'
-import NextUpList from './next-up-list'
-import {useNextForCollection} from '../../../hooks/use-next-up-data'
-import CollectionLessonsList from './collection-lessons-list'
 
 type LessonInfoProps = {
   title: string
@@ -23,17 +18,10 @@ type LessonInfoProps = {
     },
   ]
   description: string
-  course: {
-    title: string
-    square_cover_480_url: string
-    slug: string
-    path: string
-    lessons: any[]
-  }
   [cssRelated: string]: any
   nextUp: any
   playerState: any
-  progress: any
+  autoplay: {enabled: boolean}
 }
 
 const LessonInfo: FunctionComponent<LessonInfoProps> = ({
@@ -41,58 +29,14 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   instructor,
   tags,
   description,
-  course,
   nextUp,
   lesson,
   playerState,
-  progress,
+  autoplay,
   ...restProps
 }) => {
   return (
     <div {...restProps}>
-      {course && (
-        <div className="pt-6">
-          <div className="flex items-center">
-            <Link href={course.path}>
-              <a className="flex-shrink-0 relative block w-12 h-12 lg:w-20 lg:h-20">
-                <Image
-                  src={course.square_cover_480_url}
-                  alt={`illustration for ${course.title}`}
-                  layout="fill"
-                />
-              </a>
-            </Link>
-            <div className="ml-2 lg:ml-4">
-              <h4 className="text-gray-600 mb-1">Course</h4>
-              <Link href={course.path}>
-                <a
-                  onClick={() => {
-                    track(`clicked open course`, {
-                      lesson: lesson.slug,
-                    })
-                  }}
-                  className="hover:underline"
-                >
-                  <h3 className="font-semibold leading-tight text-md lg:text-lg">
-                    {course.title}
-                  </h3>
-                </a>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {!playerState.matches('loading') && !course && nextUp && (
-        <NextUpList nextUp={nextUp} currentLessonSlug={lesson.slug} />
-      )}
-      {course && course.lessons && (
-        <CollectionLessonsList
-          course={course}
-          currentLessonSlug={lesson.slug}
-          progress={progress}
-        />
-      )}
       {get(lesson, 'free_forever') && (
         <div className="pt-6">
           <div className="flex items-center">
@@ -109,33 +53,7 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
           </div>
         </div>
       )}
-      <ul className="space-y-3 pt-6">
-        {lesson?.code_url && (
-          <CodeLink
-            onClick={() => {
-              track(`clicked open code`, {
-                lesson: lesson.slug,
-              })
-            }}
-            url={lesson.code_url}
-          >
-            Open code for this lesson
-          </CodeLink>
-        )}
-        {lesson?.repo_url && (
-          <CodeLink
-            onClick={() => {
-              track(`clicked open github`, {
-                lesson: lesson.slug,
-              })
-            }}
-            url={lesson.repo_url}
-            icon={<IconGithub />}
-          >
-            Open code on GitHub
-          </CodeLink>
-        )}
-
+      <ul className="space-y-4">
         {/* <li className="flex items-center">
               <IconFlag className="w-5 mr-1" />
               <Dialog
@@ -162,7 +80,7 @@ const CodeLink: FunctionComponent<{
   onClick?: () => void
 }> = ({url, icon, onClick = () => {}, children}) => {
   return (
-    <li className="flex items-center">
+    <div className="flex items-center">
       <a
         href={url}
         rel="noreferrer"
@@ -173,7 +91,7 @@ const CodeLink: FunctionComponent<{
         {icon ? icon : <IconCode />}
         {children}
       </a>
-    </li>
+    </div>
   )
 }
 
