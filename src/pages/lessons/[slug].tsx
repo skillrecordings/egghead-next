@@ -174,8 +174,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
 
-  console.log({nextLesson})
-
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
   const getProgress = () => {
