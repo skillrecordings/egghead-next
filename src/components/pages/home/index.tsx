@@ -87,16 +87,26 @@ const Home: FunctionComponent = () => {
     data,
     className,
   }) => {
-    const {name, title, description, resources} = data
+    const {name, title, description, resources, path} = data
     return (
       <Card>
         <>
           <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
             {name}
           </h2>
-          <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-            {title}
-          </h3>
+          {path ? (
+            <Link href={path}>
+              <a className="hover:text-blue-600">
+                <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+                  {title}
+                </h3>
+              </a>
+            </Link>
+          ) : (
+            <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+              {title}
+            </h3>
+          )}
           <div>
             <Markdown className="prose prose-sm max-w-none mb-3">
               {description}
