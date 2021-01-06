@@ -311,7 +311,7 @@ const defineTest = require(`jscodeshift/dist/testUtils`).defineTest
 
 describe(`codemods`, () => {
   typescriptTests.forEach((test) =>
-    defineTest(__dirname, `egghead-codemod`, null, `egghead-codemod/${test}`, {
+    defineTest(__dirname, `egghead-codemod`, null, `${test}`, {
       parser: `ts`,
     }),
   )

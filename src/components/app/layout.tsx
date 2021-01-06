@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Header from './Header'
-import Main from './Main'
-import Footer from './Footer'
+import Header from './header'
+import Main from './main'
+import Footer from './footer'
 
 const Layout: FunctionComponent = ({children}) => {
   return (

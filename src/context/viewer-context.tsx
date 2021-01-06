@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import {useRouter} from 'next/router'
-import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
+import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import useTokenSigner from '../hooks/use-token-signer'
 import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
 
