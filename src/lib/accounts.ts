@@ -27,11 +27,8 @@ export async function loadAccount(slug: string, token: string) {
     ...authorizationHeader,
   })
 
-  console.log(`load account: ${slug}`)
-
   try {
     const {account} = await graphQLClient.request(query, variables)
-    console.log(`account loaded`)
     return account
   } catch (e) {
     console.error(e)

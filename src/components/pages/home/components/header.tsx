@@ -17,9 +17,9 @@ type HeaderProps = {
 }
 
 const Header: FunctionComponent<HeaderProps> = ({
-  heading = `Learn the best JavaScript tools and frameworks from industry pros`,
-  subheading = `egghead is a boutique label curating high-quality in-depth web
-  screencasts and resources for professional web developers`,
+  heading = `Craft your developer portfolio and get a better job in 2021`,
+  subheading = `egghead curates high-quality in-depth web
+  tutorials, projects, and resources for professional web developers`,
   primaryCta = {label: 'Create an account', url: '/login'},
   secondaryCta = {label: 'Learn more', url: '/about'},
 }) => {
@@ -56,6 +56,7 @@ const Header: FunctionComponent<HeaderProps> = ({
       <Image
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608137337/next.egghead.io/pages/home/header_2x.png"
         layout="fill"
+        priority={true}
         quality={100}
         objectFit="cover"
         className="absolute left-0 top-0 z-0"

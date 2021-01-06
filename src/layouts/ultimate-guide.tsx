@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
-import Contributors from 'components/Contributors'
+import Contributors from 'components/contributors'
 import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'

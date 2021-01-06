@@ -3,7 +3,7 @@ import axios from 'axios'
 import {
   getAffiliateTokenFromCookie,
   removeAffiliateTokenFromCookie,
-} from '../utils/affiliateToken'
+} from '../utils/affiliate-token'
 import {AUTH_DOMAIN} from '../utils/auth'
 
 const http = axios.create()

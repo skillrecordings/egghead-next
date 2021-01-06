@@ -6,6 +6,7 @@ import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import axios from 'axios'
 import Link from 'next/link'
 import {useViewer} from 'context/viewer-context'
+import {track} from '../../utils/analytics'
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
@@ -41,7 +42,6 @@ const Account: React.FunctionComponent<
       recurring: {interval, interval_count},
     } = price
 
-    console.log(interval, interval_count)
     if (interval === 'month' && interval_count === 3) return 'quarter'
     if (interval === 'month' && interval_count === 6) return '6-months'
     if (interval === 'month' && interval_count === 1) return 'month'
@@ -57,7 +57,6 @@ const Account: React.FunctionComponent<
           },
         })
         .then(({data}) => {
-          console.log(data)
           if (data) {
             setSubscriptionData(data)
           }
@@ -87,7 +86,7 @@ const Account: React.FunctionComponent<
                     {subscriptionName ? (
                       <div className="px-5 py-4">
                         <h3 className="text-2xl mb-1 font-medium">
-                          You've got a {subscriptionName}
+                          ⭐️ You're an <strong>egghead Member!</strong>
                         </h3>
                         <p className="text-accents-5">
                           You can update your plan and payment information below
@@ -110,7 +109,15 @@ const Account: React.FunctionComponent<
                             </div>
                           ) : (
                             <Link href="/pricing">
-                              <a>Join today!</a>
+                              <a
+                                onClick={() => {
+                                  track(`clicked pricing`, {
+                                    location: 'accounts',
+                                  })
+                                }}
+                              >
+                                Join today!
+                              </a>
                             </Link>
                           )}
                         </div>
@@ -150,8 +157,13 @@ const Account: React.FunctionComponent<
                             </p>
                           )}
                           {subscriptionData?.portalUrl && (
-                            <Link href={subscriptionData?.portalUrl}>
-                              <a className="w-full mt-4 text-center transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md">
+                            <Link href={subscriptionData.portalUrl}>
+                              <a
+                                onClick={() => {
+                                  track(`clicked manage membership`)
+                                }}
+                                className="w-full mt-4 text-center transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                              >
                                 Manage Your Membership
                               </a>
                             </Link>

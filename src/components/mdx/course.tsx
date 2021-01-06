@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import {loadCourse} from 'lib/courses'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'
+import {track} from '../../utils/analytics'
 
 type CourseWidgetProps = {
   slug: string
@@ -15,7 +16,13 @@ const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
       {data && (
         <>
           <Link href={data.path}>
-            <a>
+            <a
+              onClick={() => {
+                track(`clicked course widget`, {
+                  slug,
+                })
+              }}
+            >
               <img
                 alt="illustration"
                 className="w-64"

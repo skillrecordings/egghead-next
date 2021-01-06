@@ -6,7 +6,21 @@ module.exports = {
   priority: 0.7,
   sitemapSize: 5000,
   generateRobotsTxt: true,
-  exclude: ['/purchase/*', '/discord/*'],
+  exclude: [
+    '/purchase/*',
+    '/discord/*',
+    '/discord',
+    '/_next',
+    '/purchase',
+    '/404',
+    '/ask',
+    '/blank',
+    '/confirm/membership',
+    '/login',
+    '/logout',
+    '/redirect',
+    '/sale',
+  ],
   robotsTxtOptions: {
     policies: [
       {
@@ -16,7 +30,19 @@ module.exports = {
       {
         userAgent: 'AhrefsSiteAudit',
         allow: ['/'],
-        disallow: ['/discord', '/_next', '/purchase'],
+        disallow: [
+          '/discord',
+          '/_next',
+          '/purchase',
+          '/404',
+          '/ask',
+          '/blank',
+          '/confirm/membership',
+          '/login',
+          '/logout',
+          '/redirect',
+          '/sale',
+        ],
       },
       {
         userAgent: '*',

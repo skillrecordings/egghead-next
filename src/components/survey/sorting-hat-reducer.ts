@@ -179,6 +179,7 @@ function getUpdatedAttributesForAnswer(
       version: sortingHatData.version,
       question: currentQuestionKey,
       answer: action.answer,
+      url: window.location.toString(),
     })
   }
 
@@ -191,6 +192,7 @@ function getUpdatedAttributesForAnswer(
     track(`finished survey`, {
       survey: 'sorting hat',
       version: sortingHatData.version,
+      url: window.location.toString(),
     })
   } else {
     cioIdentify(subscriber.id, answers)
@@ -203,6 +205,7 @@ function getUpdatedAttributesForAnswer(
     track(`started survey`, {
       survey: 'sorting hat',
       version: sortingHatData.version,
+      url: window.location.toString(),
     })
     attributes = {...attributes, sorting_hat_started_at: now}
   }
@@ -249,6 +252,7 @@ function dismissSurvey(state: SortingHatState) {
     track(`dismissed survey`, {
       survey: 'sorting hat',
       version: sortingHatData.version,
+      url: window.location.toString(),
     })
   }
   return {...state, closed: true}

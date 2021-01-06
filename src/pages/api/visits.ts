@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
-import getAccessTokenFromCookie from 'utils/getAccessTokenFromCookie'
+import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 
 const visits = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {

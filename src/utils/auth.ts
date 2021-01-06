@@ -4,7 +4,7 @@ import axios from 'axios'
 import get from 'lodash/get'
 import cookie from './cookies'
 import * as serverCookie from 'cookie'
-import getAccessTokenFromCookie from '../utils/getAccessTokenFromCookie'
+import getAccessTokenFromCookie from './get-access-token-from-cookie'
 
 const http = axios.create()
 
@@ -84,6 +84,10 @@ export default class Auth {
         localStorage.setItem(EXPIRES_AT_KEY, expiresAt)
         localStorage.setItem(USER_KEY, JSON.stringify(user))
         localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
+
+        if (user.contact_id) {
+          cookie.set('cio_id', user.contact_id)
+        }
 
         cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
           expires: parseInt(expiresAt, 10),
@@ -231,6 +235,9 @@ export default class Auth {
             return reject('not authenticated')
           }
           if (data) identify(data)
+          if (data.contact_id) {
+            cookie.set('cio_id', data.contact_id)
+          }
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)
         })

@@ -66,9 +66,12 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
           (children ? (
             children
           ) : (
-            <h2 className="text-center text-3xl leading-9 font-bold">
-              Sign into your account
-            </h2>
+            <>
+              <h2 className="text-center text-3xl leading-9 font-bold">
+                Log in to egghead
+              </h2>
+              <p></p>
+            </>
           ))}
         <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-xl">
           <div className="pb-8">
@@ -77,12 +80,13 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                 initialValues={{email: ''}}
                 validationSchema={loginSchema}
                 onSubmit={(values) => {
+                  setIsSubmitted(true)
                   requestSignInEmail(values.email)
                     .then(() => {
-                      setIsSubmitted(true)
                       track && track(values.email)
                     })
                     .catch(() => {
+                      setIsSubmitted(false)
                       setIsError(true)
                     })
                 }}

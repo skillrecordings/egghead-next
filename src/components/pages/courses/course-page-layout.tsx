@@ -6,14 +6,28 @@ import UserRating from 'components/pages/courses/user-rating'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter} from 'lodash'
+import {get, first, filter, isEmpty} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import {track} from 'utils/analytics'
+import FolderDownloadIcon from '../../icons/folder-download'
+import RSSIcon from '../../icons/rss'
+import {convertTimeWithTitles} from 'utils/time-utils'
+import ClockIcon from '../../icons/clock'
+import {LessonResource} from '../../../types'
+import BookmarkIcon from '../../icons/bookmark'
+import axios from 'utils/configured-axios'
 
 type CoursePageLayoutProps = {
   lessons: any
   course: any
   ogImageUrl: string
+}
+
+const defaultProgress = {
+  completed_lesson_count: 0,
+  completed_lesson: [],
+  is_completed: false,
 }
 
 const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
@@ -22,6 +36,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   ogImageUrl,
 }) => {
   const dependencies: any = getDependencies(course.slug)
+  const [isFavorite, setIsFavorite] = React.useState(false)
 
   const {topics, illustrator} = dependencies
 
@@ -35,7 +50,23 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     primary_tag,
     http_url,
     description,
+    rss_url,
+    download_url,
+    toggle_favorite_url,
+    duration,
+    collection_progress,
+    favorited,
   } = course
+
+  React.useEffect(() => {
+    setIsFavorite(favorited)
+  }, [favorited])
+
+  const completedLessonSlugs = get(
+    collection_progress,
+    'completed_lessons',
+    [],
+  ).map((lesson: LessonResource) => lesson.slug)
 
   const {
     full_name,
@@ -46,17 +77,51 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   } = instructor
 
   const image_url = square_cover_480_url || image_thumb_url
-  const firstLessonURL = get(first(lessons), 'path')
   const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
 
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
-  const PlayButton = () => {
-    return firstLessonURL ? (
-      <Link href={firstLessonURL}>
-        <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+  const playlistLessons = playlists.reduce((acc, playlist) => {
+    return [...acc, ...playlist.lessons]
+  }, [])
+
+  // this is a pretty sloppy approach to fetching the next lesson
+  // via playlist lessons, but those are for nested playlists in
+  // playlists
+  const nextLesson: any = isEmpty(playlistLessons)
+    ? first(
+        lessons.filter(
+          (lesson: LessonResource) =>
+            !completedLessonSlugs.includes(lesson.slug),
+        ),
+      )
+    : first(
+        playlistLessons.filter(
+          (lesson: LessonResource) =>
+            !completedLessonSlugs.includes(lesson.slug),
+        ),
+      )
+
+  const PlayButton: React.FunctionComponent<{lesson: LessonResource}> = ({
+    lesson,
+  }) => {
+    const isContinuing =
+      lesson && lesson != first(lessons) && lesson != first(playlistLessons)
+    return lesson ? (
+      <Link href={lesson.path}>
+        <a
+          onClick={() => {
+            track(
+              `clicked ${isContinuing ? 'continue' : 'start'} watching course`,
+              {
+                course: course.slug,
+              },
+            )
+          }}
+          className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+        >
           <PlayIcon className="text-blue-100 mr-2" />
-          Start Watching
+          {isContinuing ? 'Continue' : 'Start'} Watching
         </a>
       </Link>
     ) : null
@@ -93,7 +158,13 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
                 {title}
               </h1>
-              <div className="flex items-center md:justify-start justify-center mt-4">
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {duration && (
+                  <div className="flex flex-row items-center">
+                    <ClockIcon className="w-4 h-4 mr-1" />{' '}
+                    {convertTimeWithTitles(duration)}
+                  </div>
+                )}
                 <UserRating
                   className="mr-3"
                   rating={average_rating_out_of_5}
@@ -101,7 +172,14 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 >
                   {tagSlug && (
                     <Link href={`/q/${tagSlug}`}>
-                      <a className="mx-2 inline-flex items-center hover:underline">
+                      <a
+                        onClick={() => {
+                          track(`clicked topic tag`, {
+                            course: course.slug,
+                          })
+                        }}
+                        className="mx-2 inline-flex items-center hover:underline"
+                      >
                         <Image
                           width={24}
                           height={24}
@@ -114,8 +192,76 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   )}
                 </UserRating>
               </div>
+
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {toggle_favorite_url ? (
+                  <button
+                    onClick={() => {
+                      track(
+                        `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
+                        {
+                          course: course.slug,
+                        },
+                      )
+                      axios.post(toggle_favorite_url)
+                      setIsFavorite(!isFavorite)
+                    }}
+                  >
+                    <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <BookmarkIcon
+                        className={`w-4 h-4 mr-1`}
+                        fill={isFavorite}
+                      />{' '}
+                      Bookmark
+                    </div>
+                  </button>
+                ) : (
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                    <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
+                  </div>
+                )}
+                {download_url ? (
+                  <Link href={download_url}>
+                    <a
+                      onClick={() => {
+                        track(`clicked download course`, {
+                          course: course.slug,
+                        })
+                      }}
+                    >
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                        <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                    <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
+                  </div>
+                )}
+                {rss_url ? (
+                  <Link href={rss_url}>
+                    <a
+                      onClick={() => {
+                        track(`clicked rss feed link`, {
+                          course: course.slug,
+                        })
+                      }}
+                    >
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                        <RSSIcon className="w-4 h-4 mr-1" /> RSS
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                    <RSSIcon className="w-4 h-4 mr-1" /> RSS
+                  </div>
+                )}
+              </div>
+
               <div className="md:hidden flex items-center justify-center w-full mt-5">
-                <PlayButton />
+                <PlayButton lesson={nextLesson} />
               </div>
               <Markdown className="prose md:prose-lg text-gray-900 mt-6">
                 {description}
@@ -160,7 +306,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold">
                     Course content{' '}
                     <span className="text-sm text-gray-600 font-normal">
-                      ({lessons.length} lessons)
+                      ({lessons.length + playlistLessons.length} lessons)
                     </span>
                   </h2>
                 </div>
@@ -172,7 +318,18 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           <div className="font-semibold flex items-center leading-tight py-2">
                             {playlist.path && (
                               <Link href={playlist.path}>
-                                <a className="hover:underline font-semibold flex items-center w-full">
+                                <a
+                                  onClick={() => {
+                                    track(
+                                      `clicked collection link on course page`,
+                                      {
+                                        course: course.slug,
+                                        collection: playlist.slug,
+                                      },
+                                    )
+                                  }}
+                                  className="hover:underline font-semibold flex items-center w-full"
+                                >
                                   <Markdown className="prose md:prose-lg text-gray-900 mt-0">
                                     {playlist.title}
                                   </Markdown>
@@ -182,8 +339,11 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           </div>
                           <div>
                             <ul className="ml-8">
-                              {playlist?.lessons.map(
-                                (lesson: any, i: number) => {
+                              {playlist?.lessons?.map(
+                                (lesson: LessonResource, index: number) => {
+                                  const isComplete = completedLessonSlugs.includes(
+                                    lesson.slug,
+                                  )
                                   return (
                                     <li
                                       key={`${playlist.slug}::${lesson.slug}`}
@@ -191,13 +351,25 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                       <div className="flex items-center leading-tight py-2">
                                         <div className="flex items-center mr-2 flex-grow">
                                           <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
-                                            {i + 1}
+                                            {isComplete ? `✔️` : index + 1}
                                           </small>
                                           <PlayIcon className="text-gray-500 mx-1" />
                                         </div>
                                         {lesson.path && (
                                           <Link href={lesson.path}>
-                                            <a className="hover:underline flex items-center w-full">
+                                            <a
+                                              onClick={() => {
+                                                track(
+                                                  `clicked collection video link on course page`,
+                                                  {
+                                                    course: course.slug,
+                                                    video: lesson.slug,
+                                                    collection: playlist.slug,
+                                                  },
+                                                )
+                                              }}
+                                              className="hover:underline flex items-center w-full"
+                                            >
                                               <Markdown className="prose md:prose-lg text-gray-700 mt-0">
                                                 {lesson.title}
                                               </Markdown>
@@ -218,19 +390,30 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
                 <div>
                   <ul>
-                    {lessons.map((lesson: any, i: number) => {
+                    {lessons.map((lesson: LessonResource, index: number) => {
+                      const isComplete = completedLessonSlugs.includes(
+                        lesson.slug,
+                      )
                       return (
                         <li key={lesson.slug}>
                           <div className="font-semibold flex items-center leading-tight py-2">
                             <div className="flex items-center mr-2 flex-grow">
                               <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
-                                {i + 1}
+                                {isComplete ? `✔️` : index + 1}
                               </small>
                               <PlayIcon className="text-gray-500 mx-1" />
                             </div>
                             {lesson.path && (
                               <Link href={lesson.path}>
-                                <a className="hover:underline font-semibold flex items-center w-full">
+                                <a
+                                  onClick={() => {
+                                    track(`clicked video link on course page`, {
+                                      course: course.slug,
+                                      video: lesson.slug,
+                                    })
+                                  }}
+                                  className="hover:underline font-semibold flex items-center w-full"
+                                >
                                   <Markdown className="prose md:prose-lg text-gray-900 mt-0">
                                     {lesson.title}
                                   </Markdown>
@@ -255,7 +438,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             />
             <div className="md:block hidden space-y-10">
               <div className="w-full flex justify-center mt-10">
-                <PlayButton />
+                <PlayButton lesson={nextLesson} />
               </div>
               <div className="">
                 <InstructorProfile

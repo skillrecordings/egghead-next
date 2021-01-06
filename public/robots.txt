@@ -5,6 +5,13 @@ Allow: /
 Disallow: /discord
 Disallow: /_next
 Disallow: /purchase
+Disallow: /404
+Disallow: /ask
+Disallow: /blank
+Disallow: /confirm/membership
+Disallow: /login
+Disallow: /logout
+Disallow: /redirect
 User-agent: *
 Disallow: /
 Host: https://next.egghead.io
