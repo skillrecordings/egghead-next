@@ -116,7 +116,7 @@ type LessonProps = {
 }
 
 const HEADER_HEIGHT = 80;
-const CONTENT_OFFSET = 100;
+const CONTENT_OFFSET = 120;
 const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET;
 const MAX_FREE_VIEWS = 7
 
@@ -464,15 +464,24 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             )}
           </div>
-          <div className="flex items-center justify-end p-4 bg-black" css={{maxWidth: lessonMaxWidth}}>
-            {!md ? (
-              <button onClick={toggleTheaterMode} className="text-white">
-                {theaterMode ? <IconTheaterModeOn className="w-5" /> : <IconTheaterModeOff className="w-5" />}
-              </button>
-            ) : (
-              "Some other options"
-            )}
-          </div>
+          {!md && (
+            <div className="flex items-center justify-center py-4 bg-black border-gray-900 border-t">
+              <div
+                className="flex-grow flex justify-end"
+                css={{
+                  maxWidth: lessonMaxWidth,
+                  "@media (min-width: 1024px)": {
+                    minWidth: "640px"
+                  }
+                }}
+              >
+                <button onClick={toggleTheaterMode} className="text-white">
+                  {theaterMode ? <IconTheaterModeOn className="w-4" /> : <IconTheaterModeOff className="w-4" />}
+                </button>
+              </div>
+              {!theaterMode && <div className="flex-shrink-0 w-72" />}
+            </div>
+          )}
         </div>
 
         <div>
