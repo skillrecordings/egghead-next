@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react'
+import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import {isEmpty, get, first} from 'lodash'
@@ -7,7 +7,8 @@ import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {useWindowSize} from 'react-use'
 import playerMachine, {PlayerStateEvent} from 'machines/lesson-player-machine'
-import EggheadPlayer from 'components/EggheadPlayer'
+import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
+import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
 import {loadLesson} from 'lib/lessons'
@@ -28,7 +29,7 @@ import fetcher from 'utils/fetcher'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
-import {useEggheadPlayer} from 'components/EggheadPlayer'
+// import {useEggheadPlayer} from 'components/EggheadPlayer'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
@@ -117,13 +118,55 @@ type LessonProps = {
 
 const OFFSET_Y = 80
 const VIDEO_MIN_HEIGHT = 480
+
+const HEADER_HEIGHT = 80;
+const CONTENT_OFFSET = 100;
+const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET;
 const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
+  // const isWide = !md
+  const {xs, sm, md, lg} = useBreakpoint()
+  const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
+  // console.log('theaterQQQ: ', theater)
   const {height} = useWindowSize()
+  // const clientHeight = isBrowser() ? height : 0
+  const maxWidth = isBrowser() ? Math.round((height - HEIGHT_OFFSET) * 1.77) : '100%'
+  const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
+  console.log('maxWidth: ', maxWidth)
+  const [theaterMode, setTheaterMode] = React.useState(theater || false)
+  const toggleTheaterMode = () => {
+    setPlayerPrefs({theater: !theaterMode})
+    setTheaterMode(!theaterMode);
+  }
+  const theaterModeOn = () => {
+    setTheaterMode(true);
+  }
+
+  React.useEffect(() => {
+    if (md) {
+      theaterModeOn()
+      window.addEventListener("resize", theaterModeOn)
+    } else {
+      setTheaterMode(theater)
+    }
+    return () => {
+      window.removeEventListener("resize", theaterModeOn)
+    }
+  }, [md, theater])
+
+  React.useEffect(() => {
+    setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
+  }, [height])
+
+
+
+
+
+  
   const [lesson, setLesson] = React.useState<any>(initialLesson)
-  const clientHeight = isBrowser() ? height : 0
-  const [lessonMaxWidth, setLessonMaxWidth] = useState(0)
+  // const clientHeight = isBrowser() ? height : 0
+  // const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()
@@ -131,6 +174,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
 
   const currentPlayerState = playerState.value
 
@@ -286,9 +341,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [router.events, send])
 
-  React.useEffect(() => {
-    setLessonMaxWidth(Math.round((clientHeight - OFFSET_Y) * 1.6))
-  }, [clientHeight])
+  
 
   const loaderVisible = playerState.matches('loading')
 
@@ -297,7 +350,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       playerState.matches,
     ) && !isEmpty(data)
 
-  const {xs, sm, md, lg} = useBreakpoint()
+    console.log('theaterMode: ', theaterMode)
 
   return (
     <>
@@ -331,7 +384,136 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       </Head>
       <div key={initialLesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
-          <div
+          <div className="w-full flex justify-center">
+            <div
+              className="relative flex-grow bg-black"
+              css={{
+                maxWidth: lessonMaxWidth,
+                "@media (min-width: 1024px)": {
+                  minWidth: "640px"
+                }
+              }}
+            >
+              <div className="relative h-0" style={{ paddingTop: "56.25%" }}>
+                <div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-gray-900">
+                  <div
+                    className={`${
+                      playerVisible || loaderVisible
+                        ? 'absolute'
+                        : 'sm:absolute sm:py-0 py-5'
+                    } w-full h-full top-0 left-0`}
+                  >
+                    {loaderVisible && <Loader />}
+                    {playerVisible && (
+                      <EggheadPlayer
+                        ref={playerRef}
+                        resource={lesson}
+                        hls_url={data.hls_url}
+                        dash_url={data.dash_url}
+                        playing={playerState.matches('playing')}
+                        width="100%"
+                        height="auto"
+                        pip="true"
+                        controls
+                        onPlay={() => send('PLAY')}
+                        onPause={() => {
+                          send('PAUSE')
+                        }}
+                        onProgress={({...progress}) => {
+                          onProgress(progress).then((lessonView: any) => {
+                            if (lessonView) {
+                              setLessonView(lessonView)
+                            }
+                          })
+                        }}
+                        onEnded={() => {
+                          onEnded().then((lessonView: any) => {
+                            if (lessonView) {
+                              setLessonView(lessonView)
+                            }
+                            send('COMPLETE')
+                          })
+                        }}
+                        subtitlesUrl={get(lesson, 'subtitles_url')}
+                      />
+                    )}
+
+                    {playerState.matches('joining') && (
+                      <OverlayWrapper>
+                        <CreateAccountCTA
+                          lesson={get(lesson, 'slug')}
+                          technology={primary_tag}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('subscribing') && (
+                      <OverlayWrapper>
+                        <JoinCTA lesson={lesson} />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('showingNext') && (
+                      <OverlayWrapper>
+                        <NextUpOverlay
+                          lesson={lesson}
+                          send={send}
+                          nextLesson={nextLesson}
+                          nextUp={nextUp}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('rating') && (
+                      <OverlayWrapper>
+                        <RateCourseOverlay
+                          course={lesson.collection}
+                          onRated={() => {
+                            // next in this scenario needs to be considered
+                            // we should also consider adding the ability to
+                            // comment
+                            send('NEXT')
+                          }}
+                          rateUrl={lessonView.collection_progress.rate_url}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('recommending') && (
+                      <OverlayWrapper>
+                        <RecommendNextStepOverlay lesson={lesson} />
+                      </OverlayWrapper>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {!theaterMode && (
+              <div className="flex-shrink-0 relative w-72">
+                <div className="absolute top-0 bottom-0 left-0 right-0 overflow-y-auto">
+                {!playerState.matches('loading') && !collection && nextUp && !theaterMode && (
+                    <NextUpList
+                      nextUp={nextUp}
+                      currentLessonSlug={lesson.slug}
+                    />
+                  )}
+                  {collection && collection.lessons && !theaterMode && (
+                    <CollectionLessonsList
+                      course={collection}
+                      currentLessonSlug={lesson.slug}
+                      progress={lessonView?.collection_progress}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center justify-end p-4 bg-black">
+            {!md ? (
+              <button onClick={toggleTheaterMode} className="text-white">
+                {theaterMode ? 'O' : 'o'}
+              </button>
+            ) : (
+              "Some other options"
+            )}
+          </div>
+          {/* <div
             className="w-full m-auto flex"
             css={{
               '@media (min-width: 960px)': {
@@ -440,7 +622,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div>
@@ -564,13 +746,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <>
                   <Course course={collection} lesson={lesson} />
                   <AutoplayToggle enabled={playerVisible && next_up_url} />
-                  {!playerState.matches('loading') && !collection && nextUp && (
-                    <NextUpList
-                      nextUp={nextUp}
-                      currentLessonSlug={lesson.slug}
-                    />
+                  {!playerState.matches('loading') && !collection && nextUp && theaterMode && (
+                    <div className="bg-yellow-500">
+                      <NextUpList
+                        nextUp={nextUp}
+                        currentLessonSlug={lesson.slug}
+                      />
+                    </div>
                   )}
-                  {collection && collection.lessons && (
+                  {collection && collection.lessons && theaterMode && (
                     <CollectionLessonsList
                       course={collection}
                       currentLessonSlug={lesson.slug}
@@ -624,13 +808,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     <AutoplayToggle enabled={playerVisible && next_up_url} />
                   </div>
                   <Course course={collection} lesson={lesson} />
-                  {!playerState.matches('loading') && !collection && nextUp && (
+                  {!playerState.matches('loading') && !collection && nextUp && theaterMode && (
                     <NextUpList
                       nextUp={nextUp}
                       currentLessonSlug={lesson.slug}
                     />
                   )}
-                  {collection && collection.lessons && (
+                  {collection && collection.lessons && theaterMode && (
                     <CollectionLessonsList
                       course={collection}
                       currentLessonSlug={lesson.slug}

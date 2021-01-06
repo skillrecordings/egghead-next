@@ -237,6 +237,7 @@ const defaultPlayerPreferences = {
     lang: null,
   },
   muted: false,
+  theater: false
 }
 
 export const getPlayerPrefs = () => {
