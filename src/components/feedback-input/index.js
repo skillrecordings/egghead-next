@@ -232,7 +232,7 @@ class FeedbackInput extends Component {
               )}
               <FeedbackInputTextarea
                 type="text"
-                innerRef={(textarea) => (this.textarea = textarea)}
+                ref={(textarea) => (this.textarea = textarea)}
                 placeholder={
                   focused ? 'tell us how you feel about it...' : 'Feedback'
                 }
