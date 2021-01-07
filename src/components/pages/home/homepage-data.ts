@@ -25,13 +25,14 @@ const homepageData = [
     title: 'Featured',
     resources: [
       {
-        name: 'Newest Course',
-        title: 'React Real-Time Messaging with GraphQL using urql and OneGraph',
-        byline: 'Ian Jones',
+        name: 'Hot',
+        title:
+          'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
+        byline: 'Tomasz Łakomy',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/409/013/square_280/EGH_RealtimeGraphqL.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
         path:
-          '/playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
+          'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
       },
       {
         name: 'Featured Course',
