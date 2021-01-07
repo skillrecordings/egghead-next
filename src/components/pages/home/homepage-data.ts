@@ -1,24 +1,25 @@
 const homepageData = [
   {
     id: 'video',
-    name: 'Work Smarter',
-    title: 'Rethinking How to Use a Keyboard',
+    name: 'Human-Centered Skills',
+    title:
+      'What If The Real 10X Developer Is The Friends We Made Along The Way?\n',
     description:
-      'A keyboard is the gateway to code. Your hands are the tools that manage the keyboard. Many people develop pain in their hands from repetitive stress injuries that can seriously damage their ability to code. This talk is about making your keyboard experience as gentle as possible on your hands so your hands are happier and you work more effeciently.',
-    instructor: 'John Lindquist',
-    instructor_path: '/q/resources-by-john-lindquist',
+      'break down the very real risks of idolizing individual contributors, dig into the nugget of truth that keeps this stereotype alive, and dive into what a real “10× developer” might look like.',
+    instructor: 'Jason Lengstorf',
+    instructor_path: '/q/resources-by-jason-lengstorf',
     path:
-      '/talks/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard',
+      '/talks/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way',
     poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606471489/next.egghead.io/posters/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard_2x_shrink.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1610057506/egghead%20talks/jason-lengstorf-10x-friends-along-the-way.png',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard-McpE69LtI/hls/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard-McpE69LtI.m3u8',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/hls/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.m3u8',
 
     dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard-McpE69LtI/dash/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard-McpE69LtI.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/dash/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.mpd',
 
     subtitlesUrl:
-      'https://egghead.io/api/v1/lessons/egghead-save-your-hands-and-save-your-time-rethinking-how-to-use-a-keyboard/subtitles',
+      'https://egghead.io/api/v1/lessons/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way/subtitles',
   },
   {
     id: 'featured',

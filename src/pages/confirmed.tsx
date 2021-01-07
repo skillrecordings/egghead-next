@@ -10,13 +10,13 @@ const tracer = getTracer('lesson-page')
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
   res,
-  params,
+  query,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
   return {
     props: {
-      to: params?.to || 'all',
+      to: query?.to || 'all',
     },
   }
 }
