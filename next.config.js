@@ -79,6 +79,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: `/team/:all*`,
+        destination: `${appUrl}/team/:all*`,
+        permanent: true,
+      },
+      {
+        source: `/invite/:all*`,
+        destination: `${appUrl}/invite/:all*`,
+        permanent: true,
+      },
+      {
         source: `/courses/:title/:rest(.+)`,
         destination: `${appUrl}/courses/:title/:rest`,
         permanent: true,

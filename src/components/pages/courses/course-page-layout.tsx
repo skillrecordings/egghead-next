@@ -17,6 +17,7 @@ import ClockIcon from '../../icons/clock'
 import {LessonResource} from '../../../types'
 import BookmarkIcon from '../../icons/bookmark'
 import axios from 'utils/configured-axios'
+import {FunctionComponent} from 'react'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -35,10 +36,10 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   course,
   ogImageUrl,
 }) => {
-  const dependencies: any = getDependencies(course.slug)
+  const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const {topics, illustrator} = dependencies
+  const {topics, illustrator, dependencies} = courseDependencies
 
   const {
     title,
@@ -56,7 +57,16 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     duration,
     collection_progress,
     favorited,
+    tags = [],
   } = course
+
+  const courseTags = tags.map((tag: any) => {
+    const version = get(dependencies, tag.name)
+    return {
+      ...tag,
+      ...(!!version && {version}),
+    }
+  })
 
   React.useEffect(() => {
     setIsFavorite(favorited)
@@ -169,30 +179,11 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   className="mr-3"
                   rating={average_rating_out_of_5}
                   count={watched_count}
-                >
-                  {tagSlug && (
-                    <Link href={`/q/${tagSlug}`}>
-                      <a
-                        onClick={() => {
-                          track(`clicked topic tag`, {
-                            course: course.slug,
-                          })
-                        }}
-                        className="mx-2 inline-flex items-center hover:underline"
-                      >
-                        <Image
-                          width={24}
-                          height={24}
-                          src={tagImage}
-                          alt={`${tagName} logo`}
-                        />
-                        <div className="font-semibold ml-1">{tagName}</div>
-                      </a>
-                    </Link>
-                  )}
-                </UserRating>
+                />
               </div>
-
+              <div className="mt-2">
+                <Tags tags={courseTags} courseSlug={course.slug} />{' '}
+              </div>
               <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {toggle_favorite_url ? (
                   <button
@@ -461,6 +452,52 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           </div>
         </div>
       </div>
+    </>
+  )
+}
+
+const Tags: FunctionComponent<{tags: any; courseSlug: string}> = ({
+  tags,
+  courseSlug,
+}) => {
+  return (
+    <>
+      {!isEmpty(tags) && (
+        <div className="flex space-x-4 items-center">
+          {/* <div className="font-medium">Tech used:</div> */}
+          <ul className="flex flex-wrap items-center space-x-4">
+            {tags.slice(0, 1).map((tag: any, index: number) => (
+              <li key={index} className="inline-flex items-center">
+                <Link href={`/q/${tag.name}`}>
+                  <a
+                    onClick={() => {
+                      track(`clicked view topic`, {
+                        course: courseSlug,
+                        topic: tag.name,
+                      })
+                    }}
+                    className="inline-flex items-center hover:underline"
+                  >
+                    <Image
+                      src={tag.image_url}
+                      alt={tag.name}
+                      width={16}
+                      height={16}
+                      className="flex-shrink-0"
+                    />
+                    <span className="ml-1">{tag.label}</span>
+                    {tag.version && (
+                      <span className="ml-2">
+                        <code>{tag.version}</code>
+                      </span>
+                    )}
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   )
 }

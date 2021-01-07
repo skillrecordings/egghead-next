@@ -12,6 +12,7 @@ Disallow: /confirm/membership
 Disallow: /login
 Disallow: /logout
 Disallow: /redirect
+Disallow: /sale
 User-agent: *
 Disallow: /
 Host: https://next.egghead.io
