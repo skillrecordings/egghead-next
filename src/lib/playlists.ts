@@ -18,6 +18,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         path
         url
         duration
+        type
         primary_tag {
           name
           image_url

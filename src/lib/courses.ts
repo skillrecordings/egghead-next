@@ -16,6 +16,7 @@ export async function loadCourse(slug: string) {
         path
         url
         duration
+        type
         lessons {
           id
           slug

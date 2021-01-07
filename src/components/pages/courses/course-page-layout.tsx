@@ -404,7 +404,6 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div>
                   <ul>
                     {lessons.map((lesson: LessonResource, index: number) => {
-                      console.log(lesson)
                       const isComplete = completedLessonSlugs.includes(
                         lesson.slug,
                       )

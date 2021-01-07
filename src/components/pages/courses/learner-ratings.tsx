@@ -9,13 +9,17 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
 }) => {
   const [ratings, setRatings] = React.useState([])
   const [loadingRatings, setLoadingRatings] = React.useState(true)
+  const {type, slug} = collection
 
   React.useEffect(() => {
-    loadRatings(collection.slug, collection.type).then((ratings: any) => {
+    if (loadingRatings) {
       setLoadingRatings(false)
-      setRatings(ratings)
-    })
-  }, [loadingRatings, collection])
+      loadRatings(slug, type).then((ratings: any) => {
+        setRatings(ratings)
+      })
+    }
+  }, [loadingRatings, type, slug])
+
   return isEmpty(ratings) ? null : (
     <div className="mt-8">
       <h2 className="text-lg font-semibold mb-3">Learner Reviews</h2>
