@@ -10,7 +10,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: '12.x'
+          node-version: '14.x'
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:

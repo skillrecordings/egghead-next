@@ -559,7 +559,7 @@ export default (courseSlug) =>
           },
           {
             type: 'egghead_course',
-            slug: 'advanced-react-component-patterns',
+            slug: 'react-class-component-patterns',
           },
           {
             type: 'egghead_course',
@@ -2890,7 +2890,7 @@ export default (courseSlug) =>
         },
       },
       {
-        slug: 'advanced-react-component-patterns',
+        slug: 'react-class-component-patterns',
         dependencies: {
           react: '^16.3.2',
           redux: '^3.7.2',
