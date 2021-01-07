@@ -15,12 +15,14 @@ import RSSIcon from '../../icons/rss'
 import Star from '../../icons/star'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../../icons/clock'
-import {LessonResource} from '../../../types'
+import {LessonResource} from 'types'
 import BookmarkIcon from '../../icons/bookmark'
 import axios from 'utils/configured-axios'
 import {FunctionComponent} from 'react'
-import useSWR from 'swr'
-import {loadRatings} from '../../../lib/ratings'
+import {loadRatings} from 'lib/ratings'
+import LearnerRatings from './learner-ratings'
+import FiveStars from '../../five-stars'
+import CommunityResource from '../../community-resource'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -70,8 +72,6 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       ...(!!version && {version}),
     }
   })
-
-  const {data: ratings} = useSWR([course.slug, course.type], loadRatings)
 
   React.useEffect(() => {
     setIsFavorite(favorited)
@@ -281,6 +281,11 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   bio_short={bio_short}
                   twitter={twitter}
                 />
+                {get(course, 'free_forever') && (
+                  <div className="pt-6">
+                    <CommunityResource type="course" />
+                  </div>
+                )}
                 {illustrator && (
                   <div className="w-full py-6">
                     <h4 className="font-semibold">Credits</h4>
@@ -306,43 +311,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               )}
-              {ratings && (
-                <div className="mt-8">
-                  <h2 className="text-lg font-semibold mb-3">
-                    Learner Reviews
-                  </h2>
-                  <ul className="space-y-5">
-                    {ratings.map((rating: any) => {
-                      const {comment, rating_out_of_5, user} = rating
-                      console.log(comment)
-                      const displayAdminContent =
-                        !isEmpty(comment.hide_url) ||
-                        !isEmpty(comment.restore_url)
-                      return (
-                        <li
-                          key={`rating-${rating.id}`}
-                          className="space-y-2 border p-4"
-                        >
-                          <div className="font-bold">{user.full_name}</div>
-                          <FiveStars rating={rating_out_of_5} />
-                          <div className="text-sm">{comment.prompt}</div>
-                          <div className="prose">{comment.comment}</div>
-                          {displayAdminContent && (
-                            <button
-                              className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out"
-                              onClick={() => {
-                                axios.post(comment.hide_url)
-                              }}
-                            >
-                              hide
-                            </button>
-                          )}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )}
+              <LearnerRatings collection={course} />
             </header>
             <main>
               <section className="mt-8">
@@ -501,7 +470,13 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   bio_short={bio_short}
                   twitter={twitter}
                 />
+                {get(course, 'free_forever') && (
+                  <div className="pt-6">
+                    <CommunityResource type="course" />
+                  </div>
+                )}
               </div>
+
               {illustrator && (
                 <div className="w-full">
                   <h4 className="font-semibold">Credits</h4>
@@ -561,34 +536,6 @@ const Tags: FunctionComponent<{tags: any; courseSlug: string}> = ({
         </div>
       )}
     </>
-  )
-}
-
-const FiveStars: React.FunctionComponent<{
-  rating: any
-}> = ({rating}) => {
-  const remainder = parseFloat((rating % 1).toFixed(1))
-  const roundedRemainder = Math.ceil(remainder)
-  const showHalfStar = roundedRemainder === 1
-  const emptyStarCount = 5 - roundedRemainder - floor(rating)
-  return (
-    <div className="flex items-center lh-solid">
-      {map(times(rating), (index) => (
-        <div key={`filled-${index}`}>
-          <Star filled />
-        </div>
-      ))}
-      {showHalfStar && (
-        <div key={`half`}>
-          <Star half />
-        </div>
-      )}
-      {map(times(emptyStarCount), (index) => (
-        <div key={`empty-${index}`}>
-          <Star />
-        </div>
-      ))}
-    </div>
   )
 }
 
