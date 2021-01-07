@@ -10,12 +10,14 @@ type NextUpListProps = {
   currentLessonSlug: string
   course: any
   progress: any
+  nextToVideo: boolean
 }
 
 const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   course,
   currentLessonSlug,
   progress,
+  nextToVideo
 }) => {
   const {lessons} = course
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
@@ -31,11 +33,11 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   }, [activeElement, setActiveElement, currentLessonSlug])
 
   return lessons ? (
-    <div>
+    <div className={nextToVideo ? 'h-full overflow-hidden' : ''}>
       {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
         Lessons
       </span> */}
-      <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
+      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
         <ol
           ref={scrollableNodeRef}
           id="scroller-container"

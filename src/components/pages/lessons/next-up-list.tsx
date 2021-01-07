@@ -9,11 +9,13 @@ import {track} from 'utils/analytics'
 type NextUpListProps = {
   currentLessonSlug: string
   nextUp: any
+  nextToVideo: boolean
 }
 
 const NextUpList: FunctionComponent<NextUpListProps> = ({
   nextUp,
   currentLessonSlug,
+  nextToVideo
 }) => {
   const {nextUpData} = nextUp
   const [activeElement] = React.useState(currentLessonSlug)
@@ -29,39 +31,41 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
   }, [activeElement, nextUpData])
 
   return nextUpData ? (
-    <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
-      <ol
-        ref={scrollableNodeRef}
-        id="scroll-container"
-        className="overflow-y-auto h-full"
-        css={{
-          '@media only screen and (min-width: 640px)': {maxHeight: 600},
-          maxHeight: 300,
-        }}
-      >
-        {nextUpData.list.lessons.map((lesson: LessonResource, index = 0) => {
-          const completedLessons = get(
-            nextUpData.list,
-            'progress.completed_lessons',
-            [],
-          ).map((lesson: LessonResource) => lesson.slug)
-          const completed = completedLessons.includes(lesson.slug)
-          return (
-            <li key={lesson.slug}>
-              <Element name={lesson.slug} />
-              <div>
-                <Item
-                  active={lesson.slug === currentLessonSlug}
-                  lesson={lesson}
-                  index={index}
-                  completed={completed}
-                  className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
-                />
-              </div>
-            </li>
-          )
-        })}
-      </ol>
+    <div className={nextToVideo ? 'h-full overflow-hidden' : ''}>
+      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
+        <ol
+          ref={scrollableNodeRef}
+          id="scroll-container"
+          className="overflow-y-auto h-full"
+          css={{
+            '@media only screen and (min-width: 640px)': {maxHeight: 600},
+            maxHeight: 300,
+          }}
+        >
+          {nextUpData.list.lessons.map((lesson: LessonResource, index = 0) => {
+            const completedLessons = get(
+              nextUpData.list,
+              'progress.completed_lessons',
+              [],
+            ).map((lesson: LessonResource) => lesson.slug)
+            const completed = completedLessons.includes(lesson.slug)
+            return (
+              <li key={lesson.slug}>
+                <Element name={lesson.slug} />
+                <div>
+                  <Item
+                    active={lesson.slug === currentLessonSlug}
+                    lesson={lesson}
+                    index={index}
+                    completed={completed}
+                    className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
+                  />
+                </div>
+              </li>
+            )
+          })}
+        </ol>
+      </div>
     </div>
   ) : null
 }
