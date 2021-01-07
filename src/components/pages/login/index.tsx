@@ -3,6 +3,7 @@ import * as yup from 'yup'
 import {Formik} from 'formik'
 import {useViewer} from 'context/viewer-context'
 import Image from 'next/image'
+import {IconGithub} from 'components/pages/lessons/code-link'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -142,6 +143,17 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             {button}
                           </button>
                         </div>
+                        <a
+                          href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
+                          className="flex justify-center mt-4 py-3 px-5 bg-gray-300 hover:opacity-100 hover:bg-gray-100 active:bg-gray-100 rounded-md transition-all ease-in-out duration-300"
+                        >
+                          <div className="flex items-center">
+                            <span className="mr-2 flex items-center justify-center">
+                              <IconGithub className="fill-current" />
+                            </span>
+                            Sign In with GitHub
+                          </div>
+                        </a>
                       </form>
                     </>
                   )
