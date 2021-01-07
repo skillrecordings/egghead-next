@@ -22,7 +22,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
       <ul className="space-y-5">
         {ratings.map((rating: any) => {
           const {comment, rating_out_of_5, user} = rating
-          console.log(comment)
+
           const displayAdminContent =
             !rating.hidden &&
             (!isEmpty(comment.hide_url) || !isEmpty(comment.restore_url))
