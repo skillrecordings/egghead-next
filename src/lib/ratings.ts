@@ -31,6 +31,8 @@ const CourseRatingsQuery = `
 export async function loadRatings(slug: string, type: string) {
   const SIZE_OF_PAGE = 3
 
+  console.log({slug, type})
+
   const token = getAccessTokenFromCookie()
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
