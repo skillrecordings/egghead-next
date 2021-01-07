@@ -116,15 +116,15 @@ type LessonProps = {
   initialLesson: LessonResource
 }
 
-const HEADER_HEIGHT = 80;
-const CONTENT_OFFSET = 120;
-const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET;
 const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {xs, sm, md, lg} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
+  const HEADER_HEIGHT = 80;
+  const CONTENT_OFFSET = height < 450 ? 30 : 120
+  const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET;
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [theaterMode, setTheaterMode] = React.useState(theater || false)
   const toggleTheaterMode = () => {
@@ -359,7 +359,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <div
               className="relative flex-grow bg-black"
               css={{
-                maxWidth: lessonMaxWidth,
+                maxWidth: playerVisible || loaderVisible ? lessonMaxWidth : '100%',
                 "@media (min-width: 1024px)": {
                   minWidth: "640px"
                 }
