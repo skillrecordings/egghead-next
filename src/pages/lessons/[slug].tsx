@@ -451,6 +451,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     <NextUpList
                       nextUp={nextUp}
                       currentLessonSlug={lesson.slug}
+                      nextToVideo
                     />
                   )}
                   {collection && collection.lessons && !theaterMode && (
@@ -458,6 +459,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       course={collection}
                       currentLessonSlug={lesson.slug}
                       progress={lessonView?.collection_progress}
+                      nextToVideo
                     />
                   )}
                 </div>

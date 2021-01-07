@@ -9,11 +9,13 @@ import {track} from 'utils/analytics'
 type NextUpListProps = {
   currentLessonSlug: string
   nextUp: any
+  nextToVideo: boolean
 }
 
 const NextUpList: FunctionComponent<NextUpListProps> = ({
   nextUp,
   currentLessonSlug,
+  nextToVideo
 }) => {
   const {nextUpData} = nextUp
   const [activeElement] = React.useState(currentLessonSlug)
@@ -29,7 +31,7 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
   }, [activeElement, nextUpData])
 
   return nextUpData ? (
-    <div className="overflow-hidden rounded-md border border-gray-100 mt-2">
+    <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'border-l' : 'rounded-md border border-gray-100 mt-2'}`}>
       <ol
         ref={scrollableNodeRef}
         id="scroll-container"
