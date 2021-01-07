@@ -12,7 +12,7 @@ const tracer = getTracer('subscriber-api')
 const enableLog = true
 const log = (...args: string[]) => enableLog && console.log(...args)
 
-function getTokenFromCookieHeaders(serverCookies: string) {
+function getTokenFromCookieHeaders(serverCookies: any) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
   const convertkitId = parsedCookie['ck_subscriber_id'] || ''
@@ -50,8 +50,9 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({name: subscriber.name, tracer, req, res})
   if (req.method === 'GET') {
     try {
+      console.log('server header cookie', req.headers.cookie)
       const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(
-        req.headers.cookie as string,
+        req.headers.cookie,
       )
 
       if (!process.env.CONVERTKIT_API_SECRET)

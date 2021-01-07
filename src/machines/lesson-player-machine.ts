@@ -185,19 +185,19 @@ const playerMachine = Machine<
           lesson: context.lesson.slug,
         })
 
-        Axios.post(`/api/progress`, {
-          verb,
-          target: {
-            id: `egghead::lesson::${context.lesson.slug}`,
-            definition: {
-              name: {
-                'en-US': context.lesson.title,
-              },
-              type: 'https://egghead.io/xapi/types#video',
-              moreinfo: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${context.lesson.path}`,
-            },
-          },
-        })
+        // Axios.post(`/api/progress`, {
+        //   verb,
+        //   target: {
+        //     id: `egghead::lesson::${context.lesson.slug}`,
+        //     definition: {
+        //       name: {
+        //         'en-US': context.lesson.title,
+        //       },
+        //       type: 'https://egghead.io/xapi/types#video',
+        //       moreinfo: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${context.lesson.path}`,
+        //     },
+        //   },
+        // })
       },
     },
   },
