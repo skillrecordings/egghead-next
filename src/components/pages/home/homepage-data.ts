@@ -5,7 +5,7 @@ const homepageData = [
     title:
       'What If The Real 10X Developer Is The Friends We Made Along The Way?\n',
     description:
-      'break down the very real risks of idolizing individual contributors, dig into the nugget of truth that keeps this stereotype alive, and dive into what a real “10× developer” might look like.',
+      'We will break down the very real risks of idolizing individual contributors, dig into the nugget of truth that keeps this stereotype alive, and dive into what a real “10× developer” might look like.',
     instructor: 'Jason Lengstorf',
     instructor_path: '/q/resources-by-jason-lengstorf',
     path:
