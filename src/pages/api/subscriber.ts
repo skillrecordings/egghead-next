@@ -50,7 +50,6 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({name: subscriber.name, tracer, req, res})
   if (req.method === 'GET') {
     try {
-      console.log('server header cookie', req.headers.cookie)
       const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(
         req.headers.cookie,
       )
@@ -90,6 +89,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
         res.status(200).json(subscriber)
       } else {
+        console.log('no convertkit subscriber found')
         res.status(200).end()
       }
     } catch (error) {
