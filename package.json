@@ -2,7 +2,7 @@
   "name": "egghead-io-nextjs",
   "version": "0.1.0",
   "engines": {
-    "node": "14.x"
+    "node": "12.x"
   },
   "private": true,
   "scripts": {
