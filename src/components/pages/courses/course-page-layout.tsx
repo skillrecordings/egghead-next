@@ -18,6 +18,8 @@ import {LessonResource} from '../../../types'
 import BookmarkIcon from '../../icons/bookmark'
 import axios from 'utils/configured-axios'
 import {FunctionComponent} from 'react'
+import useSWR from 'swr'
+import {loadRatings} from '../../../lib/ratings'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -57,6 +59,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     duration,
     collection_progress,
     favorited,
+    type,
     tags = [],
   } = course
 
@@ -67,6 +70,8 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       ...(!!version && {version}),
     }
   })
+
+  const {data: ratings} = useSWR([course.slug, course.type], loadRatings)
 
   React.useEffect(() => {
     setIsFavorite(favorited)
@@ -288,6 +293,19 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       ))}
                     </ul>
                   </div>
+                </div>
+              )}
+              {ratings && (
+                <div>
+                  <ul>
+                    {ratings.map((rating) => {
+                      return (
+                        <li key={`rating-${rating.id}`}>
+                          {rating.comment.comment}
+                        </li>
+                      )
+                    })}
+                  </ul>
                 </div>
               )}
             </header>
