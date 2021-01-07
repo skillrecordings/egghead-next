@@ -53,7 +53,7 @@ techniques, you can level-up with egghead.
           {`
 One of the nice aspects of React is that it is just JavaScript.
 When you are creating react applications, you are able to use all
-of your core knowledge avout JavaScript and apply it to the
+of your core knowledge about JavaScript and apply it to the
 creation of components in React.
 
 Of course, if your JavaScript fundamentals aren't quite there yet,

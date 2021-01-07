@@ -6,7 +6,7 @@ export const useNextForCollection = (
   collection: any,
   currentItemSlug: string,
 ) => {
-  const lessons = collection.lessons || []
+  const lessons = collection?.lessons || []
 
   const lessonSlugs = lessons.map((lesson: any) => {
     return lesson.slug

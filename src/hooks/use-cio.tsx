@@ -4,6 +4,15 @@ import {isEmpty, get} from 'lodash'
 import cookie from '../utils/cookies'
 import axios from 'axios'
 
+export const cioIdentify = (id: string, options?: any) => {
+  if (id) {
+    window._cio.identify({
+      id,
+      ...options,
+    })
+  }
+}
+
 export type CIOSubscriber = {
   id: string
   email: string
@@ -13,7 +22,8 @@ export type CIOSubscriber = {
 export const CioContext = React.createContext<{
   subscriber?: CIOSubscriber
   loadingSubscriber: boolean
-}>({loadingSubscriber: true})
+  cioIdentify: (id: string, options?: any) => void
+}>({loadingSubscriber: true, cioIdentify})
 
 export const CioProvider: React.FunctionComponent = ({children}) => {
   const [subscriber, setSubscriber] = React.useState<CIOSubscriber>()
@@ -39,18 +49,19 @@ export const CioProvider: React.FunctionComponent = ({children}) => {
       .get(`/api/cio-subscriber`)
       .then(({data}) => {
         setSubscriber(data)
-
-        if (data.id) {
-          window._cio.identify({
-            id: data.id,
-          })
-        }
+        cioIdentify(data.id)
       })
       .finally(() => setLoadingSubscriber(false))
   }, [])
 
   return (
-    <CioContext.Provider value={{subscriber, loadingSubscriber}}>
+    <CioContext.Provider
+      value={{
+        subscriber,
+        loadingSubscriber,
+        cioIdentify: React.useCallback(cioIdentify, []),
+      }}
+    >
       {children}
     </CioContext.Provider>
   )

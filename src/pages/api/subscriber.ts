@@ -12,7 +12,7 @@ const tracer = getTracer('subscriber-api')
 const enableLog = true
 const log = (...args: string[]) => enableLog && console.log(...args)
 
-function getTokenFromCookieHeaders(serverCookies: string) {
+function getTokenFromCookieHeaders(serverCookies: any) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
   const convertkitId = parsedCookie['ck_subscriber_id'] || ''
@@ -51,7 +51,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
       const {convertkitId, eggheadToken} = getTokenFromCookieHeaders(
-        req.headers.cookie as string,
+        req.headers.cookie,
       )
 
       if (!process.env.CONVERTKIT_API_SECRET)
@@ -89,6 +89,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
         res.status(200).json(subscriber)
       } else {
+        console.log('no convertkit subscriber found')
         res.status(200).end()
       }
     } catch (error) {

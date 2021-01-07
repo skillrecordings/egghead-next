@@ -122,17 +122,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {xs, sm, md, lg} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
-  const HEADER_HEIGHT = 80;
+  const HEADER_HEIGHT = 80
   const CONTENT_OFFSET = height < 450 ? 30 : 120
-  const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET;
+  const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [theaterMode, setTheaterMode] = React.useState(theater || false)
   const toggleTheaterMode = () => {
     setPlayerPrefs({theater: !theaterMode})
-    setTheaterMode(!theaterMode);
+    setTheaterMode(!theaterMode)
   }
   const theaterModeOn = () => {
-    setTheaterMode(true);
+    setTheaterMode(true)
   }
   const [lesson, setLesson] = React.useState<any>(initialLesson)
   const router = useRouter()
@@ -162,7 +162,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
-  const courseDependencies: any = getDependencies(collection.slug)
+  const courseDependencies: any = getDependencies(collection?.slug)
   const {dependencies} = courseDependencies
   const collectionTags = tags.map((tag: any) => {
     const version = get(dependencies, tag.name)
@@ -310,12 +310,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     if (md) {
       theaterModeOn()
-      window.addEventListener("resize", theaterModeOn)
+      window.addEventListener('resize', theaterModeOn)
     } else {
       setTheaterMode(theater)
     }
     return () => {
-      window.removeEventListener("resize", theaterModeOn)
+      window.removeEventListener('resize', theaterModeOn)
     }
   }, [md, theater])
 
@@ -359,14 +359,28 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <div
               className="relative flex-grow bg-black"
               css={{
-                maxWidth: playerVisible || loaderVisible ? lessonMaxWidth : '100%',
-                "@media (min-width: 1024px)": {
-                  minWidth: "640px"
-                }
+                maxWidth:
+                  playerVisible || loaderVisible ? lessonMaxWidth : '100%',
+                '@media (min-width: 1024px)': {
+                  minWidth: '640px',
+                },
               }}
             >
-              <div className={`relative ${playerVisible || loaderVisible ? 'h-0' : 'h-auto'}`} style={{ paddingTop: playerVisible || loaderVisible ? '56.25%' : 0 }}>
-                <div className={`flex items-center justify-center text-white ${playerVisible || loaderVisible ? 'absolute top-0 right-0 bottom-0 left-0' : ''}`}>
+              <div
+                className={`relative ${
+                  playerVisible || loaderVisible ? 'h-0' : 'h-auto'
+                }`}
+                style={{
+                  paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
+                }}
+              >
+                <div
+                  className={`flex items-center justify-center text-white ${
+                    playerVisible || loaderVisible
+                      ? 'absolute top-0 right-0 bottom-0 left-0'
+                      : ''
+                  }`}
+                >
                   <div
                     className={`${
                       playerVisible || loaderVisible
@@ -458,13 +472,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             {!theaterMode && (
               <div className="flex-shrink-0 relative w-72">
                 <div className="absolute top-0 bottom-0 left-0 right-0 overflow-hidden">
-                {!playerState.matches('loading') && !collection && nextUp && !theaterMode && (
-                    <NextUpList
-                      nextUp={nextUp}
-                      currentLessonSlug={lesson.slug}
-                      nextToVideo
-                    />
-                  )}
+                  {!playerState.matches('loading') &&
+                    !collection &&
+                    nextUp &&
+                    !theaterMode && (
+                      <NextUpList
+                        nextUp={nextUp}
+                        currentLessonSlug={lesson.slug}
+                        nextToVideo
+                      />
+                    )}
                   {collection && collection.lessons && !theaterMode && (
                     <CollectionLessonsList
                       course={collection}
@@ -480,16 +497,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           {!md && (
             <div className="flex items-center justify-center py-4 bg-black border-gray-900 border-t">
               <div
-                className={`flex-grow flex justify-end ${theaterMode ? 'pr-4' : ''}`}
+                className={`flex-grow flex justify-end ${
+                  theaterMode ? 'pr-4' : ''
+                }`}
                 css={{
                   maxWidth: lessonMaxWidth,
-                  "@media (min-width: 1024px)": {
-                    minWidth: "640px"
-                  }
+                  '@media (min-width: 1024px)': {
+                    minWidth: '640px',
+                  },
                 }}
               >
                 <button onClick={toggleTheaterMode} className="text-white">
-                  {theaterMode ? <IconTheaterModeOn className="w-4" /> : <IconTheaterModeOff className="w-4" />}
+                  {theaterMode ? (
+                    <IconTheaterModeOn className="w-4" />
+                  ) : (
+                    <IconTheaterModeOff className="w-4" />
+                  )}
                 </button>
               </div>
               {!theaterMode && <div className="flex-shrink-0 w-72" />}
@@ -618,15 +641,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <>
                   <Course course={collection} lesson={lesson} />
                   <AutoplayToggle enabled={playerVisible && next_up_url} />
-                  {!playerState.matches('loading') && !collection && nextUp && theaterMode && (
-                    <div className="bg-yellow-500">
-                      <NextUpList
-                        nextUp={nextUp}
-                        currentLessonSlug={lesson.slug}
-                        nextToVideo={false}
-                      />
-                    </div>
-                  )}
+                  {!playerState.matches('loading') &&
+                    !collection &&
+                    nextUp &&
+                    theaterMode && (
+                      <div className="bg-yellow-500">
+                        <NextUpList
+                          nextUp={nextUp}
+                          currentLessonSlug={lesson.slug}
+                          nextToVideo={false}
+                        />
+                      </div>
+                    )}
                   {collection && collection.lessons && theaterMode && (
                     <CollectionLessonsList
                       course={collection}
@@ -682,13 +708,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     <AutoplayToggle enabled={playerVisible && next_up_url} />
                   </div>
                   <Course course={collection} lesson={lesson} />
-                  {!playerState.matches('loading') && !collection && nextUp && theaterMode && (
-                    <NextUpList
-                      nextUp={nextUp}
-                      currentLessonSlug={lesson.slug}
-                      nextToVideo={false}
-                    />
-                  )}
+                  {!playerState.matches('loading') &&
+                    !collection &&
+                    nextUp &&
+                    theaterMode && (
+                      <NextUpList
+                        nextUp={nextUp}
+                        currentLessonSlug={lesson.slug}
+                        nextToVideo={false}
+                      />
+                    )}
                   {collection && collection.lessons && theaterMode && (
                     <CollectionLessonsList
                       course={collection}
@@ -823,7 +852,7 @@ const IconTheaterModeOn: FunctionComponent<{className?: string}> = ({
     fill="currentColor"
     className={className}
   >
-    <path d="M7,9 L7,16 L4.20703,13.20703 L1.70703,15.70703 C1.51172,15.90234 1.25586,16 1,16 C0.74414,16 0.48828,15.90234 0.29297,15.70703 C-0.09765,15.31641 -0.09765,14.68359 0.29297,14.29297 L0.29297,14.29297 L2.79297,11.79297 L0,9 L7,9 Z M9,0 L11.79297,2.79297 L14.29297,0.29297 C14.68359,-0.09765 15.31641,-0.09765 15.70703,0.29297 C16.09765,0.68359 16.09765,1.31641 15.70703,1.70703 L15.70703,1.70703 L13.20703,4.20703 L16,7 L9,7 L9,0 Z"/>
+    <path d="M7,9 L7,16 L4.20703,13.20703 L1.70703,15.70703 C1.51172,15.90234 1.25586,16 1,16 C0.74414,16 0.48828,15.90234 0.29297,15.70703 C-0.09765,15.31641 -0.09765,14.68359 0.29297,14.29297 L0.29297,14.29297 L2.79297,11.79297 L0,9 L7,9 Z M9,0 L11.79297,2.79297 L14.29297,0.29297 C14.68359,-0.09765 15.31641,-0.09765 15.70703,0.29297 C16.09765,0.68359 16.09765,1.31641 15.70703,1.70703 L15.70703,1.70703 L13.20703,4.20703 L16,7 L9,7 L9,0 Z" />
   </svg>
 )
 
@@ -836,6 +865,6 @@ const IconTheaterModeOff: FunctionComponent<{className?: string}> = ({
     fill="currentColor"
     className={className}
   >
-    <path d="M6,9 C6.25586,9 6.51172,9.09766 6.70703,9.29297 C7.09765,9.68359 7.09765,10.31641 6.70703,10.70703 L6.70703,10.70703 L4.20703,13.20703 L7,16 L1.8189894e-12,16 L1.81987758e-12,9 L2.79297,11.79297 L5.29297,9.29297 C5.48828,9.09766 5.74414,9 6,9 Z M16,-8.8817842e-16 L16,7 L13.20703,4.20703 L10.70703,6.70703 C10.31641,7.09765 9.68359,7.09765 9.29297,6.70703 C8.90235,6.31641 8.90235,5.68359 9.29297,5.29297 L9.29297,5.29297 L11.79297,2.79297 L9,-1.77635684e-15 L16,-8.8817842e-16 Z"/>
+    <path d="M6,9 C6.25586,9 6.51172,9.09766 6.70703,9.29297 C7.09765,9.68359 7.09765,10.31641 6.70703,10.70703 L6.70703,10.70703 L4.20703,13.20703 L7,16 L1.8189894e-12,16 L1.81987758e-12,9 L2.79297,11.79297 L5.29297,9.29297 C5.48828,9.09766 5.74414,9 6,9 Z M16,-8.8817842e-16 L16,7 L13.20703,4.20703 L10.70703,6.70703 C10.31641,7.09765 9.68359,7.09765 9.29297,6.70703 C8.90235,6.31641 8.90235,5.68359 9.29297,5.29297 L9.29297,5.29297 L11.79297,2.79297 L9,-1.77635684e-15 L16,-8.8817842e-16 Z" />
   </svg>
 )

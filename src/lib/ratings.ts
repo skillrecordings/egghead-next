@@ -28,10 +28,8 @@ const CourseRatingsQuery = `
   }
 `
 
-export async function loadRatings(slug: string, type: string) {
+export async function loadRatings(slug: string, type: string = 'Series') {
   const SIZE_OF_PAGE = 3
-
-  console.log({slug, type})
 
   const token = getAccessTokenFromCookie()
   const authorizationHeader = token && {
@@ -46,6 +44,10 @@ export async function loadRatings(slug: string, type: string) {
     ...authorizationHeader,
   })
 
-  const result = await graphQLClient.request(CourseRatingsQuery, variables)
-  return get(result, 'ratings.data', [])
+  try {
+    const result = await graphQLClient.request(CourseRatingsQuery, variables)
+    return get(result, 'ratings.data', [])
+  } catch {
+    return []
+  }
 }
