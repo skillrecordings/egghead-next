@@ -6,17 +6,21 @@ import UserRating from 'components/pages/courses/user-rating'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty} from 'lodash'
+import {get, first, filter, isEmpty, map, times, floor} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
 import FolderDownloadIcon from '../../icons/folder-download'
 import RSSIcon from '../../icons/rss'
+import Star from '../../icons/star'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../../icons/clock'
 import {LessonResource} from '../../../types'
 import BookmarkIcon from '../../icons/bookmark'
 import axios from 'utils/configured-axios'
+import {FunctionComponent} from 'react'
+import useSWR from 'swr'
+import {loadRatings} from '../../../lib/ratings'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -35,10 +39,10 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   course,
   ogImageUrl,
 }) => {
-  const dependencies: any = getDependencies(course.slug)
+  const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const {topics, illustrator} = dependencies
+  const {topics, illustrator, dependencies} = courseDependencies
 
   const {
     title,
@@ -56,7 +60,18 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     duration,
     collection_progress,
     favorited,
+    tags = [],
   } = course
+
+  const courseTags = tags.map((tag: any) => {
+    const version = get(dependencies, tag.name)
+    return {
+      ...tag,
+      ...(!!version && {version}),
+    }
+  })
+
+  const {data: ratings} = useSWR([course.slug, course.type], loadRatings)
 
   React.useEffect(() => {
     setIsFavorite(favorited)
@@ -158,39 +173,31 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
                 {title}
               </h1>
-              <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-4">
                 {duration && (
                   <div className="flex flex-row items-center">
                     <ClockIcon className="w-4 h-4 mr-1" />{' '}
                     {convertTimeWithTitles(duration)}
                   </div>
                 )}
-                <UserRating
-                  className="mr-3"
-                  rating={average_rating_out_of_5}
-                  count={watched_count}
-                >
-                  {tagSlug && (
-                    <Link href={`/q/${tagSlug}`}>
-                      <a
-                        onClick={() => {
-                          track(`clicked topic tag`, {
-                            course: course.slug,
-                          })
-                        }}
-                        className="mx-2 inline-flex items-center hover:underline"
-                      >
-                        <Image
-                          width={24}
-                          height={24}
-                          src={tagImage}
-                          alt={`${tagName} logo`}
-                        />
-                        <div className="font-semibold ml-1">{tagName}</div>
-                      </a>
-                    </Link>
-                  )}
-                </UserRating>
+                <Tags tags={courseTags} courseSlug={course.slug} />{' '}
+              </div>
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-6">
+                {average_rating_out_of_5 > 0 && (
+                  <div className="flex items-center">
+                    <FiveStars rating={average_rating_out_of_5} />
+                    <span className="ml-2 font-semibold">
+                      {average_rating_out_of_5.toFixed(1)}
+                    </span>
+                  </div>
+                )}
+                {watched_count > 0 && (
+                  <div>
+                    <span className="font-semibold mr-2">{watched_count}</span>
+                    people completed
+                  </div>
+                )}
+                <div className="inline-flex flex-wrap items-center md:justify-start justify-center"></div>
               </div>
 
               <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
@@ -299,6 +306,43 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               )}
+              {ratings && (
+                <div className="mt-8">
+                  <h2 className="text-lg font-semibold mb-3">
+                    Learner Reviews
+                  </h2>
+                  <ul className="space-y-5">
+                    {ratings.map((rating: any) => {
+                      const {comment, rating_out_of_5, user} = rating
+                      console.log(comment)
+                      const displayAdminContent =
+                        !isEmpty(comment.hide_url) ||
+                        !isEmpty(comment.restore_url)
+                      return (
+                        <li
+                          key={`rating-${rating.id}`}
+                          className="space-y-2 border p-4"
+                        >
+                          <div className="font-bold">{user.full_name}</div>
+                          <FiveStars rating={rating_out_of_5} />
+                          <div className="text-sm">{comment.prompt}</div>
+                          <div className="prose">{comment.comment}</div>
+                          {displayAdminContent && (
+                            <button
+                              className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out"
+                              onClick={() => {
+                                axios.post(comment.hide_url)
+                              }}
+                            >
+                              hide
+                            </button>
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
             </header>
             <main>
               <section className="mt-8">
@@ -391,17 +435,26 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div>
                   <ul>
                     {lessons.map((lesson: LessonResource, index: number) => {
+                      console.log(lesson)
                       const isComplete = completedLessonSlugs.includes(
                         lesson.slug,
                       )
                       return (
                         <li key={lesson.slug}>
                           <div className="font-semibold flex items-center leading-tight py-2">
-                            <div className="flex items-center mr-2 flex-grow">
-                              <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
+                            <div className="flex items-center mr-2 flex-grow space-x-2">
+                              <div className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
                                 {isComplete ? `✔️` : index + 1}
-                              </small>
-                              <PlayIcon className="text-gray-500 mx-1" />
+                              </div>
+                              {lesson.icon_url && (
+                                <div className="flex items-center">
+                                  <Image
+                                    src={lesson.icon_url}
+                                    width={24}
+                                    height={24}
+                                  />
+                                </div>
+                              )}
                             </div>
                             {lesson.path && (
                               <Link href={lesson.path}>
@@ -462,6 +515,80 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         </div>
       </div>
     </>
+  )
+}
+
+const Tags: FunctionComponent<{tags: any; courseSlug: string}> = ({
+  tags,
+  courseSlug,
+}) => {
+  return (
+    <>
+      {!isEmpty(tags) && (
+        <div className="flex space-x-4 items-center">
+          {/* <div className="font-medium">Tech used:</div> */}
+          <ul className="flex flex-wrap items-center space-x-4">
+            {tags.slice(0, 1).map((tag: any, index: number) => (
+              <li key={index} className="inline-flex items-center">
+                <Link href={`/q/${tag.name}`}>
+                  <a
+                    onClick={() => {
+                      track(`clicked view topic`, {
+                        course: courseSlug,
+                        topic: tag.name,
+                      })
+                    }}
+                    className="inline-flex items-center hover:underline"
+                  >
+                    <Image
+                      src={tag.image_url}
+                      alt={tag.name}
+                      width={16}
+                      height={16}
+                      className="flex-shrink-0"
+                    />
+                    <span className="ml-1">{tag.label}</span>
+                    {tag.version && (
+                      <span className="ml-2">
+                        <code>{tag.version}</code>
+                      </span>
+                    )}
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
+  )
+}
+
+const FiveStars: React.FunctionComponent<{
+  rating: any
+}> = ({rating}) => {
+  const remainder = parseFloat((rating % 1).toFixed(1))
+  const roundedRemainder = Math.ceil(remainder)
+  const showHalfStar = roundedRemainder === 1
+  const emptyStarCount = 5 - roundedRemainder - floor(rating)
+  return (
+    <div className="flex items-center lh-solid">
+      {map(times(rating), (index) => (
+        <div key={`filled-${index}`}>
+          <Star filled />
+        </div>
+      ))}
+      {showHalfStar && (
+        <div key={`half`}>
+          <Star half />
+        </div>
+      )}
+      {map(times(emptyStarCount), (index) => (
+        <div key={`empty-${index}`}>
+          <Star />
+        </div>
+      ))}
+    </div>
   )
 }
 

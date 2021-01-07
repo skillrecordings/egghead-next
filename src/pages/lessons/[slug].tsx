@@ -48,6 +48,7 @@ import CodeLink, {
   IconCode,
   IconGithub,
 } from 'components/pages/lessons/code-link'
+import getDependencies from 'data/courseDependencies'
 
 const tracer = getTracer('lesson-page')
 
@@ -161,6 +162,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
+  const courseDependencies: any = getDependencies(collection.slug)
+  const {dependencies} = courseDependencies
+  const collectionTags = tags.map((tag: any) => {
+    const version = get(dependencies, tag.name)
+    return {
+      ...tag,
+      ...(!!version && {version}),
+    }
+  })
+
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
   const getProgress = () => {
     if (lessonView?.collection_progress) {
@@ -585,7 +596,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         </div>
                       </div>
                     )}
-                    {md && <Tags tags={tags} lesson={lesson} />}
+                    {md && <Tags tags={collectionTags} lesson={lesson} />}
                   </div>
                   <div className="flex items-center space-x-8">
                     <div className="flex items-center space-x-2">
@@ -599,7 +610,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         instructor={instructor}
                       />
                     </div>
-                    {!md && <Tags tags={tags} lesson={lesson} />}
+                    {!md && <Tags tags={collectionTags} lesson={lesson} />}
                   </div>
                 </div>
               </div>
@@ -783,6 +794,11 @@ const Tags: FunctionComponent<{tags: any; lesson: any}> = ({tags, lesson}) => {
                       className="flex-shrink-0"
                     />
                     <span className="ml-1">{tag.label}</span>
+                    {tag.version && (
+                      <span className="ml-2">
+                        <code>{tag.version}</code>
+                      </span>
+                    )}
                   </a>
                 </Link>
               </li>

@@ -12,6 +12,7 @@ const stripeCheckoutRedirect = async (
   priceId: string,
   email: string,
   stripeCustomerId?: string,
+  redirectURL?: string,
 ) => {
   const referralCookieToken = cookie.get('rc')
 
@@ -33,6 +34,7 @@ const stripeCheckoutRedirect = async (
       cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`,
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
+        ...(!!redirectURL && {redirectURL}),
       },
     })
     .then(({data}) => {

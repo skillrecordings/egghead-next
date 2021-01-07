@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default () => (
+const Sob = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="17"
+    width="24"
+    height="24"
     viewBox="0 0 16 17"
   >
     <g fill="none" fillRule="evenodd" transform="translate(0 .5)">
@@ -27,3 +27,5 @@ export default () => (
     </g>
   </svg>
 )
+
+export default Sob

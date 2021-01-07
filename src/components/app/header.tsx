@@ -5,7 +5,7 @@ import Eggo from 'components/icons/eggo'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
-import FeedbackInput from 'components/feedback-input'
+import Feedback from 'components/feedback-input'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -56,7 +56,12 @@ const Header: FunctionComponent = () => {
                 }}
                 className="flex items-center justify-center space-x-2"
               >
-                <FeedbackInput dark={false} />
+                <Feedback
+                  user={viewer}
+                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                >
+                  Feedback
+                </Feedback>
                 <span>{viewer.is_pro && ' ⭐️ '}</span>
 
                 {ACCOUNT_LINK_ENABLED && !isEmpty(viewer.accounts) ? (
