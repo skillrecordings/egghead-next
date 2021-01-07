@@ -8,6 +8,7 @@ import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
 import {usePricing, Prices} from 'hooks/use-pricing'
+import useLastResource from 'hooks/use-last-resource'
 
 type PricingProps = {
   annualPrice: {
@@ -17,13 +18,13 @@ type PricingProps = {
     }
     unit_amount: number
   }
-  redirectURL?: string
 }
 
-const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
+const Pricing: FunctionComponent<PricingProps> = () => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
   const {viewer} = useViewer()
   const {prices, pricesLoading} = usePricing()
+  const {lastResource} = useLastResource()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
@@ -46,7 +47,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
         annualPrice.price_id,
         viewer.email,
         viewer.subscription?.stripe_subscription_id,
-        redirectURL,
+        lastResource,
       )
     } else {
       await track('checkout: get email', {
@@ -121,28 +122,12 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
         {prices.annualPrice && needsEmail && (
           <EmailForm
             priceId={prices.annualPrice.price_id}
-            redirectURL={redirectURL}
+            lastResource={lastResource}
           />
         )}
       </div>
     </>
   )
-}
-
-export async function getServerSideProps(context: any) {
-  let redirectURL = null
-  try {
-    const referer = context.req.headers.referer
-    const refererURL = new URL(referer)
-    if (refererURL.origin === process.env.NEXT_PUBLIC_REDIRECT_URI)
-      redirectURL = referer
-  } catch (_e) {
-    // no redirect URL from referer
-  }
-
-  return {
-    props: {redirectURL}, // will be passed to the page component as props
-  }
 }
 
 export default Pricing

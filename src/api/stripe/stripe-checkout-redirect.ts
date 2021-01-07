@@ -1,5 +1,6 @@
 import {loadStripe} from '@stripe/stripe-js'
 import axios from 'utils/configured-axios'
+import isEmpty from 'lodash/isEmpty'
 import cookie from '../../utils/cookies'
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
@@ -8,12 +9,26 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
+const buildLastResourceData = (lastResource?: {
+  title: string
+  path: string
+}) => {
+  if (!lastResource) return null
+
+  const {title, path} = lastResource
+  return JSON.stringify({title, path})
+}
+
 const stripeCheckoutRedirect = async (
   priceId: string,
   email: string,
   stripeCustomerId?: string,
-  redirectURL?: string,
+  lastResource?: object,
 ) => {
+  const lastResourceData = buildLastResourceData(
+    lastResource as {title: string; path: string} | undefined,
+  )
+
   const referralCookieToken = cookie.get('rc')
 
   const identifier = stripeCustomerId
@@ -34,7 +49,7 @@ const stripeCheckoutRedirect = async (
       cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`,
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
-        ...(!!redirectURL && {redirectURL}),
+        ...(!isEmpty(lastResourceData) && {lastResourceData}),
       },
     })
     .then(({data}) => {
