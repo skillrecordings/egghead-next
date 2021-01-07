@@ -36,6 +36,14 @@ const homepageData = [
           'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
       },
       {
+        name: 'In-Depth Article',
+        title: 'Codemods with Babel Plugins',
+        byline: 'Laurie Barth',
+        image:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1607528141/egghead-next-ebombs/article-illustrations/codemods.png',
+        path: '/learn/javascript/codemods-with-babel-plugins',
+      },
+      {
         name: 'Featured Course',
         title: 'Scale React Development with NX',
         byline: 'Juri Strumpflohner',
@@ -50,14 +58,6 @@ const homepageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-      },
-      {
-        name: 'Deep Knowledge',
-        title: 'Composing Closures and Callbacks in JavaScript',
-        byline: 'John Lindquist',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/square_480/EGH_ComposingCallbacks_Final.png',
-        path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
       },
     ],
   },
