@@ -85,7 +85,7 @@ const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col justify-center items-center h-full px-3">
+    <div className="flex flex-col justify-center items-center h-full px-3 py-3 md:px-4 md:py-6 lg:py-8">
       {children}
     </div>
   )
@@ -365,13 +365,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 }
               }}
             >
-              <div className="relative h-0" style={{ paddingTop: "56.25%" }}>
-                <div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center text-white">
+              <div className={`relative ${playerVisible || loaderVisible ? 'h-0' : 'h-auto'}`} style={{ paddingTop: playerVisible || loaderVisible ? '56.25%' : 0 }}>
+                <div className={`flex items-center justify-center text-white ${playerVisible || loaderVisible ? 'absolute top-0 right-0 bottom-0 left-0' : ''}`}>
                   <div
                     className={`${
                       playerVisible || loaderVisible
                         ? 'absolute'
-                        : 'sm:absolute sm:py-0 py-5'
+                        : 'sm:py-0 py-5'
                     } w-full h-full top-0 left-0`}
                   >
                     {loaderVisible && <Loader />}
