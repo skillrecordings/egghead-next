@@ -457,7 +457,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             </div>
             {!theaterMode && (
               <div className="flex-shrink-0 relative w-72">
-                <div className="absolute top-0 bottom-0 left-0 right-0 overflow-y-auto">
+                <div className="absolute top-0 bottom-0 left-0 right-0 overflow-hidden">
                 {!playerState.matches('loading') && !collection && nextUp && !theaterMode && (
                     <NextUpList
                       nextUp={nextUp}
@@ -623,6 +623,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <NextUpList
                         nextUp={nextUp}
                         currentLessonSlug={lesson.slug}
+                        nextToVideo={false}
                       />
                     </div>
                   )}
@@ -631,6 +632,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       course={collection}
                       currentLessonSlug={lesson.slug}
                       progress={lessonView?.collection_progress}
+                      nextToVideo={false}
                     />
                   )}
                   <LessonInfo
@@ -684,6 +686,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     <NextUpList
                       nextUp={nextUp}
                       currentLessonSlug={lesson.slug}
+                      nextToVideo={false}
                     />
                   )}
                   {collection && collection.lessons && theaterMode && (
@@ -691,6 +694,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       course={collection}
                       currentLessonSlug={lesson.slug}
                       progress={lessonView?.collection_progress}
+                      nextToVideo={false}
                     />
                   )}
                 </>
