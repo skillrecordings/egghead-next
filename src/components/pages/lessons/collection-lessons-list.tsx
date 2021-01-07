@@ -37,7 +37,7 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
       {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
         Lessons
       </span> */}
-      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'border-l h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
+      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
         <ol
           ref={scrollableNodeRef}
           id="scroller-container"

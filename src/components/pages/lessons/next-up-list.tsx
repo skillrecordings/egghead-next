@@ -32,7 +32,7 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
 
   return nextUpData ? (
     <div className={nextToVideo ? 'h-full overflow-hidden' : ''}>
-      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'border-l h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
+      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
         <ol
           ref={scrollableNodeRef}
           id="scroll-container"
