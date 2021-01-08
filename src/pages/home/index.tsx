@@ -8,7 +8,7 @@ const HomePage: FunctionComponent<HomePageProps> = () => {
   return (
     <>
       <NextSeo />
-      <main className="bg-gray-50 -m-5 p-5">
+      <main className="bg-gray-50 sm:-my-5 -my-3 -mx-5 p-5">
         <div className="max-w-screen-xl mx-auto">
           <Home />
         </div>
