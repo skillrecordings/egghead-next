@@ -26,16 +26,6 @@ const homepageData = [
     title: 'Featured',
     resources: [
       {
-        name: 'Hot',
-        title:
-          'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
-        byline: 'Tomasz Łakomy',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
-        path:
-          'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-      },
-      {
         name: 'In-Depth Article',
         title: 'Codemods with Babel Plugins',
         byline: 'Laurie Barth',
@@ -58,6 +48,14 @@ const homepageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+      },
+      {
+        name: 'Advanced',
+        title: 'Composing Closures and Callbacks in JavaScript',
+        byline: 'John Lindquist',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+        path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
       },
     ],
   },
