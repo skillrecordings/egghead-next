@@ -519,7 +519,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           </div>
           {!md && theaterMode && (
             <div className="flex items-center justify-end py-2 px-2 text-white space-x-5">
-              <AutoplayToggle enabled={playerVisible && next_up_url} />
+              <AutoplayToggle onDark enabled={playerVisible && next_up_url} />
               <TheaterModeToggle
                 toggleTheaterMode={toggleTheaterMode}
                 theaterMode={theaterMode}

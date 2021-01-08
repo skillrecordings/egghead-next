@@ -5,9 +5,13 @@ import {useEggheadPlayerPrefs} from '../../EggheadPlayer/use-egghead-player'
 
 type AutoplayToggleProps = {
   enabled: boolean
+  onDark?: boolean
 }
 
-const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({enabled}) => {
+const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
+  enabled,
+  onDark = false,
+}) => {
   const {autoplay, setPlayerPrefs} = useEggheadPlayerPrefs()
 
   return (
@@ -30,8 +34,12 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({enabled}) => {
         <div
           className={`${
             enabled && autoplay
-              ? 'bg-blue-600'
-              : 'bg-gray-200 group-hover:bg-gray-300'
+              ? 'bg-blue-600 group-hover:bg-blue-500'
+              : `${
+                  onDark
+                    ? 'bg-gray-700 group-hover:bg-gray-600'
+                    : 'bg-gray-200 group-hover:bg-gray-300'
+                }`
           } relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
         >
           {enabled && (
@@ -43,11 +51,13 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({enabled}) => {
             aria-hidden="true"
             className={`${
               enabled && autoplay ? 'translate-x-4' : 'translate-x-0'
-            } inline-block h-4 w-4 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
+            } inline-block h-4 w-4 rounded-full ${
+              onDark ? 'bg-gray-200' : 'bg-white'
+            } shadow transform ring-0 transition ease-in-out duration-200`}
           />
         </div>
         <div
-          className={`text-sm group-hover:text-gray-800 transition-colors ease-in-out duration-200 ${
+          className={`text-sm transition-colors ease-in-out duration-200 ${
             !enabled && 'opacity-30'
           }`}
         >
