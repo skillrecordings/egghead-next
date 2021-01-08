@@ -28,7 +28,7 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
             href={lesson.download_url}
             className="flex items-center text-blue-600 hover:underline font-semibold"
           >
-            <IconDownload className="w-5 mr-2 text-blue-700" />
+            <IconDownload className="w-5 mr-1 text-blue-700" />
             Download Video
           </a>
         </div>
@@ -42,7 +42,7 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
             }}
             className="flex items-center text-blue-600 opacity-30 font-semibold"
           >
-            <IconDownload className="w-5 mr-2 text-blue-700" />
+            <IconDownload className="w-5 mr-1 text-blue-700" />
             Download Video {!viewer?.is_pro && `(members only)`}
           </div>
         </div>

@@ -5,7 +5,7 @@ import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import {useWindowSize} from 'react-use'
+import {useWindowSize, useMeasure} from 'react-use'
 import playerMachine, {PlayerStateEvent} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -47,6 +47,7 @@ import CodeLink, {
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
+import TheaterModeToggle from 'components/pages/lessons/theater-mode-toggle'
 
 const tracer = getTracer('lesson-page')
 
@@ -79,9 +80,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
-  children,
-}) => {
+const OverlayWrapper: FunctionComponent<{
+  children: React.ReactNode
+}> = ({children}) => {
   return (
     <div className="flex flex-col justify-center items-center h-full px-3 py-3 md:px-4 md:py-6 lg:py-8">
       {children}
@@ -120,6 +121,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
+  const [ref, {width: videoWidth}] = useMeasure<any>()
   const HEADER_HEIGHT = 80
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
@@ -355,14 +357,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div key={initialLesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
+      <div
+        key={initialLesson.slug}
+        className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8"
+      >
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
           <div className="w-full flex justify-center">
             <div
+              ref={ref}
               className="relative flex-grow bg-black"
               css={{
-                maxWidth:
-                  playerVisible || loaderVisible ? lessonMaxWidth : '100%',
+                maxWidth: lessonMaxWidth,
+                minHeight: Math.round(videoWidth / 1.77777),
                 '@media (min-width: 1024px)': {
                   minWidth: '640px',
                 },
@@ -370,24 +376,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             >
               <div
                 className={`relative ${
-                  playerVisible || loaderVisible ? 'h-0' : 'h-auto'
+                  playerVisible || loaderVisible ? 'h-0' : 'h-full'
                 }`}
-                style={{
+                css={{
                   paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
                 }}
               >
                 <div
-                  className={`flex items-center justify-center text-white ${
+                  className={`flex items-center justify-center text-white h-full ${
                     playerVisible || loaderVisible
                       ? 'absolute top-0 right-0 bottom-0 left-0'
-                      : ''
+                      : 'absolute top-0 right-0 bottom-0 left-0'
                   }`}
                 >
                   <div
                     className={`${
-                      playerVisible || loaderVisible
-                        ? 'absolute'
-                        : 'sm:py-0 py-5'
+                      playerVisible || loaderVisible ? 'absolute' : ''
                     } w-full h-full top-0 left-0`}
                   >
                     {loaderVisible && <Loader />}
@@ -476,58 +480,62 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
             {!theaterMode && (
-              <div className="flex-shrink-0 relative w-72">
-                <div className="absolute top-0 bottom-0 left-0 right-0 overflow-hidden">
-                  {!playerState.matches('loading') &&
-                    !collection &&
-                    nextUp &&
-                    !theaterMode && (
-                      <NextUpList
-                        nextUp={nextUp}
+              <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-l border-gray-100">
+                <div className="p-4 border-b border-gray-100">
+                  <Course course={collection} currentLessonSlug={lesson.slug} />
+                </div>
+                <div className="relative h-full">
+                  <div className="absolute top-0 bottom-0 left-0 right-0">
+                    {!playerState.matches('loading') &&
+                      !collection &&
+                      nextUp &&
+                      !theaterMode && (
+                        <NextUpList
+                          nextUp={nextUp}
+                          currentLessonSlug={lesson.slug}
+                          nextToVideo
+                        />
+                      )}
+                    {collection && collection.lessons && !theaterMode && (
+                      <CollectionLessonsList
+                        course={collection}
                         currentLessonSlug={lesson.slug}
+                        progress={lessonView?.collection_progress}
+                        // toggleTheaterMode={toggleTheaterMode}
                         nextToVideo
                       />
                     )}
-                  {collection && collection.lessons && !theaterMode && (
-                    <CollectionLessonsList
-                      course={collection}
-                      currentLessonSlug={lesson.slug}
-                      progress={lessonView?.collection_progress}
-                      nextToVideo
-                    />
-                  )}
+                  </div>
+                </div>
+                <div className="xl:py-4 py-2 xl:px-4 px-2 flex items-center justify-between border-t border-gray-100">
+                  <AutoplayToggle enabled={playerVisible && next_up_url} />
+                  <TheaterModeToggle
+                    toggleTheaterMode={toggleTheaterMode}
+                    theaterMode={theaterMode}
+                  />
                 </div>
               </div>
             )}
           </div>
-          {!md && (
-            <div className="flex items-center justify-center py-4 bg-black border-gray-900 border-t">
-              <div
-                className={`flex-grow flex justify-end ${
-                  theaterMode ? 'pr-4' : ''
-                }`}
-                css={{
-                  maxWidth: lessonMaxWidth,
-                  '@media (min-width: 1024px)': {
-                    minWidth: '640px',
-                  },
-                }}
-              >
-                <button onClick={toggleTheaterMode} className="text-white">
-                  {theaterMode ? (
-                    <IconTheaterModeOn className="w-4" />
-                  ) : (
-                    <IconTheaterModeOff className="w-4" />
-                  )}
-                </button>
-              </div>
-              {!theaterMode && <div className="flex-shrink-0 w-72" />}
+          {!md && theaterMode && (
+            <div className="flex items-center justify-end py-2 px-2 text-white space-x-5">
+              <AutoplayToggle enabled={playerVisible && next_up_url} />
+              <TheaterModeToggle
+                toggleTheaterMode={toggleTheaterMode}
+                theaterMode={theaterMode}
+              />
             </div>
           )}
         </div>
 
         <div>
-          <div className="grid lg:gap-12 gap-8 lg:grid-cols-12 grid-cols-1 max-w-screen-xl mx-auto divide-y md:divide-transparent divide-gray-50">
+          <div
+            className={`grid ${
+              theaterMode
+                ? 'lg:grid-cols-12 max-w-screen-xl'
+                : 'lg:grid-cols-1 max-w-screen-lg'
+            } lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
+          >
             <div className="md:col-span-8 md:row-start-1 row-start-1 md:space-y-10 space-y-6">
               <div className="space-y-4">
                 <SortingHat />
@@ -536,7 +544,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     {title}
                   </h1>
                 )}
-                <div className="pt-2">
+                <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
                   {lesson?.code_url && (
                     <CodeLink
                       onClick={() => {
@@ -563,6 +571,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       Open code on GitHub
                     </CodeLink>
                   )}
+                  <LessonDownload lesson={lesson} />
                 </div>
 
                 {description && (
@@ -571,7 +580,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </Markdown>
                 )}
                 <div className="pt-4 flex md:flex-row flex-col w-full justify-between flex-wrap md:space-x-8 md:space-y-0 space-y-5 md:items-center">
-                  <div className="md:w-auto w-full flex justify-between items-center">
+                  <div className="md:w-auto w-full flex justify-between items-center space-x-5">
                     {instructor && (
                       <div className="flex items-center flex-shrink-0">
                         <Link
@@ -625,8 +634,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         </div>
                       </div>
                     )}
-                    {md && <Tags tags={collectionTags} lesson={lesson} />}
+                    {!md && <Tags tags={collectionTags} lesson={lesson} />}
                   </div>
+                  {md && <Tags tags={collectionTags} lesson={lesson} />}
                   <div className="flex items-center space-x-8">
                     <div className="flex items-center space-x-2">
                       <Share
@@ -639,14 +649,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         instructor={instructor}
                       />
                     </div>
-                    {!md && <Tags tags={collectionTags} lesson={lesson} />}
                   </div>
                 </div>
               </div>
               {md && (
                 <>
-                  <Course course={collection} lesson={lesson} />
-                  <AutoplayToggle enabled={playerVisible && next_up_url} />
+                  <Course course={collection} currentLessonSlug={lesson.slug} />
                   {!playerState.matches('loading') &&
                     !collection &&
                     nextUp &&
@@ -706,52 +714,53 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </TabPanels>
               </Tabs>
             </div>
-            <div className="md:col-span-4 flex flex-col space-y-4">
-              {!md && (
-                <>
-                  <div className="w-full flex justify-end items-center space-x-4">
-                    <LessonDownload lesson={lesson} />
-                    <AutoplayToggle enabled={playerVisible && next_up_url} />
-                  </div>
-                  <Course course={collection} lesson={lesson} />
-                  {!playerState.matches('loading') &&
-                    !collection &&
-                    nextUp &&
-                    theaterMode && (
-                      <NextUpList
-                        nextUp={nextUp}
+            {theaterMode && (
+              <div className="md:col-span-4 flex flex-col space-y-4">
+                {!md && (
+                  <>
+                    <Course
+                      course={collection}
+                      currentLessonSlug={lesson.slug}
+                    />
+                    {!playerState.matches('loading') &&
+                      !collection &&
+                      nextUp &&
+                      theaterMode && (
+                        <NextUpList
+                          nextUp={nextUp}
+                          currentLessonSlug={lesson.slug}
+                          nextToVideo={false}
+                        />
+                      )}
+                    {collection && collection.lessons && theaterMode && (
+                      <CollectionLessonsList
+                        course={collection}
                         currentLessonSlug={lesson.slug}
+                        progress={lessonView?.collection_progress}
                         nextToVideo={false}
                       />
                     )}
-                  {collection && collection.lessons && theaterMode && (
-                    <CollectionLessonsList
-                      course={collection}
-                      currentLessonSlug={lesson.slug}
-                      progress={lessonView?.collection_progress}
-                      nextToVideo={false}
-                    />
-                  )}
-                </>
-              )}
+                  </>
+                )}
 
-              {!md && (
-                <>
-                  <LessonInfo
-                    autoplay={{enabled: playerVisible && next_up_url}}
-                    title={title}
-                    instructor={instructor}
-                    tags={tags}
-                    description={description}
-                    course={collection}
-                    nextUp={nextUp}
-                    lesson={lesson}
-                    playerState={playerState}
-                    className="space-y-6"
-                  />
-                </>
-              )}
-            </div>
+                {!md && (
+                  <>
+                    <LessonInfo
+                      autoplay={{enabled: playerVisible && next_up_url}}
+                      title={title}
+                      instructor={instructor}
+                      tags={tags}
+                      description={description}
+                      course={collection}
+                      nextUp={nextUp}
+                      lesson={lesson}
+                      playerState={playerState}
+                      className="space-y-6"
+                    />
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -768,8 +777,8 @@ const Course: FunctionComponent<{
     slug: string
     path: string
   }
-  lesson: any
-}> = ({course, lesson}) => {
+  currentLessonSlug: string
+}> = ({course, currentLessonSlug}) => {
   return course ? (
     <div>
       <div className="flex items-center">
@@ -790,12 +799,12 @@ const Course: FunctionComponent<{
             <a
               onClick={() => {
                 track(`clicked open course`, {
-                  lesson: lesson.slug,
+                  lesson: currentLessonSlug,
                 })
               }}
               className="hover:underline"
             >
-              <h3 className="font-bold leading-tighter text-md lg:text-lg">
+              <h3 className="font-bold leading-tighter 2xl:text-lg">
                 {course.title}
               </h3>
             </a>
@@ -812,8 +821,8 @@ const Tags: FunctionComponent<{tags: any; lesson: any}> = ({tags, lesson}) => {
       {!isEmpty(tags) && (
         <div className="flex space-x-4 items-center">
           {/* <div className="font-medium">Tech used:</div> */}
-          <ul className="flex flex-wrap items-center space-x-4">
-            {tags.slice(0, 1).map((tag: any, index: number) => (
+          <ul className="grid grid-flow-col-dense gap-5 items-center text-sm">
+            {tags.map((tag: any, index: number) => (
               <li key={index} className="inline-flex items-center">
                 <Link href={`/q/${tag.name}`}>
                   <a
@@ -828,8 +837,8 @@ const Tags: FunctionComponent<{tags: any; lesson: any}> = ({tags, lesson}) => {
                     <Image
                       src={tag.image_url}
                       alt={tag.name}
-                      width={24}
-                      height={24}
+                      width={20}
+                      height={20}
                       className="flex-shrink-0"
                     />
                     <span className="ml-1">{tag.label}</span>
@@ -848,29 +857,3 @@ const Tags: FunctionComponent<{tags: any; lesson: any}> = ({tags, lesson}) => {
     </>
   )
 }
-
-const IconTheaterModeOn: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M7,9 L7,16 L4.20703,13.20703 L1.70703,15.70703 C1.51172,15.90234 1.25586,16 1,16 C0.74414,16 0.48828,15.90234 0.29297,15.70703 C-0.09765,15.31641 -0.09765,14.68359 0.29297,14.29297 L0.29297,14.29297 L2.79297,11.79297 L0,9 L7,9 Z M9,0 L11.79297,2.79297 L14.29297,0.29297 C14.68359,-0.09765 15.31641,-0.09765 15.70703,0.29297 C16.09765,0.68359 16.09765,1.31641 15.70703,1.70703 L15.70703,1.70703 L13.20703,4.20703 L16,7 L9,7 L9,0 Z" />
-  </svg>
-)
-
-const IconTheaterModeOff: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M6,9 C6.25586,9 6.51172,9.09766 6.70703,9.29297 C7.09765,9.68359 7.09765,10.31641 6.70703,10.70703 L6.70703,10.70703 L4.20703,13.20703 L7,16 L1.8189894e-12,16 L1.81987758e-12,9 L2.79297,11.79297 L5.29297,9.29297 C5.48828,9.09766 5.74414,9 6,9 Z M16,-8.8817842e-16 L16,7 L13.20703,4.20703 L10.70703,6.70703 C10.31641,7.09765 9.68359,7.09765 9.29297,6.70703 C8.90235,6.31641 8.90235,5.68359 9.29297,5.29297 L9.29297,5.29297 L11.79297,2.79297 L9,-1.77635684e-15 L16,-8.8817842e-16 Z" />
-  </svg>
-)
