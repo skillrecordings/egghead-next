@@ -518,7 +518,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </div>
           {theaterMode && (
-            <div className="flex items-center justify-end py-2 px-2 text-white space-x-5">
+            <div
+              className="flex items-center justify-end py-2 px-3 text-white space-x-5 mx-auto"
+              css={{maxWidth: lessonMaxWidth}}
+            >
               <AutoplayToggle onDark enabled={playerVisible && next_up_url} />
               {!md && (
                 <TheaterModeToggle
