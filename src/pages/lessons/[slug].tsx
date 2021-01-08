@@ -357,7 +357,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div key={initialLesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
+      <div
+        key={initialLesson.slug}
+        className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8"
+      >
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
           <div className="w-full flex justify-center">
             <div
@@ -504,7 +507,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     )}
                   </div>
                 </div>
-                <div className="py-3 pr-1 pl-4 flex items-center justify-between border-t border-gray-100">
+                <div className="xl:py-4 py-2 xl:px-4 px-2 flex items-center justify-between border-t border-gray-100">
                   <AutoplayToggle enabled={playerVisible && next_up_url} />
                   <TheaterModeToggle
                     toggleTheaterMode={toggleTheaterMode}
@@ -515,7 +518,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </div>
           {!md && theaterMode && (
-            <div className="flex items-center justify-end py-2 px-2 space-x-5">
+            <div className="flex items-center justify-end py-2 px-2 text-white space-x-5">
               <AutoplayToggle enabled={playerVisible && next_up_url} />
               <TheaterModeToggle
                 toggleTheaterMode={toggleTheaterMode}
@@ -541,7 +544,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     {title}
                   </h1>
                 )}
-                <div className="sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2 sm:text-normal text-sm">
+                <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
                   {lesson?.code_url && (
                     <CodeLink
                       onClick={() => {

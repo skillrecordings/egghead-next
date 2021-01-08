@@ -27,15 +27,13 @@ const IconTheaterModeOn: FunctionComponent<{className?: string}> = ({
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    width="14"
+    height="14"
+    viewBox="0 0 16 16"
+    fill="currentColor"
     className={className}
   >
-    <g fill="currentColor">
-      <path fill="none" d="M0 0h24v24H0z"></path>
-      <path d="M12 15l-4.243-4.243 1.415-1.414L12 12.172l2.828-2.829 1.415 1.414z"></path>
-    </g>
+    <path d="M6,9 C6.25586,9 6.51172,9.09766 6.70703,9.29297 C7.09765,9.68359 7.09765,10.31641 6.70703,10.70703 L6.70703,10.70703 L4.20703,13.20703 L7,16 L1.8189894e-12,16 L1.81987758e-12,9 L2.79297,11.79297 L5.29297,9.29297 C5.48828,9.09766 5.74414,9 6,9 Z M16,-8.8817842e-16 L16,7 L13.20703,4.20703 L10.70703,6.70703 C10.31641,7.09765 9.68359,7.09765 9.29297,6.70703 C8.90235,6.31641 8.90235,5.68359 9.29297,5.29297 L9.29297,5.29297 L11.79297,2.79297 L9,-1.77635684e-15 L16,-8.8817842e-16 Z" />
   </svg>
 )
 
@@ -44,8 +42,8 @@ const IconTheaterModeOff: FunctionComponent<{className?: string}> = ({
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
+    width="14"
+    height="14"
     viewBox="0 0 16 16"
     fill="currentColor"
     className={className}
