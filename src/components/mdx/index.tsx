@@ -23,7 +23,7 @@ const mdxComponents = {
   DefaultLayout,
   pre: (props: any) => (
     <CodeBlock
-      language={props.children.props.className}
+      language={props.children.props.className || ''}
       metastring={props.children.props.metastring}
     >
       {props.children.props.children}
