@@ -230,6 +230,17 @@ const homepageData = [
       'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
   },
   {
+    id: 'learnInPublic',
+    name: 'Learn in Public',
+    title: 'How to Livestream Code and Design on Twitch',
+    path: '/playlists/how-to-livestream-code-and-design-on-twitch-6646',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/292/full/output-onlinepngtools.png',
+    byline: 'Chris Biscardi',
+    description:
+      'Demonstrate technical proficiency by building in public. This course will take you from creating a Twitch account, all the way through setting up OBS, creating scenes, and defining an ultra-efficient workflow.',
+  },
+  {
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
