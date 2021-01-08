@@ -121,7 +121,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
-  const [ref, {width: videoWidth}] = useMeasure()
+  const [ref, {width: videoWidth}] = useMeasure<any>()
   const HEADER_HEIGHT = 80
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
