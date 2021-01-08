@@ -12,7 +12,7 @@ import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
 import useLastResource from 'hooks/use-last-resource'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
-import {track} from '../../../utils/analytics'
+import {track} from 'utils/analytics'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -61,7 +61,15 @@ const Home: FunctionComponent = () => {
                     {video.name}
                   </h2>
                   <Link href={video.path}>
-                    <a className="hover:text-blue-600">
+                    <a
+                      onClick={() => {
+                        track('clicked home page video link', {
+                          resource: video.path,
+                          linkType: 'text',
+                        })
+                      }}
+                      className="hover:text-blue-600"
+                    >
                       <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
                         {video.title}
                       </h3>
@@ -69,7 +77,17 @@ const Home: FunctionComponent = () => {
                   </Link>
                   <div className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
                     <Link href={video.instructor_path || ''}>
-                      <a className="hover:text-blue-600">{video.instructor}</a>
+                      <a
+                        onClick={() => {
+                          track('clicked home page video instructor', {
+                            instructor: video.instructor,
+                            linkType: 'image',
+                          })
+                        }}
+                        className="hover:text-blue-600"
+                      >
+                        {video.instructor}
+                      </a>
                     </Link>
                   </div>
                   <Markdown className="prose prose-sm mt-4">
@@ -123,91 +141,9 @@ const Home: FunctionComponent = () => {
                 />
               }
             />
-            <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
-              <h2 className="uppercase font-semibold text-xs text-gray-700">
-                {topics.name}
-              </h2>
-              <div>
-                <ul className="space-y-2">
-                  {map(get(topics, 'resources'), (resource) => (
-                    <li className="inline-block mr-2" key={resource.path}>
-                      <Link href={resource.path}>
-                        <a
-                          onClick={() => {
-                            track('clicked home page topic', {
-                              resource: resource.path,
-                              linkType: 'image',
-                            })
-                          }}
-                          className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
-                        >
-                          {resource.image && (
-                            <Image
-                              src={resource.image}
-                              width={24}
-                              height={24}
-                              alt={`${resource.title} logo`}
-                            />
-                          )}{' '}
-                          <span>{resource.title}</span>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Card>
-            <Card>
-              <>
-                <h2 className="uppercase font-semibold text-xs text-gray-700 mb-1">
-                  {mdxConf.name}
-                </h2>
-                <Link href={mdxConf.path}>
-                  <a
-                    onClick={() => {
-                      track('clicked home page resource', {
-                        resource: mdxConf.path,
-                        linkType: 'image',
-                      })
-                    }}
-                    className="inline-block hover:text-blue-600"
-                  >
-                    <h3 className="text-xl tracking-tight font-bold leading-tight mb-1">
-                      {mdxConf.title}
-                    </h3>
-                  </a>
-                </Link>
-                <div className="text-xs text-gray-600 mb-2">
-                  {mdxConf.byline}
-                </div>
-                <Markdown className="prose prose-sm mb-2">
-                  {mdxConf.description}
-                </Markdown>
-                <ul>
-                  {map(get(mdxConf, 'resources'), (resource) => (
-                    <li className="py-1" key={resource.path}>
-                      <Link href={resource.path}>
-                        <a
-                          onClick={() => {
-                            track('clicked home page resource', {
-                              resource: resource.path,
-                              linkType: 'image',
-                            })
-                          }}
-                          className="hover:text-blue-600 font-semibold"
-                        >
-                          {resource.title}
-                        </a>
-                      </Link>
-                      <div className="text-xs text-gray-600">
-                        {resource.byline}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            </Card>
+            <TopicsList topics={topics} />
 
+            <CardVerticalWithStack data={mdxConf} />
             <CardVerticalWithStack data={stateManagement} />
 
             <Card>
@@ -279,6 +215,55 @@ const Home: FunctionComponent = () => {
   )
 }
 
+type Resource = {
+  path: string
+  image: string
+  name: string
+  title: string
+  byline: string
+  description: string
+  resources: Resource[]
+}
+
+const TopicsList: React.FunctionComponent<{topics: Resource}> = ({topics}) => {
+  return (
+    <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
+      <h2 className="uppercase font-semibold text-xs text-gray-700">
+        {topics.name}
+      </h2>
+      <div>
+        <ul className="space-y-2">
+          {map(get(topics, 'resources'), (resource) => (
+            <li className="inline-block mr-2" key={resource.path}>
+              <Link href={resource.path}>
+                <a
+                  onClick={() => {
+                    track('clicked home page topic', {
+                      resource: resource.path,
+                      linkType: 'image',
+                    })
+                  }}
+                  className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                >
+                  {resource.image && (
+                    <Image
+                      src={resource.image}
+                      width={24}
+                      height={24}
+                      alt={`${resource.title} logo`}
+                    />
+                  )}{' '}
+                  <span>{resource.title}</span>
+                </a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Card>
+  )
+}
+
 const EventSchedule: React.FunctionComponent = () => {
   const [schedule, scheduleLoading] = useEggheadSchedule()
   return (
@@ -330,7 +315,7 @@ const EventSchedule: React.FunctionComponent = () => {
           </ul>
         )}
         <div
-          className="absolute top-0 left-0 w-full h-full sm:opacity-75 opacity-25 pointer-events-none z-0"
+          className="absolute top-0 left-0 w-full h-full sm:opacity-25 opacity-25 pointer-events-none z-0"
           css={{
             backgroundImage:
               'url(https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467202/next.egghead.io/eggodex/playful-eggo_2x.png)',
@@ -345,19 +330,12 @@ const EventSchedule: React.FunctionComponent = () => {
 }
 
 type CardProps = {
-  data: any
+  data: Resource
   className?: string
 }
 
 const CardHorizontalLarge: FunctionComponent<{
-  resource: {
-    path: string
-    image: string
-    name: string
-    title: string
-    byline: string
-    description: string
-  }
+  resource: Resource
   className?: string
 }> = ({resource, className = 'border-none my-4'}) => {
   return (
