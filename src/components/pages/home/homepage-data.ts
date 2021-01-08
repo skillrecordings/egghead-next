@@ -228,8 +228,8 @@ const homepageData = [
       'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
   },
   {
-    id: 'learnInPublic',
-    name: 'Learn in Public',
+    id: 'buildInPublic',
+    name: 'Build in Public',
     title: 'How to Livestream Code and Design on Twitch',
     path: '/playlists/how-to-livestream-code-and-design-on-twitch-6646',
     image:
