@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import LoginForm from 'components/pages/login'
+import LoginForm from 'pages/login'
 import {track} from 'utils/analytics'
 
 type CreateAccountCTAProps = {
