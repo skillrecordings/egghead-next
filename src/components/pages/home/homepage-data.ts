@@ -26,16 +26,6 @@ const homepageData = [
     title: 'Featured',
     resources: [
       {
-        name: 'Hot',
-        title:
-          'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
-        byline: 'Tomasz Łakomy',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
-        path:
-          'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-      },
-      {
         name: 'In-Depth Article',
         title: 'Codemods with Babel Plugins',
         byline: 'Laurie Barth',
@@ -58,6 +48,14 @@ const homepageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+      },
+      {
+        name: 'Hot',
+        title: 'Using DynamoDB with Next.js',
+        byline: 'Lee Robinson',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/full/EGH_DynamoDB.png',
+        path: '/playlists/using-dynamodb-with-next-js-b40c',
       },
     ],
   },
@@ -230,6 +228,17 @@ const homepageData = [
       'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
   },
   {
+    id: 'buildInPublic',
+    name: 'Build in Public',
+    title: 'How to Livestream Code and Design on Twitch',
+    path: '/playlists/how-to-livestream-code-and-design-on-twitch-6646',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/292/full/output-onlinepngtools.png',
+    byline: 'Chris Biscardi',
+    description:
+      'Demonstrate technical proficiency by building in public. This course will take you from creating a Twitch account, all the way through setting up OBS, creating scenes, and defining an ultra-efficient workflow.',
+  },
+  {
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
@@ -240,6 +249,30 @@ const homepageData = [
     byline: 'Colby Fayok',
     description:
       'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
+  },
+  {
+    id: 'portfolioBlog',
+    name: 'Portfolio Blog',
+    title:
+      'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
+    path:
+      'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
+    byline: 'Tomasz Łakomy',
+    description:
+      'Use cutting-edge tools and leverage the best developer experience provided by Next.js to build your developer portfolio blog.',
+  },
+  {
+    id: 'advancedCourse',
+    name: 'Mind-Expanding',
+    title: 'Composing Closures and Callbacks in JavaScript',
+    path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+    byline: 'John Lindquist',
+    description:
+      'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
   },
   {
     id: 'mdxConf',
