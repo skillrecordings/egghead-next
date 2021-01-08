@@ -28,6 +28,7 @@ const Home: FunctionComponent = () => {
   const sideProject: any = find(homepageData, {id: 'sideProject'})
   const learnInPublic: any = find(homepageData, {id: 'learnInPublic'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
+  const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
   const mdxConf: any = find(homepageData, {id: 'mdxConf'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
@@ -317,34 +318,34 @@ const Home: FunctionComponent = () => {
             <Card className="border-none my-4">
               <>
                 <div className="flex space-x-5">
-                  {sideProject.image && (
-                    <Link href={sideProject.path}>
+                  {portfolioBlog.image && (
+                    <Link href={portfolioBlog.path}>
                       <a className="block flex-shrink-0 sm:w-auto w-20">
                         <Image
-                          src={sideProject.image}
+                          src={portfolioBlog.image}
                           width={160}
                           height={160}
-                          alt={`illustration for ${sideProject.title}`}
+                          alt={`illustration for ${portfolioBlog.title}`}
                         />
                       </a>
                     </Link>
                   )}
                   <div className="flex flex-col justify-center items-start">
                     <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
-                      {sideProject.name}
+                      {portfolioBlog.name}
                     </h2>
-                    <Link href={sideProject.path}>
+                    <Link href={portfolioBlog.path}>
                       <a className="hover:text-blue-600">
                         <h3 className="text-xl font-bold leading-tighter">
-                          {sideProject.title}
+                          {portfolioBlog.title}
                         </h3>
                       </a>
                     </Link>
                     <div className="text-xs text-gray-600 mb-2">
-                      {sideProject.byline}
+                      {portfolioBlog.byline}
                     </div>
                     <Markdown className="prose prose-sm max-w-none">
-                      {sideProject.description}
+                      {portfolioBlog.description}
                     </Markdown>
                   </div>
                 </div>
@@ -381,6 +382,42 @@ const Home: FunctionComponent = () => {
                     </div>
                     <Markdown className="prose prose-sm max-w-none">
                       {learnInPublic.description}
+                    </Markdown>
+                  </div>
+                </div>
+              </>
+            </Card>
+            <Card className="border-none my-4">
+              <>
+                <div className="flex space-x-5">
+                  {sideProject.image && (
+                    <Link href={sideProject.path}>
+                      <a className="block flex-shrink-0 sm:w-auto w-20">
+                        <Image
+                          src={sideProject.image}
+                          width={160}
+                          height={160}
+                          alt={`illustration for ${sideProject.title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
+                  <div className="flex flex-col justify-center items-start">
+                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+                      {sideProject.name}
+                    </h2>
+                    <Link href={sideProject.path}>
+                      <a className="hover:text-blue-600">
+                        <h3 className="text-xl font-bold leading-tighter">
+                          {sideProject.title}
+                        </h3>
+                      </a>
+                    </Link>
+                    <div className="text-xs text-gray-600 mb-2">
+                      {sideProject.byline}
+                    </div>
+                    <Markdown className="prose prose-sm max-w-none">
+                      {sideProject.description}
                     </Markdown>
                   </div>
                 </div>

@@ -251,6 +251,19 @@ const homepageData = [
       'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
   },
   {
+    id: 'portfolioBlog',
+    name: 'Portfolio Blog',
+    title:
+      'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
+    path:
+      'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
+    byline: 'Tomasz Łakomy',
+    description:
+      'Use cutting-edge tools and leverage the best developer experience provided by Next.js to build your developer portfolio blog.',
+  },
+  {
     id: 'mdxConf',
     name: 'Future of Markdown',
     title: 'MDX Conf 2020',
