@@ -1,6 +1,6 @@
 import {find} from 'lodash'
 
-export default (courseSlug) =>
+const courseDependencyData = (courseSlug) =>
   find(
     [
       {
@@ -3132,3 +3132,4 @@ export default (courseSlug) =>
     ],
     {slug: courseSlug},
   )
+export default courseDependencyData

@@ -111,7 +111,6 @@ export default class EggheadPlayer extends Component {
       videoQuality,
       subtitle,
       muted,
-      autoplay,
     } = getPlayerPrefs()
 
     const displaySubtitles = props.subtitlesUrl && subtitle?.label !== 'off'
@@ -158,7 +157,6 @@ export default class EggheadPlayer extends Component {
         volume={volumeRate ?? props.volume}
         videoQualityCookie={videoQuality}
         muted={muted}
-        autoplay={autoplay}
         onPlaybackRateChange={(playbackRate) => {
           savePlayerPrefs({playbackRate})
           track(`set playback rate`, {
