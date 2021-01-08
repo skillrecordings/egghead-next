@@ -12,11 +12,12 @@ import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
 import useLastResource from 'hooks/use-last-resource'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
+import {track} from '../../../utils/analytics'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
   const {lastResource} = useLastResource()
-  const [schedule, scheduleLoading] = useEggheadSchedule()
+
   const video: any = find(homepageData, {id: 'video'})
 
   let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
@@ -45,120 +46,6 @@ const Home: FunctionComponent = () => {
       },
       ...take(reject(featured, {path: lastResource.path}), featured.length - 1),
     ]
-  }
-
-  type CardProps = {
-    data: any
-    className?: string
-  }
-
-  const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
-    const {path, image, title, name, byline} = data
-    return (
-      <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
-        <>
-          {image && (
-            <Link href={path}>
-              <a className="mb-2 sm:w-auto w-24">
-                <Image
-                  width={140}
-                  height={140}
-                  src={image}
-                  alt={`illustration for ${title}`}
-                />
-              </a>
-            </Link>
-          )}
-          <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
-            {name}
-          </h2>
-          <Link href={path}>
-            <a className="hover:text-blue-600">
-              <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
-                <Textfit mode="multi" min={14} max={20}>
-                  {title}
-                </Textfit>
-              </h3>
-            </a>
-          </Link>
-          <div className="text-xs text-gray-600 mt-1">{byline}</div>
-        </>
-      </Card>
-    )
-  }
-
-  const CardVerticalWithStack: FunctionComponent<CardProps> = ({
-    data,
-    className,
-  }) => {
-    const {name, title, description, resources, path} = data
-    return (
-      <Card>
-        <>
-          <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
-            {name}
-          </h2>
-          {path ? (
-            <Link href={path}>
-              <a className="hover:text-blue-600">
-                <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-                  {title}
-                </h3>
-              </a>
-            </Link>
-          ) : (
-            <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-              {title}
-            </h3>
-          )}
-          <div>
-            <Markdown className="prose prose-sm max-w-none mb-3">
-              {description}
-            </Markdown>
-            <ul>
-              {map(resources, (resource) => {
-                const {title, path, image, byline} = resource
-                const isLesson = path.includes('lessons')
-                const imageSize = isLesson ? 32 : 50
-                return (
-                  <li
-                    key={resource.path}
-                    className={`flex items-center py-2 ${
-                      className ? className : ''
-                    }`}
-                  >
-                    {image && (
-                      <Link href={path}>
-                        <a className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center ">
-                          <Image
-                            src={image}
-                            width={imageSize}
-                            height={imageSize}
-                            alt={`illustration for ${title}`}
-                          />
-                        </a>
-                      </Link>
-                    )}
-                    <div className="ml-3">
-                      <Link href={path}>
-                        <a className="hover:text-blue-600">
-                          <h4 className="text-lg font-semibold leading-tight">
-                            <Textfit mode="multi" min={14} max={17}>
-                              {title}
-                            </Textfit>
-                          </h4>
-                        </a>
-                      </Link>
-                      <div className="text-xs text-gray-600">{byline}</div>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </>
-      </Card>
-    )
   }
 
   return (
@@ -204,69 +91,7 @@ const Home: FunctionComponent = () => {
               </div>
             </div>
           </Card>
-          <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
-            <>
-              <h2 className="uppercase font-semibold text-xs text-blue-200">
-                Upcoming Events
-              </h2>
-              {!isEmpty(schedule) ? (
-                <ul className="mt-4 leading-tight space-y-3 relative z-10">
-                  {map(schedule, (resource: ScheduleEvent) => (
-                    <li className="w-full" key={resource.informationUrl}>
-                      <div className="font-semibold">
-                        <div>
-                          {resource.informationUrl ? (
-                            <Link href={resource.informationUrl}>
-                              <a className="hover:underline">
-                                {resource.title}
-                              </a>
-                            </Link>
-                          ) : (
-                            resource.title
-                          )}
-                        </div>
-                      </div>
-                      <div className="w-full flex items-center mt-1">
-                        {resource.subtitle && (
-                          <time className="mr-1 tabular-nums text-xs">
-                            {resource.subtitle}
-                          </time>
-                        )}
-                        {resource.calendarUrl && (
-                          <Link href={resource.calendarUrl}>
-                            <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
-                              {/* prettier-ignore */}
-                              <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
-                            </a>
-                          </Link>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <ul className="mt-4 leading-tight space-y-3 relative z-10">
-                  <li className="w-full">
-                    <div className="font-semibold">
-                      {scheduleLoading
-                        ? ``
-                        : `Nothing is scheduled at this time!`}
-                    </div>
-                  </li>
-                </ul>
-              )}
-              <div
-                className="absolute top-0 left-0 w-full h-full sm:opacity-75 opacity-25 pointer-events-none z-0"
-                css={{
-                  backgroundImage:
-                    'url(https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467202/next.egghead.io/eggodex/playful-eggo_2x.png)',
-                  backgroundSize: 200,
-                  backgroundPosition: 'bottom 5px right -5px',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              />
-            </>
-          </Card>
+          <EventSchedule />
         </div>
         <div className="grid lg:grid-cols-12 grid-cols-1 gap-5">
           <div className="lg:col-span-8 space-y-5">
@@ -277,191 +102,16 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
-            <Card className="border-none my-4">
-              <>
-                <div className="flex space-x-5">
-                  {portfolioProject.image && (
-                    <Link href={portfolioProject.path}>
-                      <a className="block flex-shrink-0 sm:w-auto w-20">
-                        <Image
-                          src={portfolioProject.image}
-                          width={160}
-                          height={160}
-                          alt={`illustration for ${portfolioProject.title}`}
-                        />
-                      </a>
-                    </Link>
-                  )}
-                  <div className="flex flex-col justify-center items-start">
-                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
-                      {portfolioProject.name}
-                    </h2>
-                    <Link href={portfolioProject.path}>
-                      <a className="hover:text-blue-600">
-                        <h3 className="text-xl font-bold leading-tighter">
-                          {portfolioProject.title}
-                        </h3>
-                      </a>
-                    </Link>
-                    <div className="text-xs text-gray-600 mb-2">
-                      {portfolioProject.byline}
-                    </div>
-                    <Markdown className="prose prose-sm max-w-none">
-                      {portfolioProject.description}
-                    </Markdown>
-                  </div>
-                </div>
-              </>
-            </Card>
-            <Card className="border-none my-4">
-              <>
-                <div className="flex space-x-5">
-                  {portfolioBlog.image && (
-                    <Link href={portfolioBlog.path}>
-                      <a className="block flex-shrink-0 sm:w-auto w-20">
-                        <Image
-                          src={portfolioBlog.image}
-                          width={160}
-                          height={160}
-                          alt={`illustration for ${portfolioBlog.title}`}
-                        />
-                      </a>
-                    </Link>
-                  )}
-                  <div className="flex flex-col justify-center items-start">
-                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
-                      {portfolioBlog.name}
-                    </h2>
-                    <Link href={portfolioBlog.path}>
-                      <a className="hover:text-blue-600">
-                        <h3 className="text-xl font-bold leading-tighter">
-                          {portfolioBlog.title}
-                        </h3>
-                      </a>
-                    </Link>
-                    <div className="text-xs text-gray-600 mb-2">
-                      {portfolioBlog.byline}
-                    </div>
-                    <Markdown className="prose prose-sm max-w-none">
-                      {portfolioBlog.description}
-                    </Markdown>
-                  </div>
-                </div>
-              </>
-            </Card>
+            <CardHorizontalLarge resource={portfolioProject} />
+            <CardHorizontalLarge resource={portfolioBlog} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
               <CardVerticalWithStack data={devEssentials} />
               <CardVerticalWithStack data={freeCourses} />
             </div>
 
-            <Card className="border-none my-4">
-              <>
-                <div className="flex space-x-5">
-                  {advancedCourse.image && (
-                    <Link href={advancedCourse.path}>
-                      <a className="block flex-shrink-0 sm:w-auto w-20">
-                        <Image
-                          src={advancedCourse.image}
-                          width={160}
-                          height={160}
-                          alt={`illustration for ${advancedCourse.title}`}
-                        />
-                      </a>
-                    </Link>
-                  )}
-                  <div className="flex flex-col justify-center items-start">
-                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
-                      {advancedCourse.name}
-                    </h2>
-                    <Link href={advancedCourse.path}>
-                      <a className="hover:text-blue-600">
-                        <h3 className="text-xl font-bold leading-tighter">
-                          {advancedCourse.title}
-                        </h3>
-                      </a>
-                    </Link>
-                    <div className="text-xs text-gray-600 mb-2">
-                      {advancedCourse.byline}
-                    </div>
-                    <Markdown className="prose prose-sm max-w-none">
-                      {advancedCourse.description}
-                    </Markdown>
-                  </div>
-                </div>
-              </>
-            </Card>
-            <Card className="border-none my-4">
-              <>
-                <div className="flex space-x-5">
-                  {buildInPublic.image && (
-                    <Link href={buildInPublic.path}>
-                      <a className="block flex-shrink-0 sm:w-auto w-20">
-                        <Image
-                          src={buildInPublic.image}
-                          width={160}
-                          height={160}
-                          alt={`illustration for ${buildInPublic.title}`}
-                        />
-                      </a>
-                    </Link>
-                  )}
-                  <div className="flex flex-col justify-center items-start">
-                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
-                      {buildInPublic.name}
-                    </h2>
-                    <Link href={buildInPublic.path}>
-                      <a className="hover:text-blue-600">
-                        <h3 className="text-xl font-bold leading-tighter">
-                          {buildInPublic.title}
-                        </h3>
-                      </a>
-                    </Link>
-                    <div className="text-xs text-gray-600 mb-2">
-                      {buildInPublic.byline}
-                    </div>
-                    <Markdown className="prose prose-sm max-w-none">
-                      {buildInPublic.description}
-                    </Markdown>
-                  </div>
-                </div>
-              </>
-            </Card>
-            <Card className="border-none my-4">
-              <>
-                <div className="flex space-x-5">
-                  {sideProject.image && (
-                    <Link href={sideProject.path}>
-                      <a className="block flex-shrink-0 sm:w-auto w-20">
-                        <Image
-                          src={sideProject.image}
-                          width={160}
-                          height={160}
-                          alt={`illustration for ${sideProject.title}`}
-                        />
-                      </a>
-                    </Link>
-                  )}
-                  <div className="flex flex-col justify-center items-start">
-                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
-                      {sideProject.name}
-                    </h2>
-                    <Link href={sideProject.path}>
-                      <a className="hover:text-blue-600">
-                        <h3 className="text-xl font-bold leading-tighter">
-                          {sideProject.title}
-                        </h3>
-                      </a>
-                    </Link>
-                    <div className="text-xs text-gray-600 mb-2">
-                      {sideProject.byline}
-                    </div>
-                    <Markdown className="prose prose-sm max-w-none">
-                      {sideProject.description}
-                    </Markdown>
-                  </div>
-                </div>
-              </>
-            </Card>
+            <CardHorizontalLarge resource={advancedCourse} />
+            <CardHorizontalLarge resource={buildInPublic} />
+            <CardHorizontalLarge resource={sideProject} />
           </div>
           <aside className="lg:col-span-4 space-y-5">
             <SortingHat
@@ -482,7 +132,15 @@ const Home: FunctionComponent = () => {
                   {map(get(topics, 'resources'), (resource) => (
                     <li className="inline-block mr-2" key={resource.path}>
                       <Link href={resource.path}>
-                        <a className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600">
+                        <a
+                          onClick={() => {
+                            track('clicked home page topic', {
+                              resource: resource.path,
+                              linkType: 'image',
+                            })
+                          }}
+                          className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                        >
                           {resource.image && (
                             <Image
                               src={resource.image}
@@ -505,7 +163,15 @@ const Home: FunctionComponent = () => {
                   {mdxConf.name}
                 </h2>
                 <Link href={mdxConf.path}>
-                  <a className="inline-block hover:text-blue-600">
+                  <a
+                    onClick={() => {
+                      track('clicked home page resource', {
+                        resource: mdxConf.path,
+                        linkType: 'image',
+                      })
+                    }}
+                    className="inline-block hover:text-blue-600"
+                  >
                     <h3 className="text-xl tracking-tight font-bold leading-tight mb-1">
                       {mdxConf.title}
                     </h3>
@@ -521,7 +187,15 @@ const Home: FunctionComponent = () => {
                   {map(get(mdxConf, 'resources'), (resource) => (
                     <li className="py-1" key={resource.path}>
                       <Link href={resource.path}>
-                        <a className="hover:text-blue-600 font-semibold">
+                        <a
+                          onClick={() => {
+                            track('clicked home page resource', {
+                              resource: resource.path,
+                              linkType: 'image',
+                            })
+                          }}
+                          className="hover:text-blue-600 font-semibold"
+                        >
                           {resource.title}
                         </a>
                       </Link>
@@ -561,7 +235,14 @@ const Home: FunctionComponent = () => {
                       {resource.image && (
                         <div className="flex-shrink-0">
                           <Link href={resource.path}>
-                            <a>
+                            <a
+                              onClick={() => {
+                                track('clicked home page swag', {
+                                  resource: resource.path,
+                                  linkType: 'image',
+                                })
+                              }}
+                            >
                               <Image
                                 className="rounded-lg"
                                 src={resource.image}
@@ -574,7 +255,15 @@ const Home: FunctionComponent = () => {
                         </div>
                       )}
                       <Link href={resource.path}>
-                        <a className="text-xs leading-tight">
+                        <a
+                          onClick={() => {
+                            track('clicked home page swag', {
+                              resource: resource.path,
+                              linkType: 'text',
+                            })
+                          }}
+                          className="text-xs leading-tight"
+                        >
                           {resource.title}
                         </a>
                       </Link>
@@ -587,6 +276,290 @@ const Home: FunctionComponent = () => {
         </div>
       </div>
     </>
+  )
+}
+
+const EventSchedule: React.FunctionComponent = () => {
+  const [schedule, scheduleLoading] = useEggheadSchedule()
+  return (
+    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
+      <>
+        <h2 className="uppercase font-semibold text-xs text-blue-200">
+          Upcoming Events
+        </h2>
+        {!isEmpty(schedule) ? (
+          <ul className="mt-4 leading-tight space-y-3 relative z-10">
+            {map(schedule, (resource: ScheduleEvent) => (
+              <li className="w-full" key={resource.informationUrl}>
+                <div className="font-semibold">
+                  <div>
+                    {resource.informationUrl ? (
+                      <Link href={resource.informationUrl}>
+                        <a className="hover:underline">{resource.title}</a>
+                      </Link>
+                    ) : (
+                      resource.title
+                    )}
+                  </div>
+                </div>
+                <div className="w-full flex items-center mt-1">
+                  {resource.subtitle && (
+                    <time className="mr-1 tabular-nums text-xs">
+                      {resource.subtitle}
+                    </time>
+                  )}
+                  {resource.calendarUrl && (
+                    <Link href={resource.calendarUrl}>
+                      <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
+                        {/* prettier-ignore */}
+                        <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
+                      </a>
+                    </Link>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className="mt-4 leading-tight space-y-3 relative z-10">
+            <li className="w-full">
+              <div className="font-semibold">
+                {scheduleLoading ? `` : `Nothing is scheduled at this time!`}
+              </div>
+            </li>
+          </ul>
+        )}
+        <div
+          className="absolute top-0 left-0 w-full h-full sm:opacity-75 opacity-25 pointer-events-none z-0"
+          css={{
+            backgroundImage:
+              'url(https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467202/next.egghead.io/eggodex/playful-eggo_2x.png)',
+            backgroundSize: 200,
+            backgroundPosition: 'bottom 5px right -5px',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+      </>
+    </Card>
+  )
+}
+
+type CardProps = {
+  data: any
+  className?: string
+}
+
+const CardHorizontalLarge: FunctionComponent<{
+  resource: {
+    path: string
+    image: string
+    name: string
+    title: string
+    byline: string
+    description: string
+  }
+  className?: string
+}> = ({resource, className = 'border-none my-4'}) => {
+  return (
+    <Card className={className}>
+      <>
+        <div className="flex space-x-5">
+          {resource.image && (
+            <Link href={resource.path}>
+              <a
+                onClick={() => {
+                  track('clicked home page resource', {
+                    resource: resource.path,
+                    linkType: 'image',
+                  })
+                }}
+                className="block flex-shrink-0 sm:w-auto w-20"
+              >
+                <Image
+                  src={resource.image}
+                  width={160}
+                  height={160}
+                  alt={`illustration for ${resource.title}`}
+                />
+              </a>
+            </Link>
+          )}
+          <div className="flex flex-col justify-center items-start">
+            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+              {resource.name}
+            </h2>
+            <Link href={resource.path}>
+              <a
+                onClick={() => {
+                  track('clicked home page resource', {
+                    resource: resource.path,
+                    linkType: 'text',
+                  })
+                }}
+                className="hover:text-blue-600"
+              >
+                <h3 className="text-xl font-bold leading-tighter">
+                  {resource.title}
+                </h3>
+              </a>
+            </Link>
+            <div className="text-xs text-gray-600 mb-2">{resource.byline}</div>
+            <Markdown className="prose prose-sm max-w-none">
+              {resource.description}
+            </Markdown>
+          </div>
+        </div>
+      </>
+    </Card>
+  )
+}
+
+const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
+  const {path, image, title, name, byline} = data
+  return (
+    <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
+      <>
+        {image && (
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track('clicked home page resource', {
+                  resource: path,
+                  linkType: 'image',
+                })
+              }}
+              className="mb-2 sm:w-auto w-24"
+            >
+              <Image
+                width={140}
+                height={140}
+                src={image}
+                alt={`illustration for ${title}`}
+              />
+            </a>
+          </Link>
+        )}
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+          {name}
+        </h2>
+        <Link href={path}>
+          <a
+            onClick={() => {
+              track('clicked home page resource', {
+                resource: path,
+                linkType: 'text',
+              })
+            }}
+            className="hover:text-blue-600"
+          >
+            <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
+              <Textfit mode="multi" min={14} max={20}>
+                {title}
+              </Textfit>
+            </h3>
+          </a>
+        </Link>
+        <div className="text-xs text-gray-600 mt-1">{byline}</div>
+      </>
+    </Card>
+  )
+}
+
+const CardVerticalWithStack: FunctionComponent<CardProps> = ({
+  data,
+  className,
+}) => {
+  const {name, title, description, resources, path} = data
+  return (
+    <Card>
+      <>
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+          {name}
+        </h2>
+        {path ? (
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track('clicked home page resource', {
+                  resource: path,
+                  linkType: 'text',
+                })
+              }}
+              className="hover:text-blue-600"
+            >
+              <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+                {title}
+              </h3>
+            </a>
+          </Link>
+        ) : (
+          <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+            {title}
+          </h3>
+        )}
+        <div>
+          <Markdown className="prose prose-sm max-w-none mb-3">
+            {description}
+          </Markdown>
+          <ul>
+            {map(resources, (resource) => {
+              const {title, path, image, byline} = resource
+              const isLesson = path.includes('lessons')
+              const imageSize = isLesson ? 32 : 50
+              return (
+                <li
+                  key={resource.path}
+                  className={`flex items-center py-2 ${
+                    className ? className : ''
+                  }`}
+                >
+                  {image && (
+                    <Link href={path}>
+                      <a
+                        onClick={() => {
+                          track('clicked home page resource', {
+                            resource: path,
+                            linkType: 'image',
+                          })
+                        }}
+                        className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center "
+                      >
+                        <Image
+                          src={image}
+                          width={imageSize}
+                          height={imageSize}
+                          alt={`illustration for ${title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
+                  <div className="ml-3">
+                    <Link href={path}>
+                      <a
+                        onClick={() => {
+                          track('clicked home page resource', {
+                            resource: path,
+                            linkType: 'text',
+                          })
+                        }}
+                        className="hover:text-blue-600"
+                      >
+                        <h4 className="text-lg font-semibold leading-tight">
+                          <Textfit mode="multi" min={14} max={17}>
+                            {title}
+                          </Textfit>
+                        </h4>
+                      </a>
+                    </Link>
+                    <div className="text-xs text-gray-600">{byline}</div>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </>
+    </Card>
   )
 }
 
