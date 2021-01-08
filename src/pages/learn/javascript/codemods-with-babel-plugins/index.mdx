@@ -39,7 +39,7 @@ Codemods are an incredibly powerful tool that not everyone has heard of, so let'
 
 </div>
 
-So codemods are great, right? Right! Except there is something I noticed when searching around the internet for write-ups on them. Almost every tutorial is written using the [JSCodeShift API](<[https://github.com/facebook/jscodeshift](https://github.com/facebook/jscodeshift)>) or explains how to make a Babel plugin to do the transform without any of the other necessary context.
+So codemods are great, right? Right! Except there is something I noticed when searching around the internet for write-ups on them. Almost every tutorial is written using the [JSCodeShift API](https://github.com/facebook/jscodeshift) or explains how to make a Babel plugin to do the transform without any of the other necessary context.
 
 Until now! So without further ado, let's dive in.
 
@@ -55,7 +55,7 @@ What are we trying to accomplish in this tutorial?
 
 The first thing we're going to do is write a minimal transform that we can run as we set up the rest of our structure. We'll need to install `@babel/core`.
 
-What's nice is that we can test this code without the rest of our setup, using [ASTExplorer](<[https://astexplorer.net/](https://astexplorer.net/)>). Using the `transform` toggle at the top select babel v7 and start writing your plugin! Let's walk through an example.
+What's nice is that we can test this code without the rest of our setup, using [ASTExplorer](https://astexplorer.net/). Using the `transform` toggle at the top select babel v7 and start writing your plugin! Let's walk through an example.
 
 Egghead is no longer just for videos, it has written content as well! So the API is changing from this:
 
@@ -69,7 +69,7 @@ To this:
 <Egghead content={src} />
 ```
 
-Let's write a transform for this. The first thing to note is that `babel` is passed into every plugin and includes `types`. If you look at the [API](<[https://babeljs.io/docs/en/babel-types](https://babeljs.io/docs/en/babel-types)>) you'll notice that it includes all of the AST (Abstract Syntax Tree) types your code is parsed into. It also includes helper methods like `isIdentifier` that can substitute for `type === 'Identifier'` which makes the code a bit easier to follow.
+Let's write a transform for this. The first thing to note is that `babel` is passed into every plugin and includes `types`. If you look at the [API](https://babeljs.io/docs/en/babel-types) you'll notice that it includes all of the AST (Abstract Syntax Tree) types your code is parsed into. It also includes helper methods like `isIdentifier` that can substitute for `type === 'Identifier'` which makes the code a bit easier to follow.
 
 ```jsx
 export function updateContent(babel) {
@@ -110,7 +110,7 @@ We can replace the entire path with a new JSXIdentifier with the name "content".
 
 So far our example is a single line, but it exists inside larger files and projects. If we don't preserve formatting we could wind up changing every line of that file with small things like spaces and semicolons.
 
-We can prevent that using [recast](<[https://github.com/benjamn/recast](https://github.com/benjamn/recast)>), so let's install that. Recast gives us functions that parse and print our code while preserving things like white space.
+We can prevent that using [recast](https://github.com/benjamn/recast), so let's install that. Recast gives us functions that parse and print our code while preserving things like white space.
 
 Let's import the functions we need and set up a wrapper function that will call our `updateContent` plugin.
 
