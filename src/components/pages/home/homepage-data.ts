@@ -49,6 +49,14 @@ const homepageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
+      {
+        name: 'Hot',
+        title: 'Using DynamoDB with Next.js',
+        byline: 'Lee Robinson',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/full/EGH_DynamoDB.png',
+        path: '/playlists/using-dynamodb-with-next-js-b40c',
+      },
     ],
   },
   {
