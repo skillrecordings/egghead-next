@@ -27,10 +27,20 @@ type CoursePageLayoutProps = {
   ogImageUrl: string
 }
 
-const defaultProgress = {
-  completed_lesson_count: 0,
-  completed_lesson: [],
-  is_completed: false,
+const logCollectionResource = (collection: any) => {
+  if (typeof window !== 'undefined') {
+    const {title, duration, instructor, square_cover_url, path} = collection
+    if (square_cover_url) {
+      console.debug({
+        title,
+        byline: `${instructor.full_name}・${convertTimeWithTitles(
+          duration,
+        )}・Course`,
+        image: square_cover_url,
+        path,
+      })
+    }
+  }
 }
 
 const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
@@ -61,6 +71,8 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     favorited,
     tags = [],
   } = course
+
+  logCollectionResource(course)
 
   const courseTags = tags.map((tag: any) => {
     const version = get(dependencies, tag.name)

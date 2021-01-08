@@ -22,6 +22,7 @@ const Home: FunctionComponent = () => {
   let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
   const devEssentials: any = find(homepageData, {id: 'devEssentials'})
   const freeCourses: any = find(homepageData, {id: 'freeCourses'})
+  const getStarted: any = find(homepageData, {id: 'getStarted'})
   const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
@@ -468,7 +469,7 @@ const Home: FunctionComponent = () => {
               alternative={
                 <CardVerticalWithStack
                   className="sm:py-3 py-2"
-                  data={stateManagement}
+                  data={getStarted}
                 />
               }
             />
@@ -532,6 +533,8 @@ const Home: FunctionComponent = () => {
                 </ul>
               </>
             </Card>
+
+            <CardVerticalWithStack data={stateManagement} />
 
             <Card>
               <>

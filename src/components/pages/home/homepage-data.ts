@@ -60,6 +60,52 @@ const homepageData = [
     ],
   },
   {
+    id: 'getStarted',
+    name: 'Introductions',
+    title: 'Start Learning Here',
+    description:
+      'These courses will get you started building real-world applications with these tools. They are all excellent introductions if you want to learn something new today.',
+    resources: [
+      {
+        title: 'Up and running with Svelte 3',
+        byline: 'Tomasz Łakomy・26m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/236/thumb/svelte-logo-vertical.png',
+        path: '/playlists/getting-started-with-svelte-3-05a8541a',
+      },
+      {
+        title: 'Develop Basic Web Apps with Vue.js',
+        byline: 'Greg Thoman・16m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/083/thumb/EGH_VueJS_Final.png',
+        path: '/courses/develop-basic-web-apps-with-vue-js',
+      },
+      {
+        title: "The Beginner's Guide to React",
+        byline: 'Kent C. Dodds・2h 27m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
+        path: '/courses/the-beginner-s-guide-to-react',
+      },
+      {
+        title: 'Write Your First Program with the Rust Language',
+        byline: 'Pascal Precht・19m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/448/thumb/EGH_BuildaRustApp_Final.png',
+        path: '/courses/write-your-first-program-with-the-rust-language',
+      },
+      {
+        title:
+          'Sprinkle declarative, reactive behaviour on your HTML with Alpine JS',
+        byline: 'Simon Vrachliotis・17m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/286/thumb/alpinejs.png',
+        path:
+          '/playlists/sprinkle-declarative-reactive-behaviour-on-your-html-with-alpine-js-5f8b',
+      },
+    ],
+  },
+  {
     id: 'freeCourses',
     name: 'Free Courses',
     title: 'Learn Something New',
@@ -80,12 +126,11 @@ const homepageData = [
         path: '/courses/immutable-javascript-data-structures-with-immer',
       },
       {
-        title: 'Write Your First Program with the Rust Language',
-        byline: 'Pascal Precht・20m・Course',
+        title: 'Practical Git for Everyday Professional Use',
+        byline: 'Trevor Miller・1h ・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/448/thumb/EGH_BuildaRustApp_Final.png',
-
-        path: '/courses/write-your-first-program-with-the-rust-language',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
+        path: '/courses/practical-git-for-everyday-professional-use',
       },
       {
         title: 'Develop Accessible Web Apps with React',
@@ -129,11 +174,11 @@ const homepageData = [
         path: '/courses/web-security-essentials-mitm-csrf-and-xss',
       },
       {
-        title: "The Beginner's Guide to React",
-        byline: 'Kent C. Dodds・2h 27m・Course',
+        title: 'How to Contribute to an Open Source Project on GitHub',
+        byline: 'Kent C. Dodds・38m ・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/full/EGH_BeginnersReact2.png',
-        path: '/courses/the-beginner-s-guide-to-react',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/032/thumb/EGH_JSopensource_final.png',
+        path: '/courses/how-to-contribute-to-an-open-source-project-on-github',
       },
       {
         title: 'Fix Common Git Mistakes',
