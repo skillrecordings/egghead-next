@@ -25,6 +25,7 @@ const Home: FunctionComponent = () => {
   const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
+  const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
   const sideProject: any = find(homepageData, {id: 'sideProject'})
   const buildInPublic: any = find(homepageData, {id: 'buildInPublic'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
@@ -311,10 +312,6 @@ const Home: FunctionComponent = () => {
                 </div>
               </>
             </Card>
-            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
-              <CardVerticalWithStack data={devEssentials} />
-              <CardVerticalWithStack data={freeCourses} />
-            </div>
             <Card className="border-none my-4">
               <>
                 <div className="flex space-x-5">
@@ -346,6 +343,47 @@ const Home: FunctionComponent = () => {
                     </div>
                     <Markdown className="prose prose-sm max-w-none">
                       {portfolioBlog.description}
+                    </Markdown>
+                  </div>
+                </div>
+              </>
+            </Card>
+            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
+              <CardVerticalWithStack data={devEssentials} />
+              <CardVerticalWithStack data={freeCourses} />
+            </div>
+
+            <Card className="border-none my-4">
+              <>
+                <div className="flex space-x-5">
+                  {advancedCourse.image && (
+                    <Link href={advancedCourse.path}>
+                      <a className="block flex-shrink-0 sm:w-auto w-20">
+                        <Image
+                          src={advancedCourse.image}
+                          width={160}
+                          height={160}
+                          alt={`illustration for ${advancedCourse.title}`}
+                        />
+                      </a>
+                    </Link>
+                  )}
+                  <div className="flex flex-col justify-center items-start">
+                    <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+                      {advancedCourse.name}
+                    </h2>
+                    <Link href={advancedCourse.path}>
+                      <a className="hover:text-blue-600">
+                        <h3 className="text-xl font-bold leading-tighter">
+                          {advancedCourse.title}
+                        </h3>
+                      </a>
+                    </Link>
+                    <div className="text-xs text-gray-600 mb-2">
+                      {advancedCourse.byline}
+                    </div>
+                    <Markdown className="prose prose-sm max-w-none">
+                      {advancedCourse.description}
                     </Markdown>
                   </div>
                 </div>

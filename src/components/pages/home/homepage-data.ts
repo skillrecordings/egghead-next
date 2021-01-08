@@ -49,14 +49,6 @@ const homepageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
-      {
-        name: 'Advanced',
-        title: 'Composing Closures and Callbacks in JavaScript',
-        byline: 'John Lindquist',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-        path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
-      },
     ],
   },
   {
@@ -262,6 +254,17 @@ const homepageData = [
     byline: 'Tomasz Łakomy',
     description:
       'Use cutting-edge tools and leverage the best developer experience provided by Next.js to build your developer portfolio blog.',
+  },
+  {
+    id: 'advancedCourse',
+    name: 'Mind-Expanding',
+    title: 'Composing Closures and Callbacks in JavaScript',
+    path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+    byline: 'John Lindquist',
+    description:
+      'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
   },
   {
     id: 'mdxConf',
