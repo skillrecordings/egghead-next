@@ -78,7 +78,6 @@ export default class Bitmovin extends Base {
       onPlaybackRateChange,
       onVolumeChange,
       muted,
-      autoplay,
     } = props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
@@ -97,7 +96,6 @@ export default class Bitmovin extends Base {
       playback: {
         restoreUserSettings: true,
         muted,
-        autoplay,
       },
       cast: {
         enable: true,
@@ -206,7 +204,7 @@ export default class Bitmovin extends Base {
           }
           this.addEventListeners()
           this.container.focus()
-          this.onReady()
+          this.onReady(this.player)
         },
         (reason) => {
           throw `Error while creating bitdash player instance, ${reason}`
@@ -324,8 +322,8 @@ export default class Bitmovin extends Base {
             })
           }
           this.addEventListeners()
-          this.props.onReady()
-          this.onReady()
+          this.props.onReady(this.player)
+          this.onReady(this.player)
         },
         (error) => {
           console.log('Bitmovin player failed to load')

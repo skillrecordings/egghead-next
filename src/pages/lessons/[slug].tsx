@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
-import {isEmpty, get, first} from 'lodash'
+import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
@@ -17,15 +17,13 @@ import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
-import {isBrowser} from 'utils/is-browser'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
-import useSWR from 'swr'
-import fetcher from 'utils/fetcher'
+import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
@@ -119,7 +117,7 @@ type LessonProps = {
 const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
-  const {xs, sm, md, lg} = useBreakpoint()
+  const {md} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
   const HEADER_HEIGHT = 80
@@ -127,6 +125,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [theaterMode, setTheaterMode] = React.useState(theater || false)
+  const [media, setMedia] = React.useState<any>()
   const toggleTheaterMode = () => {
     setPlayerPrefs({theater: !theaterMode})
     setTheaterMode(!theaterMode)
@@ -140,11 +139,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {viewer} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
   const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
+  const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
-  const currentPlayerState = playerState.value
+  const currentPlayerState = playerState.value as string
+
   useLastResource({...lesson, image_url: lesson.icon_url})
-  const {data} = useSWR(lesson.media_url, fetcher)
+
   const {
     instructor,
     next_up_url,
@@ -152,12 +153,23 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     transcript_url,
     http_url,
     title,
-    tags,
+    tags = [],
     description,
     collection,
     free_forever,
     slug,
+    media_url,
   } = lesson
+
+  React.useEffect(() => {
+    setMedia(false)
+    if (media_url) {
+      axios.get(media_url).then(({data}) => {
+        setMedia(data)
+      })
+    }
+  }, [media_url])
+
   const nextUp = useNextUpData(next_up_url)
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
@@ -183,25 +195,24 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const loaderVisible = playerState.matches('loading')
 
-  const playerVisible: boolean =
-    ['playing', 'paused', 'loaded', 'viewing', 'completed'].some(
-      playerState.matches,
-    ) && !isEmpty(data)
+  React.useEffect(() => {
+    setPlayerVisible(
+      [
+        'playing',
+        'paused',
+        'loaded',
+        'viewing',
+        'completed',
+        'autoPlaying',
+      ].includes(currentPlayerState),
+    )
+  }, [currentPlayerState])
 
   const checkAutoPlay = () => {
     if (autoplay && (nextLesson || nextUp.nextUpPath)) {
-      // this is sloppy and transitions weird so we might consider
-      // a "next" overlay with a 3-5 second "about to play" spinner
-      // instead of just lurching forward
-      // so instead of LOAD this might call NEXT but the next overlay
-      // would read the autoplay preference and present the appropriate
-      // UI
-      send('LOAD')
-      setLesson({})
-      setTimeout(() => {
-        console.log(`autoplaying ${nextLesson.path || nextUp.nextUpPath}`)
-        router.push(nextLesson.path || nextUp.nextUpPath)
-      }, 1250)
+      setMedia(false)
+      send('AUTO_PLAY')
+      router.push(nextLesson.path || nextUp.nextUpPath)
     } else if (nextLesson || nextUp.nextUpPath) {
       send(`NEXT`)
     } else {
@@ -214,22 +225,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       const progress = getProgress()
       if (progress?.rate_url) {
         send('RATE')
-      } else if (autoplay && nextUp.nextUpPath) {
-        // this is sloppy and transitions weird so we might consider
-        // a "next" overlay with a 3-5 second "about to play" spinner
-        // instead of just lurching forward
-        // so instead of LOAD this might call NEXT but the next overlay
-        // would read the autoplay preference and present the appropriate
-        // UI
-        send('LOAD')
-        setTimeout(() => {
-          console.log(`autoplaying ${nextUp.nextUpPath}`)
-          router.push(nextUp.nextUpPath)
-        }, 1250)
-      } else if (nextLesson || nextUp.nextUpPath) {
-        send(`NEXT`)
       } else {
-        send(`RECOMMEND`)
+        checkAutoPlay()
       }
     } else {
       console.error('no lesson view')
@@ -245,8 +242,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   React.useEffect(() => {
     switch (currentPlayerState) {
+      case 'autoPlaying':
       case 'loading':
-        if (data) {
+        if (media) {
           const event: PlayerStateEvent = {
             type: 'LOADED',
             lesson: lesson,
@@ -255,30 +253,34 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'loaded':
-        if (!data) {
+        if (!media) {
           send('LOAD')
         } else if (isEmpty(viewer) && free_forever) {
-          if (watchCount < MAX_FREE_VIEWS && (data.hls_url || data.dash_url)) {
+          if (
+            watchCount < MAX_FREE_VIEWS &&
+            (media.hls_url || media.dash_url)
+          ) {
             send('VIEW')
           } else {
             send('JOIN')
           }
-        } else if (data.hls_url || data.dash_url) {
+        } else if (media.hls_url || media.dash_url) {
           send('VIEW')
         } else {
           send('SUBSCRIBE')
         }
         break
       case 'viewing':
-        if (!data) {
+        if (!media) {
           send('LOAD')
         }
+
         break
       case 'completed':
         completeVideo()
         break
     }
-  }, [currentPlayerState, data, lesson])
+  }, [currentPlayerState, lesson, media])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
@@ -389,39 +391,43 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     } w-full h-full top-0 left-0`}
                   >
                     {loaderVisible && <Loader />}
-                    {playerVisible && (
-                      <EggheadPlayer
-                        ref={playerRef}
-                        resource={lesson}
-                        hls_url={data.hls_url}
-                        dash_url={data.dash_url}
-                        playing={playerState.matches('playing')}
-                        width="100%"
-                        height="auto"
-                        pip="true"
-                        controls
-                        onPlay={() => send('PLAY')}
-                        onPause={() => {
-                          send('PAUSE')
-                        }}
-                        onProgress={({...progress}) => {
-                          onProgress(progress).then((lessonView: any) => {
-                            if (lessonView) {
-                              setLessonView(lessonView)
-                            }
-                          })
-                        }}
-                        onEnded={() => {
-                          onEnded().then((lessonView: any) => {
-                            if (lessonView) {
-                              setLessonView(lessonView)
-                            }
-                            send('COMPLETE')
-                          })
-                        }}
-                        subtitlesUrl={get(lesson, 'subtitles_url')}
-                      />
-                    )}
+                    <EggheadPlayer
+                      ref={playerRef}
+                      hidden={!playerVisible}
+                      resource={lesson}
+                      hls_url={media?.hls_url}
+                      dash_url={media?.dash_url}
+                      playing={playerState.matches('playing')}
+                      width="100%"
+                      height="auto"
+                      pip="true"
+                      controls
+                      onPlay={() => send('PLAY')}
+                      onReady={(player: any) => {
+                        if (autoplay && isFunction(player.play)) {
+                          player.play()
+                        }
+                      }}
+                      onPause={() => {
+                        send('PAUSE')
+                      }}
+                      onProgress={({...progress}) => {
+                        onProgress(progress).then((lessonView: any) => {
+                          if (lessonView) {
+                            setLessonView(lessonView)
+                          }
+                        })
+                      }}
+                      onEnded={() => {
+                        onEnded().then((lessonView: any) => {
+                          if (lessonView) {
+                            setLessonView(lessonView)
+                          }
+                          send('COMPLETE')
+                        })
+                      }}
+                      subtitlesUrl={get(lesson, 'subtitles_url')}
+                    />
 
                     {playerState.matches('joining') && (
                       <OverlayWrapper>
