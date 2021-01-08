@@ -28,7 +28,11 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
     const index = linesArr.length - 1
 
     if (typeof child === 'string') {
-      linesArr.push([])
+      if (language === '') {
+        linesArr.push([child])
+      } else {
+        linesArr.push([])
+      }
       // add to code
       code += child
     } else {
@@ -45,7 +49,7 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
 
   // transform lines into divs > [span]
   const linesNodes = []
-  for (let i = 0; i < linesArr.length - 1; i++) {
+  for (let i = 0; i < linesArr.length; i++) {
     const lineIndex = i + 1
     const childs = numbered
       ? [
