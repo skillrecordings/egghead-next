@@ -84,6 +84,7 @@
     "react-markdown": "^5.0.3",
     "react-scroll": "^1.8.1",
     "react-textfit": "^1.1.1",
+    "react-tippy": "^1.4.0",
     "react-use": "^15.3.4",
     "react-use-clipboard": "1.0.2",
     "reading-time": "^1.2.1",

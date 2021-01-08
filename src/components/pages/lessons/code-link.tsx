@@ -23,7 +23,7 @@ const CodeLink: FunctionComponent<{
 }
 
 export const IconCode: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-2 text-blue-700',
+  className = 'w-5 mr-1 text-blue-700',
 }) => (
   <svg
     className={className}
@@ -45,7 +45,7 @@ export const IconCode: FunctionComponent<{className?: string}> = ({
 )
 
 export const IconGithub: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-2 text-blue-700',
+  className = 'w-5 mr-1 text-blue-700',
 }) => (
   <svg
     className={className}

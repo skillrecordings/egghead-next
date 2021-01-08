@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '../../node_modules/react-tippy/dist/tippy.css';
 
 #__next {
   @apply flex flex-col min-h-screen text-gray-900;
