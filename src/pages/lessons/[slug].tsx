@@ -5,7 +5,7 @@ import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import {useWindowSize} from 'react-use'
+import {useWindowSize, useMeasure} from 'react-use'
 import playerMachine, {PlayerStateEvent} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -79,9 +79,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const OverlayWrapper: FunctionComponent<{children: React.ReactNode}> = ({
-  children,
-}) => {
+const OverlayWrapper: FunctionComponent<{
+  children: React.ReactNode
+}> = ({children}) => {
   return (
     <div className="flex flex-col justify-center items-center h-full px-3 py-3 md:px-4 md:py-6 lg:py-8">
       {children}
@@ -120,6 +120,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
   const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
+  const [ref, {width: videoWidth}] = useMeasure()
   const HEADER_HEIGHT = 80
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
@@ -359,10 +360,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div className="w-full flex justify-center">
             <div
+              ref={ref}
               className="relative flex-grow bg-black"
               css={{
-                maxWidth:
-                  playerVisible || loaderVisible ? lessonMaxWidth : '100%',
+                maxWidth: lessonMaxWidth,
+                minHeight: Math.round(videoWidth / 1.77777),
                 '@media (min-width: 1024px)': {
                   minWidth: '640px',
                 },
@@ -370,14 +372,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             >
               <div
                 className={`relative ${
-                  playerVisible || loaderVisible ? 'h-0' : 'h-auto'
+                  playerVisible || loaderVisible ? 'h-0' : 'h-full'
                 }`}
-                style={{
+                css={{
                   paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
                 }}
               >
                 <div
-                  className={`flex items-center justify-center text-white ${
+                  className={`flex items-center justify-center text-white h-full ${
                     playerVisible || loaderVisible
                       ? 'absolute top-0 right-0 bottom-0 left-0'
                       : ''
@@ -385,9 +387,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 >
                   <div
                     className={`${
-                      playerVisible || loaderVisible
-                        ? 'absolute'
-                        : 'sm:py-0 py-5'
+                      playerVisible || loaderVisible ? 'absolute' : ''
                     } w-full h-full top-0 left-0`}
                   >
                     {loaderVisible && <Loader />}
