@@ -43,7 +43,7 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
           id="scroller-container"
           className="overflow-y-auto h-full"
           css={{
-            '@media only screen and (min-width: 640px)': {maxHeight: 600},
+            '@media only screen and (min-width: 640px)': {maxHeight: nextToVideo ? '100%' : 600},
             maxHeight: 300,
           }}
         >
