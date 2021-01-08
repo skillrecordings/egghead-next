@@ -386,7 +386,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   className={`flex items-center justify-center text-white h-full ${
                     playerVisible || loaderVisible
                       ? 'absolute top-0 right-0 bottom-0 left-0'
-                      : 'absolute top-0 right-0 bottom-0 left-0'
+                      : ''
                   }`}
                 >
                   <div
@@ -517,13 +517,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             )}
           </div>
-          {!md && theaterMode && (
-            <div className="flex items-center justify-end py-2 px-2 text-white space-x-5">
+          {theaterMode && (
+            <div
+              className="flex items-center justify-end py-2 px-3 text-white space-x-5 mx-auto"
+              css={{maxWidth: lessonMaxWidth}}
+            >
               <AutoplayToggle onDark enabled={playerVisible && next_up_url} />
-              <TheaterModeToggle
-                toggleTheaterMode={toggleTheaterMode}
-                theaterMode={theaterMode}
-              />
+              {!md && (
+                <TheaterModeToggle
+                  toggleTheaterMode={toggleTheaterMode}
+                  theaterMode={theaterMode}
+                />
+              )}
             </div>
           )}
         </div>

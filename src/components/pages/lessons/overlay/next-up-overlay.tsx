@@ -15,7 +15,7 @@ const NextUpOverlay: React.FunctionComponent<{
   return (
     <>
       {courseImage && (
-        <div className="w-12 h-12 md:w-16 md:h-16 lg:w-32 lg:h-32 relative">
+        <div className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 relative flex-shrink-0">
           <Image
             src={courseImage}
             alt={`illustration of ${lesson.course.title} course`}
@@ -23,11 +23,11 @@ const NextUpOverlay: React.FunctionComponent<{
           />
         </div>
       )}
-      <div className="mt-4 md:mt-6 lg:mt-8">Up Next</div>
-      <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center">
+      <div className="mt-4 md:mt-4">Up Next</div>
+      <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
         {nextLesson.title || nextLessonTitle}
       </h3>
-      <div className="flex mt-6 md:mt-10 lg:mt-16">
+      <div className="flex mt-6 md:mt-8">
         <button
           className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
           onClick={() => {
@@ -52,7 +52,7 @@ const NextUpOverlay: React.FunctionComponent<{
           </a>
         </Link>
       </div>
-      <div className="mt-8 text-xs md:mt-12 lg:mt-20">
+      <div className="mt-8 text-xs md:mt-10">
         Feeling stuck?{' '}
         <a
           onClick={() => {
