@@ -7,17 +7,20 @@ import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
+import {useRouter} from 'next/router'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
 
 const Header: FunctionComponent = () => {
+  const router = useRouter()
   const {viewer, loading} = useViewer()
   const {sm} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
+
   React.useEffect(() => {
-    !sm && setOpen(sm)
-  }, [sm])
+    !sm ? setOpen(sm) : setOpen(false)
+  }, [sm, router])
 
   const Navigation: FunctionComponent<{
     className?: string
