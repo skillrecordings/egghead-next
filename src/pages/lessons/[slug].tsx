@@ -358,7 +358,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         />
       </Head>
       <div key={initialLesson.slug} className="space-y-8 w-full sm:pb-16 pb-8">
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
           <div className="w-full flex justify-center">
             <div
               ref={ref}
@@ -477,8 +477,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
             {!theaterMode && (
-              <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-b border-gray-100">
-                <div className="p-4">
+              <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-l border-gray-100">
+                <div className="p-4 border-b border-gray-100">
                   <Course course={collection} currentLessonSlug={lesson.slug} />
                 </div>
                 <div className="relative h-full">
@@ -504,7 +504,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     )}
                   </div>
                 </div>
-                <div className="pb-3 px-1 pl-4 flex items-center justify-between">
+                <div className="py-3 pr-1 pl-4 flex items-center justify-between border-t border-gray-100">
                   <AutoplayToggle enabled={playerVisible && next_up_url} />
                   <TheaterModeToggle
                     toggleTheaterMode={toggleTheaterMode}
@@ -515,7 +515,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </div>
           {!md && theaterMode && (
-            <div className="flex items-center text-white justify-end py-2 px-2 bg-black border-gray-900 border-t space-x-5">
+            <div className="flex items-center justify-end py-2 px-2 space-x-5">
               <AutoplayToggle enabled={playerVisible && next_up_url} />
               <TheaterModeToggle
                 toggleTheaterMode={toggleTheaterMode}
@@ -801,7 +801,7 @@ const Course: FunctionComponent<{
               }}
               className="hover:underline"
             >
-              <h3 className="font-bold leading-tighter text-md lg:text-lg">
+              <h3 className="font-bold leading-tighter 2xl:text-lg">
                 {course.title}
               </h3>
             </a>
