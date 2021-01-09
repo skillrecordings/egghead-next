@@ -16,6 +16,7 @@ import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
+import {track} from 'utils/analytics'
 
 const tracer = getTracer('search-page')
 
@@ -87,10 +88,18 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
+      const trackParams = {
+        ...(!!searchState.query && {query: searchState.query}),
+        ...(!!searchState.refinementList && searchState.refinementList),
+        href,
+      }
+
+      track('updated search state', trackParams)
+
       router.push(`/q/[[all]]`, href, {
         shallow: true,
       })
-    }, 200)
+    }, 600)
 
     setSearchState(searchState)
   }
