@@ -2,7 +2,6 @@ import LogRocket from 'logrocket'
 import * as React from 'react'
 
 export const logRocketIdentify = (id: string, options?: any) => {
-  console.log({id, options})
   if (id) {
     LogRocket.identify(id, {
       ...(!!options && options),
