@@ -70,7 +70,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
           ) : (
             <>
               <h2 className="text-center text-3xl leading-9 font-bold">
-                Log in to egghead
+                Sign in (or up) to egghead
               </h2>
             </>
           ))}
@@ -153,7 +153,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             <span className="mr-2 flex items-center justify-center">
                               <IconGithub className="fill-current" />
                             </span>
-                            Sign In with GitHub
+                            Sign In (or up) with GitHub
                           </div>
                         </ExternalTrackedLink>
                       </form>
