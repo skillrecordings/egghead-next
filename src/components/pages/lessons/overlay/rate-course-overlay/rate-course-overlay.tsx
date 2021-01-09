@@ -107,7 +107,7 @@ const TextComment: React.FunctionComponent<{
         const comment = (values.answered && values.comment) || `other`
         onAnswer({
           comment,
-          context: title,
+          context: {prompt: title},
         })
       }}
     >
