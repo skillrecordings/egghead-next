@@ -27,19 +27,43 @@ type CoursePageLayoutProps = {
   ogImageUrl: string
 }
 
-const logCollectionResource = (collection: any) => {
+type CollectionResource = {
+  title: string
+  duration: number
+  instructor: {
+    full_name: string
+  }
+  square_cover_url: string
+  image_url: string
+  path: string
+  slug: string
+  description: string
+}
+
+const logCollectionResource = (collection: CollectionResource) => {
   if (typeof window !== 'undefined') {
-    const {title, duration, instructor, square_cover_url, path} = collection
-    if (square_cover_url) {
-      console.debug({
-        title,
-        byline: `${instructor.full_name}・${convertTimeWithTitles(
-          duration,
-        )}・Course`,
-        image: square_cover_url,
-        path,
-      })
-    }
+    const {
+      title,
+      duration,
+      instructor: {full_name},
+      square_cover_url,
+      image_url,
+      path,
+      slug,
+      description,
+    } = collection
+    const image = square_cover_url || image_url
+    const formattedDuration = convertTimeWithTitles(duration)
+    const byline = `${full_name}・${formattedDuration}・Course`
+
+    console.debug({
+      title,
+      byline,
+      ...(!!image && {image}),
+      path,
+      slug,
+      description,
+    })
   }
 }
 
