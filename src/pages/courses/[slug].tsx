@@ -4,7 +4,7 @@ import {loadCourse} from 'lib/courses'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import fetcher from 'utils/fetcher'
-import CoursePageLayout from 'components/pages/courses/course-page-layout'
+import CollectionPageLayout from 'components/layouts/collection-page-layout'
 import useLastResource from '../../hooks/use-last-resource'
 
 type CourseProps = {
@@ -25,7 +25,7 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
   })
 
   return (
-    <CoursePageLayout
+    <CollectionPageLayout
       lessons={lessons}
       course={course}
       ogImageUrl={`https://og-image-egghead-course.now.sh/${slug}?v=20201027`}

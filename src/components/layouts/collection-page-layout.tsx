@@ -9,16 +9,16 @@ import {get, first, filter, isEmpty} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
-import FolderDownloadIcon from '../../icons/folder-download'
-import RSSIcon from '../../icons/rss'
+import FolderDownloadIcon from '../icons/folder-download'
+import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
-import ClockIcon from '../../icons/clock'
+import ClockIcon from '../icons/clock'
 import {LessonResource} from 'types'
-import BookmarkIcon from '../../icons/bookmark'
+import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import {FunctionComponent} from 'react'
-import LearnerRatings from './learner-ratings'
-import FiveStars from '../../five-stars'
+import LearnerRatings from '../pages/courses/learner-ratings'
+import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import {format} from 'date-fns'
 
@@ -68,7 +68,7 @@ const logCollectionResource = (collection: CollectionResource) => {
   }
 }
 
-const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
+const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons,
   course,
   ogImageUrl,
@@ -581,4 +581,4 @@ const Tags: FunctionComponent<{tags: any; courseSlug: string}> = ({
   )
 }
 
-export default CoursePageLayout
+export default CollectionPageLayout
