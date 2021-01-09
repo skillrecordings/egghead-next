@@ -2,7 +2,7 @@ import * as React from 'react'
 import {isFunction} from 'formik'
 import {track} from 'utils/analytics'
 
-const isModifiedEvent = (event) =>
+const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 
 const ExternalTrackedLink: React.FunctionComponent<any> = ({
