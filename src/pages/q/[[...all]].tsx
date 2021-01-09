@@ -99,7 +99,7 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
       router.push(`/q/[[all]]`, href, {
         shallow: true,
       })
-    }, 600)
+    }, 1200)
 
     setSearchState(searchState)
   }
