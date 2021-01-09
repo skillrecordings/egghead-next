@@ -5,7 +5,7 @@ import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {filter} from 'lodash'
 import fetcher from 'utils/fetcher'
-import CoursePageLayout from 'components/pages/courses/course-page-layout'
+import CollectionPageLayout from 'components/layouts/collection-page-layout'
 import useLastResource from 'hooks/use-last-resource'
 
 type PlaylistProps = {
@@ -32,7 +32,7 @@ const Playlist: FunctionComponent<PlaylistProps> = ({
   })
 
   return (
-    <CoursePageLayout
+    <CollectionPageLayout
       lessons={lessons}
       course={course}
       ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
