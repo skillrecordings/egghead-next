@@ -36,6 +36,10 @@ const about = [
     path: 'https://store.egghead.io/',
     label: 'Store',
   },
+  {
+    path: '/logout',
+    label: 'Log Out',
+  },
   // {
   //   path: '/instructors',
   //   label: 'Instructors',
