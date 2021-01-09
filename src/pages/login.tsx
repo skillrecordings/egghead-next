@@ -4,7 +4,7 @@ import {Formik} from 'formik'
 import {useViewer} from 'context/viewer-context'
 import Image from 'next/image'
 import {IconGithub} from 'components/pages/lessons/code-link'
-import Link from 'next/link'
+import ExternalTrackedLink from '../components/external-tracked-link'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -72,7 +72,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
               <h2 className="text-center text-3xl leading-9 font-bold">
                 Log in to egghead
               </h2>
-              <p></p>
             </>
           ))}
         <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-xl">
@@ -144,23 +143,23 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             {button}
                           </button>
                         </div>
-                        <Link
+
+                        <ExternalTrackedLink
                           href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
+                          onClick={() => {
+                            track('clicked github login', {
+                              url: window.location.href,
+                            })
+                          }}
+                          className="flex justify-center mt-4 py-3 px-5 bg-gray-300 hover:opacity-100 hover:bg-gray-100 active:bg-gray-100 rounded-md transition-all ease-in-out duration-300"
                         >
-                          <a
-                            onClick={() => {
-                              track('clicked github login')
-                            }}
-                            className="flex justify-center mt-4 py-3 px-5 bg-gray-300 hover:opacity-100 hover:bg-gray-100 active:bg-gray-100 rounded-md transition-all ease-in-out duration-300"
-                          >
-                            <div className="flex items-center">
-                              <span className="mr-2 flex items-center justify-center">
-                                <IconGithub className="fill-current" />
-                              </span>
-                              Sign In with GitHub
-                            </div>
-                          </a>
-                        </Link>
+                          <div className="flex items-center">
+                            <span className="mr-2 flex items-center justify-center">
+                              <IconGithub className="fill-current" />
+                            </span>
+                            Sign In with GitHub
+                          </div>
+                        </ExternalTrackedLink>
                       </form>
                     </>
                   )
