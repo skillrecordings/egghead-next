@@ -20,6 +20,7 @@ import {FunctionComponent} from 'react'
 import LearnerRatings from './learner-ratings'
 import FiveStars from '../../five-stars'
 import CommunityResource from 'components/community-resource'
+import {format} from 'date-fns'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -93,6 +94,7 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     duration,
     collection_progress,
     favorited,
+    updated_at,
     tags = [],
   } = course
 
@@ -228,6 +230,14 @@ const CoursePageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <div>
                     <span className="font-semibold mr-2">{watched_count}</span>
                     people completed
+                  </div>
+                )}
+                {updated_at && (
+                  <div className="flex items-center space-x-2">
+                    <div>Updated:</div>
+                    <div>
+                      <code>{format(new Date(updated_at), 'yyyy-MM-dd')}</code>
+                    </div>
                   </div>
                 )}
                 <div className="inline-flex flex-wrap items-center md:justify-start justify-center"></div>
