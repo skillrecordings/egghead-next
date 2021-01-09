@@ -34,7 +34,7 @@ export function convertTimeWithTitles(seconds: number, options: any = {}) {
   if (mins) result += mins + 'm '
   if (secs && !hours && showSeconds) result += secs + 's'
 
-  return result
+  return result.trim()
 }
 
 export function percentComplete(
