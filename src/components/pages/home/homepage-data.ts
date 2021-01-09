@@ -301,7 +301,7 @@ const homepageData = [
     title:
       'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
     path:
-      'playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+      '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
     byline: 'Tomasz Łakomy',

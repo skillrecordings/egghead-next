@@ -8,6 +8,7 @@ import {useRouter} from 'next/router'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import useTokenSigner from '../hooks/use-token-signer'
 import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
+import useLogRocket from '../hooks/use-logrocket'
 
 export const auth = new Auth()
 
@@ -165,7 +166,7 @@ function useAuthedViewer() {
 
 export const ViewerProvider: FunctionComponent = ({children}) => {
   const values = useAuthedViewer()
-
+  useLogRocket(values.viewer)
   return (
     <ViewerContext.Provider value={{...values}}>
       {children}

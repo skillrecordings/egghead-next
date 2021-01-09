@@ -17,6 +17,7 @@ import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {FacebookPixel} from 'components/facebook-pixel'
 import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
+import {LogRocketProvider} from '../hooks/use-logrocket'
 
 declare global {
   interface Window {
@@ -50,17 +51,19 @@ export default class App extends NextApp {
           url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
           sameAs={['https://twitter.com/eggheadio']}
         />
-        <CioProvider>
-          <ConvertkitProvider>
-            <ViewerProvider>
-              <MDXProvider components={mdxComponents}>
-                <CacheProvider value={cache}>
-                  {getLayout(Component)}
-                </CacheProvider>
-              </MDXProvider>
-            </ViewerProvider>
-          </ConvertkitProvider>
-        </CioProvider>
+        <LogRocketProvider>
+          <CioProvider>
+            <ConvertkitProvider>
+              <ViewerProvider>
+                <MDXProvider components={mdxComponents}>
+                  <CacheProvider value={cache}>
+                    {getLayout(Component)}
+                  </CacheProvider>
+                </MDXProvider>
+              </ViewerProvider>
+            </ConvertkitProvider>
+          </CioProvider>
+        </LogRocketProvider>
       </>
     )
   }
