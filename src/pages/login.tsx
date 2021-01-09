@@ -146,10 +146,9 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
 
                         <ExternalTrackedLink
                           href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
-                          onClick={() => {
-                            track('clicked github login', {
-                              url: window.location.href,
-                            })
+                          eventName="clicked github login"
+                          params={{
+                            url: window.location.href,
                           }}
                           className="flex justify-center mt-4 py-3 px-5 bg-gray-300 hover:opacity-100 hover:bg-gray-100 active:bg-gray-100 rounded-md transition-all ease-in-out duration-300"
                         >
