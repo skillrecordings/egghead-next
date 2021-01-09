@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 const UserRating: React.FunctionComponent<{
-  className: string
+  className?: string
   rating: number
   count: number
 }> = ({className, rating, count, children}) => {

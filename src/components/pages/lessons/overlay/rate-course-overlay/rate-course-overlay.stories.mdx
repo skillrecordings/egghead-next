@@ -1,0 +1,28 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import RateCourseOverlay from './rate-course-overlay'
+
+export const course = {
+  title: 'How to Contribute to an Open Source Project on GitHub',
+  square_cover_480_url:
+    'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/032/square_480/EGH_JSopensource_final.png',
+  slug: 'how-to-contribute-to-an-open-source-project-on-github',
+}
+
+<Meta title="Components/Lessons/Overlay/RateCourseOverlay" />
+
+# Course Rating Component
+
+UI so that a learner can rate a course
+
+<Canvas>
+  <Story name="Default">
+    <div className="max-w-7xl">
+      <RateCourseOverlay
+        course={course}
+        onRated={(values) => {
+          console.log(values)
+        }}
+      />
+    </div>
+  </Story>
+</Canvas>

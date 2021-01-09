@@ -22,7 +22,7 @@ import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
-import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
+import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay/rate-course-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
@@ -460,13 +460,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <OverlayWrapper>
                         <RateCourseOverlay
                           course={lesson.collection}
-                          onRated={() => {
-                            // next in this scenario needs to be considered
-                            // we should also consider adding the ability to
-                            // comment
-                            send('NEXT')
+                          onRated={(rating) => {
+                            axios
+                              .post(
+                                lessonView.collection_progress.rate_url,
+                                rating,
+                              )
+                              .then((response) => {
+                                track('rated course', {
+                                  course: slug,
+                                  rating,
+                                })
+                              })
+                              .finally(() => {
+                                send('RECOMMEND')
+                              })
                           }}
-                          rateUrl={lessonView.collection_progress.rate_url}
                         />
                       </OverlayWrapper>
                     )}
