@@ -163,17 +163,15 @@ const Header: FunctionComponent = () => {
             )}
           </div>
           {!sm && <Navigation />}
-          {sm && (
-            <>
-              <button
-                onClick={() => setOpen(!isOpen)}
-                aria-labelledby="menubutton"
-                aria-expanded={isOpen}
-                className="p-1 -mr-2"
-              >
-                {isOpen ? <IconX /> : <IconMenu />}
-              </button>
-            </>
+          {sm && !loading && (
+            <button
+              onClick={() => setOpen(!isOpen)}
+              aria-labelledby="menubutton"
+              aria-expanded={isOpen}
+              className="p-1 -mr-2"
+            >
+              {isOpen ? <IconX /> : <IconMenu />}
+            </button>
           )}
         </div>
       </header>
