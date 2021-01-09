@@ -410,6 +410,24 @@
     "search_url": "https://egghead.io/search?topic=stripe"
   },
   {
+    "id": 1296,
+    "label": "Serverless",
+    "name": "serverless",
+    "description": "A serverless function is something that is going to allow us to do server-like things without having to manage servers, but an important distinction here is that serverless does not mean that there are no servers.\n\nThe environment is actually running on top of an operating system and uses physical servers, but the responsibility for provisioning and managing the infrastructure belongs entirely to the service provider.\n\nSome of the benefits of using serverless functions:\n\nEnhanced scalability. No need for developers to implement code to scale. It scales automatically.\nReduced time to market. Serverless is an optimized set of tools for building quickly.\nNo boiler code. A serverless function is just a tiny piece of logic. Reducing the complexity of software.\nMore time for user experience. Serverless functions allow teams to focus resources on the user experience and not on managing servers.\nSecurity. We can call third-party APIs securely without exposing important data on the client-side.",
+    "slug": "serverless",
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/thumb/serverless.png",
+    "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/thumb/serverless.png",
+    "image_480_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/square_480/serverless.png",
+    "image_280_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/square_280/serverless.png",
+    "image_256_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/square_256/serverless.png",
+    "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/square_128/serverless.png",
+    "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/square_64/serverless.png",
+    "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/296/square_32/serverless.png",
+    "http_url": "https://egghead.io/browse/platforms/serverless",
+    "path": "/browse/platforms/serverless",
+    "search_url": "https://egghead.io/search?topic=serverless"
+  },
+  {
     "id": 1101,
     "label": "Sequelize",
     "name": "sequelize",

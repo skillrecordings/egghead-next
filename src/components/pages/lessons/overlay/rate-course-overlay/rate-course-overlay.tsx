@@ -35,8 +35,7 @@ const RateCourseOverlay: React.FunctionComponent<{
       {!rating && (
         <NumericRating
           course={course}
-          onRated={(rating) => {
-            console.log(rating)
+          onRated={(rating: any) => {
             setRating(rating)
           }}
         />
@@ -55,10 +54,10 @@ const RateCourseOverlay: React.FunctionComponent<{
   )
 }
 
-const TextComment: React.FunctionComponent<{onAnswer: any; rating: number}> = ({
-  onAnswer,
-  rating,
-}) => {
+const TextComment: React.FunctionComponent<{
+  onAnswer: any
+  rating: number | boolean
+}> = ({onAnswer, rating}) => {
   const MESSAGES: any = {
     7: {
       subtitle: "We're so glad you enjoyed it! 🤗",
