@@ -1,0 +1,18 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import RecommendNextStepOverlay from './recommend-next-step-overlay'
+
+import {cloudflareLesson} from './lesson-01'
+
+<Meta title="Components/Lessons/Overlay/RecommendNextStepOverlay" />
+
+# Recommend with a CTA Overlay Component
+
+After a course/collection is finished this is displayed to suggest something to do.
+
+<Canvas>
+  <Story name="Default">
+    <div className="max-w-7xl">
+      <RecommendNextStepOverlay lesson={cloudflareLesson} />
+    </div>
+  </Story>
+</Canvas>

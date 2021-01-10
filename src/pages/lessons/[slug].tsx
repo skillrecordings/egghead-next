@@ -29,7 +29,7 @@ import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
-import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
+import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
@@ -194,6 +194,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       return nextUp.nextUpData.list.progress
     }
   }
+
+  console.log(lesson)
 
   const loaderVisible = playerState.matches('loading')
 
@@ -473,7 +475,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                                 })
                               })
                               .finally(() => {
-                                send('RECOMMEND')
+                                setTimeout(() => {
+                                  send('RECOMMEND')
+                                }, 1500)
                               })
                           }}
                         />
@@ -481,7 +485,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     )}
                     {playerState.matches('recommending') && (
                       <OverlayWrapper>
-                        <RecommendNextStepOverlay lesson={lesson} />
+                        <RecommendNextStepOverlay course={lesson?.course} />
                       </OverlayWrapper>
                     )}
                   </div>
