@@ -1,5 +1,5 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
-import Index from './index'
+import RateCourseOverlay from './index'
 
 export const course = {
   title: 'How to Contribute to an Open Source Project on GitHub',
@@ -17,7 +17,7 @@ UI so that a learner can rate a course
 <Canvas>
   <Story name="Default">
     <div className="max-w-7xl">
-      <Index
+      <RateCourseOverlay
         course={course}
         onRated={(values) => {
           console.log(values)
