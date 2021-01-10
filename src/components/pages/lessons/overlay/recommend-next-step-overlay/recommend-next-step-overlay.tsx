@@ -31,6 +31,7 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
       <Share
         resource={lesson?.collection}
         instructor={lesson?.instructor}
+        className="text-black flex items-center mt-3"
         label
       >
         <div className="max-w-md mt-2">
