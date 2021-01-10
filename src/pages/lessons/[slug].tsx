@@ -22,14 +22,14 @@ import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
-import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay/rate-course-overlay'
+import Index from 'components/pages/lessons/overlay/rate-course-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
-import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay/recommend-next-step-overlay'
+import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
@@ -458,7 +458,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     )}
                     {playerState.matches('rating') && (
                       <OverlayWrapper>
-                        <RateCourseOverlay
+                        <Index
                           course={lesson.collection}
                           onRated={(rating) => {
                             axios

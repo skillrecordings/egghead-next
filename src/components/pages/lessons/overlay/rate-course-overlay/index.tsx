@@ -13,7 +13,7 @@ const rangeArrMobile = [
   'Entirely likely',
 ]
 
-const RateCourseOverlay: React.FunctionComponent<{
+const Index: React.FunctionComponent<{
   course: any
   onRated: (values: any) => void
 }> = ({course, onRated}) => {
@@ -222,4 +222,4 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
   )
 }
 
-export default RateCourseOverlay
+export default Index
