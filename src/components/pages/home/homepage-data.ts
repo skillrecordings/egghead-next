@@ -291,7 +291,7 @@ const homepageData = [
       '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/square_480/ecommerce-stripe-next.png',
-    byline: 'Colby Fayok',
+    byline: 'Colby Fayock',
     description:
       'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
   },
