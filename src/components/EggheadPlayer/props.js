@@ -53,7 +53,7 @@ export const defaultProps = {
   hidden: false,
   muted: false,
   autoplay: false,
-  progressFrequency: 500,
+  progressFrequency: 250,
   playsinline: false,
   displaySubtitles: false,
   preload: true,

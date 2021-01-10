@@ -55,6 +55,7 @@ export async function loadLesson(slug: string, token?: string) {
               type
               path
               title
+              completed
             }
           }
           ... on Course {
@@ -68,6 +69,7 @@ export async function loadLesson(slug: string, token?: string) {
               type
               path
               title
+              completed
             }
           }
         }

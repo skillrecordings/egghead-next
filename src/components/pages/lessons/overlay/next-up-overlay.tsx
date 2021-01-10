@@ -1,15 +1,16 @@
-import {useNextUpData} from 'hooks/use-next-up-data'
 import Link from 'next/link'
 import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
+import noop from 'utils/noop'
 
 const NextUpOverlay: React.FunctionComponent<{
   lesson: any
   send: any
   nextUp: any
   nextLesson: any
-}> = ({lesson, send, nextUp, nextLesson}) => {
+  onClickRewatch?: () => void
+}> = ({lesson, send, nextUp, nextLesson, onClickRewatch = noop}) => {
   const {nextLessonTitle, nextUpPath} = nextUp
   const courseImage = lesson?.course?.square_cover_480_url
   return (
@@ -34,7 +35,7 @@ const NextUpOverlay: React.FunctionComponent<{
             track('clicked rewatch video', {
               lesson: lesson.slug,
             })
-            send('LOAD')
+            onClickRewatch()
           }}
         >
           <IconRefresh className="w-6 mr-2" /> Watch again

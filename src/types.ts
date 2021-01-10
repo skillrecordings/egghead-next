@@ -16,6 +16,7 @@ export type LessonResource = Resource & {
   id: string | number
   tags: any[]
   lessons: any[]
+  completed: boolean
 }
 
 export type PodcastResource = Resource & {
