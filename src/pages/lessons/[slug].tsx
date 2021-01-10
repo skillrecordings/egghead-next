@@ -195,8 +195,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  console.log(lesson)
-
   const loaderVisible = playerState.matches('loading')
 
   React.useEffect(() => {

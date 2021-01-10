@@ -165,7 +165,6 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
       <Formik
         initialValues={{'rate-input': 7}}
         onSubmit={(values) => {
-          console.log(values)
           const rating = values['rate-input']
           onRated(rating)
         }}
