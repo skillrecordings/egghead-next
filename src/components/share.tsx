@@ -5,24 +5,30 @@ import {isEmpty, get} from 'lodash'
 
 type ShareProps = {
   title?: string
+  label?: boolean
   resource: {title: string; path: string; type: string}
   instructor: {slug: string; twitter?: string}
   className?: string
 }
 
 const Share: FunctionComponent<ShareProps> = ({
+  children,
   resource,
   instructor,
   className,
-  title = `Share this ${resource.type} with your friends`,
+  label = false,
+  title = `Share this ${
+    resource.type === 'lesson' ? 'video' : 'course'
+  } with your friends`,
 }) => {
   return (
     <>
-      <h4 className="text-sm">{title}</h4>
+      <h4 className="text-sm">{children || title}</h4>
       <div className={className || 'flex items-center mt-3'}>
         <div className={'flex items-center space-x-1'}>
-          <TweetLink resource={resource} instructor={instructor} />
+          <TweetLink label resource={resource} instructor={instructor} />
           <CopyToClipboard
+            label
             stringToCopy={`${process.env.NEXT_PUBLIC_REDIRECT_URI}${resource.path}`}
           />
         </div>
@@ -35,6 +41,7 @@ const TweetLink: FunctionComponent<ShareProps> = ({
   resource,
   instructor,
   className = '',
+  label = false,
 }) => {
   const encodeTweetUrl = () => {
     const twitterBase = `https://twitter.com/intent/tweet/?text=`
@@ -56,14 +63,15 @@ const TweetLink: FunctionComponent<ShareProps> = ({
       href={encodeTweetUrl()}
     >
       <IconTwitter className="w-5" />
-      {/* <span>Tweet</span> */}
+      {label && <span>Send Tweet</span>}
     </a>
   ) : null
 }
 const CopyToClipboard: FunctionComponent<{
   stringToCopy: string
   className?: string
-}> = ({stringToCopy = '', className = ''}) => {
+  label?: boolean
+}> = ({stringToCopy = '', className = '', label = false}) => {
   const [isCopied, setCopied] = useClipboard(stringToCopy, {
     successDuration: 1000,
   })
@@ -80,10 +88,12 @@ const CopyToClipboard: FunctionComponent<{
         ) : (
           <>
             <IconLink className="w-5" />
-            {/* <span>
-              Copy link
-              <span className="hidden lg:inline"> to clipboard</span>
-            </span> */}
+            {label && (
+              <span>
+                Copy link
+                <span className="hidden lg:inline"> to clipboard</span>
+              </span>
+            )}
           </>
         )}
       </button>
