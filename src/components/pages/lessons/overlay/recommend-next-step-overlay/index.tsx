@@ -4,7 +4,7 @@ import * as React from 'react'
 import {track} from 'utils/analytics'
 import Share from 'components/share'
 
-const Index: React.FunctionComponent<{
+const RecommendNextStepOverlay: React.FunctionComponent<{
   lesson: any
 }> = ({lesson}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
@@ -59,4 +59,4 @@ const Index: React.FunctionComponent<{
   )
 }
 
-export default Index
+export default RecommendNextStepOverlay
