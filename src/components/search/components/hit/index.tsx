@@ -91,7 +91,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
             {duration && convertTimeWithTitles(duration) !== '' && (
               <>{convertTimeWithTitles(duration)}・</>
             )}
-            {capitalize(type)}
+            {type.toLowerCase() === 'playlist' ? 'Course' : capitalize(type)}
           </div>
         </div>
       </div>
