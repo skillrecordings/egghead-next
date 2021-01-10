@@ -485,7 +485,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     )}
                     {playerState.matches('recommending') && (
                       <OverlayWrapper>
-                        <RecommendNextStepOverlay course={lesson?.course} />
+                        <RecommendNextStepOverlay lesson={lesson} />
                       </OverlayWrapper>
                     )}
                   </div>
