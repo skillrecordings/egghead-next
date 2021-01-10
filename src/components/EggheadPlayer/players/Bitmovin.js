@@ -102,8 +102,8 @@ export default class Bitmovin extends Base {
       },
       tweaks: {
         autoqualityswitching: false,
-        startup_threshold: STARTUP_THRESHOLD_SECONDS,
-        max_buffer_level: MAX_BUFFER_LEVEL_SECONDS,
+        // startup_threshold: STARTUP_THRESHOLD_SECONDS,
+        // max_buffer_level: MAX_BUFFER_LEVEL_SECONDS,
       },
       adaptation: {
         desktop: {preload: preload},
@@ -192,7 +192,10 @@ export default class Bitmovin extends Base {
         () => {
           this.player.setPlaybackSpeed(playbackRate)
           this.player.setVolume(volume)
-          this.player.setPosterImage(this.props.poster)
+
+          if (this.props.poster) {
+            this.player.setPosterImage()
+          }
 
           const {videoQualityCookie} = this.props
           if (videoQualityCookie) {

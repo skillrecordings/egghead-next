@@ -22,14 +22,14 @@ import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
-import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay/rate-course-overlay'
+import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
-import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay/recommend-next-step-overlay'
+import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
@@ -146,6 +146,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [watchCount, setWatchCount] = React.useState<number>(0)
   const currentPlayerState = playerState.value as string
 
+  const actualPlayerRef = React.useRef<any>(null)
+
   useLastResource({...lesson, image_url: lesson.icon_url})
 
   const {
@@ -168,6 +170,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     if (media_url) {
       axios.get(media_url).then(({data}) => {
         setMedia(data)
+        const event: PlayerStateEvent = {
+          type: 'LOADED',
+          lesson: lesson,
+        }
+        send(event)
       })
     }
   }, [media_url])
@@ -187,7 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   })
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
-  const getProgress = () => {
+  const getProgress = (lessonView: any) => {
     if (lessonView?.collection_progress) {
       return lessonView.collection_progress
     } else if (nextUp.nextUpData?.list?.progress) {
@@ -222,16 +229,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  const completeVideo = () => {
+  const completeVideo = (lessonView: any) => {
     if (lessonView) {
-      const progress = getProgress()
-      if (progress?.rate_url) {
+      const hasNextLesson = nextLesson || nextUp.nextUpPath
+      const progress = getProgress(lessonView)
+      if (!hasNextLesson && progress?.rate_url) {
         send('RATE')
       } else {
         checkAutoPlay()
       }
     } else {
-      console.error('no lesson view')
+      console.debug('no lesson view - incrementing watch count')
       const newWatchCount = Number(
         cookieUtil.set(`egghead-watch-count`, watchCount + 1, {
           expires: 15,
@@ -243,30 +251,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
+    setPlayerPrefs({autoplay: false})
     switch (currentPlayerState) {
-      case 'autoPlaying':
-      case 'loading':
-        if (media) {
-          const event: PlayerStateEvent = {
-            type: 'LOADED',
-            lesson: lesson,
-          }
-          send(event)
-        }
-        break
       case 'loaded':
-        if (!media) {
-          send('LOAD')
-        } else if (isEmpty(viewer) && free_forever) {
-          if (
-            watchCount < MAX_FREE_VIEWS &&
-            (media.hls_url || media.dash_url)
-          ) {
+        const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
+        const mediaPresent = media.hls_url || media.dash_url
+
+        if (isEmpty(viewer) && free_forever) {
+          if (viewLimitNotReached && mediaPresent) {
             send('VIEW')
           } else {
             send('JOIN')
           }
-        } else if (media.hls_url || media.dash_url) {
+        } else if (mediaPresent) {
           send('VIEW')
         } else {
           send('SUBSCRIBE')
@@ -276,13 +273,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         if (!media) {
           send('LOAD')
         }
-
         break
       case 'completed':
-        completeVideo()
+        console.debug('handling a change to completed', {lesson})
+        onEnded(lesson).then((lessonView: any) => {
+          if (lessonView) {
+            setLessonView(lessonView)
+          }
+          completeVideo(lessonView)
+        })
         break
     }
-  }, [currentPlayerState, lesson, media])
+  }, [currentPlayerState, media])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
@@ -297,7 +299,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     send('LOAD')
     setLesson(initialLesson)
-    loadLesson(initialLesson.slug, getAccessTokenFromCookie()).then(setLesson)
+
+    async function run() {
+      console.debug('loading video with auth')
+      const loadedLesson = await loadLesson(
+        initialLesson.slug,
+        getAccessTokenFromCookie(),
+      )
+      console.debug('authed video loaded', {video: loadedLesson})
+      setLesson(loadedLesson)
+    }
+
     if (cookieUtil.get(`egghead-watch-count`)) {
       setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
     } else {
@@ -309,7 +321,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         ),
       )
     }
-  }, [initialLesson])
+
+    run()
+  }, [initialLesson.slug])
 
   React.useEffect(() => {
     if (md) {
@@ -408,6 +422,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       controls
                       onPlay={() => send('PLAY')}
                       onReady={(player: any) => {
+                        actualPlayerRef.current = player
                         if (autoplay && isFunction(player.play)) {
                           player.play()
                         }
@@ -416,19 +431,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         send('PAUSE')
                       }}
                       onProgress={({...progress}) => {
-                        onProgress(progress).then((lessonView: any) => {
+                        onProgress(progress, lesson).then((lessonView: any) => {
                           if (lessonView) {
+                            console.debug('progress recorded', {
+                              progress: lessonView,
+                            })
                             setLessonView(lessonView)
                           }
                         })
                       }}
                       onEnded={() => {
-                        onEnded().then((lessonView: any) => {
-                          if (lessonView) {
-                            setLessonView(lessonView)
-                          }
-                          send('COMPLETE')
-                        })
+                        send('COMPLETE')
                       }}
                       subtitlesUrl={get(lesson, 'subtitles_url')}
                     />
@@ -453,6 +466,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                           send={send}
                           nextLesson={nextLesson}
                           nextUp={nextUp}
+                          onClickRewatch={() => {
+                            send('VIEW')
+                            if (actualPlayerRef.current) {
+                              actualPlayerRef.current.play()
+                            }
+                          }}
                         />
                       </OverlayWrapper>
                     )}
@@ -519,7 +538,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 </div>
                 <div className="xl:py-4 py-2 xl:px-4 px-2 flex items-center justify-between border-t border-gray-100">
-                  <AutoplayToggle enabled={playerVisible && next_up_url} />
+                  {/*<AutoplayToggle enabled={playerVisible && next_up_url} />*/}
                   <TheaterModeToggle
                     toggleTheaterMode={toggleTheaterMode}
                     theaterMode={theaterMode}

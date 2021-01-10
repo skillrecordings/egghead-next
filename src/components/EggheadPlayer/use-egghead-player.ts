@@ -70,9 +70,12 @@ const storeProgress = (
   })
 }
 
-const onProgress = (lesson: LessonResource) => async (progress: {
-  playedSeconds: any
-}) => {
+const onProgress = async (
+  progress: {
+    playedSeconds: any
+  },
+  lesson: any,
+) => {
   const {playedSeconds} = progress
   const roundedProgress = Math.ceil(playedSeconds)
   const isSegment = roundedProgress % 30 === 0
@@ -199,11 +202,11 @@ const onComplete = (lesson: any, collection?: any) => {
     .then(trackPercentComplete)
 }
 
-const onEnded = (lesson: {
+const onEnded = async (lesson: {
   lesson_view_url: any
   slug: any
   tags: any[]
-}) => async () => {
+}) => {
   setEmailCaptureCookie({
     ...emailCaptureCookie,
     watchCount: emailCaptureCookie.watchCount + 1,
@@ -237,7 +240,7 @@ const defaultPlayerPreferences = {
     lang: null,
   },
   muted: false,
-  theater: false
+  theater: false,
 }
 
 export const getPlayerPrefs = () => {
@@ -282,17 +285,13 @@ export default function useEggheadPlayer(lesson: LessonResource) {
     setPlayerPrefs(getPlayerPrefs())
   }, [lesson.slug])
 
-  const onProgressCallback = React.useCallback(onProgress(lesson), [lesson])
-
-  const onEndedCallback = React.useCallback(onEnded(lesson), [lesson])
-
   const setPlayerPrefsCallback = React.useCallback((options: any) => {
     setPlayerPrefs(savePlayerPrefs(options))
   }, [])
 
   return {
-    onProgress: onProgressCallback,
-    onEnded: onEndedCallback,
+    onProgress,
+    onEnded,
     onError,
     setPlayerPrefs: setPlayerPrefsCallback,
     ...playerPrefs,

@@ -164,6 +164,7 @@ const playerMachine = Machine<
       showingNext: {
         on: {
           LOAD: 'loading',
+          VIEW: 'viewing',
         },
       },
       recommending: {
