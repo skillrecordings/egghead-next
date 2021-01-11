@@ -6,12 +6,9 @@ import noop from 'utils/noop'
 
 const NextUpOverlay: React.FunctionComponent<{
   lesson: any
-  send: any
-  nextUp: any
   nextLesson: any
   onClickRewatch?: () => void
-}> = ({lesson, send, nextUp, nextLesson, onClickRewatch = noop}) => {
-  const {nextLessonTitle, nextUpPath} = nextUp
+}> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
   return (
     <>
@@ -26,7 +23,7 @@ const NextUpOverlay: React.FunctionComponent<{
       )}
       <div className="mt-4 md:mt-4">Up Next</div>
       <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
-        {nextLesson.title || nextLessonTitle}
+        {nextLesson.title}
       </h3>
       <div className="flex mt-6 md:mt-8">
         <button
@@ -40,7 +37,7 @@ const NextUpOverlay: React.FunctionComponent<{
         >
           <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
-        <Link href={nextLesson.path || nextUpPath || '#'}>
+        <Link href={nextLesson.path || '#'}>
           <a
             onClick={() => {
               track('clicked play next', {

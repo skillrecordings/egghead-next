@@ -36,7 +36,6 @@ import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
-import NextUpList from 'components/pages/lessons/next-up-list'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection, useNextUpData} from 'hooks/use-next-up-data'
@@ -143,7 +142,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const {
     instructor,
-    next_up_url,
     transcript,
     transcript_url,
     http_url,
@@ -170,7 +168,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [media_url])
 
-  const nextUp = useNextUpData(next_up_url)
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
@@ -188,8 +185,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const getProgress = (lessonView: any) => {
     if (lessonView?.collection_progress) {
       return lessonView.collection_progress
-    } else if (nextUp.nextUpData?.list?.progress) {
-      return nextUp.nextUpData.list.progress
     }
   }
 
@@ -209,11 +204,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [currentPlayerState])
 
   const checkAutoPlay = () => {
-    if (autoplay && (nextLesson || nextUp.nextUpPath)) {
+    if (autoplay && nextLesson) {
       setMedia(false)
       send('AUTO_PLAY')
-      router.push(nextLesson.path || nextUp.nextUpPath)
-    } else if (nextLesson || nextUp.nextUpPath) {
+      router.push(nextLesson.path)
+    } else if (nextLesson) {
       send(`NEXT`)
     } else {
       send(`RECOMMEND`)
@@ -222,7 +217,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const completeVideo = (lessonView: any) => {
     if (lessonView) {
-      const hasNextLesson = nextLesson || nextUp.nextUpPath
+      const hasNextLesson = nextLesson
       const progress = getProgress(lessonView)
       if (!hasNextLesson && progress?.rate_url) {
         send('RATE')
@@ -307,7 +302,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       setWatchCount(
         Number(
           cookieUtil.set(`egghead-watch-count`, 0, {
-            expires: 7,
+            expires: 15,
           }),
         ),
       )
@@ -442,9 +437,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <OverlayWrapper>
                         <NextUpOverlay
                           lesson={lesson}
-                          send={send}
                           nextLesson={nextLesson}
-                          nextUp={nextUp}
                           onClickRewatch={() => {
                             send('VIEW')
                             if (actualPlayerRef.current) {
@@ -494,13 +487,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
               <div className="relative h-full">
                 <div className="absolute top-0 bottom-0 left-0 right-0">
-                  {!playerState.matches('loading') && !collection && nextUp && (
-                    <NextUpList
-                      nextUp={nextUp}
-                      currentLessonSlug={lesson.slug}
-                      nextToVideo
-                    />
-                  )}
                   {collection && collection.lessons && (
                     <CollectionLessonsList
                       course={collection}
@@ -646,7 +632,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     tags={tags}
                     description={description}
                     course={collection}
-                    nextUp={nextUp}
                     lesson={lesson}
                     playerState={playerState}
                     className="space-y-6"
