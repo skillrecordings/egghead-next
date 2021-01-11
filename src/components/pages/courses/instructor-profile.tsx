@@ -21,7 +21,7 @@ const InstructorProfile: React.FunctionComponent<{
       />
       <div className="sm:pl-2 pl-1">
         <h4 className="text-gray-700 text-sm">Instructor</h4>
-        <Link href={`/q/${url}`}>
+        <Link href={`/instructors/${url}`}>
           <a className="flex hover:underline flex-shrink-0">
             <span className="font-semibold text-base">{name}</span>
           </a>
