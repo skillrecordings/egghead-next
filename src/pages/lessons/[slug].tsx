@@ -28,7 +28,6 @@ import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
-import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
@@ -47,7 +46,6 @@ import CodeLink, {
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
-import TheaterModeToggle from 'components/pages/lessons/theater-mode-toggle'
 
 const tracer = getTracer('lesson-page')
 
@@ -119,7 +117,7 @@ const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
-  const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
   const [ref, {width: videoWidth}] = useMeasure<any>()
   const HEADER_HEIGHT = 80
