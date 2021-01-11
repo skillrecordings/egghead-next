@@ -7,7 +7,7 @@ import Markdown from 'react-markdown'
 import useCio from 'hooks/use-cio'
 import {sortingHatInitialState, sortingHatReducer} from './sorting-hat-reducer'
 import {SurveyQuestion} from 'data/sorting-hat'
-import Card from '../pages/home/components/card'
+import Card from 'components/pages/home/card'
 
 const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
   question,
