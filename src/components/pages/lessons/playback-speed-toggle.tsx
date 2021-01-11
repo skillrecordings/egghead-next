@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import VisuallyHidden from '@reach/visually-hidden'
 import {
   ListboxInput,
@@ -11,7 +11,10 @@ import {track} from 'utils/analytics'
 
 const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.50', '1.75', '2']
 
-const PlaybackSpeedToggle = ({playbackRate = '1', changePlaybackRate}) => {
+const PlaybackSpeedToggle: FunctionComponent<{
+  playbackRate: number
+  changePlaybackRate: any
+}> = ({playbackRate = 1, changePlaybackRate}) => {
   const [value, setValue] = React.useState(playbackRate.toString())
 
   React.useEffect(() => {
@@ -26,11 +29,11 @@ const PlaybackSpeedToggle = ({playbackRate = '1', changePlaybackRate}) => {
         value="5"
         onChange={(value) => {
           changePlaybackRate(Number(value))
+          setValue(value)
           // // track(`set playback rate`, {
           // //   playbackRate,
           // //   video: resource.slug,
           // // })
-          setValue(value)
         }}
       >
         <ListboxButton className="text-white">{playbackRate}</ListboxButton>
