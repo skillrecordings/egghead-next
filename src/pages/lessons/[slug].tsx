@@ -485,7 +485,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                                 lessonView.collection_progress.rate_url,
                                 review,
                               )
-                              .then((review) => {
+                              .then(() => {
                                 const comment = get(review, 'comment.comment')
                                 const prompt = get(
                                   review,
