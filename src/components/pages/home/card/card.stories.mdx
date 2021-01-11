@@ -1,0 +1,80 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import {find} from 'lodash'
+import homepageData from 'components/pages/home/homepage-data'
+import Card from './'
+import Collection from 'components/pages/home/collection'
+export const sideProject = {
+  id: 'sideProject',
+  name: 'Weekend Side Project',
+  title: 'Build a Video Chat App with Twilio and Gatsby',
+  path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/395/full/TwilioGatsby_Final.png',
+  byline: 'Jason Lengstorf',
+  description:
+    'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
+}
+export const devEssentials = {
+  id: 'devEssentials',
+  name: 'Practice Makes Perfect',
+  title: 'Web Development Essentials',
+  description: '',
+  resources: [
+    {
+      title: 'Web Security Essentials: MITM, CSRF, and XSS',
+      byline: 'Mike Sherov・50m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png',
+      path: '/courses/web-security-essentials-mitm-csrf-and-xss',
+    },
+    {
+      title: 'How to Contribute to an Open Source Project on GitHub',
+      byline: 'Kent C. Dodds・38m ・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/032/thumb/EGH_JSopensource_final.png',
+      path: '/courses/how-to-contribute-to-an-open-source-project-on-github',
+    },
+    {
+      title: 'Fix Common Git Mistakes',
+      byline: 'Chris Achard・44m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/401/full/GitMistakes_1000.png',
+      path: '/courses/fix-common-git-mistakes',
+    },
+    {
+      title: 'GraphQL Query Language',
+      byline: 'Eve Porcello・30m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/236/full/EGH_GraphQLQuery_Final.png',
+      path: '/courses/graphql-query-language',
+    },
+  ],
+}
+
+export const RESOURCE = {}
+
+<Meta title="Components/Home/Card" />
+
+# Card Component
+
+<Canvas>
+  <Story name="Default">
+    <div className="bg-gray-100 p-5">
+      <Card>
+        <>Children</>
+      </Card>
+    </div>
+  </Story>
+  <Story name="Resource">
+    <div className="bg-gray-100 p-5">
+      <Card className="flex space-x-5" resource={sideProject} />
+    </div>
+  </Story>
+  <Story name="Collection">
+    <div className="bg-gray-100 p-5">
+      <Card resource={devEssentials}>
+        <Collection />
+      </Card>
+    </div>
+  </Story>
+</Canvas>
