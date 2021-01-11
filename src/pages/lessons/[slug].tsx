@@ -132,7 +132,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   console.log('storedPlaybackRate: ', storedPlaybackRate)
 
   const [playbackRate, setPlaybackRate] = React.useState<number>(
-    storedPlaybackRate || 1,
+    storedPlaybackRate,
   )
 
   const changePlaybackRate = (rate: number) => {
@@ -529,12 +529,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center p-3">
+          <div className="flex items-center p-3 border-t border-gray-800">
             <div className="flex items-center flex-grow">
-              <PlaybackSpeedToggle
-                playbackRate={playbackRate}
-                changePlaybackRate={changePlaybackRate}
-              />
+              {playbackRate && (
+                <PlaybackSpeedToggle
+                  playbackRate={playbackRate}
+                  changePlaybackRate={changePlaybackRate}
+                />
+              )}
             </div>
           </div>
         </div>

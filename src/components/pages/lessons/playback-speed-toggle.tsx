@@ -9,24 +9,24 @@ import {
 } from '@reach/listbox'
 import {track} from 'utils/analytics'
 
-const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.50', '1.75', '2']
+const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']
 
 const PlaybackSpeedToggle: FunctionComponent<{
   playbackRate: number
   changePlaybackRate: any
-}> = ({playbackRate = 1, changePlaybackRate}) => {
-  const [value, setValue] = React.useState(playbackRate.toString())
+}> = ({playbackRate, changePlaybackRate}) => {
+  const [value, setValue] = React.useState<string>(playbackRate.toString())
 
   React.useEffect(() => {
-    setValue(playbackRate.toString())
+    playbackRate && setValue(playbackRate.toString())
   }, [playbackRate])
 
-  return (
+  return playbackRate ? (
     <div>
       <VisuallyHidden id="playback-speed">Choose the speed</VisuallyHidden>
       <ListboxInput
         aria-labelledby="playback-speed"
-        value="5"
+        value={value}
         onChange={(value) => {
           changePlaybackRate(Number(value))
           setValue(value)
@@ -50,7 +50,7 @@ const PlaybackSpeedToggle: FunctionComponent<{
         </ListboxPopover>
       </ListboxInput>
     </div>
-  )
+  ) : null
 }
 
 export default PlaybackSpeedToggle
