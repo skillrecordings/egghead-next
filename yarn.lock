@@ -3394,10 +3394,10 @@
     tslib "^2.0.0"
     warning "^4.0.3"
 
-"@reach/visually-hidden@^0.11.1":
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.11.1.tgz#3d7a5742acf18372f35b9e216680edd8073f35e3"
-  integrity sha512-TZZNSttor2jG6ZPGI35s/8G0FNSz49QrJIhAZbnUqHyPf3+jtNqAC0dOWW8Nuk+mApDDDVYd2KZ9P2vnzllNnQ==
+"@reach/visually-hidden@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.12.0.tgz#c6c39f0bf292ae97a480ba3ed32e8a6149e852d4"
+  integrity sha512-VXtyR36WOS0FHmFQ/BzfswwPyBXICl/YjmTPtx/I0Vy5C6djjhD9kDsE+h/FpHzP3ugTdqdqiPBVElIZTSwOSA==
   dependencies:
     tslib "^2.0.0"
 
