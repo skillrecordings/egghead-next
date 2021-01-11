@@ -92,6 +92,22 @@ export async function loadLesson(slug: string, token?: string) {
         }
         repo_url
         code_url
+        comments {
+          comment
+          commentable_id
+          commentable_type
+          created_at
+          id
+          is_commentable_owner
+          state
+          user {
+            avatar_url
+            full_name
+            instructor {
+              first_name
+            }
+          }
+        }
       }
     }
   `

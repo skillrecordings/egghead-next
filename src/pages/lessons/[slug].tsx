@@ -41,6 +41,7 @@ import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection, useNextUpData} from 'hooks/use-next-up-data'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
+import Comment from 'components/pages/lessons/comment'
 import CodeLink, {
   IconCode,
   IconGithub,
@@ -120,6 +121,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {
     setPlayerPrefs,
     playbackRate: storedPlaybackRate,
+    defaultView,
   } = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
   const [ref, {width: videoWidth}] = useMeasure<any>()
@@ -164,6 +166,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
     slug,
     media_url,
+    comments,
   } = lesson
 
   React.useEffect(() => {
@@ -201,6 +204,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const loaderVisible = playerState.matches('loading')
+  const commentsAvailable = comments.some(
+    (comment: any) => comment.state === 'published',
+  )
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -683,8 +689,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   />
                 </>
               )}
-
-              <Tabs>
+              <Tabs
+                defaultIndex={
+                  defaultView === 'comments' && commentsAvailable ? 1 : 0
+                }
+                onChange={(index) => {
+                  setPlayerPrefs({
+                    defaultView:
+                      index === 1 && commentsAvailable
+                        ? 'comments'
+                        : 'transcript',
+                  })
+                }}
+              >
                 <TabList className="md:text-lg text-normal font-semibold bg-transparent space-x-1">
                   {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
@@ -702,9 +719,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       />
                     </TabPanel>
                   )}
-                  <TabPanel>
-                    <p>Coming soon!</p>
-                  </TabPanel>
+                  {commentsAvailable && (
+                    <TabPanel>
+                      <div className="space-y-10">
+                        {comments.map((comment: any) => (
+                          <Comment
+                            key={comment.id}
+                            comment={comment.comment}
+                            state={comment.state}
+                            createdAt={comment.created_at}
+                            isCommentableOwner={comment.is_commentable_owner}
+                            user={comment.user}
+                          />
+                        ))}
+                      </div>
+                    </TabPanel>
+                  )}
                 </TabPanels>
               </Tabs>
             </div>

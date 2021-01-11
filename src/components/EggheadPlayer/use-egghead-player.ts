@@ -241,6 +241,7 @@ const defaultPlayerPreferences = {
   },
   muted: false,
   theater: false,
+  defaultView: 'transcript',
 }
 
 export const getPlayerPrefs = () => {
