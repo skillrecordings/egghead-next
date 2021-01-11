@@ -270,6 +270,7 @@ export const useEggheadPlayerPrefs = () => {
   }, [])
 
   const setPlayerPrefsCallback = React.useCallback((options: any) => {
+    console.debug('setting player prefs', {options})
     setPlayerPrefs(savePlayerPrefs(options))
   }, [])
 
