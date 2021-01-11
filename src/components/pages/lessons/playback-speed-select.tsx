@@ -8,11 +8,11 @@ import {
   ListboxOption,
 } from '@reach/listbox'
 import {track} from 'utils/analytics'
-import CancelIcon from 'components/icons/cancel'
+import MultiplySymbol from 'components/icons/cancel'
 
 const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']
 
-const PlaybackSpeedToggle: FunctionComponent<{
+const PlaybackSpeedSelect: FunctionComponent<{
   playbackRate: number
   changePlaybackRate: any
   video: string
@@ -21,7 +21,9 @@ const PlaybackSpeedToggle: FunctionComponent<{
 
   return playbackRate ? (
     <div>
-      <VisuallyHidden id="playback-speed">Choose the speed</VisuallyHidden>
+      <VisuallyHidden id="playback-speed">
+        Chooce video playback speed
+      </VisuallyHidden>
       <ListboxInput
         aria-labelledby="playback-speed"
         value={value}
@@ -34,20 +36,37 @@ const PlaybackSpeedToggle: FunctionComponent<{
           })
         }}
       >
-        <ListboxButton className="text-white text-sm rounded-md px-3 py-2">
-          <span>speed:</span>
-          <CancelIcon className="w-3 ml-2 text-white flex-shrink-0" />
-          {playbackRate}
+        <ListboxButton className="text-white text-sm rounded-md px-3 py-2 bg-gray-900 border-none group">
+          <span className="text-xs transform translate-y-px uppercase tracking-wide text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
+            speed:
+          </span>
+          <MultiplySymbol
+            strokeWidth={3}
+            className="w-3 transform translate-y-px ml-2 flex-shrink-0 text-gray-100 group-hover:text-white transition-colors ease-in-out duration-200"
+          />
+          <span className="font-sans text-gray-100 group-hover:text-white transition-colors ease-in-out duration-200">
+            {playbackRate}
+          </span>
         </ListboxButton>
-        <ListboxPopover className="p-0 rounded-md border-0 shadow-md overflow-hidden">
-          <ListboxList>
+        <ListboxPopover className="p-0 rounded-md shadow-md overflow-hidden">
+          <ListboxList
+            className=""
+            css={{
+              '[data-reach-listbox-list][aria-selected="true"]': {
+                background: '#2563EB',
+                ':hover': {
+                  background: '#2563EB',
+                },
+              },
+            }}
+          >
             {availableSpeeds
               .filter((i) => i !== value)
               .map((speed, index) => (
                 <ListboxOption
                   key={index}
                   value={speed}
-                  className="hover:bg-blue-200 hover:text-black font-medium"
+                  className="hover:bg-blue-100 transition-colors ease-in-out duration-200 hover:text-black font-medium text-sm text-right px-3 py-2 first:border-none border-t border-gray-100 cursor-pointer"
                   css={{
                     '[data-reach-listbox-option][aria-selected="true"]': {
                       background: '#2563EB',
@@ -67,4 +86,4 @@ const PlaybackSpeedToggle: FunctionComponent<{
   ) : null
 }
 
-export default PlaybackSpeedToggle
+export default PlaybackSpeedSelect
