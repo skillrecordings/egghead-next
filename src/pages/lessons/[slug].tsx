@@ -11,6 +11,7 @@ import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
+import PlaybackSpeedToggle from 'components/pages/lessons/playback-speed-toggle'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -507,6 +508,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   )}
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="flex items-center flex-grow">
+              <PlaybackSpeedToggle />
             </div>
           </div>
         </div>
