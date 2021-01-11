@@ -526,16 +526,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center p-3 border-t border-gray-800">
-            <div className="flex items-center flex-grow">
-              {playbackRate && (
-                <PlaybackSpeedToggle
-                  playbackRate={playbackRate}
-                  changePlaybackRate={changePlaybackRate}
-                  video={slug}
-                />
-              )}
+          <div className="flex justify-center w-full">
+            <div
+              className="flex items-center flex-grow border-t border-gray-800 p-3"
+              css={{maxWidth: lessonMaxWidth}}
+            >
+              <div className="flex items-center flex-grow">
+                {playbackRate && (
+                  <PlaybackSpeedToggle
+                    playbackRate={playbackRate}
+                    changePlaybackRate={changePlaybackRate}
+                    video={slug}
+                  />
+                )}
+              </div>
             </div>
+            <div className="flex-shrink-0 2xl:w-1/5 w-3/12"></div>
           </div>
         </div>
 
