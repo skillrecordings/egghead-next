@@ -62,49 +62,41 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!eggheadUser || eggheadUser.opted_out || !eggheadUser.contact_id)
           throw new Error('cannot identify user')
 
-        // await cioAxios
-        //   .put(
-        //     `customers/${eggheadUser.contact_id}`,
-        //     {
-        //       email: eggheadUser.email,
-        //       created_at: eggheadUser.created_at,
-        //     },
-        //     {
-        //       headers: {
-        //         Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-        //       },
-        //     },
-        //   )
-        //   .catch((error: any) => {
-        //     console.error(error)
-        //   })
+        const headers = {
+          'content-type': 'application/json',
+          Authorization: `Basic ${process.env.CUSTOMER_IO_TRACK_API_BASIC}`,
+        }
+
+        await axios.put(
+          `https://track.customer.io/api/v1/customers/${eggheadUser.contact_id}`,
+          {
+            email: eggheadUser.email,
+            pro: eggheadUser.is_pro,
+            created_at: eggheadUser.created_at,
+          },
+          {headers},
+        )
 
         subscriber = await cioAxios
-          .post(
-            `/customers/attributes`,
-            {ids: [eggheadUser.contact_id]},
-            {
-              headers: {
-                Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-              },
+          .get(`/customers/${eggheadUser.contact_id}/attributes`, {
+            headers: {
+              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
             },
-          )
-          .then(({data}: {data: any}) => first(data.customers))
+          })
+          .then(({data}: {data: any}) => data.customer)
           .catch((error: any) => {
             console.error(error)
           })
       } else {
         subscriber = await cioAxios
-          .post(
-            `/customers/attributes`,
-            {ids: [cioId]},
-            {
-              headers: {
-                Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-              },
+          .get(`/customers/${cioId}/attributes`, {
+            headers: {
+              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
             },
-          )
-          .then(({data}: {data: any}) => first(data.customers))
+          })
+          .then(({data}: {data: any}) => {
+            return data.customer
+          })
       }
 
       if (subscriber) {
@@ -122,7 +114,7 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).end()
       }
     } catch (error) {
-      // console.error(error)
+      console.error(error)
       res.status(200).end()
     }
   } else {

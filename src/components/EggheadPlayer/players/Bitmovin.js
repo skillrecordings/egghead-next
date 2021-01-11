@@ -194,7 +194,7 @@ export default class Bitmovin extends Base {
           this.player.setVolume(volume)
 
           if (this.props.poster) {
-            this.player.setPosterImage()
+            this.player.setPosterImage(this.props.poster)
           }
 
           const {videoQualityCookie} = this.props

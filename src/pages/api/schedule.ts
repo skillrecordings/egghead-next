@@ -34,8 +34,7 @@ const events = async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')
       res.status(200).json(events)
     } catch (error) {
-      console.error(JSON.stringify(error))
-      res.end()
+      res.status(200).end()
     }
   } else {
     res.statusCode = 404
