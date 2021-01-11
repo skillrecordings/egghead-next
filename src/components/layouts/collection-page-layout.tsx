@@ -217,23 +217,25 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
                 <Tags tags={courseTags} courseSlug={course.slug} />{' '}
               </div>
-              <div className="flex items-center md:justify-start justify-center mt-4 space-x-6">
-                {average_rating_out_of_5 > 0 && (
-                  <div className="flex items-center">
-                    <FiveStars rating={average_rating_out_of_5} />
-                    <span className="ml-2 font-semibold">
-                      {average_rating_out_of_5.toFixed(1)}
-                    </span>
-                  </div>
-                )}
-                {watched_count > 0 && (
-                  <div>
-                    <span className="font-semibold mr-2">{watched_count}</span>
-                    people completed
-                  </div>
-                )}
+              <div className="flex items-center md:justify-start justify-center mt-4 space-x-6 w-full">
+                <div className="flex items-center w-2/3 space-x-4">
+                  {average_rating_out_of_5 > 0 && (
+                    <div className="flex items-center">
+                      <FiveStars rating={average_rating_out_of_5} />
+                      <span className="ml-2 font-semibold">
+                        {average_rating_out_of_5.toFixed(1)}
+                      </span>
+                    </div>
+                  )}
+                  {watched_count > 0 && (
+                    <div className="flex flex-col lg:flex-row items-center text-center">
+                      <div className="font-semibold mr-2">{watched_count}</div>
+                      <div>people completed</div>
+                    </div>
+                  )}
+                </div>
                 {updated_at && (
-                  <div className="flex items-center space-x-2">
+                  <div className="flex flex-col lg:flex-row items-center space-x-2 w-1/3 ">
                     <div>Updated:</div>
                     <div>
                       <code>{format(new Date(updated_at), 'yyyy-MM-dd')}</code>
