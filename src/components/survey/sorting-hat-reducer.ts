@@ -55,7 +55,7 @@ function loadSurvey(
 
   function getInitialSurveyState(subscriber: CIOSubscriber): SortingHatState {
     const surveyIncomplete = isEmpty(
-      subscriber.attributes[SORTING_HAT_FINISHED_KEY],
+      subscriber.attributes?.[SORTING_HAT_FINISHED_KEY],
     )
     if (surveyIncomplete) {
       return initializeSurveyState(state, subscriber, question)
@@ -82,7 +82,7 @@ function initializeSurveyState(
 ) {
   const answers = {
     ...state.answers,
-    ...subscriber.attributes,
+    ...subscriber?.attributes,
   }
   const currentQuestionKey = getNextQuestionKey(
     sortingHatData,
@@ -129,7 +129,7 @@ function answerSurveyQuestion(
       question.next[action.answer],
       {
         ...answers,
-        ...subscriber.attributes, // answers might be persisted on the CIO subscriber
+        ...subscriber?.attributes, // answers might be persisted on the CIO subscriber
       },
     )
     const attributes = getUpdatedAttributesForAnswer(
@@ -171,7 +171,7 @@ function getUpdatedAttributesForAnswer(
   const question: any = sortingHatData[currentQuestionKey]
   const isFinal = question.final
   const now = Math.round(Date.now() / 1000)
-  let attributes = subscriber.attributes
+  let attributes = subscriber?.attributes
 
   if (action.type === 'answered') {
     track(`answered survey question`, {
@@ -198,7 +198,7 @@ function getUpdatedAttributesForAnswer(
     cioIdentify(subscriber.id, answers)
   }
 
-  if (isEmpty(attributes.sorting_hat_started_at)) {
+  if (isEmpty(attributes?.sorting_hat_started_at)) {
     cioIdentify(subscriber.id, {
       sorting_hat_started_at: now,
     })
