@@ -366,7 +366,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8"
       >
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
-          <div className="w-full flex justify-center">
+          <div className="w-full flex flex-col lg:flex-row justify-center">
             <div
               ref={ref}
               className="flex-grow"
@@ -527,18 +527,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-l border-gray-100">
+            <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100">
               <div className="p-4 border-b border-gray-100">
                 <Course course={collection} currentLessonSlug={lesson.slug} />
               </div>
-              <div className="relative h-full">
-                <div className="absolute top-0 bottom-0 left-0 right-0">
+              <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
+                <div className="lg:absolute top-0 bottom-0 left-0 right-0">
                   {collection && collection.lessons && (
                     <CollectionLessonsList
                       course={collection}
                       currentLessonSlug={lesson.slug}
                       progress={lessonView?.collection_progress}
-                      nextToVideo
                     />
                   )}
                 </div>
