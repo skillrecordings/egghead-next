@@ -224,6 +224,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const checkAutoPlay = () => {
     if (autoplay && nextLesson) {
       console.debug('autoplaying next lesson', {nextLesson})
+      track('autoplaying next video', {
+        video: nextLesson.slug,
+      })
       router.push(nextLesson.path)
     } else if (nextLesson) {
       send(`NEXT`)
