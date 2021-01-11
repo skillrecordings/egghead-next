@@ -11,6 +11,7 @@ import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
+import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -116,7 +117,10 @@ const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
-  const {setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {
+    setPlayerPrefs,
+    playbackRate: storedPlaybackRate,
+  } = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
   const [ref, {width: videoWidth}] = useMeasure<any>()
   const HEADER_HEIGHT = 80
@@ -124,6 +128,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [media, setMedia] = React.useState<any>()
+
+  const [playbackRate, setPlaybackRate] = React.useState<number>(
+    storedPlaybackRate,
+  )
+  const changePlaybackRate = (rate: number) => {
+    setPlayerPrefs({playbackRate: rate})
+    setPlaybackRate(rate)
+  }
 
   const [lesson, setLesson] = React.useState<any>(initialLesson)
   const router = useRouter()
@@ -315,6 +327,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
   }, [height])
 
+  React.useEffect(() => {
+    setPlaybackRate(storedPlaybackRate)
+  }, [storedPlaybackRate])
+
   return (
     <>
       <NextSeo
@@ -350,159 +366,178 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8"
       >
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
-          <div className="w-full flex justify-center">
+          <div className="w-full flex flex-col lg:flex-row justify-center">
             <div
               ref={ref}
-              className="relative flex-grow bg-black"
+              className="flex-grow"
               css={{
                 maxWidth: lessonMaxWidth,
-                minHeight: Math.round(videoWidth / 1.77777),
                 '@media (min-width: 1024px)': {
                   minWidth: '640px',
                 },
               }}
             >
               <div
-                className={`relative ${
-                  playerVisible || loaderVisible ? 'h-0' : 'h-full'
-                }`}
+                className="relative flex-grow bg-black"
                 css={{
-                  paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
+                  minHeight: Math.round(videoWidth / 1.77777),
                 }}
               >
                 <div
-                  className={`flex items-center justify-center text-white h-full ${
-                    playerVisible || loaderVisible
-                      ? 'absolute top-0 right-0 bottom-0 left-0'
-                      : ''
+                  className={`relative ${
+                    playerVisible || loaderVisible ? 'h-0' : 'h-full'
                   }`}
+                  css={{
+                    paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
+                  }}
                 >
                   <div
-                    className={`${
-                      playerVisible || loaderVisible ? 'absolute' : ''
-                    } w-full h-full top-0 left-0`}
+                    className={`flex items-center justify-center text-white h-full ${
+                      playerVisible || loaderVisible
+                        ? 'absolute top-0 right-0 bottom-0 left-0'
+                        : ''
+                    }`}
                   >
-                    {loaderVisible && <Loader />}
-                    <EggheadPlayer
-                      ref={playerRef}
-                      hidden={!playerVisible}
-                      resource={lesson}
-                      hls_url={media?.hls_url}
-                      dash_url={media?.dash_url}
-                      playing={playerState.matches('playing')}
-                      width="100%"
-                      height="auto"
-                      pip="true"
-                      controls
-                      onPlay={() => send('PLAY')}
-                      onReady={(player: any) => {
-                        actualPlayerRef.current = player
-                        if (autoplay && isFunction(player.play)) {
-                          player.play()
-                        }
-                      }}
-                      onPause={() => {
-                        send('PAUSE')
-                      }}
-                      onProgress={({...progress}) => {
-                        onProgress(progress, lesson).then((lessonView: any) => {
-                          if (lessonView) {
-                            console.debug('progress recorded', {
-                              progress: lessonView,
-                            })
-                            setLessonView(lessonView)
+                    <div
+                      className={`${
+                        playerVisible || loaderVisible ? 'absolute' : ''
+                      } w-full h-full top-0 left-0`}
+                    >
+                      {loaderVisible && <Loader />}
+                      <EggheadPlayer
+                        ref={playerRef}
+                        hidden={!playerVisible}
+                        resource={lesson}
+                        hls_url={media?.hls_url}
+                        dash_url={media?.dash_url}
+                        playing={playerState.matches('playing')}
+                        playbackRate={playbackRate}
+                        width="100%"
+                        height="auto"
+                        pip="true"
+                        controls
+                        onPlay={() => send('PLAY')}
+                        onReady={(player: any) => {
+                          actualPlayerRef.current = player
+                          if (autoplay && isFunction(player.play)) {
+                            player.play()
                           }
-                        })
-                      }}
-                      onEnded={() => {
-                        send('COMPLETE')
-                      }}
-                      subtitlesUrl={get(lesson, 'subtitles_url')}
-                    />
+                        }}
+                        onPause={() => {
+                          send('PAUSE')
+                        }}
+                        onProgress={({...progress}) => {
+                          onProgress(progress, lesson).then(
+                            (lessonView: any) => {
+                              if (lessonView) {
+                                console.debug('progress recorded', {
+                                  progress: lessonView,
+                                })
+                                setLessonView(lessonView)
+                              }
+                            },
+                          )
+                        }}
+                        onEnded={() => {
+                          send('COMPLETE')
+                        }}
+                        subtitlesUrl={get(lesson, 'subtitles_url')}
+                      />
 
-                    {playerState.matches('joining') && (
-                      <OverlayWrapper>
-                        <CreateAccountCTA
-                          lesson={get(lesson, 'slug')}
-                          technology={primary_tag}
-                        />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('subscribing') && (
-                      <OverlayWrapper>
-                        <JoinCTA lesson={lesson} />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('showingNext') && (
-                      <OverlayWrapper>
-                        <NextUpOverlay
-                          lesson={lesson}
-                          nextLesson={nextLesson}
-                          onClickRewatch={() => {
-                            send('VIEW')
-                            if (actualPlayerRef.current) {
-                              actualPlayerRef.current.play()
-                            }
-                          }}
-                        />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('rating') && (
-                      <OverlayWrapper>
-                        <RateCourseOverlay
-                          course={lesson.collection}
-                          onRated={(review) => {
-                            axios
-                              .post(
-                                lessonView.collection_progress.rate_url,
-                                review,
-                              )
-                              .then(() => {
-                                const comment = get(review, 'comment.comment')
-                                const prompt = get(
+                      {playerState.matches('joining') && (
+                        <OverlayWrapper>
+                          <CreateAccountCTA
+                            lesson={get(lesson, 'slug')}
+                            technology={primary_tag}
+                          />
+                        </OverlayWrapper>
+                      )}
+                      {playerState.matches('subscribing') && (
+                        <OverlayWrapper>
+                          <JoinCTA lesson={lesson} />
+                        </OverlayWrapper>
+                      )}
+                      {playerState.matches('showingNext') && (
+                        <OverlayWrapper>
+                          <NextUpOverlay
+                            lesson={lesson}
+                            nextLesson={nextLesson}
+                            onClickRewatch={() => {
+                              send('VIEW')
+                              if (actualPlayerRef.current) {
+                                actualPlayerRef.current.play()
+                              }
+                            }}
+                          />
+                        </OverlayWrapper>
+                      )}
+                      {playerState.matches('rating') && (
+                        <OverlayWrapper>
+                          <RateCourseOverlay
+                            course={lesson.collection}
+                            onRated={(review) => {
+                              axios
+                                .post(
+                                  lessonView.collection_progress.rate_url,
                                   review,
-                                  'comment.context.prompt',
                                 )
+                                .then(() => {
+                                  const comment = get(review, 'comment.comment')
+                                  const prompt = get(
+                                    review,
+                                    'comment.context.prompt',
+                                  )
 
-                                if (review) {
-                                  track('rated course', {
-                                    course: slug,
-                                    rating: review.rating,
-                                    ...(comment && {comment}),
-                                    ...(!!prompt && {prompt}),
-                                  })
-                                }
-                              })
-                              .finally(() => {
-                                setTimeout(() => {
-                                  send('RECOMMEND')
-                                }, 1500)
-                              })
-                          }}
-                        />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('recommending') && (
-                      <OverlayWrapper>
-                        <RecommendNextStepOverlay lesson={lesson} />
-                      </OverlayWrapper>
-                    )}
+                                  if (review) {
+                                    track('rated course', {
+                                      course: slug,
+                                      rating: review.rating,
+                                      ...(comment && {comment}),
+                                      ...(!!prompt && {prompt}),
+                                    })
+                                  }
+                                })
+                                .finally(() => {
+                                  setTimeout(() => {
+                                    send('RECOMMEND')
+                                  }, 1500)
+                                })
+                            }}
+                          />
+                        </OverlayWrapper>
+                      )}
+                      {playerState.matches('recommending') && (
+                        <OverlayWrapper>
+                          <RecommendNextStepOverlay lesson={lesson} />
+                        </OverlayWrapper>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className="flex justify-center w-full border-t border-gray-800 px-2 3xl:px-0 py-2">
+                <div className="flex items-center flex-grow">
+                  {playbackRate && (
+                    <PlaybackSpeedSelect
+                      playbackRate={playbackRate}
+                      changePlaybackRate={changePlaybackRate}
+                      video={slug}
+                    />
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-l border-gray-100">
+            <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100">
               <div className="p-4 border-b border-gray-100">
                 <Course course={collection} currentLessonSlug={lesson.slug} />
               </div>
-              <div className="relative h-full">
-                <div className="absolute top-0 bottom-0 left-0 right-0">
+              <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
+                <div className="lg:absolute top-0 bottom-0 left-0 right-0">
                   {collection && collection.lessons && (
                     <CollectionLessonsList
                       course={collection}
                       currentLessonSlug={lesson.slug}
                       progress={lessonView?.collection_progress}
-                      nextToVideo
                     />
                   )}
                 </div>

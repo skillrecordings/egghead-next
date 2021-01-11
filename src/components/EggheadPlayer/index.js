@@ -105,13 +105,8 @@ export default class EggheadPlayer extends Component {
     const active = Player.canPlay(url)
     const {resource, ...activeProps} = this.props
     const props = active ? {...activeProps, ref: this.ref} : {}
-    const {
-      playbackRate,
-      volumeRate,
-      videoQuality,
-      subtitle,
-      muted,
-    } = getPlayerPrefs()
+    const {volumeRate, videoQuality, subtitle, muted} = getPlayerPrefs()
+    const {playbackRate} = this.props
 
     const displaySubtitles = props.subtitlesUrl && subtitle?.label !== 'off'
 
@@ -153,17 +148,10 @@ export default class EggheadPlayer extends Component {
         key={Player.displayName}
         {...props}
         displaySubtitles={displaySubtitles}
-        playbackRate={playbackRate || props.playbackRate}
+        playbackRate={playbackRate}
         volume={volumeRate ?? props.volume}
         videoQualityCookie={videoQuality}
         muted={muted}
-        onPlaybackRateChange={(playbackRate) => {
-          savePlayerPrefs({playbackRate})
-          track(`set playback rate`, {
-            playbackRate,
-            video: resource.slug,
-          })
-        }}
         onVolumeChange={(volumeRate) => {
           savePlayerPrefs({volumeRate})
           track(`set volume`, {

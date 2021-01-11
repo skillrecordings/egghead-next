@@ -5,19 +5,18 @@ import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
+import {bpMinMD, bpMinLG} from 'utils/breakpoints'
 
 type NextUpListProps = {
   currentLessonSlug: string
   course: any
   progress: any
-  nextToVideo: boolean
 }
 
 const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   course,
   currentLessonSlug,
   progress,
-  nextToVideo,
 }) => {
   const {lessons} = course
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
@@ -33,24 +32,23 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   }, [activeElement, setActiveElement, currentLessonSlug])
 
   return lessons ? (
-    <div className={nextToVideo ? 'h-full overflow-hidden' : ''}>
+    <div className="h-full overflow-hidden">
       {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
         Lessons
       </span> */}
-      <div
-        className={`overflow-hidden bg-white border-gray-100 ${
-          nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'
-        }`}
-      >
+      <div className="overflow-hidden bg-white border-gray-100 h-full rounded-md lg:rounded-none border lg:border-none">
         <ol
           ref={scrollableNodeRef}
           id="scroller-container"
           className="overflow-y-auto h-full"
           css={{
-            '@media only screen and (min-width: 640px)': {
-              maxHeight: nextToVideo ? '100%' : 600,
-            },
             maxHeight: 300,
+            '@media (min-width: 768px)': {
+              maxHeight: 350,
+            },
+            '@media (min-width: 1024px)': {
+              maxHeight: '100%',
+            },
           }}
         >
           {lessons.map((lesson: LessonResource, index = 0) => {
