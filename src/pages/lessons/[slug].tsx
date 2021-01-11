@@ -531,7 +531,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         course={collection}
                         currentLessonSlug={lesson.slug}
                         progress={lessonView?.collection_progress}
-                        // toggleTheaterMode={toggleTheaterMode}
                         nextToVideo
                       />
                     )}
@@ -711,7 +710,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     />
                   )}
                   <LessonInfo
-                    autoplay={{enabled: playerVisible && next_up_url}}
+                    autoplay={{enabled: false}}
                     title={title}
                     instructor={instructor}
                     tags={tags}
@@ -781,7 +780,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 {!md && (
                   <>
                     <LessonInfo
-                      autoplay={{enabled: playerVisible && next_up_url}}
+                      autoplay={{enabled: false}}
                       title={title}
                       instructor={instructor}
                       tags={tags}
