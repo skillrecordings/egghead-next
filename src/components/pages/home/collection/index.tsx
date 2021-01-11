@@ -27,7 +27,7 @@ const Collection: FunctionComponent<CollectionProps> = ({
   resource,
   className,
 }) => {
-  const {name, title, description, resources, path} = resource
+  const {resources} = resource
   return (
     <ul>
       {map(resources, (resource) => {

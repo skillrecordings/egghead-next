@@ -340,7 +340,7 @@ const CardHorizontal: FunctionComponent<{
   return (
     <Card className={className}>
       <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 space-y-5 sm:items-start items-center sm:text-left text-center">
+        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
           {resource.image && (
             <Link href={resource.path}>
               <a
