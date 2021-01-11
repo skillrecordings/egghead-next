@@ -7,20 +7,29 @@ import {
   ListboxList,
   ListboxOption,
 } from '@reach/listbox'
+import {track} from 'utils/analytics'
 
-const availableSpeeds = ['0.5', '0.75', '1.0', '1.25', '1.50', '1.75', '2.0']
+const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.50', '1.75', '2']
 
-const PlaybackSpeedToggle = () => {
-  let [value, setValue] = React.useState('1.0')
+const PlaybackSpeedToggle = ({playbackRate = '1', changePlaybackRate}) => {
+  const [value, setValue] = React.useState(playbackRate.toString())
+
   return (
     <div>
       <VisuallyHidden id="playback-speed">Choose the speed</VisuallyHidden>
       <ListboxInput
         aria-labelledby="playback-speed"
-        value={value}
-        onChange={(value) => setValue(value)}
+        value="5"
+        onChange={(value) => {
+          changePlaybackRate(Number(value))
+          // // track(`set playback rate`, {
+          // //   playbackRate,
+          // //   video: resource.slug,
+          // // })
+          setValue(value)
+        }}
       >
-        <ListboxButton>{value}</ListboxButton>
+        <ListboxButton className="text-white">{playbackRate}</ListboxButton>
         <ListboxPopover>
           <ListboxList>
             {availableSpeeds

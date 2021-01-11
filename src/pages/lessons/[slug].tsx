@@ -117,7 +117,10 @@ const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
-  const {setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {
+    setPlayerPrefs,
+    playbackRate: storedPlaybackRate,
+  } = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
   const [ref, {width: videoWidth}] = useMeasure<any>()
   const HEADER_HEIGHT = 80
@@ -125,6 +128,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [media, setMedia] = React.useState<any>()
+
+  const [playbackRate, setPlaybackRate] = React.useState<number>(
+    storedPlaybackRate || 1,
+  )
+
+  const changePlaybackRate = (rate: number) => {
+    setPlayerPrefs({playbackRate: rate})
+    setPlaybackRate(rate)
+  }
+
+  React.useEffect(() => {
+    setPlaybackRate(storedPlaybackRate)
+  }, [storedPlaybackRate])
 
   const [lesson, setLesson] = React.useState<any>(initialLesson)
   const router = useRouter()
@@ -391,6 +407,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       hls_url={media?.hls_url}
                       dash_url={media?.dash_url}
                       playing={playerState.matches('playing')}
+                      playbackRate={playbackRate}
                       width="100%"
                       height="auto"
                       pip="true"
@@ -510,9 +527,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center p-3">
             <div className="flex items-center flex-grow">
-              <PlaybackSpeedToggle />
+              <PlaybackSpeedToggle
+                playbackRate={playbackRate}
+                changePlaybackRate={changePlaybackRate}
+              />
             </div>
           </div>
         </div>

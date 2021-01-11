@@ -20,7 +20,7 @@ const SEEK_BACK = -10
 const SEEK_FORWARD = 25
 const MAX_BUFFER_LEVEL_SECONDS = 240
 const STARTUP_THRESHOLD_SECONDS = 3
-const ALLOW_PLAYBACK_SPEED = true
+const ALLOW_PLAYBACK_SPEED = false
 
 export default class Bitmovin extends Base {
   static displayName = 'Bitmovin'
@@ -57,11 +57,7 @@ export default class Bitmovin extends Base {
   }
 
   getSource(props) {
-    const {
-      dash_url,
-
-      hls_url,
-    } = props || this.props
+    const {dash_url, hls_url} = props || this.props
 
     return {
       dash: dash_url,
@@ -70,15 +66,8 @@ export default class Bitmovin extends Base {
   }
 
   getConfig(props) {
-    const {
-      poster,
-      title,
-      description,
-      preload,
-      onPlaybackRateChange,
-      onVolumeChange,
-      muted,
-    } = props || this.props
+    const {poster, title, description, preload, onVolumeChange, muted} =
+      props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
       remotecontrol: {
@@ -110,12 +99,6 @@ export default class Bitmovin extends Base {
         mobile: {preload: preload},
       },
       events: {
-        playbackspeedchanged: (e) => {
-          track('set played speed', {
-            speed: e.to,
-          })
-          onPlaybackRateChange(e.to)
-        },
         volumechanged: (e) => {
           onVolumeChange(e.targetVolume)
         },
