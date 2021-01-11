@@ -129,20 +129,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [media, setMedia] = React.useState<any>()
 
-  console.log('storedPlaybackRate: ', storedPlaybackRate)
-
   const [playbackRate, setPlaybackRate] = React.useState<number>(
     storedPlaybackRate,
   )
-
   const changePlaybackRate = (rate: number) => {
     setPlayerPrefs({playbackRate: rate})
     setPlaybackRate(rate)
   }
-
-  React.useEffect(() => {
-    setPlaybackRate(storedPlaybackRate)
-  }, [storedPlaybackRate])
 
   const [lesson, setLesson] = React.useState<any>(initialLesson)
   const router = useRouter()
@@ -333,6 +326,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
   }, [height])
+
+  React.useEffect(() => {
+    setPlaybackRate(storedPlaybackRate)
+  }, [storedPlaybackRate])
 
   return (
     <>
@@ -535,6 +532,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <PlaybackSpeedToggle
                   playbackRate={playbackRate}
                   changePlaybackRate={changePlaybackRate}
+                  video={slug}
                 />
               )}
             </div>

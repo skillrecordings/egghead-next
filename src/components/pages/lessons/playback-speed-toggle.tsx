@@ -14,12 +14,9 @@ const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.5', '1.75', '2']
 const PlaybackSpeedToggle: FunctionComponent<{
   playbackRate: number
   changePlaybackRate: any
-}> = ({playbackRate, changePlaybackRate}) => {
+  video: string
+}> = ({playbackRate, changePlaybackRate, video}) => {
   const [value, setValue] = React.useState<string>(playbackRate.toString())
-
-  React.useEffect(() => {
-    playbackRate && setValue(playbackRate.toString())
-  }, [playbackRate])
 
   return playbackRate ? (
     <div>
@@ -30,10 +27,10 @@ const PlaybackSpeedToggle: FunctionComponent<{
         onChange={(value) => {
           changePlaybackRate(Number(value))
           setValue(value)
-          // // track(`set playback rate`, {
-          // //   playbackRate,
-          // //   video: resource.slug,
-          // // })
+          track(`set playback rate`, {
+            playbackRate,
+            video: video,
+          })
         }}
       >
         <ListboxButton className="text-white">{playbackRate}</ListboxButton>
