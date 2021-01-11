@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import Card from './components/card'
+import Card from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,12 +7,13 @@ import {map, get, find, take, reject, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import Header from './components/header'
+import Header from './header'
 import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
 import useLastResource from 'hooks/use-last-resource'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {track} from 'utils/analytics'
+import Collection from './collection'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -120,16 +121,16 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
-            <CardHorizontalLarge resource={portfolioProject} />
-            <CardHorizontalLarge resource={portfolioBlog} />
+            <CardHorizontal resource={portfolioProject} />
+            <CardHorizontal resource={portfolioBlog} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
               <CardVerticalWithStack data={devEssentials} />
               <CardVerticalWithStack data={freeCourses} />
             </div>
 
-            <CardHorizontalLarge resource={advancedCourse} />
-            <CardHorizontalLarge resource={buildInPublic} />
-            <CardHorizontalLarge resource={sideProject} />
+            <CardHorizontal resource={advancedCourse} />
+            <CardHorizontal resource={buildInPublic} />
+            <CardHorizontal resource={sideProject} />
           </div>
           <aside className="lg:col-span-4 space-y-5">
             <SortingHat
@@ -142,10 +143,8 @@ const Home: FunctionComponent = () => {
               }
             />
             <TopicsList topics={topics} />
-
             <CardVerticalWithStack data={mdxConf} />
             <CardVerticalWithStack data={stateManagement} />
-
             <Card>
               <>
                 <Link href={swag.path}>
@@ -334,14 +333,14 @@ type CardProps = {
   className?: string
 }
 
-const CardHorizontalLarge: FunctionComponent<{
+const CardHorizontal: FunctionComponent<{
   resource: Resource
   className?: string
 }> = ({resource, className = 'border-none my-4'}) => {
   return (
     <Card className={className}>
       <>
-        <div className="flex space-x-5">
+        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
           {resource.image && (
             <Link href={resource.path}>
               <a
@@ -351,7 +350,7 @@ const CardHorizontalLarge: FunctionComponent<{
                     linkType: 'image',
                   })
                 }}
-                className="block flex-shrink-0 sm:w-auto w-20"
+                className="block flex-shrink-0 sm:w-auto w-24"
               >
                 <Image
                   src={resource.image}
@@ -362,7 +361,7 @@ const CardHorizontalLarge: FunctionComponent<{
               </a>
             </Link>
           )}
-          <div className="flex flex-col justify-center items-start">
+          <div className="flex flex-col justify-center sm:items-start items-center">
             <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
               {resource.name}
             </h2>
@@ -381,7 +380,9 @@ const CardHorizontalLarge: FunctionComponent<{
                 </h3>
               </a>
             </Link>
-            <div className="text-xs text-gray-600 mb-2">{resource.byline}</div>
+            <div className="text-xs text-gray-600 mb-2 mt-1">
+              {resource.byline}
+            </div>
             <Markdown className="prose prose-sm max-w-none">
               {resource.description}
             </Markdown>
@@ -406,7 +407,7 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                   linkType: 'image',
                 })
               }}
-              className="mb-2 sm:w-auto w-24"
+              className="mb-2 mx-auto w-24"
             >
               <Image
                 width={140}
@@ -479,62 +480,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
           <Markdown className="prose prose-sm max-w-none mb-3">
             {description}
           </Markdown>
-          <ul>
-            {map(resources, (resource) => {
-              const {title, path, image, byline} = resource
-              const isLesson = path.includes('lessons')
-              const imageSize = isLesson ? 32 : 50
-              return (
-                <li
-                  key={resource.path}
-                  className={`flex items-center py-2 ${
-                    className ? className : ''
-                  }`}
-                >
-                  {image && (
-                    <Link href={path}>
-                      <a
-                        onClick={() => {
-                          track('clicked home page resource', {
-                            resource: path,
-                            linkType: 'image',
-                          })
-                        }}
-                        className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center "
-                      >
-                        <Image
-                          src={image}
-                          width={imageSize}
-                          height={imageSize}
-                          alt={`illustration for ${title}`}
-                        />
-                      </a>
-                    </Link>
-                  )}
-                  <div className="ml-3">
-                    <Link href={path}>
-                      <a
-                        onClick={() => {
-                          track('clicked home page resource', {
-                            resource: path,
-                            linkType: 'text',
-                          })
-                        }}
-                        className="hover:text-blue-600"
-                      >
-                        <h4 className="text-lg font-semibold leading-tight">
-                          <Textfit mode="multi" min={14} max={17}>
-                            {title}
-                          </Textfit>
-                        </h4>
-                      </a>
-                    </Link>
-                    <div className="text-xs text-gray-600">{byline}</div>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
+          <Collection resource={data} />
         </div>
       </>
     </Card>

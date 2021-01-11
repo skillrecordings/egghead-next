@@ -15,7 +15,11 @@ Object.defineProperty(nextLink, 'default', {
   value: (props) => {
     // next/link wraps an anchor in an anchor.
     // To please Storybook, pass the children directly.
-    return <span {...props}>{props.children}</span>
+    return (
+      <span className="cursor-pointer" {...props}>
+        {props.children}
+      </span>
+    )
   },
 })
 
