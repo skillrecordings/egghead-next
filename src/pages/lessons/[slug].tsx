@@ -479,17 +479,27 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <OverlayWrapper>
                         <RateCourseOverlay
                           course={lesson.collection}
-                          onRated={(rating) => {
+                          onRated={(review) => {
                             axios
                               .post(
                                 lessonView.collection_progress.rate_url,
-                                rating,
+                                review,
                               )
-                              .then((response) => {
-                                track('rated course', {
-                                  course: slug,
-                                  rating,
-                                })
+                              .then((review) => {
+                                const comment = get(review, 'comment.comment')
+                                const prompt = get(
+                                  review,
+                                  'comment.context.prompt',
+                                )
+
+                                if (review) {
+                                  track('rated course', {
+                                    course: slug,
+                                    rating: review.rating,
+                                    ...(comment && {comment}),
+                                    ...(!!prompt && {prompt}),
+                                  })
+                                }
                               })
                               .finally(() => {
                                 setTimeout(() => {
