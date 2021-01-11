@@ -14,6 +14,10 @@ const availableSpeeds = ['0.5', '0.75', '1', '1.25', '1.50', '1.75', '2']
 const PlaybackSpeedToggle = ({playbackRate = '1', changePlaybackRate}) => {
   const [value, setValue] = React.useState(playbackRate.toString())
 
+  React.useEffect(() => {
+    setValue(playbackRate.toString())
+  }, [playbackRate])
+
   return (
     <div>
       <VisuallyHidden id="playback-speed">Choose the speed</VisuallyHidden>

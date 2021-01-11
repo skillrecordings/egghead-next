@@ -129,6 +129,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [media, setMedia] = React.useState<any>()
 
+  console.log('storedPlaybackRate: ', storedPlaybackRate)
+
   const [playbackRate, setPlaybackRate] = React.useState<number>(
     storedPlaybackRate || 1,
   )
