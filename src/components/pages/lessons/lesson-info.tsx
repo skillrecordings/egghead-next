@@ -20,7 +20,6 @@ type LessonInfoProps = {
   ]
   description: string
   [cssRelated: string]: any
-  nextUp: any
   playerState: any
   autoplay: {enabled: boolean}
 }
@@ -30,7 +29,6 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
   instructor,
   tags,
   description,
-  nextUp,
   lesson,
   playerState,
   autoplay,

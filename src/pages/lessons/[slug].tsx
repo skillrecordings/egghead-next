@@ -28,7 +28,6 @@ import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
 import SortingHat from 'components/survey/sorting-hat'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
-import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
@@ -37,7 +36,6 @@ import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
-import NextUpList from 'components/pages/lessons/next-up-list'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection, useNextUpData} from 'hooks/use-next-up-data'
@@ -47,7 +45,6 @@ import CodeLink, {
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
-import TheaterModeToggle from 'components/pages/lessons/theater-mode-toggle'
 
 const tracer = getTracer('lesson-page')
 
@@ -119,22 +116,15 @@ const MAX_FREE_VIEWS = 7
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {md} = useBreakpoint()
-  const {theater, setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {setPlayerPrefs} = useEggheadPlayerPrefs()
   const {height} = useWindowSize()
   const [ref, {width: videoWidth}] = useMeasure<any>()
   const HEADER_HEIGHT = 80
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
-  const [theaterMode, setTheaterMode] = React.useState(theater || false)
   const [media, setMedia] = React.useState<any>()
-  const toggleTheaterMode = () => {
-    setPlayerPrefs({theater: !theaterMode})
-    setTheaterMode(!theaterMode)
-  }
-  const theaterModeOn = () => {
-    setTheaterMode(true)
-  }
+
   const [lesson, setLesson] = React.useState<any>(initialLesson)
   const router = useRouter()
   const playerRef = React.useRef(null)
@@ -152,7 +142,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const {
     instructor,
-    next_up_url,
     transcript,
     transcript_url,
     http_url,
@@ -179,7 +168,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }, [media_url])
 
-  const nextUp = useNextUpData(next_up_url)
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
@@ -197,8 +185,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const getProgress = (lessonView: any) => {
     if (lessonView?.collection_progress) {
       return lessonView.collection_progress
-    } else if (nextUp.nextUpData?.list?.progress) {
-      return nextUp.nextUpData.list.progress
     }
   }
 
@@ -218,11 +204,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [currentPlayerState])
 
   const checkAutoPlay = () => {
-    if (autoplay && (nextLesson || nextUp.nextUpPath)) {
+    if (autoplay && nextLesson) {
       setMedia(false)
       send('AUTO_PLAY')
-      router.push(nextLesson.path || nextUp.nextUpPath)
-    } else if (nextLesson || nextUp.nextUpPath) {
+      router.push(nextLesson.path)
+    } else if (nextLesson) {
       send(`NEXT`)
     } else {
       send(`RECOMMEND`)
@@ -231,7 +217,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const completeVideo = (lessonView: any) => {
     if (lessonView) {
-      const hasNextLesson = nextLesson || nextUp.nextUpPath
+      const hasNextLesson = nextLesson
       const progress = getProgress(lessonView)
       if (!hasNextLesson && progress?.rate_url) {
         send('RATE')
@@ -316,7 +302,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       setWatchCount(
         Number(
           cookieUtil.set(`egghead-watch-count`, 0, {
-            expires: 7,
+            expires: 15,
           }),
         ),
       )
@@ -324,18 +310,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
     run()
   }, [initialLesson.slug])
-
-  React.useEffect(() => {
-    if (md) {
-      theaterModeOn()
-      window.addEventListener('resize', theaterModeOn)
-    } else {
-      setTheaterMode(theater)
-    }
-    return () => {
-      window.removeEventListener('resize', theaterModeOn)
-    }
-  }, [md, theater])
 
   React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
@@ -463,9 +437,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <OverlayWrapper>
                         <NextUpOverlay
                           lesson={lesson}
-                          send={send}
                           nextLesson={nextLesson}
-                          nextUp={nextUp}
                           onClickRewatch={() => {
                             send('VIEW')
                             if (actualPlayerRef.current) {
@@ -519,66 +491,29 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
             </div>
-            {!theaterMode && (
-              <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-l border-gray-100">
-                <div className="p-4 border-b border-gray-100">
-                  <Course course={collection} currentLessonSlug={lesson.slug} />
-                </div>
-                <div className="relative h-full">
-                  <div className="absolute top-0 bottom-0 left-0 right-0">
-                    {!playerState.matches('loading') &&
-                      !collection &&
-                      nextUp &&
-                      !theaterMode && (
-                        <NextUpList
-                          nextUp={nextUp}
-                          currentLessonSlug={lesson.slug}
-                          nextToVideo
-                        />
-                      )}
-                    {collection && collection.lessons && !theaterMode && (
-                      <CollectionLessonsList
-                        course={collection}
-                        currentLessonSlug={lesson.slug}
-                        progress={lessonView?.collection_progress}
-                        nextToVideo
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="xl:py-4 py-2 xl:px-4 px-2 flex items-center justify-between border-t border-gray-100">
-                  {/*<AutoplayToggle enabled={playerVisible && next_up_url} />*/}
-                  <TheaterModeToggle
-                    toggleTheaterMode={toggleTheaterMode}
-                    theaterMode={theaterMode}
-                  />
+            <div className="flex flex-shrink-0 bg-white flex-col 2xl:w-1/5 w-3/12 border-l border-gray-100">
+              <div className="p-4 border-b border-gray-100">
+                <Course course={collection} currentLessonSlug={lesson.slug} />
+              </div>
+              <div className="relative h-full">
+                <div className="absolute top-0 bottom-0 left-0 right-0">
+                  {collection && collection.lessons && (
+                    <CollectionLessonsList
+                      course={collection}
+                      currentLessonSlug={lesson.slug}
+                      progress={lessonView?.collection_progress}
+                      nextToVideo
+                    />
+                  )}
                 </div>
               </div>
-            )}
-          </div>
-          {theaterMode && (
-            <div
-              className="flex items-center justify-end py-2 px-3 text-white space-x-5 mx-auto"
-              css={{maxWidth: lessonMaxWidth}}
-            >
-              {/*<AutoplayToggle onDark enabled={playerVisible && next_up_url} />*/}
-              {!md && (
-                <TheaterModeToggle
-                  toggleTheaterMode={toggleTheaterMode}
-                  theaterMode={theaterMode}
-                />
-              )}
             </div>
-          )}
+          </div>
         </div>
 
         <div>
           <div
-            className={`grid ${
-              theaterMode
-                ? 'lg:grid-cols-12 max-w-screen-xl'
-                : 'lg:grid-cols-1 max-w-screen-lg'
-            } lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
+            className={`grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
           >
             <div className="md:col-span-8 md:row-start-1 row-start-1 md:space-y-10 space-y-6">
               <div className="space-y-4">
@@ -587,41 +522,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   <h1 className="font-extrabold tracking-tight leading-tighter text-xl lg:text-3xl">
                     {title}
                   </h1>
-                )}
-                <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
-                  {lesson?.code_url && (
-                    <CodeLink
-                      onClick={() => {
-                        track(`clicked open code`, {
-                          lesson: lesson.slug,
-                        })
-                      }}
-                      url={lesson.code_url}
-                      icon={<IconCode />}
-                    >
-                      Open code for this lesson
-                    </CodeLink>
-                  )}
-                  {lesson?.repo_url && (
-                    <CodeLink
-                      onClick={() => {
-                        track(`clicked open github`, {
-                          lesson: lesson.slug,
-                        })
-                      }}
-                      url={lesson.repo_url}
-                      icon={<IconGithub />}
-                    >
-                      Open code on GitHub
-                    </CodeLink>
-                  )}
-                  <LessonDownload lesson={lesson} />
-                </div>
-
-                {description && (
-                  <Markdown className="prose sm:prose-xl max-w-none font-medium">
-                    {description}
-                  </Markdown>
                 )}
                 <div className="pt-4 flex md:flex-row flex-col w-full justify-between flex-wrap md:space-x-8 md:space-y-0 space-y-5 md:items-center">
                   <div className="md:w-auto w-full flex justify-between items-center space-x-5">
@@ -695,30 +595,46 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </div>
                   </div>
                 </div>
+                <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
+                  {lesson?.code_url && (
+                    <CodeLink
+                      onClick={() => {
+                        track(`clicked open code`, {
+                          lesson: lesson.slug,
+                        })
+                      }}
+                      url={lesson.code_url}
+                      icon={<IconCode />}
+                    >
+                      Open code for this lesson
+                    </CodeLink>
+                  )}
+                  {lesson?.repo_url && (
+                    <CodeLink
+                      onClick={() => {
+                        track(`clicked open github`, {
+                          lesson: lesson.slug,
+                        })
+                      }}
+                      url={lesson.repo_url}
+                      icon={<IconGithub />}
+                    >
+                      Open code on GitHub
+                    </CodeLink>
+                  )}
+                  <LessonDownload lesson={lesson} />
+                </div>
+
+                {description && (
+                  <Markdown className="prose sm:prose-xl max-w-none font-medium">
+                    {description}
+                  </Markdown>
+                )}
               </div>
               {md && (
                 <>
                   <Course course={collection} currentLessonSlug={lesson.slug} />
-                  {!playerState.matches('loading') &&
-                    !collection &&
-                    nextUp &&
-                    theaterMode && (
-                      <div className="bg-yellow-500">
-                        <NextUpList
-                          nextUp={nextUp}
-                          currentLessonSlug={lesson.slug}
-                          nextToVideo={false}
-                        />
-                      </div>
-                    )}
-                  {collection && collection.lessons && theaterMode && (
-                    <CollectionLessonsList
-                      course={collection}
-                      currentLessonSlug={lesson.slug}
-                      progress={lessonView?.collection_progress}
-                      nextToVideo={false}
-                    />
-                  )}
+
                   <LessonInfo
                     autoplay={{enabled: false}}
                     title={title}
@@ -726,7 +642,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     tags={tags}
                     description={description}
                     course={collection}
-                    nextUp={nextUp}
                     lesson={lesson}
                     playerState={playerState}
                     className="space-y-6"
@@ -758,53 +673,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </TabPanels>
               </Tabs>
             </div>
-            {theaterMode && (
-              <div className="md:col-span-4 flex flex-col space-y-4">
-                {!md && (
-                  <>
-                    <Course
-                      course={collection}
-                      currentLessonSlug={lesson.slug}
-                    />
-                    {!playerState.matches('loading') &&
-                      !collection &&
-                      nextUp &&
-                      theaterMode && (
-                        <NextUpList
-                          nextUp={nextUp}
-                          currentLessonSlug={lesson.slug}
-                          nextToVideo={false}
-                        />
-                      )}
-                    {collection && collection.lessons && theaterMode && (
-                      <CollectionLessonsList
-                        course={collection}
-                        currentLessonSlug={lesson.slug}
-                        progress={lessonView?.collection_progress}
-                        nextToVideo={false}
-                      />
-                    )}
-                  </>
-                )}
-
-                {!md && (
-                  <>
-                    <LessonInfo
-                      autoplay={{enabled: false}}
-                      title={title}
-                      instructor={instructor}
-                      tags={tags}
-                      description={description}
-                      course={collection}
-                      nextUp={nextUp}
-                      lesson={lesson}
-                      playerState={playerState}
-                      className="space-y-6"
-                    />
-                  </>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>
