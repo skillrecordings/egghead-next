@@ -39,7 +39,7 @@ import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
-import {useNextForCollection, useNextUpData} from 'hooks/use-next-up-data'
+import {useNextForCollection} from 'hooks/use-next-up-data'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 import Comment from 'components/pages/lessons/comment'
 import CodeLink, {
@@ -47,6 +47,7 @@ import CodeLink, {
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
+import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 
 const tracer = getTracer('lesson-page')
 
@@ -204,9 +205,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const loaderVisible = playerState.matches('loading')
-  const commentsAvailable = comments.some(
-    (comment: any) => comment.state === 'published',
-  )
+  const commentsAvailable =
+    comments?.some((comment: any) => comment.state === 'published') ?? false
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -223,8 +223,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const checkAutoPlay = () => {
     if (autoplay && nextLesson) {
-      setMedia(false)
-      send('AUTO_PLAY')
+      console.debug('autoplaying next lesson', {nextLesson})
       router.push(nextLesson.path)
     } else if (nextLesson) {
       send(`NEXT`)
@@ -255,7 +254,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
-    setPlayerPrefs({autoplay: false})
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
@@ -301,7 +299,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [router.events, send])
 
   React.useEffect(() => {
-    send('LOAD')
     setLesson(initialLesson)
 
     async function run() {
@@ -521,7 +518,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center w-full border-t border-gray-800 px-2 3xl:px-0 py-2">
+              <div className="flex justify-between items-center w-full border-t border-gray-900 px-2 3xl:px-0 py-2">
                 <div className="flex items-center flex-grow">
                   {playbackRate && (
                     <PlaybackSpeedSelect
@@ -530,6 +527,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       video={slug}
                     />
                   )}
+                </div>
+                <div>
+                  <AutoplayToggle
+                    enabled={true}
+                    onDark={true}
+                    player={actualPlayerRef.current}
+                  />
                 </div>
               </div>
             </div>

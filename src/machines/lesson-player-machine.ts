@@ -16,7 +16,6 @@ interface PlayerStateSchema {
     joining: {}
     completed: {}
     recommending: {}
-    autoPlaying: {}
   }
 }
 
@@ -34,7 +33,6 @@ export type PlayerStateEvent =
   | {type: 'RATE'}
   | {type: 'LOAD'}
   | {type: 'RECOMMEND'}
-  | {type: 'AUTO_PLAY'}
 
 interface PlayerContext {
   lesson: any
@@ -80,6 +78,7 @@ const playerMachine = Machine<
         on: {
           PLAY: 'playing',
           LOAD: 'loading',
+          LOADED: 'loaded',
         },
       },
       playing: {
@@ -99,20 +98,10 @@ const playerMachine = Machine<
           LOAD: 'loading',
         },
       },
-      autoPlaying: {
-        entry: [
-          assign({
-            lesson: null,
-          }),
-        ],
-        on: {
-          LOADED: 'loaded',
-        },
-      },
+
       completed: {
         entry: ['sendTelemetry'],
         on: {
-          AUTO_PLAY: 'autoPlaying',
           NEXT: 'showingNext',
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
@@ -120,6 +109,7 @@ const playerMachine = Machine<
           RECOMMEND: 'recommending',
           QUIZ: 'quizzing',
           LOAD: 'loading',
+          LOADED: 'loaded',
         },
       },
       quizzing: {

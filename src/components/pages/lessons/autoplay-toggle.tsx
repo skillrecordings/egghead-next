@@ -6,11 +6,13 @@ import {useEggheadPlayerPrefs} from '../../EggheadPlayer/use-egghead-player'
 type AutoplayToggleProps = {
   enabled: boolean
   onDark?: boolean
+  player: any
 }
 
 const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
   enabled,
   onDark = false,
+  player,
 }) => {
   const {autoplay, setPlayerPrefs} = useEggheadPlayerPrefs()
 
@@ -23,6 +25,15 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
               state: !autoplay ? 'off' : 'on',
             })
             setPlayerPrefs({autoplay: !autoplay})
+            if (!autoplay) {
+              if (player) {
+                player.play()
+              }
+            } else {
+              if (player) {
+                player.pause()
+              }
+            }
           }
         }}
         type="button"
@@ -57,7 +68,9 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
           />
         </div>
         <div
-          className={`text-sm transition-colors ease-in-out duration-200 ${
+          className={`${
+            onDark ? 'text-white' : ''
+          } text-sm transition-colors ease-in-out duration-200 ${
             !enabled && 'opacity-30'
           }`}
         >
