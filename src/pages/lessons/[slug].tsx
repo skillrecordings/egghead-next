@@ -131,6 +131,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [media, setMedia] = React.useState<any>()
+  const [isFullscreen, setIsFullscreen] = React.useState(false)
 
   const [playbackRate, setPlaybackRate] = React.useState<number>(
     storedPlaybackRate,
@@ -221,13 +222,40 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     )
   }, [currentPlayerState])
 
-  const checkAutoPlay = () => {
+  const checkAutoPlay = async () => {
     if (autoplay && nextLesson) {
       console.debug('autoplaying next lesson', {nextLesson})
       track('autoplaying next video', {
         video: nextLesson.slug,
       })
-      router.push(nextLesson.path)
+
+      if (isFullscreen) {
+        const loadedLesson = await loadLesson(
+          nextLesson.slug,
+          getAccessTokenFromCookie(),
+        )
+
+        console.debug('full screen authed video loaded', {video: loadedLesson})
+
+        const mediaUrls = {
+          hls_url: loadedLesson.hls_url,
+          dash_url: loadedLesson.dash_url,
+        }
+
+        send({
+          type: 'VIEW',
+          lesson: loadedLesson,
+        })
+
+        setMedia(mediaUrls)
+        setLesson(loadedLesson)
+
+        router.push(loadedLesson.path, undefined, {
+          shallow: true,
+        })
+      } else {
+        router.push(nextLesson.path)
+      }
     } else if (nextLesson) {
       send(`NEXT`)
     } else {
@@ -236,9 +264,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const completeVideo = (lessonView: any) => {
+    console.debug('completed video', {lessonView, video: lesson})
     if (lessonView) {
       const hasNextLesson = nextLesson
       const progress = getProgress(lessonView)
+
+      if (!hasNextLesson && isFullscreen) {
+        window.document.exitFullscreen()
+        setIsFullscreen(false)
+      }
+
       if (!hasNextLesson && progress?.rate_url) {
         send('RATE')
       } else {
@@ -257,10 +292,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
+    const mediaPresent =
+      lesson?.hls_url || lesson?.dash_url || media?.hls_url || media?.dash_url
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
-        const mediaPresent = media.hls_url || media.dash_url
 
         if (isEmpty(viewer) && free_forever) {
           if (viewLimitNotReached && mediaPresent) {
@@ -275,7 +311,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'viewing':
-        if (!media) {
+        if (!mediaPresent && !isFullscreen) {
           send('LOAD')
         }
         break
@@ -289,7 +325,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         })
         break
     }
-  }, [currentPlayerState, media])
+  }, [currentPlayerState, media, lesson])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
@@ -311,6 +347,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         getAccessTokenFromCookie(),
       )
       console.debug('authed video loaded', {video: loadedLesson})
+
+      send({
+        type: 'LOADED',
+        lesson: loadedLesson,
+      })
+
       setLesson(loadedLesson)
     }
 
@@ -414,8 +456,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         ref={playerRef}
                         hidden={!playerVisible}
                         resource={lesson}
-                        hls_url={media?.hls_url}
-                        dash_url={media?.dash_url}
+                        hls_url={lesson?.hls_url || media?.hls_url}
+                        dash_url={lesson?.dash_url || media?.dash_url}
                         playing={playerState.matches('playing')}
                         playbackRate={playbackRate}
                         width="100%"
@@ -423,6 +465,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         pip="true"
                         controls
                         onPlay={() => send('PLAY')}
+                        onViewModeChanged={({to}: {to: string}) => {
+                          if (to === 'fullscreen') {
+                            track('entered fullscreen video', {
+                              video: lesson.slug,
+                            })
+
+                            setIsFullscreen(true)
+                          } else {
+                            setIsFullscreen(false)
+                          }
+                        }}
                         onReady={(player: any) => {
                           actualPlayerRef.current = player
                           if (autoplay && isFunction(player.play)) {
