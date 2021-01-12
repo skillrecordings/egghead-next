@@ -12,7 +12,7 @@ import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
-import {loadLesson} from 'lib/lessons'
+import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
   const initialLesson: LessonResource | undefined =
-    params && (await loadLesson(params.slug as string))
+    params && (await loadBasicLesson(params.slug as string))
 
   if (initialLesson && initialLesson?.slug !== params?.slug) {
     res.setHeader('Location', initialLesson.path)
