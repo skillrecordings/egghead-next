@@ -9,7 +9,6 @@ import {NextSeo} from 'next-seo'
 import {track} from 'utils/analytics'
 import {first, get} from 'lodash'
 import {useViewer} from '../../../context/viewer-context'
-import useLastResource from '../../../hooks/use-last-resource'
 
 type CourseProps = {
   course: any
@@ -17,16 +16,6 @@ type CourseProps = {
 }
 
 const Course: FunctionComponent<CourseProps> = () => {
-  useLastResource({
-    title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
-    path: `/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
-    slug: `create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
-    type: `project`,
-    description: `Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio`,
-    image_url:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034857/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout_1.png',
-  })
-
   const course = {
     title: `Create an eCommerce Store with Next.js and Stripe Checkout`,
     slug: `create-an-ecommerce-store-with-next-js-and-stripe-checkout`,
