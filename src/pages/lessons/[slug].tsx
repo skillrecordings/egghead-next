@@ -268,9 +268,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     if (lessonView) {
       const hasNextLesson = nextLesson
       const progress = getProgress(lessonView)
-      if (!hasNextLesson) {
+
+      if (!hasNextLesson && isFullscreen) {
         window.document.exitFullscreen()
+        setIsFullscreen(false)
       }
+
       if (!hasNextLesson && progress?.rate_url) {
         send('RATE')
       } else {
