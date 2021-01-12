@@ -21,6 +21,7 @@ interface PlayerStateSchema {
 
 export type PlayerStateEvent =
   | {type: 'VIEW'}
+  | {type: 'VIEW'; lesson: any}
   | {type: 'PLAY'}
   | {type: 'PAUSE'}
   | {type: 'LOADED'}
@@ -74,7 +75,12 @@ const playerMachine = Machine<
         },
       },
       viewing: {
-        entry: ['sendTelemetry'],
+        entry: [
+          'sendTelemetry',
+          assign({
+            lesson: (ctx, event: any) => event.lesson || ctx.lesson,
+          }),
+        ],
         on: {
           PLAY: 'playing',
           LOAD: 'loading',
@@ -110,6 +116,7 @@ const playerMachine = Machine<
           QUIZ: 'quizzing',
           LOAD: 'loading',
           LOADED: 'loaded',
+          VIEW: 'viewing',
         },
       },
       quizzing: {

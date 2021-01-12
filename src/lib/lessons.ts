@@ -153,6 +153,7 @@ export async function loadBasicLesson(slug: string) {
               path
               title
               completed
+              media_url
             }
           }
           ... on Course {
@@ -167,6 +168,7 @@ export async function loadBasicLesson(slug: string) {
               path
               title
               completed
+              media_url
             }
           }
         }
