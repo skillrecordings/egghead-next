@@ -61,7 +61,7 @@ export default class App extends NextApp {
               <ViewerProvider>
                 <MDXProvider components={mdxComponents}>
                   <CacheProvider value={cache}>
-                    {getLayout(Component)}
+                    {getLayout(Component, pageProps)}
                   </CacheProvider>
                 </MDXProvider>
               </ViewerProvider>

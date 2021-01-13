@@ -17,9 +17,9 @@ import nameToSlug from 'lib/name-to-slug'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {track} from 'utils/analytics'
-import Header from '../../components/app/header'
-import Main from '../../components/app/main'
-import Footer from '../../components/app/footer'
+import Header from 'components/app/header'
+import Main from 'components/app/main'
+import Footer from 'components/app/footer'
 
 const tracer = getTracer('search-page')
 
@@ -122,15 +122,16 @@ const SearchIndex: any = ({
   )
 }
 
-// this fixes the issue with a double footer rendering.
-SearchIndex.getLayout = (Page: any) => {
+// this fixes the issue with a double footer rendering. 🥴
+SearchIndex.getLayout = (Page: any, pageProps: any) => {
+  console.log({pageProps})
   return (
     <>
       <Header />
       <Main>
-        <Page />
+        <Page {...pageProps} />
+        <Footer />
       </Main>
-      <Footer />
     </>
   )
 }
