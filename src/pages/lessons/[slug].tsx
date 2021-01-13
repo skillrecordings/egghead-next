@@ -426,14 +426,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               }}
             >
               <div
-                className="relative flex-grow bg-black"
+                className="flex flex-grow bg-black"
                 css={{
                   minHeight: Math.round(videoWidth / 1.77777),
                 }}
               >
                 <div
-                  className={`relative ${
-                    playerVisible || loaderVisible ? 'h-0' : 'h-full'
+                  className={`w-full relative ${
+                    playerVisible || loaderVisible ? 'h-0' : ''
                   }`}
                   css={{
                     paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
@@ -574,7 +574,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center w-full border-t border-gray-900 px-2 3xl:px-0 py-2">
+              <div className="flex justify-between items-center w-full border-t border-gray-900 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
                 <div className="flex items-center flex-grow">
                   {playbackRate && (
                     <PlaybackSpeedSelect
