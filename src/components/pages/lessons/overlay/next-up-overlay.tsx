@@ -13,7 +13,7 @@ const NextUpOverlay: React.FunctionComponent<{
   return (
     <>
       {courseImage && (
-        <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 relative flex-shrink-0">
+        <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
           <Image
             src={courseImage}
             alt={`illustration of ${lesson.collection.title} course`}
