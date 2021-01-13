@@ -292,6 +292,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
+    const lesson = get(playerState, 'context.lesson')
     const mediaPresent =
       lesson?.hls_url || lesson?.dash_url || media?.hls_url || media?.dash_url
     switch (currentPlayerState) {
@@ -325,11 +326,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         })
         break
     }
-  }, [currentPlayerState, media, lesson])
+  }, [currentPlayerState, media])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
       send('LOAD')
+      setMedia(false)
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => {
@@ -348,12 +350,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       )
       console.debug('authed video loaded', {video: loadedLesson})
 
+      const mediaUrls = {
+        hls_url: loadedLesson.hls_url,
+        dash_url: loadedLesson.dash_url,
+      }
+
+      setLesson(loadedLesson)
+      setMedia(mediaUrls)
+
       send({
         type: 'LOADED',
         lesson: loadedLesson,
       })
-
-      setLesson(loadedLesson)
     }
 
     if (cookieUtil.get(`egghead-watch-count`)) {
