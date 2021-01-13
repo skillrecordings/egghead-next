@@ -575,7 +575,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
               <div className="flex justify-between items-center w-full border-t border-gray-900 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
-                <div className="flex items-center flex-grow">
+                <div className="flex items-center flex-grow space-x-4">
                   {playbackRate && (
                     <PlaybackSpeedSelect
                       playbackRate={playbackRate}
@@ -583,6 +583,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       video={slug}
                     />
                   )}
+                  <LessonDownload lesson={lesson} />
                 </div>
                 <div>
                   <AutoplayToggle
@@ -723,7 +724,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       Open code on GitHub
                     </CodeLink>
                   )}
-                  <LessonDownload lesson={lesson} />
                 </div>
 
                 {description && (

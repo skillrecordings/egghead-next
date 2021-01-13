@@ -3,6 +3,7 @@ import {FunctionComponent} from 'react'
 import axios from 'utils/configured-axios'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
+import {Tooltip} from 'react-tippy'
 
 type LessonDownloadProps = {
   lesson: any
@@ -12,42 +13,40 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
   const {viewer} = useViewer()
 
   return (
-    <div className="flex space-x-6">
-      {lesson.download_url && viewer?.is_pro ? (
-        <div className="flex items-center">
-          <a
-            onClick={(e) => {
-              e.preventDefault()
-              axios.get(lesson.download_url).then(({data}) => {
-                window.location.href = data
-              })
-              track(`clicked download lesson`, {
-                lesson: lesson.slug,
-              })
-            }}
-            href={lesson.download_url}
-            className="flex items-center text-blue-600 hover:underline font-semibold"
-          >
-            <IconDownload className="w-5 mr-1 text-blue-700" />
-            Download Video
-          </a>
-        </div>
+    <Tooltip
+      title={
+        viewer?.is_pro ? 'Download Video' : 'Download Video (members only)'
+      }
+    >
+      {lesson?.download_url && viewer?.is_pro ? (
+        <a
+          onClick={(e) => {
+            e.preventDefault()
+            axios.get(lesson.download_url).then(({data}) => {
+              window.location.href = data
+            })
+            track(`clicked download lesson`, {
+              lesson: lesson.slug,
+            })
+          }}
+          href={lesson.download_url}
+          className=""
+        >
+          <IconDownload className="w-5 mr-1 text-white" />
+        </a>
       ) : (
-        <div className="flex items-center">
-          <div
-            onClick={() => {
-              track(`clicked download lesson blocked`, {
-                lesson: lesson.slug,
-              })
-            }}
-            className="flex items-center text-blue-600 opacity-30 font-semibold"
-          >
-            <IconDownload className="w-5 mr-1 text-blue-700" />
-            Download Video {!viewer?.is_pro && `(members only)`}
-          </div>
+        <div
+          onClick={() => {
+            track(`clicked download lesson blocked`, {
+              lesson: lesson.slug,
+            })
+          }}
+          className=""
+        >
+          <IconDownload className="w-5 text-white opacity-30" />
         </div>
       )}
-    </div>
+    </Tooltip>
   )
 }
 
