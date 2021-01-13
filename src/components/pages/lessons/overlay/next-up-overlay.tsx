@@ -11,7 +11,7 @@ const NextUpOverlay: React.FunctionComponent<{
 }> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
   return (
-    <>
+    <div className="bg-gray-800 bg-opacity-90 grid place-items-center w-full h-full absolute z-10 top-0 left-0">
       {courseImage && (
         <div className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 relative flex-shrink-0">
           <Image
@@ -50,7 +50,7 @@ const NextUpOverlay: React.FunctionComponent<{
           </a>
         </Link>
       </div>
-    </>
+    </div>
   )
 }
 
