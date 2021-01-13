@@ -18,8 +18,8 @@ const Redirect = () => {
   return null
 }
 
-Redirect.getLayout = (Page: any) => {
-  return <Page />
+Redirect.getLayout = (Page: any, pageProps: any) => {
+  return <Page {...pageProps} />
 }
 
 export default Redirect
