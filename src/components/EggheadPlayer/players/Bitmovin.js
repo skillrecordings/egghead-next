@@ -228,9 +228,14 @@ export default class Bitmovin extends Base {
       onSubtitleChange,
       onVideoQualityChanged,
       onMuted,
+      onViewModeChanged,
     } = this.props
 
     this.player.on(this.player.exports.PlayerEvent.Play, this.onPlay)
+    this.player.on(
+      this.player.exports.PlayerEvent.ViewModeChanged,
+      onViewModeChanged,
+    )
     this.player.on(this.player.exports.PlayerEvent.Paused, onPause)
     this.player.on(this.player.exports.PlayerEvent.Error, onError)
     this.player.on(this.player.exports.PlayerEvent.PlaybackFinished, onEnded)
@@ -264,8 +269,13 @@ export default class Bitmovin extends Base {
       onSubtitleChange,
       onVideoQualityChanged,
       onMuted,
+      onViewModeChanged,
     } = this.props
     this.player.off(this.player.exports.PlayerEvent.Play, this.onPlay)
+    this.player.off(
+      this.player.exports.PlayerEvent.ViewModeChanged,
+      onViewModeChanged,
+    )
     this.player.off(this.player.exports.PlayerEvent.Paused, onPause)
     this.player.off(this.player.exports.PlayerEvent.Error, onError)
     this.player.off(
@@ -327,6 +337,11 @@ export default class Bitmovin extends Base {
   pause() {
     if (!this.isReady || !this.player) return
     this.player && this.player.pause()
+  }
+
+  isFullscreen() {
+    if (!this.isReady || !this.player) return
+    this.player && this.player.isFullscreen()
   }
 
   stop() {

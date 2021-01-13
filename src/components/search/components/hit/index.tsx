@@ -3,6 +3,8 @@ import Link from 'next/link'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import capitalize from 'lodash/capitalize'
 import {track} from 'utils/analytics'
+import config from '../../../../lib/config'
+import {CREATOR_DELINIATOR} from '../../../../lib/search-url-builder'
 
 type HitComponentProps = {
   hit: any
@@ -18,6 +20,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
     type,
     instructor_url,
     instructor_name,
+    instructor,
   } = hit
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
@@ -70,20 +73,19 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
           </Link>
           <div className="sm:text-sm text-sm font-light text-gray-600">
             {instructor_name && !instructor_url && <>{instructor_name}・</>}
-            {instructor_name && instructor_url && (
+            {instructor_name && instructor?.slug && (
               <>
-                <Link href={instructor_url}>
-                  <a
-                    onClick={() =>
-                      track(`clicked search result creator`, {
-                        instructor: instructor_name,
-                      })
-                    }
-                    className="hover:underline"
-                  >
-                    {instructor_name}
-                  </a>
-                </Link>
+                <a
+                  href={`${config.searchUrlRoot}/${CREATOR_DELINIATOR}-${instructor.slug}`}
+                  onClick={() =>
+                    track(`clicked search result creator`, {
+                      instructor: instructor_name,
+                    })
+                  }
+                  className="hover:underline"
+                >
+                  {instructor_name}
+                </a>
                 ・
               </>
             )}

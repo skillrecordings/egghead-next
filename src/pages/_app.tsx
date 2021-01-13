@@ -1,5 +1,5 @@
 import * as React from 'react'
-import NextApp from 'next/app'
+import NextApp, {NextWebVitalsMetric} from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
@@ -25,6 +25,10 @@ declare global {
     _cio: any
     fbq: any
   }
+}
+
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  console.debug(metric)
 }
 
 export default class App extends NextApp {
@@ -57,7 +61,7 @@ export default class App extends NextApp {
               <ViewerProvider>
                 <MDXProvider components={mdxComponents}>
                   <CacheProvider value={cache}>
-                    {getLayout(Component)}
+                    {getLayout(Component, pageProps)}
                   </CacheProvider>
                 </MDXProvider>
               </ViewerProvider>

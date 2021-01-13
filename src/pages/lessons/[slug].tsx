@@ -6,13 +6,13 @@ import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {useWindowSize, useMeasure} from 'react-use'
-import playerMachine, {PlayerStateEvent} from 'machines/lesson-player-machine'
+import {playerMachine, PlayerStateEvent} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
-import {loadLesson} from 'lib/lessons'
+import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
 import {NextSeo} from 'next-seo'
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
   const initialLesson: LessonResource | undefined =
-    params && (await loadLesson(params.slug as string))
+    params && (await loadBasicLesson(params.slug as string))
 
   if (initialLesson && initialLesson?.slug !== params?.slug) {
     res.setHeader('Location', initialLesson.path)
@@ -116,42 +116,40 @@ type LessonProps = {
 }
 
 const MAX_FREE_VIEWS = 7
+const HEADER_HEIGHT = 80
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
+  const router = useRouter()
+
+  const {viewer} = useViewer()
+  const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
+
   const {md} = useBreakpoint()
-  const {
-    setPlayerPrefs,
-    playbackRate: storedPlaybackRate,
-    defaultView,
-  } = useEggheadPlayerPrefs()
+
   const {height} = useWindowSize()
-  const [ref, {width: videoWidth}] = useMeasure<any>()
-  const HEADER_HEIGHT = 80
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
+
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
+  const [ref, {width: videoWidth}] = useMeasure<any>()
+
   const [media, setMedia] = React.useState<any>()
+  const [isFullscreen, setIsFullscreen] = React.useState(false)
 
-  const [playbackRate, setPlaybackRate] = React.useState<number>(
-    storedPlaybackRate,
-  )
-  const changePlaybackRate = (rate: number) => {
-    setPlayerPrefs({playbackRate: rate})
-    setPlaybackRate(rate)
-  }
-
-  const [lesson, setLesson] = React.useState<any>(initialLesson)
-  const router = useRouter()
   const playerRef = React.useRef(null)
-  const {viewer} = useViewer()
-  const [playerState, send] = useMachine(playerMachine)
+  const actualPlayerRef = React.useRef<any>(null)
+
+  const [playerState, send] = useMachine(playerMachine, {
+    context: {lesson: initialLesson},
+  })
+
+  const lesson: any = get(playerState, 'context.lesson', initialLesson)
+
   const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
   const currentPlayerState = playerState.value as string
-
-  const actualPlayerRef = React.useRef<any>(null)
 
   useLastResource({...lesson, image_url: lesson.icon_url})
 
@@ -189,6 +187,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const transcriptAvailable = transcript || enhancedTranscript
   const courseDependencies: any = getDependencies(collection?.slug)
   const {dependencies} = courseDependencies
+
   const collectionTags = tags.map((tag: any) => {
     const version = get(dependencies, tag.name)
     return {
@@ -198,13 +197,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   })
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
+
   const getProgress = (lessonView: any) => {
     if (lessonView?.collection_progress) {
       return lessonView.collection_progress
     }
   }
 
-  const loaderVisible = playerState.matches('loading')
+  const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
+
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
 
@@ -216,18 +217,44 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
-        'autoPlaying',
+        'showingNext',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
 
-  const checkAutoPlay = () => {
+  const checkAutoPlay = async () => {
     if (autoplay && nextLesson) {
       console.debug('autoplaying next lesson', {nextLesson})
       track('autoplaying next video', {
         video: nextLesson.slug,
       })
-      router.push(nextLesson.path)
+
+      if (isFullscreen) {
+        const loadedLesson = await loadLesson(
+          nextLesson.slug,
+          getAccessTokenFromCookie(),
+        )
+
+        console.debug('full screen authed video loaded', {video: loadedLesson})
+
+        const mediaUrls = {
+          hls_url: loadedLesson.hls_url,
+          dash_url: loadedLesson.dash_url,
+        }
+
+        send({
+          type: 'VIEW',
+          lesson: loadedLesson,
+        })
+
+        setMedia(mediaUrls)
+
+        router.push(loadedLesson.path, undefined, {
+          shallow: true,
+        })
+      } else {
+        router.push(nextLesson.path)
+      }
     } else if (nextLesson) {
       send(`NEXT`)
     } else {
@@ -236,9 +263,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const completeVideo = (lessonView: any) => {
+    console.debug('completed video', {lessonView, video: lesson})
     if (lessonView) {
       const hasNextLesson = nextLesson
       const progress = getProgress(lessonView)
+
+      if (!hasNextLesson && isFullscreen) {
+        window.document.exitFullscreen()
+        setIsFullscreen(false)
+      }
+
       if (!hasNextLesson && progress?.rate_url) {
         send('RATE')
       } else {
@@ -257,10 +291,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
+    const lesson = get(playerState, 'context.lesson')
+    const mediaPresent =
+      lesson?.hls_url || lesson?.dash_url || media?.hls_url || media?.dash_url
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
-        const mediaPresent = media.hls_url || media.dash_url
 
         if (isEmpty(viewer) && free_forever) {
           if (viewLimitNotReached && mediaPresent) {
@@ -275,18 +311,24 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'viewing':
-        if (!media) {
+        if (!mediaPresent && !isFullscreen) {
           send('LOAD')
         }
         break
       case 'completed':
-        console.debug('handling a change to completed', {lesson})
+        let completed = false
+        console.debug('handling a change to completed', {lesson, lessonView})
         onEnded(lesson).then((lessonView: any) => {
           if (lessonView) {
             setLessonView(lessonView)
           }
-          completeVideo(lessonView)
+          if (!completed) completeVideo(lessonView)
         })
+
+        if (lessonView) {
+          completeVideo(lessonView)
+          completed = true
+        }
         break
     }
   }, [currentPlayerState, media])
@@ -294,6 +336,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     const handleRouteChange = () => {
       send('LOAD')
+      setMedia(false)
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => {
@@ -302,8 +345,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [router.events, send])
 
   React.useEffect(() => {
-    setLesson(initialLesson)
-
     async function run() {
       console.debug('loading video with auth')
       const loadedLesson = await loadLesson(
@@ -311,7 +352,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         getAccessTokenFromCookie(),
       )
       console.debug('authed video loaded', {video: loadedLesson})
-      setLesson(loadedLesson)
+
+      const mediaUrls = {
+        hls_url: loadedLesson.hls_url,
+        dash_url: loadedLesson.dash_url,
+      }
+
+      setMedia(mediaUrls)
+
+      send({
+        type: 'LOADED',
+        lesson: loadedLesson,
+      })
     }
 
     if (cookieUtil.get(`egghead-watch-count`)) {
@@ -332,10 +384,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
   }, [height])
-
-  React.useEffect(() => {
-    setPlaybackRate(storedPlaybackRate)
-  }, [storedPlaybackRate])
 
   return (
     <>
@@ -409,13 +457,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         playerVisible || loaderVisible ? 'absolute' : ''
                       } w-full h-full top-0 left-0`}
                     >
-                      {loaderVisible && <Loader />}
                       <EggheadPlayer
                         ref={playerRef}
                         hidden={!playerVisible}
                         resource={lesson}
-                        hls_url={media?.hls_url}
-                        dash_url={media?.dash_url}
+                        hls_url={lesson?.hls_url || media?.hls_url}
+                        dash_url={lesson?.dash_url || media?.dash_url}
                         playing={playerState.matches('playing')}
                         playbackRate={playbackRate}
                         width="100%"
@@ -423,6 +470,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         pip="true"
                         controls
                         onPlay={() => send('PLAY')}
+                        onViewModeChanged={({to}: {to: string}) => {
+                          if (to === 'fullscreen') {
+                            track('entered fullscreen video', {
+                              video: lesson.slug,
+                            })
+
+                            setIsFullscreen(true)
+                          } else {
+                            setIsFullscreen(false)
+                          }
+                        }}
                         onReady={(player: any) => {
                           actualPlayerRef.current = player
                           if (autoplay && isFunction(player.play)) {
@@ -450,6 +508,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         subtitlesUrl={get(lesson, 'subtitles_url')}
                       />
 
+                      {loaderVisible && <Loader />}
+
                       {playerState.matches('joining') && (
                         <OverlayWrapper>
                           <CreateAccountCTA
@@ -464,18 +524,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         </OverlayWrapper>
                       )}
                       {playerState.matches('showingNext') && (
-                        <OverlayWrapper>
-                          <NextUpOverlay
-                            lesson={lesson}
-                            nextLesson={nextLesson}
-                            onClickRewatch={() => {
-                              send('VIEW')
-                              if (actualPlayerRef.current) {
-                                actualPlayerRef.current.play()
-                              }
-                            }}
-                          />
-                        </OverlayWrapper>
+                        <NextUpOverlay
+                          lesson={lesson}
+                          nextLesson={nextLesson}
+                          onClickRewatch={() => {
+                            send('VIEW')
+                            if (actualPlayerRef.current) {
+                              actualPlayerRef.current.play()
+                            }
+                          }}
+                        />
                       )}
                       {playerState.matches('rating') && (
                         <OverlayWrapper>
@@ -526,7 +584,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {playbackRate && (
                     <PlaybackSpeedSelect
                       playbackRate={playbackRate}
-                      changePlaybackRate={changePlaybackRate}
+                      changePlaybackRate={(rate: number) =>
+                        setPlayerPrefs({playbackRate: rate})
+                      }
                       video={slug}
                     />
                   )}

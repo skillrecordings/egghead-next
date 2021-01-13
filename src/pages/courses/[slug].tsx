@@ -5,7 +5,6 @@ import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import fetcher from 'utils/fetcher'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
-import useLastResource from '../../hooks/use-last-resource'
 
 type CourseProps = {
   course: any
@@ -17,12 +16,6 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
   const course = {...data, ...initialCourse}
 
   const {slug, lessons} = course
-
-  useLastResource({
-    ...course,
-    type: `course`,
-    image_url: course.square_cover_480_url,
-  })
 
   return (
     <CollectionPageLayout

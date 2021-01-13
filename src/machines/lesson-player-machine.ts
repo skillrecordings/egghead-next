@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import {track} from 'utils/analytics'
 import {Machine, assign} from 'xstate'
 
@@ -21,6 +20,7 @@ interface PlayerStateSchema {
 
 export type PlayerStateEvent =
   | {type: 'VIEW'}
+  | {type: 'VIEW'; lesson: any}
   | {type: 'PLAY'}
   | {type: 'PAUSE'}
   | {type: 'LOADED'}
@@ -38,7 +38,7 @@ interface PlayerContext {
   lesson: any
 }
 
-const playerMachine = Machine<
+export const playerMachine = Machine<
   PlayerContext,
   PlayerStateSchema,
   PlayerStateEvent
@@ -49,11 +49,6 @@ const playerMachine = Machine<
     context: {lesson: {}},
     states: {
       loading: {
-        entry: [
-          assign({
-            lesson: null,
-          }),
-        ],
         on: {
           LOADED: 'loaded',
         },
@@ -74,7 +69,12 @@ const playerMachine = Machine<
         },
       },
       viewing: {
-        entry: ['sendTelemetry'],
+        entry: [
+          'sendTelemetry',
+          assign({
+            lesson: (ctx, event: any) => event.lesson || ctx.lesson,
+          }),
+        ],
         on: {
           PLAY: 'playing',
           LOAD: 'loading',
@@ -110,6 +110,7 @@ const playerMachine = Machine<
           QUIZ: 'quizzing',
           LOAD: 'loading',
           LOADED: 'loaded',
+          VIEW: 'viewing',
         },
       },
       quizzing: {
@@ -206,5 +207,3 @@ const playerMachine = Machine<
     },
   },
 )
-
-export default playerMachine

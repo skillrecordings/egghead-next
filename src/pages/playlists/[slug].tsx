@@ -6,7 +6,6 @@ import {GetServerSideProps} from 'next'
 import {filter} from 'lodash'
 import fetcher from 'utils/fetcher'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
-import useLastResource from 'hooks/use-last-resource'
 
 type PlaylistProps = {
   playlist: any
@@ -20,12 +19,6 @@ const Playlist: FunctionComponent<PlaylistProps> = ({
   const course = {...data, ...initialPlaylist}
 
   const {slug, items} = course
-
-  useLastResource({
-    ...course,
-    type: `course`,
-    image_url: course.square_cover_480_url,
-  })
 
   const lessons = filter(items, (item) => {
     return ['lesson', 'talk'].includes(item.type)
