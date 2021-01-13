@@ -17,6 +17,9 @@ import nameToSlug from 'lib/name-to-slug'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
 import {track} from 'utils/analytics'
+import Header from '../../components/app/header'
+import Main from '../../components/app/main'
+import Footer from '../../components/app/footer'
 
 const tracer = getTracer('search-page')
 
@@ -55,13 +58,13 @@ type SearchIndexProps = {
   initialInstructor: any
 }
 
-const SearchIndex: FunctionComponent<SearchIndexProps> = ({
+const SearchIndex: any = ({
   initialSearchState,
   resultsState,
   pageTitle,
   noIndexInitial,
   initialInstructor,
-}) => {
+}: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
@@ -119,6 +122,19 @@ const SearchIndex: FunctionComponent<SearchIndexProps> = ({
   )
 }
 
+// this fixes the issue with a double footer rendering.
+SearchIndex.getLayout = (Page: any) => {
+  return (
+    <>
+      <Header />
+      <Main>
+        <Page />
+      </Main>
+      <Footer />
+    </>
+  )
+}
+
 export default SearchIndex
 
 export const getServerSideProps: GetServerSideProps = async function ({
@@ -127,7 +143,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   const {all, ...rest} = query
   const initialSearchState = parseUrl(query)
   const pageTitle = titleFromPath(all as string[])
