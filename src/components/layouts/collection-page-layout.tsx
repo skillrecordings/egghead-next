@@ -132,7 +132,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
   const playlistLessons = playlists.reduce((acc, playlist) => {
-    return [...acc, ...playlist.lessons]
+    const lessons = playlist?.lessons ?? []
+    return [...acc, ...lessons]
   }, [])
 
   // this is a pretty sloppy approach to fetching the next lesson
