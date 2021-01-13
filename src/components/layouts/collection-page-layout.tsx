@@ -132,7 +132,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
   const playlistLessons = playlists.reduce((acc, playlist) => {
-    const lessons = playlist?.lessons || []
+    const lessons = playlist?.lessons ?? []
     return [...acc, ...lessons]
   }, [])
 
