@@ -209,8 +209,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
 
-  console.log('commentsAvailable: ', comments)
-
   React.useEffect(() => {
     setPlayerVisible(
       [
@@ -626,7 +624,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           <div
             className={`grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
           >
-            <div className="md:col-span-8 md:row-start-1 row-start-1 md:space-y-10 space-y-6">
+            <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
               <div className="space-y-4">
                 <SortingHat />
                 {title && (
@@ -706,34 +704,37 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </div>
                   </div>
                 </div>
-                <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
-                  {lesson?.code_url && (
-                    <CodeLink
-                      onClick={() => {
-                        track(`clicked open code`, {
-                          lesson: lesson.slug,
-                        })
-                      }}
-                      url={lesson.code_url}
-                      icon={<IconCode />}
-                    >
-                      Open code for this lesson
-                    </CodeLink>
-                  )}
-                  {lesson?.repo_url && (
-                    <CodeLink
-                      onClick={() => {
-                        track(`clicked open github`, {
-                          lesson: lesson.slug,
-                        })
-                      }}
-                      url={lesson.repo_url}
-                      icon={<IconGithub />}
-                    >
-                      Open code on GitHub
-                    </CodeLink>
-                  )}
-                </div>
+
+                {(lesson?.code_url || lesson?.repo_url) && (
+                  <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
+                    {lesson?.code_url && (
+                      <CodeLink
+                        onClick={() => {
+                          track(`clicked open code`, {
+                            lesson: lesson.slug,
+                          })
+                        }}
+                        url={lesson.code_url}
+                        icon={<IconCode />}
+                      >
+                        Open code for this lesson
+                      </CodeLink>
+                    )}
+                    {lesson?.repo_url && (
+                      <CodeLink
+                        onClick={() => {
+                          track(`clicked open github`, {
+                            lesson: lesson.slug,
+                          })
+                        }}
+                        url={lesson.repo_url}
+                        icon={<IconGithub />}
+                      >
+                        Open code on GitHub
+                      </CodeLink>
+                    )}
+                  </div>
+                )}
 
                 {description && (
                   <Markdown className="prose sm:prose-xl max-w-none font-medium">
@@ -754,7 +755,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     course={collection}
                     lesson={lesson}
                     playerState={playerState}
-                    className="space-y-6"
+                    className="space-y-4 lg:space-y-6"
                   />
                 </>
               )}
