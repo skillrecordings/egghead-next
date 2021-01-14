@@ -93,6 +93,8 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     return null
   }
 
+  console.log({transcript, enhancedTranscript})
+
   return (
     <>
       <ReactMarkdown
@@ -105,7 +107,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
         }}
         className={className ? className : 'prose md:prose-xl max-w-none'}
       >
-        {transcript || ''}
+        {enhancedTranscript || transcript || ''}
       </ReactMarkdown>
     </>
   )
