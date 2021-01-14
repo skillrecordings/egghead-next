@@ -15,7 +15,7 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
   return (
     <Tooltip
       title={
-        viewer?.is_pro ? 'Download Video' : 'Download Video (members only)'
+        lesson?.download_url ? 'Download Video' : 'Download Video (members only)'
       }
       className="self-center"
     >
