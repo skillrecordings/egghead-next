@@ -38,7 +38,7 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
           className={`w-5 text-white ${
             !lesson?.download_url ? 'opacity-30' : ''
           }`}
-        />
+        /> Download
       </button>
     </Tooltip>
   )
