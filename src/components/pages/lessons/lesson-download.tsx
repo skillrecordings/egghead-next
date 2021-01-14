@@ -17,35 +17,29 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
       title={
         viewer?.is_pro ? 'Download Video' : 'Download Video (members only)'
       }
+      className="self-center"
     >
-      {lesson?.download_url && viewer?.is_pro ? (
-        <a
-          onClick={(e) => {
-            e.preventDefault()
+      <button
+        onClick={(e) => {
+          e.preventDefault()
+          if (lesson?.download_url) {
             axios.get(lesson.download_url).then(({data}) => {
               window.location.href = data
             })
-            track(`clicked download lesson`, {
-              lesson: lesson.slug,
-            })
-          }}
-          href={lesson.download_url}
-          className=""
-        >
-          <IconDownload className="w-5 mr-1 text-white" />
-        </a>
-      ) : (
-        <div
-          onClick={() => {
-            track(`clicked download lesson blocked`, {
-              lesson: lesson.slug,
-            })
-          }}
-          className=""
-        >
-          <IconDownload className="w-5 text-white opacity-30" />
-        </div>
-      )}
+          }
+          track(`clicked download lesson`, {
+            lesson: lesson.slug,
+          })
+        }}
+        aria-label="download video"
+        className="flex"
+      >
+        <IconDownload
+          className={`w-5 text-white ${
+            !lesson?.download_url ? 'opacity-30' : ''
+          }`}
+        />
+      </button>
     </Tooltip>
   )
 }
