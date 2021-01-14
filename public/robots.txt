@@ -1,6 +1,6 @@
 User-agent: Twitterbot
 Disallow: 
-User-agent: AhrefsSiteAudit
+User-agent: *
 Allow: /
 Disallow: /discord
 Disallow: /_next
@@ -13,15 +13,13 @@ Disallow: /login
 Disallow: /logout
 Disallow: /redirect
 Disallow: /sale
-User-agent: *
-Disallow: /
-Host: https://next.egghead.io
-Sitemap: https://next.egghead.io/sitemap.xml
-Sitemap: https://next.egghead.io/tags-sitemap-0.xml
-Sitemap: https://next.egghead.io/tags-sitemap-1.xml
-Sitemap: https://next.egghead.io/tags-sitemap-2.xml
-Sitemap: https://next.egghead.io/tags-sitemap-3.xml
-Sitemap: https://next.egghead.io/tags-sitemap-4.xml
-Sitemap: https://next.egghead.io/tags-sitemap-5.xml
-Sitemap: https://next.egghead.io/tags-sitemap-6.xml
-Sitemap: https://next.egghead.io/tags-sitemap-7.xml
+Host: https://egghead.io
+Sitemap: https://egghead.io/sitemap.xml
+Sitemap: https://egghead.io/tags-sitemap-0.xml
+Sitemap: https://egghead.io/tags-sitemap-1.xml
+Sitemap: https://egghead.io/tags-sitemap-2.xml
+Sitemap: https://egghead.io/tags-sitemap-3.xml
+Sitemap: https://egghead.io/tags-sitemap-4.xml
+Sitemap: https://egghead.io/tags-sitemap-5.xml
+Sitemap: https://egghead.io/tags-sitemap-6.xml
+Sitemap: https://egghead.io/tags-sitemap-7.xml

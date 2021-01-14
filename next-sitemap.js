@@ -28,7 +28,7 @@ module.exports = {
         disallow: '',
       },
       {
-        userAgent: 'AhrefsSiteAudit',
+        userAgent: '*',
         allow: ['/'],
         disallow: [
           '/discord',
@@ -44,20 +44,16 @@ module.exports = {
           '/sale',
         ],
       },
-      {
-        userAgent: '*',
-        disallow: ['/'],
-      },
     ],
     additionalSitemaps: [
-      'https://next.egghead.io/tags-sitemap-0.xml',
-      'https://next.egghead.io/tags-sitemap-1.xml',
-      'https://next.egghead.io/tags-sitemap-2.xml',
-      'https://next.egghead.io/tags-sitemap-3.xml',
-      'https://next.egghead.io/tags-sitemap-4.xml',
-      'https://next.egghead.io/tags-sitemap-5.xml',
-      'https://next.egghead.io/tags-sitemap-6.xml',
-      'https://next.egghead.io/tags-sitemap-7.xml',
+      'https://egghead.io/tags-sitemap-0.xml',
+      'https://egghead.io/tags-sitemap-1.xml',
+      'https://egghead.io/tags-sitemap-2.xml',
+      'https://egghead.io/tags-sitemap-3.xml',
+      'https://egghead.io/tags-sitemap-4.xml',
+      'https://egghead.io/tags-sitemap-5.xml',
+      'https://egghead.io/tags-sitemap-6.xml',
+      'https://egghead.io/tags-sitemap-7.xml',
     ],
   },
 }
