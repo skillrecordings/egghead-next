@@ -693,7 +693,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                   {md && <Tags tags={collectionTags} lesson={lesson} />}
                   <div className="flex items-center space-x-8">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-col md:flex-row items-center space-y-2 md:space-x-2">
                       <Share
                         className="flex flex-col items-end"
                         resource={{
