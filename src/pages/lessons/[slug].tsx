@@ -634,7 +634,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     {title}
                   </h1>
                 )}
-                <div className="pt-4 flex md:flex-row flex-col w-full justify-between flex-wrap md:space-x-8 md:space-y-0 space-y-5 md:items-center">
+                <div className="pt-4 flex lg:flex-row flex-col w-full justify-between flex-wrap lg:space-x-8 lg:space-y-0 space-y-5 lg:items-center">
                   <div className="md:w-auto w-full flex justify-between items-center space-x-5">
                     {instructor && (
                       <div className="flex items-center flex-shrink-0">
@@ -693,7 +693,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                   {md && <Tags tags={collectionTags} lesson={lesson} />}
                   <div className="flex items-center space-x-8">
-                    <div className="flex flex-col md:flex-row items-center space-y-2 md:space-x-2">
+                    <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
                       <Share
                         className="flex flex-col items-end"
                         resource={{
