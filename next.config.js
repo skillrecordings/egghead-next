@@ -83,6 +83,11 @@ const searchRoutes = [
 
 const legacyRoutes = [
   {
+    source: `/sitemap.xml.gz`,
+    destination: `${appUrl}/sitemap.xml.gz`,
+    permanent: true,
+  },
+  {
     source: `/oauth/:all*`,
     destination: `${appUrl}/oauth/:all*`,
     permanent: true,
