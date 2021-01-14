@@ -18,7 +18,7 @@ jobs:
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v2
         env:
-          CYPRESS_BASE_URL: https://next.egghead.io
+          CYPRESS_BASE_URL: https://egghead.io
 
       - name: Cypress tests ✅
         if: ${{ success() }}
