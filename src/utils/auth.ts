@@ -64,6 +64,9 @@ export default class Auth {
     if (typeof localStorage === 'undefined') {
       return
     }
+
+    accessToken = accessToken ?? getAccessTokenFromCookie()
+
     return http
       .post(
         `${AUTH_DOMAIN}/api/v1/users/become_user?email=${email}&client_id=${AUTH_CLIENT_ID}`,

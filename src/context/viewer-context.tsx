@@ -35,7 +35,7 @@ export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
   const router = useRouter()
-  const [viewer, setViewer] = React.useState()
+  const [viewer, setViewer] = React.useState<any>()
   const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
@@ -144,6 +144,12 @@ function useAuthedViewer() {
 
     return clearUserMonitorInterval
   }, [viewerId, loggingOut])
+
+  React.useEffect(() => {
+    if (viewer?.is_admin) {
+      window.becomeUser = auth.becomeUser
+    }
+  })
 
   const values = React.useMemo(
     () => ({
