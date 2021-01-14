@@ -44,6 +44,7 @@ const Home: FunctionComponent = () => {
         title: lastResource.title,
         path: lastResource.path,
         image: lastResource.image_url,
+        slug: lastResource.slug,
       },
       ...take(reject(featured, {path: lastResource.path}), featured.length - 1),
     ]

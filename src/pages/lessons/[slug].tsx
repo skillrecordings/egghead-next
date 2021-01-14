@@ -133,14 +133,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
   const [ref, {width: videoWidth}] = useMeasure<any>()
 
-  const [media, setMedia] = React.useState<any>()
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
   const playerRef = React.useRef(null)
   const actualPlayerRef = React.useRef<any>(null)
 
   const [playerState, send] = useMachine(playerMachine, {
-    context: {lesson: initialLesson},
+    context: {
+      lesson: initialLesson,
+      viewer,
+    },
   })
 
   const lesson: any = get(playerState, 'context.lesson', initialLesson)
@@ -167,23 +169,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     collection,
     free_forever,
     slug,
-    media_url,
     comments,
   } = lesson
-
-  React.useEffect(() => {
-    setMedia(false)
-    if (media_url) {
-      axios.get(media_url).then(({data}) => {
-        setMedia(data)
-        const event: PlayerStateEvent = {
-          type: 'LOADED',
-          lesson: lesson,
-        }
-        send(event)
-      })
-    }
-  }, [media_url])
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
@@ -244,17 +231,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
         console.debug('full screen authed video loaded', {video: loadedLesson})
 
-        const mediaUrls = {
-          hls_url: loadedLesson.hls_url,
-          dash_url: loadedLesson.dash_url,
-        }
-
         send({
           type: 'VIEW',
           lesson: loadedLesson,
+          viewer,
         })
-
-        setMedia(mediaUrls)
 
         router.push(loadedLesson.path, undefined, {
           shallow: true,
@@ -300,8 +281,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   React.useEffect(() => {
     const lesson = get(playerState, 'context.lesson')
-    const mediaPresent =
-      lesson?.hls_url || lesson?.dash_url || media?.hls_url || media?.dash_url
+    const mediaPresent = lesson?.hls_url || lesson?.dash_url
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
@@ -339,12 +319,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
     }
-  }, [currentPlayerState, media])
+  }, [currentPlayerState])
 
   React.useEffect(() => {
     const handleRouteChange = () => {
       send('LOAD')
-      setMedia(false)
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => {
@@ -361,16 +340,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       )
       console.debug('authed video loaded', {video: loadedLesson})
 
-      const mediaUrls = {
-        hls_url: loadedLesson.hls_url,
-        dash_url: loadedLesson.dash_url,
-      }
-
-      setMedia(mediaUrls)
-
       send({
         type: 'LOADED',
         lesson: loadedLesson,
+        viewer,
       })
     }
 
@@ -469,8 +442,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         ref={playerRef}
                         hidden={!playerVisible}
                         resource={lesson}
-                        hls_url={lesson?.hls_url || media?.hls_url}
-                        dash_url={lesson?.dash_url || media?.dash_url}
+                        hls_url={lesson?.hls_url}
+                        dash_url={lesson?.dash_url}
                         playing={playerState.matches('playing')}
                         playbackRate={playbackRate}
                         width="100%"

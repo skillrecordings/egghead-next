@@ -34,8 +34,7 @@ export function useViewer() {
 export const ViewerContext = React.createContext(defaultViewerContext)
 
 function useAuthedViewer() {
-  const router = useRouter()
-  const [viewer, setViewer] = React.useState<any>()
+  const [viewer, setViewer] = React.useState<any>(auth.getLocalUser())
   const viewerId = get(viewer, 'id', null)
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
