@@ -24,6 +24,7 @@ declare global {
     ahoy: any
     _cio: any
     fbq: any
+    becomeUser: any
   }
 }
 

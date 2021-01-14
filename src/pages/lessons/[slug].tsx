@@ -151,7 +151,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [watchCount, setWatchCount] = React.useState<number>(0)
   const currentPlayerState = playerState.value as string
 
-  useLastResource({...lesson, image_url: lesson.icon_url})
+  const {clearResource, updateResource} = useLastResource({
+    ...lesson,
+    image_url: lesson.icon_url,
+  })
 
   const {
     instructor,
@@ -223,6 +226,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [currentPlayerState])
 
   const checkAutoPlay = async () => {
+    if (nextLesson) {
+      updateResource(nextLesson)
+    }
+
     if (autoplay && nextLesson) {
       console.debug('autoplaying next lesson', {nextLesson})
       track('autoplaying next video', {
@@ -264,6 +271,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const completeVideo = (lessonView: any) => {
     console.debug('completed video', {lessonView, video: lesson})
+    clearResource()
     if (lessonView) {
       const hasNextLesson = nextLesson
       const progress = getProgress(lessonView)
