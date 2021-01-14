@@ -43,10 +43,7 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
   return lesson?.download_url ? (
     <DownloadButton lesson={lesson} />
   ) : (
-    <Tooltip
-      title="Download feature is for members only"
-      className="self-center"
-    >
+    <Tooltip title="Download feature is for members only">
       <DownloadButton lesson={lesson} />
     </Tooltip>
   )
