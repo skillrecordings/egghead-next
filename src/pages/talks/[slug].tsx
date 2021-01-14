@@ -117,7 +117,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     dash_url,
     title,
     description,
-    http_url,
+    path,
     slug,
   } = lesson
 
@@ -140,7 +140,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     <>
       <NextSeo
         description={removeMarkdown(description)}
-        canonical={http_url}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
         title={title}
         titleTemplate={'%s | conference talk | egghead.io'}
         twitter={{
@@ -150,7 +150,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }}
         openGraph={{
           title,
-          url: http_url,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
           description: removeMarkdown(description),
           site_name: 'egghead',
           images: [

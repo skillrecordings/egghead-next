@@ -95,6 +95,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
+    path,
     tags = [],
   } = course
 
@@ -182,7 +183,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     <>
       <NextSeo
         description={removeMarkdown(description)}
-        canonical={http_url}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
@@ -192,7 +193,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         }}
         openGraph={{
           title,
-          url: http_url,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
           description: removeMarkdown(description),
           site_name: 'egghead',
           images: [
