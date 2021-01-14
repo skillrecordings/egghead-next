@@ -20,11 +20,11 @@ interface PlayerStateSchema {
 
 export type PlayerStateEvent =
   | {type: 'VIEW'}
-  | {type: 'VIEW'; lesson: any}
+  | {type: 'VIEW'; lesson: any; viewer: any}
   | {type: 'PLAY'}
   | {type: 'PAUSE'}
   | {type: 'LOADED'}
-  | {type: 'LOADED'; lesson: any}
+  | {type: 'LOADED'; lesson: any; viewer: any}
   | {type: 'SUBSCRIBE'}
   | {type: 'JOIN'}
   | {type: 'QUIZ'}
@@ -36,6 +36,7 @@ export type PlayerStateEvent =
 
 interface PlayerContext {
   lesson: any
+  viewer: any
 }
 
 export const playerMachine = Machine<
@@ -46,7 +47,7 @@ export const playerMachine = Machine<
   {
     id: 'player',
     initial: 'loading',
-    context: {lesson: {}},
+    context: {lesson: {}, viewer: {}},
     states: {
       loading: {
         on: {
@@ -57,6 +58,10 @@ export const playerMachine = Machine<
         entry: [
           assign({
             lesson: (_, event: any) => event.lesson,
+            viewer: (_, event: any) => {
+              console.debug({event})
+              return event.viewer
+            },
           }),
         ],
         on: {
@@ -73,6 +78,7 @@ export const playerMachine = Machine<
           'sendTelemetry',
           assign({
             lesson: (ctx, event: any) => event.lesson || ctx.lesson,
+            viewer: (ctx, event: any) => event.viewer || ctx.viewer,
           }),
         ],
         on: {
