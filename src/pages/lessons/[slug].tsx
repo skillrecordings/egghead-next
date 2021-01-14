@@ -370,7 +370,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     <>
       <NextSeo
         description={removeMarkdown(description)}
-        canonical={http_url}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
@@ -380,7 +380,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }}
         openGraph={{
           title,
-          url: http_url,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`,
           description: removeMarkdown(description),
           site_name: 'egghead',
           images: [
