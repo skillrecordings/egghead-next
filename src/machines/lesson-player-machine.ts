@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import {track} from 'utils/analytics'
 import {Machine, assign} from 'xstate'
 
@@ -39,7 +38,7 @@ interface PlayerContext {
   lesson: any
 }
 
-const playerMachine = Machine<
+export const playerMachine = Machine<
   PlayerContext,
   PlayerStateSchema,
   PlayerStateEvent
@@ -50,11 +49,6 @@ const playerMachine = Machine<
     context: {lesson: {}},
     states: {
       loading: {
-        entry: [
-          assign({
-            lesson: null,
-          }),
-        ],
         on: {
           LOADED: 'loaded',
         },
@@ -213,5 +207,3 @@ const playerMachine = Machine<
     },
   },
 )
-
-export default playerMachine

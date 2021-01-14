@@ -269,13 +269,13 @@ export const useEggheadPlayerPrefs = () => {
     setPlayerPrefs(getPlayerPrefs())
   }, [])
 
-  const setPlayerPrefsCallback = React.useCallback((options: any) => {
+  const setPlayerPrefsOptions = (options: any) => {
     console.debug('setting player prefs', {options})
     setPlayerPrefs(savePlayerPrefs(options))
-  }, [])
+  }
 
   return {
-    setPlayerPrefs: setPlayerPrefsCallback,
+    setPlayerPrefs: setPlayerPrefsOptions,
     ...playerPrefs,
   }
 }
@@ -287,15 +287,16 @@ export default function useEggheadPlayer(lesson: LessonResource) {
     setPlayerPrefs(getPlayerPrefs())
   }, [lesson.slug])
 
-  const setPlayerPrefsCallback = React.useCallback((options: any) => {
+  const setPlayerPrefsOptions = (options: any) => {
+    console.debug('setting player prefs', {options})
     setPlayerPrefs(savePlayerPrefs(options))
-  }, [])
+  }
 
   return {
     onProgress,
     onEnded,
     onError,
-    setPlayerPrefs: setPlayerPrefsCallback,
+    setPlayerPrefs: setPlayerPrefsOptions,
     ...playerPrefs,
   }
 }
