@@ -146,10 +146,8 @@ function useAuthedViewer() {
   }, [viewerId, loggingOut])
 
   React.useEffect(() => {
-    if (viewer?.is_admin) {
-      window.becomeUser = auth.becomeUser
-    }
-  })
+    window.becomeUser = auth.becomeUser
+  }, [])
 
   const values = React.useMemo(
     () => ({
