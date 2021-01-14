@@ -432,14 +432,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               }}
             >
               <div
-                className="relative flex-grow bg-black"
+                className="flex flex-grow bg-black"
                 css={{
                   minHeight: Math.round(videoWidth / 1.77777),
                 }}
               >
                 <div
-                  className={`relative ${
-                    playerVisible || loaderVisible ? 'h-0' : 'h-full'
+                  className={`w-full relative ${
+                    playerVisible || loaderVisible ? 'h-0' : ''
                   }`}
                   css={{
                     paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
@@ -579,8 +579,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center w-full border-t border-gray-900 px-2 3xl:px-0 py-2">
-                <div className="flex items-center flex-grow">
+              <div className="flex justify-between items-center w-full border-t border-gray-900 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
+                <div className="flex items-center flex-grow space-x-4">
                   {playbackRate && (
                     <PlaybackSpeedSelect
                       playbackRate={playbackRate}
@@ -590,6 +590,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       video={slug}
                     />
                   )}
+                  <LessonDownload lesson={lesson} />
                 </div>
                 <div>
                   <AutoplayToggle
@@ -623,7 +624,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           <div
             className={`grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
           >
-            <div className="md:col-span-8 md:row-start-1 row-start-1 md:space-y-10 space-y-6">
+            <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
               <div className="space-y-4">
                 <SortingHat />
                 {title && (
@@ -631,7 +632,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     {title}
                   </h1>
                 )}
-                <div className="pt-4 flex md:flex-row flex-col w-full justify-between flex-wrap md:space-x-8 md:space-y-0 space-y-5 md:items-center">
+                <div className="pt-4 flex lg:flex-row flex-col w-full justify-between flex-wrap lg:space-x-8 lg:space-y-0 space-y-5 lg:items-center">
                   <div className="md:w-auto w-full flex justify-between items-center space-x-5">
                     {instructor && (
                       <div className="flex items-center flex-shrink-0">
@@ -690,7 +691,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                   {md && <Tags tags={collectionTags} lesson={lesson} />}
                   <div className="flex items-center space-x-8">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
                       <Share
                         className="flex flex-col items-end"
                         resource={{
@@ -703,35 +704,37 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </div>
                   </div>
                 </div>
-                <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
-                  {lesson?.code_url && (
-                    <CodeLink
-                      onClick={() => {
-                        track(`clicked open code`, {
-                          lesson: lesson.slug,
-                        })
-                      }}
-                      url={lesson.code_url}
-                      icon={<IconCode />}
-                    >
-                      Open code for this lesson
-                    </CodeLink>
-                  )}
-                  {lesson?.repo_url && (
-                    <CodeLink
-                      onClick={() => {
-                        track(`clicked open github`, {
-                          lesson: lesson.slug,
-                        })
-                      }}
-                      url={lesson.repo_url}
-                      icon={<IconGithub />}
-                    >
-                      Open code on GitHub
-                    </CodeLink>
-                  )}
-                  <LessonDownload lesson={lesson} />
-                </div>
+
+                {(lesson?.code_url || lesson?.repo_url) && (
+                  <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
+                    {lesson?.code_url && (
+                      <CodeLink
+                        onClick={() => {
+                          track(`clicked open code`, {
+                            lesson: lesson.slug,
+                          })
+                        }}
+                        url={lesson.code_url}
+                        icon={<IconCode />}
+                      >
+                        Open code for this lesson
+                      </CodeLink>
+                    )}
+                    {lesson?.repo_url && (
+                      <CodeLink
+                        onClick={() => {
+                          track(`clicked open github`, {
+                            lesson: lesson.slug,
+                          })
+                        }}
+                        url={lesson.repo_url}
+                        icon={<IconGithub />}
+                      >
+                        Open code on GitHub
+                      </CodeLink>
+                    )}
+                  </div>
+                )}
 
                 {description && (
                   <Markdown className="prose sm:prose-xl max-w-none font-medium">
@@ -752,7 +755,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     course={collection}
                     lesson={lesson}
                     playerState={playerState}
-                    className="space-y-6"
+                    className="space-y-4 lg:space-y-6"
                   />
                 </>
               )}
@@ -777,7 +780,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
-                        className="prose sm:prose-lg max-w-none"
+                        className="prose sm:prose-lg max-w-none break-words"
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}

@@ -36,13 +36,9 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
 }) => {
   return (
     <div {...restProps}>
-      {get(lesson, 'free_forever') && (
-        <div className="pt-6">
-          <CommunityResource type="lesson" />
-        </div>
-      )}
-      <ul className="space-y-4">
-        {/* <li className="flex items-center">
+      {get(lesson, 'free_forever') && <CommunityResource type="lesson" />}
+      {/* <ul className="space-y-4">
+        <li className="flex items-center">
               <IconFlag className="w-5 mr-1" />
               <Dialog
                 ariaLabel="flag-for-revision"
@@ -54,8 +50,8 @@ const LessonInfo: FunctionComponent<LessonInfoProps> = ({
                   Flag to review form goes here...
                 </div>
               </Dialog>
-            </li> */}
-      </ul>
+            </li>
+      </ul> */}
     </div>
   )
 }

@@ -11,9 +11,9 @@ const NextUpOverlay: React.FunctionComponent<{
 }> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
   return (
-    <div className="bg-gray-800 bg-opacity-90 grid place-items-center w-full h-full absolute z-10 top-0 left-0">
+    <div className="bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center w-full h-full absolute z-10 top-0 left-0">
       {courseImage && (
-        <div className="w-16 h-16 md:w-32 md:h-32 lg:w-48 lg:h-48 relative flex-shrink-0">
+        <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
           <Image
             src={courseImage}
             alt={`illustration of ${lesson.collection.title} course`}
