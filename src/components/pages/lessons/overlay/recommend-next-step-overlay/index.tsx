@@ -29,14 +29,14 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
         </span>
       </h3>
       <Share
-        resource={lesson?.collection}
+        resource={lesson?.collection || lesson}
         instructor={lesson?.instructor}
         className="text-black flex items-center mt-3"
         label
       >
         <div className="max-w-md mt-2">
-          If this course was useful for you, please share it with your
-          colleagues. It will really help{' '}
+          If this {lesson?.collection ? 'course' : 'video'} was useful for you,
+          please share it with your colleagues. It will really help{' '}
           {lesson.instructor.full_name.split(' ')[0]} get the word out.
         </div>
       </Share>
@@ -46,7 +46,10 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
           <a
             onClick={() => {
               track('clicked ready for new', {
-                collection: lesson?.collection.slug,
+                ...(lesson?.collection && {
+                  collection: lesson?.collection.slug,
+                }),
+                video: lesson.slug,
               })
             }}
             className="font-semibold"
