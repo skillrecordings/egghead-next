@@ -23,7 +23,9 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
       }}
       aria-label="download video"
       className={`space-x-2 flex items-center rounded-md px-3 py-2 bg-gray-800 border-none text-gray-300 hover:text-white text-xs uppercase tracking-wide transition-colors ease-in-out duration-200 ${
-        !lesson?.download_url ? 'opacity-30 hover:text-gray-300' : ''
+        !lesson?.download_url
+          ? 'opacity-50 hover:text-gray-300 cursor-default'
+          : ''
       }`}
     >
       <IconDownload className="w-5" />
