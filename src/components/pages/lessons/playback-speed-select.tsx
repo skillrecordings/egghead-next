@@ -36,7 +36,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
           })
         }}
       >
-        <ListboxButton className="text-white text-sm rounded-md px-3 py-2 bg-gray-900 border-none group">
+        <ListboxButton className="text-white text-sm rounded-md px-3 py-2 bg-gray-800 border-none group">
           <span className="text-xs transform translate-y-px uppercase tracking-wide text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
             speed:
           </span>
