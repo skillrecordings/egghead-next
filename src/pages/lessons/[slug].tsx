@@ -209,6 +209,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
 
+  console.log('commentsAvailable: ', comments)
+
   React.useEffect(() => {
     setPlayerVisible(
       [
@@ -777,7 +779,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
-                        className="prose sm:prose-lg max-w-none"
+                        className="prose sm:prose-lg max-w-none break-words"
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}
