@@ -587,7 +587,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center w-full border-t border-gray-900 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
+              <div className="flex justify-between items-center w-full border-t border-gray-800 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
                 <div className="flex items-center flex-grow space-x-4">
                   {playbackRate && (
                     <PlaybackSpeedSelect
@@ -609,22 +609,22 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100">
-              <div className="p-4 border-b border-gray-100">
-                <Course course={collection} currentLessonSlug={lesson.slug} />
-              </div>
-              <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
-                <div className="lg:absolute top-0 bottom-0 left-0 right-0">
-                  {collection && collection.lessons && (
+            {collection && collection?.lessons && (
+              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100">
+                <div className="p-4 border-b border-gray-100">
+                  <Course course={collection} currentLessonSlug={lesson.slug} />
+                </div>
+                <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
+                  <div className="lg:absolute top-0 bottom-0 left-0 right-0">
                     <CollectionLessonsList
                       course={collection}
                       currentLessonSlug={lesson.slug}
                       progress={lessonView?.collection_progress}
                     />
-                  )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
