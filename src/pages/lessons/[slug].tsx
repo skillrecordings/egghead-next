@@ -162,7 +162,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     instructor,
     transcript,
     transcript_url,
-    http_url,
     title,
     tags = [],
     description,

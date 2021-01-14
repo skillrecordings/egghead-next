@@ -86,7 +86,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     average_rating_out_of_5,
     watched_count,
     primary_tag,
-    http_url,
     description,
     rss_url,
     download_url,
