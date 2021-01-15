@@ -1,5 +1,5 @@
 import * as React from 'react'
-import NextApp, {NextWebVitalsMetric} from 'next/app'
+import NextApp, {AppProps, NextWebVitalsMetric} from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
@@ -17,7 +17,9 @@ import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {FacebookPixel} from 'components/facebook-pixel'
 import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
-import {LogRocketProvider} from '../hooks/use-logrocket'
+import {LogRocketProvider} from 'hooks/use-logrocket'
+import RouteLoadingIndicator from 'components/route-loading-indicator'
+import {useRouter} from 'next/router'
 
 declare global {
   interface Window {
@@ -32,44 +34,78 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(metric)
 }
 
-export default class App extends NextApp {
-  render() {
-    const {Component, pageProps} = this.props
-    const AppComponent = Component as any
+const App: React.FC<AppProps> = ({Component, pageProps}) => {
+  const AppComponent = Component as any
 
-    const getLayout =
-      AppComponent.getLayout ||
-      ((Page: any) => (
-        <AppLayout>
-          <Page {...pageProps} />
-        </AppLayout>
-      ))
+  const router = useRouter()
 
-    return (
-      <>
-        <Ahoy />
-        <FacebookPixel />
-        <DefaultSeo {...defaultSeoConfig} />
-        <SocialProfileJsonLd
-          type="Organization"
-          name="egghead.io"
-          url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
-          sameAs={['https://twitter.com/eggheadio']}
-        />
-        <LogRocketProvider>
-          <CioProvider>
-            <ConvertkitProvider>
-              <ViewerProvider>
-                <MDXProvider components={mdxComponents}>
-                  <CacheProvider value={cache}>
-                    {getLayout(Component, pageProps)}
-                  </CacheProvider>
-                </MDXProvider>
-              </ViewerProvider>
-            </ConvertkitProvider>
-          </CioProvider>
-        </LogRocketProvider>
-      </>
-    )
-  }
+  const [state, setState] = React.useState({
+    isRouteChanging: false,
+    loadingKey: 0,
+  })
+
+  React.useEffect(() => {
+    const handleRouteChangeStart = () => {
+      setState((prevState) => ({
+        ...prevState,
+        isRouteChanging: true,
+        loadingKey: prevState.loadingKey ^ 1,
+      }))
+    }
+
+    const handleRouteChangeEnd = () => {
+      setState((prevState) => ({
+        ...prevState,
+        isRouteChanging: false,
+      }))
+    }
+
+    router.events.on('routeChangeStart', handleRouteChangeStart)
+    router.events.on('routeChangeComplete', handleRouteChangeEnd)
+    router.events.on('routeChangeError', handleRouteChangeEnd)
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart)
+      router.events.off('routeChangeComplete', handleRouteChangeEnd)
+      router.events.off('routeChangeError', handleRouteChangeEnd)
+    }
+  }, [router.events])
+
+  const getLayout =
+    AppComponent.getLayout ||
+    ((Page: any) => (
+      <AppLayout>
+        <Page {...pageProps} />
+      </AppLayout>
+    ))
+
+  return (
+    <>
+      <RouteLoadingIndicator isRouteChanging={state.isRouteChanging} />
+      <Ahoy />
+      <FacebookPixel />
+      <DefaultSeo {...defaultSeoConfig} />
+      <SocialProfileJsonLd
+        type="Organization"
+        name="egghead.io"
+        url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
+        sameAs={['https://twitter.com/eggheadio']}
+      />
+      <LogRocketProvider>
+        <CioProvider>
+          <ConvertkitProvider>
+            <ViewerProvider>
+              <MDXProvider components={mdxComponents}>
+                <CacheProvider value={cache}>
+                  {getLayout(Component, pageProps)}
+                </CacheProvider>
+              </MDXProvider>
+            </ViewerProvider>
+          </ConvertkitProvider>
+        </CioProvider>
+      </LogRocketProvider>
+    </>
+  )
 }
+
+export default App
