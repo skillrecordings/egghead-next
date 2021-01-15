@@ -49,6 +49,8 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 
+const ABLE_TO_COMMENT = true
+
 const tracer = getTracer('lesson-page')
 
 export const getServerSideProps: GetServerSideProps = async function ({
@@ -740,13 +742,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </>
               )}
               <Tabs
-                index={defaultView === 'comments' && commentsAvailable ? 1 : 0}
+                index={defaultView === 'comments' ? 1 : 0}
                 onChange={(index) => {
                   setPlayerPrefs({
-                    defaultView:
-                      index === 1 && commentsAvailable
-                        ? 'comments'
-                        : 'transcript',
+                    defaultView: index === 1 ? 'comments' : 'transcript',
                   })
                 }}
               >
@@ -767,10 +766,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       />
                     </TabPanel>
                   )}
-                  {commentsAvailable && (
-                    <TabPanel>
-                      <div className="space-y-10">
-                        {comments.map((comment: any) => (
+                  <TabPanel>
+                    <div className="space-y-10">
+                      {commentsAvailable ? (
+                        comments.map((comment: any) => (
                           <Comment
                             key={comment.id}
                             comment={comment.comment}
@@ -779,10 +778,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                             isCommentableOwner={comment.is_commentable_owner}
                             user={comment.user}
                           />
-                        ))}
-                      </div>
-                    </TabPanel>
-                  )}
+                        ))
+                      ) : (
+                        <h4 className="font-semibold">
+                          There are no comments yet.
+                        </h4>
+                      )}
+                      {ABLE_TO_COMMENT ? (
+                        <div>Comment Form</div>
+                      ) : (
+                        <div>You have to be a Pro to leave a comment</div>
+                      )}
+                    </div>
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             </div>
