@@ -43,31 +43,6 @@ const lessonQuery = /* GraphQL */ `
   }
 `
 
-const fetcher = (url: RequestInfo) => fetch(url).then((r) => r.json())
-
-type NextUpProps = {
-  url: any
-}
-
-const NextUp: FunctionComponent<NextUpProps> = ({url}) => {
-  const {data} = useSWR(url, fetcher)
-  return data ? (
-    <ul className="list-disc">
-      {data.list.lessons.map((lesson: LessonResource) => {
-        return (
-          <li key={lesson.slug}>
-            <Link href={lesson.path}>
-              <a className="no-underline hover:underline text-blue-500">
-                {lesson.title}
-              </a>
-            </Link>
-          </li>
-        )
-      })}
-    </ul>
-  ) : null
-}
-
 const lessonLoader = (slug: any, token: any) => (query: string) => {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
@@ -102,7 +77,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const {data = {}, error} = useSWR(
+  const {data = {}} = useSWR(
     lessonQuery,
     lessonLoader(initialLesson.slug, authToken),
   )
@@ -110,7 +85,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const lesson = {...initialLesson, ...data.lesson}
   const {
     instructor,
-    next_up_url,
     transcript,
     transcript_url,
     hls_url,
@@ -123,8 +97,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
-
-  if (error) logout()
 
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -241,13 +213,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
             )}
           </article>
         </main>
-
-        {next_up_url && (
-          <div>
-            <h3>Playlist:</h3>
-            <NextUp url={next_up_url} />
-          </div>
-        )}
       </div>
     </>
   )
