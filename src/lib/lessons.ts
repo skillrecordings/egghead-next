@@ -56,6 +56,7 @@ export async function loadLesson(slug: string, token?: string) {
               path
               title
               completed
+              duration
             }
           }
           ... on Course {
@@ -70,6 +71,7 @@ export async function loadLesson(slug: string, token?: string) {
               path
               title
               completed
+              duration
             }
           }
         }
@@ -154,6 +156,7 @@ export async function loadBasicLesson(slug: string) {
               title
               completed
               media_url
+              duration
             }
           }
           ... on Course {
@@ -169,6 +172,7 @@ export async function loadBasicLesson(slug: string) {
               title
               completed
               media_url
+              duration
             }
           }
         }

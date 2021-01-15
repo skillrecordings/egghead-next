@@ -83,6 +83,11 @@ const searchRoutes = [
 
 const legacyRoutes = [
   {
+    source: `/update_billing.html`,
+    destination: `${appUrl}/update_billing.html`,
+    permanent: true,
+  },
+  {
     source: `/sitemap.xml.gz`,
     destination: `${appUrl}/sitemap.xml.gz`,
     permanent: true,

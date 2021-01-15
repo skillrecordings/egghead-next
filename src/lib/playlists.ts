@@ -56,6 +56,7 @@ export async function loadPlaylist(slug: string, token?: string) {
             path
             square_cover_url
             type
+            duration
           }
           ... on Playlist {
             slug
@@ -65,11 +66,13 @@ export async function loadPlaylist(slug: string, token?: string) {
             square_cover_url
             type
             url
+            duration
             lessons {
               title
               path
               slug
               icon_url
+              duration
             }
           }
           ... on Lesson {
@@ -80,6 +83,7 @@ export async function loadPlaylist(slug: string, token?: string) {
             http_url
             icon_url
             type
+            duration
           }
           ... on File {
             slug
