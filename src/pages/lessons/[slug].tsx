@@ -560,15 +560,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
               <div className="flex justify-between items-center w-full border-t border-gray-800 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
-                <div className="flex items-center flex-grow space-x-4">
+                <div className="flex items-center justify-start flex-grow space-x-4">
+                  <LessonDownload lesson={lesson} />
+                </div>
+                <div className="flex items-center justify-end flex-grow space-x-4">
                   <AutoplayToggle
                     enabled={true}
                     onDark={true}
                     player={actualPlayerRef.current}
                   />
-                  <LessonDownload lesson={lesson} />
-                </div>
-                <div>
                   {playbackRate && (
                     <PlaybackSpeedSelect
                       playbackRate={playbackRate}
