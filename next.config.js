@@ -199,6 +199,11 @@ const contentCrudRoutes = [
     permanent: true,
   },
   {
+    source: `/playlists/new`,
+    destination: `${appUrl}/playlists/new`,
+    permanent: true,
+  },
+  {
     source: `/playlists/:title/:rest(.+)`,
     destination: `${appUrl}/playlists/:title/:rest`,
     permanent: true,
