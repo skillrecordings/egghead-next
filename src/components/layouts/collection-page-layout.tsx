@@ -55,7 +55,9 @@ const logCollectionResource = (collection: CollectionResource) => {
     } = collection
     const image = square_cover_url || image_url
     const formattedDuration = convertTimeWithTitles(duration)
-    const byline = `${full_name && `${fullname}・`}${formattedDuration}・Course`
+    const byline = `${
+      full_name && `${full_name}・`
+    }${formattedDuration}・Course`
 
     console.debug({
       title,

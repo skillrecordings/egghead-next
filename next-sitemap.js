@@ -46,6 +46,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
+      'http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz',
       'https://egghead.io/tags-sitemap-0.xml',
       'https://egghead.io/tags-sitemap-1.xml',
       'https://egghead.io/tags-sitemap-2.xml',
@@ -61,7 +62,6 @@ module.exports = {
       'https://egghead.io/tags-sitemap-12.xml',
       'https://egghead.io/tags-sitemap-13.xml',
       'https://egghead.io/tags-sitemap-14.xml',
-      'http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz',
     ],
   },
 }
