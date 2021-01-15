@@ -46,7 +46,7 @@ const logCollectionResource = (collection: CollectionResource) => {
     const {
       title,
       duration,
-      instructor: {full_name},
+      instructor,
       square_cover_url,
       image_url,
       path,
@@ -56,7 +56,7 @@ const logCollectionResource = (collection: CollectionResource) => {
     const image = square_cover_url || image_url
     const formattedDuration = convertTimeWithTitles(duration)
     const byline = `${
-      full_name && `${full_name}・`
+      instructor?.full_name && `${instructor.full_name}・`
     }${formattedDuration}・Course`
 
     console.debug({
@@ -183,7 +183,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
-          handle: instructor.twitter,
+          handle: instructor?.twitter ?? `@eggheadio`,
           site: `@eggheadio`,
           cardType: 'summary_large_image',
         }}
