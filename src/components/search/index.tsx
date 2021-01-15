@@ -9,6 +9,7 @@ import {
   Configure,
   InstantSearch,
   ClearRefinements,
+  ScrollTo,
 } from 'react-instantsearch-dom'
 import {get, isEqual, isEmpty} from 'lodash'
 import {useToggle, useClickAway} from 'react-use'
@@ -90,6 +91,7 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
+        <ScrollTo scrollOn="page" />
         <AnimateSharedLayout>
           <motion.div
             layout
