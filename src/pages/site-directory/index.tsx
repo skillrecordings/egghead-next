@@ -5,7 +5,7 @@ const Index = (props: any) => {
   const tagSlugs: string[] = props.tagSlugs
 
   return (
-    <div>
+    <div className="prose">
       <div className="space-y-5">
         <p>
           This is a programmatically generated listing of all the topics and all
@@ -20,16 +20,25 @@ const Index = (props: any) => {
             check out the code on Github
           </a>
           . If not, feel free to explore, but it's not likely to be fruitful. We
-          use it for generating a comprehensive sitemap.
+          use it for generating a comprehensive sitemap. It's kind of weird...
+        </p>
+        <p>
+          Checkout a list of <a href="/playlists">collections</a> or{' '}
+          <a href="/courses">courses</a> sorted by the date they were last
+          updated.
         </p>
       </div>
-      {tagSlugs.map((path) => {
-        return (
-          <Link href={`/site-directory/${path}`} key={path}>
-            <a>{path}</a>
-          </Link>
-        )
-      })}
+      <ul>
+        {tagSlugs.map((path) => {
+          return (
+            <li>
+              <Link href={`/site-directory/${path}`} key={path}>
+                <a>{path}</a>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
