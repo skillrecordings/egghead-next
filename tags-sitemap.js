@@ -9,11 +9,11 @@ const head = `
 const tail = `\n</urlset>`
 const domain = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
 const changefreq = 'daily'
-const lastmod = format(new Date(), 'yyyy/MM/dd')
+const lastmod = new Date().toISOString()
 const priority = `0.5`
 
 //10000 lines is ~20 MB file
-const lineMax = 100000
+const lineMax = 49999
 
 /**
  * Fetch tags from egghead API
@@ -116,13 +116,7 @@ const buildSitemap = async (tagGenerator) => {
     const {value, done} = tagGenerator.next()
     end = done
     if (end) break
-    result += `
-<url>
-  <loc>${domain}/q/${value}</loc>
-  <changefreq>${changefreq}</changefreq>
-  <priority>${priority}</priority>
-  <lastmod>${lastmod}</lastmod>
-</url>`
+    result += `<url><loc>${domain}/q/${value}</loc><changefreq>${changefreq}</changefreq><priority>${priority}</priority><lastmod>${lastmod}</lastmod></url>`
 
     lineCount++
   }

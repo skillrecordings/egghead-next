@@ -23,3 +23,11 @@ Sitemap: https://egghead.io/tags-sitemap-4.xml
 Sitemap: https://egghead.io/tags-sitemap-5.xml
 Sitemap: https://egghead.io/tags-sitemap-6.xml
 Sitemap: https://egghead.io/tags-sitemap-7.xml
+Sitemap: https://egghead.io/tags-sitemap-8.xml
+Sitemap: https://egghead.io/tags-sitemap-9.xml
+Sitemap: https://egghead.io/tags-sitemap-10.xml
+Sitemap: https://egghead.io/tags-sitemap-11.xml
+Sitemap: https://egghead.io/tags-sitemap-12.xml
+Sitemap: https://egghead.io/tags-sitemap-13.xml
+Sitemap: https://egghead.io/tags-sitemap-14.xml
+Sitemap: http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
