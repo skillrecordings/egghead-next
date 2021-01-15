@@ -4,7 +4,7 @@ export default function Custom404() {
   ).substr(1)}`
 
   return (
-    <div>
+    <div className="prose">
       <h1>404 - Page Not Found</h1>
       <p>
         The page you are looking for may now live at{' '}
