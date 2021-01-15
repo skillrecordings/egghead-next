@@ -740,9 +740,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </>
               )}
               <Tabs
-                defaultIndex={
-                  defaultView === 'comments' && commentsAvailable ? 1 : 0
-                }
+                index={defaultView === 'comments' && commentsAvailable ? 1 : 0}
                 onChange={(index) => {
                   setPlayerPrefs({
                     defaultView:
