@@ -55,7 +55,7 @@ const logCollectionResource = (collection: CollectionResource) => {
     } = collection
     const image = square_cover_url || image_url
     const formattedDuration = convertTimeWithTitles(duration)
-    const byline = `${full_name}・${formattedDuration}・Course`
+    const byline = `${full_name && `${fullname}・`}${formattedDuration}・Course`
 
     console.debug({
       title,
@@ -118,13 +118,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     [],
   ).map((lesson: LessonResource) => lesson.slug)
 
-  const {
-    full_name,
-    avatar_64_url,
-    slug: instructor_slug,
-    bio_short,
-    twitter,
-  } = instructor
+  const {full_name, avatar_64_url, slug: instructor_slug, bio_short, twitter} =
+    instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
   const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
@@ -320,13 +315,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {description}
               </Markdown>
               <div className="pt-5 md:hidden block">
-                <InstructorProfile
-                  name={full_name}
-                  avatar_url={avatar_64_url}
-                  url={instructor_slug}
-                  bio_short={bio_short}
-                  twitter={twitter}
-                />
+                {instructor && (
+                  <InstructorProfile
+                    name={full_name}
+                    avatar_url={avatar_64_url}
+                    url={instructor_slug}
+                    bio_short={bio_short}
+                    twitter={twitter}
+                  />
+                )}
                 {get(course, 'free_forever') && (
                   <div className="pt-6">
                     <CommunityResource type="course" />
@@ -508,13 +505,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
               <div className="">
-                <InstructorProfile
-                  name={full_name}
-                  avatar_url={avatar_64_url}
-                  url={instructor_slug}
-                  bio_short={bio_short}
-                  twitter={twitter}
-                />
+                {instructor && (
+                  <InstructorProfile
+                    name={full_name}
+                    avatar_url={avatar_64_url}
+                    url={instructor_slug}
+                    bio_short={bio_short}
+                    twitter={twitter}
+                  />
+                )}
                 {get(course, 'free_forever') && (
                   <div className="pt-6">
                     <CommunityResource type="course" />
