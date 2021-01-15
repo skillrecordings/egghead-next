@@ -14,6 +14,16 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   className,
   placeholder = 'What do you want to learn today?',
 }) => {
+  const [timerId, setTimerId] = React.useState<any>()
+  const [value, setValue] = React.useState<any>(currentRefinement)
+
+  const onChangeDebounced = (event: any) => {
+    const value = event.currentTarget.value
+
+    clearTimeout(timerId)
+    setTimerId(setTimeout(() => refine(value), 250))
+    setValue(value)
+  }
   return (
     <form
       noValidate
@@ -29,8 +39,8 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
         </div>
         <input
           type="search"
-          value={currentRefinement}
-          onChange={(event) => refine(event.currentTarget.value)}
+          value={value}
+          onChange={onChangeDebounced}
           placeholder={placeholder}
           className="form-input bg-gray-100 rounded-md px-5 py-3 pl-10 w-full border border-transparent focus:outline-none focus:border-gray-400 placeholder-gray-600"
         />

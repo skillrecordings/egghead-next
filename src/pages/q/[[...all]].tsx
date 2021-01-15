@@ -102,7 +102,7 @@ const SearchIndex: any = ({
       router.push(`/q/[[all]]`, href, {
         shallow: true,
       })
-    }, 1200)
+    }, 250)
 
     setSearchState(searchState)
   }
