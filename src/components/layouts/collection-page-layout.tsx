@@ -456,7 +456,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       return (
                         <li key={lesson.slug}>
                           <div className="font-semibold flex  leading-tight py-2">
-                            <div className="flex  mr-2 space-x-2">
+                            <div className="flex items-center mr-2 space-x-2">
                               <div
                                 className={`${
                                   isComplete ? 'text-blue-600' : 'text-gray-500'
@@ -465,7 +465,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                 {isComplete ? <CheckIcon /> : index + 1}
                               </div>
                               {lesson.icon_url && (
-                                <div>
+                                <div className="flex items-center">
                                   <Image
                                     src={lesson.icon_url}
                                     width={24}
@@ -475,7 +475,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                               )}
                             </div>
                             {lesson.path && (
-                              <div className="flex flex-col">
+                              <div className="flex flex-col ">
                                 <div>
                                   <Link href={lesson.path}>
                                     <a
@@ -488,7 +488,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                           },
                                         )
                                       }}
-                                      className="hover:underline hover:text-blue-600 font-semibold"
+                                      className="text-lg hover:underline hover:text-blue-600 font-semibold"
                                     >
                                       {lesson.title}
                                     </a>
