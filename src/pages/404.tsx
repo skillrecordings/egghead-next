@@ -1,7 +1,15 @@
+import * as React from 'react'
+
 export default function Custom404() {
-  const appVersionOfPath = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${(
-    window.location.pathname + window.location.search
-  ).substr(1)}`
+  const [appVersionOfPath, setAppVersionOfPath] = React.useState<any>()
+
+  React.useEffect(() => {
+    setAppVersionOfPath(
+      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${(
+        window.location.pathname + window.location.search
+      ).substr(1)}`,
+    )
+  }, [])
 
   return (
     <div className="prose">
