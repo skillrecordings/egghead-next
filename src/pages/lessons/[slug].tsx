@@ -171,6 +171,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     free_forever,
     slug,
     comments,
+    add_comment_url = true,
   } = lesson
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
@@ -767,7 +768,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </TabPanel>
                   )}
                   <TabPanel>
-                    <div className="space-y-10">
+                    <div
+                      className={commentsAvailable ? 'space-y-10' : 'space-y-6'}
+                    >
                       {commentsAvailable ? (
                         comments.map((comment: any) => (
                           <Comment
@@ -780,14 +783,30 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                           />
                         ))
                       ) : (
-                        <h4 className="font-semibold">
+                        <h4 className="font-semibold text-center">
                           There are no comments yet.
                         </h4>
                       )}
-                      {ABLE_TO_COMMENT ? (
+                      {add_comment_url ? (
                         <div>Comment Form</div>
                       ) : (
-                        <div>You have to be a Pro to leave a comment</div>
+                        <div className="flex flex-col items-center space-y-4">
+                          <h4 className="font-semibold">
+                            You have to be a Pro to leave a comment
+                          </h4>
+                          <Link href="/pricing" activeClassName="hidden">
+                            <a
+                              onClick={() =>
+                                track('clicked pricing', {
+                                  location: 'header',
+                                })
+                              }
+                              className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
+                            >
+                              Join egghead
+                            </a>
+                          </Link>
+                        </div>
                       )}
                     </div>
                   </TabPanel>
