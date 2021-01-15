@@ -126,7 +126,10 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={portfolioBlog} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
               <CardVerticalWithStack data={devEssentials} />
-              <CardVerticalWithStack data={freeCourses} />
+              <CardVerticalWithStack
+                data={freeCourses}
+                memberTitle="Must Watch"
+              />
             </div>
 
             <CardHorizontal resource={advancedCourse} />
@@ -332,6 +335,7 @@ const EventSchedule: React.FunctionComponent = () => {
 type CardProps = {
   data: Resource
   className?: string
+  memberTitle?: string
 }
 
 const CardHorizontal: FunctionComponent<{
@@ -448,13 +452,18 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
 const CardVerticalWithStack: FunctionComponent<CardProps> = ({
   data,
   className,
+  memberTitle,
 }) => {
+  const {viewer} = useViewer()
+  console.log({viewer, memberTitle})
   const {name, title, description, resources, path} = data
   return (
     <Card>
       <>
         <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
-          {name}
+          {(viewer?.is_pro || viewer?.is_instructor) && memberTitle
+            ? memberTitle
+            : name}
         </h2>
         {path ? (
           <Link href={path}>
