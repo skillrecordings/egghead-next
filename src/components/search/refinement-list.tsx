@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {Highlight, connectRefinementList} from 'react-instantsearch-dom'
+import {track} from '../../utils/analytics'
 
 type RefinementListProps = {
   items?: any[]
@@ -39,6 +40,9 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
         onClick={(event) => {
           event.preventDefault()
           refine(item.value)
+          track('search refined for topic', {
+            topic: item.value,
+          })
         }}
       >
         <div className="flex items-center">
@@ -95,6 +99,9 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
         onClick={(event) => {
           event.preventDefault()
           refine(item.value)
+          track('search refined for instructor', {
+            instructor: item.value,
+          })
         }}
       >
         <div className="flex items-center">
@@ -146,6 +153,9 @@ const Item: FunctionComponent<RefinementListProps> = ({
         onClick={(event) => {
           event.preventDefault()
           refine(item.value)
+          track('search refined for type', {
+            type: item.value,
+          })
         }}
       >
         {isFromSearch ? <Highlight attribute="label" hit={item} /> : item.label}{' '}

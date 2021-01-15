@@ -97,8 +97,6 @@ const SearchIndex: any = ({
         href,
       }
 
-      track('updated search state', trackParams)
-
       router.push(`/q/[[all]]`, href, {
         shallow: true,
       })

@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {connectSearchBox} from 'react-instantsearch-dom'
+import {track} from 'utils/analytics'
 
 type CustomSearchBoxProps = {
   currentRefinement: any
@@ -21,7 +22,14 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
     const value = event.currentTarget.value
 
     clearTimeout(timerId)
-    setTimerId(setTimeout(() => refine(value), 250))
+    setTimerId(
+      setTimeout(() => {
+        refine(value)
+        track('searched for query', {
+          query: value,
+        })
+      }, 250),
+    )
     setValue(value)
   }
   return (
