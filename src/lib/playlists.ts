@@ -3,6 +3,29 @@ import config from './config'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
+export async function loadAllPlaylists() {
+  const query = /* GraphQL */ `
+    query getPlaylists {
+      all_playlists {
+        slug
+        title
+        average_rating_out_of_5
+        watched_count
+        path
+        image_thumb_url
+        instructor {
+          id
+          full_name
+          path
+        }
+      }
+    }
+  `
+  const {all_playlists} = await graphQLClient.request(query)
+
+  return all_playlists
+}
+
 export async function loadPlaylist(slug: string, token?: string) {
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
@@ -125,19 +148,4 @@ export async function loadPlaylist(slug: string, token?: string) {
   const {playlist} = await graphQLClient.request(query, variables)
 
   return playlist
-}
-
-export async function loadAllPlaylists() {
-  const query = /* GraphQL */ `
-    query getPlaylists {
-      all_playlists {
-        title
-        slug
-        description
-      }
-    }
-  `
-  const {all_playlists} = await graphQLClient.request(query)
-
-  return all_playlists
 }
