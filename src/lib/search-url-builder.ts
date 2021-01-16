@@ -19,6 +19,7 @@ const nameSlugToName = (slug: string) => {
 const toTitleCase = (name: string) => {
   return name
     .replace('lakomy', 'łakomy')
+    .replace('matias hernandez', 'matías hernández')
     .split(' ')
     .map((w) => w[0] && w[0].toUpperCase() + w.substr(1).toLowerCase())
     .join(' ')
