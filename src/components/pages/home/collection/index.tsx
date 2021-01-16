@@ -1,24 +1,13 @@
 import React, {FunctionComponent} from 'react'
-import Card from 'components/pages/home/card'
-import Markdown from 'react-markdown'
+import {CardResource} from 'components/pages/home/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 import {map} from 'lodash'
 import Textfit from 'react-textfit'
 
-type Resource = {
-  path: string
-  image: string
-  name: string
-  title: string
-  byline: string
-  description: string
-  resources: Resource[]
-}
-
 type CollectionProps = {
-  resource: Resource
+  resource: CardResource
   children?: React.ReactElement
   className?: string
 }
