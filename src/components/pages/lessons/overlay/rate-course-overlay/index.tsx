@@ -104,7 +104,7 @@ const TextComment: React.FunctionComponent<{
     <Formik
       initialValues={{comment: ``, answered: false}}
       onSubmit={(values: any) => {
-        const comment = (values.answered && values.comment) || `other`
+        const comment = values.answered && values.comment
         onAnswer({
           comment,
           context: {prompt: title},
