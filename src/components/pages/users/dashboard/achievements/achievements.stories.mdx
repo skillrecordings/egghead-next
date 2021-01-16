@@ -1,0 +1,19 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import Achievements from './'
+
+export const viewer = {
+  lessons_completed: 551,
+  series_completed: 16,
+}
+
+<Meta title="Components/Users/Dashboard/Achievements" />
+
+# User Achievements
+
+<Canvas>
+  <Story name="Default">
+    <div className="bg-gray-50 p-5">
+      <Achievements viewer={viewer} />
+    </div>
+  </Story>
+</Canvas>
