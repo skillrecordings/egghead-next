@@ -24,6 +24,7 @@ export async function loadCourse(slug: string) {
           description
           path
           icon_url
+          duration
         }
         instructor {
           id
