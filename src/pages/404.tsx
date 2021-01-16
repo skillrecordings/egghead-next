@@ -5,7 +5,7 @@ export default function Custom404() {
 
   React.useEffect(() => {
     setAppVersionOfPath(
-      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${(
+      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/${(
         window.location.pathname + window.location.search
       ).substr(1)}`,
     )
