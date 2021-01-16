@@ -1,5 +1,6 @@
 import LogRocket from 'logrocket'
 import * as React from 'react'
+import {Viewer} from '../types'
 
 export const logRocketIdentify = (id: string, options?: any) => {
   if (id) {
@@ -9,35 +10,58 @@ export const logRocketIdentify = (id: string, options?: any) => {
   }
 }
 
-export const LogRocketContext = React.createContext({
+type LogRocket = {
+  LogRocket: any
+  identified: Viewer | boolean
+  identifyViewer: (viewer: Viewer) => void
+  initialized: boolean
+  setEnabled: (enabled: boolean) => void
+}
+
+export const LogRocketContext = React.createContext<LogRocket>({
   LogRocket,
-  logRocketIdentify,
-  isIdentified: false,
-  setIsIdentified: (identified: boolean) => {},
+  identified: false,
+  identifyViewer: (viewer: Viewer) => {},
   initialized: false,
-  enabled: false,
   setEnabled: (enabled: boolean) => {},
 })
 
 export const LogRocketProvider: React.FunctionComponent = ({children}) => {
-  const [isIdentified, setIsIdentified] = React.useState(false)
+  const [identified, setIdentified] = React.useState<Viewer | boolean>(false)
   const [initialized, setInitialized] = React.useState(false)
   const [enabled, setEnabled] = React.useState(false)
-  React.useEffect(() => {
+
+  const initialize = React.useCallback(() => {
     if (enabled) {
       LogRocket.init('9oatww/egghead-next')
       setInitialized(true)
     }
-  }, [])
+  }, [enabled])
+
+  const identifyViewer = (viewer: Viewer) => {
+    const {contact_id, ...rest} = viewer
+    if (!initialized) {
+      initialize()
+    }
+    if (enabled && initialized) {
+      logRocketIdentify(contact_id, {
+        ...rest,
+      })
+      setIdentified(viewer)
+    }
+  }
+
+  React.useEffect(() => {
+    initialize()
+  }, [initialize])
+
   return (
     <LogRocketContext.Provider
       value={{
         LogRocket,
-        logRocketIdentify,
-        isIdentified,
-        setIsIdentified,
+        identified,
+        identifyViewer,
         initialized,
-        enabled,
         setEnabled,
       }}
     >
@@ -46,27 +70,11 @@ export const LogRocketProvider: React.FunctionComponent = ({children}) => {
   )
 }
 
-export default function useLogRocket({
-  viewer,
-  enabled = false,
-}: {
-  viewer?: any
-  enabled?: boolean
-}) {
+export default function useLogRocket({viewer}: {viewer: any}) {
   const logRocketContext = React.useContext(LogRocketContext)
 
-  logRocketContext.setEnabled(enabled)
-  if (
-    logRocketContext.initialized &&
-    viewer?.contact_id &&
-    !logRocketContext.isIdentified
-  ) {
-    const {contact_id, email, name, ...rest} = viewer
-    logRocketIdentify(contact_id, {
-      email,
-      name,
-    })
-    logRocketContext.setIsIdentified(true)
+  if (viewer) {
+    logRocketContext.identifyViewer(viewer)
   }
 
   return logRocketContext
