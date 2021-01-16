@@ -12,6 +12,7 @@ import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
+import CommentField from 'components/pages/lessons/comment-field'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -788,13 +789,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         </h4>
                       )}
                       {add_comment_url ? (
-                        <div>Comment Form</div>
+                        <CommentField url="some-url" />
                       ) : (
                         <div className="flex flex-col items-center space-y-4">
                           <h4 className="font-semibold">
                             You have to be a Pro to leave a comment
                           </h4>
-                          <Link href="/pricing" activeClassName="hidden">
+                          <Link href="/pricing">
                             <a
                               onClick={() =>
                                 track('clicked pricing', {
