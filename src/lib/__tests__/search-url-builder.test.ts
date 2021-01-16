@@ -6,6 +6,16 @@ import {
   CREATOR_DELINIATOR,
 } from '../search-url-builder'
 
+test('Builds a Title Based on single Tag', () => {
+  const tag = `Typescript`
+  const title = titleFromPath([tag])
+  const count = config.searchResultCount
+
+  expect(title).toBe(
+    `${count}+ ${tag} Resources for Web Developers in ${new Date().getFullYear()}`,
+  )
+})
+
 test('Builds a Title Based on single Tag and Instructor', () => {
   const title = titleFromPath([`react-${CREATOR_DELINIATOR}-kent-c-dodds`])
 

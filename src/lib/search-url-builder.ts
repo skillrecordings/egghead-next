@@ -42,6 +42,7 @@ export const titleFromPath = (all: string[] = []) => {
   }
 
   const path = all[0] as string
+  const hasInstructor = path.includes(CREATOR_DELINIATOR)
   const instructor = last(path.split(`${CREATOR_DELINIATOR}-`))
   const tags = tagsForPath(path)
 
@@ -51,13 +52,13 @@ export const titleFromPath = (all: string[] = []) => {
     instructor?.split(`-and-`).map(nameSlugToName),
   )
 
-  if (instructor) {
+  if (hasInstructor && instructor) {
     return `${humanizedTags} Resources from ${humanizedInstructors} in ${year}`
   }
 
   //TODO: I think we need more tests around tags and years here...
 
-  return `${count}${humanizedTags} Resources for Web Developers`
+  return `${count}+ ${humanizedTags} Resources for Web Developers in ${year}`
 }
 
 const instructorsForPath = (path: string) => {
