@@ -4,6 +4,31 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        "slug": "build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c",
+        "dependencies": {
+          "preact": ">=10.5.9",
+          "node-fetch": ">=2.6.1"
+        },
+        "topics": [
+          "Installing & configuring the Netlify CLI for local development",
+          "Managing private keys in development and production",
+          "Writing Serverless functions for interacting with APIs",
+          "Configuring a PostgreSQL-backed GraphQL API with Hasura",
+          "Writing custom React Hooks for triggering Serverless functions",
+          "Deploying a complete app with Netlify"
+        ],
+        "prerequisites": [
+          {
+            "type": "text",
+            "label": "Command line familiarity"
+          },
+          {
+            "type": "text",
+            "label": "Accounts for Netlify, Hasura, and Heroku"
+          }
+        ]
+      },
+      {
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
         dependencies: {
           react: '>= 17.0.1',
