@@ -169,7 +169,6 @@ function useAuthedViewer() {
 
 export const ViewerProvider: FunctionComponent = ({children}) => {
   const values = useAuthedViewer()
-  useLogRocket(values.viewer)
   return (
     <ViewerContext.Provider value={{...values}}>
       {children}

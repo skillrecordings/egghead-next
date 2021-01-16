@@ -15,14 +15,19 @@ export const LogRocketContext = React.createContext({
   isIdentified: false,
   setIsIdentified: (identified: boolean) => {},
   initialized: false,
+  enabled: false,
+  setEnabled: (enabled: boolean) => {},
 })
 
 export const LogRocketProvider: React.FunctionComponent = ({children}) => {
   const [isIdentified, setIsIdentified] = React.useState(false)
   const [initialized, setInitialized] = React.useState(false)
+  const [enabled, setEnabled] = React.useState(false)
   React.useEffect(() => {
-    LogRocket.init('9oatww/egghead-next')
-    setInitialized(true)
+    if (enabled) {
+      LogRocket.init('9oatww/egghead-next')
+      setInitialized(true)
+    }
   }, [])
   return (
     <LogRocketContext.Provider
@@ -32,6 +37,8 @@ export const LogRocketProvider: React.FunctionComponent = ({children}) => {
         isIdentified,
         setIsIdentified,
         initialized,
+        enabled,
+        setEnabled,
       }}
     >
       {children}
@@ -39,8 +46,16 @@ export const LogRocketProvider: React.FunctionComponent = ({children}) => {
   )
 }
 
-export default function useLogRocket(viewer?: any) {
+export default function useLogRocket({
+  viewer,
+  enabled = false,
+}: {
+  viewer?: any
+  enabled?: boolean
+}) {
   const logRocketContext = React.useContext(LogRocketContext)
+
+  logRocketContext.setEnabled(enabled)
   if (
     logRocketContext.initialized &&
     viewer?.contact_id &&
@@ -53,5 +68,6 @@ export default function useLogRocket(viewer?: any) {
     })
     logRocketContext.setIsIdentified(true)
   }
-  return
+
+  return logRocketContext
 }
