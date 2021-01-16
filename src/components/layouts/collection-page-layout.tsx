@@ -21,6 +21,7 @@ import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import {format} from 'date-fns'
+import CheckIcon from '../icons/check-icon'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -46,7 +47,7 @@ const logCollectionResource = (collection: CollectionResource) => {
     const {
       title,
       duration,
-      instructor: {full_name},
+      instructor,
       square_cover_url,
       image_url,
       path,
@@ -56,7 +57,7 @@ const logCollectionResource = (collection: CollectionResource) => {
     const image = square_cover_url || image_url
     const formattedDuration = convertTimeWithTitles(duration)
     const byline = `${
-      full_name && `${full_name}・`
+      instructor?.full_name && `${instructor.full_name}・`
     }${formattedDuration}・Course`
 
     console.debug({
@@ -183,7 +184,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
-          handle: instructor.twitter,
+          handle: instructor?.twitter ?? `@eggheadio`,
           site: `@eggheadio`,
           cardType: 'summary_large_image',
         }}
@@ -454,10 +455,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       )
                       return (
                         <li key={lesson.slug}>
-                          <div className="font-semibold flex items-center leading-tight py-2">
-                            <div className="flex items-center mr-2 flex-grow space-x-2">
-                              <div className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
-                                {isComplete ? `✔️` : index + 1}
+                          <div className="font-semibold flex  leading-tight py-2">
+                            <div className="flex items-center mr-2 space-x-2">
+                              <div
+                                className={`${
+                                  isComplete ? 'text-blue-600' : 'text-gray-500'
+                                } pt-px font-xs transform scale-75 font-normal w-4`}
+                              >
+                                {isComplete ? <CheckIcon /> : index + 1}
                               </div>
                               {lesson.icon_url && (
                                 <div className="flex items-center">
@@ -470,21 +475,31 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                               )}
                             </div>
                             {lesson.path && (
-                              <Link href={lesson.path}>
-                                <a
-                                  onClick={() => {
-                                    track(`clicked video link on course page`, {
-                                      course: course.slug,
-                                      video: lesson.slug,
-                                    })
-                                  }}
-                                  className="hover:underline font-semibold flex items-center w-full"
-                                >
-                                  <Markdown className="prose md:prose-lg text-gray-900 mt-0">
-                                    {lesson.title}
-                                  </Markdown>
-                                </a>
-                              </Link>
+                              <div className="flex flex-col ">
+                                <div>
+                                  <Link href={lesson.path}>
+                                    <a
+                                      onClick={() => {
+                                        track(
+                                          `clicked video link on course page`,
+                                          {
+                                            course: course.slug,
+                                            video: lesson.slug,
+                                          },
+                                        )
+                                      }}
+                                      className="text-lg hover:underline hover:text-blue-600 font-semibold"
+                                    >
+                                      {lesson.title}
+                                    </a>
+                                  </Link>
+                                </div>
+                                <div className="text-xs text-gray-700">
+                                  {convertTimeWithTitles(lesson.duration, {
+                                    showSeconds: true,
+                                  })}
+                                </div>
+                              </div>
                             )}
                           </div>
                         </li>

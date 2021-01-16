@@ -83,6 +83,11 @@ const searchRoutes = [
 
 const legacyRoutes = [
   {
+    source: `/update_billing.html`,
+    destination: `${appUrl}/update_billing.html`,
+    permanent: true,
+  },
+  {
     source: `/sitemap.xml.gz`,
     destination: `${appUrl}/sitemap.xml.gz`,
     permanent: true,
@@ -153,11 +158,6 @@ const contentIndexRoutes = [
   {
     source: `/talks`,
     destination: `${searchUrlRoot}?type=talk`,
-    permanent: true,
-  },
-  {
-    source: `/courses`,
-    destination: `${searchUrlRoot}?type=course`,
     permanent: true,
   },
   {

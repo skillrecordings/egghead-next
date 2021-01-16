@@ -15,6 +15,7 @@ Disallow: /redirect
 Disallow: /sale
 Host: https://egghead.io
 Sitemap: https://egghead.io/sitemap.xml
+Sitemap: http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
 Sitemap: https://egghead.io/tags-sitemap-0.xml
 Sitemap: https://egghead.io/tags-sitemap-1.xml
 Sitemap: https://egghead.io/tags-sitemap-2.xml
@@ -30,4 +31,3 @@ Sitemap: https://egghead.io/tags-sitemap-11.xml
 Sitemap: https://egghead.io/tags-sitemap-12.xml
 Sitemap: https://egghead.io/tags-sitemap-13.xml
 Sitemap: https://egghead.io/tags-sitemap-14.xml
-Sitemap: http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz

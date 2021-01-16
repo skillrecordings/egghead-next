@@ -24,6 +24,7 @@ export async function loadCourse(slug: string) {
           description
           path
           icon_url
+          duration
         }
         instructor {
           id
@@ -51,10 +52,17 @@ export async function loadAllCourses() {
   const query = /* GraphQL */ `
     query getCourses {
       all_courses {
-        title
         slug
-        square_cover_480_url
-        description
+        title
+        average_rating_out_of_5
+        watched_count
+        path
+        image_thumb_url
+        instructor {
+          id
+          full_name
+          path
+        }
       }
     }
   `

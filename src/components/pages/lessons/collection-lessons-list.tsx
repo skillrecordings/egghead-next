@@ -6,6 +6,8 @@ import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {bpMinMD, bpMinLG} from 'utils/breakpoints'
+import {convertTimeWithTitles} from '../../../utils/time-utils'
+import CheckIcon from '../../icons/check-icon'
 
 type NextUpListProps = {
   currentLessonSlug: string
@@ -105,7 +107,16 @@ const Item: FunctionComponent<{
           {completed ? <CheckIcon /> : index + 1}
         </div>
       </div>
-      <div className="w-full leading-tight">{lesson.title}</div>
+      <div className="flex flex-col">
+        <div className="w-full leading-tight">{lesson.title} </div>
+        <div>
+          <span
+            className={`${active ? 'text-gray-200' : 'text-gray-500'} text-xs`}
+          >
+            {convertTimeWithTitles(lesson.duration, {showSeconds: true})}
+          </span>
+        </div>
+      </div>
     </div>
   )
   return active ? (
@@ -125,24 +136,5 @@ const Item: FunctionComponent<{
     </Link>
   )
 }
-
-const CheckIcon = () => (
-  <svg
-    className="transform -translate-x-1"
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g fill="none">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.707-9.293a1 1 0 0 0-1.414-1.414L9 10.586 7.707 9.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4z"
-        fill="currentColor"
-      />
-    </g>
-  </svg>
-)
 
 export default CollectionLessonsList

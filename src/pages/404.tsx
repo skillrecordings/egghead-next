@@ -1,11 +1,18 @@
-import {useRouter} from 'next/router'
+import * as React from 'react'
 
 export default function Custom404() {
-  const router = useRouter()
-  const appVersionOfPath = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${router.asPath}`
+  const [appVersionOfPath, setAppVersionOfPath] = React.useState<any>()
+
+  React.useEffect(() => {
+    setAppVersionOfPath(
+      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/${(
+        window.location.pathname + window.location.search
+      ).substr(1)}`,
+    )
+  }, [])
 
   return (
-    <div>
+    <div className="flex items-center justify-center mb-60 prose">
       <h1>404 - Page Not Found</h1>
       <p>
         The page you are looking for may now live at{' '}

@@ -1,0 +1,1380 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import ContinueWatching from './continue-watching'
+import RecentlyWatched from './recently-watched'
+import Resource from './resource'
+
+<Meta title="Components/Users/Dashboard/Activity" />
+
+<div className="prose max-w-none">
+
+# Activity
+
+#### Continue Watching
+
+```
+https://egghead.io/api/v1/users/${id}/series?in_progress=true&load_lessons=false
+```
+
+#### Recently Watched
+
+```
+https://app.egghead.io/api/v1/users/${id}/lessons?completed=true
+```
+
+</div>
+
+<Canvas>
+  <Story name="Continue Watching">
+    <div className="p-5 space-y-10">
+      <ContinueWatching resources={inProgressSeries} />
+    </div>
+  </Story>
+  <Story name="Recently Watched">
+    <div className="p-5 space-y-10">
+      <RecentlyWatched resources={completedLessons} />
+    </div>
+  </Story>
+  <Story name="Resource">
+    <div className="p-5 space-y-6">
+      <div className="space-y-2">
+        <div className="font-medium text-sm">Course</div>
+        <Resource {...inProgressSeries[0]} />
+      </div>
+      <div className="space-y-2">
+        <div className="font-medium text-sm">Lesson</div>
+        <Resource {...completedLessons[0]} />
+        <Resource {...completedLessons[1]} />
+      </div>
+    </div>
+  </Story>
+</Canvas>
+
+export const completedLessons = [
+  {
+    id: 6258,
+    creator_id: 71775,
+    slug: 'react-use-a-lazy-initializer-with-usestate',
+    title: 'Use a lazy initializer with useState',
+    state: 'published',
+    summary:
+      'Something that’s important to recognize is that every time you call the state updater function (like the `setName` function in our component), that will trigger a re-render of the component that manages that state (the `Greeting` component in our example). This is exactly what we _want_ to have happen, but it _can_ be a problem in some situations and there are some optimizations we can apply for `useState` specifically in the event that it is a problem.\n\nIn our case, we’re reading into `localStorage` to initialize our state value for the first render of our `Greeting` component. But after that first render, we don’t need to read into `localStorage` anymore because we’re managing that state in memory now (specifically in that `name` variable that React gives us each render). So reading into `localStorage` every render after the first one is unnecessary. So React allows us to specify a function instead of an actual value, and then it will only call that function when it needs to–on the initial render.\n\nIn this lesson, I’ll show you how to do this and demonstrate how it works.',
+    duration: 140,
+    plays_count: 0,
+    published_at: '2020-03-24T13:04:51.115-05:00',
+    is_pro_content: false,
+    difficulty_rating: 0,
+    series_row_order_position: null,
+    free_forever: true,
+    transcript:
+      "Kent C. Dodds: [0:00] One thing that's important to know about the useState Hook is that the initial value you provide here is really important for the initial render of our component, but then it's ignored for renders of our component thereafter.\n\n[0:11] That's normally not a problem, especially if you have just an empty string here, but here we're reading into localStorage every time our greeting component is re-rendered. We can add a console.log('rendered') right here to see how often that is.\n\n[0:26] We open up our console and we'll see that we already have a rendered here for our initial render of the greeting component. As we type, we get a render every time we type a character. We only need it to read into localStorage for the initialization of our state. We don't need to have it read into localStorage for every single time we re-render.\n\n[0:47] This isn't really a huge deal here because reading into localStorage is pretty fast and we're not parsing anything, but if we were parsing a big JSON object, then this could be a problem.\n\n[0:59] To combat this, React.useState has a lazy initialization feature. You can provide a function as the initial value, and that function will be called to retrieve the initial value. That function will only be called when it's absolutely necessary to retrieve the initial value.\n\n[1:15] If we turn this into an arrow function, which simply returns that initial value, then we save this, we'll notice that we're still getting our renders, but this function is not getting called, except on the initial value retrieval.\n\n[1:30] We can prove this by making this a multiline arrow function, returning that value and console.log('hello') in here. Now we get that hello, and then we get that rendered, and that's an important note, is that this function is called synchronously, and it's expected to be synchronous.\n\n[1:51] As we type hello, you'll see that we do not get that console.log('hello'). We save ourselves the expense of reading into local storage on every render.\n\n[2:03] In review, the problem that we're solving here is that reading into localStorage is not necessary, except for the initial render of our component. We turn our initial value argument here into a function so that React will call it only when it's necessary to get that initial value, which is only on the first render.",
+    casting_words_order: 'zcKi',
+    visibility_state: 'indexed',
+    site: 'egghead.io',
+    type: 'lesson',
+    lesson_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate',
+    url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate',
+    path: '/lessons/react-use-a-lazy-initializer-with-usestate',
+    http_url:
+      'https://app.egghead.io/lessons/react-use-a-lazy-initializer-with-usestate',
+    http_short_url: 'https://app.egghead.io/s/7vfng',
+    next_up_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/next_up',
+    tag_list: ['free'],
+    library_list: [],
+    language_list: [],
+    framework_list: ['react'],
+    tool_list: [],
+    platform_list: [],
+    skillset_list: [],
+    skill_level_list: [],
+    image_480_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_480/react.png',
+    image_280_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+    image_256_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_256/react.png',
+    image_128_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_128/react.png',
+    image_64_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_64/react.png',
+    image_32_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_32/react.png',
+    icon_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+    thumb_nail:
+      'https://dcv19h61vib2d.cloudfront.net/thumbs/react-use-a-lazy-initializer-with-usestate-u5t7pee93/react-use-a-lazy-initializer-with-usestate-u5t7pee93.jpg',
+    landscape_icon_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/landscape/react.png',
+    transcript_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/transcript',
+    enhanced_transcript_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/transcript',
+    subtitles_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/subtitles',
+    related_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/related',
+    can_comment: true,
+    lesson_errata: [],
+    is_pro: false,
+    technology: {
+      name: 'react',
+      label: 'React',
+      http_url: 'https://app.egghead.io/browse/frameworks/react',
+      logo_http_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+    },
+    primary_tag: {
+      id: 26,
+      label: 'React',
+      name: 'react',
+      description:
+        'React is one of the web’s most popular frameworks for building JavaScript applications. \n\nIf you know what you’re doing, React can drastically simplify how you build, use, and maintain code.\n\nWhether you’re a React newbie or you’re ready for advanced techniques, you can level-up with egghead. Explore our in-depth courses, lessons, and community resources to build more powerful applications and crack open your career.',
+      slug: 'react',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+      image_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+      image_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_480/react.png',
+      image_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+      image_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_256/react.png',
+      image_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_128/react.png',
+      image_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_64/react.png',
+      image_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_32/react.png',
+      latest_course_url:
+        'https://app.egghead.io/api/v1/series/build-maps-with-react-leaflet?load_lessons=false',
+      http_url: 'https://app.egghead.io/browse/frameworks/react',
+      path: '/browse/frameworks/react',
+      search_url: 'https://app.egghead.io/search?topic=react',
+      context: 'frameworks',
+    },
+    tags: [
+      {
+        id: 26,
+        label: 'React',
+        name: 'react',
+        description:
+          'React is one of the web’s most popular frameworks for building JavaScript applications. \n\nIf you know what you’re doing, React can drastically simplify how you build, use, and maintain code.\n\nWhether you’re a React newbie or you’re ready for advanced techniques, you can level-up with egghead. Explore our in-depth courses, lessons, and community resources to build more powerful applications and crack open your career.',
+        slug: 'react',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+        image_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+        image_480_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_480/react.png',
+        image_280_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
+        image_256_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_256/react.png',
+        image_128_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_128/react.png',
+        image_64_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_64/react.png',
+        image_32_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_32/react.png',
+        latest_course_url:
+          'https://app.egghead.io/api/v1/series/build-maps-with-react-leaflet?load_lessons=false',
+        http_url: 'https://app.egghead.io/browse/frameworks/react',
+        path: '/browse/frameworks/react',
+        search_url: 'https://app.egghead.io/search?topic=react',
+        context: 'frameworks',
+      },
+    ],
+    instructor_url: 'https://app.egghead.io/api/v1/instructors/kent-c-dodds',
+    instructor: {
+      id: 11,
+      slug: 'kent-c-dodds',
+      full_name: 'Kent C. Dodds',
+      first_name: 'Kent C.',
+      last_name: 'Dodds',
+      twitter: 'kentcdodds',
+      website: 'http://kentcdodds.com',
+      bio_short:
+        "a JavaScript developer who likes open source and teaching.\r\n[Learn about Kent's story with egghead](https://howtoegghead.com/instructor/case-studies/kent-c-dodds)",
+      http_url: 'https://app.egghead.io/instructors/kent-c-dodds',
+      avatar_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/original/photo-512.png',
+      avatar_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/square_480/photo-512.png',
+      avatar_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/square_280/photo-512.png',
+      avatar_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/square_256/photo-512.png',
+      avatar_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/square_128/photo-512.png',
+      avatar_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/square_64/photo-512.png',
+      avatar_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/square_32/photo-512.png',
+      lessons_url:
+        'https://app.egghead.io/api/v1/instructors/kent-c-dodds/lessons',
+      published_lessons: 287,
+      published_courses: 9,
+    },
+    'instructor_playlists_url=':
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/instructor_playlists',
+    series_url:
+      'https://app.egghead.io/api/v1/series/the-beginner-s-guide-to-react',
+    series_row_order: -4956407,
+    series: {
+      title: "The Beginner's Guide to React",
+      description:
+        'React got that name for a reason. It’s a component-based JavaScript library that renders smartly and can seriously simplify your work.\n\nThis course is for React newbies and anyone looking to build a solid foundation. It’s designed to teach you everything you need to start building web applications in React right away.\n\nEach lesson in this 28-part course is a single `index.html` file. This keeps your focus on learning React, no distractions. We’ll start with a blank file and add more complexity as we go along, wrapping the course with a lesson on how to move into a more production-ready development environment—and even deploy your app to a great service like Netlify.\n\nYou’ll build a solid understanding so when you come across JavaScript challenges down the road, you’ll know how to…react.',
+      duration: 8824,
+      slug: 'the-beginner-s-guide-to-react',
+      lessons_url:
+        'https://app.egghead.io/api/v1/series/the-beginner-s-guide-to-react/lessons',
+      progress_url:
+        'https://app.egghead.io/api/v1/series/the-beginner-s-guide-to-react/progress',
+      url: 'https://app.egghead.io/api/v1/series/the-beginner-s-guide-to-react',
+      http_url: 'https://app.egghead.io/courses/the-beginner-s-guide-to-react',
+      path: '/courses/the-beginner-s-guide-to-react',
+      square_cover_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
+      square_cover_large_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/full/EGH_BeginnersReact2.png',
+      square_cover_landscape_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/landscape/EGH_BeginnersReact2.png',
+      instructor: {
+        instructor_url:
+          'https://app.egghead.io/api/v1/instructors/kent-c-dodds',
+        id: 11,
+        slug: 'kent-c-dodds',
+        full_name: 'Kent C. Dodds',
+        first_name: 'Kent C.',
+        last_name: 'Dodds',
+        twitter: 'kentcdodds',
+        website: 'http://kentcdodds.com',
+        bio_short:
+          "a JavaScript developer who likes open source and teaching.\r\n[Learn about Kent's story with egghead](https://howtoegghead.com/instructor/case-studies/kent-c-dodds)",
+        http_url: 'https://app.egghead.io/instructors/kent-c-dodds',
+        avatar_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/original/photo-512.png',
+        lessons_url:
+          'https://app.egghead.io/api/v1/instructors/kent-c-dodds/lessons',
+        published_lessons: 287,
+        published_courses: 9,
+      },
+    },
+    tracklist_id: null,
+    completed: true,
+    toggle_favorite_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/favorites/toggle',
+    toggle_like_lesson_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/likes/toggle',
+    lesson_view_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/views',
+    favorited: false,
+    liked: false,
+    download_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/signed_download',
+    media_urls: {
+      hls_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/react-use-a-lazy-initializer-with-usestate-u5t7pee93/hls/react-use-a-lazy-initializer-with-usestate-u5t7pee93.m3u8',
+      dash_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/react-use-a-lazy-initializer-with-usestate-u5t7pee93/dash/react-use-a-lazy-initializer-with-usestate-u5t7pee93.mpd',
+    },
+    notes:
+      "- Something it's important to recognize is that every time you call the state updater function, that will trigger a re-render of the component that manages that state (the Greeting component in our example).\n- This is exactly what we want to have happen, but it can be a problem in some situations and there are some optimizations we can apply for `useState` specifically in the event that it is a problem.\n\n- In our case, we’re reading into `localStorage` to initialize our state value for the first render of our Greeting component.\n\n- After that first render, we don’t need to read into localStorage anymore because we’re managing that state in memory now.\n\n```html\n<body>\n  <div id=\"root\"></div>\n  <script src=\"https://unpkg.com/react@16.12.0/umd/react.development.js\"></script>\n  <script src=\"https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js\"></script>\n  <script src=\"https://unpkg.com/@babel/standalone@7.8.3/babel.js\"></script>\n  <script type=\"text/babel\">\n    function Greeting() {\n      const [name, setName] = React.useState(\n        // Arrow function\n        //  React allows us to specify a function instead of an actual value, and then it will only call that function when it needs to – on the initial render.\n        () => window.localStorage.getItem('name') || ''\n      );\n\n      // We don't want to render on every change\n      // Since we're using localStorage, it's not a big deal\n\n      React.useEffect(() => {\n        window.localStorage.setItem('name', name);\n      });\n\n      const handleChange = event => setName(event.target.value);\n\n      return (\n        <div>\n          <form>\n            <label htmlFor=\"name\">Name: </label>\n            <input value={name} onChange={handleChange} id=\"name\" />\n          </form>\n          {name ? <strong>Hello {name}</strong> : 'Please type your name'}\n        </div>\n      );\n    }\n\n    ReactDOM.render(<Greeting />, document.getElementById('root'));\n  </script>\n</body>\n```\n\n## Additional resource\n\n- [Kent's Blog - How to implement useState with useReducer](https://kentcdodds.com/blog/how-to-implement-usestate-with-usereducer)\n- [React Docs - Effects Without Cleanup](https://reactjs.org/docs/hooks-effect.html#effects-without-cleanup)\n\n[✏️ Edit on GitHub](https://github.com/eggheadio/eggheadio-course-notes/tree/master/the-beginners-guide-to-react/notes)",
+    code: {
+      plunker_url:
+        'https://codesandbox.io/embed/github/kentcdodds/beginners-guide-to-react/tree/codesandbox/14-lazy-initialization?fontsize=14&hidenavigation=1&theme=dark',
+    },
+    flag_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/flag',
+    retire_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/retire',
+    remove_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/remove',
+    hide_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/hide',
+    upload_lesson_http_url:
+      'https://app.egghead.io/lesson_uploads/new?lesson=react-use-a-lazy-initializer-with-usestate&upload=true',
+    edit_lesson_http_url:
+      'https://app.egghead.io/lessons/react-use-a-lazy-initializer-with-usestate/edit',
+    update_lesson_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate',
+    process_lesson_video_url:
+      'https://app.egghead.io/api/v1/lessons/react-use-a-lazy-initializer-with-usestate/upload',
+    signed_s3_upload_url: 'https://app.egghead.io/api/v1/s3/sign',
+    notifications: [],
+    create_lesson_version_flag_url:
+      'https://app.egghead.io/api/v1/lesson_version_flags',
+    lesson_version_flag_url:
+      'https://app.egghead.io/api/v1/lesson_version_flags/react-use-a-lazy-initializer-with-usestate',
+  },
+  {
+    id: 7953,
+    creator_id: 186087,
+    slug:
+      'next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+    title:
+      'Add and Style a Grid of Products with Images in a Next.js React App',
+    state: 'published',
+    summary:
+      "The core of any shopping experience is simply being able to see what the store has to offer! This includes what products are available and how much each one of them costs.\n\nWhile we can do this in a variety of ways, a common way is to show a grid of products where we can see everything the store has to offer (or a lot of it). Using some HTML and CSS, we can create our product grid allowing our customers a look into our store.\n\nThe default Next.js template has 'cards' that will serve us well in displaying the products that we want to sell. We will upgrade these cards to handle images and be positioned and styled to our liking.",
+    duration: 270,
+    plays_count: 0,
+    published_at: '2020-12-15T15:45:24.951-06:00',
+    is_pro_content: true,
+    difficulty_rating: 0,
+    series_row_order_position: null,
+    free_forever: false,
+    transcript:
+      "Colby Fayock: [0:00] We're going to start off with the new Next.js app, where I've updated the title in the description to my Space Jelly Shop. Inside our code, we can see that it pretty much looks exactly the same as a create Next.js app except we updated the titles. Our goal is to create an online store, where we can sell products.\n\n[0:13] The first thing we want to do is actually add the products. For an easy way to get started, we can simply reuse these cards that already exists to add our products. For my store, I have three products that I want to add -- a T-shirt, a set of stickers, and a combo pack that includes both the T-shirt and stickers.\n\n[0:27] In my code, I'm going to find that first card. I'm going to replace documentation with the title. I'm also going to replace the paragraph tag with my description. I also went ahead and did the same thing for the next two cards in the list, but since we only have three products and we have four cards, we can go ahead and get rid of the last one.\n\n[0:41] If we look at the app, we can see that it's already updated with our product information. Part of what really sells products is being able to show an image of it, so people know what they're buying. Let's add images to each one of these cards.\n\n[0:52] To prepare to add the images to the project, I added three image files directly to my public folder including the combo, the stickers, and the T-shirt.\n\n[1:00] Because we made that available inside of our public directory, that means that we can access those images statically as /images and the file name. Inside of my first card, I'm going to create a new img tag and I'm going to reference that first image with /images spacejellytshirt.jpg. I'm also going to set an alternate tag of Space Jelly T-shirt, close that tag.\n\n[1:21] If we look at the browser, we can already see that our image is inside the app, but it's huge. By default, Next.js doesn't have any styles included that prevents images from growing beyond their container.\n\n[1:30] To prevent this, I'm going to open up my globals.css file. In the bottom, I'm going to add image max-width = 100 percent. Now, if we look at the app, we can see that the image looks a little bit better. Back inside my code, I added images to the next two product cards, and we can see that those, load as well.\n\n[1:45] Finally, when we're showing our products in our shop, we're actually showing a list of products. In the code, we're currently using a div for the grid and a couple anchor tags for the products. While that works, it's probably more semantic and accessible to use something like an unordered list, so that we're using a list element for our HTML.\n\n[2:02] We can pretty easily update that by first changing the div to an unordered list. For each of our cards, I'm going to create a list element that's going to wrap each of those anchor tags. To make sure that our cards are still styled properly, we can move this class name prop from each of those anchor tags to our list element.\n\n[2:19] Once we do the same thing for each of our cards, we can see that the page updated but it's not quite right anymore. To start, we need to remove the default styles for our list element. If we open up our home.module.css file, we can start by on our grid, we can add list style = none. That will get rid of the bullets next to each item.\n\n[2:36] Next, these are probably too big, and we don't want them in a single column. We also want to make sure that any time we have this percentage value, it's going to take into consideration the margin on each of the sides. Let's change this 45 percent to calc 50 percent, so that we have two columns minus two rem, which includes the margin on each side of the product.\n\n[2:55] Now, if we open our browser, we can see that we're back to two columns. Because we have a wider screen here, we might want our products to be wider, and have three columns when it's that size.\n\n[3:04] To solve that, we can add a new media query. We're going to type out, media, we're going to say min-width, let's say 960 pixels. Inside that, we're going to define the card class. We're going to say flex-basis, let's say calc 33.33 percent minus that same two rem.\n\n[3:23] We can immediately see that we're at three columns. It's a little squished. Let's widen that up a little bit. Since our grid is what's containing that size, let's set the max-width of our grid to 60em. When we open the page, we can see that it's nice and wide, and we can see all three products.\n\n[3:37] To see the effect of the two versus three columns depending on page size, we can first open up our Chrome DevTools, and we can change the size of this panel so that when it's below 960 pixels, we get two columns, but when it's back above 960 pixels, we have three columns.\n\n[3:53] Finally, if you noticed, each of our cards have a little bit different height and because of that, it doesn't look uniform across the top. You see a stagger effect. To fix that, we can update our align items to stretch. Now if we look back at our page, we can see that our cards are nice and uniform and the same size.\n\n[4:08] In review, we took our store, we added some products. We also made sure that each of those products inside of the cards take advantage of the size of the screen.\n\n[4:16] We were able to do that by first, updating the product and information for each of the cards as well as adding an image, and then updating our div to an unordered list with each list element.\n\n[4:25] With a few tweaks to our pre-existing styles, including a media query, we have our shop with our product cards.",
+    casting_words_order: 'zAjm',
+    visibility_state: 'indexed',
+    site: 'egghead.io',
+    type: 'lesson',
+    lesson_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+    url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+    path:
+      '/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+    http_url:
+      'https://app.egghead.io/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+    http_short_url: 'https://app.egghead.io/s/yfwys',
+    next_up_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/next_up',
+    tag_list: ['pro'],
+    library_list: ['next'],
+    language_list: [],
+    framework_list: [],
+    tool_list: [],
+    platform_list: [],
+    skillset_list: [],
+    skill_level_list: [],
+    image_480_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_480/nextjs.png',
+    image_280_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+    image_256_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_256/nextjs.png',
+    image_128_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_128/nextjs.png',
+    image_64_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_64/nextjs.png',
+    image_32_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_32/nextjs.png',
+    icon_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
+    thumb_nail:
+      'https://dcv19h61vib2d.cloudfront.net/thumbs/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app-fc2UL40t6/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app-fc2UL40t6.jpg',
+    landscape_icon_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/landscape/nextjs.png',
+    transcript_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/transcript',
+    enhanced_transcript_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/transcript',
+    subtitles_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/subtitles',
+    related_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/related',
+    can_comment: true,
+    lesson_errata: [],
+    is_pro: true,
+    technology: {
+      name: 'next',
+      label: 'Next.js',
+      http_url: 'https://app.egghead.io/browse/libraries/next',
+      logo_http_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
+    },
+    primary_tag: {
+      id: 1074,
+      label: 'Next.js',
+      name: 'next',
+      description:
+        'Next.js is a minimalistic framework for server-rendered React applications.',
+      slug: 'next',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
+      image_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
+      image_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_480/nextjs.png',
+      image_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+      image_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_256/nextjs.png',
+      image_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_128/nextjs.png',
+      image_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_64/nextjs.png',
+      image_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_32/nextjs.png',
+      latest_course_url:
+        'https://app.egghead.io/api/v1/series/build-a-server-rendered-reactjs-application-with-next-js?load_lessons=false',
+      http_url: 'https://app.egghead.io/browse/libraries/next',
+      path: '/browse/libraries/next',
+      search_url: 'https://app.egghead.io/search?topic=next',
+      context: 'libraries',
+    },
+    tags: [
+      {
+        id: 1074,
+        label: 'Next.js',
+        name: 'next',
+        description:
+          'Next.js is a minimalistic framework for server-rendered React applications.',
+        slug: 'next',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
+        image_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
+        image_480_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_480/nextjs.png',
+        image_280_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
+        image_256_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_256/nextjs.png',
+        image_128_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_128/nextjs.png',
+        image_64_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_64/nextjs.png',
+        image_32_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_32/nextjs.png',
+        latest_course_url:
+          'https://app.egghead.io/api/v1/series/build-a-server-rendered-reactjs-application-with-next-js?load_lessons=false',
+        http_url: 'https://app.egghead.io/browse/libraries/next',
+        path: '/browse/libraries/next',
+        search_url: 'https://app.egghead.io/search?topic=next',
+        context: 'libraries',
+      },
+    ],
+    instructor_url: 'https://app.egghead.io/api/v1/instructors/colby-fayock',
+    instructor: {
+      id: 366,
+      slug: 'colby-fayock',
+      full_name: 'Colby Fayock',
+      first_name: 'Colby',
+      last_name: 'Fayock',
+      twitter: 'colbyfayock',
+      website: 'https://www.colbyfayock.com',
+      bio_short:
+        "I help others learn by doing through articles, videos, and courses about Javascript, React, and the static web. I'm a Lead UX & Front End Engineer passionate about tackling challenges that can help save people’s lives and make the world a better place.\r\n\r\n✉️ [Sign up for my newsletter!](https://www.colbyfayock.com/newsletter)",
+      http_url: 'https://app.egghead.io/instructors/colby-fayock',
+      avatar_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/original/IMG_7414.JPG',
+      avatar_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/square_480/IMG_7414.JPG',
+      avatar_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/square_280/IMG_7414.JPG',
+      avatar_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/square_256/IMG_7414.JPG',
+      avatar_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/square_128/IMG_7414.JPG',
+      avatar_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/square_64/IMG_7414.JPG',
+      avatar_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/square_32/IMG_7414.JPG',
+      lessons_url:
+        'https://app.egghead.io/api/v1/instructors/colby-fayock/lessons',
+      published_lessons: 131,
+      published_courses: 1,
+    },
+    'instructor_playlists_url=':
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/instructor_playlists',
+    tracklist_id: null,
+    completed: true,
+    toggle_favorite_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/favorites/toggle',
+    toggle_like_lesson_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/likes/toggle',
+    lesson_view_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/views',
+    favorited: false,
+    liked: false,
+    download_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/signed_download',
+    media_urls: {
+      hls_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app-fc2UL40t6/hls/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app-fc2UL40t6.m3u8',
+      dash_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app-fc2UL40t6/dash/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app-fc2UL40t6.mpd',
+    },
+    notes: null,
+    code: {
+      github: {
+        repo: 'space-jelly-store-workshop',
+        user: 'colbyfayock',
+        branch:
+          'main/lessons/02%20-%20Add%20a%20Grid%20of%20Products%20with%20Images%20to%20a%20Next.js%20React%20App',
+      },
+    },
+    flag_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/flag',
+    retire_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/retire',
+    remove_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/remove',
+    hide_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/hide',
+    upload_lesson_http_url:
+      'https://app.egghead.io/lesson_uploads/new?lesson=next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app&upload=true',
+    edit_lesson_http_url:
+      'https://app.egghead.io/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/edit',
+    update_lesson_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+    process_lesson_video_url:
+      'https://app.egghead.io/api/v1/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app/upload',
+    signed_s3_upload_url: 'https://app.egghead.io/api/v1/s3/sign',
+    notifications: [],
+    create_lesson_version_flag_url:
+      'https://app.egghead.io/api/v1/lesson_version_flags',
+    lesson_version_flag_url:
+      'https://app.egghead.io/api/v1/lesson_version_flags/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+  },
+]
+
+export const inProgressSeries = [
+  {
+    id: 450,
+    duration: 3852,
+    title: 'Build an App with the AWS Cloud Development Kit',
+    slug: 'build-an-app-with-the-aws-cloud-development-kit',
+    state: 'published',
+    row_order: -8373946,
+    queue_order: 8323072,
+    description:
+      "Amazon AWS is one of the most popular cloud providers in the world, but it can also be daunting to learn thanks to the alphabet soup of service acronyms.\n\nOnce you've figured out which subset of services to use, you've got a lot of clicking around to do in order to get things configured.\n\nNot anymore!\n\nWith the AWS Cloud Development Kit (CDK), you are able to configure AWS services from your terminal & editor.\n\nEven better, you can do your configuration, frontend, and backend all with the same language. \n\nIn this course, Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done.\n\nThe services & development approach Tomasz demonstrates in this course are used by countless companies around the world. \n\nIs yours next?",
+    is_pro_content: true,
+    free_forever: false,
+    summary:
+      "Amazon AWS is one of the most popular cloud providers in the world, but it can also be daunting to learn thanks to the alphabet soup of service acronyms.\n\nOnce you've figured out which subset of services to use, you've got a lot of clicking around to do in order to get things configured.\n\nNot anymore!\n\nWith the AWS Cloud Development Kit (CDK), you are able to configure AWS services from your terminal & editor.\n\nEven better, you can do your configuration, frontend, and backend all with the same language. \n\nIn this course, Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done.\n\nThe services & development approach Tomasz demonstrates in this course are used by countless companies around the world. \n\nIs yours next?",
+    tagline: null,
+    repo: null,
+    publish_at: null,
+    published_at: '2020-06-16T08:38:00.354-05:00',
+    updated_at: '2020-04-11T00:00:00.000-05:00',
+    visibility_state: 'indexed',
+    type: 'course',
+    http_url:
+      'https://app.egghead.io/courses/build-an-app-with-the-aws-cloud-development-kit',
+    http_short_url: 'https://app.egghead.io/s/yf29m',
+    path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
+    url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit',
+    comments_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/comments',
+    published_lesson_count: 27,
+    indexed_states: ['indexed'],
+    tags: [
+      {
+        id: 1090,
+        label: 'AWS',
+        name: 'aws',
+        description: 'Amazon Web Services.',
+        slug: 'aws',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        image_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        image_480_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_480/aws.png',
+        image_280_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_280/aws.png',
+        image_256_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_256/aws.png',
+        image_128_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_128/aws.png',
+        image_64_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_64/aws.png',
+        image_32_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_32/aws.png',
+        latest_course_url:
+          'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit?load_lessons=false',
+        http_url: 'https://app.egghead.io/browse/tools/aws',
+        path: '/browse/tools/aws',
+        search_url: 'https://app.egghead.io/search?topic=aws',
+      },
+    ],
+    primary_tag: {
+      id: 1090,
+      label: 'AWS',
+      name: 'aws',
+      description: 'Amazon Web Services.',
+      slug: 'aws',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+      image_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+      image_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_480/aws.png',
+      image_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_280/aws.png',
+      image_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_256/aws.png',
+      image_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_128/aws.png',
+      image_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_64/aws.png',
+      image_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_32/aws.png',
+      latest_course_url:
+        'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit?load_lessons=false',
+      http_url: 'https://app.egghead.io/browse/tools/aws',
+      path: '/browse/tools/aws',
+      search_url: 'https://app.egghead.io/search?topic=aws',
+    },
+    library_list: [],
+    language_list: [],
+    framework_list: [],
+    tool_list: ['aws'],
+    platform_list: [],
+    skillset_list: [],
+    skill_level_list: [],
+    name: 'aws',
+    label: 'AWS',
+    logo_http_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+    square_cover_480_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/square_480/EGH_AWS-TS.png',
+    square_cover_280_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/square_280/EGH_AWS-TS.png',
+    square_cover_256_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/square_256/EGH_AWS-TS.png',
+    square_cover_128_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/square_128/EGH_AWS-TS.png',
+    square_cover_64_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/square_64/EGH_AWS-TS.png',
+    square_cover_32_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/square_32/EGH_AWS-TS.png',
+    square_cover_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+    square_cover_large_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/full/EGH_AWS-TS.png',
+    square_cover_landscape_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/landscape/EGH_AWS-TS.png',
+    instructor: {
+      instructor_url: 'https://app.egghead.io/api/v1/instructors/tomasz-lakomy',
+      id: 244,
+      slug: 'tomasz-lakomy',
+      full_name: 'Tomasz Łakomy',
+      first_name: 'Tomasz',
+      last_name: 'Łakomy',
+      twitter: 'tlakomy',
+      website: 'https://tlakomy.com',
+      bio_short:
+        "Frontend Engineer at Stedi. His interests include React, AWS, testing, Svelte, VR, app performance and... jQuery, which he still thinks is the best library ever.\r\n\r\n[Learn about Tomasz's story with egghead](https://howtoegghead.com/instructor/case-studies/tomasz-lakomy).\r\n\r\n",
+      http_url: 'https://app.egghead.io/instructors/tomasz-lakomy',
+      avatar_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/original/Tomasz_%C5%81akomy.jpg',
+      avatar_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/square_480/Tomasz_%C5%81akomy.jpg',
+      avatar_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/square_280/Tomasz_%C5%81akomy.jpg',
+      avatar_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/square_256/Tomasz_%C5%81akomy.jpg',
+      avatar_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/square_128/Tomasz_%C5%81akomy.jpg',
+      avatar_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/square_64/Tomasz_%C5%81akomy.jpg',
+      avatar_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/244/square_32/Tomasz_%C5%81akomy.jpg',
+      lessons_url:
+        'https://app.egghead.io/api/v1/instructors/tomasz-lakomy/lessons',
+      published_lessons: 172,
+      published_courses: 2,
+    },
+    enhanced_transcript_count: 26,
+    transfer_playlist_slug: null,
+    tracklist_id: null,
+    playlist_index: 0,
+    resources_url:
+      'https://app.egghead.io/api/v1/playlists/build-an-app-with-the-aws-cloud-development-kit-resource',
+    lessons_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/lessons',
+    can_stream_content: true,
+    rss_url:
+      'https://app.egghead.io/courses/build-an-app-with-the-aws-cloud-development-kit/course_feed?user_email=vojta%40egghead.io&user_token=47b8e5b4-eb89-4f9b-9f50-5e16eed5bdc3',
+    flag_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/flag',
+    retire_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/retire',
+    remove_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/remove',
+    can_update_instructor: true,
+    can_set_cover: true,
+    new_series_lesson_http_url:
+      '/lesson_uploads/new?course=build-an-app-with-the-aws-cloud-development-kit',
+    reorder_items_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/reorder_lessons',
+    item_add_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/add_item',
+    item_remove_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/remove_item',
+    change_lessons_ownership_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/change_ownership',
+    update_series_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit',
+    edit_series_http_url:
+      'https://app.egghead.io/courses/build-an-app-with-the-aws-cloud-development-kit/edit',
+    pending_lessons_count: null,
+    claimed_lessons_count: null,
+    submitted_lessons_count: null,
+    approved_lessons_count: null,
+    reviewing_lessons_count: null,
+    rejected_lessons_count: null,
+    updated_lessons_count: null,
+    notifications: [],
+    versions: {dependencies: null},
+    download_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/download?key=eyJzdWIiOiI0NTAiLCJ1IjoiMTczMzAxIiwiZXhwIjoxNjEwODAzMDU2fQ%3D%3D--76626ac47f2812583855de63594dd10a6a1d2915',
+    progress_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/progress',
+    collection_progress: {
+      is_completed: false,
+      completed_lesson_count: 3,
+      time_left: 3472,
+      lesson_count: 27,
+      time_remaining: 3472,
+      completed_lessons: [
+        {
+          slug:
+            'aws-install-aws-cloud-development-kit-cdk-and-create-a-new-project',
+          url:
+            'https://app.egghead.io/api/v1/lessons/aws-install-aws-cloud-development-kit-cdk-and-create-a-new-project',
+        },
+        {
+          slug:
+            'aws-change-the-properties-of-a-lambda-function-deployed-with-aws-cdk',
+          url:
+            'https://app.egghead.io/api/v1/lessons/aws-change-the-properties-of-a-lambda-function-deployed-with-aws-cdk',
+        },
+        {
+          slug:
+            'aws-attach-an-api-gateway-to-a-lambda-function-deployed-with-aws-cdk',
+          url:
+            'https://app.egghead.io/api/v1/lessons/aws-attach-an-api-gateway-to-a-lambda-function-deployed-with-aws-cdk',
+        },
+      ],
+      series_started_on: '2020-05-28',
+      last_lesson_watched_on: '2020-05-28',
+      series_completed_on: null,
+    },
+    completed: false,
+    series_slug: 'build-an-app-with-the-aws-cloud-development-kit',
+    progress: {
+      current_lesson_url:
+        'https://app.egghead.io/lessons/aws-introduction-to-build-an-app-with-the-aws-cloud-development-kit',
+      is_completed: false,
+      completed_lesson_count: 3,
+      time_left: 3472,
+      lesson_count: 27,
+      time_remaining: 3472,
+      completed_lessons: [
+        {
+          title:
+            'Install AWS Cloud Development Kit (CDK) and create a new project',
+          slug:
+            'aws-install-aws-cloud-development-kit-cdk-and-create-a-new-project',
+          duration: 84,
+          state: 'published',
+          series_row_order: -5224912,
+          http_url:
+            'https://app.egghead.io/lessons/aws-install-aws-cloud-development-kit-cdk-and-create-a-new-project',
+          icon_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+          path:
+            '/lessons/aws-install-aws-cloud-development-kit-cdk-and-create-a-new-project',
+        },
+        {
+          title:
+            'Change the properties of a lambda function deployed with AWS CDK',
+          slug:
+            'aws-change-the-properties-of-a-lambda-function-deployed-with-aws-cdk',
+          duration: 87,
+          state: 'published',
+          series_row_order: 5100674,
+          http_url:
+            'https://app.egghead.io/lessons/aws-change-the-properties-of-a-lambda-function-deployed-with-aws-cdk',
+          icon_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+          path:
+            '/lessons/aws-change-the-properties-of-a-lambda-function-deployed-with-aws-cdk',
+        },
+        {
+          title:
+            'Attach an API Gateway to a lambda function deployed with AWS CDK',
+          slug:
+            'aws-attach-an-api-gateway-to-a-lambda-function-deployed-with-aws-cdk',
+          duration: 209,
+          state: 'published',
+          series_row_order: 6013703,
+          http_url:
+            'https://app.egghead.io/lessons/aws-attach-an-api-gateway-to-a-lambda-function-deployed-with-aws-cdk',
+          icon_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+          path:
+            '/lessons/aws-attach-an-api-gateway-to-a-lambda-function-deployed-with-aws-cdk',
+        },
+      ],
+      series_started_on: '2020-05-28',
+      last_lesson_watched_on: '2020-05-28',
+      series_completed_on: null,
+      current_lesson: {
+        title:
+          'Introduction to Build an App with the AWS Cloud Development Kit',
+        slug:
+          'aws-introduction-to-build-an-app-with-the-aws-cloud-development-kit',
+        duration: 196,
+        state: 'published',
+        series_row_order: -7123129,
+        http_url:
+          'https://app.egghead.io/lessons/aws-introduction-to-build-an-app-with-the-aws-cloud-development-kit',
+        icon_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path:
+          '/lessons/aws-introduction-to-build-an-app-with-the-aws-cloud-development-kit',
+      },
+    },
+    toggle_favorite_url:
+      'https://app.egghead.io/api/v1/series/build-an-app-with-the-aws-cloud-development-kit/toggle_favorite',
+    favorited: false,
+    rating_out_of_5: 4.824561403508772,
+    rating_count: 114,
+    watched_count: 194,
+  },
+  {
+    id: 104,
+    duration: 2504,
+    title: 'Get Started With PostgreSQL',
+    slug: 'get-started-with-postgresql',
+    state: 'published',
+    row_order: -5268471,
+    queue_order: -4441027,
+    description:
+      'It’s amazing how much you can accomplish with a basic knowledge of SQL. In this course we’ll learn how to store lots of information (many millions of things!) and answer nearly any question we might have about that information (on the order of milliseconds!) \r\n\r\nWe’ll learn enough to make you say you “know SQL” -- table creation, inserts, selects, updates, deletes, aggregations, indexes, joins, and constraints. Along the way we’ll model real world problems so that you can see just how powerful SQL will make you!\r\n\r\nIf you’re interested in the Postgres client that is used in this course you can [download it here](https://macpostgresclient.com/?source=brett) to check it out and follow along.',
+    is_pro_content: true,
+    free_forever: false,
+    summary:
+      'It’s amazing how much you can accomplish with a basic knowledge of SQL. In this course we’ll learn how to store lots of information (many millions of things!) and answer nearly any question we might have about that information (on the order of milliseconds!) \r\n\r\nWe’ll learn enough to make you say you “know SQL” -- table creation, inserts, selects, updates, deletes, aggregations, indexes, joins, and constraints. Along the way we’ll model real world problems so that you can see just how powerful SQL will make you!\r\n\r\nIf you’re interested in the Postgres client that is used in this course you can [download it here](https://macpostgresclient.com/?source=brett) to check it out and follow along.',
+    tagline: null,
+    repo: null,
+    publish_at: null,
+    published_at: '2017-02-09T17:05:43.681-06:00',
+    updated_at: '2017-02-09T00:00:00.000-06:00',
+    visibility_state: 'indexed',
+    type: 'course',
+    http_url: 'https://app.egghead.io/courses/get-started-with-postgresql',
+    http_short_url: 'https://app.egghead.io/s/3269e',
+    path: '/courses/get-started-with-postgresql',
+    url: 'https://app.egghead.io/api/v1/series/get-started-with-postgresql',
+    comments_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/comments',
+    published_lesson_count: 14,
+    indexed_states: ['indexed'],
+    tags: [
+      {
+        id: 1053,
+        label: 'PostgreSQL',
+        name: 'postgres',
+        description:
+          'PostgreSQL is a powerful, open source object-relational database system.',
+        slug: 'postgres',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/thumb/postgres.png',
+        image_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/thumb/postgres.png',
+        image_480_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_480/postgres.png',
+        image_280_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_280/postgres.png',
+        image_256_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_256/postgres.png',
+        image_128_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_128/postgres.png',
+        image_64_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_64/postgres.png',
+        image_32_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_32/postgres.png',
+        latest_course_url:
+          'https://app.egghead.io/api/v1/series/advanced-sql-for-professional-developers?load_lessons=false',
+        http_url: 'https://app.egghead.io/browse/libraries/postgres',
+        path: '/browse/libraries/postgres',
+        search_url: 'https://app.egghead.io/search?topic=postgres',
+      },
+    ],
+    primary_tag: {
+      id: 1053,
+      label: 'PostgreSQL',
+      name: 'postgres',
+      description:
+        'PostgreSQL is a powerful, open source object-relational database system.',
+      slug: 'postgres',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/thumb/postgres.png',
+      image_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/thumb/postgres.png',
+      image_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_480/postgres.png',
+      image_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_280/postgres.png',
+      image_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_256/postgres.png',
+      image_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_128/postgres.png',
+      image_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_64/postgres.png',
+      image_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_32/postgres.png',
+      latest_course_url:
+        'https://app.egghead.io/api/v1/series/advanced-sql-for-professional-developers?load_lessons=false',
+      http_url: 'https://app.egghead.io/browse/libraries/postgres',
+      path: '/browse/libraries/postgres',
+      search_url: 'https://app.egghead.io/search?topic=postgres',
+    },
+    library_list: ['postgres'],
+    language_list: [],
+    framework_list: [],
+    tool_list: [],
+    platform_list: [],
+    skillset_list: [],
+    skill_level_list: [],
+    name: 'postgres',
+    label: 'PostgreSQL',
+    logo_http_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/thumb/postgres.png',
+    square_cover_480_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/square_480/EGH_PostgreSQL_Final.png',
+    square_cover_280_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/square_280/EGH_PostgreSQL_Final.png',
+    square_cover_256_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/square_256/EGH_PostgreSQL_Final.png',
+    square_cover_128_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/square_128/EGH_PostgreSQL_Final.png',
+    square_cover_64_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/square_64/EGH_PostgreSQL_Final.png',
+    square_cover_32_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/square_32/EGH_PostgreSQL_Final.png',
+    square_cover_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/thumb/EGH_PostgreSQL_Final.png',
+    square_cover_large_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/full/EGH_PostgreSQL_Final.png',
+    square_cover_landscape_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/104/landscape/EGH_PostgreSQL_Final.png',
+    instructor: {
+      instructor_url:
+        'https://app.egghead.io/api/v1/instructors/brett-shollenberger',
+      id: 2,
+      slug: 'brett-shollenberger',
+      full_name: 'Brett Cassette',
+      first_name: 'Brett',
+      last_name: 'Cassette',
+      twitter: 'brettcassette',
+      website: 'http://twitter.com/brettcassette',
+      bio_short:
+        'Brett is a comedian and writer who has heard of, but never truly experienced, programming',
+      http_url: 'https://app.egghead.io/instructors/brett-shollenberger',
+      avatar_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/original/clean.png',
+      avatar_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/square_480/clean.png',
+      avatar_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/square_280/clean.png',
+      avatar_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/square_256/clean.png',
+      avatar_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/square_128/clean.png',
+      avatar_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/square_64/clean.png',
+      avatar_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/002/square_32/clean.png',
+      lessons_url:
+        'https://app.egghead.io/api/v1/instructors/brett-shollenberger/lessons',
+      published_lessons: 82,
+      published_courses: 5,
+    },
+    enhanced_transcript_count: 14,
+    transfer_playlist_slug: null,
+    tracklist_id: null,
+    playlist_index: 0,
+    lessons_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/lessons',
+    can_stream_content: true,
+    rss_url:
+      'https://app.egghead.io/courses/get-started-with-postgresql/course_feed?user_email=vojta%40egghead.io&user_token=47b8e5b4-eb89-4f9b-9f50-5e16eed5bdc3',
+    flag_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/flag',
+    retire_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/retire',
+    remove_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/remove',
+    can_update_instructor: true,
+    can_set_cover: true,
+    new_series_lesson_http_url:
+      '/lesson_uploads/new?course=get-started-with-postgresql',
+    reorder_items_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/reorder_lessons',
+    item_add_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/add_item',
+    item_remove_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/remove_item',
+    change_lessons_ownership_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/change_ownership',
+    update_series_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql',
+    edit_series_http_url:
+      'https://app.egghead.io/courses/get-started-with-postgresql/edit',
+    pending_lessons_count: null,
+    claimed_lessons_count: null,
+    submitted_lessons_count: null,
+    approved_lessons_count: null,
+    reviewing_lessons_count: null,
+    rejected_lessons_count: null,
+    updated_lessons_count: null,
+    notifications: [],
+    download_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/download?key=eyJzdWIiOiIxMDQiLCJ1IjoiMTczMzAxIiwiZXhwIjoxNjEwODAwMjc4fQ%3D%3D--314aea928768c18c53ce46bd8e71e33066b6a238',
+    progress_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/progress',
+    collection_progress: {
+      is_completed: false,
+      completed_lesson_count: 0,
+      time_left: 2504,
+      lesson_count: 14,
+      time_remaining: 2504,
+      completed_lessons: [],
+      series_started_on: '2017-02-16',
+      last_lesson_watched_on: '2017-02-16',
+      series_completed_on: null,
+    },
+    completed: null,
+    series_slug: 'get-started-with-postgresql',
+    progress: {
+      current_lesson_url:
+        'https://app.egghead.io/lessons/postgresql-create-a-postgres-table',
+      is_completed: false,
+      completed_lesson_count: 0,
+      time_left: 2504,
+      lesson_count: 14,
+      time_remaining: 2504,
+      completed_lessons: [],
+      series_started_on: '2017-02-16',
+      last_lesson_watched_on: '2017-02-16',
+      series_completed_on: null,
+      current_lesson: {
+        title: 'Create a Postgres Table',
+        slug: 'postgresql-create-a-postgres-table',
+        duration: 105,
+        state: 'published',
+        series_row_order: -2850815,
+        http_url:
+          'https://app.egghead.io/lessons/postgresql-create-a-postgres-table',
+        icon_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/thumb/postgres.png',
+        path: '/lessons/postgresql-create-a-postgres-table',
+      },
+    },
+    toggle_favorite_url:
+      'https://app.egghead.io/api/v1/series/get-started-with-postgresql/toggle_favorite',
+    favorited: false,
+    rating_out_of_5: 4.285714285714286,
+    rating_count: 73,
+    watched_count: 536,
+  },
+  {
+    id: 99,
+    duration: 1622,
+    title: 'Wrangle your terminal with tmux',
+    slug: 'wrangle-your-terminal-with-tmux',
+    state: 'published',
+    row_order: -5834522,
+    queue_order: -8071687,
+    description:
+      "Learn to manage your terminal sessions and work more effectively from the command line using tmux. If you use the command line at all, tmux can make your life easier.\r\n\r\ntmux bills itself as a terminal multiplexer. It allows you to wrangle multiple terminal sessions from one window. Instead of keeping track of many terminal windows yourself, you can use tmux to create, organize, and navigate between them. Even more importantly, tmux lets you detach from and re-attach sessions, so that you can leave your terminal sessions running in the background and resume them later. This is especially useful if you're working on a remote server: you can set up a persistent session that will continue running when you close your laptop. You can even share a tmux session to facilitate pair programming.",
+    is_pro_content: true,
+    free_forever: false,
+    summary:
+      "Learn to manage your terminal sessions and work more effectively from the command line using tmux. If you use the command line at all, tmux can make your life easier.\r\n\r\ntmux bills itself as a terminal multiplexer. It allows you to wrangle multiple terminal sessions from one window. Instead of keeping track of many terminal windows yourself, you can use tmux to create, organize, and navigate between them. Even more importantly, tmux lets you detach from and re-attach sessions, so that you can leave your terminal sessions running in the background and resume them later. This is especially useful if you're working on a remote server: you can set up a persistent session that will continue running when you close your laptop. You can even share a tmux session to facilitate pair programming.",
+    tagline: null,
+    repo: null,
+    publish_at: null,
+    published_at: '2017-03-27T15:19:57.491-05:00',
+    updated_at: '2017-03-27T00:00:00.000-05:00',
+    visibility_state: 'indexed',
+    type: 'course',
+    http_url: 'https://app.egghead.io/courses/wrangle-your-terminal-with-tmux',
+    http_short_url: 'https://app.egghead.io/s/d3r76',
+    path: '/courses/wrangle-your-terminal-with-tmux',
+    url: 'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux',
+    comments_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/comments',
+    published_lesson_count: 11,
+    indexed_states: ['indexed'],
+    tags: [
+      {
+        id: 1048,
+        label: 'tmux',
+        name: 'tmux',
+        description:
+          'It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal.',
+        slug: 'tmux',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+        image_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+        image_480_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_480/tmux.png',
+        image_280_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_280/tmux.png',
+        image_256_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_256/tmux.png',
+        image_128_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_128/tmux.png',
+        image_64_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_64/tmux.png',
+        image_32_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_32/tmux.png',
+        latest_course_url:
+          'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux?load_lessons=false',
+        http_url: 'https://app.egghead.io/browse/tools/tmux',
+        path: '/browse/tools/tmux',
+        search_url: 'https://app.egghead.io/search?topic=tmux',
+        update_url: 'https://app.egghead.io/api/v1/tags/tmux',
+      },
+    ],
+    primary_tag: {
+      id: 1048,
+      label: 'tmux',
+      name: 'tmux',
+      description:
+        'It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal.',
+      slug: 'tmux',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+      image_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+      image_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_480/tmux.png',
+      image_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_280/tmux.png',
+      image_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_256/tmux.png',
+      image_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_128/tmux.png',
+      image_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_64/tmux.png',
+      image_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/square_32/tmux.png',
+      latest_course_url:
+        'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux?load_lessons=false',
+      http_url: 'https://app.egghead.io/browse/tools/tmux',
+      path: '/browse/tools/tmux',
+      search_url: 'https://app.egghead.io/search?topic=tmux',
+      update_url: 'https://app.egghead.io/api/v1/tags/tmux',
+    },
+    library_list: [],
+    language_list: [],
+    framework_list: [],
+    tool_list: ['tmux'],
+    platform_list: [],
+    skillset_list: [],
+    skill_level_list: [],
+    name: 'tmux',
+    label: 'tmux',
+    logo_http_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+    square_cover_480_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/square_480/EGH_TMUX_Final_2x.png',
+    square_cover_280_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/square_280/EGH_TMUX_Final_2x.png',
+    square_cover_256_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/square_256/EGH_TMUX_Final_2x.png',
+    square_cover_128_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/square_128/EGH_TMUX_Final_2x.png',
+    square_cover_64_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/square_64/EGH_TMUX_Final_2x.png',
+    square_cover_32_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/square_32/EGH_TMUX_Final_2x.png',
+    square_cover_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/thumb/EGH_TMUX_Final_2x.png',
+    square_cover_large_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/full/EGH_TMUX_Final_2x.png',
+    square_cover_landscape_url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/landscape/EGH_TMUX_Final_2x.png',
+    instructor: {
+      instructor_url:
+        'https://app.egghead.io/api/v1/instructors/bonnie-eisenman',
+      id: 46,
+      slug: 'bonnie-eisenman',
+      full_name: 'Bonnie Eisenman',
+      first_name: 'Bonnie',
+      last_name: 'Eisenman',
+      twitter: 'brindelle',
+      website: 'http://blog.bonnieeisenman.com',
+      bio_short:
+        'Working on Scala and distributed systems stuff at Twitter. Author of Learning React Native. Buy my book: http://bit.ly/lrnamaff',
+      http_url: 'https://app.egghead.io/instructors/bonnie-eisenman',
+      avatar_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/original/mu_cumbria_square.jpeg',
+      avatar_480_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/square_480/mu_cumbria_square.jpeg',
+      avatar_280_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/square_280/mu_cumbria_square.jpeg',
+      avatar_256_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/square_256/mu_cumbria_square.jpeg',
+      avatar_128_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/square_128/mu_cumbria_square.jpeg',
+      avatar_64_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/square_64/mu_cumbria_square.jpeg',
+      avatar_32_url:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/046/square_32/mu_cumbria_square.jpeg',
+      lessons_url:
+        'https://app.egghead.io/api/v1/instructors/bonnie-eisenman/lessons',
+      published_lessons: 30,
+      published_courses: 2,
+    },
+    enhanced_transcript_count: 0,
+    transfer_playlist_slug: null,
+    tracklist_id: null,
+    playlist_index: 0,
+    lessons_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/lessons',
+    can_stream_content: true,
+    rss_url:
+      'https://app.egghead.io/courses/wrangle-your-terminal-with-tmux/course_feed?user_email=vojta%40egghead.io&user_token=47b8e5b4-eb89-4f9b-9f50-5e16eed5bdc3',
+    flag_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/flag',
+    retire_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/retire',
+    remove_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/remove',
+    can_update_instructor: true,
+    can_set_cover: true,
+    new_series_lesson_http_url:
+      '/lesson_uploads/new?course=wrangle-your-terminal-with-tmux',
+    reorder_items_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/reorder_lessons',
+    item_add_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/add_item',
+    item_remove_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/remove_item',
+    change_lessons_ownership_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/change_ownership',
+    update_series_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux',
+    edit_series_http_url:
+      'https://app.egghead.io/courses/wrangle-your-terminal-with-tmux/edit',
+    pending_lessons_count: null,
+    claimed_lessons_count: null,
+    submitted_lessons_count: null,
+    approved_lessons_count: null,
+    reviewing_lessons_count: null,
+    rejected_lessons_count: null,
+    updated_lessons_count: null,
+    notifications: [],
+    download_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/download?key=eyJzdWIiOiI5OSIsInUiOiIxNzMzMDEiLCJleHAiOjE2MTA4MDAyNzh9--7247a8039ee1e52b78625e9a66a570a56c52ae89',
+    progress_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/progress',
+    collection_progress: {
+      is_completed: false,
+      completed_lesson_count: 3,
+      time_left: 1316,
+      lesson_count: 11,
+      time_remaining: 1316,
+      completed_lessons: [
+        {
+          slug: 'tools-reuse-terminal-workspaces-using-tmux-sessions',
+          url:
+            'https://app.egghead.io/api/v1/lessons/tools-reuse-terminal-workspaces-using-tmux-sessions',
+        },
+        {
+          slug: 'tools-manage-terminal-workspaces-using-session-naming',
+          url:
+            'https://app.egghead.io/api/v1/lessons/tools-manage-terminal-workspaces-using-session-naming',
+        },
+        {
+          slug: 'tmux-zoom-and-resize-to-view-a-particular-pane-within-tmux',
+          url:
+            'https://app.egghead.io/api/v1/lessons/tmux-zoom-and-resize-to-view-a-particular-pane-within-tmux',
+        },
+      ],
+      series_started_on: '2017-03-29',
+      last_lesson_watched_on: '2017-03-29',
+      series_completed_on: null,
+    },
+    completed: null,
+    series_slug: 'wrangle-your-terminal-with-tmux',
+    progress: {
+      current_lesson_url:
+        'https://app.egghead.io/lessons/tools-organize-your-terminal-using-tmux-panes',
+      is_completed: false,
+      completed_lesson_count: 3,
+      time_left: 1316,
+      lesson_count: 11,
+      time_remaining: 1316,
+      completed_lessons: [
+        {
+          title: 'Reuse terminal workspaces using tmux sessions',
+          slug: 'tools-reuse-terminal-workspaces-using-tmux-sessions',
+          duration: 114,
+          state: 'published',
+          series_row_order: 6291456,
+          http_url:
+            'https://app.egghead.io/lessons/tools-reuse-terminal-workspaces-using-tmux-sessions',
+          icon_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+          path: '/lessons/tools-reuse-terminal-workspaces-using-tmux-sessions',
+        },
+        {
+          title: 'Manage terminal workspaces using session naming',
+          slug: 'tools-manage-terminal-workspaces-using-session-naming',
+          duration: 93,
+          state: 'published',
+          series_row_order: 7340032,
+          http_url:
+            'https://app.egghead.io/lessons/tools-manage-terminal-workspaces-using-session-naming',
+          icon_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+          path:
+            '/lessons/tools-manage-terminal-workspaces-using-session-naming',
+        },
+        {
+          title: 'Zoom and resize to view a particular pane within tmux',
+          slug: 'tmux-zoom-and-resize-to-view-a-particular-pane-within-tmux',
+          duration: 99,
+          state: 'published',
+          series_row_order: 7864171,
+          http_url:
+            'https://app.egghead.io/lessons/tmux-zoom-and-resize-to-view-a-particular-pane-within-tmux',
+          icon_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+          path:
+            '/lessons/tmux-zoom-and-resize-to-view-a-particular-pane-within-tmux',
+        },
+      ],
+      series_started_on: '2017-03-29',
+      last_lesson_watched_on: '2017-03-29',
+      series_completed_on: null,
+      current_lesson: {
+        title: 'Organize your terminal using tmux panes',
+        slug: 'tools-organize-your-terminal-using-tmux-panes',
+        duration: 134,
+        state: 'published',
+        series_row_order: 0,
+        http_url:
+          'https://app.egghead.io/lessons/tools-organize-your-terminal-using-tmux-panes',
+        icon_url:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/048/thumb/tmux.png',
+        path: '/lessons/tools-organize-your-terminal-using-tmux-panes',
+      },
+    },
+    toggle_favorite_url:
+      'https://app.egghead.io/api/v1/series/wrangle-your-terminal-with-tmux/toggle_favorite',
+    favorited: false,
+    rating_out_of_5: 4.642857142857143,
+    rating_count: 88,
+    watched_count: 785,
+  },
+]
