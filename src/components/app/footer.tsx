@@ -23,7 +23,7 @@ const content = [
   },
   {
     path: '/site-directory',
-    label: 'Directory',
+    label: 'Machine',
   },
 ]
 

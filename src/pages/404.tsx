@@ -5,14 +5,14 @@ export default function Custom404() {
 
   React.useEffect(() => {
     setAppVersionOfPath(
-      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}${(
+      `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/${(
         window.location.pathname + window.location.search
       ).substr(1)}`,
     )
   }, [])
 
   return (
-    <div className="prose">
+    <div className="flex items-center justify-center mb-60 prose">
       <h1>404 - Page Not Found</h1>
       <p>
         The page you are looking for may now live at{' '}
