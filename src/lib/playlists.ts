@@ -73,6 +73,7 @@ export async function loadPlaylist(slug: string, token?: string) {
               slug
               icon_url
               duration
+              thumb_url
             }
           }
           ... on Lesson {
@@ -84,6 +85,7 @@ export async function loadPlaylist(slug: string, token?: string) {
             icon_url
             type
             duration
+            thumb_url
           }
           ... on File {
             slug

@@ -441,6 +441,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         ref={playerRef}
                         hidden={!playerVisible}
                         resource={lesson}
+                        poster={lesson?.thumb_url}
                         hls_url={lesson?.hls_url}
                         dash_url={lesson?.dash_url}
                         playing={playerState.matches('playing')}

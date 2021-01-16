@@ -40,6 +40,7 @@ export async function loadLesson(slug: string, token?: string) {
         http_url
         media_url
         lesson_view_url
+        thumb_url
         path
         icon_url
         download_url
@@ -57,6 +58,7 @@ export async function loadLesson(slug: string, token?: string) {
               title
               completed
               duration
+              thumb_url
             }
           }
           ... on Course {
@@ -72,6 +74,7 @@ export async function loadLesson(slug: string, token?: string) {
               title
               completed
               duration
+              thumb_url
             }
           }
         }
@@ -140,6 +143,7 @@ export async function loadBasicLesson(slug: string) {
         description
         free_forever
         media_url
+        thumb_url
         path
         icon_url
         collection {
