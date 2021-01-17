@@ -59,7 +59,6 @@ export const playerMachine = Machine<
           assign({
             lesson: (_, event: any) => event.lesson,
             viewer: (_, event: any) => {
-              console.debug({event})
               return event.viewer
             },
           }),

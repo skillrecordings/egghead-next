@@ -16,6 +16,7 @@ export default class EggheadPlayer extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   componentDidMount() {
+    console.debug(`player wrapper mounted`)
     this.progress()
   }
   componentWillUnmount() {
@@ -25,6 +26,7 @@ export default class EggheadPlayer extends Component {
   shouldComponentUpdate(nextProps) {
     const url = this.getUrl()
     const nextUrl = nextProps.dash_url || nextProps.hls_url || nextProps.url
+
     return (
       url !== nextUrl ||
       this.props.playing !== nextProps.playing ||
@@ -36,6 +38,7 @@ export default class EggheadPlayer extends Component {
       this.props.displaySubtitles !== nextProps.displaySubtitles
     )
   }
+
   seekTo = (fraction) => {
     if (this.player) {
       this.player.seekTo(fraction)
@@ -84,25 +87,17 @@ export default class EggheadPlayer extends Component {
       this.props.progressFrequency,
     )
   }
-  renderPlayers() {
-    // Build array of players to render based on URL and preload config
-    const url = this.getUrl()
 
-    const players = []
-    if (YouTube.canPlay(url)) {
-      players.push(YouTube)
-    } else if (Bitmovin.canPlay(url)) {
-      players.push(Bitmovin)
-    }
-
-    return players.map(this.renderPlayer)
-  }
   ref = (player) => {
     this.player = player
   }
-  renderPlayer = (Player) => {
+
+  render() {
+    const {style, width, height} = this.props
+    const otherProps = omit(this.props, Object.keys(propTypes))
+
     const url = this.getUrl()
-    const active = Player.canPlay(url)
+    const active = Bitmovin.canPlay(url)
     const {resource, ...activeProps} = this.props
     const props = active ? {...activeProps, ref: this.ref} : {}
     const {volumeRate, videoQuality, subtitle, muted} = getPlayerPrefs()
@@ -142,33 +137,26 @@ export default class EggheadPlayer extends Component {
         video: resource.slug,
       })
     }
-    return (
-      <Player
-        key={Player.displayName}
-        {...props}
-        displaySubtitles={displaySubtitles}
-        playbackRate={playbackRate}
-        volume={volumeRate}
-        videoQualityCookie={videoQuality}
-        muted={muted}
-        onVolumeChange={(volumeRate) => {
-          track(`set volume`, {
-            volume: volumeRate,
-            video: resource.slug,
-          })
-        }}
-        onVideoQualityChanged={onVideoQualityChanged}
-        onSubtitleChange={onSubtitleChange}
-      />
-    )
-  }
-  render() {
-    const {style, width, height} = this.props
-    const otherProps = omit(this.props, Object.keys(propTypes))
-    const players = this.renderPlayers()
+
     return (
       <div style={{...style, width, height}} {...otherProps}>
-        {players}
+        <Bitmovin
+          key={Bitmovin.displayName}
+          {...props}
+          displaySubtitles={displaySubtitles}
+          playbackRate={playbackRate}
+          volume={volumeRate}
+          videoQualityCookie={videoQuality}
+          muted={muted}
+          onVolumeChange={(volumeRate) => {
+            track(`set volume`, {
+              volume: volumeRate,
+              video: resource.slug,
+            })
+          }}
+          onVideoQualityChanged={onVideoQualityChanged}
+          onSubtitleChange={onSubtitleChange}
+        />
       </div>
     )
   }
