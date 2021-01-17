@@ -177,23 +177,7 @@ const completeLesson = (lessonView: {
   series: {progress: any; slug: string; published_lesson_count: any}
   lesson_slug: any
 }) =>
-  axios.put(lessonView.complete_url, {}, getOptions()).then(({data}) => {
-    const lessonView = data
-    const series = lessonView.series
-    const courseProgress = series && lessonView.series.progress
-
-    if (courseProgress && courseProgress.is_completed) {
-      track('finished course', {
-        final_lesson: lessonView.lesson_slug,
-        course: lessonView.series.slug,
-        enhanced_transcripts_complete:
-          series.lesson_count - series.enhanced_transcript_count === 0,
-        lesson_count: series.published_lesson_count,
-      })
-    }
-
-    return lessonView
-  })
+  axios.put(lessonView.complete_url, {}, getOptions()).then(({data}) => data)
 
 const onComplete = (lesson: any, collection?: any) => {
   return getOrCreateLessonView(lesson, collection)

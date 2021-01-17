@@ -1,5 +1,5 @@
 import * as React from 'react'
-import NextApp, {AppProps, NextWebVitalsMetric} from 'next/app'
+import {AppProps, NextWebVitalsMetric} from 'next/app'
 import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
@@ -31,7 +31,7 @@ declare global {
 }
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
-  console.debug(metric)
+  console.debug(`web vitals`, metric)
 }
 
 const App: React.FC<AppProps> = ({Component, pageProps}) => {
