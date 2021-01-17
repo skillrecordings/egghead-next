@@ -16,6 +16,7 @@ export default class Base extends Component {
   startTime = null
   componentDidMount() {
     const {url} = this.props
+    this.loadOnReady = this.props
     this.mounted = true
     if (url) {
       this.load(url)
@@ -27,15 +28,11 @@ export default class Base extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const {playing, volume, playbackRate, displaySubtitles} = this.props
-    const url =
-      this.props.dash_url ||
-      this.props.hls_url ||
-      this.props.wistia_url ||
-      this.props.url
-    const nextUrl =
-      nextProps.dash_url || nextProps.hls_url || nextProps.wistia_url
+    const url = this.props.dash_url || this.props.hls_url
+    const nextUrl = nextProps.dash_url || nextProps.hls_url
     // Invoke player methods based on incoming props
-    if (url !== nextUrl && nextUrl) {
+    if (nextUrl && url !== nextUrl) {
+      console.debug(`player media urls updated`)
       this.seekOnPlay = null
       this.startOnPlay = true
       this.load(nextProps)

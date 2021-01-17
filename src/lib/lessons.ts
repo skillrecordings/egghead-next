@@ -1,6 +1,7 @@
 import {LessonResource} from 'types'
 import {GraphQLClient} from 'graphql-request'
 import config from './config'
+import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
@@ -116,6 +117,8 @@ export async function loadLesson(slug: string, token?: string) {
       }
     }
   `
+
+  token = token || getAccessTokenFromCookie()
 
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,

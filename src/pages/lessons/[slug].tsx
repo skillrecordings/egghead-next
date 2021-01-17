@@ -6,7 +6,7 @@ import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {useWindowSize, useMeasure} from 'react-use'
-import {playerMachine, PlayerStateEvent} from 'machines/lesson-player-machine'
+import {playerMachine} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import LessonInfo from 'components/pages/lessons/lesson-info'
@@ -84,7 +84,7 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div className="flex flex-col justify-center items-center h-full px-3 py-3 md:px-4 md:py-6 lg:py-8">
+    <div className="bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center w-full h-full absolute z-10 top-0 left-0">
       {children}
     </div>
   )
@@ -137,6 +137,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const playerRef = React.useRef(null)
   const actualPlayerRef = React.useRef<any>(null)
+  const lastAutoPlayed = React.useRef()
 
   const [playerState, send] = useMachine(playerMachine, {
     context: {
@@ -203,6 +204,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       [
         'playing',
         'paused',
+        'loading',
         'loaded',
         'viewing',
         'completed',
@@ -216,6 +218,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       updateResource(nextLesson)
     }
 
+    console.debug(`checking autoplay: ${autoplay} [${nextLesson.slug}]`)
+
     if (autoplay && nextLesson) {
       console.debug('autoplaying next lesson', {nextLesson})
       track('autoplaying next video', {
@@ -223,28 +227,27 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       })
 
       if (isFullscreen) {
-        const loadedLesson = await loadLesson(
-          nextLesson.slug,
-          getAccessTokenFromCookie(),
-        )
+        const loadedLesson = await loadLesson(nextLesson.slug)
 
         console.debug('full screen authed video loaded', {video: loadedLesson})
 
         send({
-          type: 'VIEW',
+          type: 'LOADED',
           lesson: loadedLesson,
           viewer,
         })
 
-        router.push(loadedLesson.path, undefined, {
+        router.push(nextLesson.path, undefined, {
           shallow: true,
         })
       } else {
         router.push(nextLesson.path)
       }
     } else if (nextLesson) {
+      console.debug(`Showing Next Lesson Overlay`)
       send(`NEXT`)
     } else {
+      console.debug(`Showing Recommend Overlay`)
       send(`RECOMMEND`)
     }
   }
@@ -280,7 +283,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   React.useEffect(() => {
     const lesson = get(playerState, 'context.lesson')
-    const mediaPresent = lesson?.hls_url || lesson?.dash_url
+    const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
+    console.debug(`current state: ${currentPlayerState}`)
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
@@ -298,7 +302,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'viewing':
+        console.debug(
+          `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
+        )
         if (!mediaPresent && !isFullscreen) {
+          console.log(`sending load event from viewing`)
           send('LOAD')
         }
         break
@@ -322,7 +330,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   React.useEffect(() => {
     const handleRouteChange = () => {
-      send('LOAD')
+      if (!autoplay) {
+        send('LOAD')
+      }
     }
     router.events.on('routeChangeStart', handleRouteChange)
     return () => {
@@ -395,10 +405,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div
-        key={initialLesson.slug}
-        className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8"
-      >
+      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
           <div className="w-full flex flex-col lg:flex-row justify-center">
             <div
@@ -418,28 +425,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 }}
               >
                 <div
-                  className={`w-full relative ${
-                    playerVisible || loaderVisible ? 'h-0' : ''
-                  }`}
+                  className={`w-full relative h-0`}
                   css={{
-                    paddingTop: playerVisible || loaderVisible ? '56.25%' : 0,
+                    paddingTop: '56.25%',
                   }}
                 >
                   <div
-                    className={`flex items-center justify-center text-white h-full ${
-                      playerVisible || loaderVisible
-                        ? 'absolute top-0 right-0 bottom-0 left-0'
-                        : ''
-                    }`}
+                    className={`flex items-center justify-center text-white h-full absolute top-0 right-0 bottom-0 left-0`}
                   >
-                    <div
-                      className={`${
-                        playerVisible || loaderVisible ? 'absolute' : ''
-                      } w-full h-full top-0 left-0`}
-                    >
+                    <div className={`absolute w-full h-full top-0 left-0`}>
                       <EggheadPlayer
                         ref={playerRef}
-                        hidden={!playerVisible}
+                        hidden={playerState.matches('LOADING')}
                         resource={lesson}
                         poster={lesson?.thumb_url}
                         hls_url={lesson?.hls_url}
@@ -464,7 +461,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         }}
                         onReady={(player: any) => {
                           actualPlayerRef.current = player
-                          if (autoplay && isFunction(player.play)) {
+                          console.debug(`player ready [autoplay:${autoplay}]`)
+                          const isDifferent =
+                            lastAutoPlayed.current !== lesson.slug
+                          if (
+                            autoplay &&
+                            isDifferent &&
+                            isFunction(player.play)
+                          ) {
+                            console.debug(`autoplaying`)
+                            lastAutoPlayed.current = lesson.slug
                             player.play()
                           }
                         }}
@@ -484,6 +490,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                           )
                         }}
                         onEnded={() => {
+                          console.debug(`received ended event from player`)
                           send('COMPLETE')
                         }}
                         subtitlesUrl={get(lesson, 'subtitles_url')}
