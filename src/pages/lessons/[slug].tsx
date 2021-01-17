@@ -12,7 +12,6 @@ import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player
 import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/Transcript_'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
-import CommentField from 'components/pages/lessons/comment-field'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -42,13 +41,13 @@ import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import Comment from 'components/pages/lessons/comment'
 import CodeLink, {
   IconCode,
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
+import Comments from 'components/pages/lessons/comments'
 
 const ABLE_TO_COMMENT = true
 
@@ -171,8 +170,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     collection,
     free_forever,
     slug,
-    comments,
-    add_comment_url = true,
   } = lesson
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
@@ -198,9 +195,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
-
-  const commentsAvailable =
-    comments?.some((comment: any) => comment.state === 'published') ?? false
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -770,47 +764,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </TabPanel>
                   )}
                   <TabPanel>
-                    <div
-                      className={commentsAvailable ? 'space-y-10' : 'space-y-6'}
-                    >
-                      {commentsAvailable ? (
-                        comments.map((comment: any) => (
-                          <Comment
-                            key={comment.id}
-                            comment={comment.comment}
-                            state={comment.state}
-                            createdAt={comment.created_at}
-                            isCommentableOwner={comment.is_commentable_owner}
-                            user={comment.user}
-                          />
-                        ))
-                      ) : (
-                        <h4 className="font-semibold text-center">
-                          There are no comments yet.
-                        </h4>
-                      )}
-                      {add_comment_url ? (
-                        <CommentField url="some-url" />
-                      ) : (
-                        <div className="flex flex-col items-center space-y-4">
-                          <h4 className="font-semibold">
-                            You have to be a Pro to leave a comment
-                          </h4>
-                          <Link href="/pricing">
-                            <a
-                              onClick={() =>
-                                track('clicked pricing', {
-                                  location: 'header',
-                                })
-                              }
-                              className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
-                            >
-                              Join egghead
-                            </a>
-                          </Link>
-                        </div>
-                      )}
-                    </div>
+                    <Comments lesson={lesson} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
