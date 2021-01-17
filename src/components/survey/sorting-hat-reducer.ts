@@ -31,20 +31,32 @@ export const sortingHatReducer = (
   state: SortingHatState,
   action: SortingHatAction,
 ): SortingHatState => {
-  switch (action.type) {
-    case `load`:
-      return loadSurvey(action, state)
-    case `answered`:
-      return answerSurveyQuestion(action, state)
-    case `closed`:
-      return closeSurvey(state)
-    case `dismiss`:
-      return dismissSurvey(state)
-    default:
-      break
-  }
+  try {
+    switch (action.type) {
+      case `load`:
+        return loadSurvey(action, state)
+      case `answered`:
+        return answerSurveyQuestion(action, state)
+      case `closed`:
+        return closeSurvey(state)
+      case `dismiss`:
+        return dismissSurvey(state)
+      default:
+        break
+    }
 
-  return state
+    return state
+  } catch (error) {
+    console.error(error.message)
+    track(`survey error`, {
+      survey: 'sorting hat',
+      version: sortingHatData.version,
+      url: window.location.toString(),
+      error: error,
+      state: state,
+    })
+    return {...state, closed: true}
+  }
 }
 
 function loadSurvey(
