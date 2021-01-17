@@ -49,8 +49,6 @@ import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import Comments from 'components/pages/lessons/comments'
 
-const ABLE_TO_COMMENT = true
-
 const tracer = getTracer('lesson-page')
 
 export const getServerSideProps: GetServerSideProps = async function ({
