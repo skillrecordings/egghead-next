@@ -98,7 +98,7 @@
     "remove-markdown": "^0.3.0",
     "slugify": "^1.4.6",
     "stripe": "^8.129.0",
-    "swr": "^0.3.11",
+    "swr": "^0.4.0",
     "tailwindcss": "^2.0.2",
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^8.0.7",
