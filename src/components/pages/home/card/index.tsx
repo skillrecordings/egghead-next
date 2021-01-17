@@ -4,14 +4,15 @@ import Link from 'next/link'
 import {track} from 'utils/analytics'
 import Image from 'next/image'
 
-type Resource = {
+export type CardResource = {
   path: string
   image: string
   name: string
   title: string
   byline: string
-  description: string
-  resources: Resource[]
+  description?: string
+  resources?: CardResource[]
+  instructor?: any
 }
 
 type CardProps = {
@@ -19,7 +20,7 @@ type CardProps = {
   className?: string
   children: React.ReactNode
   padding?: string
-  resource?: Resource
+  resource?: CardResource
 }
 
 const Card: FunctionComponent<CardProps> = ({

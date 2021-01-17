@@ -93,8 +93,6 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     return null
   }
 
-  console.log({transcript, enhancedTranscript})
-
   return (
     <>
       <ReactMarkdown

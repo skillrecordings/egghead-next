@@ -50,12 +50,16 @@ const homepageData = [
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
       {
-        name: 'Hot',
-        title: 'Using DynamoDB with Next.js',
-        byline: 'Lee Robinson',
+        name: 'Something Different',
+        title: 'Professor Frisby Introduces Composable Functional JavaScript',
+        byline: 'Brian Lonsdorf・1h 50m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/full/EGH_DynamoDB.png',
-        path: '/playlists/using-dynamodb-with-next-js-b40c',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/072/thumb/EGH_ComposableJS_Final.png',
+        path:
+          '/courses/professor-frisby-introduces-composable-functional-javascript',
+        slug: 'professor-frisby-introduces-composable-functional-javascript',
+        description:
+          "This course teaches the ubiquitous abstractions for modeling pure functional programs. Functional languages have adopted these algebraic constructs across the board as a way to compose applications in a principled way. \r\n\r\nWe can do the same in JavaScript. While the subject matter will move beyond the functional programming basics, no previous knowledge of functional programming is required. You'll start composing functionality before you know it.",
       },
     ],
   },

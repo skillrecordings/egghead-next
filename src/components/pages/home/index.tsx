@@ -1,23 +1,25 @@
 import React, {FunctionComponent} from 'react'
-import Card from './card'
+import Card, {CardResource} from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, take, reject, isEmpty} from 'lodash'
+import {map, get, find, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import Header from './header'
 import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
-import useLastResource from 'hooks/use-last-resource'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {track} from 'utils/analytics'
 import Collection from './collection'
+import axios from 'utils/configured-axios'
+import InProgressCollection from './in-progress-collection'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
-  const {lastResource} = useLastResource()
+  const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
+  const currentCourseUrl = viewer?.current_course?.url
 
   const video: any = find(homepageData, {id: 'video'})
 
@@ -37,18 +39,13 @@ const Home: FunctionComponent = () => {
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
 
-  if (lastResource) {
-    featured = [
-      {
-        name: `Keep Watching`,
-        title: lastResource.title,
-        path: lastResource.path,
-        image: lastResource.image_url,
-        slug: lastResource.slug,
-      },
-      ...take(reject(featured, {path: lastResource.path}), featured.length - 1),
-    ]
-  }
+  React.useEffect(() => {
+    if (currentCourseUrl) {
+      axios.get(currentCourseUrl).then(({data}) => {
+        setCurrentCourse(data)
+      })
+    }
+  }, [currentCourseUrl])
 
   return (
     <>
@@ -115,6 +112,10 @@ const Home: FunctionComponent = () => {
         </div>
         <div className="grid lg:grid-cols-12 grid-cols-1 gap-5">
           <div className="lg:col-span-8 space-y-5">
+            {currentCourse && (
+              <InProgressCollection collection={currentCourse} />
+            )}
+
             <div
               className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
             >
@@ -218,17 +219,9 @@ const Home: FunctionComponent = () => {
   )
 }
 
-type Resource = {
-  path: string
-  image: string
-  name: string
-  title: string
-  byline: string
-  description: string
-  resources: Resource[]
-}
-
-const TopicsList: React.FunctionComponent<{topics: Resource}> = ({topics}) => {
+const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
+  topics,
+}) => {
   return (
     <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
       <h2 className="uppercase font-semibold text-xs text-gray-700">
@@ -333,13 +326,13 @@ const EventSchedule: React.FunctionComponent = () => {
 }
 
 type CardProps = {
-  data: Resource
+  data: CardResource
   className?: string
   memberTitle?: string
 }
 
 const CardHorizontal: FunctionComponent<{
-  resource: Resource
+  resource: CardResource
   className?: string
 }> = ({resource, className = 'border-none my-4'}) => {
   return (
@@ -388,9 +381,10 @@ const CardHorizontal: FunctionComponent<{
             <div className="text-xs text-gray-600 mb-2 mt-1">
               {resource.byline}
             </div>
-            <Markdown className="prose prose-sm max-w-none">
-              {resource.description}
-            </Markdown>
+            <Markdown
+              source={resource.description || ''}
+              className="prose prose-sm max-w-none"
+            />
           </div>
         </div>
       </>
@@ -486,9 +480,10 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
           </h3>
         )}
         <div>
-          <Markdown className="prose prose-sm max-w-none mb-3">
-            {description}
-          </Markdown>
+          <Markdown
+            source={description || ''}
+            className="prose prose-sm max-w-none mb-3"
+          />
           <Collection resource={data} />
         </div>
       </>

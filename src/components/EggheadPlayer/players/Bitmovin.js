@@ -100,7 +100,9 @@ export default class Bitmovin extends Base {
       },
       events: {
         volumechanged: (e) => {
-          onVolumeChange(e.targetVolume)
+          const newRate = Math.ceil(e.targetVolume)
+          savePlayerPrefs({volumeRate: newRate})
+          onVolumeChange(newRate)
         },
         stallstarted: () => {
           track('video stall started')
@@ -367,7 +369,7 @@ export default class Bitmovin extends Base {
 
   setVolume(fraction) {
     if (!this.isReady || !this.player || !this.player.setVolume) return
-    this.player.setVolume(fraction * 100)
+    this.player.setVolume(fraction)
   }
 
   setPlaybackRate(rate) {

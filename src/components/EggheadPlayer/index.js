@@ -142,18 +142,16 @@ export default class EggheadPlayer extends Component {
         video: resource.slug,
       })
     }
-
     return (
       <Player
         key={Player.displayName}
         {...props}
         displaySubtitles={displaySubtitles}
         playbackRate={playbackRate}
-        volume={volumeRate ?? props.volume}
+        volume={volumeRate}
         videoQualityCookie={videoQuality}
         muted={muted}
         onVolumeChange={(volumeRate) => {
-          savePlayerPrefs({volumeRate})
           track(`set volume`, {
             volume: volumeRate,
             video: resource.slug,

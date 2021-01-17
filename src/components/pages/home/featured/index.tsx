@@ -1,23 +1,12 @@
 import React, {FunctionComponent} from 'react'
-import Card from 'components/pages/home/card'
+import Card, {CardResource} from 'components/pages/home/card'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
 
-type Resource = {
-  path: string
-  image: string
-  name: string
-  title: string
-  byline: string
-  instructor: any
-  description: string
-  resources: Resource[]
-}
-
 type FeaturedResourceProps = {
-  resource: Resource
+  resource: CardResource
   buttonLabel?: string
 }
 
@@ -53,9 +42,10 @@ const FeaturedResource: FunctionComponent<FeaturedResourceProps> = ({
                     <span>{instructor.name}</span>
                   </a>
                 </Link>
-                <Markdown className="mt-4 leading-relaxed text-gray-200">
-                  {description}
-                </Markdown>
+                <Markdown
+                  source={description || ''}
+                  className="mt-4 leading-relaxed text-gray-200"
+                />
                 {buttonLabel && path && (
                   <Link href={path}>
                     <a className="inline-flex font-semibold rounded-lg bg-blue-600 px-4 py-3 text-white mt-6">
