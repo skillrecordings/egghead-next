@@ -162,9 +162,10 @@ export default class Bitmovin extends Base {
   }
 
   componentDidMount() {
-    const {subtitlesUrl, playbackRate, volume} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
+
+    console.debug(`player instance mounted`)
 
     this.getSDK().then((script) => {
       this.loadingSDK = false
@@ -173,31 +174,9 @@ export default class Bitmovin extends Base {
         this.getConfig(),
       )
 
-      this.player.load(this.getSource()).then(
-        () => {
-          this.player.setPlaybackSpeed(playbackRate)
-          this.player.setVolume(volume)
+      console.debug(`player sdk loaded`)
 
-          if (this.props.poster) {
-            this.player.setPosterImage(this.props.poster)
-          }
-
-          const {videoQualityCookie} = this.props
-          if (videoQualityCookie) {
-            this.player.setVideoQuality(videoQualityCookie.id)
-          }
-
-          if (subtitlesUrl) {
-            this.addSubtitles(subtitlesUrl)
-          }
-          this.addEventListeners()
-          this.container.focus()
-          this.onReady(this.player)
-        },
-        (reason) => {
-          throw `Error while creating bitdash player instance, ${reason}`
-        },
-      )
+      this.load(this.props)
     })
   }
 
@@ -302,33 +281,56 @@ export default class Bitmovin extends Base {
     this.container.removeEventListener('keypress', this.containerListenForPlay)
   }
 
-  load(nextProps) {
-    if (this.isReady) {
-      this.removeListeners()
+  unload() {
+    this.player.unload()
+  }
 
-      this.player.load(this.getSource(nextProps)).then(
-        () => {
-          this.player.subtitles.remove(SUBTITLE_ID)
-          this.player.setPosterImage(nextProps.poster)
-          if (nextProps.subtitlesUrl) {
-            this.player.subtitles.add({
-              id: SUBTITLE_ID,
-              url: nextProps.subtitlesUrl,
-              label: 'English',
-              lang: 'en',
-              kind: 'captions',
-            })
-          }
-          this.addEventListeners()
-          this.props.onReady(this.player)
-          this.onReady(this.player)
-        },
-        (error) => {
-          console.log('Bitmovin player failed to load')
-          console.log(error)
-        },
-      )
+  load(nextProps) {
+    const {subtitlesUrl, playbackRate, volume} = this.props
+    this.startTime = this.getTimeToSeekSeconds()
+    if (this.loadingSDK) {
+      return
     }
+    console.debug(`player loading media [ready:${this.isReady}]`)
+
+    this.player.load(this.getSource(nextProps)).then(
+      () => {
+        console.debug(`player media loaded`)
+        this.player.subtitles.remove(SUBTITLE_ID)
+        this.player.setPosterImage(nextProps.poster)
+        if (nextProps.subtitlesUrl) {
+          this.player.subtitles.add({
+            id: SUBTITLE_ID,
+            url: nextProps.subtitlesUrl,
+            label: 'English',
+            lang: 'en',
+            kind: 'captions',
+          })
+        }
+
+        this.player.setPlaybackSpeed(playbackRate)
+        this.player.setVolume(volume)
+
+        if (this.props.poster) {
+          this.player.setPosterImage(this.props.poster)
+        }
+
+        const {videoQualityCookie} = this.props
+        if (videoQualityCookie) {
+          this.player.setVideoQuality(videoQualityCookie.id)
+        }
+
+        if (subtitlesUrl) {
+          this.addSubtitles(subtitlesUrl)
+        }
+        this.addEventListeners()
+        this.onReady(this.player)
+      },
+      (error) => {
+        console.log('Bitmovin player failed to load')
+        console.log(error)
+      },
+    )
   }
 
   play() {
