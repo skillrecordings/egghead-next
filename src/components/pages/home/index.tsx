@@ -15,6 +15,7 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
+import SearchBar from './search-bar'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -51,6 +52,7 @@ const Home: FunctionComponent = () => {
     <>
       <div className="space-y-5">
         {!viewer && !loading && <Header />}
+        <SearchBar />
         <div className="grid lg:grid-cols-8 grid-cols-1 gap-5">
           <Card className="lg:col-span-6">
             <div className="flex sm:flex-row flex-col justify-center">
