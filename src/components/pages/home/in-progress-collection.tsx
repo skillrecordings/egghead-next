@@ -60,6 +60,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
                   location: 'resource in progress (image)',
                 })
               }
+              tabIndex={-1}
             >
               <Image
                 src={image_url}
