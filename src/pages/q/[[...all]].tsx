@@ -113,7 +113,7 @@ const SearchIndex: any = ({
   }
 
   return (
-    <div>
+    <div className="flex-grow">
       <NextSeo noindex={noIndex} title={pageTitle} />
       <Search {...defaultProps} {...customProps} instructor={instructor} />
     </div>
