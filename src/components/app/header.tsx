@@ -141,26 +141,6 @@ const Header: FunctionComponent = () => {
                 </span>
               </a>
             </Link>
-            {!loading && (
-              <nav className="sm:pl-5 pl-0 text-sm font-medium">
-                <ul className="flex items-center space-x-1">
-                  <li className="">
-                    <Link href="/q" activeClassName="bg-gray-100">
-                      <a
-                        className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
-                        onClick={() =>
-                          track('clicked learning resources', {
-                            location: 'header',
-                          })
-                        }
-                      >
-                        Search Learning Resources
-                      </a>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            )}
           </div>
           {!sm && <Navigation />}
           {sm && !loading && (
