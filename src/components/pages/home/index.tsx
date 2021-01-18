@@ -184,6 +184,7 @@ const Home: FunctionComponent = () => {
                                   linkType: 'image',
                                 })
                               }}
+                              tabIndex={-1}
                             >
                               <Image
                                 className="rounded-lg"
@@ -351,6 +352,7 @@ const CardHorizontal: FunctionComponent<{
                   })
                 }}
                 className="block flex-shrink-0 sm:w-auto w-24"
+                tabIndex={-1}
               >
                 <Image
                   src={resource.image}
@@ -409,6 +411,7 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                 })
               }}
               className="mb-2 mx-auto w-24"
+              tabIndex={-1}
             >
               <Image
                 width={140}
