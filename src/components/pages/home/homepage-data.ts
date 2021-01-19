@@ -400,10 +400,10 @@ const homepageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png',
       },
       {
-        title: 'Gatsby',
-        path: '/q/gatsby',
+        title: 'TypeScript',
+        path: '/q/typescript',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/211/thumb/gatsby.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/thumb/typescriptlang.png',
       },
       {
         title: 'GraphQL',
