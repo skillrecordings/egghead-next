@@ -1,5 +1,6 @@
 import {track} from 'utils/analytics'
 import {Machine, assign} from 'xstate'
+import axios from 'axios'
 
 interface PlayerStateSchema {
   states: {
@@ -172,7 +173,7 @@ export const playerMachine = Machine<
   },
   {
     actions: {
-      sendTelemetry: (context, event) => {
+      sendTelemetry: async (context, event) => {
         function verbForEvent(event: string) {
           switch (event) {
             case 'PAUSE':
@@ -194,6 +195,15 @@ export const playerMachine = Machine<
         track(`${verb} video`, {
           lesson: context.lesson.slug,
         })
+
+        if (verb === 'completed') {
+          context.lesson?.tags?.forEach((tag: any) => {
+            axios.post('/api/topic', {
+              amount: 2,
+              topic: tag.name,
+            })
+          })
+        }
 
         // Axios.post(`/api/progress`, {
         //   verb,
