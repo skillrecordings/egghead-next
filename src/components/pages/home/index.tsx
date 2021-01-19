@@ -229,10 +229,9 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   const allTopics = get(topics, 'resources', [])
   return (
     <Card className="shadow-none bg-gray-50">
-      <div className="grid-cols-8 hidden" />
       <div className="w-full">
         <ul
-          className={`grid sm:grid-cols-${allTopics.length} sm:grid-cols-4 grid-cols-2 sm:gap-5 gap-3`}
+          className={`grid sm:grid-cols-8 sm:grid-cols-4 grid-cols-2 sm:gap-5 gap-3`}
         >
           {map(allTopics, (resource) => (
             <li className="" key={resource.path}>
