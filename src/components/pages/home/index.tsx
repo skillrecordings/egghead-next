@@ -239,7 +239,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                 <a
                   onClick={() => {
                     track('clicked home page topic', {
-                      resource: resource.path,
+                      topic: resource.title,
                     })
                   }}
                   className="w-full bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
