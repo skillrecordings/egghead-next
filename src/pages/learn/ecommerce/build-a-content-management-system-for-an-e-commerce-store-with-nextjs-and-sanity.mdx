@@ -76,13 +76,13 @@ yarn dev
 
 That will load the Next.js app and we’ll be ready to go!
 
-![New Next.js app](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611015613/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_19.49.03.png)
+![New Next.js app](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073514/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/new-next-js-app_2x.png)
 
 [Follow along with the commit!](https://github.com/colbyfayock/my-sanity-store/commit/943530cd199db8a9e6076b66465e7f91a1c7f760)
 
 ## Step 1: Creating a new Sanity Studio project
 
-To get started with Sanity, unless you use one of [their Starters](https://create.sanity.io/) which bootstraps an entire project complete with deployment, you need to use the terminal and npm to create a new project.
+To get started with Sanity, unless you use one of [their Starters](https://create.sanity.io/) which bootstraps an entire project complete with deployment, you need to use the terminal and yarn to create a new project.
 
 While using a Starter would be easier to get to a “finished” state, we’re going to walk through how to do this manually so you can then add it to an existing project or customize it yourself like you might do in a real world project.
 
@@ -91,7 +91,7 @@ While using a Starter would be easier to get to a “finished” state, we’re 
 Inside of your terminal, first install the sanity-cli with:
 
 ```bash
-npm install -g @sanity/cli
+yarn add @sanity/cli --global
 ```
 
 Then, inside of the folder you’d like to create your new project, which should be separate from your Next.js project, run:
@@ -104,7 +104,7 @@ If this is your first time logging into Sanity in your terminal, you’ll now be
 
 Once logged in, Sanity will then prompt you to answer a few questions.
 
-![Sanity Prompts](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611015879/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_10.27.58.png)
+![Sanity Prompts](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073515/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/sanity-prompts_2x.png)
 
 You can name the project anything you’d like, but it will be used as Sanity is setting up your project
 
@@ -114,11 +114,11 @@ Finally, you can customize your output directory or let it use the default, whic
 
 Once you answer those first few questions, it will ask you to select a project template. If you’re starting from scratch and want to create a custom CMS schema, you may want to use Clean, but we’re going to build an ecommerce project, so let’s select the E-commerce option.
 
-![Setting up a new Sanity project in the terminal](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611015998/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_10.30.24.png)
+![Setting up a new Sanity project in the terminal](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073514/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/setting-up-a-new-sanity-project-in-the-terminal_2x.png)
 
 We can even upload sample data into our project to make it easier to test this out.
 
-![Choosing to upload sample data to Sanity](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016106/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_10.31.52.png)
+![Choosing to upload sample data to Sanity](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073514/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/choosing-to-upload-sample-data-to-sanity_2x.png)
 
 I’m going to select Yes so we can easily jump into sourcing the content into our application, but feel free to do this manually if you’d like with your own product selection.
 
@@ -142,7 +142,7 @@ This will compile your CMS application and make it available at http://localhost
 
 And if you open that up in your browser and log in with your Sanity account, you’ll find your new CMS!
 
-![New Sanity account with sample products](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016629/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_10.35.47.png)
+![New Sanity account with sample products](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073852/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/new-sanity-account-with-sample-products_2x.png)
 
 Finally, in order to make our CMS available on the internet, we’ll need to deploy it.
 
@@ -156,7 +156,7 @@ sanity deploy
 
 This will ask you what you’d like your hostname to be (it needs to be unique), then it will deploy your project to the Sanity cloud and make it available for you to open up, log in, and get started!
 
-![Successfully deployed Sanity Studio to the cloud](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016670/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_10.39.12.png)
+![Successfully deployed Sanity Studio to the cloud](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073515/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/successfully-deployed-sanity-studio-to-the-cloud_2x.png)
 
 > It’s recommended that you add this repository on GitHub or your favorite Git provider and use that as a basis for future modifications to your Sanity project.
 
@@ -255,7 +255,7 @@ console.log('products', products);
 
 If you reload the page, you’ll notice that you don’t see anything inside of the web console, but if you open up your terminal, you should now see all of your product data listed out!
 
-![Product data inside of the terminal](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016750/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_17.55.28.png)
+![Product data inside of the terminal](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073516/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/product-data-inside-of-the-terminal_2x.png)
 
 > Tip: the reason we see this inside of our terminal and not the browser is because `getStaticProps` runs at compile time in node. The browser never even knows it happens!
 
@@ -296,7 +296,7 @@ In the above, we’re:
 
 Once we save and the page reloads, we can now see all of our products are listed out on the page!
 
-![Sanity products listed in the app](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611017355/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_20.20.48.png)
+![Sanity products listed in the app](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073516/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/sanity-products-listed-in-the-app_2x.png)
 
 In the next section, we’ll learn how to use the images available from Sanity to show what our products look like in our app.
 
@@ -362,7 +362,7 @@ In the above, we added:
 
 If we reload the page, we can now see that we have images! The only issue is they’re a little big for our page.
 
-![A single, large product image loaded from Sanity](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016834/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_21.41.10.png)
+![A single, large product image loaded from Sanity](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073517/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/single-large-product-image-loaded-from-sanity_2x.png)
 
 To start to fix this, we can add a line of CSS to prevent images from expanding outside of their container’s size.
 
@@ -374,7 +374,7 @@ img {
 }
 ```
 
-![Product images loaded from Sanity](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016889/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_21.44.03.png)
+![Product images loaded from Sanity](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073517/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/product-images-loaded-from-sanit_2x.png)
 
 That alone fixes our images, but we’re still loading images that are way too big for our page. That means our visitors are going to be downloading bigger images than they need to, which will take longer and use more bandwidth.
 
@@ -388,7 +388,7 @@ Inside of `pages/index.js`, update the image to the following:
 
 And back inside of our app, our images should still load and work the same, but they’ll be 300px by 300px which is smaller than the 1000px by 1000px images we were downloading before!
 
-![Multiple product images with a reduced size](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611016936/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/Screen_Shot_2021-01-17_at_21.46.46.png)
+![Multiple product images with a reduced size](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611073517/next.egghead.io/pages/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/multiple-product-images-with-a-reduced-size_2x.png)
 
 > Tip: Sanity’s [Image Builder](https://www.sanity.io/docs/image-url) has a variety of methods that can change how the image is represented, including blurring the image or changing the format.
 
