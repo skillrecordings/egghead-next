@@ -423,12 +423,12 @@ const homepageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/375/thumb/rxlogo.png',
       },
-      {
-        title: 'Redux',
-        path: '/q/redux',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
-      },
+      // {
+      //   title: 'Redux',
+      //   path: '/q/redux',
+      //   image:
+      //     'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
+      // },
     ],
   },
   {
