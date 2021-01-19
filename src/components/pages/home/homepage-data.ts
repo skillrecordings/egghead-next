@@ -418,10 +418,10 @@ const homepageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
       },
       {
-        title: 'RxJS',
-        path: '/q/rxjs',
+        title: 'Next.js',
+        path: '/q/next',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/375/thumb/rxlogo.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
       },
       // {
       //   title: 'Redux',

@@ -2,14 +2,21 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [
-    './src/**/*.js',
-    './pages/**/*.js',
-    './pages/**/*.tsx',
-    './pages/**/*.mdx',
-    './components/**/*.mdx',
-    './src/**/*.tsx',
-  ],
+  purge: {
+    enabled: true,
+    layers: ['components', 'utilities'],
+    content: [
+      './src/**/*.js',
+      './pages/**/*.js',
+      './pages/**/*.tsx',
+      './pages/**/*.mdx',
+      './components/**/*.mdx',
+      './src/**/*.tsx',
+    ],
+    options: {
+      safelist: [], //specific classes
+    },
+  },
   theme: {
     colors: {
       ...defaultTheme.colors,
