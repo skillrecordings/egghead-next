@@ -89,7 +89,7 @@
     "react-textfit": "^1.1.1",
     "react-tippy": "^1.4.0",
     "react-use": "^15.3.4",
-    "react-use-clipboard": "1.0.2",
+    "react-use-clipboard": "1.0.7",
     "reading-time": "^1.2.1",
     "rehype-shiki": "^0.0.9",
     "remark-code-titles": "^0.1.1",

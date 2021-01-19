@@ -19,7 +19,7 @@ const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
 const MAX_BUFFER_LEVEL_SECONDS = 240
-const STARTUP_THRESHOLD_SECONDS = 6
+const STARTUP_THRESHOLD_SECONDS = 8
 const ALLOW_PLAYBACK_SPEED = false
 
 export default class Bitmovin extends Base {
@@ -89,8 +89,17 @@ export default class Bitmovin extends Base {
       cast: {
         enable: true,
       },
+      buffer: {
+        video: {
+          forwardduration: 120,
+          backwardduration: 30,
+        },
+        audio: {
+          forwardduration: 120,
+          backwardduration: 30,
+        },
+      },
       tweaks: {
-        autoqualityswitching: false,
         startup_threshold: STARTUP_THRESHOLD_SECONDS,
         max_buffer_level: MAX_BUFFER_LEVEL_SECONDS,
       },
