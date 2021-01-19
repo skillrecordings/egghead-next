@@ -19,7 +19,7 @@ const Header: FunctionComponent = () => {
   const [isOpen, setOpen] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    !isMinSM ? setOpen(isMinSM) : setOpen(false)
+    isMinSM ? setOpen(false) : setOpen(true)
   }, [isMinSM, router])
 
   const Navigation: FunctionComponent<{
