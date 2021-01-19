@@ -378,48 +378,56 @@ const homepageData = [
       {
         title: 'React',
         path: '/q/react',
+        slug: 'react',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
       },
       {
         title: 'JavaScript',
         path: '/q/javascript',
+        slug: 'javascript',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
       },
       {
         title: 'Angular',
         path: '/q/angular',
+        slug: 'angular',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/300/thumb/angular2.png',
       },
       {
         title: 'Node',
         path: '/q/node',
+        slug: 'node',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png',
       },
       {
         title: 'TypeScript',
         path: '/q/typescript',
+        slug: 'typescript',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/thumb/typescriptlang.png',
       },
       {
         title: 'GraphQL',
         path: '/q/graphql',
+        slug: 'graphql',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/034/thumb/graphqllogo.png',
       },
       {
         title: 'AWS',
         path: '/q/aws',
+        slug: 'aws',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
       },
       {
         title: 'Next.js',
         path: '/q/next',
+        slug: 'next',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
       },

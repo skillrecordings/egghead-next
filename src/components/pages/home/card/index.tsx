@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 export type CardResource = {
   path: string
+  slug: string
   image: string
   name: string
   title: string

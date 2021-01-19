@@ -241,6 +241,10 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                     track('clicked home page topic', {
                       topic: resource.title,
                     })
+                    axios.post(`/api/topic`, {
+                      topic: resource.slug,
+                      amount: 1,
+                    })
                   }}
                   className="w-full bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
                 >
