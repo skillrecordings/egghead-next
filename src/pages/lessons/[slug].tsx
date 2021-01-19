@@ -231,15 +231,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
         console.debug('full screen authed video loaded', {video: loadedLesson})
 
-        send({
-          type: 'LOADED',
-          lesson: loadedLesson,
-          viewer,
-        })
-
-        router.push(nextLesson.path, undefined, {
-          shallow: true,
-        })
+        router
+          .push(nextLesson.path, undefined, {
+            shallow: true,
+          })
+          .then(() => {
+            send({
+              type: 'LOADED',
+              lesson: loadedLesson,
+              viewer,
+            })
+          })
       } else {
         router.push(nextLesson.path)
       }

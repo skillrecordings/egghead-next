@@ -454,7 +454,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
   memberTitle,
 }) => {
   const {viewer} = useViewer()
-  const {name, title, description, resources, path} = data
+  const {name, title, description, path} = data
   return (
     <Card>
       <>
