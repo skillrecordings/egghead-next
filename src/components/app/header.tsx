@@ -6,7 +6,7 @@ import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 import Feedback from 'components/feedback-input'
-import useBreakpoint from 'utils/breakpoints'
+import breakpoints from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 
 const ACCOUNT_LINK_ENABLED =
@@ -15,12 +15,12 @@ const ACCOUNT_LINK_ENABLED =
 const Header: FunctionComponent = () => {
   const router = useRouter()
   const {viewer, loading} = useViewer()
-  const {sm} = useBreakpoint()
+  const {isMinSM} = breakpoints()
   const [isOpen, setOpen] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    !sm ? setOpen(sm) : setOpen(false)
-  }, [sm, router])
+    !isMinSM ? setOpen(isMinSM) : setOpen(false)
+  }, [isMinSM, router])
 
   const Navigation: FunctionComponent<{
     className?: string
@@ -142,8 +142,8 @@ const Header: FunctionComponent = () => {
               </a>
             </Link>
           </div>
-          {!sm && <Navigation />}
-          {sm && !loading && (
+          {isMinSM && <Navigation />}
+          {!isMinSM && !loading && (
             <button
               onClick={() => setOpen(!isOpen)}
               aria-labelledby="menubutton"

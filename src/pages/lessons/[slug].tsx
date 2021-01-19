@@ -36,7 +36,7 @@ import {track} from 'utils/analytics'
 import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
-import useBreakpoint from 'utils/breakpoints'
+import breakpoints from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
@@ -124,7 +124,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {viewer} = useViewer()
   const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
 
-  const {md} = useBreakpoint()
+  const {isMinMD} = breakpoints()
 
   const {height} = useWindowSize()
   const CONTENT_OFFSET = height < 450 ? 30 : 120
@@ -677,9 +677,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         </div>
                       </div>
                     )}
-                    {!md && <Tags tags={collectionTags} lesson={lesson} />}
+                    {!isMinMD && <Tags tags={collectionTags} lesson={lesson} />}
                   </div>
-                  {md && <Tags tags={collectionTags} lesson={lesson} />}
+                  {isMinMD && <Tags tags={collectionTags} lesson={lesson} />}
                   <div className="flex items-center space-x-8">
                     <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
                       <Share
@@ -732,7 +732,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </Markdown>
                 )}
               </div>
-              {md && (
+              {isMinMD && (
                 <>
                   <Course course={collection} currentLessonSlug={lesson.slug} />
 

@@ -20,20 +20,18 @@ export const bpMaxSM = `@media (max-width: ${bp.md - 1}px)`
 export const bpMaxMD = `@media (max-width: ${bp.lg - 1}px)`
 export const bpMaxLG = `@media (max-width: ${bp.xl - 1}px)`
 
-const useBreakpoints = createBreakpoint(bp)
+const getBreakpoint = createBreakpoint(bp)
 
-const useBreakpoint = () => {
-  const breakpoint = useBreakpoints()
+const breakpoints = () => {
+  const breakpoint = getBreakpoint()
 
-  const xs = breakpoint == 'xs'
-  const sm = breakpoint == 'sm' || xs
-  const md = breakpoint == 'md' || sm
-  const lg = breakpoint == 'lg' || md
-  const xl = breakpoint == 'xl' || lg
-  const xl2 = breakpoint == '2xl' || xl
-  const xl3 = breakpoint == '3xl' || xl2
-
-  return {xs, sm, md, lg, xl, xl2, xl3}
+  const isMin3XL = breakpoint === '3xl'
+  const isMin2XL = breakpoint === '2xl' || isMin3XL
+  const isMinXL = breakpoint === 'xl' || isMin2XL
+  const isMinLG = breakpoint === 'lg' || isMinXL
+  const isMinMD = breakpoint === 'md' || isMinLG
+  const isMinSM = breakpoint === 'sm' || isMinMD
+  return {isMinSM, isMinMD, isMinLG, isMinXL, isMin2XL, isMin3XL}
 }
 
-export default useBreakpoint
+export default breakpoints
