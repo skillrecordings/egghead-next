@@ -16,20 +16,28 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   placeholder = 'What do you want to learn today?',
 }) => {
   const [timerId, setTimerId] = React.useState<any>()
+  const [trackTimerId, setTrackTimerId] = React.useState<any>()
   const [value, setValue] = React.useState<any>(currentRefinement)
 
   const onChangeDebounced = (event: any) => {
     const value = event.currentTarget.value
-
     clearTimeout(timerId)
+    clearTimeout(trackTimerId)
+
     setTimerId(
       setTimeout(() => {
         refine(value)
+      }, 450),
+    )
+
+    setTrackTimerId(
+      setTimeout(() => {
         track('searched for query', {
           query: value,
         })
-      }, 250),
+      }, 1500),
     )
+
     setValue(value)
   }
   return (

@@ -139,7 +139,7 @@ be successful on your React journey.
         <aside className="md:col-span-4 rounded-md overflow-hidden border-0 border-gray-100">
           <a href="https://epicreact.dev">
             <img
-              src="https://egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
+              src="https://app.egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
               alt="epicreact.dev by Kent C. Dodds"
             />
           </a>

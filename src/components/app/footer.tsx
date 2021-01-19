@@ -9,11 +9,7 @@ import {reject} from 'lodash'
 const content = [
   {
     path: '/q',
-    label: 'Content',
-  },
-  {
-    path: '/learn',
-    label: 'Topics',
+    label: 'Search',
   },
   {
     path: '/talks',
