@@ -38,6 +38,7 @@ const Collection: FunctionComponent<CollectionProps> = ({
                     })
                   }}
                   className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center "
+                  tabIndex={-1}
                 >
                   <Image
                     src={image}
