@@ -1,4 +1,3 @@
-import {includes} from 'lodash'
 import {createBreakpoint} from 'react-use'
 
 const bp: any = {
