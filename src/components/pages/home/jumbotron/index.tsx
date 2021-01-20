@@ -15,7 +15,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
   const {path, image, title, byline, instructor, description} = resource
   return (
     <div
-      className="md:-mt-5 relative flex items-center justify-center bg-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+      className="md:-mt-5 relative flex items-center justify-center bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
       css={{
         [bpMinMD]: {
           minHeight: 477,
@@ -48,12 +48,12 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center">
-              <h2 className="text-xs text-gray-800 uppercase font-semibold mb-2">
+              <h2 className="text-xs text-cyan-200 uppercase font-semibold mb-2">
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-3xl text-xl font-extrabold leading-tighter hover:text-blue-600"
+                  className="sm:text-2xl md:text-3xl text-xl font-extrabold leading-tighter hover:text-cyan-200"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -80,14 +80,14 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                     className="rounded-full"
                     alt={instructor.name}
                   />
-                  <span className="group-hover:text-blue-600">
+                  <span className="group-hover:text-cyan-200">
                     {instructor.name}
                   </span>
                 </a>
               </Link>
               <Markdown
                 source={description || ''}
-                className="mt-4 text-gray-800 prose md:prose-lg max-w-none"
+                className="mt-4 text-gray-200 text-base"
               />
             </div>
           </div>
