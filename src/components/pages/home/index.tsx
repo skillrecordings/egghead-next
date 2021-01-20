@@ -53,9 +53,7 @@ const Home: FunctionComponent = () => {
   return (
     <>
       <div className="space-y-5">
-        {!viewer
-          ? !loading && <Header />
-          : !loading && <Jumbotron resource={jumbotron} />}
+        <Jumbotron resource={jumbotron} />
         <SearchBar />
         <TopicsList topics={topics} />
         <div className="grid lg:grid-cols-8 grid-cols-1 gap-5">
