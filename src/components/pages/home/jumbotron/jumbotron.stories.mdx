@@ -2,7 +2,7 @@ import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
 import FeaturedResource from './'
 import {find} from 'lodash'
 
-export const data = {
+export const resource = {
   id: 'header',
   title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
   path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
@@ -23,17 +23,14 @@ export const data = {
   },
 }
 
-<Meta title="Components/Home/Featured" />
+<Meta title="Components/Home/Jumbotron" />
 
 # Featured Resource
 
 <Canvas>
   <Story name="Default">
-    <div className="bg-gray-50">
-      <FeaturedResource
-        buttonLabel="Build your own dynamic eCommerce store"
-        resource={data}
-      />
+    <div className="bg-gray-50 p-5">
+      <FeaturedResource resource={resource} />
     </div>
   </Story>
 </Canvas>

@@ -1,5 +1,29 @@
 const homepageData = [
   {
+    id: 'jumbotron',
+    byline: 'New Course',
+    title:
+      'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+    instructor: {
+      name: 'Jason Lengsdorf',
+      slug: 'jason-lengsdorf',
+      path: '/q/resources-by-jason-lengstorf',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/204/square_128/jason-lengstorf_%281%29.jpg',
+    },
+    description:
+      'This course is an excellent illustration of the speed of Serverless functions, and how fast you can implement functionality in your web applications.',
+    image: {
+      src:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/full/EGH_NetlifyServerlessFunction_Final.png',
+      alt:
+        'Stylized illustration of circular shape with Netlify logo in the middle and Hasura logo peeking at the top. Illustrated by Maggie Appleton',
+    },
+
+    path:
+      '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+  },
+  {
     id: 'video',
     name: 'Human-Centered Skills',
     title:
