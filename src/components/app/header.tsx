@@ -30,7 +30,7 @@ const Header: FunctionComponent = () => {
     children,
   }) => {
     return !loading ? (
-      <div className={`text-sm`}>
+      <div className="text-sm">
         {viewer ? (
           <div className={className}>
             <Feedback
@@ -130,7 +130,7 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 flex items-center justify-between">
+      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 flex items-center justify-between print:hidden">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
           <div className="flex items-center">
             <Link href="/">

@@ -97,6 +97,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
+    state,
     path,
     tags = [],
   } = course
@@ -201,6 +202,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         }}
       />
       <div className="max-w-screen-xl mx-auto sm:pb-16 pb-8">
+        {state === 'retired' && (
+          <div className="w-full text-lg bg-orange-100 text-orange-800 p-3 rounded-md border border-orange-900 border-opacity-20">
+            ⚠️ This course has been retired and might contain outdated
+            information.
+          </div>
+        )}
         <div className="mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
           <div className="md:col-span-3 md:row-start-auto row-start-2 flex flex-col h-full justify-center max-w-screen-2xl w-full mx-auto">
             <header>

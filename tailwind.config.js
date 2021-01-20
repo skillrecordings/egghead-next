@@ -2,14 +2,20 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [
-    './src/**/*.js',
-    './pages/**/*.js',
-    './pages/**/*.tsx',
-    './pages/**/*.mdx',
-    './components/**/*.mdx',
-    './src/**/*.tsx',
-  ],
+  purge: {
+    layers: ['components', 'utilities'],
+    content: [
+      './src/**/*.js',
+      './pages/**/*.js',
+      './pages/**/*.tsx',
+      './pages/**/*.mdx',
+      './components/**/*.mdx',
+      './src/**/*.tsx',
+    ],
+    options: {
+      safelist: [], //specific classes
+    },
+  },
   theme: {
     colors: {
       ...defaultTheme.colors,
@@ -62,6 +68,7 @@ module.exports = {
         xl: '1280px',
         '2xl': '1440px',
         '3xl': '1920px',
+        print: {raw: 'print'},
       },
       fontSize: {
         // Set in Major Third typescale (1.25)
