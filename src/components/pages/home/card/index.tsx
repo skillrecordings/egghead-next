@@ -3,11 +3,12 @@ import Markdown from 'react-markdown'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import Image from 'next/image'
+import {get} from 'lodash'
 
 export type CardResource = {
   path: string
   slug: string
-  image: string
+  image: string | {src: string; alt: string}
   name: string
   title: string
   byline: string
@@ -53,7 +54,7 @@ const Card: FunctionComponent<CardProps> = ({
             className="block flex-shrink-0 sm:w-auto w-20"
           >
             <Image
-              src={image}
+              src={get(image, 'src', image)}
               width={160}
               height={160}
               alt={`illustration for ${title}`}

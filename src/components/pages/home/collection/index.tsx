@@ -3,7 +3,7 @@ import {CardResource} from 'components/pages/home/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {map} from 'lodash'
+import {map, get} from 'lodash'
 import Textfit from 'react-textfit'
 
 type CollectionProps = {
@@ -41,7 +41,7 @@ const Collection: FunctionComponent<CollectionProps> = ({
                   tabIndex={-1}
                 >
                   <Image
-                    src={image}
+                    src={get(image, 'src', image)}
                     width={imageSize}
                     height={imageSize}
                     alt={`illustration for ${title}`}
