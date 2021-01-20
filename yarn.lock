@@ -10628,10 +10628,10 @@ growly@^1.3.0:
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
-gsap@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.5.1.tgz#36cf76787d1758e749469d5e9cbe365c186544c4"
-  integrity sha512-EMV0RSUKZNeTUzLKAizGlwxVOUyif3/g8I3S1aA/hf3gbqwBvmQ02x1RdTBQNQMOpHCVBv9y/vaHwfctoAg8zw==
+gsap@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.6.0.tgz#925f25370c698ce0f6ea563522da8f6b5ed21b0a"
+  integrity sha512-0P3syv1TmYr+A/VZ8UMFzw+s0XoaKSzzDFs8NqkXiJTXI4E/VTi0zRjPgxaPBpiUPPycgRnFjLDe0Tb4dRRf+w==
 
 gud@^1.0.0:
   version "1.0.0"
@@ -17910,10 +17910,10 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
-stripe@^8.130.0:
-  version "8.130.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.130.0.tgz#e52a5ee6538a70ce76379364bd3839ca7ea925ab"
-  integrity sha512-9e283EFhxDz7SUcgNiUFRdTZ/kS2IkoT0KBMOJHdf3vY+mvURq355s2E0Zyy9rtNmt+CEZ0nCMiZ3PqIqpp6Pg==
+stripe@^8.129.0:
+  version "8.131.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.131.1.tgz#50ac816ba6959ace144002328240e6eaa79e156f"
+  integrity sha512-A5rRVO8pykYAHWpIsLcTKru5KQSUoZ5u9stglmP062Wdlrp/fK3Z6jKOn6Phjoi0m75gaXm7QnFF0Kzlg1EXKw==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.6.0"
