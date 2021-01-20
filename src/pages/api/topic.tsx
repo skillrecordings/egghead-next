@@ -106,7 +106,7 @@ const cioTopicScore = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       if (subscriber) {
-        const currentScore = subscriber[`${topic}_score`] || 0
+        const currentScore = subscriber?.attributes?.[`${topic}_score`] || 0
 
         await axios.put(
           `https://track.customer.io/api/v1/customers/${subscriber.id}`,
