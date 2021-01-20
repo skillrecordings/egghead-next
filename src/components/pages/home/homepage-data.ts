@@ -35,11 +35,12 @@ const homepageData = [
       },
       {
         name: 'Featured Course',
-        title: 'Scale React Development with NX',
-        byline: 'Juri Strumpflohner',
+        title: 'Web Apps with Netlify Serverless Functions and Hasura',
+        byline: 'Jason Lengstorf',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/full/EGH_ScalingReactNx.png',
-        path: '/playlists/scale-react-development-with-nx-4038',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/full/EGH_NetlifyServerlessFunction_Final.png',
+        path:
+          '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
         name: 'Cutting Edge',
