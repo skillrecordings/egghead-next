@@ -1,3 +1,4 @@
+import {includes} from 'lodash'
 import {createBreakpoint} from 'react-use'
 
 const bp: any = {
@@ -24,14 +25,12 @@ const getBreakpoint = createBreakpoint(bp)
 
 const breakpoints = () => {
   const breakpoint = getBreakpoint()
-
-  const isMin3XL = breakpoint === '3xl'
-  const isMin2XL = breakpoint === '2xl' || isMin3XL
-  const isMinXL = breakpoint === 'xl' || isMin2XL
-  const isMinLG = breakpoint === 'lg' || isMinXL
-  const isMinMD = breakpoint === 'md' || isMinLG
-  const isMinSM = breakpoint === 'sm' || isMinMD
-  return {isMinSM, isMinMD, isMinLG, isMinXL, isMin2XL, isMin3XL}
+  const keys = Object.keys(bp)
+  const foundInd = keys.indexOf(breakpoint)
+  return keys
+    .map((key, ind) => ({['isMin' + key.toUpperCase()]: ind <= foundInd}))
+    .filter((_, ind) => ind)
+    .reduce((acc, cur) => ({...acc, ...cur}), {})
 }
 
 export default breakpoints
