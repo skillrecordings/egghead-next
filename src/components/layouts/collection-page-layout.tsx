@@ -22,6 +22,7 @@ import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import {format} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
+import TagList from './tag-list'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -221,7 +222,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     {convertTimeWithTitles(duration)}
                   </div>
                 )}
-                <Tags tags={courseTags} courseSlug={course.slug} />{' '}
+                <TagList tags={courseTags} courseSlug={course.slug} />{' '}
               </div>
               <div className="flex items-center md:justify-start justify-center mt-4 space-x-6 w-full">
                 <div className="flex items-center w-2/3 space-x-4">
@@ -557,52 +558,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           </div>
         </div>
       </div>
-    </>
-  )
-}
-
-const Tags: FunctionComponent<{tags: any; courseSlug: string}> = ({
-  tags,
-  courseSlug,
-}) => {
-  return (
-    <>
-      {!isEmpty(tags) && (
-        <div className="flex space-x-4 items-center">
-          {/* <div className="font-medium">Tech used:</div> */}
-          <ul className="flex flex-wrap items-center space-x-4">
-            {tags.slice(0, 1).map((tag: any, index: number) => (
-              <li key={index} className="inline-flex items-center">
-                <Link href={`/q/${tag.name}`}>
-                  <a
-                    onClick={() => {
-                      track(`clicked view topic`, {
-                        course: courseSlug,
-                        topic: tag.name,
-                      })
-                    }}
-                    className="inline-flex items-center hover:underline"
-                  >
-                    <Image
-                      src={tag.image_url}
-                      alt={tag.name}
-                      width={16}
-                      height={16}
-                      className="flex-shrink-0"
-                    />
-                    <span className="ml-1">{tag.label}</span>
-                    {tag.version && (
-                      <span className="ml-2">
-                        <code>{tag.version}</code>
-                      </span>
-                    )}
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </>
   )
 }
