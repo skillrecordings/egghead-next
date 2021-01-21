@@ -106,15 +106,17 @@ const cioTopicScore = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       if (subscriber) {
-        const currentScore = subscriber[`${topic}_score`] || 0
+        const currentScore: number =
+          subscriber?.attributes?.[`${topic}_score`] || 0
 
-        await axios.put(
-          `https://track.customer.io/api/v1/customers/${subscriber.id}`,
-          {
-            [`${topic}_score`]: currentScore + amount,
-          },
-          {headers},
-        )
+        if (currentScore > 10)
+          await axios.put(
+            `https://track.customer.io/api/v1/customers/${subscriber.id}`,
+            {
+              [`${topic}_score`]: Number(currentScore) + Number(amount),
+            },
+            {headers},
+          )
         res.status(200).end()
       } else {
         console.error('no subscriber was loaded')
