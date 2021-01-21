@@ -26,9 +26,6 @@ const InstructorProfile: React.FunctionComponent<{
             <span className="font-semibold text-base">{name}</span>
           </a>
         </Link>
-        {bio_short && (
-          <Markdown className="prose prose-sm mt-0">{bio_short}</Markdown>
-        )}
       </div>
     </div>
     {/* {twitter && <div className="text-gray-600 text-sm">@{twitter}</div>} */}
