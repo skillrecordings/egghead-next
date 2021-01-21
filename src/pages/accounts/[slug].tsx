@@ -7,6 +7,105 @@ import axios from 'axios'
 import Link from 'next/link'
 import {useViewer} from 'context/viewer-context'
 import {track} from '../../utils/analytics'
+import {Formik} from 'formik'
+import * as yup from 'yup'
+
+const editEmailSchema = yup.object().shape({
+  email: yup.string().email().required('enter your email'),
+})
+
+export type EditEmailFormProps = {
+  originalEmail: string
+}
+
+const EditEmailForm: React.FunctionComponent<EditEmailFormProps> = ({
+  originalEmail,
+}) => {
+  const VIEW_MODE = 'VIEW_MODE'
+  const EDIT_MODE = 'EDIT_MODE'
+  const [mode, setMode] = React.useState(VIEW_MODE)
+
+  return (
+    <Formik
+      initialValues={{email: originalEmail}}
+      validationSchema={editEmailSchema}
+      onSubmit={(values) => {
+        // need to validate that this email is available
+        // validateEmail(values.email)
+        console.log(values.email)
+        setMode(VIEW_MODE)
+      }}
+    >
+      {(props) => {
+        const {
+          values,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+        } = props
+        return (
+          <>
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col space-y-2">
+                <h2 className="text-xl border-b">Email</h2>
+                <p>Your email address:</p>
+                {mode === EDIT_MODE && (
+                  <p className="text-sm text-gray-600">
+                    Warning: this is the email you'll use to access egghead,
+                    make sure it is an account you have access to.
+                  </p>
+                )}
+                <div className="flex flex-row space-x-2">
+                  <input
+                    id="email"
+                    type="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="you@company.com"
+                    required
+                    disabled={mode !== EDIT_MODE}
+                    className="bg-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
+                    // className="form-input bg-gray-100 rounded-md p-3 w-full border border-transparent focus:outline-none focus:border-gray-400 placeholder-gray-600"
+                  />
+                  {mode === VIEW_MODE && (
+                    <button
+                      onClick={() => setMode(EDIT_MODE)}
+                      className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  {mode === EDIT_MODE && (
+                    <>
+                      <button
+                        type="submit"
+                        className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setFieldValue('email', originalEmail)
+                          setMode(VIEW_MODE)
+                        }}
+                        className="text-black bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-300 rounded"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </form>
+          </>
+        )
+      }}
+    </Formik>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
@@ -36,6 +135,8 @@ const Account: React.FunctionComponent<
   const [subscriptionData, setSubscriptionData] = React.useState<any>()
   const {stripe_customer_id, slug} = account
   const {viewer} = useViewer()
+
+  const [email, setEmail] = React.useState('josh@egghead.io')
 
   const recur = (price: any) => {
     const {
@@ -77,6 +178,10 @@ const Account: React.FunctionComponent<
     <LoginRequired loginRequired={loginRequired}>
       <main className="pb-10 lg:py-3 lg:px-8">
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
+          {/* Account details */}
+          <div className="sm:px-6 lg:px-0 lg:col-span-9">
+            <EditEmailForm originalEmail={email} />
+          </div>
           {/* Payment details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             {subscriptionData && (
