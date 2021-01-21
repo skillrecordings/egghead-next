@@ -25,25 +25,24 @@ const homepageData = [
   },
   {
     id: 'video',
-    name: 'Human-Centered Skills',
-    title:
-      'What If The Real 10X Developer Is The Friends We Made Along The Way?\n',
+    name: 'Modern Web Development',
+    title: 'Full Stack Development in the Era of Serverless Computing',
     description:
-      'We will break down the very real risks of idolizing individual contributors, dig into the nugget of truth that keeps this stereotype alive, and dive into what a real “10× developer” might look like.',
-    instructor: 'Jason Lengstorf',
-    instructor_path: '/q/resources-by-jason-lengstorf',
+      'Learn a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.',
+    instructor: 'nader dabit',
+    instructor_path: '/q/resources-by-nader-dabit',
     path:
-      '/talks/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way',
+      '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',
     poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1610057506/egghead%20talks/jason-lengstorf-10x-friends-along-the-way.png',
+      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.jpg',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/hls/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.m3u8',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/hls/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.m3u8',
 
     dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/dash/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/dash/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.mpd',
 
     subtitlesUrl:
-      'https://egghead.io/api/v1/lessons/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way/subtitles',
+      'https://app.egghead.io/api/v1/lessons/egghead-full-stack-development-in-the-era-of-serverless-computing/subtitles',
   },
   {
     id: 'featured',
