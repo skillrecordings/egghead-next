@@ -67,7 +67,8 @@ pre > code {
   }
 }
 
-.bmpui-player-state-paused
+#egghead-player
+  .bmpui-player-state-paused
   .bmpui-ui-hugeplaybacktogglebutton.bmpui-off
   .bmpui-image {
   transition: opacity 0.3s, transform 0.3s;
@@ -76,7 +77,8 @@ pre > code {
   animation: b 4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
-.bmpui-player-state-paused
+#egghead-player
+  .bmpui-player-state-paused
   .bmpui-ui-hugeplaybacktogglebutton.bmpui-off:hover
   .bmpui-image {
   opacity: 1;
