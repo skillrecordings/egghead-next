@@ -48,7 +48,7 @@ pre > code {
 
 /* ——— Player ——— */
 
-.bmpui-ui-watermark {
+/* .bmpui-ui-watermark {
   display: none !important;
 }
 
@@ -61,6 +61,40 @@ pre > code {
 }
 
 .bmpui-ui-titlebar {
+  display: none;
+} */
+
+@keyframes b {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+    /* visibility: visible; */
+  }
+  10% {
+    opacity: 1;
+    transform: scale(2);
+  }
+  20% {
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+    /* transform: scale(2); */
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+#egghead-player .bmpui-ui-hugeplaybacktogglebutton.bmpui-off .bmpui-image {
+  opacity: 0;
+  transform: scale(0);
+  animation: b 4s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  /* visibility: visible; */
+}
+
+#egghead-player .bmpui-ui-watermark {
   display: none;
 }
 

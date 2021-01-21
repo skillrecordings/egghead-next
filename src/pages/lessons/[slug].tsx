@@ -437,6 +437,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   >
                     <div className={`absolute w-full h-full top-0 left-0`}>
                       <EggheadPlayer
+                        id="egghead-player"
                         ref={playerRef}
                         hidden={playerState.matches('LOADING')}
                         resource={lesson}
