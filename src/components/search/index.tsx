@@ -18,7 +18,7 @@ import {useRouter} from 'next/router'
 
 import config from 'lib/config'
 
-import SearchReact from './curated/react'
+import SearchReact from 'components/search/curated/react'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 
@@ -93,10 +93,7 @@ const Search: FunctionComponent<SearchProps> = ({
         <Configure hitsPerPage={config.searchResultCount} />
         <ScrollTo scrollOn="page" />
         <AnimateSharedLayout>
-          <motion.div
-            layout
-            className="max-w-screen-xl sm:pb-16 pb-8 md:-mt-4 -mt-2 mx-auto"
-          >
+          <motion.div layout className="sm:pb-16 pb-8 md:-mt-4 -mt-2 mx-auto">
             <AnimatePresence>
               {!isEmpty(instructor) && (
                 <motion.div
@@ -104,7 +101,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   initial={{opacity: 0}}
                   animate={{opacity: 1}}
                   exit={{opacity: 0}}
-                  className="md:p-16 p-0 flex md:flex-row flex-col md:space-y-0 space-y-2"
+                  className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex md:flex-row flex-col md:space-y-0 space-y-2 justify-center"
                 >
                   <NextSeo
                     title={`Learn web development from ${instructor.full_name} on egghead`}
@@ -150,16 +147,21 @@ const Search: FunctionComponent<SearchProps> = ({
                     initial={{opacity: 0}}
                     animate={{opacity: 1}}
                     exit={{opacity: 0}}
+                    className="bg-gray-50 -mx-5 md:-mt-5"
                   >
                     <SearchReact />
                   </motion.div>
                 )}
             </AnimatePresence>
-            <motion.div layout ref={refinementRef}>
+            <motion.div
+              className="max-w-screen-xl mx-auto"
+              layout
+              ref={refinementRef}
+            >
               <motion.header layout className="flex mt-4">
                 <SearchBox
                   placeholder={searchBoxPlaceholder}
-                  className="w-full"
+                  className="w-full "
                 />
                 <button
                   onClick={setShowFilter}
@@ -230,12 +232,12 @@ const Search: FunctionComponent<SearchProps> = ({
                 </motion.div>
               </motion.div>
             </motion.div>
-            <motion.div layout className="mt-4">
+            <motion.div layout className="mt-4 max-w-screen-xl mx-auto">
               <Hits />
             </motion.div>
             <motion.div
               layout
-              className="w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto"
+              className="max-w-screen-xl mx-auto w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto"
             >
               <Pagination />
             </motion.div>
