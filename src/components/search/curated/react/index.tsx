@@ -7,6 +7,7 @@ import reactPageData from './react-page-data'
 import {find} from 'lodash'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Image from 'next/image'
+import ExternalTrackedLink from '../../../external-tracked-link'
 
 const SearchReact = () => {
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
@@ -52,7 +53,7 @@ const SearchReact = () => {
           ],
         }}
       />
-      <div className="grid md:grid-cols-12 grid-cols-1 gap-5 items-start ">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0">
         <Topic
           className="col-span-8"
           title="React"
@@ -67,7 +68,9 @@ You can find courses below curated just for you whether you're looking for a par
 
 `}
         </Topic>
-        <a
+        <ExternalTrackedLink
+          eventName="clicked epic react banner"
+          params={{location: 'react landing page'}}
           className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
           href="https://epicreact.dev"
         >
@@ -76,10 +79,10 @@ You can find courses below curated just for you whether you're looking for a par
             quality={100}
             width={417}
             height={463}
-            src="https://app.egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
             alt="epicreact.dev by Kent C. Dodds"
           />
-        </a>
+        </ExternalTrackedLink>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
         <Card resource={beginner}>
