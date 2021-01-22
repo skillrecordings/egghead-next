@@ -223,8 +223,8 @@ const contentCrudRoutes = [
 
 const teamRoutes = [
   {
-    source: `/team/:all*`,
-    destination: `${appUrl}/team/:all*`,
+    source: `/team/:rest(.+)`,
+    destination: `${appUrl}/team/:rest(.+)`,
     permanent: true,
   },
   {
