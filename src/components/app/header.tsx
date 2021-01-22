@@ -53,7 +53,21 @@ const Header: FunctionComponent = () => {
                 </a>
               </Link>
             )}
-            {ACCOUNT_LINK_ENABLED && !isEmpty(viewer.accounts) ? (
+            {!isEmpty(viewer?.team) && (
+              <Link href={`/team`}>
+                <a
+                  onClick={() =>
+                    track('clicked team', {
+                      location: 'header',
+                    })
+                  }
+                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                >
+                  Team
+                </a>
+              </Link>
+            )}
+            {!isEmpty(viewer.accounts) ? (
               <Link href={`/accounts/${viewer.accounts[0].slug}`}>
                 <a
                   onClick={() =>

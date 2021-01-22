@@ -29,7 +29,7 @@ const Share: FunctionComponent<ShareProps> = ({
           <TweetLink label resource={resource} instructor={instructor} />
           <CopyToClipboard
             label
-            stringToCopy={`${process.env.NEXT_PUBLIC_REDIRECT_URI}${resource.path}`}
+            stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${resource.path}`}
           />
         </div>
       </div>
@@ -50,7 +50,7 @@ const TweetLink: FunctionComponent<ShareProps> = ({
       : `by @${instructor.twitter}`
     const tweetText = `${resource.title} ${instructorTwitterText} (${resource.type} on @eggheadio)`
     const encodeResourceUrl = encodeURIComponent(
-      process.env.NEXT_PUBLIC_REDIRECT_URI + resource.path,
+      process.env.NEXT_PUBLIC_DEPLOYMENT_URL + resource.path,
     )
     const tweetParams = `&url=${encodeResourceUrl}`
     return twitterBase + tweetText + tweetParams
