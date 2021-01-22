@@ -20,7 +20,7 @@ export type CardResource = {
 type CardProps = {
   small?: boolean
   className?: string
-  children: React.ReactNode
+  children?: React.ReactNode
   padding?: string
   resource?: CardResource
 }
@@ -33,7 +33,8 @@ const Card: FunctionComponent<CardProps> = ({
   resource,
   ...restProps
 }) => {
-  const {name, title, image, resources, description, path} = resource || {}
+  const {name, title, image, byline, resources, description, path} =
+    resource || {}
 
   return (
     <div
@@ -51,12 +52,12 @@ const Card: FunctionComponent<CardProps> = ({
                 linkType: 'image',
               })
             }}
-            className="block flex-shrink-0 sm:w-auto w-20"
+            className="block flex-shrink-0 sm:w-auto w-20 mx-auto"
           >
             <Image
               src={get(image, 'src', image)}
-              width={160}
-              height={160}
+              width={140}
+              height={140}
               alt={`illustration for ${title}`}
             />
           </a>
@@ -95,6 +96,7 @@ const Card: FunctionComponent<CardProps> = ({
             {description}
           </Markdown>
         )}
+        {byline && <div className="text-sm text-gray-600">{byline}</div>}
         {resources
           ? React.Children.map(children, (child) => {
               return React.cloneElement(child as React.ReactElement, {

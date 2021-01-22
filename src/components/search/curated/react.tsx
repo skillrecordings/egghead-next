@@ -1,18 +1,15 @@
-import React, {FunctionComponent} from 'react'
+import React from 'react'
 import {NextSeo} from 'next-seo'
-import Card from '../components/card'
+import Card from 'components/pages/home/card'
+import Collection from 'components/pages/home/collection'
 import Topic from '../components/topic'
-import Resource from '../components/resource'
 import reactPageData from './react-page-data'
 import Link from 'next/link'
-import {map, get, find} from 'lodash'
+import {find} from 'lodash'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Markdown from 'react-markdown'
-import CardVideo, {CardResource} from '../../pages/home/card/index'
-import {useViewer} from 'context/viewer-context'
-import Collection from '../../pages/home/collection/index'
+import CardVideo from '../../pages/home/card/index'
 import Image from 'next/image'
-import Textfit from 'react-textfit'
 
 const SearchReact = () => {
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
@@ -21,11 +18,12 @@ const SearchReact = () => {
   const video: any = find(reactPageData, {id: 'video'})
   const reactArticles: any = find(reactPageData, {id: 'reactArticles'})
   const featured: any = find(reactPageData, {id: 'featured'})
-
-  console.log(featured)
+  const beginner: any = find(reactPageData, {id: 'beginner'})
+  const intermediate: any = find(reactPageData, {id: 'intermediate'})
+  const advanced: any = find(reactPageData, {id: 'advanced'})
 
   return (
-    <div className="mb-12">
+    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto">
       <NextSeo
         description={description}
         title={title}
@@ -45,7 +43,7 @@ const SearchReact = () => {
           ],
         }}
       />
-      <div className="grid md:grid-cols-12 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
+      <div className="grid md:grid-cols-12 grid-cols-1 gap-5 items-start ">
         <Topic
           className="col-span-8"
           title="React"
@@ -60,77 +58,32 @@ You can find courses below curated just for you whether you're looking for a par
 
 `}
         </Topic>
-
-        <aside className="md:col-span-4 rounded-md overflow-hidden border-0 border-gray-100">
-          <a href="https://epicreact.dev">
-            <img
-              src="https://app.egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
-              alt="epicreact.dev by Kent C. Dodds"
-            />
-          </a>
-        </aside>
+        <a
+          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
+          href="https://epicreact.dev"
+        >
+          <Image
+            priority
+            quality={100}
+            width={417}
+            height={463}
+            src="https://app.egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
+            alt="epicreact.dev by Kent C. Dodds"
+          />
+        </a>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card title="Beginner" description="Just Starting Out">
-          <ul className="-mb-2">
-            <Resource
-              title="The Beginner's Guide to React"
-              path="/courses/the-beginner-s-guide-to-react"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/full/EGH_BeginnersReact2.png"
-            />
-            <Resource
-              title="Develop Accessible Web Apps with React"
-              path="/courses/develop-accessible-web-apps-with-react"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/full/AccessibleReact_1000.png"
-            />
-            <Resource
-              title="Build Maps with React Leaflet"
-              path="/courses/build-maps-with-react-leaflet"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/full/React_Leaflet_Final.png"
-            />
-          </ul>
+        <Card resource={beginner}>
+          <Collection />
         </Card>
-        <Card title="Intermediate" description="Hitting Your Stride">
-          <ul className="-mb-2">
-            <Resource
-              title="VR Applications using React 360"
-              path="/courses/vr-applications-using-react-360"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/272/full/React360-final.png"
-            />
-            <Resource
-              title="Shareable Custom Hooks in React"
-              path="/courses/shareable-custom-hooks-in-react"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/313/full/EGH_CustomReactHooks_Final.png"
-            />
-            <Resource
-              title="Simplify React Apps with React Hooks"
-              path="/courses/simplify-react-apps-with-react-hooks"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/full/EGH_SimplifyHooks_Final.png"
-            />
-          </ul>
+        <Card resource={intermediate} className="h-full">
+          <Collection />
         </Card>
-        <Card title="Advanced" description="Above and Beyond">
-          <ul className="-mb-2">
-            <Resource
-              title="Redux with React Hooks"
-              path="/playlists/redux-with-react-hooks-8a37"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png"
-            />
-            <Resource
-              title="Build an App with React Suspense"
-              path="/courses/build-an-app-with-react-suspense"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/399/full/React_Suspense_Final.png"
-            />
-            <Resource
-              title="Up and running with Recoil"
-              path="/playlists/up-and-running-with-recoil-a-new-state-management-library-for-react-78b8"
-              imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png"
-            />
-          </ul>
+        <Card resource={advanced} className="h-full">
+          <Collection />
         </Card>
       </div>
-
-      <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-12">
+      <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
         <div className="lg:col-span-8">
           <CardVideo className="rounded border border-gray-100">
             <div className="flex sm:flex-row flex-col justify-center">
@@ -170,93 +123,21 @@ You can find courses below curated just for you whether you're looking for a par
               </div>
             </div>
           </CardVideo>
-          <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-12">
+          <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
             {featured.resources.map((resource: any) => {
-              return <CardVerticalLarge key={resource.path} data={resource} />
+              return (
+                <Card
+                  className="col-span-4 text-center"
+                  key={resource.path}
+                  resource={resource}
+                />
+              )
             })}
           </div>
         </div>
-        <CardVerticalWithStack data={reactArticles} />
-      </div>
-    </div>
-  )
-}
-
-type CardProps = {
-  data: CardResource
-  className?: string
-  memberTitle?: string
-}
-
-const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
-  const {path, image, title, name, byline} = data
-  return (
-    <div className="lg:col-span-4 rounded border border-gray-100">
-      <div className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
-        <>
-          {image && (
-            <Link href={path}>
-              <a className="mb-2 mx-auto w-24" tabIndex={-1}>
-                <Image
-                  width={140}
-                  height={140}
-                  src={get(image, 'src', image)}
-                  alt={`illustration for ${title}`}
-                />
-              </a>
-            </Link>
-          )}
-          <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
-            {name}
-          </h2>
-          <Link href={path}>
-            <a className="hover:text-blue-600">
-              <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
-                <Textfit mode="multi" min={14} max={20}>
-                  {title}
-                </Textfit>
-              </h3>
-            </a>
-          </Link>
-          <div className="text-xs text-gray-600 mt-1">{byline}</div>
-        </>
-      </div>
-    </div>
-  )
-}
-
-const CardVerticalWithStack: FunctionComponent<CardProps> = ({
-  data,
-  memberTitle,
-}) => {
-  const {viewer} = useViewer()
-  const {name, title, description, path} = data
-  return (
-    <div className="md:col-span-4 flex flex-col gap-5 md:p-6 p-4 rounded-md overflow-hidden border border-gray-100 ">
-      <h2 className="uppercase font-semibold text-xs text-gray-700">
-        {(viewer?.is_pro || viewer?.is_instructor) && memberTitle
-          ? memberTitle
-          : name}
-      </h2>
-      {path ? (
-        <Link href={path}>
-          <a className="hover:text-blue-600">
-            <h3 className="align-top text-xl font-bold tracking-tight leading-tight mb-2 -mt-5">
-              {title}
-            </h3>
-          </a>
-        </Link>
-      ) : (
-        <h3 className="align-top text-xl font-bold tracking-tight leading-tight -mb-6">
-          {title}
-        </h3>
-      )}
-      <div>
-        <Markdown
-          source={description || ''}
-          className="prose prose-sm max-w-none mb-3 "
-        />
-        <Collection resource={data} />
+        <Card resource={reactArticles} className="md:col-span-4">
+          <Collection />
+        </Card>
       </div>
     </div>
   )
