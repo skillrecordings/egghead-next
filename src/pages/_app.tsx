@@ -91,19 +91,19 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
         url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
         sameAs={['https://twitter.com/eggheadio']}
       />
-      <LogRocketProvider>
-        <CioProvider>
-          <ConvertkitProvider>
-            <ViewerProvider>
+      <ViewerProvider>
+        <LogRocketProvider>
+          <CioProvider>
+            <ConvertkitProvider>
               <MDXProvider components={mdxComponents}>
                 <CacheProvider value={cache}>
                   {getLayout(Component, pageProps)}
                 </CacheProvider>
               </MDXProvider>
-            </ViewerProvider>
-          </ConvertkitProvider>
-        </CioProvider>
-      </LogRocketProvider>
+            </ConvertkitProvider>
+          </CioProvider>
+        </LogRocketProvider>
+      </ViewerProvider>
     </>
   )
 }
