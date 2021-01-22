@@ -12,7 +12,7 @@ import ExternalTrackedLink from '../../../external-tracked-link'
 const SearchReact = () => {
   const location = 'react landing'
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
-  const title = `Advanced React Tutorials for ${new Date().getFullYear()}`
+  const title = `In-Depth Up-to-Date React Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(reactPageData, {id: 'beginner'})
   const intermediate: any = find(reactPageData, {id: 'intermediate'})
