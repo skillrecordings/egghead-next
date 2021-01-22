@@ -10,6 +10,7 @@ import Image from 'next/image'
 import ExternalTrackedLink from '../../../external-tracked-link'
 
 const SearchReact = () => {
+  const location = 'react landing'
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
   const title = `Advanced React Tutorials for ${new Date().getFullYear()}`
 
@@ -70,7 +71,7 @@ You can find courses below curated just for you whether you're looking for a par
         </Topic>
         <ExternalTrackedLink
           eventName="clicked epic react banner"
-          params={{location: 'react landing page'}}
+          params={{location}}
           className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
           href="https://epicreact.dev"
         >
@@ -85,13 +86,13 @@ You can find courses below curated just for you whether you're looking for a par
         </ExternalTrackedLink>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner}>
+        <Card resource={beginner} location={location}>
           <Collection />
         </Card>
-        <Card resource={intermediate} className="h-full">
+        <Card resource={intermediate} location={location} className="h-full">
           <Collection />
         </Card>
-        <Card resource={advanced} className="h-full">
+        <Card resource={advanced} location={location} className="h-full">
           <Collection />
         </Card>
       </div>
@@ -135,6 +136,7 @@ You can find courses below curated just for you whether you're looking for a par
             <Card
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
+              location={location}
             >
               <div className="sm:w-full sm:-mt-5 -mt-0 sm:-mb-5 -mb-4 md:-mr-5 -mr-4 md:ml-8 -ml-4  flex items-center bg-black flex-shrink-0 md:max-w-sm">
                 <EggheadPlayer
@@ -156,6 +158,7 @@ You can find courses below curated just for you whether you're looking for a par
                     className="col-span-4 text-center"
                     key={resource.path}
                     resource={resource}
+                    location={location}
                   />
                 )
               })}
@@ -163,22 +166,26 @@ You can find courses below curated just for you whether you're looking for a par
           </div>
         </div>
         <div className="md:col-span-4 col-span-12">
-          <Card resource={stateManagementCollection}>
+          <Card resource={stateManagementCollection} location={location}>
             <Collection />
           </Card>
-          <Card resource={stateManagementQuickly} className="mt-5">
+          <Card
+            resource={stateManagementQuickly}
+            className="mt-5"
+            location={location}
+          >
             <Collection />
           </Card>
         </div>
       </section>
       <section className="mt-5 grid md:grid-cols-3 grid-cols-1 gap-5">
-        <Card resource={reactArticles}>
+        <Card resource={reactArticles} location={location}>
           <Collection />
         </Card>
-        <Card resource={reactPodcasts}>
+        <Card resource={reactPodcasts} location={location}>
           <Collection />
         </Card>
-        <Card resource={reactTalks}>
+        <Card resource={reactTalks} location={location}>
           <Collection />
         </Card>
       </section>
