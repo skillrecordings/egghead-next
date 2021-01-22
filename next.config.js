@@ -32,6 +32,7 @@ const IMAGE_HOST_DOMAINS = [
   `dcv19h61vib2d.cloudfront.net`,
   `image.simplecastcdn.com`,
   `res.cloudinary.com`,
+  `app.egghead.io`,
 ]
 
 const nextConfig = {

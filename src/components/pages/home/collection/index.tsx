@@ -7,16 +7,16 @@ import {map, get} from 'lodash'
 import Textfit from 'react-textfit'
 
 type CollectionProps = {
-  resource: CardResource
+  resource?: CardResource
   children?: React.ReactElement
   className?: string
 }
 
 const Collection: FunctionComponent<CollectionProps> = ({
   resource,
-  className,
+  className = '',
 }) => {
-  const {resources} = resource
+  const {resources} = resource || {}
   return (
     <ul>
       {map(resources, (resource) => {
@@ -26,7 +26,7 @@ const Collection: FunctionComponent<CollectionProps> = ({
         return (
           <li
             key={resource.path}
-            className={`flex items-center py-2 ${className ? className : ''}`}
+            className={`flex items-center py-2 ${className}`}
           >
             {image && (
               <Link href={path}>
@@ -49,7 +49,7 @@ const Collection: FunctionComponent<CollectionProps> = ({
                 </a>
               </Link>
             )}
-            <div className="ml-3">
+            <div className={image ? 'ml-3' : ''}>
               <Link href={path}>
                 <a
                   onClick={() => {
