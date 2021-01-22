@@ -18,7 +18,7 @@ import {useRouter} from 'next/router'
 
 import config from 'lib/config'
 
-import SearchReact from './curated/react'
+import SearchReact from 'components/search/curated/react'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 

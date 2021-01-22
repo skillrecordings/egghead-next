@@ -21,15 +21,13 @@ type CardProps = {
   small?: boolean
   className?: string
   children?: React.ReactNode
-  padding?: string
   resource?: CardResource
 }
 
 const Card: FunctionComponent<CardProps> = ({
   small,
-  className = '',
+  className,
   children,
-  padding,
   resource,
   ...restProps
 }) => {
@@ -38,73 +36,75 @@ const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={`bg-white shadow-sm rounded-lg overflow-hidden ${
-        padding ? padding : 'sm:p-5 p-4'
-      } ${className}`}
+      className={`bg-white shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
+        className ? className : ''
+      }`}
       {...restProps}
     >
-      {image && path && (
-        <Link href={path}>
-          <a
-            onClick={() => {
-              track('clicked home page resource', {
-                resource: path,
-                linkType: 'image',
-              })
-            }}
-            className="block flex-shrink-0 sm:w-auto w-20 mx-auto"
-          >
-            <Image
-              src={get(image, 'src', image)}
-              width={140}
-              height={140}
-              alt={`illustration for ${title}`}
-            />
-          </a>
-        </Link>
-      )}
-      <div className="flex flex-col justify-center">
-        {name && (
-          <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
-            {name}
-          </h2>
+      <div>
+        {image && path && (
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track('clicked home page resource', {
+                  resource: path,
+                  linkType: 'image',
+                })
+              }}
+              className="block flex-shrink-0 sm:w-auto w-20 mx-auto"
+            >
+              <Image
+                src={get(image, 'src', image)}
+                width={140}
+                height={140}
+                alt={`illustration for ${title}`}
+              />
+            </a>
+          </Link>
         )}
-        {title &&
-          (path ? (
-            <Link href={path}>
-              <a
-                onClick={() => {
-                  track('clicked home page resource', {
-                    resource: path,
-                    linkType: 'text',
-                  })
-                }}
-                className="hover:text-blue-600"
-              >
-                <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-                  {title}
-                </h3>
-              </a>
-            </Link>
-          ) : (
-            <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-              {title}
-            </h3>
-          ))}
-        {description && (
-          <Markdown className="prose prose-sm max-w-none mb-3">
-            {description}
-          </Markdown>
-        )}
-        {byline && <div className="text-sm text-gray-600">{byline}</div>}
-        {resources
-          ? React.Children.map(children, (child) => {
-              return React.cloneElement(child as React.ReactElement, {
-                resource: resource,
-              })
-            })
-          : children}
+        <div className="flex flex-col justify-center">
+          {name && (
+            <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+              {name}
+            </h2>
+          )}
+          {title &&
+            (path ? (
+              <Link href={path}>
+                <a
+                  onClick={() => {
+                    track('clicked home page resource', {
+                      resource: path,
+                      linkType: 'text',
+                    })
+                  }}
+                  className="hover:text-blue-600"
+                >
+                  <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+                    {title}
+                  </h3>
+                </a>
+              </Link>
+            ) : (
+              <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+                {title}
+              </h3>
+            ))}
+          {byline && <div className="text-sm text-gray-600 mb-3">{byline}</div>}
+          {description && (
+            <Markdown className="prose prose-sm max-w-none mb-3">
+              {description}
+            </Markdown>
+          )}
+        </div>
       </div>
+      {resources
+        ? React.Children.map(children, (child) => {
+            return React.cloneElement(child as React.ReactElement, {
+              resource: resource,
+            })
+          })
+        : children}
     </div>
   )
 }
