@@ -12,6 +12,12 @@ export async function loadAllPlaylists() {
         average_rating_out_of_5
         watched_count
         path
+        description
+        tags {
+          name
+          label
+          image_url
+        }
         image_thumb_url
         instructor {
           id

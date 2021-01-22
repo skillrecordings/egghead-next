@@ -21,9 +21,9 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   }, [loadingRatings, type, slug])
 
   return isEmpty(ratings) ? null : (
-    <div className="mt-8">
+    <div className="mt-8 ">
       <h2 className="text-lg font-semibold mb-3">Learner Reviews</h2>
-      <ul className="space-y-5">
+      <ul className="space-y-5 md:space-y-0  md:grid-cols-2 grid gap-3">
         {ratings.map((rating: any) => {
           const {comment, rating_out_of_5, user} = rating
 
@@ -33,7 +33,9 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
           return (
             <li
               key={`rating-${rating.id}`}
-              className={`space-y-2 border p-4 ${rating.hidden && 'hidden'}`}
+              className={`space-y-2 border rounded-md p-4 ${
+                rating.hidden && 'hidden'
+              }`}
             >
               <div className="font-bold">{user.full_name}</div>
               <FiveStars rating={rating_out_of_5} />

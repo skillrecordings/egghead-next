@@ -16,6 +16,7 @@ import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
 import SearchBar from './search-bar'
+import Jumbotron from './jumbotron'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -24,6 +25,7 @@ const Home: FunctionComponent = () => {
 
   const video: any = find(homepageData, {id: 'video'})
 
+  const jumbotron: any = find(homepageData, {id: 'jumbotron'})
   let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
   const devEssentials: any = find(homepageData, {id: 'devEssentials'})
   const freeCourses: any = find(homepageData, {id: 'freeCourses'})
@@ -51,8 +53,9 @@ const Home: FunctionComponent = () => {
   return (
     <>
       <div className="space-y-5">
-        {!viewer && !loading && <Header />}
+        <Jumbotron resource={jumbotron} />
         <SearchBar />
+        <TopicsList topics={topics} />
         <div className="grid lg:grid-cols-8 grid-cols-1 gap-5">
           <Card className="lg:col-span-6">
             <div className="flex sm:flex-row flex-col justify-center">
@@ -117,7 +120,6 @@ const Home: FunctionComponent = () => {
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
             )}
-
             <div
               className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
             >
@@ -134,7 +136,6 @@ const Home: FunctionComponent = () => {
                 memberTitle="Must Watch"
               />
             </div>
-
             <CardHorizontal resource={advancedCourse} />
             <CardHorizontal resource={buildInPublic} />
             <CardHorizontal resource={sideProject} />
@@ -149,7 +150,6 @@ const Home: FunctionComponent = () => {
                 />
               }
             />
-            <TopicsList topics={topics} />
             <CardVerticalWithStack data={mdxConf} />
             <CardVerticalWithStack data={stateManagement} />
             <Card>
@@ -225,41 +225,50 @@ const Home: FunctionComponent = () => {
 const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   topics,
 }) => {
+  const allTopics = get(topics, 'resources', [])
   return (
-    <Card className="shadow-none bg-gray-50" padding={'sm:p-0 p-0'}>
-      <h2 className="uppercase font-semibold text-xs text-gray-700">
-        {topics.name}
-      </h2>
-      <div>
-        <ul className="space-y-2">
-          {map(get(topics, 'resources'), (resource) => (
-            <li className="inline-block mr-2" key={resource.path}>
+    <>
+      <div className="w-full">
+        <ul
+          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-5 gap-5`}
+        >
+          {map(allTopics, (resource) => (
+            <li className="" key={resource.path}>
               <Link href={resource.path}>
                 <a
                   onClick={() => {
                     track('clicked home page topic', {
-                      resource: resource.path,
-                      linkType: 'image',
+                      topic: resource.title,
+                    })
+                    axios.post(`/api/topic`, {
+                      topic: resource.slug,
+                      amount: 1,
                     })
                   }}
-                  className="bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="w-full bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
                 >
-                  {resource.image && (
-                    <Image
-                      src={resource.image}
-                      width={24}
-                      height={24}
-                      alt={`${resource.title} logo`}
-                    />
-                  )}{' '}
-                  <span>{resource.title}</span>
+                  <div className="w-full flex flex-col items-center justify-center space-y-4 p-2">
+                    {resource.image && (
+                      <div className="flex items-center">
+                        <Image
+                          src={get(resource.image, 'src', resource.image)}
+                          width={64}
+                          height={64}
+                          alt={`${resource.title} logo`}
+                        />
+                      </div>
+                    )}
+                    <div className="sm:text-base md:text-sm lg:text-base">
+                      {resource.title}
+                    </div>
+                  </div>
                 </a>
               </Link>
             </li>
           ))}
         </ul>
       </div>
-    </Card>
+    </>
   )
 }
 
@@ -355,7 +364,7 @@ const CardHorizontal: FunctionComponent<{
                 tabIndex={-1}
               >
                 <Image
-                  src={resource.image}
+                  src={get(resource.image, 'src', resource.image)}
                   width={160}
                   height={160}
                   alt={`illustration for ${resource.title}`}
@@ -416,7 +425,7 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
               <Image
                 width={140}
                 height={140}
-                src={image}
+                src={get(image, 'src', image)}
                 alt={`illustration for ${title}`}
               />
             </a>
@@ -450,7 +459,6 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
 
 const CardVerticalWithStack: FunctionComponent<CardProps> = ({
   data,
-  className,
   memberTitle,
 }) => {
   const {viewer} = useViewer()

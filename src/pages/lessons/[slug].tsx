@@ -91,7 +91,7 @@ const OverlayWrapper: FunctionComponent<{
 }
 
 const Loader = () => (
-  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0">
+  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black bg-opacity-80">
     <svg
       className="text-gray-200"
       xmlns="http://www.w3.org/2000/svg"
@@ -437,6 +437,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   >
                     <div className={`absolute w-full h-full top-0 left-0`}>
                       <EggheadPlayer
+                        id="egghead-player"
                         ref={playerRef}
                         hidden={playerState.matches('LOADING')}
                         resource={lesson}

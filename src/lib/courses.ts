@@ -59,6 +59,13 @@ export async function loadAllCourses() {
         watched_count
         path
         image_thumb_url
+        description
+        summary
+        tags {
+          name
+          label
+          image_url
+        }
         instructor {
           id
           full_name

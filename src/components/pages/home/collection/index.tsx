@@ -3,20 +3,22 @@ import {CardResource} from 'components/pages/home/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {track} from 'utils/analytics'
-import {map} from 'lodash'
+import {map, get} from 'lodash'
 import Textfit from 'react-textfit'
 
 type CollectionProps = {
-  resource: CardResource
+  resource?: CardResource
   children?: React.ReactElement
   className?: string
+  location?: string
 }
 
 const Collection: FunctionComponent<CollectionProps> = ({
   resource,
-  className,
+  className = '',
+  location = 'home',
 }) => {
-  const {resources} = resource
+  const {resources} = resource || {}
   return (
     <ul>
       {map(resources, (resource) => {
@@ -26,22 +28,23 @@ const Collection: FunctionComponent<CollectionProps> = ({
         return (
           <li
             key={resource.path}
-            className={`flex items-center py-2 ${className ? className : ''}`}
+            className={`flex items-center py-2 ${className}`}
           >
             {image && (
               <Link href={path}>
                 <a
                   onClick={() => {
-                    track('clicked home page resource', {
+                    track('clicked resource', {
                       resource: path,
                       linkType: 'image',
+                      location,
                     })
                   }}
                   className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center "
                   tabIndex={-1}
                 >
                   <Image
-                    src={image}
+                    src={get(image, 'src', image)}
                     width={imageSize}
                     height={imageSize}
                     alt={`illustration for ${title}`}
@@ -49,13 +52,14 @@ const Collection: FunctionComponent<CollectionProps> = ({
                 </a>
               </Link>
             )}
-            <div className="ml-3">
+            <div className={image ? 'ml-3' : ''}>
               <Link href={path}>
                 <a
                   onClick={() => {
-                    track('clicked home page resource', {
+                    track('clicked resource', {
                       resource: path,
                       linkType: 'text',
+                      location,
                     })
                   }}
                   className="hover:text-blue-600"

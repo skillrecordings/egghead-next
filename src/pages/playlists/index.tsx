@@ -2,6 +2,8 @@ import * as React from 'react'
 import {loadAllPlaylists} from 'lib/playlists'
 import Link from 'next/link'
 import Image from 'next/image'
+import TagList from '../../components/layouts/tag-list'
+import Markdown from 'react-markdown'
 
 export async function getStaticProps() {
   const playlists = await loadAllPlaylists()
@@ -17,18 +19,30 @@ const PlaylistIndex: React.FC<{playlists: any}> = ({playlists = []}) => {
         {playlists.map((course: any) => {
           return (
             <li key={course.slug}>
-              <Link href={course.path}>
-                <a>
-                  <div className="flex items-center space-x-2">
-                    <Image
-                      src={course.image_thumb_url}
-                      width={32}
-                      height={32}
-                    />
-                    <div>{course.title}</div>
+              <div className="border p-5 max-w-max-content flex space-x-10">
+                <Link href={course.path}>
+                  <a>
+                    <div className="flex-shrink-0 flex">
+                      <Image
+                        src={course.image_thumb_url}
+                        width={128}
+                        height={128}
+                      />
+                    </div>
+                  </a>
+                </Link>
+                <div className="flex flex-col">
+                  <Link href={course.path}>
+                    <a>
+                      <h2 className="text-xl">{course.title}</h2>
+                    </a>
+                  </Link>
+                  <div className="p-2">
+                    <TagList tags={course.tags} courseSlug={course.slug} />
                   </div>
-                </a>
-              </Link>
+                  <Markdown source={course.description} className="prose" />
+                </div>
+              </div>
             </li>
           )
         })}

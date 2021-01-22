@@ -7,13 +7,15 @@ type CardProps = {
   children?: React.ReactNode
   imageUrl?: string
   className?: string
+  byline?: string
 }
 
 const Card: FunctionComponent<CardProps> = ({
+  children,
   title,
   description,
   className,
-  children,
+  byline,
 }) => {
   return (
     <div
@@ -22,6 +24,7 @@ const Card: FunctionComponent<CardProps> = ({
       }`}
     >
       <h3 className="sm:text-xl text-lg font-semibold">{title}</h3>
+      {byline && <div className="text-sm text-gray-600">{byline}</div>}
       {description && (
         <Markdown className="prose mt-1 sm:text-base text-sm">
           {description}

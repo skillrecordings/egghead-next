@@ -1,25 +1,48 @@
 const homepageData = [
   {
-    id: 'video',
-    name: 'Human-Centered Skills',
+    id: 'jumbotron',
+    byline: 'New Course',
     title:
-      'What If The Real 10X Developer Is The Friends We Made Along The Way?\n',
+      'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+    instructor: {
+      name: 'Jason Lengsdorf',
+      slug: 'jason-lengsdorf',
+      path: '/q/resources-by-jason-lengstorf',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/204/square_128/jason-lengstorf_%281%29.jpg',
+    },
     description:
-      'We will break down the very real risks of idolizing individual contributors, dig into the nugget of truth that keeps this stereotype alive, and dive into what a real “10× developer” might look like.',
-    instructor: 'Jason Lengstorf',
-    instructor_path: '/q/resources-by-jason-lengstorf',
+      'This course is an excellent illustration of the speed of Serverless functions, and how fast you can implement functionality in your web applications.',
+    image: {
+      src:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/full/EGH_NetlifyServerlessFunction_Final.png',
+      alt:
+        'Stylized illustration of circular shape with Netlify logo in the middle and Hasura logo peeking at the top. Illustrated by Maggie Appleton',
+    },
+
     path:
-      '/talks/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way',
+      '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+  },
+  {
+    id: 'video',
+    name: 'Modern Web Development',
+    title: 'Full Stack Development in the Era of Serverless Computing',
+    description:
+      'Learn a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.',
+    instructor: 'nader dabit',
+    instructor_path: '/q/resources-by-nader-dabit',
+    path:
+      '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',
     poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1610057506/egghead%20talks/jason-lengstorf-10x-friends-along-the-way.png',
+      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.jpg',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/hls/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.m3u8',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/hls/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.m3u8',
 
     dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB/dash/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way-8m06JP4oB.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/dash/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.mpd',
 
     subtitlesUrl:
-      'https://egghead.io/api/v1/lessons/egghead-what-if-the-real-10x-developer-is-the-friends-we-made-along-the-way/subtitles',
+      'https://app.egghead.io/api/v1/lessons/egghead-full-stack-development-in-the-era-of-serverless-computing/subtitles',
   },
   {
     id: 'featured',
@@ -378,57 +401,65 @@ const homepageData = [
       {
         title: 'React',
         path: '/q/react',
+        slug: 'react',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
       },
       {
         title: 'JavaScript',
         path: '/q/javascript',
+        slug: 'javascript',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
       },
       {
         title: 'Angular',
         path: '/q/angular',
+        slug: 'angular',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/300/thumb/angular2.png',
       },
       {
         title: 'Node',
         path: '/q/node',
+        slug: 'node',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png',
       },
       {
-        title: 'Gatsby',
-        path: '/q/gatsby',
+        title: 'TypeScript',
+        path: '/q/typescript',
+        slug: 'typescript',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/211/thumb/gatsby.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/thumb/typescriptlang.png',
       },
       {
         title: 'GraphQL',
         path: '/q/graphql',
+        slug: 'graphql',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/034/thumb/graphqllogo.png',
       },
       {
         title: 'AWS',
         path: '/q/aws',
+        slug: 'aws',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
       },
       {
-        title: 'RxJS',
-        path: '/q/rxjs',
+        title: 'Next.js',
+        path: '/q/next',
+        slug: 'next',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/375/thumb/rxlogo.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
       },
-      {
-        title: 'Redux',
-        path: '/q/redux',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
-      },
+      // {
+      //   title: 'Redux',
+      //   path: '/q/redux',
+      //   image:
+      //     'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
+      // },
     ],
   },
   {
