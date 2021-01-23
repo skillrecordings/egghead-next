@@ -763,7 +763,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   })
                 }}
               >
-                <TabList className="md:text-lg text-normal font-semibold bg-transparent space-x-1">
+                <TabList>
                   {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
