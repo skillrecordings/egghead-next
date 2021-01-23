@@ -129,15 +129,6 @@ export default class Bitmovin extends Base {
         muted: () => {
           savePlayerPrefs({muted: true})
         },
-        subtitleadded: (e) => {
-          console.log('subtitleadded: ', e)
-        },
-        subtitleenable: (e) => {
-          console.log('subtitleenable: ', e)
-        },
-        subtitledisable: (e) => {
-          console.log('subtitledisable: ', e)
-        },
       },
     }
   }
