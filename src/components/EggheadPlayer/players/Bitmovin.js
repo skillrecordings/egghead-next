@@ -1,6 +1,6 @@
 import React from 'react'
 import loadScript from 'load-script'
-import get from 'lodash/get'
+import {get, isEmpty} from 'lodash'
 
 import Base from './Base'
 
@@ -60,8 +60,8 @@ export default class Bitmovin extends Base {
     const {dash_url, hls_url} = props || this.props
 
     return {
-      dash: dash_url,
-      hls: hls_url,
+      ...(!!dash_url && {dash: dash_url}),
+      ...(!!hls_url && {hls: hls_url}),
     }
   }
 
@@ -301,12 +301,15 @@ export default class Bitmovin extends Base {
   load(nextProps) {
     const {subtitlesUrl, playbackRate, volume} = nextProps
     this.startTime = this.getTimeToSeekSeconds()
-    if (this.loadingSDK) {
+    const source = this.getSource(nextProps)
+
+    if (this.loadingSDK || isEmpty(source)) {
       return
     }
+
     console.debug(`player loading media [ready:${this.isReady}]`)
 
-    this.player.load(this.getSource(nextProps)).then(
+    this.player.load(source).then(
       () => {
         console.debug(`player media loaded`)
         this.player.subtitles.remove(SUBTITLE_ID)
