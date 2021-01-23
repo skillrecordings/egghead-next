@@ -7,10 +7,12 @@ import reactPageData from './react-page-data'
 import {find} from 'lodash'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Image from 'next/image'
+import ExternalTrackedLink from '../../../external-tracked-link'
 
 const SearchReact = () => {
+  const location = 'react landing'
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
-  const title = `Advanced React Tutorials for ${new Date().getFullYear()}`
+  const title = `In-Depth Up-to-Date React Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(reactPageData, {id: 'beginner'})
   const intermediate: any = find(reactPageData, {id: 'intermediate'})
@@ -52,7 +54,7 @@ const SearchReact = () => {
           ],
         }}
       />
-      <div className="grid md:grid-cols-12 grid-cols-1 gap-5 items-start ">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0">
         <Topic
           className="col-span-8"
           title="React"
@@ -67,7 +69,9 @@ You can find courses below curated just for you whether you're looking for a par
 
 `}
         </Topic>
-        <a
+        <ExternalTrackedLink
+          eventName="clicked epic react banner"
+          params={{location}}
           className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
           href="https://epicreact.dev"
         >
@@ -76,19 +80,19 @@ You can find courses below curated just for you whether you're looking for a par
             quality={100}
             width={417}
             height={463}
-            src="https://app.egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
             alt="epicreact.dev by Kent C. Dodds"
           />
-        </a>
+        </ExternalTrackedLink>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner}>
+        <Card resource={beginner} location={location}>
           <Collection />
         </Card>
-        <Card resource={intermediate} className="h-full">
+        <Card resource={intermediate} location={location} className="h-full">
           <Collection />
         </Card>
-        <Card resource={advanced} className="h-full">
+        <Card resource={advanced} location={location} className="h-full">
           <Collection />
         </Card>
       </div>
@@ -132,6 +136,7 @@ You can find courses below curated just for you whether you're looking for a par
             <Card
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
+              location={location}
             >
               <div className="sm:w-full sm:-mt-5 -mt-0 sm:-mb-5 -mb-4 md:-mr-5 -mr-4 md:ml-8 -ml-4  flex items-center bg-black flex-shrink-0 md:max-w-sm">
                 <EggheadPlayer
@@ -153,6 +158,7 @@ You can find courses below curated just for you whether you're looking for a par
                     className="col-span-4 text-center"
                     key={resource.path}
                     resource={resource}
+                    location={location}
                   />
                 )
               })}
@@ -160,22 +166,26 @@ You can find courses below curated just for you whether you're looking for a par
           </div>
         </div>
         <div className="md:col-span-4 col-span-12">
-          <Card resource={stateManagementCollection}>
+          <Card resource={stateManagementCollection} location={location}>
             <Collection />
           </Card>
-          <Card resource={stateManagementQuickly} className="mt-5">
+          <Card
+            resource={stateManagementQuickly}
+            className="mt-5"
+            location={location}
+          >
             <Collection />
           </Card>
         </div>
       </section>
       <section className="mt-5 grid md:grid-cols-3 grid-cols-1 gap-5">
-        <Card resource={reactArticles}>
+        <Card resource={reactArticles} location={location}>
           <Collection />
         </Card>
-        <Card resource={reactPodcasts}>
+        <Card resource={reactPodcasts} location={location}>
           <Collection />
         </Card>
-        <Card resource={reactTalks}>
+        <Card resource={reactTalks} location={location}>
           <Collection />
         </Card>
       </section>

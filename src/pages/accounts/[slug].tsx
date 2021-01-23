@@ -81,8 +81,8 @@ const Account: React.FunctionComponent<
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             {subscriptionData && (
               <section className="mb-32">
-                <div className="p-4">
-                  <div className="border border-accents-1	w-full p rounded-md m-auto my-8">
+                <div className="p-4 w-full">
+                  <div className="border border-accents-1	w-full p rounded-md m-auto my-8 max-w-max-content">
                     {subscriptionName ? (
                       <div className="px-5 py-4">
                         <h3 className="text-2xl mb-1 font-medium">
@@ -92,14 +92,18 @@ const Account: React.FunctionComponent<
                           You can update your plan and payment information below
                           via Stripe.
                         </p>
-                        <div className="text-xl mt-8 mb-4 font-semibold">
+                        <div className="mt-8 mb-4 font-semibold">
                           {!subscriptionData?.portalUrl ? (
                             <div className="h-12 mb-6">loading</div>
                           ) : subscriptionPrice ? (
                             <div className="flex flex-col space-x-2 items-center">
-                              <div>{`${subscriptionPrice}/${recur(
-                                subscriptionData.price,
-                              )}`}</div>
+                              <div>
+                                You are currently paying{' '}
+                                {`${subscriptionPrice}/${recur(
+                                  subscriptionData.price,
+                                )}`}{' '}
+                                for your membership
+                              </div>
                               {subscriptionData?.subscription
                                 ?.cancel_at_period_end && (
                                 <div className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100">
