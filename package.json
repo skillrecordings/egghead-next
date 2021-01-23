@@ -70,7 +70,7 @@
     "load-script": "^1.0.0",
     "lodash": "^4.17.20",
     "logrocket": "^1.0.14",
-    "next": "^10.0.3",
+    "next": "^10.0.5",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.6.2",
     "next-seo": "^4.17.0",
