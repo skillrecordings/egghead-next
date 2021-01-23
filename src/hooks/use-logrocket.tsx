@@ -48,22 +48,33 @@ export const LogRocketProvider: React.FunctionComponent = ({children}) => {
     }
   }, [enabled])
 
-  const identifyViewer = (viewer: Viewer) => {
-    const {contact_id, ...rest} = viewer
+  const identifyViewer = React.useCallback(
+    (viewer: Viewer) => {
+      if (!viewer) return
+
+      if (!initialized) {
+        initialize()
+      }
+      if (enabled && initialized) {
+        const {contact_id, ...rest} = viewer
+        logRocketIdentify(contact_id, {
+          ...rest,
+        })
+        setIdentified(viewer)
+      }
+    },
+    [enabled, initialized, initialize],
+  )
+
+  React.useEffect(() => {
+    identifyViewer(viewer)
+  }, [identified, initialized, viewer])
+
+  React.useEffect(() => {
     if (!initialized) {
       initialize()
     }
-    if (enabled && initialized) {
-      logRocketIdentify(contact_id, {
-        ...rest,
-      })
-      setIdentified(viewer)
-    }
-  }
-
-  React.useEffect(() => {
-    initialize()
-  }, [initialize])
+  }, [initialized, initialize])
 
   return (
     <LogRocketContext.Provider
