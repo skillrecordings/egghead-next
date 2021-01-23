@@ -286,7 +286,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     const lesson = get(playerState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
-    console.debug(`current state: ${currentPlayerState}`)
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
