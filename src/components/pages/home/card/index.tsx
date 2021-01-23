@@ -22,6 +22,7 @@ type CardProps = {
   className?: string
   children?: React.ReactNode
   resource?: CardResource
+  location?: string
 }
 
 const Card: FunctionComponent<CardProps> = ({
@@ -29,6 +30,7 @@ const Card: FunctionComponent<CardProps> = ({
   className,
   children,
   resource,
+  location = 'home',
   ...restProps
 }) => {
   const {name, title, image, byline, resources, description, path} =
@@ -49,6 +51,7 @@ const Card: FunctionComponent<CardProps> = ({
                 track('clicked home page resource', {
                   resource: path,
                   linkType: 'image',
+                  location,
                 })
               }}
               className="block flex-shrink-0 sm:w-auto w-20 mx-auto"
@@ -76,6 +79,7 @@ const Card: FunctionComponent<CardProps> = ({
                     track('clicked home page resource', {
                       resource: path,
                       linkType: 'text',
+                      location,
                     })
                   }}
                   className="hover:text-blue-600"
@@ -102,6 +106,7 @@ const Card: FunctionComponent<CardProps> = ({
         ? React.Children.map(children, (child) => {
             return React.cloneElement(child as React.ReactElement, {
               resource: resource,
+              location,
             })
           })
         : children}

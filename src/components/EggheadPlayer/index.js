@@ -22,10 +22,10 @@ export default class EggheadPlayer extends Component {
   componentWillUnmount() {
     clearTimeout(this.progressTimeout)
   }
-  getUrl = () => this.props.dash_url || this.props.hls_url || this.props.url
+  getUrl = () => this.props.hls_url || this.props.dash_url || this.props.url
   shouldComponentUpdate(nextProps) {
     const url = this.getUrl()
-    const nextUrl = nextProps.dash_url || nextProps.hls_url || nextProps.url
+    const nextUrl = nextProps.hls_url || nextProps.dash_url || nextProps.url
 
     return (
       url !== nextUrl ||

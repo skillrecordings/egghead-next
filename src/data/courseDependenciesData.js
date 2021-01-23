@@ -4,6 +4,25 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        "slug": "containerize-full-stack-javascript-applications-with-docker-30a8",
+        "dependencies": {
+          "docker": ">=20.10.2",
+          "nginx": ">=1.19.5"
+        },
+        "topics": [
+          "Running existing Docker containers",
+          "Creating Docker containers for an existing application",
+          "Passing environment variables",
+          "Executing bash scripts as part of container building",
+          "Configure networking between containers",
+          "Setting up volumes for persisting data",
+          "Publishing containers to a public registry"
+        ],
+        "illustrator": {
+          "name": "Kamil Khadeyev"
+        }
+      },
+      {
         "slug": "build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c",
         "dependencies": {
           "preact": ">=10.5.9",
