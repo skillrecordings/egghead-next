@@ -4,6 +4,7 @@ import {Viewer} from '../types'
 import {useViewer} from '../context/viewer-context'
 
 export const logRocketIdentify = (id: string, options?: any) => {
+  console.debug(`log rocket identify ${id}`)
   if (id) {
     LogRocket.identify(id, {
       ...(!!options && options),
