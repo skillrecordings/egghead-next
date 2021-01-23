@@ -70,6 +70,10 @@ export default class Bitmovin extends Base {
       props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
+      logs: {
+        bitmovin: false,
+        level: 'off',
+      },
       remotecontrol: {
         type: 'googlecast',
         customReceiverConfig: {
@@ -295,7 +299,7 @@ export default class Bitmovin extends Base {
   }
 
   load(nextProps) {
-    const {subtitlesUrl, playbackRate, volume} = this.props
+    const {subtitlesUrl, playbackRate, volume} = nextProps
     this.startTime = this.getTimeToSeekSeconds()
     if (this.loadingSDK) {
       return
@@ -307,15 +311,6 @@ export default class Bitmovin extends Base {
         console.debug(`player media loaded`)
         this.player.subtitles.remove(SUBTITLE_ID)
         this.player.setPosterImage(nextProps.poster)
-        if (nextProps.subtitlesUrl) {
-          this.player.subtitles.add({
-            id: SUBTITLE_ID,
-            url: nextProps.subtitlesUrl,
-            label: 'English',
-            lang: 'en',
-            kind: 'captions',
-          })
-        }
 
         this.player.setPlaybackSpeed(playbackRate)
         this.player.setVolume(volume)
@@ -325,6 +320,7 @@ export default class Bitmovin extends Base {
         }
 
         const {videoQualityCookie} = this.props
+
         if (videoQualityCookie) {
           this.player.setVideoQuality(videoQualityCookie.id)
         }
@@ -332,6 +328,7 @@ export default class Bitmovin extends Base {
         if (subtitlesUrl) {
           this.addSubtitles(subtitlesUrl)
         }
+
         this.addEventListeners()
         this.onReady(this.player)
       },
