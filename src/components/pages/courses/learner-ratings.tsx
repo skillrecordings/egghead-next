@@ -4,6 +4,7 @@ import * as React from 'react'
 import {loadRatings} from 'lib/ratings'
 import FiveStars from 'components/five-stars'
 import friendlyTime from 'friendly-time'
+import Image from 'next/image'
 
 const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   collection,
@@ -39,7 +40,19 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
               }`}
             >
               <div className=" flex items-center space-x-3">
-                <div className="font-bold">{user.full_name}</div>
+                <div>
+                  <Image
+                    className="rounded-full"
+                    src={
+                      user.avatar_url.includes('gravatar')
+                        ? `https:${user.avatar_url}`
+                        : user.avatar_url
+                    }
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <div className="font-bold">{user.full_name || 'Learner'}</div>
                 <div className="text-sm text-gray-500">
                   {friendlyTime(new Date(created_at))}
                 </div>
