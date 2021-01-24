@@ -4,48 +4,50 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
-        "slug": "containerize-full-stack-javascript-applications-with-docker-30a8",
-        "dependencies": {
-          "docker": ">=20.10.2",
-          "nginx": ">=1.19.5"
+        slug:
+          'containerize-full-stack-javascript-applications-with-docker-30a8',
+        dependencies: {
+          docker: '>=20.10.2',
+          nginx: '>=1.19.5',
         },
-        "topics": [
-          "Running existing Docker containers",
-          "Creating Docker containers for an existing application",
-          "Passing environment variables",
-          "Executing bash scripts as part of container building",
-          "Configure networking between containers",
-          "Setting up volumes for persisting data",
-          "Publishing containers to a public registry"
+        topics: [
+          'Running existing Docker containers',
+          'Creating Docker containers for an existing application',
+          'Passing environment variables',
+          'Executing bash scripts as part of container building',
+          'Configure networking between containers',
+          'Setting up volumes for persisting data',
+          'Publishing containers to a public registry',
         ],
-        "illustrator": {
-          "name": "Kamil Khadeyev"
-        }
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
       },
       {
-        "slug": "build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c",
-        "dependencies": {
-          "preact": ">=10.5.9",
-          "node-fetch": ">=2.6.1"
+        slug:
+          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        dependencies: {
+          preact: '>=10.5.9',
+          'node-fetch': '>=2.6.1',
         },
-        "topics": [
-          "Installing & configuring the Netlify CLI for local development",
-          "Managing private keys in development and production",
-          "Writing Serverless functions for interacting with APIs",
-          "Configuring a PostgreSQL-backed GraphQL API with Hasura",
-          "Writing custom React Hooks for triggering Serverless functions",
-          "Deploying a complete app with Netlify"
+        topics: [
+          'Installing & configuring the Netlify CLI for local development',
+          'Managing private keys in development and production',
+          'Writing Serverless functions for interacting with APIs',
+          'Configuring a PostgreSQL-backed GraphQL API with Hasura',
+          'Writing custom React Hooks for triggering Serverless functions',
+          'Deploying a complete app with Netlify',
         ],
-        "prerequisites": [
+        prerequisites: [
           {
-            "type": "text",
-            "label": "Command line familiarity"
+            type: 'text',
+            label: 'Command line familiarity',
           },
           {
-            "type": "text",
-            "label": "Accounts for Netlify, Hasura, and Heroku"
-          }
-        ]
+            type: 'text',
+            label: 'Accounts for Netlify, Hasura, and Heroku',
+          },
+        ],
       },
       {
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
@@ -367,8 +369,17 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'the-beginner-s-guide-to-react',
+        freshness: {
+          status: `fresh`,
+          title: `This Course is Fresh`,
+          text: `Thousands of people have used this course as an introduction to the core
+          concepts of [React](/q/react). It's been reviewed and updated and is relevant and 
+          valid. There isn't a better introduction to React online.
+          `,
+          asOf: `2021-23-01`,
+        },
         dependencies: {
-          react: '>=16.12.0',
+          react: '>=16.12.0 - 17',
         },
         topics: [
           'what problems React can solve',
