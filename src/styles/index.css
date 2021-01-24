@@ -111,16 +111,16 @@ pre > code {
 /* ——— Reach UI Tabs ——— */
 
 /* styles all tabs */
-[data-reach-tab-list] {
+[data-reach-tabs] [data-reach-tab-list] {
   @apply bg-transparent md:text-lg font-semibold space-x-1;
 }
 
-[data-reach-tab] {
+[data-reach-tabs] [data-reach-tab] {
   /* @apply px-4 hover:bg-gray-50 hover:text-blue-600 transition-colors ease-in-out duration-200; */
   @apply px-4 rounded-lg hover:bg-gray-50 hover:text-blue-600 border-none transition-colors ease-in-out duration-200;
 }
 /* styles only the selected tab */
-[data-reach-tab][data-selected] {
+[data-reach-tabs] [data-reach-tab][data-selected] {
   /* @apply text-blue-600 border-b-2 border-blue-600; */
   @apply bg-blue-50 text-blue-600  border-none;
 }
