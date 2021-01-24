@@ -17,6 +17,7 @@ import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import {FunctionComponent} from 'react'
+import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
@@ -80,7 +81,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const {topics, illustrator, dependencies} = courseDependencies
+  const {topics, illustrator, dependencies, freshness} = courseDependencies
 
   const {
     title,
@@ -343,15 +344,18 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="md:hidden flex items-center justify-center w-full mt-5">
                 <PlayButton lesson={nextLesson} />
               </div>
+
               <Markdown className="prose md:prose-lg text-gray-900 mt-6">
                 {description}
               </Markdown>
+
               <div className="pt-5 md:hidden block">
                 {get(course, 'free_forever') && (
                   <div className="pt-6">
                     <CommunityResource type="course" />
                   </div>
                 )}
+                <Fresh freshness={freshness} />
                 {illustrator && (
                   <div className="w-full py-6">
                     <h4 className="font-semibold">Credits</h4>
@@ -401,7 +405,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
-
+              <Fresh freshness={freshness} />
               {illustrator && (
                 <div className="w-full">
                   <h4 className="font-semibold">Credits</h4>
@@ -559,6 +563,36 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           </div>
         </div>
       </div>
+    </>
+  )
+}
+
+const Fresh = ({freshness}: {freshness: any}) => {
+  return (
+    <>
+      {freshness && (
+        <div
+          className={`flex flex-col space-y-1 ${
+            freshness.status === 'fresh'
+              ? 'border-green-900 border bg-green-100 bg-opacity-50'
+              : 'border'
+          } border-opacity-20 p-4 my-3 rounded-md`}
+        >
+          {freshness.title && (
+            <h2 className="text-xl font-semibold">🌱 {freshness.title}</h2>
+          )}
+          {freshness.asOf && (
+            <p>
+              <small>
+                Staff reviewed: {friendlyTime(new Date(freshness.asOf))}
+              </small>
+            </p>
+          )}
+          {freshness.text && (
+            <Markdown className="prose w-full">{freshness.text}</Markdown>
+          )}
+        </div>
+      )}
     </>
   )
 }
