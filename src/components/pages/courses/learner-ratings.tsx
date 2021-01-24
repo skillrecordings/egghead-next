@@ -16,13 +16,17 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   const {type, slug} = collection
 
   React.useEffect(() => {
+    if (!isEmpty(ratings)) {
+      setLoadingRatings(false)
+      return
+    }
     if (loadingRatings) {
       setLoadingRatings(false)
       loadRatings(slug, type).then((ratings: any) => {
         setRatings(ratings)
       })
     }
-  }, [loadingRatings, type, slug])
+  }, [loadingRatings, type, slug, ratings])
 
   return isEmpty(ratings) ? null : (
     <div className="mt-8 ">
