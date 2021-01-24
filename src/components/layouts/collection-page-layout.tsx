@@ -5,7 +5,7 @@ import Markdown from 'react-markdown'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty} from 'lodash'
+import {get, first, filter, isEmpty, take} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -16,12 +16,11 @@ import ClockIcon from '../icons/clock'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
-import {FunctionComponent} from 'react'
 import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
-import {format, parse} from 'date-fns'
+import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
@@ -82,52 +81,55 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const defaultPairWithResources: any[] = [
-    {
-      title: 'Introduction to Cloudflare Workers',
-      byline: 'Kristian Freeman・36m・Course',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/thumb/EGH_IntroCloudFlareWorkers_Final.png',
-      path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-      slug: 'introduction-to-cloudflare-workers-5aa3',
-      description:
-        "Become familiar with the Workers CLI `wrangler` that we will use to bootstrap our Worker project. From there you'll understand how a Worker receives and returns requests/Responses. We will also build this serverless function locally for development and deploy it to a custom domain.",
-    },
-    {
-      title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-      byline: 'Colby Fayock・1h 4m・Course',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
-      path:
-        '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-      slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-      description: `This is a practical project based look at building a working e-commerce store
+  const defaultPairWithResources: any[] = take(
+    [
+      {
+        title: 'Introduction to Cloudflare Workers',
+        byline: 'Kristian Freeman・36m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/thumb/EGH_IntroCloudFlareWorkers_Final.png',
+        path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+        slug: 'introduction-to-cloudflare-workers-5aa3',
+        description:
+          "Become familiar with the Workers CLI `wrangler` that we will use to bootstrap our Worker project. From there you'll understand how a Worker receives and returns requests/Responses. We will also build this serverless function locally for development and deploy it to a custom domain.",
+      },
+      {
+        title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+        byline: 'Colby Fayock・1h 4m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
+        path:
+          '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        description: `This is a practical project based look at building a working e-commerce store
         using modern tools and APIs. Excellent for a weekend side-project for your [developer project portfolio](https://joelhooks.com/developer-portfolio)`,
-    },
-    {
-      title: 'Practical Git for Everyday Professional Use',
-      byline: 'Trevor Miller・1h・Course',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
-      path: '/courses/practical-git-for-everyday-professional-use',
-      slug: 'practical-git-for-everyday-professional-use',
-      description: `[git](/q/git) is a critical component in the modern web developers tool box. This course
+      },
+      {
+        title: 'Practical Git for Everyday Professional Use',
+        byline: 'Trevor Miller・1h・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
+        path: '/courses/practical-git-for-everyday-professional-use',
+        slug: 'practical-git-for-everyday-professional-use',
+        description: `[git](/q/git) is a critical component in the modern web developers tool box. This course
          is a solid introduction and goes beyond the basics with some more advanced git commands
          you are sure to find useful.`,
-    },
-    {
-      title: 'Build an App with the AWS Cloud Development Kit',
-      byline: 'Tomasz Łakomy・1h 4m・Course',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
-      path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
-      slug: 'build-an-app-with-the-aws-cloud-development-kit',
-      description:
-        "Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done. Excellent kick start for your next side project or your developer portfolio.",
-    },
-  ].filter((resource) => {
-    return resource.slug !== course.slug
-  })
+      },
+      {
+        title: 'Build an App with the AWS Cloud Development Kit',
+        byline: 'Tomasz Łakomy・1h 4m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
+        slug: 'build-an-app-with-the-aws-cloud-development-kit',
+        description:
+          "Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done. Excellent kick start for your next side project or your developer portfolio.",
+      },
+    ].filter((resource) => {
+      return resource.slug !== course.slug
+    }),
+    3,
+  )
 
   const {
     topics,
@@ -144,7 +146,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     instructor,
     average_rating_out_of_5,
     watched_count,
-    primary_tag,
     description,
     rss_url,
     download_url,
@@ -182,7 +183,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
-  const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
 
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
@@ -212,7 +212,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     lesson,
   }) => {
     const isContinuing =
-      lesson && lesson != first(lessons) && lesson != first(playlistLessons)
+      lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)
     return lesson ? (
       <Link href={lesson.path}>
         <a
@@ -298,6 +298,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   )}
                   <TagList tags={courseTags} courseSlug={course.slug} />{' '}
+                  {updated_at && (
+                    <div className="flex flex-col lg:flex-row items-center space-x-2 ">
+                      <div>Updated:</div>
+                      <div>
+                        <code>{friendlyTime(new Date(updated_at))}</code>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -318,14 +326,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   )}
                 </div>
-                {updated_at && (
-                  <div className="flex flex-col lg:flex-row items-center space-x-2 w-1/3 ">
-                    <div>Updated:</div>
-                    <div>
-                      <code>{format(new Date(updated_at), 'yyyy-MM-dd')}</code>
-                    </div>
-                  </div>
-                )}
               </div>
 
               <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
@@ -499,7 +499,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               </div>
               <div>
                 <ul>
-                  {playlists.map((playlist: any, i: number) => {
+                  {playlists.map((playlist: any) => {
                     return (
                       <li key={playlist.slug}>
                         <div className="font-semibold flex items-center leading-tight py-2">
