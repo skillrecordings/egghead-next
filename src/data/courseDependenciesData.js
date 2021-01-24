@@ -376,7 +376,7 @@ const courseDependencyData = (courseSlug) =>
           concepts of [React](/q/react). It's been reviewed and updated and is relevant and 
           valid. **There isn't a better introduction to React online**.
           `,
-          asOf: `01-23-2021`,
+          asOf: `2021-01-23`,
         },
         dependencies: {
           react: '>=16.12.0 - 17',

@@ -21,7 +21,7 @@ import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
-import {format} from 'date-fns'
+import {format, parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 
@@ -568,6 +568,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 }
 
 const Fresh = ({freshness}: {freshness: any}) => {
+  const reviewedAt = friendlyTime(
+    parse(freshness.asOf, 'yyyy-MM-dd', new Date()),
+  )
   return (
     <>
       {freshness && (
@@ -583,9 +586,7 @@ const Fresh = ({freshness}: {freshness: any}) => {
           )}
           {freshness.asOf && (
             <p>
-              <small>
-                Staff reviewed: {friendlyTime(new Date(freshness.asOf))}
-              </small>
+              <small>Staff reviewed: {reviewedAt}</small>
             </p>
           )}
           {freshness.text && (
