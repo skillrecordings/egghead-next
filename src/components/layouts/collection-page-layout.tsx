@@ -442,7 +442,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold mb-3">
                     You might also like these courses:
                   </h2>
-                  {pairWithResources.map((resource) => {
+                  {pairWithResources.map((resource: any) => {
                     return (
                       <div>
                         <CardHorizontal
@@ -639,7 +639,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <h2 className="text-lg font-semibold mb-3">
                   You might also like these courses:
                 </h2>
-                {pairWithResources.map((resource) => {
+                {pairWithResources.map((resource: any) => {
                   return (
                     <div>
                       <CardHorizontal
