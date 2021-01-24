@@ -566,7 +566,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   )
 }
 
-const Fresh = ({freshness}) => {
+const Fresh = ({freshness: any}) => {
   return (
     <>
       {freshness && (
@@ -582,7 +582,7 @@ const Fresh = ({freshness}) => {
           )}
           {freshness.asOf && (
             <p>
-              <small>Reviewed: {freshness.asOf}</small>
+              <small>Staff reviewed: {freshness.asOf}</small>
             </p>
           )}
           {freshness.text && (

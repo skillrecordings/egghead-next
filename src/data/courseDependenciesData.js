@@ -371,7 +371,7 @@ const courseDependencyData = (courseSlug) =>
         slug: 'the-beginner-s-guide-to-react',
         freshness: {
           status: `fresh`,
-          title: `This Course is Fresh`,
+          title: `This is an excellent course.`,
           text: `Thousands of people have used this course as an introduction to the core
           concepts of [React](/q/react). It's been reviewed and updated and is relevant and 
           valid. There isn't a better introduction to React online.
