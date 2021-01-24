@@ -388,6 +388,39 @@ const courseDependencyData = (courseSlug) =>
           'manage state with hooks',
           'build forms',
         ],
+        pairWithResources: [
+          {
+            title: 'Develop Accessible Web Apps with React',
+            byline: 'Erin Doyle・1h 28m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+            path: '/courses/develop-accessible-web-apps-with-react',
+            slug: 'develop-accessible-web-apps-with-react',
+            description: `Gain the knowledge and skills required to audit and fix accessibility issues in your applications 
+            and gain a better understanding of your target users and how to approach your web app design from their perspectives`,
+          },
+          {
+            title: 'Simplify React Apps with React Hooks',
+            byline: 'Kent C. Dodds・38m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/thumb/EGH_SimplifyHooks_Final.png',
+            path: '/courses/simplify-react-apps-with-react-hooks',
+            slug: 'simplify-react-apps-with-react-hooks',
+            description: `React transitioned to an API called Hooks and most consider it the way to develop production applications
+              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.`,
+          },
+          {
+            title: 'Build Maps with React Leaflet',
+            byline: 'Colby Fayock・47m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/thumb/React_Leaflet_Final.png',
+            path: '/courses/build-maps-with-react-leaflet',
+            slug: 'build-maps-with-react-leaflet',
+            description: `Build an interesting map focused application using modern React practices including Hooks. 
+              While you are learning you'll be able to practice with challenges. This course would be a fantastic
+              base for a [developer portfolio project](https://joelhooks.com/developer-portfolio).`,
+          },
+        ],
       },
       {
         slug: 'thinking-reactively-with-rxjs',
@@ -2262,8 +2295,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
             path: '/courses/just-enough-functional-programming-in-javascript',
             slug: 'just-enough-functional-programming-in-javascript',
-            description:
-              'In the last few years, the software development industry has seen a resurgence of functional programming. But what is it? And how do you get started? \n\n“Just Enough” is an introduction to functional programming, written in JavaScript, that doesn’t get bogged down in the jargon and mathematical theory that can be so intimidating. Instead, it provides an approachable introduction to the paradigm that will give you the education and confidence you need to start using the programming style right away.\n\nWith “Just Enough” as our guide, this course will focus on the foundational knowledge needed to approach any functional language. By the end of the course, you will understand:\n\n- higher order functions\n- pure functions\n- immutability\n- currying\n- partial application\n- pointfree programming\n- functional composition\n\nIn just 30 minutes, you’ll learn more than just enough. ',
+            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
+              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
           },
           {
             title: 'Advanced JavaScript Foundations',
@@ -2272,8 +2305,7 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
             path: '/courses/advanced-javascript-foundations',
             slug: 'advanced-javascript-foundations',
-            description:
-              'It all starts with syntax. From there, once you’ve got the concepts down, you can move into using a framework where you figure out how to make things “just work”.\n\nEverything is great, until it’s not.\n\nIf someone put you on the spot right now and asked you to explain `this`, would they like your answer?\n\nWhat about prototypal inheritance or coercion?\n\nIn this workshop, you’ll be taking things to the next level, shining a light into “black-box” concepts like prototypes, the `this` keyword, and what primitive types are.\n\nTyler will walk you through each concept, and build your understanding through examples in the areas you need to know.',
+            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
           },
           {
             title: 'JavaScript Promises in Depth',
@@ -2282,8 +2314,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
             path: '/courses/javascript-promises-in-depth',
             slug: 'javascript-promises-in-depth',
-            description:
-              'ES2015 brought a native Promise to the JavaScript standard library. In this course, we’re going to take an in-depth look at how to use promises to model various kinds of asynchronous operations.\n\nFirst, we’re going to explore how to create promises using the Promise constructor or the Promise.resolve() or Promise.reject() methods. Then, we’re going to see how to chain promises together using .then(), .catch(), and .finally(). We’re going to compare various error handling strategies along the way. We’re going to wrap up this course by taking a look at how to deal with multiple promises using Promise.all() and Promise.race() and how to await a promise using the await operator.',
+            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
+              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
           },
         ],
       },

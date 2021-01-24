@@ -392,7 +392,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               )}
               <LearnerRatings collection={course} />
-              {pairWithResources && (
+              {!isEmpty(pairWithResources) && (
                 <div className="my-12 flex flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
                     You might also like these courses:

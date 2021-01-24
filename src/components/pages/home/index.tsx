@@ -273,7 +273,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
 }
 
 const EventSchedule: React.FunctionComponent = () => {
-  const [schedule, scheduleLoading] = useEggheadSchedule()
+  const [schedule, scheduleLoading] = useEggheadSchedule(3)
   return (
     <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
       <>
