@@ -49,6 +49,7 @@
     "ahoy.js": "^0.3.8",
     "airtable": "^0.10.1",
     "algoliasearch": "^4.8.3",
+    "bitmovin-player": "^8.52.0",
     "browser-cookies": "^1.2.0",
     "client-oauth2": "^4.3.3",
     "cookie": "^0.4.1",

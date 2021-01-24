@@ -7,20 +7,20 @@ import Base from './Base'
 import {track} from 'utils/analytics'
 import {savePlayerPrefs} from '../use-egghead-player'
 
-const SDK_URL = '//cdn.bitmovin.com/player/web/8/bitmovinplayer.js'
+const SDK_URL = 'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js'
 const SDK_GLOBAL = 'bitmovin'
 const BITMOVIN_PUBLIC_KEY = 'b8b63d1d-d00d-4a79-9e21-6a4694dd95b3'
-const BITMOVIN_CHROMECAST_STYLESHEET_URL =
-  'https://d2eip9sf3oo6c2.cloudfront.net/receiver.css'
+const BITMOVIN_CHROMECAST_STYLESHEET_URL = '/bitmovin/receiver.css'
 const MATCH_URL = /^(https?:\/\/d2c5owlt6rorc3.cloudfront.net\/)(.[^/]*)\/(.*)$/
 const SUBTITLE_ID = 'eh-subtitles'
 const HIGHEST_BITRATE = 2400000
 const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
-const MAX_BUFFER_LEVEL_SECONDS = 240
-const STARTUP_THRESHOLD_SECONDS = 8
+const MAX_BUFFER_LEVEL_SECONDS = 120
+const STARTUP_THRESHOLD_SECONDS = 5
 const ALLOW_PLAYBACK_SPEED = false
+const CACHE_KEY = `grapenuts-are-delicious`
 
 export default class Bitmovin extends Base {
   static displayName = 'Bitmovin'
@@ -70,6 +70,16 @@ export default class Bitmovin extends Base {
       props || this.props
     return {
       key: BITMOVIN_PUBLIC_KEY,
+      location: {
+        ui: '/bitmovin/bitmovinplayer-ui.js',
+        ui_css: '/bitmovin/bitmovinplayer-ui.css',
+      },
+      network: {
+        preprocessHttpRequest: function (type, request) {
+          request.url = `${request.url}?b=${CACHE_KEY}`
+          return Promise.resolve(request)
+        },
+      },
       logs: {
         bitmovin: false,
         level: 'off',
@@ -180,17 +190,9 @@ export default class Bitmovin extends Base {
 
     console.debug(`player instance mounted`)
 
-    this.getSDK().then((script) => {
-      this.loadingSDK = false
-      this.player = new window.bitmovin.player.Player(
-        document.getElementById(this.id),
-        this.getConfig(),
-      )
-
-      console.debug(`player sdk loaded`)
-
-      this.load(this.props)
-    })
+    this.loadingSDK = false
+    this.player = new Player(document.getElementById(this.id), this.getConfig())
+    this.load(this.props)
   }
 
   componentWillUnmount() {
