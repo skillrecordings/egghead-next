@@ -15,6 +15,8 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
 
   const course = {...data, ...initialCourse}
 
+  console.debug(`course loaded`, course)
+
   const {slug, lessons} = course
 
   return (

@@ -343,14 +343,14 @@ type CardProps = {
   memberTitle?: string
 }
 
-const CardHorizontal: FunctionComponent<{
+export const CardHorizontal: FunctionComponent<{
   resource: CardResource
   className?: string
 }> = ({resource, className = 'border-none my-4'}) => {
   return (
     <Card className={className}>
       <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
+        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-start sm:text-left text-center">
           {resource.image && (
             <Link href={resource.path}>
               <a

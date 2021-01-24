@@ -24,6 +24,7 @@ import CommunityResource from 'components/community-resource'
 import {format, parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
+import {CardHorizontal} from '../pages/home'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -81,7 +82,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const {topics, illustrator, dependencies, freshness} = courseDependencies
+  const defaultPairWithResources = []
+
+  const {
+    topics,
+    illustrator,
+    dependencies,
+    freshness,
+    pairWithResources = defaultPairWithResources,
+  } = courseDependencies
 
   const {
     title,
@@ -350,12 +359,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               </Markdown>
 
               <div className="pt-5 md:hidden block">
+                <Fresh freshness={freshness} />
                 {get(course, 'free_forever') && (
-                  <div className="pt-6">
+                  <div className="pt-3">
                     <CommunityResource type="course" />
                   </div>
                 )}
-                <Fresh freshness={freshness} />
+
                 {illustrator && (
                   <div className="w-full py-6">
                     <h4 className="font-semibold">Credits</h4>
@@ -382,6 +392,23 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               )}
               <LearnerRatings collection={course} />
+              {pairWithResources && (
+                <div className="my-12 flex flex-col space-y-2">
+                  <h2 className="text-lg font-semibold mb-3">
+                    You might also like these courses:
+                  </h2>
+                  {pairWithResources.map((resource) => {
+                    return (
+                      <div>
+                        <CardHorizontal
+                          className="border my-4 border-opacity-10 border-gray-400"
+                          resource={resource}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
             </header>
           </div>
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
@@ -398,14 +425,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="w-full flex justify-center mt-10">
                 <PlayButton lesson={nextLesson} />
               </div>
+              <Fresh freshness={freshness} />
               <div className="">
                 {get(course, 'free_forever') && (
-                  <div className="pt-6">
+                  <div className="p-3 border rounded-md bg-gray-100 bg-opacity-20">
                     <CommunityResource type="course" />
                   </div>
                 )}
               </div>
-              <Fresh freshness={freshness} />
+
               {illustrator && (
                 <div className="w-full">
                   <h4 className="font-semibold">Credits</h4>

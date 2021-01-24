@@ -1,26 +1,26 @@
 import React from 'react'
 import loadScript from 'load-script'
-import {get, isEmpty} from 'lodash'
+import get from 'lodash/get'
 
 import Base from './Base'
 
 import {track} from 'utils/analytics'
 import {savePlayerPrefs} from '../use-egghead-player'
 
-const SDK_URL = 'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js'
+const SDK_URL = '//cdn.bitmovin.com/player/web/8/bitmovinplayer.js'
 const SDK_GLOBAL = 'bitmovin'
 const BITMOVIN_PUBLIC_KEY = 'b8b63d1d-d00d-4a79-9e21-6a4694dd95b3'
-const BITMOVIN_CHROMECAST_STYLESHEET_URL = '/bitmovin/receiver.css'
+const BITMOVIN_CHROMECAST_STYLESHEET_URL =
+  'https://d2eip9sf3oo6c2.cloudfront.net/receiver.css'
 const MATCH_URL = /^(https?:\/\/d2c5owlt6rorc3.cloudfront.net\/)(.[^/]*)\/(.*)$/
 const SUBTITLE_ID = 'eh-subtitles'
 const HIGHEST_BITRATE = 2400000
 const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
-const MAX_BUFFER_LEVEL_SECONDS = 120
-const STARTUP_THRESHOLD_SECONDS = 5
+const MAX_BUFFER_LEVEL_SECONDS = 240
+const STARTUP_THRESHOLD_SECONDS = 3
 const ALLOW_PLAYBACK_SPEED = false
-const CACHE_KEY = `grapenuts-are-delicious`
 
 export default class Bitmovin extends Base {
   static displayName = 'Bitmovin'
@@ -60,14 +60,17 @@ export default class Bitmovin extends Base {
     const {dash_url, hls_url} = props || this.props
 
     return {
-      ...(!!dash_url && {dash: dash_url}),
-      ...(!!hls_url && {hls: hls_url}),
+      dash: dash_url,
+      hls: hls_url,
     }
   }
 
   getConfig(props) {
     const {poster, title, description, preload, onVolumeChange, muted} =
       props || this.props
+
+    const CACHE_KEY = `grapenuts`
+
     return {
       key: BITMOVIN_PUBLIC_KEY,
       location: {
@@ -185,14 +188,43 @@ export default class Bitmovin extends Base {
   }
 
   componentDidMount() {
+    const {subtitlesUrl, playbackRate, volume} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
 
-    console.debug(`player instance mounted`)
+    this.getSDK().then((script) => {
+      this.loadingSDK = false
+      this.player = new window.bitmovin.player.Player(
+        document.getElementById(this.id),
+        this.getConfig(),
+      )
 
-    this.loadingSDK = false
-    this.player = new Player(document.getElementById(this.id), this.getConfig())
-    this.load(this.props)
+      this.player.load(this.getSource()).then(
+        () => {
+          this.player.setPlaybackSpeed(playbackRate)
+          this.player.setVolume(volume)
+
+          if (this.props.poster) {
+            this.player.setPosterImage(this.props.poster)
+          }
+
+          const {videoQualityCookie} = this.props
+          if (videoQualityCookie) {
+            this.player.setVideoQuality(videoQualityCookie.id)
+          }
+
+          if (subtitlesUrl) {
+            this.addSubtitles(subtitlesUrl)
+          }
+          this.addEventListeners()
+          this.container.focus()
+          this.onReady(this.player)
+        },
+        (reason) => {
+          throw `Error while creating bitdash player instance, ${reason}`
+        },
+      )
+    })
   }
 
   componentWillUnmount() {
@@ -296,52 +328,33 @@ export default class Bitmovin extends Base {
     this.container.removeEventListener('keypress', this.containerListenForPlay)
   }
 
-  unload() {
-    this.player.unload()
-  }
-
   load(nextProps) {
-    const {subtitlesUrl, playbackRate, volume} = nextProps
-    this.startTime = this.getTimeToSeekSeconds()
-    const source = this.getSource(nextProps)
+    if (this.isReady) {
+      this.removeListeners()
 
-    if (this.loadingSDK || isEmpty(source)) {
-      return
+      this.player.load(this.getSource(nextProps)).then(
+        () => {
+          this.player.subtitles.remove(SUBTITLE_ID)
+          this.player.setPosterImage(nextProps.poster)
+          if (nextProps.subtitlesUrl) {
+            this.player.subtitles.add({
+              id: SUBTITLE_ID,
+              url: nextProps.subtitlesUrl,
+              label: 'English',
+              lang: 'en',
+              kind: 'captions',
+            })
+          }
+          this.addEventListeners()
+          this.props.onReady(this.player)
+          this.onReady(this.player)
+        },
+        (error) => {
+          console.log('Bitmovin player failed to load')
+          console.log(error)
+        },
+      )
     }
-
-    console.debug(`player loading media [ready:${this.isReady}]`)
-
-    this.player.load(source).then(
-      () => {
-        console.debug(`player media loaded`)
-        this.player.subtitles.remove(SUBTITLE_ID)
-        this.player.setPosterImage(nextProps.poster)
-
-        this.player.setPlaybackSpeed(playbackRate)
-        this.player.setVolume(volume)
-
-        if (this.props.poster) {
-          this.player.setPosterImage(this.props.poster)
-        }
-
-        const {videoQualityCookie} = this.props
-
-        if (videoQualityCookie) {
-          this.player.setVideoQuality(videoQualityCookie.id)
-        }
-
-        if (subtitlesUrl) {
-          this.addSubtitles(subtitlesUrl)
-        }
-
-        this.addEventListeners()
-        this.onReady(this.player)
-      },
-      (error) => {
-        console.log('Bitmovin player failed to load')
-        console.log(error)
-      },
-    )
   }
 
   play() {
@@ -382,7 +395,7 @@ export default class Bitmovin extends Base {
 
   setVolume(fraction) {
     if (!this.isReady || !this.player || !this.player.setVolume) return
-    this.player.setVolume(fraction)
+    this.player.setVolume(fraction * 100)
   }
 
   setPlaybackRate(rate) {

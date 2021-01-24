@@ -2239,6 +2239,55 @@ const courseDependencyData = (courseSlug) =>
         },
       },
       {
+        slug: 'professor-frisby-introduces-composable-functional-javascript',
+        freshness: {
+          status: `classic`,
+          title: `This is a Classic Resource`,
+          text: `Dr. Boolean has created a modern JavaScript masterpiece with this
+          creative and entertaining lesson in functional programming. It is both quirky
+          and wonderful–delivering seriously useful information without taking itself too
+          seriously. Recorded in 2016, this delightful resource will be **just as valid in 
+          2030** as it was then. Enjoy.
+          `,
+          asOf: `2021-01-24`,
+        },
+        dependencies: {
+          javascript: '∞',
+        },
+        pairWithResources: [
+          {
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description:
+              'In the last few years, the software development industry has seen a resurgence of functional programming. But what is it? And how do you get started? \n\n“Just Enough” is an introduction to functional programming, written in JavaScript, that doesn’t get bogged down in the jargon and mathematical theory that can be so intimidating. Instead, it provides an approachable introduction to the paradigm that will give you the education and confidence you need to start using the programming style right away.\n\nWith “Just Enough” as our guide, this course will focus on the foundational knowledge needed to approach any functional language. By the end of the course, you will understand:\n\n- higher order functions\n- pure functions\n- immutability\n- currying\n- partial application\n- pointfree programming\n- functional composition\n\nIn just 30 minutes, you’ll learn more than just enough. ',
+          },
+          {
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description:
+              'It all starts with syntax. From there, once you’ve got the concepts down, you can move into using a framework where you figure out how to make things “just work”.\n\nEverything is great, until it’s not.\n\nIf someone put you on the spot right now and asked you to explain `this`, would they like your answer?\n\nWhat about prototypal inheritance or coercion?\n\nIn this workshop, you’ll be taking things to the next level, shining a light into “black-box” concepts like prototypes, the `this` keyword, and what primitive types are.\n\nTyler will walk you through each concept, and build your understanding through examples in the areas you need to know.',
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description:
+              'ES2015 brought a native Promise to the JavaScript standard library. In this course, we’re going to take an in-depth look at how to use promises to model various kinds of asynchronous operations.\n\nFirst, we’re going to explore how to create promises using the Promise constructor or the Promise.resolve() or Promise.reject() methods. Then, we’re going to see how to chain promises together using .then(), .catch(), and .finally(). We’re going to compare various error handling strategies along the way. We’re going to wrap up this course by taking a look at how to deal with multiple promises using Promise.all() and Promise.race() and how to await a promise using the await operator.',
+          },
+        ],
+      },
+      {
         slug: 'getting-started-with-redux',
         freshness: {
           status: `classic`,

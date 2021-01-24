@@ -9,7 +9,9 @@ import Image from 'next/image'
 const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   collection,
 }) => {
-  const [ratings, setRatings] = React.useState([])
+  const [ratings, setRatings] = React.useState(
+    collection?.ratings_with_comment?.data || [],
+  )
   const [loadingRatings, setLoadingRatings] = React.useState(true)
   const {type, slug} = collection
 

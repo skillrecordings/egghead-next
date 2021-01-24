@@ -6,9 +6,9 @@ const CommunityResource: React.FunctionComponent<{type?: string}> = ({
 }) => {
   return (
     <>
-      <div className="flex items-center">
+      <div className="flex items-center ">
         <CommunityResourceIcon className="w-6 mr-2 text-yellow-300 flex-shrink-0" />
-        <h4 className="font-semibold">This {type} is a Community Resource</h4>
+        <h4 className="font-semibold">Free Community Resource</h4>
       </div>
       <div className="mt-3">
         <p className="text-sm text-gray-600">
