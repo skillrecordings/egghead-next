@@ -186,6 +186,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'composing-closures-and-callbacks-in-javascript-1223',
+        freshness: {
+          status: `classic`,
+          title: `Core Skills`,
+          text: `This is an epic [JavaScript](/q/javascript) resource that goes well beyond the 
+          basics and delivers expert knowledge on core patterns in the language. **Designed for the 
+          advanced beginner and beyond**
+          `,
+          asOf: `2021-01-24`,
+        },
         topics: [
           'Closures, Callbacks, and Composition',
           'Currying, Caching, and Creating operators',
@@ -195,6 +204,37 @@ const courseDependencyData = (courseSlug) =>
           {
             url:
               'https://github.com/eggheadio/eggheadio-course-notes/tree/master/composing-closures-and-callbacks-in-javascript',
+          },
+        ],
+        pairWithResources: [
+          {
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
+              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
+          },
+          {
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
+              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
           },
         ],
       },
