@@ -3,6 +3,7 @@ import axios from 'utils/configured-axios'
 import * as React from 'react'
 import {loadRatings} from 'lib/ratings'
 import FiveStars from 'components/five-stars'
+import friendlyTime from 'friendly-time'
 
 const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   collection,
@@ -25,7 +26,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
       <h2 className="text-lg font-semibold mb-3">Learner Reviews</h2>
       <ul className="space-y-5 md:space-y-0  md:grid-cols-2 grid gap-3">
         {ratings.map((rating: any) => {
-          const {comment, rating_out_of_5, user} = rating
+          const {comment, rating_out_of_5, user, created_at} = rating
 
           const displayAdminContent =
             !rating.hidden &&
@@ -39,7 +40,9 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
             >
               <div className="font-bold">{user.full_name}</div>
               <FiveStars rating={rating_out_of_5} />
-              <div className="text-sm">{comment.prompt}</div>
+              <div>
+                <small>{friendlyTime(new Date(created_at))}</small>
+              </div>
               <div className="prose">{comment.comment}</div>
               {displayAdminContent && (
                 <button

@@ -11,6 +11,7 @@ const CourseRatingsQuery = `
       count
       data {
         id
+        created_at
         rating_out_of_5
         user {
           full_name
