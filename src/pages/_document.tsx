@@ -28,7 +28,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
           {/* <script async src="/ahoy.js" /> */}

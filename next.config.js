@@ -33,6 +33,7 @@ const IMAGE_HOST_DOMAINS = [
   `image.simplecastcdn.com`,
   `res.cloudinary.com`,
   `app.egghead.io`,
+  `gravatar.com`,
 ]
 
 const nextConfig = {

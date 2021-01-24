@@ -282,7 +282,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     const lesson = get(playerState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
-    console.debug(`current state: ${currentPlayerState}`)
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
@@ -754,7 +753,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   })
                 }}
               >
-                <TabList className="md:text-lg text-normal font-semibold bg-transparent space-x-1">
+                <TabList>
                   {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>

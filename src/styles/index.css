@@ -111,6 +111,10 @@ pre > code {
 /* ——— Reach UI Tabs ——— */
 
 /* styles all tabs */
+[data-reach-tab-list] {
+  @apply bg-transparent md:text-lg font-semibold space-x-1;
+}
+
 [data-reach-tab] {
   /* @apply px-4 hover:bg-gray-50 hover:text-blue-600 transition-colors ease-in-out duration-200; */
   @apply px-4 rounded-lg hover:bg-gray-50 hover:text-blue-600 border-none transition-colors ease-in-out duration-200;
