@@ -73,10 +73,6 @@ export default class Bitmovin extends Base {
 
     return {
       key: BITMOVIN_PUBLIC_KEY,
-      location: {
-        ui: '/bitmovin/bitmovinplayer-ui.js',
-        ui_css: '/bitmovin/bitmovinplayer-ui.css',
-      },
       network: {
         preprocessHttpRequest: function (type, request) {
           request.url = `${request.url}?b=${CACHE_KEY}`
