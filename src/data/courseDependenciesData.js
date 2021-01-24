@@ -2243,10 +2243,10 @@ const courseDependencyData = (courseSlug) =>
         freshness: {
           status: `classic`,
           title: `This is a Classic Resource`,
-          text: `Redux has changed a lot since Dan first recorded this, but 
+          text: `Redux has changed a lot since Dan first recorded this course in 2015, but 
           this is still an essential watch, if not directly applicable to your 
           application. This is **the source** that inspired so much in the
-          React ecosystem and beyond. We strongly recommend this course for all modern web developers. It's
+          React ecosystem and beyond. **We strongly recommend this course for all modern web developers**. It's
           excellent.
           `,
           asOf: `2021-01-23`,
