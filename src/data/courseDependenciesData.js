@@ -2252,7 +2252,7 @@ const courseDependencyData = (courseSlug) =>
           asOf: `2021-01-23`,
         },
         dependencies: {
-          react: '0.14 - 16',
+          react: '0.14 - 17',
           redux: '3 - 4',
         },
         reviews: [
