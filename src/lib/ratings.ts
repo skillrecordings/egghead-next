@@ -11,9 +11,11 @@ const CourseRatingsQuery = `
       count
       data {
         id
+        created_at
         rating_out_of_5
         user {
           full_name
+          avatar_url
         }
         comment {
           id
@@ -29,7 +31,7 @@ const CourseRatingsQuery = `
 `
 
 export async function loadRatings(slug: string, type: string = 'Series') {
-  const SIZE_OF_PAGE = 3
+  const SIZE_OF_PAGE = 6
 
   const token = getAccessTokenFromCookie()
   const authorizationHeader = token && {

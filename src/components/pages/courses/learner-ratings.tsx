@@ -3,6 +3,8 @@ import axios from 'utils/configured-axios'
 import * as React from 'react'
 import {loadRatings} from 'lib/ratings'
 import FiveStars from 'components/five-stars'
+import friendlyTime from 'friendly-time'
+import Image from 'next/image'
 
 const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   collection,
@@ -25,7 +27,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
       <h2 className="text-lg font-semibold mb-3">Learner Reviews</h2>
       <ul className="space-y-5 md:space-y-0  md:grid-cols-2 grid gap-3">
         {ratings.map((rating: any) => {
-          const {comment, rating_out_of_5, user} = rating
+          const {comment, rating_out_of_5, user, created_at} = rating
 
           const displayAdminContent =
             !rating.hidden &&
@@ -37,9 +39,26 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
                 rating.hidden && 'hidden'
               }`}
             >
-              <div className="font-bold">{user.full_name}</div>
+              <div className=" flex items-center space-x-3">
+                <div>
+                  <Image
+                    className="rounded-full"
+                    src={
+                      user.avatar_url.includes('gravatar')
+                        ? `https:${user.avatar_url}`
+                        : user.avatar_url
+                    }
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <div className="font-bold">{user.full_name || 'Learner'}</div>
+                <div className="text-sm text-gray-500">
+                  {friendlyTime(new Date(created_at))}
+                </div>
+              </div>
               <FiveStars rating={rating_out_of_5} />
-              <div className="text-sm">{comment.prompt}</div>
+              <div className="text-xs text-gray-500">{comment.prompt}</div>
               <div className="prose">{comment.comment}</div>
               {displayAdminContent && (
                 <button
