@@ -38,11 +38,14 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
                 rating.hidden && 'hidden'
               }`}
             >
-              <div className="font-bold">{user.full_name}</div>
-              <FiveStars rating={rating_out_of_5} />
-              <div>
-                <small>{friendlyTime(new Date(created_at))}</small>
+              <div className=" flex items-center space-x-3">
+                <div className="font-bold">{user.full_name}</div>
+                <div className="text-sm text-gray-500">
+                  {friendlyTime(new Date(created_at))}
+                </div>
               </div>
+              <FiveStars rating={rating_out_of_5} />
+              <div className="text-xs text-gray-500">{comment.prompt}</div>
               <div className="prose">{comment.comment}</div>
               {displayAdminContent && (
                 <button
