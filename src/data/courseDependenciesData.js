@@ -371,12 +371,12 @@ const courseDependencyData = (courseSlug) =>
         slug: 'the-beginner-s-guide-to-react',
         freshness: {
           status: `fresh`,
-          title: `This is an excellent course.`,
+          title: `This is a Fresh Course`,
           text: `Thousands of people have used this course as an introduction to the core
           concepts of [React](/q/react). It's been reviewed and updated and is relevant and 
-          valid. There isn't a better introduction to React online.
+          valid. **There isn't a better introduction to React online**.
           `,
-          asOf: `2021-23-01`,
+          asOf: `01-23-2021`,
         },
         dependencies: {
           react: '>=16.12.0 - 17',

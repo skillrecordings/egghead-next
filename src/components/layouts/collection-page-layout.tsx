@@ -17,6 +17,7 @@ import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import {FunctionComponent} from 'react'
+import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
@@ -566,7 +567,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   )
 }
 
-const Fresh = ({freshness: any}) => {
+const Fresh = ({freshness}: {freshness: any}) => {
   return (
     <>
       {freshness && (
@@ -582,7 +583,9 @@ const Fresh = ({freshness: any}) => {
           )}
           {freshness.asOf && (
             <p>
-              <small>Staff reviewed: {freshness.asOf}</small>
+              <small>
+                Staff reviewed: {friendlyTime(new Date(freshness.asOf))}
+              </small>
             </p>
           )}
           {freshness.text && (
