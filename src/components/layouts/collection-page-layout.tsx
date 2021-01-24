@@ -568,6 +568,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 }
 
 const Fresh = ({freshness}: {freshness: any}) => {
+  if (!freshness) return null
+
   const reviewedAt = friendlyTime(
     parse(freshness.asOf, 'yyyy-MM-dd', new Date()),
   )
