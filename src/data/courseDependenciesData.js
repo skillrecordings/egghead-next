@@ -2240,6 +2240,17 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'getting-started-with-redux',
+        freshness: {
+          status: `classic`,
+          title: `This is a Classic Resource`,
+          text: `Redux has changed a lot since Dan first recorded this, but 
+          this is still an essential watch, if not directly applicable to your 
+          application. This is **the source** that inspired so much in the
+          React ecosystem and beyond. We strongly recommend this course for all modern web developers. It's
+          excellent.
+          `,
+          asOf: `2021-01-23`,
+        },
         dependencies: {
           react: '0.14 - 16',
           redux: '3 - 4',
