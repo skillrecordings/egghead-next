@@ -1,6 +1,6 @@
 import React from 'react'
 import loadScript from 'load-script'
-import get from 'lodash/get'
+import {get, isEmpty} from 'lodash'
 
 import Base from './Base'
 
@@ -19,7 +19,7 @@ const AUTO_BITRATE = 'auto'
 const SEEK_BACK = -10
 const SEEK_FORWARD = 25
 const MAX_BUFFER_LEVEL_SECONDS = 240
-const STARTUP_THRESHOLD_SECONDS = 3
+const STARTUP_THRESHOLD_SECONDS = 8
 const ALLOW_PLAYBACK_SPEED = false
 
 export default class Bitmovin extends Base {
@@ -60,8 +60,8 @@ export default class Bitmovin extends Base {
     const {dash_url, hls_url} = props || this.props
 
     return {
-      dash: dash_url,
-      hls: hls_url,
+      ...(!!dash_url && {dash: dash_url}),
+      ...(!!hls_url && {hls: hls_url}),
     }
   }
 
@@ -184,9 +184,10 @@ export default class Bitmovin extends Base {
   }
 
   componentDidMount() {
-    const {subtitlesUrl, playbackRate, volume} = this.props
     this.startTime = this.getTimeToSeekSeconds()
     this.loadingSDK = true
+
+    console.debug(`player instance mounted`)
 
     this.getSDK().then((script) => {
       this.loadingSDK = false
@@ -195,31 +196,9 @@ export default class Bitmovin extends Base {
         this.getConfig(),
       )
 
-      this.player.load(this.getSource()).then(
-        () => {
-          this.player.setPlaybackSpeed(playbackRate)
-          this.player.setVolume(volume)
+      console.debug(`player sdk loaded`)
 
-          if (this.props.poster) {
-            this.player.setPosterImage(this.props.poster)
-          }
-
-          const {videoQualityCookie} = this.props
-          if (videoQualityCookie) {
-            this.player.setVideoQuality(videoQualityCookie.id)
-          }
-
-          if (subtitlesUrl) {
-            this.addSubtitles(subtitlesUrl)
-          }
-          this.addEventListeners()
-          this.container.focus()
-          this.onReady(this.player)
-        },
-        (reason) => {
-          throw `Error while creating bitdash player instance, ${reason}`
-        },
-      )
+      this.load(this.props)
     })
   }
 
@@ -324,33 +303,52 @@ export default class Bitmovin extends Base {
     this.container.removeEventListener('keypress', this.containerListenForPlay)
   }
 
-  load(nextProps) {
-    if (this.isReady) {
-      this.removeListeners()
+  unload() {
+    this.player.unload()
+  }
 
-      this.player.load(this.getSource(nextProps)).then(
-        () => {
-          this.player.subtitles.remove(SUBTITLE_ID)
-          this.player.setPosterImage(nextProps.poster)
-          if (nextProps.subtitlesUrl) {
-            this.player.subtitles.add({
-              id: SUBTITLE_ID,
-              url: nextProps.subtitlesUrl,
-              label: 'English',
-              lang: 'en',
-              kind: 'captions',
-            })
-          }
-          this.addEventListeners()
-          this.props.onReady(this.player)
-          this.onReady(this.player)
-        },
-        (error) => {
-          console.log('Bitmovin player failed to load')
-          console.log(error)
-        },
-      )
+  load(nextProps) {
+    const {subtitlesUrl, playbackRate, volume} = nextProps
+    this.startTime = this.getTimeToSeekSeconds()
+    const source = this.getSource(nextProps)
+
+    if (this.loadingSDK || isEmpty(source)) {
+      return
     }
+
+    console.debug(`player loading media [ready:${this.isReady}]`)
+
+    this.player.load(source).then(
+      () => {
+        console.debug(`player media loaded`)
+        this.player.subtitles.remove(SUBTITLE_ID)
+        this.player.setPosterImage(nextProps.poster)
+
+        this.player.setPlaybackSpeed(playbackRate)
+        this.player.setVolume(volume)
+
+        if (this.props.poster) {
+          this.player.setPosterImage(this.props.poster)
+        }
+
+        const {videoQualityCookie} = this.props
+
+        if (videoQualityCookie) {
+          this.player.setVideoQuality(videoQualityCookie.id)
+        }
+
+        if (subtitlesUrl) {
+          this.addSubtitles(subtitlesUrl)
+        }
+
+        this.addEventListeners()
+        this.onReady(this.player)
+      },
+      (error) => {
+        console.log('Bitmovin player failed to load')
+        console.log(error)
+      },
+    )
   }
 
   play() {
@@ -391,7 +389,7 @@ export default class Bitmovin extends Base {
 
   setVolume(fraction) {
     if (!this.isReady || !this.player || !this.player.setVolume) return
-    this.player.setVolume(fraction * 100)
+    this.player.setVolume(fraction)
   }
 
   setPlaybackRate(rate) {
