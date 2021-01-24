@@ -346,21 +346,23 @@ type CardProps = {
 export const CardHorizontal: FunctionComponent<{
   resource: CardResource
   className?: string
-}> = ({resource, className = 'border-none my-4'}) => {
+  location?: string
+}> = ({resource, className = 'border-none my-4', location = 'home'}) => {
   return (
     <Card className={className}>
       <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-start sm:text-left text-center">
+        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center md:items-start sm:text-left text-center">
           {resource.image && (
             <Link href={resource.path}>
               <a
                 onClick={() => {
-                  track('clicked home page resource', {
+                  track('clicked resource', {
                     resource: resource.path,
                     linkType: 'image',
+                    location,
                   })
                 }}
-                className="block flex-shrink-0 sm:w-auto w-24"
+                className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
                 tabIndex={-1}
               >
                 <Image
@@ -379,9 +381,10 @@ export const CardHorizontal: FunctionComponent<{
             <Link href={resource.path}>
               <a
                 onClick={() => {
-                  track('clicked home page resource', {
+                  track('clicked resource', {
                     resource: resource.path,
                     linkType: 'text',
+                    location,
                   })
                 }}
                 className="hover:text-blue-600"

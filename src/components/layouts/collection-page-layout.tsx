@@ -82,7 +82,52 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const defaultPairWithResources = []
+  const defaultPairWithResources: any[] = [
+    {
+      title: 'Introduction to Cloudflare Workers',
+      byline: 'Kristian Freeman・36m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/thumb/EGH_IntroCloudFlareWorkers_Final.png',
+      path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+      slug: 'introduction-to-cloudflare-workers-5aa3',
+      description:
+        "Become familiar with the Workers CLI `wrangler` that we will use to bootstrap our Worker project. From there you'll understand how a Worker receives and returns requests/Responses. We will also build this serverless function locally for development and deploy it to a custom domain.",
+    },
+    {
+      title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+      byline: 'Colby Fayock・1h 4m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
+      path:
+        '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+      slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+      description: `This is a practical project based look at building a working e-commerce store
+        using modern tools and APIs. Excellent for a weekend side-project for your [developer project portfolio](https://joelhooks.com/developer-portfolio)`,
+    },
+    {
+      title: 'Practical Git for Everyday Professional Use',
+      byline: 'Trevor Miller・1h・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
+      path: '/courses/practical-git-for-everyday-professional-use',
+      slug: 'practical-git-for-everyday-professional-use',
+      description: `[git](/q/git) is a critical component in the modern web developers tool box. This course
+         is a solid introduction and goes beyond the basics with some more advanced git commands
+         you are sure to find useful.`,
+    },
+    {
+      title: 'Build an App with the AWS Cloud Development Kit',
+      byline: 'Tomasz Łakomy・1h 4m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+      path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
+      slug: 'build-an-app-with-the-aws-cloud-development-kit',
+      description:
+        "Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done. Excellent kick start for your next side project or your developer portfolio.",
+    },
+  ].filter((resource) => {
+    return resource.slug !== course.slug
+  })
 
   const {
     topics,
@@ -393,7 +438,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               )}
               <LearnerRatings collection={course} />
               {!isEmpty(pairWithResources) && (
-                <div className="my-12 flex flex-col space-y-2">
+                <div className="my-12 md:flex hidden flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
                     You might also like these courses:
                   </h2>
@@ -403,6 +448,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         <CardHorizontal
                           className="border my-4 border-opacity-10 border-gray-400"
                           resource={resource}
+                          location={course.path}
                         />
                       </div>
                     )
@@ -588,6 +634,24 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </ul>
               </div>
             </section>
+            {!isEmpty(pairWithResources) && (
+              <div className="my-12 flex md:hidden flex-col space-y-2">
+                <h2 className="text-lg font-semibold mb-3">
+                  You might also like these courses:
+                </h2>
+                {pairWithResources.map((resource) => {
+                  return (
+                    <div>
+                      <CardHorizontal
+                        className="border my-4 border-opacity-10 border-gray-400"
+                        resource={resource}
+                        location={course.path}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
