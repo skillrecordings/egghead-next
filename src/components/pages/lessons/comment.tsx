@@ -29,7 +29,7 @@ const Comment: React.FunctionComponent<CommentProps> = ({
   return (
     <div className="flex">
       {user.avatar_url && (
-        <div className="flex-shrink-0 mr-4">
+        <div className="flex-shrink-0 mr-3 sm:mr-4">
           <img
             src={user.avatar_url}
             alt={user.full_name}
@@ -38,20 +38,20 @@ const Comment: React.FunctionComponent<CommentProps> = ({
         </div>
       )}
       <div>
-        <div className="flex items-center">
+        <div className="flex items-center text-sm md:text-md ">
           <div
             className={`flex items-center ${
               isCommentableOwner ? 'bg-blue-100 px-2 py-1 rounded-md' : ''
             }`}
           >
-            <span className={isCommentableOwner ? 'font-medium' : ''}>
-              {user.full_name}
-            </span>
+            <span className="font-medium">{user.full_name}</span>
             {isCommentableOwner && (
               <span className="ml-3 text-blue-600 text-sm">(instructor)</span>
             )}
           </div>
-          <div className="ml-3">~ {friendlyTime(new Date(createdAt))}</div>
+          <div className="ml-2 sm:ml-3">
+            ~ {friendlyTime(new Date(createdAt))}
+          </div>
         </div>
         <div className="mt-3">
           <ReactMarkdown>{comment}</ReactMarkdown>
