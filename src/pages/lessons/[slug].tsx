@@ -781,7 +781,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   )}
                   {commentsAvailable && (
                     <TabPanel>
-                      <div className="space-y-10">
+                      <div
+                        className="space-y-10"
+                        css={{wordBreak: 'break-word'}}
+                      >
                         {comments.map((comment: any) => (
                           <Comment
                             key={comment.id}
