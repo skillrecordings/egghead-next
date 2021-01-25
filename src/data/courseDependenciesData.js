@@ -2912,6 +2912,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'advanced-static-types-in-typescript',
+        freshness: {
+          status: `classic`,
+          title: `Core Resource`,
+          text: `This covers TypeScript 2.0+ and is **valid for core concepts** related to using
+          [TypeScript](/q/typescript) in modern web applications. Since it was recorded
+          many features have been added to TypeScript, but 2.0 was a huge milestone for 
+          the language and you'll learn a lot. **Highly recommended.**`,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           typescript: '^2.0.0',
         },
