@@ -38,7 +38,7 @@ const Comment: React.FunctionComponent<CommentProps> = ({
         </div>
       )}
       <div>
-        <div className="flex items-center text-sm md:text-md ">
+        <div className="flex items-center text-sm md:text-base">
           <div
             className={`flex items-center ${
               isCommentableOwner ? 'bg-blue-100 px-2 py-1 rounded-md' : ''
