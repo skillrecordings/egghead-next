@@ -18,6 +18,7 @@ export async function loadCourse(slug: string) {
         duration
         type
         created_at
+        free_forever
         ratings_with_comment {
           count
           data {

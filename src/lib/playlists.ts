@@ -49,6 +49,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         duration
         type
         created_at
+        free_forever
         ratings_with_comment {
           count
           data {

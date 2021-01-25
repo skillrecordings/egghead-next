@@ -5,6 +5,7 @@ import {loadRatings} from 'lib/ratings'
 import FiveStars from 'components/five-stars'
 import friendlyTime from 'friendly-time'
 import Image from 'next/image'
+import Markdown from '../../markdown'
 
 const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   collection,
@@ -18,7 +19,6 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   React.useEffect(() => {
     if (!isEmpty(ratings)) {
       setLoadingRatings(false)
-      return
     }
     if (loadingRatings) {
       setLoadingRatings(false)
@@ -65,7 +65,9 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
               </div>
               <FiveStars rating={rating_out_of_5} />
               <div className="text-xs text-gray-500">{comment.prompt}</div>
-              <div className="prose">{comment.comment}</div>
+              <div className="prose overflow-hidden">
+                <Markdown>{comment.comment}</Markdown>
+              </div>
               {displayAdminContent && (
                 <button
                   className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out"

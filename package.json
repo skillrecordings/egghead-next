@@ -95,6 +95,7 @@
     "rehype-shiki": "^0.0.9",
     "remark-code-titles": "^0.1.1",
     "remark-footnotes": "^2.0.0",
+    "remark-gfm": "^1.0.0",
     "remark-slug": "^6.0.0",
     "remove-markdown": "^0.3.0",
     "slugify": "^1.4.6",
