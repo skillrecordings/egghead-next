@@ -61,7 +61,7 @@ const Home: FunctionComponent = () => {
             <div className="flex sm:flex-row flex-col justify-center">
               <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
                 <div>
-                  <h2 className="uppercase font-semibold text-xs text-gray-700">
+                  <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
                     {video.name}
                   </h2>
                   <Link href={video.path}>
@@ -79,7 +79,7 @@ const Home: FunctionComponent = () => {
                       </h3>
                     </a>
                   </Link>
-                  <div className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+                  <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
                     <Link href={video.instructor_path || ''}>
                       <a
                         onClick={() => {
@@ -99,7 +99,7 @@ const Home: FunctionComponent = () => {
                   </Markdown>
                 </div>
               </div>
-              <div className="sm:w-full -m-5 flex items-center flex-grow bg-black">
+              <div className="sm:w-full -m-5 flex items-center flex-grow bg-trueGray-900">
                 <EggheadPlayer
                   preload={false}
                   autoplay={false}
@@ -156,7 +156,7 @@ const Home: FunctionComponent = () => {
               <>
                 <Link href={swag.path}>
                   <a className="inline-block hover:text-blue-600">
-                    <h2 className="uppercase font-semibold text-xs text-gray-600">
+                    <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
                       {swag.name}
                     </h2>
                   </a>
@@ -245,7 +245,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full bg-white border border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="w-full bg-white dark:bg-trueGray-800 border dark:border-trueGray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-trueGray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
                 >
                   <div className="w-full flex flex-col items-center justify-center space-y-4 p-2">
                     {resource.image && (
@@ -275,7 +275,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
 const EventSchedule: React.FunctionComponent = () => {
   const [schedule, scheduleLoading] = useEggheadSchedule(3)
   return (
-    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
+    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white ">
       <>
         <h2 className="uppercase font-semibold text-xs text-blue-200">
           Upcoming Events
@@ -375,7 +375,7 @@ export const CardHorizontal: FunctionComponent<{
             </Link>
           )}
           <div className="flex flex-col justify-center sm:items-start items-center">
-            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
               {resource.name}
             </h2>
             <Link href={resource.path}>
@@ -394,7 +394,7 @@ export const CardHorizontal: FunctionComponent<{
                 </h3>
               </a>
             </Link>
-            <div className="text-xs text-gray-600 mb-2 mt-1">
+            <div className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
               {resource.byline}
             </div>
             <Markdown
@@ -434,7 +434,7 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
             </a>
           </Link>
         )}
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
           {name}
         </h2>
         <Link href={path}>
@@ -454,7 +454,9 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
             </h3>
           </a>
         </Link>
-        <div className="text-xs text-gray-600 mt-1">{byline}</div>
+        <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+          {byline}
+        </div>
       </>
     </Card>
   )
@@ -469,7 +471,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
   return (
     <Card>
       <>
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
           {(viewer?.is_pro || viewer?.is_instructor) && memberTitle
             ? memberTitle
             : name}
@@ -498,7 +500,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
         <div>
           <Markdown
             source={description || ''}
-            className="prose prose-sm max-w-none mb-3"
+            className="prose prose-sm max-w-none mb-3 "
           />
           <Collection resource={data} />
         </div>

@@ -108,10 +108,10 @@ const FooterNavigation: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <div className="bg-gray-50 print:hidden">
+    <div className="bg-gray-50 dark:bg-trueGray-900 print:hidden dark:text-trueGray-200">
       <footer className="max-w-screen-xl w-full mx-auto xl:px-0 px-5">
         <FooterNavigation />
-        <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500">
+        <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500 dark:text-gray-300">
           <div>©egghead.io</div>
           <Link href="/privacy">
             <a onClick={() => track(`clicked privacy`, {location: 'footer'})}>

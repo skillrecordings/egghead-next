@@ -35,7 +35,7 @@ const Header: FunctionComponent = () => {
           <div className={className}>
             <Feedback
               user={viewer}
-              className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+              className="px-3 py-2 hover:bg-gray-100 dark:hover:text-black active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
             >
               Feedback
             </Feedback>
@@ -47,7 +47,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Bookmarks
                 </a>
@@ -61,7 +61,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Team
                 </a>
@@ -144,13 +144,13 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 flex items-center justify-between print:hidden">
+      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 dark:border-trueGray-800 flex items-center justify-between print:hidden dark:text-trueGray-100">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
           <div className="flex items-center">
             <Link href="/">
               <a className="flex items-center">
                 <Eggo className="w-8 mr-1" />
-                <span className="sm:inline-block hidden text-lg font-semibold">
+                <span className="sm:inline-block hidden text-lg font-semibold dark:text-trueGray-200">
                   egghead.io
                 </span>
               </a>
@@ -170,7 +170,7 @@ const Header: FunctionComponent = () => {
         </div>
       </header>
       {isOpen && (
-        <Navigation className="flex flex-col items-start bg-white p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl" />
+        <Navigation className="flex flex-col items-start bg-white dark:bg-trueGray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl" />
       )}
     </>
   )

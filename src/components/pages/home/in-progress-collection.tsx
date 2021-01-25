@@ -73,7 +73,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
         )}
         <div className="space-y-1 w-full">
           <div className="">
-            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 mb-1">
+            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
               Keep Learning
             </h2>
             <Link href={resource_path || '#'}>
@@ -93,7 +93,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               <div className="text-sm flex items-center">{series?.title}</div>
             )}
             {isInProgress && (
-              <div className="text-gray-700 text-sm">
+              <div className="text-gray-700 dark:text-gray-300 text-sm">
                 {convertTimeWithTitles(time_left)} left to go ({lessons_left}{' '}
                 more lessons)
               </div>
@@ -125,7 +125,9 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
           )}
           {isInProgress && (
             <div className="leading-tighter flex items-center space-x-2">
-              <div className="text-xs text-gray-600">Up Next</div>
+              <div className="text-xs text-gray-600 dark:text-gray-300">
+                Up Next
+              </div>
               <Link href={resource_path || '3'}>
                 <a
                   className="text-sm font-medium"

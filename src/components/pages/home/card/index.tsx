@@ -38,7 +38,7 @@ const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={`bg-white shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
+      className={`bg-white dark:bg-trueGray-800 dark:text-trueGray-200 shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
         className ? className : ''
       }`}
       {...restProps}
@@ -67,7 +67,7 @@ const Card: FunctionComponent<CardProps> = ({
         )}
         <div className="flex flex-col justify-center">
           {name && (
-            <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+            <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
               {name}
             </h2>
           )}
@@ -94,7 +94,11 @@ const Card: FunctionComponent<CardProps> = ({
                 {title}
               </h3>
             ))}
-          {byline && <div className="text-sm text-gray-600 mb-3">{byline}</div>}
+          {byline && (
+            <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+              {byline}
+            </div>
+          )}
           {description && (
             <Markdown className="prose prose-sm max-w-none mb-3">
               {description}
