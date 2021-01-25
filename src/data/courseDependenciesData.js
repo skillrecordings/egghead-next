@@ -2798,7 +2798,7 @@ const courseDependencyData = (courseSlug) =>
           text: `While much of the information in this course is useful it is showing its
           age in the specific details. Some of the libraries demonstrated have **changed
           versions**, and there are some **missing configuration specifics** with the server that
-          require additional investigation to follow along.
+          require additional investigation.
           `,
           asOf: `2021-01-25`,
         },

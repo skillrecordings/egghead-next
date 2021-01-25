@@ -682,7 +682,7 @@ const Fresh = ({freshness}: {freshness: any}) => {
           {freshness.title && (
             <h2 className="text-xl font-semibold">
               {freshness.status === 'fresh' && '🌱'}
-              {freshness.status === 'stale' && '⛔️'}
+              {freshness.status === 'stale' && '⚠️'}
               {freshness.status === 'classic' && '💎'} {freshness.title}
             </h2>
           )}
