@@ -3316,6 +3316,12 @@ const courseDependencyData = (courseSlug) =>
           typescript: '^3.2.1',
         },
       },
+      {
+        slug: 'modern-javascript-essentials-for-react',
+        dependencies: {
+          javascript: 'ES6',
+        },
+      },
     ],
     {slug: courseSlug},
   )
