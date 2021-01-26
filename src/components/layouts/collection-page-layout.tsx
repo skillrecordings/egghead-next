@@ -73,6 +73,36 @@ const logCollectionResource = (collection: CollectionResource) => {
   }
 }
 
+const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
+  <div className="flex flex-row items-center">
+    <ClockIcon className="w-4 h-4 mr-1" />
+    <span>{duration}</span>
+  </div>
+)
+
+const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
+  <div className="flex items-center space-x-2 flex-nowrap">
+    <div>Updated:</div>
+    <code>{date}</code>
+  </div>
+)
+
+const StarsRating: React.FunctionComponent<{
+  rating: number
+}> = ({rating}) => (
+  <div className="flex items-center">
+    <FiveStars rating={rating} />
+    <span className="ml-2 font-semibold">{rating.toFixed(1)}</span>
+  </div>
+)
+
+const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
+  <div className="flex items-center flex-nowrap">
+    <div className="font-semibold mr-2">{count}</div>
+    <div className="whitespace-nowrap">people completed</div>
+  </div>
+)
+
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons,
   course,
@@ -280,7 +310,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
                 {title}
               </h1>
-              <div className="pt-2 flex items-center space-x-6">
+              <div className="mt-2 flex flex-col items-center md:items-start">
                 {instructor && (
                   <InstructorProfile
                     name={full_name}
@@ -290,40 +320,30 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     twitter={twitter}
                   />
                 )}
-                <div className="flex items-center md:justify-start justify-center mt-4 space-x-4">
-                  {duration && (
-                    <div className="flex flex-row items-center">
-                      <ClockIcon className="w-4 h-4 mr-1" />{' '}
-                      {convertTimeWithTitles(duration)}
-                    </div>
-                  )}
-                  <TagList tags={courseTags} courseSlug={course.slug} />{' '}
-                  {updated_at && (
-                    <div className="flex flex-col lg:flex-row items-center space-x-2 ">
-                      <div>Updated:</div>
-                      <div>
-                        <code>{friendlyTime(new Date(updated_at))}</code>
+                <div className="flex items-center flex-col md:flex-row flex-wrap">
+                  <div className="mr-3 mt-3">
+                    <TagList tags={courseTags} courseSlug={course.slug} />
+                  </div>
+                  <div className="flex items-center md:justify-start justify-center mr-3 mt-3">
+                    {duration && (
+                      <div className="mr-3">
+                        <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {updated_at && (
+                      <UpdatedAt date={friendlyTime(new Date(updated_at))} />
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-center md:justify-start justify-center mt-4 space-x-6 w-full">
-                <div className="flex items-center w-2/3 space-x-4">
+              <div className="flex flex-col md:flex-row items-center md:justify-start justify-center mt-4 space-y-4 md:space-y-0 md:space-x-6 w-full">
+                <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
                   {average_rating_out_of_5 > 0 && (
-                    <div className="flex items-center">
-                      <FiveStars rating={average_rating_out_of_5} />
-                      <span className="ml-2 font-semibold">
-                        {average_rating_out_of_5.toFixed(1)}
-                      </span>
-                    </div>
+                    <StarsRating rating={average_rating_out_of_5} />
                   )}
                   {watched_count > 0 && (
-                    <div className="flex flex-col lg:flex-row items-center text-center">
-                      <div className="font-semibold mr-2">{watched_count}</div>
-                      <div>people completed</div>
-                    </div>
+                    <PeopleCompleted count={watched_count} />
                   )}
                 </div>
               </div>
