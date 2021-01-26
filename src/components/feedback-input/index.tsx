@@ -131,7 +131,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       >
         <DialogContent
           aria-label="write us feedback"
-          className={`bg-white dark:bg-trueGray-900 shadow-lg rounded-lg max-w-screen-sm text-text border dark:border-trueGray-800 relative`}
+          className={`bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm text-text border dark:border-gray-800 relative`}
           css={{
             width: '100%',
             zIndex: 50,

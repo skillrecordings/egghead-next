@@ -93,7 +93,7 @@ const OverlayWrapper: FunctionComponent<{
 const Loader = () => (
   <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black bg-opacity-80">
     <svg
-      className="text-gray-200 dark:text-trueGray-100"
+      className="text-gray-200 dark:text-gray-100"
       xmlns="http://www.w3.org/2000/svg"
       width={32}
       height={32}
@@ -406,8 +406,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-trueGray-100">
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-trueGray-700">
+      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
               ref={ref}
@@ -592,8 +592,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
             {collection && collection?.lessons && (
-              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100  self-stretch  dark:border-trueGray-700 dark:text-trueGray-100 dark:bg-trueGray-900">
-                <div className="p-4 border-b border-gray-100 dark:border-trueGray-700">
+              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100  self-stretch  dark:border-gray-700 dark:text-gray-100 dark:bg-gray-900">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-700">
                   <Course course={collection} currentLessonSlug={lesson.slug} />
                 </div>
                 <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
@@ -696,7 +696,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
 
                 {(lesson?.code_url || lesson?.repo_url) && (
-                  <div className="sm:text-base dark:text-trueGray-100 text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
+                  <div className="sm:text-base dark:text-gray-100 text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
                     {lesson?.code_url && (
                       <CodeLink
                         onClick={() => {
@@ -832,7 +832,7 @@ const Course: FunctionComponent<{
           </a>
         </Link>
         <div className="ml-2 lg:ml-4">
-          <h4 className="text-gray-700 dark:text-trueGray-100 font-semibold mb-px text-xs uppercase">
+          <h4 className="text-gray-700 dark:text-gray-100 font-semibold mb-px text-xs uppercase">
             Course
           </h4>
           <Link href={course.path}>

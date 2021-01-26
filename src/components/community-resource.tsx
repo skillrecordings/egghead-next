@@ -11,7 +11,7 @@ const CommunityResource: React.FunctionComponent<{type?: string}> = ({
         <h4 className="font-semibold">Free Community Resource</h4>
       </div>
       <div className="mt-3">
-        <p className="text-sm text-gray-600 dark:text-trueGray-100">
+        <p className="text-sm text-gray-600 dark:text-gray-100">
           A Community Resource means that it’s free to access for all. The
           instructor of this lesson requested it to be open to the public.
         </p>

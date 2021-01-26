@@ -14,7 +14,7 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
 }) => {
   return (
     <>
-      <h2 className="text-xl mb-3 font-bold dark:text-trueGray-100 text-gray-700">
+      <h2 className="text-xl mb-3 font-bold dark:text-gray-100 text-gray-700">
         <Markdown>{question.heading}</Markdown>
       </h2>
       <h3 className="text-lg mb-4">
@@ -123,7 +123,7 @@ const SortingHat: React.FunctionComponent<{
         )}
         <div className="w-100 flex items-center justify-end mt-2">
           <button
-            className="rounded text-xs px-2 py-1 flex justify-center items-center dark:text-trueGray-900 dark:bg-trueGray-600 bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out "
+            className="rounded text-xs px-2 py-1 flex justify-center items-center dark:text-gray-900 dark:bg-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out "
             onClick={() => {
               dispatch({type: 'dismiss'})
             }}

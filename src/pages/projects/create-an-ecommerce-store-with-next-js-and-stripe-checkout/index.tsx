@@ -276,7 +276,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
               className="prose prose-lg md:prose-xl dark:prose-dark dark:prose-lg-dark dark:md:prose-xl-dark max-w-screen-md mx-auto"
               source={course.summary}
             />
-            <div className="mt-20 bg-gray-50 dark:bg-trueGray-800 -mx-5 pt-24 xl:px-0 px-5">
+            <div className="mt-20 bg-gray-50 dark:bg-gray-800 -mx-5 pt-24 xl:px-0 px-5">
               <div className="max-w-screen-lg mx-auto">
                 <div className="mb-4 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
                   What You’ll Build for Your Portfolio
@@ -568,10 +568,10 @@ const Part: FunctionComponent<{
                             'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
                         })
                       }}
-                      className="py-1 flex space-x-2 items-center dark:text-trueGray-100 text-gray-700 hover:text-blue-600 group"
+                      className="py-1 flex space-x-2 items-center dark:text-gray-100 text-gray-700 hover:text-blue-600 group"
                     >
                       {/* prettier-ignore */}
-                      <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-trueGray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
+                      <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
                       <div className="font-semibold">{l.title}</div>
                     </a>
                   </Link>
