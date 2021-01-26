@@ -43,7 +43,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
   }
 
   return (
-    <div className="text-text w-full  mx-auto flex flex-col justify-center sm:mt-24 mt-5">
+    <div className="text-text dark:text-trueGray-100 w-full  mx-auto flex flex-col justify-center sm:mt-24 mt-5">
       <img
         className="sm:w-40 sm:h-40 w-32 h-32 mx-auto mb-8"
         src={
@@ -52,7 +52,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
         alt="egghead climbers"
       />
       <div className="sm:mx-auto sm:w-full sm:max-w-md rounded-lg">
-        <h2 className="text-center text-3xl leading-9 font-semibold text-gray-900">
+        <h2 className="text-center text-3xl leading-9 font-semibold text-gray-900 dark:text-trueGray-100">
           Please provide your email address to join.
         </h2>
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -80,7 +80,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
                         <div>
                           <label
                             htmlFor="email"
-                            className="block leading-6 text-gray-800"
+                            className="block leading-6 text-gray-800 dark:text-trueGray-300"
                           >
                             Email address
                           </label>
@@ -93,7 +93,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
                               onBlur={handleBlur}
                               placeholder="you@company.com"
                               required
-                              className="bg-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
+                              className="bg-gray-200 dark:text-trueGray-900 focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
                             />
                           </div>
                         </div>
@@ -101,7 +101,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className=" transition duration-150 ease-in-out bg-gray-900 hover:bg-gray-700 hover:shadow-xl text-white font-semibold py-3 px-5 rounded"
+                            className=" transition duration-150 ease-in-out dark:bg-trueGray-600 bg-gray-900 hover:bg-gray-700 hover:shadow-xl text-white font-semibold py-3 px-5 rounded"
                           >
                             Proceed to Payment
                           </button>
