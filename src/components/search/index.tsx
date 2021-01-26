@@ -19,6 +19,7 @@ import {useRouter} from 'next/router'
 import config from 'lib/config'
 
 import SearchReact from 'components/search/curated/react'
+import SearchJavaScript from 'components/search/curated/javascript'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 
@@ -150,6 +151,20 @@ const Search: FunctionComponent<SearchProps> = ({
                     className="dark:bg-trueGray-900 bg-gray-50 -mx-5 md:-mt-5"
                   >
                     <SearchReact />
+                  </motion.div>
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {noInstructorsSelected(searchState) &&
+                onlyTheseTagsSelected(['javascript'], searchState) && (
+                  <motion.div
+                    layout
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
+                    className="dark:bg-trueGray-900 bg-gray-50 -mx-5 md:-mt-5"
+                  >
+                    <SearchJavaScript />
                   </motion.div>
                 )}
             </AnimatePresence>
