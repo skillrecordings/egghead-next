@@ -408,10 +408,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       </Head>
       <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
-          <div className="w-full flex flex-col lg:flex-row justify-center">
+          <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
               ref={ref}
-              className="flex-grow"
+              className="flex-grow w-full"
               css={{
                 maxWidth: lessonMaxWidth,
                 '@media (min-width: 1024px)': {
@@ -592,7 +592,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
             {collection && collection?.lessons && (
-              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100">
+              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100  self-stretch">
                 <div className="p-4 border-b border-gray-100">
                   <Course course={collection} currentLessonSlug={lesson.slug} />
                 </div>
@@ -781,7 +781,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   )}
                   {commentsAvailable && (
                     <TabPanel>
-                      <div className="space-y-10">
+                      <div
+                        className="space-y-6 sm:space-y-8 prose sm:prose-lg"
+                        css={{wordBreak: 'break-word'}}
+                      >
                         {comments.map((comment: any) => (
                           <Comment
                             key={comment.id}
