@@ -9,6 +9,7 @@ import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
+import useCio from '../../hooks/use-cio'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -184,6 +185,7 @@ export default Header
 
 const DarkModeToggle = () => {
   const [mounted, setMounted] = React.useState(false)
+  const {subscriber, cioIdentify} = useCio()
   const {theme, setTheme} = useTheme()
   React.useEffect(() => setMounted(true), [])
 
@@ -192,7 +194,18 @@ const DarkModeToggle = () => {
       aria-label="Toggle Dark Mode"
       type="button"
       className="bg-trueGray-200 dark:bg-trueGray-800 rounded p-3 h-10 w-10"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={() => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark'
+        setTheme(nextTheme)
+        track(`toggled dark mode`, {
+          mode: nextTheme,
+        })
+        if (subscriber) {
+          cioIdentify(subscriber.id, {
+            theme_preference: nextTheme,
+          })
+        }
+      }}
     >
       {mounted && (
         <svg
