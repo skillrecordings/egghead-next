@@ -3,14 +3,13 @@ const colors = require('tailwindcss/colors')
 const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: [
-    './src/**/*.js',
-    './src/pages/**/*.js',
-    './src/pages/**/*.tsx',
-    './src/pages/**/*.mdx',
-    './src/components/**/*.mdx',
-    './src/**/*.tsx',
-  ],
+  purge: {
+    layers: ['components', 'utilities'],
+    content: ['./src/**/*.js', './src/**/*.mdx', './src/**/*.tsx'],
+    options: {
+      safelist: ['dark'], //specific classes
+    },
+  },
   theme: {
     colors: {
       ...defaultTheme.colors,
