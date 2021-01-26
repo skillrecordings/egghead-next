@@ -31,7 +31,7 @@ const Topic: FunctionComponent<TopicProps> = ({
       <div className="sm:col-span-6 col-span-6 sm:p-8 p-4 sm:pr-3 flex flex-col justify-start h-full">
         <h1 className="sm:text-2xl text-xl font-bold">{title}</h1>
         {children && (
-          <Markdown className="prose pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-trueGray-200 mt-0">
+          <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-trueGray-200 mt-0">
             {children}
           </Markdown>
         )}

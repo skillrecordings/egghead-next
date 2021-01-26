@@ -94,7 +94,7 @@ const Home: FunctionComponent = () => {
                       </a>
                     </Link>
                   </div>
-                  <Markdown className="prose prose-sm mt-4">
+                  <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
                     {video.description}
                   </Markdown>
                 </div>
@@ -399,7 +399,7 @@ export const CardHorizontal: FunctionComponent<{
             </div>
             <Markdown
               source={resource.description || ''}
-              className="prose prose-sm max-w-none"
+              className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none"
             />
           </div>
         </div>
@@ -500,7 +500,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
         <div>
           <Markdown
             source={description || ''}
-            className="prose prose-sm max-w-none mb-3 "
+            className="prose prose-sm dark:prose-dark dark:prose-dark-sm max-w-none mb-3 "
           />
           <Collection resource={data} />
         </div>

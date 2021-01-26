@@ -727,7 +727,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
 
                 {description && (
-                  <Markdown className="prose sm:prose-xl max-w-none font-medium">
+                  <Markdown className="prose dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl max-w-none font-medium">
                     {description}
                   </Markdown>
                 )}
@@ -770,7 +770,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
-                        className="prose sm:prose-lg max-w-none break-words"
+                        className="prose dark:prose-dark sm:dark:prose-lg-dark sm:prose-lg max-w-none break-words"
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}

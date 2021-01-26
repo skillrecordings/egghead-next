@@ -100,7 +100,7 @@ const Card: FunctionComponent<CardProps> = ({
             </div>
           )}
           {description && (
-            <Markdown className="prose prose-sm max-w-none mb-3">
+            <Markdown className="prose prose-sm dark:prose-dark dark:prose-dark-sm max-w-none mb-3">
               {description}
             </Markdown>
           )}

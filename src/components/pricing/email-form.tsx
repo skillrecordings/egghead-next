@@ -118,7 +118,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
               </div>
             )}
             {isError && (
-              <ReactMarkdown className="prose prose-xl">
+              <ReactMarkdown className="prose dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
                 {isError.toString()}
               </ReactMarkdown>
             )}

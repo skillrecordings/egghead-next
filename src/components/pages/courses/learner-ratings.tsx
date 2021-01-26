@@ -67,7 +67,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
               <div className="text-xs text-gray-500 dark:text-trueGray-500">
                 {comment.prompt}
               </div>
-              <div className="prose overflow-hidden">
+              <div className="prose dark:prose-dark overflow-hidden">
                 <Markdown>{comment.comment}</Markdown>
               </div>
               {displayAdminContent && (

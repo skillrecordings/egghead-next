@@ -399,7 +399,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Markdown className="prose md:prose-lg text-gray-900 dark:text-trueGray-100 mt-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-trueGray-100 mt-6">
                 {description}
               </Markdown>
 
@@ -425,7 +425,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold mb-3">
                     What you'll learn
                   </h2>
-                  <div className="prose">
+                  <div className="prose dark:prose-dark">
                     <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
                       {topics?.map((topic: string) => (
                         <li
@@ -520,7 +520,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                 }}
                                 className="hover:underline font-semibold flex items-center w-full"
                               >
-                                <Markdown className="prose md:prose-lg text-gray-900 dark:text-trueGray-100 mt-0">
+                                <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-900 dark:text-trueGray-100 mt-0">
                                   {playlist.title}
                                 </Markdown>
                               </a>
@@ -558,7 +558,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                             }}
                                             className="hover:underline flex items-center w-full"
                                           >
-                                            <Markdown className="prose md:prose-lg text-gray-700 dark:text-trueGray-100 mt-0">
+                                            <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-trueGray-100 mt-0">
                                               {lesson.title}
                                             </Markdown>
                                           </a>
@@ -676,11 +676,11 @@ const Fresh = ({freshness}: {freshness: any}) => {
         <div
           className={`flex flex-col space-y-1 ${
             freshness.status === 'fresh'
-              ? 'border-green-900 border bg-green-100 bg-opacity-50'
+              ? 'border-green-900 border bg-green-100 bg-opacity-50  dark:bg-opacity-10'
               : freshness.status === 'classic'
-              ? 'border-blue-900 border bg-blue-100 bg-opacity-50'
+              ? 'border-blue-900 border bg-blue-100 bg-opacity-50  dark:bg-opacity-10'
               : freshness.status === 'stale'
-              ? 'border-orange-900 border bg-orange-100 bg-opacity-50'
+              ? 'border-orange-900 border bg-orange-100 bg-opacity-50 dark:bg-opacity-10'
               : 'border'
           } border-opacity-20 p-4 my-3 rounded-md`}
         >
@@ -697,7 +697,9 @@ const Fresh = ({freshness}: {freshness: any}) => {
             </p>
           )}
           {freshness.text && (
-            <Markdown className="prose w-full">{freshness.text}</Markdown>
+            <Markdown className="prose dark:prose-dark w-full">
+              {freshness.text}
+            </Markdown>
           )}
         </div>
       )}
