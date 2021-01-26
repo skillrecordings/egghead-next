@@ -11,6 +11,7 @@ const IndexPage: FunctionComponent = () => {
           <Home />
         </div>
       </main>
+      <div className="dark" />
     </>
   )
 }
