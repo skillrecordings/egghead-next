@@ -4,7 +4,6 @@ const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
 
 module.exports = {
   purge: {
-    layers: ['components', 'utilities'],
     content: [
       './src/**/*.js',
       './pages/**/*.js',
