@@ -75,15 +75,15 @@ const logCollectionResource = (collection: CollectionResource) => {
 
 const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
   <div className="flex flex-row items-center">
-    <ClockIcon className="w-4 h-4 mr-1" />
+    <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
     <span>{duration}</span>
   </div>
 )
 
 const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
   <div className="flex items-center space-x-2 flex-nowrap">
-    <div>Updated:</div>
-    <code>{date}</code>
+    <div className="opacity-60">Updated:</div>
+    <span>{date}</span>
   </div>
 )
 
