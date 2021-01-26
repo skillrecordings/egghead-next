@@ -321,10 +321,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
                 <div className="flex items-center flex-col md:flex-row flex-wrap">
-                  <div className="mr-3 mt-3">
+                  <div className="md:mr-3 mt-3">
                     <TagList tags={courseTags} courseSlug={course.slug} />
                   </div>
-                  <div className="flex items-center md:justify-start justify-center mr-3 mt-3">
+                  <div className="flex items-center md:justify-start justify-center md:mr-3 mt-3">
                     {duration && (
                       <div className="mr-3">
                         <Duration duration={convertTimeWithTitles(duration)} />
@@ -362,7 +362,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       setIsFavorite(!isFavorite)
                     }}
                   >
-                    <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                    <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                       <BookmarkIcon
                         className={`w-4 h-4 mr-1`}
                         fill={isFavorite}
@@ -384,7 +384,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
@@ -403,7 +403,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
                     </a>
