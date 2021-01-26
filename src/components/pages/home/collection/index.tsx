@@ -71,7 +71,9 @@ const Collection: FunctionComponent<CollectionProps> = ({
                   </h4>
                 </a>
               </Link>
-              <div className="text-xs text-gray-600">{byline}</div>
+              <div className="text-xs text-gray-600 dark:text-gray-300">
+                {byline}
+              </div>
             </div>
           </li>
         )

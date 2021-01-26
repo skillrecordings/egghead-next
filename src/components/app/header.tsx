@@ -8,15 +8,20 @@ import {isEmpty} from 'lodash'
 import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
+import {useTheme} from 'next-themes'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
 
 const Header: FunctionComponent = () => {
+  const [mounted, setMounted] = React.useState(false)
+  const {theme, setTheme} = useTheme()
   const router = useRouter()
   const {viewer, loading} = useViewer()
   const {sm} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
+
+  React.useEffect(() => setMounted(true), [])
 
   React.useEffect(() => {
     !sm ? setOpen(sm) : setOpen(false)
@@ -35,7 +40,7 @@ const Header: FunctionComponent = () => {
           <div className={className}>
             <Feedback
               user={viewer}
-              className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+              className="px-3 py-2 hover:bg-gray-100 dark:hover:text-black active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
             >
               Feedback
             </Feedback>
@@ -47,7 +52,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Bookmarks
                 </a>
@@ -61,7 +66,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Team
                 </a>
@@ -108,6 +113,38 @@ const Header: FunctionComponent = () => {
                 </span>
               </div>
             )}
+            <button
+              aria-label="Toggle Dark Mode"
+              type="button"
+              className="bg-trueGray-200 dark:bg-trueGray-800 rounded p-3 h-10 w-10"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {mounted && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  className="h-4 w-4 text-gray-800 dark:text-gray-200"
+                >
+                  {theme === 'dark' ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    />
+                  )}
+                </svg>
+              )}
+            </button>
           </div>
         ) : (
           <div className={className}>
@@ -135,8 +172,41 @@ const Header: FunctionComponent = () => {
                 Sign in
               </a>
             </Link>
+            <button
+              aria-label="Toggle Dark Mode"
+              type="button"
+              className="bg-trueGray-200 dark:bg-trueGray-800 rounded p-3 h-10 w-10"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {mounted && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  className="h-4 w-4 text-gray-800 dark:text-gray-200"
+                >
+                  {theme === 'dark' ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    />
+                  )}
+                </svg>
+              )}
+            </button>
           </div>
         )}
+
         {children}
       </div>
     ) : null
@@ -144,13 +214,13 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 flex items-center justify-between print:hidden">
+      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 border-b border-gray-100 dark:border-trueGray-800 flex items-center justify-between print:hidden dark:text-trueGray-100">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
           <div className="flex items-center">
             <Link href="/">
               <a className="flex items-center">
                 <Eggo className="w-8 mr-1" />
-                <span className="sm:inline-block hidden text-lg font-semibold">
+                <span className="sm:inline-block hidden text-lg font-semibold dark:text-trueGray-200">
                   egghead.io
                 </span>
               </a>
@@ -170,7 +240,7 @@ const Header: FunctionComponent = () => {
         </div>
       </header>
       {isOpen && (
-        <Navigation className="flex flex-col items-start bg-white p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl" />
+        <Navigation className="flex flex-col items-start bg-white dark:bg-trueGray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl" />
       )}
     </>
   )

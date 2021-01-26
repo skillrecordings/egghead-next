@@ -103,7 +103,11 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
             return <CodeBlock {...props} />
           },
         }}
-        className={className ? className : 'prose md:prose-xl max-w-none'}
+        className={
+          className
+            ? className
+            : 'prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl max-w-none'
+        }
       >
         {enhancedTranscript || transcript || ''}
       </ReactMarkdown>
