@@ -157,8 +157,6 @@ const Account: React.FunctionComponent<
   const {stripe_customer_id, slug} = account
   const {viewer} = useViewer()
 
-  console.log(viewer)
-
   const {email: currentEmail} = viewer || {}
 
   const recur = (price: any) => {
