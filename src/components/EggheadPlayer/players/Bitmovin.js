@@ -68,8 +68,17 @@ export default class Bitmovin extends Base {
   getConfig(props) {
     const {poster, title, description, preload, onVolumeChange, muted} =
       props || this.props
+
+    const CACHE_KEY = `grapenuts`
+
     return {
       key: BITMOVIN_PUBLIC_KEY,
+      network: {
+        preprocessHttpRequest: function (type, request) {
+          request.url = `${request.url}?b=${CACHE_KEY}`
+          return Promise.resolve(request)
+        },
+      },
       logs: {
         bitmovin: false,
         level: 'off',

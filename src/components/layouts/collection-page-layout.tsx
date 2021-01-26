@@ -5,7 +5,7 @@ import Markdown from 'react-markdown'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty} from 'lodash'
+import {get, first, filter, isEmpty, take} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -16,14 +16,14 @@ import ClockIcon from '../icons/clock'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
-import {FunctionComponent} from 'react'
 import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
-import {format, parse} from 'date-fns'
+import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
+import {CardHorizontal} from '../pages/home'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -81,7 +81,63 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
 
-  const {topics, illustrator, dependencies, freshness} = courseDependencies
+  const defaultPairWithResources: any[] = take(
+    [
+      {
+        title: 'Introduction to Cloudflare Workers',
+        byline: 'Kristian Freeman・36m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/thumb/EGH_IntroCloudFlareWorkers_Final.png',
+        path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+        slug: 'introduction-to-cloudflare-workers-5aa3',
+        description:
+          "Become familiar with the Workers CLI `wrangler` that we will use to bootstrap our Worker project. From there you'll understand how a Worker receives and returns requests/Responses. We will also build this serverless function locally for development and deploy it to a custom domain.",
+      },
+      {
+        title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+        byline: 'Colby Fayock・1h 4m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
+        path:
+          '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        description: `This is a practical project based look at building a working e-commerce store
+        using modern tools and APIs. Excellent for a weekend side-project for your [developer project portfolio](https://joelhooks.com/developer-portfolio)`,
+      },
+      {
+        title: 'Practical Git for Everyday Professional Use',
+        byline: 'Trevor Miller・1h・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
+        path: '/courses/practical-git-for-everyday-professional-use',
+        slug: 'practical-git-for-everyday-professional-use',
+        description: `[git](/q/git) is a critical component in the modern web developers tool box. This course
+         is a solid introduction and goes beyond the basics with some more advanced git commands
+         you are sure to find useful.`,
+      },
+      {
+        title: 'Build an App with the AWS Cloud Development Kit',
+        byline: 'Tomasz Łakomy・1h 4m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
+        slug: 'build-an-app-with-the-aws-cloud-development-kit',
+        description:
+          "Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done. Excellent kick start for your next side project or your developer portfolio.",
+      },
+    ].filter((resource) => {
+      return resource.slug !== course.slug
+    }),
+    3,
+  )
+
+  const {
+    topics,
+    illustrator,
+    dependencies,
+    freshness,
+    pairWithResources = defaultPairWithResources,
+  } = courseDependencies
 
   const {
     title,
@@ -90,7 +146,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     instructor,
     average_rating_out_of_5,
     watched_count,
-    primary_tag,
     description,
     rss_url,
     download_url,
@@ -128,7 +183,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
-  const {name: tagName, image_url: tagImage, slug: tagSlug} = primary_tag
 
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
@@ -158,7 +212,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     lesson,
   }) => {
     const isContinuing =
-      lesson && lesson != first(lessons) && lesson != first(playlistLessons)
+      lesson && lesson !== first(lessons) && lesson !== first(playlistLessons)
     return lesson ? (
       <Link href={lesson.path}>
         <a
@@ -203,7 +257,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           ],
         }}
       />
-      <div className="max-w-screen-xl mx-auto sm:pb-16 pb-8">
+      <div className="max-w-screen-xl mx-auto sm:pb-16 pb-8 dark:text-trueGray-100">
         {state === 'retired' && (
           <div className="w-full text-lg bg-orange-100 text-orange-800 p-3 rounded-md border border-orange-900 border-opacity-20">
             ⚠️ This course has been retired and might contain outdated
@@ -244,6 +298,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   )}
                   <TagList tags={courseTags} courseSlug={course.slug} />{' '}
+                  {updated_at && (
+                    <div className="flex flex-col lg:flex-row items-center space-x-2 ">
+                      <div>Updated:</div>
+                      <div>
+                        <code>{friendlyTime(new Date(updated_at))}</code>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -264,17 +326,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   )}
                 </div>
-                {updated_at && (
-                  <div className="flex flex-col lg:flex-row items-center space-x-2 w-1/3 ">
-                    <div>Updated:</div>
-                    <div>
-                      <code>{format(new Date(updated_at), 'yyyy-MM-dd')}</code>
-                    </div>
-                  </div>
-                )}
               </div>
 
-              <div className="flex items-center md:justify-start justify-center mt-4 space-x-2">
+              <div className="dark:text-trueGray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
@@ -288,7 +342,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       setIsFavorite(!isFavorite)
                     }}
                   >
-                    <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                    <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
                       <BookmarkIcon
                         className={`w-4 h-4 mr-1`}
                         fill={isFavorite}
@@ -297,7 +351,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   </button>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
                     <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
                   </div>
                 )}
@@ -310,7 +364,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
@@ -345,17 +399,18 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Markdown className="prose md:prose-lg text-gray-900 mt-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-trueGray-100 mt-6">
                 {description}
               </Markdown>
 
               <div className="pt-5 md:hidden block">
+                <Fresh freshness={freshness} />
                 {get(course, 'free_forever') && (
-                  <div className="pt-6">
+                  <div className="pt-3">
                     <CommunityResource type="course" />
                   </div>
                 )}
-                <Fresh freshness={freshness} />
+
                 {illustrator && (
                   <div className="w-full py-6">
                     <h4 className="font-semibold">Credits</h4>
@@ -370,10 +425,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold mb-3">
                     What you'll learn
                   </h2>
-                  <div className="prose">
+                  <div className="prose dark:prose-dark">
                     <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
                       {topics?.map((topic: string) => (
-                        <li key={topic} className="text-gray-900 leading-6">
+                        <li
+                          key={topic}
+                          className="text-gray-900 dark:text-trueGray-100 leading-6"
+                        >
                           {topic}
                         </li>
                       ))}
@@ -382,6 +440,24 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               )}
               <LearnerRatings collection={course} />
+              {!isEmpty(pairWithResources) && (
+                <div className="my-12 md:flex hidden flex-col space-y-2">
+                  <h2 className="text-lg font-semibold mb-3">
+                    You might also like these courses:
+                  </h2>
+                  {pairWithResources.map((resource: any) => {
+                    return (
+                      <div>
+                        <CardHorizontal
+                          className="border my-4 border-opacity-10 border-gray-400 dark:border-trueGray-700"
+                          resource={resource}
+                          location={course.path}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
             </header>
           </div>
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
@@ -398,14 +474,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="w-full flex justify-center mt-10">
                 <PlayButton lesson={nextLesson} />
               </div>
+              <Fresh freshness={freshness} />
               <div className="">
                 {get(course, 'free_forever') && (
-                  <div className="pt-6">
+                  <div className="p-3 border rounded-md bg-gray-100 dark:border-trueGray-700 bg-opacity-20">
                     <CommunityResource type="course" />
                   </div>
                 )}
               </div>
-              <Fresh freshness={freshness} />
+
               {illustrator && (
                 <div className="w-full">
                   <h4 className="font-semibold">Credits</h4>
@@ -418,14 +495,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             <section className="mt-8">
               <div className="mb-2 flex flex-col space-y-4">
                 <h2 className="text-xl font-bold">Course Content </h2>
-                <div className="text-sm text-gray-600 font-normal">
+                <div className="text-sm text-gray-600 dark:text-trueGray-300 font-normal">
                   {duration && `${convertTimeWithTitles(duration)} • `}
                   {lessons.length + playlistLessons.length} lessons
                 </div>
               </div>
               <div>
                 <ul>
-                  {playlists.map((playlist: any, i: number) => {
+                  {playlists.map((playlist: any) => {
                     return (
                       <li key={playlist.slug}>
                         <div className="font-semibold flex items-center leading-tight py-2">
@@ -443,7 +520,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                 }}
                                 className="hover:underline font-semibold flex items-center w-full"
                               >
-                                <Markdown className="prose md:prose-lg text-gray-900 mt-0">
+                                <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-900 dark:text-trueGray-100 mt-0">
                                   {playlist.title}
                                 </Markdown>
                               </a>
@@ -461,10 +538,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                   <li key={`${playlist.slug}::${lesson.slug}`}>
                                     <div className="flex items-center leading-tight py-2">
                                       <div className="flex items-center mr-2 flex-grow">
-                                        <small className="text-gray-500 pt-px font-xs transform scale-75 font-normal w-4">
+                                        <small className="text-gray-500 dark:text-trueGray-600 pt-px font-xs transform scale-75 font-normal w-4">
                                           {isComplete ? `✔️` : index + 1}
                                         </small>
-                                        <PlayIcon className="text-gray-500 mx-1" />
+                                        <PlayIcon className="text-gray-500 dark:text-trueGray-100 mx-1" />
                                       </div>
                                       {lesson.path && (
                                         <Link href={lesson.path}>
@@ -481,7 +558,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                             }}
                                             className="hover:underline flex items-center w-full"
                                           >
-                                            <Markdown className="prose md:prose-lg text-gray-700 mt-0">
+                                            <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-trueGray-100 mt-0">
                                               {lesson.title}
                                             </Markdown>
                                           </a>
@@ -511,7 +588,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           <div className="flex items-center mr-2 space-x-2">
                             <div
                               className={`${
-                                isComplete ? 'text-blue-600' : 'text-gray-500'
+                                isComplete
+                                  ? 'text-blue-600 dark:text-trueGray-100'
+                                  : 'text-gray-500 dark:text-trueGray-400'
                               } pt-px font-xs transform scale-75 font-normal w-4`}
                             >
                               {isComplete ? <CheckIcon /> : index + 1}
@@ -540,13 +619,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                         },
                                       )
                                     }}
-                                    className="text-lg hover:underline hover:text-blue-600 font-semibold"
+                                    className="text-lg hover:underline hover:text-blue-600 font-semibold dark:text-trueGray-100"
                                   >
                                     {lesson.title}
                                   </a>
                                 </Link>
                               </div>
-                              <div className="text-xs text-gray-700">
+                              <div className="text-xs text-gray-700 dark:text-trueGray-500">
                                 {convertTimeWithTitles(lesson.duration, {
                                   showSeconds: true,
                                 })}
@@ -560,6 +639,24 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </ul>
               </div>
             </section>
+            {!isEmpty(pairWithResources) && (
+              <div className="my-12 flex md:hidden flex-col space-y-2">
+                <h2 className="text-lg font-semibold mb-3">
+                  You might also like these courses:
+                </h2>
+                {pairWithResources.map((resource: any) => {
+                  return (
+                    <div>
+                      <CardHorizontal
+                        className="border my-4 border-opacity-10 border-gray-400 dark:border-trueGray-500"
+                        resource={resource}
+                        location={course.path}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -579,15 +676,18 @@ const Fresh = ({freshness}: {freshness: any}) => {
         <div
           className={`flex flex-col space-y-1 ${
             freshness.status === 'fresh'
-              ? 'border-green-900 border bg-green-100 bg-opacity-50'
+              ? 'border-green-900 border bg-green-100 bg-opacity-50  dark:bg-opacity-10'
               : freshness.status === 'classic'
-              ? 'border-blue-900 border bg-blue-100 bg-opacity-50'
+              ? 'border-blue-900 border bg-blue-100 bg-opacity-50  dark:bg-opacity-10'
+              : freshness.status === 'stale'
+              ? 'border-orange-900 border bg-orange-100 bg-opacity-50 dark:bg-opacity-10'
               : 'border'
           } border-opacity-20 p-4 my-3 rounded-md`}
         >
           {freshness.title && (
             <h2 className="text-xl font-semibold">
               {freshness.status === 'fresh' && '🌱'}
+              {freshness.status === 'stale' && '⛔️'}
               {freshness.status === 'classic' && '💎'} {freshness.title}
             </h2>
           )}
@@ -597,7 +697,9 @@ const Fresh = ({freshness}: {freshness: any}) => {
             </p>
           )}
           {freshness.text && (
-            <Markdown className="prose w-full">{freshness.text}</Markdown>
+            <Markdown className="prose dark:prose-dark w-full">
+              {freshness.text}
+            </Markdown>
           )}
         </div>
       )}

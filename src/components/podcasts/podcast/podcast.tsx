@@ -54,7 +54,7 @@ const Podcast: FunctionComponent<PodcastProps> = ({
       >
         <Image src={image_url} width={IMAGE_SIZE} height={IMAGE_SIZE} />
       </div>
-      <div className="prose md:prose-xl leading-6">
+      <div className="prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl leading-6">
         <div className="text-sm uppercase font-light text-center text-gray-500">{`Episode ${episode_number} ${
           contributors && contributors.length > 0
             ? `• ${contributors.join(' && ')}`

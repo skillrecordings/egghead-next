@@ -1,5 +1,8 @@
+# Twitterbot
 User-agent: Twitterbot
 Disallow: 
+
+# *
 User-agent: *
 Allow: /
 Disallow: /discord
@@ -13,7 +16,11 @@ Disallow: /login
 Disallow: /logout
 Disallow: /redirect
 Disallow: /sale
+
+# Host
 Host: https://egghead.io
+
+# Sitemaps
 Sitemap: https://egghead.io/sitemap.xml
 Sitemap: http://egghead-sitemaps.s3.amazonaws.com/sitemaps/sitemap.xml.gz
 Sitemap: https://egghead.io/tags-sitemap-0.xml

@@ -178,7 +178,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </h1>
               <div className="mt-2 flex items-center">
                 <Link href={`/q/resources-by-${get(instructor, 'slug')}`}>
-                  <a className="text-base text-gray-800 hover:text-blue-600 transition-colors ease-in-out duration-300 flex items-center">
+                  <a className="text-base dark:text-trueGray-400 text-gray-800 hover:text-blue-600 transition-colors ease-in-out duration-300 flex items-center">
                     {instructor.avatar_url && (
                       <Image
                         src={get(instructor, 'avatar_url')}
@@ -193,7 +193,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </Link>
               </div>
             </header>
-            <Markdown className="prose lg:prose-lg max-w-none text-gray-900">
+            <Markdown className="prose dark:prose-dark lg:dark:prose-lg-dark lg:prose-lg max-w-none text-gray-900">
               {get(lesson, 'description')}
             </Markdown>
             {transcriptAvailable && (
@@ -202,7 +202,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   Transcript
                 </h3>
                 <Transcript
-                  className="prose max-w-none text-gray-800"
+                  className="prose dark:prose-dark max-w-none text-gray-800"
                   player={playerRef}
                   playVideo={() => send('PLAY')}
                   playerAvailable={playerVisible}

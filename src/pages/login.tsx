@@ -48,7 +48,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
       className={
         className
           ? className
-          : 'w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center text-gray-900'
+          : 'w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center text-gray-900 dark:text-trueGray-100'
       }
     >
       {image}

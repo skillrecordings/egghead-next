@@ -5,7 +5,7 @@ const Index = (props: any) => {
   const tagSlugs: string[] = props.tagSlugs
 
   return (
-    <div className="prose">
+    <div className="prose dark:prose-dark">
       <div className="space-y-5">
         <p>
           This is a programmatically generated listing of all the topics and all

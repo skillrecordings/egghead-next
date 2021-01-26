@@ -14,6 +14,10 @@
   padding: 0 !important;
 }
 
+.prose .mt-0 {
+  margin-top: 0;
+}
+
 /* ——— Code Blocks ——— */
 
 code::before {

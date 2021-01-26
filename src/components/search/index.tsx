@@ -132,7 +132,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     <h1 className="text-2xl font-bold">
                       {instructor.full_name}
                     </h1>
-                    <ReactMarkdown className="prose mt-0">
+                    <ReactMarkdown className="prose dark:prose-dark mt-0">
                       {instructor.bio_short}
                     </ReactMarkdown>
                   </div>
@@ -147,7 +147,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     initial={{opacity: 0}}
                     animate={{opacity: 1}}
                     exit={{opacity: 0}}
-                    className="bg-gray-50 -mx-5 md:-mt-5"
+                    className="dark:bg-trueGray-900 bg-gray-50 -mx-5 md:-mt-5"
                   >
                     <SearchReact />
                   </motion.div>

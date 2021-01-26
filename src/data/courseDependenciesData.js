@@ -186,6 +186,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'composing-closures-and-callbacks-in-javascript-1223',
+        freshness: {
+          status: `classic`,
+          title: `Core Skills`,
+          text: `This is an epic [JavaScript](/q/javascript) resource that goes well beyond the 
+          basics and delivers expert knowledge on core patterns in the language. **Designed for the 
+          advanced beginner and beyond**
+          `,
+          asOf: `2021-01-24`,
+        },
         topics: [
           'Closures, Callbacks, and Composition',
           'Currying, Caching, and Creating operators',
@@ -195,6 +204,37 @@ const courseDependencyData = (courseSlug) =>
           {
             url:
               'https://github.com/eggheadio/eggheadio-course-notes/tree/master/composing-closures-and-callbacks-in-javascript',
+          },
+        ],
+        pairWithResources: [
+          {
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
+              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
+          },
+          {
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
+              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
           },
         ],
       },
@@ -387,6 +427,39 @@ const courseDependencyData = (courseSlug) =>
           'what JSX is and how it translates to regular JavaScript function calls and objects',
           'manage state with hooks',
           'build forms',
+        ],
+        pairWithResources: [
+          {
+            title: 'Develop Accessible Web Apps with React',
+            byline: 'Erin Doyle・1h 28m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+            path: '/courses/develop-accessible-web-apps-with-react',
+            slug: 'develop-accessible-web-apps-with-react',
+            description: `Gain the knowledge and skills required to audit and fix accessibility issues in your applications 
+            and gain a better understanding of your target users and how to approach your web app design from their perspectives`,
+          },
+          {
+            title: 'Simplify React Apps with React Hooks',
+            byline: 'Kent C. Dodds・38m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/thumb/EGH_SimplifyHooks_Final.png',
+            path: '/courses/simplify-react-apps-with-react-hooks',
+            slug: 'simplify-react-apps-with-react-hooks',
+            description: `React transitioned to an API called Hooks and most consider it the way to develop production applications
+              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.`,
+          },
+          {
+            title: 'Build Maps with React Leaflet',
+            byline: 'Colby Fayock・47m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/thumb/React_Leaflet_Final.png',
+            path: '/courses/build-maps-with-react-leaflet',
+            slug: 'build-maps-with-react-leaflet',
+            description: `Build an interesting map focused application using modern React practices including Hooks. 
+              While you are learning you'll be able to practice with challenges. This course would be a fantastic
+              base for a [developer portfolio project](https://joelhooks.com/developer-portfolio).`,
+          },
         ],
       },
       {
@@ -2239,6 +2312,54 @@ const courseDependencyData = (courseSlug) =>
         },
       },
       {
+        slug: 'professor-frisby-introduces-composable-functional-javascript',
+        freshness: {
+          status: `classic`,
+          title: `This is a Classic Resource`,
+          text: `Dr. Boolean has created a modern JavaScript masterpiece with this
+          creative and entertaining lesson in functional programming. It is both quirky
+          and wonderful–delivering seriously useful information without taking itself too
+          seriously. Recorded in 2016, this delightful resource will be **just as valid in 
+          2030** as it was then. Enjoy.
+          `,
+          asOf: `2021-01-24`,
+        },
+        dependencies: {
+          javascript: '∞',
+        },
+        pairWithResources: [
+          {
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
+              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
+          },
+          {
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
+              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
+          },
+        ],
+      },
+      {
         slug: 'getting-started-with-redux',
         freshness: {
           status: `classic`,
@@ -2671,6 +2792,16 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'graphql-data-in-react-with-apollo-client',
+        freshness: {
+          status: `stale`,
+          title: `Still good, but there are issues with this course`,
+          text: `While much of the information in this course is useful it is showing its
+          age in the specific details. Some of the libraries demonstrated have **changed
+          versions**, and there are some **missing configuration specifics** with the server that
+          require additional investigation to follow along.
+          `,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           'apollo-boost': '^0.1.22',
           graphql: '^14.0.2',
@@ -2781,6 +2912,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'advanced-static-types-in-typescript',
+        freshness: {
+          status: `classic`,
+          title: `Core Resource`,
+          text: `This covers TypeScript 2.0+ and is **valid for core concepts** related to using
+          [TypeScript](/q/typescript) in modern web applications. Since it was recorded
+          many features have been added to TypeScript, but 2.0 was a huge milestone for 
+          the language and you'll learn a lot. **Highly recommended.**`,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           typescript: '^2.0.0',
         },

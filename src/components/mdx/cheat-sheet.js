@@ -7,7 +7,7 @@ export default function CheatSheet({title, children}) {
         <summary className="font-medium text-xl text-extrabold text-gray-900">
           {title}
         </summary>
-        <p className="prose text-lg text-gray-800 mt-0 p-4 leading-relaxed">
+        <p className="prose dark:prose-dark text-lg text-gray-800 mt-0 p-4 leading-relaxed">
           {children}
         </p>
       </details>
