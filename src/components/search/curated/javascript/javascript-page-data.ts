@@ -5,26 +5,26 @@ const javascriptPageData = [
     name: 'Just starting out with JavaScript',
     resources: [
       {
-        title: "The Beginner's Guide to React",
-        path: '/courses/the-beginner-s-guide-to-react',
+        title: 'Learn ES6',
+        path: '/courses/learn-es6-ecmascript-2015',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/full/EGH_BeginnersReact2.png',
-        byline: 'Kent C. Dodds',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/049/full/EGH_LearnES6_Final.png',
+        byline: 'John Lindquist',
       },
       {
-        title: 'Develop Accessible Web Apps with React',
-        path: '/courses/develop-accessible-web-apps-with-react',
+        title: 'Understand JavaScript Arrays',
+        path: '/courses/understand-javascript-arrays',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/full/AccessibleReact_1000.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/021/full/EGH_JSarrays.png',
         byline: 'Erin Doyle',
       },
 
       {
-        title: 'Build Maps with React Leaflet',
-        path: '/courses/build-maps-with-react-leaflet',
+        title: 'Advanced JavaScript Foundations',
+        path: '/courses/advanced-javascript-foundations',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/full/React_Leaflet_Final.png',
-        byline: 'Colby Fayock',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+        byline: 'Tyler Clark',
       },
     ],
   },
