@@ -57,7 +57,7 @@ const TweetLink: FunctionComponent<ShareProps> = ({
   }
   return get(resource, 'title') && get(resource, 'path') ? (
     <a
-      className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-trueGray-800 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
+      className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={encodeTweetUrl()}
@@ -81,7 +81,7 @@ const CopyToClipboard: FunctionComponent<{
       <button
         type="button"
         onClick={setCopied}
-        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-trueGray-800 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
+        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
       >
         {isCopied ? (
           'Copied'

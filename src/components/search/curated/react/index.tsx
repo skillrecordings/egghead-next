@@ -34,7 +34,7 @@ const SearchReact = () => {
   const reactPodcasts: any = find(reactPageData, {id: 'podcasts'})
 
   return (
-    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-trueGray-900">
+    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
         description={description}
         title={title}
@@ -54,7 +54,7 @@ const SearchReact = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-trueGray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
           title="React"
@@ -96,7 +96,7 @@ You can find courses below curated just for you whether you're looking for a par
           <Collection />
         </Card>
       </div>
-      <section className="mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 dark:bg-trueGray-800 rounded-lg">
+      <section className="mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg">
         <div className="lg:col-span-8 col-span-12 space-y-5">
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
             <div className="flex-shrink-0">
@@ -111,10 +111,10 @@ You can find courses below curated just for you whether you're looking for a par
               />
             </div>
             <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl dark:text-trueGray-200 font-bold leading-tight">
+              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
                 State Management in React
               </h1>
-              <div className="leading-relaxed text-gray-700 dark:text-trueGray-50 space-y-3">
+              <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
                 <p>
                   When it comes down to it, nearly every UI problem is a state
                   management problem. Orchestrating a whole symphony of menus,

@@ -15,7 +15,7 @@ module.exports = {
     colors: {
       ...defaultTheme.colors,
       ...colors,
-      gray: colors.blueGray,
+      gray: colors.coolGray,
       // red: colors.red,
       // blue: colors.blue,
       // yellow: colors.amber,

@@ -38,7 +38,7 @@ const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={`bg-white dark:bg-trueGray-800 dark:text-trueGray-200 shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
+      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
         className ? className : ''
       }`}
       {...restProps}
@@ -82,7 +82,7 @@ const Card: FunctionComponent<CardProps> = ({
                       location,
                     })
                   }}
-                  className="hover:text-blue-600"
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
                     {title}

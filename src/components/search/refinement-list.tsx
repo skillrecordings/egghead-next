@@ -33,7 +33,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-gray-100 dark:hover:bg-gray-800 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
         href={createURL(item.value)}
@@ -92,7 +92,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-gray-100 dark:hover:bg-gray-800 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
         href={createURL(item.value)}
@@ -146,7 +146,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-gray-100 dark:hover:bg-gray-800 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
         }`}
         href={createURL(item.value)}
