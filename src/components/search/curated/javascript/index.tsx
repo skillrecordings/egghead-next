@@ -17,21 +17,6 @@ const SearchJavaScript = () => {
   const beginner: any = find(javascriptPageData, {id: 'beginner'})
   const intermediate: any = find(javascriptPageData, {id: 'intermediate'})
   const advanced: any = find(javascriptPageData, {id: 'advanced'})
-  const stateManagementVideo: any = find(javascriptPageData, {
-    id: 'state-management-video',
-  })
-  const stateManagementFeatured: any = find(javascriptPageData, {
-    id: 'state-management-featured',
-  })
-  const stateManagementCollection: any = find(javascriptPageData, {
-    id: 'state-management-collection',
-  })
-  const stateManagementQuickly: any = find(javascriptPageData, {
-    id: 'state-management-quickly',
-  })
-  const reactArticles: any = find(javascriptPageData, {id: 'articles'})
-  const reactTalks: any = find(javascriptPageData, {id: 'talks'})
-  const reactPodcasts: any = find(javascriptPageData, {id: 'podcasts'})
 
   return (
     <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-trueGray-900">
@@ -74,18 +59,18 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
 `}
         </Topic>
         <ExternalTrackedLink
-          eventName="clicked epic react banner"
+          eventName="clicked testing javascript banner"
           params={{location}}
           className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
-          href="https://epicreact.dev"
+          href="https://testingjavascript.com"
         >
           <Image
             priority
             quality={100}
             width={417}
             height={463}
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
-            alt="epicreact.dev by Kent C. Dodds"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611679406/next.egghead.io/javascript/testingjs.png"
+            alt="Testing javascript by Kent C. Dodds"
           />
         </ExternalTrackedLink>
       </div>
