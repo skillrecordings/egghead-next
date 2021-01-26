@@ -61,13 +61,15 @@ const SearchJavaScript = () => {
           imageUrl="https://p-ZmFjNlQ.b3.n0.cdn.getcloudapp.com/items/GGu6PRP8/81661b86-2d95-4ed1-85f3-cce8ce7bf974.png?v=4c6081b4267a169ef8150d9ae7a64a3e"
         >
           {`
-Become an in-demand JavaScript developer.  Working daily with frameworks like React, Vue, and Angular it can be surprising how much JavaScript you don't know. 
+If there's one thing that never gets old, it's rock-solid JavaScript fundamentals. 
 
-You know how to get things done but you don't know what should you study and understand core JS. 
+When you're working in frameworks like React, Vue, and Angular, it's easy to forget that most of what you're writing is still JavaScript. We all get swept away in the excitement of new tools, but you need to lay down a stable foundation before stacking too much on top.
 
-A rock-solid understanding of JavaScript is essential for having a successful career, no matter which framework you use. This is a curated resource covering the important parts of the whole language.
+A strong understanding of JavaScript is essential for having a successful career, no matter which framework you use. 
 
-So when someones come to you and ask "Hey! can you build this". You can say "Yes" with confidence.
+This is a curated resource covering the important parts of the whole language. We'll show you what you need to know and guide you through learning it.
+
+When someone comes to you and asks "Hey! Can you build this?", you'll be able to say "yes" with confidence.
 
 `}
         </Topic>
