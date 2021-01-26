@@ -36,12 +36,18 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
   const EDIT_MODE = 'EDIT_MODE'
   const [mode, setMode] = React.useState(VIEW_MODE)
 
+  const [
+    changeRequestSubmittedFor,
+    setChangeRequestSubmittedFor,
+  ] = React.useState<string | null>(null)
+
   return (
     <Formik
       initialValues={{email: originalEmail}}
       validationSchema={emailChangeSchema}
       onSubmit={async (values) => {
         await requestEmailChange(values.email)
+        setChangeRequestSubmittedFor(values.email)
         setMode(VIEW_MODE)
       }}
     >
@@ -66,11 +72,17 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                     will send an email to that account with a confirmation link.
                   </p>
                 )}
+                {changeRequestSubmittedFor && (
+                  <p className="text-sm text-gray-600">
+                    Your email change request has been received. A confirmation
+                    email has been sent to {changeRequestSubmittedFor}.
+                  </p>
+                )}
                 <div className="flex flex-row space-x-2">
                   <input
                     id="email"
                     type="email"
-                    value={values.email}
+                    value={mode === VIEW_MODE ? originalEmail : values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="you@company.com"
