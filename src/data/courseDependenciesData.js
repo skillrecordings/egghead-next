@@ -2792,6 +2792,16 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'graphql-data-in-react-with-apollo-client',
+        freshness: {
+          status: `stale`,
+          title: `Still good, but there are issues with this course`,
+          text: `While much of the information in this course is useful it is showing its
+          age in the specific details. Some of the libraries demonstrated have **changed
+          versions**, and there are some **missing configuration specifics** with the server that
+          require additional investigation to follow along.
+          `,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           'apollo-boost': '^0.1.22',
           graphql: '^14.0.2',
@@ -2902,6 +2912,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'advanced-static-types-in-typescript',
+        freshness: {
+          status: `classic`,
+          title: `Core Resource`,
+          text: `This covers TypeScript 2.0+ and is **valid for core concepts** related to using
+          [TypeScript](/q/typescript) in modern web applications. Since it was recorded
+          many features have been added to TypeScript, but 2.0 was a huge milestone for 
+          the language and you'll learn a lot. **Highly recommended.**`,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           typescript: '^2.0.0',
         },
