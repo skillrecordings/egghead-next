@@ -5,10 +5,10 @@ const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
 module.exports = {
   purge: [
     './src/**/*.js',
-    './pages/**/*.js',
-    './pages/**/*.tsx',
-    './pages/**/*.mdx',
-    './components/**/*.mdx',
+    './src/pages/**/*.js',
+    './src/pages/**/*.tsx',
+    './src/pages/**/*.mdx',
+    './src/components/**/*.mdx',
     './src/**/*.tsx',
   ],
   theme: {
