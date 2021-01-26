@@ -85,6 +85,284 @@ const javascriptPageData = [
       },
     ],
   },
+  {
+    id: 'build-the-pattern',
+    title: 'Build the pattern',
+    resources: [
+      {
+        title: 'Introduction to Callbacks, Broadcasters, and Listeners',
+        path:
+          '/playlists/introduction-to-callbacks-broadcasters-and-listeners-5bd7',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/049/full/EGH_LearnES6_Final.png',
+      },
+      {
+        title:
+          'Establish Callback and Closure patterns Around Async Browser Behaviors',
+        path:
+          '/playlists/establish-callback-and-closure-patterns-around-async-browser-behaviors-c813',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/021/full/EGH_JSarrays.png',
+      },
+      {
+        title:
+          'Use the Callback and Closure Pattern to Build Advanced Async Behaviors',
+        path:
+          '/playlists/use-the-callback-and-closure-pattern-to-build-advanced-async-behaviors-db15',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+      },
+      {
+        title: 'Implement the Pattern in Common Async Scenarios',
+        path: '/playlists/implement-the-pattern-in-common-async-scenarios-c059',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+      },
+    ],
+  },
+  {
+    id: 'integrate-in-react',
+    title: 'Implement the Pattern in React',
+    resources: [
+      {
+        title: 'Use a Completion Pattern to enable Repetition and Sequencing',
+        path:
+          '/playlists/use-a-completion-pattern-to-enable-repetition-and-sequencing-f0ba',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+      },
+      {
+        title: 'Bringing the Pattern into React',
+        path: '/playlists/bringing-the-pattern-into-react-decf',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/full/JSPromises_Final.png',
+      },
+      {
+        title: 'Building Live Search Box',
+        path: '/playlists/building-light-search-box-bb64',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/167/full/EGH_JSthis_1000.png',
+      },
+      {
+        title: 'Implementing a Word Game with Patterns and React',
+        path:
+          '/playlists/implementing-a-word-game-with-patterns-and-react-dcb0',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/028/full/EGH_ReduceDataJS.png',
+      },
+    ],
+  },
+  {
+    id: 'interview-prep',
+    title: 'Confidently Solve Interview Problems ',
+    name: 'Interview Prep',
+    resources: [
+      {
+        title: 'Data Structures and Algorithms in JavaScript',
+        path: '/courses/data-structures-and-algorithms-in-javascript',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/261/full/EGH_JSAlgorithms_Final.png',
+        byline: 'Kyle Shevlin',
+      },
+      {
+        title: 'Algorithms in JavaScript',
+        path: '/courses/algorithms-in-javascript',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/259/full/EGH_JSBasic-Algorithms_Final.png',
+        byline: 'Tyler Clark',
+      },
+      {
+        title: "Understanding JavaScript's Prototypal Inheritance",
+        path: '/courses/understanding-javascript-s-prototypal-inheritance',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/205/full/EGH_JSProtoInheritance.png',
+        byline: 'Tyler Clark',
+      },
+      {
+        title: "Understand JavaScript's this Keyword in Depth",
+        path: '/courses/understand-javascript-s-this-keyword-in-depth',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/167/full/EGH_JSthis_1000.png',
+        byline: 'Marius Schulz',
+      },
+    ],
+  },
+  {
+    id: 'debugging',
+    title: 'Debugging',
+    name: 'devtools',
+    description:
+      "You likely know the pain and joy that is debugging. The pain is part of the process, and the joy is winning the battle and fixing the issue. You're probably familiar with the basics of using Devtools, but there is a lot of functionality that is often overlooked. These courses will give you new tools that will help make the journey from debugging pain to joy more quickly!",
+    resources: [
+      {
+        title: 'Advanced Logging with the JavaScript Console',
+        path: '/courses/js-console-for-power-users',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/038/full/EGH_JSPowerConsole_sq.png',
+        byline: 'Mykola Bilokonsky',
+      },
+      {
+        title: 'Debug the DOM in Chrome with the Devtools Elements Panel',
+        path: '/courses/using-chrome-developer-tools-elements',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/060/full/EGH_Chrome_Elements.png',
+        byline: 'Mykola Bilokonsky',
+      },
+      {
+        title: 'Debug HTTP with Chrome DevTools Network Panel',
+        path: '/courses/debug-http-with-chrome-devtools-network-panel',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/069/full/EGH_Chrome_Network_Final.png',
+        byline: 'Mykola Bilokonsky',
+      },
+      {
+        title: 'Debug JavaScript in Chrome with DevTool Sources',
+        path: '/courses/chrome-devtools-sources-panel',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/067/full/EGH_Chrome_Sources_Final.png',
+        byline: 'Mykola Bilokonsky',
+      },
+    ],
+  },
+  {
+    id: 'javascript-favorites',
+    title: 'Favorites',
+    resources: [
+      {
+        title: 'Regex in Javascript',
+        path: '/courses/regex-in-javascript',
+        byline: 'Joe Maddalone',
+      },
+      {
+        title: 'Immutable JavaScript Data Structures with Immer',
+        path: '/courses/immutable-javascript-data-structures-with-immer',
+        byline: 'Michel Weststrate',
+      },
+      {
+        title: 'Redux and the State ADT',
+        path: '/courses/redux-and-the-state-adt',
+        byline: 'Ian Hofmann-Hicks',
+      },
+    ],
+  },
+  {
+    id: 'articles',
+    name: 'Written Resources',
+    title: 'Start Learning JavaScript',
+    path: '/learn/javascript',
+    resources: [
+      {
+        title: 'What is the DOM?',
+        byline: 'Hiro Nishimura and Maggie Appleton',
+        path: '/learn/javascript/the-dom',
+      },
+      {
+        title: 'Codemods with Babel Plugins',
+        byline: 'Laurie Barth',
+        path: '/learn/javascript/codemods-with-babel-plugins',
+      },
+      {
+        title:
+          'Improve Performance with the Object Pool Design Pattern in JavaScript',
+        byline: 'Yonatan Kra',
+        path:
+          '/learn/javascript/improve-performance-with-the-object-pool-design-pattern-in-javascript',
+      },
+      {
+        title: 'The Real Introduction to JavaScript',
+        byline: 'Hiro Nishimura and Maggie Appleton',
+        path: '/learn/javascript/javascript-introduction',
+      },
+      {
+        title: 'JavaScript Prerequisites before React',
+        byline: 'Hiro Nishimura',
+        path: '/learn/react/beginners/js-before-react',
+      },
+    ],
+  },
+  {
+    id: 'async',
+    title: 'Async',
+    name: 'Data Fetching',
+    description: `Under the hood of your modern applications, there is a lot of work communication back and forth with servers, reacting to user interaction, and managing the state of a complex asynchronous application.
+    Your application grows, the complexity multiplies, until you've got a jumbled mess that makes you sad to get up and get to work every morning.`,
+    resources: [
+      {
+        title: 'JavaScript Promises in Depth',
+        byline: 'Marius Shulz',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/full/JSPromises_Final.png',
+        path: '/courses/javascript-promises-in-depth',
+      },
+      {
+        title: 'Asynchronous Programming: The End of The Loop',
+        byline: 'Jafar Husain',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/011/full/EGH_Asyncintro_Final.png',
+        path: '/courses/asynchronous-programming-the-end-of-the-loop',
+      },
+      {
+        title: 'Asynchronous JavaScript with async/await',
+        byline: 'Marius Shulz',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/118/full/EGH_AsyncJSAwait_Final-01.png',
+        path: '/courses/asynchronous-javascript-with-async-await',
+      },
+      {
+        title: 'Write simple asynchronous code with JavaScript generators',
+        byline: 'Max Stoiber',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/110/full/EGH_JSAsync_1000.png',
+        path:
+          '/courses/write-simple-asynchronous-code-with-javascript-generators',
+      },
+    ],
+  },
+  {
+    id: 'podcasts',
+    name: 'egghed podcasts',
+    title: 'Conversations with JavaScript Experts',
+    resources: [
+      {
+        title: "Math and Functional Programming Aren't Exclusive to Wizards",
+        byline: 'Brian Lonsdorf',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/ce5d6c4f-3f8c-47d7-b6eb-8f952038e5c9/1541152460artwork.jpg',
+        path:
+          '/podcasts/math-and-functional-programming-aren-t-exclusive-to-wizards-with-brian-lonsdorf',
+      },
+      {
+        title: 'Henry Zhu, Maintainer of Babel',
+        byline: 'Henry Zhu',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/0470de61-8896-4f53-9ad0-56eb8c7a6ea2/1534346287artwork.jpg',
+        path: '/podcasts/henry-zhu-maintainer-of-babel',
+      },
+      {
+        title: 'Functional JavaScript',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/e1d13435-f5fe-401c-934c-27c445aa1e57/1534346592artwork.jpg',
+        byline: 'Brian Lonsdorf and Paul Frend',
+        path: '/podcasts/jason-lengstorf-on-gatsbyjs',
+      },
+      {
+        title: '12-factor Javascript Applications using Docker',
+        byline: 'Mark Shust',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/826f1b9f-3c99-4712-919a-03cbad5356ac/1534346494artwork.jpg',
+        path:
+          '/podcasts/12-factor-javascript-applications-using-docker-with-mark-shust',
+      },
+      {
+        title: 'Learning and Experimenting with Physical and Digital Mediums',
+        byline: 'Keith Peters',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/4d753431-9b5e-4ede-8675-f28cb9306ae0/1538717402artwork.jpg',
+        path:
+          '/podcasts/learning-and-experimenting-with-physical-and-digital-mediums-with-keith-peters',
+      },
+    ],
+  },
 ]
 
 export default javascriptPageData
