@@ -674,12 +674,15 @@ const Fresh = ({freshness}: {freshness: any}) => {
               ? 'border-green-900 border bg-green-100 bg-opacity-50'
               : freshness.status === 'classic'
               ? 'border-blue-900 border bg-blue-100 bg-opacity-50'
+              : freshness.status === 'stale'
+              ? 'border-orange-900 border bg-orange-100 bg-opacity-50'
               : 'border'
           } border-opacity-20 p-4 my-3 rounded-md`}
         >
           {freshness.title && (
             <h2 className="text-xl font-semibold">
               {freshness.status === 'fresh' && '🌱'}
+              {freshness.status === 'stale' && '⛔️'}
               {freshness.status === 'classic' && '💎'} {freshness.title}
             </h2>
           )}
