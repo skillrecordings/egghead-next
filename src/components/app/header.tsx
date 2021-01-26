@@ -191,7 +191,7 @@ const DarkModeToggle = () => {
     <button
       aria-label="Toggle Dark Mode"
       type="button"
-      className="bg-trueGray-200 dark:bg-trueGray-800 rounded p-3 h-10 w-10"
+      className="bg-blueGray-200 dark:bg-trueGray-800 rounded-md p-3 h-10 w-10"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
     >
       {mounted && (
