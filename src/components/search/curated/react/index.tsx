@@ -54,7 +54,7 @@ const SearchReact = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-trueGray-800">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-trueGray-900">
         <Topic
           className="col-span-8"
           title="React"

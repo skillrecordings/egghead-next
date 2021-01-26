@@ -16,7 +16,7 @@ const Topic: FunctionComponent<TopicProps> = ({
 }) => {
   return (
     <div
-      className={`bg-white dark:bg-trueGray-700 dark:text-trueGray-200 shadow-sm grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md border border-gray-100 dark:border-trueGray-600 ${
+      className={`bg-white dark:bg-trueGray-800 dark:text-trueGray-200 shadow-sm grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md border border-gray-100 dark:border-trueGray-800 ${
         className ? className : ''
       }`}
     >
