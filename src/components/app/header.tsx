@@ -21,8 +21,6 @@ const Header: FunctionComponent = () => {
   const {sm} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
 
-  console.log(theme)
-
   React.useEffect(() => setMounted(true), [])
 
   React.useEffect(() => {
