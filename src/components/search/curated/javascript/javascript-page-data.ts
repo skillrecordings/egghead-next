@@ -94,7 +94,7 @@ const javascriptPageData = [
         path:
           '/playlists/introduction-to-callbacks-broadcasters-and-listeners-5bd7',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/049/full/EGH_LearnES6_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title:
@@ -102,7 +102,7 @@ const javascriptPageData = [
         path:
           '/playlists/establish-callback-and-closure-patterns-around-async-browser-behaviors-c813',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/021/full/EGH_JSarrays.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title:
@@ -110,13 +110,13 @@ const javascriptPageData = [
         path:
           '/playlists/use-the-callback-and-closure-pattern-to-build-advanced-async-behaviors-db15',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title: 'Implement the Pattern in Common Async Scenarios',
         path: '/playlists/implement-the-pattern-in-common-async-scenarios-c059',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
     ],
   },
@@ -129,26 +129,26 @@ const javascriptPageData = [
         path:
           '/playlists/use-a-completion-pattern-to-enable-repetition-and-sequencing-f0ba',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/full/foundation.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title: 'Bringing the Pattern into React',
         path: '/playlists/bringing-the-pattern-into-react-decf',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/full/JSPromises_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title: 'Building Live Search Box',
         path: '/playlists/building-light-search-box-bb64',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/167/full/EGH_JSthis_1000.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title: 'Implementing a Word Game with Patterns and React',
         path:
           '/playlists/implementing-a-word-game-with-patterns-and-react-dcb0',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/028/full/EGH_ReduceDataJS.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
     ],
   },
