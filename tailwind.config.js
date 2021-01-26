@@ -3,7 +3,6 @@ const colors = require('tailwindcss/colors')
 const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  darkMode: 'class',
   purge: {
     layers: ['components', 'utilities'],
     content: [
