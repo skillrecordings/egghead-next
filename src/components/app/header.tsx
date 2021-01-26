@@ -76,7 +76,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="flex items-center space-x-2 pl-3 hover:text-blue-700 hover:underline"
+                  className="flex items-center space-x-2 p-3 hover:text-blue-700 hover:underline"
                 >
                   <img
                     alt="avatar"
@@ -91,7 +91,7 @@ const Header: FunctionComponent = () => {
               </Link>
             ) : (
               <div
-                className="flex items-center space-x-2 pl-3"
+                className="flex items-center space-x-2 p-3"
                 onClick={() => {
                   track(`clicked user name area`, {
                     location: 'header',
