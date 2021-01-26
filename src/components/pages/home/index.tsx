@@ -52,11 +52,11 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
-      <div className="space-y-5">
+      <div>
         <Jumbotron resource={jumbotron} />
         <SearchBar />
         <TopicsList topics={topics} />
-        <div className="grid lg:grid-cols-8 grid-cols-1 gap-5">
+        <section className="grid lg:grid-cols-8 grid-cols-1 gap-5 mt-20">
           <Card className="lg:col-span-6">
             <div className="flex sm:flex-row flex-col justify-center">
               <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
@@ -114,8 +114,8 @@ const Home: FunctionComponent = () => {
             </div>
           </Card>
           <EventSchedule />
-        </div>
-        <div className="grid lg:grid-cols-12 grid-cols-1 gap-5">
+        </section>
+        <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
           <div className="lg:col-span-8 space-y-5">
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
@@ -216,7 +216,7 @@ const Home: FunctionComponent = () => {
               </>
             </Card>
           </aside>
-        </div>
+        </section>
       </div>
     </>
   )
@@ -228,7 +228,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   const allTopics = get(topics, 'resources', [])
   return (
     <>
-      <div className="w-full">
+      <div className="w-full mt-6">
         <ul
           className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-5 gap-5`}
         >
