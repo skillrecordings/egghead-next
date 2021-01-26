@@ -10,15 +10,26 @@ import {track} from '../../utils/analytics'
 import {Formik} from 'formik'
 import * as yup from 'yup'
 
-const editEmailSchema = yup.object().shape({
+const emailChangeSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
 })
 
-export type EditEmailFormProps = {
+export type RequestEmailChangeFormProps = {
   originalEmail: string
 }
 
-const EditEmailForm: React.FunctionComponent<EditEmailFormProps> = ({
+async function requestEmailChange(newEmail: string) {
+  const {data} = await axios.post(
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/email_change_requests`,
+    {
+      email: newEmail,
+    },
+  )
+
+  return data
+}
+
+const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProps> = ({
   originalEmail,
 }) => {
   const VIEW_MODE = 'VIEW_MODE'
@@ -28,11 +39,9 @@ const EditEmailForm: React.FunctionComponent<EditEmailFormProps> = ({
   return (
     <Formik
       initialValues={{email: originalEmail}}
-      validationSchema={editEmailSchema}
-      onSubmit={(values) => {
-        // need to validate that this email is available
-        // validateEmail(values.email)
-        console.log(values.email)
+      validationSchema={emailChangeSchema}
+      onSubmit={async (values) => {
+        await requestEmailChange(values.email)
         setMode(VIEW_MODE)
       }}
     >
@@ -53,8 +62,8 @@ const EditEmailForm: React.FunctionComponent<EditEmailFormProps> = ({
                 <p>Your email address:</p>
                 {mode === EDIT_MODE && (
                   <p className="text-sm text-gray-600">
-                    Warning: this is the email you'll use to access egghead,
-                    make sure it is an account you have access to.
+                    To ensure that you have access to this email address, we
+                    will send an email to that account with a confirmation link.
                   </p>
                 )}
                 <div className="flex flex-row space-x-2">
@@ -66,9 +75,8 @@ const EditEmailForm: React.FunctionComponent<EditEmailFormProps> = ({
                     onBlur={handleBlur}
                     placeholder="you@company.com"
                     required
-                    disabled={mode !== EDIT_MODE}
+                    disabled={isSubmitting || mode !== EDIT_MODE}
                     className="bg-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
-                    // className="form-input bg-gray-100 rounded-md p-3 w-full border border-transparent focus:outline-none focus:border-gray-400 placeholder-gray-600"
                   />
                   {mode === VIEW_MODE && (
                     <button
@@ -83,8 +91,9 @@ const EditEmailForm: React.FunctionComponent<EditEmailFormProps> = ({
                       <button
                         type="submit"
                         className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
+                        disabled={isSubmitting}
                       >
-                        Save
+                        Submit
                       </button>
                       <button
                         onClick={() => {
@@ -136,7 +145,9 @@ const Account: React.FunctionComponent<
   const {stripe_customer_id, slug} = account
   const {viewer} = useViewer()
 
-  const [email, setEmail] = React.useState('josh@egghead.io')
+  console.log(viewer)
+
+  const {email: currentEmail} = viewer || {}
 
   const recur = (price: any) => {
     const {
@@ -180,7 +191,7 @@ const Account: React.FunctionComponent<
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
-            <EditEmailForm originalEmail={email} />
+            <RequestEmailChangeForm originalEmail={currentEmail} />
           </div>
           {/* Payment details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
