@@ -85,72 +85,80 @@ const javascriptPageData = [
       },
     ],
   },
+  // {
+  //   id: 'build-the-pattern',
+  //   title: 'Build the pattern',
+  //   resources: [
+  //     {
+  //       title: 'Introduction to Callbacks, Broadcasters, and Listeners',
+  //       path:
+  //         '/playlists/introduction-to-callbacks-broadcasters-and-listeners-5bd7',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //     {
+  //       title:
+  //         'Establish Callback and Closure patterns Around Async Browser Behaviors',
+  //       path:
+  //         '/playlists/establish-callback-and-closure-patterns-around-async-browser-behaviors-c813',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //     {
+  //       title:
+  //         'Use the Callback and Closure Pattern to Build Advanced Async Behaviors',
+  //       path:
+  //         '/playlists/use-the-callback-and-closure-pattern-to-build-advanced-async-behaviors-db15',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //     {
+  //       title: 'Implement the Pattern in Common Async Scenarios',
+  //       path: '/playlists/implement-the-pattern-in-common-async-scenarios-c059',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 'integrate-in-react',
+  //   title: 'Implement the Pattern in React',
+  //   resources: [
+  //     {
+  //       title: 'Use a Completion Pattern to enable Repetition and Sequencing',
+  //       path:
+  //         '/playlists/use-a-completion-pattern-to-enable-repetition-and-sequencing-f0ba',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //     {
+  //       title: 'Bringing the Pattern into React',
+  //       path: '/playlists/bringing-the-pattern-into-react-decf',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //     {
+  //       title: 'Building Live Search Box',
+  //       path: '/playlists/building-light-search-box-bb64',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //     {
+  //       title: 'Implementing a Word Game with Patterns and React',
+  //       path:
+  //         '/playlists/implementing-a-word-game-with-patterns-and-react-dcb0',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+  //     },
+  //   ],
+  // },
   {
-    id: 'build-the-pattern',
-    title: 'Build the pattern',
-    resources: [
-      {
-        title: 'Introduction to Callbacks, Broadcasters, and Listeners',
-        path:
-          '/playlists/introduction-to-callbacks-broadcasters-and-listeners-5bd7',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-      {
-        title:
-          'Establish Callback and Closure patterns Around Async Browser Behaviors',
-        path:
-          '/playlists/establish-callback-and-closure-patterns-around-async-browser-behaviors-c813',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-      {
-        title:
-          'Use the Callback and Closure Pattern to Build Advanced Async Behaviors',
-        path:
-          '/playlists/use-the-callback-and-closure-pattern-to-build-advanced-async-behaviors-db15',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-      {
-        title: 'Implement the Pattern in Common Async Scenarios',
-        path: '/playlists/implement-the-pattern-in-common-async-scenarios-c059',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-    ],
-  },
-  {
-    id: 'integrate-in-react',
-    title: 'Implement the Pattern in React',
-    resources: [
-      {
-        title: 'Use a Completion Pattern to enable Repetition and Sequencing',
-        path:
-          '/playlists/use-a-completion-pattern-to-enable-repetition-and-sequencing-f0ba',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-      {
-        title: 'Bringing the Pattern into React',
-        path: '/playlists/bringing-the-pattern-into-react-decf',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-      {
-        title: 'Building Live Search Box',
-        path: '/playlists/building-light-search-box-bb64',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-      {
-        title: 'Implementing a Word Game with Patterns and React',
-        path:
-          '/playlists/implementing-a-word-game-with-patterns-and-react-dcb0',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-      },
-    ],
+    id: 'composing-callbacks',
+    title: 'Composing Callbacks and Closures in JavaScript',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+    description:
+      'This a multi-tier master course for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
   },
   {
     id: 'interview-prep',

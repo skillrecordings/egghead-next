@@ -18,8 +18,8 @@ const SearchJavaScript = () => {
   const intermediate: any = find(javascriptPageData, {id: 'intermediate'})
   const advanced: any = find(javascriptPageData, {id: 'advanced'})
 
-  const composingBuildPattern: any = find(javascriptPageData, {
-    id: 'build-the-pattern',
+  const composingCallbacks: any = find(javascriptPageData, {
+    id: 'composing-callbacks',
   })
   const composingIntegrateReact: any = find(javascriptPageData, {
     id: 'integrate-in-react',
@@ -109,88 +109,30 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       </section>
 
       {/* Feature Section */}
-      <section className="mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 dark:bg-trueGray-800 rounded-lg">
-        <div className="lg:col-span-8 col-span-12 space-y-5">
-          <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-            <div className="flex-shrink-0">
-              <Image
-                src={
-                  'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/005/medium/avatar-500x500.jpg'
-                }
-                alt="John Lindquist smiling into a camera"
-                width={150}
-                height={150}
-                quality={100}
-                className="rounded-full"
-              />
-            </div>
-            <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl dark:text-trueGray-200 font-bold leading-tight">
-                Composing Closures and Callbacks in JavaScript
-              </h1>
-              <div className="leading-relaxed text-gray-700 dark:text-trueGray-50 space-y-3">
-                <p>
-                  This a multi-tier master course for aspiring lead developers.
-                  John Lindquist guides you from a blank JavaScript file all the
-                  way through creating a library of reusable functions, solving
-                  Callback Hell with composition, implementing debouncing, and
-                  building a word game among several other examples.
-                </p>
-              </div>
-            </div>
-          </header>
-          <div>
-            <div className="grid lg:grid-cols-12 md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-              <Card
-                resource={composingBuildPattern}
-                location={location}
-                className="h-full col-span-6"
-              >
-                <Collection />
-              </Card>
-              <Card
-                resource={composingIntegrateReact}
-                location={location}
-                className="h-full col-span-6"
-              >
-                <Collection />
-              </Card>
-            </div>
-            {/* <div>
-              <Card
-                resource={interviewPrep}
-                location={location}
-                className="mt-4 grid lg:grid-cols-12"
-                >
-              <div className="col-span-6 flex flex-col">
-                <Markdown>
-                  Problem-solving is at the heart of what you do as a programmer every day. Being able to reason about a problem logically will produce far more value than jumping into code right away.
-                </Markdown>
-                <Markdown>
-                  For-loops are *not* the solution for everything and you know that person that uses them too much. Don't be that person, and actually think about the problem before coding yourself into a hole.
-                </Markdown>
-              </div>
-                <Collection className="w-40 col-span-6" />
-              </Card>
-            </div> */}
-          </div>
-        </div>
-        <div className="md:col-span-4 col-span-12">
-          <Card resource={javascriptDebugging} location={location}>
-            <Collection />
-          </Card>
-          <Card
-            resource={javascriptFavorites}
-            className="mt-5"
-            location={location}
-          >
-            <Collection />
-          </Card>
-        </div>
+      <section className="grid md:grid-cols-5 grid-cols-1 items-start sm:mt-24 mt-16 gap-5">
+        <Card
+          className="col-span-2"
+          resource={composingCallbacks}
+          location={location}
+        ></Card>
+        <div className="col-span-3">Hello</div>
+        <Card
+          className="col-span-2"
+          resource={composingCallbacks}
+          location={location}
+        ></Card>
+        <Card
+          className="col-span-2"
+          resource={javascriptDebugging}
+          location={location}
+        >
+          <Collection />
+        </Card>
+        <div className="px-8 py-6"> Hello </div>
       </section>
 
       {/* Podcasts and Articles Section */}
-      <section className="mt-5 grid md:grid-cols-3 grid-cols-1 gap-5">
+      <section className="mt-5 grid md:grid-cols-2 sm:mt-24 mt-16 grid-cols-1 gap-5">
         <Card resource={javaScriptArticles} location={location}>
           <Collection />
         </Card>
