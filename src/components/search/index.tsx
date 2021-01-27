@@ -22,6 +22,8 @@ import SearchReact from 'components/search/curated/react'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
+import Topic from './components/topic'
+import GenericTopic from './generic-topic'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -30,6 +32,7 @@ type SearchProps = {
   searchClient?: any
   searchState?: any
   instructor?: any
+  topic?: any
 }
 
 const Search: FunctionComponent<SearchProps> = ({
@@ -37,6 +40,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchClient,
   searchState,
   instructor,
+  topic,
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
@@ -82,6 +86,18 @@ const Search: FunctionComponent<SearchProps> = ({
       noInstructorsSelected(searchState) &&
       onlyTheseTagsSelected(isArray(topics) ? topics : [topics], searchState)
     )
+  }
+
+  topic && console.debug(`the topic is: ${topic.label}`, topic)
+
+  let TopicComponent: React.FunctionComponent<any> = () => <div />
+
+  switch (topic) {
+    case 'react':
+      TopicComponent = SearchReact
+      break
+    default:
+      TopicComponent = Topic
   }
 
   return (
@@ -159,6 +175,13 @@ const Search: FunctionComponent<SearchProps> = ({
                 >
                   <SearchReact />
                 </motion.div>
+              )}
+              {topic && topic.slug !== 'react' && (
+                <GenericTopic
+                  title={topic.label}
+                  imageUrl={topic.image_480_url}
+                  description={topic.description}
+                />
               )}
             </AnimatePresence>
             <motion.div

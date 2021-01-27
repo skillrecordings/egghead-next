@@ -8,7 +8,7 @@ import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
-import {isEmpty, get, first} from 'lodash'
+import {isEmpty, get, first, pickBy} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
 import {loadInstructor} from 'lib/instructors'
@@ -20,6 +20,7 @@ import {track} from 'utils/analytics'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
+import {getTag} from '../../lib/tags'
 
 const tracer = getTracer('search-page')
 
@@ -46,6 +47,10 @@ const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
 }
 
+const getTopicsFromSearchState = (searchState: any) => {
+  return pickBy(get<string[]>(searchState, 'refinementList._tags', []))
+}
+
 const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
 }
@@ -56,6 +61,7 @@ type SearchIndexProps = {
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
+  initialTopic: any
 }
 
 const SearchIndex: any = ({
@@ -64,9 +70,11 @@ const SearchIndex: any = ({
   pageTitle,
   noIndexInitial,
   initialInstructor,
+  initialTopic,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
+  const [topic, setTopic] = React.useState(initialTopic)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
@@ -115,7 +123,12 @@ const SearchIndex: any = ({
   return (
     <div>
       <NextSeo noindex={noIndex} title={pageTitle} />
-      <Search {...defaultProps} {...customProps} instructor={instructor} />
+      <Search
+        {...defaultProps}
+        {...customProps}
+        instructor={instructor}
+        topic={topic}
+      />
     </div>
   )
 }
@@ -152,6 +165,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   let initialInstructor = null
+  let initialTopic = null
 
   const {rawResults, state} = resultsState
 
@@ -162,6 +176,19 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
+  const selectedTopics = initialSearchState.refinementList?._tags
+
+  if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
+    console.log('SELECTED TOPICS', selectedTopics)
+    const topic = first<string>(selectedTopics)
+    try {
+      if (topic) {
+        initialTopic = await getTag(topic)
+      }
+    } catch (error) {
+      console.error(error.config.url)
+    }
+  }
 
   if (selectedInstructors.length === 1) {
     const instructorSlug = getInstructorSlugFromInstructorList(
@@ -181,6 +208,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
       pageTitle,
       noIndexInitial,
       initialInstructor,
+      ...(!!initialTopic && {initialTopic}),
     },
   }
 }
