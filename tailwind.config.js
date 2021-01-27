@@ -72,6 +72,11 @@ module.exports = {
               color: theme('colors.gray.100'),
               'scroll-margin-top': spacing[32],
             },
+            code: {
+              padding: '3px 5px',
+              borderRadius: 5,
+              background: theme('colors.gray.400'),
+            },
             hr: {borderColor: theme('colors.gray.700')},
             ol: {
               li: {
