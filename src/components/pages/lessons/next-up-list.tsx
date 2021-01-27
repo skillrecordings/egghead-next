@@ -15,7 +15,7 @@ type NextUpListProps = {
 const NextUpList: FunctionComponent<NextUpListProps> = ({
   nextUp,
   currentLessonSlug,
-  nextToVideo
+  nextToVideo,
 }) => {
   const {nextUpData} = nextUp
   const [activeElement] = React.useState(currentLessonSlug)
@@ -32,13 +32,19 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
 
   return nextUpData ? (
     <div className={nextToVideo ? 'h-full overflow-hidden' : ''}>
-      <div className={`overflow-hidden bg-white border-gray-100 ${nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'}`}>
+      <div
+        className={`overflow-hidden bg-white border-gray-100 ${
+          nextToVideo ? 'h-full' : 'rounded-md border border-gray-100 mt-2'
+        }`}
+      >
         <ol
           ref={scrollableNodeRef}
           id="scroll-container"
           className="overflow-y-auto h-full"
           css={{
-            '@media only screen and (min-width: 640px)': {maxHeight: nextToVideo ? '100%' : 600},
+            '@media only screen and (min-width: 640px)': {
+              maxHeight: nextToVideo ? '100%' : 600,
+            },
             maxHeight: 300,
           }}
         >
@@ -121,8 +127,6 @@ const Item: FunctionComponent<{
 const CheckIcon = () => (
   <svg
     className="transform -translate-x-1"
-    width="20"
-    height="20"
     viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg"
   >

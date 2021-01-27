@@ -92,7 +92,7 @@ const Item: FunctionComponent<{
       className={`group flex p-3 ${
         active
           ? 'font-semibold bg-blue-600 text-white'
-          : 'hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100'
+          : 'hover:text-blue-600 hover:bg-blue-50 dark:hover:text-white dark:hover:bg-gray-800 active:bg-blue-100'
       } transition-colors ease-in-out duration-150`}
       {...props}
     >
@@ -100,7 +100,9 @@ const Item: FunctionComponent<{
         <div
           className={`w-6 leading-5 pt-px text-xs ${
             completed
-              ? `opacity-100 ${active ? 'text-white' : 'text-blue-600'}`
+              ? `opacity-100 ${
+                  active ? 'text-white' : 'text-blue-600 dark:text-green-400'
+                }`
               : 'opacity-60 group-hover:opacity-100'
           } font-normal tracking-tight`}
         >

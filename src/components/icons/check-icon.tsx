@@ -1,8 +1,10 @@
 import * as React from 'react'
 
-const CheckIcon = () => (
+const CheckIcon: React.FunctionComponent<{className?: string}> = ({
+  className = 'transform -translate-x-1',
+}) => (
   <svg
-    className="transform -translate-x-1"
+    className={className}
     width="20"
     height="20"
     viewBox="0 0 20 20"
