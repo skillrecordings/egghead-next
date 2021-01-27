@@ -88,6 +88,8 @@ const Search: FunctionComponent<SearchProps> = ({
     )
   }
 
+  console.debug(`topic check`, topic)
+
   return (
     <>
       <Head>
@@ -164,14 +166,14 @@ const Search: FunctionComponent<SearchProps> = ({
                   <SearchReact />
                 </motion.div>
               )}
-              {topic && topic.slug !== 'react' && (
-                <GenericTopic
-                  title={topic.label}
-                  imageUrl={topic.image_480_url}
-                  description={topic.description}
-                />
-              )}
             </AnimatePresence>
+            {!isEmpty(topic) && topic.slug !== 'react' && (
+              <GenericTopic
+                title={topic.label}
+                imageUrl={topic.image_480_url}
+                description={topic.description}
+              />
+            )}
             <motion.div
               className="max-w-screen-xl mx-auto"
               layout

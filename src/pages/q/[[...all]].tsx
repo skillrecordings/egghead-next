@@ -8,7 +8,7 @@ import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
-import {isEmpty, get, first, pickBy} from 'lodash'
+import {isEmpty, get, first, isArray} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
 import {loadInstructor} from 'lib/instructors'
@@ -16,7 +16,6 @@ import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {track} from 'utils/analytics'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
@@ -45,10 +44,6 @@ const defaultProps = {
 
 const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
-}
-
-const getTopicsFromSearchState = (searchState: any) => {
-  return pickBy(get<string[]>(searchState, 'refinementList._tags', []))
 }
 
 const getInstructorSlugFromInstructorList = (instructors: string[]) => {
@@ -95,15 +90,33 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
+    console.log(searchState)
+    const selectedTopics = searchState?.refinementList?._tags
+
+    if (
+      isArray(selectedTopics) &&
+      selectedTopics?.length === 1 &&
+      !selectedTopics.includes('undefined')
+    ) {
+      const newTopic = first<string>(selectedTopics)
+      try {
+        if (newTopic) {
+          setTopic(await getTag(newTopic))
+        } else {
+          setTopic(undefined)
+          console.log('null topic2 ')
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      setTopic(undefined)
+      console.log('null topic')
+    }
+
     debouncedState.current = setTimeout(() => {
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
-
-      const trackParams = {
-        ...(!!searchState.query && {query: searchState.query}),
-        ...(!!searchState.refinementList && searchState.refinementList),
-        href,
-      }
 
       router.push(`/q/[[all]]`, href, {
         shallow: true,
