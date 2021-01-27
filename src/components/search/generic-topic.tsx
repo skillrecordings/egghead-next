@@ -40,16 +40,14 @@ const GenericTopic: FunctionComponent<TopicProps> = ({
         }}
       />
       <div
-        className={`bg-white dark:bg-gray-800 dark:text-gray-200 grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md  ${
-          className ? className : ''
-        }`}
+        className={`flex items-center pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900`}
       >
         {imageUrl && (
-          <div className="overflow-hidden sm:col-span-2 col-span-2 w-full h-full p-6">
-            <Image src={imageUrl} width={480} height={480} />
+          <div className="overflow-hidden h-full p-6">
+            <Image src={imageUrl} width={160} height={160} />
           </div>
         )}
-        <div className="sm:col-span-6 col-span-6 sm:p-8 p-4 sm:pr-3 flex flex-col justify-start h-full">
+        <div className="sm:p-8 p-4 sm:pr-3 flex flex-col justify-start h-full">
           <h1 className="sm:text-2xl text-xl font-bold">{title}</h1>
           {description && (
             <Markdown
