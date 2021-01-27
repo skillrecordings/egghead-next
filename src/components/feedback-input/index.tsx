@@ -93,7 +93,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
           const learner_score =
             Number(subscriber.attributes?.learner_score) || 0
           cioIdentify(subscriber.id, {
-            learner_score: learner_score + 10,
+            learner_score: learner_score + 100,
           })
         }
         actions.setSubmitting(false)
