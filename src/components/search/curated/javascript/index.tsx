@@ -76,7 +76,6 @@ A strong understanding of JavaScript is essential for having a successful career
 This is a curated resource covering the important parts of the whole language. We'll show you what you need to know and guide you through learning it.
 
 When someone comes to you and asks "Hey! Can you build this?", you'll be able to say "yes" with confidence.
-
 `}
         </Topic>
         <ExternalTrackedLink
@@ -95,7 +94,9 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
           />
         </ExternalTrackedLink>
       </div>
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
+
+      {/* Learning Level Section */}
+      <section className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-8">
         <Card resource={beginner} location={location} className="h-full">
           <Collection />
         </Card>
@@ -105,7 +106,9 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         <Card resource={advanced} location={location} className="h-full">
           <Collection />
         </Card>
-      </div>
+      </section>
+
+      {/* Feature Section */}
       <section className="mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 dark:bg-trueGray-800 rounded-lg">
         <div className="lg:col-span-8 col-span-12 space-y-5">
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
@@ -185,14 +188,13 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
           </Card>
         </div>
       </section>
+
+      {/* Podcasts and Articles Section */}
       <section className="mt-5 grid md:grid-cols-3 grid-cols-1 gap-5">
         <Card resource={javaScriptArticles} location={location}>
           <Collection />
         </Card>
         <Card resource={javascriptPodcasts} location={location}>
-          <Collection />
-        </Card>
-        <Card resource={asyncResource} location={location}>
           <Collection />
         </Card>
       </section>
