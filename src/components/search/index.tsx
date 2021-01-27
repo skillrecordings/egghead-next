@@ -88,18 +88,6 @@ const Search: FunctionComponent<SearchProps> = ({
     )
   }
 
-  topic && console.debug(`the topic is: ${topic.label}`, topic)
-
-  let TopicComponent: React.FunctionComponent<any> = () => <div />
-
-  switch (topic) {
-    case 'react':
-      TopicComponent = SearchReact
-      break
-    default:
-      TopicComponent = Topic
-  }
-
   return (
     <>
       <Head>

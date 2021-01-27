@@ -179,14 +179,13 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const selectedTopics = initialSearchState.refinementList?._tags
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
-    console.log('SELECTED TOPICS', selectedTopics)
     const topic = first<string>(selectedTopics)
     try {
       if (topic) {
         initialTopic = await getTag(topic)
       }
     } catch (error) {
-      console.error(error.config.url)
+      console.error(error)
     }
   }
 

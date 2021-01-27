@@ -14,7 +14,6 @@ export function getTags() {
 }
 
 export async function getTag(slug: string) {
-  console.log('****', slug)
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags/${slug}`
   const {data} = await axios.get(endpoint)
 
