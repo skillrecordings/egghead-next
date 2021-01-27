@@ -178,7 +178,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </h1>
               <div className="mt-2 flex items-center">
                 <Link href={`/q/resources-by-${get(instructor, 'slug')}`}>
-                  <a className="text-base dark:text-trueGray-400 text-gray-800 hover:text-blue-600 transition-colors ease-in-out duration-300 flex items-center">
+                  <a className="text-base dark:text-gray-400 text-gray-800 hover:text-blue-600 transition-colors ease-in-out duration-300 flex items-center">
                     {instructor.avatar_url && (
                       <Image
                         src={get(instructor, 'avatar_url')}

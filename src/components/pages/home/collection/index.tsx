@@ -62,7 +62,7 @@ const Collection: FunctionComponent<CollectionProps> = ({
                       location,
                     })
                   }}
-                  className="hover:text-blue-600"
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   <h4 className="text-lg font-semibold leading-tight">
                     <Textfit mode="multi" min={14} max={17}>

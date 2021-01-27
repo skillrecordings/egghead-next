@@ -16,7 +16,7 @@ const Topic: FunctionComponent<TopicProps> = ({
 }) => {
   return (
     <div
-      className={`bg-white dark:bg-trueGray-800 dark:text-trueGray-200 shadow-sm grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md border border-gray-100 dark:border-trueGray-800 ${
+      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md border border-gray-100 dark:border-gray-800 ${
         className ? className : ''
       }`}
     >
@@ -31,7 +31,7 @@ const Topic: FunctionComponent<TopicProps> = ({
       <div className="sm:col-span-6 col-span-6 sm:p-8 p-4 sm:pr-3 flex flex-col justify-start h-full">
         <h1 className="sm:text-2xl text-xl font-bold">{title}</h1>
         {children && (
-          <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-trueGray-200 mt-0">
+          <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
             {children}
           </Markdown>
         )}
