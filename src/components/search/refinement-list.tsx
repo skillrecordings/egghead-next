@@ -34,7 +34,9 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
       <a
         tabIndex={tabIndex}
         className={`block hover:bg-gray-100 dark:hover:bg-gray-800 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
-          item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
+          item.isRefined
+            ? 'text-blue-600 dark:text-blue-300 font-semibold'
+            : 'font-normal'
         }`}
         href={createURL(item.value)}
         onClick={(event) => {
@@ -51,7 +53,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
           <div className={`pl-2`}>{item.label}</div>
           {item.isRefined && ( // prettier-ignore
             <svg
-              className="ml-2 inline text-blue-600"
+              className="ml-2 inline text-blue-600 dark:text-blue-300"
               width="20"
               height="20"
               viewBox="0 0 20 20"
@@ -93,7 +95,9 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
       <a
         tabIndex={tabIndex}
         className={`block hover:bg-gray-100 dark:hover:bg-gray-800 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
-          item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
+          item.isRefined
+            ? 'text-blue-600 dakr:text-blue-300 font-semibold'
+            : 'font-normal'
         }`}
         href={createURL(item.value)}
         onClick={(event) => {
@@ -112,7 +116,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
             <span>{item.label}</span>
             {item.isRefined && ( // prettier-ignore
               <svg
-                className="ml-2 inline text-blue-600"
+                className="ml-2 inline text-blue-600 dark:text-blue-300"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -147,7 +151,9 @@ const Item: FunctionComponent<RefinementListProps> = ({
       <a
         tabIndex={tabIndex}
         className={`block hover:bg-gray-100 dark:hover:bg-gray-800 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
-          item.isRefined ? 'text-blue-600 font-semibold' : 'font-normal'
+          item.isRefined
+            ? 'text-blue-600 dark:text-blue-300 font-semibold'
+            : 'font-normal'
         }`}
         href={createURL(item.value)}
         onClick={(event) => {
@@ -161,7 +167,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
         {isFromSearch ? <Highlight attribute="label" hit={item} /> : item.label}{' '}
         {item.isRefined && ( // prettier-ignore
           <svg
-            className="ml-2 inline text-blue-600"
+            className="ml-2 inline text-blue-600 dark:text-blue-300"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -217,7 +223,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
             <input
               tabIndex={tabIndex}
               type="search"
-              className="form-input bg-gray-100 border-none rounded-md px-3 pl-8 py-2 w-full"
+              className="form-input text-black bg-gray-100 border-none rounded-md px-3 pl-8 py-2 w-full"
               placeholder={`Search ${label(attribute)}`}
               onChange={(event) => searchForItems(event.currentTarget.value)}
             />
