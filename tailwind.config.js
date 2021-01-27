@@ -4,8 +4,9 @@ const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
+  layers: ['components', 'utilities'],
   purge: {
-    enabled: true,
+    // enabled: true,
     content: ['./src/**/*.js', './src/**/*.mdx', './src/**/*.tsx'],
     options: {
       safelist: ['dark'], //specific classes

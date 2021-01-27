@@ -52,71 +52,18 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
-      <div>
+      <div className="space-y-14">
         <Jumbotron resource={jumbotron} />
-        <SearchBar />
-        <TopicsList topics={topics} />
-        <section className="grid lg:grid-cols-8 grid-cols-1 gap-5 mt-20">
-          <Card className="lg:col-span-6">
-            <div className="flex sm:flex-row flex-col justify-center">
-              <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
-                <div>
-                  <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
-                    {video.name}
-                  </h2>
-                  <Link href={video.path}>
-                    <a
-                      onClick={() => {
-                        track('clicked home page video link', {
-                          resource: video.path,
-                          linkType: 'text',
-                        })
-                      }}
-                      className="hover:text-blue-600 dark:hover:text-blue-300"
-                    >
-                      <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
-                        {video.title}
-                      </h3>
-                    </a>
-                  </Link>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
-                    <Link href={video.instructor_path || ''}>
-                      <a
-                        onClick={() => {
-                          track('clicked home page video instructor', {
-                            instructor: video.instructor,
-                            linkType: 'image',
-                          })
-                        }}
-                        className="hover:text-blue-600 dark:hover:text-blue-300"
-                      >
-                        {video.instructor}
-                      </a>
-                    </Link>
-                  </div>
-                  <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                    {video.description}
-                  </Markdown>
-                </div>
-              </div>
-              <div className="sm:w-full -m-5 flex items-center flex-grow bg-gray-900">
-                <EggheadPlayer
-                  preload={false}
-                  autoplay={false}
-                  poster={video.poster}
-                  hls_url={video.hls_url}
-                  dash_url={video.dash_url}
-                  subtitlesUrl={video.subtitlesUrl}
-                  width="100%"
-                  height="auto"
-                />
-              </div>
-            </div>
-          </Card>
+        <section className="space-y-6 ">
+          <SearchBar />
+          <TopicsList topics={topics} />
+        </section>
+        <section className="grid lg:grid-cols-8 grid-cols-1 gap-5 ">
+          <FeaturedVideoCard video={video} />
           <EventSchedule />
         </section>
-        <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
-          <div className="lg:col-span-8 space-y-5">
+        <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 ">
+          <div className="lg:col-span-8 space-y-8">
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
             )}
@@ -140,7 +87,7 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={buildInPublic} />
             <CardHorizontal resource={sideProject} />
           </div>
-          <aside className="lg:col-span-4 space-y-5">
+          <aside className="lg:col-span-4 space-y-8">
             <SortingHat
               className="sm:py-3 py-2 h-full flex flex-col justify-between"
               alternative={
@@ -333,6 +280,67 @@ const EventSchedule: React.FunctionComponent = () => {
           }}
         />
       </>
+    </Card>
+  )
+}
+
+function FeaturedVideoCard(props: {video: any}) {
+  return (
+    <Card className="lg:col-span-6">
+      <div className="flex sm:flex-row flex-col justify-center">
+        <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
+          <div>
+            <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
+              {props.video.name}
+            </h2>
+            <Link href={props.video.path}>
+              <a
+                onClick={() =>
+                  track('clicked home page video link', {
+                    resource: props.video.path,
+                    linkType: 'text',
+                  })
+                }
+                className="hover:text-blue-600 dark:hover:text-blue-300"
+              >
+                <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
+                  {props.video.title}
+                </h3>
+              </a>
+            </Link>
+            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+              <Link href={props.video.instructor_path || ''}>
+                <a
+                  onClick={() =>
+                    track('clicked home page video instructor', {
+                      instructor: props.video.instructor,
+                      linkType: 'image',
+                    })
+                  }
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
+                >
+                  {props.video.instructor}
+                </a>
+              </Link>
+            </div>
+            <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+              {props.video.description}
+            </Markdown>
+          </div>
+        </div>
+        <div className="sm:w-full -m-5 flex items-center flex-grow bg-gray-900">
+          <EggheadPlayer
+            preload={false}
+            autoplay={false}
+            poster={props.video.poster}
+            hls_url={props.video.hls_url}
+            dash_url={props.video.dash_url}
+            subtitlesUrl={props.video.subtitlesUrl}
+            width="100%"
+            height="auto"
+          />
+        </div>
+      </div>
     </Card>
   )
 }
