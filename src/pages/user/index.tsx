@@ -1,7 +1,5 @@
 import * as React from 'react'
 import {loadAccount} from 'lib/accounts'
-import {GetServerSideProps} from 'next'
-import {getTokenFromCookieHeaders} from 'utils/auth'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import axios from 'axios'
 import Link from 'next/link'
