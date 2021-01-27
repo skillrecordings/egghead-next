@@ -8,7 +8,7 @@ import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
-import {isEmpty, get, first} from 'lodash'
+import {isEmpty, get, first, isArray} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
 import {loadInstructor} from 'lib/instructors'
@@ -16,10 +16,10 @@ import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
-import {track} from 'utils/analytics'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
+import {getTag} from '../../lib/tags'
 
 const tracer = getTracer('search-page')
 
@@ -56,6 +56,7 @@ type SearchIndexProps = {
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
+  initialTopic: any
 }
 
 const SearchIndex: any = ({
@@ -64,9 +65,11 @@ const SearchIndex: any = ({
   pageTitle,
   noIndexInitial,
   initialInstructor,
+  initialTopic,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
+  const [topic, setTopic] = React.useState(initialTopic)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
@@ -87,15 +90,33 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
+    console.log(searchState)
+    const selectedTopics = searchState?.refinementList?._tags
+
+    if (
+      isArray(selectedTopics) &&
+      selectedTopics?.length === 1 &&
+      !selectedTopics.includes('undefined')
+    ) {
+      const newTopic = first<string>(selectedTopics)
+      try {
+        if (newTopic) {
+          setTopic(await getTag(newTopic))
+        } else {
+          setTopic(undefined)
+          console.log('null topic2 ')
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      setTopic(undefined)
+      console.log('null topic')
+    }
+
     debouncedState.current = setTimeout(() => {
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
-
-      const trackParams = {
-        ...(!!searchState.query && {query: searchState.query}),
-        ...(!!searchState.refinementList && searchState.refinementList),
-        href,
-      }
 
       router.push(`/q/[[all]]`, href, {
         shallow: true,
@@ -115,7 +136,12 @@ const SearchIndex: any = ({
   return (
     <div>
       <NextSeo noindex={noIndex} title={pageTitle} />
-      <Search {...defaultProps} {...customProps} instructor={instructor} />
+      <Search
+        {...defaultProps}
+        {...customProps}
+        instructor={instructor}
+        topic={topic}
+      />
     </div>
   )
 }
@@ -152,6 +178,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   let initialInstructor = null
+  let initialTopic = null
 
   const {rawResults, state} = resultsState
 
@@ -162,6 +189,18 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
+  const selectedTopics = initialSearchState.refinementList?._tags
+
+  if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
+    const topic = first<string>(selectedTopics)
+    try {
+      if (topic) {
+        initialTopic = await getTag(topic)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   if (selectedInstructors.length === 1) {
     const instructorSlug = getInstructorSlugFromInstructorList(
@@ -181,6 +220,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
       pageTitle,
       noIndexInitial,
       initialInstructor,
+      ...(!!initialTopic && {initialTopic}),
     },
   }
 }
