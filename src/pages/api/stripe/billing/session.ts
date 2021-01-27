@@ -13,13 +13,9 @@ const StripeCheckoutSession = async (
 
       if (!customer_id) throw new Error('no customer id')
 
-      const account_slug = req.query.account_slug
-
       const session = await stripe.billingPortal.sessions.create({
         customer: customer_id,
-        return_url: account_slug
-          ? `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/accounts/${account_slug}`
-          : process.env.NEXT_PUBLIC_DEPLOYMENT_URL,
+        return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user`,
       })
       if (!session)
         throw new Error(`no session loaded for ${req.query.session_id}`)
