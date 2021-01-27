@@ -85,80 +85,18 @@ const javascriptPageData = [
       },
     ],
   },
-  // {
-  //   id: 'build-the-pattern',
-  //   title: 'Build the pattern',
-  //   resources: [
-  //     {
-  //       title: 'Introduction to Callbacks, Broadcasters, and Listeners',
-  //       path:
-  //         '/playlists/introduction-to-callbacks-broadcasters-and-listeners-5bd7',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //     {
-  //       title:
-  //         'Establish Callback and Closure patterns Around Async Browser Behaviors',
-  //       path:
-  //         '/playlists/establish-callback-and-closure-patterns-around-async-browser-behaviors-c813',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //     {
-  //       title:
-  //         'Use the Callback and Closure Pattern to Build Advanced Async Behaviors',
-  //       path:
-  //         '/playlists/use-the-callback-and-closure-pattern-to-build-advanced-async-behaviors-db15',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //     {
-  //       title: 'Implement the Pattern in Common Async Scenarios',
-  //       path: '/playlists/implement-the-pattern-in-common-async-scenarios-c059',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: 'integrate-in-react',
-  //   title: 'Implement the Pattern in React',
-  //   resources: [
-  //     {
-  //       title: 'Use a Completion Pattern to enable Repetition and Sequencing',
-  //       path:
-  //         '/playlists/use-a-completion-pattern-to-enable-repetition-and-sequencing-f0ba',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //     {
-  //       title: 'Bringing the Pattern into React',
-  //       path: '/playlists/bringing-the-pattern-into-react-decf',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //     {
-  //       title: 'Building Live Search Box',
-  //       path: '/playlists/building-light-search-box-bb64',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //     {
-  //       title: 'Implementing a Word Game with Patterns and React',
-  //       path:
-  //         '/playlists/implementing-a-word-game-with-patterns-and-react-dcb0',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-  //     },
-  //   ],
-  // },
   {
     id: 'composing-callbacks',
-    title: 'Composing Callbacks and Closures in JavaScript',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
     description:
       'This a multi-tier master course for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
+    path: '/playlists/composing-closures-and-callbacks-in-javascript-122',
+    resources: [
+      {
+        path: '/playlists/composing-closures-and-callbacks-in-javascript-122',
+        title: 'Composing Callbacks and Closures in JavaScript',
+        byline: 'John Lindquist',
+      },
+    ],
   },
   {
     id: 'interview-prep',
@@ -240,6 +178,8 @@ const javascriptPageData = [
         title: 'Regex in Javascript',
         path: '/courses/regex-in-javascript',
         byline: 'Joe Maddalone',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
       {
         title: 'Immutable JavaScript Data Structures with Immer',
@@ -328,7 +268,7 @@ const javascriptPageData = [
   },
   {
     id: 'podcasts',
-    name: 'egghed podcasts',
+    name: 'egghead podcasts',
     title: 'Conversations with JavaScript Experts',
     resources: [
       {
@@ -338,6 +278,52 @@ const javascriptPageData = [
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/ce5d6c4f-3f8c-47d7-b6eb-8f952038e5c9/1541152460artwork.jpg',
         path:
           '/podcasts/math-and-functional-programming-aren-t-exclusive-to-wizards-with-brian-lonsdorf',
+      },
+      {
+        title: 'Henry Zhu, Maintainer of Babel',
+        byline: 'Henry Zhu',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/0470de61-8896-4f53-9ad0-56eb8c7a6ea2/1534346287artwork.jpg',
+        path: '/podcasts/henry-zhu-maintainer-of-babel',
+      },
+      {
+        title: 'Functional JavaScript',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/e1d13435-f5fe-401c-934c-27c445aa1e57/1534346592artwork.jpg',
+        byline: 'Brian Lonsdorf and Paul Frend',
+        path: '/podcasts/jason-lengstorf-on-gatsbyjs',
+      },
+      {
+        title: '12-factor Javascript Applications using Docker',
+        byline: 'Mark Shust',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/826f1b9f-3c99-4712-919a-03cbad5356ac/1534346494artwork.jpg',
+        path:
+          '/podcasts/12-factor-javascript-applications-using-docker-with-mark-shust',
+      },
+      {
+        title: 'Learning and Experimenting with Physical and Digital Mediums',
+        byline: 'Keith Peters',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/4d753431-9b5e-4ede-8675-f28cb9306ae0/1538717402artwork.jpg',
+        path:
+          '/podcasts/learning-and-experimenting-with-physical-and-digital-mediums-with-keith-peters',
+      },
+    ],
+  },
+  {
+    id: 'talks',
+    name: 'egghead talks',
+    title: 'Conversations with JavaScript Experts',
+    resources: [
+      {
+        title:
+          'Put Down the Javascript - Level Up with the Fundamentals of Web Development',
+        byline: 'Colby Fayock',
+        image:
+          'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/ce5d6c4f-3f8c-47d7-b6eb-8f952038e5c9/1541152460artwork.jpg',
+        path:
+          '/talks/egghead-put-down-the-javascript-level-up-with-the-fundamentals-of-web-development',
       },
       {
         title: 'Henry Zhu, Maintainer of Babel',

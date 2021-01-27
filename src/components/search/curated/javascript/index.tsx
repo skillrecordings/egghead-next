@@ -21,9 +21,6 @@ const SearchJavaScript = () => {
   const composingCallbacks: any = find(javascriptPageData, {
     id: 'composing-callbacks',
   })
-  const composingIntegrateReact: any = find(javascriptPageData, {
-    id: 'integrate-in-react',
-  })
 
   const javascriptFavorites: any = find(javascriptPageData, {
     id: 'javascript-favorites',
@@ -108,28 +105,51 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         </Card>
       </section>
 
+      <hr className="sm:mt-20 mt-16 w-1/2 mx-auto border" />
+
       {/* Feature Section */}
-      <section className="grid md:grid-cols-5 grid-cols-1 items-start sm:mt-24 mt-16 gap-5">
+      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-20 mt-16 gap-5">
         <Card
-          className="col-span-2"
-          resource={composingCallbacks}
-          location={location}
-        ></Card>
-        <div className="col-span-3">Hello</div>
-        <Card
-          className="col-span-2"
-          resource={composingCallbacks}
-          location={location}
-        ></Card>
-        <Card
-          className="col-span-2"
+          className="col-span-4"
           resource={javascriptDebugging}
           location={location}
         >
           <Collection />
         </Card>
-        <div className="px-8 py-6"> Hello </div>
+        <Card
+          className="md:col-span-8"
+          resource={composingCallbacks}
+          location={location}
+        >
+          <Collection />
+        </Card>
+        <div className="md:col-span-8">
+          <h3 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-300 my-6 text-center">
+            Evergreen Classics
+          </h3>
+          <div className="md:flex md:flex-row gap-5">
+            {javascriptFavorites.resources.map((resource: any) => {
+              return (
+                <Card
+                  className="text-center"
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                />
+              )
+            })}
+          </div>
+        </div>
+        <Card
+          className="col-span-4"
+          resource={interviewPrep}
+          location={location}
+        >
+          <Collection />
+        </Card>
       </section>
+
+      <hr className="sm:mt-20 mt-16 w-1/2 mx-auto border" />
 
       {/* Podcasts and Articles Section */}
       <section className="mt-5 grid md:grid-cols-2 sm:mt-24 mt-16 grid-cols-1 gap-5">
