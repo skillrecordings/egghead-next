@@ -175,7 +175,7 @@ const Header: FunctionComponent = () => {
         </div>
       </header>
       {isOpen && (
-        <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl" />
+        <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl dark:text-gray-100" />
       )}
     </>
   )
