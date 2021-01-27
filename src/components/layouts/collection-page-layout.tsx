@@ -81,10 +81,7 @@ const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
 )
 
 const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
-  <div className="flex items-center space-x-2 flex-nowrap">
-    <div className="opacity-60">Updated:</div>
-    <span>{date}</span>
-  </div>
+  <div>Updated {date}</div>
 )
 
 const StarsRating: React.FunctionComponent<{
@@ -92,13 +89,15 @@ const StarsRating: React.FunctionComponent<{
 }> = ({rating}) => (
   <div className="flex items-center">
     <FiveStars rating={rating} />
-    <span className="ml-2 font-semibold">{rating.toFixed(1)}</span>
+    <span className="ml-1 font-semibold leading-tight">
+      {rating.toFixed(1)}
+    </span>
   </div>
 )
 
 const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
   <div className="flex items-center flex-nowrap">
-    <div className="font-semibold mr-2">{count}</div>
+    <div className="font-semibold mr-1">{count}</div>
     <div className="whitespace-nowrap">people completed</div>
   </div>
 )
@@ -321,12 +320,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
                 <div className="flex items-center flex-col md:flex-row flex-wrap">
-                  <div className="md:mr-3 mt-3">
+                  <div className="md:mr-4 mt-3">
                     <TagList tags={courseTags} courseSlug={course.slug} />
                   </div>
-                  <div className="flex items-center md:justify-start justify-center md:mr-3 mt-3">
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
                     {duration && (
-                      <div className="mr-3">
+                      <div className="mr-4">
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
                     )}
