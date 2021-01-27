@@ -64,7 +64,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
                 </div>
               </div>
               <FiveStars rating={rating_out_of_5} />
-              <div className="text-xs text-gray-500 dark:text-gray-500">
+              <div className="text-xs text-gray-500 dark:text-gray-400">
                 {comment.prompt}
               </div>
               <div className="prose dark:prose-dark overflow-hidden">

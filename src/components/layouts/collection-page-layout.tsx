@@ -253,7 +253,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               },
             )
           }}
-          className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+          className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
         >
           <PlayIcon className="text-blue-100 mr-2" />
           {isContinuing ? 'Continue' : 'Start'} Watching
@@ -489,8 +489,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 className="md:block hidden"
               />
             </div>
-            <div className="md:block hidden space-y-10">
-              <div className="w-full flex justify-center mt-10">
+            <div className="md:block hidden space-y-6">
+              <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
               <Fresh freshness={freshness} />
@@ -608,11 +608,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                             <div
                               className={`${
                                 isComplete
-                                  ? 'text-blue-600 dark:text-gray-100'
+                                  ? 'text-blue-600 dark:text-green-400'
                                   : 'text-gray-500 dark:text-gray-400'
                               } pt-px font-xs transform scale-75 font-normal w-4`}
                             >
-                              {isComplete ? <CheckIcon /> : index + 1}
+                              {isComplete ? (
+                                <CheckIcon className="w-6 h-6 transform -translate-x-2" />
+                              ) : (
+                                index + 1
+                              )}
                             </div>
                             {lesson.icon_url && (
                               <div className="flex flex-shrink-0 w-8 items-center">
