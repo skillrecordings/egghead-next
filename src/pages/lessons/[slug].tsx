@@ -48,6 +48,7 @@ import CodeLink, {
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
+import useCio from 'hooks/use-cio'
 
 const tracer = getTracer('lesson-page')
 
@@ -120,7 +121,7 @@ const HEADER_HEIGHT = 80
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
-
+  const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
   const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
 
@@ -549,6 +550,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                                       ...(comment && {comment}),
                                       ...(!!prompt && {prompt}),
                                     })
+                                    if (subscriber) {
+                                      const currentScore =
+                                        Number(
+                                          subscriber.attributes?.learner_score,
+                                        ) || 0
+                                      cioIdentify(subscriber.id, {
+                                        learner_score: currentScore + 20,
+                                      })
+                                    }
                                   }
                                 })
                                 .finally(() => {

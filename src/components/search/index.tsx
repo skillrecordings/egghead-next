@@ -21,6 +21,7 @@ import config from 'lib/config'
 import SearchReact from 'components/search/curated/react'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
+import {isArray} from 'lodash'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -74,6 +75,14 @@ const Search: FunctionComponent<SearchProps> = ({
   const searchBoxPlaceholder = !isEmpty(instructor)
     ? `Search resources by ${instructor.full_name}`
     : undefined
+
+  const shouldDisplayLandingPageForTopics = (topics: string | string[]) => {
+    return (
+      numberOfRefinements === 1 &&
+      noInstructorsSelected(searchState) &&
+      onlyTheseTagsSelected(isArray(topics) ? topics : [topics], searchState)
+    )
+  }
 
   return (
     <>
@@ -140,18 +149,17 @@ const Search: FunctionComponent<SearchProps> = ({
               )}
             </AnimatePresence>
             <AnimatePresence>
-              {noInstructorsSelected(searchState) &&
-                onlyTheseTagsSelected(['react'], searchState) && (
-                  <motion.div
-                    layout
-                    initial={{opacity: 0}}
-                    animate={{opacity: 1}}
-                    exit={{opacity: 0}}
-                    className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5"
-                  >
-                    <SearchReact />
-                  </motion.div>
-                )}
+              {shouldDisplayLandingPageForTopics('react') && (
+                <motion.div
+                  layout
+                  initial={{opacity: 0}}
+                  animate={{opacity: 1}}
+                  exit={{opacity: 0}}
+                  className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5"
+                >
+                  <SearchReact />
+                </motion.div>
+              )}
             </AnimatePresence>
             <motion.div
               className="max-w-screen-xl mx-auto"

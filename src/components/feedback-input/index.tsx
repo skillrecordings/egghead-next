@@ -12,6 +12,7 @@ import {track} from 'utils/analytics'
 import Sob from './images/Sob'
 import Hearteyes from './images/Hearteyes'
 import NeutralFace from './images/NeutralFace'
+import useCio from 'hooks/use-cio'
 
 const feedbackSchema = Yup.object().shape({
   emoji: Yup.string(),
@@ -52,6 +53,9 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
     success: false,
     errorMessage: null,
   })
+
+  const {subscriber, cioIdentify} = useCio()
+
   const openDialog = () => {
     setShowDialog(true)
     setState({success: false, loading: false, errorMessage: null})
@@ -85,6 +89,13 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
           emotion: slackEmojiCode,
           url: window.location.toString(),
         })
+        if (subscriber) {
+          const learner_score =
+            Number(subscriber.attributes?.learner_score) || 0
+          cioIdentify(subscriber.id, {
+            learner_score: learner_score + 10,
+          })
+        }
         actions.setSubmitting(false)
         actions.resetForm()
         setState({
