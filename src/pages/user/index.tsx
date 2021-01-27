@@ -36,7 +36,7 @@ const User: React.FunctionComponent<
   }
 
   React.useEffect(() => {
-    const loadAccountForSlug = async (slug) => {
+    const loadAccountForSlug = async (slug: undefined | string) => {
       if (slug) {
         const account: any = await loadAccount(slug, authToken)
         setAccount(account)
