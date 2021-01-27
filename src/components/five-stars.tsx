@@ -10,7 +10,7 @@ const FiveStars: React.FunctionComponent<{
   const showHalfStar = roundedRemainder === 1
   const emptyStarCount = 5 - roundedRemainder - floor(rating)
   return (
-    <div className="flex items-center lh-solid">
+    <div className="flex items-center leading-tight">
       {map(times(rating), (index) => (
         <div key={`filled-${index}`}>
           <Star filled />

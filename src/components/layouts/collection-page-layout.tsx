@@ -73,6 +73,35 @@ const logCollectionResource = (collection: CollectionResource) => {
   }
 }
 
+const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
+  <div className="flex flex-row items-center">
+    <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
+    <span>{duration}</span>
+  </div>
+)
+
+const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
+  <div>Updated {date}</div>
+)
+
+const StarsRating: React.FunctionComponent<{
+  rating: number
+}> = ({rating}) => (
+  <div className="flex items-center">
+    <FiveStars rating={rating} />
+    <span className="ml-1 font-semibold leading-tight">
+      {rating.toFixed(1)}
+    </span>
+  </div>
+)
+
+const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
+  <div className="flex items-center flex-nowrap">
+    <div className="font-semibold mr-1">{count}</div>
+    <div className="whitespace-nowrap">people completed</div>
+  </div>
+)
+
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons,
   course,
@@ -224,7 +253,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               },
             )
           }}
-          className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+          className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
         >
           <PlayIcon className="text-blue-100 mr-2" />
           {isContinuing ? 'Continue' : 'Start'} Watching
@@ -280,7 +309,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
                 {title}
               </h1>
-              <div className="pt-2 flex items-center space-x-6">
+              <div className="mt-2 flex flex-col items-center md:items-start">
                 {instructor && (
                   <InstructorProfile
                     name={full_name}
@@ -290,40 +319,30 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     twitter={twitter}
                   />
                 )}
-                <div className="flex items-center md:justify-start justify-center mt-4 space-x-4">
-                  {duration && (
-                    <div className="flex flex-row items-center">
-                      <ClockIcon className="w-4 h-4 mr-1" />{' '}
-                      {convertTimeWithTitles(duration)}
-                    </div>
-                  )}
-                  <TagList tags={courseTags} courseSlug={course.slug} />{' '}
-                  {updated_at && (
-                    <div className="flex flex-col lg:flex-row items-center space-x-2 ">
-                      <div>Updated:</div>
-                      <div>
-                        <code>{friendlyTime(new Date(updated_at))}</code>
+                <div className="flex items-center flex-col md:flex-row flex-wrap">
+                  <div className="md:mr-4 mt-3">
+                    <TagList tags={courseTags} courseSlug={course.slug} />
+                  </div>
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
+                    {duration && (
+                      <div className="mr-4">
+                        <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {updated_at && (
+                      <UpdatedAt date={friendlyTime(new Date(updated_at))} />
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-center md:justify-start justify-center mt-4 space-x-6 w-full">
-                <div className="flex items-center w-2/3 space-x-4">
+              <div className="flex flex-col md:flex-row items-center md:justify-start justify-center mt-4 space-y-4 md:space-y-0 md:space-x-6 w-full">
+                <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
                   {average_rating_out_of_5 > 0 && (
-                    <div className="flex items-center">
-                      <FiveStars rating={average_rating_out_of_5} />
-                      <span className="ml-2 font-semibold">
-                        {average_rating_out_of_5.toFixed(1)}
-                      </span>
-                    </div>
+                    <StarsRating rating={average_rating_out_of_5} />
                   )}
                   {watched_count > 0 && (
-                    <div className="flex flex-col lg:flex-row items-center text-center">
-                      <div className="font-semibold mr-2">{watched_count}</div>
-                      <div>people completed</div>
-                    </div>
+                    <PeopleCompleted count={watched_count} />
                   )}
                 </div>
               </div>
@@ -342,7 +361,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       setIsFavorite(!isFavorite)
                     }}
                   >
-                    <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                    <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                       <BookmarkIcon
                         className={`w-4 h-4 mr-1`}
                         fill={isFavorite}
@@ -364,7 +383,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
@@ -383,7 +402,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
                     </a>
@@ -470,8 +489,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 className="md:block hidden"
               />
             </div>
-            <div className="md:block hidden space-y-10">
-              <div className="w-full flex justify-center mt-10">
+            <div className="md:block hidden space-y-6">
+              <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
               <Fresh freshness={freshness} />
@@ -589,11 +608,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                             <div
                               className={`${
                                 isComplete
-                                  ? 'text-blue-600 dark:text-gray-100'
+                                  ? 'text-blue-600 dark:text-green-400'
                                   : 'text-gray-500 dark:text-gray-400'
                               } pt-px font-xs transform scale-75 font-normal w-4`}
                             >
-                              {isComplete ? <CheckIcon /> : index + 1}
+                              {isComplete ? (
+                                <CheckIcon className="w-6 h-6 transform -translate-x-2" />
+                              ) : (
+                                index + 1
+                              )}
                             </div>
                             {lesson.icon_url && (
                               <div className="flex flex-shrink-0 w-8 items-center">
