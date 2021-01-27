@@ -28,8 +28,8 @@ const Topic: FunctionComponent<TopicProps> = ({
           backgroundPosition: '38%',
         }}
       />
-      <div className="sm:col-span-6 col-span-6 sm:p-8 p-4 sm:pr-3 flex flex-col justify-start h-full">
-        <h1 className="sm:text-2xl text-xl font-bold">{title}</h1>
+      <div className="sm:col-span-6 col-span-6 flex flex-col justify-start h-full p-8">
+        <h1 className="sm:text-2xl text-xl font-bold mb-2">{title}</h1>
         {children && (
           <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
             {children}

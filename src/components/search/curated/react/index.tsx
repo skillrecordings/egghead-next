@@ -96,7 +96,8 @@ You can find courses below curated just for you whether you're looking for a par
           <Collection />
         </Card>
       </div>
-      <section className="mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg">
+
+      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg">
         <div className="lg:col-span-8 col-span-12 space-y-5">
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
             <div className="flex-shrink-0">
@@ -178,7 +179,7 @@ You can find courses below curated just for you whether you're looking for a par
           </Card>
         </div>
       </section>
-      <section className="mt-5 grid md:grid-cols-3 grid-cols-1 gap-5">
+      <section className="mt-20 grid md:grid-cols-3 grid-cols-1 gap-5">
         <Card resource={reactArticles} location={location}>
           <Collection />
         </Card>
