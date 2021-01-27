@@ -37,7 +37,7 @@ const Header: FunctionComponent = () => {
           <div className={className}>
             <Feedback
               user={viewer}
-              className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-black active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+              className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
             >
               Feedback
             </Feedback>
@@ -49,7 +49,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Bookmarks
                 </a>
