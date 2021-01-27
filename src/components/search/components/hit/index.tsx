@@ -66,12 +66,12 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
               }
               className="self-start"
             >
-              <h2 className="sm:text-lg text-base dark:text-trueGray-200 font-semibold leading-tight hover:underline">
+              <h2 className="sm:text-lg text-base dark:text-gray-200 font-semibold leading-tight hover:underline">
                 {title}
               </h2>
             </a>
           </Link>
-          <div className="sm:text-sm text-sm font-light text-gray-600 dark:text-trueGray-400">
+          <div className="sm:text-sm text-sm font-light text-gray-600 dark:text-gray-400">
             {instructor_name && !instructor_url && <>{instructor_name}・</>}
             {instructor_name && instructor?.slug && (
               <>

@@ -72,7 +72,7 @@ const Home: FunctionComponent = () => {
                           linkType: 'text',
                         })
                       }}
-                      className="hover:text-blue-600"
+                      className="hover:text-blue-600 dark:hover:text-blue-300"
                     >
                       <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
                         {video.title}
@@ -88,7 +88,7 @@ const Home: FunctionComponent = () => {
                             linkType: 'image',
                           })
                         }}
-                        className="hover:text-blue-600"
+                        className="hover:text-blue-600 dark:hover:text-blue-300"
                       >
                         {video.instructor}
                       </a>
@@ -99,7 +99,7 @@ const Home: FunctionComponent = () => {
                   </Markdown>
                 </div>
               </div>
-              <div className="sm:w-full -m-5 flex items-center flex-grow bg-trueGray-900">
+              <div className="sm:w-full -m-5 flex items-center flex-grow bg-gray-900">
                 <EggheadPlayer
                   preload={false}
                   autoplay={false}
@@ -171,7 +171,7 @@ const Home: FunctionComponent = () => {
                 <ul className="grid grid-cols-2 gap-3 mt-3">
                   {map(get(swag, 'resources'), (resource) => (
                     <li
-                      className="py-1 flex flex-col items-center text-center  text-gray-600 hover:text-blue-600"
+                      className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
                       key={resource.path}
                     >
                       {resource.image && (
@@ -245,7 +245,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full bg-white dark:bg-trueGray-800 border dark:border-trueGray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-trueGray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="w-full bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-gray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
                 >
                   <div className="w-full flex flex-col items-center justify-center space-y-4 p-2">
                     {resource.image && (
@@ -387,7 +387,7 @@ export const CardHorizontal: FunctionComponent<{
                     location,
                   })
                 }}
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 dark:hover:text-blue-300"
               >
                 <h3 className="text-xl font-bold leading-tighter">
                   {resource.title}
@@ -445,7 +445,7 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                 linkType: 'text',
               })
             }}
-            className="hover:text-blue-600"
+            className="hover:text-blue-600 dark:hover:text-blue-300"
           >
             <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
               <Textfit mode="multi" min={14} max={20}>

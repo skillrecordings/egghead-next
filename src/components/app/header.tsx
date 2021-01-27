@@ -9,6 +9,7 @@ import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
+import useCio from '../../hooks/use-cio'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -36,7 +37,7 @@ const Header: FunctionComponent = () => {
           <div className={className}>
             <Feedback
               user={viewer}
-              className="px-3 py-2 hover:bg-gray-100 dark:hover:text-black active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+              className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-black active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
             >
               Feedback
             </Feedback>
@@ -48,7 +49,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Bookmarks
                 </a>
@@ -62,7 +63,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
                 >
                   Team
                 </a>
@@ -132,7 +133,7 @@ const Header: FunctionComponent = () => {
                     location: 'header',
                   })
                 }
-                className="px-3 py-2 hover:opacity-100 hover:bg-gray-100  active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                className="px-3 py-2 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800  active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
               >
                 Sign in
               </a>
@@ -148,13 +149,13 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 dark:bg-trueGray-900 border-b border-gray-100 dark:border-trueGray-700 flex items-center justify-between print:hidden dark:text-trueGray-100">
+      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
           <div className="flex items-center">
             <Link href="/">
               <a className="flex items-center">
                 <Eggo className="w-8 mr-1" />
-                <span className="sm:inline-block hidden text-lg font-semibold dark:text-trueGray-200">
+                <span className="sm:inline-block hidden text-lg font-semibold dark:text-gray-200">
                   egghead.io
                 </span>
               </a>
@@ -174,7 +175,7 @@ const Header: FunctionComponent = () => {
         </div>
       </header>
       {isOpen && (
-        <Navigation className="flex flex-col items-start bg-white dark:bg-trueGray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl" />
+        <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl dark:text-gray-100" />
       )}
     </>
   )
@@ -184,6 +185,7 @@ export default Header
 
 const DarkModeToggle = () => {
   const [mounted, setMounted] = React.useState(false)
+  const {subscriber, cioIdentify} = useCio()
   const {theme, setTheme} = useTheme()
   React.useEffect(() => setMounted(true), [])
 
@@ -191,8 +193,19 @@ const DarkModeToggle = () => {
     <button
       aria-label="Toggle Dark Mode"
       type="button"
-      className="bg-blueGray-200 dark:bg-trueGray-800 rounded-md p-3 h-10 w-10"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="rounded p-3 h-10 w-10"
+      onClick={() => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark'
+        setTheme(nextTheme)
+        track(`toggled dark mode`, {
+          mode: nextTheme,
+        })
+        if (subscriber) {
+          cioIdentify(subscriber.id, {
+            theme_preference: nextTheme,
+          })
+        }
+      }}
     >
       {mounted && (
         <svg

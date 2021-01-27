@@ -15,7 +15,7 @@ module.exports = {
     colors: {
       ...defaultTheme.colors,
       ...colors,
-      gray: colors.blueGray,
+      gray: colors.coolGray,
       // red: colors.red,
       // blue: colors.blue,
       // yellow: colors.amber,
@@ -71,6 +71,11 @@ module.exports = {
             'h2,h3,h4': {
               color: theme('colors.gray.100'),
               'scroll-margin-top': spacing[32],
+            },
+            code: {
+              padding: '3px 5px',
+              borderRadius: 5,
+              background: theme('colors.gray.400'),
             },
             hr: {borderColor: theme('colors.gray.700')},
             ol: {
