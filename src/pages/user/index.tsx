@@ -72,7 +72,6 @@ const User: React.FunctionComponent<
       minimumFractionDigits: 0,
     }).format(subscriptionData.price.unit_amount / 100)
 
-  // TODO: Do I need to add loginRequired prop back in below
   return (
     <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
