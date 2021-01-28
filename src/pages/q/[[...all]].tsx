@@ -20,6 +20,7 @@ import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
 import {getTag} from '../../lib/tags'
+import {tagCacheLoader} from '../../utils/tag-cache-loader'
 
 const tracer = getTracer('search-page')
 
@@ -90,7 +91,6 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
-    console.log(searchState)
     const selectedTopics = searchState?.refinementList?._tags
 
     if (
@@ -101,17 +101,20 @@ const SearchIndex: any = ({
       const newTopic = first<string>(selectedTopics)
       try {
         if (newTopic) {
-          setTopic(await getTag(newTopic))
+          const cachedTag = tagCacheLoader(newTopic)
+          if (cachedTag) {
+            setTopic(cachedTag)
+          } else {
+            getTag(newTopic).then(setTopic)
+          }
         } else {
           setTopic(undefined)
-          console.log('null topic2 ')
         }
       } catch (error) {
         console.error(error)
       }
     } else {
       setTopic(undefined)
-      console.log('null topic')
     }
 
     debouncedState.current = setTimeout(() => {

@@ -85,8 +85,6 @@ const Search: FunctionComponent<SearchProps> = ({
     )
   }
 
-  console.debug(`topic check`, topic, searchState)
-
   return (
     <>
       <Head>
