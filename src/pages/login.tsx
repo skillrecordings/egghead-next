@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
+import {isEmpty} from 'lodash'
 import {useViewer} from 'context/viewer-context'
 import Image from 'next/image'
 import {IconGithub} from 'components/pages/lessons/code-link'
@@ -22,17 +23,15 @@ type LoginFormProps = {
 
 const LoginForm: FunctionComponent<LoginFormProps> = ({
   image = (
-    <div className="mb-5">
-      <Image
-        className="mx-auto"
-        width={140}
-        height={140}
-        src={
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1604394864/climbers.png'
-        }
-        alt="egghead climbers"
-      />
-    </div>
+    <Image
+      className="mx-auto"
+      width={140}
+      height={140}
+      src={
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1604394864/climbers.png'
+      }
+      alt="egghead climbers"
+    />
   ),
   className,
   children,
@@ -44,6 +43,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
   const [isSubmitted, setIsSubmitted] = React.useState(false) // false
   const [isError, setIsError] = React.useState(false)
   const {requestSignInEmail} = useViewer()
+  console.log('image.props: ', image.props)
 
   return (
     <div
@@ -54,7 +54,11 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
       }
     >
       {image}
-      <div className="sm:mx-auto rounded-lg">
+      <div
+        className={`sm:mx-auto rounded-lg ${
+          isEmpty(image?.props) ? 'mt-0' : 'mt-5'
+        }`}
+      >
         {isSubmitted && (
           <h2 className="text-center text-3xl leading-9 font-bold">
             Email Sent
