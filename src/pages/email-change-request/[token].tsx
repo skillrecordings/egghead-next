@@ -40,11 +40,7 @@ const EmailChangeRequest: React.FunctionComponent = () => {
                       // refresh the user to get the latest email before redirecting
                       await refreshUser()
 
-                      if (isEmpty(viewer.accounts)) {
-                        router.replace('/')
-                      } else {
-                        router.replace(`/accounts/${viewer.accounts[0].slug}`)
-                      }
+                      router.replace('/user')
                     }
                   }}
                 >

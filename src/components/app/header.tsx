@@ -73,35 +73,14 @@ const Header: FunctionComponent = () => {
                 </a>
               </Link>
             )}
-            {!isEmpty(viewer.accounts) ? (
-              <Link href={`/accounts/${viewer.accounts[0].slug}`}>
-                <a
-                  onClick={() =>
-                    track('clicked account', {
-                      location: 'header',
-                    })
-                  }
-                  className="flex items-center space-x-2 p-3 hover:text-blue-700 hover:underline"
-                >
-                  <img
-                    alt="avatar"
-                    className="w-8 rounded-full"
-                    src={viewer.avatar_url}
-                  />
-                  <span>
-                    {viewer.name}
-                    {viewer.is_pro && ' ⭐️'}
-                  </span>
-                </a>
-              </Link>
-            ) : (
-              <div
-                className="flex items-center space-x-2 p-3"
-                onClick={() => {
-                  track(`clicked user name area`, {
+            <Link href="/user">
+              <a
+                onClick={() =>
+                  track('clicked account', {
                     location: 'header',
                   })
-                }}
+                }
+                className="flex items-center space-x-2 p-3 hover:text-blue-700 hover:underline"
               >
                 <img
                   alt="avatar"
@@ -112,8 +91,8 @@ const Header: FunctionComponent = () => {
                   {viewer.name}
                   {viewer.is_pro && ' ⭐️'}
                 </span>
-              </div>
-            )}
+              </a>
+            </Link>
             <DarkModeToggle />
           </div>
         ) : (
