@@ -48,8 +48,7 @@ const homepageData = [
     resources: [
       {
         name: 'Fresh Course',
-        title:
-          'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+        title: 'Netlify Serverless Functions and Hasura',
         byline: 'Jason Lengstorf・1h 27m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
@@ -59,24 +58,16 @@ const homepageData = [
           'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
-        name: 'Featured Course',
-        title: 'Scale React Development with NX',
-        byline: 'Juri Strumpflohner',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/full/EGH_ScalingReactNx.png',
-        path: '/playlists/scale-react-development-with-nx-4038',
-      },
-      {
         name: 'Cutting Edge',
-        title: 'Introduction to Cloudflare Workers',
+        title: 'Cloudflare Workers',
         byline: 'Free course by Kristian Freeman',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
       {
-        name: 'Something Different',
-        title: 'Professor Frisby Introduces Composable Functional JavaScript',
+        name: 'Delightfully Different',
+        title: 'Composable Functional JavaScript',
         byline: 'Brian Lonsdorf・1h 50m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/072/thumb/EGH_ComposableJS_Final.png',
