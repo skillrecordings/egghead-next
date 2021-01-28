@@ -515,16 +515,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         </OverlayWrapper>
                       )}
                       {playerState.matches('showingNext') && (
-                        <NextUpOverlay
-                          lesson={lesson}
-                          nextLesson={nextLesson}
-                          onClickRewatch={() => {
-                            send('VIEW')
-                            if (actualPlayerRef.current) {
-                              actualPlayerRef.current.play()
-                            }
-                          }}
-                        />
+                        <OverlayWrapper>
+                          <NextUpOverlay
+                            lesson={lesson}
+                            nextLesson={nextLesson}
+                            onClickRewatch={() => {
+                              send('VIEW')
+                              if (actualPlayerRef.current) {
+                                actualPlayerRef.current.play()
+                              }
+                            }}
+                          />
+                        </OverlayWrapper>
                       )}
                       {playerState.matches('rating') && (
                         <OverlayWrapper>
