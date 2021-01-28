@@ -13,7 +13,6 @@ import {
 import {get, isEqual, isEmpty} from 'lodash'
 import {useToggle, useClickAway} from 'react-use'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
 
 import config from 'lib/config'
 
@@ -68,12 +67,6 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const refinementRef = React.useRef(null)
   useClickAway(refinementRef, () => setShowFilter(false))
-
-  const router = useRouter()
-
-  React.useEffect(() => {
-    setShowFilter(false)
-  }, [router, setShowFilter])
 
   const searchBoxPlaceholder = !isEmpty(instructor)
     ? `Search resources by ${instructor.full_name}`
