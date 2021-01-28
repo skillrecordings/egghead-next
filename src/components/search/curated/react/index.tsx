@@ -34,7 +34,7 @@ const SearchReact = () => {
   const reactPodcasts: any = find(reactPageData, {id: 'podcasts'})
 
   return (
-    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+    <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
         description={description}
         title={title}

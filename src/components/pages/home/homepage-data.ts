@@ -2,26 +2,24 @@ const homepageData = [
   {
     id: 'jumbotron',
     byline: 'New Course',
-    title:
-      'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+    title: 'Containerize Full-Stack JavaScript Applications with Docker',
     instructor: {
-      name: 'Jason Lengsdorf',
-      slug: 'jason-lengsdorf',
-      path: '/q/resources-by-jason-lengstorf',
+      name: 'Joel Lord',
+      slug: 'joel-lord',
+      path: '/q/resources-by-joel-lord',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/204/square_128/jason-lengstorf_%281%29.jpg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/202/square_128/profile-no-bg-small.png',
     },
     description:
-      'This course is an excellent illustration of the speed of Serverless functions, and how fast you can implement functionality in your web applications.',
+      'One of the most useful ways to get your head around Docker is to see it in action. Follow along with Joel Lord as he works through the process of preparing an application to run in separate containers for the frontend and backend of an application that searches for gifs and re-encodes them with a caption supplied by the user.',
     image: {
       src:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/full/EGH_NetlifyServerlessFunction_Final.png',
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
       alt:
-        'Stylized illustration of circular shape with Netlify logo in the middle and Hasura logo peeking at the top. Illustrated by Maggie Appleton',
+        'Stylized illustration of colorful shipping containers with a docker logo',
     },
-
     path:
-      '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+      '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
   },
   {
     id: 'video',

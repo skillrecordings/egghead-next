@@ -27,7 +27,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
   return (
-    <div className="flex items-start py-3 w-100">
+    <div className="flex items-center py-3 w-100">
       {hasImage && (
         <div className="items-center flex justify-center">
           <Link href={path}>

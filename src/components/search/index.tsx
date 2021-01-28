@@ -102,9 +102,12 @@ const Search: FunctionComponent<SearchProps> = ({
       >
         <Configure hitsPerPage={config.searchResultCount} />
         <ScrollTo scrollOn="page" />
-        <div className="sm:pb-16 pb-8 mx-auto space-y-8">
-          <div className="max-w-screen-xl mx-auto" ref={refinementRef}>
-            <header className="flex mt-4">
+        <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
+          <div
+            className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
+            ref={refinementRef}
+          >
+            <header className="flex xl:px-0 px-5">
               <SearchBox
                 placeholder={searchBoxPlaceholder}
                 className="w-full "
@@ -134,16 +137,16 @@ const Search: FunctionComponent<SearchProps> = ({
               </button>
             </header>
             <div
-              className={`overflow-hidden rounded-md border border-transparent shadow-lg ${
+              className={`overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-transparent shadow-lg ${
                 isFilterShown
-                  ? 'h-auto border-gray-200 my-2'
-                  : 'h-0 border-transparent my-0'
+                  ? 'h-auto border-gray-200 dark:border-gray-700 my-2'
+                  : 'h-0 border-none my-0'
               }`}
             >
               <div
                 className={`${
                   isFilterShown ? 'top-full ' : 'top-0'
-                } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5  relative`}
+                } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 relative`}
               >
                 <div>
                   <h3 className="font-semibold mb-1">Topics</h3>
@@ -159,7 +162,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 </div>
                 {isRefinementOn && (
                   <button
-                    className="absolute top-0 right-0 mr-3 mt-3"
+                    className="absolute top-0 right-0 mr-3 mt-3 text-blue-600 dark:text-blue-300"
                     onClick={setShowFilter}
                   >
                     <ClearRefinements />
@@ -205,13 +208,13 @@ const Search: FunctionComponent<SearchProps> = ({
           )}
 
           {shouldDisplayLandingPageForTopics('react') && (
-            <div className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5">
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
               <SearchReact />
             </div>
           )}
 
           {!isEmpty(topic) && !shouldDisplayLandingPageForTopics('react') && (
-            <div className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5">
+            <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
               <GenericTopic
                 title={topic.label}
                 imageUrl={topic.image_480_url}
@@ -220,8 +223,8 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          <div className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5">
-            <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+          <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+            <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
               <Hits />
             </div>
           </div>
