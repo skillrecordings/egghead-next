@@ -35,6 +35,9 @@ const stripeCheckoutRedirect = async (
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
         ...(!!redirectURL && {redirectURL}),
+        email,
+        // user id? other metadata?
+        // auth token
       },
     })
     .then(({data}) => {
