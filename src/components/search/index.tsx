@@ -16,7 +16,8 @@ import Image from 'next/image'
 
 import config from 'lib/config'
 
-import SearchReact from 'components/search/curated/react'
+import SearchReact from 'components/search/curated/topics/react'
+import SearchDan from 'components/search/curated/instructors/dan-abramov'
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
@@ -83,6 +84,19 @@ const Search: FunctionComponent<SearchProps> = ({
         noInstructorsSelected(searchState) &&
         onlyTheseTagsSelected(isArray(topics) ? topics : [topics], searchState))
     )
+  }
+
+  const onlyThisInstructorSelected = (
+    instructor: string[],
+    searchState: any,
+  ) => {
+    const selectedInstructor = get(
+      searchState,
+      'refinementList.instructor_name',
+      [],
+    ) as string[]
+    console.log({selectedInstructor})
+    return isEqual(selectedInstructor, instructor)
   }
 
   return (
@@ -172,37 +186,45 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           </div>
           {!isEmpty(instructor) && (
-            <div className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex md:flex-row flex-col md:space-y-0 space-y-2 justify-center">
-              <NextSeo
-                title={`Learn web development from ${instructor.full_name} on egghead`}
-                twitter={{
-                  handle: instructor.twitter,
-                  site: `@eggheadio`,
-                  cardType: 'summary_large_image',
-                }}
-                openGraph={{
-                  title: `Learn web development from ${instructor.full_name} on egghead`,
-                  images: [
-                    {
-                      url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
-                    },
-                  ],
-                }}
-              />
-              <div className="flex items-center md:justify-center justify-start flex-shrink-0">
-                <Image
-                  className="rounded-full"
-                  width={128}
-                  height={128}
-                  layout="intrinsic"
-                  src={instructor.avatar_url}
+            <div>
+              <div className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex md:flex-row flex-col md:space-y-0 space-y-2 justify-center">
+                <NextSeo
+                  title={`Learn web development from ${instructor.full_name} on egghead`}
+                  twitter={{
+                    handle: instructor.twitter,
+                    site: `@eggheadio`,
+                    cardType: 'summary_large_image',
+                  }}
+                  openGraph={{
+                    title: `Learn web development from ${instructor.full_name} on egghead`,
+                    images: [
+                      {
+                        url: `http://og-image-react-egghead.now.sh/instructor/${instructor.slug}?v=20201103`,
+                      },
+                    ],
+                  }}
                 />
+
+                <div className="flex items-center md:justify-center justify-start flex-shrink-0">
+                  <Image
+                    className="rounded-full"
+                    width={128}
+                    height={128}
+                    layout="intrinsic"
+                    src={instructor.avatar_url}
+                  />
+                </div>
+                <div className="md:pl-8">
+                  <h1 className="text-2xl font-bold">{instructor.full_name}</h1>
+                  <ReactMarkdown className="prose dark:prose-dark mt-0">
+                    {instructor.bio_short}
+                  </ReactMarkdown>
+                </div>
               </div>
-              <div className="md:pl-8">
-                <h1 className="text-2xl font-bold">{instructor.full_name}</h1>
-                <ReactMarkdown className="prose dark:prose-dark mt-0">
-                  {instructor.bio_short}
-                </ReactMarkdown>
+              <div>
+                {onlyThisInstructorSelected(['Dan Abramov'], searchState) && (
+                  <SearchDan></SearchDan>
+                )}
               </div>
             </div>
           )}
