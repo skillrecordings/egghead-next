@@ -219,17 +219,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     )
   }, [currentPlayerState])
 
-  // const overlayPlayerStates = [
-  //   'quizzing',
-  //   'rating',
-  //   'subscribing',
-  //   'showingNext',
-  //   'joining',
-  //   'recommending',
-  // ]
-
-  // console.log('currentState: ', currentPlayerState)
-
   const checkAutoPlay = async () => {
     if (nextLesson) {
       updateResource(nextLesson)
@@ -393,8 +382,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
   }, [height])
 
-  console.log('playerVisible: ', playerVisible)
-
   return (
     <>
       <NextSeo
@@ -444,26 +431,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             >
               <div className="flex flex-grow bg-black">
                 <div
-                  // className={`w-full relative h-0`}
                   className="w-full relative"
                   css={{
                     minHeight: Math.round(videoWidth / 1.77777),
                   }}
-                  // css={{
-                  //   paddingTop: '56.25%',
-                  // }}
                 >
-                  {/* <div
-                    className={`flex items-center justify-center text-white h-full`}
-                    // className={`flex items-center justify-center text-white h-full absolute top-0 right-0 bottom-0 left-0`}
-                  >
-                    <div
-                      //  className={`absolute w-full h-full top-0 left-0`}
-                      className="w-full h-full"
-                    >
-                      it was here!!!!
-                    </div>
-                  </div> */}
                   <div
                     className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
                   >
