@@ -186,7 +186,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         </label>
                         <Field
                           disabled={isSubmitting || state.loading}
-                          className="mt-4 form-input bg-background border border-gray-200 focus:shadow-outline-blue text-text w-full h-40"
+                          className="mt-4 form-input bg-background border border-gray-200 focus:shadow-outline-blue dark:text-gray-900 text-text w-full h-40"
                           component="textarea"
                           name="feedback"
                           id="feedback"

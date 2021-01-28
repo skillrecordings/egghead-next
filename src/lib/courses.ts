@@ -77,7 +77,7 @@ export async function loadCourse(slug: string) {
   return course
 }
 
-export async function loadAllCourses() {
+export async function loadAllCourses(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
     query getCourses {
       all_courses {
@@ -102,7 +102,15 @@ export async function loadAllCourses() {
       }
     }
   `
-  const {all_courses} = await request(config.graphQLEndpoint, query)
+  try {
+    const {all_courses} = await request(config.graphQLEndpoint, query)
 
-  return all_courses
+    return all_courses
+  } catch (error) {
+    if (retryCount <= 4) {
+      return loadAllCourses(retryCount++)
+    } else {
+      throw error
+    }
+  }
 }

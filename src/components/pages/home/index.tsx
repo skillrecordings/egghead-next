@@ -429,12 +429,12 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                   linkType: 'image',
                 })
               }}
-              className="mb-2 mx-auto w-24"
+              className="mb-2 mx-auto w-32"
               tabIndex={-1}
             >
               <Image
-                width={140}
-                height={140}
+                width={220}
+                height={220}
                 src={get(image, 'src', image)}
                 alt={`illustration for ${title}`}
               />
