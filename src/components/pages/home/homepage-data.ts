@@ -47,6 +47,7 @@ const homepageData = [
     title: 'Featured',
     resources: [
       {
+        name: 'Fresh Course',
         title:
           'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
         byline: 'Jason Lengstorf・1h 27m・Course',
