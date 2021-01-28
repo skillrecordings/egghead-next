@@ -45,7 +45,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
       stripeCheckoutRedirect(
         annualPrice.price_id,
         viewer.email,
-        viewer.subscription?.stripe_subscription_id,
+        viewer.subscription?.stripe_customer_id,
         redirectURL,
         authToken,
       )
