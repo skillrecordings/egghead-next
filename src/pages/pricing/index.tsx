@@ -22,7 +22,7 @@ type PricingProps = {
 
 const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
-  const {viewer} = useViewer()
+  const {viewer, authToken} = useViewer()
   const {prices, pricesLoading} = usePricing()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
@@ -47,6 +47,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
         viewer.email,
         viewer.subscription?.stripe_subscription_id,
         redirectURL,
+        authToken,
       )
     } else {
       await track('checkout: get email', {
