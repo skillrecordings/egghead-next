@@ -10,6 +10,7 @@ import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
 import useCio from '../../hooks/use-cio'
+import {Form, Formik} from 'formik'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -24,17 +25,20 @@ const Header: FunctionComponent = () => {
     !sm ? setOpen(sm) : setOpen(false)
   }, [sm, router])
 
+  const isSearch = router.pathname.includes('/q')
+
   const Navigation: FunctionComponent<{
     className?: string
-    children?: React.ReactElement
   }> = ({
     className = 'flex items-center justify-center space-x-1',
     children,
   }) => {
     return !loading ? (
-      <div className="text-sm">
+      <div className="text-sm flex-shrink-0">
         {viewer ? (
           <div className={className}>
+            {children}
+
             <Feedback
               user={viewer}
               className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
@@ -114,6 +118,7 @@ const Header: FunctionComponent = () => {
           </div>
         ) : (
           <div className={className}>
+            {children}
             <Link href="/pricing" activeClassName="hidden">
               <a
                 onClick={() =>
@@ -141,16 +146,14 @@ const Header: FunctionComponent = () => {
             <DarkModeToggle />
           </div>
         )}
-
-        {children}
       </div>
     ) : null
   }
 
   return (
     <>
-      <header className="h-15 px-5 py-3 sm:mb-5 mb-3 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
-        <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
+      <header className="h-15 px-5 py-10 sm:mb-5 mb-3 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
+        <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-10">
           <div className="flex items-center">
             <Link href="/">
               <a className="flex items-center">
@@ -161,6 +164,7 @@ const Header: FunctionComponent = () => {
               </a>
             </Link>
           </div>
+          {!sm && !isSearch && <SearchBar />}
           {!sm && <Navigation />}
           {sm && !loading && (
             <button
@@ -175,13 +179,64 @@ const Header: FunctionComponent = () => {
         </div>
       </header>
       {isOpen && (
-        <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl dark:text-gray-100" />
+        <>
+          <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl dark:text-gray-100">
+            {!isSearch && <SearchBar />}
+          </Navigation>
+        </>
       )}
     </>
   )
 }
 
 export default Header
+
+const SearchBar = () => {
+  const router = useRouter()
+  return (
+    <Formik
+      initialValues={{
+        query: '',
+      }}
+      onSubmit={(values) => {
+        router.push(`/q?q=${values.query}`)
+        track('searched for query', {
+          query: values.query,
+          location: 'home',
+        })
+      }}
+    >
+      {({values, handleChange}) => {
+        return (
+          <Form role="search" className="w-full">
+            <div className="flex items-center flex-grow space-x-2">
+              <div className="relative w-full flex items-center overflow-hidden rounded-md">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  {/* prettier-ignore */}
+                  <svg className="text-gray-500" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
+                </div>
+                <input
+                  name="query"
+                  value={values.query}
+                  onChange={handleChange}
+                  type="search"
+                  placeholder={`What do you want to learn today?`}
+                  className="form-input shadow-sm text-black bg-white rounded-none rounded-l-md px-5 py-2 pl-10 w-full border-none focus:outline-none focus:border-gray-400 "
+                />
+                <button
+                  type="submit"
+                  className={`font-semibold px-5 py-2 transform bg-blue-600 hover:bg-blue-700 transition-all ease-in-out border-none duration-200 text-white leading-6`}
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </Form>
+        )
+      }}
+    </Formik>
+  )
+}
 
 const DarkModeToggle = () => {
   const [mounted, setMounted] = React.useState(false)
