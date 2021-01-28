@@ -666,7 +666,7 @@ const courseDependencyData = (courseSlug) =>
       {
         slug: 'build-an-app-with-react-suspense',
         dependencies: {
-          react: '^0.0.0-experimental-b53ea6ca0',
+          react: 'experimental',
         },
         topics: [
           'Understand the Suspense component',

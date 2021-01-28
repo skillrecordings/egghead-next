@@ -25,7 +25,7 @@ const Share: FunctionComponent<ShareProps> = ({
     <>
       <h4 className="text-sm">{children || title}</h4>
       <div className={className || 'flex items-center mt-3'}>
-        <div className={'flex items-center space-x-1'}>
+        <div className={'flex items-center space-x-2'}>
           <TweetLink label resource={resource} instructor={instructor} />
           <CopyToClipboard
             label
