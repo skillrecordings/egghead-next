@@ -34,7 +34,7 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
         className="text-black flex items-center mt-3"
         label
       >
-        <div className="max-w-md mt-2">
+        <div className="max-w-md mt-2 text-center">
           If this {lesson?.collection ? 'course' : 'video'} was useful for you,
           please share it with your colleagues. It will really help{' '}
           {lesson.instructor.full_name.split(' ')[0]} get the word out.
