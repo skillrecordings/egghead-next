@@ -3,8 +3,9 @@ import Link from 'next/link'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import capitalize from 'lodash/capitalize'
 import {track} from 'utils/analytics'
-import config from '../../../../lib/config'
-import {CREATOR_DELINIATOR} from '../../../../lib/search-url-builder'
+import config from 'lib/config'
+import {CREATOR_DELINIATOR} from 'lib/search-url-builder'
+import Image from 'next/image'
 
 type HitComponentProps = {
   hit: any
@@ -26,9 +27,9 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
   return (
-    <div className="flex items-center py-3 w-full">
+    <div className="flex items-start py-3 w-100">
       {hasImage && (
-        <div className="col-span-1 items-center flex justify-center">
+        <div className="items-center flex justify-center">
           <Link href={path}>
             <a
               onClick={() => {
@@ -38,15 +39,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
               }}
               className="flex-shrink-0"
             >
-              <img
-                className={`${
-                  type === 'lesson'
-                    ? 'w-8 h-8 m-4'
-                    : 'sm:w-16 sm:h-16 w-12 h-12'
-                } `}
-                src={`${image}`}
-                alt={`illustration for ${title}`}
-              />
+              <Image src={image} width={64} height={64} />
             </a>
           </Link>
         </div>
@@ -54,9 +47,9 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
       <div
         className={`${
           hasImage ? 'pl-4' : ''
-        } flex sm:flex-row flex-col sm:items-center items-start w-full`}
+        } flex sm:flex-row flex-col sm:items-center items-start w-full `}
       >
-        <div className="flex flex-col sm:w-3/4 w-full">
+        <div className="flex flex-col justify-start items-start  w-full">
           <Link href={path}>
             <a
               onClick={() =>

@@ -220,8 +220,10 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          <div className="mt-4 max-w-screen-xl mx-auto">
-            <Hits />
+          <div className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5">
+            <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+              <Hits />
+            </div>
           </div>
           <div className="max-w-screen-xl mx-auto w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto">
             <Pagination />
