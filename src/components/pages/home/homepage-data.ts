@@ -406,6 +406,13 @@ const homepageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
       },
       {
+        title: 'CSS',
+        path: '/q/css',
+        slug: 'css',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_480/csslang.png',
+      },
+      {
         title: 'Angular',
         path: '/q/angular',
         slug: 'angular',
@@ -440,13 +447,7 @@ const homepageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
       },
-      {
-        title: 'Next.js',
-        path: '/q/next',
-        slug: 'next',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
-      },
+
       // {
       //   title: 'Redux',
       //   path: '/q/redux',
