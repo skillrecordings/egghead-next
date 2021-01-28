@@ -49,6 +49,7 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
+import {convertTimeWithTitles} from '../../utils/time-utils'
 
 const tracer = getTracer('lesson-page')
 

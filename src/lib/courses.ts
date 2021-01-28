@@ -1,5 +1,6 @@
 import {request} from 'graphql-request'
 import config from './config'
+import {last} from 'lodash'
 
 export async function loadCourse(slug: string) {
   const query = /* GraphQL */ `
@@ -77,7 +78,69 @@ export async function loadCourse(slug: string) {
   return course
 }
 
+export async function loadAllCourseByPage(retryCount = 0): Promise<any> {
+  const query = /* GraphQL */ `
+    query PagedCourses($page: Int!, $per_page: Int!) {
+      courses(page: $page, per_page: $per_page) {
+        data {
+          slug
+          title
+          average_rating_out_of_5
+          watched_count
+          path
+          image_thumb_url
+          description
+          summary
+          tags {
+            name
+            label
+            image_url
+          }
+          instructor {
+            id
+            full_name
+            path
+          }
+        }
+        count
+        current_page
+        total_pages
+      }
+    }
+  `
+  try {
+    let currentPage = 1
+    let allCourses: any[] = []
+    let hasNextPage = true
+
+    while (hasNextPage) {
+      const {
+        courses: {data, count},
+      } = await request(config.graphQLEndpoint, query, {
+        page: currentPage,
+        per_page: 25,
+      })
+
+      currentPage = currentPage + 1
+      allCourses = [...allCourses, ...data]
+
+      console.debug(`\n\n~> loading courses: ${allCourses.length}/${count}\n`)
+
+      hasNextPage = allCourses.length < count
+    }
+
+    return allCourses
+  } catch (error) {
+    if (retryCount <= 4) {
+      return loadAllCourseByPage(retryCount + 1)
+    } else {
+      throw error
+    }
+  }
+}
+
 export async function loadAllCourses(retryCount = 0): Promise<any> {
+  console.debug(`\n\n ~> loading all courses [retries${retryCount}]`)
   const query = /* GraphQL */ `
     query getCourses {
       all_courses {
@@ -108,7 +171,7 @@ export async function loadAllCourses(retryCount = 0): Promise<any> {
     return all_courses
   } catch (error) {
     if (retryCount <= 4) {
-      return loadAllCourses(retryCount++)
+      return loadAllCourses(retryCount + 1)
     } else {
       throw error
     }

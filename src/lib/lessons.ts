@@ -30,6 +30,7 @@ export async function loadLesson(slug: string, token?: string) {
       lesson(slug: $slug) {
         slug
         title
+        duration
         transcript_url
         transcript
         subtitles_url
