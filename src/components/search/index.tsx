@@ -210,7 +210,7 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          {!isEmpty(topic) && shouldDisplayLandingPageForTopics(topic.slug) && (
+          {!isEmpty(topic) && !shouldDisplayLandingPageForTopics('react') && (
             <div className="dark:bg-gray-900 bg-gray-50 -mx-5 md:-mt-5">
               <GenericTopic
                 title={topic.label}
