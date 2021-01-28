@@ -37,11 +37,7 @@ const TagList: FunctionComponent<{tags: any; courseSlug: string}> = ({
                     <span className="ml-1">{tag.label}</span>
                   </a>
                 </Link>
-                {tag.version && (
-                  <span className="ml-1">
-                    <sup>{tag.version}</sup>
-                  </span>
-                )}
+                {tag.version && <span className="ml-1">{tag.version}</span>}
               </li>
             ))}
           </ul>

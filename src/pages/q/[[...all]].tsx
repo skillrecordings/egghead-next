@@ -19,8 +19,8 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
-import {getTag} from '../../lib/tags'
-import {tagCacheLoader} from '../../utils/tag-cache-loader'
+import {loadTag} from 'lib/tags'
+import {tagCacheLoader} from 'utils/tag-cache-loader'
 
 const tracer = getTracer('search-page')
 
@@ -105,7 +105,7 @@ const SearchIndex: any = ({
           if (cachedTag) {
             setTopic(cachedTag)
           } else {
-            getTag(newTopic).then(setTopic)
+            loadTag(newTopic).then(setTopic)
           }
         } else {
           setTopic(undefined)
@@ -198,7 +198,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     const topic = first<string>(selectedTopics)
     try {
       if (topic) {
-        initialTopic = await getTag(topic)
+        initialTopic = await loadTag(topic)
       }
     } catch (error) {
       console.error(error)

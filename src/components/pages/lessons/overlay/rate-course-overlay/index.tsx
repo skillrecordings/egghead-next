@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {Field, Form, Formik} from 'formik'
 
 const rangeArr = [1, 2, 3, 4, 5, 6, 7]
@@ -26,7 +26,7 @@ const RateCourseOverlay: React.FunctionComponent<{
         <img
           src={square_cover_480_url}
           alt={`illustration of ${title} course`}
-          className="w-16 md:w-20 lg:w-24"
+          className="w-16 md:w-24"
         />
         <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center white">
           {title}
@@ -159,7 +159,7 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
   const {title, square_cover_480_url} = course
   return (
     <>
-      <h3 className="text-center mt-10">
+      <h3 className="text-center mt-4 sm:mt-6 md:mt-8 lg:mt-10">
         How likely are you to recommend this course to a colleague?
       </h3>
       <Formik
@@ -181,20 +181,28 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
           return (
             <>
               <form onSubmit={handleSubmit}>
-                <div className="flex items-center space-x-4 mt-10 justify-center">
-                  <div>not at all likely</div>
-                  {rangeArr.map((value) => (
-                    <input
-                      key={`rate-input-${value}`}
-                      type="radio"
-                      name="rate-input"
-                      id={`rate-input-${value}`}
-                      value={value}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  ))}
-                  <div>entirely likely</div>
+                <div className="flex items-center space-x-4 mt-4 sm:mt-6 md:mt-8 lg:mt-10 justify-center">
+                  <div>
+                    <span className="hidden sm:block">not at all likely</span>
+                    <IconThumbDown className="w-8 sm:hidden" />
+                  </div>
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    {rangeArr.map((value) => (
+                      <input
+                        key={`rate-input-${value}`}
+                        type="radio"
+                        name="rate-input"
+                        id={`rate-input-${value}`}
+                        value={value}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    ))}
+                  </div>
+                  <div>
+                    <span className="hidden sm:block">entirely likely</span>
+                    <IconThumbUp className="w-8 sm:hidden" />
+                  </div>
                 </div>
                 <ul className="list-none mt-6">
                   <li className="w-full py-2">
@@ -223,3 +231,41 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
 }
 
 export default RateCourseOverlay
+
+const IconThumbDown: React.FunctionComponent<{className?: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
+    ></path>
+  </svg>
+)
+
+const IconThumbUp: React.FunctionComponent<{className?: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+    ></path>
+  </svg>
+)

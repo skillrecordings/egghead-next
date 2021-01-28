@@ -11,7 +11,7 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
   return (
     <div className="flex flex-col items-center">
       {courseImage && (
-        <div className="w-12 h-12 md:w-16 md:h-16 lg:w-32 lg:h-32 relative">
+        <div className="w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 relative">
           <Image
             src={courseImage}
             alt={`illustration of ${lesson?.collection.title} course`}
@@ -31,16 +31,16 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
       <Share
         resource={lesson?.collection || lesson}
         instructor={lesson?.instructor}
-        className="text-black flex items-center mt-3"
+        className="text-black flex items-center mt-6"
         label
       >
-        <div className="max-w-md mt-2">
+        <div className="max-w-md mt-2 text-center">
           If this {lesson?.collection ? 'course' : 'video'} was useful for you,
           please share it with your colleagues. It will really help{' '}
           {lesson.instructor.full_name.split(' ')[0]} get the word out.
         </div>
       </Share>
-      <div className="mt-8 text-xs md:mt-12 lg:mt-20">
+      <div className="mt-8 text-xs md:mt-10 lg:mt-16 text-center">
         Ready for something new?{' '}
         <Link href="/">
           <a

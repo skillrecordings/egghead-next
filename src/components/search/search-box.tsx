@@ -58,7 +58,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
           value={value}
           onChange={onChangeDebounced}
           placeholder={placeholder}
-          className="form-input bg-gray-100 text-black rounded-md px-5 py-3 pl-10 w-full border border-transparent focus:outline-none focus:border-gray-400 placeholder-gray-600"
+          className="form-input bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-black dark:text-white rounded-md px-5 py-3 pl-10 w-full focus:ring-1 ring-blue-400 placeholder-gray-600 dark:placeholder-gray-300"
         />
       </div>
     </form>

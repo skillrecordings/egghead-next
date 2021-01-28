@@ -301,8 +301,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Image
                     src={image_url}
                     alt={`illustration for ${title}`}
-                    height={256}
-                    width={256}
+                    height={300}
+                    width={300}
+                    quality={100}
                   />
                 </div>
               </div>
@@ -487,6 +488,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 height={420}
                 width={420}
                 className="md:block hidden"
+                quality={100}
               />
             </div>
             <div className="md:block hidden space-y-6">
@@ -496,7 +498,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <Fresh freshness={freshness} />
               <div className="">
                 {get(course, 'free_forever') && (
-                  <div className="p-3 border rounded-md bg-gray-100 dark:border-gray-800 dark:bg-gray-800">
+                  <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
                 )}

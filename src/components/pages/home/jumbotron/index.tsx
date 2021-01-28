@@ -22,7 +22,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
         },
       }}
     >
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-cyan-500 via-cyan-400 to-blue-400 h-2 w-full" />
+      <div className="absolute top-0 left-0 bg-gradient-to-r from-blue-500 to-blue-400 h-2 w-full" />
       <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8">
           <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">
@@ -48,12 +48,12 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center">
-              <h2 className="text-xs text-cyan-200 uppercase font-semibold mb-2">
+              <h2 className="text-xs text-orange-300 uppercase font-semibold mb-2">
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-3xl text-xl font-extrabold leading-tighter hover:text-cyan-200"
+                  className="sm:text-2xl md:text-3xl text-xl font-extrabold leading-tighter hover:text-blue-300"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -80,7 +80,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                     className="rounded-full"
                     alt={instructor.name}
                   />
-                  <span className="group-hover:text-cyan-200">
+                  <span className="group-hover:text-blue-200">
                     {instructor.name}
                   </span>
                 </a>

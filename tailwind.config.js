@@ -52,6 +52,9 @@ module.exports = {
               lineHeight: theme('lineHeight.normal'),
               fontWeight: theme('fontWeight.extrabold'),
             },
+            'h2,h3,h4': {
+              'scroll-margin-top': spacing[32],
+            },
           },
         },
         dark: {
@@ -69,7 +72,7 @@ module.exports = {
               color: theme('colors.gray.100'),
             },
             'h2,h3,h4': {
-              color: theme('colors.gray.100'),
+              color: theme('colors.white'),
               'scroll-margin-top': spacing[32],
             },
             code: {
