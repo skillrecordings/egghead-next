@@ -25,12 +25,12 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
         image={<></>}
         className="w-full mx-auto flex flex-col items-center justify-center text-white"
         label="Your email:"
-        formClassName="max-w-sm mx-auto w-full"
+        formClassName="max-w-xs md:max-w-sm mx-auto w-full"
         button="Create account or login to view"
         track={trackEmailCapture}
       >
         <div className="text-center">
-          <h2 className="sm:text-4xl text-2xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
             This lesson is <strong className="font-bold">free to watch</strong>{' '}
             with an egghead account.
           </h2>
