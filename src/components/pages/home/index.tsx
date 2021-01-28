@@ -55,7 +55,6 @@ const Home: FunctionComponent = () => {
       <div className="space-y-14">
         <Jumbotron resource={jumbotron} />
         <section className="space-y-6 ">
-          <SearchBar />
           <TopicsList topics={topics} />
         </section>
         <section className="grid lg:grid-cols-8 grid-cols-1 gap-5 ">
