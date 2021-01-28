@@ -75,7 +75,7 @@ const User: React.FunctionComponent<
   return (
     <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
+        <div className="max-w-screen-md mx-auto">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <RequestEmailChangeForm originalEmail={currentEmail} />

@@ -80,7 +80,7 @@ const Header: FunctionComponent = () => {
                     location: 'header',
                   })
                 }
-                className="flex items-center space-x-2 p-3 hover:text-blue-700 hover:underline"
+                className="flex items-center space-x-2 p-3 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
               >
                 <img
                   alt="avatar"

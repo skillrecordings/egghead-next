@@ -56,10 +56,12 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
         return (
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-2">
-              <h2 className="text-xl border-b">Email</h2>
+              <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+                Email
+              </h2>
               <p>Your email address:</p>
               {mode === EDIT_MODE && (
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-200">
                   To ensure that you have access to this email address, we will
                   send an email to that account with a confirmation link.
                 </p>
@@ -80,12 +82,12 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                   placeholder="you@company.com"
                   required
                   disabled={isSubmitting || mode !== EDIT_MODE}
-                  className="bg-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
+                  className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
                 />
                 {mode === VIEW_MODE && (
                   <button
                     onClick={() => setMode(EDIT_MODE)}
-                    className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
+                    className="text-white bg-orange-600 border-0 py-2 px-8 focus:outline-none hover:bg-orange-700 rounded-md"
                   >
                     Edit
                   </button>
@@ -94,7 +96,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                   <>
                     <button
                       type="submit"
-                      className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
+                      className="text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-700 rounded"
                       disabled={isSubmitting}
                     >
                       Submit
