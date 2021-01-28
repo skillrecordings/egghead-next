@@ -86,7 +86,7 @@ const OverlayWrapper: FunctionComponent<{
 }> = ({children}) => {
   return (
     <div
-      className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 p-4 sm:p-6 h-full"
+      className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full"
       css={{
         minWidth: '320px',
       }}
