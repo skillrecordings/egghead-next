@@ -200,7 +200,7 @@ const SearchBar = () => {
                   onChange={handleChange}
                   type="search"
                   placeholder={`What do you want to learn today?`}
-                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-none rounded-l-md pr-0 py-2 pl-10 w-full focus:border-blue-500 focus:ring-0"
+                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-none rounded-l-md pr-0 py-2 pl-10 w-full focus:border-blue-500 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
