@@ -25,7 +25,7 @@ const courseDependencyData = (courseSlug) =>
         pairWithResources: [
           {
             title: 'WTF is Kubernetes (K8s)',
-            byline: 'Chris Biscardi・12m・Course',
+            byline: 'Chris Biscardi・12m・Video',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
             path: '/lessons/docker-wtf-is-kubernetes-k8s',
