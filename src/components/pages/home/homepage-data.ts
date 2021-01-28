@@ -47,12 +47,15 @@ const homepageData = [
     title: 'Featured',
     resources: [
       {
-        name: 'In-Depth Article',
-        title: 'Codemods with Babel Plugins',
-        byline: 'Laurie Barth',
+        title:
+          'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+        byline: 'Jason Lengstorf・1h 27m・Course',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1607528141/egghead-next-ebombs/article-illustrations/codemods.png',
-        path: '/learn/javascript/codemods-with-babel-plugins',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
+        path:
+          '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        slug:
+          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
         name: 'Featured Course',

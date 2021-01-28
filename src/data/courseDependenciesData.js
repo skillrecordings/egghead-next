@@ -22,6 +22,41 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
+        pairWithResources: [
+          {
+            title: 'WTF is Kubernetes (K8s)',
+            byline: 'Chris Biscardi・12m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
+            path: '/lessons/docker-wtf-is-kubernetes-k8s',
+            slug: 'docker-wtf-is-kubernetes-k8s',
+            description:
+              "Kubernetes is an API to a computer. Multiple computers actually. Here we'll talk about what K8s is, how you can choose between the plethora of K8s related hosting options, and what the process looks like for getting some containers running.",
+          },
+          {
+            title: 'Build a Twelve-Factor Node.js App with Docker',
+            byline: 'Mark Shust・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/120/thumb/EGH_NodeDocker_1000.png',
+            path: '/courses/build-a-twelve-factor-node-js-app-with-docker',
+            slug: 'build-a-twelve-factor-node-js-app-with-docker',
+            description:
+              'Take a simple Node.js app that connects to a MongoDB database and uses an Express web server, and learn how to setup a full software development deployment process as well as how to properly “Dockerize” the app.',
+          },
+          {
+            title:
+              'Set up Hasura GraphQL engine with YugabyteDB distributed SQL',
+            byline: 'Vladimir Novick・2m・Video',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
+            path:
+              '/lessons/postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+            slug:
+              'postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+            description:
+              'In this lesson we will see how you can run Hasura GraphQL engine on top of YugabyteDB Distributed SQL\n\nYugabyteDB is an open source, high-performance distributed SQL database for powering global, internet-scale applications.YugabyteDB is also a cloud-native database, so it can be deployed across both public and private clouds, including Kubernetes environments. In regards to serving as a backend for microservices, YugabyteDB brings together three must-haves: a PostgreSQL-compatible SQL API, low-latency read performance, and globally distributed write scalability. YugabyteDB with its global data distribution brings data close to users for multi-region and multi-cloud deployments.',
+          },
+        ],
       },
       {
         slug:
