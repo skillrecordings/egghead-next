@@ -26,7 +26,7 @@ const RateCourseOverlay: React.FunctionComponent<{
         <img
           src={square_cover_480_url}
           alt={`illustration of ${title} course`}
-          className="w-16 md:w-20 lg:w-24"
+          className="w-16 md:w-24"
         />
         <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center white">
           {title}
