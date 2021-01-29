@@ -28,6 +28,7 @@ declare global {
     _cio: any
     fbq: any
     becomeUser: any
+    ga: any
   }
 }
 
