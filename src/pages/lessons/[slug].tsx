@@ -36,7 +36,7 @@ import {track} from 'utils/analytics'
 import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
-import useBreakpoint, {bpMinMD, bpMinLG} from 'utils/breakpoints'
+import useBreakpoint, {bpMinSM, bpMinMD} from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
@@ -86,12 +86,7 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div
-      className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full"
-      css={{
-        minWidth: '320px',
-      }}
-    >
+    <div className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full">
       {children}
     </div>
   )
@@ -422,20 +417,20 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               css={{
                 maxWidth: lessonMaxWidth,
                 minWidth: '320px',
-                [bpMinMD]: {
-                  minWidth: '500px',
+                [bpMinSM]: {
+                  minWidth: '580px',
                 },
-                [bpMinLG]: {
-                  minWidth: '640px',
+                [bpMinMD]: {
+                  minWidth: '680px',
                 },
               }}
             >
               <div className="flex flex-grow bg-black">
                 <div
                   className="w-full relative"
-                  css={{
-                    minHeight: Math.round(videoWidth / 1.77777),
-                  }}
+                  // css={{
+                  //   minHeight: Math.round(videoWidth / 1.77777),
+                  // }}
                 >
                   <div
                     className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
