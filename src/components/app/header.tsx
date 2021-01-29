@@ -159,7 +159,7 @@ const Header: FunctionComponent = () => {
       </header>
       {isOpen && (
         <>
-          <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl dark:text-gray-100">
+          <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-50 shadow-xl dark:text-gray-100">
             {!isSearch && <SearchBar />}
           </Navigation>
         </>
