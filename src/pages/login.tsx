@@ -154,7 +154,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                         eventName="clicked github login"
                         className="flex justify-center mt-4 py-3 px-5 text-white bg-black hover:bg-gray-800 active:bg-gray-700 rounded-md transition-all ease-in-out duration-300"
                       >
-                        <div className="flex items-center dark:text-gray-900">
+                        <div className="flex items-center dark:text-gray-100">
                           <span className="mr-2 flex items-center justify-center">
                             <IconGithub className="fill-current" />
                           </span>
