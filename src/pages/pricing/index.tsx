@@ -32,7 +32,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
 
     if (!prices.annualPrice) return
     const {annualPrice} = prices
-    const account = first<StripeAccount>(viewer.accounts)
+    const account = first<StripeAccount>(viewer?.accounts)
     await track('checkout: selected plan', {
       priceId: annualPrice.price_id,
     })
