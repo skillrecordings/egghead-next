@@ -73,6 +73,35 @@ const logCollectionResource = (collection: CollectionResource) => {
   }
 }
 
+const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
+  <div className="flex flex-row items-center">
+    <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
+    <span>{duration}</span>
+  </div>
+)
+
+const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
+  <div>Updated {date}</div>
+)
+
+const StarsRating: React.FunctionComponent<{
+  rating: number
+}> = ({rating}) => (
+  <div className="flex items-center">
+    <FiveStars rating={rating} />
+    <span className="ml-1 font-semibold leading-tight">
+      {rating.toFixed(1)}
+    </span>
+  </div>
+)
+
+const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
+  <div className="flex items-center flex-nowrap">
+    <div className="font-semibold mr-1">{count}</div>
+    <div className="whitespace-nowrap">people completed</div>
+  </div>
+)
+
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons,
   course,
@@ -224,7 +253,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               },
             )
           }}
-          className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+          className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
         >
           <PlayIcon className="text-blue-100 mr-2" />
           {isContinuing ? 'Continue' : 'Start'} Watching
@@ -257,7 +286,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           ],
         }}
       />
-      <div className="max-w-screen-xl mx-auto sm:pb-16 pb-8 dark:text-trueGray-100">
+      <div className="max-w-screen-xl mx-auto sm:pb-16 pb-8 dark:text-gray-100">
         {state === 'retired' && (
           <div className="w-full text-lg bg-orange-100 text-orange-800 p-3 rounded-md border border-orange-900 border-opacity-20">
             ⚠️ This course has been retired and might contain outdated
@@ -272,15 +301,16 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Image
                     src={image_url}
                     alt={`illustration for ${title}`}
-                    height={256}
-                    width={256}
+                    height={200}
+                    width={200}
+                    quality={100}
                   />
                 </div>
               </div>
-              <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
                 {title}
               </h1>
-              <div className="pt-2 flex items-center space-x-6">
+              <div className="mt-4 flex flex-col items-center md:items-start">
                 {instructor && (
                   <InstructorProfile
                     name={full_name}
@@ -290,45 +320,35 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     twitter={twitter}
                   />
                 )}
-                <div className="flex items-center md:justify-start justify-center mt-4 space-x-4">
-                  {duration && (
-                    <div className="flex flex-row items-center">
-                      <ClockIcon className="w-4 h-4 mr-1" />{' '}
-                      {convertTimeWithTitles(duration)}
-                    </div>
-                  )}
-                  <TagList tags={courseTags} courseSlug={course.slug} />{' '}
-                  {updated_at && (
-                    <div className="flex flex-col lg:flex-row items-center space-x-2 ">
-                      <div>Updated:</div>
-                      <div>
-                        <code>{friendlyTime(new Date(updated_at))}</code>
+                <div className="flex items-center flex-col md:flex-row flex-wrap">
+                  <div className="md:mr-4 mt-3">
+                    <TagList tags={courseTags} courseSlug={course.slug} />
+                  </div>
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
+                    {duration && (
+                      <div className="mr-4">
+                        <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {updated_at && (
+                      <UpdatedAt date={friendlyTime(new Date(updated_at))} />
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-center md:justify-start justify-center mt-4 space-x-6 w-full">
-                <div className="flex items-center w-2/3 space-x-4">
+              <div className="flex flex-col md:flex-row items-center md:justify-start justify-center mt-4 space-y-4 md:space-y-0 md:space-x-6 w-full">
+                <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
                   {average_rating_out_of_5 > 0 && (
-                    <div className="flex items-center">
-                      <FiveStars rating={average_rating_out_of_5} />
-                      <span className="ml-2 font-semibold">
-                        {average_rating_out_of_5.toFixed(1)}
-                      </span>
-                    </div>
+                    <StarsRating rating={average_rating_out_of_5} />
                   )}
                   {watched_count > 0 && (
-                    <div className="flex flex-col lg:flex-row items-center text-center">
-                      <div className="font-semibold mr-2">{watched_count}</div>
-                      <div>people completed</div>
-                    </div>
+                    <PeopleCompleted count={watched_count} />
                   )}
                 </div>
               </div>
 
-              <div className="dark:text-trueGray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
+              <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
@@ -342,7 +362,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       setIsFavorite(!isFavorite)
                     }}
                   >
-                    <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                    <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                       <BookmarkIcon
                         className={`w-4 h-4 mr-1`}
                         fill={isFavorite}
@@ -351,7 +371,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   </button>
                 ) : (
-                  <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
                     <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
                   </div>
                 )}
@@ -364,7 +384,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="dark:text-trueGray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
@@ -383,7 +403,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors">
+                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
                     </a>
@@ -399,7 +419,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-trueGray-100 mt-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6">
                 {description}
               </Markdown>
 
@@ -421,7 +441,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
               </div>
               {topics && (
-                <div className="mt-8 border rounded-md p-5">
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
                     What you'll learn
                   </h2>
@@ -430,7 +450,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       {topics?.map((topic: string) => (
                         <li
                           key={topic}
-                          className="text-gray-900 dark:text-trueGray-100 leading-6"
+                          className="text-gray-900 dark:text-gray-100 leading-6"
                         >
                           {topic}
                         </li>
@@ -443,13 +463,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {!isEmpty(pairWithResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
-                    You might also like these courses:
+                    You might also like these resources:
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
                       <div>
                         <CardHorizontal
-                          className="border my-4 border-opacity-10 border-gray-400 dark:border-trueGray-700"
+                          className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
                           resource={resource}
                           location={course.path}
                         />
@@ -468,16 +488,17 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 height={420}
                 width={420}
                 className="md:block hidden"
+                quality={100}
               />
             </div>
-            <div className="md:block hidden space-y-10">
-              <div className="w-full flex justify-center mt-10">
+            <div className="md:block hidden space-y-6">
+              <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
               <Fresh freshness={freshness} />
               <div className="">
                 {get(course, 'free_forever') && (
-                  <div className="p-3 border rounded-md bg-gray-100 dark:border-trueGray-700 bg-opacity-20">
+                  <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
                 )}
@@ -495,7 +516,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             <section className="mt-8">
               <div className="mb-2 flex flex-col space-y-4">
                 <h2 className="text-xl font-bold">Course Content </h2>
-                <div className="text-sm text-gray-600 dark:text-trueGray-300 font-normal">
+                <div className="text-sm text-gray-600 dark:text-gray-300 font-normal">
                   {duration && `${convertTimeWithTitles(duration)} • `}
                   {lessons.length + playlistLessons.length} lessons
                 </div>
@@ -520,7 +541,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                 }}
                                 className="hover:underline font-semibold flex items-center w-full"
                               >
-                                <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-900 dark:text-trueGray-100 mt-0">
+                                <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-900 dark:text-gray-100 mt-0">
                                   {playlist.title}
                                 </Markdown>
                               </a>
@@ -538,10 +559,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                   <li key={`${playlist.slug}::${lesson.slug}`}>
                                     <div className="flex items-center leading-tight py-2">
                                       <div className="flex items-center mr-2 flex-grow">
-                                        <small className="text-gray-500 dark:text-trueGray-600 pt-px font-xs transform scale-75 font-normal w-4">
+                                        <small className="text-gray-500 dark:text-gray-600 pt-px font-xs transform scale-75 font-normal w-4">
                                           {isComplete ? `✔️` : index + 1}
                                         </small>
-                                        <PlayIcon className="text-gray-500 dark:text-trueGray-100 mx-1" />
+                                        <PlayIcon className="text-gray-500 dark:text-gray-100 mx-1" />
                                       </div>
                                       {lesson.path && (
                                         <Link href={lesson.path}>
@@ -558,7 +579,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                             }}
                                             className="hover:underline flex items-center w-full"
                                           >
-                                            <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-trueGray-100 mt-0">
+                                            <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-gray-100 mt-0">
                                               {lesson.title}
                                             </Markdown>
                                           </a>
@@ -589,11 +610,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                             <div
                               className={`${
                                 isComplete
-                                  ? 'text-blue-600 dark:text-trueGray-100'
-                                  : 'text-gray-500 dark:text-trueGray-400'
+                                  ? 'text-blue-600 dark:text-green-400'
+                                  : 'text-gray-500 dark:text-gray-400'
                               } pt-px font-xs transform scale-75 font-normal w-4`}
                             >
-                              {isComplete ? <CheckIcon /> : index + 1}
+                              {isComplete ? (
+                                <CheckIcon className="w-6 h-6 transform -translate-x-2" />
+                              ) : (
+                                index + 1
+                              )}
                             </div>
                             {lesson.icon_url && (
                               <div className="flex flex-shrink-0 w-8 items-center">
@@ -619,13 +644,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                         },
                                       )
                                     }}
-                                    className="text-lg hover:underline hover:text-blue-600 font-semibold dark:text-trueGray-100"
+                                    className="text-lg hover:underline hover:text-blue-600 font-semibold dark:text-gray-100"
                                   >
                                     {lesson.title}
                                   </a>
                                 </Link>
                               </div>
-                              <div className="text-xs text-gray-700 dark:text-trueGray-500">
+                              <div className="text-xs text-gray-700 dark:text-gray-500">
                                 {convertTimeWithTitles(lesson.duration, {
                                   showSeconds: true,
                                 })}
@@ -642,13 +667,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             {!isEmpty(pairWithResources) && (
               <div className="my-12 flex md:hidden flex-col space-y-2">
                 <h2 className="text-lg font-semibold mb-3">
-                  You might also like these courses:
+                  You might also like these resources:
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (
                     <div>
                       <CardHorizontal
-                        className="border my-4 border-opacity-10 border-gray-400 dark:border-trueGray-500"
+                        className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
                         resource={resource}
                         location={course.path}
                       />
@@ -676,11 +701,11 @@ const Fresh = ({freshness}: {freshness: any}) => {
         <div
           className={`flex flex-col space-y-1 ${
             freshness.status === 'fresh'
-              ? 'border-green-900 border bg-green-100 bg-opacity-50  dark:bg-opacity-10'
+              ? 'border-green-500 border bg-green-50 dark:bg-teal-900'
               : freshness.status === 'classic'
-              ? 'border-blue-900 border bg-blue-100 bg-opacity-50  dark:bg-opacity-10'
+              ? 'border-blue-500 border bg-blue-50 dark:bg-blueGray-800'
               : freshness.status === 'stale'
-              ? 'border-orange-900 border bg-orange-100 bg-opacity-50 dark:bg-opacity-10'
+              ? 'border-orange-500 border bg-orange-50 dark:bg-orange-900'
               : 'border'
           } border-opacity-20 p-4 my-3 rounded-md`}
         >

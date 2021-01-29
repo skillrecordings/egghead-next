@@ -86,7 +86,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
               {title}
             </h1>
             {author && <Author author={author} />}
-            {coverImage && (
+            {coverImage?.url && (
               <div className="mt-4">
                 <Image
                   src={coverImage.url}
@@ -100,7 +100,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
             )}
           </header>
 
-          <main className="prose md:prose-lg dark:prose-dark md:dark:prose-lg-dark max-w-none">
+          <main className="prose mt-5 md:prose-lg dark:prose-dark md:dark:prose-lg-dark max-w-none">
             <div>{children}</div>
           </main>
           <footer className="mt-8 border-t border-gray-200 py-10 flex sm:flex-row flex-col-reverse justify-between sm:items-start items-center sm:text-left text-center">
@@ -117,7 +117,7 @@ const State: FunctionComponent<{state: string}> = ({state}) => {
   switch (state) {
     case 'draft':
       return (
-        <div className="px-3 py-1 rounded-lg bg-yellow-100 inline-block mb-2 text-sm font-semibold">
+        <div className="px-3 py-1 rounded-lg bg-yellow-100 dark:text-gray-900 inline-block mb-2 text-sm font-semibold">
           Draft
         </div>
       )

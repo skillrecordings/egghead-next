@@ -15,7 +15,7 @@ module.exports = {
     colors: {
       ...defaultTheme.colors,
       ...colors,
-      gray: colors.blueGray,
+      gray: colors.coolGray,
       // red: colors.red,
       // blue: colors.blue,
       // yellow: colors.amber,
@@ -52,25 +52,38 @@ module.exports = {
               lineHeight: theme('lineHeight.normal'),
               fontWeight: theme('fontWeight.extrabold'),
             },
+            'h2,h3,h4': {
+              'scroll-margin-top': spacing[32],
+            },
           },
         },
         dark: {
           css: {
-            color: theme('colors.gray.300'),
+            color: theme('colors.white'),
             a: {
               color: theme('colors.blue.400'),
               '&:hover': {
-                color: theme('colors.blue.600'),
+                color: theme('colors.blue.300'),
               },
               code: {color: theme('colors.blue.400')},
             },
             blockquote: {
               borderLeftColor: theme('colors.gray.700'),
-              color: theme('colors.gray.300'),
+              color: theme('colors.gray.100'),
             },
             'h2,h3,h4': {
-              color: theme('colors.gray.100'),
+              color: theme('colors.white'),
               'scroll-margin-top': spacing[32],
+            },
+            code: {
+              padding: '3px 5px',
+              borderRadius: 5,
+              color: theme('colors.white'),
+              background: theme('colors.gray.800'),
+            },
+            'pre > code': {
+              background: 'none',
+              padding: 0,
             },
             hr: {borderColor: theme('colors.gray.700')},
             ol: {

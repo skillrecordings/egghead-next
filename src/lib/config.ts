@@ -1,6 +1,6 @@
 const config = {
   graphQLEndpoint: `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`,
-  searchResultCount: 20,
+  searchResultCount: 21,
   searchUrlRoot: `/q`,
 }
 

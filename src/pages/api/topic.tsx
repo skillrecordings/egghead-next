@@ -5,9 +5,8 @@ import {setupHttpTracing} from '@vercel/tracing-js'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
-const {first} = require('lodash')
 
-const tracer = getTracer('subscriber-api')
+const tracer = getTracer('topic-api')
 
 function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)
@@ -106,17 +105,20 @@ const cioTopicScore = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       if (subscriber) {
-        const currentScore: number =
+        const currentTopicScore: number =
           subscriber?.attributes?.[`${topic}_score`] || 0
+        const currentLearnerScore: number =
+          subscriber?.attributes?.learner_score || 0
 
-        if (currentScore > 10)
-          await axios.put(
-            `https://track.customer.io/api/v1/customers/${subscriber.id}`,
-            {
-              [`${topic}_score`]: Number(currentScore) + Number(amount),
-            },
-            {headers},
-          )
+        await axios.put(
+          `https://track.customer.io/api/v1/customers/${subscriber.id}`,
+          {
+            [`${topic}_score`]: Number(currentTopicScore) + Number(amount),
+            learner_score: Number(currentLearnerScore) + Number(amount),
+          },
+          {headers},
+        )
+
         res.status(200).end()
       } else {
         console.error('no subscriber was loaded')

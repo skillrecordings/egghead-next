@@ -62,7 +62,7 @@ export default class MyDocument extends Document {
             }}
           ></script>
         </Head>
-        <body className="dark:bg-trueGray-900 bg-white dark:text-trueGray-200 text-black">
+        <body className="dark:bg-gray-900 bg-white dark:text-gray-200 text-black">
           <Main />
           <NextScript />
         </body>
