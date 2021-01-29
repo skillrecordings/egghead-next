@@ -123,7 +123,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               </div>
             </div>
           )}
-          {isInProgress && (
+          {isInProgress && current_lesson && (
             <div className="leading-tighter flex items-center space-x-2">
               <div className="text-xs text-gray-600 dark:text-gray-300">
                 Up Next
