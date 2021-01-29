@@ -210,7 +210,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
-        // 'showingNext',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
@@ -415,7 +414,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               ref={ref}
               className="flex-grow w-full"
               css={{
-                maxWidth: lessonMaxWidth || '100%',
+                maxWidth: lessonMaxWidth,
                 minWidth: '320px',
                 [bpMinSM]: {
                   minWidth: '580px',
@@ -435,7 +434,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   }}
                 >
                   <div className="sm:absolute top-0 right-0 bottom-0 left-0">
-                    {/* <div
+                    <div
                       className={`${
                         playerVisible ? 'block' : 'hidden'
                       } sm:block`}
@@ -581,7 +580,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       <OverlayWrapper>
                         <RecommendNextStepOverlay lesson={lesson} />
                       </OverlayWrapper>
-                    )} */}
+                    )}
                   </div>
                 </div>
               </div>
