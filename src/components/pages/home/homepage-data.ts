@@ -27,7 +27,7 @@ const homepageData = [
     title: 'Full Stack Development in the Era of Serverless Computing',
     description:
       'Learn a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.',
-    instructor: 'nader dabit',
+    instructor: 'Nader Dabit',
     instructor_path: '/q/resources-by-nader-dabit',
     path:
       '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',

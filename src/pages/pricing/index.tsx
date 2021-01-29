@@ -8,7 +8,7 @@ import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
 import {usePricing, Prices} from 'hooks/use-pricing'
-import {first} from 'lodash'
+import {first, get} from 'lodash'
 import {StripeAccount} from 'types'
 
 type PricingProps = {
@@ -32,7 +32,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
 
     if (!prices.annualPrice) return
     const {annualPrice} = prices
-    const account = first<StripeAccount>(viewer.accounts)
+    const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
       priceId: annualPrice.price_id,
     })

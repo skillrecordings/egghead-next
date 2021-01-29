@@ -43,7 +43,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
   const [isSubmitted, setIsSubmitted] = React.useState(false) // false
   const [isError, setIsError] = React.useState(false)
   const {requestSignInEmail} = useViewer()
-  console.log('image.props: ', image.props)
 
   return (
     <div
@@ -152,9 +151,9 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                       <ExternalTrackedLink
                         href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
                         eventName="clicked github login"
-                        className="flex justify-center mt-4 py-3 px-5 bg-gray-300 hover:opacity-100 hover:bg-gray-100 active:bg-gray-100 rounded-md transition-all ease-in-out duration-300"
+                        className="flex justify-center mt-4 py-3 px-5 text-white bg-black hover:bg-gray-800 active:bg-gray-700 rounded-md transition-all ease-in-out duration-300"
                       >
-                        <div className="flex items-center dark:text-gray-900">
+                        <div className="flex items-center dark:text-gray-100">
                           <span className="mr-2 flex items-center justify-center">
                             <IconGithub className="fill-current" />
                           </span>

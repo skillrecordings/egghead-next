@@ -159,7 +159,7 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
   const {title, square_cover_480_url} = course
   return (
     <>
-      <h3 className="text-center mt-4 sm:mt-6 md:mt-8 lg:mt-10">
+      <h3 className="text-center mt-4 md:mt-6">
         How likely are you to recommend this course to a colleague?
       </h3>
       <Formik
@@ -181,7 +181,7 @@ const NumericRating: React.FunctionComponent<{course: any; onRated: any}> = ({
           return (
             <>
               <form onSubmit={handleSubmit}>
-                <div className="flex items-center space-x-4 mt-4 sm:mt-6 md:mt-8 lg:mt-10 justify-center">
+                <div className="flex items-center space-x-4 mt-4 sm:mt-6 md:mt-8 justify-center">
                   <div>
                     <span className="hidden sm:block">not at all likely</span>
                     <IconThumbDown className="w-8 sm:hidden" />
