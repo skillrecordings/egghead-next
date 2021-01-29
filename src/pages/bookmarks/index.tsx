@@ -80,7 +80,7 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
                     </a>
                   </Link>
                   <button
-                    className="rounded text-xs px-2 py-1 justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out "
+                    className="rounded text-xs px-2 py-1 justify-center items-center text-black dark:text-white bg-gray-100 dark:bg-gray-800 hover:bg-gray-200  dark:hover:bg-gray-700 transition-colors duration-150 ease-in-out "
                     onClick={(e) => {
                       e.preventDefault()
                       axios.post(bookmark.toggle_favorite_url)
