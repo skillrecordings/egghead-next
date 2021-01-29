@@ -17,6 +17,8 @@ import Image from 'next/image'
 import config from 'lib/config'
 
 import SearchReact from 'components/search/curated/react'
+import SearchGraphql from 'components/search/curated/graphql'
+
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
@@ -210,6 +212,12 @@ const Search: FunctionComponent<SearchProps> = ({
           {shouldDisplayLandingPageForTopics('react') && (
             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
               <SearchReact />
+            </div>
+          )}
+
+          {shouldDisplayLandingPageForTopics('graphql') && (
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+              <SearchGraphql />
             </div>
           )}
 
