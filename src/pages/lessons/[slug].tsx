@@ -133,7 +133,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
 
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
-  const [ref, {width: videoWidth}] = useMeasure<any>()
+  // const [ref, {width: videoWidth}] = useMeasure<any>()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -411,7 +411,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
-              ref={ref}
+              // ref={ref}
               className="flex-grow w-full"
               css={{
                 maxWidth: lessonMaxWidth,
