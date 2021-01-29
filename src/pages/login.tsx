@@ -43,7 +43,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
   const [isSubmitted, setIsSubmitted] = React.useState(false) // false
   const [isError, setIsError] = React.useState(false)
   const {requestSignInEmail} = useViewer()
-  console.log('image.props: ', image.props)
 
   return (
     <div
