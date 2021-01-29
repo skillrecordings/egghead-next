@@ -191,7 +191,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-gray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="w-full bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-gray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   <div className="w-full flex flex-col items-center justify-center space-y-4 p-2">
                     {resource.image && (
@@ -429,12 +429,12 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                   linkType: 'image',
                 })
               }}
-              className="mb-2 mx-auto w-24"
+              className="mb-2 mx-auto w-32"
               tabIndex={-1}
             >
               <Image
-                width={140}
-                height={140}
+                width={220}
+                height={220}
                 src={get(image, 'src', image)}
                 alt={`illustration for ${title}`}
               />
@@ -492,7 +492,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
                   linkType: 'text',
                 })
               }}
-              className="hover:text-blue-600"
+              className="hover:text-blue-600 dark:hover:text-blue-300"
             >
               <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
                 {title}

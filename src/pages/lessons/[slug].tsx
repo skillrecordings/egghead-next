@@ -36,7 +36,7 @@ import {track} from 'utils/analytics'
 import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
-import useBreakpoint from 'utils/breakpoints'
+import useBreakpoint, {bpMinSM, bpMinMD} from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
@@ -49,6 +49,7 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
+import {convertTimeWithTitles} from '../../utils/time-utils'
 
 const tracer = getTracer('lesson-page')
 
@@ -85,7 +86,7 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div className="bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center w-full h-full absolute z-10 top-0 left-0">
+    <div className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full">
       {children}
     </div>
   )
@@ -132,7 +133,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
 
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
-  const [ref, {width: videoWidth}] = useMeasure<any>()
+  // const [ref, {width: videoWidth}] = useMeasure<any>()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -209,7 +210,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
-        'showingNext',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
@@ -411,31 +411,34 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
-              ref={ref}
+              // ref={ref}
               className="flex-grow w-full"
               css={{
                 maxWidth: lessonMaxWidth,
-                '@media (min-width: 1024px)': {
-                  minWidth: '640px',
+                minWidth: '320px',
+                [bpMinSM]: {
+                  minWidth: '580px',
+                },
+                [bpMinMD]: {
+                  minWidth: '680px',
                 },
               }}
             >
-              <div
-                className="flex flex-grow bg-black"
-                css={{
-                  minHeight: Math.round(videoWidth / 1.77777),
-                }}
-              >
+              <div className="flex flex-grow bg-black">
                 <div
-                  className={`w-full relative h-0`}
+                  className="w-full relative sm:h-0"
                   css={{
-                    paddingTop: '56.25%',
+                    [bpMinSM]: {
+                      paddingTop: '56.25%',
+                    },
                   }}
                 >
-                  <div
-                    className={`flex items-center justify-center text-white h-full absolute top-0 right-0 bottom-0 left-0`}
-                  >
-                    <div className={`absolute w-full h-full top-0 left-0`}>
+                  <div className="sm:absolute top-0 right-0 bottom-0 left-0">
+                    <div
+                      className={`${
+                        playerVisible ? 'block' : 'hidden'
+                      } sm:block`}
+                    >
                       <EggheadPlayer
                         id="egghead-player"
                         ref={playerRef}
@@ -498,23 +501,25 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         }}
                         subtitlesUrl={get(lesson, 'subtitles_url')}
                       />
+                    </div>
 
-                      {loaderVisible && <Loader />}
+                    {loaderVisible && <Loader />}
 
-                      {playerState.matches('joining') && (
-                        <OverlayWrapper>
-                          <CreateAccountCTA
-                            lesson={get(lesson, 'slug')}
-                            technology={primary_tag}
-                          />
-                        </OverlayWrapper>
-                      )}
-                      {playerState.matches('subscribing') && (
-                        <OverlayWrapper>
-                          <JoinCTA lesson={lesson} />
-                        </OverlayWrapper>
-                      )}
-                      {playerState.matches('showingNext') && (
+                    {playerState.matches('joining') && (
+                      <OverlayWrapper>
+                        <CreateAccountCTA
+                          lesson={get(lesson, 'slug')}
+                          technology={primary_tag}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('subscribing') && (
+                      <OverlayWrapper>
+                        <JoinCTA lesson={lesson} />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('showingNext') && (
+                      <OverlayWrapper>
                         <NextUpOverlay
                           lesson={lesson}
                           nextLesson={nextLesson}
@@ -525,57 +530,57 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                             }
                           }}
                         />
-                      )}
-                      {playerState.matches('rating') && (
-                        <OverlayWrapper>
-                          <RateCourseOverlay
-                            course={lesson.collection}
-                            onRated={(review) => {
-                              axios
-                                .post(
-                                  lessonView.collection_progress.rate_url,
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('rating') && (
+                      <OverlayWrapper>
+                        <RateCourseOverlay
+                          course={lesson.collection}
+                          onRated={(review) => {
+                            axios
+                              .post(
+                                lessonView.collection_progress.rate_url,
+                                review,
+                              )
+                              .then(() => {
+                                const comment = get(review, 'comment.comment')
+                                const prompt = get(
                                   review,
+                                  'comment.context.prompt',
                                 )
-                                .then(() => {
-                                  const comment = get(review, 'comment.comment')
-                                  const prompt = get(
-                                    review,
-                                    'comment.context.prompt',
-                                  )
 
-                                  if (review) {
-                                    track('rated course', {
-                                      course: slug,
-                                      rating: review.rating,
-                                      ...(comment && {comment}),
-                                      ...(!!prompt && {prompt}),
+                                if (review) {
+                                  track('rated course', {
+                                    course: slug,
+                                    rating: review.rating,
+                                    ...(comment && {comment}),
+                                    ...(!!prompt && {prompt}),
+                                  })
+                                  if (subscriber) {
+                                    const currentScore =
+                                      Number(
+                                        subscriber.attributes?.learner_score,
+                                      ) || 0
+                                    cioIdentify(subscriber.id, {
+                                      learner_score: currentScore + 20,
                                     })
-                                    if (subscriber) {
-                                      const currentScore =
-                                        Number(
-                                          subscriber.attributes?.learner_score,
-                                        ) || 0
-                                      cioIdentify(subscriber.id, {
-                                        learner_score: currentScore + 20,
-                                      })
-                                    }
                                   }
-                                })
-                                .finally(() => {
-                                  setTimeout(() => {
-                                    send('RECOMMEND')
-                                  }, 1500)
-                                })
-                            }}
-                          />
-                        </OverlayWrapper>
-                      )}
-                      {playerState.matches('recommending') && (
-                        <OverlayWrapper>
-                          <RecommendNextStepOverlay lesson={lesson} />
-                        </OverlayWrapper>
-                      )}
-                    </div>
+                                }
+                              })
+                              .finally(() => {
+                                setTimeout(() => {
+                                  send('RECOMMEND')
+                                }, 1500)
+                              })
+                          }}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('recommending') && (
+                      <OverlayWrapper>
+                        <RecommendNextStepOverlay lesson={lesson} />
+                      </OverlayWrapper>
+                    )}
                   </div>
                 </div>
               </div>

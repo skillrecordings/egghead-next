@@ -27,7 +27,7 @@ const homepageData = [
     title: 'Full Stack Development in the Era of Serverless Computing',
     description:
       'Learn a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.',
-    instructor: 'nader dabit',
+    instructor: 'Nader Dabit',
     instructor_path: '/q/resources-by-nader-dabit',
     path:
       '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',
@@ -47,32 +47,27 @@ const homepageData = [
     title: 'Featured',
     resources: [
       {
-        name: 'In-Depth Article',
-        title: 'Codemods with Babel Plugins',
-        byline: 'Laurie Barth',
+        name: 'Fresh Course',
+        title: 'Netlify Serverless Functions and Hasura',
+        byline: 'Jason Lengstorf・1h 27m・Course',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1607528141/egghead-next-ebombs/article-illustrations/codemods.png',
-        path: '/learn/javascript/codemods-with-babel-plugins',
-      },
-      {
-        name: 'Featured Course',
-        title: 'Scale React Development with NX',
-        byline: 'Juri Strumpflohner',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/full/EGH_ScalingReactNx.png',
-        path: '/playlists/scale-react-development-with-nx-4038',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
+        path:
+          '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        slug:
+          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
         name: 'Cutting Edge',
-        title: 'Introduction to Cloudflare Workers',
+        title: 'Cloudflare Workers',
         byline: 'Free course by Kristian Freeman',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
       {
-        name: 'Something Different',
-        title: 'Professor Frisby Introduces Composable Functional JavaScript',
+        name: 'Delightfully Different',
+        title: 'Composable Functional JavaScript',
         byline: 'Brian Lonsdorf・1h 50m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/072/thumb/EGH_ComposableJS_Final.png',
@@ -411,6 +406,13 @@ const homepageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
       },
       {
+        title: 'CSS',
+        path: '/q/css',
+        slug: 'css',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_480/csslang.png',
+      },
+      {
         title: 'Angular',
         path: '/q/angular',
         slug: 'angular',
@@ -445,13 +447,7 @@ const homepageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
       },
-      {
-        title: 'Next.js',
-        path: '/q/next',
-        slug: 'next',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/thumb/nextjs.png',
-      },
+
       // {
       //   title: 'Redux',
       //   path: '/q/redux',

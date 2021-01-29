@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {loadAllCourses} from 'lib/courses'
+import {loadAllCourses, loadAllCourseByPage} from 'lib/courses'
 import Markdown from 'react-markdown'
 import TagList from '../../components/layouts/tag-list'
 
 export async function getStaticProps() {
-  const courses = await loadAllCourses()
+  const courses = await loadAllCourseByPage()
   return {
     props: {courses}, // will be passed to the page component as props
   }

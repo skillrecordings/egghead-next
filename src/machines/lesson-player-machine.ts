@@ -1,6 +1,8 @@
 import {track} from 'utils/analytics'
 import {Machine, assign} from 'xstate'
 import axios from 'axios'
+import {LessonResource} from '../types'
+import {convertTimeWithTitles} from '../utils/time-utils'
 
 interface PlayerStateSchema {
   states: {
@@ -63,6 +65,7 @@ export const playerMachine = Machine<
               return event.viewer
             },
           }),
+          'logLesson',
         ],
         on: {
           PLAY: 'playing',
@@ -173,6 +176,36 @@ export const playerMachine = Machine<
   },
   {
     actions: {
+      logLesson: async (context, event) => {
+        const logResource = (lesson: LessonResource) => {
+          if (typeof window !== 'undefined') {
+            const {
+              title,
+              duration,
+              instructor,
+              icon_url,
+              path,
+              slug,
+              description,
+            } = lesson
+            const image = icon_url
+            const formattedDuration = convertTimeWithTitles(duration)
+            const byline = `${
+              instructor?.full_name && `${instructor.full_name}・`
+            }${formattedDuration}・Video`
+
+            console.debug({
+              title,
+              byline,
+              ...(!!image && {image}),
+              path,
+              slug,
+              description,
+            })
+          }
+        }
+        logResource(context.lesson)
+      },
       sendTelemetry: async (context, event) => {
         function verbForEvent(event: string) {
           switch (event) {

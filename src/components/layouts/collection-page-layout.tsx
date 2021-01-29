@@ -301,16 +301,16 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Image
                     src={image_url}
                     alt={`illustration for ${title}`}
-                    height={300}
-                    width={300}
+                    height={200}
+                    width={200}
                     quality={100}
                   />
                 </div>
               </div>
-              <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
                 {title}
               </h1>
-              <div className="mt-2 flex flex-col items-center md:items-start">
+              <div className="mt-4 flex flex-col items-center md:items-start">
                 {instructor && (
                   <InstructorProfile
                     name={full_name}
@@ -463,7 +463,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {!isEmpty(pairWithResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
-                    You might also like these courses:
+                    You might also like these resources:
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
@@ -667,7 +667,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             {!isEmpty(pairWithResources) && (
               <div className="my-12 flex md:hidden flex-col space-y-2">
                 <h2 className="text-lg font-semibold mb-3">
-                  You might also like these courses:
+                  You might also like these resources:
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (

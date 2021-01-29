@@ -17,6 +17,8 @@ import Image from 'next/image'
 import config from 'lib/config'
 
 import SearchReact from 'components/search/curated/react'
+import SearchGraphql from 'components/search/curated/graphql'
+
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
@@ -172,7 +174,7 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           </div>
           {!isEmpty(instructor) && (
-            <div className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex md:flex-row flex-col md:space-y-0 space-y-2 justify-center">
+            <div className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex xl:px-0 px-5 md:flex-row flex-col md:space-y-0 space-y-2 justify-center">
               <NextSeo
                 title={`Learn web development from ${instructor.full_name} on egghead`}
                 twitter={{
@@ -210,6 +212,12 @@ const Search: FunctionComponent<SearchProps> = ({
           {shouldDisplayLandingPageForTopics('react') && (
             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
               <SearchReact />
+            </div>
+          )}
+
+          {shouldDisplayLandingPageForTopics('graphql') && (
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+              <SearchGraphql />
             </div>
           )}
 

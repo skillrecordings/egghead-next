@@ -159,7 +159,7 @@ const Header: FunctionComponent = () => {
       </header>
       {isOpen && (
         <>
-          <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-10 shadow-xl dark:text-gray-100">
+          <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-50 shadow-xl dark:text-gray-100">
             {!isSearch && <SearchBar />}
           </Navigation>
         </>
@@ -200,7 +200,7 @@ const SearchBar = () => {
                   onChange={handleChange}
                   type="search"
                   placeholder={`What do you want to learn today?`}
-                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-none rounded-l-md pr-0 py-2 pl-10 w-full focus:border-blue-500 focus:ring-0"
+                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-none rounded-l-md pr-0 py-2 pl-10 w-full focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
                 <button
                   type="submit"

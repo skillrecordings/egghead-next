@@ -40,19 +40,21 @@ const Comment: React.FunctionComponent<CommentProps> = ({
       <div>
         <div className="flex items-baseline text-sm md:text-base">
           <div className="flex items-center flex-wrap flex-grow">
-            <span className="font-semibold mr-2">{user.full_name}</span>
+            <span className="font-semibold mr-2 text-black dark:text-white">
+              {user.full_name}
+            </span>
             {isCommentableOwner && (
               <span className="text-green-500 text-sm whitespace-nowrap">
                 (instructor)
               </span>
             )}
           </div>
-          <div className="ml-2 sm:ml-3 whitespace-nowrap text-xs sm:text-sm opacity-50">
+          <div className="ml-2 sm:ml-3 whitespace-nowrap text-xs sm:text-sm text-gray-600 dark:text-gray-500">
             ~ {friendlyTime(new Date(createdAt))}
           </div>
         </div>
         <div
-          className="mt-2 sm:mt-3"
+          className="mt-2 sm:mt-3 prose dark:prose-dark"
           css={{
             '> :first-child': {marginTop: 0},
             '> :last-child': {marginBottom: 0},
