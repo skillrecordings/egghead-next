@@ -132,9 +132,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
 
-  const [lessonMaxWidth, setLessonMaxWidth] = React.useState(
-    Math.round((height - HEIGHT_OFFSET) * 1.77),
-  )
+  const [lessonMaxWidth, setLessonMaxWidth] = React.useState('100%')
   const [ref, {width: videoWidth}] = useMeasure<any>()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
