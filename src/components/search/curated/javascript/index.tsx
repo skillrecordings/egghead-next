@@ -117,24 +117,16 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         >
           <Collection />
         </Card>
-        <div className="md:col-span-8 min-w-full gap-5">
-          <div className="md:grid md:grid-cols-8 flex flex-col w-max items-start gap-5">
-            <Card
-              className="md:col-span-8"
-              resource={composingCallbacks}
-              location={location}
-            >
-              <Collection />
-            </Card>
-            <Card
-              className="md:col-span-8"
-              resource={asyncResource}
-              location={location}
-            >
-              <Collection />
-            </Card>
-          </div>
+        <div className="md:col-span-8 gap-5 mt-5">
+          <Card className="" resource={composingCallbacks} location={location}>
+            <Collection />
+          </Card>
+          <Card className="mt-5" resource={asyncResource} location={location}>
+            <Collection />
+          </Card>
         </div>
+      </section>
+      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-20  gap-5">
         <div className="md:col-span-8">
           <h3 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-300 my-6 text-center">
             Evergreen Classics
