@@ -14,7 +14,7 @@ const TagList: FunctionComponent<{tags: any; courseSlug: string}> = ({
       {!isEmpty(tags) && (
         <div className="flex space-x-4 items-center">
           {/* <div className="font-medium">Tech used:</div> */}
-          <ul className="flex flex-wrap items-center space-x-4">
+          <ul className="flex flex-col sm:flex-row flex-wrap items-center space-y-1 sm:space-y-0 sm:space-x-4">
             {tags.map((tag: any, index: number) => (
               <li key={index} className="inline-flex items-center">
                 <Link href={`/q/${tag.name}`}>
