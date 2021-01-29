@@ -4,7 +4,7 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
-        slug: 'creat-and-deploy-a-static-html-site-2960',
+        slug: 'create-and-deploy-a-basic-static-html-website-2960',
         topics: [
           'Getting Started with HTML',
           'Global Structure of an HTML Document',
