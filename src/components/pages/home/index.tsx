@@ -52,71 +52,17 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
-      <div className="space-y-5">
+      <div className="space-y-14">
         <Jumbotron resource={jumbotron} />
-        <SearchBar />
-        <TopicsList topics={topics} />
-        <div className="grid lg:grid-cols-8 grid-cols-1 gap-5">
-          <Card className="lg:col-span-6">
-            <div className="flex sm:flex-row flex-col justify-center">
-              <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
-                <div>
-                  <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
-                    {video.name}
-                  </h2>
-                  <Link href={video.path}>
-                    <a
-                      onClick={() => {
-                        track('clicked home page video link', {
-                          resource: video.path,
-                          linkType: 'text',
-                        })
-                      }}
-                      className="hover:text-blue-600"
-                    >
-                      <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
-                        {video.title}
-                      </h3>
-                    </a>
-                  </Link>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
-                    <Link href={video.instructor_path || ''}>
-                      <a
-                        onClick={() => {
-                          track('clicked home page video instructor', {
-                            instructor: video.instructor,
-                            linkType: 'image',
-                          })
-                        }}
-                        className="hover:text-blue-600"
-                      >
-                        {video.instructor}
-                      </a>
-                    </Link>
-                  </div>
-                  <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                    {video.description}
-                  </Markdown>
-                </div>
-              </div>
-              <div className="sm:w-full -m-5 flex items-center flex-grow bg-trueGray-900">
-                <EggheadPlayer
-                  preload={false}
-                  autoplay={false}
-                  poster={video.poster}
-                  hls_url={video.hls_url}
-                  dash_url={video.dash_url}
-                  subtitlesUrl={video.subtitlesUrl}
-                  width="100%"
-                  height="auto"
-                />
-              </div>
-            </div>
-          </Card>
+        <section className="space-y-6 ">
+          <TopicsList topics={topics} />
+        </section>
+        <section className="grid lg:grid-cols-8 grid-cols-1 gap-5 ">
+          <FeaturedVideoCard video={video} />
           <EventSchedule />
-        </div>
-        <div className="grid lg:grid-cols-12 grid-cols-1 gap-5">
-          <div className="lg:col-span-8 space-y-5">
+        </section>
+        <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 ">
+          <div className="lg:col-span-8 space-y-8">
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
             )}
@@ -140,7 +86,7 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={buildInPublic} />
             <CardHorizontal resource={sideProject} />
           </div>
-          <aside className="lg:col-span-4 space-y-5">
+          <aside className="lg:col-span-4 space-y-8">
             <SortingHat
               className="sm:py-3 py-2 h-full flex flex-col justify-between"
               alternative={
@@ -171,7 +117,7 @@ const Home: FunctionComponent = () => {
                 <ul className="grid grid-cols-2 gap-3 mt-3">
                   {map(get(swag, 'resources'), (resource) => (
                     <li
-                      className="py-1 flex flex-col items-center text-center  text-gray-600 hover:text-blue-600"
+                      className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
                       key={resource.path}
                     >
                       {resource.image && (
@@ -216,7 +162,7 @@ const Home: FunctionComponent = () => {
               </>
             </Card>
           </aside>
-        </div>
+        </section>
       </div>
     </>
   )
@@ -228,7 +174,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   const allTopics = get(topics, 'resources', [])
   return (
     <>
-      <div className="w-full">
+      <div className="w-full mt-6">
         <ul
           className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-5 gap-5`}
         >
@@ -245,7 +191,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full bg-white dark:bg-trueGray-800 border dark:border-trueGray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-trueGray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="w-full bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-gray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   <div className="w-full flex flex-col items-center justify-center space-y-4 p-2">
                     {resource.image && (
@@ -337,6 +283,67 @@ const EventSchedule: React.FunctionComponent = () => {
   )
 }
 
+function FeaturedVideoCard(props: {video: any}) {
+  return (
+    <Card className="lg:col-span-6">
+      <div className="flex sm:flex-row flex-col justify-center">
+        <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
+          <div>
+            <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
+              {props.video.name}
+            </h2>
+            <Link href={props.video.path}>
+              <a
+                onClick={() =>
+                  track('clicked home page video link', {
+                    resource: props.video.path,
+                    linkType: 'text',
+                  })
+                }
+                className="hover:text-blue-600 dark:hover:text-blue-300"
+              >
+                <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
+                  {props.video.title}
+                </h3>
+              </a>
+            </Link>
+            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+              <Link href={props.video.instructor_path || ''}>
+                <a
+                  onClick={() =>
+                    track('clicked home page video instructor', {
+                      instructor: props.video.instructor,
+                      linkType: 'image',
+                    })
+                  }
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
+                >
+                  {props.video.instructor}
+                </a>
+              </Link>
+            </div>
+            <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+              {props.video.description}
+            </Markdown>
+          </div>
+        </div>
+        <div className="sm:w-full -m-5 flex items-center flex-grow bg-gray-900">
+          <EggheadPlayer
+            preload={false}
+            autoplay={false}
+            poster={props.video.poster}
+            hls_url={props.video.hls_url}
+            dash_url={props.video.dash_url}
+            subtitlesUrl={props.video.subtitlesUrl}
+            width="100%"
+            height="auto"
+          />
+        </div>
+      </div>
+    </Card>
+  )
+}
+
 type CardProps = {
   data: CardResource
   className?: string
@@ -387,7 +394,7 @@ export const CardHorizontal: FunctionComponent<{
                     location,
                   })
                 }}
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 dark:hover:text-blue-300"
               >
                 <h3 className="text-xl font-bold leading-tighter">
                   {resource.title}
@@ -422,12 +429,12 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                   linkType: 'image',
                 })
               }}
-              className="mb-2 mx-auto w-24"
+              className="mb-2 mx-auto w-32"
               tabIndex={-1}
             >
               <Image
-                width={140}
-                height={140}
+                width={220}
+                height={220}
                 src={get(image, 'src', image)}
                 alt={`illustration for ${title}`}
               />
@@ -445,7 +452,7 @@ const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
                 linkType: 'text',
               })
             }}
-            className="hover:text-blue-600"
+            className="hover:text-blue-600 dark:hover:text-blue-300"
           >
             <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
               <Textfit mode="multi" min={14} max={20}>
@@ -485,7 +492,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
                   linkType: 'text',
                 })
               }}
-              className="hover:text-blue-600"
+              className="hover:text-blue-600 dark:hover:text-blue-300"
             >
               <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
                 {title}

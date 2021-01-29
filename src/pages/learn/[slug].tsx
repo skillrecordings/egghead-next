@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
-import {getTag} from 'lib/tags'
+import {loadTag} from 'lib/tags'
 import Markdown from 'react-markdown'
 
 type TagProps = {
@@ -11,7 +11,7 @@ type TagProps = {
 const Tag: FunctionComponent<TagProps> = ({tag}) => {
   return (
     <div>
-      <img alt="" src={tag.image_64_url} />
+      <img alt="" src={tag.image_480_url} />
       <div>{tag.label}</div>
       <Markdown className="prose max-w-none">{tag.description}</Markdown>
     </div>
@@ -25,9 +25,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
   req,
 }) {
-  res.setHeader('Cache-Control', 's-maxage=500, stale-while-revalidate')
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
 
-  const tag = params && (await getTag(params.slug as string))
+  const tag = params && (await loadTag(params.slug as string))
   return {
     props: {
       tag,

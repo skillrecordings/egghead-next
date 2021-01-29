@@ -46,6 +46,13 @@ export const track = (
       window.fbq('trackCustom', event, params)
     }
 
+    if (window.ga) {
+      window.ga('send', {
+        hitType: 'event',
+        eventAction: event,
+      })
+    }
+
     if (
       viewer &&
       !viewer.opted_out &&

@@ -14,8 +14,8 @@ const TagList: FunctionComponent<{tags: any; courseSlug: string}> = ({
       {!isEmpty(tags) && (
         <div className="flex space-x-4 items-center">
           {/* <div className="font-medium">Tech used:</div> */}
-          <ul className="flex flex-wrap items-center space-x-4">
-            {tags.slice(0, 1).map((tag: any, index: number) => (
+          <ul className="flex flex-col sm:flex-row flex-wrap items-center space-y-1 sm:space-y-0 sm:space-x-4">
+            {tags.map((tag: any, index: number) => (
               <li key={index} className="inline-flex items-center">
                 <Link href={`/q/${tag.name}`}>
                   <a
@@ -35,13 +35,13 @@ const TagList: FunctionComponent<{tags: any; courseSlug: string}> = ({
                       className="flex-shrink-0"
                     />
                     <span className="ml-1">{tag.label}</span>
-                    {tag.version && (
-                      <span className="ml-2">
-                        <code>{tag.version}</code>
-                      </span>
-                    )}
                   </a>
                 </Link>
+                {tag.version && (
+                  <div className="ml-2 opacity-70">
+                    <code>{tag.version}</code>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

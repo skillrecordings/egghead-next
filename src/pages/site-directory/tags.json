@@ -1201,8 +1201,8 @@
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/square_64/nodejslogo.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/square_32/nodejslogo.png",
     "latest_course_url": "https://app.egghead.io/api/v1/series/web-security-essentials-mitm-csrf-and-xss?load_lessons=false",
-    "http_url": "https://app.egghead.io/browse/platforms/node",
-    "path": "/browse/platforms/node",
+    "http_url": "https://app.egghead.io/browse/libraries/node",
+    "path": "/browse/libraries/node",
     "search_url": "https://app.egghead.io/search?topic=node"
   },
   {

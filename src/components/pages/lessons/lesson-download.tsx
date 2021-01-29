@@ -34,7 +34,7 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
       }`}
     >
       <IconDownload className="w-5" />
-      <span>Download</span>
+      <span className="hidden xs:inline">Download</span>
     </button>
   )
 }
