@@ -186,7 +186,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         </label>
                         <Field
                           disabled={isSubmitting || state.loading}
-                          className="mt-4 form-input bg-background border border-gray-200 focus:shadow-outline-blue text-text w-full h-40"
+                          className="mt-4 form-input bg-background border border-gray-200 focus:shadow-outline-blue dark:text-gray-900 text-text w-full h-40"
                           component="textarea"
                           name="feedback"
                           id="feedback"
@@ -219,7 +219,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                                     <div
                                       className={`p-3 transform hover:scale-110 flex items-center border border-transparent justify-center cursor-pointer rounded-full  transition-all ease-in-out duration-100 ${
                                         values.emoji === emoji
-                                          ? 'bg-blue-100 border border-blue-200'
+                                          ? 'bg-blue-100 dark:bg-gray-600 border border-blue-200 dark:border-gray-500'
                                           : 'hover:border-blue-200'
                                       }`}
                                     >
@@ -287,7 +287,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
             <button
               onClick={closeDialog}
               type="button"
-              className={`text-gray-600 hover:bg-blue-100 hover:text-blue-600 p-2 focus:shadow-outline-blue transition-all rounded-full transform hover:scale-110 ease-in-out duration-200`}
+              className={`text-gray-600 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-800 p-2 focus:shadow-outline-blue transition-all rounded-full transform hover:scale-110 ease-in-out duration-200`}
               aria-label="Close"
             >
               <span className="sr-only">close feedback dialog</span>

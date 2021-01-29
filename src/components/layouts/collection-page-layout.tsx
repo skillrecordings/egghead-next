@@ -463,7 +463,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {!isEmpty(pairWithResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
-                    You might also like these courses:
+                    You might also like these resources:
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
@@ -667,7 +667,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             {!isEmpty(pairWithResources) && (
               <div className="my-12 flex md:hidden flex-col space-y-2">
                 <h2 className="text-lg font-semibold mb-3">
-                  You might also like these courses:
+                  You might also like these resources:
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (
