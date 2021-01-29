@@ -4,6 +4,39 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        slug: 'creat-and-deploy-a-static-html-site-2960',
+        topics: [
+          'Getting Started with HTML',
+          'Global Structure of an HTML Document',
+          'Structuring Your Content',
+          'CSS Media queries',
+          'SVG Basics',
+          'Making Changes to the DOM',
+          'Deploying on Netlify ',
+        ],
+        pairWithResources: [
+          {
+            title: 'Build An Eleventy (11ty) Site From Scratch',
+            byline: 'Stephanie Eckles・19m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/full/11ty.png',
+            path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
+            slug: 'build-an-eleventy-11ty-site-from-scratch-bfd3',
+            description: `Start from a blank project and build up to an Eleventy site that includes a blog collection and is prepared to source content from a headless CMS. You'll also learn how to add Sass as the styling solution, complete with triggering 11ty to re-compile when the Sass changes.`,
+          },
+          {
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/full/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image.',
+          },
+        ],
+      },
+      {
         slug:
           'containerize-full-stack-javascript-applications-with-docker-30a8',
         dependencies: {
