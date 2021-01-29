@@ -71,7 +71,7 @@ Makes it easier to evolve APIs over time, and enables powerful developer tools.
             quality={100}
             width={417}
             height={463}
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611920902/graphqlworkshop.com/graphqlworkshop-banner_2x.png"
             alt="graphqlworkshop.com by Eve Porcello"
           />
         </ExternalTrackedLink>
