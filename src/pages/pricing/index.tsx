@@ -8,6 +8,8 @@ import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
 import {usePricing, Prices} from 'hooks/use-pricing'
+import {first} from 'lodash'
+import {StripeAccount} from 'types'
 
 type PricingProps = {
   annualPrice: {
@@ -29,8 +31,8 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
     event.preventDefault()
 
     if (!prices.annualPrice) return
-
     const {annualPrice} = prices
+    const account = first<StripeAccount>(viewer.accounts)
     await track('checkout: selected plan', {
       priceId: annualPrice.price_id,
     })
@@ -45,7 +47,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
       stripeCheckoutRedirect(
         annualPrice.price_id,
         viewer.email,
-        viewer.subscription?.stripe_customer_id,
+        account?.stripe_customer_id,
         redirectURL,
         authToken,
       )

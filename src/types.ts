@@ -35,6 +35,15 @@ export type PodcastResource = Resource & {
   path: string
 }
 
+export type StripeAccount = {
+  stripe_customer_id: string
+  subscriptions: StripeSubscription[]
+}
+
+export type StripeSubscription = {
+  stripe_subscription_id: string
+}
+
 export type Viewer = {
   id: number
   email: string
@@ -47,4 +56,5 @@ export type Viewer = {
   timezone: string
   opted_out: boolean
   purchases: any[]
+  accounts: StripeAccount[]
 }
