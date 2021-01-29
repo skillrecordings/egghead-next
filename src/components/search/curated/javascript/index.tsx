@@ -38,7 +38,7 @@ const SearchJavaScript = () => {
   const javascriptPodcasts: any = find(javascriptPageData, {id: 'podcasts'})
 
   return (
-    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-trueGray-900">
+    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto">
       <NextSeo
         description={description}
         title={title}
@@ -58,7 +58,7 @@ const SearchJavaScript = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-trueGray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0">
         <Topic
           className="col-span-8"
           title="JavaScript"
