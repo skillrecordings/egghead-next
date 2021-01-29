@@ -492,7 +492,7 @@ const CardVerticalWithStack: FunctionComponent<CardProps> = ({
                   linkType: 'text',
                 })
               }}
-              className="hover:text-blue-600"
+              className="hover:text-blue-600 dark:hover:text-blue-300"
             >
               <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
                 {title}
