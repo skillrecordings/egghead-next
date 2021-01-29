@@ -87,14 +87,18 @@ const javascriptPageData = [
   },
   {
     id: 'composing-callbacks',
+    name: 'Mind Expanding',
+    title: 'Deep Dive into Function Composition',
     description:
       'This a multi-tier master course for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
-    path: '/playlists/composing-closures-and-callbacks-in-javascript-122',
+    path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
     resources: [
       {
-        path: '/playlists/composing-closures-and-callbacks-in-javascript-122',
+        path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
         title: 'Composing Callbacks and Closures in JavaScript',
         byline: 'John Lindquist',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
       },
     ],
   },
@@ -179,17 +183,21 @@ const javascriptPageData = [
         path: '/courses/regex-in-javascript',
         byline: 'Joe Maddalone',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/029/full/course_image.png',
       },
       {
         title: 'Immutable JavaScript Data Structures with Immer',
         path: '/courses/immutable-javascript-data-structures-with-immer',
         byline: 'Michel Weststrate',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/312/full/ImmuateableImmer_Final.png',
       },
       {
         title: 'Redux and the State ADT',
         path: '/courses/redux-and-the-state-adt',
         byline: 'Ian Hofmann-Hicks',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/267/full/EGH_ReduxStateADT_Final.png',
       },
     ],
   },
@@ -232,8 +240,7 @@ const javascriptPageData = [
     id: 'async',
     title: 'Async',
     name: 'Data Fetching',
-    description: `Under the hood of your modern applications, there is a lot of work communication back and forth with servers, reacting to user interaction, and managing the state of a complex asynchronous application.
-    Your application grows, the complexity multiplies, until you've got a jumbled mess that makes you sad to get up and get to work every morning.`,
+    description: `Under the hood of your modern applications, there is a lot of work communication back and forth with servers, reacting to user interaction, and managing the state of a complex asynchronous application. Your application grows, the complexity multiplies, until you've got a jumbled mess that makes you sad to get up and get to work every morning.`,
     resources: [
       {
         title: 'JavaScript Promises in Depth',

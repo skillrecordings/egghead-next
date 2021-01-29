@@ -25,6 +25,7 @@ const SearchJavaScript = () => {
   const javascriptFavorites: any = find(javascriptPageData, {
     id: 'javascript-favorites',
   })
+
   const interviewPrep: any = find(javascriptPageData, {
     id: 'interview-prep',
   })
@@ -108,7 +109,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       <hr className="sm:mt-20 mt-16 w-1/2 mx-auto border" />
 
       {/* Feature Section */}
-      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-20 mt-16 gap-5">
+      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-20  gap-5">
         <Card
           className="col-span-4"
           resource={javascriptDebugging}
@@ -116,13 +117,24 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         >
           <Collection />
         </Card>
-        <Card
-          className="md:col-span-8"
-          resource={composingCallbacks}
-          location={location}
-        >
-          <Collection />
-        </Card>
+        <div className="md:col-span-8 min-w-full gap-5">
+          <div className="md:grid md:grid-cols-8 flex flex-col w-max items-start gap-5">
+            <Card
+              className="md:col-span-8"
+              resource={composingCallbacks}
+              location={location}
+            >
+              <Collection />
+            </Card>
+            <Card
+              className="md:col-span-8"
+              resource={asyncResource}
+              location={location}
+            >
+              <Collection />
+            </Card>
+          </div>
+        </div>
         <div className="md:col-span-8">
           <h3 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-300 my-6 text-center">
             Evergreen Classics
