@@ -53,7 +53,7 @@ const SearchJavaScript = () => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611981007/og-image-assets/EGH_PlanetSocial-JS.png`,
+              url: `https://res-console.cloudinary.com/dg3gyk0gu/thumbnails/transform/v1/image/upload/Yl9yZ2I6MjUyNzM1/v1611982526/b2ctaW1hZ2UtYXNzZXRzL0VHSF9QbGFuZXRTb2NpYWwtSlM=/template_primary`,
             },
           ],
         }}
