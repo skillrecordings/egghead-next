@@ -29,7 +29,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   verticalImage,
 }) => {
   const location = `${topic} landing`
-  const description = `Life is too short for lonnnnnng boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
+  const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
   const title =
     topic.title ||
     `In-Depth ${topic.label} Tutorials for ${new Date().getFullYear()}`
