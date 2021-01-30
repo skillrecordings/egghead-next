@@ -3,19 +3,19 @@ import {NextSeo} from 'next-seo'
 import Card from 'components/pages/home/card'
 import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
-import awsPageData from './aws-page-data'
+import nextPageData from './next-page-data'
 import {find} from 'lodash'
 import Image from 'next/image'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
 const SearchAngular = () => {
-  const location = 'aws landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn AWS using the best screencast tutorial videos online.`
-  const title = `In-Depth Up-to-Date AWS Tutorials for ${new Date().getFullYear()}`
+  const location = 'next landing'
+  const description = `Life is too short for lonnnnnng boring videos. Learn Next.js using the best screencast tutorial videos online.`
+  const title = `In-Depth Up-to-Date Next.js Tutorials for ${new Date().getFullYear()}`
 
-  const beginner: any = find(awsPageData, {id: 'beginner'})
-  const intermediate: any = find(awsPageData, {id: 'intermediate'})
-  const advanced: any = find(awsPageData, {id: 'advanced'})
+  const beginner: any = find(nextPageData, {id: 'beginner'})
+  const intermediate: any = find(nextPageData, {id: 'intermediate'})
+  const advanced: any = find(nextPageData, {id: 'advanced'})
 
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
@@ -33,7 +33,7 @@ const SearchAngular = () => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/full/aws.png`,
+              url: `https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/full/nextjs.png`,
             },
           ],
         }}
@@ -41,11 +41,11 @@ const SearchAngular = () => {
       <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
-          title="AWS"
-          imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/full/aws.png"
+          title="Next.js"
+          imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/full/nextjs.png"
         >
           {`
-Description of AWS
+Description of Next.js
 `}
         </Topic>
         <ExternalTrackedLink
