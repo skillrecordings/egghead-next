@@ -16,6 +16,8 @@ type CuratedEssentialProps = {
   }
   pageData?: any
   CTAComponent?: React.FC
+  ogImage?: string
+  verticalImage?: string
 }
 
 const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
@@ -23,6 +25,8 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   pageData,
   children,
   CTAComponent,
+  ogImage,
+  verticalImage,
 }) => {
   const location = `${topic} landing`
   const description = `Life is too short for lonnnnnng boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
@@ -50,7 +54,9 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
           site_name: 'egghead',
           images: [
             {
-              url: `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201104`,
+              url:
+                ogImage ||
+                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201104`,
             },
           ],
         }}
@@ -59,7 +65,10 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         <Topic
           className="col-span-8"
           title={topic.label}
-          imageUrl={`https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201104`}
+          imageUrl={
+            verticalImage ||
+            `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201104`
+          }
         >
           {topic.description}
         </Topic>
