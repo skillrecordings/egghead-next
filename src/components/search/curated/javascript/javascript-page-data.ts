@@ -184,8 +184,8 @@ const javascriptPageData = [
     ],
   },
   {
-    id: 'javascript-favorites',
-    title: 'Favorites',
+    id: 'addtional-interview-prep',
+    title: 'Additional Interview Prep',
     resources: [
       {
         title: 'Just Enough Functional Programming in JavaScript',

@@ -22,8 +22,8 @@ const SearchJavaScript = () => {
     id: 'composing-callbacks',
   })
 
-  const javascriptFavorites: any = find(javascriptPageData, {
-    id: 'javascript-favorites',
+  const addtionalInterviewPrep: any = find(javascriptPageData, {
+    id: 'addtional-interview-prep',
   })
 
   const interviewPrep: any = find(javascriptPageData, {
@@ -135,7 +135,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         </Card>
         <div className="md:col-span-8">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
-            {javascriptFavorites.resources.map((resource: any) => {
+            {addtionalInterviewPrep.resources.map((resource: any) => {
               return (
                 <Card
                   className="text-center"
