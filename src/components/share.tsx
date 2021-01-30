@@ -101,7 +101,7 @@ const CopyToClipboard: FunctionComponent<{
   )
 }
 
-const IconLink: FunctionComponent<{className?: string}> = ({
+export const IconLink: FunctionComponent<{className?: string}> = ({
   className = '',
 }) => (
   <svg
