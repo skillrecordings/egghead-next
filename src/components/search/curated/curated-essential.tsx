@@ -46,7 +46,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         titleTemplate={'%s | egghead.io'}
         twitter={{
           site: `@eggheadio`,
-          cardType: 'summary',
+          cardType: 'summary_image_large',
         }}
         openGraph={{
           title,
