@@ -17,6 +17,7 @@ import Image from 'next/image'
 import config from 'lib/config'
 
 import SearchReact from 'components/search/curated/react'
+import SearchJavaScript from 'components/search/curated/javascript'
 import SearchGraphql from 'components/search/curated/graphql'
 
 import ReactMarkdown from 'react-markdown'
@@ -75,15 +76,16 @@ const Search: FunctionComponent<SearchProps> = ({
     : undefined
 
   const shouldDisplayLandingPageForTopics = (topics: string | string[]) => {
+    topics = isArray(topics) ? topics : [topics]
     return (
       (searchState?.query &&
         !isEmpty(topics) &&
-        topics === searchState?.query?.toLowerCase() &&
+        topics.includes(searchState?.query?.toLowerCase()) &&
         numberOfRefinements === 0) ||
       (isEmpty(searchState.query) &&
         numberOfRefinements === 1 &&
         noInstructorsSelected(searchState) &&
-        onlyTheseTagsSelected(isArray(topics) ? topics : [topics], searchState))
+        onlyTheseTagsSelected(topics, searchState))
     )
   }
 
@@ -136,6 +138,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     )}
                   </>
                 )}
+
               </button>
             </header>
             <div
@@ -144,6 +147,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   ? 'h-auto border-gray-200 dark:border-gray-700 my-2'
                   : 'h-0 border-none my-0'
               }`}
+
             >
               <div
                 className={`${
@@ -208,6 +212,14 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
             </div>
           )}
+          
+          {shouldDisplayLandingPageForTopics('javascript') &&
+                onlyTheseTagsSelected(['javascript'], searchState) && (
+             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+             <SearchJavaScript />
+            </div>
+ 
+                )}
 
           {shouldDisplayLandingPageForTopics('react') && (
             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
@@ -221,7 +233,7 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          {!isEmpty(topic) && !shouldDisplayLandingPageForTopics('react') && (
+          {!isEmpty(topic) && !shouldDisplayLandingPageForTopics(['react', 'javascript', 'graphql']) && (
             <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
               <GenericTopic
                 title={topic.label}
