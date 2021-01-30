@@ -24,6 +24,8 @@ import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
 import GenericTopic from './generic-topic'
+import SearchCuratedEssential from './curated/curated-essential'
+import typescriptPageData from './curated/typescript/typescript-page-data'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -242,11 +244,7 @@ const Search: FunctionComponent<SearchProps> = ({
 
           {!isEmpty(topic) && shouldDisplayDefault(CURATED_PAGES) && (
             <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
-              <GenericTopic
-                title={topic.label}
-                imageUrl={topic.image_480_url}
-                description={topic.description}
-              />
+              <SearchCuratedEssential topic={topic} />
             </div>
           )}
 
