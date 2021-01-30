@@ -83,10 +83,21 @@ const Search: FunctionComponent<SearchProps> = ({
         topics.includes(searchState?.query?.toLowerCase()) &&
         numberOfRefinements === 0) ||
       (isEmpty(searchState.query) &&
-        numberOfRefinements === 1 &&
+        numberOfRefinements === topics.length &&
         noInstructorsSelected(searchState) &&
         onlyTheseTagsSelected(topics, searchState))
     )
+  }
+
+  const CURATED_PAGES = ['react', 'javascript', 'graphql']
+
+  const shouldDisplayDefault = (topics: string | string[]) => {
+    topics = isArray(topics) ? topics : [topics]
+    const tags = get(searchState, 'refinementList._tags', [])
+
+    const tag = tags?.[0]
+
+    return tag && numberOfRefinements === 1 && !topics.includes(tag)
   }
 
   return (
@@ -138,7 +149,6 @@ const Search: FunctionComponent<SearchProps> = ({
                     )}
                   </>
                 )}
-
               </button>
             </header>
             <div
@@ -147,7 +157,6 @@ const Search: FunctionComponent<SearchProps> = ({
                   ? 'h-auto border-gray-200 dark:border-gray-700 my-2'
                   : 'h-0 border-none my-0'
               }`}
-
             >
               <div
                 className={`${
@@ -212,14 +221,12 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
             </div>
           )}
-          
-          {shouldDisplayLandingPageForTopics('javascript') &&
-                onlyTheseTagsSelected(['javascript'], searchState) && (
-             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
-             <SearchJavaScript />
+
+          {shouldDisplayLandingPageForTopics('javascript') && (
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+              <SearchJavaScript />
             </div>
- 
-                )}
+          )}
 
           {shouldDisplayLandingPageForTopics('react') && (
             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
@@ -233,7 +240,7 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          {!isEmpty(topic) && !shouldDisplayLandingPageForTopics(['react', 'javascript', 'graphql']) && (
+          {!isEmpty(topic) && shouldDisplayDefault(CURATED_PAGES) && (
             <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
               <GenericTopic
                 title={topic.label}
