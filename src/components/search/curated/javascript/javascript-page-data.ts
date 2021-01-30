@@ -90,7 +90,7 @@ const javascriptPageData = [
     name: 'Mind Expanding',
     title: 'Deep Dive into Function Composition',
     description:
-      'This a multi-tier master course for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
+      'This a multi-tier master course for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, and implementing debouncing.',
     path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
     resources: [
       {
@@ -108,18 +108,12 @@ const javascriptPageData = [
     name: 'Interview Prep',
     resources: [
       {
-        title: 'Data Structures and Algorithms in JavaScript',
-        path: '/courses/data-structures-and-algorithms-in-javascript',
+        title: 'Functional programming for Solving Coding Challenges',
+        path:
+          '/playlists/javascript-interview-learn-functional-programming-with-solving-coding-challenges-8c0c',
+        byline: 'Dimitri Ivashchuk',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/261/full/EGH_JSAlgorithms_Final.png',
-        byline: 'Kyle Shevlin',
-      },
-      {
-        title: 'Algorithms in JavaScript',
-        path: '/courses/algorithms-in-javascript',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/259/full/EGH_JSBasic-Algorithms_Final.png',
-        byline: 'Tyler Clark',
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/full/javascriptlang.png',
       },
       {
         title: "Understanding JavaScript's Prototypal Inheritance",
@@ -142,7 +136,7 @@ const javascriptPageData = [
     title: 'Debugging',
     name: 'devtools',
     description:
-      "You likely know the pain and joy that is debugging. The pain is part of the process, and the joy is winning the battle and fixing the issue. You're probably familiar with the basics of using Devtools, but there is a lot of functionality that is often overlooked. These courses will give you new tools that will help make the journey from debugging pain to joy more quickly!",
+      "You likely know the pain and joy that is debugging. The pain is part of the process, and the joy is winning the battle and fixing the issue. You're probably familiar with the basics of using Devtools. These courses will give you new tools that will help make the journey from debugging pain to joy more quickly!",
     resources: [
       {
         title: 'Advanced Logging with the JavaScript Console',
@@ -159,6 +153,13 @@ const javascriptPageData = [
         byline: 'Mykola Bilokonsky',
       },
       {
+        title: 'Debug JavaScript in Chrome with DevTool Sources',
+        path: '/courses/chrome-devtools-sources-panel',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/067/full/EGH_Chrome_Sources_Final.png',
+        byline: 'Mykola Bilokonsky',
+      },
+      {
         title: 'Debug HTTP with Chrome DevTools Network Panel',
         path: '/courses/debug-http-with-chrome-devtools-network-panel',
         image:
@@ -166,11 +167,19 @@ const javascriptPageData = [
         byline: 'Mykola Bilokonsky',
       },
       {
-        title: 'Debug JavaScript in Chrome with DevTool Sources',
-        path: '/courses/chrome-devtools-sources-panel',
+        title: 'Critical Rendering Path',
+        path: '/playlists/critical-rendering-path-c2ec',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/067/full/EGH_Chrome_Sources_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/028/full/chrome.png',
         byline: 'Mykola Bilokonsky',
+      },
+      {
+        title: 'Chrome DevTools tips & tricks',
+        path:
+          '/playlists/4-things-you-might-not-know-about-chrome-devtools-98f99710',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/028/full/chrome.png',
+        byline: 'Tomasz Łakomy',
       },
     ],
   },
@@ -179,25 +188,25 @@ const javascriptPageData = [
     title: 'Favorites',
     resources: [
       {
-        title: 'Regex in Javascript',
-        path: '/courses/regex-in-javascript',
-        byline: 'Joe Maddalone',
+        title: 'Just Enough Functional Programming in JavaScript',
+        path: '/courses/just-enough-functional-programming-in-javascript',
+        byline: 'Kyle Shevlin',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/029/full/course_image.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/full/Functional_Programming.png',
       },
       {
-        title: 'Immutable JavaScript Data Structures with Immer',
-        path: '/courses/immutable-javascript-data-structures-with-immer',
-        byline: 'Michel Weststrate',
+        title: 'Data Structures and Algorithms in JavaScript',
+        path: '/courses/data-structures-and-algorithms-in-javascript',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/312/full/ImmuateableImmer_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/261/full/EGH_JSAlgorithms_Final.png',
+        byline: 'Kyle Shevlin',
       },
       {
-        title: 'Redux and the State ADT',
-        path: '/courses/redux-and-the-state-adt',
-        byline: 'Ian Hofmann-Hicks',
+        title: 'Algorithms in JavaScript',
+        path: '/courses/algorithms-in-javascript',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/267/full/EGH_ReduxStateADT_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/259/full/EGH_JSBasic-Algorithms_Final.png',
+        byline: 'Tyler Clark',
       },
     ],
   },

@@ -71,7 +71,7 @@ When you're working in frameworks like React, Vue, and Angular, it's easy to for
 
 A strong understanding of JavaScript is essential for having a successful career, no matter which framework you use. 
 
-This is a curated resource covering the important parts of the whole language. We'll show you what you need to know and guide you through learning it.
+This is a curated resource covering the important parts of the whole language. 
 
 When someone comes to you and asks "Hey! Can you build this?", you'll be able to say "yes" with confidence.
 `}
@@ -94,7 +94,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       </div>
 
       {/* Learning Level Section */}
-      <section className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-8">
+      <section className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-8 sm:mt-12">
         <Card resource={beginner} location={location} className="h-full">
           <Collection />
         </Card>
@@ -106,10 +106,8 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         </Card>
       </section>
 
-      <hr className="sm:mt-20 mt-16 w-1/2 mx-auto border" />
-
       {/* Feature Section */}
-      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-20  gap-5">
+      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-12 gap-5 mt-4">
         <Card
           className="col-span-4"
           resource={javascriptDebugging}
@@ -117,7 +115,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         >
           <Collection />
         </Card>
-        <div className="md:col-span-8 gap-5 mt-5">
+        <div className="md:col-span-8 gap-5">
           <Card className="" resource={composingCallbacks} location={location}>
             <Collection />
           </Card>
@@ -126,12 +124,17 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
           </Card>
         </div>
       </section>
-      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-20  gap-5">
+
+      <section className="grid md:grid-cols-12 grid-cols-1 gap-5 mt-12">
+        <Card
+          className="col-span-4"
+          resource={interviewPrep}
+          location={location}
+        >
+          <Collection />
+        </Card>
         <div className="md:col-span-8">
-          <h3 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-300 my-6 text-center">
-            Evergreen Classics
-          </h3>
-          <div className="md:flex md:flex-row gap-5">
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
             {javascriptFavorites.resources.map((resource: any) => {
               return (
                 <Card
@@ -144,26 +147,18 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
             })}
           </div>
         </div>
-        <Card
-          className="col-span-4"
-          resource={interviewPrep}
-          location={location}
-        >
-          <Collection />
-        </Card>
       </section>
 
-      <hr className="sm:mt-20 mt-16 w-1/2 mx-auto border" />
-
-      {/* Podcasts and Articles Section */}
-      <section className="mt-5 grid md:grid-cols-2 sm:mt-24 mt-16 grid-cols-1 gap-5">
-        <Card resource={javaScriptArticles} location={location}>
-          <Collection />
-        </Card>
-        <Card resource={javascriptPodcasts} location={location}>
-          <Collection />
-        </Card>
-      </section>
+      <div>
+        <section className="mt-12 grid md:grid-cols-2 grid-cols-1 gap-5">
+          <Card resource={javaScriptArticles} location={location}>
+            <Collection />
+          </Card>
+          <Card resource={javascriptPodcasts} location={location}>
+            <Collection />
+          </Card>
+        </section>
+      </div>
     </div>
   )
 }
