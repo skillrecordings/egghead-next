@@ -69,7 +69,7 @@ These curated courses will teach you GraphQL from the ground up, all the way to 
         <ExternalTrackedLink
           eventName="clicked graphql workshop banner"
           params={{location}}
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
+          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
           href="https://graphqlworkshop.com/"
         >
           <Image
