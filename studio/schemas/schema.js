@@ -9,6 +9,7 @@ import collaborator from './collaborator'
 import resource from './resource'
 import person from './person'
 import npmDependency from './npmDependency'
+import staffReview from './staffReview'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -23,6 +24,7 @@ export default createSchema({
     person,
     resource,
     npmDependency,
+    staffReview,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,

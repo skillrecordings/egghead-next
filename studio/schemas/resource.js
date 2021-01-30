@@ -18,6 +18,10 @@ export default {
             value: 'course',
           },
           {
+            title: 'playlist',
+            value: 'playlist',
+          },
+          {
             title: 'collection',
             value: 'collection',
           },
@@ -115,58 +119,11 @@ export default {
       type: 'url',
     },
     {
-      name: 'freshness',
-      description: 'How fresh is this resource really?',
-      title: 'Freshness',
-      type: 'object',
-      fields: [
-        {
-          name: 'status',
-          type: 'string',
-          title: 'Status',
-          options: {
-            list: [
-              {
-                title: 'classic',
-                value: 'classic',
-              },
-              {
-                title: 'stale',
-                value: 'stale',
-              },
-              {
-                title: 'fresh',
-                value: 'fresh',
-              },
-            ],
-          },
-        },
-        {
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-          options: {
-            maxLength: 90,
-          },
-        },
-        {
-          name: 'summary',
-          title: 'summary',
-          type: 'markdown',
-          options: {
-            maxLength: 240,
-          },
-        },
-        {
-          title: 'Staff Review Data',
-          name: 'staffReviewDate',
-          type: 'date',
-          options: {
-            dateFormat: 'YYYY-MM-DD',
-            calendarTodayLabel: 'Today',
-          },
-        },
-      ],
+      name: 'staffReviews',
+      title: 'Freshness Reviews',
+      description: 'Staff Reviews',
+      type: 'array',
+      of: [{type: 'staffReview'}],
     },
     {
       name: 'bullets',
@@ -180,34 +137,7 @@ export default {
       description: 'Related External Projects, maybe on Github',
       title: 'Projects',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'url',
-              title: 'URL',
-              type: 'url',
-            },
-            {
-              name: 'title',
-              title: 'Title',
-              type: 'string',
-              options: {
-                maxLength: 90,
-              },
-            },
-            {
-              name: 'description',
-              title: 'Description',
-              type: 'markdown',
-              options: {
-                maxLength: 180,
-              },
-            },
-          ],
-        },
-      ],
+      of: [{type: 'resource'}],
     },
     {
       name: 'npmDependencies',
