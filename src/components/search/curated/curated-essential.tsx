@@ -18,6 +18,7 @@ type CuratedEssentialProps = {
   CTAComponent?: React.FC
   ogImage?: string
   verticalImage?: string
+  cardType?: string
 }
 
 const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
@@ -27,6 +28,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   CTAComponent,
   ogImage,
   verticalImage,
+  cardType = 'summary_large_image',
 }) => {
   const location = `${topic} landing`
   const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
@@ -46,7 +48,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         titleTemplate={'%s | egghead.io'}
         twitter={{
           site: `@eggheadio`,
-          cardType: 'summary_image_large',
+          cardType,
         }}
         openGraph={{
           title,
