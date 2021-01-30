@@ -10,7 +10,7 @@ import ExternalTrackedLink from 'components/external-tracked-link'
 
 const SearchCSS = () => {
   const location = 'css landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn CSS using the best screencast tutorial videos online.`
   const title = `In-Depth Up-to-Date CSS Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(cssPageData, {id: 'beginner'})
@@ -41,7 +41,7 @@ const SearchCSS = () => {
       <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
-          title="React"
+          title="CSS"
           imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png"
         >
           {`

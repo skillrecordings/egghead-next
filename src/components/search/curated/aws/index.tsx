@@ -3,19 +3,19 @@ import {NextSeo} from 'next-seo'
 import Card from 'components/pages/home/card'
 import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
-import typescriptPageData from './typescript-page-data'
+import awsPageData from './aws-page-data'
 import {find} from 'lodash'
 import Image from 'next/image'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
-const SearchTypescript = () => {
-  const location = 'typescript landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn TypeScript using the best screencast tutorial videos online.`
-  const title = `In-Depth Up-to-Date TypeScript Tutorials for ${new Date().getFullYear()}`
+const SearchAngular = () => {
+  const location = 'aws landing'
+  const description = `Life is too short for lonnnnnng boring videos. Learn AWS using the best screencast tutorial videos online.`
+  const title = `In-Depth Up-to-Date AWS Tutorials for ${new Date().getFullYear()}`
 
-  const beginner: any = find(typescriptPageData, {id: 'beginner'})
-  const intermediate: any = find(typescriptPageData, {id: 'intermediate'})
-  const advanced: any = find(typescriptPageData, {id: 'advanced'})
+  const beginner: any = find(awsPageData, {id: 'beginner'})
+  const intermediate: any = find(awsPageData, {id: 'intermediate'})
+  const advanced: any = find(awsPageData, {id: 'advanced'})
 
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
@@ -33,7 +33,7 @@ const SearchTypescript = () => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/full/typescriptlang.png`,
+              url: `https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/full/aws.png`,
             },
           ],
         }}
@@ -41,11 +41,11 @@ const SearchTypescript = () => {
       <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
-          title="TypeScript"
-          imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/full/typescriptlang.png"
+          title="AWS"
+          imageUrl="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/full/aws.png"
         >
           {`
-Description of Typescript
+Description of Angular
 `}
         </Topic>
         <ExternalTrackedLink
@@ -79,4 +79,4 @@ Description of Typescript
   )
 }
 
-export default SearchTypescript
+export default SearchAngular
