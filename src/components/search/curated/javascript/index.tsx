@@ -53,7 +53,7 @@ const SearchJavaScript = () => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://p-ZmFjNlQ.b3.n0.cdn.getcloudapp.com/items/GGu6PRP8/81661b86-2d95-4ed1-85f3-cce8ce7bf974.png?v=4c6081b4267a169ef8150d9ae7a64a3e`,
+              url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611968683/egghead-next-pages/Javascript/hero-javascript-imae.png`,
             },
           ],
         }}
@@ -62,7 +62,7 @@ const SearchJavaScript = () => {
         <Topic
           className="col-span-8"
           title="JavaScript"
-          imageUrl="https://p-ZmFjNlQ.b3.n0.cdn.getcloudapp.com/items/GGu6PRP8/81661b86-2d95-4ed1-85f3-cce8ce7bf974.png?v=4c6081b4267a169ef8150d9ae7a64a3e"
+          imageUrl="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611968683/egghead-next-pages/Javascript/hero-javascript-imae.png"
         >
           {`
 If there's one thing that never gets old, it's rock-solid JavaScript fundamentals. 
