@@ -53,7 +53,7 @@ const SearchJavaScript = () => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611983032/og-image-assets/EGH_PlanetSocial-JS.png`,
+              url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611968683/egghead-next-pages/Javascript/hero-javascript-imae.png`,
             },
           ],
         }}
@@ -79,7 +79,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         <ExternalTrackedLink
           eventName="clicked testing javascript banner"
           params={{location}}
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
+          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
           href="https://testingjavascript.com"
         >
           <Image
@@ -107,7 +107,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       </section>
 
       {/* Feature Section */}
-      <section className="grid md:grid-cols-12 grid-cols-1 items-start sm:mt-12 gap-5 mt-4">
+      <section className="grid lg:grid-cols-12 grid-cols-1 items-start sm:mt-12 mt-4 gap-5">
         <Card
           className="col-span-4"
           resource={javascriptDebugging}
@@ -116,7 +116,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
           <Collection />
         </Card>
         <div className="md:col-span-8 gap-5">
-          <Card className="" resource={composingCallbacks} location={location}>
+          <Card resource={composingCallbacks} location={location}>
             <Collection />
           </Card>
           <Card className="mt-5" resource={asyncResource} location={location}>
@@ -125,7 +125,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         </div>
       </section>
 
-      <section className="grid md:grid-cols-12 grid-cols-1 gap-5 mt-12">
+      <section className="grid gap-5 lg:grid-cols-12 grid-cols-1  mt-12">
         <Card
           className="col-span-4"
           resource={interviewPrep}

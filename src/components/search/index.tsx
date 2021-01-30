@@ -24,7 +24,6 @@ import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
 import GenericTopic from './generic-topic'
-import {every, first} from 'rxjs/operators'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -56,8 +55,6 @@ const Search: FunctionComponent<SearchProps> = ({
       'refinementList._tags',
       [],
     ) as string[]
-
-    console.log(tags, selectedTags)
     return isEqual(tags, selectedTags)
   }
 
@@ -80,26 +77,16 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const shouldDisplayLandingPageForTopics = (topics: string | string[]) => {
     topics = isArray(topics) ? topics : [topics]
-
     return (
       (searchState?.query &&
         !isEmpty(topics) &&
         topics.includes(searchState?.query?.toLowerCase()) &&
         numberOfRefinements === 0) ||
       (isEmpty(searchState.query) &&
-        numberOfRefinements === topics.length &&
+        numberOfRefinements === 1 &&
         noInstructorsSelected(searchState) &&
         onlyTheseTagsSelected(topics, searchState))
     )
-  }
-
-  const shouldDisplayDefault = (topics: string | string[]) => {
-    topics = isArray(topics) ? topics : [topics]
-    const tags = get(searchState, 'refinementList._tags', [])
-
-    const tag = tags?.[0]
-
-    return tag && numberOfRefinements === 1 && !topics.includes(tag)
   }
 
   return (
@@ -151,6 +138,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     )}
                   </>
                 )}
+
               </button>
             </header>
             <div
@@ -159,6 +147,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   ? 'h-auto border-gray-200 dark:border-gray-700 my-2'
                   : 'h-0 border-none my-0'
               }`}
+
             >
               <div
                 className={`${
@@ -223,13 +212,14 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
             </div>
           )}
-
+          
           {shouldDisplayLandingPageForTopics('javascript') &&
-            onlyTheseTagsSelected(['javascript'], searchState) && (
-              <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
-                <SearchJavaScript />
-              </div>
-            )}
+                onlyTheseTagsSelected(['javascript'], searchState) && (
+             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+             <SearchJavaScript />
+            </div>
+ 
+                )}
 
           {shouldDisplayLandingPageForTopics('react') && (
             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
@@ -243,16 +233,15 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          {!isEmpty(topic) &&
-            shouldDisplayDefault(['react', 'javascript', 'graphql']) && (
-              <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
-                <GenericTopic
-                  title={topic.label}
-                  imageUrl={topic.image_480_url}
-                  description={topic.description}
-                />
-              </div>
-            )}
+          {!isEmpty(topic) && !shouldDisplayLandingPageForTopics(['react', 'javascript', 'graphql']) && (
+            <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
+              <GenericTopic
+                title={topic.label}
+                imageUrl={topic.image_480_url}
+                description={topic.description}
+              />
+            </div>
+          )}
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
