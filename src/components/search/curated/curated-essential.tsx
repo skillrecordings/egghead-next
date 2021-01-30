@@ -7,18 +7,25 @@ import {find} from 'lodash'
 
 import DefaultCTA from './default-cta'
 
+export enum CARD_TYPES {
+  SUMMARY = 'summary',
+  SUMMARY_LARGE_IMAGE = 'summary_large_image',
+}
+
+export type Topic = {
+  name: string
+  label: string
+  title?: string
+  description: string
+}
+
 type CuratedEssentialProps = {
-  topic: {
-    name: string
-    label: string
-    title?: string
-    description: string
-  }
+  topic: Topic
   pageData?: any
   CTAComponent?: React.FC
   ogImage?: string
   verticalImage?: string
-  cardType?: string
+  cardType?: CARD_TYPES
 }
 
 const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
@@ -28,7 +35,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   CTAComponent,
   ogImage,
   verticalImage,
-  cardType = 'summary_large_image',
+  cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
   const location = `${topic} landing`
   const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
