@@ -16,10 +16,19 @@ export default {
   type: 'array',
   of: [
     {
+      type: 'link',
+    },
+    {
       type: 'markdownText',
     },
     {
       type: 'resource',
+    },
+    {
+      type: 'bigIdea',
+    },
+    {
+      type: 'essentialQuestion',
     },
     {
       title: 'Block',

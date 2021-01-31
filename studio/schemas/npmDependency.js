@@ -25,6 +25,12 @@ export default {
       },
     },
     {
+      name: 'path',
+      description: 'Path on egghead.io (if applicable)',
+      title: 'egghead.io/ Path',
+      type: 'string',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
