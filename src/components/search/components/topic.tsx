@@ -3,7 +3,7 @@ import Markdown from 'react-markdown'
 
 type TopicProps = {
   title: string
-  children?: string
+  children?: any
   imageUrl?: string
   className?: string
 }
@@ -14,6 +14,9 @@ const Topic: FunctionComponent<TopicProps> = ({
   className,
   imageUrl,
 }) => {
+  const isRenderProp = typeof children === 'function'
+  console.log('children', children)
+  console.log('children(Markdown)', children(Markdown))
   return (
     <div
       className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md border border-gray-100 dark:border-gray-800 ${
@@ -30,7 +33,8 @@ const Topic: FunctionComponent<TopicProps> = ({
       />
       <div className="sm:col-span-6 col-span-6 flex flex-col justify-start h-full p-8">
         <h1 className="sm:text-2xl text-xl font-bold mb-2">{title}</h1>
-        {children && (
+        {children && isRenderProp && children(Markdown)}
+        {children && !isRenderProp && (
           <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
             {children}
           </Markdown>

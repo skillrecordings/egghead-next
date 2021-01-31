@@ -25,6 +25,8 @@ import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
 
+import instructorsIndex from './instructors'
+
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
 
@@ -99,6 +101,12 @@ const Search: FunctionComponent<SearchProps> = ({
 
     return tag && numberOfRefinements === 1 && !topics.includes(tag)
   }
+
+  const shouldDisplayLandingPageForInstructor = (slug: string) => {
+    return typeof instructorsIndex[slug] !== 'undefined'
+  }
+
+  const Instructor = instructor && instructorsIndex[instructor.slug]
 
   return (
     <>
@@ -187,7 +195,7 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           </div>
           {!isEmpty(instructor) && (
-            <div className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex xl:px-0 px-5 md:flex-row flex-col md:space-y-0 space-y-2 justify-center">
+            <>
               <NextSeo
                 title={`Learn web development from ${instructor.full_name} on egghead`}
                 twitter={{
@@ -204,22 +212,33 @@ const Search: FunctionComponent<SearchProps> = ({
                   ],
                 }}
               />
-              <div className="flex items-center md:justify-center justify-start flex-shrink-0">
-                <Image
-                  className="rounded-full"
-                  width={128}
-                  height={128}
-                  layout="intrinsic"
-                  src={instructor.avatar_url}
-                />
-              </div>
-              <div className="md:pl-8">
-                <h1 className="text-2xl font-bold">{instructor.full_name}</h1>
-                <ReactMarkdown className="prose dark:prose-dark mt-0">
-                  {instructor.bio_short}
-                </ReactMarkdown>
-              </div>
-            </div>
+
+              {shouldDisplayLandingPageForInstructor(instructor.slug) && (
+                <Instructor instructor={instructor} />
+              )}
+
+              {!shouldDisplayLandingPageForInstructor(instructor.slug) && (
+                <div className="max-w-screen-xl mx-auto md:p-16 p-0 md:pt-16 pt-5 flex xl:px-0 px-5 md:flex-row flex-col md:space-y-0 space-y-2 justify-center">
+                  <div className="flex items-center md:justify-center justify-start flex-shrink-0">
+                    <Image
+                      className="rounded-full"
+                      width={128}
+                      height={128}
+                      layout="intrinsic"
+                      src={instructor.avatar_url}
+                    />
+                  </div>
+                  <div className="md:pl-8">
+                    <h1 className="text-2xl font-bold">
+                      {instructor.full_name}
+                    </h1>
+                    <ReactMarkdown className="prose dark:prose-dark mt-0">
+                      {instructor.bio_short}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
           {shouldDisplayLandingPageForTopics('javascript') && (
