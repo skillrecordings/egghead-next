@@ -71,7 +71,7 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
                 <li key={course.slug}>
                   <article className="relative group dark:bg-gray-800 bg-white rounded-md max-w-max-content flex space-x-5 h-full shadow-sm">
                     <div className="flex flex-col">
-                      <header className="flex space-x-5 items-center p-5 border-b border-gray-50 dark:border-gray-800">
+                      <header className="flex flex-col md:flex-row md:space-x-5 space-y-4 md:space-y-0 items-center p-5 border-b border-gray-50 dark:border-gray-800">
                         <figure className="flex flex-col flex-shrink-0">
                           <Link href={course.path}>
                             <a tabIndex={-1}>
@@ -84,10 +84,10 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
                             </a>
                           </Link>
                         </figure>
-                        <div>
+                        <div className="flex flex-col items-center md:items-start">
                           <Link href={course.path}>
                             <a>
-                              <h1 className="sm:text-lg text-lg font-bold leading-tight hover:underline">
+                              <h1 className="sm:text-lg text-lg font-bold leading-tight hover:underline text-center md:text-left">
                                 {course.title}
                               </h1>
                             </a>
@@ -103,7 +103,7 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
                             </span>
                           </div>
                           <TagList
-                            className="flex flex-wrap items-center text-sm"
+                            className="flex justify-center md:justify-start flex-wrap items-center text-sm"
                             tags={course.tags}
                             courseSlug={course.slug}
                           />
