@@ -15,6 +15,9 @@ import blockText from './blockText'
 import blockContent from './blockContent'
 import markdownText from './markdownText'
 import link from './link'
+import npmVersionedDependency from './npmVersionedDependency'
+import cta from './cta'
+import ctaPlug from './ctaPlug'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -23,10 +26,13 @@ export default createSchema({
   // Then proceed to concatenate our document type
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
+    npmVersionedDependency,
     markdownText,
     blockContent,
     blockText,
     link,
+    cta,
+    ctaPlug,
     // The following are document types which will appear
     // in the studio.
     resource,

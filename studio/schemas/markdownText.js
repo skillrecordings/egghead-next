@@ -7,6 +7,15 @@ export default {
   icon,
   fields: [
     {
+      name: 'label',
+      title: 'label',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        maxLength: 45,
+      },
+    },
+    {
       name: 'text',
       title: 'Text',
       type: 'markdown',
@@ -19,7 +28,7 @@ export default {
   ],
   preview: {
     select: {
-      title: 'text',
+      title: 'label',
     },
   },
 }

@@ -165,9 +165,20 @@ export default {
     },
     {
       name: 'content',
-      description: 'Short description, like for a tweet',
+      description: 'Various forms of content for this resource.',
       title: 'Content',
-      type: 'blockContent',
+      type: 'array',
+      of: [
+        {
+          type: 'ctaPlug',
+        },
+        {
+          type: 'link',
+        },
+        {
+          type: 'markdownText',
+        },
+      ],
     },
     {
       name: 'url',
@@ -273,7 +284,7 @@ export default {
       type: 'array',
       of: [
         {
-          type: 'npmDependency',
+          type: 'npmVersionedDependency',
         },
       ],
     },

@@ -16,6 +16,9 @@ export default {
   type: 'array',
   of: [
     {
+      type: 'ctaPlug',
+    },
+    {
       type: 'link',
     },
     {

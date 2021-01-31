@@ -3,14 +3,9 @@ import {MdLibraryBooks as icon} from 'react-icons/md'
 export default {
   name: 'npmDependency',
   title: 'npm Dependency',
-  type: 'object',
+  type: 'document',
   icon,
   fields: [
-    {
-      title: 'Version Range',
-      name: 'versions',
-      type: 'string',
-    },
     {
       name: 'name',
       title: 'Name',
