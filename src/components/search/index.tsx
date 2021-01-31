@@ -66,7 +66,8 @@ const Search: FunctionComponent<SearchProps> = ({
   const numberOfRefinements =
     get(searchState, 'refinementList.instructor_name', []).length +
     get(searchState, 'refinementList._tags', []).length +
-    get(searchState, 'refinementList.type', []).length
+    get(searchState, 'refinementList.type', []).length +
+    get(searchState, 'page', 0)
 
   const refinementRef = React.useRef(null)
   useClickAway(refinementRef, () => setShowFilter(false))
@@ -80,9 +81,11 @@ const Search: FunctionComponent<SearchProps> = ({
     return (
       (searchState?.query &&
         !isEmpty(topics) &&
+        isEmpty(searchState.page) &&
         topics.includes(searchState?.query?.toLowerCase()) &&
         numberOfRefinements === 0) ||
       (isEmpty(searchState.query) &&
+        isEmpty(searchState.page) &&
         numberOfRefinements === topics.length &&
         noInstructorsSelected(searchState) &&
         onlyTheseTagsSelected(topics, searchState))
