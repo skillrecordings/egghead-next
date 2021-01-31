@@ -325,10 +325,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
                 <div className="flex items-center flex-col md:flex-row flex-wrap">
-                  <div className="md:mr-4 mt-3">
-                    <TagList tags={courseTags} courseSlug={course.slug} />
-                  </div>
-                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
+                  <TagList tags={courseTags} courseSlug={course.slug} />
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-4">
                     {duration && (
                       <div className="mr-4">
                         <Duration duration={convertTimeWithTitles(duration)} />
