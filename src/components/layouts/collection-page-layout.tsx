@@ -469,7 +469,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
-                      <div>
+                      <div key={resource.slug}>
                         <CardHorizontal
                           className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
                           resource={resource}
@@ -675,7 +675,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (
-                    <div>
+                    <div key={resource.slug}>
                       <CardHorizontal
                         className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
                         resource={resource}
