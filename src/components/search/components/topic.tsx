@@ -15,8 +15,6 @@ const Topic: FunctionComponent<TopicProps> = ({
   imageUrl,
 }) => {
   const isRenderProp = typeof children === 'function'
-  console.log('children', children)
-  console.log('children(Markdown)', children(Markdown))
   return (
     <div
       className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm grid grid-cols-8 h-full relative items-start overflow-hidden rounded-md border border-gray-100 dark:border-gray-800 ${
