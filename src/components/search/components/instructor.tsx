@@ -23,15 +23,15 @@ const Topic: FunctionComponent<TopicProps> = ({
 }) => {
   return (
     <div
-      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden rounded-md  grid grid-rows-2 md:grid-cols-8 grid-flow-col gap-4 ${
+      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden rounded-md  grid md:grid-flow-row  md:grid-cols-8 grid-flow-col gap-4 ${
         className ? className : ''
       }`}
     >
-      <div className="md:col-span-4 flex flex-col justify-start h-full">
+      <div className="md:col-span-4 flex flex-col justify-start h-full relative">
         <Image
           layout="fill"
           src={imageUrl}
-          className="h-full w-full shadow object-cover"
+          className="h-full w-full shadow object-cover object-top"
           alt={name}
         />
       </div>

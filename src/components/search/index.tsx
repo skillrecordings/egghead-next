@@ -20,6 +20,8 @@ import SearchReact from 'components/search/curated/react'
 import SearchJavaScript from 'components/search/curated/javascript'
 import SearchGraphql from 'components/search/curated/graphql'
 
+import SearchDanAbramov from 'components/search/curated/instructors/dan-abramov'
+
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
 import {isArray} from 'lodash'
@@ -87,6 +89,18 @@ const Search: FunctionComponent<SearchProps> = ({
         noInstructorsSelected(searchState) &&
         onlyTheseTagsSelected(topics, searchState))
     )
+  }
+
+  const shouldDisplayLandingPageForInstructor = (
+    instructor: string[],
+    searchState: any,
+  ) => {
+    const selectedInstructor = get(
+      searchState,
+      'refinementList.instructor_name',
+      [],
+    ) as string[]
+    return isEqual(selectedInstructor, instructor)
   }
 
   const CURATED_PAGES = ['react', 'javascript', 'graphql']
@@ -204,6 +218,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   ],
                 }}
               />
+
               <div className="flex items-center md:justify-center justify-start flex-shrink-0">
                 <Image
                   className="rounded-full"
@@ -219,6 +234,15 @@ const Search: FunctionComponent<SearchProps> = ({
                   {instructor.bio_short}
                 </ReactMarkdown>
               </div>
+            </div>
+          )}
+
+          {shouldDisplayLandingPageForInstructor(
+            ['Dan Abramov'],
+            searchState,
+          ) && (
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+              <SearchDanAbramov />
             </div>
           )}
 

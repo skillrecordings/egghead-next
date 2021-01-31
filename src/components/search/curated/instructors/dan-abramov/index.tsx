@@ -29,7 +29,7 @@ He started using React for front-end development when he was working with a U.S-
         <ExternalTrackedLink
           eventName="clicked testing javascript banner"
           params={{location}}
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center shadow-sm"
+          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 bg-white relative text-center shadow-sm"
           href="https://justjavascript.com"
         >
           <Image
