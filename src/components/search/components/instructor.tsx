@@ -55,6 +55,7 @@ const Instructor: FunctionComponent<InstructorProps> = ({
           }}
         >
           <Image
+            quality="100"
             layout="fill"
             src={imageUrl}
             className="h-full w-full shadow object-cover object-top"

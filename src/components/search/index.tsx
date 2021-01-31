@@ -19,9 +19,8 @@ import SearchReact from 'components/search/curated/react'
 import SearchJavaScript from 'components/search/curated/javascript'
 import SearchGraphql from 'components/search/curated/graphql'
 
-import InstructorDefault from 'components/search/components/instructor'
-import SearchDanAbramov from 'components/search/curated/instructors/dan-abramov'
-import instructorsIndex from 'components/search/curated/instructors/index'
+import InstructorDefaultPage from 'components/search/components/instructor'
+import InstructorsIndex from 'components/search/curated/instructors/index'
 
 import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
@@ -105,8 +104,10 @@ const Search: FunctionComponent<SearchProps> = ({
   }
 
   const shouldDisplayLandingPageForInstructor = (slug: string) => {
-    return typeof instructorsIndex[slug] !== 'undefined'
+    return typeof InstructorsIndex[slug] !== 'undefined'
   }
+
+  const InstructorCuratedPage = instructor && InstructorsIndex[instructor.slug]
 
   return (
     <>
@@ -198,12 +199,12 @@ const Search: FunctionComponent<SearchProps> = ({
           {!isEmpty(instructor) && (
             <>
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <SearchDanAbramov />
+                <InstructorCuratedPage instructor={instructor} />
               )}
 
               {!shouldDisplayLandingPageForInstructor(instructor.slug) && (
                 <div className="mb-10 pb-10 xl:px-0 px-5 max-w-4xl mx-auto dark:bg-gray-900">
-                  <InstructorDefault
+                  <InstructorDefaultPage
                     className="col-span-8"
                     name={instructor.full_name}
                     imageUrl={instructor.avatar_url}
@@ -211,7 +212,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     slug={instructor.slug}
                   >
                     {instructor.bio_short}
-                  </InstructorDefault>
+                  </InstructorDefaultPage>
                 </div>
               )}
             </>
