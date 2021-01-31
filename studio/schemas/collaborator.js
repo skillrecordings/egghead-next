@@ -1,7 +1,10 @@
+import {MdGroup as icon} from 'react-icons/md'
+
 export default {
   name: 'collaborator',
   title: 'Collaborator',
-  type: 'object',
+  type: 'document',
+  icon: icon,
   fields: [
     {
       name: 'department',
@@ -9,8 +12,8 @@ export default {
       type: 'string',
     },
     {
-      name: 'job',
-      title: 'Job',
+      name: 'title',
+      title: 'Title',
       type: 'string',
     },
     {
@@ -22,27 +25,22 @@ export default {
 
     {
       name: 'externalId',
-      title: 'External ID',
+      title: 'External ID (egghead contact id)',
       type: 'number',
-    },
-    {
-      name: 'externalCreditId',
-      title: 'External Credit ID',
-      type: 'string',
     },
   ],
   preview: {
     select: {
+      title: 'title',
       name: 'person.name',
-      job: 'job',
       department: 'department',
       media: 'person.image',
     },
     prepare(selection) {
-      const {name, job, department, media} = selection
+      const {name, title, department, media} = selection
       return {
-        title: name,
-        subtitle: `${job} [${department}]`,
+        title,
+        subtitle: `${name} • ${department}`,
         media,
       }
     },
