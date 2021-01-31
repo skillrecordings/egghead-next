@@ -69,8 +69,12 @@ const instructorsForPath = (path: string) => {
     : undefined
 }
 
-export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
-  const {refinementList, query} = searchState
+export const createUrl = (searchState: {
+  query?: any
+  refinementList?: any
+  page?: number
+}) => {
+  const {refinementList, query, page} = searchState
 
   if (isEmpty(refinementList) && isEmpty(query)) return config.searchUrlRoot
 
@@ -82,6 +86,7 @@ export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
   const queryString = qs.stringify({
     q: query ? `${query.split(' ').join('+')}` : undefined,
     type: type ? type.join(',') : undefined,
+    page,
   })
 
   const instructors = refinementList?.instructor_name
@@ -97,7 +102,12 @@ export const createUrl = (searchState: {query?: any; refinementList?: any}) => {
   return `${urlRoot}${queryString && `?${queryString}`}`
 }
 
-export const parseUrl = (query: {all?: any; q?: any; type?: any}) => {
+export const parseUrl = (query: {
+  all?: any
+  q?: any
+  type?: any
+  page?: number
+}) => {
   if (isEmpty(query)) return query
   const firstPath: string = first(query.all) as string
 
@@ -108,6 +118,7 @@ export const parseUrl = (query: {all?: any; q?: any; type?: any}) => {
 
   return pickBy({
     query: query?.q?.replace('+', ' '),
+    page: query.page,
     refinementList: pickBy({
       type,
       _tags: tags,

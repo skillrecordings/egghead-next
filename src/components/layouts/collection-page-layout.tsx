@@ -213,6 +213,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
   const image_url = square_cover_480_url || image_thumb_url
 
+  const imageIsTag = image_url.includes('tags/image')
+
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
   const playlistLessons = playlists.reduce((acc, playlist) => {
@@ -296,17 +298,19 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         <div className="mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
           <div className="md:col-span-3 md:row-start-auto flex flex-col h-full max-w-screen-2xl w-full mx-auto">
             <header>
-              <div className="md:hidden flex items-center justify-center">
-                <div>
-                  <Image
-                    src={image_url}
-                    alt={`illustration for ${title}`}
-                    height={200}
-                    width={200}
-                    quality={100}
-                  />
+              {image_url && (
+                <div className="md:hidden flex items-center justify-center">
+                  <div>
+                    <Image
+                      src={image_url}
+                      alt={`illustration for ${title}`}
+                      height={imageIsTag ? 100 : 200}
+                      width={imageIsTag ? 100 : 200}
+                      quality={100}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
                 {title}
               </h1>
@@ -321,10 +325,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
                 <div className="flex items-center flex-col md:flex-row flex-wrap">
-                  <div className="md:mr-4 mt-3">
-                    <TagList tags={courseTags} courseSlug={course.slug} />
-                  </div>
-                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
+                  <TagList tags={courseTags} courseSlug={course.slug} />
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-4">
                     {duration && (
                       <div className="mr-4">
                         <Duration duration={convertTimeWithTitles(duration)} />
@@ -467,7 +469,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
-                      <div>
+                      <div key={resource.slug}>
                         <CardHorizontal
                           className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
                           resource={resource}
@@ -481,16 +483,18 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             </header>
           </div>
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
-            <div className="md:block hidden">
-              <Image
-                src={image_url}
-                alt={`illustration for ${title}`}
-                height={420}
-                width={420}
-                className="md:block hidden"
-                quality={100}
-              />
-            </div>
+            {image_url && (
+              <div className="md:block hidden">
+                <Image
+                  src={image_url}
+                  alt={`illustration for ${title}`}
+                  height={imageIsTag ? 200 : 420}
+                  width={imageIsTag ? 200 : 420}
+                  className="md:block hidden"
+                  quality={100}
+                />
+              </div>
+            )}
             <div className="md:block hidden space-y-6">
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
@@ -671,7 +675,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (
-                    <div>
+                    <div key={resource.slug}>
                       <CardHorizontal
                         className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
                         resource={resource}

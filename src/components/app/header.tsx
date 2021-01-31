@@ -110,14 +110,14 @@ const Header: FunctionComponent = () => {
                 Join egghead
               </a>
             </Link>
-            <Link href="/login" activeClassName="bg-gray-100">
+            <Link href="/login" activeClassName="bg-gray-100 dark:bg-gray-400">
               <a
                 onClick={() =>
                   track('clicked sign in', {
                     location: 'header',
                   })
                 }
-                className="px-3 py-2 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800  active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                className="px-3 py-2 dark:active:text-gray-900 dark:text-gray-200 dark:border-gray-200 hover:opacity-100 hover:bg-gray-100  dark:hover:bg-gray-800  dark:active:bg-gray-700 active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
               >
                 Sign in
               </a>

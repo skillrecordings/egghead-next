@@ -25,12 +25,18 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: `${theme('colors.black')}`,
+            color: theme('colors.black'),
             a: {
-              color: `${theme('colors.blue.600')}`,
+              color: theme('colors.blue.600'),
+              '&:hover': {
+                color: theme('colors.blue.700'),
+              },
+              '*': {
+                color: theme('colors.blue.600'),
+              },
             },
             'strong > a': {
-              color: `${theme('colors.blue.600')}`,
+              color: theme('colors.blue.600'),
             },
             code: {
               padding: '3px 5px',
@@ -66,6 +72,15 @@ module.exports = {
                 color: theme('colors.blue.300'),
               },
               code: {color: theme('colors.blue.400')},
+              '*': {
+                color: theme('colors.blue.400'),
+                '&:hover': {
+                  color: theme('colors.blue.300'),
+                },
+              },
+            },
+            'strong > a': {
+              color: theme('colors.blue.400'),
             },
             blockquote: {
               borderLeftColor: theme('colors.gray.700'),
