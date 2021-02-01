@@ -19,6 +19,7 @@ import config from 'lib/config'
 import SearchReact from 'components/search/curated/react'
 import SearchJavaScript from 'components/search/curated/javascript'
 import SearchGraphql from 'components/search/curated/graphql'
+import SearchTypescript from './curated/typescript'
 
 import ReactMarkdown from 'react-markdown'
 import {NextSeo} from 'next-seo'
@@ -92,7 +93,7 @@ const Search: FunctionComponent<SearchProps> = ({
     )
   }
 
-  const CURATED_PAGES = ['react', 'javascript', 'graphql']
+  const CURATED_PAGES = ['react', 'javascript', 'graphql', 'typescript']
 
   const shouldDisplayDefault = (topics: string | string[]) => {
     topics = isArray(topics) ? topics : [topics]
@@ -240,6 +241,12 @@ const Search: FunctionComponent<SearchProps> = ({
           {shouldDisplayLandingPageForTopics('graphql') && (
             <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
               <SearchGraphql />
+            </div>
+          )}
+
+          {shouldDisplayLandingPageForTopics('typescript') && (
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+              <SearchTypescript />
             </div>
           )}
 
