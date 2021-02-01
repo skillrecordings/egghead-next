@@ -27,6 +27,7 @@ export async function getTag(slug: string) {
 }
 
 export async function loadTag(slug: string) {
+  console.log('load tag', slug)
   const query = /* GraphQL */ `
     query getTag($slug: String!) {
       tag(slug: $slug) {
@@ -40,18 +41,9 @@ export async function loadTag(slug: string) {
     }
   `
 
-  const token = getAccessTokenFromCookie()
-
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
   const variables = {
     slug: slug,
   }
-
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
 
   const {tag} = await graphQLClient.request(query, variables)
 

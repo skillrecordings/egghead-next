@@ -24,6 +24,7 @@ import InstructorsIndex from 'components/search/instructors/index'
 import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
+import CuratedTopicsIndex from './curated'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -47,6 +48,10 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
+  }
+
+  const noTopicsSelected = (searchState: any) => {
+    return get(searchState, 'refinementList._tags', []).length === 0
   }
 
   const onlyTheseTagsSelected = (tags: string[], searchState: any) => {
@@ -76,38 +81,27 @@ const Search: FunctionComponent<SearchProps> = ({
     ? `Search resources by ${instructor.full_name}`
     : undefined
 
-  const shouldDisplayLandingPageForTopics = (topics: string | string[]) => {
-    topics = isArray(topics) ? topics : [topics]
+  const shouldDisplayLandingPageForTopics = (topic: string) => {
     return (
-      (searchState?.query &&
-        !isEmpty(topics) &&
-        isEmpty(searchState.page) &&
-        topics.includes(searchState?.query?.toLowerCase()) &&
-        numberOfRefinements === 0) ||
-      (isEmpty(searchState.query) &&
-        isEmpty(searchState.page) &&
-        numberOfRefinements === topics.length &&
-        noInstructorsSelected(searchState) &&
-        onlyTheseTagsSelected(topics, searchState))
+      isEmpty(searchState.query) &&
+      isEmpty(searchState.page) &&
+      noInstructorsSelected(searchState)
     )
   }
 
-  const CURATED_PAGES = ['react', 'javascript', 'graphql']
-
-  const shouldDisplayDefault = (topics: string | string[]) => {
-    topics = isArray(topics) ? topics : [topics]
-    const tags = get(searchState, 'refinementList._tags', [])
-
-    const tag = tags?.[0]
-
-    return tag && numberOfRefinements === 1 && !topics.includes(tag)
-  }
-
   const shouldDisplayLandingPageForInstructor = (slug: string) => {
-    return typeof InstructorsIndex[slug] !== 'undefined'
+    return (
+      isEmpty(searchState.query) &&
+      isEmpty(searchState.page) &&
+      noTopicsSelected(searchState)
+    )
   }
 
-  const InstructorCuratedPage = instructor && InstructorsIndex[instructor.slug]
+  const InstructorCuratedPage =
+    instructor &&
+    (InstructorsIndex[instructor.slug] || SearchInstructorEssential)
+  const CuratedTopicPage =
+    topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
   return (
     <>
@@ -196,45 +190,22 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           </div>
           {!isEmpty(instructor) && (
-            <>
+            <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
-                  <InstructorCuratedPage instructor={instructor} />
-                </div>
+                <InstructorCuratedPage instructor={instructor} />
               )}
-
-              {!shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <div className="mb-10 pb-10 xl:px-0 px-5 max-w-4xl mx-auto dark:bg-gray-900">
-                  <SearchInstructorEssential
-                    className="col-span-8"
-                    instructor={instructor}
-                  />
-                </div>
-              )}
-            </>
-          )}
-
-          {shouldDisplayLandingPageForTopics('javascript') && (
-            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
-              <SearchJavaScript />
-            </div>
-          )}
-          {shouldDisplayLandingPageForTopics('react') && (
-            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
-              <SearchReact />
-            </div>
-          )}
-          {shouldDisplayLandingPageForTopics('graphql') && (
-            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
-              <SearchGraphql />
             </div>
           )}
 
-          {!isEmpty(topic) && shouldDisplayDefault(CURATED_PAGES) && (
-            <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
-              <SearchCuratedEssential topic={topic} />
+          {!isEmpty(topic) && (
+            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+              {CuratedTopicPage &&
+                shouldDisplayLandingPageForTopics(topic.name) && (
+                  <CuratedTopicPage topic={topic} />
+                )}
             </div>
           )}
+
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
               <Hits />

@@ -26,7 +26,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
     company,
   } = instructor
 
-  console.log(instructor)
   const location = `${name} landing`
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full">
