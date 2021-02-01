@@ -22,6 +22,7 @@ type CardProps = {
   className?: string
   children?: React.ReactNode
   resource?: CardResource
+  location?: string
 }
 
 const Card: FunctionComponent<CardProps> = ({
@@ -29,6 +30,7 @@ const Card: FunctionComponent<CardProps> = ({
   className,
   children,
   resource,
+  location = 'home',
   ...restProps
 }) => {
   const {name, title, image, byline, resources, description, path} =
@@ -36,7 +38,7 @@ const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={`bg-white shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
+      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
         className ? className : ''
       }`}
       {...restProps}
@@ -49,6 +51,7 @@ const Card: FunctionComponent<CardProps> = ({
                 track('clicked home page resource', {
                   resource: path,
                   linkType: 'image',
+                  location,
                 })
               }}
               className="block flex-shrink-0 sm:w-auto w-20 mx-auto"
@@ -64,7 +67,7 @@ const Card: FunctionComponent<CardProps> = ({
         )}
         <div className="flex flex-col justify-center">
           {name && (
-            <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700">
+            <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
               {name}
             </h2>
           )}
@@ -76,9 +79,10 @@ const Card: FunctionComponent<CardProps> = ({
                     track('clicked home page resource', {
                       resource: path,
                       linkType: 'text',
+                      location,
                     })
                   }}
-                  className="hover:text-blue-600"
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
                     {title}
@@ -90,9 +94,13 @@ const Card: FunctionComponent<CardProps> = ({
                 {title}
               </h3>
             ))}
-          {byline && <div className="text-sm text-gray-600 mb-3">{byline}</div>}
+          {byline && (
+            <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+              {byline}
+            </div>
+          )}
           {description && (
-            <Markdown className="prose prose-sm max-w-none mb-3">
+            <Markdown className="prose prose-sm dark:prose-dark dark:prose-dark-sm max-w-none mb-3">
               {description}
             </Markdown>
           )}
@@ -102,6 +110,7 @@ const Card: FunctionComponent<CardProps> = ({
         ? React.Children.map(children, (child) => {
             return React.cloneElement(child as React.ReactElement, {
               resource: resource,
+              location,
             })
           })
         : children}

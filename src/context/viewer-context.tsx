@@ -169,6 +169,7 @@ function useAuthedViewer() {
 
 export const ViewerProvider: FunctionComponent = ({children}) => {
   const values = useAuthedViewer()
+
   return (
     <ViewerContext.Provider value={{...values}}>
       {children}

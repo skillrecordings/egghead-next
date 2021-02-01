@@ -33,9 +33,11 @@ const IMAGE_HOST_DOMAINS = [
   `image.simplecastcdn.com`,
   `res.cloudinary.com`,
   `app.egghead.io`,
+  `gravatar.com`,
 ]
 
 const nextConfig = {
+  future: {webpack5: true},
   reactStrictMode: true,
   images: {
     domains: IMAGE_HOST_DOMAINS,

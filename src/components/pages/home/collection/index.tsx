@@ -10,11 +10,13 @@ type CollectionProps = {
   resource?: CardResource
   children?: React.ReactElement
   className?: string
+  location?: string
 }
 
 const Collection: FunctionComponent<CollectionProps> = ({
   resource,
   className = '',
+  location = 'home',
 }) => {
   const {resources} = resource || {}
   return (
@@ -32,9 +34,10 @@ const Collection: FunctionComponent<CollectionProps> = ({
               <Link href={path}>
                 <a
                   onClick={() => {
-                    track('clicked home page resource', {
+                    track('clicked resource', {
                       resource: path,
                       linkType: 'image',
+                      location,
                     })
                   }}
                   className="sm:w-12 w-12 flex-shrink-0 flex justify-center items-center "
@@ -53,12 +56,13 @@ const Collection: FunctionComponent<CollectionProps> = ({
               <Link href={path}>
                 <a
                   onClick={() => {
-                    track('clicked home page resource', {
+                    track('clicked resource', {
                       resource: path,
                       linkType: 'text',
+                      location,
                     })
                   }}
-                  className="hover:text-blue-600"
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
                 >
                   <h4 className="text-lg font-semibold leading-tight">
                     <Textfit mode="multi" min={14} max={17}>
@@ -67,7 +71,9 @@ const Collection: FunctionComponent<CollectionProps> = ({
                   </h4>
                 </a>
               </Link>
-              <div className="text-xs text-gray-600">{byline}</div>
+              <div className="text-xs text-gray-600 dark:text-gray-300">
+                {byline}
+              </div>
             </div>
           </li>
         )

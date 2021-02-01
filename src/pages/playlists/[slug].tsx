@@ -18,6 +18,8 @@ const Playlist: FunctionComponent<PlaylistProps> = ({
 
   const course = {...data, ...initialPlaylist}
 
+  console.debug(`course loaded`, course)
+
   const {slug, items} = course
 
   const lessons = filter(items, (item) => {

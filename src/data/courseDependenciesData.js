@@ -4,29 +4,118 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
-        "slug": "build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c",
-        "dependencies": {
-          "preact": ">=10.5.9",
-          "node-fetch": ">=2.6.1"
-        },
-        "topics": [
-          "Installing & configuring the Netlify CLI for local development",
-          "Managing private keys in development and production",
-          "Writing Serverless functions for interacting with APIs",
-          "Configuring a PostgreSQL-backed GraphQL API with Hasura",
-          "Writing custom React Hooks for triggering Serverless functions",
-          "Deploying a complete app with Netlify"
+        slug: 'create-and-deploy-a-basic-static-html-website-2960',
+        topics: [
+          'Getting Started with HTML',
+          'Global Structure of an HTML Document',
+          'Structuring Your Content',
+          'CSS Media queries',
+          'SVG Basics',
+          'Making Changes to the DOM',
+          'Deploying on Netlify ',
         ],
-        "prerequisites": [
+        pairWithResources: [
           {
-            "type": "text",
-            "label": "Command line familiarity"
+            title: 'Build An Eleventy (11ty) Site From Scratch',
+            byline: 'Stephanie Eckles・19m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/full/11ty.png',
+            path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
+            slug: 'build-an-eleventy-11ty-site-from-scratch-bfd3',
+            description: `Start from a blank project and build up to an Eleventy site that includes a blog collection and is prepared to source content from a headless CMS. You'll also learn how to add Sass as the styling solution, complete with triggering 11ty to re-compile when the Sass changes.`,
           },
           {
-            "type": "text",
-            "label": "Accounts for Netlify, Hasura, and Heroku"
-          }
-        ]
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/full/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image.',
+          },
+        ],
+      },
+      {
+        slug:
+          'containerize-full-stack-javascript-applications-with-docker-30a8',
+        dependencies: {
+          docker: '>=20.10.2',
+          nginx: '>=1.19.5',
+        },
+        topics: [
+          'Running existing Docker containers',
+          'Creating Docker containers for an existing application',
+          'Passing environment variables',
+          'Executing bash scripts as part of container building',
+          'Configure networking between containers',
+          'Setting up volumes for persisting data',
+          'Publishing containers to a public registry',
+        ],
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+        pairWithResources: [
+          {
+            title: 'WTF is Kubernetes (K8s)',
+            byline: 'Chris Biscardi・12m・Video',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
+            path: '/lessons/docker-wtf-is-kubernetes-k8s',
+            slug: 'docker-wtf-is-kubernetes-k8s',
+            description:
+              "Kubernetes is an API to a computer. Multiple computers actually. Here we'll talk about what K8s is, how you can choose between the plethora of K8s related hosting options, and what the process looks like for getting some containers running.",
+          },
+          {
+            title: 'Build a Twelve-Factor Node.js App with Docker',
+            byline: 'Mark Shust・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/120/thumb/EGH_NodeDocker_1000.png',
+            path: '/courses/build-a-twelve-factor-node-js-app-with-docker',
+            slug: 'build-a-twelve-factor-node-js-app-with-docker',
+            description:
+              'Take a simple Node.js app that connects to a MongoDB database and uses an Express web server, and learn how to setup a full software development deployment process as well as how to properly “Dockerize” the app.',
+          },
+          {
+            title:
+              'Set up Hasura GraphQL engine with YugabyteDB distributed SQL',
+            byline: 'Vladimir Novick・2m・Video',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
+            path:
+              '/lessons/postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+            slug:
+              'postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+            description:
+              'In this lesson we will see how you can run Hasura GraphQL engine on top of YugabyteDB Distributed SQL\n\nYugabyteDB is an open source, high-performance distributed SQL database for powering global, internet-scale applications.YugabyteDB is also a cloud-native database, so it can be deployed across both public and private clouds, including Kubernetes environments. In regards to serving as a backend for microservices, YugabyteDB brings together three must-haves: a PostgreSQL-compatible SQL API, low-latency read performance, and globally distributed write scalability. YugabyteDB with its global data distribution brings data close to users for multi-region and multi-cloud deployments.',
+          },
+        ],
+      },
+      {
+        slug:
+          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        dependencies: {
+          preact: '>=10.5.9',
+          'node-fetch': '>=2.6.1',
+        },
+        topics: [
+          'Installing & configuring the Netlify CLI for local development',
+          'Managing private keys in development and production',
+          'Writing Serverless functions for interacting with APIs',
+          'Configuring a PostgreSQL-backed GraphQL API with Hasura',
+          'Writing custom React Hooks for triggering Serverless functions',
+          'Deploying a complete app with Netlify',
+        ],
+        prerequisites: [
+          {
+            type: 'text',
+            label: 'Command line familiarity',
+          },
+          {
+            type: 'text',
+            label: 'Accounts for Netlify, Hasura, and Heroku',
+          },
+        ],
       },
       {
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
@@ -165,6 +254,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'composing-closures-and-callbacks-in-javascript-1223',
+        freshness: {
+          status: `classic`,
+          title: `Core Skills`,
+          text: `This is an epic [JavaScript](/q/javascript) resource that goes well beyond the 
+          basics and delivers expert knowledge on core patterns in the language. **Designed for the 
+          advanced beginner and beyond**
+          `,
+          asOf: `2021-01-24`,
+        },
         topics: [
           'Closures, Callbacks, and Composition',
           'Currying, Caching, and Creating operators',
@@ -174,6 +272,37 @@ const courseDependencyData = (courseSlug) =>
           {
             url:
               'https://github.com/eggheadio/eggheadio-course-notes/tree/master/composing-closures-and-callbacks-in-javascript',
+          },
+        ],
+        pairWithResources: [
+          {
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
+              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
+          },
+          {
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
+              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
           },
         ],
       },
@@ -348,8 +477,17 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'the-beginner-s-guide-to-react',
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `Thousands of people have used this course as an introduction to the core
+          concepts of [React](/q/react). It's been reviewed and updated and is relevant and 
+          valid. **There isn't a better introduction to React online**.
+          `,
+          asOf: `2021-01-23`,
+        },
         dependencies: {
-          react: '>=16.12.0',
+          react: '>=16.12.0 - 17',
         },
         topics: [
           'what problems React can solve',
@@ -357,6 +495,39 @@ const courseDependencyData = (courseSlug) =>
           'what JSX is and how it translates to regular JavaScript function calls and objects',
           'manage state with hooks',
           'build forms',
+        ],
+        pairWithResources: [
+          {
+            title: 'Develop Accessible Web Apps with React',
+            byline: 'Erin Doyle・1h 28m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+            path: '/courses/develop-accessible-web-apps-with-react',
+            slug: 'develop-accessible-web-apps-with-react',
+            description: `Gain the knowledge and skills required to audit and fix accessibility issues in your applications 
+            and gain a better understanding of your target users and how to approach your web app design from their perspectives`,
+          },
+          {
+            title: 'Simplify React Apps with React Hooks',
+            byline: 'Kent C. Dodds・38m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/thumb/EGH_SimplifyHooks_Final.png',
+            path: '/courses/simplify-react-apps-with-react-hooks',
+            slug: 'simplify-react-apps-with-react-hooks',
+            description: `React transitioned to an API called Hooks and most consider it the way to develop production applications
+              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.`,
+          },
+          {
+            title: 'Build Maps with React Leaflet',
+            byline: 'Colby Fayock・47m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/thumb/React_Leaflet_Final.png',
+            path: '/courses/build-maps-with-react-leaflet',
+            slug: 'build-maps-with-react-leaflet',
+            description: `Build an interesting map focused application using modern React practices including Hooks. 
+              While you are learning you'll be able to practice with challenges. This course would be a fantastic
+              base for a [developer portfolio project](https://joelhooks.com/developer-portfolio).`,
+          },
         ],
       },
       {
@@ -563,7 +734,7 @@ const courseDependencyData = (courseSlug) =>
       {
         slug: 'build-an-app-with-react-suspense',
         dependencies: {
-          react: '^0.0.0-experimental-b53ea6ca0',
+          react: 'experimental',
         },
         topics: [
           'Understand the Suspense component',
@@ -2209,9 +2380,68 @@ const courseDependencyData = (courseSlug) =>
         },
       },
       {
-        slug: 'getting-started-with-redux',
+        slug: 'professor-frisby-introduces-composable-functional-javascript',
+        freshness: {
+          status: `classic`,
+          title: `This is a Classic Resource`,
+          text: `Dr. Boolean has created a modern JavaScript masterpiece with this
+          creative and entertaining lesson in functional programming. It is both quirky
+          and wonderful–delivering seriously useful information without taking itself too
+          seriously. Recorded in 2016, this delightful resource will be **just as valid in 
+          2030** as it was then. Enjoy.
+          `,
+          asOf: `2021-01-24`,
+        },
         dependencies: {
-          react: '0.14 - 16',
+          javascript: '∞',
+        },
+        pairWithResources: [
+          {
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
+              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
+          },
+          {
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
+              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
+          },
+        ],
+      },
+      {
+        slug: 'getting-started-with-redux',
+        freshness: {
+          status: `classic`,
+          title: `This is a Classic Resource`,
+          text: `Redux has changed a lot since Dan first recorded this course in 2015, but 
+          this is still an essential watch, if not directly applicable to your 
+          application. This is **the source** that inspired so much in the
+          React ecosystem and beyond. **We strongly recommend this course for all modern web developers**. It's
+          excellent.
+          `,
+          asOf: `2021-01-23`,
+        },
+        dependencies: {
+          react: '0.14 - 17',
           redux: '3 - 4',
         },
         reviews: [
@@ -2630,6 +2860,16 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'graphql-data-in-react-with-apollo-client',
+        freshness: {
+          status: `stale`,
+          title: `Still good, but there are issues with this course`,
+          text: `While much of the information in this course is useful it is showing its
+          age in the specific details. Some of the libraries demonstrated have **changed
+          versions**, and there are some **missing configuration specifics** with the server that
+          require additional investigation to follow along.
+          `,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           'apollo-boost': '^0.1.22',
           graphql: '^14.0.2',
@@ -2740,6 +2980,15 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         slug: 'advanced-static-types-in-typescript',
+        freshness: {
+          status: `classic`,
+          title: `Core Resource`,
+          text: `This covers TypeScript 2.0+ and is **valid for core concepts** related to using
+          [TypeScript](/q/typescript) in modern web applications. Since it was recorded
+          many features have been added to TypeScript, but 2.0 was a huge milestone for 
+          the language and you'll learn a lot. **Highly recommended.**`,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
           typescript: '^2.0.0',
         },

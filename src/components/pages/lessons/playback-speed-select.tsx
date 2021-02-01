@@ -36,7 +36,10 @@ const PlaybackSpeedSelect: FunctionComponent<{
           })
         }}
       >
-        <ListboxButton className="text-white text-sm rounded-md px-3 py-2 bg-gray-800 border-none group">
+        <ListboxButton
+          className="text-white text-sm rounded-md bg-gray-800 group"
+          css={{padding: '0.5rem 0.75rem', border: 'none'}}
+        >
           <span className="text-xs transform translate-y-px uppercase tracking-wide text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
             speed:
           </span>
@@ -49,7 +52,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
           </span>
         </ListboxButton>
         <ListboxPopover
-          className="p-0 rounded-md shadow-md overflow-hidden"
+          className="dark:bg-gray-900 dark:text-white dark:border-gray-700 p-0 rounded-md shadow-md overflow-hidden"
           style={{outline: 'none'}}
         >
           <ListboxList
@@ -69,7 +72,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
                 <ListboxOption
                   key={index}
                   value={speed}
-                  className="hover:bg-blue-100 transition-colors ease-in-out duration-200 hover:text-black font-medium text-sm text-right px-3 py-2 border-t border-gray-100 cursor-pointer"
+                  className="dark:border-gray-700 hover:bg-blue-100 transition-colors ease-in-out duration-200 hover:text-black font-medium text-sm text-right px-3 py-2 border-t border-gray-100 cursor-pointer"
                   css={{
                     ':first-child': {
                       border: 'none',

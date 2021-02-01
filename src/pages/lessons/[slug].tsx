@@ -36,7 +36,7 @@ import {track} from 'utils/analytics'
 import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
-import useBreakpoint from 'utils/breakpoints'
+import useBreakpoint, {bpMinSM, bpMinMD} from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
@@ -48,6 +48,8 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import Comments from 'components/pages/lessons/comments'
+import useCio from 'hooks/use-cio'
+import {convertTimeWithTitles} from '../../utils/time-utils'
 
 const tracer = getTracer('lesson-page')
 
@@ -84,16 +86,16 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div className="bg-gray-800 bg-opacity-90 flex flex-col items-center justify-center w-full h-full absolute z-10 top-0 left-0">
+    <div className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full">
       {children}
     </div>
   )
 }
 
 const Loader = () => (
-  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0">
+  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black bg-opacity-80">
     <svg
-      className="text-gray-200"
+      className="text-gray-200 dark:text-gray-100"
       xmlns="http://www.w3.org/2000/svg"
       width={32}
       height={32}
@@ -120,7 +122,7 @@ const HEADER_HEIGHT = 80
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
-
+  const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
   const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
 
@@ -131,7 +133,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
 
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
-  const [ref, {width: videoWidth}] = useMeasure<any>()
+  // const [ref, {width: videoWidth}] = useMeasure<any>()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -204,7 +206,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
-        'showingNext',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
@@ -282,7 +283,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     const lesson = get(playerState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
-    console.debug(`current state: ${currentPlayerState}`)
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
@@ -403,36 +403,40 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8">
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100">
-          <div className="w-full flex flex-col lg:flex-row justify-center">
+      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
+          <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
-              ref={ref}
-              className="flex-grow"
+              // ref={ref}
+              className="flex-grow w-full"
               css={{
                 maxWidth: lessonMaxWidth,
-                '@media (min-width: 1024px)': {
-                  minWidth: '640px',
+                minWidth: '320px',
+                [bpMinSM]: {
+                  minWidth: '580px',
+                },
+                [bpMinMD]: {
+                  minWidth: '680px',
                 },
               }}
             >
-              <div
-                className="flex flex-grow bg-black"
-                css={{
-                  minHeight: Math.round(videoWidth / 1.77777),
-                }}
-              >
+              <div className="flex flex-grow bg-black">
                 <div
-                  className={`w-full relative h-0`}
+                  className="w-full relative sm:h-0"
                   css={{
-                    paddingTop: '56.25%',
+                    [bpMinSM]: {
+                      paddingTop: '56.25%',
+                    },
                   }}
                 >
-                  <div
-                    className={`flex items-center justify-center text-white h-full absolute top-0 right-0 bottom-0 left-0`}
-                  >
-                    <div className={`absolute w-full h-full top-0 left-0`}>
+                  <div className="sm:absolute top-0 right-0 bottom-0 left-0">
+                    <div
+                      className={`${
+                        playerVisible ? 'block' : 'hidden'
+                      } sm:block`}
+                    >
                       <EggheadPlayer
+                        id="egghead-player"
                         ref={playerRef}
                         hidden={playerState.matches('LOADING')}
                         resource={lesson}
@@ -493,23 +497,25 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         }}
                         subtitlesUrl={get(lesson, 'subtitles_url')}
                       />
+                    </div>
 
-                      {loaderVisible && <Loader />}
+                    {loaderVisible && <Loader />}
 
-                      {playerState.matches('joining') && (
-                        <OverlayWrapper>
-                          <CreateAccountCTA
-                            lesson={get(lesson, 'slug')}
-                            technology={primary_tag}
-                          />
-                        </OverlayWrapper>
-                      )}
-                      {playerState.matches('subscribing') && (
-                        <OverlayWrapper>
-                          <JoinCTA lesson={lesson} />
-                        </OverlayWrapper>
-                      )}
-                      {playerState.matches('showingNext') && (
+                    {playerState.matches('joining') && (
+                      <OverlayWrapper>
+                        <CreateAccountCTA
+                          lesson={get(lesson, 'slug')}
+                          technology={primary_tag}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('subscribing') && (
+                      <OverlayWrapper>
+                        <JoinCTA lesson={lesson} />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('showingNext') && (
+                      <OverlayWrapper>
                         <NextUpOverlay
                           lesson={lesson}
                           nextLesson={nextLesson}
@@ -520,48 +526,57 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                             }
                           }}
                         />
-                      )}
-                      {playerState.matches('rating') && (
-                        <OverlayWrapper>
-                          <RateCourseOverlay
-                            course={lesson.collection}
-                            onRated={(review) => {
-                              axios
-                                .post(
-                                  lessonView.collection_progress.rate_url,
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('rating') && (
+                      <OverlayWrapper>
+                        <RateCourseOverlay
+                          course={lesson.collection}
+                          onRated={(review) => {
+                            axios
+                              .post(
+                                lessonView.collection_progress.rate_url,
+                                review,
+                              )
+                              .then(() => {
+                                const comment = get(review, 'comment.comment')
+                                const prompt = get(
                                   review,
+                                  'comment.context.prompt',
                                 )
-                                .then(() => {
-                                  const comment = get(review, 'comment.comment')
-                                  const prompt = get(
-                                    review,
-                                    'comment.context.prompt',
-                                  )
 
-                                  if (review) {
-                                    track('rated course', {
-                                      course: slug,
-                                      rating: review.rating,
-                                      ...(comment && {comment}),
-                                      ...(!!prompt && {prompt}),
+                                if (review) {
+                                  track('rated course', {
+                                    course: slug,
+                                    rating: review.rating,
+                                    ...(comment && {comment}),
+                                    ...(!!prompt && {prompt}),
+                                  })
+                                  if (subscriber) {
+                                    const currentScore =
+                                      Number(
+                                        subscriber.attributes?.learner_score,
+                                      ) || 0
+                                    cioIdentify(subscriber.id, {
+                                      learner_score: currentScore + 20,
                                     })
                                   }
-                                })
-                                .finally(() => {
-                                  setTimeout(() => {
-                                    send('RECOMMEND')
-                                  }, 1500)
-                                })
-                            }}
-                          />
-                        </OverlayWrapper>
-                      )}
-                      {playerState.matches('recommending') && (
-                        <OverlayWrapper>
-                          <RecommendNextStepOverlay lesson={lesson} />
-                        </OverlayWrapper>
-                      )}
-                    </div>
+                                }
+                              })
+                              .finally(() => {
+                                setTimeout(() => {
+                                  send('RECOMMEND')
+                                }, 1500)
+                              })
+                          }}
+                        />
+                      </OverlayWrapper>
+                    )}
+                    {playerState.matches('recommending') && (
+                      <OverlayWrapper>
+                        <RecommendNextStepOverlay lesson={lesson} />
+                      </OverlayWrapper>
+                    )}
                   </div>
                 </div>
               </div>
@@ -588,8 +603,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
             {collection && collection?.lessons && (
-              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100">
-                <div className="p-4 border-b border-gray-100">
+              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100  self-stretch  dark:border-gray-700 dark:text-gray-100 dark:bg-gray-900">
+                <div className="p-4 border-b border-gray-100 dark:border-gray-700">
                   <Course course={collection} currentLessonSlug={lesson.slug} />
                 </div>
                 <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
@@ -679,7 +694,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   <div className="flex items-center space-x-8">
                     <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
                       <Share
-                        className="flex flex-col items-end"
+                        className="flex flex-col items-end "
                         resource={{
                           path: lesson.path,
                           title: lesson.title,
@@ -692,7 +707,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
 
                 {(lesson?.code_url || lesson?.repo_url) && (
-                  <div className="sm:text-base text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
+                  <div className="sm:text-base dark:text-gray-100 text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
                     {lesson?.code_url && (
                       <CodeLink
                         onClick={() => {
@@ -723,7 +738,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
 
                 {description && (
-                  <Markdown className="prose sm:prose-xl max-w-none font-medium">
+                  <Markdown className="prose dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl max-w-none font-medium">
                     {description}
                   </Markdown>
                 )}
@@ -753,7 +768,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   })
                 }}
               >
-                <TabList className="md:text-lg text-normal font-semibold bg-transparent space-x-1">
+                <TabList>
                   {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>Comments</Tab>
                 </TabList>
@@ -761,7 +776,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
-                        className="prose sm:prose-lg max-w-none break-words"
+                        className="prose dark:prose-dark sm:dark:prose-lg-dark sm:prose-lg max-w-none break-words"
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}
@@ -807,7 +822,7 @@ const Course: FunctionComponent<{
           </a>
         </Link>
         <div className="ml-2 lg:ml-4">
-          <h4 className="text-gray-700 font-semibold mb-px text-xs uppercase">
+          <h4 className="text-gray-700 dark:text-gray-100 font-semibold mb-px text-xs uppercase">
             Course
           </h4>
           <Link href={course.path}>

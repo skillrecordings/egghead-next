@@ -25,7 +25,7 @@ const Callout: FunctionComponent<CalloutProps> = ({
         <h3 className="text-lg font-semibold leading-tight">{title}</h3>
       </div>
       {children && (
-        <Markdown className="prose prose-sm max-w-none mt-0">
+        <Markdown className="dark:prose-sm-dark prose-sm max-w-none mt-0">
           {children}
         </Markdown>
       )}

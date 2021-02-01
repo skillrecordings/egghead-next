@@ -1,41 +1,28 @@
 import * as React from 'react'
 import {loadAccount} from 'lib/accounts'
-import {GetServerSideProps} from 'next'
-import {getTokenFromCookieHeaders} from 'utils/auth'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import axios from 'axios'
 import Link from 'next/link'
 import {useViewer} from 'context/viewer-context'
 import {track} from '../../utils/analytics'
-
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  params,
-}) {
-  const {loginRequired, eggheadToken} = getTokenFromCookieHeaders(
-    req.headers.cookie as string,
-  )
-  const account: any =
-    params?.slug && (await loadAccount(params.slug as string, eggheadToken))
-  return {
-    props: {
-      loginRequired,
-      account,
-    },
-  }
-}
+import RequestEmailChangeForm from 'components/users/request-email-change-form'
+import get from 'lodash/get'
 
 type ViewerAccount = {
   stripe_customer_id: string
   slug: string
 }
 
-const Account: React.FunctionComponent<
+const User: React.FunctionComponent<
   LoginRequiredParams & {account: ViewerAccount}
-> = ({loginRequired, account = {}}) => {
+> = () => {
+  const [account, setAccount] = React.useState<any>({})
   const [subscriptionData, setSubscriptionData] = React.useState<any>()
-  const {stripe_customer_id, slug} = account
-  const {viewer} = useViewer()
+  const {stripe_customer_id} = account
+  const {viewer, authToken} = useViewer()
+
+  const {email: currentEmail, accounts} = viewer || {}
+  const {slug} = get(accounts, '[0]', {})
 
   const recur = (price: any) => {
     const {
@@ -47,6 +34,18 @@ const Account: React.FunctionComponent<
     if (interval === 'month' && interval_count === 1) return 'month'
     if (interval === 'year' && interval_count === 1) return 'year'
   }
+
+  React.useEffect(() => {
+    const loadAccountForSlug = async (slug: undefined | string) => {
+      if (slug) {
+        const account: any = await loadAccount(slug, authToken)
+        setAccount(account)
+      }
+    }
+
+    loadAccountForSlug(slug)
+  }, [slug, authToken])
+
   React.useEffect(() => {
     if (stripe_customer_id) {
       axios
@@ -74,15 +73,19 @@ const Account: React.FunctionComponent<
     }).format(subscriptionData.price.unit_amount / 100)
 
   return (
-    <LoginRequired loginRequired={loginRequired}>
+    <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
+        <div className="max-w-screen-md mx-auto">
+          {/* Account details */}
+          <div className="sm:px-6 lg:px-0 lg:col-span-9">
+            <RequestEmailChangeForm originalEmail={currentEmail} />
+          </div>
           {/* Payment details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             {subscriptionData && (
               <section className="mb-32">
-                <div className="p-4">
-                  <div className="border border-accents-1	w-full p rounded-md m-auto my-8">
+                <div className="p-4 w-full">
+                  <div className="border border-accents-1	w-full p rounded-md m-auto my-8 max-w-max-content">
                     {subscriptionName ? (
                       <div className="px-5 py-4">
                         <h3 className="text-2xl mb-1 font-medium">
@@ -92,14 +95,18 @@ const Account: React.FunctionComponent<
                           You can update your plan and payment information below
                           via Stripe.
                         </p>
-                        <div className="text-xl mt-8 mb-4 font-semibold">
+                        <div className="mt-8 mb-4 font-semibold">
                           {!subscriptionData?.portalUrl ? (
                             <div className="h-12 mb-6">loading</div>
                           ) : subscriptionPrice ? (
                             <div className="flex flex-col space-x-2 items-center">
-                              <div>{`${subscriptionPrice}/${recur(
-                                subscriptionData.price,
-                              )}`}</div>
+                              <div>
+                                You are currently paying{' '}
+                                {`${subscriptionPrice}/${recur(
+                                  subscriptionData.price,
+                                )}`}{' '}
+                                for your membership
+                              </div>
                               {subscriptionData?.subscription
                                 ?.cancel_at_period_end && (
                                 <div className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100">
@@ -182,4 +189,4 @@ const Account: React.FunctionComponent<
   )
 }
 
-export default Account
+export default User

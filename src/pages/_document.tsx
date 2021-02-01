@@ -28,7 +28,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
           {/* <script async src="/ahoy.js" /> */}
@@ -62,7 +62,7 @@ export default class MyDocument extends Document {
             }}
           ></script>
         </Head>
-        <body>
+        <body className="dark:bg-gray-900 bg-white dark:text-gray-200 text-black">
           <Main />
           <NextScript />
         </body>

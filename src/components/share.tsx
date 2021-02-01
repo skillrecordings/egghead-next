@@ -25,7 +25,7 @@ const Share: FunctionComponent<ShareProps> = ({
     <>
       <h4 className="text-sm">{children || title}</h4>
       <div className={className || 'flex items-center mt-3'}>
-        <div className={'flex items-center space-x-1'}>
+        <div className={'flex items-center space-x-2'}>
           <TweetLink label resource={resource} instructor={instructor} />
           <CopyToClipboard
             label
@@ -57,7 +57,7 @@ const TweetLink: FunctionComponent<ShareProps> = ({
   }
   return get(resource, 'title') && get(resource, 'path') ? (
     <a
-      className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
+      className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
       href={encodeTweetUrl()}
@@ -81,7 +81,7 @@ const CopyToClipboard: FunctionComponent<{
       <button
         type="button"
         onClick={setCopied}
-        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
+        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
       >
         {isCopied ? (
           'Copied'
@@ -101,7 +101,7 @@ const CopyToClipboard: FunctionComponent<{
   )
 }
 
-const IconLink: FunctionComponent<{className?: string}> = ({
+export const IconLink: FunctionComponent<{className?: string}> = ({
   className = '',
 }) => (
   <svg

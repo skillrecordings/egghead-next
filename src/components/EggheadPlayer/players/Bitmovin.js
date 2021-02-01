@@ -1,6 +1,6 @@
 import React from 'react'
 import loadScript from 'load-script'
-import get from 'lodash/get'
+import {get, isEmpty} from 'lodash'
 
 import Base from './Base'
 
@@ -60,16 +60,29 @@ export default class Bitmovin extends Base {
     const {dash_url, hls_url} = props || this.props
 
     return {
-      dash: dash_url,
-      hls: hls_url,
+      ...(!!dash_url && {dash: dash_url}),
+      ...(!!hls_url && {hls: hls_url}),
     }
   }
 
   getConfig(props) {
     const {poster, title, description, preload, onVolumeChange, muted} =
       props || this.props
+
+    const CACHE_KEY = `grapenuts`
+
     return {
       key: BITMOVIN_PUBLIC_KEY,
+      network: {
+        preprocessHttpRequest: function (type, request) {
+          request.url = `${request.url}?b=${CACHE_KEY}`
+          return Promise.resolve(request)
+        },
+      },
+      logs: {
+        bitmovin: false,
+        level: 'off',
+      },
       remotecontrol: {
         type: 'googlecast',
         customReceiverConfig: {
@@ -295,27 +308,21 @@ export default class Bitmovin extends Base {
   }
 
   load(nextProps) {
-    const {subtitlesUrl, playbackRate, volume} = this.props
+    const {subtitlesUrl, playbackRate, volume} = nextProps
     this.startTime = this.getTimeToSeekSeconds()
-    if (this.loadingSDK) {
+    const source = this.getSource(nextProps)
+
+    if (this.loadingSDK || isEmpty(source)) {
       return
     }
+
     console.debug(`player loading media [ready:${this.isReady}]`)
 
-    this.player.load(this.getSource(nextProps)).then(
+    this.player.load(source).then(
       () => {
         console.debug(`player media loaded`)
         this.player.subtitles.remove(SUBTITLE_ID)
         this.player.setPosterImage(nextProps.poster)
-        if (nextProps.subtitlesUrl) {
-          this.player.subtitles.add({
-            id: SUBTITLE_ID,
-            url: nextProps.subtitlesUrl,
-            label: 'English',
-            lang: 'en',
-            kind: 'captions',
-          })
-        }
 
         this.player.setPlaybackSpeed(playbackRate)
         this.player.setVolume(volume)
@@ -325,6 +332,7 @@ export default class Bitmovin extends Base {
         }
 
         const {videoQualityCookie} = this.props
+
         if (videoQualityCookie) {
           this.player.setVideoQuality(videoQualityCookie.id)
         }
@@ -332,6 +340,7 @@ export default class Bitmovin extends Base {
         if (subtitlesUrl) {
           this.addSubtitles(subtitlesUrl)
         }
+
         this.addEventListeners()
         this.onReady(this.player)
       },

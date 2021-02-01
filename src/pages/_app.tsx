@@ -20,6 +20,7 @@ import {CioProvider} from 'hooks/use-cio'
 import {LogRocketProvider} from 'hooks/use-logrocket'
 import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
+import {ThemeProvider} from 'next-themes'
 
 declare global {
   interface Window {
@@ -27,6 +28,7 @@ declare global {
     _cio: any
     fbq: any
     becomeUser: any
+    ga: any
   }
 }
 
@@ -91,19 +93,21 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
         url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
         sameAs={['https://twitter.com/eggheadio']}
       />
-      <LogRocketProvider>
-        <CioProvider>
-          <ConvertkitProvider>
-            <ViewerProvider>
-              <MDXProvider components={mdxComponents}>
-                <CacheProvider value={cache}>
-                  {getLayout(Component, pageProps)}
-                </CacheProvider>
-              </MDXProvider>
-            </ViewerProvider>
-          </ConvertkitProvider>
-        </CioProvider>
-      </LogRocketProvider>
+      <ThemeProvider attribute="class">
+        <ViewerProvider>
+          <LogRocketProvider>
+            <CioProvider>
+              <ConvertkitProvider>
+                <MDXProvider components={mdxComponents}>
+                  <CacheProvider value={cache}>
+                    {getLayout(Component, pageProps)}
+                  </CacheProvider>
+                </MDXProvider>
+              </ConvertkitProvider>
+            </CioProvider>
+          </LogRocketProvider>
+        </ViewerProvider>
+      </ThemeProvider>
     </>
   )
 }

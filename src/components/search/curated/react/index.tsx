@@ -7,10 +7,12 @@ import reactPageData from './react-page-data'
 import {find} from 'lodash'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Image from 'next/image'
+import ExternalTrackedLink from '../../../external-tracked-link'
 
 const SearchReact = () => {
+  const location = 'react landing'
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
-  const title = `Advanced React Tutorials for ${new Date().getFullYear()}`
+  const title = `In-Depth Up-to-Date React Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(reactPageData, {id: 'beginner'})
   const intermediate: any = find(reactPageData, {id: 'intermediate'})
@@ -32,7 +34,7 @@ const SearchReact = () => {
   const reactPodcasts: any = find(reactPageData, {id: 'podcasts'})
 
   return (
-    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto">
+    <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
         description={description}
         title={title}
@@ -52,7 +54,7 @@ const SearchReact = () => {
           ],
         }}
       />
-      <div className="grid md:grid-cols-12 grid-cols-1 gap-5 items-start ">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
           title="React"
@@ -67,8 +69,10 @@ You can find courses below curated just for you whether you're looking for a par
 
 `}
         </Topic>
-        <a
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative"
+        <ExternalTrackedLink
+          eventName="clicked epic react banner"
+          params={{location}}
+          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
           href="https://epicreact.dev"
         >
           <Image
@@ -76,23 +80,24 @@ You can find courses below curated just for you whether you're looking for a par
             quality={100}
             width={417}
             height={463}
-            src="https://app.egghead.io/webpack/a03682deb1d0acefc51e1015b3aa8008.png"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
             alt="epicreact.dev by Kent C. Dodds"
           />
-        </a>
+        </ExternalTrackedLink>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner}>
+        <Card resource={beginner} location={location}>
           <Collection />
         </Card>
-        <Card resource={intermediate} className="h-full">
+        <Card resource={intermediate} location={location} className="h-full">
           <Collection />
         </Card>
-        <Card resource={advanced} className="h-full">
+        <Card resource={advanced} location={location} className="h-full">
           <Collection />
         </Card>
       </div>
-      <section className="mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:p-5 md:bg-gray-100 rounded-lg">
+
+      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg p-4 md:p-5">
         <div className="lg:col-span-8 col-span-12 space-y-5">
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
             <div className="flex-shrink-0">
@@ -107,10 +112,10 @@ You can find courses below curated just for you whether you're looking for a par
               />
             </div>
             <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl font-bold leading-tight">
+              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
                 State Management in React
               </h1>
-              <div className="leading-relaxed text-gray-700 space-y-3">
+              <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
                 <p>
                   When it comes down to it, nearly every UI problem is a state
                   management problem. Orchestrating a whole symphony of menus,
@@ -132,6 +137,7 @@ You can find courses below curated just for you whether you're looking for a par
             <Card
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
+              location={location}
             >
               <div className="sm:w-full sm:-mt-5 -mt-0 sm:-mb-5 -mb-4 md:-mr-5 -mr-4 md:ml-8 -ml-4  flex items-center bg-black flex-shrink-0 md:max-w-sm">
                 <EggheadPlayer
@@ -153,6 +159,7 @@ You can find courses below curated just for you whether you're looking for a par
                     className="col-span-4 text-center"
                     key={resource.path}
                     resource={resource}
+                    location={location}
                   />
                 )
               })}
@@ -160,22 +167,26 @@ You can find courses below curated just for you whether you're looking for a par
           </div>
         </div>
         <div className="md:col-span-4 col-span-12">
-          <Card resource={stateManagementCollection}>
+          <Card resource={stateManagementCollection} location={location}>
             <Collection />
           </Card>
-          <Card resource={stateManagementQuickly} className="mt-5">
+          <Card
+            resource={stateManagementQuickly}
+            className="mt-5"
+            location={location}
+          >
             <Collection />
           </Card>
         </div>
       </section>
-      <section className="mt-5 grid md:grid-cols-3 grid-cols-1 gap-5">
-        <Card resource={reactArticles}>
+      <section className="mt-20 grid md:grid-cols-3 grid-cols-1 gap-5">
+        <Card resource={reactArticles} location={location}>
           <Collection />
         </Card>
-        <Card resource={reactPodcasts}>
+        <Card resource={reactPodcasts} location={location}>
           <Collection />
         </Card>
-        <Card resource={reactTalks}>
+        <Card resource={reactTalks} location={location}>
           <Collection />
         </Card>
       </section>

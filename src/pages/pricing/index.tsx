@@ -8,6 +8,8 @@ import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
 import {usePricing, Prices} from 'hooks/use-pricing'
+import {first, get} from 'lodash'
+import {StripeAccount} from 'types'
 
 type PricingProps = {
   annualPrice: {
@@ -22,15 +24,15 @@ type PricingProps = {
 
 const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
   const [needsEmail, setNeedsEmail] = React.useState(false)
-  const {viewer} = useViewer()
+  const {viewer, authToken} = useViewer()
   const {prices, pricesLoading} = usePricing()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
 
     if (!prices.annualPrice) return
-
     const {annualPrice} = prices
+    const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
       priceId: annualPrice.price_id,
     })
@@ -45,8 +47,9 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
       stripeCheckoutRedirect(
         annualPrice.price_id,
         viewer.email,
-        viewer.subscription?.stripe_subscription_id,
+        account?.stripe_customer_id,
         redirectURL,
+        authToken,
       )
     } else {
       await track('checkout: get email', {
@@ -59,16 +62,16 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
     <>
       <div className="">
         {!needsEmail && (
-          <div className="pt-12 sm:pt-16 lg:pt-20">
+          <div className="pt-12 sm:pt-16 lg:pt-20 dark:text-gray-100">
             <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
-                <h2 className="text-3xl leading-9 font-extrabold text-gray-900 sm:text-4xl sm:leading-10 lg:text-5xl lg:leading-none">
+                <h2 className="text-3xl leading-9 font-extrabold  dark:text-gray-100 text-gray-900 sm:text-4xl sm:leading-10 lg:text-5xl lg:leading-none">
                   Your egghead membership pays for itself.
                 </h2>
-                <h3 className="text-2xl leading-9 font-extrabold text-gray-900 sm:text-3xl sm:leading-10 lg:text-4xl lg:leading-none">
+                <h3 className="text-2xl leading-9 font-extrabold dark:text-gray-100 text-gray-900 sm:text-3xl sm:leading-10 lg:text-4xl lg:leading-none">
                   Over and over again.
                 </h3>
-                <p className="max-w-3xl m-auto mt-4 text-center text-xl leading-7 text-gray-600">
+                <p className="max-w-3xl m-auto mt-4 text-center text-xl leading-7 dark:text-gray-300 text-gray-600">
                   Build your professional developer portfolio and learn the
                   skills you need to climb the career ladder as a badass web
                   developer
@@ -79,19 +82,19 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
         )}
         {!needsEmail && (
           <SelectPlan>
-            <div className="py-8 px-6 text-center bg-gray-50 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
+            <div className="py-8 px-6 text-center dark:bg-gray-800 bg-gray-50 lg:flex-shrink-0 lg:flex lg:flex-col lg:justify-center lg:p-12">
               {!viewer?.is_pro && !viewer?.is_instructor && (
                 <>
-                  <p className="text-lg leading-6 font-medium text-gray-900">
+                  <p className="text-lg leading-6 font-medium dark:text-gray-100 text-gray-900">
                     One low price...
                   </p>
-                  <div className="mt-4 flex items-center justify-center text-3xl md:text-5xl leading-none font-extrabold text-gray-900">
+                  <div className="mt-4 flex items-center justify-center text-3xl md:text-5xl leading-none font-extrabold text-gray-900 dark:text-gray-100">
                     {prices.annualPrice ? (
                       <span>${prices.annualPrice.price}</span>
                     ) : (
                       <span>$ ---</span>
                     )}
-                    <span className="ml-3 text-base leading-7 font-medium text-gray-500">
+                    <span className="ml-3 dark:text-gray-100 text-base leading-7 font-medium dark:text-gray-100 text-gray-500">
                       USD
                     </span>
                   </div>
@@ -112,7 +115,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
                       pricesLoading || viewer?.is_pro || viewer?.is_instructor
                         ? 'opacity-40'
                         : 'opacity-100'
-                    } w-full flex items-center justify-center px-5 py-10 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
+                    } w-full flex items-center justify-center px-5 py-10 border border-transparent text-base leading-6 font-medium rounded-md text-white dark:bg-gray-900  bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out`}
                   >
                     {!pricesLoading && prices.annualPrice
                       ? viewer?.is_pro || viewer?.is_instructor

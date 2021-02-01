@@ -48,6 +48,34 @@ export async function loadPlaylist(slug: string, token?: string) {
         url
         duration
         type
+        created_at
+        updated_at
+        free_forever
+        tags {
+          name
+          image_url
+          label
+        }
+        ratings_with_comment {
+          count
+          data {
+            id
+            created_at
+            rating_out_of_5
+            user {
+              full_name
+              avatar_url
+            }
+            comment {
+              id
+              state
+              hide_url
+              restore_url
+              prompt
+              comment
+            }
+          }
+        }
         primary_tag {
           name
           image_url
