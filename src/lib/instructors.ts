@@ -33,6 +33,6 @@ export async function loadInstructor(slug: string) {
     }
   }`
   const {instructor} = await request(config.graphQLEndpoint, query, {slug})
-  console.log(instructor)
+
   return instructor
 }
