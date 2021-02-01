@@ -1,8 +1,12 @@
-import React, {FunctionComponent} from 'react'
+import React from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
 import Topic from 'components/search/components/topic'
-import {find} from 'lodash'
+import Image from 'next/image'
+import Link from 'next/link'
+import PlayIcon from 'components/pages/courses/play-icon'
+import {track} from 'utils/analytics'
+import {LessonResource} from 'types'
 
 let course = {
   id: '418892',
@@ -77,7 +81,17 @@ const landingPage = () => {
   return (
     <>
       <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
+        <div className="mt-10 text-center pb-12">
+          <div className="mb-16">
+            <Image src={course.image} height="300" width="300" />
+          </div>
+          <p className="text-lg md:text-2xl leading-6 text-gray-500">
+            Portfolio Project Challenge
+          </p>
+          <h1 className="text-2xl md:text-4xl font-bold ">{course.title}</h1>
+        </div>
         <ProjectBrief
+          className="mt-12"
           topic={{
             name: 'cloudflare',
             label: 'Project Brief',
@@ -104,7 +118,7 @@ const landingPage = () => {
         </ProjectBrief>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="px-10 py-10 bg-white shadow col-span-2">
+          <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow col-span-2 shadow-sm rounded-md border border-gray-100">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
             <Markdown
               className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
@@ -115,12 +129,41 @@ const landingPage = () => {
               source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
             />
           </div>
-          <div className="px-10 py-10 bg-white shadow col-span-1">
+          <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow-sm rounded-md border border-gray-100">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
             <Markdown
               className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
               source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
             />
+          </div>
+        </div>
+        <div className="mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-md border border-gray-100">
+          <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
+            Course Content
+          </h1>
+          <div>
+            <ul className="ml-8">
+              {course?.resources?.map((lesson: any) => {
+                return (
+                  <li key={`${course.path}::${lesson.slug}`}>
+                    <div className="flex items-center leading-tight py-2">
+                      <div className="flex items-center mr-2 flex-grow">
+                        <PlayIcon className="text-gray-500 dark:text-gray-100 mx-1" />
+                      </div>
+                      {lesson.path && (
+                        <Link href={lesson.path}>
+                          <a className="hover:underline flex items-center w-full">
+                            <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-gray-100 mt-0 text-lg">
+                              {lesson.title}
+                            </Markdown>
+                          </a>
+                        </Link>
+                      )}
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
       </div>
@@ -164,7 +207,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
 
   return (
     <div
-      className={`mb-10 pb-10 xl:px-0 px-5 dark:bg-gray-900 ${
+      className={`mb-10 pb-10 xl:px-0 dark:bg-gray-900 ${
         className ? className : ''
       }`}
     >
@@ -191,7 +234,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
       />
       <div className="md:grid grid-cols-1 gap-5 justify-self-center space-y-5 md:space-y-0 dark:bg-gray-900">
         <div
-          className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm grid grid-cols-8 h-full relative items-center overflow-hidden rounded-md border border-gray-100 dark:border-gray-800 col-span-8`}
+          className={`bg-white grid grid-cols-8 h-full relative items-center overflow-hidden shadow-sm rounded-md border border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-8`}
         >
           <div
             className="overflow-hidden sm:col-span-2 col-span-2 w-full h-full"
