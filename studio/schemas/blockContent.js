@@ -1,3 +1,5 @@
+import {FaExternalLinkAlt} from 'react-icons/fa'
+
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -14,10 +16,28 @@ export default {
   type: 'array',
   of: [
     {
+      type: 'ctaPlug',
+    },
+    {
+      type: 'link',
+    },
+    {
+      type: 'markdownText',
+    },
+    {
+      type: 'resource',
+    },
+    {
+      type: 'bigIdea',
+    },
+    {
+      type: 'essentialQuestion',
+    },
+    {
       title: 'Block',
       type: 'block',
       // Styles let you set what your user can mark up blocks with. These
-      // correspond with HTML tags, but you can set any title or value
+      // corrensponds with HTML tags, but you can set any title or value
       // you want and decide how you want to deal with it where you want to
       // use your content.
       styles: [
@@ -40,14 +60,28 @@ export default {
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
-            title: 'URL',
+            title: 'External Link',
             name: 'link',
             type: 'object',
+            blockEditor: {
+              icon: FaExternalLinkAlt,
+            },
             fields: [
               {
                 title: 'URL',
                 name: 'href',
                 type: 'url',
+                validation: (Rule) =>
+                  Rule.uri({
+                    allowRelative: true,
+                    scheme: ['https', 'http', 'mailto', 'tel'],
+                  }),
+              },
+              {
+                title: 'Open in new tab',
+                name: 'blank',
+                description: 'Read https://css-tricks.com/use-target_blank/',
+                type: 'boolean',
               },
             ],
           },
@@ -57,9 +91,5 @@ export default {
     // You can add additional types here. Note that you can't use
     // primitive types such as 'string' and 'number' in the same array
     // as a block type.
-    {
-      type: 'image',
-      options: {hotspot: true},
-    },
   ],
 }
