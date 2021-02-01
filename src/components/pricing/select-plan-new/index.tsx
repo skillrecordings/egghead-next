@@ -4,18 +4,7 @@ import slugify from 'slugify'
 import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 
-const QUANITY_PRICING_ENABLED =
-  process.env.NEXT_PUBLIC_FF_QUANITY_PRICING_AVAILABLE !== 'false'
-
-type SelectPlanProps = {
-  prices: any
-  pricesLoading: boolean
-  defaultInterval?: string
-  defaultQuantity?: number
-  handleClickGetAccess: () => void
-}
-
-const PlanTitle: React.FunctionComponent<{children: string}> = ({children}) => (
+const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold dark:text-white text-gray-900">
     {children}
   </h2>
@@ -49,7 +38,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
   setQuantity: (quantity: number) => void
 }> = ({quantity, setQuantity}) => {
   return (
-    <div className="py-4">
+    <>
       <label>
         <span className="pr-2 text-sm">Seats</span>
         <input
@@ -61,7 +50,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
           onChange={(e) => setQuantity(Number(e.currentTarget.value))}
         />
       </label>
-    </div>
+    </>
   )
 }
 
@@ -103,7 +92,19 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
 
 const PlanFeatures: React.FunctionComponent<{
   planFeatures: string[]
-}> = ({planFeatures}) => {
+}> = ({planFeatures = []}) => {
+  const DEFAULT_FEATURES = [
+    'Full access to all premium courses and lessons',
+    'RSS course feeds for your favorite podcast app',
+    'Offline viewing',
+    'Commenting and support',
+    'Enhanced Transcripts',
+    'Discord access',
+    'Closed captions for every video',
+  ]
+
+  planFeatures = [...planFeatures, ...DEFAULT_FEATURES]
+
   const CheckIcon = () => (
     <svg
       className="text-blue-500 inline-block flex-shrink-0 mt-1"
@@ -148,7 +149,17 @@ const GetAccessButton: React.FunctionComponent<{
   )
 }
 
+type SelectPlanProps = {
+  prices: any
+  pricesLoading: boolean
+  defaultInterval?: string
+  defaultQuantity?: number
+  handleClickGetAccess: () => void
+  quantityAvailable: boolean
+}
+
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
+  quantityAvailable = true,
   handleClickGetAccess,
   defaultInterval = 'annual',
   defaultQuantity = 1,
@@ -195,21 +206,28 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   }, [forTeams])
 
   return (
-    <div className="p-2 relative dark:bg-gray-800 bg-gray-100 rounded-md dark:shadow-none shadow-lg">
+    <>
       <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:p-10 p-5 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
         <PlanTitle>{currentPlan.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-        <PlanIntervalsSwitch
-          disabled={forTeams}
-          currentPlan={currentPlan}
-          setCurrentPlan={setCurrentPlan}
-          planTypes={individualPlans}
-        />
-        <PlanQuantitySelect
-          quantity={currentQuantity}
-          setQuantity={setCurrentQuantity}
-        />
-        <PlanFeatures planFeatures={currentPlan.features} />
+        <div className={quantityAvailable ? '' : 'pb-4'}>
+          <PlanIntervalsSwitch
+            disabled={forTeams}
+            currentPlan={currentPlan}
+            setCurrentPlan={setCurrentPlan}
+            planTypes={individualPlans}
+          />
+        </div>
+        {quantityAvailable && (
+          <div className="py-4">
+            <PlanQuantitySelect
+              quantity={currentQuantity}
+              setQuantity={setCurrentQuantity}
+            />
+          </div>
+        )}
+
+        <PlanFeatures planFeatures={currentPlan?.features} />
         <GetAccessButton
           label={buttonLabel}
           handleClick={handleClickGetAccess}
@@ -217,7 +235,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
       </div>
       <ColoredBackground />
       {currentPlan.interval === 'year' && <BestValueStamp />}
-    </div>
+    </>
   )
 }
 

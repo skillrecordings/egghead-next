@@ -10,15 +10,6 @@ export const story = {
   prices: {
     monthlyPrice: {
       billing: 'monthly',
-      features: [
-        'Full access to all premium courses and lessons',
-        'RSS course feeds for your favorite podcast app',
-        'Offline viewing',
-        'Commenting and support',
-        'Enhanced Transcripts',
-        'Discord access',
-        'Closed captions for every video',
-      ],
       guid: '',
       interval: 'month',
       name: 'Pro Membership',
@@ -30,15 +21,6 @@ export const story = {
     },
     quarterlyPrice: {
       billing: 'quarterly',
-      features: [
-        'Full access to all premium courses and lessons',
-        'RSS course feeds for your favorite podcast app',
-        'Offline viewing',
-        'Commenting and support',
-        'Enhanced Transcripts',
-        'Discord access',
-        'Closed captions for every video',
-      ],
       guid: '',
       interval: 'three months',
       name: 'Pro Membership',
@@ -50,15 +32,6 @@ export const story = {
     },
     annualPrice: {
       billing: 'annual',
-      features: [
-        'Full access to all premium courses and lessons',
-        'RSS course feeds for your favorite podcast app',
-        'Offline viewing',
-        'Commenting and support',
-        'Enhanced Transcripts',
-        'Discord access',
-        'Closed captions for every video',
-      ],
       guid: '',
       interval: 'year',
       name: 'Pro Membership',
@@ -70,16 +43,7 @@ export const story = {
     },
     teamPrice: {
       billing: 'annual',
-      features: [
-        'Team Management & Analytics',
-        'Full access to all premium courses and lessons',
-        'RSS course feeds for your favorite podcast app',
-        'Offline viewing',
-        'Commenting and support',
-        'Enhanced Transcripts',
-        'Discord access',
-        'Closed captions for every video',
-      ],
+      features: ['Team Management & Analytics'],
       guid: '',
       interval: 'year',
       name: 'For Teams',
@@ -137,7 +101,10 @@ export const Template = (args) => (
 )
 
 <Canvas>
-  <Story name="Default" args={{pricesLoading: false, dark: true}}>
+  <Story
+    name="Default"
+    args={{pricesLoading: false, dark: true, quantityAvailable: false}}
+  >
     {Template.bind({})}
   </Story>
 </Canvas>
