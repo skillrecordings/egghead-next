@@ -223,6 +223,13 @@ const DarkModeToggle = () => {
   const {theme, setTheme} = useTheme()
   React.useEffect(() => setMounted(true), [])
 
+  React.useLayoutEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
+      .matches
+
+    setTheme(prefersDark ? 'dark' : 'light')
+  })
+
   return (
     <button
       aria-label="Toggle Dark Mode"
