@@ -97,44 +97,32 @@ const landingPage = () => {
             label: 'Project Brief',
           }}
         >
-          <p>
-            <Markdown
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
-              source={`You are a developer for a national concert promoter.`}
-            />
-          </p>
-          <p>
-            <Markdown
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
-              source={`Music fans from all over the world visit your site to see when and where the next show is going to be. To save them time when they visit the page, we want to show them upcoming events at a venue close to their location.`}
-            />
-          </p>
-          <p>
-            <Markdown
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
-              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
-            />
-          </p>
+          <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+            {`You are a developer for a national concert promoter.
+
+Music fans from all over the world visit your site to see when and where the next show is going to be. To save them time when they visit the page, we want to show them upcoming events at a venue close to their location.
+
+Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
+          </Markdown>
         </ProjectBrief>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow col-span-2 shadow-sm rounded-md border border-gray-100">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
-            <Markdown
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
-              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
-            />
-            <Markdown
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
-              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
-            />
+            <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+              {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
+- In the course, Kristian deploys a worker that makes use of Cloudflare's IncomingRequestCfProperties ([see docs](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties)) to retrieve the user's country. There are additional data available here that could be used in fulfilling this project brief.
+- The template rendered in the demo ([see repo](https://github.com/signalnerve/region-workers-example/blob/main/template.js)) imports the country-code-emoji package from npm. While the project brief doesn't call for using a 3rd party library, the learner should be able to see how they could create an object with hardcoded demo data.`}
+            </Markdown>
           </div>
           <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow-sm rounded-md border border-gray-100">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
-            <Markdown
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
-              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
-            />
+            <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+              {`- The application uses Cloudflare Workers.
+- The application is deployed to the web and is useable for its intended purpose.
+- The application contains minimal bugs.
+- The application is accessible.`}
+            </Markdown>
           </div>
         </div>
         <div className="mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-md border border-gray-100">
