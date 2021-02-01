@@ -1,0 +1,13 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import Testimonials from './'
+import data from './data'
+
+<Meta title="Components/Pricing/Testimonials" />
+
+<Canvas>
+  <Story name="Default">
+    <div className="bg-gray-100 p-5">
+      <Testimonials testimonials={data} />
+    </div>
+  </Story>
+</Canvas>
