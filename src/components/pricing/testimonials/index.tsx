@@ -21,7 +21,7 @@ const Testimonials: React.FunctionComponent<TestimonialsProps> = ({
       {testimonials.map((testimonial: any) => {
         const {praise, author} = testimonial
         return (
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center" key={author.name}>
             <div className="text-lg font-medium leading-tight text-center">
               <Markdown allowDangerousHtml={true}>{praise}</Markdown>
             </div>

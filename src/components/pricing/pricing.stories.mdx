@@ -85,25 +85,30 @@ export const story = {
   argTypes={{pricesLoading: {control: 'boolean'}}}
 />
 
-export const Template = (args) => (
-  <PricingPage
-    viewer={story.viewer}
-    authToken={story.authToken}
-    prices={story.prices}
-    needsEmail={story.needsEmail}
-    setNeedsEmail={story.setNeedsEmail}
-    redirectURL={story.redirectURL}
-    handleClickGetAccess={() => {}}
-    {...args}
-    dark={args.dark}
-    pricesLoading={args.pricesLoading}
-  />
-)
+import usePricing from '../../hooks/use-pricing'
+
+export const Template = (args) => {
+  const {prices} = usePricing({mock: true})
+  return (
+    <PricingPage
+      viewer={story.viewer}
+      authToken={story.authToken}
+      prices={prices}
+      needsEmail={story.needsEmail}
+      setNeedsEmail={story.setNeedsEmail}
+      redirectURL={story.redirectURL}
+      handleClickGetAccess={() => {}}
+      {...args}
+      dark={args.dark}
+      pricesLoading={args.pricesLoading}
+    />
+  )
+}
 
 <Canvas>
   <Story
     name="Default"
-    args={{pricesLoading: false, dark: true, quantityAvailable: false}}
+    args={{pricesLoading: false, dark: true, quantityAvailable: true}}
   >
     {Template.bind({})}
   </Story>

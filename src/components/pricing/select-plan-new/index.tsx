@@ -3,6 +3,7 @@ import * as React from 'react'
 import slugify from 'slugify'
 import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
+import {keys} from 'lodash'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold dark:text-white text-gray-900">
@@ -64,16 +65,18 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
   return (
     <ul className="flex ">
       {plansToRender.map((plan: any, i: number) => {
-        const {billing} = plan
+        const {interval} = plan
         const checked: boolean = plan === currentPlan
         return (
-          <li key={billing}>
+          <li key={interval}>
             <button
               className={`${
                 checked
                   ? 'dark:bg-white bg-gray-900 dark:text-gray-900 text-white dark:hover:bg-gray-200 hover:bg-gray-800'
                   : 'dark:bg-gray-800 bg-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200'
               } ${i === 0 && 'rounded-l-md'} ${i === 2 && 'rounded-r-md'} ${
+                plansToRender.length === 2 && i === 1 && 'rounded-r-md'
+              } ${
                 plansToRender.length === 1 && 'rounded-md'
               } capitalize block px-3 py-2 cursor-pointer text-sm font-medium transition-all ease-in-out duration-300`}
               onClick={() => setCurrentPlan(plan)}
@@ -81,7 +84,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
               role="radio"
               aria-active={checked}
             >
-              {billing}
+              {interval}
             </button>
           </li>
         )
@@ -90,21 +93,19 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
   )
 }
 
+const DEFAULT_FEATURES = [
+  'Full access to all premium courses and lessons',
+  'RSS course feeds for your favorite podcast app',
+  'Offline viewing',
+  'Commenting and support',
+  'Enhanced Transcripts',
+  'Discord access',
+  'Closed captions for every video',
+]
+
 const PlanFeatures: React.FunctionComponent<{
   planFeatures: string[]
-}> = ({planFeatures = []}) => {
-  const DEFAULT_FEATURES = [
-    'Full access to all premium courses and lessons',
-    'RSS course feeds for your favorite podcast app',
-    'Offline viewing',
-    'Commenting and support',
-    'Enhanced Transcripts',
-    'Discord access',
-    'Closed captions for every video',
-  ]
-
-  planFeatures = [...planFeatures, ...DEFAULT_FEATURES]
-
+}> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
       className="text-blue-500 inline-block flex-shrink-0 mt-1"
@@ -172,7 +173,10 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   )
   const teamPlan = find(prices, {type: 'team'})
 
-  const annualPlan = get(prices, 'annualPrice')
+  const annualPlan = get(prices, 'annualPrice', {
+    name: 'Pro Yearly',
+    interval: 'year',
+  })
   const monthlyPlan = get(prices, 'monthlyPrice')
   const quarterlyPlan = get(prices, 'quarterlyPrice')
 
@@ -203,21 +207,23 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
 
   React.useEffect(() => {
     forTeams ? setCurrentPlan(teamPlan) : setCurrentPlan(annualPlan)
-  }, [forTeams])
+  }, [forTeams, annualPlan])
 
   return (
     <>
       <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:p-10 p-5 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
-        <PlanTitle>{currentPlan.name}</PlanTitle>
+        <PlanTitle>{currentPlan?.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-        <div className={quantityAvailable ? '' : 'pb-4'}>
-          <PlanIntervalsSwitch
-            disabled={forTeams}
-            currentPlan={currentPlan}
-            setCurrentPlan={setCurrentPlan}
-            planTypes={individualPlans}
-          />
-        </div>
+        {keys(prices).length > 1 && (
+          <div className={quantityAvailable ? '' : 'pb-4'}>
+            <PlanIntervalsSwitch
+              disabled={forTeams}
+              currentPlan={currentPlan}
+              setCurrentPlan={setCurrentPlan}
+              planTypes={individualPlans}
+            />
+          </div>
+        )}
         {quantityAvailable && (
           <div className="py-4">
             <PlanQuantitySelect
