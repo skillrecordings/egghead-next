@@ -4,6 +4,9 @@ import slugify from 'slugify'
 import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 
+const QUANITY_PRICING_ENABLED =
+  process.env.NEXT_PUBLIC_FF_QUANITY_PRICING_AVAILABLE !== 'false'
+
 type SelectPlanProps = {
   prices: any
   pricesLoading: boolean
