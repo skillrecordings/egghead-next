@@ -83,11 +83,14 @@ export const createUrl = (searchState: {
     : ''
   const type = get(refinementList, 'type')
 
-  const queryString = qs.stringify({
-    q: query ? `${query.split(' ').join('+')}` : undefined,
-    type: type ? type.join(',') : undefined,
-    page,
-  })
+  const queryString = qs.stringify(
+    {
+      q: query ? `${query.split(' ').join('+')}` : undefined,
+      type: type ? type.join(',') : undefined,
+      ...(page && page > 1 && {page}),
+    },
+    {encode: false},
+  )
 
   const instructors = refinementList?.instructor_name
     ? `${
