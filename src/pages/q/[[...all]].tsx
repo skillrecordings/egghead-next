@@ -79,7 +79,7 @@ const SearchIndex: any = ({
     clearTimeout(debouncedState.current)
 
     const instructors = getInstructorsFromSearchState(searchState)
-    console.log(instructors)
+
     if (instructors.length === 1) {
       const instructorSlug = getInstructorSlugFromInstructorList(instructors)
       try {
@@ -129,7 +129,6 @@ const SearchIndex: any = ({
     setSearchState(searchState)
   }
 
-  console.log(topic, initialTopic)
 
   const customProps = {
     searchState,
@@ -196,12 +195,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
   const selectedTopics = initialSearchState.refinementList?._tags
 
-  console.log(
-    selectedTopics,
-    selectedTopics?.length,
-    selectedTopics.includes('undefined'),
-  )
-
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)
     try {
@@ -223,8 +216,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
       console.error(error)
     }
   }
-
-  console.log(initialTopic)
 
   return {
     props: {
