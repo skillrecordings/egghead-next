@@ -191,7 +191,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const podcast = first(
     course.items.filter((item: any) => item.type === 'podcast'),
   )
-  console.log(podcast)
+
   logCollectionResource(course)
 
   const courseTags = tags.map((tag: any) => {
