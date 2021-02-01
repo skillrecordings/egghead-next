@@ -7,7 +7,7 @@ import {find} from 'lodash'
 const landingPage = () => {
   return (
     <>
-      <div className="">
+      <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
         <ProjectBrief
           topic={{
             name: 'cloudflare',
@@ -33,6 +33,27 @@ const landingPage = () => {
             />
           </p>
         </ProjectBrief>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="px-10 py-10 bg-white shadow col-span-2">
+            <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
+            <Markdown
+              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
+              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
+            />
+            <Markdown
+              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
+              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
+            />
+          </div>
+          <div className="px-10 py-10 bg-white shadow col-span-1">
+            <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
+            <Markdown
+              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
+              source={`Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
+            />
+          </div>
+        </div>
       </div>
     </>
   )
@@ -74,7 +95,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
 
   return (
     <div
-      className={`mb-10 pb-10 xl:px-0 px-5 bg-blue-600 dark:bg-gray-900 ${
+      className={`mb-10 pb-10 xl:px-0 px-5 dark:bg-gray-900 ${
         className ? className : ''
       }`}
     >
@@ -99,7 +120,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 justify-self-center space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid grid-cols-1 gap-5 justify-self-center space-y-5 md:space-y-0 dark:bg-gray-900">
         <div
           className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm grid grid-cols-8 h-full relative items-center overflow-hidden rounded-md border border-gray-100 dark:border-gray-800 col-span-8`}
         >
