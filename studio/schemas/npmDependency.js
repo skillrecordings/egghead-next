@@ -12,6 +12,15 @@ export default {
       type: 'string',
     },
     {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        maxLength: 100,
+        source: 'name',
+      },
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'markdown',
@@ -24,14 +33,6 @@ export default {
       description: 'Path on egghead.io (if applicable)',
       title: 'egghead.io/ Path',
       type: 'string',
-    },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        maxLength: 100,
-      },
     },
     {
       title: 'Link to npm',

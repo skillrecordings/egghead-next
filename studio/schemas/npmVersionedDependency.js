@@ -15,4 +15,16 @@ export default {
       to: [{type: 'npmDependency'}],
     },
   ],
+  preview: {
+    select: {
+      version: 'version',
+      name: 'npmDependency.name',
+    },
+    prepare(selection) {
+      const {version, name} = selection
+      return {
+        title: `${name} v${version}`,
+      }
+    },
+  },
 }
