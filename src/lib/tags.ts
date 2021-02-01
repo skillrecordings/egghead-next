@@ -27,7 +27,6 @@ export async function getTag(slug: string) {
 }
 
 export async function loadTag(slug: string) {
-  console.log('load tag', slug)
   const query = /* GraphQL */ `
     query getTag($slug: String!) {
       tag(slug: $slug) {
