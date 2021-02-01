@@ -21,6 +21,7 @@ export async function loadCourse(slug: string) {
         created_at
         updated_at
         free_forever
+        transfer_playlist_slug
         tags {
           name
           image_url

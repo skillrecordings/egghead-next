@@ -33,6 +33,13 @@ export default Course
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   const course = params && (await loadCourse(params.slug as string))
 
+  if (course && course?.transfer_playlist_slug) {
+    res.setHeader('Location', `/playlists/${course.transfer_playlist_slug}`)
+    res.statusCode = 302
+    res.end()
+    return {props: {}}
+  }
+
   if (course && course?.slug !== params?.slug) {
     res.setHeader('Location', course.path)
     res.statusCode = 302
