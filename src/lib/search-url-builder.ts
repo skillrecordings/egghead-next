@@ -86,7 +86,7 @@ export const createUrl = (searchState: {
   const queryString = qs.stringify({
     q: query ? `${query.split(' ').join('+')}` : undefined,
     type: type ? type.join(',') : undefined,
-    page,
+    ...(page && page > 1 && {page}),
   })
 
   const instructors = refinementList?.instructor_name

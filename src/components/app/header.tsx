@@ -178,7 +178,7 @@ const SearchBar = () => {
         query: '',
       }}
       onSubmit={(values) => {
-        router.push(`/q?q=${values.query}`)
+        router.push(`/q?q=${values.query?.split(' ').join('+')}`)
         track('searched for query', {
           query: values.query,
           location: 'home',
