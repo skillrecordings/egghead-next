@@ -1,4 +1,4 @@
-import SearchDanAbramov from './dan-abramov/index'
+import SearchDanAbramov from './dan-abramov'
 
 const InstructorsIndex: any = {
   'dan-abramov': SearchDanAbramov,

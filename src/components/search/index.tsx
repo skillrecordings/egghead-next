@@ -19,11 +19,11 @@ import SearchReact from 'components/search/curated/react'
 import SearchJavaScript from 'components/search/curated/javascript'
 import SearchGraphql from 'components/search/curated/graphql'
 
-import InstructorDefaultPage from 'components/search/components/instructor'
-import InstructorsIndex from 'components/search/curated/instructors/index'
+import InstructorsIndex from 'components/search/instructors/index'
 
 import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
+import SearchInstructorEssential from './instructors/instructor-essential'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -195,24 +195,20 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
             </div>
           </div>
-
           {!isEmpty(instructor) && (
             <>
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <InstructorCuratedPage instructor={instructor} />
+                <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
+                  <InstructorCuratedPage instructor={instructor} />
+                </div>
               )}
 
               {!shouldDisplayLandingPageForInstructor(instructor.slug) && (
                 <div className="mb-10 pb-10 xl:px-0 px-5 max-w-4xl mx-auto dark:bg-gray-900">
-                  <InstructorDefaultPage
+                  <SearchInstructorEssential
                     className="col-span-8"
-                    name={instructor.full_name}
-                    imageUrl={instructor.avatar_url}
-                    twitterHandle={instructor.twitter}
-                    slug={instructor.slug}
-                  >
-                    {instructor.bio_short}
-                  </InstructorDefaultPage>
+                    instructor={instructor}
+                  />
                 </div>
               )}
             </>

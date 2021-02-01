@@ -79,7 +79,7 @@ const SearchIndex: any = ({
     clearTimeout(debouncedState.current)
 
     const instructors = getInstructorsFromSearchState(searchState)
-
+    console.log(instructors)
     if (instructors.length === 1) {
       const instructorSlug = getInstructorSlugFromInstructorList(instructors)
       try {
