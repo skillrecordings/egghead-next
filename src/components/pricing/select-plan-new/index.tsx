@@ -186,7 +186,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
         return annualPlan
       case 'month':
         return monthlyPlan
-      case 'three months':
+      case 'quarter':
         return quarterlyPlan
       default:
         return annualPlan
