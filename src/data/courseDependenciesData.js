@@ -5,6 +5,13 @@ const courseDependencyData = (courseSlug) =>
     [
       {
         slug: 'introduction-to-cloudflare-workers-5aa3',
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course will give you a solid foundation to start developing serverless applications. Serverless is a great trend to explore and CloudFlare is at the forefront of the technology.
+          `,
+          asOf: `2021-02-01`,
+        },
         topics: [
           'Configure the Wrangler CLI for local development',
           'Write & deploy Cloudflare Workers projects',
