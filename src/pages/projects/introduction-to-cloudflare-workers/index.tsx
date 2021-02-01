@@ -91,7 +91,7 @@ const landingPage = () => {
           <h1 className="text-2xl md:text-4xl font-bold ">{course.title}</h1>
         </div>
         <ProjectBrief
-          className="mt-12"
+          className="pb-12"
           topic={{
             name: 'cloudflare',
             label: 'Project Brief',
@@ -106,8 +106,28 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
           </Markdown>
         </ProjectBrief>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow col-span-2 shadow-sm rounded-md border border-gray-100">
+        <div className="flex justify-center">
+          <svg
+            width="7"
+            height="155"
+            viewBox="0 0 7 155"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="3.5"
+              y1="-1.5299e-07"
+              x2="3.50001"
+              y2="155"
+              stroke="#B0B0B0"
+              stroke-width="7"
+              stroke-dasharray="10 10"
+            />
+          </svg>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-12 pt-12">
+          <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow-sm rounded-md border border-gray-100">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
               {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
@@ -125,6 +145,27 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             </Markdown>
           </div>
         </div>
+
+        <div className="flex justify-center">
+          <svg
+            width="7"
+            height="155"
+            viewBox="0 0 7 155"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="3.5"
+              y1="-1.5299e-07"
+              x2="3.50001"
+              y2="155"
+              stroke="#B0B0B0"
+              stroke-width="7"
+              stroke-dasharray="10 10"
+            />
+          </svg>
+        </div>
+
         <div className="mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-md border border-gray-100">
           <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
             Course Content
@@ -152,6 +193,35 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
                 )
               })}
             </ul>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <svg
+            width="7"
+            height="155"
+            viewBox="0 0 7 155"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="3.5"
+              y1="-1.5299e-07"
+              x2="3.50001"
+              y2="155"
+              stroke="#B0B0B0"
+              stroke-width="7"
+              stroke-dasharray="10 10"
+            />
+          </svg>
+        </div>
+        <div>
+          <div className="mt-10 text-center pb-12">
+            <h1 className="text-2xl md:text-4xl font-bold pb-4">
+              Completed the Portfolio Project?
+            </h1>
+            <p className="text-lg md:text-2xl leading-6 text-gray-500">
+              Portfolio Project Challenge
+            </p>
           </div>
         </div>
       </div>
@@ -194,11 +264,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
     `In-Depth ${topic.label} Tutorials for ${new Date().getFullYear()}`
 
   return (
-    <div
-      className={`mb-10 pb-10 xl:px-0 dark:bg-gray-900 ${
-        className ? className : ''
-      }`}
-    >
+    <div className={`xl:px-0 dark:bg-gray-900 ${className ? className : ''}`}>
       <NextSeo
         description={description}
         title={title}
