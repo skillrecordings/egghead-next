@@ -166,6 +166,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     dependencies,
     freshness,
     pairWithResources = defaultPairWithResources,
+    courseProject,
+    quickFacts,
   } = courseDependencies
 
   const {
@@ -427,8 +429,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               <div className="pt-5 md:hidden block">
                 <Fresh freshness={freshness} />
+
+                <CourseProjectCard courseProject={courseProject} />
+
                 {get(course, 'free_forever') && (
-                  <div className="pt-3">
+                  <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
                 )}
@@ -455,6 +460,23 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           className="text-gray-900 dark:text-gray-100 leading-6"
                         >
                           {topic}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+              {quickFacts && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">Quick Facts</h2>
+                  <div className="prose dark:prose-dark">
+                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                      {quickFacts?.map((quickFact: string) => (
+                        <li
+                          key={quickFact}
+                          className="text-gray-900 dark:text-gray-100 leading-6"
+                        >
+                          {quickFact}
                         </li>
                       ))}
                     </ul>
@@ -499,7 +521,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
+
               <Fresh freshness={freshness} />
+
+              <CourseProjectCard courseProject={courseProject} />
+
               <div className="">
                 {get(course, 'free_forever') && (
                   <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
@@ -733,6 +759,30 @@ const Fresh = ({freshness}: {freshness: any}) => {
         </div>
       )}
     </>
+  )
+}
+
+const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
+  return (
+    <div className="border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800 p-4 my-3 mt-8 border">
+      {courseProject && (
+        <Link href={courseProject.url}>
+          <a>
+            {courseProject.label && (
+              <h2 className="text-xl font-semibold mb-4">
+                ⚔️ {courseProject.label}
+              </h2>
+            )}
+
+            {courseProject.text && (
+              <Markdown className="prose dark:prose-dark w-full">
+                {courseProject.text}
+              </Markdown>
+            )}
+          </a>
+        </Link>
+      )}
+    </div>
   )
 }
 
