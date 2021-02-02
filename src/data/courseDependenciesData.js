@@ -12,6 +12,12 @@ const courseDependencyData = (courseSlug) =>
           `,
           asOf: `2021-02-01`,
         },
+        projects: [
+          {
+            label: 'Cloudflare Worker Project',
+            url: '/projects/introduction-to-cloudflare-workers',
+          },
+        ],
         topics: [
           'Configure the Wrangler CLI for local development',
           'Write & deploy Cloudflare Workers projects',
