@@ -47,7 +47,7 @@ import CodeLink, {
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
-import Comments from 'components/pages/lessons/comments'
+import Comments from 'components/pages/lessons/comments/comments'
 import useCio from 'hooks/use-cio'
 import {convertTimeWithTitles} from '../../utils/time-utils'
 
