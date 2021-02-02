@@ -2,7 +2,7 @@ import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import Comment from 'components/pages/lessons/comments/comment'
-import CommentField from 'components/pages/lessons/comments/comment-field/'
+import CommentField from 'components/pages/lessons/comments/comment-field'
 import {track} from 'utils/analytics'
 
 type CommentsProps = {
@@ -13,6 +13,7 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
   lesson,
 }: CommentsProps) => {
   const {comments, add_comment_url = true} = lesson
+  console.log('comments: ', comments)
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
   return (
