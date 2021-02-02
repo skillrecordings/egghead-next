@@ -12,7 +12,7 @@ const DanAbramovPageData = [
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612049839/egghead-next-pages/instructors/dan-abramov-hero-image.png',
     ctaImage:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612050169/egghead-next-pages/instructors/just-javascript-hero-image.png',
-    ctaLink: 'https://justjavascript.com"',
+    ctaLink: 'https://justjavascript.com',
     bio: `In 2015, Abramov started working in London for Facebook as part of the React Core team to develop Facebook’s open-source user interface (UI) tool, React.js. 
 
 He started using React for front-end development when he was working with a U.S-based startup, Stampsy in 2014. While he was working at Facebook, Abramov also developed Redux with Andrew Clark a JavaScript library used to manage application state.`,

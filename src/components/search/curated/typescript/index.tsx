@@ -8,7 +8,7 @@ const SearchTypescript = () => {
       topic={{
         label: 'TypeScript',
         name: 'typescript',
-        description: `Description text for TypeScript`,
+        description: `TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.`,
       }}
       pageData={typescriptPageData}
     />
