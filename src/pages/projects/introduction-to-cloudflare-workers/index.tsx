@@ -77,13 +77,15 @@ const landingPage: FunctionComponent<LandingProps> = () => {
     <>
       <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
         <div className="mt-10 mb-16 text-center">
-          <div className="mb-16">
-            <Image priority src={course.image} height="300" width="300" />
+          <div className="mb-10">
+            <Image priority src={course.image} height="270" width="270" />
           </div>
           <p className="text-lg md:text-2xl leading-6 text-gray-500">
             Portfolio Project Challenge
           </p>
-          <h1 className="text-2xl md:text-4xl font-bold ">{course.title}</h1>
+          <h1 className="text-2xl md:text-4xl font-bold mt-2">
+            {course.title}
+          </h1>
         </div>
         <ProjectBrief
           className="pb-12"
@@ -133,7 +135,9 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
               {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
-- In the course, Kristian deploys a worker that makes use of Cloudflare's IncomingRequestCfProperties ([see docs](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties)) to retrieve the user's country. There are additional data available here that could be used in fulfilling this project brief.
+
+- In the course, Kristian deploys a worker that makes use of Cloudflare's **IncomingRequestCfProperties** ([see docs](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties)) to retrieve the user's country. There are additional data available here that could be used in fulfilling this project brief.
+
 - The template rendered in the demo ([see repo](https://github.com/signalnerve/region-workers-example/blob/main/template.js)) imports the country-code-emoji package from npm. While the project brief doesn't call for using a 3rd party library, the learner should be able to see how they could create an object with hardcoded demo data.`}
             </Markdown>
           </div>
@@ -282,11 +286,11 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
   className,
   cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
-  const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
+  const description = `Build a localization engine that renders data based on the Edge location nearest to the application's user using Cloudflare Workers.`
 
   const title =
     topic.title ||
-    `In-Depth ${topic.label} Tutorials for ${new Date().getFullYear()}`
+    `Introduction to Cloudflare Workers - Portfolio Project Challenge`
 
   return (
     <div className={`xl:px-0 dark:bg-gray-900 ${className ? className : ''}`}>
