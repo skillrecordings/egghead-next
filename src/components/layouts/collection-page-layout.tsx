@@ -24,6 +24,7 @@ import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
+import {useTheme} from 'next-themes'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -187,6 +188,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     path,
     tags = [],
   } = course
+
+  const podcast = first(
+    course.items.filter((item: any) => item.type === 'podcast'),
+  )
 
   logCollectionResource(course)
 
@@ -421,7 +426,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6 mb-6">
                 {description}
               </Markdown>
 
@@ -442,6 +447,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
+              {!isEmpty(podcast) && (
+                <CoursePodcast podcast={podcast} instructorName={full_name} />
+              )}
               {topics && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
@@ -734,6 +742,48 @@ const Fresh = ({freshness}: {freshness: any}) => {
       )}
     </>
   )
+}
+
+const CoursePodcast = ({
+  podcast: {transcript, simplecast_uid: id},
+  instructorName,
+}: any) => {
+  const [isOpen, setOpen] = React.useState(false)
+  const {theme} = useTheme()
+
+  if (isEmpty(id)) {
+    return null
+  } else {
+    return (
+      <div className="w-full pt-2 pb-3">
+        <h3 className="font-semibold text-xl my-2">
+          {`Listen to ${instructorName} tell you about this course:`}{' '}
+          {transcript && (
+            <span>
+              <button onClick={() => setOpen(!isOpen)}>
+                {isOpen ? 'Hide Transcript' : 'Show Transcript'}
+              </button>
+            </span>
+          )}
+        </h3>
+        <iframe
+          height="52px"
+          width="100%"
+          frameBorder="no"
+          scrolling="no"
+          seamless
+          src={`https://player.simplecast.com/${id}?dark=${
+            theme === 'dark'
+          }&color=${theme === 'dark' && '111827'}`}
+        />
+        {isOpen && transcript && (
+          <Markdown className="bb b--black-10 pb3 lh-copy">
+            {transcript}
+          </Markdown>
+        )}
+      </div>
+    )
+  }
 }
 
 export default CollectionPageLayout
