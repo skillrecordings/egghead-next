@@ -320,14 +320,14 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
           className={`bg-white grid grid-cols-8 h-full relative items-center overflow-hidden shadow rounded-md border border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-8`}
         >
           <div
-            className="overflow-hidden sm:col-span-2 col-span-2 w-full h-full"
+            className="overflow-hidden sm:col-span-3 col-span-3 w-full h-full"
             style={{
               background: `url(https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201104)`,
               backgroundSize: 'cover',
               backgroundPosition: '38%',
             }}
           />
-          <div className="sm:col-span-6 col-span-6 flex flex-col justify-start h-full px-8 py-12 pt-10">
+          <div className="sm:col-span-5 col-span-5 flex flex-col justify-start h-full px-12 py-12 pt-10">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">
               {topic.label}
             </h1>
