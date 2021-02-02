@@ -18,6 +18,7 @@ import config from 'lib/config'
 import SearchReact from 'components/search/curated/react'
 import SearchJavaScript from 'components/search/curated/javascript'
 import SearchGraphql from 'components/search/curated/graphql'
+import SearchTypescript from './curated/typescript'
 
 import InstructorsIndex from 'components/search/instructors/index'
 
