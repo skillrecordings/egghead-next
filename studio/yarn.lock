@@ -8171,6 +8171,10 @@ sanity-plugin-graph-view@^1.0.4:
     react-force-graph "^1.37.0"
     uuid "^8.3.1"
 
+sanity-plugin-json-to-docs@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/sanity-plugin-json-to-docs/-/sanity-plugin-json-to-docs-1.0.3.tgz#fe326abda17c3a52548718e536fce586aa713cda"
+
 sanity-plugin-markdown@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/sanity-plugin-markdown/-/sanity-plugin-markdown-1.0.1.tgz#25e4f861d1252ef2448224162e171dfba5e7bcce"
