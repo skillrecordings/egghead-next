@@ -20,10 +20,11 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
     avatar_url: imageUrl,
     slug,
     twitter: twitterHandle,
-    bio_short: bio,
+    bio_short,
     full_name: name,
     website: websiteUrl,
     company,
+    bio,
   } = instructor
 
   const location = `${name} landing`
@@ -121,9 +122,9 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
               </ul>
             </div>
 
-            {bio && (
+            {(bio || bio_short) && (
               <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-thight text-gray-800 dark:text-gray-200 mt-2 md:mt-8">
-                {bio}
+                {bio || bio_short}
               </Markdown>
             )}
           </div>
