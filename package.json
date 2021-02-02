@@ -214,5 +214,8 @@
     "exclude": [
       "pages/api/__coverage__.js"
     ]
+  },
+  "resolutions": {
+    "webpack": "^5.19.0"
   }
 }
