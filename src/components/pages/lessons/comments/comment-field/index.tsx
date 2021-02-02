@@ -18,7 +18,7 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
     <div className="">
       {!isError && (
         <Formik
-          initialValues={{newCommentText: 'eee'}}
+          initialValues={{newCommentText: ''}}
           //   validationSchema={loginSchema}
           onSubmit={(values) => {
             setIsSubmitted(true)
