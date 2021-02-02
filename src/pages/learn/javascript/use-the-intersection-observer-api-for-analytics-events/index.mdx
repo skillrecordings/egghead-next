@@ -1,0 +1,307 @@
+export const meta = {
+  title: `Use the Intersection Observer API For Analytics Events`,
+  description: `Pageviews only tell a tiny part of the story of what your visitors are doing on your site. Modern web APIs make creating tracking for certain events much more performant than in the past, and one of those is Intersection Observer.`,
+  state: 'draft',
+  author: {
+    name: 'Stephanie Eckles',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/406/medium/StephEckles.JPG',
+    path: '/q/resources-by-stephanie-eckles',
+  },
+  contributors: [
+    {
+      name: 'Lauro Silva',
+      type: 'Illustration + Content Review',
+      path: '/q/resource-by-lauro-silva',
+    },
+  ],
+  coverImage: {
+    url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612169697/egghead-next-ebombs/use-the-intersection-observer-api-for-analytics-events/3d-illustration.png',
+    alt: '3D illustration with motion',
+  },
+  ogImage: {
+    url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612169696/egghead-next-ebombs/use-the-intersection-observer-api-for-analytics-events/3d-illustration-ogImage.png`,
+  },
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide meta={meta}>{children}</UltimateGuide>
+)
+
+<div className="prose-reset text-lg font-medium pb-8">
+
+Page views only tell a tiny part of the story of what your visitors are doing on your site. Modern web APIs make creating tracking for certain events much more performant than in the past, and one of those is _Intersection Observer_.
+
+</div>
+
+Let's learn what it is and how to track a few key events for your analytics. The examples shown describe key features and behaviors of this API, and will help you better understand it even if your ultimate goal for using it is not analytics related.
+
+## What is the Intersection Observer API?
+
+As is often the case, [MDN has great explainer docs for Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API), which opens with this definition:
+
+> The Intersection Observer API provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport.
+
+Put another way: the Intersection Observer creates a watch event on the element(s) you want to observe coming in and out of the viewport (or another scrollable area you define) to allow you to attach additional events based on the element's visibility/position.
+
+Importantly, this observation is async, so it happens _off the main thread_, resulting in less of a performance hit than creating similar behavior via scroll listeners (note: Intersection Observer isn't the same as a scroll listener, but it can often be swapped for similar results).
+
+_To more deeply learn about Intersection Observer, I'd also highly recommend_ [_An Explanation of How the Intersection Observer Watches_](https://css-tricks.com/an-explanation-of-how-the-intersection-observer-watches/).
+
+A few quick points of importance:
+
+- Check [browser compatibility](https://caniuse.com/?search=intersectionobserver) to make sure Intersection Observer meets your needs. It is still technically an experimental API.
+- The Intersection Observer API will initiate the callback once the target element becomes visible and meets other option parameters.
+- You may provide a `threshold` value to determine _when_ to begin observing the intersection, where a value of `0.5` begins observing when 50% of the element is in view, and a value of `1` is when the entire element is in view.
+- A "gotcha" of the `threshold` is that it means that percentage of the element is _fully_ within view. So, if you're using `0.5` for a tall element, then on a mobile viewport you may never have 50% of it in view, resulting in never triggering the callback.
+  - You can change the observable area's bounding box by modifying the `rootMargin` property, which allows `top right bottom left` values that reduce the area from the defined direction. For example, `rootMargin: '100px 0 0 -100px` would change the area from the top to `100px` from the top, and likewise `100px` from the bottom.
+- Additional data is provided within the callback (the [IntersectionObserverEntry interface](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry)), such as the boolean of `isIntersecting`, the `intersectionRatio` which is _how much_ of the element is intersecting (from `0` to `1`), and `time` which is the time in milliseconds from when observation started to when the callback was triggered.
+
+## Tracking When An Element Comes Into View
+
+The is the basic usage of an Intersection Observer and may be useful for metrics such as which page sections were viewed.
+
+In terms of analytics value - a "viewed" element doesn't mean the user received value from that element, it just means they scrolled by it. You'll want to combine this information with other analytics data such as bounce rate, outbound clicks, and other more specific goal events.
+
+For our example event, we'll attempt to make this milestone meaningful by only tracking the event when the element crosses 50% of the viewport.
+
+To accomplish this, we'll set the `rootMargin` to `0 0 -50% 0`. This means the bounding box of the observable area only extends 50% down the viewport, so the target element must be visible _above_ the halfway point to trigger the callback.
+
+_Note: If you are tracking something at the very start or end of your page, you will not want to adjust the_ `*rootMargin*` _- see the next section for more info_.
+
+**Create An Intersection Observer**
+
+First, we'll setup a check to ensure `IntersectionObserver` is available in the user's browser:
+
+```js
+if ('IntersectionObserver' in window) {
+  // rest of code goes here
+}
+```
+
+For our example, we'd like to detect when an ad becomes visible.
+
+Here, we initiate the observer - `adObserver` - and then provide it the element to observe, an element with the `id` of `ad`:
+
+```js
+// Observer
+const adObserver = new IntersectionObserver()
+// Observation code with go here
+
+// Observation target - `#ad`
+adObserver.observe(document.getElementById('ad'))
+```
+
+The `IntersectionObserver` will receive an array of "entries", even when we are only attaching to one element like in this example.
+
+So, we'll create a variable to hold only the first entry. Then, we'll ensure that it `isIntersecting`, else exit the function (`return`).
+
+If it is intersecting, we can proceed to trigger the analytics event.
+
+We also include an `unobserve` event to ensure our event only triggers once; else it would continue to trigger as the user scrolled up and down past the target element. If you want that repetitive behavior, simply remove that line.
+
+```js
+const adObserver = new IntersectionObserver(
+  (entries) => {
+    const ad = entries[0]
+    if (!ad.isIntersecting) return
+    adObserver.unobserve(ad.target)
+
+    // Tracking code goes here
+  },
+  {
+    rootMargin: '0px 0px -50% 0px',
+  },
+)
+```
+
+You'll then notice that `rootMargin` was added as was discussed earlier into the `options` portion of the `IntersectionObserver`.
+
+Here's a CodePen to help visualize how this `IntersectionObserver` will work:
+`https://codepen.io/5t3ph/live/1a95334057bdf2e5b098932290f1ab62`
+
+## Tracking Reading Milestones For Halfway and End
+
+If you have a blog of any kind, you may find value in finding out how many visitors reach reading milestones, such as the halfway point and the end of the article.
+
+For these, we need a bit more creative way to track these points. This is because, as noted in the intro, depending on say a `threshold` of `0.5` for 50% requires _that entire 50%_ being visible within the viewport at one time. It _does not mean_ that the visitor has scrolled past at least 50% of the element.
+
+The other trick with writing is that it's quite unlikely that your articles are all the same length, and we want to avoid hardcoding a static value anyway to determine "halfway" or "end."
+
+**Tracking Halfway**
+
+One way to track a flexible halfway point is to add an element that can be absolutely positioned halfway down an article.
+
+First we'll add our element, a `span` with the `id` of `halfway`.
+
+```html
+<article>
+  <span id="halfway"></span>
+  <!-- article content -->
+</article>
+```
+
+Then, we'll add CSS to position it halfway:
+
+```css
+article {
+  /* ensure #halfway is relative to the article
+      not the viewport */
+  position: relative;
+}
+
+#halfway {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  /* ensures it won't block any part of article elements */
+  pointer-events: none;
+}
+```
+
+And finally, we'll create our observer. Since we know that a `1px` element should be visible regardless of viewport size, we'll set our `threshold` to `1`. The rest of the code should look familiar as it matches what we used for generally observing when an element came into view.
+
+```js
+if ('IntersectionObserver' in window) {
+  const halfwaypointObserver = new IntersectionObserver(
+    (entries) => {
+      const halfway = entries[0]
+      if (!halfway.isIntersecting) return
+
+      halfwaypointObserver.unobserve(halfway.target)
+
+      // Tracking code here
+    },
+    {
+      threshold: 1,
+    },
+  )
+  halfwaypointObserver.observe(document.getElementById('halfway'))
+}
+```
+
+Here's a CodePen demonstrating reaching the halfway point:
+`https://codepen.io/5t3ph/live/6101a5bfe4533274a922842044b90b87`
+
+**Tracking End of Article**
+
+There are a few ways to track the end of the article:
+
+- If you have a standard element in your article template that directly follows the article, you can track based on that coming into view
+- You may track when the `article > :last-child` comes into view (or slightly more specifically, something like `article > p:last-of-type`)
+- Or you could add another hidden element as we did for the halfway tracker
+
+Let's look at triggering the event based on the `:last-child` coming into view.
+
+We'll set our `threshold` to `0.1` since it's definitely possible that for mobile viewports a single paragraph may not fit entirely into view.
+
+```js
+if ('IntersectionObserver' in window) {
+  const endpointObserver = new IntersectionObserver(
+    (entries) => {
+      const endpoint = entries[0]
+      if (!endpoint.isIntersecting) return
+
+      endpointObserver.unobserve(endpoint.target)
+
+      // Tracking code here
+    },
+    {
+      threshold: 0.1,
+    },
+  )
+
+  endpointObserver.observe(document.querySelector('article > :last-child'))
+}
+```
+
+> Unfamiliar with this type of CSS selector? Check out [my guide to CSS selectors](https://moderncss.dev/guide-to-advanced-css-selectors-part-one/)
+
+And a CodePen demonstrating reaching the `:last-child`, in this case a paragraph:
+`https://codepen.io/5t3ph/live/e7653d03bc36d503008edc53d93844de`
+
+## Tracking Time To Read
+
+Your analytics solution may provide a general "visit duration" type of metric. But, we can expand that by tracking additional values that give a rough "time to read" metric.
+
+The value here would be seeing if most folx scan your article content (very short time to "read"), and how many take time to actually read it and use it as a reference. If you write tutorials like I do, this can help provide context into how much value users are getting and how they most often interact with your content.
+
+Since we've already created the "end of article" event, it would make sense to also track this event within that observer.
+
+As mentioned in the intro, the `IntersectionObserver` also gives us a `time` value, which is the time in milliseconds from when observation started to when the callback was triggered - perfect for measuring reading time!
+
+The trick here is converting from milliseconds to something a bit more readable when you're perusing your analytics stats.
+
+We'll convert the time to seconds, then round it to the nearest half-minute (ex. `1.5`). Or, you could round to the nearest quarter-minute or just the nearest minute. The granularity is up to you! Of course, you can always adjust after you start getting values to decide how useful this metric is for you.
+
+Putting it all together:
+
+```js
+if ('IntersectionObserver' in window) {
+  const endpointObserver = new IntersectionObserver(
+    (entries) => {
+      const endpoint = entries[0]
+      if (!endpoint.isIntersecting) return
+
+      endpointObserver.unobserve(endpoint.target)
+
+      let ttr = endpoint.time
+      // Convert to seconds
+      ttr = ttr / 1000
+      // Round to nearest half-minute
+      ttr = Math.round(ttr / 60 / 0.5) * 0.5
+
+      // Track the "time to read" event by using the final
+      // `ttr` value
+    },
+    {
+      threshold: 0.1,
+    },
+  )
+
+  endpointObserver.observe(document.querySelector('article > :last-child'))
+}
+```
+
+And the CodePen demo, which will display the time once you reach the last element (adjusted to a quarter of a minute for demonstration purposes):
+`https://codepen.io/5t3ph/live/37e94f4423abed6b4f6f95f2eebb4b9f`
+
+Alternatively, you could create buckets of time segments that you feel would provide value to simplify the returned values and make it easier to spot trends.
+
+For example:
+
+```js
+let ttr = endpoint.time
+ttr = ttr / 1000
+// Simplified to only round to nearest minute
+ttr = Math.round(ttr / 60)
+
+let bucket = '< 1'
+if (ttr < 1) {
+  bucket = '< 1'
+} else if (ttr >= 1 && ttr < 3) {
+  bucket = '1-3'
+} else if (ttr >= 3 && ttr < 5) {
+  bucket = '3-5'
+} else if (ttr >= 5 && ttr < 10) {
+  bucket = '5-10'
+} else if (ttr >= 10) {
+  bucket = '10+'
+}
+
+// Pass the `bucket` value to your tracking event
+```
+
+The Intersection Observer API has many practical use cases far beyond the analytics examples shown in this tutorial. The analytics events provided an introduction to the following key features and behaviors of this API:
+
+- An Intersection Observer event happens _off the main thread_ which has performance advantages vs. using scroll events for similar outcomes.
+- Events can by unobserved after they’re triggered, allowing only firing events based on the observation once which was key to our analytics examples.
+- The `threshold` option means _the percentage of the element viewable in the observable area,_ which may prevent events firing as that area shrinks within a responsive design or is viewed on a smaller viewport.
+- The default observable area is the document root, but you can choose a different element by providing it to the `root` option.
+- You can alter the observable area’s dimensions by adjusting the `rootMargin` option, as we explored in the first example in which we wanted the ad to pass the halfway point within the viewport to count it as “viewed”.
+- Sometimes you will need to create a specific element to observe to ensure the event is triggered, like we did for the “halfway” reading milestone.
+- Creating an event may require “zooming out” on what your objective is, and selecting a child element to observe instead of the parent as we did to successfully track the “end of article” reading milestone by observing the `:last-child`.
+- A bonus feature of the Intersection Observer API is receiving the `time` value, which enables tracking the length of time until an event was triggered measured from when the observer was initiated (by default, on completion of the script containing it being loaded) until the event triggers.
