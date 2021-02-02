@@ -1,0 +1,26 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import SearchDanAbromov from './index'
+
+<Meta title="components/search/instructors/dan-abramov" />
+
+# Curated Landing Page
+
+<Canvas>
+  <Story name="Default">
+    <div className="bg-gray-100 p-5">
+      <SearchDanAbromov
+        instructor={{
+          id: 32,
+          full_name: 'Dan Abramov',
+          avatar_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/032/medium/oapgW_Fp_400x400.jpg',
+          slug: 'dan-abramov',
+          bio_short:
+            'Making hot reloading mainstream. Created React Hot Loader, Redux, React DnD.\r\n\r\nDan uses the [Operator font](http://www.typography.com/blog/introducing-operator) for coding.',
+          twitter: 'dan_abramov',
+          website: 'https://github.com/gaearon',
+        }}
+      />
+    </div>
+  </Story>
+</Canvas>

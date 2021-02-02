@@ -1,13 +1,11 @@
+import {MdLibraryBooks as icon} from 'react-icons/md'
+
 export default {
   name: 'npmDependency',
   title: 'npm Dependency',
-  type: 'object',
+  type: 'document',
+  icon,
   fields: [
-    {
-      title: 'Version',
-      name: 'version',
-      type: 'text',
-    },
     {
       name: 'name',
       title: 'Name',
@@ -19,7 +17,22 @@ export default {
       type: 'slug',
       options: {
         maxLength: 100,
+        source: 'name',
       },
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'markdown',
+      options: {
+        maxLength: 180,
+      },
+    },
+    {
+      name: 'path',
+      description: 'Path on egghead.io (if applicable)',
+      title: 'egghead.io/ Path',
+      type: 'string',
     },
     {
       title: 'Link to npm',
