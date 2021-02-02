@@ -745,8 +745,7 @@ const Fresh = ({freshness}: {freshness: any}) => {
 }
 
 const CoursePodcast = ({
-  podcast: {simplecast_uid: id},
-  transcript,
+  podcast: {transcript, simplecast_uid: id},
   instructorName,
 }: any) => {
   const [isOpen, setOpen] = React.useState(false)
