@@ -127,7 +127,14 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-12 pt-12">
-          <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow-sm rounded-md border border-gray-100">
+          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow-sm rounded-md border border-gray-100">
+            <div
+              className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+              style={{
+                background:
+                  'linear-gradient(to right, #F5C361 0%, #E75E3C 100%);',
+              }}
+            />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
               {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
@@ -135,7 +142,14 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
 - The template rendered in the demo ([see repo](https://github.com/signalnerve/region-workers-example/blob/main/template.js)) imports the country-code-emoji package from npm. While the project brief doesn't call for using a 3rd party library, the learner should be able to see how they could create an object with hardcoded demo data.`}
             </Markdown>
           </div>
-          <div className="px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow-sm rounded-md border border-gray-100">
+          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow-sm rounded-md border border-gray-100">
+            <div
+              className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+              style={{
+                background:
+                  'linear-gradient(to right, #E75E3C 0%, #F5C361 100%);',
+              }}
+            />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
               {`- The application uses Cloudflare Workers.
@@ -166,7 +180,14 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
           </svg>
         </div>
 
-        <div className="mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-md border border-gray-100">
+        <div className="relative mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-md border border-gray-100">
+          <div
+            className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+            style={{
+              background:
+                'linear-gradient(to right, #F5C361 0%, #E75E3C 100%);',
+            }}
+          />
           <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
             Course Content
           </h1>
@@ -220,7 +241,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               Completed the Portfolio Project?
             </h1>
             <p className="text-lg md:text-2xl leading-6 text-gray-500">
-              Portfolio Project Challenge
+              Tweet @eggheadio
             </p>
           </div>
         </div>
