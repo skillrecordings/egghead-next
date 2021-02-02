@@ -24,6 +24,7 @@ import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
+import {useTheme} from 'next-themes'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -188,6 +189,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     tags = [],
   } = course
 
+  const podcast = first(
+    course?.items?.filter((item: any) => item.type === 'podcast'),
+  )
+
   logCollectionResource(course)
 
   const courseTags = tags.map((tag: any) => {
@@ -212,6 +217,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
+
+  const imageIsTag = image_url.includes('tags/image')
 
   const playlists = filter(course.items, {type: 'playlist'}) || []
 
@@ -296,21 +303,23 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         <div className="mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
           <div className="md:col-span-3 md:row-start-auto flex flex-col h-full max-w-screen-2xl w-full mx-auto">
             <header>
-              <div className="md:hidden flex items-center justify-center">
-                <div>
-                  <Image
-                    src={image_url}
-                    alt={`illustration for ${title}`}
-                    height={300}
-                    width={300}
-                    quality={100}
-                  />
+              {image_url && (
+                <div className="md:hidden flex items-center justify-center">
+                  <div>
+                    <Image
+                      src={image_url}
+                      alt={`illustration for ${title}`}
+                      height={imageIsTag ? 100 : 200}
+                      width={imageIsTag ? 100 : 200}
+                      quality={100}
+                    />
+                  </div>
                 </div>
-              </div>
-              <h1 className="md:text-3xl text-2xl font-bold leading-tight md:text-left text-center">
+              )}
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
                 {title}
               </h1>
-              <div className="mt-2 flex flex-col items-center md:items-start">
+              <div className="mt-4 flex flex-col items-center md:items-start">
                 {instructor && (
                   <InstructorProfile
                     name={full_name}
@@ -321,10 +330,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
                 <div className="flex items-center flex-col md:flex-row flex-wrap">
-                  <div className="md:mr-4 mt-3">
-                    <TagList tags={courseTags} courseSlug={course.slug} />
-                  </div>
-                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
+                  <TagList tags={courseTags} courseSlug={course.slug} />
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-4">
                     {duration && (
                       <div className="mr-4">
                         <Duration duration={convertTimeWithTitles(duration)} />
@@ -419,7 +426,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6 mb-6">
                 {description}
               </Markdown>
 
@@ -440,6 +447,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
+              {!isEmpty(podcast) && (
+                <CoursePodcast podcast={podcast} instructorName={full_name} />
+              )}
               {topics && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
@@ -467,7 +477,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
-                      <div>
+                      <div key={resource.slug}>
                         <CardHorizontal
                           className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
                           resource={resource}
@@ -481,16 +491,18 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             </header>
           </div>
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
-            <div className="md:block hidden">
-              <Image
-                src={image_url}
-                alt={`illustration for ${title}`}
-                height={420}
-                width={420}
-                className="md:block hidden"
-                quality={100}
-              />
-            </div>
+            {image_url && (
+              <div className="md:block hidden">
+                <Image
+                  src={image_url}
+                  alt={`illustration for ${title}`}
+                  height={imageIsTag ? 200 : 420}
+                  width={imageIsTag ? 200 : 420}
+                  className="md:block hidden"
+                  quality={100}
+                />
+              </div>
+            )}
             <div className="md:block hidden space-y-6">
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
@@ -671,7 +683,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (
-                    <div>
+                    <div key={resource.slug}>
                       <CardHorizontal
                         className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
                         resource={resource}
@@ -730,6 +742,48 @@ const Fresh = ({freshness}: {freshness: any}) => {
       )}
     </>
   )
+}
+
+const CoursePodcast = ({
+  podcast: {transcript, simplecast_uid: id},
+  instructorName,
+}: any) => {
+  const [isOpen, setOpen] = React.useState(false)
+  const {theme} = useTheme()
+
+  if (isEmpty(id)) {
+    return null
+  } else {
+    return (
+      <div className="w-full pt-2 pb-3">
+        <h3 className="font-semibold text-xl my-2">
+          {`Listen to ${instructorName} tell you about this course:`}{' '}
+          {transcript && (
+            <span>
+              <button onClick={() => setOpen(!isOpen)}>
+                {isOpen ? 'Hide Transcript' : 'Show Transcript'}
+              </button>
+            </span>
+          )}
+        </h3>
+        <iframe
+          height="52px"
+          width="100%"
+          frameBorder="no"
+          scrolling="no"
+          seamless
+          src={`https://player.simplecast.com/${id}?dark=${
+            theme === 'dark'
+          }&color=${theme === 'dark' && '111827'}`}
+        />
+        {isOpen && transcript && (
+          <Markdown className="bb b--black-10 pb3 lh-copy">
+            {transcript}
+          </Markdown>
+        )}
+      </div>
+    )
+  }
 }
 
 export default CollectionPageLayout

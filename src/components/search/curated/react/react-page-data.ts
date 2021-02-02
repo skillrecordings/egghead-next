@@ -301,7 +301,7 @@ const reactPageData = [
   },
   {
     id: 'podcasts',
-    name: 'egghed podcasts',
+    name: 'egghead podcasts',
     title: 'Conversations with React Experts',
     resources: [
       {
