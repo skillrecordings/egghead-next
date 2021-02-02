@@ -1,0 +1,53 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import Comments from './index'
+
+export const lesson = {
+  comments: [
+    {
+      comment: 'hi',
+      created_at: '2020-05-17T03:38:36-05:00',
+      is_commentable_owner: false,
+      state: 'hidden',
+      user: {
+        avatar_url:
+          '//gravatar.com/avatar/3395ef1e1abbacb64beda2b9c9f82fd6.png?s=128&d=mp',
+        full_name: 'Yariv',
+      },
+    },
+    {
+      comment:
+        '> hi\nIs this a good place to ask questions, or is there another channel somewhere?',
+      created_at: '2020-05-17T03:49:09-05:00',
+      is_commentable_owner: false,
+      state: 'published',
+      user: {
+        avatar_url:
+          '//gravatar.com/avatar/3395ef1e1abbacb64beda2b9c9f82fd6.png?s=128&d=mp',
+        full_name: 'Yariv',
+      },
+    },
+    {
+      comment: 'A great community to engage in is: https://www.reactiflux.com/',
+      created_at: '2020-05-18T08:16:27-05:00',
+      is_commentable_owner: true,
+      state: 'published',
+      user: {
+        avatar_url:
+          '//gravatar.com/avatar/c1c563b36d23e34002036e1de405f9ca.png?s=128&d=mp',
+        full_name: 'Kent C. Dodds',
+      },
+    },
+  ],
+}
+
+<Meta title="Components/Lessons/Comments/Comments" />
+
+# `Comments` component
+
+<Canvas>
+  <Story name="Default">
+    <div className="max-w-7xl">
+      <Comments lesson={lesson} />
+    </div>
+  </Story>
+</Canvas>
