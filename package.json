@@ -36,6 +36,7 @@
     "@reach/menu-button": "^0.12.1",
     "@reach/tabs": "^0.12.1",
     "@reach/visually-hidden": "^0.12.0",
+    "@sanity/client": "^2.1.4",
     "@stripe/react-stripe-js": "^1.2.0",
     "@stripe/stripe-js": "^1.11.0",
     "@tailwindcss/aspect-ratio": "^0.2.0",

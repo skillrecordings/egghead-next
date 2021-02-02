@@ -61,6 +61,7 @@ const Card: FunctionComponent<CardProps> = ({
                 width={140}
                 height={140}
                 alt={`illustration for ${title}`}
+                className="inline"
               />
             </a>
           </Link>

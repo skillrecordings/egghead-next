@@ -1,0 +1,115 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import PricingPage from './'
+
+export const story = {
+  authToken: '',
+  redirectURL: '',
+  needsEmail: false,
+  setNeedsEmail: () => {},
+  pricesLoading: true,
+  prices: {
+    monthlyPrice: {
+      billing: 'monthly',
+      guid: '',
+      interval: 'month',
+      name: 'Pro Membership',
+      price: 16,
+      price_id: '`',
+      tier: 'pro',
+      type: 'individual',
+      url: '',
+    },
+    quarterlyPrice: {
+      billing: 'quarterly',
+      guid: '',
+      interval: 'three months',
+      name: 'Pro Membership',
+      price: 46,
+      price_id: '`',
+      tier: 'pro',
+      type: 'individual',
+      url: '',
+    },
+    annualPrice: {
+      billing: 'annual',
+      guid: '',
+      interval: 'year',
+      name: 'Pro Membership',
+      price: 150,
+      price_id: '`',
+      tier: 'pro',
+      type: 'individual',
+      url: '',
+    },
+    teamPrice: {
+      billing: 'annual',
+      features: ['Team Management & Analytics'],
+      guid: '',
+      interval: 'year',
+      name: 'For Teams',
+      price: 150,
+      price_id: '`',
+      tier: 'pro',
+      type: 'team',
+      url: '',
+    },
+  },
+  viewer: {
+    username: 'member',
+    favorites: [
+      'react',
+      'javascript',
+      'rxjs',
+      'gatsby',
+      'css',
+      'node',
+      'vue',
+      'express',
+      'redux',
+      'graphql',
+    ],
+    is_pro: true,
+    timezone: 'Europe/Prague',
+    subscription: {
+      stripe_customer_id: null,
+      active: false,
+    },
+    accounts: [],
+    purchased: [],
+  },
+}
+
+<Meta
+  title="Components/Pricing"
+  component={PricingPage}
+  argTypes={{pricesLoading: {control: 'boolean'}}}
+/>
+
+import usePricing from '../../hooks/use-pricing'
+
+export const Template = (args) => {
+  const {prices} = usePricing({mock: true})
+  return (
+    <PricingPage
+      viewer={story.viewer}
+      authToken={story.authToken}
+      prices={prices}
+      needsEmail={story.needsEmail}
+      setNeedsEmail={story.setNeedsEmail}
+      redirectURL={story.redirectURL}
+      handleClickGetAccess={() => {}}
+      {...args}
+      dark={args.dark}
+      pricesLoading={args.pricesLoading}
+    />
+  )
+}
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{pricesLoading: false, dark: true, quantityAvailable: true}}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
