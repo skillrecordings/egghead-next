@@ -23,7 +23,7 @@
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision"]
+      "plugins": ["@sanity/vision", "json-to-docs"]
     }
   },
   "parts": [
