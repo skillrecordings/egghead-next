@@ -1,83 +1,78 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
 import Topic from 'components/search/components/topic'
 import Image from 'next/image'
 import Link from 'next/link'
-import PlayIcon from 'components/pages/courses/play-icon'
-import {track} from 'utils/analytics'
-import {LessonResource} from 'types'
 
-let course = {
-  id: '418892',
-  title: 'Introduction to Cloudflare Workers',
-  path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-  image:
-    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
-  instructor: {
-    name: 'Kristian Freeman',
-    slug: 'kristian-freeman',
-    path: '/q/resources-by-kristian-freeman',
-    bio:
-      "I'm a software engineer & writer based in ATX.\r\n\r\nI'm a developer advocate for [Cloudflare Workers](https://workers.dev/). I'm exploring how serverless & edge computing can shift how we architect applications for the web.\r\n\r\n**My main focus is [Bytesized](https://www.bytesized.xyz/newsletter): a newsletter exploring important ideas for developers.** You can sign up for it below.",
-  },
-  resources: [
-    {
-      title: 'Create a Cloudflare Workers Account',
-      slug: 'cloudflare-create-a-cloudflare-workers-account',
-      path: '/lessons/cloudflare-create-a-cloudflare-workers-account',
-    },
-    {
-      title: 'Install and Configure the Cloudflare Workers CLI Wrangler',
-      slug:
-        'cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
-      path:
-        '/lessons/cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
-    },
-    {
-      title:
-        "Generate New Cloudflare Workers Projects with Wrangler's generate Command",
-      slug:
-        'cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
-      path:
-        '/lessons/cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
-    },
-    {
-      title: 'Write Your First Cloudflare Workers Serverless Function',
-      slug:
-        'cloudflare-write-your-first-cloudflare-workers-serverless-function',
-      path:
-        '/lessons/cloudflare-write-your-first-cloudflare-workers-serverless-function',
-    },
-    {
-      title: 'Preview and Publish Your Cloudflare Workers Project',
-      slug: 'cloudflare-preview-and-publish-your-cloudflare-workers-project',
-      path:
-        '/lessons/cloudflare-preview-and-publish-your-cloudflare-workers-project',
-    },
-    {
-      title: 'Render HTML Pages with Cloudflare Workers',
-      slug: 'cloudflare-render-html-pages-with-cloudflare-workers',
-      path: '/lessons/cloudflare-render-html-pages-with-cloudflare-workers',
-    },
-    {
-      title: 'Render Cloudflare Region Data for a Request Using request.cf',
-      slug:
-        'cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
-      path:
-        '/lessons/cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
-    },
-    {
-      title: 'Deploy to a Custom Domain with Cloudflare Wrangler Environments',
-      slug:
-        'cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
-      path:
-        '/lessons/cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
-    },
-  ],
+type LandingProps = {
+  course: any
 }
 
-const landingPage = () => {
+const landingPage: FunctionComponent<LandingProps> = () => {
+  const course = {
+    id: '418892',
+    title: 'Introduction to Cloudflare Workers',
+    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+    resources: [
+      {
+        title: 'Create a Cloudflare Workers Account',
+        slug: 'cloudflare-create-a-cloudflare-workers-account',
+        path: '/lessons/cloudflare-create-a-cloudflare-workers-account',
+      },
+      {
+        title: 'Install and Configure the Cloudflare Workers CLI Wrangler',
+        slug:
+          'cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
+        path:
+          '/lessons/cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
+      },
+      {
+        title:
+          "Generate New Cloudflare Workers Projects with Wrangler's generate Command",
+        slug:
+          'cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
+        path:
+          '/lessons/cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
+      },
+      {
+        title: 'Write Your First Cloudflare Workers Serverless Function',
+        slug:
+          'cloudflare-write-your-first-cloudflare-workers-serverless-function',
+        path:
+          '/lessons/cloudflare-write-your-first-cloudflare-workers-serverless-function',
+      },
+      {
+        title: 'Preview and Publish Your Cloudflare Workers Project',
+        slug: 'cloudflare-preview-and-publish-your-cloudflare-workers-project',
+        path:
+          '/lessons/cloudflare-preview-and-publish-your-cloudflare-workers-project',
+      },
+      {
+        title: 'Render HTML Pages with Cloudflare Workers',
+        slug: 'cloudflare-render-html-pages-with-cloudflare-workers',
+        path: '/lessons/cloudflare-render-html-pages-with-cloudflare-workers',
+      },
+      {
+        title: 'Render Cloudflare Region Data for a Request Using request.cf',
+        slug:
+          'cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
+        path:
+          '/lessons/cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
+      },
+      {
+        title:
+          'Deploy to a Custom Domain with Cloudflare Wrangler Environments',
+        slug:
+          'cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
+        path:
+          '/lessons/cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
+      },
+    ],
+  }
+
   return (
     <>
       <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
@@ -120,14 +115,14 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               x2="3.50001"
               y2="155"
               stroke="#B0B0B0"
-              stroke-width="7"
-              stroke-dasharray="10 10"
+              strokeWidth="7"
+              strokeDasharray="10 10"
             />
           </svg>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-12 pt-12">
-          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow-sm rounded-md border border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 pb-12 pt-12">
+          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow rounded-md border border-gray-100 sm:mr-0 md:mr-4">
             <div
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
@@ -142,12 +137,12 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
 - The template rendered in the demo ([see repo](https://github.com/signalnerve/region-workers-example/blob/main/template.js)) imports the country-code-emoji package from npm. While the project brief doesn't call for using a 3rd party library, the learner should be able to see how they could create an object with hardcoded demo data.`}
             </Markdown>
           </div>
-          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow-sm rounded-md border border-gray-100">
+          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow rounded-md border border-gray-100 mt-4 md:mt-0">
             <div
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
                 background:
-                  'linear-gradient(to right, #E75E3C 0%, #F5C361 100%);',
+                  'linear-gradient(to right, #E75E3C 0%, #F5C361 100%)',
               }}
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
@@ -174,41 +169,38 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               x2="3.50001"
               y2="155"
               stroke="#B0B0B0"
-              stroke-width="7"
-              stroke-dasharray="10 10"
+              strokeWidth="7"
+              strokeDasharray="10 10"
             />
           </svg>
         </div>
 
-        <div className="relative mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-md border border-gray-100">
+        <div className="relative mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mb-10">
           <div
             className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
             style={{
-              background:
-                'linear-gradient(to right, #F5C361 0%, #E75E3C 100%);',
+              background: 'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
             }}
           />
           <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
             Course Content
           </h1>
-          <div>
-            <ul className="ml-8">
+
+          <div className="max-w-screen-sm m-auto pb-12">
+            <ul className="mt-10">
               {course?.resources?.map((lesson: any) => {
                 return (
                   <li key={`${course.path}::${lesson.slug}`}>
                     <div className="flex items-center leading-tight py-2">
-                      <div className="flex items-center mr-2 flex-grow">
-                        <PlayIcon className="text-gray-500 dark:text-gray-100 mx-1" />
-                      </div>
-                      {lesson.path && (
-                        <Link href={lesson.path}>
-                          <a className="hover:underline flex items-center w-full">
-                            <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-gray-100 mt-0 text-lg">
-                              {lesson.title}
-                            </Markdown>
-                          </a>
-                        </Link>
-                      )}
+                      <Link href={lesson.path}>
+                        <a className="py-1 flex space-x-2 items-center dark:text-gray-100 text-gray-700 hover:text-blue-600 group">
+                          {/* prettier-ignore */}
+                          <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
+                          <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-gray-100 mt-0 text-base md:text-lg">
+                            {lesson.title}
+                          </Markdown>
+                        </a>
+                      </Link>
                     </div>
                   </li>
                 )
@@ -230,8 +222,8 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               x2="3.50001"
               y2="155"
               stroke="#B0B0B0"
-              stroke-width="7"
-              stroke-dasharray="10 10"
+              strokeWidth="7"
+              strokeDasharray="10 10"
             />
           </svg>
         </div>
@@ -241,8 +233,17 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               Completed the Portfolio Project?
             </h1>
             <p className="text-lg md:text-2xl leading-6 text-gray-500">
-              Tweet @eggheadio
+              Let us know what you build!
             </p>
+
+            <a
+              className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
+              title="Share on twitter"
+              href="https://twitter.com/intent/tweet?text=I%20created%20my%20portfolio%20project%20the%20Introduction%20to%20Cloudflare%20Workers%20course%20on%20@egghead.io!"
+              rel="noopener"
+            >
+              Tweet @eggheadio
+            </a>
           </div>
         </div>
       </div>
@@ -279,7 +280,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
   cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
   const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
-  const location = `${topic} landing`
+
   const title =
     topic.title ||
     `In-Depth ${topic.label} Tutorials for ${new Date().getFullYear()}`
@@ -309,7 +310,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
       />
       <div className="md:grid grid-cols-1 gap-5 justify-self-center space-y-5 md:space-y-0 dark:bg-gray-900">
         <div
-          className={`bg-white grid grid-cols-8 h-full relative items-center overflow-hidden shadow-sm rounded-md border border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-8`}
+          className={`bg-white grid grid-cols-8 h-full relative items-center overflow-hidden shadow rounded-md border border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-8`}
         >
           <div
             className="overflow-hidden sm:col-span-2 col-span-2 w-full h-full"
@@ -319,7 +320,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
               backgroundPosition: '38%',
             }}
           />
-          <div className="sm:col-span-6 col-span-6 flex flex-col justify-start h-full p-8">
+          <div className="sm:col-span-6 col-span-6 flex flex-col justify-start h-full px-8 py-12 pt-10">
             <h1 className="sm:text-2xl text-xl font-bold mb-2">
               {topic.label}
             </h1>
