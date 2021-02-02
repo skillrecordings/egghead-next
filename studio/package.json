@@ -30,6 +30,7 @@
     "sanity-plugin-content-model-graph": "^1.1.1",
     "sanity-plugin-dark-mode": "^0.0.32",
     "sanity-plugin-graph-view": "^1.0.4",
+    "sanity-plugin-json-to-docs": "^1.0.3",
     "sanity-plugin-markdown": "^1.0.1",
     "sanity-plugin-nyancat-spinner": "^1.0.0"
   },
