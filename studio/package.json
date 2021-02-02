@@ -26,7 +26,12 @@
     "react": "^17.0",
     "react-dom": "^17.0",
     "react-icons": "^3.11.0",
-    "sanity-plugin-markdown": "^1.0.1"
+    "sanity-plugin-content-calendar": "^1.1.0",
+    "sanity-plugin-content-model-graph": "^1.1.1",
+    "sanity-plugin-dark-mode": "^0.0.32",
+    "sanity-plugin-graph-view": "^1.0.4",
+    "sanity-plugin-markdown": "^1.0.1",
+    "sanity-plugin-nyancat-spinner": "^1.0.0"
   },
   "devDependencies": {},
   "repository": {

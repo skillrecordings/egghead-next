@@ -1,11 +1,10 @@
 import {request} from 'graphql-request'
+import config from './config'
 
 export type Instructor = {
   full_name: string
   avatar_64_url: string
 }
-
-const endpoint = 'https://egghead.io/graphql'
 
 export async function loadInstructors(page = 1) {
   const query = `query getInstructors($page: Int!){
@@ -16,7 +15,7 @@ export async function loadInstructors(page = 1) {
       slug
     }
   }`
-  const {instructors} = await request(endpoint, query, {page})
+  const {instructors} = await request(config.graphQLEndpoint, query, {page})
 
   return instructors
 }
@@ -30,9 +29,10 @@ export async function loadInstructor(slug: string) {
       slug
       bio_short
       twitter
+      website
     }
   }`
-  const {instructor} = await request(endpoint, query, {slug})
+  const {instructor} = await request(config.graphQLEndpoint, query, {slug})
 
   return instructor
 }
