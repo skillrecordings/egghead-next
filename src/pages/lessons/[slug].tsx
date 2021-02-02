@@ -41,13 +41,13 @@ import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
+import Comment from 'components/pages/lessons/comments/comment'
 import CodeLink, {
   IconCode,
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
-import Comments from 'components/pages/lessons/comments/comments'
 import useCio from 'hooks/use-cio'
 import {convertTimeWithTitles} from '../../utils/time-utils'
 
@@ -171,6 +171,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     collection,
     free_forever,
     slug,
+    comments,
   } = lesson
 
   const nextLesson = useNextForCollection(collection, lesson.slug)
@@ -196,6 +197,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
+
+  const commentsAvailable =
+    comments?.some((comment: any) => comment.state === 'published') ?? false
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -785,9 +789,25 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       />
                     </TabPanel>
                   )}
-                  <TabPanel>
-                    <Comments lesson={lesson} />
-                  </TabPanel>
+                  {commentsAvailable && (
+                    <TabPanel>
+                      <div
+                        className="space-y-6 sm:space-y-8 prose sm:prose-lg"
+                        css={{wordBreak: 'break-word'}}
+                      >
+                        {comments.map((comment: any) => (
+                          <Comment
+                            key={comment.id}
+                            comment={comment.comment}
+                            state={comment.state}
+                            createdAt={comment.created_at}
+                            isCommentableOwner={comment.is_commentable_owner}
+                            user={comment.user}
+                          />
+                        ))}
+                      </div>
+                    </TabPanel>
+                  )}
                 </TabPanels>
               </Tabs>
             </div>
