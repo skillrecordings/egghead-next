@@ -55,11 +55,11 @@ const homepageData = [
           'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
-        name: 'Cutting Edge',
-        title: 'Cloudflare Workers',
-        byline: 'Free course by Kristian Freeman',
+        name: 'Ship anywhere',
+        title: 'Containerize Apps with Docker',
+        byline: 'Joel Lord ・1h 24m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
       {
