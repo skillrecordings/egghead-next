@@ -35,10 +35,27 @@ const User: React.FunctionComponent<
   return (
     <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
-        <div className="max-w-screen-md mx-auto">
+        <div className="max-w-screen-md mx-auto flex flex-col space-y-8">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <RequestEmailChangeForm originalEmail={currentEmail} />
+          </div>
+          {/* Connect to GitHub */}
+          <div className="sm:px-6 lg:px-0 lg:col-span-9">
+            <div className="flex flex-col space-y-2">
+              <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+                Connect to GitHub
+              </h2>
+              <p>Connect your GitHub account to log in with GitHub Oauth.</p>
+              <div>
+                <a
+                  href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
+                  className="text-white bg-blue-600 border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded"
+                >
+                  Connect your GitHub account
+                </a>
+              </div>
+            </div>
           </div>
           <SubscriptionDetails
             stripeCustomerId={stripe_customer_id}
