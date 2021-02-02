@@ -4,5 +4,9 @@
   "@sanity/default-login": "6fb6d3800aa71346e1b84d95bbcaa287879456f2922372bb0294e30b968cd37f",
   "@sanity/form-builder": "b38478227ba5e22c91981da4b53436df22e48ff25238a55a973ed620be5068aa",
   "@sanity/data-aspects": "d199e2c199b3e26cd28b68dc84d7fc01c9186bf5089580f2e2446994d36b3cb6",
-  "@sanity/google-maps-input": "57ae3a403ce6a070b31ec6fa1f3c8339cafa66661eaddba1d4d5ee3cc2197ec2"
+  "@sanity/google-maps-input": "57ae3a403ce6a070b31ec6fa1f3c8339cafa66661eaddba1d4d5ee3cc2197ec2",
+  "sanity-plugin-graph-view": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "sanity-plugin-content-calendar": "77266b09d4f59715778bc5fd507aefc59e2c6269ab885d7451ad680a20bb651f",
+  "graph-view": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "content-calendar": "77266b09d4f59715778bc5fd507aefc59e2c6269ab885d7451ad680a20bb651f"
 }
