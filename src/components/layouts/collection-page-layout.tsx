@@ -24,6 +24,7 @@ import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
+import {useTheme} from 'next-themes'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -744,25 +745,23 @@ const Fresh = ({freshness}: {freshness: any}) => {
 }
 
 const CoursePodcast = ({
-  simplecast_uid: id,
+  podcast: {simplecast_uid: id},
   transcript,
   instructorName,
 }: any) => {
   const [isOpen, setOpen] = React.useState(false)
+  const {theme} = useTheme()
 
   if (isEmpty(id)) {
     return null
   } else {
     return (
-      <div className="w-100 pt2 pb3 base-secondary ph0-ns ph2">
-        <h3 className="mt2">
-          {`Listen to ${instructorName} tell you about this course.`}{' '}
+      <div className="w-full pt-2 pb-3">
+        <h3 className="font-semibold text-xl my-2">
+          {`Listen to ${instructorName} tell you about this course:`}{' '}
           {transcript && (
             <span>
-              <button
-                className="link pointer bn bg-transparent f5 fw4 blue-secondary"
-                onClick={() => setOpen(!isOpen)}
-              >
+              <button onClick={() => setOpen(!isOpen)}>
                 {isOpen ? 'Hide Transcript' : 'Show Transcript'}
               </button>
             </span>
@@ -774,7 +773,9 @@ const CoursePodcast = ({
           frameBorder="no"
           scrolling="no"
           seamless
-          src={`https://player.simplecast.com/${id}?dark=false`}
+          src={`https://player.simplecast.com/${id}?dark=${
+            theme === 'dark'
+          }&color=${theme === 'dark' && '111827'}`}
         />
         {isOpen && transcript && (
           <Markdown className="bb b--black-10 pb3 lh-copy">
