@@ -7,7 +7,7 @@ import SelectPlan from 'components/pricing/select-plan'
 import EmailForm from 'components/pricing/email-form'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
-import {usePricing, Prices} from 'hooks/use-pricing'
+import {usePricing} from 'hooks/use-pricing'
 import {first, get} from 'lodash'
 import {StripeAccount} from 'types'
 

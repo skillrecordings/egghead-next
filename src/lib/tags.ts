@@ -40,18 +40,9 @@ export async function loadTag(slug: string) {
     }
   `
 
-  const token = getAccessTokenFromCookie()
-
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
   const variables = {
     slug: slug,
   }
-
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
 
   const {tag} = await graphQLClient.request(query, variables)
 
