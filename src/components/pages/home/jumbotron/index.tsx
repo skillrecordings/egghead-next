@@ -25,7 +25,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
       <div className="absolute top-0 left-0 bg-gradient-to-r from-blue-500 to-blue-400 h-2 " />
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full">
-          <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 0 w-full">
+          <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
             <div className="flex-shrink-0">
               <Link href={path}>
                 <a
