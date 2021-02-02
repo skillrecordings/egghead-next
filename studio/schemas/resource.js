@@ -12,7 +12,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().max(90),
       options: {
         maxLength: 90,
       },
@@ -48,6 +48,10 @@ export default {
           {
             title: 'article',
             value: 'article',
+          },
+          {
+            title: 'landing page',
+            value: 'landing-page',
           },
         ],
       },
@@ -124,7 +128,6 @@ export default {
         maxLength: 100,
       },
     },
-
     {
       name: 'subTitle',
       description: 'Short punchy bit of text.',
@@ -304,6 +307,18 @@ export default {
       name: 'prerequisites',
       description: 'Resources that would be good to watch first.',
       title: 'Prerequisite Resources',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'nextSteps',
+      description: 'Resources that would be good to watch next.',
+      title: 'Next Step Resources',
       type: 'array',
       of: [
         {

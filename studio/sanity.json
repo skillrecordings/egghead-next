@@ -15,7 +15,6 @@
     "@sanity/desk-tool",
     "@sanity/google-maps-input",
     "markdown",
-    "content-model-graph",
     "graph-view",
     "content-calendar",
     "dark-mode",

@@ -56,7 +56,6 @@
     "cookie": "^0.4.1",
     "date-fns": "^2.16.1",
     "discord.js": "^12.5.1",
-    "erlpack": "^0.1.3",
     "facepaint": "^1.2.1",
     "focus-visible": "^5.2.0",
     "formik": "^2.2.6",
@@ -108,8 +107,7 @@
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^8.0.7",
     "xstate": "^4.16.0",
-    "yup": "^0.32.8",
-    "zlib-sync": "^0.1.7"
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@47ng/check-env": "^2.0.2",
