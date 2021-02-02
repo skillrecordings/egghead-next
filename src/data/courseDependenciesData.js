@@ -16,7 +16,7 @@ const courseDependencyData = (courseSlug) =>
         courseProject: {
           label: 'Cloudflare Worker Project',
           url: '/projects/introduction-to-cloudflare-workers',
-          text: `After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? [Start with this Project!]()
+          text: `After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? Start with this Project!
           `,
         },
         topics: [

@@ -168,6 +168,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     pairWithResources = defaultPairWithResources,
     courseProject,
     quickFacts,
+    essentialQuestions,
   } = courseDependencies
 
   const {
@@ -483,6 +484,25 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               )}
+              {essentialQuestions && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">
+                    Essential Questions
+                  </h2>
+                  <div className="prose dark:prose-dark">
+                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                      {essentialQuestions?.map((essentialQuestion: string) => (
+                        <li
+                          key={essentialQuestion}
+                          className="text-gray-900 dark:text-gray-100 leading-6"
+                        >
+                          {essentialQuestion}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
               <LearnerRatings collection={course} />
               {!isEmpty(pairWithResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
@@ -764,25 +784,28 @@ const Fresh = ({freshness}: {freshness: any}) => {
 
 const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
   return (
-    <div className="border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800 p-4 my-3 mt-8 border">
+    <>
       {courseProject && (
-        <Link href={courseProject.url}>
-          <a>
-            {courseProject.label && (
-              <h2 className="text-xl font-semibold mb-4">
-                ⚔️ {courseProject.label}
-              </h2>
-            )}
-
-            {courseProject.text && (
-              <Markdown className="prose dark:prose-dark w-full">
-                {courseProject.text}
-              </Markdown>
-            )}
-          </a>
-        </Link>
+        <div className="border-indigo-500 hover:border-indigo-700 dark:hover:border-indigo-400 rounded-md bg-indigo-100 dark:bg-indigo-900 border-opacity-20 p-4 my-8 border">
+          {courseProject && (
+            <Link href={courseProject.url}>
+              <a>
+                {courseProject.label && (
+                  <h2 className="text-xl font-semibold mb-4">
+                    ⚔️ {courseProject.label}
+                  </h2>
+                )}
+                {courseProject.text && (
+                  <Markdown className="prose dark:prose-dark w-full">
+                    {courseProject.text}
+                  </Markdown>
+                )}
+              </a>
+            </Link>
+          )}
+        </div>
       )}
-    </div>
+    </>
   )
 }
 

@@ -76,9 +76,9 @@ const landingPage: FunctionComponent<LandingProps> = () => {
   return (
     <>
       <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
-        <div className="mt-10 text-center pb-12">
+        <div className="mt-10 mb-16 text-center">
           <div className="mb-16">
-            <Image src={course.image} height="300" width="300" />
+            <Image priority src={course.image} height="300" width="300" />
           </div>
           <p className="text-lg md:text-2xl leading-6 text-gray-500">
             Portfolio Project Challenge
@@ -121,13 +121,13 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
           </svg>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 pb-12 pt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-16 mb-16">
           <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow rounded-md border border-gray-100 sm:mr-0 md:mr-4">
             <div
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
                 background:
-                  'linear-gradient(to right, #F5C361 0%, #E75E3C 100%);',
+                  'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
               }}
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
@@ -148,8 +148,11 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
               {`- The application uses Cloudflare Workers.
+
 - The application is deployed to the web and is useable for its intended purpose.
+
 - The application contains minimal bugs.
+
 - The application is accessible.`}
             </Markdown>
           </div>
@@ -175,7 +178,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
           </svg>
         </div>
 
-        <div className="relative mt-12 px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mb-10">
+        <div className="relative bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mt-16 mb-16 px-10 py-10">
           <div
             className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
             style={{
@@ -186,7 +189,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             Course Content
           </h1>
 
-          <div className="max-w-screen-sm m-auto pb-12">
+          <div className="max-w-screen-sm m-auto pb-4">
             <ul className="mt-10">
               {course?.resources?.map((lesson: any) => {
                 return (
@@ -239,7 +242,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             <a
               className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
               title="Share on twitter"
-              href="https://twitter.com/intent/tweet?text=I%20created%20my%20portfolio%20project%20the%20Introduction%20to%20Cloudflare%20Workers%20course%20on%20@egghead.io!"
+              href="https://twitter.com/intent/tweet?text=I%20created%20my%20portfolio%20project%20for%20the%20Introduction%20to%20Cloudflare%20Workers%20course%20on%20@eggheadio!"
               rel="noopener"
             >
               Tweet @eggheadio
