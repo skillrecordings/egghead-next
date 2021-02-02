@@ -13,7 +13,6 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
   lesson,
 }: CommentsProps) => {
   const {comments, add_comment_url = true} = lesson
-  console.log('comments: ', comments)
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
   return (
