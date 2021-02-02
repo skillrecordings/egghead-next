@@ -2737,7 +2737,7 @@
     "id": 1090,
     "label": "AWS",
     "name": "aws",
-    "description": "Amazon Web Services.",
+    "description": "Amazon Web Services (AWS) is a powerful expansive cloud infrastructure platform for building modern web applications.\n\nAWS provides services for data, presentation, authentication, security, video encoding, and much more. Offering over 175 fully-featured services from data centers globally, AWS powers a large percentage of the internet.",
     "slug": "aws",
     "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png",
     "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png",
