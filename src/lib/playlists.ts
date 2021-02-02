@@ -148,6 +148,11 @@ export async function loadPlaylist(slug: string, token?: string) {
             square_cover_url
             type
           }
+          ... on Podcast {
+            transcript
+            simplecast_uid
+            type
+          }
           ... on GenericResource {
             title
             url
