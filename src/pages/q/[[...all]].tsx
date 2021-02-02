@@ -129,6 +129,7 @@ const SearchIndex: any = ({
     setSearchState(searchState)
   }
 
+
   const customProps = {
     searchState,
     resultsState,

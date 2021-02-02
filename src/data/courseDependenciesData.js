@@ -4,6 +4,66 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        slug: 'introduction-to-cloudflare-workers-5aa3',
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course will give you a solid foundation to start developing serverless applications. Serverless is a great trend to explore and CloudFlare is at the forefront of the technology.
+          `,
+          asOf: `2021-02-01`,
+        },
+        topics: [
+          'Configure the Wrangler CLI for local development',
+          'Write & deploy Cloudflare Workers projects',
+          'Integrate third party libraries in a Worker',
+          'Conditionally render based on request information',
+        ],
+        quickFacts: [
+          'The Wrangler CLI allows you to manage Workers projects from scratch or from a template',
+          'Requests to Workers are populated with an object that includes information about region and timezone',
+          'Requests can be filtered based on HTTP method, url, headers, and other data',
+        ],
+        essentialQuestions: [
+          'Should you start a project from scratch, or use a generator template?',
+          'Would manual request filtering or template routing work best for your application?',
+        ],
+        pairWithResources: [
+          {
+            title:
+              'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+            byline: 'Jason Lengstorf・1h 27m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/full/EGH_NetlifyServerlessFunction_Final.png',
+            path:
+              '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+            slug:
+              'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+            description: `Starting from a prebuilt frontend, Jason Lengstorf guides you through the creation of a static "Corgi Up-boop App" and integrates Netlify Functions with Hasura.`,
+          },
+          {
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 07m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/full/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description:
+              'ES2015 brought a native Promise to the JavaScript standard library. In this course, we’re going to take an in-depth look at how to use promises to model various kinds of asynchronous operations.',
+          },
+          {
+            title: 'Develop a Serverless Backend using Node.js on AWS Lambda',
+            byline: 'Nik Graf・15m・Course',
+            image:
+              'https://app.egghead.io/lessons/aws-course-overview-develop-a-serverless-backend-using-node-js-on-aws-lambda',
+            path:
+              '/courses/develop-a-serverless-backend-using-node-js-on-aws-lambda',
+            slug: 'develop-a-serverless-backend-using-node-js-on-aws-lambda',
+            description:
+              "You'll learn the basics on how to create a serverless API. We start off creating a simple HTTP endpoint. Then we build the first two endpoints of a REST API for a simple Todo Application backend storing the data in DynamoDB. After watching this course you will be ready to get started building you first serverless backend.",
+          },
+        ],
+      },
+      {
         slug: 'create-and-deploy-a-basic-static-html-website-2960',
         topics: [
           'Getting Started with HTML',
