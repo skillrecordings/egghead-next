@@ -24,7 +24,7 @@
     "analyze": "ANALYZE=true next build",
     "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook --no-dll",
     "lint": "eslint --ext ts --ext tsx --fix src/"
   },
   "dependencies": {
