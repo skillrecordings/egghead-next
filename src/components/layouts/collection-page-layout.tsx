@@ -790,7 +790,6 @@ const Fresh = ({freshness}: {freshness: any}) => {
   )
 }
 
-
 const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
   return (
     <>
