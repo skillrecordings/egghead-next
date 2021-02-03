@@ -94,15 +94,13 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
 }
 
 const DEFAULT_FEATURES = [
-  'Stream of premium content',
-  'Offline viewing (download)',
-  'Commenting',
-  'RSS feed',
-  'Enhanced T ranscripts',
-  'Live Events Discounts',
-  'Downloads',
-  'Playback Speed Control',
-  'Community Access',
+  'Full access to all premium courses and lessons',
+  'RSS course feeds for your favorite podcast app',
+  'Offline viewing',
+  'Commenting and support',
+  'Enhanced Transcripts',
+  'Discord access',
+  'Closed captions for every video',
 ]
 
 const PlanFeatures: React.FunctionComponent<{
