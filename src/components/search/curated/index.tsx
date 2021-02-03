@@ -7,7 +7,7 @@ const CuratedTopicsIndex: any = {
   javascript: SearchJavaScript,
   react: SearchReact,
   graphql: SearchGraphql,
-  typescript: SearchTypeScript
+  typescript: SearchTypeScript,
 }
 
 export default CuratedTopicsIndex
