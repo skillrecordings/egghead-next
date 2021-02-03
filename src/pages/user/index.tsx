@@ -6,6 +6,38 @@ import RequestEmailChangeForm from 'components/users/request-email-change-form'
 import get from 'lodash/get'
 import SubscriptionDetails from 'components/users/subscription-details'
 
+const GithubConnectButton: React.FunctionComponent<{providers: string[]}> = ({
+  providers,
+}) => {
+  const {authToken} = useViewer()
+
+  const githubAlreadyConnected = providers.includes('github')
+
+  const buttonText = 'Connect your GitHub account'
+  const buttonStyles = 'text-white bg-blue-600 border-0 py-2 px-4 rounded'
+
+  if (githubAlreadyConnected) {
+    return (
+      <button
+        onClick={() => {}}
+        disabled
+        className={`${buttonStyles} opacity-50 cursor-not-allowed`}
+      >
+        {buttonText}
+      </button>
+    )
+  }
+
+  return (
+    <a
+      href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
+      className={`${buttonStyles} focus:outline-none hover:bg-blue-700`}
+    >
+      {buttonText}
+    </a>
+  )
+}
+
 type ViewerAccount = {
   stripe_customer_id: string
   slug: string
@@ -18,7 +50,7 @@ const User: React.FunctionComponent<
   const {stripe_customer_id} = account
   const {viewer, authToken} = useViewer()
 
-  const {email: currentEmail, accounts} = viewer || {}
+  const {email: currentEmail, accounts, providers} = viewer || {}
   const {slug} = get(accounts, '[0]', {})
 
   React.useEffect(() => {
@@ -48,12 +80,7 @@ const User: React.FunctionComponent<
               </h2>
               <p>Connect your GitHub account to log in with GitHub Oauth.</p>
               <div>
-                <a
-                  href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
-                  className="text-white bg-blue-600 border-0 py-2 px-4 focus:outline-none hover:bg-blue-700 rounded"
-                >
-                  Connect your GitHub account
-                </a>
+                <GithubConnectButton providers={viewer?.providers || []} />
               </div>
             </div>
           </div>
