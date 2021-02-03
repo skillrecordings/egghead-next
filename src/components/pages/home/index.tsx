@@ -7,7 +7,6 @@ import {map, get, find, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import Header from './header'
 import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
@@ -15,7 +14,6 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
-import SearchBar from './search-bar'
 import Jumbotron from './jumbotron'
 
 const Home: FunctionComponent = () => {
@@ -33,12 +31,14 @@ const Home: FunctionComponent = () => {
   const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
+  const aws: any = find(homepageData, {
+    id: 'aws',
+  })
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
   const sideProject: any = find(homepageData, {id: 'sideProject'})
   const buildInPublic: any = find(homepageData, {id: 'buildInPublic'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
   const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
-  const mdxConf: any = find(homepageData, {id: 'mdxConf'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
 
@@ -96,7 +96,7 @@ const Home: FunctionComponent = () => {
                 />
               }
             />
-            <CardVerticalWithStack data={mdxConf} />
+            <CardVerticalWithStack data={aws} />
             <CardVerticalWithStack data={stateManagement} />
             <Card>
               <>

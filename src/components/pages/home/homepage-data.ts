@@ -67,15 +67,14 @@ There are a number of tried and true methods that will allow you to learn more e
       },
       {
         name: 'Delightfully Different',
-        title: 'Composable Functional JavaScript',
-        byline: 'Brian Lonsdorf・1h 50m・Course',
+        title: 'Thinking Reactively with RxJS',
+        byline: 'Rares Matei・1h 50m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/072/thumb/EGH_ComposableJS_Final.png',
-        path:
-          '/courses/professor-frisby-introduces-composable-functional-javascript',
-        slug: 'professor-frisby-introduces-composable-functional-javascript',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/447/thumb/EGH_ThinkingRxJs.png',
+        path: '/courses/thinking-reactively-with-rxjs',
+        slug: 'thinking-reactively-with-rxjs',
         description:
-          "This course teaches the ubiquitous abstractions for modeling pure functional programs. Functional languages have adopted these algebraic constructs across the board as a way to compose applications in a principled way. \r\n\r\nWe can do the same in JavaScript. While the subject matter will move beyond the functional programming basics, no previous knowledge of functional programming is required. You'll start composing functionality before you know it.",
+          'When a manager gives us the requirements for an application feature, they don\'t care too much about *how* we build it. And often times, they think that hard things will be easy.\n\nDealing with time and coordinating different types of events can be tricky.\n\nLuckily, we have RxJS to help!\n\nIn this course, you will use RxJS to build a loading spinner in an app that meets the ever-changing requirements from a mock Product Manager.\n\nYou\'ll also learn how to implement a "Konami Code" style feature that listens for a correct sequence of keys to be typed in a set amount of time.\n\nFollow the thought process that Rares uses as he breaks problems down into manageable pieces that remain flexible, and become more comfortable solving problems reactively.',
       },
     ],
   },
@@ -232,6 +231,91 @@ There are a number of tried and true methods that will allow you to learn more e
     ],
   },
   {
+    id: 'aws',
+    name: 'Amazon Web Services',
+    title: 'Deep Dive into AWS 🤯',
+    path: '/playlists/react-state-management-in-2021-6732',
+    description:
+      'Amazon Web Services (AWS) is the world’s most comprehensive and broadly adopted cloud platform offering over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
+    resources: [
+      {
+        byline: 'Tomasz Łakomy・1h 4m・Course',
+        description:
+          "Amazon AWS is one of the most popular cloud providers in the world, but it can also be daunting to learn thanks to the alphabet soup of service acronyms.Once you've figured out which subset of services to use, you've got a lot of clicking around to do in order to get things configured.Not anymore!With the AWS Cloud Development Kit (CDK), you are able to configure AWS services from your terminal & editor.Even better, you can do your configuration, frontend, and backend all with the same language. In this course, Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done.The services & development approach Tomasz demonstrates in this course are used by countless companies around the world. Is yours next?",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
+        slug: 'build-an-app-with-the-aws-cloud-development-kit',
+        title: 'Build an App with the AWS Cloud Development Kit',
+      },
+      {
+        byline: 'Lee Robinson・30m・Course',
+        description:
+          'Learn how to use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install) to create and deploy a [DynamoDB table](https://aws.amazon.com/dynamodb/) with [Next.js](https://nextjs.org).- 🛠 API Route to handle CRUD actions- 📦 AWS CDK for Infrastructure as Code- 🔓 IAM role to restrict permissions- 🚀 Deploy instantly to [Vercel](https://vercel.com)You can view the completed code [here](https://github.com/leerob/nextjs-aws-dynamodb). ',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/thumb/EGH_DynamoDB.png',
+        path: '/playlists/using-dynamodb-with-next-js-b40c',
+        slug: 'using-dynamodb-with-next-js-b40c',
+        title: 'Using DynamoDB with Next.js',
+      },
+      {
+        byline: 'Chris Biscardi・17m・Course',
+        description:
+          "This playlist covers all of the ways to use the node.js DocumentClient to interact with one or more DynamoDB tables.note: We do not cover scan() as it is not recommended for most usage and if you need it you'll know how to read the documentation to use it by the end of this collection.",
+        path: '/playlists/dynamodb-the-node-js-documentclient-1396',
+        slug: 'dynamodb-the-node-js-documentclient-1396',
+        title: 'DynamoDB: The Node.js DocumentClient',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+      },
+      {
+        byline: 'Chris Biscardi・15m・Course',
+        description:
+          "This collection includes introductory level material for AWS DynamoDB. We cover what DynamoDB is, when you'd use it, and the vocabulary you'll need to understand documentation and talks in the ecosystem.You'll come out of this playlist with the ability to understand what people mean when they say DynamoDB and the base you need to get started yourself.**View and contribute to the [Community Notes!](https://github.com/eggheadio-projects/intro-to-dynamodb)**",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path: '/playlists/intro-to-dynamodb-f35a',
+        slug: 'intro-to-dynamodb-f35a',
+        title: 'Intro to DynamoDB',
+      },
+      {
+        byline: 'Tomasz Łakomy・21m・Course',
+        description: `AWS Lambda, Serverless, FaaS - there is a lot of noise around those topics online (and for a very good reason!) and it can get confusing at times 🤯In this collection we're going to take a look at AWS Lambda from scratch, in order to get **YOU** from:"_I have no idea what a lambda function is_" to "_I know quite a bit about AWS Lambda, and I'm going to use it to solve my problems_"Checkout the [community notes for this collection on github](https://github.com/theianjones/egghead.io_learn_aws_lambda_from_scratch).`,
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path: '/playlists/learn-aws-lambda-from-scratch-d29d',
+        slug: 'learn-aws-lambda-from-scratch-d29d',
+        title: 'Learn AWS Lambda from scratch',
+      },
+      {
+        byline: 'Tomasz Łakomy・4m・Course',
+        description:
+          "We generally tend to avoid paying for things unless we actually need them, and the same goes for AWSWhen using a cloud provider like AWS sometimes an unexpected charge may occur and we'd like to understand what are we being charged for and how to be notified whenever an unexpected charge occurs (especially when we're trying to stay within a free tier).In this quick (4 minutes, 2 lessons) collection we're going to learn how to:- Review the AWS Billing & Cost Management Dashboard- Set up a billing alarm to be notified whenever our bill is larger than $5- Review the AWS bill to understand how much are we going to pay this month and why",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path:
+          '/playlists/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        slug:
+          'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        title:
+          'Use AWS Billing & Cost Management Dashboard to keep your AWS bill to minimum',
+      },
+      {
+        byline: 'Chris Biscardi・42m・Course',
+        description:
+          'This collection is a sequel to the [Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb) collection. In this collection we take the TODO application we built and convert it to run using Netlify Identity, AWS Lambda (using the serverless framework) and DynamoDB. We cover* Fauna vs DynamoDB and when to use each↵* Setting up AWS accounts↵* Creating DynamoDB tables and data modeling differences between Fauna and Dynamo↵* Converting our Netlify Functions deployment to a Serverless Framework deployment↵* Implementing Custom authorizer functions on AWSIt uses tools that remove as many of the barriers as possible. Netlify Functions grows into Serverless Framework adn AWS Lambda, Netlify Identity is kept around, and FaunaDB can grows into DynamoDB.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path:
+          '/playlists/converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        slug:
+          'converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        title:
+          'Converting a Serverless App to run on AWS Lambda and DynamoDB with Serverless Framework',
+      },
+    ],
+  },
+  {
     id: 'stateManagement',
     name: 'Research Panel',
     title: 'React State Management in 2021',
@@ -338,54 +422,6 @@ There are a number of tried and true methods that will allow you to learn more e
     byline: 'John Lindquist',
     description:
       'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
-  },
-  {
-    id: 'mdxConf',
-    name: 'Future of Markdown',
-    title: 'MDX Conf 2020',
-    path: '/playlists/mdx-conf-3fc2',
-    byline: 'Chris Biscardi',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png',
-    description:
-      'MDX has grown rapidly since the first commit two and a half years ago. Learn how MDX increases developer productivity, improves educational content authoring, and even peek behind the curtains to see how MDX works.',
-    resources: [
-      {
-        title: 'Demystifying MDX',
-        byline: 'Cole Bremis',
-        path: '/talks/mdx-demystifying-mdx',
-      },
-      {
-        title: 'MDX v2 Syntax',
-        byline: 'Laurie Barth',
-        path: '/talks/egghead-mdx-v2-syntax',
-      },
-      {
-        title: 'MDX and VueJS/NuxtJS',
-        byline: 'Cole Bremis',
-        path: '/talks/mdx-mdx-and-vuejs-nuxtjs',
-      },
-      {
-        title: 'Migrating to MDX',
-        byline: 'Monica Powell',
-        path: '/talks/mdx-migrating-to-mdx',
-      },
-      {
-        title: 'Personal Site Playground with MDX',
-        byline: 'Prince Wilson',
-        path: '/talks/mdx-personal-site-playgrounds-with-mdx',
-      },
-      {
-        title: 'The X in MDX',
-        byline: 'Rodrigo Pombo',
-        path: '/talks/mdx-the-x-in-mdx',
-      },
-      {
-        title: 'Digital Gardening with MDX Magic',
-        byline: 'Kathleen McMahon',
-        path: '/talks/mdx-digital-gardening-with-mdx-magic',
-      },
-    ],
   },
   {
     id: 'topics',
