@@ -86,6 +86,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-facebook-pixel": "^1.0.4",
+    "react-hot-toast": "^1.0.2",
     "react-instantsearch-dom": "^6.8.3",
     "react-markdown": "^5.0.3",
     "react-scroll": "^1.8.1",
