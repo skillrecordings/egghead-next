@@ -109,7 +109,7 @@ const UniqueBackground = ({className}: any) => {
       alt=""
       layout="fill"
       src={
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612304428/next.egghead.io/resources/introduction-to-cloudflare-workers-5aa3/cloudflare-workers_2x.png'
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612373331/next.egghead.io/resources/introduction-to-cloudflare-workers-5aa3/introduction-to-cloudflare-workers-cover_2.png'
       }
     />
   )
