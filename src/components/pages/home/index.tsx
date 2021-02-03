@@ -327,7 +327,7 @@ function FeaturedVideoCard(props: {video: any}) {
             </Markdown>
           </div>
         </div>
-        <div className="sm:w-full -m-5 flex items-center flex-grow bg-gray-900">
+        <div className="sm:w-full -m-5 flex items-center flex-grow bg-black">
           <EggheadPlayer
             preload={false}
             autoplay={false}

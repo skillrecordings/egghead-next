@@ -20,24 +20,26 @@ const homepageData = [
   },
   {
     id: 'video',
-    name: 'Modern Web Development',
-    title: 'Full Stack Development in the Era of Serverless Computing',
-    description:
-      'Learn a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.',
-    instructor: 'Nader Dabit',
+    name: 'Optimize your Learning',
+    title: 'Learning Tips Every Developer Should Know',
+    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
+
+There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+      `,
+    instructor: 'Ceora Ford',
     instructor_path: '/q/resources-by-nader-dabit',
     path:
-      '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',
+      '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
     poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.jpg',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/hls/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.m3u8',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
 
     dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/dash/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
 
     subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-full-stack-development-in-the-era-of-serverless-computing/subtitles',
+      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   {
     id: 'featured',
@@ -60,7 +62,8 @@ const homepageData = [
         byline: 'Joel Lord ・1h 24m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
-        path: '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
+        path:
+          '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
       },
       {
         name: 'Delightfully Different',
