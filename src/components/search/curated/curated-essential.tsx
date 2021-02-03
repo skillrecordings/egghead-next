@@ -37,7 +37,6 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   verticalImage,
   cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
-  console.log(CTAComponent)
   const location = `${topic} landing`
   const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
   const title =
