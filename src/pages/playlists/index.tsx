@@ -1,12 +1,12 @@
 import * as React from 'react'
-import {loadAllPlaylists} from 'lib/playlists'
+import {loadAllPlaylistsByPage} from 'lib/playlists'
 import Link from 'next/link'
 import Image from 'next/image'
 import TagList from '../../components/layouts/tag-list'
 import Markdown from 'react-markdown'
 
 export async function getStaticProps() {
-  const playlists = await loadAllPlaylists()
+  const playlists = await loadAllPlaylistsByPage()
   return {
     props: {playlists}, // will be passed to the page component as props
   }
