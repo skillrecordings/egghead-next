@@ -5,6 +5,7 @@ const courseDependencyData = (courseSlug) =>
     [
       {
         id: '418892',
+        type: 'playlist',
         slug: 'introduction-to-cloudflare-workers-5aa3',
         freshness: {
           status: `fresh`,
