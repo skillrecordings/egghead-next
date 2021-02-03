@@ -44,7 +44,8 @@ export default {
     {
       name: 'reviewedBy',
       title: 'Reviewed By',
-      type: 'person',
+      type: 'reference',
+      to: [{type: 'collaborator'}],
     },
     {
       title: 'Staff Review Data',

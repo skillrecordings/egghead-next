@@ -12,6 +12,13 @@ const courseDependencyData = (courseSlug) =>
           `,
           asOf: `2021-02-01`,
         },
+
+        courseProject: {
+          label: 'Cloudflare Worker Project',
+          url: '/projects/introduction-to-cloudflare-workers',
+          text: `After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? Start with this Project!
+          `,
+        },
         topics: [
           'Configure the Wrangler CLI for local development',
           'Write & deploy Cloudflare Workers projects',
@@ -54,7 +61,7 @@ const courseDependencyData = (courseSlug) =>
             title: 'Develop a Serverless Backend using Node.js on AWS Lambda',
             byline: 'Nik Graf・15m・Course',
             image:
-              'https://app.egghead.io/lessons/aws-course-overview-develop-a-serverless-backend-using-node-js-on-aws-lambda',
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/212/full/Egh_NodeAWSServerless_Final.png',
             path:
               '/courses/develop-a-serverless-backend-using-node-js-on-aws-lambda',
             slug: 'develop-a-serverless-backend-using-node-js-on-aws-lambda',

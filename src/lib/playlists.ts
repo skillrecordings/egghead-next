@@ -1,7 +1,69 @@
-import {GraphQLClient} from 'graphql-request'
+import {GraphQLClient, request} from 'graphql-request'
 import config from './config'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+
+export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
+  const query = /* GraphQL */ `
+    query PagedPlaylists($page: Int!, $per_page: Int!) {
+      playlists(page: $page, per_page: $per_page) {
+        data {
+          slug
+          title
+          average_rating_out_of_5
+          watched_count
+          path
+          description
+          tags {
+            name
+            label
+            image_url
+          }
+          image_thumb_url
+          instructor {
+            id
+            full_name
+            path
+          }
+        }
+        count
+        current_page
+        total_pages
+      }
+    }
+  `
+  try {
+    let currentPage = 1
+    let allPlaylists: any[] = []
+    let hasNextPage = true
+
+    while (hasNextPage) {
+      const {
+        playlists: {data, count},
+      } = await request(config.graphQLEndpoint, query, {
+        page: currentPage,
+        per_page: 25,
+      })
+
+      currentPage = currentPage + 1
+      allPlaylists = [...allPlaylists, ...data]
+
+      console.debug(
+        `\n\n~> loading playlists: ${allPlaylists.length}/${count}\n`,
+      )
+
+      hasNextPage = allPlaylists.length < count
+    }
+
+    return allPlaylists
+  } catch (error) {
+    if (retryCount <= 4) {
+      return loadAllPlaylistsByPage(retryCount + 1)
+    } else {
+      throw error
+    }
+  }
+}
 
 export async function loadAllPlaylists() {
   const query = /* GraphQL */ `
