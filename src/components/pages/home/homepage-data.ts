@@ -60,7 +60,7 @@ const homepageData = [
         byline: 'Joel Lord ・1h 24m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
-        path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+        path: '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
       },
       {
         name: 'Delightfully Different',
