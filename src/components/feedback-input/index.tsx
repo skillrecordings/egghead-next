@@ -137,7 +137,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           padding: '2rem',
-          zIndex: 40,
+          zIndex: 100,
         }}
       >
         <DialogContent

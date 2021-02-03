@@ -56,7 +56,7 @@ test('creates a url with a query with single tag and instructor filtered by mult
   })
 
   expect(url).toBe(
-    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course%2Cpodcast`,
+    `${config.searchUrlRoot}/react-${CREATOR_DELINIATOR}-kent-c-dodds?q=hooks&type=course,podcast`,
   )
 })
 

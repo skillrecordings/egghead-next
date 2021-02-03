@@ -1,25 +1,22 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    byline: 'New Course',
-    title: 'Containerize Full-Stack JavaScript Applications with Docker',
-    instructor: {
-      name: 'Joel Lord',
-      slug: 'joel-lord',
-      path: '/q/resources-by-joel-lord',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/202/square_128/profile-no-bg-small.png',
-    },
+    title: 'Introduction to Cloudflare Workers',
+    byline: 'new course',
     description:
-      'One of the most useful ways to get your head around Docker is to see it in action. Follow along with Joel Lord as he works through the process of preparing an application to run in separate containers for the frontend and backend of an application that searches for gifs and re-encodes them with a caption supplied by the user.',
-    image: {
-      src:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
-      alt:
-        'Stylized illustration of colorful shipping containers with a docker logo',
+      "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+    slug: 'introduction-to-cloudflare-workers-5aa3',
+    instructor: {
+      name: 'Kristian Freeman',
+      slug: 'kristian-freeman',
+      path: '/q/resources-by-kristian-freeman',
+      twitter: 'signalnerve',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/469/square_128/kristian.jpeg',
     },
-    path:
-      '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
   },
   {
     id: 'video',
@@ -58,11 +55,11 @@ const homepageData = [
           'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
-        name: 'Cutting Edge',
-        title: 'Cloudflare Workers',
-        byline: 'Free course by Kristian Freeman',
+        name: 'Ship anywhere',
+        title: 'Containerize Apps with Docker',
+        byline: 'Joel Lord ・1h 24m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
         path: '/playlists/introduction-to-cloudflare-workers-5aa3',
       },
       {

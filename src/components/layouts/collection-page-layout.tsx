@@ -24,6 +24,7 @@ import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
+import {useTheme} from 'next-themes'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -166,6 +167,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     dependencies,
     freshness,
     pairWithResources = defaultPairWithResources,
+    courseProject,
+    quickFacts,
+    essentialQuestions,
   } = courseDependencies
 
   const {
@@ -187,6 +191,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     path,
     tags = [],
   } = course
+
+  const podcast = first(
+    course?.items?.filter((item: any) => item.type === 'podcast'),
+  )
 
   logCollectionResource(course)
 
@@ -325,10 +333,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
                 <div className="flex items-center flex-col md:flex-row flex-wrap">
-                  <div className="md:mr-4 mt-3">
-                    <TagList tags={courseTags} courseSlug={course.slug} />
-                  </div>
-                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-3">
+                  <TagList tags={courseTags} courseSlug={course.slug} />
+                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-4">
                     {duration && (
                       <div className="mr-4">
                         <Duration duration={convertTimeWithTitles(duration)} />
@@ -423,14 +429,17 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6 mb-6">
                 {description}
               </Markdown>
 
               <div className="pt-5 md:hidden block">
                 <Fresh freshness={freshness} />
+
+                <CourseProjectCard courseProject={courseProject} />
+
                 {get(course, 'free_forever') && (
-                  <div className="pt-3">
+                  <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
                 )}
@@ -444,6 +453,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
+              {!isEmpty(podcast) && (
+                <CoursePodcast podcast={podcast} instructorName={full_name} />
+              )}
               {topics && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
@@ -463,6 +475,42 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               )}
+              {quickFacts && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">Quick Facts</h2>
+                  <div className="prose dark:prose-dark">
+                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                      {quickFacts?.map((quickFact: string) => (
+                        <li
+                          key={quickFact}
+                          className="text-gray-900 dark:text-gray-100 leading-6"
+                        >
+                          {quickFact}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+              {essentialQuestions && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">
+                    Essential Questions
+                  </h2>
+                  <div className="prose dark:prose-dark">
+                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                      {essentialQuestions?.map((essentialQuestion: string) => (
+                        <li
+                          key={essentialQuestion}
+                          className="text-gray-900 dark:text-gray-100 leading-6"
+                        >
+                          {essentialQuestion}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
               <LearnerRatings collection={course} />
               {!isEmpty(pairWithResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
@@ -471,7 +519,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </h2>
                   {pairWithResources.map((resource: any) => {
                     return (
-                      <div>
+                      <div key={resource.slug}>
                         <CardHorizontal
                           className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
                           resource={resource}
@@ -501,7 +549,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
+
               <Fresh freshness={freshness} />
+
+              <CourseProjectCard courseProject={courseProject} />
+
               <div className="">
                 {get(course, 'free_forever') && (
                   <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
@@ -677,7 +729,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </h2>
                 {pairWithResources.map((resource: any) => {
                   return (
-                    <div>
+                    <div key={resource.slug}>
                       <CardHorizontal
                         className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
                         resource={resource}
@@ -736,6 +788,75 @@ const Fresh = ({freshness}: {freshness: any}) => {
       )}
     </>
   )
+}
+
+const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
+  return (
+    <>
+      {courseProject && (
+        <div className="border-indigo-500 hover:border-indigo-700 dark:hover:border-indigo-400 rounded-md bg-indigo-100 dark:bg-indigo-900 border-opacity-20 p-4 my-8 border">
+          {courseProject && (
+            <Link href={courseProject.url}>
+              <a>
+                {courseProject.label && (
+                  <h2 className="text-xl font-semibold mb-4">
+                    ⚔️ {courseProject.label}
+                  </h2>
+                )}
+                {courseProject.text && (
+                  <Markdown className="prose dark:prose-dark w-full">
+                    {courseProject.text}
+                  </Markdown>
+                )}
+              </a>
+            </Link>
+          )}
+        </div>
+      )}
+    </>
+  )
+}
+
+const CoursePodcast = ({
+  podcast: {transcript, simplecast_uid: id},
+  instructorName,
+}: any) => {
+  const [isOpen, setOpen] = React.useState(false)
+  const {theme} = useTheme()
+
+  if (isEmpty(id)) {
+    return null
+  } else {
+    return (
+      <div className="w-full pt-2 pb-3">
+        <h3 className="font-semibold text-xl my-2">
+          {`Listen to ${instructorName} tell you about this course:`}{' '}
+          {transcript && (
+            <span>
+              <button onClick={() => setOpen(!isOpen)}>
+                {isOpen ? 'Hide Transcript' : 'Show Transcript'}
+              </button>
+            </span>
+          )}
+        </h3>
+        <iframe
+          height="52px"
+          width="100%"
+          frameBorder="no"
+          scrolling="no"
+          seamless
+          src={`https://player.simplecast.com/${id}?dark=${
+            theme === 'dark'
+          }&color=${theme === 'dark' && '111827'}`}
+        />
+        {isOpen && transcript && (
+          <Markdown className="bb b--black-10 pb3 lh-copy">
+            {transcript}
+          </Markdown>
+        )}
+      </div>
+    )
+  }
 }
 
 export default CollectionPageLayout

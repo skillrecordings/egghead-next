@@ -12,14 +12,17 @@ const TagList: FunctionComponent<{
 }> = ({
   tags,
   courseSlug,
-  className = 'flex flex-col sm:flex-row flex-wrap items-center',
+  className = 'flex justify-center md:justify-start flex-wrap items-center',
 }) => {
   return (
     <>
       {!isEmpty(tags) && (
         <ul className={className}>
           {tags.map((tag: any, index: number) => (
-            <li key={index} className="inline-flex items-center pr-4 pt-2">
+            <li
+              key={index}
+              className="inline-flex items-center mr-4 mt-2 sm:mt-3"
+            >
               <Link href={`/q/${tag.name}`}>
                 <a
                   onClick={() => {

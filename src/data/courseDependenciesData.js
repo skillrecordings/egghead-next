@@ -4,7 +4,84 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '418892',
+        slug: 'introduction-to-cloudflare-workers-5aa3',
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course will give you a solid foundation to start developing serverless applications. Serverless is a great trend to explore and CloudFlare is at the forefront of the technology.
+      `,
+          asOf: `2021-02-01`,
+        },
+
+        courseProject: {
+          label: 'Cloudflare Worker Project',
+          url: '/projects/introduction-to-cloudflare-workers',
+          text: `After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? Start with this Project!
+      `,
+        },
+        topics: [
+          'Configure the Wrangler CLI for local development',
+          'Write & deploy Cloudflare Workers projects',
+          'Integrate third party libraries in a Worker',
+          'Conditionally render based on request information',
+        ],
+        quickFacts: [
+          'The Wrangler CLI allows you to manage Workers projects from scratch or from a template',
+          'Requests to Workers are populated with an object that includes information about region and timezone',
+          'Requests can be filtered based on HTTP method, url, headers, and other data',
+        ],
+        essentialQuestions: [
+          'Should you start a project from scratch, or use a generator template?',
+          'Would manual request filtering or template routing work best for your application?',
+        ],
+        pairWithResources: [
+          {
+            id: '414202',
+            type: 'playlist',
+            guid: '553c',
+            title:
+              'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
+            byline: 'Jason Lengstorf・1h 27m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/full/EGH_NetlifyServerlessFunction_Final.png',
+            path:
+              '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+            slug:
+              'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+            description: `Starting from a prebuilt frontend, Jason Lengstorf guides you through the creation of a static "Corgi Up-boop App" and integrates Netlify Functions with Hasura.`,
+          },
+          {
+            id: '185',
+            type: 'course',
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 07m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/full/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description:
+              'ES2015 brought a native Promise to the JavaScript standard library. In this course, we’re going to take an in-depth look at how to use promises to model various kinds of asynchronous operations.',
+          },
+          {
+            id: '212',
+            type: 'course',
+            title: 'Develop a Serverless Backend using Node.js on AWS Lambda',
+            byline: 'Nik Graf・15m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/212/full/Egh_NodeAWSServerless_Final.png',
+            path:
+              '/courses/develop-a-serverless-backend-using-node-js-on-aws-lambda',
+            slug: 'develop-a-serverless-backend-using-node-js-on-aws-lambda',
+            description:
+              "You'll learn the basics on how to create a serverless API. We start off creating a simple HTTP endpoint. Then we build the first two endpoints of a REST API for a simple Todo Application backend storing the data in DynamoDB. After watching this course you will be ready to get started building you first serverless backend.",
+          },
+        ],
+      },
+      {
         id: '292804',
+        type: 'playlist',
+        guid: '2960',
         slug: 'create-and-deploy-a-basic-static-html-website-2960',
         topics: [
           'Getting Started with HTML',
@@ -17,6 +94,8 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
+            id: '392298',
+            type: 'course',
             title: 'Build An Eleventy (11ty) Site From Scratch',
             byline: 'Stephanie Eckles・19m・Course',
             image:
@@ -27,6 +106,8 @@ const courseDependencyData = (courseSlug) =>
               "Start from a blank project and build up to an Eleventy site that includes a blog collection and is prepared to source content from a headless CMS. You'll also learn how to add Sass as the styling solution, complete with triggering 11ty to re-compile when the Sass changes.",
           },
           {
+            id: '227',
+            type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -40,6 +121,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '402036',
+        type: 'playlist',
+        guid: '1223',
         slug: 'composing-closures-and-callbacks-in-javascript-1223',
         freshness: {
           status: 'classic',
@@ -61,6 +144,8 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
+            id: '241',
+            type: 'course',
             title: 'Just Enough Functional Programming in JavaScript',
             byline: 'Kyle Shevlin・30m・Course',
             image:
@@ -71,6 +156,8 @@ const courseDependencyData = (courseSlug) =>
               'Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming\n            in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.',
           },
           {
+            id: '353',
+            type: 'course',
             title: 'Advanced JavaScript Foundations',
             byline: 'Tyler Clark・41m・Course',
             image:
@@ -81,6 +168,8 @@ const courseDependencyData = (courseSlug) =>
               'This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.',
           },
           {
+            id: '185',
+            type: 'course',
             title: 'JavaScript Promises in Depth',
             byline: 'Marius Schulz・1h 7m・Course',
             image:
@@ -94,6 +183,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '405344',
+        type: 'playlist',
+        guid: '4038',
         slug: 'scale-react-development-with-nx-4038',
         dependencies: {
           react: '>=16.13.1',
@@ -129,6 +220,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '409013',
+        type: 'playlist',
+        guid: 'be5a',
         slug:
           'react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
         dependencies: {
@@ -173,6 +266,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '410100',
+        type: 'playlist',
+        guid: '4a14',
         slug: 'headless-wordpress-4a14',
         dependencies: {
           wordpress: '>=5.5.3',
@@ -199,6 +294,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '410102',
+        type: 'playlist',
+        guid: '30a8',
         slug:
           'containerize-full-stack-javascript-applications-with-docker-30a8',
         dependencies: {
@@ -219,6 +316,7 @@ const courseDependencyData = (courseSlug) =>
         },
         pairWithResources: [
           {
+            type: 'course',
             title: 'WTF is Kubernetes (K8s)',
             byline: 'Chris Biscardi・12m・Video',
             image:
@@ -229,6 +327,8 @@ const courseDependencyData = (courseSlug) =>
               "Kubernetes is an API to a computer. Multiple computers actually. Here we'll talk about what K8s is, how you can choose between the plethora of K8s related hosting options, and what the process looks like for getting some containers running.",
           },
           {
+            id: '120',
+            type: 'course',
             title: 'Build a Twelve-Factor Node.js App with Docker',
             byline: 'Mark Shust・30m・Course',
             image:
@@ -239,6 +339,7 @@ const courseDependencyData = (courseSlug) =>
               'Take a simple Node.js app that connects to a MongoDB database and uses an Express web server, and learn how to setup a full software development deployment process as well as how to properly “Dockerize” the app.',
           },
           {
+            type: 'course',
             title:
               'Set up Hasura GraphQL engine with YugabyteDB distributed SQL',
             byline: 'Vladimir Novick・2m・Video',
@@ -255,6 +356,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '412781',
+        type: 'playlist',
+        guid: '562c',
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
         dependencies: {
           react: '>= 17.0.1',
@@ -289,6 +392,8 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '414202',
+        type: 'playlist',
+        guid: '553c',
         slug:
           'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
         dependencies: {
@@ -316,6 +421,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '490',
+        type: 'course',
         slug: 'build-maps-with-react-leaflet',
         dependencies: {
           react: '>=16.13.1',
@@ -350,6 +456,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '451',
+        type: 'course',
         slug:
           'eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
         dependencies: {
@@ -390,6 +497,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '450',
+        type: 'course',
         slug: 'build-an-app-with-the-aws-cloud-development-kit',
         dependencies: {
           'aws-cdk': '>=1.32.2',
@@ -453,6 +561,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '449',
+        type: 'course',
         slug: 'advanced-sql-for-professional-developers',
         topics: [
           'CSV import & export',
@@ -489,6 +598,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '448',
+        type: 'course',
         slug: 'write-your-first-program-with-the-rust-language',
         dependencies: {
           rust: '>=1.40.0',
@@ -504,6 +614,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '447',
+        type: 'course',
         slug: 'thinking-reactively-with-rxjs',
         dependencies: {
           react: '>=16.9.0',
@@ -532,6 +643,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '413',
+        type: 'course',
         slug: 'web-security-essentials-mitm-csrf-and-xss',
         dependencies: {
           express: '>=4.17.1',
@@ -556,6 +668,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '412',
+        type: 'course',
         slug: 'develop-accessible-web-apps-with-react',
         dependencies: {
           react: '>=16.10.2',
@@ -587,6 +700,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '405',
+        type: 'course',
         slug: 'designing-graphql-schemas-99db',
         dependencies: {
           'apollo-server': '>=2.9.7',
@@ -616,6 +730,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '403',
+        type: 'course',
         slug: 'introduction-to-state-machines-using-xstate',
         dependencies: {
           xstate: '>=4.6.7',
@@ -640,6 +755,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '402',
+        type: 'course',
         slug: 'construct-sturdy-uis-with-xstate',
         dependencies: {
           xstate: '>=4.6.7',
@@ -664,6 +780,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '401',
+        type: 'course',
         slug: 'fix-common-git-mistakes',
         topics: [
           'Change commit messages',
@@ -689,6 +806,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '400',
+        type: 'course',
         slug: 'use-suspense-to-simplify-your-async-ui',
         dependencies: {
           react: '0.0.0-experimental-b53ea6ca0',
@@ -716,6 +834,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '399',
+        type: 'course',
         slug: 'build-an-app-with-react-suspense',
         dependencies: {
           react: 'experimental',
@@ -749,6 +868,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '395',
+        type: 'course',
         slug: 'build-a-video-chat-app-with-twilio-and-gatsby',
         dependencies: {
           gatsby: '>=2.15.7',
@@ -786,6 +906,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '355',
+        type: 'course',
         slug: 'composable-gatsby-themes',
         dependencies: {
           gatsby: '>=2.16.5',
@@ -808,6 +929,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '354',
+        type: 'course',
         slug: 'a-journey-with-vue-router',
         dependencies: {
           vue: '>=2.5.22',
@@ -831,6 +953,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '353',
+        type: 'course',
         slug: 'advanced-javascript-foundations',
         topics: [
           'Primitive Types: the What, How, and Why',
@@ -853,6 +976,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '313',
+        type: 'course',
         slug: 'shareable-custom-hooks-in-react',
         dependencies: {
           react: '^16.8.6',
@@ -878,6 +1002,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '312',
+        type: 'course',
         slug: 'immutable-javascript-data-structures-with-immer',
         dependencies: {
           immer: '^4.0.0',
@@ -913,6 +1038,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '311',
+        type: 'course',
         slug: 'gatsby-theme-authoring',
         dependencies: {
           gatsby: '>=2.13.1',
@@ -920,6 +1046,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '310',
+        type: 'course',
         slug: 'javascript-es2019-in-practice',
         topics: [
           'Flatten arrays',
@@ -952,6 +1079,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '308',
+        type: 'course',
         slug:
           'build-content-rich-progressive-web-apps-with-gatsby-and-contentful',
         dependencies: {
@@ -987,6 +1115,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '307',
+        type: 'course',
         slug: 'vue-and-socket-io-for-real-time-communication',
         dependencies: {
           vue: '^2.5.21',
@@ -1025,6 +1154,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '306',
+        type: 'course',
         slug: 'test-production-ready-apps-with-cypress',
         dependencies: {
           cypress: '^3.1.5',
@@ -1061,6 +1191,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '273',
+        type: 'course',
         slug: 'sql-fundamentals',
         topics: [
           'Tables and table relationships',
@@ -1086,6 +1217,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '272',
+        type: 'course',
         slug: 'vr-applications-using-react-360',
         dependencies: {
           react: '^16.3.2',
@@ -1133,6 +1265,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '270',
+        type: 'course',
         slug: 'reactive-state-management-in-angular-with-ngrx',
         dependencies: {
           angular: '^7.0.3',
@@ -1147,6 +1280,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '267',
+        type: 'course',
         slug: 'redux-and-the-state-adt',
         dependencies: {
           crocks: '^0.11.0',
@@ -1158,6 +1292,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '266',
+        type: 'course',
         slug: 'progressive-web-apps-in-react-with-create-react-app',
         dependencies: {
           react: '16.6.3-16.8.6',
@@ -1217,6 +1352,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '263',
+        type: 'course',
         slug: 'simplify-react-apps-with-react-hooks',
         dependencies: {
           react: '^16.7.0-alpha',
@@ -1227,6 +1363,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '262',
+        type: 'course',
         slug: 'react-context-for-state-management',
         dependencies: {
           react: '^16.6.0',
@@ -1234,6 +1371,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '260',
+        type: 'course',
         slug: 'build-a-neo4j-graphql-api',
         dependencies: {
           axios: '^0.18.0',
@@ -1248,6 +1386,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '257',
+        type: 'course',
         slug: 'modern-javascript-tooling-with-react',
         dependencies: {
           'prop-types': '^15.6.2',
@@ -1259,6 +1398,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '246',
+        type: 'course',
         slug: 'use-dom-testing-library-to-test-any-js-framework',
         dependencies: {
           dojo: '^3.0.0',
@@ -1289,6 +1429,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '236',
+        type: 'course',
         slug: 'graphql-query-language',
         topics: [
           'Query, mutation, & subscription',
@@ -1310,6 +1451,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '231',
+        type: 'course',
         slug: 'graphql-data-in-react-with-apollo-client',
         freshness: {
           status: 'stale',
@@ -1329,6 +1471,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '230',
+        type: 'course',
         slug: 'build-your-own-rxjs-pipeable-operators',
         dependencies: {
           rxjs: '^6.0.0',
@@ -1336,6 +1479,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '228',
+        type: 'course',
         slug: 'design-systems-with-react-and-typescript-in-storybook',
         dependencies: {
           react: '^16.0.0',
@@ -1344,6 +1488,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '226',
+        type: 'course',
         slug: 'fully-connected-neural-networks-with-keras',
         dependencies: {
           python: '^3.0.0',
@@ -1351,6 +1496,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '221',
+        type: 'course',
         slug: 'execute-npm-package-binaries-with-the-npx-package-runner',
         dependencies: {
           npm: '>=5.2.0',
@@ -1361,6 +1507,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '219',
+        type: 'course',
         slug: 'getting-started-with-angular-elements',
         dependencies: {
           angular: '^7.0.0',
@@ -1378,6 +1525,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '216',
+        type: 'course',
         slug: 'practical-advanced-typescript',
         dependencies: {
           typescript: '^3.0.0',
@@ -1385,6 +1533,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '215',
+        type: 'course',
         slug: 'advanced-angular-component-patterns',
         dependencies: {
           angular: '5 - 6',
@@ -1392,6 +1541,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '213',
+        type: 'course',
         slug:
           'create-smooth-performant-transitions-with-react-transition-group-v2',
         dependencies: {
@@ -1400,6 +1550,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '211',
+        type: 'course',
         slug:
           'scalable-offline-ready-graphql-applications-with-aws-appsync-react',
         dependencies: {
@@ -1408,6 +1559,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '209',
+        type: 'course',
         slug: 'beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
         dependencies: {
           react: '^16.0.0',
@@ -1415,6 +1567,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '207',
+        type: 'course',
         slug: 'json-web-token-jwt-authentication-with-node-js-and-auth0',
         dependencies: {
           express: '^4.0.0',
@@ -1442,6 +1595,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '202',
+        type: 'course',
         slug: 'build-async-vue-js-apps-with-rxjs',
         dependencies: {
           rxjs: '5.5.12 - 6.4.0',
@@ -1509,6 +1663,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '200',
+        type: 'course',
         slug: 'integrate-ibm-domino-with-node-js',
         dependencies: {
           express: '^4.16.3',
@@ -1516,6 +1671,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '198',
+        type: 'course',
         slug: 'test-react-components-with-enzyme-and-jest',
         dependencies: {
           react: '^16.0.0',
@@ -1525,6 +1681,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '197',
+        type: 'course',
         slug: 'manage-react-form-state-with-redux-form',
         dependencies: {
           react: '^16.0.0',
@@ -1536,6 +1693,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '194',
+        type: 'course',
         slug: 'react-navigation-for-native-mobile-applications',
         dependencies: {
           react: '2.0.0 - ^6.0.0',
@@ -1577,6 +1735,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '193',
+        type: 'course',
         slug: 'optimistic-ui-updates-in-react',
         dependencies: {
           react: '^16.0.0',
@@ -1584,6 +1743,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '192',
+        type: 'course',
         slug: 'end-to-end-testing-with-cypress',
         dependencies: {
           cypress: '^1.4.1',
@@ -1592,6 +1752,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '189',
+        type: 'course',
         slug: 'angular-service-injection-with-the-dependency-injector-di',
         dependencies: {
           angular: '5 - 7',
@@ -1633,6 +1794,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '186',
+        type: 'course',
         slug: 'end-to-end-testing-with-google-s-puppeteer-and-jest',
         dependencies: {
           react: '^16.2.0',
@@ -1642,6 +1804,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '185',
+        type: 'course',
         slug: 'javascript-promises-in-depth',
         dependencies: {
           angular: '5.0.0 - ^7.0.2',
@@ -1660,6 +1823,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '183',
+        type: 'course',
         slug:
           'build-user-interfaces-by-composing-css-utility-classes-with-tailwind',
         dependencies: {
@@ -1710,6 +1874,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '180',
+        type: 'course',
         slug: 'advanced-fine-grained-control-of-vue-js-components',
         dependencies: {
           vue: '^2.5.9',
@@ -1717,6 +1882,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '173',
+        type: 'course',
         slug:
           'seo-friendly-progressive-web-applications-with-angular-universal',
         dependencies: {
@@ -1729,6 +1895,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '171',
+        type: 'course',
         slug: 'create-dynamic-components-in-angular',
         dependencies: {
           angular: '5 - 6',
@@ -1773,6 +1940,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '170',
+        type: 'course',
         slug: 'async-await-using-typescript',
         dependencies: {
           '@types/node': '8.0.53',
@@ -1780,6 +1948,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '169',
+        type: 'course',
         slug: 'manage-application-state-with-mobx-state-tree',
         dependencies: {
           react: '^16.0.0',
@@ -1788,6 +1957,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '166',
+        type: 'course',
         slug: 'react-class-component-patterns',
         dependencies: {
           react: '^16.3.2',
@@ -1796,6 +1966,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '165',
+        type: 'course',
         slug: 'async-react-with-redux-saga',
         dependencies: {
           react: '^16.0.0',
@@ -1821,6 +1992,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '164',
+        type: 'course',
         slug:
           'build-a-server-rendered-code-split-app-in-react-with-react-universal-component',
         dependencies: {
@@ -1830,6 +2002,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '162',
+        type: 'course',
         slug: 'use-typescript-to-develop-react-applications',
         dependencies: {
           React: '16.0.0',
@@ -1890,6 +2063,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '161',
+        type: 'course',
         slug: 'create-dynamic-forms-in-angular',
         dependencies: {
           angular: '^6.0.0',
@@ -1901,6 +2075,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '160',
+        type: 'course',
         slug: 'the-beginner-s-guide-to-react',
         freshness: {
           status: 'fresh',
@@ -1921,6 +2096,8 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
+            id: '412',
+            type: 'course',
             title: 'Develop Accessible Web Apps with React',
             byline: 'Erin Doyle・1h 28m・Course',
             image:
@@ -1931,6 +2108,8 @@ const courseDependencyData = (courseSlug) =>
               'Gain the knowledge and skills required to audit and fix accessibility issues in your applications \n            and gain a better understanding of your target users and how to approach your web app design from their perspectives',
           },
           {
+            id: '263',
+            type: 'course',
             title: 'Simplify React Apps with React Hooks',
             byline: 'Kent C. Dodds・38m・Course',
             image:
@@ -1941,6 +2120,8 @@ const courseDependencyData = (courseSlug) =>
               "React transitioned to an API called Hooks and most consider it the way to develop production applications\n              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.",
           },
           {
+            id: '490',
+            type: 'course',
             title: 'Build Maps with React Leaflet',
             byline: 'Colby Fayock・47m・Course',
             image:
@@ -1954,6 +2135,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '159',
+        type: 'course',
         slug: 'build-react-components-from-streams-with-rxjs-and-recompose',
         dependencies: {
           rxjs: '^5.0.0',
@@ -1962,6 +2144,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '158',
+        type: 'course',
         slug: 'make-webpack-easy-with-poi',
         dependencies: {
           poi: '^9.0.0',
@@ -1969,6 +2152,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '157',
+        type: 'course',
         slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
         dependencies: {
           gatsby: '^2.0.0',
@@ -1976,6 +2160,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '154',
+        type: 'course',
         slug: 'offline-first-progressive-web-apps-pwa-in-vue-js',
         dependencies: {
           vue: '^2.5.2',
@@ -1986,6 +2171,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '152',
+        type: 'course',
         slug: 'leverage-new-features-of-react-16',
         dependencies: {
           react: '^16.0.0',
@@ -1993,6 +2179,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '150',
+        type: 'course',
         slug: 'structure-angular-apps-with-angular-material-components',
         dependencies: {
           angular: '5 - 6',
@@ -2018,6 +2205,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '147',
+        type: 'course',
         slug: 'learn-http-in-angular',
         dependencies: {
           angular: '4 - 6',
@@ -2055,6 +2243,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '146',
+        type: 'course',
         slug: 'create-a-news-app-with-vue-js-and-nuxt',
         dependencies: {
           nuxt: '^1.0.0-rc3',
@@ -2062,6 +2251,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '145',
+        type: 'course',
         slug: 'functional-programming-concepts-in-purescript',
         dependencies: {
           purescript: '0.11.7 - ^0.12',
@@ -2087,6 +2277,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '142',
+        type: 'course',
         slug: 'up-and-running-with-redux-observable',
         dependencies: {
           redux: '3 - 4',
@@ -2130,6 +2321,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '140',
+        type: 'course',
         slug: 'reduce-redux-boilerplate-with-redux-actions',
         dependencies: {
           redux: '^3.6.0',
@@ -2138,6 +2330,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '139',
+        type: 'course',
         slug: 'learn-angular-router-for-real-world-applications',
         dependencies: {
           angular: '~7.0.0',
@@ -2147,6 +2340,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '137',
+        type: 'course',
         slug: 'advanced-static-types-in-typescript',
         freshness: {
           status: 'classic',
@@ -2161,6 +2355,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '136',
+        type: 'course',
         slug: 'vue-js-state-management-with-vuex-and-typescript',
         dependencies: {
           vue: '^2.2.6',
@@ -2170,6 +2365,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '135',
+        type: 'course',
         slug: 'build-a-react-app-with-redux',
         dependencies: {
           react: '15 - 16',
@@ -2178,6 +2374,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '133',
+        type: 'course',
         slug: 'fundamentals-of-react-native-video',
         dependencies: {
           'react-native': '^0.44.2',
@@ -2186,6 +2383,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '132',
+        type: 'course',
         slug: 'understand-how-to-style-angular-components',
         dependencies: {
           angular: '5.2.0 - 7.2.2',
@@ -2203,6 +2401,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '131',
+        type: 'course',
         slug: 'use-typescript-to-develop-vue-js-web-applications',
         dependencies: {
           vue: '^2.2.6',
@@ -2211,6 +2410,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '129',
+        type: 'course',
         slug: 'introduction-to-the-python-3-programming-language',
         dependencies: {
           python: '3',
@@ -2218,6 +2418,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '128',
+        type: 'course',
         slug: 'build-algorithms-using-typescript',
         dependencies: {
           typescript: '^2.1.4',
@@ -2225,6 +2426,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '127',
+        type: 'course',
         slug: 'build-virtual-reality-experiences-using-react-vr',
         dependencies: {
           react: '15 - 16',
@@ -2257,6 +2459,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '124',
+        type: 'course',
         slug: 'add-internationalization-i18n-to-a-react-app-using-react-intl',
         dependencies: {
           react: '15 - 16.8.4',
@@ -2294,6 +2497,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '122',
+        type: 'course',
         slug: 'build-a-node-js-rest-api-with-loopback',
         dependencies: {
           loopback: '^3.0.0',
@@ -2301,6 +2505,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '120',
+        type: 'course',
         slug: 'build-a-twelve-factor-node-js-app-with-docker',
         dependencies: {
           mongodb: '^2.2.26',
@@ -2312,6 +2517,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '119',
+        type: 'course',
         slug: 'build-a-desktop-application-with-electron',
         dependencies: {
           axios: '^0.18.0',
@@ -2328,6 +2534,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '118',
+        type: 'course',
         slug: 'asynchronous-javascript-with-async-await',
         dependencies: {
           typescript: '^2.3.0',
@@ -2335,6 +2542,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '117',
+        type: 'course',
         slug: 'up-and-running-with-preact',
         dependencies: {
           preact: '7 - 8',
@@ -2344,6 +2552,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '116',
+        type: 'course',
         slug: 'add-routing-to-react-apps-using-react-router-v4',
         dependencies: {
           react: '15 - 16',
@@ -2352,6 +2561,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '115',
+        type: 'course',
         slug: 'maintainable-css-using-typestyle',
         dependencies: {
           typescript: '2.2.1',
@@ -2360,6 +2570,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '114',
+        type: 'course',
         slug:
           'higher-order-components-with-functional-patterns-using-recompose',
         dependencies: {
@@ -2385,6 +2596,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '112',
+        type: 'course',
         slug: 'save-time-avoiding-common-mistakes-using-rxjs',
         dependencies: {
           rxjs: '^5.0.0',
@@ -2399,6 +2611,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '109',
+        type: 'course',
         slug: 'create-your-own-twitter-bots',
         dependencies: {
           twit: '^2.2.5',
@@ -2406,6 +2619,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '108',
+        type: 'course',
         slug: 'understand-joins-and-unions-in-postgres',
         dependencies: {
           PostgreSQL: '9.4.5',
@@ -2413,6 +2627,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '106',
+        type: 'course',
         slug:
           'use-objective-c-swift-and-java-api-s-in-nativescript-for-angular-ios-and-android-apps',
         dependencies: {
@@ -2423,6 +2638,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '105',
+        type: 'course',
         slug: 'using-postgres-window-functions',
         dependencies: {
           PostgreSQL: '^9.6',
@@ -2430,6 +2646,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '104',
+        type: 'course',
         slug: 'get-started-with-postgresql',
         dependencies: {
           PostgreSQL: '^9.6',
@@ -2437,6 +2654,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '103',
+        type: 'course',
         slug: 'build-basic-nativescript-app-templates',
         dependencies: {
           nativescript: '2 - 4',
@@ -2444,6 +2662,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '101',
+        type: 'course',
         slug: 'publish-javascript-packages-on-npm',
         dependencies: {
           'babel-cli': '^6.18.0',
@@ -2451,6 +2670,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '98',
+        type: 'course',
         slug: 'get-started-with-elasticsearch',
         dependencies: {
           elasticsearch: '^12.1.3',
@@ -2458,6 +2678,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '96',
+        type: 'course',
         slug: 'real-world-react-native-animations',
         dependencies: {
           react: '^15.4.0',
@@ -2466,6 +2687,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '95',
+        type: 'course',
         slug: 'building-apps-with-ionic-2',
         dependencies: {
           angular: '2 - 6',
@@ -2503,6 +2725,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '92',
+        type: 'course',
         slug: 'build-your-first-production-quality-react-app',
         dependencies: {
           react: '15 - 16',
@@ -2554,6 +2777,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '91',
+        type: 'course',
         slug: 'understand-angular-directives-in-depth',
         dependencies: {
           angular: '^6.0.0',
@@ -2600,6 +2824,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '90',
+        type: 'course',
         slug: 'build-a-react-native-todo-application',
         dependencies: {
           react: '^15.0.0',
@@ -2608,6 +2833,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '89',
+        type: 'course',
         slug: 'natural-language-processing-in-javascript-with-natural',
         dependencies: {
           natural: '^0.4.0',
@@ -2615,6 +2841,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '87',
+        type: 'course',
         slug: 'learn-the-best-and-most-useful-scss',
         dependencies: {
           'node-sass': '^3.11',
@@ -2622,6 +2849,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '85',
+        type: 'course',
         slug: 'animate-react-native-ui-elements',
         dependencies: {
           react: '^15.0.0',
@@ -2630,6 +2858,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '84',
+        type: 'course',
         slug: 'create-native-mobile-apps-with-nativescript-for-angular',
         dependencies: {
           angular: '^2.0.0',
@@ -2638,6 +2867,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '83',
+        type: 'course',
         slug: 'develop-basic-web-apps-with-vue-js',
         dependencies: {
           vue: '^2.5.16',
@@ -2645,6 +2875,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '80',
+        type: 'course',
         slug: 'build-a-graphql-server',
         dependencies: {
           graphql: '0.7 - 14',
@@ -2652,6 +2883,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '77',
+        type: 'course',
         slug: 'build-interactive-javascript-charts-with-d3-v4',
         dependencies: {
           d3: '^4.1.1',
@@ -2659,6 +2891,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '76',
+        type: 'course',
         slug: 'build-an-angular-instant-search-component',
         dependencies: {
           angular: '^2.0.0',
@@ -2667,6 +2900,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '72',
+        type: 'course',
         slug: 'professor-frisby-introduces-composable-functional-javascript',
         freshness: {
           status: 'classic',
@@ -2680,6 +2914,8 @@ const courseDependencyData = (courseSlug) =>
         },
         pairWithResources: [
           {
+            id: '241',
+            type: 'course',
             title: 'Just Enough Functional Programming in JavaScript',
             byline: 'Kyle Shevlin・30m・Course',
             image:
@@ -2690,6 +2926,8 @@ const courseDependencyData = (courseSlug) =>
               'Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming\n              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.',
           },
           {
+            id: '353',
+            type: 'course',
             title: 'Advanced JavaScript Foundations',
             byline: 'Tyler Clark・41m・Course',
             image:
@@ -2700,6 +2938,8 @@ const courseDependencyData = (courseSlug) =>
               'This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.',
           },
           {
+            id: '185',
+            type: 'course',
             title: 'JavaScript Promises in Depth',
             byline: 'Marius Schulz・1h 7m・Course',
             image:
@@ -2713,6 +2953,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '71',
+        type: 'course',
         slug: 'build-node-js-apis-with-openapi-spec-swagger',
         dependencies: {
           express: '^4.12.3',
@@ -2720,6 +2961,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '70',
+        type: 'course',
         slug: 'build-angular-1-x-apps-with-redux',
         dependencies: {
           angular: '1.5.7',
@@ -2727,6 +2969,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '66',
+        type: 'course',
         slug: 'angular-dependency-injection-di-explained',
         dependencies: {
           angular: '2 - 6',
@@ -2735,6 +2978,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '65',
+        type: 'course',
         slug: 'animate-angular-web-applications',
         dependencies: {
           angular: '2 - ~8.1.1',
@@ -2750,6 +2994,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '64',
+        type: 'course',
         slug: 'learn-the-basics-of-angular-forms',
         dependencies: {
           angular: '2 - 6',
@@ -2782,6 +3027,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '63',
+        type: 'course',
         slug: 'manage-ui-state-with-the-angular-router',
         dependencies: {
           angular: '2 - 4',
@@ -2790,6 +3036,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '62',
+        type: 'course',
         slug: 'using-angular-2-patterns-in-angular-1-x-apps',
         dependencies: {
           angular: '^1.5.7',
@@ -2797,6 +3044,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '58',
+        type: 'course',
         slug: 'manage-complex-state-in-react-apps-with-mobx',
         dependencies: {
           mobx: '2 - 5',
@@ -2825,6 +3073,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '56',
+        type: 'course',
         slug: 'building-angular-components',
         dependencies: {
           angular: '2 - 6',
@@ -2860,6 +3109,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '54',
+        type: 'course',
         slug: 'use-webpack-2-for-production-javascript-applications',
         dependencies: {
           webpack: '^2.1.0',
@@ -2868,6 +3118,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '53',
+        type: 'course',
         slug: 'building-react-applications-with-idiomatic-redux',
         dependencies: {
           react: '^15.0.0',
@@ -2876,6 +3127,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '52',
+        type: 'course',
         slug: 'up-and-running-with-typescript',
         dependencies: {
           typescript: '^3.2.1',
@@ -2883,6 +3135,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '48',
+        type: 'course',
         slug: 'use-types-effectively-in-typescript',
         dependencies: {
           typescript: '^2.0.0',
@@ -2890,6 +3143,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '47',
+        type: 'course',
         slug: 'build-redux-style-applications-with-angular-rxjs-and-ngrx-store',
         dependencies: {
           angular: '2 - 6',
@@ -2922,6 +3176,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '44',
+        type: 'course',
         slug: 'start-using-elm-to-build-web-applications',
         dependencies: {
           elm: '0.17',
@@ -2950,6 +3205,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '43',
+        type: 'course',
         slug: 'getting-started-with-react-router-v3',
         dependencies: {
           react: '0.14 - 16',
@@ -2975,6 +3231,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '41',
+        type: 'course',
         slug: 'use-higher-order-observables-in-rxjs-effectively',
         dependencies: {
           rxjs: '^5.0.0',
@@ -2989,6 +3246,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '40',
+        type: 'course',
         slug: 'rxjs-subjects-and-multicasting-operators',
         dependencies: {
           rxjs: '^5.0.0',
@@ -3003,6 +3261,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '39',
+        type: 'course',
         slug: 'rxjs-beyond-the-basics-creating-observables-from-scratch',
         dependencies: {
           rxjs: '^5.0.0',
@@ -3017,6 +3276,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '37',
+        type: 'course',
         slug: 'introduction-to-node-servers-with-hapi-js',
         dependencies: {
           hapi: '^11.0.3',
@@ -3024,6 +3284,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '35',
+        type: 'course',
         slug: 'step-by-step-async-javascript-with-rxjs',
         dependencies: {
           rxjs: '^5.0.0',
@@ -3041,6 +3302,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '34',
+        type: 'course',
         slug: 'rxjs-beyond-the-basics-operators-in-depth',
         dependencies: {
           rxjs: '^5.0.0',
@@ -3055,6 +3317,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '33',
+        type: 'course',
         slug: 'introduction-to-angular-material',
         dependencies: {
           'angular-material': '^1.1.12',
@@ -3063,6 +3326,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '31',
+        type: 'course',
         slug: 'building-an-angular-1-x-ionic-application',
         dependencies: {
           angular: '1.5.5',
@@ -3071,6 +3335,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '30',
+        type: 'course',
         slug: 'cycle-js-fundamentals',
         dependencies: {
           cycle: '^3.1',
@@ -3078,6 +3343,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '27',
+        type: 'course',
         slug: 'react-testing-cookbook',
         dependencies: {
           react: '0.14 - 15',
@@ -3086,6 +3352,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '26',
+        type: 'course',
         slug: 'creating-custom-web-elements-with-polymer-2',
         dependencies: {
           polymer: '1.2 - 1.11',
@@ -3093,6 +3360,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '25',
+        type: 'course',
         slug: 'getting-started-with-redux',
         freshness: {
           status: 'classic',
@@ -3115,6 +3383,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '24',
+        type: 'course',
         slug: 'react-flux-architecture-es6',
         dependencies: {
           react: '0.14 - 16',
@@ -3163,6 +3432,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '23',
+        type: 'course',
         slug: 'get-started-with-angular',
         dependencies: {
           angular: '5 - 6',
@@ -3171,6 +3441,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '22',
+        type: 'course',
         slug: 'learn-how-to-use-immutable-js',
         dependencies: {
           Lodash: '7.1.0',
@@ -3205,6 +3476,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '20',
+        type: 'course',
         slug: 'introduction-to-reactive-programming',
         dependencies: {
           rxjs: '4 - 5',
@@ -3245,6 +3517,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '18',
+        type: 'course',
         slug: 'getting-started-with-express-js',
         dependencies: {
           express: '^4.13.1',
@@ -3252,6 +3525,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '14',
+        type: 'course',
         slug: 'react-native-fundamentals',
         dependencies: {
           react: '0.14 - 16',
@@ -3305,6 +3579,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '12',
+        type: 'course',
         slug: 'angular-automation-with-gulp',
         dependencies: {
           gulp: '^3.8.11',
@@ -3313,6 +3588,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '11',
+        type: 'course',
         slug: 'asynchronous-programming-the-end-of-the-loop',
         dependencies: {
           rxjs: '^2.3',
@@ -3323,6 +3599,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '7',
+        type: 'course',
         slug: 'angularjs-authentication-with-jwt',
         dependencies: {
           angular: '^1.2.25',
@@ -3330,6 +3607,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '6',
+        type: 'course',
         slug: 'angularjs-fundamentals',
         dependencies: {
           angular: '^1.6.5',
@@ -3337,6 +3615,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '4',
+        type: 'course',
         slug: 'angularjs-data-modeling',
         dependencies: {
           angular: '^1.2.23',
@@ -3344,6 +3623,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '3',
+        type: 'course',
         slug: 'start-learning-react',
         dependencies: {
           react: '0.14 - 16',
@@ -3351,6 +3631,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '2',
+        type: 'course',
         slug: 'learn-protractor-testing-for-angularjs',
         dependencies: {
           protractor: '^1.4.0',
@@ -3359,6 +3640,7 @@ const courseDependencyData = (courseSlug) =>
       },
       {
         id: '1',
+        type: 'course',
         slug: 'use-d3-v3-to-build-interactive-charts-with-javascript',
         dependencies: {
           d3: '^3.5',
