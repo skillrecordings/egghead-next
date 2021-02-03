@@ -63,15 +63,18 @@ export const lessonNoCommentsNotAbleToComment = {
 
 <Canvas>
   <Story name="Comments exist">
-    <Comments lesson={lesson} />
+    <Comments lesson={lesson} commentingAllowed={true} />
   </Story>
   <Story name="Comments exist and user is NOT able to comment">
-    <Comments lesson={lessonNotAbletoComment} />
+    <Comments lesson={lessonNotAbletoComment} commentingAllowed={true} />
   </Story>
   <Story name="No comments">
-    <Comments lesson={lessonNoComments} />
+    <Comments lesson={lessonNoComments} commentingAllowed={true} />
   </Story>
   <Story name="No comments and user is NOT able to comment">
-    <Comments lesson={lessonNoCommentsNotAbleToComment} />
+    <Comments
+      lesson={lessonNoCommentsNotAbleToComment}
+      commentingAllowed={true}
+    />
   </Story>
 </Canvas>

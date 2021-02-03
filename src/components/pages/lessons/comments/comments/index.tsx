@@ -7,10 +7,12 @@ import {track} from 'utils/analytics'
 
 type CommentsProps = {
   lesson: any
+  commentingAllowed: boolean
 }
 
 const Comments: React.FunctionComponent<CommentsProps> = ({
   lesson,
+  commentingAllowed,
 }: CommentsProps) => {
   const {comments, add_comment_url} = lesson
   const commentsAvailable =
@@ -33,27 +35,29 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
           There are no comments yet.
         </h4>
       )}
-      {add_comment_url ? (
-        <CommentField url="some-url" />
-      ) : (
-        <div className="flex flex-col items-center space-y-6">
-          <h4 className="font-semibold">
-            You have to be a Pro to leave a comment
-          </h4>
-          <Link href="/pricing">
-            <a
-              onClick={() =>
-                track('clicked pricing', {
-                  location: 'header',
-                })
-              }
-              className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
-            >
-              Join egghead
-            </a>
-          </Link>
-        </div>
-      )}
+      {commentingAllowed ? (
+        add_comment_url ? (
+          <CommentField url="some-url" />
+        ) : (
+          <div className="flex flex-col items-center space-y-6">
+            <h4 className="font-semibold">
+              You have to be a Pro to leave a comment
+            </h4>
+            <Link href="/pricing">
+              <a
+                onClick={() =>
+                  track('clicked pricing', {
+                    location: 'header',
+                  })
+                }
+                className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
+              >
+                Join egghead
+              </a>
+            </Link>
+          </div>
+        )
+      ) : null}
     </div>
   )
 }
