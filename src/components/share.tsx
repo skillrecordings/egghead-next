@@ -2,10 +2,10 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
 import {isEmpty, get} from 'lodash'
+import toast, {Toaster} from 'react-hot-toast'
 
 type ShareProps = {
   title?: string
-  label?: boolean
   resource: {title: string; path: string; type: string}
   instructor: {slug: string; twitter?: string}
   className?: string
@@ -16,7 +16,6 @@ const Share: FunctionComponent<ShareProps> = ({
   resource,
   instructor,
   className,
-  label = false,
   title = `Share this ${
     resource.type === 'lesson' ? 'video' : 'course'
   } with your friends`,
@@ -26,9 +25,8 @@ const Share: FunctionComponent<ShareProps> = ({
       <h4 className="text-sm">{children || title}</h4>
       <div className={className || 'flex items-center mt-3'}>
         <div className={'flex items-center space-x-2'}>
-          <TweetLink label resource={resource} instructor={instructor} />
+          <TweetLink resource={resource} instructor={instructor} />
           <CopyToClipboard
-            label
             stringToCopy={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${resource.path}`}
           />
         </div>
@@ -41,7 +39,6 @@ const TweetLink: FunctionComponent<ShareProps> = ({
   resource,
   instructor,
   className = '',
-  label = false,
 }) => {
   const encodeTweetUrl = () => {
     const twitterBase = `https://twitter.com/intent/tweet/?text=`
@@ -63,40 +60,34 @@ const TweetLink: FunctionComponent<ShareProps> = ({
       href={encodeTweetUrl()}
     >
       <IconTwitter className="w-5" />
-      {label && <span>Send Tweet</span>}
+      <span>Send Tweet</span>
     </a>
   ) : null
 }
 const CopyToClipboard: FunctionComponent<{
   stringToCopy: string
   className?: string
-  label?: boolean
-}> = ({stringToCopy = '', className = '', label = false}) => {
+}> = ({stringToCopy = '', className = ''}) => {
+  const duration: number = 1000
   const [isCopied, setCopied] = useClipboard(stringToCopy, {
-    successDuration: 1000,
+    successDuration: duration,
   })
+  const handleCopyToClipboard = () => {
+    setCopied()
+    !isCopied && toast('Link copied to clipboard', {duration})
+  }
 
   return (
     <div>
       <button
         type="button"
-        onClick={setCopied}
+        onClick={handleCopyToClipboard}
         className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-gray-800 text-black dark:text-white hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150 ${className}`}
       >
-        {isCopied ? (
-          'Copied'
-        ) : (
-          <>
-            <IconLink className="w-5" />
-            {label && (
-              <span>
-                Copy link
-                <span className="hidden lg:inline"> to clipboard</span>
-              </span>
-            )}
-          </>
-        )}
+        <IconLink className="w-5" />
+        <span>Copy link</span>
       </button>
+      <Toaster position="bottom-center" />
     </div>
   )
 }
