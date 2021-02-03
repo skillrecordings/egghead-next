@@ -22,7 +22,7 @@ export type Topic = {
 type CuratedEssentialProps = {
   topic: Topic
   pageData?: any
-  CTAComponent?: React.FC
+  CTAComponent?: React.FC<any>
   ogImage?: string
   verticalImage?: string
   cardType?: CARD_TYPES
@@ -37,6 +37,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   verticalImage,
   cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
+  console.log(CTAComponent)
   const location = `${topic} landing`
   const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
   const title =
