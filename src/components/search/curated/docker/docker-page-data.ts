@@ -1,7 +1,7 @@
 const nodePageData = [
   {
     id: 'jumbotron',
-    byline: 'New Course',
+    byline: 'Latest Course',
     title: 'Containerize Full-Stack JavaScript Applications with Docker',
     instructor: {
       name: 'Joel Lord',
