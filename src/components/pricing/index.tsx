@@ -45,7 +45,7 @@ const PricingPage: FunctionComponent<PricingProps> = ({
   // should be appropriately captured in a state machine.
 
   return (
-    <div className={`${dark ? 'dark' : ''} dark:bg-gray-900 bg-white-50 p-5`}>
+    <div className={`${dark ? 'dark' : ''} dark:bg-gray-900 bg-white-50`}>
       <div className="dark:bg-gray-900 bg-gray-50 dark:text-white text-gray-900 px-5">
         <header className="text-center py-16 flex flex-col items-center">
           <h1 className="md:text-4xl text-2xl font-extrabold leading-tighter max-w-screen-md">
@@ -55,8 +55,8 @@ const PricingPage: FunctionComponent<PricingProps> = ({
             </span>{' '}
             as a Web Developer
           </h1>
-          <h2 className="text-lg font-light max-w-md pt-8 leading-tight dark:text-gray-200 text-gray-700">
-            learn the skills you need to advance your career and build
+          <h2 className="text-lg font-light max-w-2xl pt-8 leading-tight dark:text-gray-200 text-gray-700">
+            Learn the skills you need to advance your career and build
             real-world business focused professional projects on the job and for
             your portfolio
           </h2>

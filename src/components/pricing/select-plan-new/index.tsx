@@ -94,13 +94,15 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
 }
 
 const DEFAULT_FEATURES = [
-  'Full access to all premium courses and lessons',
-  'RSS course feeds for your favorite podcast app',
-  'Offline viewing',
-  'Commenting and support',
-  'Enhanced Transcripts',
-  'Discord access',
-  'Closed captions for every video',
+  'Stream of premium content',
+  'Offline viewing (download)',
+  'Commenting',
+  'RSS feed',
+  'Enhanced T ranscripts',
+  'Live Events Discounts',
+  'Downloads',
+  'Playback Speed Control',
+  'Community Access',
 ]
 
 const PlanFeatures: React.FunctionComponent<{
@@ -211,7 +213,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
 
   return (
     <>
-      <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:p-10 p-5 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
+      <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:px-12 sm:py-12 px-6 py-6 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
         {keys(prices).length > 1 && (
