@@ -44,7 +44,7 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
                     value={values.newCommentText}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Start to type here..."
+                    placeholder="Start typing…"
                     className="px-4 py-3 md:py-4 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 rounded-md resize-none"
                     required
                     css={{
