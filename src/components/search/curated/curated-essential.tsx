@@ -22,7 +22,7 @@ export type Topic = {
 type CuratedEssentialProps = {
   topic: Topic
   pageData?: any
-  CTAComponent?: React.FC
+  CTAComponent?: React.FC<any>
   ogImage?: string
   verticalImage?: string
   cardType?: CARD_TYPES
