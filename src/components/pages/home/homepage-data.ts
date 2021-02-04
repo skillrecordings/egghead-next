@@ -79,12 +79,68 @@ There are a number of tried and true methods that will allow you to learn more e
     ],
   },
   {
+    id: 'workflows',
+    title: 'Optimize Daily Workflows',
+    description:
+      'Humans were never meant to repeat joyless tasks in a precise manner, over and over and over. Computers are meant precisely for these types of tasks. Automation is all about saving you time — and these courses are well worth yours. Enjoy!',
+    resources: [
+      {
+        title: 'Advanced Bash Automation for Web Developers',
+        byline: 'Cameron Nokes・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/239/thumb/EGH_BashAutomation_Final.png',
+        path: '/courses/advanced-bash-automation-for-web-developers',
+        slug: 'advanced-bash-automation-for-web-developers',
+      },
+      {
+        title: 'Regex in Javascript',
+        byline: 'Joe Maddalone・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/029/thumb/course_image.png',
+        path: '/courses/regex-in-javascript',
+        slug: 'regex-in-javascript',
+      },
+      {
+        title: 'Use Grep for Fast Search from the Command Line',
+        byline: 'Bonnie Eisenman・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/088/thumb/EGH_Grep_Final_Small.png',
+        path: '/courses/use-grep-for-fast-search-from-the-command-line',
+        slug: 'use-grep-for-fast-search-from-the-command-line',
+      },
+      {
+        title: 'Wrangle your terminal with tmux',
+        byline: 'Bonnie Eisenman・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/thumb/EGH_TMUX_Final_2x.png',
+        path: '/courses/wrangle-your-terminal-with-tmux',
+        slug: 'wrangle-your-terminal-with-tmux',
+      },
+      {
+        title: 'Productive Git for Developers',
+        byline: 'Juri Strumpflohner・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/247/thumb/EGH_ProductiveGitFinal.png',
+        path: '/courses/productive-git-for-developers',
+        slug: 'productive-git-for-developers',
+      },
+    ],
+  },
+  {
     id: 'getStarted',
     name: 'Introductions',
     title: 'Start Learning Here',
     description:
       'These courses will get you started building real-world applications with these tools. They are all excellent introductions if you want to learn something new today.',
     resources: [
+      {
+        title: "The Beginner's Guide to Figma",
+        byline: 'Joe Previte・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/265/thumb/EGH_BeginnerFigma_Final.png',
+        path: '/courses/the-beginner-s-guide-to-figma',
+        slug: 'the-beginner-s-guide-to-figma',
+      },
       {
         title: 'Up and running with Svelte 3',
         byline: 'Tomasz Łakomy・26m ・Course',
@@ -100,36 +156,28 @@ There are a number of tried and true methods that will allow you to learn more e
         path: '/courses/develop-basic-web-apps-with-vue-js',
       },
       {
-        title: "The Beginner's Guide to React",
-        byline: 'Kent C. Dodds・2h 27m ・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
-        path: '/courses/the-beginner-s-guide-to-react',
-      },
-      {
         title: 'Write Your First Program with the Rust Language',
         byline: 'Pascal Precht・19m ・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/448/thumb/EGH_BuildaRustApp_Final.png',
         path: '/courses/write-your-first-program-with-the-rust-language',
       },
-      {
-        title:
-          'Sprinkle declarative, reactive behaviour on your HTML with Alpine JS',
-        byline: 'Simon Vrachliotis・17m ・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/286/thumb/alpinejs.png',
-        path:
-          '/playlists/sprinkle-declarative-reactive-behaviour-on-your-html-with-alpine-js-5f8b',
-      },
     ],
   },
   {
     id: 'freeCourses',
-    name: 'Free Courses',
+    name: 'Community Resource ',
     title: 'Learn Something New',
-    description: '',
+    description:
+      'A Community Resource is a course that is free to access for all. The instructor of this course requested it to be open to the public. ',
     resources: [
+      {
+        title: "The Beginner's Guide to React",
+        byline: 'Kent C. Dodds・2h 27m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
+        path: '/courses/the-beginner-s-guide-to-react',
+      },
       {
         title: 'Introduction to State Machines Using XState',
         byline: 'Kyle Shevlin・53m・Course',
@@ -186,13 +234,6 @@ There are a number of tried and true methods that will allow you to learn more e
     description: '',
     resources: [
       {
-        title: 'Web Security Essentials: MITM, CSRF, and XSS',
-        byline: 'Mike Sherov・50m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png',
-        path: '/courses/web-security-essentials-mitm-csrf-and-xss',
-      },
-      {
         title: 'How to Contribute to an Open Source Project on GitHub',
         byline: 'Kent C. Dodds・38m ・Course',
         image:
@@ -236,7 +277,7 @@ There are a number of tried and true methods that will allow you to learn more e
     title: 'Deep Dive into AWS 🤯',
     path: '/playlists/react-state-management-in-2021-6732',
     description:
-      'Amazon Web Services (AWS) is the world’s most comprehensive and broadly adopted cloud platform offering over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
+      'Amazon Web Services (AWS) offering over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
     resources: [
       {
         byline: 'Tomasz Łakomy・1h 4m・Course',
@@ -303,7 +344,7 @@ There are a number of tried and true methods that will allow you to learn more e
       {
         byline: 'Chris Biscardi・42m・Course',
         description:
-          'This collection is a sequel to the [Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb) collection. In this collection we take the TODO application we built and convert it to run using Netlify Identity, AWS Lambda (using the serverless framework) and DynamoDB. We cover* Fauna vs DynamoDB and when to use each↵* Setting up AWS accounts↵* Creating DynamoDB tables and data modeling differences between Fauna and Dynamo↵* Converting our Netlify Functions deployment to a Serverless Framework deployment↵* Implementing Custom authorizer functions on AWSIt uses tools that remove as many of the barriers as possible. Netlify Functions grows into Serverless Framework adn AWS Lambda, Netlify Identity is kept around, and FaunaDB can grows into DynamoDB.',
+          'This collection is a sequel to the [Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb) collection. In this collection we take the TODO application we built and convert it to run using Netlify Identity, AWS Lambda (using the serverless framework) and DynamoDB. We cover* Fauna vs DynamoDB and when to use each* Setting up AWS accounts* Creating DynamoDB tables and data modeling differences between Fauna and Dynamo* Converting our Netlify Functions deployment to a Serverless Framework deployment* Implementing Custom authorizer functions on AWSIt uses tools that remove as many of the barriers as possible. Netlify Functions grows into Serverless Framework adn AWS Lambda, Netlify Identity is kept around, and FaunaDB can grows into DynamoDB.',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
         path:
@@ -366,26 +407,66 @@ There are a number of tried and true methods that will allow you to learn more e
     ],
   },
   {
-    id: 'sideProject',
-    name: 'Weekend Side Project',
-    title: 'Build a Video Chat App with Twilio and Gatsby',
-    path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
+    id: 'cms',
+    name: 'Content Management System',
+    title:
+      'WordPress as a Headless Content Management System (CMS) and GraphQL API',
+    path: '/playlists/headless-wordpress-4a14',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/395/full/TwilioGatsby_Final.png',
-    byline: 'Jason Lengstorf',
-    description:
-      'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+    byline: 'Kevin Cunningham',
+    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
-    id: 'buildInPublic',
-    name: 'Build in Public',
-    title: 'How to Livestream Code and Design on Twitch',
-    path: '/playlists/how-to-livestream-code-and-design-on-twitch-6646',
+    id: 'reactHooks',
+    title: 'Simplify React Apps with React Hooks',
+    path: '/courses/simplify-react-apps-with-react-hooks',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/292/full/output-onlinepngtools.png',
-    byline: 'Chris Biscardi',
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/full/EGH_SimplifyHooks_Final.png',
+    byline: 'Kent C. Dodds',
     description:
-      'Demonstrate technical proficiency by building in public. This course will take you from creating a Twitch account, all the way through setting up OBS, creating scenes, and defining an ultra-efficient workflow.',
+      'In this course, Kent will take a modern React codebase that uses classes and refactor the entire thing to use function components as much as possible.',
+  },
+  {
+    id: 'security',
+    name: 'Protect Your Application',
+    title: 'Web Security Essentials: MITM, CSRF, and XSS',
+    byline: 'Mike Sherov・50m・Course',
+    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png`,
+    path: '/courses/web-security-essentials-mitm-csrf-and-xss',
+    description: `Security is important, yet it is often overlooked and forgotten. In this course, you'll learn how to protect your application by learning how to attack it.`,
+  },
+  {
+    id: 'accessibleReactApps',
+    name: 'Accessible React Applications ',
+    byline: 'Erin Doyle・1h 28m・Course',
+
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+    path: '/courses/develop-accessible-web-apps-with-react',
+    slug: 'develop-accessible-web-apps-with-react',
+    title: 'Develop Accessible Web Apps with React',
+  },
+  {
+    id: 'accessibleApps',
+    name: 'Accessible Portfolio Pieces',
+    title: 'Start Building Accessible Web Applications Today',
+    byline: 'Marcy Sutton・2h 7m ・ Course',
+    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/055/thumb/EGH_AccessibleWeb.png`,
+    path: '/courses/start-building-accessible-web-applications-today',
+    slug: 'start-building-accessible-web-applications-today',
+  },
+  {
+    id: 'reactTeams',
+    name: 'Techniques and Patterns for React Teams',
+    byline: 'Juri Strumpflohner・1h 40m・Course',
+    description:
+      "On the surface, starting a project sounds easy. First you make some directories, install some dependencies, then you write some code. But there's a bit more to it than just those three steps. The type of project you're working on impacts the decisions you make.",
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
+    path: '/playlists/scale-react-development-with-nx-4038',
+    slug: 'scale-react-development-with-nx-4038',
+    title: 'Scale React Development with Nx',
   },
   {
     id: 'portfolioProject',
