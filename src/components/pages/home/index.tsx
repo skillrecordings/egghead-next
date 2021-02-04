@@ -7,7 +7,6 @@ import {map, get, find, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import Header from './header'
 import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
@@ -15,7 +14,6 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
-import SearchBar from './search-bar'
 import Jumbotron from './jumbotron'
 
 const Home: FunctionComponent = () => {
@@ -33,14 +31,27 @@ const Home: FunctionComponent = () => {
   const stateManagement: any = find(homepageData, {
     id: 'stateManagement',
   })
+  const aws: any = find(homepageData, {
+    id: 'aws',
+  })
+  const workflows: any = find(homepageData, {
+    id: 'workflows',
+  })
+  const accessibleApps: any = find(homepageData, {
+    id: 'accessibleApps',
+  })
+  const accessibleReactApps: any = find(homepageData, {
+    id: 'accessibleReactApps',
+  })
+  const reactTeams: any = find(homepageData, {id: 'reactTeams'})
+  const reactHooks: any = find(homepageData, {id: 'reactHooks'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
-  const sideProject: any = find(homepageData, {id: 'sideProject'})
-  const buildInPublic: any = find(homepageData, {id: 'buildInPublic'})
+  const security: any = find(homepageData, {id: 'security'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
   const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
-  const mdxConf: any = find(homepageData, {id: 'mdxConf'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
+  const cms: any = find(homepageData, {id: 'cms'})
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -74,17 +85,31 @@ const Home: FunctionComponent = () => {
               })}
             </div>
             <CardHorizontal resource={portfolioProject} />
-            <CardHorizontal resource={portfolioBlog} />
+            <CardHorizontal resource={cms} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
-              <CardVerticalWithStack data={devEssentials} />
+              <CardVerticalWithStack data={aws} />
               <CardVerticalWithStack
                 data={freeCourses}
                 memberTitle="Must Watch"
               />
             </div>
+            <CardHorizontal resource={portfolioBlog} />
+
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-5 items-start mt-8">
+              <Card resource={accessibleApps} className="h-full text-center">
+                <Collection />
+              </Card>
+              <Card
+                resource={accessibleReactApps}
+                className="h-full text-center"
+              >
+                <Collection />
+              </Card>
+            </div>
+
+            <CardHorizontal resource={security} />
             <CardHorizontal resource={advancedCourse} />
-            <CardHorizontal resource={buildInPublic} />
-            <CardHorizontal resource={sideProject} />
+            <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 space-y-8">
             <SortingHat
@@ -96,7 +121,7 @@ const Home: FunctionComponent = () => {
                 />
               }
             />
-            <CardVerticalWithStack data={mdxConf} />
+            <CardVerticalWithStack data={devEssentials} />
             <CardVerticalWithStack data={stateManagement} />
             <Card>
               <>
@@ -160,6 +185,10 @@ const Home: FunctionComponent = () => {
                   ))}
                 </ul>
               </>
+            </Card>
+            <CardVerticalWithStack data={workflows} />
+            <Card resource={reactHooks} className="text-center">
+              <Collection />
             </Card>
           </aside>
         </section>
@@ -327,7 +356,7 @@ function FeaturedVideoCard(props: {video: any}) {
             </Markdown>
           </div>
         </div>
-        <div className="sm:w-full -m-5 flex items-center flex-grow bg-gray-900">
+        <div className="sm:w-full -m-5 flex items-center flex-grow bg-black">
           <EggheadPlayer
             preload={false}
             autoplay={false}
