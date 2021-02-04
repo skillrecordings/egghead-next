@@ -3305,12 +3305,18 @@ const courseDependencyData = (courseSlug) =>
         id: '34',
         type: 'course',
         slug: 'rxjs-beyond-the-basics-operators-in-depth',
+        freshness: {
+          status: `classic`,
+          title: `Still good, but there are issues with this course`,
+          text: `While much of the information in this course is useful it is showing its age in specific details. In this course, the code for RxJS has updated from '5.0.0' to '6.3.3'. The operators still achieve the same outcome, the way you use them are slightly different. Also, ES5 has been updated to ES6.`,
+          asOf: `2021-01-25`,
+        },
         dependencies: {
-          rxjs: '^5.0.0',
+          rxjs: '^6.3.3',
         },
         reviews: [
           {
-            performedOn: '2017-09-15',
+            performedOn: '2021-01-25',
             performedBy: 186087,
             scopeOfReview: 'full course lesson review',
           },
