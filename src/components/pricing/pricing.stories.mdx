@@ -99,17 +99,13 @@ export const Template = (args) => {
       redirectURL={story.redirectURL}
       handleClickGetAccess={() => {}}
       {...args}
-      dark={args.dark}
       pricesLoading={args.pricesLoading}
     />
   )
 }
 
 <Canvas>
-  <Story
-    name="Default"
-    args={{pricesLoading: false, dark: true, quantityAvailable: true}}
-  >
+  <Story name="Default" args={{pricesLoading: false, quantityAvailable: true}}>
     {Template.bind({})}
   </Story>
 </Canvas>

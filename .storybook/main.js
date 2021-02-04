@@ -2,7 +2,16 @@ const path = require('path')
 const webpack = require('webpack')
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  addons: [
+    '@storybook/addon-links',
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        backgrounds: false,
+      },
+    },
+    'storybook-addon-themes',
+  ],
   webpackFinal: (config) => {
     /**
      * CSS handling, specifically overriding postcss loader

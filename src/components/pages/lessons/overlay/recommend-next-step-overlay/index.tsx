@@ -32,7 +32,6 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
         resource={lesson?.collection || lesson}
         instructor={lesson?.instructor}
         className="text-black flex items-center mt-6"
-        label
       >
         <div className="max-w-md mt-2 text-center">
           If this {lesson?.collection ? 'course' : 'video'} was useful for you,

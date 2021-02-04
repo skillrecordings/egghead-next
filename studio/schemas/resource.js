@@ -225,15 +225,6 @@ export default {
       type: 'url',
     },
     {
-      name: 'previewImage',
-      description: 'Upload an image here.',
-      title: 'Preview Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
       name: 'urls',
       description: 'Links to things.',
       title: 'External URLs',

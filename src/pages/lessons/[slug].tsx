@@ -15,7 +15,7 @@ import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
-import {NextSeo} from 'next-seo'
+import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
@@ -400,6 +400,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             },
           ],
         }}
+      />
+      <VideoJsonLd
+        name={title}
+        description={removeMarkdown(description)}
+        uploadDate={lesson?.created_at}
+        thumbnailUrls={[lesson?.thumb_url]}
       />
       <Head>
         <script

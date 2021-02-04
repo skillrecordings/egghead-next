@@ -46,6 +46,7 @@ export async function loadLesson(slug: string, token?: string) {
         path
         icon_url
         download_url
+        created_at
         collection {
           ... on Playlist {
             title
@@ -150,6 +151,7 @@ export async function loadBasicLesson(slug: string) {
         thumb_url
         path
         icon_url
+        created_at
         collection {
           ... on Playlist {
             title

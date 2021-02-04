@@ -8090,6 +8090,10 @@ sanity-diff-patch@^1.0.9:
   dependencies:
     diff-match-patch "^1.0.5"
 
+sanity-plugin-asset-source-cloudinary@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/sanity-plugin-asset-source-cloudinary/-/sanity-plugin-asset-source-cloudinary-0.1.0.tgz#bb4171abb10ffc74f86a021a774d8b3ff21d07d4"
+
 sanity-plugin-content-calendar@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/sanity-plugin-content-calendar/-/sanity-plugin-content-calendar-1.1.0.tgz#c48c4c2ce1b51fdf450883ed75baf1c9e21aa5d5"
