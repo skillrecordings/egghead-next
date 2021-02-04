@@ -19,7 +19,7 @@ export type SortingHatState = {
 export type SortingHatAction =
   | {type: 'load'; subscriber?: CIOSubscriber; loadingSubscriber: boolean}
   | {type: 'answered'; answer: any}
-  | {type: 'closed'; answer: any}
+  | {type: 'closed'}
   | {type: 'dismiss'}
 
 export const sortingHatInitialState: SortingHatState = {
