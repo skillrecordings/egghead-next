@@ -15,7 +15,7 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
   const [isError, setIsError] = React.useState(false)
 
   return url ? (
-    <div className="">
+    <div className="dark:text-white">
       {!isError && (
         <Formik
           initialValues={{newCommentText: ''}}
@@ -34,18 +34,15 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
             } = props
             return (
               <div className="max-w-2xl">
-                <h4 className="font-semibold mb-3">Your comment:</h4>
-                <form
-                  onSubmit={handleSubmit}
-                  className="w-full flex flex-col md:flex-row items-end"
-                >
+                {/* <h4 className="font-semibold mb-2">Your comment:</h4> */}
+                <form onSubmit={handleSubmit} className="w-full space-y-2">
                   <textarea
                     id="newCommentText"
                     value={values.newCommentText}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Start typing…"
-                    className="px-4 py-3 md:py-4 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 rounded-md resize-none"
+                    placeholder="Your comment..."
+                    className="form-textarea p-3 dark:text-white dark:bg-gray-800 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 dark:border-gray-700 rounded-md resize-none"
                     required
                     css={{
                       minHeight: '120px',
@@ -54,7 +51,7 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-4 md:mt-0 md:ml-6 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                    className="transition-all text-sm duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-2 px-4 rounded-md"
                   >
                     Send
                   </button>

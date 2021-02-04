@@ -2,7 +2,7 @@ import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
 import Comment from './index'
 
 export const comment = {
-  comment: 'A great community to engage in is: https://www.reactiflux.com/',
+  comment: 'Lorem ipsum dolor sit amet.',
   commentable_id: '6273',
   commentable_type: 'Lesson',
   created_at: '2020-05-18T08:16:27-05:00',
@@ -30,7 +30,7 @@ export const comment = {
 
 <Canvas>
   <Story name="Default">
-    <div className="max-w-7xl">
+    <div className="dark:bg-gray-900 p-5">
       <Comment
         key={comment.id}
         comment={comment.comment}

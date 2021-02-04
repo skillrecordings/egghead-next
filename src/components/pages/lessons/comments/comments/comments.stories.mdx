@@ -5,8 +5,7 @@ export const lesson = {
   add_comment_url: 'add_comment_url',
   comments: [
     {
-      comment:
-        '> hi\nIs this a good place to ask questions, or is there another channel somewhere?',
+      comment: 'Lorem ipsum dolor sit amet.',
       created_at: '2020-05-17T03:49:09-05:00',
       is_commentable_owner: false,
       state: 'published',
@@ -17,13 +16,13 @@ export const lesson = {
       },
     },
     {
-      comment: 'A great community to engage in is: https://www.reactiflux.com/',
+      comment: 'Lorem ipsum dolor sit amet.',
       created_at: '2020-05-18T08:16:27-05:00',
       is_commentable_owner: true,
       state: 'published',
       user: {
         avatar_url:
-          '//gravatar.com/avatar/c1c563b36d23e34002036e1de405f9ca.png?s=128&d=mp',
+          'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/medium/photo-512.png',
         full_name: 'Kent C. Dodds',
       },
     },
@@ -34,7 +33,7 @@ export const lessonNotAbletoComment = {
   add_comment_url: null,
   comments: [
     {
-      comment: 'A great community to engage in is: https://www.reactiflux.com/',
+      comment: 'Lorem ipsum dolor sit amet.',
       created_at: '2020-05-18T08:16:27-05:00',
       is_commentable_owner: true,
       state: 'published',
@@ -63,18 +62,26 @@ export const lessonNoCommentsNotAbleToComment = {
 
 <Canvas>
   <Story name="Comments exist">
-    <Comments lesson={lesson} commentingAllowed={true} />
+    <div className="dark:bg-gray-900 p-5">
+      <Comments lesson={lesson} commentingAllowed={true} />
+    </div>
   </Story>
   <Story name="Comments exist and user is NOT able to comment">
-    <Comments lesson={lessonNotAbletoComment} commentingAllowed={true} />
+    <div className="dark:bg-gray-900 p-5">
+      <Comments lesson={lessonNotAbletoComment} commentingAllowed={true} />
+    </div>
   </Story>
   <Story name="No comments">
-    <Comments lesson={lessonNoComments} commentingAllowed={true} />
+    <div className="dark:bg-gray-900 p-5">
+      <Comments lesson={lessonNoComments} commentingAllowed={true} />
+    </div>
   </Story>
   <Story name="No comments and user is NOT able to comment">
-    <Comments
-      lesson={lessonNoCommentsNotAbleToComment}
-      commentingAllowed={true}
-    />
+    <div className="dark:bg-gray-900 p-5">
+      <Comments
+        lesson={lessonNoCommentsNotAbleToComment}
+        commentingAllowed={true}
+      />
+    </div>
   </Story>
 </Canvas>
