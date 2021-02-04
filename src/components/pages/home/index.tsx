@@ -65,17 +65,17 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
-      <div className="space-y-14">
+      <div className="lg:space-y-6 space-y-4">
         <Jumbotron resource={jumbotron} />
-        <section className="space-y-6 ">
+        <section className="">
           <TopicsList topics={topics} />
         </section>
-        <section className="grid lg:grid-cols-8 grid-cols-1 gap-5 ">
+        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
           <FeaturedVideoCard video={video} />
           <EventSchedule />
         </section>
-        <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 ">
-          <div className="lg:col-span-8 space-y-8">
+        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
+          <div className="lg:col-span-8 lg:space-y-6 space-y-4">
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
             )}
@@ -88,7 +88,7 @@ const Home: FunctionComponent = () => {
             </div>
             <CardHorizontal resource={portfolioProject} />
             <CardHorizontal resource={cms} />
-            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-5">
+            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
               <CardVerticalWithStack data={aws} />
               <CardVerticalWithStack
                 data={freeCourses}
@@ -97,7 +97,7 @@ const Home: FunctionComponent = () => {
             </div>
             <CardHorizontal resource={portfolioBlog} />
 
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-5 items-start mt-8">
+            <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
               <Card resource={accessibleApps} className="h-full text-center">
                 <Collection />
               </Card>
@@ -113,7 +113,7 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={advancedCourse} />
             <CardHorizontal resource={reactTeams} />
           </div>
-          <aside className="lg:col-span-4 space-y-8">
+          <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
             <LevelUpCTA
               className="sm:py-3 py-2 h-full flex flex-col justify-between"
               alternative={
@@ -206,12 +206,12 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   const allTopics = get(topics, 'resources', [])
   return (
     <>
-      <div className="w-full mt-6">
+      <div className="w-full">
         <ul
-          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-5 gap-5`}
+          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-6 gap-4`}
         >
           {map(allTopics, (resource) => (
-            <li className="" key={resource.path}>
+            <li key={resource.path}>
               <Link href={resource.path}>
                 <a
                   onClick={() => {
@@ -223,9 +223,9 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-100 active:bg-gray-50 hover:shadow-sm transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-gray-200 tracking-tight font-bold leading-tight flex items-center hover:text-blue-600 dark:hover:text-blue-300"
+                  className="w-full bg-white shadow-sm dark:bg-gray-800 hover:shadow-lg dark:hover:bg-gray-700 dark:active:bg-gray-600 active:bg-gray-50 transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-white tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
                 >
-                  <div className="w-full flex flex-col items-center justify-center space-y-4 p-2">
+                  <div className="w-full flex flex-col items-center justify-center px-3 py-8 space-y-4">
                     {resource.image && (
                       <div className="flex items-center">
                         <Image
@@ -359,7 +359,7 @@ function FeaturedVideoCard(props: {video: any}) {
             </Markdown>
           </div>
         </div>
-        <div className="sm:w-full -m-5 flex items-center flex-grow bg-black">
+        <div className="sm:w-full sm:-m-8 -m-5 flex items-center flex-grow bg-black">
           <EggheadPlayer
             preload={false}
             autoplay={false}
@@ -390,7 +390,7 @@ export const CardHorizontal: FunctionComponent<{
   return (
     <Card className={className}>
       <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center md:items-start sm:text-left text-center">
+        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
           {resource.image && (
             <Link href={resource.path}>
               <a
