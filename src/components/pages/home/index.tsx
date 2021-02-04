@@ -9,12 +9,14 @@ import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import homepageData from './homepage-data'
 import SortingHat from 'components/survey/sorting-hat'
+
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
 import Jumbotron from './jumbotron'
+import LevelUpCTA from '../../survey/level-up-cta'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -112,7 +114,7 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 space-y-8">
-            <SortingHat
+            <LevelUpCTA
               className="sm:py-3 py-2 h-full flex flex-col justify-between"
               alternative={
                 <CardVerticalWithStack
