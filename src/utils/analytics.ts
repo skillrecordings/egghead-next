@@ -1,6 +1,7 @@
 import {isFunction, isUndefined} from 'lodash'
 import {Viewer} from 'types'
 import Auth from './auth'
+const DEBUG_ANALYTICS = false
 
 export const track = (
   event: string,
@@ -16,6 +17,7 @@ export const track = (
     const viewer: Viewer = auth.getLocalUser()
 
     function politelyExit() {
+      DEBUG_ANALYTICS && console.debug(`TRACKED: ${event}`)
       if (isFunction(callback) && !wasCalled) {
         wasCalled = true
         callback.apply(null, [event, wasCalled])
