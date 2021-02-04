@@ -33,8 +33,9 @@ const courseDependencyData = (courseSlug) =>
           'Requests can be filtered based on HTTP method, url, headers, and other data',
         ],
         essentialQuestions: [
-          'Should you start a project from scratch, or use a generator template?',
-          'Would manual request filtering or template routing work best for your application?',
+          'What is serverless?',
+          'How does using a serverless solution enable me to focus more on my business?',
+          'What level of control do you need to build successful solutions?',
         ],
         pairWithResources: [
           {
