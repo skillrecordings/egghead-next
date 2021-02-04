@@ -141,6 +141,13 @@ There are a number of tried and true methods that will allow you to learn more e
         path: '/courses/the-beginner-s-guide-to-react',
       },
       {
+        title: 'CSS Fundamentals',
+        byline: 'Tyler Clark・33m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+        path: '/courses/css-fundamentals',
+      },
+      {
         title: "The Beginner's Guide to Figma",
         byline: 'Joe Previte・ Course',
         image:
