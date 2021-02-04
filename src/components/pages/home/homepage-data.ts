@@ -134,6 +134,13 @@ There are a number of tried and true methods that will allow you to learn more e
       'These courses will get you started building real-world applications with these tools. They are all excellent introductions if you want to learn something new today.',
     resources: [
       {
+        title: "The Beginner's Guide to React",
+        byline: 'Kent C. Dodds・2h 27m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
+        path: '/courses/the-beginner-s-guide-to-react',
+      },
+      {
         title: "The Beginner's Guide to Figma",
         byline: 'Joe Previte・ Course',
         image:
@@ -172,11 +179,11 @@ There are a number of tried and true methods that will allow you to learn more e
       'A Community Resource is a course that is free to access for all. The instructor of this course requested it to be open to the public. ',
     resources: [
       {
-        title: "The Beginner's Guide to React",
-        byline: 'Kent C. Dodds・2h 27m ・Course',
+        title: 'Get Started with Reason',
+        byline: 'Nik Graf・1h 13m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
-        path: '/courses/the-beginner-s-guide-to-react',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/163/thumb/EGH_Reason_Final.png',
+        path: '/courses/get-started-with-reason',
       },
       {
         title: 'Introduction to State Machines Using XState',
