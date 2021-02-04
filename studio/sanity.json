@@ -19,7 +19,8 @@
     "graph-view",
     "content-calendar",
     "nyancat-spinner",
-    "asset-source-cloudinary"
+    "asset-source-cloudinary",
+    "@sanity/code-input"
   ],
   "env": {
     "development": {

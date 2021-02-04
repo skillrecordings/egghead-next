@@ -265,6 +265,7 @@ export default {
       title: 'Projects',
       type: 'array',
       of: [
+        {type: 'link'},
         {
           type: 'reference',
           to: [{type: 'resource'}],
@@ -300,6 +301,26 @@ export default {
       title: 'Prerequisite Resources',
       type: 'array',
       of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              title: 'Type of Resource',
+              type: 'string',
+              name: 'type',
+            },
+            {
+              title: 'Label',
+              type: 'string',
+              name: 'label',
+            },
+            {
+              title: 'Value',
+              type: 'string',
+              name: 'value',
+            },
+          ],
+        },
         {
           type: 'reference',
           to: [{type: 'resource'}],
