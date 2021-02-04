@@ -182,6 +182,7 @@
     "react-test-renderer": "^17.0.1",
     "rehype": "^11.0.0",
     "start-server-and-test": "^1.11.7",
+    "storybook-addon-themes": "^6.0.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
