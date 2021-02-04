@@ -66,7 +66,7 @@ There are a number of tried and true methods that will allow you to learn more e
           '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
       },
       {
-        name: 'Delightfully Different',
+        name: 'Get Reactive',
         title: 'Thinking Reactively with RxJS',
         byline: 'Rares Matei・1h 50m・Course',
         image:
