@@ -44,7 +44,7 @@ const Home: FunctionComponent = () => {
     id: 'accessibleReactApps',
   })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
-  const reactHooks: any = find(homepageData, {id: 'reactHooks'})
+  const redux: any = find(homepageData, {id: 'redux'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
   const security: any = find(homepageData, {id: 'security'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
@@ -121,7 +121,11 @@ const Home: FunctionComponent = () => {
                 />
               }
             />
+            <Card resource={redux} className="text-center">
+              <Collection />
+            </Card>
             <CardVerticalWithStack data={devEssentials} />
+
             <CardVerticalWithStack data={stateManagement} />
             <Card>
               <>
@@ -187,9 +191,6 @@ const Home: FunctionComponent = () => {
               </>
             </Card>
             <CardVerticalWithStack data={workflows} />
-            <Card resource={reactHooks} className="text-center">
-              <Collection />
-            </Card>
           </aside>
         </section>
       </div>

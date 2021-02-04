@@ -66,7 +66,7 @@ There are a number of tried and true methods that will allow you to learn more e
           '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
       },
       {
-        name: 'Delightfully Different',
+        name: 'Get Reactive',
         title: 'Thinking Reactively with RxJS',
         byline: 'Rares Matei・1h 50m・Course',
         image:
@@ -255,14 +255,6 @@ There are a number of tried and true methods that will allow you to learn more e
         path: '/courses/graphql-query-language',
       },
       {
-        title: 'Build an App with the AWS Cloud Development Kit',
-        byline: 'Tomasz Łakomy・1h 4m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
-
-        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
-      },
-      {
         title: 'Debug the DOM in Chrome with the Devtools Elements panel',
         byline: 'Mykola Bilokonsky・25m・Course',
         image:
@@ -277,7 +269,7 @@ There are a number of tried and true methods that will allow you to learn more e
     title: 'Deep Dive into AWS 🤯',
     path: '/playlists/react-state-management-in-2021-6732',
     description:
-      'Amazon Web Services (AWS) offering over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
+      'Amazon Web Services (AWS) has over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
     resources: [
       {
         byline: 'Tomasz Łakomy・1h 4m・Course',
@@ -366,24 +358,18 @@ There are a number of tried and true methods that will allow you to learn more e
       {
         title: 'Using Redux in Modern React Apps with Mark Erikson',
         byline: 'Mark Erikson & Joel Hooks・90m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
         path:
           '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
       },
       {
         title: 'XState for State Management in React Apps with David Khourshid',
         byline: 'David Khourshid & Joel Hooks・55m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/282/thumb/xstate.png',
         path:
           '/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
       },
       {
         title: 'State Management in React with Chance Strickland',
         byline: 'Chance Strickland & Joel Hooks・46m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
           '/lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
       },
@@ -391,16 +377,12 @@ There are a number of tried and true methods that will allow you to learn more e
         title:
           'Using Recoil to Manage Orthogonal State in React Apps with David McCabe',
         byline: 'David McCabe & Joel Hooks・34m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
           '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
       },
       {
         title: 'Managing Complex State in React with Jared Palmer',
         byline: 'Jared Palmer & Joel Hooks・1h 28m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
           '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
       },
@@ -418,14 +400,15 @@ There are a number of tried and true methods that will allow you to learn more e
     description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
-    id: 'reactHooks',
-    title: 'Simplify React Apps with React Hooks',
-    path: '/courses/simplify-react-apps-with-react-hooks',
+    id: 'redux',
+    name: 'The Classic',
+    byline: 'Dan Abramov・2h 1m・Course',
+    description: `In this comprehensive course, Dan Abramov - the creator of Redux - will teach you how to manage state in your [React](/q/react) application with [Redux](/q/redux).`,
+    path: '/courses/getting-started-with-redux',
+    slug: 'getting-started-with-redux',
+    title: 'Getting Started with Redux',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/full/EGH_SimplifyHooks_Final.png',
-    byline: 'Kent C. Dodds',
-    description:
-      'In this course, Kent will take a modern React codebase that uses classes and refactor the entire thing to use function components as much as possible.',
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/025/thumb/EGH_Redux-New.png',
   },
   {
     id: 'security',
