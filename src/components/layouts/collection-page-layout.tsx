@@ -172,8 +172,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     essentialQuestions,
     multiModuleCourse,
     moduleResource,
-    modulelabel,
+    moduleLabel,
     multiModuleSlug,
+    multiModuletitle,
+    totalCourseModules,
+    multiModuleLineheight,
   } = courseDependencies
 
   const {
@@ -333,14 +336,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Link href={multiModuleSlug}>
                     <a>
                       <span className="text-gray-700 dark:text-gray-400 hover:underline">
-                        Design with Tailwind CSS Masterclass
+                        {multiModuletitle && multiModuletitle}
                       </span>
                     </a>
                   </Link>
                   {' • '}
-                  <span className="font-semibold text-teal-600">
-                    Part {modulelabel}
-                  </span>
+                  <span className="font-semibold">Part {moduleLabel}</span>
                 </h1>
               )}
 
@@ -604,7 +605,25 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               )}
             </div>
             <section className="mt-8">
-              <div className="mb-2 flex flex-col space-y-4">
+              <div className="mb-2 flex flex-col space-y-4 ">
+                {moduleResource && (
+                  <div className="border border-gray-100 dark:text-gray-400 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800 p-4 my-4">
+                    Part{' '}
+                    {moduleLabel && (
+                      <span className="font-semibold dark:text-gray-100">
+                        {moduleLabel}
+                      </span>
+                    )}{' '}
+                    of {totalCourseModules && totalCourseModules} in the{' '}
+                    <Link href={multiModuleSlug}>
+                      <a>
+                        <span className="font-semibold hover:underline dark:text-gray-100">
+                          {multiModuletitle && multiModuletitle}
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
+                )}
                 <h2 className="text-xl font-bold">
                   {multiModuleCourse ? 'Modules' : 'Course Content'}
                 </h2>
@@ -615,7 +634,18 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               </div>
               {multiModuleCourse ? (
-                <ul>
+                <ul className="relative">
+                  <div
+                    className="bg-gray-200 dark:bg-gray-700 absolute"
+                    // @ts-ignore
+                    css={{
+                      left: '50px',
+                      width: '1px',
+                      height: multiModuleLineheight,
+                      top: '8%',
+                      zIndex: '0',
+                    }}
+                  ></div>
                   {playlists.map((course: any) => {
                     return (
                       <ul key={course.slug}>
@@ -928,6 +958,7 @@ const CoursePodcast = ({
           width="100%"
           frameBorder="no"
           scrolling="no"
+          title="Podcast Player"
           seamless
           src={`https://player.simplecast.com/${id}?dark=${
             theme === 'dark'
