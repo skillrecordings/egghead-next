@@ -46,7 +46,7 @@ const Home: FunctionComponent = () => {
     id: 'accessibleReactApps',
   })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
-  const redux: any = find(homepageData, {id: 'redux'})
+  const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
   const security: any = find(homepageData, {id: 'security'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
@@ -114,6 +114,10 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+            <Card resource={tailwind} className="text-center">
+              <Collection />
+            </Card>
+
             <LevelUpCTA
               className="sm:py-3 py-2 h-full flex flex-col justify-between"
               alternative={
@@ -123,9 +127,7 @@ const Home: FunctionComponent = () => {
                 />
               }
             />
-            <Card resource={redux} className="text-center">
-              <Collection />
-            </Card>
+
             <CardVerticalWithStack data={devEssentials} />
 
             <CardVerticalWithStack data={stateManagement} />

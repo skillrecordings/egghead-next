@@ -412,15 +412,15 @@ There are a number of tried and true methods that will allow you to learn more e
     description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
-    id: 'redux',
-    name: 'The Classic',
-    byline: 'Dan Abramov・2h 1m・Course',
-    description: `In this comprehensive course, Dan Abramov - the creator of Redux - will teach you how to manage state in your [React](/q/react) application with [Redux](/q/redux).`,
-    path: '/courses/getting-started-with-redux',
-    slug: 'getting-started-with-redux',
-    title: 'Getting Started with Redux',
+    id: 'tailwind',
+    name: 'Multi-module Course',
+    byline: 'Adam Wathan・3h 4m・Course',
+    description: `In this multi-module course, Adam Wathan - the creator of Tailwind - will teach you how to style your applications with modern, sustainable patterns.`,
+    path: '/playlists/design-with-tailwind-css-masterclass-f0db',
+    slug: 'design-with-tailwind-css-masterclass-f0db',
+    title: 'Design with Tailwind CSS Masterclass',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/025/thumb/EGH_Redux-New.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/348/912/full/tailwinds_masterclass_main_424_2x.png',
   },
   {
     id: 'security',
