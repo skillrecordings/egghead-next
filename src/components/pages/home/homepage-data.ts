@@ -413,9 +413,9 @@ There are a number of tried and true methods that will allow you to learn more e
   },
   {
     id: 'tailwind',
-    name: 'Multi-module Course',
+    name: 'Write Modern CSS',
     byline: 'Adam Wathan・3h 4m・Course',
-    description: `In this multi-module course, Adam Wathan - the creator of Tailwind - will teach you how to style your applications with modern, sustainable patterns.`,
+    description: `In this multi-module course, Adam Wathan - the creator of Tailwind - will teach you how to style your applications with modern, sustainable patterns. Modules include: `,
     path: '/playlists/design-with-tailwind-css-masterclass-f0db',
     slug: 'design-with-tailwind-css-masterclass-f0db',
     title: 'Design with Tailwind CSS Masterclass',
