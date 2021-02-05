@@ -115,7 +115,20 @@ const Home: FunctionComponent = () => {
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
             <Card resource={tailwind} className="text-center">
-              <Collection />
+              <ol className="text-left">
+                {tailwind.resources.map((resource: any, index: any) => {
+                  return (
+                    <li key={resource.path} className="flex space-x-2 my-2">
+                      <span>{index + 1}</span>
+                      <Link href={resource.path}>
+                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                          {resource.title}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ol>
             </Card>
 
             <LevelUpCTA

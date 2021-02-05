@@ -421,6 +421,26 @@ There are a number of tried and true methods that will allow you to learn more e
     title: 'Design with Tailwind CSS Masterclass',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/348/912/full/tailwinds_masterclass_main_424_2x.png',
+    resources: [
+      {
+        title: 'Introduction to Tailwind and the Utility First Workflow',
+        path:
+          '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+      },
+      {
+        title: 'Design and Implement Common Tailwind Components',
+        path:
+          '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
+      },
+      {
+        title: 'Build a Responsive Navbar with Tailwind',
+        path: '/playlists/build-a-responsive-navbar-with-tailwind-4d328a35',
+      },
+      {
+        title: 'Build and Style a Dropdown in Tailwind',
+        path: '/playlists/build-and-style-a-dropdown-in-tailwind-7f34fead',
+      },
+    ],
   },
   {
     id: 'security',
