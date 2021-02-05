@@ -18,6 +18,11 @@ export default {
       },
     },
     {
+      name: 'tags',
+      title: 'Tags',
+      type: 'tags',
+    },
+    {
       name: 'type',
       description: 'Resources have types that we can use to distinguish them.',
       title: 'Type',
