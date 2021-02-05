@@ -579,6 +579,38 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   {lessons.length + playlistLessons.length} lessons
                 </div>
               </div>
+              <ul>
+                {playlists.map((course: any) => {
+                  return (
+                    <ul key={course.slug}>
+                      <div className="border p-5 max-w-max-content flex space-x-10">
+                        <Link href={course.path}>
+                          <a>
+                            <div className="flex-shrink-0 flex">
+                              <Image
+                                src={course.square_cover_url}
+                                width={100}
+                                height={100}
+                                layout="fixed"
+                              />
+                            </div>
+                          </a>
+                        </Link>
+                        <div className="flex flex-col">
+                          <Link href={course.path}>
+                            <a>
+                              <h2 className="text-xl">{course.title}</h2>
+                            </a>
+                          </Link>
+                          {course.duration &&
+                            `${convertTimeWithTitles(course.duration)} • `}
+                          {course.lessons.length} lessons
+                        </div>
+                      </div>
+                    </ul>
+                  )
+                })}
+              </ul>
               <div>
                 <ul>
                   {playlists.map((playlist: any) => {
