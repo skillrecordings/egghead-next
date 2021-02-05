@@ -58,6 +58,22 @@ export default {
             title: 'landing page',
             value: 'landing-page',
           },
+          {
+            title: 'feature',
+            value: 'feature',
+          },
+          {
+            title: 'video (Lesson)',
+            value: 'video',
+          },
+          {
+            title: 'podcast',
+            value: 'podcast',
+          },
+          {
+            title: 'talk',
+            value: 'talk',
+          },
         ],
       },
     },
