@@ -4,12 +4,330 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '348912',
+        type: 'playlist',
+        slug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuleCourse: true,
+        multiModuleLineheight: '45rem',
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `Thousands of people have used this multi-module course as an introduction to Tailwind CSS. It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        topics: [
+          'Get Tailwind CSS up and running in your project',
+          'Build complex application layouts with flexbox',
+          `Build accessible user interfaces following industry best practices`,
+          'Remove unused CSS from production builds to maximum performance',
+          'Use responsive utility variants to build adaptive user interfaces',
+          'Use utilities to style elements on hover, focus, and other states',
+          'Extend Tailwind with custom utility classes',
+          'Work with Tailwind CSS plugins',
+          'Customize Tailwind CSS to meet the needs of your design',
+          'Augment Tailwind CSS with JavaScript to make your designs interactive',
+        ],
+        quickFacts: [
+          'Utility classes create an API on top of what is already a declarative API (CSS itself)',
+          'Every utility class is reusable so you rarely need to write new CSS',
+          `Tailwind CSS makes easier to maintain a large CSS codebase `,
+          'Tailwind CSS uses a mobile first breakpoint system',
+          'Tailwind CSS is component-driven',
+          'Tailwind CSS is single source of truth for your CSS architecture',
+        ],
+        essentialQuestions: [
+          'How do you build visually consistent UIs?',
+          'What are the best practices for implementing design systems? ',
+          'What makes a project maintainable?',
+          'How much design CSS do I need to know?',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+
+      {
+        id: '340481',
+        type: 'playlist',
+        slug: 'introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+        moduleResource: true,
+        moduleLabel: 1,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Install Tailwind CSS in your project',
+          'Design with the utility first workflow',
+          'Use Tailwind CSS for responsive design',
+          'Extract Tailwind CSS component classes',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '340482',
+        type: 'playlist',
+        slug: 'design-and-implement-common-tailwind-components-8fbb9b19',
+        moduleResource: true,
+        moduleLabel: 2,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Style a Card Components',
+          'Style badges',
+          'Style SVG Icons',
+          'Style Images',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '340483',
+        type: 'playlist',
+        slug: 'build-a-responsive-navbar-with-tailwind-4d328a35',
+        moduleResource: true,
+        moduleLabel: 3,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Best practices for mobile-first UI development',
+          'Use the mobile first breakpoint system',
+          'Use responsive utility variant',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '340484',
+        type: 'playlist',
+        slug: 'build-and-style-a-dropdown-in-tailwind-7f34fead',
+        moduleResource: true,
+        moduleLabel: 4,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Build and style a static dropdown menu',
+          'Creating keyboard accessible components',
+          'Best practices for mobile-first UI development',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '418892',
+        type: 'playlist',
         slug: 'introduction-to-cloudflare-workers-5aa3',
         freshness: {
           status: `fresh`,
           title: `This is a Fresh Course`,
           text: `This course will give you a solid foundation to start developing serverless applications. Serverless is a great trend to explore and CloudFlare is at the forefront of the technology.
-          `,
+      `,
           asOf: `2021-02-01`,
         },
 
@@ -17,7 +335,7 @@ const courseDependencyData = (courseSlug) =>
           label: 'Cloudflare Worker Project',
           url: '/projects/introduction-to-cloudflare-workers',
           text: `After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? Start with this Project!
-          `,
+      `,
         },
         topics: [
           'Configure the Wrangler CLI for local development',
@@ -31,11 +349,15 @@ const courseDependencyData = (courseSlug) =>
           'Requests can be filtered based on HTTP method, url, headers, and other data',
         ],
         essentialQuestions: [
-          'Should you start a project from scratch, or use a generator template?',
-          'Would manual request filtering or template routing work best for your application?',
+          'What is serverless?',
+          'How does using a serverless solution enable me to focus more on my business?',
+          'What level of control do you need to build successful solutions?',
         ],
         pairWithResources: [
           {
+            id: '414202',
+            type: 'playlist',
+            guid: '553c',
             title:
               'Build a Corgi Up-boop Web App with Netlify Serverless Functions and Hasura',
             byline: 'Jason Lengstorf・1h 27m・Course',
@@ -48,6 +370,8 @@ const courseDependencyData = (courseSlug) =>
             description: `Starting from a prebuilt frontend, Jason Lengstorf guides you through the creation of a static "Corgi Up-boop App" and integrates Netlify Functions with Hasura.`,
           },
           {
+            id: '185',
+            type: 'course',
             title: 'JavaScript Promises in Depth',
             byline: 'Marius Schulz・1h 07m・Course',
             image:
@@ -58,6 +382,8 @@ const courseDependencyData = (courseSlug) =>
               'ES2015 brought a native Promise to the JavaScript standard library. In this course, we’re going to take an in-depth look at how to use promises to model various kinds of asynchronous operations.',
           },
           {
+            id: '212',
+            type: 'course',
             title: 'Develop a Serverless Backend using Node.js on AWS Lambda',
             byline: 'Nik Graf・15m・Course',
             image:
@@ -71,6 +397,9 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '292804',
+        type: 'playlist',
+        guid: '2960',
         slug: 'create-and-deploy-a-basic-static-html-website-2960',
         topics: [
           'Getting Started with HTML',
@@ -83,15 +412,20 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
+            id: '392298',
+            type: 'course',
             title: 'Build An Eleventy (11ty) Site From Scratch',
             byline: 'Stephanie Eckles・19m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/full/11ty.png',
             path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
             slug: 'build-an-eleventy-11ty-site-from-scratch-bfd3',
-            description: `Start from a blank project and build up to an Eleventy site that includes a blog collection and is prepared to source content from a headless CMS. You'll also learn how to add Sass as the styling solution, complete with triggering 11ty to re-compile when the Sass changes.`,
+            description:
+              "Start from a blank project and build up to an Eleventy site that includes a blog collection and is prepared to source content from a headless CMS. You'll also learn how to add Sass as the styling solution, complete with triggering 11ty to re-compile when the Sass changes.",
           },
           {
+            id: '227',
+            type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -104,74 +438,82 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug:
-          'containerize-full-stack-javascript-applications-with-docker-30a8',
-        dependencies: {
-          docker: '>=20.10.2',
-          nginx: '>=1.19.5',
+        id: '402036',
+        type: 'playlist',
+        guid: '1223',
+        slug: 'composing-closures-and-callbacks-in-javascript-1223',
+        freshness: {
+          status: 'classic',
+          title: 'Core Skills',
+          text:
+            'This is an epic [JavaScript](/q/javascript) resource that goes well beyond the \n        basics and delivers expert knowledge on core patterns in the language. **Designed for the \n        advanced beginner and beyond**\n        ',
+          asOf: '2021-01-24',
         },
         topics: [
-          'Running existing Docker containers',
-          'Creating Docker containers for an existing application',
-          'Passing environment variables',
-          'Executing bash scripts as part of container building',
-          'Configure networking between containers',
-          'Setting up volumes for persisting data',
-          'Publishing containers to a public registry',
+          'Closures, Callbacks, and Composition',
+          'Currying, Caching, and Creating operators',
+          'Creating custom React Hooks',
         ],
-        illustrator: {
-          name: 'Kamil Khadeyev',
-        },
+        notes: [
+          {
+            url:
+              'https://github.com/eggheadio/eggheadio-course-notes/tree/master/composing-closures-and-callbacks-in-javascript',
+          },
+        ],
         pairWithResources: [
           {
-            title: 'WTF is Kubernetes (K8s)',
-            byline: 'Chris Biscardi・12m・Video',
+            id: '241',
+            type: 'course',
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
             image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
-            path: '/lessons/docker-wtf-is-kubernetes-k8s',
-            slug: 'docker-wtf-is-kubernetes-k8s',
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
             description:
-              "Kubernetes is an API to a computer. Multiple computers actually. Here we'll talk about what K8s is, how you can choose between the plethora of K8s related hosting options, and what the process looks like for getting some containers running.",
+              'Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming\n            in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.',
           },
           {
-            title: 'Build a Twelve-Factor Node.js App with Docker',
-            byline: 'Mark Shust・30m・Course',
+            id: '353',
+            type: 'course',
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
             image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/120/thumb/EGH_NodeDocker_1000.png',
-            path: '/courses/build-a-twelve-factor-node-js-app-with-docker',
-            slug: 'build-a-twelve-factor-node-js-app-with-docker',
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
             description:
-              'Take a simple Node.js app that connects to a MongoDB database and uses an Express web server, and learn how to setup a full software development deployment process as well as how to properly “Dockerize” the app.',
+              'This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.',
           },
           {
-            title:
-              'Set up Hasura GraphQL engine with YugabyteDB distributed SQL',
-            byline: 'Vladimir Novick・2m・Video',
+            id: '185',
+            type: 'course',
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
             image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
-            path:
-              '/lessons/postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
-            slug:
-              'postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
             description:
-              'In this lesson we will see how you can run Hasura GraphQL engine on top of YugabyteDB Distributed SQL\n\nYugabyteDB is an open source, high-performance distributed SQL database for powering global, internet-scale applications.YugabyteDB is also a cloud-native database, so it can be deployed across both public and private clouds, including Kubernetes environments. In regards to serving as a backend for microservices, YugabyteDB brings together three must-haves: a PostgreSQL-compatible SQL API, low-latency read performance, and globally distributed write scalability. YugabyteDB with its global data distribution brings data close to users for multi-region and multi-cloud deployments.',
+              'Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations\n            and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.',
           },
         ],
       },
       {
-        slug:
-          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        id: '405344',
+        type: 'playlist',
+        guid: '4038',
+        slug: 'scale-react-development-with-nx-4038',
         dependencies: {
-          preact: '>=10.5.9',
-          'node-fetch': '>=2.6.1',
+          react: '>=16.13.1',
         },
         topics: [
-          'Installing & configuring the Netlify CLI for local development',
-          'Managing private keys in development and production',
-          'Writing Serverless functions for interacting with APIs',
-          'Configuring a PostgreSQL-backed GraphQL API with Hasura',
-          'Writing custom React Hooks for triggering Serverless functions',
-          'Deploying a complete app with Netlify',
+          'Generating projects from scratch with Nx',
+          'Add Storybook to a React app',
+          'Creating & sharing libraries between apps',
+          'Generating a backend API with a proxy for local development',
+          "Exploring an app's relationships via the Dependency Graph visualizer",
+          'Preparing for unit testing with Jest and e2e testing with Cypress',
         ],
         prerequisites: [
           {
@@ -180,69 +522,24 @@ const courseDependencyData = (courseSlug) =>
           },
           {
             type: 'text',
-            label: 'Accounts for Netlify, Hasura, and Heroku',
+            label: 'Node.js & npm installed',
           },
-        ],
-      },
-      {
-        slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-        dependencies: {
-          react: '>= 17.0.1',
-          next: '>=9.5.5',
-        },
-        topics: [
-          'Starting a project with Create-Next-App',
-          'Working with static and dynamic routes',
-          'Managing product data in Stripe',
-          'Securely managing secret keys',
-          'Using the useReducer Hook and writing custom React Hooks for Cart functionality',
-          'Add global state management with React Context',
-          'Storing and retrieving data from localStorage',
-          'Deploying with Vercel and GitHub',
-        ],
-        illustrator: {
-          name: 'Kamil Khadeyev',
-        },
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'the-beginner-s-guide-to-react',
-          },
-        ],
-        projects: [
-          {
-            label:
-              'Create an eCommerce Store with Next.js and Stripe Checkout Workshop Repo',
-            url: 'https://github.com/colbyfayock/space-jelly-store-workshop/',
-          },
-        ],
-      },
-      {
-        slug: 'headless-wordpress-4a14',
-        dependencies: {
-          wordpress: '>=5.5.3',
-          graphql: '>=15.0.0',
-        },
-        topics: [
-          'Configure a WordPress instance using Local',
-          'Install & customize WP Plugins',
-          'Create custom post types',
-          'Customize and interact with data via the REST API',
-          'Expose a GraphQL API, and query for exactly what you want',
-          'Generate fake WordPress data',
-          'Add Comment functionality',
-        ],
-        illustrator: {
-          name: 'Kamil Khadeyev',
-        },
-        prerequisites: [
           {
             type: 'text',
-            label: 'PHP familiarity helpful',
+            label: 'Familiarity with React & Express will be helpful',
+          },
+        ],
+        notes: [
+          {
+            url:
+              'https://github.com/eggheadio/eggheadio-course-notes/tree/master/scale-react-development-with-nx',
           },
         ],
       },
       {
+        id: '409013',
+        type: 'playlist',
+        guid: 'be5a',
         slug:
           'react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
         dependencies: {
@@ -286,17 +583,148 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'scale-react-development-with-nx-4038',
+        id: '410100',
+        type: 'playlist',
+        guid: '4a14',
+        slug: 'headless-wordpress-4a14',
         dependencies: {
-          react: '>=16.13.1',
+          wordpress: '>=5.5.3',
+          graphql: '>=15.0.0',
         },
         topics: [
-          'Generating projects from scratch with Nx',
-          'Add Storybook to a React app',
-          'Creating & sharing libraries between apps',
-          'Generating a backend API with a proxy for local development',
-          "Exploring an app's relationships via the Dependency Graph visualizer",
-          'Preparing for unit testing with Jest and e2e testing with Cypress',
+          'Configure a WordPress instance using Local',
+          'Install & customize WP Plugins',
+          'Create custom post types',
+          'Customize and interact with data via the REST API',
+          'Expose a GraphQL API, and query for exactly what you want',
+          'Generate fake WordPress data',
+          'Add Comment functionality',
+        ],
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+        prerequisites: [
+          {
+            type: 'text',
+            label: 'PHP familiarity helpful',
+          },
+        ],
+      },
+      {
+        id: '410102',
+        type: 'playlist',
+        guid: '30a8',
+        slug:
+          'containerize-full-stack-javascript-applications-with-docker-30a8',
+        dependencies: {
+          docker: '>=20.10.2',
+          nginx: '>=1.19.5',
+        },
+        topics: [
+          'Running existing Docker containers',
+          'Creating Docker containers for an existing application',
+          'Passing environment variables',
+          'Executing bash scripts as part of container building',
+          'Configure networking between containers',
+          'Setting up volumes for persisting data',
+          'Publishing containers to a public registry',
+        ],
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+        pairWithResources: [
+          {
+            type: 'course',
+            title: 'WTF is Kubernetes (K8s)',
+            byline: 'Chris Biscardi・12m・Video',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
+            path: '/lessons/docker-wtf-is-kubernetes-k8s',
+            slug: 'docker-wtf-is-kubernetes-k8s',
+            description:
+              "Kubernetes is an API to a computer. Multiple computers actually. Here we'll talk about what K8s is, how you can choose between the plethora of K8s related hosting options, and what the process looks like for getting some containers running.",
+          },
+          {
+            id: '120',
+            type: 'course',
+            title: 'Build a Twelve-Factor Node.js App with Docker',
+            byline: 'Mark Shust・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/120/thumb/EGH_NodeDocker_1000.png',
+            path: '/courses/build-a-twelve-factor-node-js-app-with-docker',
+            slug: 'build-a-twelve-factor-node-js-app-with-docker',
+            description:
+              'Take a simple Node.js app that connects to a MongoDB database and uses an Express web server, and learn how to setup a full software development deployment process as well as how to properly “Dockerize” the app.',
+          },
+          {
+            type: 'course',
+            title:
+              'Set up Hasura GraphQL engine with YugabyteDB distributed SQL',
+            byline: 'Vladimir Novick・2m・Video',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/thumb/docker%282%29.png',
+            path:
+              '/lessons/postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+            slug:
+              'postgresql-set-up-hasura-graphql-engine-with-yugabytedb-distributed-sql',
+            description:
+              'In this lesson we will see how you can run Hasura GraphQL engine on top of YugabyteDB Distributed SQL\n\nYugabyteDB is an open source, high-performance distributed SQL database for powering global, internet-scale applications.YugabyteDB is also a cloud-native database, so it can be deployed across both public and private clouds, including Kubernetes environments. In regards to serving as a backend for microservices, YugabyteDB brings together three must-haves: a PostgreSQL-compatible SQL API, low-latency read performance, and globally distributed write scalability. YugabyteDB with its global data distribution brings data close to users for multi-region and multi-cloud deployments.',
+          },
+        ],
+      },
+      {
+        id: '412781',
+        type: 'playlist',
+        guid: '562c',
+        slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        dependencies: {
+          react: '>= 17.0.1',
+          next: '>=9.5.5',
+        },
+        topics: [
+          'Starting a project with Create-Next-App',
+          'Working with static and dynamic routes',
+          'Managing product data in Stripe',
+          'Securely managing secret keys',
+          'Using the useReducer Hook and writing custom React Hooks for Cart functionality',
+          'Add global state management with React Context',
+          'Storing and retrieving data from localStorage',
+          'Deploying with Vercel and GitHub',
+        ],
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'the-beginner-s-guide-to-react',
+          },
+        ],
+        projects: [
+          {
+            label:
+              'Create an eCommerce Store with Next.js and Stripe Checkout Workshop Repo',
+            url: 'https://github.com/colbyfayock/space-jelly-store-workshop/',
+          },
+        ],
+      },
+      {
+        id: '414202',
+        type: 'playlist',
+        guid: '553c',
+        slug:
+          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        dependencies: {
+          preact: '>=10.5.9',
+          'node-fetch': '>=2.6.1',
+        },
+        topics: [
+          'Installing & configuring the Netlify CLI for local development',
+          'Managing private keys in development and production',
+          'Writing Serverless functions for interacting with APIs',
+          'Configuring a PostgreSQL-backed GraphQL API with Hasura',
+          'Writing custom React Hooks for triggering Serverless functions',
+          'Deploying a complete app with Netlify',
         ],
         prerequisites: [
           {
@@ -305,75 +733,13 @@ const courseDependencyData = (courseSlug) =>
           },
           {
             type: 'text',
-            label: 'Node.js & npm installed',
-          },
-          {
-            type: 'text',
-            label: 'Familiarity with React & Express will be helpful',
-          },
-        ],
-        notes: [
-          {
-            url:
-              'https://github.com/eggheadio/eggheadio-course-notes/tree/master/scale-react-development-with-nx',
+            label: 'Accounts for Netlify, Hasura, and Heroku',
           },
         ],
       },
       {
-        slug: 'composing-closures-and-callbacks-in-javascript-1223',
-        freshness: {
-          status: `classic`,
-          title: `Core Skills`,
-          text: `This is an epic [JavaScript](/q/javascript) resource that goes well beyond the 
-          basics and delivers expert knowledge on core patterns in the language. **Designed for the 
-          advanced beginner and beyond**
-          `,
-          asOf: `2021-01-24`,
-        },
-        topics: [
-          'Closures, Callbacks, and Composition',
-          'Currying, Caching, and Creating operators',
-          'Creating custom React Hooks',
-        ],
-        notes: [
-          {
-            url:
-              'https://github.com/eggheadio/eggheadio-course-notes/tree/master/composing-closures-and-callbacks-in-javascript',
-          },
-        ],
-        pairWithResources: [
-          {
-            title: 'Just Enough Functional Programming in JavaScript',
-            byline: 'Kyle Shevlin・30m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
-            path: '/courses/just-enough-functional-programming-in-javascript',
-            slug: 'just-enough-functional-programming-in-javascript',
-            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
-              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
-          },
-          {
-            title: 'Advanced JavaScript Foundations',
-            byline: 'Tyler Clark・41m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
-            path: '/courses/advanced-javascript-foundations',
-            slug: 'advanced-javascript-foundations',
-            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
-          },
-          {
-            title: 'JavaScript Promises in Depth',
-            byline: 'Marius Schulz・1h 7m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
-            path: '/courses/javascript-promises-in-depth',
-            slug: 'javascript-promises-in-depth',
-            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
-              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
-          },
-        ],
-      },
-      {
+        id: '490',
+        type: 'course',
         slug: 'build-maps-with-react-leaflet',
         dependencies: {
           react: '>=16.13.1',
@@ -407,6 +773,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '451',
+        type: 'course',
         slug:
           'eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
         dependencies: {
@@ -446,6 +814,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '450',
+        type: 'course',
         slug: 'build-an-app-with-the-aws-cloud-development-kit',
         dependencies: {
           'aws-cdk': '>=1.32.2',
@@ -508,6 +878,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '449',
+        type: 'course',
         slug: 'advanced-sql-for-professional-developers',
         topics: [
           'CSV import & export',
@@ -543,61 +915,24 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'the-beginner-s-guide-to-react',
-        freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `Thousands of people have used this course as an introduction to the core
-          concepts of [React](/q/react). It's been reviewed and updated and is relevant and 
-          valid. **There isn't a better introduction to React online**.
-          `,
-          asOf: `2021-01-23`,
-        },
+        id: '448',
+        type: 'course',
+        slug: 'write-your-first-program-with-the-rust-language',
         dependencies: {
-          react: '>=16.12.0 - 17',
+          rust: '>=1.40.0',
         },
         topics: [
-          'what problems React can solve',
-          'how React solves those problems under the hood',
-          'what JSX is and how it translates to regular JavaScript function calls and objects',
-          'manage state with hooks',
-          'build forms',
-        ],
-        pairWithResources: [
-          {
-            title: 'Develop Accessible Web Apps with React',
-            byline: 'Erin Doyle・1h 28m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
-            path: '/courses/develop-accessible-web-apps-with-react',
-            slug: 'develop-accessible-web-apps-with-react',
-            description: `Gain the knowledge and skills required to audit and fix accessibility issues in your applications 
-            and gain a better understanding of your target users and how to approach your web app design from their perspectives`,
-          },
-          {
-            title: 'Simplify React Apps with React Hooks',
-            byline: 'Kent C. Dodds・38m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/thumb/EGH_SimplifyHooks_Final.png',
-            path: '/courses/simplify-react-apps-with-react-hooks',
-            slug: 'simplify-react-apps-with-react-hooks',
-            description: `React transitioned to an API called Hooks and most consider it the way to develop production applications
-              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.`,
-          },
-          {
-            title: 'Build Maps with React Leaflet',
-            byline: 'Colby Fayock・47m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/thumb/React_Leaflet_Final.png',
-            path: '/courses/build-maps-with-react-leaflet',
-            slug: 'build-maps-with-react-leaflet',
-            description: `Build an interesting map focused application using modern React practices including Hooks. 
-              While you are learning you'll be able to practice with challenges. This course would be a fantastic
-              base for a [developer portfolio project](https://joelhooks.com/developer-portfolio).`,
-          },
+          'Types',
+          'Functions & Loops',
+          'User Input',
+          'Package management with `cargo`',
+          'Pattern Matching',
+          'Error Handling',
         ],
       },
       {
+        id: '447',
+        type: 'course',
         slug: 'thinking-reactively-with-rxjs',
         dependencies: {
           react: '>=16.9.0',
@@ -625,20 +960,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'write-your-first-program-with-the-rust-language',
-        dependencies: {
-          rust: '>=1.40.0',
-        },
-        topics: [
-          'Types',
-          'Functions & Loops',
-          'User Input',
-          'Package management with `cargo`',
-          'Pattern Matching',
-          'Error Handling',
-        ],
-      },
-      {
+        id: '413',
+        type: 'course',
         slug: 'web-security-essentials-mitm-csrf-and-xss',
         dependencies: {
           express: '>=4.17.1',
@@ -662,49 +985,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'build-custom-cli-tooling-with-oclif-and-typescript',
-        dependencies: {
-          typescript: '>=3.3',
-          node: '>=8.0.0',
-        },
-        topics: [
-          'Create a Simple CLI',
-          'Pass Args and flags to a CLI',
-          'Set up testing for a CLI',
-          'Add filesystem state to a CLI',
-          'Scaffold boilerplates (e.g. templates)',
-          'Polish the CLI with colors, spinners, etc.',
-          'Spawn child processes so other CLIs can run',
-          'Control logging & output from other processes',
-        ],
-        illustrator: {
-          name: 'Aleksander Ageev',
-        },
-      },
-      {
-        slug: 'introduction-to-state-machines-using-xstate',
-        dependencies: {
-          xstate: '>=4.6.7',
-        },
-        topics: [
-          'Build a simple machine for a piece of UI',
-          'Build Hierarchical, Parallel, and, History state machines',
-          'Identify the conditions & implement transition guards',
-          'Trigger Actions on transition',
-          'Handle infinite states when working with inputs',
-          'Understand Activities',
-        ],
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'construct-sturdy-uis-with-xstate',
-          },
-        ],
-      },
-      {
+        id: '412',
+        type: 'course',
         slug: 'develop-accessible-web-apps-with-react',
         dependencies: {
           react: '>=16.10.2',
@@ -735,6 +1017,176 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '405',
+        type: 'course',
+        slug: 'designing-graphql-schemas-99db',
+        dependencies: {
+          'apollo-server': '>=2.9.7',
+        },
+        topics: [
+          'Naming conventions for fields, queries, mutations',
+          'GraphQL Aliases',
+          'Benefits of nullable fields',
+          'Connection Specification',
+          'Mutation Payload Design',
+          'Nullable vs Non-nullable fields',
+          'Evolving GraphQL Schemas',
+        ],
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'graphql-query-language',
+          },
+          {
+            type: 'egghead_course',
+            slug: 'graphql-data-in-react-with-apollo-client',
+          },
+        ],
+      },
+      {
+        id: '403',
+        type: 'course',
+        slug: 'introduction-to-state-machines-using-xstate',
+        dependencies: {
+          xstate: '>=4.6.7',
+        },
+        topics: [
+          'Build a simple machine for a piece of UI',
+          'Build Hierarchical, Parallel, and, History state machines',
+          'Identify the conditions & implement transition guards',
+          'Trigger Actions on transition',
+          'Handle infinite states when working with inputs',
+          'Understand Activities',
+        ],
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'construct-sturdy-uis-with-xstate',
+          },
+        ],
+      },
+      {
+        id: '402',
+        type: 'course',
+        slug: 'construct-sturdy-uis-with-xstate',
+        dependencies: {
+          xstate: '>=4.6.7',
+          react: '>=16.9.0',
+        },
+        topics: [
+          'Handling HTTP request state',
+          'Blocking state transitions with guards',
+          'Parallel state transitions',
+          'Communicating between state machines in different components with the Actor Model',
+          'Saving previous state history',
+        ],
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'introduction-to-state-machines-using-xstate',
+          },
+        ],
+      },
+      {
+        id: '401',
+        type: 'course',
+        slug: 'fix-common-git-mistakes',
+        topics: [
+          'Change commit messages',
+          'Add or remove files from a commit',
+          'How and when to stash changes',
+          'What a "detached HEAD" is, and how to fix it',
+          'Remove secrets from a codebase',
+          'How to rewrite history',
+        ],
+        illustrator: {
+          name: 'Aleksander Ageev',
+        },
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'practical-git-for-everyday-professional-use',
+          },
+          {
+            type: 'egghead_course',
+            slug: 'productive-git-for-developers',
+          },
+        ],
+      },
+      {
+        id: '400',
+        type: 'course',
+        slug: 'use-suspense-to-simplify-your-async-ui',
+        dependencies: {
+          react: '0.0.0-experimental-b53ea6ca0',
+        },
+        topics: ['React Suspense', 'Async State'],
+        goals: [
+          'Simple data-fetching with Suspense',
+          'Render as you fetch data',
+          'useTransition for improved loading states',
+          'Load images with Suspense Image',
+          'Cache resources loaded through React Suspense',
+          'Suspense with custom hooks',
+          'Coordinate suspending components with SuspenseList',
+        ],
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'simplify-react-apps-with-react-hooks',
+          },
+          {
+            type: 'egghead_course',
+            slug: 'javascript-promises-in-depth',
+          },
+        ],
+      },
+      {
+        id: '399',
+        type: 'course',
+        slug: 'build-an-app-with-react-suspense',
+        dependencies: {
+          react: 'experimental',
+        },
+        topics: [
+          'Understand the Suspense component',
+          'Set up ErrorBoundary where conditions aren’t met',
+          'Devise strategies to resolve different children',
+          'Import & use CreateResource to prepare for Suspense',
+          'Understand concurrent mode',
+          'Extract components into modules',
+        ],
+        prerequisites: [
+          {
+            type: 'egghead_course',
+            slug: 'the-beginner-s-guide-to-react',
+          },
+          {
+            type: 'egghead_course',
+            slug: 'simplify-react-apps-with-react-hooks',
+          },
+          {
+            type: 'egghead_course',
+            slug: 'react-class-component-patterns',
+          },
+          {
+            type: 'egghead_course',
+            slug: 'reusable-state-and-effects-with-react-hooks',
+          },
+        ],
+      },
+      {
+        id: '395',
+        type: 'course',
         slug: 'build-a-video-chat-app-with-twilio-and-gatsby',
         dependencies: {
           gatsby: '>=2.15.7',
@@ -771,66 +1223,31 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'designing-graphql-schemas-99db',
+        id: '355',
+        type: 'course',
+        slug: 'composable-gatsby-themes',
         dependencies: {
-          'apollo-server': '>=2.9.7',
+          gatsby: '>=2.16.5',
         },
         topics: [
-          'Naming conventions for fields, queries, mutations',
-          'GraphQL Aliases',
-          'Benefits of nullable fields',
-          'Connection Specification',
-          'Mutation Payload Design',
-          'Nullable vs Non-nullable fields',
-          'Evolving GraphQL Schemas',
-        ],
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'graphql-query-language',
-          },
-          {
-            type: 'egghead_course',
-            slug: 'graphql-data-in-react-with-apollo-client',
-          },
-        ],
-      },
-      {
-        slug: 'build-an-app-with-react-suspense',
-        dependencies: {
-          react: 'experimental',
-        },
-        topics: [
-          'Understand the Suspense component',
-          'Set up ErrorBoundary where conditions aren’t met',
-          'Devise strategies to resolve different children',
-          'Import & use CreateResource to prepare for Suspense',
-          'Understand concurrent mode',
-          'Extract components into modules',
+          'Using yarn workspaces',
+          'Creating theme starters',
+          'Dealing with theme conflicts',
+          'Styling & React Contexts',
+          'Optimizing gatsby-config',
+          'Advanced component shadowing techniques',
+          'Lots more!',
         ],
         prerequisites: [
           {
             type: 'egghead_course',
-            slug: 'the-beginner-s-guide-to-react',
-          },
-          {
-            type: 'egghead_course',
-            slug: 'simplify-react-apps-with-react-hooks',
-          },
-          {
-            type: 'egghead_course',
-            slug: 'react-class-component-patterns',
-          },
-          {
-            type: 'egghead_course',
-            slug: 'reusable-state-and-effects-with-react-hooks',
+            slug: 'gatsby-theme-authoring',
           },
         ],
       },
       {
+        id: '354',
+        type: 'course',
         slug: 'a-journey-with-vue-router',
         dependencies: {
           vue: '>=2.5.22',
@@ -853,74 +1270,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'fix-common-git-mistakes',
-        topics: [
-          'Change commit messages',
-          'Add or remove files from a commit',
-          'How and when to stash changes',
-          'What a "detached HEAD" is, and how to fix it',
-          'Remove secrets from a codebase',
-          'How to rewrite history',
-        ],
-        illustrator: {
-          name: 'Aleksander Ageev',
-        },
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'practical-git-for-everyday-professional-use',
-          },
-          {
-            type: 'egghead_course',
-            slug: 'productive-git-for-developers',
-          },
-        ],
-      },
-      {
-        slug: 'construct-sturdy-uis-with-xstate',
-        dependencies: {
-          xstate: '>=4.6.7',
-          react: '>=16.9.0',
-        },
-        topics: [
-          'Handling HTTP request state',
-          'Blocking state transitions with guards',
-          'Parallel state transitions',
-          'Communicating between state machines in different components with the Actor Model',
-          'Saving previous state history',
-        ],
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'introduction-to-state-machines-using-xstate',
-          },
-        ],
-      },
-      {
-        slug: 'composable-gatsby-themes',
-        dependencies: {
-          gatsby: '>=2.16.5',
-        },
-        topics: [
-          'Using yarn workspaces',
-          'Creating theme starters',
-          'Dealing with theme conflicts',
-          'Styling & React Contexts',
-          'Optimizing gatsby-config',
-          'Advanced component shadowing techniques',
-          'Lots more!',
-        ],
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'gatsby-theme-authoring',
-          },
-        ],
-      },
-      {
+        id: '353',
+        type: 'course',
         slug: 'advanced-javascript-foundations',
         topics: [
           'Primitive Types: the What, How, and Why',
@@ -942,32 +1293,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'use-suspense-to-simplify-your-async-ui',
-        dependencies: {
-          react: '0.0.0-experimental-b53ea6ca0',
-        },
-        topics: ['React Suspense', 'Async State'],
-        goals: [
-          'Simple data-fetching with Suspense',
-          'Render as you fetch data',
-          'useTransition for improved loading states',
-          'Load images with Suspense Image',
-          'Cache resources loaded through React Suspense',
-          'Suspense with custom hooks',
-          'Coordinate suspending components with SuspenseList',
-        ],
-        prerequisites: [
-          {
-            type: 'egghead_course',
-            slug: 'simplify-react-apps-with-react-hooks',
-          },
-          {
-            type: 'egghead_course',
-            slug: 'javascript-promises-in-depth',
-          },
-        ],
-      },
-      {
+        id: '313',
+        type: 'course',
         slug: 'shareable-custom-hooks-in-react',
         dependencies: {
           react: '^16.8.6',
@@ -992,6 +1319,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '312',
+        type: 'course',
         slug: 'immutable-javascript-data-structures-with-immer',
         dependencies: {
           immer: '^4.0.0',
@@ -1026,26 +1355,16 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'graphql-query-language',
-        topics: [
-          'Query, mutation, & subscription',
-          'GraphiQL playground',
-          'Schema',
-          'Fragments',
-          'Variables',
-          'Input types, unions, interfaces, & return payloads',
-          'Introspective Queries',
-        ],
-        goals: [
-          'write any operation, top to bottom, with the GraphQL query language',
-          'get data from an endpoint with a query',
-          'change data with mutations',
-          'subscribe to data changes',
-          'reuse fields with fragments',
-          'look at schema documentation in the GraphQL playground',
-        ],
+        id: '311',
+        type: 'course',
+        slug: 'gatsby-theme-authoring',
+        dependencies: {
+          gatsby: '>=2.13.1',
+        },
       },
       {
+        id: '310',
+        type: 'course',
         slug: 'javascript-es2019-in-practice',
         topics: [
           'Flatten arrays',
@@ -1077,6 +1396,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '308',
+        type: 'course',
         slug:
           'build-content-rich-progressive-web-apps-with-gatsby-and-contentful',
         dependencies: {
@@ -1111,12 +1432,8 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'gatsby-theme-authoring',
-        dependencies: {
-          gatsby: '>=2.13.1',
-        },
-      },
-      {
+        id: '307',
+        type: 'course',
         slug: 'vue-and-socket-io-for-real-time-communication',
         dependencies: {
           vue: '^2.5.21',
@@ -1154,6 +1471,71 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
+        id: '306',
+        type: 'course',
+        slug: 'test-production-ready-apps-with-cypress',
+        dependencies: {
+          cypress: '^3.1.5',
+        },
+        topics: [
+          'Writing integration tests',
+          'Selector best practices',
+          'Seeding data into a database',
+          'Mocking network requests',
+          'Creating a mock backend',
+        ],
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        prerequisites: [
+          {
+            type: 'text',
+            label: 'Basic knowledge of JavaScript, HTML, and CSS.',
+          },
+          {
+            type: 'text',
+            label: 'Basic understanding of client/server data transfer',
+          },
+          {
+            type: 'text',
+            label: 'Familiarity with DOM element selectors',
+          },
+        ],
+        goals: [
+          'Use Cypress to test all layers of your stack simultaneously',
+          'Test the front and back ends of your application',
+          'Ship apps that work like they’re supposed to, with no secret bugs for your users to discover',
+        ],
+      },
+      {
+        id: '273',
+        type: 'course',
+        slug: 'sql-fundamentals',
+        topics: [
+          'Tables and table relationships',
+          'Conditional selection',
+          'Data integrity and data types',
+          'Aggregate functions',
+          'Subqueries',
+          'And more...!',
+        ],
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        prerequisites: [
+          {
+            type: 'text',
+            label: 'SQL beginners welcome!',
+          },
+          {
+            type: 'text',
+            label: 'Some command line and terminal experience will be helpful',
+          },
+        ],
+      },
+      {
+        id: '272',
+        type: 'course',
         slug: 'vr-applications-using-react-360',
         dependencies: {
           react: '^16.3.2',
@@ -1200,305 +1582,345 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'test-production-ready-apps-with-cypress',
+        id: '270',
+        type: 'course',
+        slug: 'reactive-state-management-in-angular-with-ngrx',
         dependencies: {
-          cypress: '^3.1.5',
+          angular: '^7.0.3',
+          'ngrx/store': '6.1.2',
+          '@nrwl/nx': '7.1.1',
+          'core-js': '^2.5.4',
+          hammerjs: '^2.0.8',
+          jsonwebtoken: '^8.3.0',
+          moment: '^2.22.2',
+          rxjs: '^6.0.0',
         },
-        topics: [
-          'Writing integration tests',
-          'Selector best practices',
-          'Seeding data into a database',
-          'Mocking network requests',
-          'Creating a mock backend',
-        ],
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-        prerequisites: [
-          {
-            type: 'text',
-            label: 'Basic knowledge of JavaScript, HTML, and CSS.',
-          },
-          {
-            type: 'text',
-            label: 'Basic understanding of client/server data transfer',
-          },
-          {
-            type: 'text',
-            label: 'Familiarity with DOM element selectors',
-          },
-        ],
-        goals: [
-          'Use Cypress to test all layers of your stack simultaneously',
-          'Test the front and back ends of your application',
-          'Ship apps that work like they’re supposed to, with no secret bugs for your users to discover',
-        ],
       },
       {
-        slug: 'sql-fundamentals',
-        topics: [
-          'Tables and table relationships',
-          'Conditional selection',
-          'Data integrity and data types',
-          'Aggregate functions',
-          'Subqueries',
-          'And more...!',
-        ],
-        illustrator: {
-          name: 'Maxime Bourgeois',
+        id: '267',
+        type: 'course',
+        slug: 'redux-and-the-state-adt',
+        dependencies: {
+          crocks: '^0.11.0',
+          esm: '^3.0.84',
+          eyes: '^0.1.8',
+          nodemon: '^1.18.5',
+          redux: '^4.0.1',
         },
-        prerequisites: [
-          {
-            type: 'text',
-            label: 'SQL beginners welcome!',
-          },
-          {
-            type: 'text',
-            label: 'Some command line and terminal experience will be helpful',
-          },
-        ],
       },
       {
-        slug: 'react-navigation-for-native-mobile-applications',
+        id: '266',
+        type: 'course',
+        slug: 'progressive-web-apps-in-react-with-create-react-app',
         dependencies: {
-          react: '2.0.0 - ^6.0.0',
-          'react-native': '^0.55.0',
-          'react-navigation': '1.5 - 2',
-        },
-        reviews: [
-          {
-            performedOn: '2018-06-26',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'react-navigation',
-                title:
-                  '`addNavigationHelpers` was removed, just pass an object to `navigation` prop',
-                details:
-                  'External API updated for React Navigation, principle behind lessons remains valid',
-              },
-              {
-                type: 'major issue',
-                dependency: 'react-navigation',
-                title:
-                  '`TabNavigator` was renamed to `createBottomTabNavigator`',
-                details:
-                  'External API updated for React Navigation, principle behind lessons remains valid',
-              },
-              {
-                type: 'major issue',
-                dependency: 'react-navigation',
-                title: '`StackNavigator` was renamed to `createStackNavigator`',
-                details:
-                  'External API updated for React Navigation, principle behind lessons remains valid',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'rxjs-beyond-the-basics-creating-observables-from-scratch',
-        dependencies: {
-          rxjs: '^5.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2017-08-28',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'step-by-step-async-javascript-with-rxjs',
-        dependencies: {
-          rxjs: '^5.0.0',
+          react: '16.6.3-16.8.6',
+          'react-router-dom': '5.0.1',
+          'react-scripts': '3.0.1',
+          workbox: '5.0.0-alpha.0',
         },
         illustrator: {
-          name: 'Maxime Bourgeois',
+          name: 'Alexander Yaremchuk',
         },
         reviews: [
           {
-            performedOn: '2017-08-28',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'build-redux-style-applications-with-angular-rxjs-and-ngrx-store',
-        dependencies: {
-          angular: '2 - 6',
-          rxjs: '5 - 6',
-        },
-        reviews: [
-          {
-            performedOn: '2018-07-18',
-            performedBy: 186087,
-            scopeOfReview: 'Full course review',
+            performedOn: '2019-07-15',
+            performedBy: 370397,
+            scopeOfReview: 'full',
             notes: [
               {
                 type: 'minor issue',
-                dependency: 'codesandbox',
-                title: 'polyfills.ts file needed for online embed',
+                title: 'Workbox Syntax Update',
                 details:
-                  'When using codesandbox for examples, a polyfills.ts file is necessary and imported that into the main.ts file',
-              },
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
-                details:
-                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'rxjs-beyond-the-basics-operators-in-depth',
-        dependencies: {
-          rxjs: '^5.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2017-09-15',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'introduction-to-reactive-programming',
-        dependencies: {
-          rxjs: '4 - 5',
-        },
-        reviews: [
-          {
-            performedOn: '2017-04-19',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  '`buffer` has been split into: `buffer`, `bufferWhen`, and `bufferToggle`',
-                details:
-                  'To reduce polymorphism and get better performance out of operators, some operators have been split into more than one operator',
-              },
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  '`debounce` has been split into: `debounce` and `debounceTime`',
-                details:
-                  'To reduce polymorphism and get better performance out of operators, some operators have been split into more than one operator',
-              },
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'flatMap is now an alias for mergeMap but will work just the same.',
-                details:
-                  'To reduce polymorphism and get better performance out of operators, some operators have been split into more than one operator',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'rxjs-subjects-and-multicasting-operators',
-        dependencies: {
-          rxjs: '^5.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2017-08-28',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'use-higher-order-observables-in-rxjs-effectively',
-        dependencies: {
-          rxjs: '^5.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2017-08-25',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'save-time-avoiding-common-mistakes-using-rxjs',
-        dependencies: {
-          rxjs: '^5.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2017-08-25',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'up-and-running-with-redux-observable',
-        dependencies: {
-          redux: '3 - 4',
-          rxjs: '5 - 6',
-          react: '15 - 16',
-        },
-        reviews: [
-          {
-            performedOn: '2017-08-25',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  '`rxjs-compat` was installed for backwards compatibility between rxjs v6 to v5.',
-              },
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'With the update to 6.2, a lot of operators had to be imported directly',
-                description:
-                  'The list of these operators are: debounceTime, filter, switchMap, observable/dom/ajax, delay, map, catch, observable/of, observable/throw, observable/concat, and takeUntil',
-              },
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
+                  "Changed `workbox.skipWaiting()` to `workbox.core.skipWaiting()` in lessons 4 -> 20 in '/src/sw.js' because of workbox update 4.0.0.\n\nChanged `workbox.clientsClaim()` to `workbox.core.clientsClaim()` in lessons 4 -> 20 in '/src/sw.js' because of workbox update 4.0.0.",
                 lessons: [
-                  'react-testing-the-output-of-epics',
-                  'redux-mocking-an-ajax-request-when-testing-epics',
-                  'redux-use-tests-to-verify-updates-to-the-redux-store',
+                  'react-use-a-custom-service-worker-in-a-create-react-app-pwa-without-ejecting',
+                  'react-pre-cache-static-resources-with-workbox-and-view-a-react-pwa-offline',
+                  'react-listen-for-install-and-activate-pwa-events-in-a-service-worker',
+                  'react-cache-third-party-resources-from-a-cdn-in-a-react-pwa',
+                  'react-cache-json-data-in-a-react-pwa-with-workbox-and-display-it-while-offline',
+                  'react-add-an-offline-status-indicator-to-a-pwa-with-react',
+                  'react-show-an-error-when-a-post-or-delete-fails-in-an-offline-pwa',
+                  'react-add-a-custom-app-icon-to-a-pwa-built-with-create-react-app',
+                  'react-change-the-name-and-short-name-of-a-pwa-built-with-create-react-app',
+                  'react-add-a-pwa-to-the-home-screen-of-an-ios-or-android-device-and-the-chrome-app-home-screen',
+                  'react-add-navigation-elements-in-react-to-a-pwa-in-standalone-mode',
+                  'react-access-the-camera-in-a-pwa-built-with-react',
+                  'react-add-push-notifications-to-a-pwa-with-react-in-chrome-and-on-android',
+                  'react-disable-text-selection-and-touch-callouts-in-a-pwa-on-ios',
+                  'react-change-the-status-bar-color-on-ios-and-android-in-a-pwa',
+                  'react-customize-the-splash-screen-of-a-pwa-built-with-create-react-app',
+                  'react-do-a-pwa-audit-with-lighthouse-using-chrome-dev-tools',
                 ],
-                title:
-                  'toArray had to be imported separately, `import "rxjs/add/operator/toArray"`',
+                dependency: 'workbox',
+              },
+              {
+                type: 'major issue',
+                title: 'Chrome 68 Update Problems',
+                details:
+                  "Changed behavior in Chrome's application tab due to Chrome 68 update adds exceptions to the 'Add to homescreen' button which breaks lessons 12 and 13.",
+                lessons: [
+                  'react-change-the-name-and-short-name-of-a-pwa-built-with-create-react-app',
+                  'react-add-a-pwa-to-the-home-screen-of-an-ios-or-android-device-and-the-chrome-app-home-screen',
+                ],
+                dependency: 'workbox',
               },
             ],
           },
         ],
       },
       {
-        slug: 'build-react-components-from-streams-with-rxjs-and-recompose',
+        id: '263',
+        type: 'course',
+        slug: 'simplify-react-apps-with-react-hooks',
         dependencies: {
-          rxjs: '^5.0.0',
+          react: '^16.7.0-alpha',
+        },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+      },
+      {
+        id: '262',
+        type: 'course',
+        slug: 'react-context-for-state-management',
+        dependencies: {
+          react: '^16.6.0',
+        },
+      },
+      {
+        id: '260',
+        type: 'course',
+        slug: 'build-a-neo4j-graphql-api',
+        dependencies: {
+          axios: '^0.18.0',
+          'apollo-server': '^2.2.2',
+          'graphql-request': '^1.8.2',
+          'neo4j-driver': '^1.7.1',
+          'neo4j-graphql-js': '^1.0.5',
+        },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+      },
+      {
+        id: '257',
+        type: 'course',
+        slug: 'modern-javascript-tooling-with-react',
+        dependencies: {
+          'prop-types': '^15.6.2',
+          react: '^16.6.1',
+        },
+        illustrator: {
+          name: 'Alexander Yaremchuk',
+        },
+      },
+      {
+        id: '246',
+        type: 'course',
+        slug: 'use-dom-testing-library-to-test-any-js-framework',
+        dependencies: {
+          dojo: '^3.0.0',
+          polymer: '3.0.5',
+          angular: '1.7.4',
+          aurelia: '1.3.0',
+          backbone: '1.3.3',
+          hyperapp: '1.2.9',
+          jquery: '3.3.1',
+          Knockout: '3.4.2',
+          mithril: '1.1.6',
+          preact: '8.3.1',
+          react: '16.5.1',
+          stimulus: '1.1.0',
+          svelte: '2.13.4',
+          vue: '2.5.17',
+          wigly: '0.1.9',
+        },
+        reviews: [
+          {
+            performedOn: '2018-10-02',
+            performedBy: '186087',
+            scopeOfReview: 'full course review',
+            notes:
+              'There was a different dependency used for every lesson so I included every dependency for each lesson.',
+          },
+        ],
+      },
+      {
+        id: '236',
+        type: 'course',
+        slug: 'graphql-query-language',
+        topics: [
+          'Query, mutation, & subscription',
+          'GraphiQL playground',
+          'Schema',
+          'Fragments',
+          'Variables',
+          'Input types, unions, interfaces, & return payloads',
+          'Introspective Queries',
+        ],
+        goals: [
+          'write any operation, top to bottom, with the GraphQL query language',
+          'get data from an endpoint with a query',
+          'change data with mutations',
+          'subscribe to data changes',
+          'reuse fields with fragments',
+          'look at schema documentation in the GraphQL playground',
+        ],
+        freshness: {
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            "This course is a must watch for anyone considering GraphQL.\n       You'll be introduced to all of the GraphQL specific jargon and be able to take this knowledge to \n          any application that is powered by GraphQL.",   
+          asOf: '2021-02-04',
+        },
+      },
+      {
+        id: '231',
+        type: 'course',
+        slug: 'graphql-data-in-react-with-apollo-client',
+        freshness: {
+          status: 'stale',
+          title: 'Still good, but there are issues with this course',
+          text:
+            'While much of the information in this course is useful it is showing its\n          age in the specific details. Some of the libraries demonstrated have **changed\n          versions**, and there are some **missing configuration specifics** with the server that\n          require additional investigation to follow along.\n          ',
+          asOf: '2021-01-25',
+        },
+        dependencies: {
+          'apollo-boost': '^0.1.22',
+          graphql: '^14.0.2',
+          react: '^16.4.2',
+        },
+        illustrator: {
+          name: 'Aleksander Ageev',
+        },
+      },
+      {
+        id: '230',
+        type: 'course',
+        slug: 'build-your-own-rxjs-pipeable-operators',
+        dependencies: {
+          rxjs: '^6.0.0',
+        },
+      },
+      {
+        id: '228',
+        type: 'course',
+        slug: 'design-systems-with-react-and-typescript-in-storybook',
+        dependencies: {
+          react: '^16.0.0',
+          'react-storybook': '^3.0.0',
+        },
+      },
+      {
+        id: '226',
+        type: 'course',
+        slug: 'fully-connected-neural-networks-with-keras',
+        dependencies: {
+          python: '^3.0.0',
+        },
+      },
+      {
+        id: '221',
+        type: 'course',
+        slug: 'execute-npm-package-binaries-with-the-npx-package-runner',
+        dependencies: {
+          npm: '>=5.2.0',
+        },
+        illustrator: {
+          name: 'Aleksander Ageev',
+        },
+      },
+      {
+        id: '219',
+        type: 'course',
+        slug: 'getting-started-with-angular-elements',
+        dependencies: {
+          angular: '^7.0.0',
+        },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        reviews: [
+          {
+            performedOn: '2019-02-13',
+            performedBy: 186087,
+            scopeOfReview: 'pre publish lesson review',
+          },
+        ],
+      },
+      {
+        id: '216',
+        type: 'course',
+        slug: 'practical-advanced-typescript',
+        dependencies: {
+          typescript: '^3.0.0',
+        },
+      },
+      {
+        id: '215',
+        type: 'course',
+        slug: 'advanced-angular-component-patterns',
+        dependencies: {
+          angular: '5 - 6',
+        },
+      },
+      {
+        id: '213',
+        type: 'course',
+        slug:
+          'create-smooth-performant-transitions-with-react-transition-group-v2',
+        dependencies: {
           react: '^16.0.0',
         },
       },
       {
+        id: '211',
+        type: 'course',
+        slug:
+          'scalable-offline-ready-graphql-applications-with-aws-appsync-react',
+        dependencies: {
+          graphql: '^14.0.0',
+        },
+      },
+      {
+        id: '209',
+        type: 'course',
+        slug: 'beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
+        dependencies: {
+          react: '^16.0.0',
+        },
+      },
+      {
+        id: '207',
+        type: 'course',
+        slug: 'json-web-token-jwt-authentication-with-node-js-and-auth0',
+        dependencies: {
+          express: '^4.0.0',
+        },
+        reviews: [
+          {
+            performedOn: '2018-08-20',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'httpster',
+                lessons: [
+                  'express-connect-a-front-end-to-a-secure-api-using-jwts',
+                  'express-authenticate-users-in-a-single-page-application-with-auth0',
+                ],
+                title: 'Running a third server to get lesson 8 and 9 working.',
+                details:
+                  'To run lesson 8 and 9, run `httpster index.html -p 5000` in the terminal to get the third server running.',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '202',
+        type: 'course',
         slug: 'build-async-vue-js-apps-with-rxjs',
         dependencies: {
           rxjs: '5.5.12 - 6.4.0',
@@ -1565,311 +1987,108 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'react-native-fundamentals',
+        id: '200',
+        type: 'course',
+        slug: 'integrate-ibm-domino-with-node-js',
         dependencies: {
-          react: '0.14 - 16',
-          'react-native': '0.3 - 0.53',
-        },
-        reviews: [
-          {
-            performedOn: '2018-02-08',
-            performedBy: 248653,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                dependency: 'react',
-                type: 'major issue',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-            ],
-          },
-          {
-            dependency: 'react-native',
-            performedOn: '2018-02-08',
-            performedBy: 248653,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                title:
-                  '0.46 in React Native breaks the build configuration in Xcode',
-              },
-            ],
-          },
-          {
-            performedOn: '2017-06-25',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                dependency: 'react-native',
-                type: 'major issue',
-                title:
-                  'react-native-xcode.sh now lives in a different location',
-                details:
-                  'https://github.com/facebook/react-native/releases/tag/v0.46.4',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'react-flux-architecture-es6',
-        dependencies: {
-          react: '0.14 - 16',
-          flux: '2 - 3',
-          'react-router': '1 - 3',
-        },
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-        reviews: [
-          {
-            performedOn: '',
-            performedBy: 186087,
-            dependency: 'react',
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-            ],
-          },
-          {
-            performedOn: '2018-05-18',
-            performedBy: 264612,
-            dependency: 'react-router',
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                title: 'import change',
-                lessons: [
-                  'react-flux-architecture-routing-with-react-router-1-0',
-                  'react-flux-architecture-component-wrap-up',
-                  'react-flux-architecture-dumb-stores',
-                ],
-                details:
-                  "`browserHistory` must be imported and used on `<Router>` to avoid `Cannot read property  'location' of undefined`",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'getting-started-with-react-router-v3',
-        dependencies: {
-          react: '0.14 - 16',
-          'react-router': '^3.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2018-04-05',
-            performedBy: 231890,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'animate-react-native-ui-elements',
-        dependencies: {
-          react: '^15.0.0',
-          'react-native': '0.35 - 0.39',
+          express: '^4.16.3',
         },
       },
       {
-        slug: 'build-a-react-native-todo-application',
+        id: '198',
+        type: 'course',
+        slug: 'test-react-components-with-enzyme-and-jest',
         dependencies: {
-          react: '^15.0.0',
-          'react-native': '0.35 - 0.37',
-        },
-      },
-      {
-        slug: 'build-your-first-production-quality-react-app',
-        dependencies: {
-          react: '15 - 16',
-        },
-        reviews: [
-          {
-            performedOn: '2018-04-05',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'react',
-                lessons: [
-                  'react-validate-component-input-with-prop-types-in-react',
-                  'react-add-data-to-a-list-without-mutations',
-                  'react-update-react-application-state-from-form-input',
-                  'react-prevent-empty-form-values-with-conditional-submit-handlers',
-                  'react-use-es2016-property-initializer-syntax-in-es6-classes',
-                  'react-update-data-in-a-list-without-mutations',
-                  'react-pass-data-to-event-handlers-with-partial-function-application',
-                  'react-create-a-pipe-function-to-enable-function-composition',
-                  'react-remove-items-from-a-list-without-mutations',
-                  'react-build-a-link-component-to-navigate-to-routes-in-react',
-                  'react-use-react-context-to-manage-application-state-through-routes',
-                  'react-filter-data-on-property-values-in-react',
-                  'react-keep-react-application-state-in-sync-with-browser-history',
-                  'react-load-data-for-react-from-a-server-with-fetch',
-                  'react-save-data-to-the-server-with-fetch-in-react',
-                  'react-show-temporary-messages-in-a-react-application',
-                  'react-update-data-on-the-server-with-fetch-in-react',
-                  'react-delete-data-on-the-server-with-fetch-in-react',
-                ],
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title: 'Router prop change',
-                details:
-                  '`browserHistory` must be imported and used on `<Router>`',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'up-and-running-with-preact',
-        dependencies: {
-          preact: '7 - 8',
-          'react-router': '^4.0.0',
+          react: '^16.0.0',
+          enzyme: '^3.0.0',
           redux: '^3.0.0',
         },
       },
       {
-        slug:
-          'higher-order-components-with-functional-patterns-using-recompose',
+        id: '197',
+        type: 'course',
+        slug: 'manage-react-form-state-with-redux-form',
+        dependencies: {
+          react: '^16.0.0',
+          redux: '^3.0.0',
+        },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+      },
+      {
+        id: '194',
+        type: 'course',
+        slug: 'react-navigation-for-native-mobile-applications',
+        dependencies: {
+          react: '2.0.0 - ^6.0.0',
+          'react-native': '^0.55.0',
+          'react-navigation': '1.5 - 2',
+        },
+        reviews: [
+          {
+            performedOn: '2018-06-26',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'react-navigation',
+                title:
+                  '`addNavigationHelpers` was removed, just pass an object to `navigation` prop',
+                details:
+                  'External API updated for React Navigation, principle behind lessons remains valid',
+              },
+              {
+                type: 'major issue',
+                dependency: 'react-navigation',
+                title:
+                  '`TabNavigator` was renamed to `createBottomTabNavigator`',
+                details:
+                  'External API updated for React Navigation, principle behind lessons remains valid',
+              },
+              {
+                type: 'major issue',
+                dependency: 'react-navigation',
+                title: '`StackNavigator` was renamed to `createStackNavigator`',
+                details:
+                  'External API updated for React Navigation, principle behind lessons remains valid',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '193',
+        type: 'course',
+        slug: 'optimistic-ui-updates-in-react',
         dependencies: {
           react: '^16.0.0',
         },
-        reviews: [
-          {
-            performedOn: '2018-04-29',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-            ],
-          },
-        ],
       },
       {
-        slug: 'build-virtual-reality-experiences-using-react-vr',
+        id: '192',
+        type: 'course',
+        slug: 'end-to-end-testing-with-cypress',
         dependencies: {
-          react: '15 - 16',
-          'react-vr': '1 - 2',
+          cypress: '^1.4.1',
+          react: '^16.0.0',
+        },
+      },
+      {
+        id: '189',
+        type: 'course',
+        slug: 'angular-service-injection-with-the-dependency-injector-di',
+        dependencies: {
+          angular: '5 - 7',
+          rxjs: '5 - 6',
         },
         reviews: [
           {
-            performedOn: '2018-08-04',
-            performedBy: 248653,
-            scopeOfReview: 'full course lesson review',
+            performedOn: '2018-05-15',
+            performedBy: 186087,
+            scopeOfReview: 'full course review',
             notes: [
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title: 'Importing `blacklist` from `react-native` had changed',
-                details:
-                  'Instead of having blacklist imported from node_modules, it is now imported from metro',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'add-internationalization-i18n-to-a-react-app-using-react-intl',
-        dependencies: {
-          react: '15 - 16.8.4',
-          enzyme: '3.9.0',
-          'enzyme-to-json': '3.3.5',
-          intl: '1.2.5',
-          lodash: '4.17.11',
-          'react-addons-test-utils': '15.6.2',
-          'react-dom': '16.8.4',
-          'react-intl': '2.8.0',
-          'react-router-dom': '4.3.1',
-        },
-        reviews: [
-          {
-            performedOn: '2018-04-18',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
-            ],
-          },
-          {
-            performedOn: '2019-03-07',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'up-and-running-with-redux-observable',
-        dependencies: {
-          react: '15 - 16',
-          redux: '3 - 4',
-        },
-        reviews: [
-          {
-            performedOn: '2018-05-28',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'react',
-                title:
-                  'React v15.5.0 PropTypes was extracted into its own package',
-                details:
-                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
-              },
               {
                 type: 'major issue',
                 dependency: 'rxjs',
@@ -1878,17 +2097,227 @@ const courseDependencyData = (courseSlug) =>
                 details:
                   'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
               },
+            ],
+          },
+          {
+            performedOn: '2018-11-23',
+            performedBy: 352387,
+            scopeOfReview: 'full course lesson review',
+            notes: [
               {
                 type: 'minor issue',
-                dependency: 'rxjs',
-                title:
-                  'all lessons had to have specific commands in rxjs be imported individually from `operator`',
+                dependency: '@angular/core',
+                title: '6.0.0 -> set preserveWhitespaces to false by default',
+                details:
+                  "On lesson 12 This caused “Home Employees” to become “HomeEmployees”. In main.ts .bootstrapModule(AppModule, {preserveWhitespaces: true} was added to replicate the example's original configuration settings",
+                documentation:
+                  'https://github.com/angular/angular/blob/master/CHANGELOG.md#600-2018-05-03',
               },
             ],
           },
         ],
       },
       {
+        id: '186',
+        type: 'course',
+        slug: 'end-to-end-testing-with-google-s-puppeteer-and-jest',
+        dependencies: {
+          react: '^16.2.0',
+          puppeteer: '^0.13.0',
+          jest: '^22.0.4',
+        },
+      },
+      {
+        id: '185',
+        type: 'course',
+        slug: 'javascript-promises-in-depth',
+        dependencies: {
+          angular: '5.0.0 - ^7.0.2',
+          rxjs: '5.5.2 - ^6.3.3',
+        },
+        illustrator: {
+          name: 'Aleksander Ageev',
+        },
+        reviews: [
+          {
+            performedOn: '2018-12-02',
+            performedBy: '186087',
+            scopeOfReview: 'full course review',
+          },
+        ],
+      },
+      {
+        id: '183',
+        type: 'course',
+        slug:
+          'build-user-interfaces-by-composing-css-utility-classes-with-tailwind',
+        dependencies: {
+          gulp: '4.0.2',
+          tailwindcss: '^0.1.3-1.0.5',
+        },
+        reviews: [
+          {
+            performedOn: '2019-07-26',
+            performedBy: 370397,
+            scopeOfReview: 'full',
+            notes: [
+              {
+                type: 'major issue',
+                title: 'Lesson 09 - Revamp',
+                details:
+                  'Fixed lesson 9 code to work as intended, as it was matching a previous lesson (lesson 3, I believe).',
+                lessons: [],
+                dependency: 'tailwindcss',
+              },
+              {
+                type: 'minor issue',
+                title: 'index.html update - lesson 05',
+                details:
+                  'Fixed the `index.html` on lesson 05 to match the lesson name, as it was previously matching lesson 04.',
+                lessons: [],
+                dependency: 'tailwindcss',
+              },
+              {
+                type: 'major issue',
+                title: 'Tailwind 1.0.0 Update - syntax',
+                details:
+                  'Changed `@tailwind preflight;` to `@tailwind base;` in `/src/styles.css` on all lessons.',
+                lessons: [],
+                dependency: 'tailwindcss',
+              },
+              {
+                type: 'major issue',
+                title: 'Tailwind 1.0.0 Update - tailwind.js',
+                details:
+                  'Reformatted `tailwind.js` file for every lesson due to tailwindcss 1.0.0 update. Changes referenced on the official changelog following the update guide.',
+                lessons: [],
+                dependency: 'tailwindcss',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '180',
+        type: 'course',
+        slug: 'advanced-fine-grained-control-of-vue-js-components',
+        dependencies: {
+          vue: '^2.5.9',
+        },
+      },
+      {
+        id: '173',
+        type: 'course',
+        slug:
+          'seo-friendly-progressive-web-applications-with-angular-universal',
+        dependencies: {
+          angular: '^6.0.0',
+          rxjs: '^6.0.0',
+        },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+      },
+      {
+        id: '171',
+        type: 'course',
+        slug: 'create-dynamic-components-in-angular',
+        dependencies: {
+          angular: '5 - 6',
+          rxjs: '5 - 6',
+        },
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+        reviews: [
+          {
+            performedOn: '2018-05-17',
+            performedBy: 186087,
+            scopeOfReview: 'full course review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
+                details:
+                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
+              },
+            ],
+          },
+          {
+            performedOn: '2018-11-23',
+            performedBy: 352387,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'minor issue',
+                dependency: '@angular/core',
+                title: '6.0.0 -> set preserveWhitespaces to false by default',
+                details:
+                  "On lesson 12 This caused “Home Employees” to become “HomeEmployees”. In main.ts .bootstrapModule(AppModule, {preserveWhitespaces: true} was added to replicate the example's original configuration settings",
+                documentation:
+                  'https://github.com/angular/angular/blob/master/CHANGELOG.md#600-2018-05-03',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '170',
+        type: 'course',
+        slug: 'async-await-using-typescript',
+        dependencies: {
+          '@types/node': '8.0.53',
+        },
+      },
+      {
+        id: '169',
+        type: 'course',
+        slug: 'manage-application-state-with-mobx-state-tree',
+        dependencies: {
+          react: '^16.0.0',
+          mobx: '^3.0.0',
+        },
+      },
+      {
+        id: '166',
+        type: 'course',
+        slug: 'react-class-component-patterns',
+        dependencies: {
+          react: '^16.3.2',
+          redux: '^3.7.2',
+        },
+      },
+      {
+        id: '165',
+        type: 'course',
+        slug: 'async-react-with-redux-saga',
+        dependencies: {
+          react: '^16.0.0',
+          redux: '3 - 4',
+          'redux-saga': '0.16.0',
+        },
+        reviews: [
+          {
+            performedOn: '2018-08-21',
+            performedBy: 264612,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'redux-saga',
+                title: '`import { takeLastest } from redux-saga` is deprecated',
+                details:
+                  'If you want to import `takeLatest`, you much use `import {takeLatest } from redux-saga/effects`',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '164',
+        type: 'course',
         slug:
           'build-a-server-rendered-code-split-app-in-react-with-react-universal-component',
         dependencies: {
@@ -1897,46 +2326,8 @@ const courseDependencyData = (courseSlug) =>
         },
       },
       {
-        slug: 'build-a-react-app-with-redux',
-        dependencies: {
-          react: '15 - 16',
-          redux: '3 - 4',
-        },
-      },
-      {
-        slug: 'build-react-components-from-streams-with-rxjs-and-recompose',
-        dependencies: {
-          react: '^16.0.0',
-          rxjs: '^5.0.0',
-        },
-      },
-      {
-        slug: 'leverage-new-features-of-react-16',
-        dependencies: {
-          react: '^16.0.0',
-        },
-      },
-      {
-        slug: 'add-routing-to-react-apps-using-react-router-v4',
-        dependencies: {
-          react: '15 - 16',
-          'react-router': '^4.0.0',
-        },
-      },
-      {
-        slug: 'build-a-server-rendered-reactjs-application-with-next-js',
-        dependencies: {
-          react: '^16.0.0',
-          next: '^4.0.0',
-        },
-      },
-      {
-        slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
-        dependencies: {
-          gatsby: '^2.0.0',
-        },
-      },
-      {
+        id: '162',
+        type: 'course',
         slug: 'use-typescript-to-develop-react-applications',
         dependencies: {
           React: '16.0.0',
@@ -1996,54 +2387,632 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'optimistic-ui-updates-in-react',
+        id: '161',
+        type: 'course',
+        slug: 'create-dynamic-forms-in-angular',
         dependencies: {
-          react: '^16.0.0',
+          angular: '^6.0.0',
+          rxjs: '^6.0.0',
+        },
+        illustrator: {
+          name: 'Voijta Holik',
         },
       },
       {
-        slug: 'async-react-with-redux-saga',
-        dependencies: {
-          react: '^16.0.0',
-          redux: '3 - 4',
-          'redux-saga': '0.16.0',
+        id: '160',
+        type: 'course',
+        slug: 'the-beginner-s-guide-to-react',
+        freshness: {
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            "Thousands of people have used this course as an introduction to the core\n          concepts of [React](/q/react). It's been reviewed and updated and is relevant and \n          valid. **There isn't a better introduction to React online**.\n          ",
+          asOf: '2021-01-23',
         },
-        reviews: [
+        dependencies: {
+          react: '>=16.12.0 - 17',
+        },
+        topics: [
+          'what problems React can solve',
+          'how React solves those problems under the hood',
+          'what JSX is and how it translates to regular JavaScript function calls and objects',
+          'manage state with hooks',
+          'build forms',
+        ],
+        pairWithResources: [
           {
-            performedOn: '2018-08-21',
-            performedBy: 264612,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'redux-saga',
-                title: '`import { takeLastest } from redux-saga` is deprecated',
-                details:
-                  'If you want to import `takeLatest`, you much use `import {takeLatest } from redux-saga/effects`',
-              },
-            ],
+            id: '412',
+            type: 'course',
+            title: 'Develop Accessible Web Apps with React',
+            byline: 'Erin Doyle・1h 28m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+            path: '/courses/develop-accessible-web-apps-with-react',
+            slug: 'develop-accessible-web-apps-with-react',
+            description:
+              'Gain the knowledge and skills required to audit and fix accessibility issues in your applications \n            and gain a better understanding of your target users and how to approach your web app design from their perspectives',
+          },
+          {
+            id: '263',
+            type: 'course',
+            title: 'Simplify React Apps with React Hooks',
+            byline: 'Kent C. Dodds・38m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/thumb/EGH_SimplifyHooks_Final.png',
+            path: '/courses/simplify-react-apps-with-react-hooks',
+            slug: 'simplify-react-apps-with-react-hooks',
+            description:
+              "React transitioned to an API called Hooks and most consider it the way to develop production applications\n              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.",
+          },
+          {
+            id: '490',
+            type: 'course',
+            title: 'Build Maps with React Leaflet',
+            byline: 'Colby Fayock・47m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/thumb/React_Leaflet_Final.png',
+            path: '/courses/build-maps-with-react-leaflet',
+            slug: 'build-maps-with-react-leaflet',
+            description:
+              "Build an interesting map focused application using modern React practices including Hooks. \n              While you are learning you'll be able to practice with challenges. This course would be a fantastic\n              base for a [developer portfolio project](https://joelhooks.com/developer-portfolio).",
           },
         ],
       },
       {
-        slug: 'manage-react-form-state-with-redux-form',
+        id: '159',
+        type: 'course',
+        slug: 'build-react-components-from-streams-with-rxjs-and-recompose',
         dependencies: {
+          rxjs: '^5.0.0',
           react: '^16.0.0',
-          redux: '^3.0.0',
+        },
+      },
+      {
+        id: '158',
+        type: 'course',
+        slug: 'make-webpack-easy-with-poi',
+        dependencies: {
+          poi: '^9.0.0',
+        },
+      },
+      {
+        id: '157',
+        type: 'course',
+        slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
+        dependencies: {
+          gatsby: '^2.0.0',
+        },
+      },
+      {
+        id: '154',
+        type: 'course',
+        slug: 'offline-first-progressive-web-apps-pwa-in-vue-js',
+        dependencies: {
+          vue: '^2.5.2',
         },
         illustrator: {
           name: 'Maxime Bourgeois',
         },
       },
       {
-        slug: 'test-react-components-with-enzyme-and-jest',
+        id: '152',
+        type: 'course',
+        slug: 'leverage-new-features-of-react-16',
         dependencies: {
           react: '^16.0.0',
-          enzyme: '^3.0.0',
+        },
+      },
+      {
+        id: '150',
+        type: 'course',
+        slug: 'structure-angular-apps-with-angular-material-components',
+        dependencies: {
+          angular: '5 - 6',
+          rxjs: '5 - 6',
+        },
+        reviews: [
+          {
+            performedOn: '2018-08-18',
+            performedBy: 264612,
+            scopeOfReview: 'Full course review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
+                details:
+                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '147',
+        type: 'course',
+        slug: 'learn-http-in-angular',
+        dependencies: {
+          angular: '4 - 6',
+          rxjs: '5 - 6',
+        },
+        reviews: [
+          {
+            performedOn: '2018-07-18',
+            performedBy: 186087,
+            scopeOfReview: 'Full course review',
+            notes: [
+              {
+                type: 'minor issue',
+                dependency: 'codesandbox',
+                title: 'polyfills.ts file needed for online embed',
+                details:
+                  'When using codesandbox for examples, a polyfills.ts file is necessary and imported that into the main.ts file',
+              },
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
+                details:
+                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
+              },
+            ],
+          },
+          {
+            performedOn: '2019-07-18',
+            performedBy: '346356',
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
+      },
+      {
+        id: '146',
+        type: 'course',
+        slug: 'create-a-news-app-with-vue-js-and-nuxt',
+        dependencies: {
+          nuxt: '^1.0.0-rc3',
+        },
+      },
+      {
+        id: '145',
+        type: 'course',
+        slug: 'functional-programming-concepts-in-purescript',
+        dependencies: {
+          purescript: '0.11.7 - ^0.12',
+        },
+        reviews: [
+          {
+            performedOn: '2018-11-02',
+            performedBy: '352387',
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'minor issue',
+                dependency: 'purescript',
+                title: "'id' changed to 'identity'",
+                details:
+                  "With the update to purescript 4.0.0, 'id' was changed to 'identity'",
+                documentation:
+                  'https://github.com/purescript/purescript-prelude/issues/122',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '142',
+        type: 'course',
+        slug: 'up-and-running-with-redux-observable',
+        dependencies: {
+          redux: '3 - 4',
+          rxjs: '5 - 6',
+          react: '15 - 16',
+        },
+        reviews: [
+          {
+            performedOn: '2017-08-25',
+            performedBy: 264612,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  '`rxjs-compat` was installed for backwards compatibility between rxjs v6 to v5.',
+              },
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  'With the update to 6.2, a lot of operators had to be imported directly',
+                description:
+                  'The list of these operators are: debounceTime, filter, switchMap, observable/dom/ajax, delay, map, catch, observable/of, observable/throw, observable/concat, and takeUntil',
+              },
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                lessons: [
+                  'react-testing-the-output-of-epics',
+                  'redux-mocking-an-ajax-request-when-testing-epics',
+                  'redux-use-tests-to-verify-updates-to-the-redux-store',
+                ],
+                title:
+                  'toArray had to be imported separately, `import "rxjs/add/operator/toArray"`',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '140',
+        type: 'course',
+        slug: 'reduce-redux-boilerplate-with-redux-actions',
+        dependencies: {
+          redux: '^3.6.0',
+          react: '^15.5.4',
+        },
+      },
+      {
+        id: '139',
+        type: 'course',
+        slug: 'learn-angular-router-for-real-world-applications',
+        dependencies: {
+          angular: '~7.0.0',
+          react: '~6.3.3',
+          'core-js': '^2.5.4',
+        },
+      },
+      {
+        id: '137',
+        type: 'course',
+        slug: 'advanced-static-types-in-typescript',
+        freshness: {
+          status: 'classic',
+          title: 'Core Resource',
+          text:
+            "This covers TypeScript 2.0+ and is **valid for core concepts** related to using\n          [TypeScript](/q/typescript) in modern web applications. Since it was recorded\n          many features have been added to TypeScript, but 2.0 was a huge milestone for \n          the language and you'll learn a lot. **Highly recommended.**",
+          asOf: '2021-01-25',
+        },
+        dependencies: {
+          typescript: '^2.0.0',
+        },
+      },
+      {
+        id: '136',
+        type: 'course',
+        slug: 'vue-js-state-management-with-vuex-and-typescript',
+        dependencies: {
+          vue: '^2.2.6',
+          vuex: '^2.3.1',
+          typescript: '^2.3.2',
+        },
+      },
+      {
+        id: '135',
+        type: 'course',
+        slug: 'build-a-react-app-with-redux',
+        dependencies: {
+          react: '15 - 16',
+          redux: '3 - 4',
+        },
+      },
+      {
+        id: '133',
+        type: 'course',
+        slug: 'fundamentals-of-react-native-video',
+        dependencies: {
+          'react-native': '^0.44.2',
+          'react-native-video': '^1.0.0',
+        },
+      },
+      {
+        id: '132',
+        type: 'course',
+        slug: 'understand-how-to-style-angular-components',
+        dependencies: {
+          angular: '5.2.0 - 7.2.2',
+          'core-js': '2.4.1 - 2.6.3',
+          rxjs: '5.5.6 - 6.3.3',
+        },
+        reviews: [
+          {
+            performedOn: '2019-01-28',
+            performedBy: 'Haze Provinsal',
+            scopeOfReview: 'full course lesson review',
+            notes: [],
+          },
+        ],
+      },
+      {
+        id: '131',
+        type: 'course',
+        slug: 'use-typescript-to-develop-vue-js-web-applications',
+        dependencies: {
+          vue: '^2.2.6',
+          typescript: '^2.3.2',
+        },
+      },
+      {
+        id: '129',
+        type: 'course',
+        slug: 'introduction-to-the-python-3-programming-language',
+        dependencies: {
+          python: '3',
+        },
+      },
+      {
+        id: '128',
+        type: 'course',
+        slug: 'build-algorithms-using-typescript',
+        dependencies: {
+          typescript: '^2.1.4',
+        },
+      },
+      {
+        id: '127',
+        type: 'course',
+        slug: 'build-virtual-reality-experiences-using-react-vr',
+        dependencies: {
+          react: '15 - 16',
+          'react-vr': '1 - 2',
+        },
+        reviews: [
+          {
+            performedOn: '2018-08-04',
+            performedBy: 248653,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'react',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
+                details:
+                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
+              },
+              {
+                type: 'major issue',
+                dependency: 'react',
+                title: 'Importing `blacklist` from `react-native` had changed',
+                details:
+                  'Instead of having blacklist imported from node_modules, it is now imported from metro',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '124',
+        type: 'course',
+        slug: 'add-internationalization-i18n-to-a-react-app-using-react-intl',
+        dependencies: {
+          react: '15 - 16.8.4',
+          enzyme: '3.9.0',
+          'enzyme-to-json': '3.3.5',
+          intl: '1.2.5',
+          lodash: '4.17.11',
+          'react-addons-test-utils': '15.6.2',
+          'react-dom': '16.8.4',
+          'react-intl': '2.8.0',
+          'react-router-dom': '4.3.1',
+        },
+        reviews: [
+          {
+            performedOn: '2018-04-18',
+            performedBy: 264612,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'react',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
+                details:
+                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
+              },
+            ],
+          },
+          {
+            performedOn: '2019-03-07',
+            performedBy: 264612,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
+      },
+      {
+        id: '122',
+        type: 'course',
+        slug: 'build-a-node-js-rest-api-with-loopback',
+        dependencies: {
+          loopback: '^3.0.0',
+        },
+      },
+      {
+        id: '120',
+        type: 'course',
+        slug: 'build-a-twelve-factor-node-js-app-with-docker',
+        dependencies: {
+          mongodb: '^2.2.26',
+          express: '^4.16.2',
+        },
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+      },
+      {
+        id: '119',
+        type: 'course',
+        slug: 'build-a-desktop-application-with-electron',
+        dependencies: {
+          axios: '^0.18.0',
+          electron: '^3.0.7',
+          'electron-builder': '^20.31.2',
+        },
+        reviews: [
+          {
+            performedOn: '2018-11-02',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
+      },
+      {
+        id: '118',
+        type: 'course',
+        slug: 'asynchronous-javascript-with-async-await',
+        dependencies: {
+          typescript: '^2.3.0',
+        },
+      },
+      {
+        id: '117',
+        type: 'course',
+        slug: 'up-and-running-with-preact',
+        dependencies: {
+          preact: '7 - 8',
+          'react-router': '^4.0.0',
           redux: '^3.0.0',
         },
       },
       {
+        id: '116',
+        type: 'course',
+        slug: 'add-routing-to-react-apps-using-react-router-v4',
+        dependencies: {
+          react: '15 - 16',
+          'react-router': '^4.0.0',
+        },
+      },
+      {
+        id: '115',
+        type: 'course',
+        slug: 'maintainable-css-using-typestyle',
+        dependencies: {
+          typescript: '2.2.1',
+          react: '^15.4.2',
+        },
+      },
+      {
+        id: '114',
+        type: 'course',
+        slug:
+          'higher-order-components-with-functional-patterns-using-recompose',
+        dependencies: {
+          react: '^16.0.0',
+        },
+        reviews: [
+          {
+            performedOn: '2018-04-29',
+            performedBy: 264612,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'react',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
+                details:
+                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '112',
+        type: 'course',
+        slug: 'save-time-avoiding-common-mistakes-using-rxjs',
+        dependencies: {
+          rxjs: '^5.0.0',
+        },
+        reviews: [
+          {
+            performedOn: '2017-08-25',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
+      },
+      {
+        id: '109',
+        type: 'course',
+        slug: 'create-your-own-twitter-bots',
+        dependencies: {
+          twit: '^2.2.5',
+        },
+      },
+      {
+        id: '108',
+        type: 'course',
+        slug: 'understand-joins-and-unions-in-postgres',
+        dependencies: {
+          PostgreSQL: '9.4.5',
+        },
+      },
+      {
+        id: '106',
+        type: 'course',
+        slug:
+          'use-objective-c-swift-and-java-api-s-in-nativescript-for-angular-ios-and-android-apps',
+        dependencies: {
+          angular: '^2.0.0',
+          rxjs: '^5.0.0',
+          'nativescript-angular': '^1.0.0',
+        },
+      },
+      {
+        id: '105',
+        type: 'course',
+        slug: 'using-postgres-window-functions',
+        dependencies: {
+          PostgreSQL: '^9.6',
+        },
+      },
+      {
+        id: '104',
+        type: 'course',
+        slug: 'get-started-with-postgresql',
+        dependencies: {
+          PostgreSQL: '^9.6',
+        },
+      },
+      {
+        id: '103',
+        type: 'course',
+        slug: 'build-basic-nativescript-app-templates',
+        dependencies: {
+          nativescript: '2 - 4',
+        },
+      },
+      {
+        id: '101',
+        type: 'course',
+        slug: 'publish-javascript-packages-on-npm',
+        dependencies: {
+          'babel-cli': '^6.18.0',
+        },
+      },
+      {
+        id: '98',
+        type: 'course',
+        slug: 'get-started-with-elasticsearch',
+        dependencies: {
+          elasticsearch: '^12.1.3',
+        },
+      },
+      {
+        id: '96',
+        type: 'course',
+        slug: 'real-world-react-native-animations',
+        dependencies: {
+          react: '^15.4.0',
+          'react-native': '0.38.0',
+        },
+      },
+      {
+        id: '95',
+        type: 'course',
         slug: 'building-apps-with-ionic-2',
         dependencies: {
           angular: '2 - 6',
@@ -2080,115 +3049,60 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'angular-dependency-injection-di-explained',
+        id: '92',
+        type: 'course',
+        slug: 'build-your-first-production-quality-react-app',
         dependencies: {
-          angular: '2 - 6',
-          rxjs: '5 - 6',
-        },
-      },
-      {
-        slug: 'learn-the-basics-of-angular-forms',
-        dependencies: {
-          angular: '2 - 6',
-          rxjs: '5 - 6',
+          react: '15 - 16',
         },
         reviews: [
           {
-            performedOn: '2018-07-24',
-            performedBy: 186087,
-            scopeOfReview: 'Full course Review',
-            notes: [
-              {
-                type: 'minor issue',
-                dependency: 'no dependency',
-                title: 'polyfills.ts file needed for online embed',
-                details:
-                  'When using codesandbox for examples, a polyfills.ts file is necessary and imported that into the main.ts file',
-              },
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
-                details:
-                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'manage-ui-state-with-the-angular-router',
-        dependencies: {
-          angular: '2 - 4',
-          rxjs: '^5.0.0',
-        },
-      },
-      {
-        slug: 'build-an-angular-instant-search-component',
-        dependencies: {
-          angular: '^2.0.0',
-          rxjs: '^5.0.0',
-        },
-      },
-      {
-        slug: 'building-angular-components',
-        dependencies: {
-          angular: '2 - 6',
-          rxjs: '5 - 6',
-        },
-        reviews: [
-          {
-            performedOn: '2018-07-24',
-            performedBy: 186087,
-            scopeOfReview: 'full course review',
+            performedOn: '2018-04-05',
+            performedBy: 264612,
+            scopeOfReview: 'full course lesson review',
             notes: [
               {
                 type: 'major issue',
-                dependency: 'angular',
+                dependency: 'react',
                 lessons: [
-                  'angular-generate-and-render-angular-2-template-elements-in-a-component',
-                  'angular-set-values-on-generated-angular-2-templates-with-template-context',
+                  'react-validate-component-input-with-prop-types-in-react',
+                  'react-add-data-to-a-list-without-mutations',
+                  'react-update-react-application-state-from-form-input',
+                  'react-prevent-empty-form-values-with-conditional-submit-handlers',
+                  'react-use-es2016-property-initializer-syntax-in-es6-classes',
+                  'react-update-data-in-a-list-without-mutations',
+                  'react-pass-data-to-event-handlers-with-partial-function-application',
+                  'react-create-a-pipe-function-to-enable-function-composition',
+                  'react-remove-items-from-a-list-without-mutations',
+                  'react-build-a-link-component-to-navigate-to-routes-in-react',
+                  'react-use-react-context-to-manage-application-state-through-routes',
+                  'react-filter-data-on-property-values-in-react',
+                  'react-keep-react-application-state-in-sync-with-browser-history',
+                  'react-load-data-for-react-from-a-server-with-fetch',
+                  'react-save-data-to-the-server-with-fetch-in-react',
+                  'react-show-temporary-messages-in-a-react-application',
+                  'react-update-data-on-the-server-with-fetch-in-react',
+                  'react-delete-data-on-the-server-with-fetch-in-react',
                 ],
-                title: '`template` has been changed to `ng-template`',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
                 details:
-                  '`template` has been deprecated since version 4.0. use `ng-template` instead.',
+                  'Documentation: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
               },
               {
-                type: 'minor issue',
-                dependency: 'codesandbox',
-                title: 'polyfills.ts file needed for online embed',
+                type: 'major issue',
+                dependency: 'react',
+                title: 'Router prop change',
                 details:
-                  'To be able to run this code in codesandbox.io, a polyfills.ts file is necessary.',
+                  '`browserHistory` must be imported and used on `<Router>`',
               },
             ],
           },
         ],
       },
       {
-        slug: 'animate-angular-web-applications',
-        dependencies: {
-          angular: '2 - ~8.1.1',
-          rxjs: '5 - ~6.4.0',
-        },
-        reviews: [
-          {
-            performedOn: '2019-07-16',
-            performedBy: 'Parker Landon',
-            scopeOfReview: 'full',
-          },
-        ],
-      },
-      {
-        slug:
-          'use-objective-c-swift-and-java-api-s-in-nativescript-for-angular-ios-and-android-apps',
-        dependencies: {
-          angular: '^2.0.0',
-          rxjs: '^5.0.0',
-          'nativescript-angular': '^1.0.0',
-        },
-      },
-      {
+        id: '91',
+        type: 'course',
         slug: 'understand-angular-directives-in-depth',
         dependencies: {
           angular: '^6.0.0',
@@ -2234,26 +3148,228 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'start-learning-react',
-        dependencies: {
-          react: '0.14 - 16',
-        },
-      },
-      {
-        slug: 'react-testing-cookbook',
-        dependencies: {
-          react: '0.14 - 15',
-          redux: '^3.0.0',
-        },
-      },
-      {
-        slug: 'building-react-applications-with-idiomatic-redux',
+        id: '90',
+        type: 'course',
+        slug: 'build-a-react-native-todo-application',
         dependencies: {
           react: '^15.0.0',
-          redux: '^3.0.0',
+          'react-native': '0.35 - 0.37',
         },
       },
       {
+        id: '89',
+        type: 'course',
+        slug: 'natural-language-processing-in-javascript-with-natural',
+        dependencies: {
+          natural: '^0.4.0',
+        },
+      },
+      {
+        id: '87',
+        type: 'course',
+        slug: 'learn-the-best-and-most-useful-scss',
+        dependencies: {
+          'node-sass': '^3.11',
+        },
+      },
+      {
+        id: '85',
+        type: 'course',
+        slug: 'animate-react-native-ui-elements',
+        dependencies: {
+          react: '^15.0.0',
+          'react-native': '0.35 - 0.39',
+        },
+      },
+      {
+        id: '84',
+        type: 'course',
+        slug: 'create-native-mobile-apps-with-nativescript-for-angular',
+        dependencies: {
+          angular: '^2.0.0',
+          rxjs: '^5.0.0',
+        },
+      },
+      {
+        id: '83',
+        type: 'course',
+        slug: 'develop-basic-web-apps-with-vue-js',
+        dependencies: {
+          vue: '^2.5.16',
+        },
+      },
+      {
+        id: '80',
+        type: 'course',
+        slug: 'build-a-graphql-server',
+        dependencies: {
+          graphql: '0.7 - 14',
+        },
+      },
+      {
+        id: '77',
+        type: 'course',
+        slug: 'build-interactive-javascript-charts-with-d3-v4',
+        dependencies: {
+          d3: '^4.1.1',
+        },
+      },
+      {
+        id: '76',
+        type: 'course',
+        slug: 'build-an-angular-instant-search-component',
+        dependencies: {
+          angular: '^2.0.0',
+          rxjs: '^5.0.0',
+        },
+      },
+      {
+        id: '72',
+        type: 'course',
+        slug: 'professor-frisby-introduces-composable-functional-javascript',
+        freshness: {
+          status: 'classic',
+          title: 'This is a Classic Resource',
+          text:
+            'Dr. Boolean has created a modern JavaScript masterpiece with this\n          creative and entertaining lesson in functional programming. It is both quirky\n          and wonderful–delivering seriously useful information without taking itself too\n          seriously. Recorded in 2016, this delightful resource will be **just as valid in \n          2030** as it was then. Enjoy.\n          ',
+          asOf: '2021-01-24',
+        },
+        dependencies: {
+          javascript: '∞',
+        },
+        pairWithResources: [
+          {
+            id: '241',
+            type: 'course',
+            title: 'Just Enough Functional Programming in JavaScript',
+            byline: 'Kyle Shevlin・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
+            path: '/courses/just-enough-functional-programming-in-javascript',
+            slug: 'just-enough-functional-programming-in-javascript',
+            description:
+              'Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming\n              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.',
+          },
+          {
+            id: '353',
+            type: 'course',
+            title: 'Advanced JavaScript Foundations',
+            byline: 'Tyler Clark・41m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
+            path: '/courses/advanced-javascript-foundations',
+            slug: 'advanced-javascript-foundations',
+            description:
+              'This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.',
+          },
+          {
+            id: '185',
+            type: 'course',
+            title: 'JavaScript Promises in Depth',
+            byline: 'Marius Schulz・1h 7m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
+            path: '/courses/javascript-promises-in-depth',
+            slug: 'javascript-promises-in-depth',
+            description:
+              'Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations\n              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.',
+          },
+        ],
+      },
+      {
+        id: '71',
+        type: 'course',
+        slug: 'build-node-js-apis-with-openapi-spec-swagger',
+        dependencies: {
+          express: '^4.12.3',
+        },
+      },
+      {
+        id: '70',
+        type: 'course',
+        slug: 'build-angular-1-x-apps-with-redux',
+        dependencies: {
+          angular: '1.5.7',
+        },
+      },
+      {
+        id: '66',
+        type: 'course',
+        slug: 'angular-dependency-injection-di-explained',
+        dependencies: {
+          angular: '2 - 6',
+          rxjs: '5 - 6',
+        },
+      },
+      {
+        id: '65',
+        type: 'course',
+        slug: 'animate-angular-web-applications',
+        dependencies: {
+          angular: '2 - ~8.1.1',
+          rxjs: '5 - ~6.4.0',
+        },
+        reviews: [
+          {
+            performedOn: '2019-07-16',
+            performedBy: 'Parker Landon',
+            scopeOfReview: 'full',
+          },
+        ],
+      },
+      {
+        id: '64',
+        type: 'course',
+        slug: 'learn-the-basics-of-angular-forms',
+        dependencies: {
+          angular: '2 - 6',
+          rxjs: '5 - 6',
+        },
+        reviews: [
+          {
+            performedOn: '2018-07-24',
+            performedBy: 186087,
+            scopeOfReview: 'Full course Review',
+            notes: [
+              {
+                type: 'minor issue',
+                dependency: 'no dependency',
+                title: 'polyfills.ts file needed for online embed',
+                details:
+                  'When using codesandbox for examples, a polyfills.ts file is necessary and imported that into the main.ts file',
+              },
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
+                details:
+                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '63',
+        type: 'course',
+        slug: 'manage-ui-state-with-the-angular-router',
+        dependencies: {
+          angular: '2 - 4',
+          rxjs: '^5.0.0',
+        },
+      },
+      {
+        id: '62',
+        type: 'course',
+        slug: 'using-angular-2-patterns-in-angular-1-x-apps',
+        dependencies: {
+          angular: '^1.5.7',
+        },
+      },
+      {
+        id: '58',
+        type: 'course',
         slug: 'manage-complex-state-in-react-apps-with-mobx',
         dependencies: {
           mobx: '2 - 5',
@@ -2281,33 +3397,81 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'structure-angular-apps-with-angular-material-components',
+        id: '56',
+        type: 'course',
+        slug: 'building-angular-components',
         dependencies: {
-          angular: '5 - 6',
+          angular: '2 - 6',
           rxjs: '5 - 6',
         },
         reviews: [
           {
-            performedOn: '2018-08-18',
-            performedBy: 264612,
-            scopeOfReview: 'Full course review',
+            performedOn: '2018-07-24',
+            performedBy: 186087,
+            scopeOfReview: 'full course review',
             notes: [
               {
                 type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
+                dependency: 'angular',
+                lessons: [
+                  'angular-generate-and-render-angular-2-template-elements-in-a-component',
+                  'angular-set-values-on-generated-angular-2-templates-with-template-context',
+                ],
+                title: '`template` has been changed to `ng-template`',
                 details:
-                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
+                  '`template` has been deprecated since version 4.0. use `ng-template` instead.',
+              },
+              {
+                type: 'minor issue',
+                dependency: 'codesandbox',
+                title: 'polyfills.ts file needed for online embed',
+                details:
+                  'To be able to run this code in codesandbox.io, a polyfills.ts file is necessary.',
               },
             ],
           },
         ],
       },
       {
-        slug: 'learn-http-in-angular',
+        id: '54',
+        type: 'course',
+        slug: 'use-webpack-2-for-production-javascript-applications',
         dependencies: {
-          angular: '4 - 6',
+          webpack: '^2.1.0',
+          babel: '6.5.2',
+        },
+      },
+      {
+        id: '53',
+        type: 'course',
+        slug: 'building-react-applications-with-idiomatic-redux',
+        dependencies: {
+          react: '^15.0.0',
+          redux: '^3.0.0',
+        },
+      },
+      {
+        id: '52',
+        type: 'course',
+        slug: 'up-and-running-with-typescript',
+        dependencies: {
+          typescript: '^3.2.1',
+        },
+      },
+      {
+        id: '48',
+        type: 'course',
+        slug: 'use-types-effectively-in-typescript',
+        dependencies: {
+          typescript: '^2.0.0',
+        },
+      },
+      {
+        id: '47',
+        type: 'course',
+        slug: 'build-redux-style-applications-with-angular-rxjs-and-ngrx-store',
+        dependencies: {
+          angular: '2 - 6',
           rxjs: '5 - 6',
         },
         reviews: [
@@ -2333,659 +3497,11 @@ const courseDependencyData = (courseSlug) =>
               },
             ],
           },
-          {
-            performedOn: '2019-07-18',
-            performedBy: '346356',
-            scopeOfReview: 'full course lesson review',
-          },
         ],
       },
       {
-        slug: 'create-dynamic-forms-in-angular',
-        dependencies: {
-          angular: '^6.0.0',
-          rxjs: '^6.0.0',
-        },
-        illustrator: {
-          name: 'Voijta Holik',
-        },
-      },
-      {
-        slug: 'create-dynamic-components-in-angular',
-        dependencies: {
-          angular: '5 - 6',
-          rxjs: '5 - 6',
-        },
-        illustrator: {
-          name: 'Kamil Khadeyev',
-        },
-        reviews: [
-          {
-            performedOn: '2018-05-17',
-            performedBy: 186087,
-            scopeOfReview: 'full course review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
-                details:
-                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
-              },
-            ],
-          },
-          {
-            performedOn: '2018-11-23',
-            performedBy: 352387,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'minor issue',
-                dependency: '@angular/core',
-                title: '6.0.0 -> set preserveWhitespaces to false by default',
-                details:
-                  "On lesson 12 This caused “Home Employees” to become “HomeEmployees”. In main.ts .bootstrapModule(AppModule, {preserveWhitespaces: true} was added to replicate the example's original configuration settings",
-                documentation:
-                  'https://github.com/angular/angular/blob/master/CHANGELOG.md#600-2018-05-03',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'angular-service-injection-with-the-dependency-injector-di',
-        dependencies: {
-          angular: '5 - 7',
-          rxjs: '5 - 6',
-        },
-        reviews: [
-          {
-            performedOn: '2018-05-15',
-            performedBy: 186087,
-            scopeOfReview: 'full course review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'rxjs',
-                title:
-                  'rxjs-compat needs to be used if you upgraded from v5 -> v6',
-                details:
-                  'rxjs-compat is now necessary to run rxjs applications with angular if the application is updated from v5 -> v6 [ReactiveX/rxjs#3764](https://github.com/ReactiveX/rxjs/issues/3764)',
-              },
-            ],
-          },
-          {
-            performedOn: '2018-11-23',
-            performedBy: 352387,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'minor issue',
-                dependency: '@angular/core',
-                title: '6.0.0 -> set preserveWhitespaces to false by default',
-                details:
-                  "On lesson 12 This caused “Home Employees” to become “HomeEmployees”. In main.ts .bootstrapModule(AppModule, {preserveWhitespaces: true} was added to replicate the example's original configuration settings",
-                documentation:
-                  'https://github.com/angular/angular/blob/master/CHANGELOG.md#600-2018-05-03',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'manage-application-state-with-mobx-state-tree',
-        dependencies: {
-          react: '^16.0.0',
-          mobx: '^3.0.0',
-        },
-      },
-      {
-        slug: 'beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
-        dependencies: {
-          react: '^16.0.0',
-        },
-      },
-      {
-        slug: 'professor-frisby-introduces-composable-functional-javascript',
-        freshness: {
-          status: `classic`,
-          title: `This is a Classic Resource`,
-          text: `Dr. Boolean has created a modern JavaScript masterpiece with this
-          creative and entertaining lesson in functional programming. It is both quirky
-          and wonderful–delivering seriously useful information without taking itself too
-          seriously. Recorded in 2016, this delightful resource will be **just as valid in 
-          2030** as it was then. Enjoy.
-          `,
-          asOf: `2021-01-24`,
-        },
-        dependencies: {
-          javascript: '∞',
-        },
-        pairWithResources: [
-          {
-            title: 'Just Enough Functional Programming in JavaScript',
-            byline: 'Kyle Shevlin・30m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/241/thumb/Functional_Programming.png',
-            path: '/courses/just-enough-functional-programming-in-javascript',
-            slug: 'just-enough-functional-programming-in-javascript',
-            description: `Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming
-              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.`,
-          },
-          {
-            title: 'Advanced JavaScript Foundations',
-            byline: 'Tyler Clark・41m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/353/thumb/foundation.png',
-            path: '/courses/advanced-javascript-foundations',
-            slug: 'advanced-javascript-foundations',
-            description: `This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.`,
-          },
-          {
-            title: 'JavaScript Promises in Depth',
-            byline: 'Marius Schulz・1h 7m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/185/thumb/JSPromises_Final.png',
-            path: '/courses/javascript-promises-in-depth',
-            slug: 'javascript-promises-in-depth',
-            description: `Promises are one of the core building blocks of modern JavaScript applications. We rely heavily on asynchronous operations
-              and have a lot of our tools at our disposal to make those operations more efficient and simpler to think about.`,
-          },
-        ],
-      },
-      {
-        slug: 'getting-started-with-redux',
-        freshness: {
-          status: `classic`,
-          title: `This is a Classic Resource`,
-          text: `Redux has changed a lot since Dan first recorded this course in 2015, but 
-          this is still an essential watch, if not directly applicable to your 
-          application. This is **the source** that inspired so much in the
-          React ecosystem and beyond. **We strongly recommend this course for all modern web developers**. It's
-          excellent.
-          `,
-          asOf: `2021-01-23`,
-        },
-        dependencies: {
-          react: '0.14 - 17',
-          redux: '3 - 4',
-        },
-        reviews: [
-          {
-            performedOn: '2018-04-19',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug:
-          'seo-friendly-progressive-web-applications-with-angular-universal',
-        dependencies: {
-          angular: '^6.0.0',
-          rxjs: '^6.0.0',
-        },
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-      },
-      {
-        slug: 'create-native-mobile-apps-with-nativescript-for-angular',
-        dependencies: {
-          angular: '^2.0.0',
-          rxjs: '^5.0.0',
-        },
-      },
-      {
-        slug: 'get-started-with-angular',
-        dependencies: {
-          angular: '5 - 6',
-          rxjs: '5 - 6',
-        },
-      },
-      {
-        slug: 'build-basic-nativescript-app-templates',
-        dependencies: {
-          nativescript: '2 - 4',
-        },
-      },
-      {
-        slug: 'json-web-token-jwt-authentication-with-node-js-and-auth0',
-        dependencies: {
-          express: '^4.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2018-08-20',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'major issue',
-                dependency: 'httpster',
-                lessons: [
-                  'express-connect-a-front-end-to-a-secure-api-using-jwts',
-                  'express-authenticate-users-in-a-single-page-application-with-auth0',
-                ],
-                title: 'Running a third server to get lesson 8 and 9 working.',
-                details:
-                  'To run lesson 8 and 9, run `httpster index.html -p 5000` in the terminal to get the third server running.',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'fully-connected-neural-networks-with-keras',
-        dependencies: {
-          python: '^3.0.0',
-        },
-      },
-      {
-        slug: 'advanced-angular-component-patterns',
-        dependencies: {
-          angular: '5 - 6',
-        },
-      },
-      {
-        slug:
-          'create-smooth-performant-transitions-with-react-transition-group-v2',
-        dependencies: {
-          react: '^16.0.0',
-        },
-      },
-      {
-        slug: 'getting-started-with-angular-elements',
-        dependencies: {
-          angular: '^7.0.0',
-        },
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-        reviews: [
-          {
-            performedOn: '2019-02-13',
-            performedBy: 186087,
-            scopeOfReview: 'pre publish lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'design-systems-with-react-and-typescript-in-storybook',
-        dependencies: {
-          react: '^16.0.0',
-          'react-storybook': '^3.0.0',
-        },
-      },
-      {
-        slug: 'build-your-own-rxjs-pipeable-operators',
-        dependencies: {
-          rxjs: '^6.0.0',
-        },
-      },
-      {
-        slug: 'style-and-theme-ionic-applications',
-        dependencies: {
-          ionic: '^3.0.0',
-        },
-      },
-      {
-        slug: 'build-basic-nativescript-app-templates',
-        dependencies: {
-          nativescript: '^4.0.0',
-        },
-        reviews: [
-          {
-            performedOn: '2018-09-06',
-            performedBy: 248653,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'functional-programming-concepts-in-purescript',
-        dependencies: {
-          purescript: '0.11.7 - ^0.12',
-        },
-        reviews: [
-          {
-            performedOn: '2018-11-02',
-            performedBy: '352387',
-            scopeOfReview: 'full course lesson review',
-            notes: [
-              {
-                type: 'minor issue',
-                dependency: 'purescript',
-                title: "'id' changed to 'identity'",
-                details:
-                  "With the update to purescript 4.0.0, 'id' was changed to 'identity'",
-                documentation:
-                  'https://github.com/purescript/purescript-prelude/issues/122',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'build-a-graphql-server',
-        dependencies: {
-          graphql: '0.7 - 14',
-        },
-      },
-      {
-        slug: 'execute-npm-package-binaries-with-the-npx-package-runner',
-        dependencies: {
-          npm: '>=5.2.0',
-        },
-        illustrator: {
-          name: 'Aleksander Ageev',
-        },
-      },
-      {
-        slug:
-          'scalable-offline-ready-graphql-applications-with-aws-appsync-react',
-        dependencies: {
-          graphql: '^14.0.0',
-        },
-      },
-      {
-        slug: 'react-context-for-state-management',
-        dependencies: {
-          react: '^16.6.0',
-        },
-      },
-      {
-        slug: 'simplify-react-apps-with-react-hooks',
-        dependencies: {
-          react: '^16.7.0-alpha',
-        },
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-      },
-      {
-        slug: 'modern-javascript-tooling-with-react',
-        dependencies: {
-          'prop-types': '^15.6.2',
-          react: '^16.6.1',
-        },
-        illustrator: {
-          name: 'Alexander Yaremchuk',
-        },
-      },
-      {
-        slug: 'progressive-web-apps-in-react-with-create-react-app',
-        dependencies: {
-          react: '16.6.3-16.8.6',
-          'react-router-dom': '5.0.1',
-          'react-scripts': '3.0.1',
-          workbox: '5.0.0-alpha.0',
-        },
-        illustrator: {
-          name: 'Alexander Yaremchuk',
-        },
-        reviews: [
-          {
-            performedOn: '2019-07-15',
-            performedBy: 370397,
-            scopeOfReview: 'full',
-            notes: [
-              {
-                type: 'minor issue',
-                title: 'Workbox Syntax Update',
-                details:
-                  "Changed `workbox.skipWaiting()` to `workbox.core.skipWaiting()` in lessons 4 -> 20 in '/src/sw.js' because of workbox update 4.0.0.\n\nChanged `workbox.clientsClaim()` to `workbox.core.clientsClaim()` in lessons 4 -> 20 in '/src/sw.js' because of workbox update 4.0.0.",
-                lessons: [
-                  'react-use-a-custom-service-worker-in-a-create-react-app-pwa-without-ejecting',
-                  'react-pre-cache-static-resources-with-workbox-and-view-a-react-pwa-offline',
-                  'react-listen-for-install-and-activate-pwa-events-in-a-service-worker',
-                  'react-cache-third-party-resources-from-a-cdn-in-a-react-pwa',
-                  'react-cache-json-data-in-a-react-pwa-with-workbox-and-display-it-while-offline',
-                  'react-add-an-offline-status-indicator-to-a-pwa-with-react',
-                  'react-show-an-error-when-a-post-or-delete-fails-in-an-offline-pwa',
-                  'react-add-a-custom-app-icon-to-a-pwa-built-with-create-react-app',
-                  'react-change-the-name-and-short-name-of-a-pwa-built-with-create-react-app',
-                  'react-add-a-pwa-to-the-home-screen-of-an-ios-or-android-device-and-the-chrome-app-home-screen',
-                  'react-add-navigation-elements-in-react-to-a-pwa-in-standalone-mode',
-                  'react-access-the-camera-in-a-pwa-built-with-react',
-                  'react-add-push-notifications-to-a-pwa-with-react-in-chrome-and-on-android',
-                  'react-disable-text-selection-and-touch-callouts-in-a-pwa-on-ios',
-                  'react-change-the-status-bar-color-on-ios-and-android-in-a-pwa',
-                  'react-customize-the-splash-screen-of-a-pwa-built-with-create-react-app',
-                  'react-do-a-pwa-audit-with-lighthouse-using-chrome-dev-tools',
-                ],
-                dependency: 'workbox',
-              },
-              {
-                type: 'major issue',
-                title: 'Chrome 68 Update Problems',
-                details:
-                  "Changed behavior in Chrome's application tab due to Chrome 68 update adds exceptions to the 'Add to homescreen' button which breaks lessons 12 and 13.",
-                lessons: [
-                  'react-change-the-name-and-short-name-of-a-pwa-built-with-create-react-app',
-                  'react-add-a-pwa-to-the-home-screen-of-an-ios-or-android-device-and-the-chrome-app-home-screen',
-                ],
-                dependency: 'workbox',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'learn-angular-router-for-real-world-applications',
-        dependencies: {
-          angular: '~7.0.0',
-          react: '~6.3.3',
-          'core-js': '^2.5.4',
-        },
-      },
-      {
-        slug: 'build-a-desktop-application-with-electron',
-        dependencies: {
-          axios: '^0.18.0',
-          electron: '^3.0.7',
-          'electron-builder': '^20.31.2',
-        },
-        reviews: [
-          {
-            performedOn: '2018-11-02',
-            performedBy: 186087,
-            scopeOfReview: 'full course lesson review',
-          },
-        ],
-      },
-      {
-        slug: 'build-an-angular-instant-search-component',
-        dependencies: {
-          angular: '2.0.0-rc.5 - ^7.0.3',
-          rxjs: '5.0.0-beta.6 - ^6.3.3',
-        },
-        review: [
-          {
-            performedOn: '2018-11-13',
-            performedBy: '352387',
-            scopeOfReview: 'full course review',
-          },
-        ],
-      },
-      {
-        slug: 'get-started-with-angular',
-        dependencies: {
-          angular: '4.1.1 - ^7.0.1',
-          rxjs: '5.0.0 - ^6.3.3',
-        },
-        reviews: [
-          {
-            performedOn: '2018-10-30',
-            performedBy: '264612',
-            scopeOfReview: 'full course review',
-          },
-        ],
-      },
-      {
-        slug: 'build-graphql-apis-with-aws-appsync',
-        dependencies: {
-          react: '^16.4.2',
-        },
-        reviews: [
-          {
-            performedOn: '2018-10-30',
-            performedBy: '264612',
-            scopeOfReview: 'full course review',
-          },
-        ],
-      },
-      {
-        slug: 'advanced-angular-component-patterns',
-        dependencies: {
-          angular: '5.0.0 - ^7.0.2',
-          rxjs: '5.5.2 - ^6.3.3',
-        },
-        reviews: [
-          {
-            performedOn: '2018-11-07',
-            performedBy: '352387',
-            scopeOfReview: 'full course review',
-            notes: [
-              {
-                type: 'minor issue',
-                dependency: '@angular/core',
-                title: '6.0.0 -> set preserveWhitespaces to false by default',
-                details:
-                  "On lesson 4 This caused “Off Off” to become “OffOff”. In main.ts .bootstrapModule(AppModule, {preserveWhitespaces: true} was added to replicate the example's original configuration settings",
-                documentation:
-                  'https://github.com/angular/angular/blob/master/CHANGELOG.md#600-2018-05-03',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        slug: 'javascript-promises-in-depth',
-        dependencies: {
-          angular: '5.0.0 - ^7.0.2',
-          rxjs: '5.5.2 - ^6.3.3',
-        },
-        illustrator: {
-          name: 'Aleksander Ageev',
-        },
-        reviews: [
-          {
-            performedOn: '2018-12-02',
-            performedBy: '186087',
-            scopeOfReview: 'full course review',
-          },
-        ],
-      },
-      {
-        slug: 'use-dom-testing-library-to-test-any-js-framework',
-        dependencies: {
-          dojo: '^3.0.0',
-          polymer: '3.0.5',
-          angular: '1.7.4',
-          aurelia: '1.3.0',
-          backbone: '1.3.3',
-          hyperapp: '1.2.9',
-          jquery: '3.3.1',
-          Knockout: '3.4.2',
-          mithril: '1.1.6',
-          preact: '8.3.1',
-          react: '16.5.1',
-          stimulus: '1.1.0',
-          svelte: '2.13.4',
-          vue: '2.5.17',
-          wigly: '0.1.9',
-        },
-        reviews: [
-          {
-            performedOn: '2018-10-02',
-            performedBy: '186087',
-            scopeOfReview: 'full course review',
-            notes:
-              'There was a different dependency used for every lesson so I included every dependency for each lesson.',
-          },
-        ],
-      },
-      {
-        slug: 'redux-and-the-state-adt',
-        dependencies: {
-          crocks: '^0.11.0',
-          esm: '^3.0.84',
-          eyes: '^0.1.8',
-          nodemon: '^1.18.5',
-          redux: '^4.0.1',
-        },
-      },
-      {
-        slug: 'reusable-stateful-logic-with-react-hooks',
-        dependencies: {
-          react: '^16.7.0-alpha.0',
-          emotion: '^9.2.12',
-          'lodash.uniqueid': '4^.0.1',
-        },
-      },
-      {
-        slug: 'graphql-data-in-react-with-apollo-client',
-        freshness: {
-          status: `stale`,
-          title: `Still good, but there are issues with this course`,
-          text: `While much of the information in this course is useful it is showing its
-          age in the specific details. Some of the libraries demonstrated have **changed
-          versions**, and there are some **missing configuration specifics** with the server that
-          require additional investigation to follow along.
-          `,
-          asOf: `2021-01-25`,
-        },
-        dependencies: {
-          'apollo-boost': '^0.1.22',
-          graphql: '^14.0.2',
-          react: '^16.4.2',
-        },
-        illustrator: {
-          name: 'Aleksander Ageev',
-        },
-      },
-      {
-        slug: 'reactive-state-management-in-angular-with-ngrx',
-        dependencies: {
-          angular: '^7.0.3',
-          'ngrx/store': '6.1.2',
-          '@nrwl/nx': '7.1.1',
-          'core-js': '^2.5.4',
-          hammerjs: '^2.0.8',
-          jsonwebtoken: '^8.3.0',
-          moment: '^2.22.2',
-          rxjs: '^6.0.0',
-        },
-      },
-      {
-        slug: 'simplify-react-apps-with-react-hooks',
-        dependencies: {
-          emotion: '10.0.0-beta.8',
-          react: '16.7.0-alpha.2',
-          'reach/router': '1.2.1',
-          'date-fns': '1.29.0',
-          'graphql-request': '1.8.2',
-          'match-sorter': '2.3.0',
-          'netlify-auth-providers': '1.0.0-alpha5',
-          'prop-types': '15.6.2',
-        },
-      },
-      {
-        slug: 'build-a-neo4j-graphql-api',
-        dependencies: {
-          axios: '^0.18.0',
-          'apollo-server': '^2.2.2',
-          'graphql-request': '^1.8.2',
-          'neo4j-driver': '^1.7.1',
-          'neo4j-graphql-js': '^1.0.5',
-        },
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-      },
-      {
+        id: '44',
+        type: 'course',
         slug: 'start-using-elm-to-build-web-applications',
         dependencies: {
           elm: '0.17',
@@ -3013,330 +3529,126 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'practical-advanced-typescript',
+        id: '43',
+        type: 'course',
+        slug: 'getting-started-with-react-router-v3',
         dependencies: {
-          typescript: '^3.0.0',
-        },
-      },
-      {
-        slug: 'use-typescript-to-develop-vue-js-web-applications',
-        dependencies: {
-          vue: '^2.2.6',
-          typescript: '^2.3.2',
-        },
-      },
-      {
-        slug: 'vue-js-state-management-with-vuex-and-typescript',
-        dependencies: {
-          vue: '^2.2.6',
-          vuex: '^2.3.1',
-          typescript: '^2.3.2',
-        },
-      },
-      {
-        slug: 'build-algorithms-using-typescript',
-        dependencies: {
-          typescript: '^2.1.4',
-        },
-      },
-      {
-        slug: 'async-await-using-typescript',
-        dependencies: {
-          '@types/node': '8.0.53',
-        },
-      },
-      {
-        slug: 'advanced-static-types-in-typescript',
-        freshness: {
-          status: `classic`,
-          title: `Core Resource`,
-          text: `This covers TypeScript 2.0+ and is **valid for core concepts** related to using
-          [TypeScript](/q/typescript) in modern web applications. Since it was recorded
-          many features have been added to TypeScript, but 2.0 was a huge milestone for 
-          the language and you'll learn a lot. **Highly recommended.**`,
-          asOf: `2021-01-25`,
-        },
-        dependencies: {
-          typescript: '^2.0.0',
-        },
-      },
-      {
-        slug: 'build-angular-1-x-apps-with-redux',
-        dependencies: {
-          angular: '1.5.7',
-        },
-      },
-      {
-        slug: 'use-types-effectively-in-typescript',
-        dependencies: {
-          typescript: '^2.0.0',
-        },
-      },
-      {
-        slug: 'reduce-redux-boilerplate-with-redux-actions',
-        dependencies: {
-          redux: '^3.6.0',
-          react: '^15.5.4',
-        },
-      },
-      {
-        slug: 'build-a-twelve-factor-node-js-app-with-docker',
-        dependencies: {
-          mongodb: '^2.2.26',
-          express: '^4.16.2',
-        },
-        illustrator: {
-          name: 'Kamil Khadeyev',
-        },
-      },
-      {
-        slug: 'end-to-end-testing-with-google-s-puppeteer-and-jest',
-        dependencies: {
-          react: '^16.2.0',
-          puppeteer: '^0.13.0',
-          jest: '^22.0.4',
-        },
-      },
-      {
-        slug: 'build-a-node-js-rest-api-with-loopback',
-        dependencies: {
-          loopback: '^3.0.0',
-        },
-      },
-      {
-        slug: 'integrate-ibm-domino-with-node-js',
-        dependencies: {
-          express: '^4.16.3',
-        },
-      },
-      {
-        slug: 'offline-first-progressive-web-apps-pwa-in-vue-js',
-        dependencies: {
-          vue: '^2.5.2',
-        },
-        illustrator: {
-          name: 'Maxime Bourgeois',
-        },
-      },
-      {
-        slug: 'real-world-react-native-animations',
-        dependencies: {
-          react: '^15.4.0',
-          'react-native': '0.38.0',
-        },
-      },
-      {
-        slug: 'angular-and-webpack-for-modular-applications',
-        dependencies: {
-          angular: '^1.5.0-rc.0',
-          webpack: '^1.7.2',
-        },
-      },
-      {
-        slug: 'asynchronous-javascript-with-async-await',
-        dependencies: {
-          typescript: '^2.3.0',
-        },
-      },
-      {
-        slug: 'understand-how-to-style-angular-components',
-        dependencies: {
-          angular: '5.2.0 - 7.2.2',
-          'core-js': '2.4.1 - 2.6.3',
-          rxjs: '5.5.6 - 6.3.3',
+          react: '0.14 - 16',
+          'react-router': '^3.0.0',
         },
         reviews: [
           {
-            performedOn: '2019-01-28',
-            performedBy: 'Haze Provinsal',
+            performedOn: '2018-04-05',
+            performedBy: 231890,
             scopeOfReview: 'full course lesson review',
-            notes: [],
-          },
-        ],
-      },
-      {
-        slug: 'fundamentals-of-react-native-video',
-        dependencies: {
-          'react-native': '^0.44.2',
-          'react-native-video': '^1.0.0',
-        },
-      },
-      {
-        slug: 'develop-basic-web-apps-with-vue-js',
-        dependencies: {
-          vue: '^2.5.16',
-        },
-      },
-      {
-        slug: 'vue-update-vuex-state-with-mutations-and-mapmutations-in-vue-js',
-        dependencies: {
-          nuxt: '^2.0.0',
-        },
-      },
-      {
-        slug: 'create-a-news-app-with-vue-js-and-nuxt',
-        dependencies: {
-          nuxt: '^1.0.0-rc3',
-        },
-      },
-      {
-        slug: 'advanced-fine-grained-control-of-vue-js-components',
-        dependencies: {
-          vue: '^2.5.9',
-        },
-      },
-      {
-        slug: 'build-node-js-apis-with-openapi-spec-swagger',
-        dependencies: {
-          express: '^4.12.3',
-        },
-      },
-      {
-        slug: 'angularjs-authentication-with-jwt',
-        dependencies: {
-          angular: '^1.2.25',
-        },
-      },
-      {
-        slug: 'publish-javascript-packages-on-npm',
-        dependencies: {
-          'babel-cli': '^6.18.0',
-        },
-      },
-      {
-        slug: 'use-webpack-2-for-production-javascript-applications',
-        dependencies: {
-          webpack: '^2.1.0',
-          babel: '6.5.2',
-        },
-      },
-      {
-        slug: 'learn-protractor-testing-for-angularjs',
-        dependencies: {
-          protractor: '^1.4.0',
-          angular: '^1.2.8',
-        },
-      },
-      {
-        slug: 'getting-started-with-express-js',
-        dependencies: {
-          express: '^4.13.1',
-        },
-      },
-      {
-        slug: 'end-to-end-testing-with-cypress',
-        dependencies: {
-          cypress: '^1.4.1',
-          react: '^16.0.0',
-        },
-      },
-      {
-        slug: 'react-class-component-patterns',
-        dependencies: {
-          react: '^16.3.2',
-          redux: '^3.7.2',
-        },
-      },
-      {
-        slug: 'introduction-to-the-python-3-programming-language',
-        dependencies: {
-          python: '3',
-        },
-      },
-      {
-        slug:
-          'build-user-interfaces-by-composing-css-utility-classes-with-tailwind',
-        dependencies: {
-          gulp: '4.0.2',
-          tailwindcss: '^0.1.3-1.0.5',
-        },
-        reviews: [
-          {
-            performedOn: '2019-07-26',
-            performedBy: 370397,
-            scopeOfReview: 'full',
             notes: [
               {
                 type: 'major issue',
-                title: 'Lesson 09 - Revamp',
+                dependency: 'react',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
                 details:
-                  'Fixed lesson 9 code to work as intended, as it was matching a previous lesson (lesson 3, I believe).',
-                lessons: [],
-                dependency: 'tailwindcss',
-              },
-              {
-                type: 'minor issue',
-                title: 'index.html update - lesson 05',
-                details:
-                  'Fixed the `index.html` on lesson 05 to match the lesson name, as it was previously matching lesson 04.',
-                lessons: [],
-                dependency: 'tailwindcss',
-              },
-              {
-                type: 'major issue',
-                title: 'Tailwind 1.0.0 Update - syntax',
-                details:
-                  'Changed `@tailwind preflight;` to `@tailwind base;` in `/src/styles.css` on all lessons.',
-                lessons: [],
-                dependency: 'tailwindcss',
-              },
-              {
-                type: 'major issue',
-                title: 'Tailwind 1.0.0 Update - tailwind.js',
-                details:
-                  'Reformatted `tailwind.js` file for every lesson due to tailwindcss 1.0.0 update. Changes referenced on the official changelog following the update guide.',
-                lessons: [],
-                dependency: 'tailwindcss',
+                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
               },
             ],
           },
         ],
       },
       {
-        slug: 'maintainable-css-using-typestyle',
+        id: '41',
+        type: 'course',
+        slug: 'use-higher-order-observables-in-rxjs-effectively',
         dependencies: {
-          typescript: '2.2.1',
-          react: '^15.4.2',
+          rxjs: '^5.0.0',
         },
+        reviews: [
+          {
+            performedOn: '2017-08-25',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
       },
       {
-        slug: 'create-your-own-twitter-bots',
+        id: '40',
+        type: 'course',
+        slug: 'rxjs-subjects-and-multicasting-operators',
         dependencies: {
-          twit: '^2.2.5',
+          rxjs: '^5.0.0',
         },
+        reviews: [
+          {
+            performedOn: '2017-08-28',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
       },
       {
+        id: '39',
+        type: 'course',
+        slug: 'rxjs-beyond-the-basics-creating-observables-from-scratch',
+        dependencies: {
+          rxjs: '^5.0.0',
+        },
+        reviews: [
+          {
+            performedOn: '2017-08-28',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
+      },
+      {
+        id: '37',
+        type: 'course',
         slug: 'introduction-to-node-servers-with-hapi-js',
         dependencies: {
           hapi: '^11.0.3',
         },
       },
       {
-        slug: 'make-webpack-easy-with-poi',
+        id: '35',
+        type: 'course',
+        slug: 'step-by-step-async-javascript-with-rxjs',
         dependencies: {
-          poi: '^9.0.0',
+          rxjs: '^5.0.0',
         },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        reviews: [
+          {
+            performedOn: '2017-08-28',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
       },
       {
-        slug: 'angularjs-data-modeling',
-        dependencies: {
-          angular: '^1.2.23',
+        id: '34',
+        type: 'course',
+        slug: 'rxjs-beyond-the-basics-operators-in-depth',
+        freshness: {
+          status: `classic`,
+          title: `Still good, but there are issues with this course`,
+          text: `While much of the information in this course is useful it is showing its age in specific details. In this course, the code for RxJS has updated from '5.0.0' to '6.3.3'. The operators still achieve the same outcome, the way you use them are slightly different. Also, ES5 has been updated to ES6.`,
+          asOf: `2021-01-25`,
         },
+        dependencies: {
+          rxjs: '^6.3.3',
+        },
+        reviews: [
+          {
+            performedOn: '2021-01-25',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
       },
       {
-        slug: 'using-angular-2-patterns-in-angular-1-x-apps',
-        dependencies: {
-          angular: '^1.5.7',
-        },
-      },
-      {
-        slug: 'angular-automation-with-gulp',
-        dependencies: {
-          gulp: '^3.8.11',
-          angular: '^1.4.7',
-        },
-      },
-      {
+        id: '33',
+        type: 'course',
         slug: 'introduction-to-angular-material',
         dependencies: {
           'angular-material': '^1.1.12',
@@ -3344,30 +3656,123 @@ const courseDependencyData = (courseSlug) =>
         },
       },
       {
-        slug: 'natural-language-processing-in-javascript-with-natural',
+        id: '31',
+        type: 'course',
+        slug: 'building-an-angular-1-x-ionic-application',
         dependencies: {
-          natural: '^0.4.0',
+          angular: '1.5.5',
+          ionic: '1.2.1',
         },
       },
       {
-        slug: 'angularjs-fundamentals',
+        id: '30',
+        type: 'course',
+        slug: 'cycle-js-fundamentals',
         dependencies: {
-          angular: '^1.6.5',
+          cycle: '^3.1',
         },
       },
       {
-        slug: 'build-interactive-javascript-charts-with-d3-v4',
+        id: '27',
+        type: 'course',
+        slug: 'react-testing-cookbook',
         dependencies: {
-          d3: '^4.1.1',
+          react: '0.14 - 15',
+          redux: '^3.0.0',
         },
       },
       {
-        slug: 'using-postgres-window-functions',
+        id: '26',
+        type: 'course',
+        slug: 'creating-custom-web-elements-with-polymer-2',
         dependencies: {
-          PostgreSQL: '^9.6',
+          polymer: '1.2 - 1.11',
         },
       },
       {
+        id: '25',
+        type: 'course',
+        slug: 'getting-started-with-redux',
+        freshness: {
+          status: 'classic',
+          title: 'This is a Classic Resource',
+          text:
+            "Redux has changed a lot since Dan first recorded this course in 2015, but \n          this is still an essential watch, if not directly applicable to your \n          application. This is **the source** that inspired so much in the\n          React ecosystem and beyond. **We strongly recommend this course for all modern web developers**. It's\n          excellent.\n          ",
+          asOf: '2021-01-23',
+        },
+        dependencies: {
+          react: '0.14 - 17',
+          redux: '3 - 4',
+        },
+        reviews: [
+          {
+            performedOn: '2018-04-19',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+          },
+        ],
+      },
+      {
+        id: '24',
+        type: 'course',
+        slug: 'react-flux-architecture-es6',
+        dependencies: {
+          react: '0.14 - 16',
+          flux: '2 - 3',
+          'react-router': '1 - 3',
+        },
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        reviews: [
+          {
+            performedOn: '',
+            performedBy: 186087,
+            dependency: 'react',
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
+                details:
+                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
+              },
+            ],
+          },
+          {
+            performedOn: '2018-05-18',
+            performedBy: 264612,
+            dependency: 'react-router',
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                title: 'import change',
+                lessons: [
+                  'react-flux-architecture-routing-with-react-router-1-0',
+                  'react-flux-architecture-component-wrap-up',
+                  'react-flux-architecture-dumb-stores',
+                ],
+                details:
+                  "`browserHistory` must be imported and used on `<Router>` to avoid `Cannot read property  'location' of undefined`",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '23',
+        type: 'course',
+        slug: 'get-started-with-angular',
+        dependencies: {
+          angular: '5 - 6',
+          rxjs: '5 - 6',
+        },
+      },
+      {
+        id: '22',
+        type: 'course',
         slug: 'learn-how-to-use-immutable-js',
         dependencies: {
           Lodash: '7.1.0',
@@ -3401,12 +3806,120 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        slug: 'get-started-with-postgresql',
+        id: '20',
+        type: 'course',
+        slug: 'introduction-to-reactive-programming',
         dependencies: {
-          PostgreSQL: '^9.6',
+          rxjs: '4 - 5',
+        },
+        reviews: [
+          {
+            performedOn: '2017-04-19',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  '`buffer` has been split into: `buffer`, `bufferWhen`, and `bufferToggle`',
+                details:
+                  'To reduce polymorphism and get better performance out of operators, some operators have been split into more than one operator',
+              },
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  '`debounce` has been split into: `debounce` and `debounceTime`',
+                details:
+                  'To reduce polymorphism and get better performance out of operators, some operators have been split into more than one operator',
+              },
+              {
+                type: 'major issue',
+                dependency: 'rxjs',
+                title:
+                  'flatMap is now an alias for mergeMap but will work just the same.',
+                details:
+                  'To reduce polymorphism and get better performance out of operators, some operators have been split into more than one operator',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '18',
+        type: 'course',
+        slug: 'getting-started-with-express-js',
+        dependencies: {
+          express: '^4.13.1',
         },
       },
       {
+        id: '14',
+        type: 'course',
+        slug: 'react-native-fundamentals',
+        dependencies: {
+          react: '0.14 - 16',
+          'react-native': '0.3 - 0.53',
+        },
+        reviews: [
+          {
+            performedOn: '2018-02-08',
+            performedBy: 248653,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                dependency: 'react',
+                type: 'major issue',
+                title:
+                  'React v15.5.0 PropTypes was extracted into its own package',
+                details:
+                  'Documentation on that: https://reactjs.org/blog/2017/04/07/react-v15.5.0.html',
+              },
+            ],
+          },
+          {
+            dependency: 'react-native',
+            performedOn: '2018-02-08',
+            performedBy: 248653,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                type: 'major issue',
+                title:
+                  '0.46 in React Native breaks the build configuration in Xcode',
+              },
+            ],
+          },
+          {
+            performedOn: '2017-06-25',
+            performedBy: 186087,
+            scopeOfReview: 'full course lesson review',
+            notes: [
+              {
+                dependency: 'react-native',
+                type: 'major issue',
+                title:
+                  'react-native-xcode.sh now lives in a different location',
+                details:
+                  'https://github.com/facebook/react-native/releases/tag/v0.46.4',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '12',
+        type: 'course',
+        slug: 'angular-automation-with-gulp',
+        dependencies: {
+          gulp: '^3.8.11',
+          angular: '^1.4.7',
+        },
+      },
+      {
+        id: '11',
+        type: 'course',
         slug: 'asynchronous-programming-the-end-of-the-loop',
         dependencies: {
           rxjs: '^2.3',
@@ -3416,58 +3929,52 @@ const courseDependencyData = (courseSlug) =>
         },
       },
       {
-        slug: 'learn-the-best-and-most-useful-scss',
+        id: '7',
+        type: 'course',
+        slug: 'angularjs-authentication-with-jwt',
         dependencies: {
-          'node-sass': '^3.11',
+          angular: '^1.2.25',
         },
       },
       {
-        slug: 'cycle-js-fundamentals',
+        id: '6',
+        type: 'course',
+        slug: 'angularjs-fundamentals',
         dependencies: {
-          cycle: '^3.1',
+          angular: '^1.6.5',
         },
       },
       {
-        slug: 'understand-joins-and-unions-in-postgres',
+        id: '4',
+        type: 'course',
+        slug: 'angularjs-data-modeling',
         dependencies: {
-          PostgreSQL: '9.4.5',
+          angular: '^1.2.23',
         },
       },
       {
+        id: '3',
+        type: 'course',
+        slug: 'start-learning-react',
+        dependencies: {
+          react: '0.14 - 16',
+        },
+      },
+      {
+        id: '2',
+        type: 'course',
+        slug: 'learn-protractor-testing-for-angularjs',
+        dependencies: {
+          protractor: '^1.4.0',
+          angular: '^1.2.8',
+        },
+      },
+      {
+        id: '1',
+        type: 'course',
         slug: 'use-d3-v3-to-build-interactive-charts-with-javascript',
         dependencies: {
           d3: '^3.5',
-        },
-      },
-      {
-        slug: 'creating-custom-web-elements-with-polymer-2',
-        dependencies: {
-          polymer: '1.2 - 1.11',
-        },
-      },
-      {
-        slug: 'get-started-with-elasticsearch',
-        dependencies: {
-          elasticsearch: '^12.1.3',
-        },
-      },
-      {
-        slug: 'ember-2-fundamentals',
-        dependencies: {
-          ember: '~2.5',
-        },
-      },
-      {
-        slug: 'building-an-angular-1-x-ionic-application',
-        dependencies: {
-          angular: '1.5.5',
-          ionic: '1.2.1',
-        },
-      },
-      {
-        slug: 'up-and-running-with-typescript',
-        dependencies: {
-          typescript: '^3.2.1',
         },
       },
     ],

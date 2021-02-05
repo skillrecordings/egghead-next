@@ -6,9 +6,9 @@ const SearchNode = () => {
   return (
     <SearchCuratedEssential
       topic={{
-        label: 'Next.js',
-        name: 'next',
-        description: `Description text for Next.js`,
+        label: 'node.js',
+        name: 'node',
+        description: `Description text for Node.js`,
       }}
       pageData={nodePageData}
     />

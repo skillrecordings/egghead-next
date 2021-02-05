@@ -18,6 +18,11 @@ export default {
       },
     },
     {
+      name: 'tags',
+      title: 'Tags',
+      type: 'tags',
+    },
+    {
       name: 'type',
       description: 'Resources have types that we can use to distinguish them.',
       title: 'Type',
@@ -52,6 +57,22 @@ export default {
           {
             title: 'landing page',
             value: 'landing-page',
+          },
+          {
+            title: 'feature',
+            value: 'feature',
+          },
+          {
+            title: 'video (Lesson)',
+            value: 'video',
+          },
+          {
+            title: 'podcast',
+            value: 'podcast',
+          },
+          {
+            title: 'talk',
+            value: 'talk',
           },
         ],
       },
@@ -197,41 +218,10 @@ export default {
     },
 
     {
-      name: 'bigIdeas',
-      title: 'Big Ideas',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'bigIdea'}],
-        },
-      ],
-    },
-    {
-      name: 'essentialQuestions',
-      title: 'Essential Questions',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'essentialQuestion'}],
-        },
-      ],
-    },
-    {
       name: 'externalPreviewImageUrl',
       description: 'An associated image URL. Maybe on Cloudinary?',
       title: 'External Preview Image',
       type: 'url',
-    },
-    {
-      name: 'previewImage',
-      description: 'Upload an image here.',
-      title: 'Preview Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
     },
     {
       name: 'urls',
@@ -239,6 +229,13 @@ export default {
       title: 'External URLs',
       type: 'array',
       of: [{type: 'link'}],
+    },
+    {
+      name: 'images',
+      description: 'Links to image.',
+      title: 'Images (URLs)',
+      type: 'array',
+      of: [{type: 'image-url'}],
     },
     {
       name: 'collaborators',
@@ -274,6 +271,7 @@ export default {
       title: 'Projects',
       type: 'array',
       of: [
+        {type: 'link'},
         {
           type: 'reference',
           to: [{type: 'resource'}],
@@ -310,6 +308,26 @@ export default {
       type: 'array',
       of: [
         {
+          type: 'object',
+          fields: [
+            {
+              title: 'Type of Resource',
+              type: 'string',
+              name: 'type',
+            },
+            {
+              title: 'Label',
+              type: 'string',
+              name: 'label',
+            },
+            {
+              title: 'Value',
+              type: 'string',
+              name: 'value',
+            },
+          ],
+        },
+        {
           type: 'reference',
           to: [{type: 'resource'}],
         },
@@ -336,6 +354,12 @@ export default {
       of: [
         {
           type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
         },
       ],
     },

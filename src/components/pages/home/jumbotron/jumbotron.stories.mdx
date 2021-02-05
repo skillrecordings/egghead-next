@@ -1,25 +1,25 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
 import FeaturedResource from './'
 import {find} from 'lodash'
+import {sanityClient} from 'utils/sanity-client'
 
 export const resource = {
   id: 'header',
-  title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-  path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-  image:
-    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034857/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/create-an-ecommerce-store-with-next-js-and-stripe-checkout_1.png',
-  byline: 'Portfolio Project',
+  title: 'Introduction to Cloudflare Workers',
+  byline: 'new course',
   description:
-    'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio. Elit ad sit himenaeos pretium condimentum hacElit ad sit himenaeos pretium condimentum hac.',
+    "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+  path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+  slug: 'introduction-to-cloudflare-workers-5aa3',
   instructor: {
-    name: 'Colby Fayock',
-    slug: 'colby-fayock',
-    path: '/q/resources-by-colby-fayock',
-    bio:
-      'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
-    twitter: 'colbyfayock',
+    name: 'Kristian Freeman',
+    slug: 'kristian-freeman',
+    path: '/q/resources-by-kristian-freeman',
+    twitter: 'signalnerve',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/469/square_128/kristian.jpeg',
   },
 }
 
@@ -29,8 +29,9 @@ export const resource = {
 
 <Canvas>
   <Story name="Default">
-    <div className="bg-gray-50 p-5">
+    <div className="max-w-screen-xl mx-auto bg-gray-50 p-5">
       <FeaturedResource resource={resource} />
+      <Primary />
     </div>
   </Story>
 </Canvas>

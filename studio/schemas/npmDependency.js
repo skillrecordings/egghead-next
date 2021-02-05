@@ -39,5 +39,11 @@ export default {
       name: 'url',
       type: 'url',
     },
+    {
+      name: 'imageUrl',
+      description: 'An associated image URL. Probably a logo.',
+      title: 'Image URL',
+      type: 'url',
+    },
   ],
 }

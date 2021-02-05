@@ -25,4 +25,8 @@ Object.defineProperty(nextLink, 'default', {
 
 export const parameters = {
   actions: {argTypesRegex: '^on[A-Z].*'},
+  themes: [
+    {name: 'light', class: 'light', color: '#fafafa', default: true},
+    {name: 'dark', class: 'dark', color: '#111827'},
+  ],
 }

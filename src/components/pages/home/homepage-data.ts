@@ -1,46 +1,45 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    byline: 'New Course',
-    title: 'Containerize Full-Stack JavaScript Applications with Docker',
-    instructor: {
-      name: 'Joel Lord',
-      slug: 'joel-lord',
-      path: '/q/resources-by-joel-lord',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/202/square_128/profile-no-bg-small.png',
-    },
+    title: 'Introduction to Cloudflare Workers',
+    byline: 'new course',
     description:
-      'One of the most useful ways to get your head around Docker is to see it in action. Follow along with Joel Lord as he works through the process of preparing an application to run in separate containers for the frontend and backend of an application that searches for gifs and re-encodes them with a caption supplied by the user.',
-    image: {
-      src:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
-      alt:
-        'Stylized illustration of colorful shipping containers with a docker logo',
+      "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+    slug: 'introduction-to-cloudflare-workers-5aa3',
+    instructor: {
+      name: 'Kristian Freeman',
+      slug: 'kristian-freeman',
+      path: '/q/resources-by-kristian-freeman',
+      twitter: 'signalnerve',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/469/square_128/kristian.jpeg',
     },
-    path:
-      '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
   },
   {
     id: 'video',
-    name: 'Modern Web Development',
-    title: 'Full Stack Development in the Era of Serverless Computing',
-    description:
-      'Learn a workflow that allows front end developers to build full stack applications using JavaScript by taking advantage of managed services, implementing real-world features like authentication, managed GraphQL APIs, serverless Lambda functions, & chatbots using a CLI based workflow.',
-    instructor: 'Nader Dabit',
-    instructor_path: '/q/resources-by-nader-dabit',
+    name: 'Optimize your Learning',
+    title: 'Learning Tips Every Developer Should Know',
+    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
+
+There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+      `,
+    instructor: 'Ceora Ford',
+    instructor_path: '/q/resources-by-ceora-ford',
     path:
-      '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',
+      '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
     poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.jpg',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/hls/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.m3u8',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
 
     dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L/dash/egghead-nader-dabit-full-stack-development-in-the-era-of-serverless-computing-B1UJE7z_L.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
 
     subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-full-stack-development-in-the-era-of-serverless-computing/subtitles',
+      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   {
     id: 'featured',
@@ -58,24 +57,72 @@ const homepageData = [
           'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
-        name: 'Cutting Edge',
-        title: 'Cloudflare Workers',
-        byline: 'Free course by Kristian Freeman',
+        name: 'Ship anywhere',
+        title: 'Containerize Apps with Docker',
+        byline: 'Joel Lord ・1h 24m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/square_480/EGH_IntroCloudFlareWorkers_Final.png',
-        path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
+        path:
+          '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
       },
       {
-        name: 'Delightfully Different',
-        title: 'Composable Functional JavaScript',
-        byline: 'Brian Lonsdorf・1h 50m・Course',
+        name: 'Get Reactive',
+        title: 'Thinking Reactively with RxJS',
+        byline: 'Rares Matei・1h 50m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/072/thumb/EGH_ComposableJS_Final.png',
-        path:
-          '/courses/professor-frisby-introduces-composable-functional-javascript',
-        slug: 'professor-frisby-introduces-composable-functional-javascript',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/447/thumb/EGH_ThinkingRxJs.png',
+        path: '/courses/thinking-reactively-with-rxjs',
+        slug: 'thinking-reactively-with-rxjs',
         description:
-          "This course teaches the ubiquitous abstractions for modeling pure functional programs. Functional languages have adopted these algebraic constructs across the board as a way to compose applications in a principled way. \r\n\r\nWe can do the same in JavaScript. While the subject matter will move beyond the functional programming basics, no previous knowledge of functional programming is required. You'll start composing functionality before you know it.",
+          'When a manager gives us the requirements for an application feature, they don\'t care too much about *how* we build it. And often times, they think that hard things will be easy.\n\nDealing with time and coordinating different types of events can be tricky.\n\nLuckily, we have RxJS to help!\n\nIn this course, you will use RxJS to build a loading spinner in an app that meets the ever-changing requirements from a mock Product Manager.\n\nYou\'ll also learn how to implement a "Konami Code" style feature that listens for a correct sequence of keys to be typed in a set amount of time.\n\nFollow the thought process that Rares uses as he breaks problems down into manageable pieces that remain flexible, and become more comfortable solving problems reactively.',
+      },
+    ],
+  },
+  {
+    id: 'workflows',
+    title: 'Optimize Daily Workflows',
+    description:
+      'Humans were never meant to repeat joyless tasks in a precise manner, over and over and over. Computers are meant precisely for these types of tasks. Automation is all about saving you time — and these courses are well worth yours. Enjoy!',
+    resources: [
+      {
+        title: 'Advanced Bash Automation for Web Developers',
+        byline: 'Cameron Nokes・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/239/thumb/EGH_BashAutomation_Final.png',
+        path: '/courses/advanced-bash-automation-for-web-developers',
+        slug: 'advanced-bash-automation-for-web-developers',
+      },
+      {
+        title: 'Regex in Javascript',
+        byline: 'Joe Maddalone・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/029/thumb/course_image.png',
+        path: '/courses/regex-in-javascript',
+        slug: 'regex-in-javascript',
+      },
+      {
+        title: 'Use Grep for Fast Search from the Command Line',
+        byline: 'Bonnie Eisenman・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/088/thumb/EGH_Grep_Final_Small.png',
+        path: '/courses/use-grep-for-fast-search-from-the-command-line',
+        slug: 'use-grep-for-fast-search-from-the-command-line',
+      },
+      {
+        title: 'Wrangle your terminal with tmux',
+        byline: 'Bonnie Eisenman・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/thumb/EGH_TMUX_Final_2x.png',
+        path: '/courses/wrangle-your-terminal-with-tmux',
+        slug: 'wrangle-your-terminal-with-tmux',
+      },
+      {
+        title: 'Productive Git for Developers',
+        byline: 'Juri Strumpflohner・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/247/thumb/EGH_ProductiveGitFinal.png',
+        path: '/courses/productive-git-for-developers',
+        slug: 'productive-git-for-developers',
       },
     ],
   },
@@ -86,6 +133,28 @@ const homepageData = [
     description:
       'These courses will get you started building real-world applications with these tools. They are all excellent introductions if you want to learn something new today.',
     resources: [
+      {
+        title: "The Beginner's Guide to React",
+        byline: 'Kent C. Dodds・2h 27m ・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
+        path: '/courses/the-beginner-s-guide-to-react',
+      },
+      {
+        title: 'CSS Fundamentals',
+        byline: 'Tyler Clark・33m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+        path: '/courses/css-fundamentals',
+      },
+      {
+        title: "The Beginner's Guide to Figma",
+        byline: 'Joe Previte・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/265/thumb/EGH_BeginnerFigma_Final.png',
+        path: '/courses/the-beginner-s-guide-to-figma',
+        slug: 'the-beginner-s-guide-to-figma',
+      },
       {
         title: 'Up and running with Svelte 3',
         byline: 'Tomasz Łakomy・26m ・Course',
@@ -101,36 +170,28 @@ const homepageData = [
         path: '/courses/develop-basic-web-apps-with-vue-js',
       },
       {
-        title: "The Beginner's Guide to React",
-        byline: 'Kent C. Dodds・2h 27m ・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/160/thumb/EGH_BeginnersReact2.png',
-        path: '/courses/the-beginner-s-guide-to-react',
-      },
-      {
         title: 'Write Your First Program with the Rust Language',
         byline: 'Pascal Precht・19m ・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/448/thumb/EGH_BuildaRustApp_Final.png',
         path: '/courses/write-your-first-program-with-the-rust-language',
       },
-      {
-        title:
-          'Sprinkle declarative, reactive behaviour on your HTML with Alpine JS',
-        byline: 'Simon Vrachliotis・17m ・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/286/thumb/alpinejs.png',
-        path:
-          '/playlists/sprinkle-declarative-reactive-behaviour-on-your-html-with-alpine-js-5f8b',
-      },
     ],
   },
   {
     id: 'freeCourses',
-    name: 'Free Courses',
+    name: 'Community Resource ',
     title: 'Learn Something New',
-    description: '',
+    description:
+      'A Community Resource is a course that is free to access for all. The instructor of this course requested it to be open to the public. ',
     resources: [
+      {
+        title: 'Get Started with Reason',
+        byline: 'Nik Graf・1h 13m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/163/thumb/EGH_Reason_Final.png',
+        path: '/courses/get-started-with-reason',
+      },
       {
         title: 'Introduction to State Machines Using XState',
         byline: 'Kyle Shevlin・53m・Course',
@@ -153,12 +214,11 @@ const homepageData = [
         path: '/courses/practical-git-for-everyday-professional-use',
       },
       {
-        title: 'Develop Accessible Web Apps with React',
-        byline: 'Erin Doyle・88m・Course',
+        title: 'Build an App with React Suspense',
+        byline: 'Michael Chan・1h 23m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
-
-        path: '/courses/develop-accessible-web-apps-with-react',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/399/full/React_Suspense_Final.png',
+        path: '/courses/build-an-app-with-react-suspense',
       },
       {
         title:
@@ -187,13 +247,6 @@ const homepageData = [
     description: '',
     resources: [
       {
-        title: 'Web Security Essentials: MITM, CSRF, and XSS',
-        byline: 'Mike Sherov・50m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png',
-        path: '/courses/web-security-essentials-mitm-csrf-and-xss',
-      },
-      {
         title: 'How to Contribute to an Open Source Project on GitHub',
         byline: 'Kent C. Dodds・38m ・Course',
         image:
@@ -215,19 +268,95 @@ const homepageData = [
         path: '/courses/graphql-query-language',
       },
       {
-        title: 'Build an App with the AWS Cloud Development Kit',
-        byline: 'Tomasz Łakomy・1h 4m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
-
-        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
-      },
-      {
         title: 'Debug the DOM in Chrome with the Devtools Elements panel',
         byline: 'Mykola Bilokonsky・25m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/060/full/EGH_Chrome_Elements.png',
         path: '/courses/using-chrome-developer-tools-elements',
+      },
+    ],
+  },
+  {
+    id: 'aws',
+    name: 'Amazon Web Services',
+    title: 'Deep Dive into AWS 🤯',
+    description:
+      'Amazon Web Services (AWS) has over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
+    resources: [
+      {
+        byline: 'Tomasz Łakomy・1h 4m・Course',
+        description:
+          "Amazon AWS is one of the most popular cloud providers in the world, but it can also be daunting to learn thanks to the alphabet soup of service acronyms.Once you've figured out which subset of services to use, you've got a lot of clicking around to do in order to get things configured.Not anymore!With the AWS Cloud Development Kit (CDK), you are able to configure AWS services from your terminal & editor.Even better, you can do your configuration, frontend, and backend all with the same language. In this course, Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done.The services & development approach Tomasz demonstrates in this course are used by countless companies around the world. Is yours next?",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
+        path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
+        slug: 'build-an-app-with-the-aws-cloud-development-kit',
+        title: 'Build an App with the AWS Cloud Development Kit',
+      },
+      {
+        byline: 'Lee Robinson・30m・Course',
+        description:
+          'Learn how to use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install) to create and deploy a [DynamoDB table](https://aws.amazon.com/dynamodb/) with [Next.js](https://nextjs.org).- 🛠 API Route to handle CRUD actions- 📦 AWS CDK for Infrastructure as Code- 🔓 IAM role to restrict permissions- 🚀 Deploy instantly to [Vercel](https://vercel.com)You can view the completed code [here](https://github.com/leerob/nextjs-aws-dynamodb). ',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/thumb/EGH_DynamoDB.png',
+        path: '/playlists/using-dynamodb-with-next-js-b40c',
+        slug: 'using-dynamodb-with-next-js-b40c',
+        title: 'Using DynamoDB with Next.js',
+      },
+      {
+        byline: 'Chris Biscardi・17m・Course',
+        description:
+          "This playlist covers all of the ways to use the node.js DocumentClient to interact with one or more DynamoDB tables.note: We do not cover scan() as it is not recommended for most usage and if you need it you'll know how to read the documentation to use it by the end of this collection.",
+        path: '/playlists/dynamodb-the-node-js-documentclient-1396',
+        slug: 'dynamodb-the-node-js-documentclient-1396',
+        title: 'DynamoDB: The Node.js DocumentClient',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+      },
+      {
+        byline: 'Chris Biscardi・15m・Course',
+        description:
+          "This collection includes introductory level material for AWS DynamoDB. We cover what DynamoDB is, when you'd use it, and the vocabulary you'll need to understand documentation and talks in the ecosystem.You'll come out of this playlist with the ability to understand what people mean when they say DynamoDB and the base you need to get started yourself.**View and contribute to the [Community Notes!](https://github.com/eggheadio-projects/intro-to-dynamodb)**",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path: '/playlists/intro-to-dynamodb-f35a',
+        slug: 'intro-to-dynamodb-f35a',
+        title: 'Intro to DynamoDB',
+      },
+      {
+        byline: 'Tomasz Łakomy・21m・Course',
+        description: `AWS Lambda, Serverless, FaaS - there is a lot of noise around those topics online (and for a very good reason!) and it can get confusing at times 🤯In this collection we're going to take a look at AWS Lambda from scratch, in order to get **YOU** from:"_I have no idea what a lambda function is_" to "_I know quite a bit about AWS Lambda, and I'm going to use it to solve my problems_"Checkout the [community notes for this collection on github](https://github.com/theianjones/egghead.io_learn_aws_lambda_from_scratch).`,
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path: '/playlists/learn-aws-lambda-from-scratch-d29d',
+        slug: 'learn-aws-lambda-from-scratch-d29d',
+        title: 'Learn AWS Lambda from scratch',
+      },
+      {
+        byline: 'Tomasz Łakomy・4m・Course',
+        description:
+          "We generally tend to avoid paying for things unless we actually need them, and the same goes for AWSWhen using a cloud provider like AWS sometimes an unexpected charge may occur and we'd like to understand what are we being charged for and how to be notified whenever an unexpected charge occurs (especially when we're trying to stay within a free tier).In this quick (4 minutes, 2 lessons) collection we're going to learn how to:- Review the AWS Billing & Cost Management Dashboard- Set up a billing alarm to be notified whenever our bill is larger than $5- Review the AWS bill to understand how much are we going to pay this month and why",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path:
+          '/playlists/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        slug:
+          'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        title:
+          'Use AWS Billing & Cost Management Dashboard to keep your AWS bill to minimum',
+      },
+      {
+        byline: 'Chris Biscardi・42m・Course',
+        description:
+          'This collection is a sequel to the [Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb) collection. In this collection we take the TODO application we built and convert it to run using Netlify Identity, AWS Lambda (using the serverless framework) and DynamoDB. We cover* Fauna vs DynamoDB and when to use each* Setting up AWS accounts* Creating DynamoDB tables and data modeling differences between Fauna and Dynamo* Converting our Netlify Functions deployment to a Serverless Framework deployment* Implementing Custom authorizer functions on AWSIt uses tools that remove as many of the barriers as possible. Netlify Functions grows into Serverless Framework adn AWS Lambda, Netlify Identity is kept around, and FaunaDB can grows into DynamoDB.',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+        path:
+          '/playlists/converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        slug:
+          'converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        title:
+          'Converting a Serverless App to run on AWS Lambda and DynamoDB with Serverless Framework',
       },
     ],
   },
@@ -241,24 +370,18 @@ const homepageData = [
       {
         title: 'Using Redux in Modern React Apps with Mark Erikson',
         byline: 'Mark Erikson & Joel Hooks・90m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
         path:
           '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
       },
       {
         title: 'XState for State Management in React Apps with David Khourshid',
         byline: 'David Khourshid & Joel Hooks・55m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/282/thumb/xstate.png',
         path:
           '/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
       },
       {
         title: 'State Management in React with Chance Strickland',
         byline: 'Chance Strickland & Joel Hooks・46m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
           '/lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
       },
@@ -266,42 +389,99 @@ const homepageData = [
         title:
           'Using Recoil to Manage Orthogonal State in React Apps with David McCabe',
         byline: 'David McCabe & Joel Hooks・34m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
           '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
       },
       {
         title: 'Managing Complex State in React with Jared Palmer',
         byline: 'Jared Palmer & Joel Hooks・1h 28m・Chat',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         path:
           '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
       },
     ],
   },
   {
-    id: 'sideProject',
-    name: 'Weekend Side Project',
-    title: 'Build a Video Chat App with Twilio and Gatsby',
-    path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
+    id: 'cms',
+    name: 'Content Management System',
+    title:
+      'WordPress as a Headless Content Management System (CMS) and GraphQL API',
+    path: '/playlists/headless-wordpress-4a14',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/395/full/TwilioGatsby_Final.png',
-    byline: 'Jason Lengstorf',
-    description:
-      'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+    byline: 'Kevin Cunningham',
+    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
-    id: 'buildInPublic',
-    name: 'Build in Public',
-    title: 'How to Livestream Code and Design on Twitch',
-    path: '/playlists/how-to-livestream-code-and-design-on-twitch-6646',
+    id: 'tailwind',
+    name: 'Write Modern CSS',
+    byline: 'Adam Wathan・3h 4m・Course',
+    description: `In this multi-module course, Adam Wathan - the creator of Tailwind - will teach you how to style your applications with modern, sustainable patterns. Modules include: `,
+    path: '/playlists/design-with-tailwind-css-masterclass-f0db',
+    slug: 'design-with-tailwind-css-masterclass-f0db',
+    title: 'Design with Tailwind CSS Masterclass',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/292/full/output-onlinepngtools.png',
-    byline: 'Chris Biscardi',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/348/912/full/tailwinds_masterclass_main_424_2x.png',
+    resources: [
+      {
+        title: 'Introduction to Tailwind and the Utility First Workflow',
+        path:
+          '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+      },
+      {
+        title: 'Design and Implement Common Tailwind Components',
+        path:
+          '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
+      },
+      {
+        title: 'Build a Responsive Navbar with Tailwind',
+        path: '/playlists/build-a-responsive-navbar-with-tailwind-4d328a35',
+      },
+      {
+        title: 'Build and Style a Dropdown in Tailwind',
+        path: '/playlists/build-and-style-a-dropdown-in-tailwind-7f34fead',
+      },
+    ],
+  },
+  {
+    id: 'security',
+    name: 'Protect Your Application',
+    title: 'Web Security Essentials: MITM, CSRF, and XSS',
+    byline: 'Mike Sherov・50m・Course',
+    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png`,
+    path: '/courses/web-security-essentials-mitm-csrf-and-xss',
+    description: `Security is important, yet it is often overlooked and forgotten. In this course, you'll learn how to protect your application by learning how to attack it.`,
+  },
+  {
+    id: 'accessibleReactApps',
+    name: 'Accessible React Applications ',
+    byline: 'Erin Doyle・1h 28m・Course',
+
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
+    path: '/courses/develop-accessible-web-apps-with-react',
+    slug: 'develop-accessible-web-apps-with-react',
+    title: 'Develop Accessible Web Apps with React',
+  },
+  {
+    id: 'accessibleApps',
+    name: 'Accessible Portfolio Pieces',
+    title: 'Start Building Accessible Web Applications Today',
+    byline: 'Marcy Sutton・2h 7m ・ Course',
+    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/055/thumb/EGH_AccessibleWeb.png`,
+    path: '/courses/start-building-accessible-web-applications-today',
+    slug: 'start-building-accessible-web-applications-today',
+  },
+  {
+    id: 'reactTeams',
+    name: 'Techniques and Patterns for React Teams',
+    byline: 'Juri Strumpflohner・1h 40m・Course',
     description:
-      'Demonstrate technical proficiency by building in public. This course will take you from creating a Twitch account, all the way through setting up OBS, creating scenes, and defining an ultra-efficient workflow.',
+      "On the surface, starting a project sounds easy. First you make some directories, install some dependencies, then you write some code. But there's a bit more to it than just those three steps. The type of project you're working on impacts the decisions you make.",
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
+    path: '/playlists/scale-react-development-with-nx-4038',
+    slug: 'scale-react-development-with-nx-4038',
+    title: 'Scale React Development with Nx',
   },
   {
     id: 'portfolioProject',
@@ -338,54 +518,6 @@ const homepageData = [
     byline: 'John Lindquist',
     description:
       'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
-  },
-  {
-    id: 'mdxConf',
-    name: 'Future of Markdown',
-    title: 'MDX Conf 2020',
-    path: '/playlists/mdx-conf-3fc2',
-    byline: 'Chris Biscardi',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/289/full/mdx.png',
-    description:
-      'MDX has grown rapidly since the first commit two and a half years ago. Learn how MDX increases developer productivity, improves educational content authoring, and even peek behind the curtains to see how MDX works.',
-    resources: [
-      {
-        title: 'Demystifying MDX',
-        byline: 'Cole Bremis',
-        path: '/talks/mdx-demystifying-mdx',
-      },
-      {
-        title: 'MDX v2 Syntax',
-        byline: 'Laurie Barth',
-        path: '/talks/egghead-mdx-v2-syntax',
-      },
-      {
-        title: 'MDX and VueJS/NuxtJS',
-        byline: 'Cole Bremis',
-        path: '/talks/mdx-mdx-and-vuejs-nuxtjs',
-      },
-      {
-        title: 'Migrating to MDX',
-        byline: 'Monica Powell',
-        path: '/talks/mdx-migrating-to-mdx',
-      },
-      {
-        title: 'Personal Site Playground with MDX',
-        byline: 'Prince Wilson',
-        path: '/talks/mdx-personal-site-playgrounds-with-mdx',
-      },
-      {
-        title: 'The X in MDX',
-        byline: 'Rodrigo Pombo',
-        path: '/talks/mdx-the-x-in-mdx',
-      },
-      {
-        title: 'Digital Gardening with MDX Magic',
-        byline: 'Kathleen McMahon',
-        path: '/talks/mdx-digital-gardening-with-mdx-magic',
-      },
-    ],
   },
   {
     id: 'topics',

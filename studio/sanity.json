@@ -13,16 +13,19 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
+    "@sanity/vision",
     "@sanity/google-maps-input",
     "markdown",
     "graph-view",
     "content-calendar",
-    "dark-mode",
-    "nyancat-spinner"
+    "nyancat-spinner",
+    "asset-source-cloudinary",
+    "@sanity/code-input",
+    "autocomplete-tags"
   ],
   "env": {
     "development": {
-      "plugins": ["@sanity/vision", "json-to-docs"]
+      "plugins": ["json-to-docs"]
     }
   },
   "parts": [
