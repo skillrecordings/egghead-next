@@ -16,63 +16,52 @@ const SanityLoadingData = () => {
     async function run() {
       const data = await sanityClient.fetch(
         groq`
-          *[slug.current == $slug]{
+          *[slug.current == 'rad-css']{
+            name,
             title,
             description,
             summary,
             meta,
             challengeRating,
-            'image': externalPreviewImageUrl,
+            image,
             type,
             slug,
             content[] {
-                label,
+              label,
+              title,
+              ctas[] {
                 title,
-                ctas[] {
-                  title,
-                }
-              },
-            related[]->{
-              _id,
-              title, 
-              summary,
-              meta,
-              description,
-              'image': externalPreviewImageUrl,
-              type,
-              path
+              }
             },
             resources[]->{
               _id,
               title, 
               summary,
-              'image': externalPreviewImageUrl,
+              image,
               meta,
               description,
               type,
               path,
               collaborators[]->{
-              _id
+                _id
               },
               resources[]->{
-              _id,
-              title, 
-              summary,
-              meta,
-              description,
-              'image': externalPreviewImageUrl,
-              type,
-              path,
-              collaborators[]->{
                 _id,
-                person->{
-                  name
+                title, 
+                summary,
+                meta,
+                description,
+                image,
+                type,
+                path,
+                'instructor': collaborators[][0]->{
+                  _id,
+                  title,
+                  'name': person->name
                 }
-              }
             }
             }
           }[0]`,
-        {slug},
       )
 
       setData(data)
@@ -130,7 +119,7 @@ const SanityLoadingData = () => {
                           </a>
                         </Link>
                         <div className="text-sm text-gray-600">
-                          {get(first(resource.collaborators), 'person.name')}
+                          {get(first(resource.instructor), 'name')}
                         </div>
                       </div>
                     </li>
