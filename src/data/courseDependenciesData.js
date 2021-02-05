@@ -4,6 +4,322 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '348912',
+        type: 'playlist',
+        slug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuleCourse: true,
+        multiModuleLineheight: '45rem',
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `Thousands of people have used this multi-module course as an introduction to Tailwind CSS. It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        topics: [
+          'Get Tailwind CSS up and running in your project',
+          'Build complex application layouts with flexbox',
+          `Build accessible user interfaces following industry best practices`,
+          'Remove unused CSS from production builds to maximum performance',
+          'Use responsive utility variants to build adaptive user interfaces',
+          'Use utilities to style elements on hover, focus, and other states',
+          'Extend Tailwind with custom utility classes',
+          'Work with Tailwind CSS plugins',
+          'Customize Tailwind CSS to meet the needs of your design',
+          'Augment Tailwind CSS with JavaScript to make your designs interactive',
+        ],
+        quickFacts: [
+          'Utility classes create an API on top of what is already a declarative API (CSS itself)',
+          'Every utility class is reusable so you rarely need to write new CSS',
+          `Tailwind CSS makes easier to maintain a large CSS codebase `,
+          'Tailwind CSS uses a mobile first breakpoint system',
+          'Tailwind CSS is component-driven',
+          'Tailwind CSS is single source of truth for your CSS architecture',
+        ],
+        essentialQuestions: [
+          'How do you build visually consistent UIs?',
+          'What are the best practices for implementing design systems? ',
+          'What makes a project maintainable?',
+          'How much design CSS do I need to know?',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+
+      {
+        id: '340481',
+        type: 'playlist',
+        slug: 'introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+        moduleResource: true,
+        moduleLabel: 1,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Install Tailwind CSS in your project',
+          'Design with the utility first workflow',
+          'Use Tailwind CSS for responsive design',
+          'Extract Tailwind CSS component classes',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '340482',
+        type: 'playlist',
+        slug: 'design-and-implement-common-tailwind-components-8fbb9b19',
+        moduleResource: true,
+        moduleLabel: 2,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Style a Card Components',
+          'Style badges',
+          'Style SVG Icons',
+          'Style Images',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '340483',
+        type: 'playlist',
+        slug: 'build-a-responsive-navbar-with-tailwind-4d328a35',
+        moduleResource: true,
+        moduleLabel: 3,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Best practices for mobile-first UI development',
+          'Use the mobile first breakpoint system',
+          'Use responsive utility variant',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
+        id: '340484',
+        type: 'playlist',
+        slug: 'build-and-style-a-dropdown-in-tailwind-7f34fead',
+        moduleResource: true,
+        moduleLabel: 4,
+        totalCourseModules: 4,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+      `,
+          asOf: `2021-02-04`,
+        },
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuletitle: 'Design with Tailwind CSS Masterclass',
+        topics: [
+          'Build and style a static dropdown menu',
+          'Creating keyboard accessible components',
+          'Best practices for mobile-first UI development',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+        ],
+      },
+      {
         id: '418892',
         type: 'playlist',
         slug: 'introduction-to-cloudflare-workers-5aa3',
