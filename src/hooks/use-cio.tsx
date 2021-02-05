@@ -4,10 +4,12 @@ import {isEmpty, get} from 'lodash'
 import cookie from '../utils/cookies'
 import axios from 'axios'
 
+export const CIO_KEY = 'cio_id'
+
 export const cioIdentify = (id: string, options?: any) => {
-  if (id) {
+  if (id || options?.email) {
     window._cio.identify({
-      id,
+      ...(!!id && {id}),
       ...options,
     })
   }
@@ -31,10 +33,10 @@ export const CioProvider: React.FunctionComponent = ({children}) => {
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search)
-      const cioSubscriberId = get(queryParams, 'cio_id')
+      const cioSubscriberId = get(queryParams, CIO_KEY)
 
       if (!isEmpty(cioSubscriberId)) {
-        cookie.set('cio_id', cioSubscriberId)
+        cookie.set(CIO_KEY, cioSubscriberId)
         setTimeout(() => {
           window.history.replaceState(
             null,

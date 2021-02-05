@@ -18,6 +18,7 @@ import link from './link'
 import npmVersionedDependency from './npmVersionedDependency'
 import cta from './cta'
 import ctaPlug from './ctaPlug'
+import imageUrl from './image-url'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -36,6 +37,7 @@ export default createSchema({
     // The following are document types which will appear
     // in the studio.
     resource,
+    imageUrl,
     collaborator,
     person,
     npmDependency,

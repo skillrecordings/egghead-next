@@ -1,4 +1,3 @@
 {
-  "presets": ["next/babel", "@emotion/babel-preset-css-prop"],
-  "plugins": ["istanbul", "inline-react-svg"]
+  "extends": "../.babelrc"
 }
