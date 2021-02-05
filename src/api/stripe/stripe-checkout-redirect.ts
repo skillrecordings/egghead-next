@@ -41,14 +41,19 @@ const stripeCheckoutRedirect = async (
       },
     })
     .then(({data}) => {
-      stripePromise.then((stripe: any) => {
-        if (!stripe) throw new Error('Stripe not loaded 😭')
-        stripe
-          .redirectToCheckout({
-            sessionId: data.id,
-          })
-          .then((r: any) => console.log(r))
-      })
+      if (data.error) {
+        console.error(data.error)
+        throw new Error(data.error)
+      } else {
+        stripePromise.then((stripe: any) => {
+          if (!stripe) throw new Error('Stripe not loaded 😭')
+          stripe
+            .redirectToCheckout({
+              sessionId: data.id,
+            })
+            .then((r: any) => console.log(r))
+        })
+      }
     })
 }
 
