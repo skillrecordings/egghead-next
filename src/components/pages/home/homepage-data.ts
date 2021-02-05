@@ -27,7 +27,7 @@ const homepageData = [
 There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
       `,
     instructor: 'Ceora Ford',
-    instructor_path: '/q/resources-by-nader-dabit',
+    instructor_path: '/q/resources-by-ceora-ford',
     path:
       '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
     poster:
@@ -214,12 +214,11 @@ There are a number of tried and true methods that will allow you to learn more e
         path: '/courses/practical-git-for-everyday-professional-use',
       },
       {
-        title: 'Develop Accessible Web Apps with React',
-        byline: 'Erin Doyle・88m・Course',
+        title: 'Build an App with React Suspense',
+        byline: 'Michael Chan・1h 23m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
-
-        path: '/courses/develop-accessible-web-apps-with-react',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/399/full/React_Suspense_Final.png',
+        path: '/courses/build-an-app-with-react-suspense',
       },
       {
         title:
@@ -281,7 +280,6 @@ There are a number of tried and true methods that will allow you to learn more e
     id: 'aws',
     name: 'Amazon Web Services',
     title: 'Deep Dive into AWS 🤯',
-    path: '/playlists/react-state-management-in-2021-6732',
     description:
       'Amazon Web Services (AWS) has over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
     resources: [

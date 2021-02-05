@@ -38,7 +38,7 @@ const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden sm:p-5 p-4 ${
+      className={`bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden sm:p-8 p-5 ${
         className ? className : ''
       }`}
       {...restProps}

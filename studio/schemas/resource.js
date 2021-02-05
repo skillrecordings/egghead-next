@@ -18,6 +18,11 @@ export default {
       },
     },
     {
+      name: 'tags',
+      title: 'Tags',
+      type: 'tags',
+    },
+    {
       name: 'type',
       description: 'Resources have types that we can use to distinguish them.',
       title: 'Type',
@@ -52,6 +57,22 @@ export default {
           {
             title: 'landing page',
             value: 'landing-page',
+          },
+          {
+            title: 'feature',
+            value: 'feature',
+          },
+          {
+            title: 'video (Lesson)',
+            value: 'video',
+          },
+          {
+            title: 'podcast',
+            value: 'podcast',
+          },
+          {
+            title: 'talk',
+            value: 'talk',
           },
         ],
       },
