@@ -36,9 +36,13 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
       )
     } else {
       setIsError(false)
-      track('checkout: redirect to stripe', {priceId}).then(() =>
-        stripeCheckoutRedirect(priceId, email, stripeCustomerId, redirectURL),
-      )
+      track('checkout: redirect to stripe', {priceId})
+        .then(() =>
+          stripeCheckoutRedirect(priceId, email, stripeCustomerId, redirectURL),
+        )
+        .catch((error) => {
+          setIsError(error)
+        })
     }
   }
 

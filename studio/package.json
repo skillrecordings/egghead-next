@@ -33,7 +33,8 @@
     "sanity-plugin-graph-view": "^1.0.4",
     "sanity-plugin-json-to-docs": "^1.0.3",
     "sanity-plugin-markdown": "^1.0.1",
-    "sanity-plugin-nyancat-spinner": "^1.0.0"
+    "sanity-plugin-nyancat-spinner": "^1.0.0",
+    "speakingurl": "^14.0.1"
   },
   "devDependencies": {},
   "repository": {
