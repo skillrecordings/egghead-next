@@ -1766,6 +1766,13 @@ const courseDependencyData = (courseSlug) =>
           'reuse fields with fragments',
           'look at schema documentation in the GraphQL playground',
         ],
+        freshness: {
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            "This course is a must watch for anyone considering GraphQL.\n       You'll be introduced to all of the GraphQL specific jargon and be able to take this knowledge to \n          any application that is powered by GraphQL.",   
+          asOf: '2021-02-04',
+        },
       },
       {
         id: '231',
