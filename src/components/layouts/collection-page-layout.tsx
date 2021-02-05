@@ -539,29 +539,23 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               )}
               <LearnerRatings collection={course} />
 
-              {multiModuleCourse ? (
-                ''
-              ) : (
-                <>
-                  {!isEmpty(pairWithResources) && (
-                    <div className="my-12 md:flex hidden flex-col space-y-2">
-                      <h2 className="text-lg font-semibold mb-3">
-                        You might also like these resources:
-                      </h2>
-                      {pairWithResources.map((resource: any) => {
-                        return (
-                          <div key={resource.slug}>
-                            <CardHorizontal
-                              className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
-                              resource={resource}
-                              location={course.path}
-                            />
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
-                </>
+              {!isEmpty(pairWithResources) && (
+                <div className="my-12 md:flex hidden flex-col space-y-2">
+                  <h2 className="text-lg font-semibold mb-3">
+                    You might also like these resources:
+                  </h2>
+                  {pairWithResources.map((resource: any) => {
+                    return (
+                      <div key={resource.slug}>
+                        <CardHorizontal
+                          className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
+                          resource={resource}
+                          location={course.path}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
               )}
             </header>
           </div>
@@ -639,7 +633,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     className="bg-gray-200 dark:bg-gray-700 absolute"
                     // @ts-ignore
                     css={{
-                      left: '50px',
+                      left: '79px',
                       width: '1px',
                       height: multiModuleLineheight,
                       top: '8%',
@@ -655,8 +649,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                               <div className="flex-shrink-0 flex">
                                 <Image
                                   src={course.square_cover_url}
-                                  width={100}
-                                  height={100}
+                                  width={160}
+                                  height={160}
                                   layout="fixed"
                                   quality={100}
                                 />
@@ -830,29 +824,24 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </ul>
               </div>
             </section>
-            {multiModuleCourse ? (
-              ''
-            ) : (
-              <>
-                {!isEmpty(pairWithResources) && (
-                  <div className="my-12 flex md:hidden flex-col space-y-2">
-                    <h2 className="text-lg font-semibold mb-3">
-                      You might also like these resources:
-                    </h2>
-                    {pairWithResources.map((resource: any) => {
-                      return (
-                        <div key={resource.slug}>
-                          <CardHorizontal
-                            className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
-                            resource={resource}
-                            location={course.path}
-                          />
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-              </>
+
+            {!isEmpty(pairWithResources) && (
+              <div className="my-12 flex md:hidden flex-col space-y-2">
+                <h2 className="text-lg font-semibold mb-3">
+                  You might also like these resources:
+                </h2>
+                {pairWithResources.map((resource: any) => {
+                  return (
+                    <div key={resource.slug}>
+                      <CardHorizontal
+                        className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
+                        resource={resource}
+                        location={course.path}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
             )}
           </div>
         </div>
