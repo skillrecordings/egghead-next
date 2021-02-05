@@ -85,9 +85,7 @@ const SanityLoadingData = () => {
         <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
           <div className="flex-shrink-0">
             <Image
-              src={
-                'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/166/full/EGH_ReactAdvPatterns2_Final.png'
-              }
+              src={data.image}
               alt="illustration for state management in react"
               width={150}
               height={150}
