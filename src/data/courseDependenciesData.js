@@ -4,6 +4,57 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '348912',
+        type: 'playlist',
+        slug: 'design-with-tailwind-css-masterclass-f0db',
+        multiModuleCourse: true,
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This megacourse will give you a solid foundation to start developing applications with Tailwind CSS. 
+      `,
+          asOf: `2021-02-04`,
+        },
+        essentialQuestions: [
+          'What is serverless?',
+          'How does using a serverless solution enable me to focus more on my business?',
+          'What level of control do you need to build successful solutions?',
+        ],
+      },
+      {
+        id: '340481',
+        type: 'playlist',
+        slug:
+          'introduction-to-tailwind-and-the-utility-first-workflow-0b697b10',
+        moduleResource: true,
+        modulelabel: 1,
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+      },
+      {
+        id: '340482',
+        type: 'playlist',
+        slug: 'design-and-implement-common-tailwind-components-8fbb9b19',
+        moduleResource: true,
+        modulelabel: 2,
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+      },
+      {
+        id: '340483',
+        type: 'playlist',
+        slug: 'build-a-responsive-navbar-with-tailwind-4d328a35',
+        moduleResource: true,
+        modulelabel: 3,
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+      },
+      {
+        id: '340484',
+        type: 'playlist',
+        slug: 'build-and-style-a-dropdown-in-tailwind-7f34fead',
+        moduleResource: true,
+        modulelabel: 4,
+        multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
+      },
+      {
         id: '418892',
         type: 'playlist',
         slug: 'introduction-to-cloudflare-workers-5aa3',
