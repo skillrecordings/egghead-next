@@ -15,6 +15,7 @@ export type CardResource = {
   description?: string
   resources?: CardResource[]
   instructor?: any
+  background?: string
 }
 
 type CardProps = {

@@ -1,16 +1,10 @@
 import * as React from 'react'
-import sanityClient from '@sanity/client'
-import Image from 'next/image'
-import Card from '../../../pages/home/card'
-import Collection from '../../../pages/home/collection'
 
-const client = sanityClient({
-  projectId: 'sb1i5dlc',
-  dataset: 'production',
-  token: process.env.NEXT_PUBLIC_SANITY_PUBLIC_KEY,
-  withCredentials: true,
-  useCdn: false, // `false` if you want to ensure fresh data
-})
+import Image from 'next/image'
+import Card from 'components/pages/home/card'
+import Collection from 'components/pages/home/collection'
+import groq from 'groq'
+import {sanityClient} from 'utils/sanity-client'
 
 const SanityLoadingData = () => {
   const location = 'test'
@@ -18,59 +12,58 @@ const SanityLoadingData = () => {
   React.useEffect(() => {
     const slug = 'state-management-in-react'
     async function run() {
-      const data = await client.fetch(
-        `
-      *[slug.current == $slug]{
-        title,
-        description,
-        summary,
-        meta,
-        challengeRating,
-        'image': externalPreviewImageUrl,
-        type,
-        slug,
-        related[]->{
-          _id,
-          title, 
-          summary,
-          meta,
-          description,
-          'image': externalPreviewImageUrl,
-          type,
-          path
-        },
-        resources[]{
-          _id,
-          title, 
-          summary,
-          'image': externalPreviewImageUrl,
-          meta,
-          description,
-          type,
-          path,
-          related[]->{
-          _id,
-          title, 
-          summary,
-          meta,
-          description,
-          'image': externalPreviewImageUrl,
-          type,
-          path
-        },
-          resources[]{
-          _id,
-          title, 
-          summary,
-          'image': externalPreviewImageUrl,
-          meta,
-          description,
-          type,
-          path
-        }
-        }
-      }[0]
-  `,
+      const data = await sanityClient.fetch(
+        groq`
+          *[slug.current == $slug]{
+            title,
+            description,
+            summary,
+            meta,
+            challengeRating,
+            'image': externalPreviewImageUrl,
+            type,
+            slug,
+            related[]->{
+              _id,
+              title, 
+              summary,
+              meta,
+              description,
+              'image': externalPreviewImageUrl,
+              type,
+              path
+            },
+            resources[]{
+              _id,
+              title, 
+              summary,
+              'image': externalPreviewImageUrl,
+              meta,
+              description,
+              type,
+              path,
+              related[]->{
+              _id,
+              title, 
+              summary,
+              meta,
+              description,
+              'image': externalPreviewImageUrl,
+              type,
+              path
+            },
+              resources[]{
+              _id,
+              title, 
+              summary,
+              'image': externalPreviewImageUrl,
+              meta,
+              description,
+              type,
+              path
+            }
+            }
+          }[0]`,
         {slug},
       )
 
