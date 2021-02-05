@@ -28,6 +28,7 @@
     "lint": "eslint --ext ts --ext tsx --fix src/"
   },
   "dependencies": {
+    "@asbjorn/eslint-plugin-groq": "^1.0.0",
     "@emotion/babel-preset-css-prop": "^10.2.1",
     "@mdx-js/react": "^1.6.22",
     "@reach/dialog": "^0.13.0",
@@ -64,6 +65,7 @@
     "got": "^11.8.1",
     "graphql": "^15.4.0",
     "graphql-request": "^3.4.0",
+    "groq": "^2.2.6",
     "gsap": "^3.6.0",
     "honeycomb-beeline": "^2.6.0",
     "humanize-list": "^1.0.1",
