@@ -4,6 +4,56 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '418653',
+        type: 'playlist',
+        guid: '30a8',
+        slug: 'build-modern-layouts-with-css-grid-d3f5',
+        topics: [
+          'Grid is a set of intersecting horizontal and vertical lines defining columns and rows.',
+          'Elements can be placed onto the grid within these column and row lines',
+          'fr unit represents a fraction of the available space in the grid container',
+          'The implicit vs. explicit grid',
+          'Flexbox is one dimensional vs. CSS Grid is two dimensional.',
+        ],
+        pairWithResources: [
+          {
+            id: '227',
+            type: 'course',
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
+          },
+          {
+            id: '36',
+            type: 'course',
+            title: 'Flexbox Fundamentals',
+            byline: 'Garth Braithwaite・18m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
+            path: '/courses/flexbox-fundamentals',
+            slug: 'flexbox-fundamentals',
+            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+          },
+          {
+            id: '107',
+            type: 'course',
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/thumb/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
+          },
+        ],
+      },
+      {
         id: '348912',
         type: 'playlist',
         slug: 'design-with-tailwind-css-masterclass-f0db',
