@@ -21,30 +21,30 @@ const courseDependencyData = (courseSlug) =>
           'Build complex application layouts with flexbox',
           `Build accessible user interfaces following industry best practices`,
           'Removing unused CSS from production builds to maximum performance',
-          'Using responsive utility variants to build adaptive user interfaces',
-          'Using utilities to style elements on hover, focus, and other states',
-          'Extending Tailwind with custom utility classes',
+          'Use responsive utility variants to build adaptive user interfaces',
+          'Use utilities to style elements on hover, focus, and other states',
+          'Extend Tailwind with custom utility classes',
           'Work with Tailwind CSS plugins',
           'Customize Tailwind CSS to meet the needs of your design',
           'Augment Tailwind CSS with JavaScript to make your designs interactive',
         ],
         quickFacts: [
           'Utility classes create an API on top of what is already a declarative API (CSS itself)',
-          'With utilities, everything is reusable so you rarely need to write new CSS',
+          'Every utility class is reusable so you rarely need to write new CSS',
           `Tailwind CSS makes easier to maintain a large CSS codebase `,
           'Tailwind CSS uses a mobile first breakpoint system',
           'Tailwind CSS is component-driven',
           'Tailwind CSS is single source of truth for your CSS architecture',
         ],
         essentialQuestions: [
-          'What are the best practices for building visually consistent UIs??',
+          'How do you build visually consistent UIs?',
           'What are the best practices for implementing design systems? ',
-          'What are the best practices for keeping a project maintainable?',
+          'What makes a project maintainable?',
           'How much design CSS do I need to know?',
         ],
         pairWithResources: [
           {
-            id: '284646',
+            id: '227',
             type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
@@ -56,6 +56,7 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
+            id: '107',
             type: 'course',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
@@ -67,6 +68,7 @@ const courseDependencyData = (courseSlug) =>
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
+            id: '36',
             type: 'course',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
@@ -103,7 +105,7 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
-            id: '284646',
+            id: '227',
             type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
@@ -115,6 +117,7 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
+            id: '107',
             type: 'course',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
@@ -126,6 +129,7 @@ const courseDependencyData = (courseSlug) =>
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
+            id: '36',
             type: 'course',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
@@ -154,14 +158,14 @@ const courseDependencyData = (courseSlug) =>
         multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
         multiModuletitle: 'Design with Tailwind CSS Masterclass',
         topics: [
-          'Styling a Card Components',
-          'Styling badges',
-          'Styling SVG Icons',
-          'Styling Images',
+          'Style a Card Components',
+          'Style badges',
+          'Style SVG Icons',
+          'Style Images',
         ],
         pairWithResources: [
           {
-            id: '284646',
+            id: '227',
             type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
@@ -173,6 +177,7 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
+            id: '107',
             type: 'course',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
@@ -184,6 +189,7 @@ const courseDependencyData = (courseSlug) =>
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
+            id: '36',
             type: 'course',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
@@ -213,12 +219,12 @@ const courseDependencyData = (courseSlug) =>
         multiModuletitle: 'Design with Tailwind CSS Masterclass',
         topics: [
           'Best practices for mobile-first UI development',
-          'Using the mobile first breakpoint system',
-          'Using responsive utility variant',
+          'Use the mobile first breakpoint system',
+          'Use responsive utility variant',
         ],
         pairWithResources: [
           {
-            id: '284646',
+            id: '227',
             type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
@@ -230,6 +236,7 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
+            id: '107',
             type: 'course',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
@@ -241,6 +248,7 @@ const courseDependencyData = (courseSlug) =>
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
+            id: '36',
             type: 'course',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
@@ -275,7 +283,7 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
-            id: '284646',
+            id: '227',
             type: 'course',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
@@ -287,6 +295,7 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
+            id: '107',
             type: 'course',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
@@ -298,6 +307,7 @@ const courseDependencyData = (courseSlug) =>
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
+            id: '36',
             type: 'course',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
