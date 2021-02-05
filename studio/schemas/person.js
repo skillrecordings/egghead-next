@@ -1,4 +1,5 @@
 import UserIcon from 'part:@sanity/base/user-icon'
+import React from 'react'
 
 export default {
   name: 'person',
@@ -23,11 +24,8 @@ export default {
     },
     {
       name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
+      title: 'Image URL',
+      type: 'image-url',
     },
     {
       name: 'website',
@@ -41,6 +39,17 @@ export default {
     },
   ],
   preview: {
-    select: {title: 'name', media: 'image'},
+    select: {
+      title: 'name',
+      media: 'image.url',
+    },
+    prepare(selection) {
+      const {title, alt, media} = selection
+
+      return {
+        title: title,
+        media: <img src={media} alt={`${alt}`} />,
+      }
+    },
   },
 }

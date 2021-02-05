@@ -27,7 +27,7 @@ const homepageData = [
 There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
       `,
     instructor: 'Ceora Ford',
-    instructor_path: '/q/resources-by-nader-dabit',
+    instructor_path: '/q/resources-by-ceora-ford',
     path:
       '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
     poster:
@@ -214,12 +214,11 @@ There are a number of tried and true methods that will allow you to learn more e
         path: '/courses/practical-git-for-everyday-professional-use',
       },
       {
-        title: 'Develop Accessible Web Apps with React',
-        byline: 'Erin Doyle・88m・Course',
+        title: 'Build an App with React Suspense',
+        byline: 'Michael Chan・1h 23m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
-
-        path: '/courses/develop-accessible-web-apps-with-react',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/399/full/React_Suspense_Final.png',
+        path: '/courses/build-an-app-with-react-suspense',
       },
       {
         title:
@@ -281,7 +280,6 @@ There are a number of tried and true methods that will allow you to learn more e
     id: 'aws',
     name: 'Amazon Web Services',
     title: 'Deep Dive into AWS 🤯',
-    path: '/playlists/react-state-management-in-2021-6732',
     description:
       'Amazon Web Services (AWS) has over 165 services. Not sure where to start? Let these courses guide you through quickly getting up and running on AWS. ',
     resources: [
@@ -414,15 +412,35 @@ There are a number of tried and true methods that will allow you to learn more e
     description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
-    id: 'redux',
-    name: 'The Classic',
-    byline: 'Dan Abramov・2h 1m・Course',
-    description: `In this comprehensive course, Dan Abramov - the creator of Redux - will teach you how to manage state in your [React](/q/react) application with [Redux](/q/redux).`,
-    path: '/courses/getting-started-with-redux',
-    slug: 'getting-started-with-redux',
-    title: 'Getting Started with Redux',
+    id: 'tailwind',
+    name: 'Write Modern CSS',
+    byline: 'Adam Wathan・3h 4m・Course',
+    description: `In this multi-module course, Adam Wathan - the creator of Tailwind - will teach you how to style your applications with modern, sustainable patterns. Modules include: `,
+    path: '/playlists/design-with-tailwind-css-masterclass-f0db',
+    slug: 'design-with-tailwind-css-masterclass-f0db',
+    title: 'Design with Tailwind CSS Masterclass',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/025/thumb/EGH_Redux-New.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/348/912/full/tailwinds_masterclass_main_424_2x.png',
+    resources: [
+      {
+        title: 'Introduction to Tailwind and the Utility First Workflow',
+        path:
+          '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+      },
+      {
+        title: 'Design and Implement Common Tailwind Components',
+        path:
+          '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
+      },
+      {
+        title: 'Build a Responsive Navbar with Tailwind',
+        path: '/playlists/build-a-responsive-navbar-with-tailwind-4d328a35',
+      },
+      {
+        title: 'Build and Style a Dropdown in Tailwind',
+        path: '/playlists/build-and-style-a-dropdown-in-tailwind-7f34fead',
+      },
+    ],
   },
   {
     id: 'security',

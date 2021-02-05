@@ -5,6 +5,7 @@ import get from 'lodash/get'
 import cookie from './cookies'
 import * as serverCookie from 'cookie'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
+import {CIO_KEY} from '../hooks/use-cio'
 
 const http = axios.create()
 
@@ -89,7 +90,7 @@ export default class Auth {
         localStorage.setItem(VIEWING_AS_USER_KEY, get(user, 'email'))
 
         if (user.contact_id) {
-          cookie.set('cio_id', user.contact_id)
+          cookie.set(CIO_KEY, user.contact_id)
         }
 
         cookie.set(ACCESS_TOKEN_KEY, data.access_token.token, {
@@ -239,7 +240,7 @@ export default class Auth {
           }
           if (data) identify(data)
           if (data.contact_id) {
-            cookie.set('cio_id', data.contact_id)
+            cookie.set(CIO_KEY, data.contact_id)
           }
           localStorage.setItem(USER_KEY, JSON.stringify(data))
           resolve(data)

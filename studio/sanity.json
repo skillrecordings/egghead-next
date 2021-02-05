@@ -20,7 +20,8 @@
     "content-calendar",
     "nyancat-spinner",
     "asset-source-cloudinary",
-    "@sanity/code-input"
+    "@sanity/code-input",
+    "autocomplete-tags"
   ],
   "env": {
     "development": {

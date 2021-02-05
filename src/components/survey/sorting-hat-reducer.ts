@@ -3,19 +3,20 @@ import {CIOSubscriber} from 'hooks/use-cio'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
 
-const SORTING_HAT_FINISHED_KEY = `sorting_hat_finished_at`
 const DEFAULT_FIRST_QUESTION = `biggest_path`
 const DEFAULT_FINAL_QUESTION = `thanks`
 
-type SortingHatState = {
+export type SortingHatState = {
   subscriber?: CIOSubscriber
   question?: SurveyQuestion
+  data: any
   currentQuestionKey: string
   answers: any
   closed: boolean
+  surveyTitle: string
 }
 
-type SortingHatAction =
+export type SortingHatAction =
   | {type: 'load'; subscriber?: CIOSubscriber; loadingSubscriber: boolean}
   | {type: 'answered'; answer: any}
   | {type: 'closed'}
@@ -25,12 +26,15 @@ export const sortingHatInitialState: SortingHatState = {
   currentQuestionKey: DEFAULT_FIRST_QUESTION,
   answers: {},
   closed: true,
+  data: sortingHatData,
+  surveyTitle: 'sorting hat',
 }
 
 export const sortingHatReducer = (
   state: SortingHatState,
   action: SortingHatAction,
 ): SortingHatState => {
+  console.debug(state, action)
   try {
     switch (action.type) {
       case `load`:
@@ -38,7 +42,7 @@ export const sortingHatReducer = (
       case `answered`:
         return answerSurveyQuestion(action, state)
       case `closed`:
-        return closeSurvey(state)
+        return closeSurvey(action, state)
       case `dismiss`:
         return dismissSurvey(state)
       default:
@@ -49,8 +53,8 @@ export const sortingHatReducer = (
   } catch (error) {
     console.error(error.message)
     track(`survey error`, {
-      survey: 'sorting hat',
-      version: sortingHatData.version,
+      survey: state.surveyTitle,
+      version: state.data.version,
       url: window.location.toString(),
       error: error,
       state: state,
@@ -63,11 +67,14 @@ function loadSurvey(
   action: SortingHatAction,
   state: SortingHatState,
 ): SortingHatState {
-  const question: any = sortingHatData[state.currentQuestionKey]
+  console.debug(`load survey`, state)
+  const question: any = state.data[state.currentQuestionKey]
 
   function getInitialSurveyState(subscriber: CIOSubscriber): SortingHatState {
     const surveyIncomplete = isEmpty(
-      subscriber.attributes?.[SORTING_HAT_FINISHED_KEY],
+      subscriber.attributes?.[
+        `${state.surveyTitle.replace(' ', '_')}_finished_at`
+      ],
     )
     if (surveyIncomplete) {
       return initializeSurveyState(state, subscriber, question)
@@ -78,7 +85,7 @@ function loadSurvey(
 
   if (action.type === 'load' && action.subscriber) {
     const {subscriber} = action
-    cioIdentify(subscriber.id, state.answers)
+    cioIdentify(subscriber.id, state.answers, state)
     return getInitialSurveyState(subscriber)
   } else if (action.type === 'load' && !action.loadingSubscriber) {
     return {...state, closed: true}
@@ -92,12 +99,13 @@ function initializeSurveyState(
   subscriber: CIOSubscriber,
   question: SurveyQuestion,
 ) {
+  console.debug(`initializeSurveyState`, state)
   const answers = {
     ...state.answers,
     ...subscriber?.attributes,
   }
   const currentQuestionKey = getNextQuestionKey(
-    sortingHatData,
+    state.data,
     state.currentQuestionKey,
     answers,
   )
@@ -110,11 +118,11 @@ function initializeSurveyState(
   }
 }
 
-const cioIdentify = (id: string, answers: any) => {
+const cioIdentify = (id: string, answers: any, state: SortingHatState) => {
   if (id) {
     window._cio.identify({
       id,
-      sorting_hat_version: sortingHatData.version,
+      [`${state.surveyTitle.replace(' ', '_')}_version`]: state.data.version,
       ...answers,
     })
   }
@@ -124,7 +132,8 @@ function answerSurveyQuestion(
   action: SortingHatAction,
   state: SortingHatState,
 ) {
-  const question: any = sortingHatData[state.currentQuestionKey]
+  console.debug(`answerSurveyQuestion`, state)
+  const question: any = state.data[state.currentQuestionKey]
 
   if (action.type !== 'answered') return state
 
@@ -135,23 +144,38 @@ function answerSurveyQuestion(
     ...(!!action.answer && {[state.currentQuestionKey]: action.answer}),
   }
 
+  console.debug(subscriber, answers)
+
   if (subscriber) {
-    const nextQuestionKey = getNextQuestionKey(
-      sortingHatData,
-      question.next[action.answer],
-      {
-        ...answers,
-        ...subscriber?.attributes, // answers might be persisted on the CIO subscriber
-      },
-    )
     const attributes = getUpdatedAttributesForAnswer(
+      state,
       action,
       answers,
       subscriber,
       currentQuestionKey,
     )
 
-    return getStateForNextQuestion(state, answers, attributes, nextQuestionKey)
+    const isFinal = question.final
+
+    if (isFinal) {
+      return state
+    } else {
+      const nextQuestionKey = getNextQuestionKey(
+        state.data,
+        question.next[action.answer],
+        {
+          ...answers,
+          ...subscriber?.attributes, // answers might be persisted on the CIO subscriber
+        },
+      )
+
+      return getStateForNextQuestion(
+        state,
+        answers,
+        attributes,
+        nextQuestionKey,
+      )
+    }
   } else {
     return state
   }
@@ -175,20 +199,22 @@ const getNextQuestionKey = (
 }
 
 function getUpdatedAttributesForAnswer(
+  state: SortingHatState,
   action: SortingHatAction,
   answers: any,
   subscriber: CIOSubscriber,
   currentQuestionKey: string,
 ) {
-  const question: any = sortingHatData[currentQuestionKey]
+  console.debug(`getUpdatedAttributesForAnswer`, state)
+  const question: any = state.data[currentQuestionKey]
   const isFinal = question.final
   const now = Math.round(Date.now() / 1000)
   let attributes = subscriber?.attributes
 
   if (action.type === 'answered') {
     track(`answered survey question`, {
-      survey: 'sorting hat',
-      version: sortingHatData.version,
+      survey: state.surveyTitle,
+      version: state.data.version,
       question: currentQuestionKey,
       answer: action.answer,
       url: window.location.toString(),
@@ -196,30 +222,43 @@ function getUpdatedAttributesForAnswer(
   }
 
   if (isFinal) {
-    cioIdentify(subscriber.id, {
-      ...answers,
-      last_surveyed_at: now,
-      sorting_hat_finished_at: now,
-    })
+    cioIdentify(
+      subscriber.id,
+      {
+        ...answers,
+        last_surveyed_at: now,
+        [`${state.surveyTitle.replace(' ', '_')}_finished_at`]: now,
+      },
+      state,
+    )
     track(`finished survey`, {
-      survey: 'sorting hat',
-      version: sortingHatData.version,
+      survey: state.surveyTitle,
+      version: state.data.version,
       url: window.location.toString(),
     })
   } else {
-    cioIdentify(subscriber.id, answers)
+    cioIdentify(subscriber.id, answers, state)
   }
 
-  if (isEmpty(attributes?.sorting_hat_started_at)) {
-    cioIdentify(subscriber.id, {
-      sorting_hat_started_at: now,
-    })
+  if (
+    isEmpty(attributes?.[`${state.surveyTitle.replace(' ', '_')}_started_at`])
+  ) {
+    cioIdentify(
+      subscriber.id,
+      {
+        [`${state.surveyTitle.replace(' ', '_')}_started_at`]: now,
+      },
+      state,
+    )
     track(`started survey`, {
-      survey: 'sorting hat',
-      version: sortingHatData.version,
+      survey: state.surveyTitle,
+      version: state.data.version,
       url: window.location.toString(),
     })
-    attributes = {...attributes, sorting_hat_started_at: now}
+    attributes = {
+      ...attributes,
+      [`${state.surveyTitle.replace(' ', '_')}_started_at`]: now,
+    }
   }
   return attributes
 }
@@ -230,6 +269,7 @@ function getStateForNextQuestion(
   attributes: any,
   nextQuestionKey: string,
 ) {
+  console.debug(`getStateForNextQuestion`, state)
   return {
     ...state,
     answers,
@@ -238,32 +278,46 @@ function getStateForNextQuestion(
       ...attributes,
     },
     currentQuestionKey: nextQuestionKey,
-    question: sortingHatData[nextQuestionKey],
+    question: state.data[nextQuestionKey],
   }
 }
 
-function closeSurvey(state: SortingHatState) {
-  const question: any = sortingHatData[state.currentQuestionKey]
+function closeSurvey(action: SortingHatAction, state: SortingHatState) {
+  console.debug(`closeSurvey`, state)
+  const question: any = state.data[state.currentQuestionKey]
   if (state.subscriber && question.final) {
-    cioIdentify(state.subscriber.id, {
-      ...state.answers,
-      last_surveyed_at: Math.round(Date.now() / 1000),
-      sorting_hat_finished_at: Math.round(Date.now() / 1000),
-    })
+    cioIdentify(
+      state.subscriber.id,
+      {
+        ...state.answers,
+        last_surveyed_at: Math.round(Date.now() / 1000),
+        [`${state.surveyTitle.replace(' ', '_')}_finished_at`]: Math.round(
+          Date.now() / 1000,
+        ),
+      },
+      state,
+    )
   }
   return {...state, closed: true}
 }
 
 function dismissSurvey(state: SortingHatState) {
+  console.debug(`dismissSurvey`, state)
   if (state.subscriber) {
-    cioIdentify(state.subscriber.id, {
-      ...state.answers,
-      last_surveyed_at: Math.round(Date.now() / 1000),
-      sorting_hat_finished_at: Math.round(Date.now() / 1000),
-    })
+    cioIdentify(
+      state.subscriber.id,
+      {
+        ...state.answers,
+        last_surveyed_at: Math.round(Date.now() / 1000),
+        [`${state.surveyTitle.replace(' ', '_')}_finished_at`]: Math.round(
+          Date.now() / 1000,
+        ),
+      },
+      state,
+    )
     track(`dismissed survey`, {
-      survey: 'sorting hat',
-      version: sortingHatData.version,
+      survey: state.surveyTitle,
+      version: state.data.version,
       url: window.location.toString(),
     })
   }
