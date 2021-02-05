@@ -326,11 +326,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               )}
-              {multiModuleCourse && (
-                <h1 className="uppercase text-xs leading-loose font-semibold  text-teal-600 text-center mt-4 -mb-4 md:mb-0 md:mt-0 md:text-left">
-                  Multi-Module Course
-                </h1>
-              )}
+
               {moduleResource && (
                 <h1 className="text-base leading-loose text-center mt-4 -mb-4 md:mb-0 md:mt-0 md:text-left">
                   <Link href={multiModuleSlug}>
@@ -643,7 +639,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   {playlists.map((course: any) => {
                     return (
                       <ul key={course.slug}>
-                        <div className="py-10 max-w-max-content flex space-x-10">
+                        <div className="py-10 max-w-max-content flex space-x-10 items-center">
                           <Link href={course.path}>
                             <a>
                               <div className="flex-shrink-0 flex">
