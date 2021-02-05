@@ -20,7 +20,7 @@ const courseDependencyData = (courseSlug) =>
           'Get Tailwind CSS up and running in your project',
           'Build complex application layouts with flexbox',
           `Build accessible user interfaces following industry best practices`,
-          'Removing unused CSS from production builds to maximum performance',
+          'Remove unused CSS from production builds to maximum performance',
           'Use responsive utility variants to build adaptive user interfaces',
           'Use utilities to style elements on hover, focus, and other states',
           'Extend Tailwind with custom utility classes',
