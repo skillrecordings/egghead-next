@@ -47,6 +47,8 @@ export default class PathInput extends React.Component {
         : this.props.value?.current
     let finalSlug = curSlug || ''
 
+    console.log(curSlug)
+
     // Option that can be passed to this input component to format values on input
     const customFormat = this.props.type.options?.customFormat
     if (customFormat) {

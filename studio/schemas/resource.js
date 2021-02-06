@@ -252,6 +252,7 @@ export default {
       inputComponent: PathInput,
       options: {
         basePath: 'egghead.io',
+        formatSlug: false,
       },
     },
     {

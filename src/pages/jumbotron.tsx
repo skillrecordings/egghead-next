@@ -24,9 +24,12 @@ export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   const load = async () => {
     const data = await sanityClient.fetch(groq`
     *[slug.current == 'primary-jumbotron'][0]{
-      'title': resources[][0]->title,
-      'description': summary,
-      'byline': meta,
+      name,
+      title,
+      description,
+      summary,
+      byline, 
+      meta,
       path,
       'slug': resources[][0]->slug,
       'instructor': collaborators[][0]->{
