@@ -2,7 +2,7 @@ const typescriptPageData = [
   {
     id: 'beginner',
     title: 'Beginner',
-    name: 'Get Started',
+    name: 'The Fundamentals',
     resources: [
       {
         title: 'Up and Running with TypeScript',
@@ -12,7 +12,7 @@ const typescriptPageData = [
         byline: 'John Lindquist',
       },
       {
-        title: 'Use TypeScript to develop React Applications',
+        title: 'Use TypeScript to Develop React Applications',
         path: '/courses/use-typescript-to-develop-react-applications',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/162/thumb/EGH_ReactTS-01-02.png',
@@ -33,6 +33,14 @@ const typescriptPageData = [
     name: 'Beyond The Basics',
     resources: [
       {
+        title: 'Build Custom CLI Tooling with oclif and TypeScript',
+        path:
+          '/courses/build-custom-command-line-interface-cli-tooling-with-oclif-and-typescript',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/404/thumb/CustomCLIs.png',
+        byline: 'Shawn Wang',
+      },
+      {
         title: 'Async/Await using TypeScript',
         byline: 'Basarat Ali Syed',
         image:
@@ -46,13 +54,6 @@ const typescriptPageData = [
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/048/thumb/EGH_Typescript_Types.png',
         byline: 'Ari Picker',
       },
-      {
-        title: 'Build Algorithms using Typescript',
-        path: '/courses/build-algorithms-using-typescript',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/128/thumb/EGH_TS-Algorithms.png',
-        byline: 'Basarat Ali Syed',
-      },
     ],
   },
   {
@@ -61,20 +62,18 @@ const typescriptPageData = [
     name: 'For the Expert',
     resources: [
       {
-        title:
-          'Build Custom Command Line Interface (CLI) Tooling with oclif and TypeScript',
-        path:
-          '/courses/build-custom-command-line-interface-cli-tooling-with-oclif-and-typescript',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/404/thumb/CustomCLIs.png',
-        byline: 'Shawn Wang',
-      },
-      {
         title: 'Practical Advanced TypeScript',
         path: '/courses/practical-advanced-typescript',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/216/thumb/EGH_TSGuards_Final.png',
         byline: 'Rares Matei',
+      },
+      {
+        title: 'Build Algorithms using Typescript',
+        path: '/courses/build-algorithms-using-typescript',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/128/thumb/EGH_TS-Algorithms.png',
+        byline: 'Basarat Ali Syed',
       },
       {
         title: 'Advanced Static Types in TypeScript',
@@ -88,7 +87,7 @@ const typescriptPageData = [
   {
     id: 'playlists',
     title: 'Become Badass with TypeScript',
-    name: 'egghead playlists',
+    name: 'Favorites',
     resources: [
       {
         title:
@@ -152,7 +151,7 @@ const typescriptPageData = [
     title: 'Algorithms With TypeScript',
     name: 'Interview Prep',
     description:
-      "Programming interviews don't have to be terrifying! Whiteboard interviews can be a grab bag from lots of different algorithms and data structures. Learn the techniques to implement commonly asked interview questions using TypeScript and never be caught by surprise. ",
+      'Whiteboard interviews can be a grab bag from lots of different algorithms and data structures. Learn the techniques to implement commonly asked interview questions using TypeScript and never be caught by surprise. ',
     resources: [
       {
         title: 'Implement the Heapsort algorithm using TypeScript / JavaScript',
@@ -201,10 +200,10 @@ const typescriptPageData = [
   },
   {
     id: 'stateManagement',
-    name: 'State Management With TypeScript',
+    name: 'State Management',
     title: 'Predictable State Management with TypeScript',
     description:
-      'State management can be an issue with nearly every UI.  It becomes even more of an issue when your team has to guess what each part of the system needs! Use TypeScript to make your state management more predictable and easier to get up and running.',
+      'State management can be an issue with nearly every UI. It becomes even more of an issue when your team has to guess what each part of the system needs! Use TypeScript to improve the developer experience when managing application state. ',
     resources: [
       {
         title: 'Develop React Applications with Mobx and TypeScript',
@@ -226,7 +225,7 @@ const typescriptPageData = [
     id: 'design',
     title: 'Design',
     name: 'Build Interfaces',
-    description: `If you know TypeScript, you may think that it's only useful when it comes to writing logic. However, TypeScript can provide value on the layout of your UI as well! Learn how to write more maintainable CSS and to create scalable design systems for your UI.`,
+    description: `If you know TypeScript, you may think it's only useful for type checking. However, TypeScript can provide value on the layout of your UI as well! These courses will teach you how to write more maintainable CSS and create scalable design systems for your UI.`,
     resources: [
       {
         title: 'Design Systems with React and Typescript in Storybook',
