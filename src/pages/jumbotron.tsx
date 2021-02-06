@@ -23,26 +23,26 @@ export default Jumbotron
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   const load = async () => {
     const data = await sanityClient.fetch(groq`
-    *[slug.current == 'primary-jumbotron'][0]{
-      name,
-      title,
-      description,
-      summary,
-      byline, 
-      meta,
-      path,
-      'slug': resources[][0]->slug,
-      'instructor': collaborators[][0]->{
+      *[slug.current == 'primary-jumbotron-cloudflare-workers-intro'][0]{
+        name,
         title,
-        'slug': person->slug.current,
-        'name': person->name,
-        'path': person->website,
-        'twitter': person->twitter,
-        'image': person->image.url
-      },
-      'background': images[label == 'background'][0].url,
-      'image': images[label == 'badge'][0].url,
-    }
+        description,
+        summary,
+        byline, 
+        meta,
+        path,
+        'slug': resources[][0]->_id,
+        'instructor': collaborators[]->[role == 'instructor'][0]{
+          title,
+          'slug': person->slug.current,
+          'name': person->name,
+          'path': person->website,
+          'twitter': person->twitter,
+          'image': person->image.url
+        },
+        'background': images[label == 'background'][0].url,
+        'image': images[label == 'badge'][0].url,
+      }
   `)
     console.log(data)
     return data
