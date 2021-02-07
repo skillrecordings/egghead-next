@@ -18,18 +18,11 @@ export default ({children}) => (
   <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )
 
-<div className="prose-reset text-lg font-medium pb-8">
-  Data is the bedrock of most applications and challenging to get right. It's
-  vital for the long-term health of an application to have data that is
-  understandable, flexible, and relevant to users.
-
 This article discusses how we are reconsidering content modeling at a data level for egghead to allow for more flexible collaboration and design.
-
-</div>
 
 ## Where we were at when this started
 
-We have two APIs avilable that access the same underlying postgres database. One is a REST API that has nice hypermedia capabilities and is pretty slow built on top of jbuilder. The other is a well-formed GraphQL API that is much more performant and provides immediate and direct access to slices of the data we want.
+We have two APIs available that access the same underlying postgres database. One is a REST API that has nice hypermedia capabilities and is pretty slow built on top of jbuilder. The other is a well-formed GraphQL API that is much more performant and provides immediate and direct access to slices of the data we want.
 
 Both of these APIs are fairly 1:1 with the underlying database and define what I've come to look at as a "hyper specified" content model that got the job done, but has been a serious constraint that we've had to live with for many years 😅
 
@@ -39,26 +32,26 @@ The deeply technical API layer provides a massive barrier to entry, and because 
 
 ### Resources and Collections
 
-Wehn egghead was a sparkling fresh app I started out modeling what was obvious at the time.
+When egghead was a sparkling fresh app I started out modeling what was obvious at the time.
 
 - `Lessons`: people come to egghead to watch lessons, not videos.
-- `Series`: sometime people want to watch a series of lessons (not videos)
+- `Series`: sometimes people want to watch a series of lessons (not videos)
 
 Later we added `Playlists`, called them collections, and then decided that both a series and a playlist were actually courses. lol
 
-Fundamentally what we are dealing with are **resources** and **collections**, where a collection is just a resources with a list of other resources referenced.
+Fundamentally what we are dealing with are **resources** and **collections**, where a collection is just a resource with a list of other resources referenced.
 
 ## Where we want to be
 
-We want a to build [a digital garden](https://joelhooks.com/digital-garden). We want to curate, update, associate, and present relevant resources to users so that they can quickly find what they need and reach the outcomes they desire.
+We want to build [a digital garden](https://joelhooks.com/digital-garden). We want to curate, update, associate, and present relevant resources to users so that they can quickly find what they need and reach the outcomes they desire.
 
 For us, this requires a "metadata" layer that sits above the APIs without a rigid schema or the need for deep levels of technical know-how to operate.
 
 For years we've done this by creating various JavaScript/JSON data structures in flat files that get compiled in with the application.
 
-You can [see an example here where we keep various metadata about egghead courses](https://github.com/eggheadio/egghead-next/blob/83629b66ad705cc3a0224a54baa3aa3c8e755d9c/src/data/courseDependenciesData.js). Another example is [this one that decribes the data for our curated home page](https://github.com/eggheadio/egghead-next/blob/83629b66ad705cc3a0224a54baa3aa3c8e755d9c/src/components/pages/home/homepage-data.ts).
+You can [see an example here where we keep various metadata about egghead courses](https://github.com/eggheadio/egghead-next/blob/83629b66ad705cc3a0224a54baa3aa3c8e755d9c/src/data/courseDependenciesData.js). Another example is [this one that describes the data for our curated home page](https://github.com/eggheadio/egghead-next/blob/83629b66ad705cc3a0224a54baa3aa3c8e755d9c/src/components/pages/home/homepage-data.ts).
 
-This honestly isn't bad, but it's still tedious, error prone, and requires us to use IDEs as UI for updating content. Not ideal, but very flexible.
+This honestly isn't bad, but it's still tedious, error-prone, and requires us to use IDEs as UI for updating content. Not ideal, but very flexible.
 
 ## Content Modeling with Sanity.io
 
@@ -70,17 +63,17 @@ What first stands out to me about Sanity is that it installs into your project v
 
 Once I read the docs and started to explore the flexible potential it really clicked.
 
-The core atom of our emerging system is the `resource` type. You can see [how it eolved here on Github](https://github.com/eggheadio/egghead-next/commits/main/studio/schemas/resource.js) if you're interested.
+The core atom of our emerging system is the `resource` type. You can see [how it evolved here on Github](https://github.com/eggheadio/egghead-next/commits/main/studio/schemas/resource.js) if you're interested.
 
 A resource as a `type` property. It can describe any of the content types that we deal with at egghead, and we can always add additional types as needed. Types are resources like podcasts, videos, courses, collections, and features.
 
-We are able to sync our exiting database with Sanity, so all of the items that are in postgress are represented in Sanity. It could potentially replace a huge portion of our data needs, but for now we are keeping them sync'd manually.
+We are able to sync our existing database with Sanity, so all of the items that are in postgres are represented in Sanity. It could potentially replace a huge portion of our data needs, but for now, we are keeping them synced manually.
 
-### Modeling resources not layout
+### Modeling resources, not layout
 
-What's stood out as important for us is that we want to create a robust resource model that describes and augments core content. We want it to be flexible and longer lived than a typical layout and withstand heavy changes to design and presentation.
+What's stood out as important for us is that we want to create a robust resource model that describes and augments core content. We want it to be flexible and longer-lived than a typical layout and withstand heavy changes to design and presentation.
 
-We want our data to work in different contexts across our app (and beyond) so we are intentioanlly avoiding any layout concerns in the content model. The data describes what, not where, the content will ultimately be displayed.
+We want our data to work in different contexts across our app (and beyond) so we are intentionally avoiding any layout concerns in the content model. The data describes what, not where, the content will ultimately be displayed.
 
 This means that instead of modeling pages, we are describing content and layering on supporting assets and metadata that allow us to choose content that's appropriate and relevant, when and where you need it.
 
@@ -156,7 +149,7 @@ export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
 }
 ```
 
-This is getting better. It produces the same data structure, and <mark>we can now live update the header component inside of Sanity Studio</mark> and don't need to redeploy. While that is creating documents that are tied to specific pages, it isn't modeling data for layout and gives us a ton of flexibility.
+This is getting better. It produces the same data structure, and <mark>we can now live-update the header component inside of Sanity Studio</mark> and don't need to redeploy. While that is creating documents that are tied to specific pages, it isn't modeling data for layout and gives us a ton of flexibility.
 
 <Callout title="What the GROQ??">
 
@@ -210,15 +203,15 @@ const jumbotronQuery = groq`
 `
 ```
 
-This approach would allow me to add a strucured query to load the data for each section, feature, and call to action (CTA) on the home page of the site and give the team the ability to update, curate, and tend our collaborative digital community garden without requireing a deploy of th front end.
+This approach would allow me to add a structured query to load the data for each section, feature, and call to action (CTA) on the home page of the site and give the team the ability to update, curate, and tend our collaborative digital community garden without requiring a deploy of the front end.
 
 If we want to change the design or switch out the data we are loading, that starts to become simpler as well.
 
-We are able to layer assets on top of our resources with ease and allow our designers and editorial team members have more collaborative creative control over the resulting page.
+We are able to layer assets on top of our resources with ease and allow our designers and editorial team members to have more collaborative creative control over the resulting page.
 
 ## Where we are headed...
 
-This is a great start. Sanity has a lot of potential and we haven't even began to scratch the surface. We are going to be tuning our content model and importing more data first. Then we will start to explore Sanity's Structure Builder, which can be used to design content pipelines and workflows that give us even more flexibility in our digital gardening process.
+This is a great start. Sanity has a lot of potential and we haven't even begun to scratch the surface. We are going to be tuning our content model and importing more data first. Then we will start to explore Sanity's Structure Builder, which can be used to design content pipelines and workflows that give us even more flexibility in our digital gardening process.
 
 Having a bespoke, contextual, lovely content authoring tool at our disposal is exciting, and I'm looking forward to digging in more.
 
