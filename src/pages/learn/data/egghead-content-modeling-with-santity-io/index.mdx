@@ -9,7 +9,12 @@ export const meta = {
     path: '/q/resources-by-joel-hooks',
   },
   ogImage: {
-    url: `https://og-image-react-egghead.now.sh/article/Content%20Modeling%20and Data%20Design%20with%20Sanity.io?author=Joel%20Hooks&theme=dark&bgImage=https://res.cloudinary.com/dg3gyk0gu/image/upload/c_scale,h_906,w_1118/v1612660489/next.egghead.io/posts/Screen_Shot_2021-02-06_at_5.13.24_PM.jpg`,
+    url: `https://og-image-react-egghead.now.sh/article/Content%20Modeling%20and Data%20Design%20with%20Sanity.io?author=Joel%20Hooks&theme=dark&bgImage=https://res.cloudinary.com/dg3gyk0gu/image/upload/c_scale,w_1200/v1612730504/egghead-next-ebombs/egghead-content-modeling-with-santity-io/boxes.png`,
+  },
+  coverImage: {
+    url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/c_scale,w_1200/v1612730504/egghead-next-ebombs/egghead-content-modeling-with-santity-io/boxes.png',
+    alt: 'gradient rainbow of boxes representing data',
   },
 }
 
@@ -18,9 +23,19 @@ export default ({children}) => (
   <UltimateGuide meta={meta}>{children}</UltimateGuide>
 )
 
-This article discusses how we are reconsidering content modeling at a data level for egghead to allow for more flexible collaboration and design.
+<div className="prose-reset text-lg font-medium pb-8">
+  Reconsidering content modeling at a data level for egghead to allow for more{' '}
+  <mark>
+    flexible collaboration and design has been an ongoing, long-term challenge
+  </mark>
+  . Since migrating our primary UI to Next.js, features like serverless
+  functions and quick access to flexible server-side rendering have allowed us
+  to consider new options. One of the tools that we've chosen is sanity.io, a
+  content modeling and design service layer that helps us layer valuable
+  contextual metadata on top of our existing data model.
+</div>
 
-## Where we were were
+## Where we were
 
 We have two APIs available that access the same underlying postgres database. One is a REST API that has nice hypermedia capabilities and is pretty slow built on top of jbuilder. The other is a well-formed GraphQL API that is much more performant and provides immediate and direct access to slices of the data we want.
 
