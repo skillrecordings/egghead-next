@@ -2,6 +2,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from '@vercel/tracing-js'
+import {CIO_KEY} from '../../hooks/use-cio'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
@@ -11,7 +12,7 @@ const tracer = getTracer('topic-api')
 function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
-  const cioId = parsedCookie['cio_id'] || parsedCookie['_cioid'] || ''
+  const cioId = parsedCookie[CIO_KEY] || parsedCookie['_cioid'] || ''
   return {cioId, eggheadToken, loginRequired: eggheadToken.length <= 0}
 }
 

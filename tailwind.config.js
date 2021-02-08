@@ -86,6 +86,9 @@ module.exports = {
               borderLeftColor: theme('colors.gray.700'),
               color: theme('colors.gray.100'),
             },
+            h1: {
+              color: theme('colors.white'),
+            },
             'h2,h3,h4': {
               color: theme('colors.white'),
               'scroll-margin-top': spacing[32],

@@ -1,4 +1,5 @@
 import {MdGroup as icon} from 'react-icons/md'
+import React from 'react'
 
 export default {
   name: 'collaborator',
@@ -17,6 +18,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'role',
+      title: 'Role',
+      type: 'string',
+    },
+    {
       name: 'person',
       title: 'Person',
       type: 'reference',
@@ -32,16 +38,17 @@ export default {
   preview: {
     select: {
       title: 'title',
+      role: 'role',
       name: 'person.name',
       department: 'department',
-      media: 'person.image',
+      media: 'person.image.url',
     },
     prepare(selection) {
-      const {name, title, department, media} = selection
+      const {name, title, department, media, role} = selection
       return {
-        title,
-        subtitle: `${name} • ${department}`,
-        media,
+        title: `${name}${title ? ` • ${title}` : ''}`,
+        subtitle: `${role}${department ? ` • ${department}` : ''}`,
+        media: <img src={media} alt={`${name}`} />,
       }
     },
   },

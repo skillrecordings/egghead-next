@@ -10,6 +10,7 @@ const ExternalTrackedLink: React.FunctionComponent<any> = ({
   params,
   label,
   children,
+  onClick = () => {},
   ...props
 }) => {
   const handleClick = (event: any) => {
@@ -31,8 +32,17 @@ const ExternalTrackedLink: React.FunctionComponent<any> = ({
       event.stopPropagation()
 
       if (eventName) {
-        track(eventName, params, updateLocation)
+        track(eventName, params).then(() => {
+          if (isFunction(onClick)) {
+            onClick()
+          }
+
+          updateLocation()
+        })
       } else {
+        if (isFunction(onClick)) {
+          onClick()
+        }
         updateLocation()
       }
       return false

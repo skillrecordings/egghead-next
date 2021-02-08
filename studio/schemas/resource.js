@@ -1,5 +1,6 @@
 import {MdKitchen as icon} from 'react-icons/md'
 import React from 'react'
+import PathInput from './components/path-input'
 
 export default {
   name: 'resource',
@@ -7,15 +8,43 @@ export default {
   description: 'Almost anything, really.',
   type: 'document',
   icon,
+  fieldsets: [
+    {
+      name: 'relatedContent',
+      title: 'Related Content',
+      description: 'Usually you want to add to resources, but sometimes not.',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+    },
+  ],
   fields: [
     {
       name: 'title',
+      description: 'the H1',
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required().max(90),
       options: {
         maxLength: 90,
       },
+    },
+    {
+      name: 'name',
+      description:
+        'Usually internal, but not always. Maybe for a collection or landing page.',
+      title: 'Name',
+      type: 'string',
+      validation: (Rule) => Rule.max(90),
+      options: {
+        maxLength: 90,
+      },
+    },
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'tags',
     },
     {
       name: 'type',
@@ -52,6 +81,22 @@ export default {
           {
             title: 'landing page',
             value: 'landing-page',
+          },
+          {
+            title: 'feature',
+            value: 'feature',
+          },
+          {
+            title: 'video (Lesson)',
+            value: 'video',
+          },
+          {
+            title: 'podcast',
+            value: 'podcast',
+          },
+          {
+            title: 'talk',
+            value: 'talk',
           },
         ],
       },
@@ -140,8 +185,18 @@ export default {
       },
     },
     {
+      name: 'byline',
+      description: 'Who is it by?',
+      title: 'Byline',
+      type: 'string',
+      validation: (Rule) => Rule.max(90),
+      options: {
+        maxLength: 90,
+      },
+    },
+    {
       name: 'meta',
-      description: 'A byline or bit of descriptive text.',
+      description: 'A bit of descriptive text.',
       title: 'Meta',
       type: 'string',
       validation: (Rule) => Rule.max(90),
@@ -191,32 +246,14 @@ export default {
     },
     {
       name: 'path',
-      description: 'Path on egghead.io (if applicable)',
+      description: "Path on egghead.io. Don't forget the /",
       title: 'egghead.io/ Path',
       type: 'string',
-    },
-
-    {
-      name: 'bigIdeas',
-      title: 'Big Ideas',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'bigIdea'}],
-        },
-      ],
-    },
-    {
-      name: 'essentialQuestions',
-      title: 'Essential Questions',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'essentialQuestion'}],
-        },
-      ],
+      inputComponent: PathInput,
+      options: {
+        basePath: 'egghead.io',
+        formatSlug: false,
+      },
     },
     {
       name: 'externalPreviewImageUrl',
@@ -225,11 +262,24 @@ export default {
       type: 'url',
     },
     {
+      name: 'image',
+      description: 'Links to the primary image',
+      title: 'Image Url',
+      type: 'url',
+    },
+    {
       name: 'urls',
       description: 'Links to things.',
       title: 'External URLs',
       type: 'array',
       of: [{type: 'link'}],
+    },
+    {
+      name: 'images',
+      description: 'Links to image.',
+      title: 'Images (URLs)',
+      type: 'array',
+      of: [{type: 'image-url'}],
     },
     {
       name: 'collaborators',
@@ -244,7 +294,6 @@ export default {
         },
       ],
     },
-
     {
       name: 'staffReviews',
       title: 'Freshness Reviews',
@@ -260,19 +309,6 @@ export default {
       of: [{type: 'string'}],
     },
     {
-      name: 'projects',
-      description: 'Related Project Resources',
-      title: 'Projects',
-      type: 'array',
-      of: [
-        {type: 'link'},
-        {
-          type: 'reference',
-          to: [{type: 'resource'}],
-        },
-      ],
-    },
-    {
       name: 'npmDependencies',
       description: 'Versioned Dependencies from npm',
       title: 'NPM Dependencies',
@@ -280,62 +316,6 @@ export default {
       of: [
         {
           type: 'npmVersionedDependency',
-        },
-      ],
-    },
-    {
-      name: 'related',
-      description: 'Stuff that pairs well with this resource. Watch next?',
-      title: 'Related Resources',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'resource'}],
-        },
-      ],
-    },
-    {
-      name: 'prerequisites',
-      description: 'Resources that would be good to watch first.',
-      title: 'Prerequisite Resources',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              title: 'Type of Resource',
-              type: 'string',
-              name: 'type',
-            },
-            {
-              title: 'Label',
-              type: 'string',
-              name: 'label',
-            },
-            {
-              title: 'Value',
-              type: 'string',
-              name: 'value',
-            },
-          ],
-        },
-        {
-          type: 'reference',
-          to: [{type: 'resource'}],
-        },
-      ],
-    },
-    {
-      name: 'nextSteps',
-      description: 'Resources that would be good to watch next.',
-      title: 'Next Step Resources',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'resource'}],
         },
       ],
     },
@@ -348,6 +328,85 @@ export default {
       of: [
         {
           type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'projects',
+      description: 'Related Project Resources',
+      title: 'Projects',
+      fieldset: 'relatedContent',
+      type: 'array',
+      of: [
+        {type: 'link'},
+        {
+          type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'related',
+      description: 'Stuff that pairs well with this resource. Watch next?',
+      title: 'Related Resources',
+      fieldset: 'relatedContent',
+      type: 'array',
+      of: [
+        {
+          type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'prerequisites',
+      description: 'Resources that would be good to watch first.',
+      title: 'Prerequisite Resources',
+      fieldset: 'relatedContent',
+      type: 'array',
+      of: [
+        {
+          type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'nextSteps',
+      description: 'Resources that would be good to watch next.',
+      title: 'Next Step Resources',
+      type: 'array',
+      fieldset: 'relatedContent',
+      of: [
+        {
+          type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
         },
       ],
     },
@@ -355,16 +414,17 @@ export default {
   preview: {
     select: {
       title: 'title',
+      name: 'name',
       meta: 'meta',
       media: 'previewImage',
       externalPreviewImageUrl: 'externalPreviewImageUrl',
       type: 'type',
     },
     prepare(selection) {
-      const {title, meta, type, media, externalPreviewImageUrl} = selection
+      const {title, name, type, media, externalPreviewImageUrl} = selection
 
       return {
-        title: title,
+        title: name || title,
         subtitle: type,
         media: externalPreviewImageUrl ? (
           <img src={externalPreviewImageUrl} alt={`${title} movie poster`} />
