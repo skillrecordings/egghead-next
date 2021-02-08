@@ -118,10 +118,15 @@ const State: FunctionComponent<{state: string}> = ({state}) => {
     case 'draft':
       return (
         <div className="px-3 py-1 rounded-lg bg-yellow-100 dark:text-gray-900 inline-block mb-2 text-sm font-semibold">
-          Draft
+          {state}
         </div>
       )
-
+    case 'notes':
+      return (
+        <div className="px-3 py-1 rounded-lg bg-green-100 dark:text-gray-900 inline-block mb-2 text-sm font-semibold">
+          {state}
+        </div>
+      )
     default:
       return null
   }

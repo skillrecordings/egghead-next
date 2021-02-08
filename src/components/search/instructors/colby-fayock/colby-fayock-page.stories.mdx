@@ -1,0 +1,25 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import SearchColbyFayock from './index'
+
+<Meta title="components/search/instructors/colby-fayock" />
+
+# Curated Landing Page
+
+<Canvas>
+  <Story name="Default">
+    <div className="bg-gray-100 p-5">
+      <SearchColbyFayock
+        instructor={{
+          id: 32,
+          full_name: 'Colby Fayock',
+          avatar_url:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
+          slug: 'colby-fayock',
+          bio_short: `Colby helps others learn by doing through articles, videos, and courses about Javascript, React, and the static web. I'm a Lead UX & Front End Engineer passionate about tackling challenges that can help save people’s lives and make the world a better place.`,
+          twitter: 'colbyfayock',
+          website: 'https://www.colbyfayock.com/',
+        }}
+      />
+    </div>
+  </Story>
+</Canvas>

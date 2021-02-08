@@ -9,11 +9,8 @@ import {
 test('Builds a Title Based on single Tag', () => {
   const tag = `Typescript`
   const title = titleFromPath([tag])
-  const count = config.searchResultCount
 
-  expect(title).toBe(
-    `${count}+ ${tag} Resources for Web Developers in ${new Date().getFullYear()}`,
-  )
+  expect(title).toBe(`Learn ${tag}`)
 })
 
 test('Builds a Title Based on single Tag and Instructor', () => {
