@@ -41,7 +41,7 @@ import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import Comment from 'components/pages/lessons/comment'
+import Comment from 'components/pages/lessons/comments/comment'
 import CodeLink, {
   IconCode,
   IconGithub,
@@ -771,15 +771,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </>
               )}
               <Tabs
-                defaultIndex={
-                  defaultView === 'comments' && commentsAvailable ? 1 : 0
-                }
+                index={defaultView === 'comments' ? 1 : 0}
                 onChange={(index) => {
                   setPlayerPrefs({
-                    defaultView:
-                      index === 1 && commentsAvailable
-                        ? 'comments'
-                        : 'transcript',
+                    defaultView: index === 1 ? 'comments' : 'transcript',
                   })
                 }}
               >

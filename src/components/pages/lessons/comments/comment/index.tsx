@@ -1,6 +1,7 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import friendlyTime from 'friendly-time'
+import Image from 'next/image'
 
 type CommentProps = {
   comment: string
@@ -30,31 +31,33 @@ const Comment: React.FunctionComponent<CommentProps> = ({
     <div className="flex">
       {user.avatar_url && (
         <div className="flex-shrink-0 mr-3 sm:mr-4">
-          <img
+          <Image
+            width={48}
+            height={48}
             src={user.avatar_url}
             alt={user.full_name}
-            className="rounded-full w-10 mt-0"
+            className="rounded-full border-2 border-gray-100 dark:border-gray-700"
           />
         </div>
       )}
       <div>
-        <div className="flex items-baseline text-sm md:text-base">
-          <div className="flex items-center flex-wrap flex-grow">
-            <span className="font-semibold mr-2 text-black dark:text-white">
+        <div className="flex items-baseline text-sm md:text-base sm:flex-row flex-col">
+          <div className="flex  items-baseline ">
+            <span className="font-semibold text-black dark:text-white">
               {user.full_name}
             </span>
             {isCommentableOwner && (
-              <span className="text-green-500 text-sm whitespace-nowrap">
-                (instructor)
+              <span className="text-green-600 text-sm whitespace-nowrap ml-1">
+                instructor
               </span>
             )}
           </div>
-          <div className="ml-2 sm:ml-3 whitespace-nowrap text-xs sm:text-sm text-gray-600 dark:text-gray-500">
+          <div className="sm:ml-2 whitespace-nowrap text-xs text-gray-400 dark:text-gray-500">
             ~ {friendlyTime(new Date(createdAt))}
           </div>
         </div>
         <div
-          className="mt-2 sm:mt-3 prose dark:prose-dark"
+          className="prose dark:prose-dark leading-tight sm:mt-0 mt-2"
           css={{
             '> :first-child': {marginTop: 0},
             '> :last-child': {marginBottom: 0},

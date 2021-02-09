@@ -1,0 +1,44 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import Comment from './index'
+
+export const comment = {
+  comment: 'Lorem ipsum dolor sit amet.',
+  commentable_id: '6273',
+  commentable_type: 'Lesson',
+  created_at: '2020-05-18T08:16:27-05:00',
+  hide_url: null,
+  id: '22729',
+  is_commentable_owner: true,
+  prompt: null,
+  restore_url: null,
+  state: 'published',
+  title: '',
+  update_comment_url: null,
+  user: {
+    avatar_url:
+      '//gravatar.com/avatar/c1c563b36d23e34002036e1de405f9ca.png?s=128&d=mp',
+    full_name: 'Kent C. Dodds',
+    instructor: {
+      first_name: 'Kent C.',
+    },
+  },
+}
+
+<Meta title="Components/Lessons/Comments/Comment" />
+
+# `Comment` component
+
+<Canvas>
+  <Story name="Default">
+    <div className="dark:bg-gray-900 p-5">
+      <Comment
+        key={comment.id}
+        comment={comment.comment}
+        state={comment.state}
+        createdAt={comment.created_at}
+        isCommentableOwner={comment.is_commentable_owner}
+        user={comment.user}
+      />
+    </div>
+  </Story>
+</Canvas>
