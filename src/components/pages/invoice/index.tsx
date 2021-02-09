@@ -1,13 +1,17 @@
 import * as React from 'react'
 import Eggo from '../../images/eggo.svg'
 import {useLocalStorage} from 'react-use'
-import {format, parseISO} from 'date-fns'
+import {format} from 'date-fns'
 
 type InvoiceProps = {
   viewer: any
+  transaction: any
 }
 
-const Invoice: React.FunctionComponent<InvoiceProps> = ({viewer}) => {
+const Invoice: React.FunctionComponent<InvoiceProps> = ({
+  viewer,
+  transaction,
+}) => {
   const [invoiceInfo, setInvoiceInfo] = useLocalStorage('invoice-info', '')
   return (
     <div className="max-w-screen-md mx-auto pb-16">
@@ -47,11 +51,14 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({viewer}) => {
           <div className="grid grid-cols-3 pb-64">
             <div className="col-span-2">
               <h5 className="text-2xl font-bold mb-2">Invoice</h5>
-              Invoice ID: <strong>{viewer.subscription.id}</strong>
+              Invoice ID: <strong>{transaction.transaction.source.id}</strong>
               <br />
               Created:{' '}
               <strong>
-                {format(parseISO(viewer.subscription.created_at), 'yyyy/MM/dd')}
+                {format(
+                  new Date(transaction.transaction.created * 1000),
+                  'yyyy/MM/dd',
+                )}
               </strong>
             </div>
             <div className="pt-13">
@@ -84,36 +91,36 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({viewer}) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="table-row">
-                <td>
-                  {viewer.subscription.title} (from{' '}
-                  {format(parseISO(viewer.subscription.created_at), 'MMM do y')}{' '}
-                  to{' '}
-                  {format(parseISO(viewer.subscription.end_date), 'MMM do y')})
-                </td>
-                <td>
-                  USD{' '}
-                  {viewer.subscription.price /
-                    (viewer.subscription.quantity || 1)}
-                  .00
-                </td>
-                <td>{viewer.subscription.quantity || 1}</td>
-                <td className="text-right">
-                  {viewer.subscription.price === null
-                    ? `USD 0.00`
-                    : `USD ${viewer.subscription.price}.00`}
-                </td>
-              </tr>
+              {transaction.lineItems.map((lineItem: any) => {
+                return (
+                  <tr className="table-row" key={lineItem.id}>
+                    <td>{lineItem.description}</td>
+                    <td>
+                      USD {(lineItem.price.unit_amount / 100.0).toFixed(2)}
+                    </td>
+                    <td>{lineItem.quantity || 1}</td>
+                    <td className="text-right">
+                      {lineItem.amount === null
+                        ? `USD 0.00`
+                        : `USD ${(lineItem.amount / 100.0).toFixed(2)}`}
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
           <div className="flex flex-col items-end py-16">
             <div>
               <span className="mr-3">Total</span>
-              <strong>USD {viewer.subscription.price}.00</strong>
+              <strong>
+                USD {(transaction.transaction.amount / 100.0).toFixed(2)}
+              </strong>
             </div>
             <div className="font-bold">
               <span className="mr-3 text-lg">Amount Due</span>
-              <strong>USD {viewer.subscription.price}.00</strong>
+              <strong>
+                USD {(transaction.transaction.amount / 100.0).toFixed(2)}
+              </strong>
             </div>
           </div>
         </div>
