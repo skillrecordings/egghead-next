@@ -1,6 +1,5 @@
 // from: https://github.com/silviapfeiffer/silviapfeiffer.github.io/blob/master/index.html
 export function convert(srt) {
-  var srt = input.value
   var webvtt = srt2webvtt(srt)
   return '<textarea rows=20 cols=80>' + webvtt + '</textarea>'
 }
