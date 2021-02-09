@@ -4,8 +4,8 @@ import {useLocalStorage} from 'react-use'
 import {format} from 'date-fns'
 
 type InvoiceProps = {
-  viewer?: any
-  transaction?: any
+  viewer: any
+  transaction: any
 }
 
 const Invoice: React.FunctionComponent<InvoiceProps> = ({
