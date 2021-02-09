@@ -34,13 +34,6 @@ const reactPageData = [
     name: 'Hitting Your Stride',
     resources: [
       {
-        title: 'VR Applications using React 360',
-        path: '/courses/vr-applications-using-react-360',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/272/full/React360-final.png',
-        byline: 'Tomasz łakomy',
-      },
-      {
         title: 'Shareable Custom Hooks in React',
         path: '/courses/shareable-custom-hooks-in-react',
         image:
@@ -53,6 +46,13 @@ const reactPageData = [
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/full/EGH_SimplifyHooks_Final.png',
         byline: 'Kent C. Dodds',
+      },
+      {
+        title: 'Reusable State and Effects with React Hooks',
+        path: '/courses/reusable-state-and-effects-with-react-hooks',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/264/square_480/EGH_ReactHooks_Final_%281%29.png',
+        byline: 'Elijah Manor',
       },
     ],
   },
