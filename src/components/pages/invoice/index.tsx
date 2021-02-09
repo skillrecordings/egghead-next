@@ -96,7 +96,11 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
                   <tr className="table-row" key={lineItem.id}>
                     <td>{lineItem.description}</td>
                     <td>
-                      USD {(lineItem.price.unit_amount / 100.0).toFixed(2)}
+                      USD{' '}
+                      {(
+                        (lineItem.price?.unit_amount || lineItem.plan?.amount) /
+                        100.0
+                      ).toFixed(2)}
                     </td>
                     <td>{lineItem.quantity || 1}</td>
                     <td className="text-right">
