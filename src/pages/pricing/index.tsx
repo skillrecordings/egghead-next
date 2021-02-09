@@ -86,7 +86,7 @@ const Pricing: FunctionComponent<PricingProps> = ({redirectURL}) => {
               {!viewer?.is_pro && !viewer?.is_instructor && (
                 <>
                   <p className="text-lg leading-6 font-medium dark:text-gray-100 text-gray-900">
-                    One low price...
+                    Relaunch Special Pricing for New Members
                   </p>
                   <div className="mt-4 flex items-center justify-center text-3xl md:text-5xl leading-none font-extrabold text-gray-900 dark:text-gray-100">
                     {prices.annualPrice ? (
