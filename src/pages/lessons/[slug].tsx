@@ -435,13 +435,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   minHeight: 'calc(100vw / 1.77777)',
                   [bpMinSM]: {
                     minHeight: 'auto',
-                    maxHeight: 'calc(100% / 1.77777)',
+                    // maxHeight: 'calc(100% / 1.77777)',
                   },
                 }}
               >
                 <div
-                  // className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
-                  className="block"
+                  className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
                 >
                   <EggheadPlayer
                     id="egghead-player"
