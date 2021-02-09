@@ -1,6 +1,5 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
-import SearchCSS from './index'
-import SanityLoadingData from './sanity-loading-data'
+import CuratedCSSResources from './index'
 
 <Meta title="components/search/curated/css" />
 
@@ -8,13 +7,8 @@ import SanityLoadingData from './sanity-loading-data'
 
 <Canvas>
   <Story name="Default">
-    <div className="bg-gray-100 p-5">
-      <SearchCSS />
-    </div>
-  </Story>
-  <Story name="Sanity">
-    <div className="bg-gray-100 p-5">
-      <SanityLoadingData />
+    <div className="dark:bg-gray-900 bg-gray-100 p-5">
+      <CuratedCSSResources />
     </div>
   </Story>
 </Canvas>

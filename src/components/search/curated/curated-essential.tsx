@@ -48,7 +48,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   const advanced: any = find(pageData, {id: 'advanced'})
 
   return (
-    <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+    <div className="sm:pb-8 pb-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
         description={description}
         title={title}
@@ -70,7 +70,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 sm:gap-8 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
           title={topic.label}
