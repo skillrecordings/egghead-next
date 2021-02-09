@@ -440,7 +440,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 }}
               >
                 <div
-                  className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
+                  // className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
+                  className="block"
                 >
                   <EggheadPlayer
                     id="egghead-player"
