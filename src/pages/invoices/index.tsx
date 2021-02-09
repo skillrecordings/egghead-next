@@ -28,18 +28,18 @@ const Invoices: React.FunctionComponent<any> = () => {
         {transactionsLoading ? (
           <div></div>
         ) : (
-          <div className="max-w-screen-md mx-auto flex flex-col space-y-8">
+          <div className="max-w-screen-md mx-auto">
             {isEmpty(transactions) ? (
               <h1 className="text-2xl font-bold">No Transactions</h1>
             ) : (
-              <div>
+              <div className="flex flex-col space-y-8">
                 <h1 className="text-2xl font-bold">Transactions:</h1>
                 <div>
-                  <ul>
+                  <ul className="space-y-6">
                     {transactions.map((transaction: any) => {
                       return (
                         <li key={transaction.stripe_transaction_id}>
-                          <div className="flex space-x-2">
+                          <div className="flex space-x-4">
                             <div>
                               egghead membership: ${transaction.amount / 100}
                             </div>
