@@ -114,6 +114,8 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+            <LevelUpCTA className="sm:py-3 py-2 h-full flex flex-col justify-between" />
+
             <Card resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
@@ -131,15 +133,7 @@ const Home: FunctionComponent = () => {
               </ol>
             </Card>
 
-            <LevelUpCTA
-              className="sm:py-3 py-2 h-full flex flex-col justify-between"
-              alternative={
-                <CardVerticalWithStack
-                  className="sm:py-3 py-2"
-                  data={getStarted}
-                />
-              }
-            />
+            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
 
             <CardVerticalWithStack data={devEssentials} />
 

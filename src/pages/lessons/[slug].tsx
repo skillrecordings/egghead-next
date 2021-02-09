@@ -50,6 +50,7 @@ import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
 import {convertTimeWithTitles} from '../../utils/time-utils'
+import LevelUpCTA from '../../components/survey/level-up-cta'
 
 const tracer = getTracer('lesson-page')
 
@@ -637,7 +638,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           >
             <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
               <div className="space-y-4">
-                <SortingHat />
+                <LevelUpCTA />
                 {title && (
                   <h1 className="font-extrabold tracking-tight leading-tighter text-xl lg:text-3xl">
                     {title}
