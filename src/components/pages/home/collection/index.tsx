@@ -23,11 +23,11 @@ const Collection: FunctionComponent<CollectionProps> = ({
   return (
     <ul>
       {map(resources, (resource) => {
-        const {title, path, image, byline} = resource
+        const {title, path, image} = resource
         const getImageSize = (image: string) => {
           return image.includes('tags') ? 32 : 50
         }
-
+        const byline = resource.byline || resource?.instructor?.name
         return (
           <li
             key={resource.path}

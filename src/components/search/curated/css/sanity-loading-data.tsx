@@ -18,14 +18,6 @@ export default function LoadDataFromSanity() {
           meta,
           image,
           path,
-          'instructor': collaborators[]->[role == 'instructor'][0]{
-            title,
-            'slug': person->slug.current,
-            'name': person->name,
-            'path': person->website,
-            'twitter': person->twitter,
-            'image': person->image.url
-          },
           resources[]->{
             _id,
             title, 
