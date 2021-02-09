@@ -5,7 +5,7 @@ import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import {useWindowSize, useMeasure, useIsomorphicLayoutEffect} from 'react-use'
+import {useWindowSize, useMeasure} from 'react-use'
 import {playerMachine} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -126,24 +126,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
   const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
-  const playerContainer = React.useRef(null)
-  let initialHeight = 0
 
   const {md} = useBreakpoint()
 
   const {height} = useWindowSize()
   const CONTENT_OFFSET = height < 450 ? 30 : 120
   const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
-  const [lessonMaxWidth, setLessonMaxWidth] = React.useState(initialHeight)
 
-  useIsomorphicLayoutEffect(() => {
-    setLessonMaxWidth(Math.round((window.outerHeight - HEIGHT_OFFSET) * 1.77))
-    console.debug(
-      'initial height',
-      Math.round((window.outerHeight - HEIGHT_OFFSET) * 1.77),
-    )
-    console.debug('layout effect', playerContainer)
-  }, [playerContainer])
+  const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
+  // const [ref, {width: videoWidth}] = useMeasure<any>()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -427,7 +418,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
-              ref={playerContainer}
+              // ref={ref}
               className="flex-grow w-full"
               css={{
                 maxWidth: lessonMaxWidth,
