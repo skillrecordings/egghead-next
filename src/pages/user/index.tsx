@@ -6,34 +6,15 @@ import RequestEmailChangeForm from 'components/users/request-email-change-form'
 import get from 'lodash/get'
 import SubscriptionDetails from 'components/users/subscription-details'
 
-const GithubConnectButton: React.FunctionComponent<{providers: string[]}> = ({
-  providers,
-}) => {
-  const {authToken} = useViewer()
-
-  const githubAlreadyConnected = providers.includes('github')
-
-  const buttonText = 'Connect your GitHub account'
-  const buttonStyles = 'text-white bg-blue-600 border-0 py-2 px-4 rounded'
-
-  if (githubAlreadyConnected) {
-    return (
-      <button
-        onClick={() => {}}
-        disabled
-        className={`${buttonStyles} opacity-50 cursor-not-allowed`}
-      >
-        {buttonText}
-      </button>
-    )
-  }
-
+const GithubConnectButton: React.FunctionComponent<{
+  authToken: string
+}> = ({authToken}) => {
   return (
     <a
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
-      className={`${buttonStyles} focus:outline-none hover:bg-blue-700`}
+      className={`text-white bg-blue-600 border-0 py-2 px-4 rounded focus:outline-none hover:bg-blue-700`}
     >
-      {buttonText}
+      Connect your GitHub account
     </a>
   )
 }
@@ -52,6 +33,7 @@ const User: React.FunctionComponent<
 
   const {email: currentEmail, accounts, providers} = viewer || {}
   const {slug} = get(accounts, '[0]', {})
+  const isConnectedToGithub = providers?.includes('github')
 
   React.useEffect(() => {
     const loadAccountForSlug = async (slug: undefined | string) => {
@@ -73,17 +55,30 @@ const User: React.FunctionComponent<
             <RequestEmailChangeForm originalEmail={currentEmail} />
           </div>
           {/* Connect to GitHub */}
-          <div className="sm:px-6 lg:px-0 lg:col-span-9">
-            <div className="flex flex-col space-y-2">
-              <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
-                Connect to GitHub
-              </h2>
-              <p>Connect your GitHub account to log in with GitHub Oauth.</p>
-              <div>
-                <GithubConnectButton providers={viewer?.providers || []} />
+          {isConnectedToGithub ? (
+            <div className="sm:px-6 lg:px-0 lg:col-span-9">
+              <div className="flex flex-col space-y-2">
+                <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+                  You're Account is Connected to Github
+                </h2>
+                <p>
+                  You are able to login to egghead using your Github account!
+                </p>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="sm:px-6 lg:px-0 lg:col-span-9">
+              <div className="flex flex-col space-y-2">
+                <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+                  Connect to GitHub
+                </h2>
+                <p>Connect your GitHub account to log in with GitHub Oauth.</p>
+                <div>
+                  <GithubConnectButton authToken={viewer.authToken} />
+                </div>
+              </div>
+            </div>
+          )}
           <SubscriptionDetails
             stripeCustomerId={stripe_customer_id}
             slug={slug}
