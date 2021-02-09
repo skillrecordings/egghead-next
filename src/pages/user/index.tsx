@@ -74,7 +74,7 @@ const User: React.FunctionComponent<
                 </h2>
                 <p>Connect your GitHub account to log in with GitHub Oauth.</p>
                 <div>
-                  <GithubConnectButton authToken={viewer.authToken} />
+                  <GithubConnectButton authToken={authToken} />
                 </div>
               </div>
             </div>
