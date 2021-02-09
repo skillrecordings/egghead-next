@@ -434,7 +434,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 css={{
                   minHeight: 'calc(100vw / 1.77777)',
                   [bpMinSM]: {
-                    minHeight: 'auto',
+                    // minHeight: 'auto',
+                    minHeight: '640px',
                     // maxHeight: 'calc(100% / 1.77777)',
                   },
                 }}
