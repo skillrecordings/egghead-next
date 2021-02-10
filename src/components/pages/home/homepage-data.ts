@@ -520,6 +520,27 @@ There are a number of tried and true methods that will allow you to learn more e
       'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
   },
   {
+    id: 'nextjsVideoApp',
+    name: 'Learn Intelligent Cloud Solutions',
+    title: 'Video Analysis App with NextJS and Symbl.ai',
+    byline: 'Vladimir Novick・38m・Course',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/thumb/next_video_analysis_424_2x.png',
+    path:
+      '/playlists/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+    slug: 'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+  },
+  {
+    id: 'amplifyAdminIU',
+    name: 'Manage enterprise-ready cloud backends',
+    title: 'Get Started with the AWS Amplify Admin UI',
+    byline: 'Ali Spittel・16m・Course',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/419/933/thumb/aws_amplify_424_2x.png',
+    path: '/playlists/get-started-with-the-amplify-admin-ui-9e79',
+    slug: 'get-started-with-the-amplify-admin-ui-9e79',
+  },
+  {
     id: 'topics',
     name: 'Popular Topics',
     resources: [
