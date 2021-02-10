@@ -2,6 +2,11 @@ import React from 'react'
 import {Formik} from 'formik'
 import * as yup from 'yup'
 import axios from 'axios'
+import {useMachine} from '@xstate/react'
+import {
+  requestEmailChangeMachine,
+  DoneEventObject,
+} from 'machines/request-email-change-machine'
 
 const emailChangeSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -25,23 +30,20 @@ async function requestEmailChange(newEmail: string) {
 const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProps> = ({
   originalEmail,
 }) => {
-  const VIEW_MODE = 'VIEW_MODE'
-  const EDIT_MODE = 'EDIT_MODE'
-  const [mode, setMode] = React.useState(VIEW_MODE)
-
-  const [
-    changeRequestSubmittedFor,
-    setChangeRequestSubmittedFor,
-  ] = React.useState<string | null>(null)
+  const [state, send] = useMachine(requestEmailChangeMachine, {
+    services: {
+      requestChange: (_, event: DoneEventObject) => {
+        return requestEmailChange(event.data.newEmail)
+      },
+    },
+  })
 
   return (
     <Formik
       initialValues={{email: originalEmail}}
       validationSchema={emailChangeSchema}
       onSubmit={async (values) => {
-        await requestEmailChange(values.email)
-        setChangeRequestSubmittedFor(values.email)
-        setMode(VIEW_MODE)
+        send({type: 'SUBMIT', data: {newEmail: values.email}})
       }}
     >
       {(props) => {
@@ -60,39 +62,44 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                 Email
               </h2>
               <p>Your email address:</p>
-              {mode === EDIT_MODE && (
+              {state.matches('edit') && (
                 <p className="text-sm text-gray-600 dark:text-gray-200">
                   To ensure that you have access to this email address, we will
                   send an email to that account with a confirmation link.
                 </p>
               )}
-              {changeRequestSubmittedFor && (
-                <p className="text-sm text-gray-600">
+              {state.matches('success') && !state.context.error && (
+                <p className="text-sm text-gray-400">
                   Your email change request has been received. A confirmation
-                  email has been sent to {changeRequestSubmittedFor}.
+                  email has been sent to {state.context.newEmail}.
+                </p>
+              )}
+              {state.matches('success') && !!state.context.error && (
+                <p className="text-sm text-gray-400">
+                  We weren't able to automatically update your email. Please
+                  contact{' '}
+                  <a
+                    className="text-gray-200 hover:text-blue-600 transition-colors ease-in-out duration-150"
+                    href="mailto:support@egghead.io"
+                  >
+                    support@egghead.io
+                  </a>{' '}
+                  to get further help with this request.
                 </p>
               )}
               <div className="flex flex-row space-x-2">
                 <input
                   id="email"
                   type="email"
-                  value={mode === VIEW_MODE ? originalEmail : values.email}
+                  value={state.matches('edit') ? values.email : originalEmail}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="you@company.com"
                   required
-                  disabled={isSubmitting || mode !== EDIT_MODE}
+                  disabled={isSubmitting || !state.matches('edit')}
                   className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
                 />
-                {mode === VIEW_MODE && (
-                  <button
-                    onClick={() => setMode(EDIT_MODE)}
-                    className="text-white bg-orange-600 border-0 py-2 px-8 focus:outline-none hover:bg-orange-700 rounded-md"
-                  >
-                    Edit
-                  </button>
-                )}
-                {mode === EDIT_MODE && (
+                {state.matches('edit') || state.matches('loading') ? (
                   <>
                     <button
                       type="submit"
@@ -104,13 +111,20 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                     <button
                       onClick={() => {
                         setFieldValue('email', originalEmail)
-                        setMode(VIEW_MODE)
+                        send({type: 'CANCEL'})
                       }}
                       className="text-black bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-300 rounded"
                     >
                       Cancel
                     </button>
                   </>
+                ) : (
+                  <button
+                    onClick={() => send({type: 'EDIT'})}
+                    className="text-white bg-orange-600 border-0 py-2 px-8 focus:outline-none hover:bg-orange-700 rounded-md"
+                  >
+                    Edit
+                  </button>
                 )}
               </div>
             </div>
