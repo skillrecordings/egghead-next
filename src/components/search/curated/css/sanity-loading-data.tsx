@@ -17,12 +17,14 @@ export default function LoadDataFromSanity() {
           byline, 
           meta,
           image,
+          slug,
           path,
           resources[]->{
             _id,
             title, 
             name,
             summary,
+            slug,
             meta,
             description,
             image,
@@ -31,6 +33,8 @@ export default function LoadDataFromSanity() {
             resources[]->{
               _id,
               title,
+              slug,
+              name,
               'image': externalPreviewImageUrl,
               path,
               'instructor': collaborators[]->[role == 'instructor'][0]{
@@ -41,6 +45,22 @@ export default function LoadDataFromSanity() {
                 'twitter': person->twitter,
                 'image': person->image.url
               },
+              resources[]->{
+                _id,
+                title,
+                slug,
+                name,
+                'image': externalPreviewImageUrl,
+                path,
+                'instructor': collaborators[]->[role == 'instructor'][0]{
+                  title,
+                  'slug': person->slug.current,
+                  'name': person->name,
+                  'path': person->website,
+                  'twitter': person->twitter,
+                  'image': person->image.url
+                },
+              }
             }
         }
         }`,
