@@ -4,6 +4,59 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '419933',
+        type: 'playlist',
+        guid: '8e1f3603',
+        slug: 'get-started-with-the-amplify-admin-ui-9e79',
+        topics: [
+          'Create a database schema',
+          'Test your data locally',
+          'Deploy an AWS Amplify Backend',
+          'Add Authentication',
+          'Add Amazon S3 static file hosting',
+          'Deploy your frontend to the Amplify Console',
+        ],
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up to date—it is a must-watch for any developer that wants to quickly develop and deploy cloud-connected applications.`,
+          asOf: `2021-02-09`,
+        },
+        pairWithResources: [
+          {
+            title: 'Using DynamoDB with Next.js',
+            byline: 'Lee Robinson・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/thumb/EGH_DynamoDB.png',
+            path: '/playlists/using-dynamodb-with-next-js-b40c',
+            slug: 'using-dynamodb-with-next-js-b40c',
+            description: `Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.`,
+          },
+          {
+            title:
+              'Building Serverless Web Applications with React & AWS Amplify',
+            byline: 'Nader Dabit・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/217/thumb/EGH_AmplifyAWS_React_Final.png',
+            path:
+              '/courses/building-serverless-web-applications-with-react-aws-amplify',
+            slug: 'building-serverless-web-applications-with-react-aws-amplify',
+            description: `React makes it intuitive to build real-world web application. But in reality, you need to use a host of other services to get the app in front of real users. This course walks you through setup and implementation to get your cloud-based application up and running.`,
+          },
+          {
+            title: 'Up and Running with Amplify Static Site Hosting',
+            byline: 'Nader Dabit・24m・Course',
+            path:
+              '/playlists/up-and-running-with-amplify-console-hosting-ci-cd-c680',
+            slug: 'up-and-running-with-amplify-console-hosting-ci-cd-c680',
+            description:
+              'This playlist will get you going with the Amplify Console, including showing you how to host your website, integrate continuous integration and continuous delivery, set up a custom domain, and enable pull request previews.',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/full/aws.png',
+          },
+        ],
+      },
+      {
         id: '418653',
         type: 'playlist',
         guid: '30a8',
@@ -1820,7 +1873,7 @@ const courseDependencyData = (courseSlug) =>
           status: 'fresh',
           title: 'This is a Fresh Course',
           text:
-            "This course is a must watch for anyone considering GraphQL.\n       You'll be introduced to all of the GraphQL specific jargon and be able to take this knowledge to \n          any application that is powered by GraphQL.",   
+            "This course is a must watch for anyone considering GraphQL.\n       You'll be introduced to all of the GraphQL specific jargon and be able to take this knowledge to \n          any application that is powered by GraphQL.",
           asOf: '2021-02-04',
         },
       },
