@@ -19,18 +19,21 @@ const Collection: FunctionComponent<CollectionProps> = ({
   location = 'home',
 }) => {
   const {resources} = resource || {}
+
   return (
     <ul>
       {map(resources, (resource) => {
-        const {title, path, image, byline} = resource
-        const isLesson = path.includes('lessons')
-        const imageSize = isLesson ? 32 : 50
+        const {title, path, image} = resource
+        const getImageSize = (image: string) => {
+          return image.includes('tags') ? 32 : 50
+        }
+        const byline = resource.byline || resource?.instructor?.name
         return (
           <li
             key={resource.path}
             className={`flex items-center py-2 ${className}`}
           >
-            {image && (
+            {image && path && (
               <Link href={path}>
                 <a
                   onClick={() => {
@@ -45,32 +48,34 @@ const Collection: FunctionComponent<CollectionProps> = ({
                 >
                   <Image
                     src={get(image, 'src', image)}
-                    width={imageSize}
-                    height={imageSize}
+                    width={getImageSize(get(image, 'src', image))}
+                    height={getImageSize(get(image, 'src', image))}
                     alt={`illustration for ${title}`}
                   />
                 </a>
               </Link>
             )}
             <div className={image ? 'ml-3' : ''}>
-              <Link href={path}>
-                <a
-                  onClick={() => {
-                    track('clicked resource', {
-                      resource: path,
-                      linkType: 'text',
-                      location,
-                    })
-                  }}
-                  className="hover:text-blue-600 dark:hover:text-blue-300"
-                >
-                  <h4 className="text-lg font-semibold leading-tight">
-                    <Textfit mode="multi" min={14} max={17}>
-                      {title}
-                    </Textfit>
-                  </h4>
-                </a>
-              </Link>
+              {path && (
+                <Link href={path}>
+                  <a
+                    onClick={() => {
+                      track('clicked resource', {
+                        resource: path,
+                        linkType: 'text',
+                        location,
+                      })
+                    }}
+                    className="hover:text-blue-600 dark:hover:text-blue-300"
+                  >
+                    <h4 className="text-lg font-semibold leading-tight">
+                      <Textfit mode="multi" min={14} max={17}>
+                        {title}
+                      </Textfit>
+                    </h4>
+                  </a>
+                </Link>
+              )}
               <div className="text-xs text-gray-600 dark:text-gray-300">
                 {byline}
               </div>
