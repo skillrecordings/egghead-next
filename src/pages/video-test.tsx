@@ -1,5 +1,8 @@
 import * as React from 'react'
 import {useVideoJS} from '../hooks/useVideo'
+import {useEffect, useState} from 'react'
+import srt2vtt from 'utils/srt-to-webvtt'
+import axios from 'axios'
 
 const videoResource = {
   id: 'video',
@@ -23,12 +26,21 @@ const Team = () => {
     sources: [{src: videoResource.hls_url}, {src: videoResource.dash_url}],
     controls: true,
   })
+
   if (ready) {
-    // Do something with the video.js player object.
+    console.log(player.textTracks())
   }
   return (
     <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
-      <Video />
+      <Video>
+        <track
+          src="https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles"
+          kind="captions"
+          srcLang="en"
+          label="English"
+          default
+        />
+      </Video>
     </div>
   )
 }

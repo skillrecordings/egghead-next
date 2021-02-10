@@ -1,6 +1,7 @@
-import React, {useRef, useState, useEffect, useCallback} from 'react'
+import {useRef, useState, useEffect, useCallback} from 'react'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
+import * as React from 'react'
 
 export const useVideoJS = (videoJsOptions: any) => {
   const videoNode = useRef(null)
@@ -18,13 +19,15 @@ export const useVideoJS = (videoJsOptions: any) => {
   }, [changedKey])
 
   const Video = useCallback(
-    ({children}) => (
-      <div data-vjs-player key={changedKey}>
-        <video ref={videoNode} className="video-js" playsInline>
-          {children}
-        </video>
-      </div>
-    ),
+    ({children, subtitlesUrl}) => {
+      return (
+        <div data-vjs-player key={changedKey}>
+          <video ref={videoNode} className="video-js" playsInline>
+            {children}
+          </video>
+        </div>
+      )
+    },
     [changedKey],
   )
   return {Video, ready, player: player.current}
