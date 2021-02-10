@@ -27,6 +27,14 @@ const Comment: React.FunctionComponent<CommentProps> = ({
   if (state === 'hidden') {
     return null
   }
+
+  // gravatar url is protocol-relative (start with //),
+  // but next/image excepts an absolute URL
+  const gravatarUrl =
+    user.avatar_url.slice(0, 2) === '//'
+      ? user.avatar_url.replace('//', 'https://')
+      : user.avatar_url
+
   return (
     <div className="flex">
       {user.avatar_url && (
@@ -34,7 +42,7 @@ const Comment: React.FunctionComponent<CommentProps> = ({
           <Image
             width={48}
             height={48}
-            src={user.avatar_url}
+            src={gravatarUrl}
             alt={user.full_name}
             className="rounded-full border-2 border-gray-100 dark:border-gray-700"
           />
