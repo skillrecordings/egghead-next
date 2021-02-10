@@ -3,7 +3,7 @@ import {Formik} from 'formik'
 import * as yup from 'yup'
 import axios from 'axios'
 import {useMachine} from '@xstate/react'
-import {Machine, assign} from 'xstate'
+import {Machine, assign, DoneEventObject} from 'xstate'
 
 const emailChangeSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -24,13 +24,34 @@ async function requestEmailChange(newEmail: string) {
   return data
 }
 
-const setNewEmail = assign({
+interface StateSchema {
+  states: {
+    idle: {}
+    edit: {}
+    loading: {}
+    success: {}
+    failure: {}
+  }
+}
+
+type Event =
+  | {type: 'EDIT'}
+  | {type: 'CANCEL'}
+  | {type: 'SUBMIT'; data: {newEmail: string}}
+  | DoneEventObject
+
+interface Context {
+  newEmail?: string
+  error?: string
+}
+
+const setNewEmail = assign<Context, DoneEventObject>({
   newEmail: (_, event) => {
     return event.data.newEmail
   },
 })
 
-const requestEmailChangeMachine = Machine({
+const requestEmailChangeMachine = Machine<Context, StateSchema, Event>({
   id: 'requestEmailChange',
   initial: 'idle',
   context: {
@@ -86,7 +107,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
 }) => {
   const [state, send] = useMachine(requestEmailChangeMachine, {
     services: {
-      requestChange: (_, event) => {
+      requestChange: (_: Context, event: DoneEventObject) => {
         return requestEmailChange(event.data.newEmail)
       },
     },
@@ -165,7 +186,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                     <button
                       onClick={() => {
                         setFieldValue('email', originalEmail)
-                        send('CANCEL')
+                        send({type: 'CANCEL'})
                       }}
                       className="text-black bg-gray-200 border-0 py-2 px-8 focus:outline-none hover:bg-gray-300 rounded"
                     >
@@ -174,7 +195,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                   </>
                 ) : (
                   <button
-                    onClick={() => send('EDIT')}
+                    onClick={() => send({type: 'EDIT'})}
                     className="text-white bg-orange-600 border-0 py-2 px-8 focus:outline-none hover:bg-orange-700 rounded-md"
                   >
                     Edit
