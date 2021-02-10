@@ -87,7 +87,7 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full">
+    <div className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6">
       {children}
     </div>
   )
