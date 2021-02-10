@@ -5,7 +5,6 @@ import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import {useWindowSize, useMeasure} from 'react-use'
 import {playerMachine} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -87,14 +86,14 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6 h-full">
+    <div className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center relative z-5 px-4 py-6">
       {children}
     </div>
   )
 }
 
 const Loader = () => (
-  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black bg-opacity-80">
+  <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
     <svg
       className="text-gray-200 dark:text-gray-100"
       xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +118,6 @@ type LessonProps = {
 }
 
 const MAX_FREE_VIEWS = 7
-const HEADER_HEIGHT = 80
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
@@ -128,13 +126,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
 
   const {md} = useBreakpoint()
-
-  const {height} = useWindowSize()
-  const CONTENT_OFFSET = height < 450 ? 30 : 120
-  const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
-
-  const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
-  // const [ref, {width: videoWidth}] = useMeasure<any>()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -374,10 +365,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     run()
   }, [initialLesson.slug])
 
-  React.useEffect(() => {
-    setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
-  }, [height])
-
   return (
     <>
       <NextSeo
@@ -418,10 +405,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
-              // ref={ref}
               className="flex-grow w-full"
               css={{
-                maxWidth: lessonMaxWidth,
+                maxWidth: 'calc(75vh * 1.77777)',
                 minWidth: '320px',
                 [bpMinSM]: {
                   minWidth: '580px',
@@ -431,165 +417,152 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 },
               }}
             >
-              <div className="flex flex-grow bg-black">
+              <div
+                className="flex justify-center relative bg-black"
+                css={{
+                  '::before': {
+                    content: '""',
+                    display: 'block',
+                    width: 0,
+                    height: 0,
+                    paddingTop: '56.25%',
+                  },
+                }}
+              >
                 <div
-                  className="w-full relative sm:h-0"
-                  css={{
-                    [bpMinSM]: {
-                      paddingTop: '56.25%',
-                    },
-                  }}
+                  className={`${
+                    playerVisible ? 'block' : 'hidden'
+                  } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
                 >
-                  <div className="sm:absolute top-0 right-0 bottom-0 left-0">
-                    <div
-                      className={`${
-                        playerVisible ? 'block' : 'hidden'
-                      } sm:block`}
-                    >
-                      <EggheadPlayer
-                        id="egghead-player"
-                        ref={playerRef}
-                        hidden={playerState.matches('LOADING')}
-                        resource={lesson}
-                        poster={lesson?.thumb_url}
-                        hls_url={lesson?.hls_url}
-                        dash_url={lesson?.dash_url}
-                        playing={playerState.matches('playing')}
-                        playbackRate={playbackRate}
-                        width="100%"
-                        height="auto"
-                        pip="true"
-                        controls
-                        onPlay={() => send('PLAY')}
-                        onViewModeChanged={({to}: {to: string}) => {
-                          if (to === 'fullscreen') {
-                            track('entered fullscreen video', {
-                              video: lesson.slug,
-                            })
+                  <EggheadPlayer
+                    id="egghead-player"
+                    ref={playerRef}
+                    hidden={playerState.matches('LOADING')}
+                    resource={lesson}
+                    poster={lesson?.thumb_url}
+                    hls_url={lesson?.hls_url}
+                    dash_url={lesson?.dash_url}
+                    playing={playerState.matches('playing')}
+                    playbackRate={playbackRate}
+                    width="100%"
+                    height="auto"
+                    pip="true"
+                    controls
+                    onPlay={() => send('PLAY')}
+                    onViewModeChanged={({to}: {to: string}) => {
+                      if (to === 'fullscreen') {
+                        track('entered fullscreen video', {
+                          video: lesson.slug,
+                        })
 
-                            setIsFullscreen(true)
-                          } else {
-                            setIsFullscreen(false)
-                          }
-                        }}
-                        onReady={(player: any) => {
-                          actualPlayerRef.current = player
-                          console.debug(`player ready [autoplay:${autoplay}]`)
-                          const isDifferent =
-                            lastAutoPlayed.current !== lesson.slug
-                          if (
-                            autoplay &&
-                            isDifferent &&
-                            isFunction(player.play)
-                          ) {
-                            console.debug(`autoplaying`)
-                            lastAutoPlayed.current = lesson.slug
-                            player.play()
-                          }
-                        }}
-                        onPause={() => {
-                          send('PAUSE')
-                        }}
-                        onProgress={({...progress}) => {
-                          onProgress(progress, lesson).then(
-                            (lessonView: any) => {
-                              if (lessonView) {
-                                console.debug('progress recorded', {
-                                  progress: lessonView,
-                                })
-                                setLessonView(lessonView)
-                              }
-                            },
-                          )
-                        }}
-                        onEnded={() => {
-                          console.debug(`received ended event from player`)
-                          send('COMPLETE')
-                        }}
-                        subtitlesUrl={get(lesson, 'subtitles_url')}
-                      />
-                    </div>
-
-                    {loaderVisible && <Loader />}
-
-                    {playerState.matches('joining') && (
-                      <OverlayWrapper>
-                        <CreateAccountCTA
-                          lesson={get(lesson, 'slug')}
-                          technology={primary_tag}
-                        />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('subscribing') && (
-                      <OverlayWrapper>
-                        <JoinCTA lesson={lesson} />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('showingNext') && (
-                      <OverlayWrapper>
-                        <NextUpOverlay
-                          lesson={lesson}
-                          nextLesson={nextLesson}
-                          onClickRewatch={() => {
-                            send('VIEW')
-                            if (actualPlayerRef.current) {
-                              actualPlayerRef.current.play()
-                            }
-                          }}
-                        />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('rating') && (
-                      <OverlayWrapper>
-                        <RateCourseOverlay
-                          course={lesson.collection}
-                          onRated={(review) => {
-                            axios
-                              .post(
-                                lessonView.collection_progress.rate_url,
-                                review,
-                              )
-                              .then(() => {
-                                const comment = get(review, 'comment.comment')
-                                const prompt = get(
-                                  review,
-                                  'comment.context.prompt',
-                                )
-
-                                if (review) {
-                                  track('rated course', {
-                                    course: slug,
-                                    rating: review.rating,
-                                    ...(comment && {comment}),
-                                    ...(!!prompt && {prompt}),
-                                  })
-                                  if (subscriber) {
-                                    const currentScore =
-                                      Number(
-                                        subscriber.attributes?.learner_score,
-                                      ) || 0
-                                    cioIdentify(subscriber.id, {
-                                      learner_score: currentScore + 20,
-                                    })
-                                  }
-                                }
-                              })
-                              .finally(() => {
-                                setTimeout(() => {
-                                  send('RECOMMEND')
-                                }, 1500)
-                              })
-                          }}
-                        />
-                      </OverlayWrapper>
-                    )}
-                    {playerState.matches('recommending') && (
-                      <OverlayWrapper>
-                        <RecommendNextStepOverlay lesson={lesson} />
-                      </OverlayWrapper>
-                    )}
-                  </div>
+                        setIsFullscreen(true)
+                      } else {
+                        setIsFullscreen(false)
+                      }
+                    }}
+                    onReady={(player: any) => {
+                      actualPlayerRef.current = player
+                      console.debug(`player ready [autoplay:${autoplay}]`)
+                      const isDifferent = lastAutoPlayed.current !== lesson.slug
+                      if (autoplay && isDifferent && isFunction(player.play)) {
+                        console.debug(`autoplaying`)
+                        lastAutoPlayed.current = lesson.slug
+                        player.play()
+                      }
+                    }}
+                    onPause={() => {
+                      send('PAUSE')
+                    }}
+                    onProgress={({...progress}) => {
+                      onProgress(progress, lesson).then((lessonView: any) => {
+                        if (lessonView) {
+                          console.debug('progress recorded', {
+                            progress: lessonView,
+                          })
+                          setLessonView(lessonView)
+                        }
+                      })
+                    }}
+                    onEnded={() => {
+                      console.debug(`received ended event from player`)
+                      send('COMPLETE')
+                    }}
+                    subtitlesUrl={get(lesson, 'subtitles_url')}
+                  />
                 </div>
+
+                {loaderVisible && <Loader />}
+
+                {playerState.matches('joining') && (
+                  <OverlayWrapper>
+                    <CreateAccountCTA
+                      lesson={get(lesson, 'slug')}
+                      technology={primary_tag}
+                    />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('subscribing') && (
+                  <OverlayWrapper>
+                    <JoinCTA lesson={lesson} />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('showingNext') && (
+                  <OverlayWrapper>
+                    <NextUpOverlay
+                      lesson={lesson}
+                      nextLesson={nextLesson}
+                      onClickRewatch={() => {
+                        send('VIEW')
+                        if (actualPlayerRef.current) {
+                          actualPlayerRef.current.play()
+                        }
+                      }}
+                    />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('rating') && (
+                  <OverlayWrapper>
+                    <RateCourseOverlay
+                      course={lesson.collection}
+                      onRated={(review) => {
+                        axios
+                          .post(lessonView.collection_progress.rate_url, review)
+                          .then(() => {
+                            const comment = get(review, 'comment.comment')
+                            const prompt = get(review, 'comment.context.prompt')
+
+                            if (review) {
+                              track('rated course', {
+                                course: slug,
+                                rating: review.rating,
+                                ...(comment && {comment}),
+                                ...(!!prompt && {prompt}),
+                              })
+                              if (subscriber) {
+                                const currentScore =
+                                  Number(
+                                    subscriber.attributes?.learner_score,
+                                  ) || 0
+                                cioIdentify(subscriber.id, {
+                                  learner_score: currentScore + 20,
+                                })
+                              }
+                            }
+                          })
+                          .finally(() => {
+                            setTimeout(() => {
+                              send('RECOMMEND')
+                            }, 1500)
+                          })
+                      }}
+                    />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('recommending') && (
+                  <OverlayWrapper>
+                    <RecommendNextStepOverlay lesson={lesson} />
+                  </OverlayWrapper>
+                )}
               </div>
               <div className="flex justify-between items-center w-full border-t border-gray-800 pl-2 3xl:pl-0 pr-3 3xl:pr-4 py-2">
                 <div className="flex items-center justify-start flex-grow space-x-4">
