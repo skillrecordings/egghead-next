@@ -25,17 +25,25 @@ const Team = () => {
     poster: videoResource.poster,
     sources: [{src: videoResource.hls_url}, {src: videoResource.dash_url}],
     controls: true,
+    playbackRates: [0.5, 1, 1.5, 2],
+    responsive: true,
   })
 
   if (ready) {
     console.log(player.textTracks())
+    player.on('timeupdate', () => {
+      console.log(player.currentTime())
+    })
+    player.on('ended', () => {
+      console.log(player.ended())
+    })
   }
   return (
     <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
       <Video>
         <track
           src="https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles"
-          kind="captions"
+          kind="subtitles"
           srcLang="en"
           label="English"
           default

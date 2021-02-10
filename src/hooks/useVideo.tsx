@@ -22,7 +22,7 @@ export const useVideoJS = (videoJsOptions: any) => {
     ({children, subtitlesUrl}) => {
       return (
         <div data-vjs-player key={changedKey}>
-          <video ref={videoNode} className="video-js" playsInline>
+          <video ref={videoNode} className="video-js">
             {children}
           </video>
         </div>
