@@ -20,7 +20,7 @@ const courseDependencyData = (courseSlug) =>
         freshness: {
           status: `fresh`,
           title: `This is a Fresh Course`,
-          text: `This course is new and up to date — add an excellent project to your developer portfolio using Next.js and intelligent cloud solutions. `,
+          text: `This course is new and up to date — add an excellent project to your developer portfolio using Next.js and intelligent cloud solutions.`,
           asOf: `2021-02-09`,
         },
         pairWithResources: [
