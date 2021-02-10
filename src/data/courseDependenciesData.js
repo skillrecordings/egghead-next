@@ -4,6 +4,59 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '422773',
+        type: 'playlist',
+        guid: '4efb',
+        slug:
+          'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+        topics: [
+          'Use Symbl.ai to get transcripts for the video',
+          'The basics of Symbl AI Conversation API ',
+          'Processing video using to Symbl Async Video API',
+          'Implementing login functionality by using Symbl oauth2 endpoint',
+          'Storing a token globally with React Context',
+          `Utilize Symbl's Job Status API`,
+        ],
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up to date — it is a must-watch for any developer who wants to add a solid project to their developer portfolio using Next.js and cutting edge technology.`,
+          asOf: `2021-02-09`,
+        },
+        pairWithResources: [
+          {
+            title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+            byline: 'Colby Fayock・1h 4m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
+            path:
+              '/playlists/,create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+            slug:
+              'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+            description: `Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.`,
+          },
+          {
+            title: 'React Context for State Management',
+            byline: 'Dave Ceddia・35m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/262/thumb/EGH_ReactContext_Final.png',
+            path: '/courses/react-context-for-state-management',
+            slug: 'react-context-for-state-management',
+            description:
+              'In this course, we’ll build a simple email client using the React Context API to pass data throughout the app. You’ll learn how to create a context, how to pass data deeply through an app without manually passing props all over the place, and how to group related data and logic using simple wrapper components.',
+          },
+          {
+            title: 'Using DynamoDB with Next.js',
+            byline: 'Lee Robinson・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/thumb/EGH_DynamoDB.png',
+            path: '/playlists/using-dynamodb-with-next-js-b40c',
+            slug: 'using-dynamodb-with-next-js-b40c',
+            description: `Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.`,
+          },
+        ],
+      },
+      {
         id: '419933',
         type: 'playlist',
         guid: '8e1f3603',
