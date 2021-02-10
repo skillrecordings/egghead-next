@@ -99,7 +99,7 @@ const User: React.FunctionComponent<
             slug={slug}
           />
           <div>
-            {progress.map((item) => {
+            {progress.map((item: any) => {
               return (
                 <InProgressCollection
                   key={item.slug}
