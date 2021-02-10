@@ -430,27 +430,23 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               }}
             >
               <div
-                className="flex flex-col relative bg-black"
+                className="flex justify-center relative bg-black"
                 css={{
-                  ':before': {
+                  '::before': {
                     content: '""',
-                    width: '1px',
-                    marginLeft: '-1px',
-                    float: 'left',
+                    display: 'block',
+                    width: 0,
                     height: 0,
                     paddingTop: '56.25%',
-                  },
-                  ':after': {
-                    content: '""',
-                    display: 'table',
-                    clear: 'both',
                   },
                 }}
               >
                 <div
-                  className={`${playerVisible ? 'block' : 'hidden'} sm:block`}
+                  className={`${
+                    playerVisible ? 'block' : 'hidden'
+                  } w-full sm:block`}
                 >
-                  {/* <EggheadPlayer
+                  <EggheadPlayer
                     id="egghead-player"
                     ref={playerRef}
                     hidden={playerState.matches('LOADING')}
@@ -504,25 +500,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       send('COMPLETE')
                     }}
                     subtitlesUrl={get(lesson, 'subtitles_url')}
-                  /> */}
+                  />
                 </div>
 
                 {loaderVisible && <Loader />}
 
-                {/* {playerState.matches('joining') && (
+                {playerState.matches('joining') && (
                   <OverlayWrapper>
                     <CreateAccountCTA
                       lesson={get(lesson, 'slug')}
                       technology={primary_tag}
                     />
                   </OverlayWrapper>
-                )} */}
-                <OverlayWrapper>
-                  <CreateAccountCTA
-                    lesson={get(lesson, 'slug')}
-                    technology={primary_tag}
-                  />
-                </OverlayWrapper>
+                )}
                 {playerState.matches('subscribing') && (
                   <OverlayWrapper>
                     <JoinCTA lesson={lesson} />
