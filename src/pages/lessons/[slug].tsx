@@ -86,7 +86,7 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center sm:absolute sm:z-5 sm:top-0 sm:left-0 sm:right-0 sm:bottom-0 px-4 py-6">
+    <div className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center relative z-5 px-4 py-6">
       {children}
     </div>
   )
@@ -202,6 +202,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
+        'showingNext',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
@@ -432,7 +433,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <div
                   className={`${
                     playerVisible ? 'block' : 'hidden'
-                  } w-full sm:block`}
+                  } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
                 >
                   <EggheadPlayer
                     id="egghead-player"
