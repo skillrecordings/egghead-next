@@ -5,7 +5,6 @@ import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
-import {useWindowSize, useMeasure} from 'react-use'
 import {playerMachine} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -119,7 +118,6 @@ type LessonProps = {
 }
 
 const MAX_FREE_VIEWS = 7
-const HEADER_HEIGHT = 80
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
@@ -128,12 +126,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
 
   const {md} = useBreakpoint()
-
-  const {height} = useWindowSize()
-  const CONTENT_OFFSET = height < 450 ? 30 : 120
-  const HEIGHT_OFFSET = HEADER_HEIGHT + CONTENT_OFFSET
-
-  // const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -372,10 +364,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
     run()
   }, [initialLesson.slug])
-
-  // React.useEffect(() => {
-  //   setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
-  // }, [height])
 
   return (
     <>
