@@ -11,10 +11,10 @@ const courseDependencyData = (courseSlug) =>
           'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
         topics: [
           'Use Symbl.ai to get transcripts for the video',
-          'The basics of Symbl AI Conversation API ',
-          'Processing video using to Symbl Async Video API',
-          'Implementing login functionality by using Symbl oauth2 endpoint',
-          'Storing a token globally with React Context',
+          'The basics of Symbl AI Conversation API',
+          'Process video using to Symbl Async Video API',
+          'Implement login functionality by using Symbl oauth2 endpoint',
+          'Store a token globally with React Context',
           `Utilize Symbl's Job Status API`,
         ],
         freshness: {
