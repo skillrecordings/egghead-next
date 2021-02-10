@@ -2037,6 +2037,44 @@ const courseDependencyData = (courseSlug) =>
         dependencies: {
           graphql: '^14.0.0',
         },
+        freshness: {
+          status: `stale`,
+          title: `This is a Stale Course`,
+          text: `There are portions of this course that have changed a bit since it was recorded, but it is still useful for developers interested in using AWS AppSync. The module versions have changed, but the API is largely the same. The React parts of this course make use of class components. If you'd like to convert the code to use Hooks, check out [Shareable Custom Hooks by Joe Previte](https://egghead.io/courses/shareable-custom-hooks-in-react).`,
+          asOf: `2021-02-10`,
+        },
+        pairWithResources: [
+          {
+            title: 'Shareable Custom Hooks in React',
+            byline: 'Joe Previte・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/313/thumb/EGH_CustomReactHooks_Final.png',
+            path: '/courses/shareable-custom-hooks-in-react',
+            slug: 'shareable-custom-hooks-in-react',
+            description:
+              "In this course, you'll work through refactoring a component to use a custom hook, and learn to apply the patterns used by the React team to your own code.",
+          },
+          {
+            title: 'Simplify React Apps with React Hooks',
+            byline: 'Kent C. Dodds・38m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/263/square_480/EGH_SimplifyHooks_Final.png',
+            path: '/courses/simplify-react-apps-with-react-hooks',
+            slug: 'simplify-react-apps-with-react-hooks',
+            description:
+              "Kent will take a React codebase that uses classes and refactor the entire thing to use function components as much as possible. You'll also look at state, side effects, async code, caching, and more.",
+          },
+          {
+            title: 'Reusable State and Effects with React Hooks',
+            byline: 'Elijah Manor・57m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/264/square_480/EGH_ReactHooks_Final_%281%29.png',
+            path: '/courses/reusable-state-and-effects-with-react-hooks',
+            slug: 'reusable-state-and-effects-with-react-hooks',
+            description:
+              "In this course, you'll see examples of converting Class Components to Function Components and how they relate to one another.",
+          },
+        ],
       },
       {
         id: '209',
