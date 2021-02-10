@@ -36,7 +36,7 @@ import {track} from 'utils/analytics'
 import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
-import useBreakpoint, {bpMinSM, bpMinMD} from 'utils/breakpoints'
+import useBreakpoint, {bpMinSM, bpMinMD, bpMinLG} from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
@@ -432,12 +432,21 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               <div
                 className="flex flex-col relative bg-black"
                 css={{
-                  minHeight: 'calc(100vw / 1.77777)',
-                  [bpMinSM]: {
-                    // minHeight: 'auto',
-                    minHeight: '640px',
-                    // maxHeight: 'calc(100% / 1.77777)',
-                  },
+                  ...(!playerVisible && {
+                    ':before': {
+                      content: '""',
+                      width: '1px',
+                      marginLeft: '-1px',
+                      float: 'left',
+                      height: 0,
+                      paddingTop: '56.25%',
+                    },
+                    ':after': {
+                      content: '""',
+                      display: 'table',
+                      clear: 'both',
+                    },
+                  }),
                 }}
               >
                 <div
