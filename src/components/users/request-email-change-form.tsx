@@ -3,7 +3,10 @@ import {Formik} from 'formik'
 import * as yup from 'yup'
 import axios from 'axios'
 import {useMachine} from '@xstate/react'
-import {Machine, assign, DoneEventObject} from 'xstate'
+import {
+  requestEmailChangeMachine,
+  DoneEventObject,
+} from 'machines/request-email-change-machine'
 
 const emailChangeSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -24,90 +27,12 @@ async function requestEmailChange(newEmail: string) {
   return data
 }
 
-interface StateSchema {
-  states: {
-    idle: {}
-    edit: {}
-    loading: {}
-    success: {}
-    failure: {}
-  }
-}
-
-type Event =
-  | {type: 'EDIT'}
-  | {type: 'CANCEL'}
-  | {type: 'SUBMIT'; data: {newEmail: string}}
-  | DoneEventObject
-
-interface Context {
-  newEmail?: string
-  error?: string
-}
-
-const setNewEmail = assign<Context, DoneEventObject>({
-  newEmail: (_, event) => {
-    return event.data.newEmail
-  },
-})
-
-const requestEmailChangeMachine = Machine<Context, StateSchema, Event>({
-  id: 'requestEmailChange',
-  initial: 'idle',
-  context: {
-    newEmail: undefined,
-    error: undefined,
-  },
-  states: {
-    idle: {
-      on: {EDIT: 'edit'},
-    },
-    edit: {
-      on: {
-        SUBMIT: 'loading',
-        CANCEL: 'idle',
-      },
-    },
-    loading: {
-      entry: [setNewEmail],
-      invoke: {
-        id: 'makeEmailChangeRequest',
-        src: 'requestChange',
-        onDone: {
-          target: 'success',
-          actions: [
-            assign({
-              error: (_, event) => {
-                return event.data.success === false
-                  ? event.data.message
-                  : undefined
-              },
-            }),
-          ],
-        },
-        onError: {
-          target: 'failure',
-          actions: assign({
-            error: (_, event) => event.data,
-          }),
-        },
-      },
-    },
-    success: {
-      on: {EDIT: 'edit'},
-    },
-    failure: {
-      on: {EDIT: 'edit'},
-    },
-  },
-})
-
 const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProps> = ({
   originalEmail,
 }) => {
   const [state, send] = useMachine(requestEmailChangeMachine, {
     services: {
-      requestChange: (_: Context, event: DoneEventObject) => {
+      requestChange: (_, event: DoneEventObject) => {
         return requestEmailChange(event.data.newEmail)
       },
     },
