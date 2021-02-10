@@ -202,7 +202,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
-        'showingNext',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
