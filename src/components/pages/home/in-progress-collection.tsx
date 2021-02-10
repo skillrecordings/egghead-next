@@ -23,8 +23,6 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
 
   const definedProgress = collection_progress || progress
 
-  console.log(definedProgress)
-
   const {
     completed_lesson_count = 0,
     time_left = 0,
