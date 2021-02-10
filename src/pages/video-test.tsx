@@ -1,10 +1,19 @@
 import * as React from 'react'
 import {useVideoJS} from '../hooks/useVideo'
-import {useEffect, useState} from 'react'
-import srt2vtt from 'utils/srt-to-webvtt'
-import axios from 'axios'
+import {GetServerSideProps} from 'next'
 
-const videoResource = {
+const testingjavascript = {
+  subtitle:
+    'https://app.egghead.io/api/v1/lessons/node-js-create-a-casify-function-to-generate-cases-for-jest-in-case/subtitles',
+  poster:
+    'https://dcv19h61vib2d.cloudfront.net/thumbs/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS.jpg',
+  hls_url:
+    'https://d2c5owlt6rorc3.cloudfront.net/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS/hls/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS.m3u8',
+  dash_url:
+    'https://d2c5owlt6rorc3.cloudfront.net/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS/dash/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS.mpd',
+}
+
+const defaultVideo = {
   id: 'video',
   name: 'Optimize your Learning',
   title: 'Learning Tips Every Developer Should Know',
@@ -20,7 +29,17 @@ const videoResource = {
     'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
 }
 
-const Team = () => {
+export const getServerSideProps: GetServerSideProps = async function ({query}) {
+  const videoResource =
+    query && query.v === 'testing' ? testingjavascript : defaultVideo
+
+  return {
+    props: {
+      videoResource,
+    },
+  }
+}
+const Team: React.FC<any> = ({videoResource}) => {
   const {Video, player, ready} = useVideoJS({
     poster: videoResource.poster,
     sources: [{src: videoResource.hls_url}, {src: videoResource.dash_url}],
