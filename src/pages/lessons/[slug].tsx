@@ -35,7 +35,7 @@ import {track} from 'utils/analytics'
 import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
-import useBreakpoint, {bpMinSM, bpMinMD, bpMinLG} from 'utils/breakpoints'
+import useBreakpoint, {bpMinSM, bpMinMD} from 'utils/breakpoints'
 import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
@@ -93,7 +93,7 @@ const OverlayWrapper: FunctionComponent<{
 }
 
 const Loader = () => (
-  <div className="grid place-items-center w-full h-full absolute z-10 top-0 left-0 bg-black bg-opacity-80">
+  <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
     <svg
       className="text-gray-200 dark:text-gray-100"
       xmlns="http://www.w3.org/2000/svg"
