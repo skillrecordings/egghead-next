@@ -37,7 +37,8 @@ const question = {
 const LevelUpCTA: React.FunctionComponent<{
   className?: any
   alternative?: JSX.Element
-}> = ({className, alternative}) => {
+  variant?: string
+}> = ({className, alternative, variant}) => {
   const [state, dispatch] = React.useReducer(sortingHatReducer, {
     currentQuestionKey: 'career_chat',
     answers: {},
@@ -59,6 +60,19 @@ const LevelUpCTA: React.FunctionComponent<{
 
   return !state.question || state.closed ? (
     alternative || null
+  ) : variant === 'header' ? (
+    <div className="hidden lg:block">
+      <Link href={state.question.url}>
+        <a
+          onClick={() => {
+            onAnswer('maybe')
+          }}
+          className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+        >
+          Career Planning 1:1
+        </a>
+      </Link>
+    </div>
   ) : (
     <Card>
       <div className={className}>
