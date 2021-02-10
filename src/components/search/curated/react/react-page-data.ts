@@ -86,6 +86,101 @@ const reactPageData = [
     ],
   },
   {
+    id: 'style',
+    title: 'Style React Apps',
+    name: 'Make your projects look good',
+    resources: [
+      {
+        title: 'Style an Application from Start to Finish',
+        byline: 'Garth Braithwaite',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/057/thumb/EGH_StyleCSSApp_Final.png',
+        path: '/courses/style-an-application-from-start-to-finish',
+        slug: 'style-an-application-from-start-to-finish',
+        description:
+          'Looking at snippets of CSS is a great way to learn how to use it, but some details can fall through the cracks. This course demonstrates the process of styling an application from start to finish.\r\n\r\nWe will take a basic un-styled todo-list application written in React and use CSS to get the application to look like how we want. The first steps will be to apply static styles to the app based on a mock up, then we will incrementally add user interactivity as well as make the app responsive.',
+      },
+      {
+        title:
+          'Beautiful and Accessible Drag and Drop with react-beautiful-dnd',
+        byline: 'Alex Reardon',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/209/thumb/React_Dnd_Final.png',
+        path:
+          '/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
+        slug: 'beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
+        description:
+          'Drag and drop (dnd) experiences are often built to sort lists of content vertically and horizontally. \n\nreact-beautiful-dnd is an excellent tool for these use cases. It utilizes the render props pattern to build accessible dnd functionality into lists that look and behave as you would expect—and you’ll even get keyboard-accessible dnd, straight out of the box, with no extra work required. It’s actually easy to start using, and this course is a great place to start.\n\n\nWe will create a highly interactive task management application from scratch using the building blocks of react-beautiful-dnd. Over 14 lessons, you will get practice in:\n\n- building droppable containers to sort draggable items horizontally and vertically\n- moving items between columns\n- and even moving the columns themselves\n\nFollowing the course, you’ll be ready to build powerful dnd experiences into your own projects.\n\nCheck out [the community notes for this course on Github](https://github.com/eggheadio-projects/Beautiful-and-Accessible-Drag-and-Drop-with-react-beautiful-dnd-notes).',
+      },
+      {
+        title: 'Styling React Applications with Styled Components',
+        path:
+          '/playlists/styling-react-applications-with-styled-components-8834',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+        byline: 'Sara Vieira',
+      },
+      {
+        title: 'Design Systems with React and Typescript in Storybook',
+        byline: 'Shawn Wang',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/228/thumb/EGH_ReactStorybook_Final.png',
+        path: '/courses/design-systems-with-react-and-typescript-in-storybook',
+        slug: 'design-systems-with-react-and-typescript-in-storybook',
+        description:
+          'In this course, we will learn how to set up all the necessary infrastructure to build a Design System of reusable React components, with state of the art developer experience afforded by Typescript and Storybook. \r\n\r\nA design system is a series of components that can be reused in different combinations. Design systems allow you to manage design at scale. Design Systems can be a significant productivity multiplier in any medium-to-large project or company because you can document your components as you develop them, ensure a consistent look and feel throughout all your screens, and have a seamless workflow between designers and developers.\r\n',
+      },
+    ],
+  },
+  {
+    id: 'sideProjects',
+    title: 'Style React Apps',
+    name: 'Projects that stand out',
+    resources: [
+      {
+        title: 'Build Maps with React Leaflet',
+        byline: 'Colby Fayock',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/490/thumb/React_Leaflet_Final.png',
+        path: '/courses/build-maps-with-react-leaflet',
+        slug: 'build-maps-with-react-leaflet',
+        description:
+          "If you've ever worked on a website for a business, there's a good chance you've included a map.\n\nA Google Map embed is sufficient for showing a location, but doesn't leave you many customization options.\n\nReact Leaflet to the rescue!\n\nIn this course, Colby Fayock will guide you through a series of lessons and challenges that will build your map making skills as you build out a web app for a fictional restaurant.\n\nYou'll get practice with handling API keys and using React Hooks to implement a custom interactive map complete with metadata and additional overlays.\n\nThis course has built-in challenges that you are encouraged to pause and work through, but feel free to just watch.",
+      },
+      {
+        title: 'React Real-Time Messaging with GraphQL using urql and OneGraph',
+        path:
+          '/playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/409/013/full/EGH_RealtimeGraphqL.png',
+        byline: 'Ian Jones',
+      },
+      {
+        title: 'Build a Terminal Dashboard with React',
+        path: '/playlists/build-a-terminal-dashboard-with-react-3f4d',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+        byline: 'Elijah Manor',
+      },
+      {
+        title: 'Tic Tac Toe in React',
+        path: '/playlists/tic-tac-toe-in-react-387f',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+        byline: 'Kyle Shevlin',
+      },
+      {
+        title:
+          'Building an OpenGraph image generation API with Cloudinary, Netlify Functions, and React',
+        path:
+          '/playlists/building-an-opengraph-image-generation-api-with-cloudinary-netlify-functions-and-react-914e',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+        byline: 'Chris Biscardi',
+      },
+    ],
+  },
+  {
     id: 'state-management-video',
     name: 'Interview with creator of XState',
     title: 'XState for State Management in React Apps',
