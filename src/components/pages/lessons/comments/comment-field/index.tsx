@@ -1,27 +1,25 @@
 import React, {FunctionComponent} from 'react'
-// import * as yup from 'yup'
 import {Formik} from 'formik'
 
-// const loginSchema = yup.object().shape({
-//   email: yup.string().email().required('enter your email'),
-// })
-
 type CommentFieldProps = {
-  url?: string
+  onSubmit?: any
 }
 
-const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
+const CommentField: FunctionComponent<CommentFieldProps> = ({
+  onSubmit = () => {},
+}) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
 
-  return url ? (
+  return (
     <div className="dark:text-white">
       {!isError && (
         <Formik
           initialValues={{newCommentText: ''}}
-          //   validationSchema={loginSchema}
-          onSubmit={(values) => {
+          onSubmit={({newCommentText}, {resetForm}) => {
             setIsSubmitted(true)
+            onSubmit(newCommentText)
+            resetForm()
           }}
         >
           {(props) => {
@@ -34,7 +32,6 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
             } = props
             return (
               <div className="max-w-2xl">
-                {/* <h4 className="font-semibold mb-2">Your comment:</h4> */}
                 <form onSubmit={handleSubmit} className="w-full space-y-2">
                   <textarea
                     id="newCommentText"
@@ -61,10 +58,9 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
           }}
         </Formik>
       )}
-      {/* {isSubmitted && <div className="text-green-500">comment sent</div>} */}
       {isError && <div className="text-red-500">error</div>}
     </div>
-  ) : null
+  )
 }
 
 export default CommentField

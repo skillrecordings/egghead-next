@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, {FunctionComponent} from 'react'
 import {PodcastResource} from 'types'
 import PodcastCard from 'components/podcasts/card/card'
 
@@ -7,9 +7,9 @@ type MorePodcastProps = {
 }
 
 const MorePodcasts: FunctionComponent<MorePodcastProps> = ({podcasts}) => (
-  <div className="w-screen bg-gray-200 -ml-3 sm:-ml-4 lg:-ml-8 sm:p-8 p-3">
+  <div className="w-full bg-gray-100 dark:bg-gray-800 -ml-3 sm:-ml-4 lg:-ml-8 sm:p-8 p-3">
     <div className="max-w-4xl mx-auto text-center">
-      <h3 className="text-gray-700 mb-10 text-center font-light text-3xl">
+      <h3 className="text-gray-700 dark:text-white mb-10 text-center font-light text-3xl">
         More Podcasts
       </h3>
       <ul className="mb-10 justify-items-center grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
