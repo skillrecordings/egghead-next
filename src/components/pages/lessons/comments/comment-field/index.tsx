@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {Formik} from 'formik'
+import Spinner from 'components/spinner'
 
 type CommentFieldProps = {
   onSubmit?: any
@@ -39,7 +40,10 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Your comment..."
-                    className="form-textarea p-3 dark:text-white dark:bg-gray-800 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 dark:border-gray-700 rounded-md resize-none"
+                    disabled={isSubmitting}
+                    className={`form-textarea p-3 dark:text-white dark:bg-gray-800 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 dark:border-gray-700 rounded-md resize-none ${
+                      isSubmitting ? 'opacity-60' : ''
+                    }`}
                     required
                     css={{
                       minHeight: '120px',
@@ -48,9 +52,19 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="transition-all text-sm duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-2 px-4 rounded-md"
+                    className={`w-32 flex items-center justify-center transition-all text-sm duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transform text-white font-semibold py-2 px-4 rounded-md ${
+                      isSubmitting
+                        ? 'cursor-not-allowed opacity-60'
+                        : 'hover:scale-105 hover:shadow-xl'
+                    }`}
                   >
-                    Send
+                    {isSubmitting ? (
+                      <>
+                        Sending <Spinner size={5} className="ml-2" />
+                      </>
+                    ) : (
+                      'Send'
+                    )}
                   </button>
                 </form>
               </div>
