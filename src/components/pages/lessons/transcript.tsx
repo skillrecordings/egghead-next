@@ -106,7 +106,7 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
         className={
           className
             ? className
-            : 'prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl max-w-none'
+            : 'prose dark:prose-dark max-w-none text-gray-800 dark:text-gray-100'
         }
       >
         {enhancedTranscript || transcript || ''}
