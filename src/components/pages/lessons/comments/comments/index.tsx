@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Comment from 'components/pages/lessons/comments/comment'
 import CommentField from 'components/pages/lessons/comments/comment-field'
 import {track} from 'utils/analytics'
+import {useViewer} from 'context/viewer-context'
+import {saveCommentForLesson} from 'lib/lesson-comments'
 
 type CommentsProps = {
   lesson: any
@@ -14,31 +16,43 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
   lesson,
   commentingAllowed,
 }: CommentsProps) => {
-  const {comments, add_comment_url} = lesson
+  const {viewer} = useViewer()
+  const [comments, setComments] = React.useState(lesson.comments)
+  const {slug} = lesson
   const commentsAvailable =
     comments?.some((comment: any) => comment.state === 'published') ?? false
+
+  const handleCommentSubmission = async (comment: string) => {
+    const newComment = await saveCommentForLesson(slug, {
+      comment,
+    })
+    setComments([...comments, newComment])
+  }
+
   return (
     <div className={commentsAvailable ? 'space-y-10' : 'space-y-6'}>
       {
         commentsAvailable
-          ? comments.map((comment: any) => (
-              <Comment
-                key={comment.id}
-                comment={comment.comment}
-                state={comment.state}
-                createdAt={comment.created_at}
-                isCommentableOwner={comment.is_commentable_owner}
-                user={comment.user}
-              />
-            ))
+          ? comments.map((comment: any) => {
+              return (
+                <Comment
+                  key={comment.id}
+                  comment={comment.comment}
+                  state={comment.state}
+                  createdAt={comment.created_at}
+                  isCommentableOwner={comment.is_commentable_owner}
+                  user={comment.user}
+                />
+              )
+            })
           : null
         // <h4 className="font-semibold dark:text-white">
         //   There are no comments yet.
         // </h4>
       }
       {commentingAllowed ? (
-        add_comment_url ? (
-          <CommentField url="some-url" />
+        viewer.can_comment ? (
+          <CommentField url="some-url" onSubmit={handleCommentSubmission} />
         ) : (
           <div className="flex flex-col space-y-4 dark:text-white">
             <h4 className="font-semibold">

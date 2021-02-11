@@ -8,9 +8,13 @@ import {Formik} from 'formik'
 
 type CommentFieldProps = {
   url?: string
+  onSubmit?: any
 }
 
-const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
+const CommentField: FunctionComponent<CommentFieldProps> = ({
+  url,
+  onSubmit = () => {},
+}) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
 
@@ -20,8 +24,10 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({url}) => {
         <Formik
           initialValues={{newCommentText: ''}}
           //   validationSchema={loginSchema}
-          onSubmit={(values) => {
+          onSubmit={({newCommentText}, {resetForm}) => {
             setIsSubmitted(true)
+            onSubmit(newCommentText)
+            resetForm()
           }}
         >
           {(props) => {
