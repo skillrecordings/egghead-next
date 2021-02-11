@@ -31,28 +31,23 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
 
   return (
     <div className={commentsAvailable ? 'space-y-10' : 'space-y-6'}>
-      {
-        commentsAvailable
-          ? comments.map((comment: any) => {
-              return (
-                <Comment
-                  key={comment.id}
-                  comment={comment.comment}
-                  state={comment.state}
-                  createdAt={comment.created_at}
-                  isCommentableOwner={comment.is_commentable_owner}
-                  user={comment.user}
-                />
-              )
-            })
-          : null
-        // <h4 className="font-semibold dark:text-white">
-        //   There are no comments yet.
-        // </h4>
-      }
+      {commentsAvailable
+        ? comments.map((comment: any) => {
+            return (
+              <Comment
+                key={comment.id}
+                comment={comment.comment}
+                state={comment.state}
+                createdAt={comment.created_at}
+                isCommentableOwner={comment.is_commentable_owner}
+                user={comment.user}
+              />
+            )
+          })
+        : null}
       {commentingAllowed ? (
         viewer.can_comment ? (
-          <CommentField url="some-url" onSubmit={handleCommentSubmission} />
+          <CommentField onSubmit={handleCommentSubmission} />
         ) : (
           <div className="flex flex-col space-y-4 dark:text-white">
             <h4 className="font-semibold">

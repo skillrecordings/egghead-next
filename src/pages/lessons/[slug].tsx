@@ -191,9 +191,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
 
-  const commentsAvailable =
-    comments?.some((comment: any) => comment.state === 'published') ?? false
-
   React.useEffect(() => {
     setPlayerVisible(
       [
@@ -763,19 +760,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       />
                     </TabPanel>
                   )}
-                  {commentsAvailable && (
-                    <TabPanel>
-                      <div
-                        className="space-y-6 sm:space-y-8"
-                        css={{wordBreak: 'break-word'}}
-                      >
-                        <Comments
-                          lesson={lesson}
-                          commentingAllowed={viewer?.can_comment}
-                        />
-                      </div>
-                    </TabPanel>
-                  )}
+                  <TabPanel>
+                    <div
+                      className="space-y-6 sm:space-y-8"
+                      css={{wordBreak: 'break-word'}}
+                    >
+                      <Comments
+                        lesson={lesson}
+                        commentingAllowed={viewer?.can_comment}
+                      />
+                    </div>
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             </div>
