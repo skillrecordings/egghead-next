@@ -4,11 +4,9 @@ import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
-import {useRouter} from 'next/router'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import useTokenSigner from '../hooks/use-token-signer'
 import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
-import useLogRocket from '../hooks/use-logrocket'
 
 export const auth = new Auth()
 
