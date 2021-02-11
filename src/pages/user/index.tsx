@@ -59,7 +59,7 @@ const User: React.FunctionComponent<
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
               <div className="flex flex-col space-y-2">
                 <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
-                  You're Account is Connected to Github
+                  Your Account is Connected to Github
                 </h2>
                 <p>
                   You are able to login to egghead using your Github account!
