@@ -51,6 +51,7 @@ import useCio from 'hooks/use-cio'
 import {convertTimeWithTitles} from '../../utils/time-utils'
 import LevelUpCTA from '../../components/survey/level-up-cta'
 import Comments from '../../components/pages/lessons/comments/comments'
+import Spinner from 'components/spinner'
 
 const tracer = getTracer('lesson-page')
 
@@ -92,27 +93,6 @@ const OverlayWrapper: FunctionComponent<{
     </div>
   )
 }
-
-const Loader = () => (
-  <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
-    <svg
-      className="text-gray-200 dark:text-gray-100"
-      xmlns="http://www.w3.org/2000/svg"
-      width={32}
-      height={32}
-      viewBox="0 0 24 24"
-    >
-      <motion.g
-        animate={{rotateZ: [0, 360]}}
-        transition={{repeat: Infinity}}
-        fill="currentColor"
-      >
-        <path fill="none" d="M0 0h24v24H0z"></path>
-        <path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"></path>
-      </motion.g>
-    </svg>
-  </div>
-)
 
 type LessonProps = {
   initialLesson: LessonResource
@@ -189,7 +169,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
+  const spinnerVisible = ['loading', 'completed'].includes(currentPlayerState)
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -427,7 +407,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   },
                 }}
               >
-                <div
+                {/* <div
                   className={`${
                     playerVisible ? 'block' : 'hidden'
                   } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
@@ -487,9 +467,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     }}
                     subtitlesUrl={get(lesson, 'subtitles_url')}
                   />
-                </div>
+                </div> */}
 
-                {loaderVisible && <Loader />}
+                {spinnerVisible && <Spinner />}
+
+                <Spinner />
 
                 {playerState.matches('joining') && (
                   <OverlayWrapper>
