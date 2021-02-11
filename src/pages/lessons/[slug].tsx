@@ -407,7 +407,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   },
                 }}
               >
-                {/* <div
+                <div
                   className={`${
                     playerVisible ? 'block' : 'hidden'
                   } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
@@ -467,11 +467,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     }}
                     subtitlesUrl={get(lesson, 'subtitles_url')}
                   />
-                </div> */}
+                </div>
 
-                {spinnerVisible && <Spinner />}
-
-                <Spinner />
+                {spinnerVisible && (
+                  <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
+                    <Spinner />
+                  </div>
+                )}
 
                 {playerState.matches('joining') && (
                   <OverlayWrapper>
