@@ -18,11 +18,13 @@ type ViewerContextType = {
   logout?: any
   loading: boolean
   refreshUser?: any
+  setViewerEmail: (newEmail: string) => void
 }
 
 const defaultViewerContext: ViewerContextType = {
   authenticated: false,
   loading: true,
+  setViewerEmail: (_) => {},
 }
 
 export function useViewer() {
@@ -37,6 +39,12 @@ function useAuthedViewer() {
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
   const previousViewer = React.useRef(viewer)
+
+  const setViewerEmail = (newEmail: string) => {
+    setViewer((prevViewer: any) => {
+      return {...prevViewer, email: newEmail}
+    })
+  }
 
   useTokenSigner()
   useAffiliateAssigner(viewerId, getAccessTokenFromCookie())
@@ -149,6 +157,7 @@ function useAuthedViewer() {
   const values = React.useMemo(
     () => ({
       viewer,
+      setViewerEmail,
       logout: () => {
         setLoggingOut(true)
       },

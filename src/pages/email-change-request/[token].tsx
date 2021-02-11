@@ -16,7 +16,7 @@ async function confirmEmailChangeRequest(token: any) {
 const EmailChangeRequest: React.FunctionComponent = () => {
   const router = useRouter()
   const {token} = router.query
-  const {viewer, refreshUser} = useViewer()
+  const {viewer, setViewerEmail} = useViewer()
 
   return (
     <LoginRequired>
@@ -34,11 +34,13 @@ const EmailChangeRequest: React.FunctionComponent = () => {
                 <button
                   className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
                   onClick={async () => {
-                    const data = await confirmEmailChangeRequest(token)
+                    const {
+                      success,
+                      new_email,
+                    } = await confirmEmailChangeRequest(token)
 
-                    if (data.success === true) {
-                      // refresh the user to get the latest email before redirecting
-                      await refreshUser()
+                    if (success === true) {
+                      setViewerEmail(new_email)
 
                       router.replace('/user')
                     }
