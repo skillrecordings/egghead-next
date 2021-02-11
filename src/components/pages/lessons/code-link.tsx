@@ -13,7 +13,7 @@ const CodeLink: FunctionComponent<{
         rel="noreferrer"
         onClick={onClick}
         target="_blank"
-        className="flex items-center text-blue-600 dark:text-blue-300 hover:underline font-semibold"
+        className="flex items-center text-white dark:text-gray-900 px-4 py-3 rounded-lg dark:bg-gray-100 bg-gray-900 dark:hover:bg-gray-300 hover:bg-gray-700 font-semibold transition-colors ease-in-out duration-300"
       >
         {icon ? icon : <IconCode />}
         {children}
@@ -23,7 +23,7 @@ const CodeLink: FunctionComponent<{
 }
 
 export const IconCode: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-1 text-blue-700 dark:text-blue-300',
+  className = 'w-5 mr-2',
 }) => (
   <svg
     className={className}
@@ -45,7 +45,7 @@ export const IconCode: FunctionComponent<{className?: string}> = ({
 )
 
 export const IconGithub: FunctionComponent<{className?: string}> = ({
-  className = 'w-5 mr-1 text-blue-700 dark:text-blue-300',
+  className = 'w-5 mr-2',
 }) => (
   <svg
     className={className}

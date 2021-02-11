@@ -5,6 +5,8 @@ import {useViewer} from 'context/viewer-context'
 import RequestEmailChangeForm from 'components/users/request-email-change-form'
 import get from 'lodash/get'
 import SubscriptionDetails from 'components/users/subscription-details'
+import {loadUserProgress} from 'lib/users'
+import InProgressCollection from '../../components/pages/home/in-progress-collection'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -30,10 +32,22 @@ const User: React.FunctionComponent<
   const [account, setAccount] = React.useState<any>({})
   const {stripe_customer_id} = account
   const {viewer, authToken} = useViewer()
+  const [progress, setProgress] = React.useState<any>([])
 
   const {email: currentEmail, accounts, providers} = viewer || {}
   const {slug} = get(accounts, '[0]', {})
   const isConnectedToGithub = providers?.includes('github')
+
+  React.useEffect(() => {
+    const loadProgressForUser = async (user_id: number) => {
+      if (user_id) {
+        const {data} = await loadUserProgress(user_id)
+        setProgress(data)
+      }
+    }
+
+    loadProgressForUser(viewer.id)
+  }, [viewer?.id])
 
   React.useEffect(() => {
     const loadAccountForSlug = async (slug: undefined | string) => {
@@ -46,6 +60,7 @@ const User: React.FunctionComponent<
     loadAccountForSlug(slug)
   }, [slug, authToken])
 
+  console.log(progress)
   return (
     <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
@@ -59,7 +74,7 @@ const User: React.FunctionComponent<
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
               <div className="flex flex-col space-y-2">
                 <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
-                  You're Account is Connected to Github
+                  Your Account is Connected to Github
                 </h2>
                 <p>
                   You are able to login to egghead using your Github account!
@@ -83,6 +98,16 @@ const User: React.FunctionComponent<
             stripeCustomerId={stripe_customer_id}
             slug={slug}
           />
+          <div>
+            {progress.map((item: any) => {
+              return (
+                <InProgressCollection
+                  key={item.slug}
+                  collection={item.collection}
+                />
+              )
+            })}
+          </div>
         </div>
       </main>
     </LoginRequired>

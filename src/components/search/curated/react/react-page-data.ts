@@ -134,7 +134,7 @@ const reactPageData = [
   },
   {
     id: 'sideProjects',
-    title: 'Style React Apps',
+    title: 'Interesting React Apps',
     name: 'Projects that stand out',
     resources: [
       {
