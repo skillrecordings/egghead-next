@@ -9,7 +9,7 @@ import {playerMachine} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import LessonInfo from 'components/pages/lessons/lesson-info'
-import Transcript from 'components/pages/lessons/Transcript_'
+import Transcript from 'components/pages/lessons/transcript'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -402,7 +402,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         />
       </Head>
       <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 border-b border-gray-100  dark:border-gray-700">
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5 sm:border-b border-gray-100  dark:border-gray-800">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
               className="flex-grow w-full"
@@ -587,10 +587,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               </div>
             </div>
             {collection && collection?.lessons && (
-              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 border-l border-gray-100  self-stretch  dark:border-gray-700 dark:text-gray-100 dark:bg-gray-900">
-                <div className="p-4 border-b border-gray-100 dark:border-gray-700">
-                  <Course course={collection} currentLessonSlug={lesson.slug} />
-                </div>
+              <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 self-stretch dark:text-gray-100 dark:bg-gray-900">
+                {!md && (
+                  <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
+                    <Course
+                      course={collection}
+                      currentLessonSlug={lesson.slug}
+                    />
+                  </div>
+                )}
                 <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
                   <div className="lg:absolute top-0 bottom-0 left-0 right-0">
                     <CollectionLessonsList
@@ -610,10 +615,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             className={`grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
           >
             <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
-              <div className="space-y-4">
+              <div className="space-y-4 sm:pb-8 pb-2 sm:pt-6 pt-0">
                 <LevelUpCTA />
                 {title && (
-                  <h1 className="font-extrabold tracking-tight leading-tighter text-xl lg:text-3xl">
+                  <h1 className="font-extrabold leading-tight text-xl lg:text-3xl">
                     {title}
                   </h1>
                 )}
@@ -689,7 +694,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     </div>
                   </div>
                 </div>
-
+                {description && (
+                  <Markdown className="prose prose-lg dark:prose-dark max-w-none font-medium text-gray-1000 dark:text-white">
+                    {description}
+                  </Markdown>
+                )}
                 {(lesson?.code_url || lesson?.repo_url) && (
                   <div className="sm:text-base dark:text-gray-100 text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
                     {lesson?.code_url && (
@@ -702,7 +711,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         url={lesson.code_url}
                         icon={<IconCode />}
                       >
-                        Open code for this lesson
+                        View code for this lesson
                       </CodeLink>
                     )}
                     {lesson?.repo_url && (
@@ -715,34 +724,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         url={lesson.repo_url}
                         icon={<IconGithub />}
                       >
-                        Open code on GitHub
+                        View code on GitHub
                       </CodeLink>
                     )}
                   </div>
                 )}
-
-                {description && (
-                  <Markdown className="prose dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl max-w-none font-medium">
-                    {description}
-                  </Markdown>
-                )}
               </div>
               {md && (
-                <>
+                <div className="py-4">
                   <Course course={collection} currentLessonSlug={lesson.slug} />
-
-                  <LessonInfo
-                    autoplay={{enabled: false}}
-                    title={title}
-                    instructor={instructor}
-                    tags={tags}
-                    description={description}
-                    course={collection}
-                    lesson={lesson}
-                    playerState={playerState}
-                    className="space-y-4 lg:space-y-6"
-                  />
-                </>
+                </div>
               )}
               <Tabs
                 index={defaultView === 'comments' ? 1 : 0}
@@ -754,13 +745,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               >
                 <TabList>
                   {transcriptAvailable && <Tab>Transcript</Tab>}
-                  <Tab>Comments</Tab>
+                  <Tab>
+                    Comments{' '}
+                    <span className="text-sm">({comments.length})</span>
+                  </Tab>
                 </TabList>
-                <TabPanels className="md:mt-6 mt-3">
+                <TabPanels className="bg-gray-50 dark:bg-gray-1000 sm:p-8 p-5 sm:mx-0 -mx-5 rounded-lg rounded-tl-none">
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
-                        className="prose dark:prose-dark sm:dark:prose-lg-dark sm:prose-lg max-w-none break-words"
                         player={playerRef}
                         playerAvailable={playerVisible}
                         playVideo={() => send('PLAY')}
@@ -772,7 +765,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {commentsAvailable && (
                     <TabPanel>
                       <div
-                        className="space-y-6 sm:space-y-8 prose sm:prose-lg"
+                        className="space-y-6 sm:space-y-8"
                         css={{wordBreak: 'break-word'}}
                       >
                         {comments.map((comment: any) => (
