@@ -1,10 +1,12 @@
 import * as React from 'react'
 
-const Spinner: React.FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
+const Spinner: React.FunctionComponent<{
+  className?: string
+  size?: number
+  color?: string
+}> = ({className = '', size = 6, color = 'white'}) => (
   <svg
-    className={`animate-spin h-6 w-6 text-white ${className}`}
+    className={`animate-spin h-${size} w-${size} text-${color} ${className}`}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
