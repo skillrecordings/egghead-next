@@ -44,6 +44,15 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
       >
         <div
           className={`${
+            onDark ? 'text-gray-300' : ''
+          } text-xs transition-colors ease-in-out duration-200 ${
+            !enabled && 'opacity-30'
+          }`}
+        >
+          Autoplay
+        </div>
+        <div
+          className={`${
             enabled && autoplay
               ? 'bg-blue-600 group-hover:bg-blue-500'
               : `${
@@ -58,6 +67,7 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
               {autoplay ? 'Turn autoplay off' : 'Turn autoplay on'}
             </span>
           )}
+
           <span
             aria-hidden="true"
             className={`${
@@ -66,15 +76,6 @@ const AutoplayToggle: FunctionComponent<AutoplayToggleProps> = ({
               onDark ? 'bg-gray-200' : 'bg-white'
             } shadow transform ring-0 transition ease-in-out duration-200`}
           />
-        </div>
-        <div
-          className={`${
-            onDark ? 'text-white' : ''
-          } text-sm transition-colors ease-in-out duration-200 ${
-            !enabled && 'opacity-30'
-          }`}
-        >
-          Autoplay
         </div>
       </button>
     </div>
