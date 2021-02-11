@@ -15,20 +15,23 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
     series,
     slug,
     collection_progress,
+    progress,
     type,
     path,
     items = [],
   } = collection
+
+  const definedProgress = collection_progress || progress
 
   const {
     completed_lesson_count = 0,
     time_left = 0,
     lesson_count = 0,
     is_completed,
-  } = collection_progress || {}
+  } = definedProgress || {}
 
   const completedLessonSlugs = get(
-    collection_progress,
+    definedProgress,
     'completed_lessons',
     [],
   ).map((lesson: LessonResource) => lesson.slug)
@@ -42,7 +45,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
     ),
   )
 
-  const isInProgress = collection_progress && !is_completed
+  const isInProgress = definedProgress && !is_completed
   const lessons_left = lesson_count - completed_lesson_count
   const percent_complete = (completed_lesson_count * 100) / lesson_count
   const resource_path = current_lesson?.path || path

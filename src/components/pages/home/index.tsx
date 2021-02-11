@@ -86,7 +86,9 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+
             <CardHorizontal resource={portfolioProject} />
+
             <CardHorizontal resource={cms} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
               <CardVerticalWithStack data={aws} />
@@ -131,15 +133,7 @@ const Home: FunctionComponent = () => {
               </ol>
             </Card>
 
-            <LevelUpCTA
-              className="sm:py-3 py-2 h-full flex flex-col justify-between"
-              alternative={
-                <CardVerticalWithStack
-                  className="sm:py-3 py-2"
-                  data={getStarted}
-                />
-              }
-            />
+            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
 
             <CardVerticalWithStack data={devEssentials} />
 

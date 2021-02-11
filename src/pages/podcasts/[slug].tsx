@@ -4,6 +4,8 @@ import {loadPodcast, loadPodcasts} from 'lib/podcasts'
 import {PodcastResource} from 'types'
 import MorePodcasts from 'components/podcasts/more/more'
 import PodcastUi from 'components/podcasts/podcast/podcast'
+import removeMarkdown from 'remove-markdown'
+import {NextSeo} from 'next-seo'
 
 type PodcastProps = {
   podcast: PodcastResource
@@ -13,6 +15,27 @@ type PodcastProps = {
 const Podcast: FunctionComponent<PodcastProps> = ({podcasts, podcast}) => {
   return (
     <>
+      <NextSeo
+        description={removeMarkdown(podcast.summary)}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${podcast.path}`}
+        title={podcast.title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title: podcast.title,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${podcast.path}`,
+          description: removeMarkdown(podcast.summary),
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://og-image-react-egghead.now.sh/podcast/${podcast.slug}`,
+            },
+          ],
+        }}
+      />
       <PodcastUi podcast={podcast} />
       {podcasts && <MorePodcasts podcasts={podcasts} />}
     </>

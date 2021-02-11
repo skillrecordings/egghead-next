@@ -45,23 +45,23 @@ const Podcast: FunctionComponent<PodcastProps> = ({
 }) => {
   return (
     <div className="max-w-2xl w-full mx-auto leading-6 mb-10">
-      <div
-        css={{
-          height: `${IMAGE_SIZE}px`,
-          width: `${IMAGE_SIZE}px`,
-        }}
-        className="max-w-xs mx-auto mb-0"
-      >
-        <Image src={image_url} width={IMAGE_SIZE} height={IMAGE_SIZE} />
+      <div className="flex items-center justify-center">
+        <Image
+          css={{clipPath: 'circle(33%)'}}
+          className="absolute top-0 left-0"
+          src={image_url}
+          width={IMAGE_SIZE}
+          height={IMAGE_SIZE}
+        />
       </div>
       <div className="prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl leading-6">
-        <div className="text-sm uppercase font-light text-center text-gray-500">{`Episode ${episode_number} ${
+        <div className="text-sm uppercase font-light text-center text-gray-500 dark:text-gray-400 py-4">{`Episode ${episode_number} ${
           contributors && contributors.length > 0
             ? `• ${contributors.join(' && ')}`
             : ''
         }`}</div>
         <h1 className="mb-10">{title}</h1>
-        <div className="bg-white flex flex-col sm:flex-row mb-10 sticky top-0 z-10">
+        <div className="flex flex-col sm:flex-row mb-10 sticky top-0 z-10">
           <iframe
             height="52px"
             width="100%"
@@ -75,7 +75,7 @@ const Podcast: FunctionComponent<PodcastProps> = ({
               <a
                 key={link}
                 title={title}
-                className="transition-colors duration-300 mr-2 w-12 h-12 flex items-center justify-center hover:bg-gray-200 rounded-full"
+                className="transition-colors ease-in-out duration-300 mr-2 w-12 h-12 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full"
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
