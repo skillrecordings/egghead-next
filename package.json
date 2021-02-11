@@ -66,6 +66,7 @@
     "got": "^11.8.1",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",
+    "graphql-tag": "^2.11.0",
     "groq": "^2.2.6",
     "gsap": "^3.6.0",
     "honeycomb-beeline": "^2.6.0",
