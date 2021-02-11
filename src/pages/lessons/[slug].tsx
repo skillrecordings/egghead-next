@@ -50,6 +50,7 @@ import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
 import {convertTimeWithTitles} from '../../utils/time-utils'
 import LevelUpCTA from '../../components/survey/level-up-cta'
+import Comments from '../../components/pages/lessons/comments/comments'
 
 const tracer = getTracer('lesson-page')
 
@@ -189,9 +190,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
-
-  const commentsAvailable =
-    comments?.some((comment: any) => comment.state === 'published') ?? false
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -762,25 +760,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       />
                     </TabPanel>
                   )}
-                  {commentsAvailable && (
-                    <TabPanel>
-                      <div
-                        className="space-y-6 sm:space-y-8"
-                        css={{wordBreak: 'break-word'}}
-                      >
-                        {comments.map((comment: any) => (
-                          <Comment
-                            key={comment.id}
-                            comment={comment.comment}
-                            state={comment.state}
-                            createdAt={comment.created_at}
-                            isCommentableOwner={comment.is_commentable_owner}
-                            user={comment.user}
-                          />
-                        ))}
-                      </div>
-                    </TabPanel>
-                  )}
+                  <TabPanel>
+                    <div
+                      className="space-y-6 sm:space-y-8"
+                      css={{wordBreak: 'break-word'}}
+                    >
+                      <Comments
+                        lesson={lesson}
+                        commentingAllowed={viewer?.can_comment}
+                      />
+                    </div>
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             </div>
