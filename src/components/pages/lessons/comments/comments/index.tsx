@@ -17,6 +17,8 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
   commentingAllowed,
 }: CommentsProps) => {
   const {viewer} = useViewer()
+  console.log('viewer: ', viewer)
+  console.log('commentingAllowed: ', commentingAllowed)
   const [comments, setComments] = React.useState(lesson.comments)
   const {slug} = lesson
   const commentsAvailable =
