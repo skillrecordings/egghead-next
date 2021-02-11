@@ -3,7 +3,6 @@ import LoginRequired from 'components/login-required'
 import axios from 'axios'
 import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
-import isEmpty from 'lodash/isEmpty'
 
 async function confirmEmailChangeRequest(token: any) {
   const {data} = await axios.get(
@@ -16,7 +15,7 @@ async function confirmEmailChangeRequest(token: any) {
 const EmailChangeRequest: React.FunctionComponent = () => {
   const router = useRouter()
   const {token} = router.query
-  const {viewer, setViewerEmail} = useViewer()
+  const {setViewerEmail} = useViewer()
 
   return (
     <LoginRequired>
