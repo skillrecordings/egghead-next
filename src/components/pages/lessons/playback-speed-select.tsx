@@ -37,22 +37,22 @@ const PlaybackSpeedSelect: FunctionComponent<{
         }}
       >
         <ListboxButton
-          className="text-white text-sm rounded-md bg-gray-800 group"
+          className="text-white text-sm rounded-md bg-gray-800 group flex items-center justify-center"
           css={{padding: '0.5rem 0.75rem', border: 'none'}}
         >
-          <span className="text-xs transform translate-y-px uppercase tracking-wide text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
-            speed:
+          <span className="text-xs mb-px transform translate-y-px text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
+            Speed
           </span>
           <MultiplySymbol
             strokeWidth={3}
-            className="w-3 transform translate-y-px ml-2 flex-shrink-0 text-gray-100 group-hover:text-white transition-colors ease-in-out duration-200"
+            className="w-3 sm:mb-px transform translate-y-px ml-2 flex-shrink-0 text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200"
           />
-          <span className="font-sans text-gray-100 group-hover:text-white transition-colors ease-in-out duration-200">
+          <span className="font-sans sm:text-base text-xs text-gray-100 group-hover:text-white transition-colors ease-in-out duration-200">
             {playbackRate}
           </span>
         </ListboxButton>
         <ListboxPopover
-          className="dark:bg-gray-900 dark:text-white dark:border-gray-700 p-0 rounded-md shadow-md overflow-hidden"
+          className="dark:bg-gray-900 dark:text-white dark:border-gray-800 p-0 rounded-md shadow-md overflow-hidden"
           style={{outline: 'none'}}
         >
           <ListboxList
@@ -72,7 +72,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
                 <ListboxOption
                   key={index}
                   value={speed}
-                  className="dark:border-gray-700 hover:bg-blue-100 transition-colors ease-in-out duration-200 hover:text-black font-medium text-sm text-right px-3 py-2 border-t border-gray-100 cursor-pointer"
+                  className="dark:border-gray-800 hover:bg-blue-100 transition-colors ease-in-out duration-200 hover:text-black font-medium text-sm text-right px-3 py-2 border-t border-gray-100 cursor-pointer"
                   css={{
                     ':first-child': {
                       border: 'none',
