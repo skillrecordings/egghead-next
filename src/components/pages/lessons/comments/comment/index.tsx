@@ -65,7 +65,7 @@ const Comment: React.FunctionComponent<CommentProps> = ({
           </div>
         </div>
         <div
-          className="prose dark:prose-dark leading-tight sm:mt-0 mt-2"
+          className="prose dark:prose-dark max-w-none mt-1"
           css={{
             '> :first-child': {marginTop: 0},
             '> :last-child': {marginBottom: 0},
