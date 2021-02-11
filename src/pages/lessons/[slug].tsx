@@ -3,12 +3,10 @@ import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import {isEmpty, get, first, isFunction} from 'lodash'
 import {useMachine} from '@xstate/react'
-import {motion} from 'framer-motion'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {playerMachine} from 'machines/lesson-player-machine'
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
-import LessonInfo from 'components/pages/lessons/lesson-info'
 import Transcript from 'components/pages/lessons/transcript'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
@@ -26,7 +24,6 @@ import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-over
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
-import SortingHat from 'components/survey/sorting-hat'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
@@ -40,7 +37,6 @@ import Share from 'components/share'
 import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import Comment from 'components/pages/lessons/comments/comment'
 import CodeLink, {
   IconCode,
   IconGithub,
@@ -48,9 +44,9 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
-import {convertTimeWithTitles} from '../../utils/time-utils'
 import LevelUpCTA from '../../components/survey/level-up-cta'
 import Comments from '../../components/pages/lessons/comments/comments'
+import Spinner from 'components/spinner'
 
 const tracer = getTracer('lesson-page')
 
@@ -92,27 +88,6 @@ const OverlayWrapper: FunctionComponent<{
     </div>
   )
 }
-
-const Loader = () => (
-  <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
-    <svg
-      className="text-gray-200 dark:text-gray-100"
-      xmlns="http://www.w3.org/2000/svg"
-      width={32}
-      height={32}
-      viewBox="0 0 24 24"
-    >
-      <motion.g
-        animate={{rotateZ: [0, 360]}}
-        transition={{repeat: Infinity}}
-        fill="currentColor"
-      >
-        <path fill="none" d="M0 0h24v24H0z"></path>
-        <path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"></path>
-      </motion.g>
-    </svg>
-  </div>
-)
 
 type LessonProps = {
   initialLesson: LessonResource
@@ -189,7 +164,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  const loaderVisible = ['loading', 'completed'].includes(currentPlayerState)
+  const spinnerVisible = ['loading', 'completed'].includes(currentPlayerState)
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -489,7 +464,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   />
                 </div>
 
-                {loaderVisible && <Loader />}
+                {spinnerVisible && (
+                  <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
+                    <Spinner />
+                  </div>
+                )}
 
                 {playerState.matches('joining') && (
                   <OverlayWrapper>
