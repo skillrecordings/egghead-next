@@ -979,16 +979,14 @@ const Prereqs = ({prerequisites}: any) => {
     <ul className="grid grid-cols-1 md:gap-x-5">
       {prerequisites?.map((prerequisite: any) =>
         prerequisite.path ? (
-          <Link href={prerequisite.path}>
-            <a>
-              <li
-                key={prerequisite.id}
-                className="text-gray-900 dark:text-gray-100 leading-6"
-              >
-                {prerequisite.title}
-              </li>
-            </a>
-          </Link>
+          <li
+            key={prerequisite.id}
+            className="text-gray-900 dark:text-gray-100 leading-6"
+          >
+            <Link href={prerequisite.path}>
+              <a>{prerequisite.title}</a>
+            </Link>
+          </li>
         ) : (
           <li
             key={prerequisite.id}
