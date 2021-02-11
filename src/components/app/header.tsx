@@ -11,6 +11,7 @@ import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
 import useCio from '../../hooks/use-cio'
 import {Form, Formik} from 'formik'
+import LevelUpCTA from '../survey/level-up-cta'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -38,7 +39,7 @@ const Header: FunctionComponent = () => {
         {viewer ? (
           <div className={className}>
             {children}
-
+            <LevelUpCTA variant="header" />
             <Feedback
               user={viewer}
               className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"

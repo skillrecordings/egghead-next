@@ -45,6 +45,12 @@ const Home: FunctionComponent = () => {
   const accessibleReactApps: any = find(homepageData, {
     id: 'accessibleReactApps',
   })
+  const nextjsVideoApp: any = find(homepageData, {
+    id: 'nextjsVideoApp',
+  })
+  const amplifyAdminIU: any = find(homepageData, {
+    id: 'amplifyAdminIU',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -86,7 +92,18 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+
             <CardHorizontal resource={portfolioProject} />
+
+            <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
+              <Card resource={nextjsVideoApp} className="h-full text-center">
+                <Collection />
+              </Card>
+              <Card resource={amplifyAdminIU} className="h-full text-center">
+                <Collection />
+              </Card>
+            </div>
+
             <CardHorizontal resource={cms} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
               <CardVerticalWithStack data={aws} />
@@ -114,8 +131,6 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
-            <LevelUpCTA className="sm:py-3 py-2 h-full flex flex-col justify-between" />
-
             <Card resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
