@@ -22,10 +22,10 @@ const Topic: FunctionComponent<TopicProps> = ({
     >
       <div
         className="overflow-hidden sm:col-span-2 col-span-2 w-full h-full"
-        style={{
+        css={{
           background: `url(${imageUrl})`,
           backgroundSize: 'cover',
-          backgroundPosition: '38%',
+          backgroundPosition: '50%',
         }}
       />
       <div className="sm:col-span-6 col-span-6 flex flex-col justify-start h-full p-8">

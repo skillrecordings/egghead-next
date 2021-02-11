@@ -46,7 +46,6 @@ export const titleFromPath = (all: string[] = []) => {
   const instructor = last(path.split(`${CREATOR_DELINIATOR}-`))
   const tags = tagsForPath(path)
 
-  const count = config.searchResultCount
   const humanizedTags = `${humanize(tags?.map(toTitleCase))}`
   const humanizedInstructors = humanize(
     instructor?.split(`-and-`).map(nameSlugToName),
@@ -58,7 +57,7 @@ export const titleFromPath = (all: string[] = []) => {
 
   //TODO: I think we need more tests around tags and years here...
 
-  return `${count}+ ${humanizedTags} Resources for Web Developers in ${year}`
+  return `Learn ${humanizedTags}`
 }
 
 const instructorsForPath = (path: string) => {

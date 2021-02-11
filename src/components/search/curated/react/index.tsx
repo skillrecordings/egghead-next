@@ -17,6 +17,10 @@ const SearchReact = () => {
   const beginner: any = find(reactPageData, {id: 'beginner'})
   const intermediate: any = find(reactPageData, {id: 'intermediate'})
   const advanced: any = find(reactPageData, {id: 'advanced'})
+
+  const style: any = find(reactPageData, {id: 'style'})
+  const sideProjects: any = find(reactPageData, {id: 'sideProjects'})
+
   const stateManagementVideo: any = find(reactPageData, {
     id: 'state-management-video',
   })
@@ -179,6 +183,20 @@ You can find courses below curated just for you whether you're looking for a par
           </Card>
         </div>
       </section>
+
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
+        <Card resource={style} location={location}>
+          <Collection />
+        </Card>
+        <Card
+          className="h-full md:col-span-2 col-span-12"
+          resource={sideProjects}
+          location={location}
+        >
+          <Collection />
+        </Card>
+      </div>
+
       <section className="mt-20 grid md:grid-cols-3 grid-cols-1 gap-5">
         <Card resource={reactArticles} location={location}>
           <Collection />

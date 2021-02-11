@@ -12,7 +12,7 @@ const bp: any = {
 
 export const bpMinSM = `@media (min-width: ${bp.sm}px)`
 export const bpMinMD = `@media (min-width: ${bp.md}px)`
-export const bpMinLG = `@media (min-width: ${bp.lg}px`
+export const bpMinLG = `@media (min-width: ${bp.lg}px)`
 export const bpMinXL = `@media (min-width: ${bp.xl}px)`
 
 export const bpMaxXS = `@media (max-width: ${bp.sm - 1}px)`
