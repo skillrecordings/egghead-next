@@ -4,11 +4,9 @@ import queryString from 'query-string'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
-import {useRouter} from 'next/router'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import useTokenSigner from '../hooks/use-token-signer'
 import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
-import useLogRocket from '../hooks/use-logrocket'
 
 export const auth = new Auth()
 
@@ -20,11 +18,13 @@ type ViewerContextType = {
   logout?: any
   loading: boolean
   refreshUser?: any
+  setViewerEmail: (newEmail: string) => void
 }
 
 const defaultViewerContext: ViewerContextType = {
   authenticated: false,
   loading: true,
+  setViewerEmail: (_) => {},
 }
 
 export function useViewer() {
@@ -39,6 +39,12 @@ function useAuthedViewer() {
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
   const previousViewer = React.useRef(viewer)
+
+  const setViewerEmail = (newEmail: string) => {
+    setViewer((prevViewer: any) => {
+      return {...prevViewer, email: newEmail}
+    })
+  }
 
   useTokenSigner()
   useAffiliateAssigner(viewerId, getAccessTokenFromCookie())
@@ -151,6 +157,7 @@ function useAuthedViewer() {
   const values = React.useMemo(
     () => ({
       viewer,
+      setViewerEmail,
       logout: () => {
         setLoggingOut(true)
       },
