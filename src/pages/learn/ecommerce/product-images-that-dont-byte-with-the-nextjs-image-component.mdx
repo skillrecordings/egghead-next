@@ -106,9 +106,9 @@ Now when trying to load the image in the browser, the image dropped down from 2.
 
 If you look closely, you can also see that the image is now being served as [WEBP](https://developers.google.com/speed/webp) instead of a JPG, a modern image format for the web.
 
-While this is a bit extreme of an example (typically we should be more conscious about the size of the images we load), this could realistically happen in scenarios where you’re not the one managing the images getting added or simply someone forgot to check how big that image was before dropping it in.
+While this is a bit extreme of an example (typically we should be more conscious about the size of the images we load), this could realistically happen in scenarios where you’re not the one managing the images getting added or someone simply forgot to check how big that image was before dropping it in.
 
-Without much work, we’re providing an optimized image that was converted from JPG to WEBP, requiring our visitors to download less and while allowing the page to load faster.
+Without much work, we’re providing an optimized image that was converted from JPG to WEBP. Pages now require less content for visitors to download which result in faster page load speeds.
 
 ## Making our Next.js images responsive
 
@@ -121,7 +121,7 @@ By setting the layout, we can tell Next.js how to display the image, whether it�
 - `responsive`: will scale the image up and down, including the size
 - `fill`: will fill the image to the size of the parent element
 
-The one interesting to us here is the responsive option, where not only will our image resize as the viewport changes, Next.js will provide a `srcset` attribute which will load different images at different sizes depending on how big the viewport is.
+The interesting option to us here is to set layout to `responsive`. Not only will our image resize as the viewport changes, Next.js will provide a `srcset` attribute which will load different images at different sizes depending on how big the viewport is.
 
 To try this out, we can add the prop to our `Image` Component:
 
@@ -157,6 +157,6 @@ That means, the browser will be able to dynamically load different image sizes d
 
 ## Driving more sales with a better UX
 
-While images are just one part of how we can focus on providing a better user experience to our visitors, not paying attention could potentially lead to serving your potential customers huge images, costing them bandwidth and time, as well as costing you and your business potential sales.
+Images are just one part of how we can focus on providing a better user experience to our visitors. Not paying attention to your images could lead to serving your customers huge images, costing them bandwidth and time. This leads to costing you and your business sales.
 
 Fortunately, Next.js makes this easy with the `Image` component, allowing us to spend more building beautiful experiences while the framework robots do the hard work.
