@@ -6,16 +6,14 @@ const CommunityResource: React.FunctionComponent<{type?: string}> = ({
 }) => {
   return (
     <>
-      <div className="flex items-center ">
-        <CommunityResourceIcon className="w-6 mr-2 text-yellow-300 flex-shrink-0" />
-        <h4 className="font-semibold">Free Community Resource</h4>
+      <div className="flex items-baseline">
+        <CommunityResourceIcon className="w-6 mr-2 text-yellow-300 flex-shrink-0 justify-center" />
+        <h4 className="text-xl font-semibold mb-4">Free Community Resource</h4>
       </div>
-      <div className="mt-3">
-        <p className="text-sm text-gray-600 dark:text-gray-100">
-          A Community Resource means that it’s free to access for all. The
-          instructor of this lesson requested it to be open to the public.
-        </p>
-      </div>
+      <p className="prose dark:prose-dark w-full">
+        A Community Resource means that it’s free to access for all. The
+        instructor of this lesson requested it to be open to the public.
+      </p>
     </>
   )
 }

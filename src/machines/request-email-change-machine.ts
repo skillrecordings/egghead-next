@@ -1,6 +1,6 @@
-import {Machine, assign, DoneEventObject as _DoneEventObject} from 'xstate'
+import {Machine, assign} from 'xstate'
 
-export type DoneEventObject = _DoneEventObject
+export type DoneEventObject = import('xstate').DoneEventObject
 
 interface StateSchema {
   states: {
@@ -16,7 +16,7 @@ export type Event =
   | {type: 'EDIT'}
   | {type: 'CANCEL'}
   | {type: 'SUBMIT'; data: {newEmail: string}}
-  | _DoneEventObject
+  | DoneEventObject
 
 export interface Context {
   newEmail?: string
