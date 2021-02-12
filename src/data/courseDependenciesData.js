@@ -4,6 +4,89 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '425628',
+        type: 'playlist',
+        guid: '7297',
+        slug: 'accessible-cross-browser-css-form-styling-7297',
+        topics: [
+          'Structural layout of form elements',
+          'Group fields into a fieldset',
+          'Adjust behavior based on viewport size',
+          'Style radio and checkbox elements',
+        ],
+        prerequisites: [
+          {
+            id: '392298',
+            title: 'Build An Eleventy (11ty) Site From Scratch',
+            path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/full/11ty.png',
+          },
+          {
+            id: '87',
+            title: 'Learn the Best and Most Useful SCSS',
+            path: '/courses/learn-the-best-and-most-useful-scss',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/087/full/EGH_SCSS_Final.png',
+          },
+          {
+            id: '55',
+            title: 'Start Building Accessible Web Applications Today',
+            path: '/courses/start-building-accessible-web-applications-today',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/055/full/EGH_AccessibleWeb.png',
+          },
+        ],
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up to date — if you are looking to build a form for your website, you should start here.`,
+          asOf: `2021-02-11`,
+        },
+        nextSteps: [
+          'Adapt the mini-design system used for the forms into your existing application.',
+          'Build a mock survey form using the same Eleventy starter',
+        ],
+        essentialQuestions: [
+          'What do native controls offer? Am I using the best choice?',
+          'Is my form accessible?',
+          'How should I balance the tradeoffs between functionality and accessibility?',
+        ],
+        pairWithResources: [
+          {
+            id: 235,
+            title: 'CSS Selectors in Depth',
+            byline: 'Garth Braithwaite・34m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/235/full/EGH_CSSSelectors_Final.png',
+            path: '/courses/css-selectors-in-depth',
+            slug: 'css-selectors-in-depth',
+            description: `Cascading style sheet (CSS) selectors are the glue that connects styling to HTML content. Understanding how they work enables a developer to write more semantic markup and keeps styling modular for better project maintenance.`,
+          },
+          {
+            id: 227,
+            title: 'CSS Fundamentals',
+            byline: 'Tyler Clark・33m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/full/EGH_CSSFundamentals_Final.png',
+            path: '/courses/css-fundamentals',
+            slug: 'css-fundamentals',
+            description:
+              'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image.',
+          },
+          {
+            id: 107,
+            title: 'Build Complex Layouts with CSS Grid Layout',
+            byline: 'Rory Smith・30m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/full/EGH_CSS_Grids.png',
+            path: '/courses/build-complex-layouts-with-css-grid-layout',
+            slug: 'build-complex-layouts-with-css-grid-layout',
+            description: `CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.`,
+          },
+        ],
+      },
+      {
         id: '422773',
         type: 'playlist',
         guid: '4efb',
@@ -674,15 +757,15 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'Command line familiarity',
+            title: 'Command line familiarity',
           },
           {
             type: 'text',
-            label: 'Node.js & npm installed',
+            title: 'Node.js & npm installed',
           },
           {
             type: 'text',
-            label: 'Familiarity with React & Express will be helpful',
+            title: 'Familiarity with React & Express will be helpful',
           },
         ],
         notes: [
@@ -711,15 +794,24 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '236',
+            title: 'Graphql Query Language',
+            path: '/courses/graphql-query-language',
             type: 'egghead_course',
             slug: 'graphql-query-language',
           },
           {
+            id: '309823',
+            path:
+              '/playlists/introduction-to-urql-a-react-graphql-client-faaa2bf5',
             type: 'egghead_playlist',
-            label: 'Introduction to urql',
+            title: 'Introduction to urql',
             slug: 'introduction-to-urql-a-react-graphql-client-faaa2bf5',
           },
           {
+            id: '262',
+            title: 'React Context For State Management',
+            path: '/courses/react-context-for-state-management',
             type: 'egghead_course',
             slug: 'react-context-for-state-management',
           },
@@ -762,7 +854,7 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'PHP familiarity helpful',
+            title: 'PHP familiarity helpful',
           },
         ],
       },
@@ -852,6 +944,9 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
@@ -885,11 +980,11 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'Command line familiarity',
+            title: 'Command line familiarity',
           },
           {
             type: 'text',
-            label: 'Accounts for Netlify, Hasura, and Heroku',
+            title: 'Accounts for Netlify, Hasura, and Heroku',
           },
         ],
       },
@@ -911,6 +1006,9 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
@@ -951,6 +1049,9 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
@@ -992,30 +1093,37 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'egghead_lesson',
-            label: 'Create an AWS IAM User with Programmatic Access',
-            slug:
-              'egghead-create-an-admin-user-with-iam-and-configure-aws-cli-to-enable-programmatic-access-to-aws',
+            title: 'Create an AWS IAM User with Programmatic Access',
+            path:
+              '/lessons/egghead-create-an-admin-user-with-iam-and-configure-aws-cli-to-enable-programmatic-access-to-aws',
           },
           {
             type: 'egghead_playlist',
-            label: 'AWS Billing and Cost Management',
-            slug:
-              'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+            title: 'AWS Billing and Cost Management',
+            path:
+              '/lessons/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
           },
           {
+            id: '346642',
+            path: '/playlists/learn-aws-lambda-from-scratch-d29d',
             type: 'egghead_playlist',
-            label: 'Learn AWS Lambda from Scratch',
+            title: 'Learn AWS Lambda from Scratch',
             slug: 'learn-aws-lambda-from-scratch-d29d',
           },
           {
+            id: '347750',
+            path:
+              '/playlists/learn-aws-serverless-application-model-aws-sam-framework-from-scratch-baf9',
             type: 'egghead_playlist',
-            label: 'Learn AWS Serverless Application Model (SAM)',
+            title: 'Learn AWS Serverless Application Model (SAM)',
             slug:
               'learn-aws-serverless-application-model-aws-sam-framework-from-scratch-baf9',
           },
           {
+            id: '352509',
+            path: '/playlists/intro-to-dynamodb-f35a',
             type: 'egghead_playlist',
-            label: 'Intro to DynamoDB',
+            title: 'Intro to DynamoDB',
             slug: 'intro-to-dynamodb-f35a',
           },
         ],
@@ -1049,12 +1157,15 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '273',
+            title: 'Sql Fundamentals',
+            path: '/courses/sql-fundamentals',
             type: 'egghead_course',
             slug: 'sql-fundamentals',
           },
           {
             type: 'text',
-            label: 'Familiarity with the CRUD actions in SQL',
+            title: 'Familiarity with the CRUD actions in SQL',
           },
         ],
         projects: [
@@ -1106,10 +1217,16 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '20',
+            title: 'Introduction To Reactive Programming',
+            path: '/courses/introduction-to-reactive-programming',
             type: 'egghead_course',
             slug: 'introduction-to-reactive-programming',
           },
           {
+            id: '34',
+            title: 'Rxjs Beyond The Basics Operators In Depth',
+            path: '/playlists/rxjs-beyond-the-basics-operators-in-depth',
             type: 'egghead_course',
             slug: 'rxjs-beyond-the-basics-operators-in-depth',
           },
@@ -1131,10 +1248,16 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '78',
+            title: 'Understand The Basics Of HTTP',
+            path: '/courses/understand-the-basics-of-http',
             type: 'egghead_course',
             slug: 'understand-the-basics-of-http',
           },
           {
+            id: '18',
+            title: 'Getting Started With Express.js',
+            path: '/courses/getting-started-with-express-js',
             type: 'egghead_course',
             slug: 'getting-started-with-express-js',
           },
@@ -1159,14 +1282,23 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
+            id: '163',
+            title: 'Simplify React Apps With React Hooks',
+            path: '/courses/simplify-react-apps-with-react-hooks',
             type: 'egghead_course',
             slug: 'simplify-react-apps-with-react-hooks',
           },
           {
+            id: '55',
+            title: 'Start Building Accessible Web Applications Today',
+            path: '/courses/start-building-accessible-web-applications-today',
             type: 'egghead_course',
             slug: 'start-building-accessible-web-applications-today',
           },
@@ -1193,12 +1325,16 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '236',
+            title: 'Graphql Query Language',
             type: 'egghead_course',
-            slug: 'graphql-query-language',
+            path: '/courses/graphql-query-language',
           },
           {
+            id: '231',
+            title: 'Graphql Data In React With Apollo Client',
             type: 'egghead_course',
-            slug: 'graphql-data-in-react-with-apollo-client',
+            path: '/courses/graphql-data-in-react-with-apollo-client',
           },
         ],
       },
@@ -1222,8 +1358,10 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '402',
+            title: 'Construct Sturdy Uis With Xstate',
             type: 'egghead_course',
-            slug: 'construct-sturdy-uis-with-xstate',
+            path: '/courses/construct-sturdy-uis-with-xstate',
           },
         ],
       },
@@ -1247,8 +1385,10 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '403',
+            title: 'Introduction To State Machines Using Xstate',
             type: 'egghead_course',
-            slug: 'introduction-to-state-machines-using-xstate',
+            path: '/courses/introduction-to-state-machines-using-xstate',
           },
         ],
       },
@@ -1269,12 +1409,16 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '50',
+            title: 'Practical Git For Everyday Professional Use',
             type: 'egghead_course',
-            slug: 'practical-git-for-everyday-professional-use',
+            path: '/courses/practical-git-for-everyday-professional-use',
           },
           {
+            id: '247',
+            title: 'Productive Git For Developers',
             type: 'egghead_course',
-            slug: 'productive-git-for-developers',
+            path: '/courses/productive-git-for-developers',
           },
         ],
       },
@@ -1297,12 +1441,16 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '263',
+            title: 'Simplify React Apps With React Hooks',
             type: 'egghead_course',
-            slug: 'simplify-react-apps-with-react-hooks',
+            path: '/courses/simplify-react-apps-with-react-hooks',
           },
           {
+            id: '185',
+            title: 'Javascript Promises In Depth',
             type: 'egghead_course',
-            slug: 'javascript-promises-in-depth',
+            path: '/courses/javascript-promises-in-depth',
           },
         ],
       },
@@ -1323,20 +1471,29 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
+            id: '263',
+            title: 'Simplify React Apps With React Hooks',
             type: 'egghead_course',
-            slug: 'simplify-react-apps-with-react-hooks',
+            path: '/courses/simplify-react-apps-with-react-hooks',
           },
           {
+            id: '166',
+            title: 'React Class Component Patterns',
             type: 'egghead_course',
-            slug: 'react-class-component-patterns',
+            path: '/courses/react-class-component-patterns',
           },
           {
+            id: '264',
+            title: 'Reusable State And Effects With React Hooks',
             type: 'egghead_course',
-            slug: 'reusable-state-and-effects-with-react-hooks',
+            path: '/courses/reusable-state-and-effects-with-react-hooks',
           },
         ],
       },
@@ -1361,20 +1518,29 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
+            id: '263',
+            title: 'Simplify React Apps With React Hooks',
             type: 'egghead_course',
-            slug: 'simplify-react-apps-with-react-hooks',
+            path: '/courses/simplify-react-apps-with-react-hooks',
           },
           {
+            id: '157',
+            title: 'Build A Blog With React And Markdown Using Gatsby',
             type: 'egghead_course',
-            slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
+            path: '/courses/build-a-blog-with-react-and-markdown-using-gatsby',
           },
           {
+            id: '311',
+            title: 'Gatsby Theme Authoring',
             type: 'egghead_course',
-            slug: 'gatsby-theme-authoring',
+            path: '/courses/gatsby-theme-authoring',
           },
         ],
       },
@@ -1396,8 +1562,10 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '311',
+            title: 'Gatsby Theme Authoring',
             type: 'egghead_course',
-            slug: 'gatsby-theme-authoring',
+            path: '/courses/gatsby-theme-authoring',
           },
         ],
       },
@@ -1420,8 +1588,10 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '83',
+            title: 'Develop Basic Web Apps With Vue Js',
             type: 'egghead_course',
-            slug: 'develop-basic-web-apps-with-vue-js',
+            path: '/courses/develop-basic-web-apps-with-vue-js',
           },
         ],
       },
@@ -1443,6 +1613,8 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '49',
+            title: 'Learn ES6 Ecmascript 2015',
             type: 'egghead_course',
             slug: 'learn-es6-ecmascript-2015',
           },
@@ -1465,12 +1637,17 @@ const courseDependencyData = (courseSlug) =>
         ],
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
+            id: '264',
+            title: 'Reusable State And Effects With React Hooks',
             type: 'egghead_course',
-            slug: 'reusable-state-and-effects-with-react-hooks',
+            path: '/courses/reusable-state-and-effects-with-react-hooks',
           },
         ],
       },
@@ -1498,15 +1675,19 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'Basic knowledge of immutable principles',
+            title: 'Basic knowledge of immutable principles',
           },
           {
+            id: '49',
+            title: 'Learn ES6 Ecmascript 2015',
             type: 'egghead_course',
-            slug: 'learn-es6-ecmascript-2015',
+            path: '/courses/learn-es6-ecmascript-2015',
           },
           {
+            id: '263',
+            title: 'Simplify React Apps With React Hooks',
             type: 'egghead_course',
-            slug: 'simplify-react-apps-with-react-hooks',
+            path: '/courses/simplify-react-apps-with-react-hooks',
           },
         ],
       },
@@ -1534,15 +1715,19 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'Usage of common command line tools',
+            title: 'Usage of common command line tools',
           },
           {
+            id: '49',
+            title: 'Learn ES6 Ecmascript 2015',
             type: 'egghead_course',
-            slug: 'learn-es6-ecmascript-2015',
+            path: '/courses/learn-es6-ecmascript-2015',
           },
           {
+            id: '15',
+            title: 'Introduction To Node The Fundamentals',
             type: 'egghead_course',
-            slug: 'introduction-to-node-the-fundamentals',
+            path: '/courses/introduction-to-node-the-fundamentals',
           },
         ],
         goals: [
@@ -1571,12 +1756,14 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '157',
+            title: 'Build A Blog With React And Markdown Using Gatsby',
             type: 'egghead_course',
-            slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
+            path: '/courses/build-a-blog-with-react-and-markdown-using-gatsby',
           },
           {
             type: 'text',
-            label: 'Know React and GraphQL basics',
+            title: 'Know React and GraphQL basics',
           },
         ],
         goals: [
@@ -1606,16 +1793,16 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'Some basic understanding of JavaScript, HTML, and CSS',
+            title: 'Some basic understanding of JavaScript, HTML, and CSS',
           },
           {
             type: 'text',
-            label:
+            title:
               'Familiarity with Vue, npm and node, and express servers is recommended',
           },
           {
             type: 'text',
-            label:
+            title:
               'No previous experience with realtime communication libraries needed!',
           },
         ],
@@ -1646,15 +1833,15 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'Basic knowledge of JavaScript, HTML, and CSS.',
+            title: 'Basic knowledge of JavaScript, HTML, and CSS.',
           },
           {
             type: 'text',
-            label: 'Basic understanding of client/server data transfer',
+            title: 'Basic understanding of client/server data transfer',
           },
           {
             type: 'text',
-            label: 'Familiarity with DOM element selectors',
+            title: 'Familiarity with DOM element selectors',
           },
         ],
         goals: [
@@ -1681,11 +1868,11 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             type: 'text',
-            label: 'SQL beginners welcome!',
+            title: 'SQL beginners welcome!',
           },
           {
             type: 'text',
-            label: 'Some command line and terminal experience will be helpful',
+            title: 'Some command line and terminal experience will be helpful',
           },
         ],
       },
@@ -1712,20 +1899,23 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '160',
+            title: "The Beginner's Guide To React",
+            path: '/courses/the-beginner-s-guide-to-react',
             type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
             type: 'text',
-            label: 'Know the basics of React and how to use npm',
+            title: 'Know the basics of React and how to use npm',
           },
           {
             type: 'text',
-            label: 'Have some knowledge of JavaScript and CSS',
+            title: 'Have some knowledge of JavaScript and CSS',
           },
           {
             type: 'text',
-            label: 'No math or WebGL required!',
+            title: 'No math or WebGL required!',
           },
         ],
         goals: [
