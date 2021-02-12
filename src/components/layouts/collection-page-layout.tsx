@@ -169,6 +169,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     pairWithResources = defaultPairWithResources,
     courseProject,
     quickFacts,
+    prerequisites,
     essentialQuestions,
     multiModuleCourse,
     moduleResource,
@@ -461,7 +462,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <CourseProjectCard courseProject={courseProject} />
 
                 {get(course, 'free_forever') && (
-                  <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
+                  <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
                 )}
@@ -478,30 +479,46 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {!isEmpty(podcast) && (
                 <CoursePodcast podcast={podcast} instructorName={full_name} />
               )}
-              {topics && (
-                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                  <h2 className="text-lg font-semibold mb-3">
-                    What you'll learn
-                  </h2>
-                  <div className="prose dark:prose-dark">
-                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
-                      {topics?.map((topic: string) => (
-                        <li
-                          key={topic}
-                          className="text-gray-900 dark:text-gray-100 leading-6"
-                        >
-                          {topic}
-                        </li>
-                      ))}
-                    </ul>
+              <div
+                className={`grid md:gap-x-5 ${
+                  prerequisites && topics ? 'grid-cols-2' : 'grid-cols-1'
+                }`}
+              >
+                {topics && (
+                  <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                    <h2 className="text-lg font-semibold mb-3">
+                      What you'll learn
+                    </h2>
+                    <div className="prose dark:prose-dark">
+                      <ul className="grid grid-cols-1 md:gap-x-5">
+                        {topics?.map((topic: string) => (
+                          <li
+                            key={topic}
+                            className="text-gray-900 dark:text-gray-100 leading-6"
+                          >
+                            {topic}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+                {prerequisites && (
+                  <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                    <h2 className="text-lg font-semibold mb-3">
+                      Prerequisites
+                    </h2>
+                    <div className="prose dark:prose-dark">
+                      <Prereqs prerequisites={prerequisites} />
+                    </div>
+                  </div>
+                )}
+              </div>
               {quickFacts && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">Quick Facts</h2>
                   <div className="prose dark:prose-dark">
-                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                    <ul className="grid grid-cols-1 md:gap-x-5">
                       {quickFacts?.map((quickFact: string) => (
                         <li
                           key={quickFact}
@@ -517,10 +534,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {essentialQuestions && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
-                    Essential Questions
+                    Questions to Reflect Upon:
                   </h2>
                   <div className="prose dark:prose-dark">
-                    <ul className="grid md:grid-cols-2 grid-cols-1 md:gap-x-5">
+                    <ul className="grid grid-cols-1 md:gap-x-5">
                       {essentialQuestions?.map((essentialQuestion: string) => (
                         <li
                           key={essentialQuestion}
@@ -577,13 +594,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               <CourseProjectCard courseProject={courseProject} />
 
-              <div className="">
-                {get(course, 'free_forever') && (
-                  <div className="p-3 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                    <CommunityResource type="course" />
-                  </div>
-                )}
-              </div>
+              {get(course, 'free_forever') && (
+                <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
+                  <CommunityResource type="course" />
+                </div>
+              )}
 
               {illustrator && (
                 <div className="w-full">
@@ -957,6 +972,32 @@ const CoursePodcast = ({
       </div>
     )
   }
+}
+
+const Prereqs = ({prerequisites}: any) => {
+  return (
+    <ul className="grid grid-cols-1 md:gap-x-5">
+      {prerequisites?.map((prerequisite: any) =>
+        prerequisite.path ? (
+          <li
+            key={prerequisite.id}
+            className="text-gray-900 dark:text-gray-100 leading-6"
+          >
+            <Link href={prerequisite.path}>
+              <a>{prerequisite.title}</a>
+            </Link>
+          </li>
+        ) : (
+          <li
+            key={prerequisite.id}
+            className="text-gray-900 dark:text-gray-100 leading-6"
+          >
+            {prerequisite.title}
+          </li>
+        ),
+      )}
+    </ul>
+  )
 }
 
 export default CollectionPageLayout
