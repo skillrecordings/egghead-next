@@ -1,6 +1,6 @@
 export const meta = {
   title: `Product Images That Don't Byte with the Next.js Image Component`,
-  description: `Performance matters no matter the type of project. Providing a good user experience should be fundamental to anything we build. But it becomes even more critical to a business when dealing with an online store. By using the Next.js Image Component, you can add the images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
+  description: `Performance matters no matter the type of project. Providing a good user experience should be fundamental to anything we build. But it becomes even more critical to a business when dealing with an online store. By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
   author: {
     name: 'Colby Fayock',
     image:
@@ -46,17 +46,17 @@ While 0.5% doesn’t really seem like a lot, consider the scale of eBay. In 2020
 
 Consider that’s also only a 100ms improvement. For some projects, there could be easy wins that could shave off over a full second from the load time. For smaller shops, that can make a big difference!
 
-The bottom line, is performance directly correlates to conversion. Paying attention to how long it takes to load your site is more than just a better user experience, it’s helping to bring more sales.
+The bottom line is **performance directly correlates to conversion.** Paying attention to how long it takes to load your site is more than just a better user experience, it’s helping to bring more sales.
 
 ## How can the Next.js Image Component help?
 
-Among a variety of other components Next.js provides out-of-the-box, the [Image Component](https://nextjs.org/docs/api-reference/next/image) is an extension of the HTML img element that wraps [additional capabilities](https://nextjs.org/docs/basic-features/image-optimization) like image optimization, automatically serving images in modern formats, and responsiveness.
+Among a variety of other components Next.js provides out-of-the-box, the [`Image` Component](https://nextjs.org/docs/api-reference/next/image) is an extension of the HTML `img` element that wraps [additional capabilities](https://nextjs.org/docs/basic-features/image-optimization) like image optimization, automatically serving images in modern formats, and responsiveness.
 
 While you’ll often see site generators build these images at compile time, Next.js instead serves these images as the page requests them, being able to provide intelligent loading for those assets.
 
 > Because Next.js dynamically serves these images for each request, the default configuration won’t let you statically generate the images for your site with `next export`.
 
-By using the Next.js Image Component, you can add the images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.
+By using the Next.js `Image` Component, you can add the images to your project just like you would the standard `img` tag and be confident that you’ll be serving optimized images to your website visitors.
 
 ## How to use the Next.js Image Component
 
@@ -76,23 +76,23 @@ That image looks pretty cool, but that image’s size is 2.9mb! That’s huge! B
 
 Now moving that to a Next.js Image, I don’t really have to do much.
 
-At the top of the page, we can import the Image component:
+At the top of the page, we can import the `Image` component:
 
 ```jsx
 import Image from 'next/image'
 ```
 
-Then we can update our img tag to the Next.js Image Component.
+Then we can update our `img` tag to the Next.js `Image` Component.
 
-Using the Image Component is much like using the standard HTML img tag. There are a few required attributes:
+Using the `Image` Component is much like using the standard HTML `img` tag. There are a few required attributes:
 
-- **src**: path to your image
-- **width**: width in pixels as a number (no units)
-- **height**: height in pixels as a number (no units)
+- `src`: path to your image
+- `width`: width in pixels as a number (no units)
+- `height`: height in pixels as a number (no units)
 
 > You can also use external links as the source of your image, but you need to configure it in your `next.config.js`.
 
-We already have all of those values set, so with our image, we can change it from the img tag to the Image Component:
+We already have all of those values set, so with our image, we can change it from the `img` tag to the `Image` Component:
 
 ```jsx
 <div>
@@ -112,18 +112,18 @@ Without much work, we’re providing an optimized image that was converted from 
 
 ## Making our Next.js images responsive
 
-The Image Component comes with a few other props and options out of the box, one being the [layout](https://nextjs.org/docs/api-reference/next/image#layout) prop.
+The `Image` Component comes with a few other props and options out of the box, one being the [layout](https://nextjs.org/docs/api-reference/next/image#layout) prop.
 
 By setting the layout, we can tell Next.js how to display the image, whether it’s:
 
-- fixed: won't resized
-- intrinsic: will shrink, but won't grow past original dimensions
-- responsive: will scale the image up and down, including the size
-- fill: will fill the image to the size of the parent element
+- `fixed`: won't resize
+- `intrinsic`: will shrink, but won't grow past original dimensions
+- `responsive`: will scale the image up and down, including the size
+- `fill`: will fill the image to the size of the parent element
 
-The one interesting to us here is the responsive option, where not only will our image resize as the viewport changes, Next.js will provide a srcset attribute which will load different images at different sizes depending on how big the viewport is.
+The one interesting to us here is the responsive option, where not only will our image resize as the viewport changes, Next.js will provide a `srcset` attribute which will load different images at different sizes depending on how big the viewport is.
 
-To try this out, we can add the prop to our Image Component:
+To try this out, we can add the prop to our `Image` Component:
 
 ```jsx
 <div>
@@ -149,7 +149,7 @@ And now if we reload the page, we can see our image again.
 
 ![Responsive Image in Next.js](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613003855/egghead-next-ebombs/product-images-that-dont-byte-with-the-next-js-image-component/5-responsive-image_2x.jpg)
 
-The cool part though, looking at the source, Next.js is now dynamically setting the srcset attribute along with a few different versions of our image.
+The cool part though, looking at the source, Next.js is now dynamically setting the `srcset` attribute along with a few different versions of our image.
 
 ![Next.js responsive Image with srcset](https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613003855/egghead-next-ebombs/product-images-that-dont-byte-with-the-next-js-image-component/6-Image-with-srcset_2x.jpg)
 
@@ -159,4 +159,4 @@ That means, the browser will be able to dynamically load different image sizes d
 
 While images are just one part of how we can focus on providing a better user experience to our visitors, not paying attention could potentially lead to serving your potential customers huge images, costing them bandwidth and time, as well as costing you and your business potential sales.
 
-Fortunately, Next.js makes this easy with the Image component, allowing us to spend more building beautiful experiences while the framework robots do the hard work.
+Fortunately, Next.js makes this easy with the `Image` component, allowing us to spend more building beautiful experiences while the framework robots do the hard work.
