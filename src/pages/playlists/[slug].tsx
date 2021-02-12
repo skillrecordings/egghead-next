@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   if (
     process.env.NEXT_PUBLIC_PLAYLISTS_ARE_COURSES === 'true' &&
-    playlist?.visibility_state !== 'indexed'
+    playlist?.visibility_state === 'indexed'
   ) {
     res.setHeader('Location', `/courses/${slug}`)
     res.statusCode = 302
