@@ -1591,7 +1591,7 @@ const courseDependencyData = (courseSlug) =>
             id: '83',
             title: 'Develop Basic Web Apps With Vue Js',
             type: 'egghead_course',
-            path: '/playlists/develop-basic-web-apps-with-vue-js',
+            path: '/courses/develop-basic-web-apps-with-vue-js',
           },
         ],
       },
