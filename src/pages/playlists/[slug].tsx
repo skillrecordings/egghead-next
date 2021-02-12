@@ -43,15 +43,17 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const slug = params && (params.slug as string)
+  const playlist = slug && (await loadPlaylist(slug))
 
-  if (process.env.NEXT_PUBLIC_PLAYLISTS_ARE_COURSES === 'true') {
+  if (
+    process.env.NEXT_PUBLIC_PLAYLISTS_ARE_COURSES === 'true' &&
+    playlist?.visibility_state === 'indexed'
+  ) {
     res.setHeader('Location', `/courses/${slug}`)
     res.statusCode = 302
     res.end()
     return {props: {}}
   }
-
-  const playlist = slug && (await loadPlaylist(slug))
 
   if (playlist?.slug != slug) {
     res.setHeader('Location', playlist.path)

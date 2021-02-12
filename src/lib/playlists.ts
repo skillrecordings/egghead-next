@@ -113,6 +113,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         created_at
         updated_at
         free_forever
+        visibility_state
         tags {
           name
           image_url
