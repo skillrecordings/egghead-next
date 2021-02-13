@@ -93,11 +93,13 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
                             </a>
                           </Link>
                           <div className="pt-2 text-sm flex items-center">
-                            <Link href={course.instructor.path}>
-                              <a className="hover:underline pr-3 font-semibold">
-                                {course.instructor.full_name}
-                              </a>
-                            </Link>
+                            {course?.instructor?.path && (
+                              <Link href={course.instructor.path}>
+                                <a className="hover:underline pr-3 font-semibold">
+                                  {course.instructor.full_name}
+                                </a>
+                              </Link>
+                            )}
                             <span className="opacity-70 group-hover:opacity-100 transition-opacity ease-in-out duration-300">
                               {course.watched_count}× completed
                             </span>
