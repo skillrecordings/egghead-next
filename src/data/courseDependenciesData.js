@@ -249,7 +249,7 @@ const courseDependencyData = (courseSlug) =>
         multiModuleCourse: true,
         multiModuleLineheight: '45rem',
         customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613171184/egghead-next-pages/design-with-tailwind-css-masterclass/tailwind-og.png',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613200877/egghead-next-pages/design-with-tailwind-css-masterclass/design-with-tailwind-css-masterclass_2x.png',
         freshness: {
           status: `fresh`,
           title: `This is a Fresh Course`,

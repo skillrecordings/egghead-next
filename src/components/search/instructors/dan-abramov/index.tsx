@@ -16,7 +16,9 @@ export default function SearchDanAbramov({instructor}: {instructor: any}) {
 
   const JustJavaScriptCTA: React.FC = () => (
     <ExternalTrackedLink
-      params={instructorData.location}
+      params={{
+        location: instructorData.location,
+      }}
       href={instructorData.ctaLink}
       eventName="clicked testing javascript banner"
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 bg-white relative text-center shadow-sm"

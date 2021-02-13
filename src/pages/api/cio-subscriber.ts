@@ -13,7 +13,7 @@ const tracer = getTracer('subscriber-api')
 function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
-  const cioId = parsedCookie[CIO_KEY] || parsedCookie['_cioid'] || ''
+  const cioId = parsedCookie['_cioid'] || ''
   return {cioId, eggheadToken, loginRequired: eggheadToken.length <= 0}
 }
 

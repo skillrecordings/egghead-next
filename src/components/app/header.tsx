@@ -99,18 +99,13 @@ const Header: FunctionComponent = () => {
         ) : (
           <div className={className}>
             {children}
-            <Link href="/pricing" activeClassName="hidden">
-              <a
-                onClick={() =>
-                  track('clicked pricing', {
-                    location: 'header',
-                  })
-                }
-                className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
-              >
-                Join egghead
-              </a>
-            </Link>
+            <div className="hidden lg:block">
+              <Link href="/level-up">
+                <a className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                  Career Planning 1:1
+                </a>
+              </Link>
+            </div>
             <Link href="/login" activeClassName="bg-gray-100 dark:bg-gray-400">
               <a
                 onClick={() =>
