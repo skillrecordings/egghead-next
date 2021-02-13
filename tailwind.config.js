@@ -104,16 +104,6 @@ module.exports = {
               padding: 0,
             },
             hr: {borderColor: theme('colors.gray.700')},
-            ol: {
-              li: {
-                '&:before': {color: theme('colors.gray.500')},
-              },
-            },
-            ul: {
-              li: {
-                '&:before': {backgroundColor: theme('colors.gray.500')},
-              },
-            },
             strong: {color: theme('colors.gray.300')},
             thead: {
               color: theme('colors.gray.100'),

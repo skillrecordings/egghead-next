@@ -1,19 +1,25 @@
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import EmailForm from '../../cta/email/email-form'
-import useCio from '../../../hooks/use-cio'
-import {useViewer} from '../../../context/viewer-context'
-import useIdentityRequired from '../../../hooks/use-identity-required'
+import useCio from 'hooks/use-cio'
+import {useViewer} from 'context/viewer-context'
+import useIdentityRequired from 'hooks/use-identity-required'
+import {requestSignInEmail} from 'utils/request-signin-email'
 
 const EmailEntryForm: React.FC = () => {
   useIdentityRequired()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     const {email} = values
 
-    const id = subscriber?.id || viewer?.contact_id
+    let id = subscriber?.id || viewer?.contact_id
+
+    if (!id) {
+      const {contact_id} = await requestSignInEmail(email)
+      id = contact_id
+    }
 
     cioIdentify(id, {
       email: subscriber?.email || viewer?.email || email,
@@ -35,7 +41,7 @@ const EmailEntryForm: React.FC = () => {
         onSubmit={onSubmit}
       >
         <div className="text-center">
-          <h1 className="text-2xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
+          <h1 className="text-black dark:text-white text-2xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
             Let's chat about <strong className="font-bold">your career</strong>.
           </h1>
           <p className="font-normal text-blue-600 sm:text-lg text-base mt-4">
