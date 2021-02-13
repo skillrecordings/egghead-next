@@ -124,7 +124,7 @@
     "@codemod/cli": "^2.3.0",
     "@cypress/code-coverage": "^3.9.2",
     "@emotion/core": "^10.1.1",
-    "@emotion/styled": "^10.0.27",
+    "@emotion/styled": "^11.1.5",
     "@mdx-js/loader": "^1.6.22",
     "@next/bundle-analyzer": "^10.0.6",
     "@next/mdx": "^10.0.6",
