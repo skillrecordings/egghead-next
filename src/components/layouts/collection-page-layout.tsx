@@ -176,6 +176,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     moduleLabel,
     multiModuleSlug,
     multiModuletitle,
+    customOgImage,
     totalCourseModules,
     multiModuleLineheight,
   } = courseDependencies
@@ -199,6 +200,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     path,
     tags = [],
   } = course
+
+  const ogImage = customOgImage ? customOgImage : ogImageUrl
 
   const podcast = first(
     course?.items?.filter((item: any) => item.type === 'podcast'),
@@ -299,7 +302,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           site_name: 'egghead',
           images: [
             {
-              url: ogImageUrl,
+              url: ogImage,
             },
           ],
         }}
