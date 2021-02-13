@@ -104,7 +104,7 @@ const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
 )
 
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
-  lessons,
+  lessons = [],
   course,
   ogImageUrl,
 }) => {
