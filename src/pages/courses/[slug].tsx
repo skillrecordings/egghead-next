@@ -34,7 +34,7 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
     <CollectionPageLayout
       lessons={courseLessons}
       course={course}
-      ogImageUrl={`https://og-image-egghead-course.now.sh/${slug}?v=20201027`}
+      ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
     />
   )
 }
