@@ -1,15 +1,10 @@
 import * as React from 'react'
 import LoginRequired from 'components/login-required'
-import {useViewer} from 'context/viewer-context'
-import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import getTracer from 'utils/honeycomb-tracer'
 import axios from 'utils/configured-axios'
 import {isEmpty} from 'lodash'
 import {format, parseISO} from 'date-fns'
 
 const Invoices: React.FunctionComponent<any> = () => {
-  const {viewer} = useViewer()
   const [transactions, setTransactions] = React.useState([])
   const [transactionsLoading, setTransactionsLoading] = React.useState(true)
 
