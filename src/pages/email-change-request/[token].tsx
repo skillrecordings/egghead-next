@@ -3,6 +3,7 @@ import LoginRequired from 'components/login-required'
 import axios from 'axios'
 import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
+import toast from 'react-hot-toast'
 
 async function confirmEmailChangeRequest(token: any) {
   const {data} = await axios.get(
@@ -41,6 +42,9 @@ const EmailChangeRequest: React.FunctionComponent = () => {
                     if (success === true) {
                       setViewerEmail(new_email)
 
+                      toast.success(
+                        "You've successfully updated your email address",
+                      )
                       router.replace('/user')
                     }
                   }}

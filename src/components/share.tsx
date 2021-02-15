@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
 import {isEmpty, get} from 'lodash'
-import toast, {Toaster} from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 type ShareProps = {
   title?: string
@@ -87,7 +87,6 @@ const CopyToClipboard: FunctionComponent<{
         <IconLink className="w-5" />
         <span>Copy link</span>
       </button>
-      <Toaster position="bottom-center" />
     </div>
   )
 }
