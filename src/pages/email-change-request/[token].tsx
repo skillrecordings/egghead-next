@@ -34,18 +34,25 @@ const EmailChangeRequest: React.FunctionComponent = () => {
                 <button
                   className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
                   onClick={async () => {
-                    const {
-                      success,
-                      new_email,
-                    } = await confirmEmailChangeRequest(token)
+                    try {
+                      const {
+                        success,
+                        new_email,
+                      } = await confirmEmailChangeRequest(token)
 
-                    if (success === true) {
-                      setViewerEmail(new_email)
+                      if (success === true) {
+                        setViewerEmail(new_email)
 
-                      toast.success(
-                        "You've successfully updated your email address",
+                        toast.success(
+                          "You've successfully updated your email address",
+                        )
+                        router.replace('/user')
+                      }
+                    } catch (e) {
+                      toast.error(
+                        'This link for changing your email has been used or has expired. Feel free to request a new link.',
+                        {duration: 6000, icon: '❌'},
                       )
-                      router.replace('/user')
                     }
                   }}
                 >
