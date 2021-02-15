@@ -931,6 +931,12 @@ const courseDependencyData = (courseSlug) =>
           react: '>= 17.0.1',
           next: '>=9.5.5',
         },
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up to date—it is a must-watch for any developer that wants to add an e-commerce solution to their portfolio.`,
+          asOf: `2021-02-15`,
+        },
         topics: [
           'Starting a project with Create-Next-App',
           'Working with static and dynamic routes',
@@ -953,11 +959,39 @@ const courseDependencyData = (courseSlug) =>
             slug: 'the-beginner-s-guide-to-react',
           },
         ],
-        projects: [
+        courseProject: {
+          label: 'Portfolio Project',
+          url:
+            '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+          text: `After this course, you'll be ready to start building your own e-commerce store Need an idea? Start with this Project!
+      `,
+        },
+        pairWithResources: [
           {
-            label:
-              'Create an eCommerce Store with Next.js and Stripe Checkout Workshop Repo',
-            url: 'https://github.com/colbyfayock/space-jelly-store-workshop/',
+            title:
+              'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
+            byline: 'Tomasz Łakomy・37m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/full/netlify-ts.png',
+            path:
+              '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+            slug:
+              'build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+            description:
+              "In this course we're going to learn how to harness the power of Next.js + TypeScript and how to work with Netlify in order to deploy our site for others to enjoy!",
+          },
+          {
+            title:
+              'Create Contextual Video Analysis App with NextJS and Symbl.ai',
+            byline: 'Vladimir Novick・38m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/full/next_video_analysis_424_2x.png',
+            path:
+              '/playlists/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+            slug:
+              'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+            description:
+              "In this course we will use Symbl.ai to get transcripts for the video we will upload as well as more meaningful insights. Additionally, you will pick up NextJS for the main stack and will use Symbl's RESTful APIs for processing a conversation from a video and rendering transcripts to screen.",
           },
         ],
       },
