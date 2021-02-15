@@ -1,21 +1,24 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Introduction to Cloudflare Workers',
+    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
     byline: 'new course',
     description:
-      "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+      'Accept payments & sell products powered by Stripe and the best of the JAMStack',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
-    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-    slug: 'introduction-to-cloudflare-workers-5aa3',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/background_2x.png',
+    path:
+      '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+    slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
     instructor: {
-      name: 'Kristian Freeman',
-      slug: 'kristian-freeman',
-      path: '/q/resources-by-kristian-freeman',
-      twitter: 'signalnerve',
+      name: 'Colby Fayock',
+      slug: 'colby-fayock',
+      path: '/q/resources-by-colby-fayock',
+      twitter: 'colbyfayock',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/469/square_128/kristian.jpeg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
     },
   },
   {
