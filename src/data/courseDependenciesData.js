@@ -963,7 +963,7 @@ const courseDependencyData = (courseSlug) =>
           label: 'Portfolio Project',
           url:
             '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-          text: `After this course, you'll be ready to start building your own e-commerce store Need an idea? Start with this Project!
+          text: `After this course, you'll be ready to start building your own e-commerce store. Need an idea? Start with this Project!
       `,
         },
         pairWithResources: [
