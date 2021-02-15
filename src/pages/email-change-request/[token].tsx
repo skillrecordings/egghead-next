@@ -3,6 +3,7 @@ import LoginRequired from 'components/login-required'
 import axios from 'axios'
 import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
+import toast from 'react-hot-toast'
 
 async function confirmEmailChangeRequest(token: any) {
   const {data} = await axios.get(
@@ -33,15 +34,25 @@ const EmailChangeRequest: React.FunctionComponent = () => {
                 <button
                   className="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded"
                   onClick={async () => {
-                    const {
-                      success,
-                      new_email,
-                    } = await confirmEmailChangeRequest(token)
+                    try {
+                      const {
+                        success,
+                        new_email,
+                      } = await confirmEmailChangeRequest(token)
 
-                    if (success === true) {
-                      setViewerEmail(new_email)
+                      if (success === true) {
+                        setViewerEmail(new_email)
 
-                      router.replace('/user')
+                        toast.success(
+                          "You've successfully updated your email address",
+                        )
+                        router.replace('/user')
+                      }
+                    } catch (e) {
+                      toast.error(
+                        'This link for changing your email has been used or has expired. Feel free to request a new link.',
+                        {duration: 6000, icon: '❌'},
+                      )
                     }
                   }}
                 >

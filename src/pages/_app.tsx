@@ -21,6 +21,7 @@ import {LogRocketProvider} from 'hooks/use-logrocket'
 import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
+import {Toaster} from 'react-hot-toast'
 
 declare global {
   interface Window {
@@ -93,6 +94,7 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
         url={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`}
         sameAs={['https://twitter.com/eggheadio']}
       />
+      <Toaster position="bottom-center" />
       <ThemeProvider attribute="class">
         <ViewerProvider>
           <LogRocketProvider>
