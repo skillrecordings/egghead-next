@@ -2,7 +2,7 @@ const homepageData = [
   {
     id: 'jumbotron',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-    byline: 'new course',
+    byline: 'featured course',
     description:
       'Accept payments & sell products powered by Stripe and the best of the JAMStack',
     image:
