@@ -929,7 +929,13 @@ const courseDependencyData = (courseSlug) =>
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
         dependencies: {
           react: '>= 17.0.1',
-          next: '>=9.5.5',
+          next: '^10.0.6',
+        },
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up to date—it is a must-watch for any developer that wants to add an e-commerce solution to their portfolio.`,
+          asOf: `2021-02-15`,
         },
         topics: [
           'Starting a project with Create-Next-App',
@@ -944,20 +950,44 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
-        prerequisites: [
-          {
-            id: '160',
-            title: "The Beginner's Guide To React",
-            path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
-            slug: 'the-beginner-s-guide-to-react',
-          },
+        quickFacts: [
+          'eCommerce is dynamic even if its on the JamStack',
+          'Taking advantage of service providers can speed up the development process',
+          `The faster your website is, the more likely you are to convert purchases`,
         ],
-        projects: [
+        essentialQuestions: [
+          'How do I optimize the buying experience?',
+          'How do I manage product inventory?',
+          'What parts of the shopping experience need to be dynamic vs static?',
+        ],
+        pairWithResources: [
           {
-            label:
-              'Create an eCommerce Store with Next.js and Stripe Checkout Workshop Repo',
-            url: 'https://github.com/colbyfayock/space-jelly-store-workshop/',
+            title: 'Getting Personal with Ecommerce, React, & the Static Web',
+            byline: 'Colby Fayock・Talk',
+            path:
+              '/talks/react-getting-personal-with-ecommerce-react-the-static-web',
+            slug: 'react-getting-personal-with-ecommerce-react-the-static-web',
+            description: `In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.`,
+          },
+          {
+            title:
+              "Product Images That Don't Byte with the Next.js Image Component",
+            byline: 'Colby Fayock・Article',
+            path:
+              '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
+            slug:
+              'product-images-that-dont-byte-with-the-nextjs-image-component',
+            description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
+          },
+          {
+            title:
+              'Build a Content Management System for an E-commerce Store with Next.js and Sanity',
+            byline: 'Colby Fayock・Article',
+            path:
+              '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+            slug:
+              'build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+            description: `In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,
           },
         ],
       },
