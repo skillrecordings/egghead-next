@@ -10,7 +10,7 @@ const homepageData = [
     background:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/background_2x.png',
     path:
-      '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
     instructor: {
       name: 'Colby Fayock',
