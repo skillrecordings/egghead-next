@@ -6,7 +6,6 @@ import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import {bpMinMD, bpMinLG} from 'utils/breakpoints'
 import {convertTimeWithTitles} from '../../../utils/time-utils'
 import CheckIcon from '../../icons/check-icon'
 
