@@ -33,6 +33,7 @@ module.exports = {
               '*': {
                 color: theme('colors.blue.600'),
               },
+              code: {color: theme('colors.blue.600')},
             },
             'strong > a': {
               color: theme('colors.blue.600'),
