@@ -82,7 +82,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3">
           <header>
             {state && <State state={state} />}
-            <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-2xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+            <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
               {title}
             </h1>
             {author && <Author author={author} />}
@@ -100,7 +100,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
             )}
           </header>
 
-          <main className="prose-xl mt-5 md:prose-2xl dark:prose-xl-dark md:dark:prose-2xl-dark max-w-none">
+          <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
             <div>{children}</div>
           </main>
           <footer className="mt-8 border-t border-gray-200 py-10 flex sm:flex-row flex-col-reverse justify-between sm:items-start items-center sm:text-left text-center">

@@ -28,10 +28,6 @@ code::after {
   content: none !important;
 }
 
-mark {
-  @apply bg-pink-100;
-}
-
 code {
   font-size: 80% !important;
 }
