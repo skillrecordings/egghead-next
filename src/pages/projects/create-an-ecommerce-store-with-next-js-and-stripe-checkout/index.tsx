@@ -615,7 +615,7 @@ const Part: FunctionComponent<{
   )
 }
 
-const Articles = ({articles, children}) => {
+const Articles: React.FC<{articles: any}> = ({articles, children}) => {
   return (
     <div className="bg-gray-50 dark:bg-gray-900 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white pb-12">
       <div className="max-w-screen-lg mx-auto">
