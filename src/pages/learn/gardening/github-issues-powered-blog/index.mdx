@@ -1,0 +1,326 @@
+export const meta = {
+  title: `Simple GitHub Issues Powered Blog`,
+  description: `Create a simple blog using GitHub issues as the post and rendered with React`,
+  state: 'notes',
+  author: {
+    name: 'Joel Hooks',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611700848/egghead-next-ebombs/article-illustrations/authors/joel-hooks.jpg',
+    path: '/q/resources-by-joel-hooks',
+  },
+  ogImage: {
+    url: `https://og-image-react-egghead.now.sh/article/Content%20Modeling%20and Data%20Design%20with%20Sanity.io?author=Joel%20Hooks&theme=dark`,
+  },
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide meta={meta}>{children}</UltimateGuide>
+)
+
+Building a habit of blogging, journaling, or writing is challenging because the first step is often to **build an internet palace** to house your written words. Building websites, automated workflows, and other Rube Goldberg Machines is fascinating and alluring work, but it often misses the fundamental point and benefit of writing and journaling in favor of coding and building.
+
+There's nothing at all wrong with coding and building, but if you want to share knowledge and keep notes online in a way that you can share with others, but also want to own your platform and keep it as simple as possible you've come to the right place.
+
+This post is using the work of Mateo Gianolio, which [you can find here](https://github.com/mateogianolio/issuance). It's great, and I wanted to break it down to understand exactly what is going on to share with you.
+
+## What you will learn in this article
+
+You are going to create a scrappy blog that consists of a single `index.html` file and is served using GitHub pages. The `index.html` will be under 100 lines of code by the time you finish and offer the potential for expanding and customizing to your heart's content.
+
+The data source for your blog is going to be <mark>the issues from the GitHub repository the `index.html` is stored in</mark.
+
+That's right, a markdown fueled blog in about 15 minutes that uses GitHub issues as a content-management system and GitHub Pages automatically building and serving the results.
+
+Let's get to it.
+
+## Getting started
+
+You're gonna start from scratch on your local machine and create a folder wherever you store your code for blogs and things like that. Name it whatever you like. `my-cool-blog` is always a solid choice.
+
+Once you've got the folder made, cd into it and run `git init`. This initializes git and adds a `.git` folder.
+
+Now, add an `index.html` in `my-cool-blog` folder. Open it with your favorite text editor. If your editor supports emmett you can type `html:5` followed by a `tab` to fill the document with the appropriate HTML skeleton markup. At this point maybe you'd like to see it run, so back on the command line run `npx http-server` and it will start a server running on localhost and give you the full address with a port that you can visit and see your mighty `index.html` in all of it's empty glory.
+
+If your editor doesn't support emmett, just make a standard html/head/body structure.
+
+In the `<head>` element add a `<script>` with the type `module`.
+
+```html
+<script type="module"></script>
+```
+
+As it happens modern browsers and html have [pretty good support for es6 modules](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-type), so we are going to take advantage of that.
+
+## Adding React via an es6 module
+
+Out of the box, React doesn't support es6 modules for importing, which is what you are going to use. Luckily, you can import React 16 into a script element with the type of module using `es-react`. Right now it only supports React 16, but maybe that will change in the future. That's plenty though, for this purpose React 16 is plenty good.
+
+Update your script element to look like this:
+
+```html
+<script type="module">
+  import {React, ReactDOM} from 'https://unpkg.com/es-react@16.13.1'
+
+  ReactDOM.render(React.createElement('h1', {}, 'Hello World'), document.body)
+</script>
+```
+
+Now refresh your localhost 🥰
+
+You've got a full-blown React app at your disposal.
+
+If you use React, you're likely using JSX, but you aren't going to use JSX because transforming it would add more work to the process. Instead you are going to use `htm` to create html tagged template literals that return React components.
+
+```javascript
+import htm from 'https://unpkg.com/htm?module'
+
+const html = htm.bind(React.createElement)
+
+ReactDOM.render(html` <h1>Hello World</h1> `, document.body)
+```
+
+This imports `htm` and binds `React.createElement` to a const call `html` that you can use as a tagged template literal that has plain-old html inside.
+
+Make the changes to your file and refresh. If all went well, you should see no visible changes, but you can bask in the secret nerdy glory of knowing just how crafty this solution is.
+
+### Create a Posts component
+
+Because you are "just using React" now you can create a component and even use React Hooks to do things like load data.
+
+First, create a function component called `Posts` and update your `ReactDOM.render` to render the new component. Since the `html` tagged template literal is a template string, adding components looks like this:
+
+```javascript
+const Posts = (props) => {
+  return html` <div>These will be our posts</div> `
+}
+
+ReactDOM.render(html` <${Posts} /> `, document.body)
+```
+
+Refresh the page, and you should see whatever your return from `Posts` displayed in the browser.
+
+## Push to GitHub
+
+Now that you've made some progress it's time to create a GitHub repository and push our project to it.
+
+Create a new Github repo -> https://github.com/new
+
+I'd name it the same as the local project folder, but do whatever you want.
+
+Run the following in your local folder:
+
+```bash
+git add .
+git commit -am "hello git"
+git branch -m main gh-pages
+git remote add origin git@github.com:USERNAME/REPO_NAME.git
+git push -u origin gh-pages
+```
+
+Be sure to change `USERNAME` and `REPONAME` to the appropriate values for your project. Notice that you are changing the default branch from `main` to `gh-pages` and pushing to the corresponding `gh-pages` branch.
+
+This is important! `gh-pages` is a special branch that GitHub uses to automatically generate pages.
+
+At this point you can visit `https://USERNAME.github.io/REPONAME` and your page should render in the browser.
+
+While you are on GitHub, go ahead and create a "hello world" issue. Give it some content. Use markdown. Add some code blocks. You will use it in a minute.
+
+### Generate a read-only GitHub Personal Access Token
+
+Personal access tokens are API keys and for this you want one that is strictly read-only because you are exposing it to the world on this page.
+
+Generate a token -> https://github.com/settings/tokens
+
+Be sure not to select any scopes. This is the default, so just don't add scopes and you are good to go.
+
+Copy the token and add it to your `index.html` someplace in the script element:
+
+```javascript
+const html = htm.bind(React.createElement)
+
+const TOKEN = 'YOUR TOKEN GOES HERE!'
+
+const Posts = (props) => {
+  // ...
+}
+```
+
+### Loading Issues Data from Github in a React Hook
+
+You've got a page rendering via GitHub pages and a Personal Access Token that can read your issues via the API. With these two things tou can load data into your new blog.
+
+```javascript
+const Posts = (props) => {
+  React.useEffect(() => {}, [])
+
+  return html` <div>These will be our posts</div> `
+}
+```
+
+Create a `useEffect` hook in the `Posts` component. Be sure to add the `[]` as the second argument to the `useEffect` call so it only runs once when the page loads.
+
+Since you are going to be loading data from github, you can simplify the api requests by [using `endpoint` from `octokit`](https://www.npmjs.com/package/@octokit/endpoint). Import it into your script:
+
+```js
+import { endpoint } from 'https://cdn.skypack.dev/@octokit/endpoint'
+
+// ...
+
+const Posts = (props) => {
+```
+
+Now, inside of the `useEffect` hook use `fetch` to make a call to the repo:
+
+```javascript
+React.useEffect(() => {
+  async function fetchIssues() {
+    const {url, ...options} = endpoint('GET /repos/:owner/:repo/issues', {
+      owner: USERNAME,
+      repo: REPO_NAME,
+      auth: TOKEN,
+    })
+    const response = await fetch(url, options)
+    const issues = await response.json()
+    console.log(issues)
+  }
+
+  fetchIssues()
+}, [])
+```
+
+I wanted to use an `async` function and to do this you need to create a function inside of `useEffect` and call it since a `useEffect` callback function can't be async. The `fetchIssues` function uses `endpoint` to format the request and gives you both the final URL and options. You can do this manually too if you'd prefer, but `endpoint` makes it a bit easier to read.
+
+Use `fetch` with the url and options and `await` the response. Using `fetch` means you'll also need to `await` when you call `response.json()` to get the actual issues. A quick `console.log` and page refresh with the console open should show you an array with the single issue you created earlier inside!
+
+Now you're really cooking.
+
+```js
+const Posts = (props) => {
+  const [issues, setIssues] = React.useState([])
+  React.useEffect(() => {
+    async function fetchIssues() {
+      const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
+        owner: 'joelhooks',
+        repo: 'react-issues-blog',
+        auth: TOKEN
+      });
+      const response = await fetch(url, options)
+      const issues = await response.json()
+      setIssues(issues)
+    }
+    fetchIssues()
+  }, [])
+```
+
+Instead of just logging to console, you can add `issues` as state using `useState` and call `setIssues` to feed the results into your local component state. Be sure to pass in an empty array to `useState` to set an initial state while data loads and avoid a crash.
+
+With your data being stored in component state, you can now display the issues with the `Posts` component.
+
+```js
+const Posts = (props) => {
+  const [issues, setIssues] = React.useState([])
+  React.useEffect(() => {
+    async function fetchIssues() {
+      const {url, ...options} = endpoint('GET /repos/:owner/:repo/issues', {
+        owner: 'joelhooks',
+        repo: 'react-issues-blog',
+        auth: TOKEN,
+      })
+      const response = await fetch(url, options)
+      const issues = await response.json()
+      setIssues(issues)
+    }
+    fetchIssues()
+  }, [])
+  return html`
+    ${issues.map(({number, title, body}) => {
+      return html`
+        <div id=${number} key=${number}>
+          <h1>${title}</h1>
+          <div>${body}</div>
+        </div>
+      `
+    })}
+  `
+}
+```
+
+Use `map` to iterate over the issues, access the properties that you need, and return `html` tag to display the issue.
+
+Refresh your browser and see the issue presented! You'll notice that any formatting wasn't translated though and renders as raw markdown. You can fix that.
+
+## Make the Markdown Rander Nicely
+
+You can use the `marked` library to render the markdown into html. First it needs to be imported:
+
+```js
+import marked from 'https://unpkg.com/marked@2.0.0/lib/marked.esm.js
+```
+
+Now from `Posts` return this:
+
+```js
+return html`
+  ${issues.map(({number, title, body}) => {
+    return html`
+      <div id=${number} key=${number}>
+        <h1>${title}</h1>
+        <div dangerouslySetInnerHTML="${{__html: marked(body)}}" />
+      </div>
+    `
+  })}
+`
+```
+
+This is using `dangerouslySetInnerHTML` to render a converted version of the `body` markdown. When you refresh your browser, it should be formatted.
+
+## Rendering Individual Posts
+
+Right now you just have an index page, but you can render each page individually using a query string paramter and a `filter` function.
+
+```js
+const {search} = window.location
+
+return html`
+  ${issues
+    .filter(({number}) => !search || Number(search.slice(1)) === number)
+    .map(({number, title, body}) => {
+      return html`
+        <div id=${number} key=${number}>
+          <h1>${title}</h1>
+          <div dangerouslySetInnerHTML="${{__html: marked(body)}}" />
+        </div>
+      `
+    })}
+`
+```
+
+You can even make the titles clickable if you like:
+
+```js
+return html`
+  <div id=${number} key=${number}>
+    <h1>
+      <a href="?${number}"> ${title} </a>
+    </h1>
+    <div dangerouslySetInnerHTML="${{__html: marked(body)}}" />
+  </div>
+`
+```
+
+Add some more issues, use some image, format a bunch. Have fun with your new blog ⭐️
+
+## What's next?
+
+You've got a blog, but it's not super nice.
+
+Guess what, that's totally fine! In fact, if you use it, that's better than fine, it's really awesome. Make it better when you want to or have time, but now you can write posts and share them with whomever you want.
+
+You'll notice if you look close that the issue data from GitHub has a lot of properties like user, labels, and even all the comments. This means that your blog posts can have comments if you'd like to render them!
+
+You might also want to filter issues for specific users or tags to prevent unwanted posts from showing up by internet pranksters 😇
+
+Finally, this raw html could use a little CSS love to make it nice. Maybe a page header and footer and a picture of your cat. The possibilities are truly endless.
+
+Let me know what you make [on twitter](https://twitter.com/jhooks)!
