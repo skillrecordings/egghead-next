@@ -405,7 +405,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
 const Join: FunctionComponent = () => {
   const {viewer} = useViewer()
   return (
-    <div className="md:py-48 py-24 text-center dark:bg-gray-800 bg-gray-100 text-white -mx-5 xl:px-0 px-5">
+    <div className="py-24 text-center dark:bg-gray-800 bg-gray-100 text-white -mx-5 xl:px-0 px-5">
       <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
         <div>
           <Eggo className="w-16" />
@@ -464,9 +464,9 @@ const Instructor: FunctionComponent<{
   }
 }> = ({instructor: {name, bio, path, image, slug}}) => {
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white">
+    <div className="bg-gray-100 dark:bg-gray-800 -mx-5 py-20 xl:px-0 px-5 text-white">
       <div className="max-w-screen-lg mx-auto">
-        <div className="flex flex-col space-y-2 text-center items-center mt-10">
+        <div className="flex flex-col space-y-2 text-center items-center">
           <div className="rounded-full bg-white p-1 overflow-hidden mb-4">
             <Image
               className="rounded-full"
