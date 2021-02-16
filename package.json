@@ -105,6 +105,7 @@
     "remark-gfm": "^1.0.0",
     "remark-slug": "^6.0.0",
     "remove-markdown": "^0.3.0",
+    "simplebar-react": "^2.3.0",
     "slugify": "^1.4.6",
     "stripe": "^8.135.0",
     "swr": "^0.4.1",

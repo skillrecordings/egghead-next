@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import '../../node_modules/react-tippy/dist/tippy.css';
+@import '../../node_modules/simplebar/dist/simplebar.min.css';
 
 #__next {
   @apply flex flex-col min-h-screen text-gray-900;
@@ -44,6 +45,15 @@ pre > code {
   ::selection {
     @apply bg-blue-700;
   }
+}
+
+.simplebar-content:after,
+.simplebar-content:before {
+  content: '';
+}
+
+.simplebar-scrollbar:before {
+  @apply bg-gray-500;
 }
 
 /* ——— Player ——— */

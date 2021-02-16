@@ -160,12 +160,12 @@ const Author: FunctionComponent<{
   return name ? (
     path ? (
       <Link href={path}>
-        <a className="flex items-center space-x-2">
+        <a className="inline-flex items-center space-x-2">
           <Profile />
         </a>
       </Link>
     ) : (
-      <div className="flex items-center space-x-2">
+      <div className="inline-flex items-center space-x-2">
         <Profile />
       </div>
     )
