@@ -672,7 +672,7 @@ const Articles: React.FC<{articles: any}> = ({articles, children}) => {
   )
 }
 
-function FeaturedVideoCard({video}) {
+const FeaturedVideoCard: React.FC<{video: any}> = ({video}) => {
   return (
     <Card className="lg:col-span-6 mt-4 shadow-lg">
       <div className="flex sm:flex-row flex-col justify-center">
