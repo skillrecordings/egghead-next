@@ -929,7 +929,7 @@ const courseDependencyData = (courseSlug) =>
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
         dependencies: {
           react: '>= 17.0.1',
-          next: '>=9.5.5',
+          next: '^10.0.6',
         },
         freshness: {
           status: `fresh`,
@@ -959,61 +959,34 @@ const courseDependencyData = (courseSlug) =>
             slug: 'the-beginner-s-guide-to-react',
           },
         ],
-        courseProject: {
-          label: 'Portfolio Project',
-          url:
-            '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-          text: `After this course, you'll be ready to start building your own e-commerce store. Need an idea? Start with this Project!
-      `,
-        },
         pairWithResources: [
+          {
+            title: 'Getting Personal with Ecommerce, React, & the Static Web',
+            byline: 'Colby Fayock・Talk',
+            path:
+              '/talks/react-getting-personal-with-ecommerce-react-the-static-web',
+            slug: 'react-getting-personal-with-ecommerce-react-the-static-web',
+            description: `In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.`,
+          },
           {
             title:
               "Product Images That Don't Byte with the Next.js Image Component",
             byline: 'Colby Fayock・Article',
-
             path:
               '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
             slug:
               'product-images-that-dont-byte-with-the-nextjs-image-component',
-            description: `Performance matters no matter the type of project. Providing a good user experience should be fundamental to anything we build. But it becomes even more critical to a business when dealing with an online store. By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
+            description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
           },
           {
             title:
               'Build a Content Management System for an E-commerce Store with Next.js and Sanity',
             byline: 'Colby Fayock・Article',
-
             path:
               '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
             slug:
               'build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
-            description: `Having the ability to build an online store opens up a ton of possibilities, whether you’re building that store for a new client to pay the bills or you’re trying to start your own business. In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,
-          },
-          {
-            title:
-              'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
-            byline: 'Tomasz Łakomy・37m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/full/netlify-ts.png',
-            path:
-              '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-            slug:
-              'build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-            description:
-              "In this course we're going to learn how to harness the power of Next.js + TypeScript and how to work with Netlify in order to deploy our site for others to enjoy!",
-          },
-          {
-            title:
-              'Create Contextual Video Analysis App with NextJS and Symbl.ai',
-            byline: 'Vladimir Novick・38m・Course',
-            image:
-              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/full/next_video_analysis_424_2x.png',
-            path:
-              '/playlists/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
-            slug:
-              'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
-            description:
-              "In this course we will use Symbl.ai to get transcripts for the video we will upload as well as more meaningful insights. Additionally, you will pick up NextJS for the main stack and will use Symbl's RESTful APIs for processing a conversation from a video and rendering transcripts to screen.",
+            description: `In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,
           },
         ],
       },
