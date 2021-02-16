@@ -1,21 +1,24 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Introduction to Cloudflare Workers',
-    byline: 'new course',
+    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    byline: 'featured course',
     description:
-      "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+      'Accept payments & sell products powered by Stripe and the best of the JAMStack',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
-    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-    slug: 'introduction-to-cloudflare-workers-5aa3',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/background_2x.png',
+    path:
+      '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+    slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
     instructor: {
-      name: 'Kristian Freeman',
-      slug: 'kristian-freeman',
-      path: '/q/resources-by-kristian-freeman',
-      twitter: 'signalnerve',
+      name: 'Colby Fayock',
+      slug: 'colby-fayock',
+      path: '/q/resources-by-colby-fayock',
+      twitter: 'colbyfayock',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/469/square_128/kristian.jpeg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
     },
   },
   {
@@ -486,14 +489,13 @@ There are a number of tried and true methods that will allow you to learn more e
   {
     id: 'portfolioProject',
     name: 'Portfolio Project',
-    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-    path:
-      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    title: 'Introduction to Cloudflare Workers',
+    path: '/projects/introduction-to-cloudflare-workers',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/square_480/ecommerce-stripe-next.png',
-    byline: 'Colby Fayock',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+    byline: 'Kristian Freeman',
     description:
-      'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
+      'Create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest regional Cloudflare Location.',
   },
   {
     id: 'portfolioBlog',

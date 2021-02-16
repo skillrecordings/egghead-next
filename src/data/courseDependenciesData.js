@@ -927,6 +927,8 @@ const courseDependencyData = (courseSlug) =>
         type: 'playlist',
         guid: '562c',
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613387847/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/card_2x.png',
         dependencies: {
           react: '>= 17.0.1',
           next: '^10.0.6',
