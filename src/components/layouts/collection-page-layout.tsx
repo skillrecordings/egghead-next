@@ -483,8 +483,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <CoursePodcast podcast={podcast} instructorName={full_name} />
               )}
               <div
-                className={`grid md:gap-x-5 ${
-                  prerequisites && topics ? 'grid-cols-2' : 'grid-cols-1'
+                className={`grid grid-cols-1 md:gap-x-5 ${
+                  prerequisites && topics ? 'md:grid-cols-2' : 'md:grid-cols-1'
                 }`}
               >
                 {topics && (
