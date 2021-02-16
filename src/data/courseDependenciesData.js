@@ -950,14 +950,15 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
-        prerequisites: [
-          {
-            id: '160',
-            title: "The Beginner's Guide To React",
-            path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
-            slug: 'the-beginner-s-guide-to-react',
-          },
+        quickFacts: [
+          'eCommerce is dynamic even if its on the JamStack',
+          'Taking advantage of service providers can speed up the development process',
+          `The faster your website is, the more likely you are to convert purchases`,
+        ],
+        essentialQuestions: [
+          'How do I optimize the buying experience?',
+          'How do I manage product inventory?',
+          'What parts of the shopping experience need to be dynamic vs static?',
         ],
         pairWithResources: [
           {
