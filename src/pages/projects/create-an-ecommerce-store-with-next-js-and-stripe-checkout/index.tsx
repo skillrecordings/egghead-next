@@ -623,7 +623,7 @@ const Articles = ({articles, children}) => {
           Build Boyond this project
         </div>
         <h2 className="sm:text-2xl text-3xl md:text-left font-semibold text-center leading-tighter pb-4 dark:text-gray-200 text-gray-900">
-          Addtional Learnign Resources
+          Additional Learning Resources
         </h2>
 
         <div className="relative">
