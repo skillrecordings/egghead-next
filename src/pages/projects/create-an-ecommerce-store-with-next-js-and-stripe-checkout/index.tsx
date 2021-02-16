@@ -632,7 +632,7 @@ const Articles: React.FC<{articles: any}> = ({articles, children}) => {
           </div>
           <div className="relative max-w-7xl mx-auto">
             <div className="mt-12 mx-auto grid gap-5 md:grid-cols-2 md:max-w-none">
-              {articles.map((article) => {
+              {articles.map((article: any) => {
                 return (
                   <div
                     className="flex flex-col rounded-lg shadow-lg overflow-hidden mb-4"
