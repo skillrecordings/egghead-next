@@ -3,6 +3,7 @@ import {FunctionComponent} from 'react'
 import {Children, ReactNode, ReactElement} from 'react'
 import {paramsFromMetastring} from 'utils/code'
 import useClipboard from 'react-use-clipboard'
+import SimpleBar from 'simplebar-react'
 
 type CodeBlockProps = {
   language: string
@@ -69,10 +70,10 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
   }
 
   return (
-    <div className="relative sm:px-5 px-0 sm:py-5 py-0 bg-gray-800 sm:mx-0 -mx-5 sm:rounded-md rounded-none mb-5 overflow-hidden">
+    <div className="relative bg-gray-800 sm:mx-0 -mx-5 sm:rounded-md rounded-none mb-5 overflow-hidden">
       {labeled && (
         <>
-          <div className="sm:pb-3 pb-0 sm:px-0 px-5 sm:pt-0 pt-5 text-white text-xs font-bold select-none pointer-events-none">
+          <div className="sm:pb-3 pb-0 px-5 pt-5 text-white text-xs font-bold select-none pointer-events-none">
             {language.replace('language-', '')}
             <span className="ml-2 font-light">{filePath}</span>
           </div>
@@ -83,16 +84,21 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
         <pre
           className="sm:mx-0 -mx-5 sm:px-0 px-5 py-0"
           css={{
-            lineHeight: '1.7 !important',
+            fontSize: '85% !important',
+            lineHeight: '1.75 !important',
             borderRadius: '0 !important',
             margin: '0 !important',
             padding: '0 !important',
             '@media only screen and (max-width: 640px)': {
-              padding: '20px !important',
+              padding: '0 !important',
             },
           }}
         >
-          <code>{linesNodes}</code>
+          <code>
+            <SimpleBar autoHide={false} style={{padding: 20}}>
+              {linesNodes}
+            </SimpleBar>
+          </code>
         </pre>
       </div>
     </div>

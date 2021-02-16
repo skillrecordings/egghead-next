@@ -9,6 +9,8 @@ import {NextSeo} from 'next-seo'
 import {track} from 'utils/analytics'
 import {first, get} from 'lodash'
 import {useViewer} from '../../../context/viewer-context'
+import Card from 'components/pages/home/card/index'
+import EggheadPlayer from 'components/EggheadPlayer'
 
 type CourseProps = {
   course: any
@@ -63,6 +65,41 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
         image: <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="34" viewBox="0 0 24 34"><path fill="#6772E5" fillRule="evenodd" d="M688.562205,565.125275 C688.562205,563.668132 689.771654,563.107692 691.774803,563.107692 C694.647244,563.107692 698.275591,563.967033 701.148031,565.498901 L701.148031,556.718681 C698.011024,555.485714 694.911811,555 691.774803,555 C684.102362,555 679,558.96044 679,565.573626 C679,575.885714 693.362205,574.241758 693.362205,578.687912 C693.362205,580.406593 691.850394,580.967033 689.733858,580.967033 C686.59685,580.967033 682.590551,579.696703 679.415748,577.978022 L679.415748,586.87033 C682.930709,588.364835 686.483465,589 689.733858,589 C697.595276,589 703,585.151649 703,578.463736 C702.962205,567.32967 688.562205,569.30989 688.562205,565.125275 Z" transform="translate(-679 -555)"/></svg>,
       },
     ],
+    articles: [
+      {
+        title: `Build a CMS for an E-commerce Store with Next.js and Sanity`,
+        description: `Having the ability to build an online store opens up a ton of possibilities, whether you’re building that store for a new client to pay the bills or you’re trying to start your own business. In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity`,
+        name: `manage product inventory`,
+        image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613432463/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/build-cms-e-commerce-article_2x.png`,
+        path: `/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity`,
+      },
+      {
+        title: `Product Images That Don't Byte with the Next.js Image Component`,
+        name: `Build high-performance ecommerce sites`,
+        description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
+        image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613454662/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/product-images-ecommerce-article_2x.png`,
+        path: `/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component`,
+      },
+    ],
+    video: {
+      name: 'Explore the challenges of ecommerce',
+      title: 'Getting Personal with Ecommerce, React, & the Static Web',
+      description: `Ecommerce depends on highly dynamic solutions personalizing experiences for customers from the price of a product to the total cost of that customer’s shopping cart. How can we leverage React and tools like Next.js to bring that dynamic experience to the static web? 
+        
+In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.`,
+      byline: 'Colby Fayock',
+      path: '/talks/react-getting-personal-with-ecommerce-react-the-static-web',
+      poster:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613463219/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/challenges-of-ecommerce-cover_2.png',
+      hls_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV/hls/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV.m3u8',
+
+      dash_url:
+        'https://d2c5owlt6rorc3.cloudfront.net/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV/dash/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV.mpd',
+
+      subtitlesUrl:
+        'https://app.egghead.io/api/v1/lessons/react-getting-personal-with-ecommerce-react-the-static-web/subtitles',
+    },
     resources: [
       {
         title: 'Bootstrap a Next.js Ecommerce App',
@@ -297,7 +334,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
                 })}
               </div>
             </div>
-            <div className="bg-gradient-to-b from-gray-700 to-gray-900 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
+            <div className="bg-gray-900 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
               <div className="max-w-screen-lg mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
                 <div>
                   {/* <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
@@ -351,25 +388,12 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
             </div>
           </main>
         </article>
-        <div className="w-full mx-auto max-w-screen-lg items-center grid md:grid-cols-2 lg:gap-40 md:gap-24 gap-5">
-          <Instructor instructor={course.instructor} />
-          {course.podcast.id && (
-            <div>
-              <h3 className="text-lg font-semibold mb-2 md:text-left text-center">
-                Listen to Colby tell you about this Portfolio Project
-              </h3>
-              <iframe
-                title="project podcast"
-                height="52px"
-                width="100%"
-                frameBorder="no"
-                scrolling="no"
-                seamless
-                src={`https://player.simplecast.com/${course.podcast.id}?dark=false`}
-              />
-            </div>
-          )}
-        </div>
+
+        <Instructor instructor={course.instructor} />
+        <Articles articles={course.articles}>
+          <FeaturedVideoCard video={course.video} />
+        </Articles>
+
         <Join />
       </div>
     </>
@@ -381,12 +405,12 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
 const Join: FunctionComponent = () => {
   const {viewer} = useViewer()
   return (
-    <div className="md:mt-24 mt-16 md:py-48 py-24 text-center bg-black text-white -mx-5 xl:px-0 px-5">
+    <div className="py-24 text-center dark:bg-gray-800 bg-gray-100 text-white -mx-5 xl:px-0 px-5">
       <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
         <div>
           <Eggo className="w-16" />
         </div>
-        <h2 className="lg:text-2xl  text-xl font-semibold leading-tighter max-w-2xl">
+        <h2 className="lg:text-2xl text-xl font-semibold leading-tighter max-w-2xl text-gray-900 dark:text-gray-100">
           Add this project to your portfolio with your egghead Pro Membership
         </h2>
         {viewer?.is_pro ? (
@@ -407,7 +431,7 @@ const Join: FunctionComponent = () => {
           </>
         ) : (
           <>
-            <div>
+            <div className="text-gray-900 dark:text-gray-100">
               from just <strong>$20/month</strong>
             </div>
             <Link href="/pricing">
@@ -440,34 +464,38 @@ const Instructor: FunctionComponent<{
   }
 }> = ({instructor: {name, bio, path, image, slug}}) => {
   return (
-    <div className="flex flex-col space-y-2 md:items-start md:text-left text-center items-center -mt-20">
-      <div className="rounded-full bg-white p-1 overflow-hidden">
-        <Image
-          className="rounded-full"
-          src={image}
-          width={160}
-          height={160}
-          alt="Colby Fayock"
-        />
+    <div className="bg-gray-100 dark:bg-gray-800 -mx-5 py-20 xl:px-0 px-5 text-white">
+      <div className="max-w-screen-lg mx-auto">
+        <div className="flex flex-col space-y-2 text-center items-center">
+          <div className="rounded-full bg-white p-1 overflow-hidden mb-4">
+            <Image
+              className="rounded-full"
+              src={image}
+              width={160}
+              height={160}
+              alt="Colby Fayock"
+            />
+          </div>
+          <div className="text-xs uppercase text-gray-600 dark:text-gray-400">
+            Meet Your Instructor
+          </div>
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track(`clicked instructor profile link`, {
+                  project:
+                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                  instructor: slug,
+                })
+              }}
+              className="text-lg font-semibold text-gray-900 dark:text-gray-200"
+            >
+              {name}
+            </a>
+          </Link>
+          <Markdown className="prose dark:prose-dark max-w-xl" source={bio} />
+        </div>
       </div>
-      <div className="text-xs uppercase text-gray-600 dark:text-gray-400">
-        Meet Your Instructor
-      </div>
-      <Link href={path}>
-        <a
-          onClick={() => {
-            track(`clicked instructor profile link`, {
-              project:
-                'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-              instructor: slug,
-            })
-          }}
-          className="text-lg font-semibold"
-        >
-          {name}
-        </a>
-      </Link>
-      <Markdown className="prose dark:prose-dark max-w-xl" source={bio} />
     </div>
   )
 }
@@ -539,10 +567,10 @@ const Part: FunctionComponent<{
         )}
       </div>
       <div className="md:flex hidden flex-col items-center relative">
-        <div className="flex items-center justify-center text-center text-xs text-gray-400 font-semibold w-6 h-6 rounded-full border-2 border-gray-200 flex-shrink-0">
+        <div className="flex items-center justify-center text-center text-xs text-gray-400 font-semibold w-6 h-6 rounded-full border-2 border-gray-200 dark:border-gray-400 flex-shrink-0">
           <small>{index}</small>
         </div>
-        <div className="border-r-2 border-gray-200 h-full" />
+        <div className="border-r-2 border-gray-200 dark:border-gray-400 h-full" />
         {/* {isLast && (
           <div className="flex items-center justify-center text-center text-xs bg-blue-100 text-blue-500 font-semibold w-10 h-10 transform translate-y-10 absolute bottom-0 rounded-full border-none border-gray-200 flex-shrink-0">
             <FlagIcon />
@@ -586,4 +614,123 @@ const Part: FunctionComponent<{
     </div>
   )
 }
+
+const Articles: React.FC<{articles: any}> = ({articles, children}) => {
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white pb-12">
+      <div className="max-w-screen-lg mx-auto">
+        <div className="mb-4 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
+          Build Boyond this project
+        </div>
+        <h2 className="sm:text-2xl text-3xl md:text-left font-semibold text-center leading-tighter pb-4 dark:text-gray-200 text-gray-900">
+          Additional Learning Resources
+        </h2>
+
+        <div className="relative">
+          <div className="absolute inset-0">
+            <div className="h-2/3"></div>
+          </div>
+          <div className="relative max-w-7xl mx-auto">
+            <div className="mt-12 mx-auto grid gap-5 md:grid-cols-2 md:max-w-none">
+              {articles.map((article: any) => {
+                return (
+                  <div
+                    className="flex flex-col rounded-lg shadow-lg overflow-hidden mb-4"
+                    key={article.path}
+                  >
+                    <div className="flex-shrink-0">
+                      <img
+                        className="h-64 h-72 w-full object-cover"
+                        src={article.image}
+                        alt=""
+                      />
+                    </div>
+                    <div className="flex-1 dark:bg-gray-800 p-6 flex flex-col justify-between">
+                      <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
+                        {article.name}
+                      </h2>
+                      <div className="flex-1">
+                        <a href={article.path} className="block mt-2">
+                          <p className="text-xl font-semibold dark:text-white text-gray-900">
+                            {article.title}
+                          </p>
+                          <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                            {article.description}
+                          </Markdown>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+const FeaturedVideoCard: React.FC<{video: any}> = ({video}) => {
+  return (
+    <Card className="lg:col-span-6 mt-4 shadow-lg">
+      <div className="flex sm:flex-row flex-col justify-center">
+        <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
+          <div>
+            <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
+              {video.name}
+            </h2>
+            <Link href={video.path}>
+              <a
+                onClick={() =>
+                  track('clicked home page video link', {
+                    resource: video.path,
+                    linkType: 'text',
+                  })
+                }
+                className="hover:text-blue-600 dark:hover:text-blue-300"
+              >
+                <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2 text-gray-900 dark:text-gray-100">
+                  {video.title}
+                </h3>
+              </a>
+            </Link>
+            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+              <Link href={video.instructor_path || ''}>
+                <a
+                  onClick={() =>
+                    track('clicked home page video instructor', {
+                      instructor: video.instructor,
+                      linkType: 'image',
+                    })
+                  }
+                  className="hover:text-blue-600 dark:hover:text-blue-300"
+                >
+                  {video.instructor}
+                </a>
+              </Link>
+            </div>
+            <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+              {video.description}
+            </Markdown>
+          </div>
+        </div>
+        <div className="sm:w-full sm:-m-8 -m-5 flex items-center flex-grow bg-black">
+          <EggheadPlayer
+            preload={false}
+            autoplay={false}
+            poster={video.poster}
+            hls_url={video.hls_url}
+            dash_url={video.dash_url}
+            subtitlesUrl={video.subtitlesUrl}
+            width="100%"
+            height="auto"
+          />
+        </div>
+      </div>
+    </Card>
+  )
+}
+
 export default Course
