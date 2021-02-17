@@ -49,7 +49,7 @@ const articles = [
       url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612166442/egghead-next-ebombs/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/system-illustration-ogImage.png`,
     },
     path:
-      '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity.mdx',
+      '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
   },
   {
     title: `Product Images That Don't Byte with the Next.js Image Component`,
@@ -82,7 +82,7 @@ const articles = [
       url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613465778/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/product-images-ecommerce-article-ogImage.png`,
     },
     path:
-      '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component.mdx',
+      '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
   },
   {
     title: `Codemods with Babel Plugins`,
@@ -266,7 +266,7 @@ const articles = [
   {
     title: `A Guide to ES6`,
     contributors: [{name: 'Hiro Nishimura'}],
-    path: '/learn/javascript/es6.mdx',
+    path: '/learn/javascript/es6',
   },
   {
     title: `JavaScript Ultimate Guide`,
@@ -290,7 +290,7 @@ const articles = [
     contributors: [{name: 'Joel Hooks'}],
     updatedOn: '2020-08-21',
     bigIdeas: ['metaframeworks'],
-    path: '/learn/react/toolkit-or-framework.mdx',
+    path: '/learn/react/toolkit-or-framework',
   },
   {
     title: `Understanding by Design in a Nutshell`,
@@ -300,7 +300,7 @@ const articles = [
   {
     title: `Performance Task Patterns`,
     contributors: [{name: 'Taylor Bell'}],
-    path: '/learn/understanding-by-design/performance-task-patterns.mdx',
+    path: '/learn/understanding-by-design/performance-task-patterns',
   },
   {
     title: `Sales Safari in a Nutshell`,
@@ -310,34 +310,76 @@ const articles = [
 
 const Learn: React.FC = () => {
   return (
-    <div className="prose dark:prose-dark mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3">
-      <h1>Articles</h1>
-      {articles.map((article: any) => {
-        return (
-          <div className="py-2">
-            {article.coverImage?.url && (
-              <div className="mt-4">
-                <Image
-                  src={article.coverImage.url}
-                  alt={article.coverImage.alt || article.title}
-                  width={1280}
-                  height={720}
-                  quality={100}
-                  className="rounded-lg"
-                />
-              </div>
-            )}
-            <Link key={article.path} href={article.path}>
-              <a>
-                <h2>{article.title}</h2>
-              </a>
-            </Link>
-            {article.description && <p>{article.description}</p>}
-          </div>
-        )
-      })}
+    <div className="mx-auto max-w-screen-lg lg:py-16 py-10">
+      <h1 className="md:text-4xl text-2xl text-center font-bold pb-16">
+        Articles
+      </h1>
+      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-8">
+        {articles.map((article: any) => {
+          return (
+            <div key={article.path} className="flex flex-col">
+              {article.coverImage?.url ? (
+                <div className="md:mb-4 mb-2">
+                  <Link href={article.path}>
+                    <a>
+                      <Image
+                        src={article.coverImage.url}
+                        alt={article.coverImage.alt || article.title}
+                        width={1280}
+                        height={720}
+                        quality={100}
+                        className="rounded-lg"
+                      />
+                    </a>
+                  </Link>
+                </div>
+              ) : (
+                <div className="aspect-w-16 aspect-h-9 md:mb-4 mb-2">
+                  <Link href={article.path}>
+                    <a>
+                      <div className="absolute top-0 left-0 w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-600">
+                        <IconPlaceholder />
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              )}
+              <Link href={article.path}>
+                <a>
+                  <h2 className="md:text-2xl text-xl font-bold leading-tighter">
+                    {article.title}
+                  </h2>
+                </a>
+              </Link>
+              {article.description && (
+                <div className="prose sm:prose prose-sm dark:prose-dark sm:mt-4 mt-2 text-gray-700 dark:text-gray-300">
+                  {article.description}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
+
+const IconPlaceholder = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g fill="none">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+        fill="currentColor"
+      />
+    </g>
+  </svg>
+)
 
 export default Learn
