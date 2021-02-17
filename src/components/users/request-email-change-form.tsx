@@ -62,31 +62,33 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                 Email
               </h2>
               <p>Your email address:</p>
-              {state.matches('edit') && (
-                <p className="text-sm text-gray-600 dark:text-gray-200">
-                  To ensure that you have access to this email address, we will
-                  send an email to that account with a confirmation link.
-                </p>
-              )}
-              {state.matches('success') && !state.context.error && (
-                <p className="text-sm text-gray-400">
-                  Your email change request has been received. A confirmation
-                  email has been sent to {state.context.newEmail}.
-                </p>
-              )}
-              {state.matches('success') && !!state.context.error && (
-                <p className="text-sm text-gray-400">
-                  We weren't able to automatically update your email. Please
-                  contact{' '}
-                  <a
-                    className="text-gray-200 hover:text-blue-600 transition-colors ease-in-out duration-150"
-                    href="mailto:support@egghead.io"
-                  >
-                    support@egghead.io
-                  </a>{' '}
-                  to get further help with this request.
-                </p>
-              )}
+              <div className="text-sm text-gray-600 dark:text-gray-200">
+                {state.matches('edit') && (
+                  <p>
+                    To ensure that you have access to this email address, we
+                    will send an email to that account with a confirmation link.
+                  </p>
+                )}
+                {state.matches('success') && !state.context.error && (
+                  <p>
+                    Your email change request has been received. A confirmation
+                    email has been sent to {state.context.newEmail}.
+                  </p>
+                )}
+                {state.matches('success') && !!state.context.error && (
+                  <p>
+                    We weren't able to automatically update your email. Please
+                    contact{' '}
+                    <a
+                      className="font-bold hover:text-blue-600 transition-colors ease-in-out duration-150"
+                      href="mailto:support@egghead.io"
+                    >
+                      support@egghead.io
+                    </a>{' '}
+                    to get further help with this request.
+                  </p>
+                )}
+              </div>
               <div className="flex flex-row space-x-2">
                 <input
                   id="email"
