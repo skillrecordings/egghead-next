@@ -12,12 +12,20 @@ const content = [
     label: 'Search',
   },
   {
+    path: '/learn',
+    label: 'Articles',
+  },
+  {
     path: '/talks',
     label: 'Talks',
   },
   {
     path: '/podcasts',
     label: 'Podcasts',
+  },
+  {
+    path: '/topics',
+    label: 'Topics',
   },
   {
     path: '/site-directory',
