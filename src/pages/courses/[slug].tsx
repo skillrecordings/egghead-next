@@ -1,7 +1,7 @@
 import * as React from 'react'
 import useSWR from 'swr'
 import {loadCourse} from 'lib/courses'
-import {loadPlaylist} from 'lib/playlists'
+import {loadPlaylist, loadAuthedPlaylistForUser} from 'lib/playlists'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import fetcher from 'utils/fetcher'
@@ -15,9 +15,9 @@ type CourseProps = {
 }
 
 const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
-  const {data} = useSWR(`${initialCourse.url}`, fetcher)
+  const {data} = useSWR(`${initialCourse.slug}`, loadAuthedPlaylistForUser)
 
-  const course = {...data, ...initialCourse}
+  const course = {...initialCourse, ...data}
 
   console.debug(`course loaded`, course)
 
