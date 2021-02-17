@@ -620,7 +620,7 @@ const Articles: React.FC<{articles: any}> = ({articles, children}) => {
     <div className="bg-gray-50 dark:bg-gray-900 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white pb-12">
       <div className="max-w-screen-lg mx-auto">
         <div className="mb-4 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
-          Build Boyond this project
+          Build Beyond this project
         </div>
         <h2 className="sm:text-2xl text-3xl md:text-left font-semibold text-center leading-tighter pb-4 dark:text-gray-200 text-gray-900">
           Additional Learning Resources

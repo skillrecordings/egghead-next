@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
-import {isEmpty, get, first, isFunction} from 'lodash'
+import {isEmpty, get, first, isFunction, filter} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {playerMachine} from 'machines/lesson-player-machine'
@@ -337,6 +337,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
     run()
   }, [initialLesson.slug])
+
+  const numberOfComments = filter(
+    comments,
+    (comment) => comment.state !== 'hidden',
+  ).length
 
   return (
     <>
@@ -724,7 +729,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>
                     Comments{' '}
-                    <span className="text-sm">({comments.length})</span>
+                    <span className="text-sm">({numberOfComments})</span>
                   </Tab>
                 </TabList>
                 <TabPanels className="bg-gray-50 dark:bg-gray-1000 sm:p-8 p-5 sm:mx-0 -mx-5 rounded-lg rounded-tl-none">
