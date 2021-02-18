@@ -395,14 +395,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                           course: course.slug,
                         },
                       )
-                      axios.post(toggle_favorite_url)
-                      setIsFavorite(!isFavorite)
-                      toast(
-                        `Course ${
-                          isFavorite ? 'removed from' : 'added to'
-                        } Bookmarks`,
-                        {duration: 1000},
-                      )
+                      axios.post(toggle_favorite_url).then((resp) => {
+                        setIsFavorite(!isFavorite)
+                        toast(
+                          `Course ${
+                            isFavorite ? 'removed from' : 'added to'
+                          } Bookmarks`,
+                          {duration: 1000},
+                        )
+                      })
                     }}
                   >
                     <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
