@@ -35,7 +35,8 @@ export default class EggheadPlayer extends Component {
       this.props.height !== nextProps.height ||
       this.props.width !== nextProps.width ||
       this.props.hidden !== nextProps.hidden ||
-      this.props.displaySubtitles !== nextProps.displaySubtitles
+      this.props.displaySubtitles !== nextProps.displaySubtitles ||
+      this.props.subtitlesUrl !== nextProps.subtitlesUrl
     )
   }
 

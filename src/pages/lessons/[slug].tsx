@@ -9,7 +9,7 @@ import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import Transcript from 'components/pages/lessons/transcript'
 import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
-import {loadBasicLesson, loadLesson, loadLessonForUser} from 'lib/lessons'
+import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
@@ -24,7 +24,6 @@ import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-over
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
@@ -310,7 +309,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     async function run() {
       console.debug('loading video with auth')
-      const loadedLesson = await loadLessonForUser(initialLesson.slug)
+      const loadedLesson = await loadLesson(initialLesson.slug)
       console.debug('authed video loaded', {video: loadedLesson})
 
       send({
