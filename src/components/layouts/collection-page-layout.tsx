@@ -111,6 +111,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 }) => {
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
+  const [clickable, setIsClickable] = React.useState(true)
 
   const defaultPairWithResources: any[] = take(
     [
@@ -389,21 +390,27 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
-                      track(
-                        `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
-                        {
-                          course: course.slug,
-                        },
-                      )
-                      axios.post(toggle_favorite_url).then((resp) => {
-                        setIsFavorite(!isFavorite)
-                        toast(
-                          `Course ${
-                            isFavorite ? 'removed from' : 'added to'
-                          } Bookmarks`,
-                          {duration: 1000},
+                      if (clickable) {
+                        setIsClickable(false)
+                        track(
+                          `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
+                          {
+                            course: course.slug,
+                          },
                         )
-                      })
+                        setTimeout(() => {
+                          setIsClickable(true)
+                        }, 1000)
+                        axios.post(toggle_favorite_url).then((resp) => {
+                          setIsFavorite(!isFavorite)
+                          toast(
+                            `Course ${
+                              isFavorite ? 'removed from' : 'added to'
+                            } Bookmarks`,
+                            {duration: 1000},
+                          )
+                        })
+                      }
                     }}
                   >
                     <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
