@@ -249,15 +249,17 @@ const courseDependencyData = (courseSlug) =>
         id: '348912',
         type: 'playlist',
         slug: 'design-with-tailwind-css-masterclass-f0db',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         multiModuleCourse: true,
         multiModuleLineheight: '45rem',
         customOgImage:
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613200877/egghead-next-pages/design-with-tailwind-css-masterclass/design-with-tailwind-css-masterclass_2x.png',
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `Thousands of people have used this multi-module course as an introduction to Tailwind CSS. It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
-      `,
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).`,
           asOf: `2021-02-04`,
         },
         topics: [
@@ -329,13 +331,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340481',
         type: 'playlist',
         slug: 'introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 1,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -389,13 +396,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340482',
         type: 'playlist',
         slug: 'design-and-implement-common-tailwind-components-8fbb9b19',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 2,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -449,13 +461,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340483',
         type: 'playlist',
         slug: 'build-a-responsive-navbar-with-tailwind-4d328a35',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 3,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -508,13 +525,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340484',
         type: 'playlist',
         slug: 'build-and-style-a-dropdown-in-tailwind-7f34fead',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 4,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
