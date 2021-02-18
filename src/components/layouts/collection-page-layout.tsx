@@ -2,6 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
+import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
@@ -396,6 +397,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       )
                       axios.post(toggle_favorite_url)
                       setIsFavorite(!isFavorite)
+                      toast(
+                        `Course ${
+                          isFavorite ? 'removed from' : 'added to'
+                        } Bookmarks`,
+                        {duration: 1000},
+                      )
                     }}
                   >
                     <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
