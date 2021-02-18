@@ -2,6 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
+import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
@@ -110,6 +111,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 }) => {
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
+  const [clickable, setIsClickable] = React.useState(true)
 
   const defaultPairWithResources: any[] = take(
     [
@@ -388,26 +390,39 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
-                      track(
-                        `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
-                        {
-                          course: course.slug,
-                        },
-                      )
-                      axios.post(toggle_favorite_url)
-                      setIsFavorite(!isFavorite)
+                      if (clickable) {
+                        setIsClickable(false)
+                        track(
+                          `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
+                          {
+                            course: course.slug,
+                          },
+                        )
+                        setTimeout(() => {
+                          setIsClickable(true)
+                        }, 1000)
+                        axios.post(toggle_favorite_url).then((resp) => {
+                          setIsFavorite(!isFavorite)
+                          toast(
+                            `Course ${
+                              isFavorite ? 'removed from' : 'added to'
+                            } Bookmarks`,
+                            {duration: 1000},
+                          )
+                        })
+                      }
                     }}
                   >
                     <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                       <BookmarkIcon
-                        className={`w-4 h-4 mr-1`}
+                        className="w-4 h-4 mr-1"
                         fill={isFavorite}
                       />{' '}
                       Bookmark
                     </div>
                   </button>
                 ) : (
-                  <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
                   </div>
                 )}
@@ -426,7 +441,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                   </div>
                 )}
@@ -445,7 +460,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <RSSIcon className="w-4 h-4 mr-1" /> RSS
                   </div>
                 )}
