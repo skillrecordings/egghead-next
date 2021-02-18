@@ -58,6 +58,8 @@ function useAuthedViewer() {
   })
 
   React.useEffect(() => {
+    const querySearch = queryString.parse(window.location.search)
+    const viewAsUser = get(querySearch, 'show-as-user')
     const queryHash = queryString.parse(window.location.hash)
     const accessToken = get(queryHash, 'access_token')
     const noAccessTokenFound = isEmpty(accessToken)
@@ -132,7 +134,16 @@ function useAuthedViewer() {
         })
     }
 
-    if (authToken) {
+    const loadBecomeViewer = async () => {
+      auth.becomeUser(viewAsUser, accessToken)?.then((viewer) => {
+        setViewer(viewer)
+        setLoading(() => false)
+      })
+    }
+
+    if (viewAsUser && accessToken) {
+      loadBecomeViewer()
+    } else if (authToken) {
       loadViewerFromToken()
     } else if (viewerIsPresent) {
       loadViewerFromStorage()
