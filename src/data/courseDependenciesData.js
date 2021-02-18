@@ -14,6 +14,9 @@ const courseDependencyData = (courseSlug) =>
           'Adjust behavior based on viewport size',
           'Style radio and checkbox elements',
         ],
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
         prerequisites: [
           {
             id: '392298',

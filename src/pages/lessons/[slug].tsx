@@ -24,7 +24,6 @@ import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-over
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
@@ -310,15 +309,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     async function run() {
       console.debug('loading video with auth')
-      const loadedLesson = await loadLesson(
-        initialLesson.slug,
-        getAccessTokenFromCookie(),
-      )
+      const loadedLesson = await loadLesson(initialLesson.slug)
       console.debug('authed video loaded', {video: loadedLesson})
 
       send({
         type: 'LOADED',
-        lesson: loadedLesson,
+        lesson: {...initialLesson, ...loadedLesson},
         viewer,
       })
     }
