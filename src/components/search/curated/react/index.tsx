@@ -90,7 +90,7 @@ You can find courses below curated just for you whether you're looking for a par
         </ExternalTrackedLink>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner} location={location}>
+        <Card resource={beginner} location={location} className="h-full">
           <Collection />
         </Card>
         <Card resource={intermediate} location={location} className="h-full">
