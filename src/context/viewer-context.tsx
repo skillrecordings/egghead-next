@@ -136,7 +136,6 @@ function useAuthedViewer() {
 
     const loadBecomeViewer = async () => {
       auth.becomeUser(viewAsUser, accessToken)?.then((viewer) => {
-        console.log({viewer})
         setViewer(viewer)
         setLoading(() => false)
       })
