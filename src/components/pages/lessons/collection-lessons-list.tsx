@@ -36,17 +36,14 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
 
   return lessons ? (
     <div className="h-full overflow-hidden">
-      {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
-        Lessons
-      </span> */}
-      <div className="overflow-hidden bg-white dark:bg-gray-900 dark:border-gray-800 border-gray-100 h-full rounded-md lg:rounded-none border lg:border-none">
+      <div className="overflow-hidden bg-white dark:bg-gray-900 dark:border-gray-800 border-gray-100 h-96 lg:h-full rounded-md lg:rounded-none border lg:border-none">
         <SimpleBar
           autoHide={false}
           className="h-full"
           scrollableNodeProps={{ref: scrollableNodeRef}}
         >
           <ol
-            className="overflow-y-auto h-full"
+            className="h-full"
             css={{
               maxHeight: 300,
               '@media (min-width: 768px)': {
