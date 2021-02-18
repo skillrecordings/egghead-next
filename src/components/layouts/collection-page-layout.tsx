@@ -881,12 +881,15 @@ const Fresh = ({freshness}: {freshness: any}) => {
               ? 'border-blue-500 border bg-blue-50 dark:bg-blueGray-800'
               : freshness.status === 'stale'
               ? 'border-orange-500 border bg-orange-50 dark:bg-orange-900'
+              : freshness.status === 'awesome'
+              ? 'border-indigo-500 border bg-indigo-50 dark:bg-indigo-900'
               : 'border'
           } border-opacity-20 p-4 my-3 rounded-md`}
         >
           {freshness.title && (
             <h2 className="text-xl font-semibold">
               {freshness.status === 'fresh' && '🌱'}
+              {freshness.status === 'awesome' && '⭐'}
               {freshness.status === 'stale' && '⛔️'}
               {freshness.status === 'classic' && '💎'} {freshness.title}
             </h2>
