@@ -1,0 +1,108 @@
+export const meta = {
+  title: `WTF is Declarative Programming in React`,
+  description: `Declarative programming is much easier to read and figure out what is going on in your code.
+That makes it easier to debug and easier for other devs to work on. You can spend more time creating beautiful reusable components for your users.
+React abstracts away all the nuts and bolts of how the DOM renders these elements.
+In your code you tell your page "Look like this" and you'll get that result.`,
+  status: 'draft',
+  author: {
+    name: 'Will Johnson',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/363/medium/will.jpg',
+    path: '/q/resources-by-will-johnson',
+  },
+  contributors: [
+    {
+      name: 'Zac Jones',
+      type: 'Content Review',
+      path: '/q/resources-by-zac-jones',
+    },
+  ],
+  //! todo
+  coverImage: {
+    url:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/153/000/full/course_image.png',
+    alt: 'Image Component Illustration',
+  },
+  ogImage: {
+    url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613465778/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/product-images-ecommerce-article-ogImage.png`,
+  },
+}
+
+import UltimateGuide from 'layouts/ultimate-guide'
+export default ({children}) => (
+  <UltimateGuide meta={meta}>{children}</UltimateGuide>
+)
+
+When you're learning React you have heard "React is declarative instead of imperative"
+
+What does that mean?
+
+What's the difference between them both?
+
+In simple terms, declarative programming is when your code shows what you want to happen.
+
+Imperative programming your code shows exactly how to do what you want to happen.
+
+If you had wood-stained doors and trim in your home and wanted them to pained white to look more modern. You would tell the painters declaratively "I want the doors and trim bright, white, and smooth".
+
+You wouldn't tell them how to sand with 180 grit sandpaper, use a filbert brush, and do 5 coats with 37 mins drying time in between coats.
+
+All you want is the end result. "Bright, White, and Smooth".
+
+That's how React works. You use your code to say what you want the page to look like when displayed.
+
+Let's look at creating and adding an element to the DOM imperatively using JavaScript.
+
+```javascript
+const root = document.getElementById('root')
+const container = document.createElement('section')
+const title = document.createElement('h1')
+
+container.id = 'new'
+title.innerText = 'Welcome to Our Page!'
+
+container.appenedChild(title)
+root.appendChild(container)
+```
+
+If you've worked with JavaScript for a while, you know this code created new elements and added them to the DOM.
+
+As your app gets bigger, with more DOM elements you being created, this can become hard to maintain.
+
+Now let's do the same thing declaratively with React.
+
+```html
+<div id="root"></div>
+```
+
+```js
+
+function Title() (
+	return (
+		<section id="welcome">
+			<h1>Welcome to Our Page</h1>
+		</section>
+	)
+);
+
+React.DOM.render(<Title />, documentgetElementById("root")
+```
+
+The React version shows that the `Title` component will show a section element with an `id` of `welcome`.
+
+The `<section>` element will have an `<h1>` tag inside of it that say's "Welcome to our page".
+
+Then it will render the `Title` component to the div with an id of root.
+
+You can see what your app is going to do.
+
+React abstracts away all the nuts and bolts of how the DOM renders these elements.
+
+In your code you tell your page "Look like this" and you'll get that result.
+
+## Why is this good for React devs?
+
+Declarative programming is much easier to read and figure out what is going on in your code.
+
+That makes it easier to debug and easier for other devs to work on. You can spend more time creating beautiful reusable components for your users.
