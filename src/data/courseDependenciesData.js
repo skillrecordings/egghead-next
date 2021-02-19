@@ -4,6 +4,59 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '408538',
+        type: 'playlist',
+        guid: '6732',
+        slug: 'react-state-management-in-2021-6732',
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Resource`,
+          text: `This series digs into the deeper patterns of development with leading experts in the field. It's worth your time.`,
+          asOf: `2021-02-19`,
+        },
+        essentialQuestions: [
+          'How do you know when you need to use a state management library?',
+          'Why is state management challenging?',
+          'Why does state need to be managed?'
+        ],
+        pairWithResources: [
+          {
+            id: 432472,
+            title: 'Introduction to State Machines Using XState',
+            byline: 'Kyle Shevlin・58m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/472/full/IntroxState_1000.png',
+            path: '/playlists/introduction-to-state-machines-using-xstate',
+            slug: 'introduction-to-state-machines-using-xstate',
+            description: `We will explore the problems state machines purport to solve, like boolean explosion. We'll try to solve it our own way first, get so far, and then demonstrate how state machines get us all the way. After that, we'll dive into the XState library, JavaScript's premiere state machine library, to learn its API and how to use it to solve our problems.`,
+          },
+          {
+            id: 432528,
+            title: 'Reusable State and Effects with React Hooks',
+            byline: 'Elijah Manor・57m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/528/full/EGH_ReactHooks_Final_%281%29.png',
+            path: '/playlists/reusable-state-and-effects-with-react-hooks',
+            slug: 'reusable-state-and-effects-with-react-hooks',
+            description:
+              "By the end of this course, you'll learn how to: Run (and Skip) side-effects with the useEffect hook, Write a custom hook to share logic in your app, Simplify the Context API with the useContext hook, Update state with dispatch actions using the useReducer hook, Optimize Components with useMemo",
+          },
+          {
+            id: 423944,
+            title: 'Redux with React Hooks',
+            byline: 'Jamund Ferguson・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
+            path: '/playlists/redux-with-react-hooks-8a37',
+            slug: 'redux-with-react-hooks-8a37',
+            description: `Recent updates to redux exposing a hooks-based API address some of its most serious drawbacks and make it even more appealing. This course will show you how to apply redux to a modern react hooks application. I hope you leave this course with a continued appreciation for React Hooks and renewed enthusiasm for Redux.`,
+          },
+        ],
+      },
+      {
         id: '425628',
         type: 'playlist',
         guid: '7297',
