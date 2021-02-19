@@ -19,7 +19,8 @@ const courseDependencyData = (courseSlug) =>
         },
         essentialQuestions: [
           'How do you know when you need to use a state management library?',
-          'Should all state changes be the result of an event and an action?',
+          'Why is state management challenging?',
+          'Why does state need to be managed?'
         ],
         pairWithResources: [
           {
