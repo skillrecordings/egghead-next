@@ -25,7 +25,7 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
-            id: 432472,
+            id: '432472',
             type: 'playlist',
             title: 'Introduction to State Machines Using XState',
             byline: 'Kyle Shevlin・58m・Course',
@@ -37,7 +37,7 @@ const courseDependencyData = (courseSlug) =>
               "We will explore the problems state machines purport to solve, like boolean explosion. We'll try to solve it our own way first, get so far, and then demonstrate how state machines get us all the way. After that, we'll dive into the XState library, JavaScript's premiere state machine library, to learn its API and how to use it to solve our problems.",
           },
           {
-            id: 432528,
+            id: '432528',
             type: 'playlist',
             title: 'Reusable State and Effects with React Hooks',
             byline: 'Elijah Manor・57m・Course',
@@ -49,7 +49,7 @@ const courseDependencyData = (courseSlug) =>
               "By the end of this course, you'll learn how to: Run (and Skip) side-effects with the useEffect hook, Write a custom hook to share logic in your app, Simplify the Context API with the useContext hook, Update state with dispatch actions using the useReducer hook, Optimize Components with useMemo",
           },
           {
-            id: 423944,
+            id: '423944',
             type: 'playlist',
             title: 'Redux with React Hooks',
             byline: 'Jamund Ferguson・42m・Course',
@@ -78,7 +78,6 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
-            id: '392298',
             type: 'playlist',
             title: 'Build An Eleventy (11ty) Site From Scratch',
             path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
@@ -191,6 +190,7 @@ const courseDependencyData = (courseSlug) =>
               'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
             description:
               'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
+            id: '412781',
           },
           {
             type: 'playlist',
@@ -214,6 +214,7 @@ const courseDependencyData = (courseSlug) =>
             slug: 'using-dynamodb-with-next-js-b40c',
             description:
               'Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.',
+            id: '411838',
           },
         ],
       },
@@ -248,6 +249,7 @@ const courseDependencyData = (courseSlug) =>
             slug: 'using-dynamodb-with-next-js-b40c',
             description:
               'Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.',
+            id: '411838',
           },
           {
             type: 'playlist',
@@ -261,6 +263,7 @@ const courseDependencyData = (courseSlug) =>
             slug: 'building-serverless-web-applications-with-react-aws-amplify',
             description:
               'React makes it intuitive to build real-world web application. But in reality, you need to use a host of other services to get the app in front of real users. This course walks you through setup and implementation to get your cloud-based application up and running.',
+            id: '432515',
           },
           {
             type: 'playlist',
@@ -273,6 +276,7 @@ const courseDependencyData = (courseSlug) =>
               'This playlist will get you going with the Amplify Console, including showing you how to host your website, integrate continuous integration and continuous delivery, set up a custom domain, and enable pull request previews.',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/full/aws.png',
+            id: '354280',
           },
         ],
       },
