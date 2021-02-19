@@ -26,6 +26,7 @@ const courseDependencyData = (courseSlug) =>
         pairWithResources: [
           {
             id: 432472,
+            type: 'playlist',
             title: 'Introduction to State Machines Using XState',
             byline: 'Kyle Shevlin・58m・Course',
             image:
@@ -37,6 +38,7 @@ const courseDependencyData = (courseSlug) =>
           },
           {
             id: 432528,
+            type: 'playlist',
             title: 'Reusable State and Effects with React Hooks',
             byline: 'Elijah Manor・57m・Course',
             image:
@@ -48,6 +50,7 @@ const courseDependencyData = (courseSlug) =>
           },
           {
             id: 423944,
+            type: 'playlist',
             title: 'Redux with React Hooks',
             byline: 'Jamund Ferguson・42m・Course',
             image:
@@ -76,6 +79,7 @@ const courseDependencyData = (courseSlug) =>
         prerequisites: [
           {
             id: '392298',
+            type: 'playlist',
             title: 'Build An Eleventy (11ty) Site From Scratch',
             path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
             image:
@@ -116,7 +120,8 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
-            id: 235,
+            id: '432614',
+            type: 'playlist',
             title: 'CSS Selectors in Depth',
             byline: 'Garth Braithwaite・34m・Course',
             image:
@@ -127,7 +132,8 @@ const courseDependencyData = (courseSlug) =>
               'Cascading style sheet (CSS) selectors are the glue that connects styling to HTML content. Understanding how they work enables a developer to write more semantic markup and keeps styling modular for better project maintenance.',
           },
           {
-            id: 227,
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -138,7 +144,8 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image.',
           },
           {
-            id: 107,
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・30m・Course',
             image:
@@ -173,6 +180,7 @@ const courseDependencyData = (courseSlug) =>
         },
         pairWithResources: [
           {
+            type: 'playlist',
             title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
             byline: 'Colby Fayock・1h 4m・Course',
             image:
@@ -185,6 +193,7 @@ const courseDependencyData = (courseSlug) =>
               'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
           },
           {
+            type: 'playlist',
             title: 'React Context for State Management',
             byline: 'Dave Ceddia・35m・Course',
             image:
@@ -193,8 +202,10 @@ const courseDependencyData = (courseSlug) =>
             slug: 'react-context-for-state-management',
             description:
               'In this course, we’ll build a simple email client using the React Context API to pass data throughout the app. You’ll learn how to create a context, how to pass data deeply through an app without manually passing props all over the place, and how to group related data and logic using simple wrapper components.',
+            id: '432508',
           },
           {
+            type: 'playlist',
             title: 'Using DynamoDB with Next.js',
             byline: 'Lee Robinson・30m・Course',
             image:
@@ -228,6 +239,7 @@ const courseDependencyData = (courseSlug) =>
         },
         pairWithResources: [
           {
+            type: 'playlist',
             title: 'Using DynamoDB with Next.js',
             byline: 'Lee Robinson・30m・Course',
             image:
@@ -238,6 +250,7 @@ const courseDependencyData = (courseSlug) =>
               'Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.',
           },
           {
+            type: 'playlist',
             title:
               'Building Serverless Web Applications with React & AWS Amplify',
             byline: 'Nader Dabit・33m・Course',
@@ -250,6 +263,7 @@ const courseDependencyData = (courseSlug) =>
               'React makes it intuitive to build real-world web application. But in reality, you need to use a host of other services to get the app in front of real users. This course walks you through setup and implementation to get your cloud-based application up and running.',
           },
           {
+            type: 'playlist',
             title: 'Up and Running with Amplify Static Site Hosting',
             byline: 'Nader Dabit・24m・Course',
             path:
@@ -2361,6 +2375,7 @@ const courseDependencyData = (courseSlug) =>
         },
         pairWithResources: [
           {
+            type: 'playlist',
             title: 'Shareable Custom Hooks in React',
             byline: 'Joe Previte・30m・Course',
             image:
@@ -2369,8 +2384,10 @@ const courseDependencyData = (courseSlug) =>
             slug: 'shareable-custom-hooks-in-react',
             description:
               "In this course, you'll work through refactoring a component to use a custom hook, and learn to apply the patterns used by the React team to your own code.",
+            id: '432486',
           },
           {
+            type: 'playlist',
             title: 'Simplify React Apps with React Hooks',
             byline: 'Kent C. Dodds・38m・Course',
             image:
@@ -2379,8 +2396,10 @@ const courseDependencyData = (courseSlug) =>
             slug: 'simplify-react-apps-with-react-hooks',
             description:
               "Kent will take a React codebase that uses classes and refactor the entire thing to use function components as much as possible. You'll also look at state, side effects, async code, caching, and more.",
+            id: '432510',
           },
           {
+            type: 'playlist',
             title: 'Reusable State and Effects with React Hooks',
             byline: 'Elijah Manor・57m・Course',
             image:
@@ -2389,6 +2408,7 @@ const courseDependencyData = (courseSlug) =>
             slug: 'reusable-state-and-effects-with-react-hooks',
             description:
               "In this course, you'll see examples of converting Class Components to Function Components and how they relate to one another.",
+            id: '432528',
           },
         ],
       },
