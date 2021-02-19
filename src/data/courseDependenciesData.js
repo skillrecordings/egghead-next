@@ -12,15 +12,16 @@ const courseDependencyData = (courseSlug) =>
           name: 'Maxime Bourgeois',
         },
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Resource`,
-          text: `This series digs into the deeper patterns of development with leading experts in the field. It's worth your time.`,
-          asOf: `2021-02-19`,
+          status: 'fresh',
+          title: 'This is a Fresh Resource',
+          text:
+            "This series digs into the deeper patterns of development with leading experts in the field. It's worth your time.",
+          asOf: '2021-02-19',
         },
         essentialQuestions: [
           'How do you know when you need to use a state management library?',
           'Why is state management challenging?',
-          'Why does state need to be managed?'
+          'Why does state need to be managed?',
         ],
         pairWithResources: [
           {
@@ -31,7 +32,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/472/full/IntroxState_1000.png',
             path: '/playlists/introduction-to-state-machines-using-xstate',
             slug: 'introduction-to-state-machines-using-xstate',
-            description: `We will explore the problems state machines purport to solve, like boolean explosion. We'll try to solve it our own way first, get so far, and then demonstrate how state machines get us all the way. After that, we'll dive into the XState library, JavaScript's premiere state machine library, to learn its API and how to use it to solve our problems.`,
+            description:
+              "We will explore the problems state machines purport to solve, like boolean explosion. We'll try to solve it our own way first, get so far, and then demonstrate how state machines get us all the way. After that, we'll dive into the XState library, JavaScript's premiere state machine library, to learn its API and how to use it to solve our problems.",
           },
           {
             id: 432528,
@@ -52,7 +54,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
             path: '/playlists/redux-with-react-hooks-8a37',
             slug: 'redux-with-react-hooks-8a37',
-            description: `Recent updates to redux exposing a hooks-based API address some of its most serious drawbacks and make it even more appealing. This course will show you how to apply redux to a modern react hooks application. I hope you leave this course with a continued appreciation for React Hooks and renewed enthusiasm for Redux.`,
+            description:
+              'Recent updates to redux exposing a hooks-based API address some of its most serious drawbacks and make it even more appealing. This course will show you how to apply redux to a modern react hooks application. I hope you leave this course with a continued appreciation for React Hooks and renewed enthusiasm for Redux.',
           },
         ],
       },
@@ -79,14 +82,16 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/full/11ty.png',
           },
           {
-            id: '87',
+            id: '432730',
+            type: 'playlist',
             title: 'Learn the Best and Most Useful SCSS',
             path: '/courses/learn-the-best-and-most-useful-scss',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/087/full/EGH_SCSS_Final.png',
           },
           {
-            id: '55',
+            id: '432561',
+            type: 'playlist',
             title: 'Start Building Accessible Web Applications Today',
             path: '/courses/start-building-accessible-web-applications-today',
             image:
@@ -94,10 +99,11 @@ const courseDependencyData = (courseSlug) =>
           },
         ],
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is new and up to date — if you are looking to build a form for your website, you should start here.`,
-          asOf: `2021-02-11`,
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            'This course is new and up to date — if you are looking to build a form for your website, you should start here.',
+          asOf: '2021-02-11',
         },
         nextSteps: [
           'Adapt the mini-design system used for the forms into your existing application.',
@@ -117,7 +123,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/235/full/EGH_CSSSelectors_Final.png',
             path: '/courses/css-selectors-in-depth',
             slug: 'css-selectors-in-depth',
-            description: `Cascading style sheet (CSS) selectors are the glue that connects styling to HTML content. Understanding how they work enables a developer to write more semantic markup and keeps styling modular for better project maintenance.`,
+            description:
+              'Cascading style sheet (CSS) selectors are the glue that connects styling to HTML content. Understanding how they work enables a developer to write more semantic markup and keeps styling modular for better project maintenance.',
           },
           {
             id: 227,
@@ -138,7 +145,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/107/full/EGH_CSS_Grids.png',
             path: '/courses/build-complex-layouts-with-css-grid-layout',
             slug: 'build-complex-layouts-with-css-grid-layout',
-            description: `CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.`,
+            description:
+              'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
         ],
       },
@@ -154,13 +162,14 @@ const courseDependencyData = (courseSlug) =>
           'Process video using to Symbl Async Video API',
           'Implement login functionality by using Symbl oauth2 endpoint',
           'Store a token globally with React Context',
-          `Utilize Symbl's Job Status API`,
+          "Utilize Symbl's Job Status API",
         ],
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is new and up to date — add an excellent project to your developer portfolio using Next.js and intelligent cloud solutions.`,
-          asOf: `2021-02-09`,
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            'This course is new and up to date — add an excellent project to your developer portfolio using Next.js and intelligent cloud solutions.',
+          asOf: '2021-02-09',
         },
         pairWithResources: [
           {
@@ -172,7 +181,8 @@ const courseDependencyData = (courseSlug) =>
               '/playlists/,create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
             slug:
               'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-            description: `Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.`,
+            description:
+              'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
           },
           {
             title: 'React Context for State Management',
@@ -191,7 +201,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/thumb/EGH_DynamoDB.png',
             path: '/playlists/using-dynamodb-with-next-js-b40c',
             slug: 'using-dynamodb-with-next-js-b40c',
-            description: `Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.`,
+            description:
+              'Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.',
           },
         ],
       },
@@ -209,10 +220,11 @@ const courseDependencyData = (courseSlug) =>
           'Deploy your frontend to the Amplify Console',
         ],
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is new and up to date—it is a must-watch for any developer that wants to quickly develop and deploy cloud-connected applications.`,
-          asOf: `2021-02-09`,
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            'This course is new and up to date—it is a must-watch for any developer that wants to quickly develop and deploy cloud-connected applications.',
+          asOf: '2021-02-09',
         },
         pairWithResources: [
           {
@@ -222,7 +234,8 @@ const courseDependencyData = (courseSlug) =>
               'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/411/838/thumb/EGH_DynamoDB.png',
             path: '/playlists/using-dynamodb-with-next-js-b40c',
             slug: 'using-dynamodb-with-next-js-b40c',
-            description: `Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.`,
+            description:
+              'Learn how to use the AWS Cloud Development Kit (CDK)to create and deploy a DynamoDB table with Next.js.',
           },
           {
             title:
@@ -233,7 +246,8 @@ const courseDependencyData = (courseSlug) =>
             path:
               '/courses/building-serverless-web-applications-with-react-aws-amplify',
             slug: 'building-serverless-web-applications-with-react-aws-amplify',
-            description: `React makes it intuitive to build real-world web application. But in reality, you need to use a host of other services to get the app in front of real users. This course walks you through setup and implementation to get your cloud-based application up and running.`,
+            description:
+              'React makes it intuitive to build real-world web application. But in reality, you need to use a host of other services to get the app in front of real users. This course walks you through setup and implementation to get your cloud-based application up and running.',
           },
           {
             title: 'Up and Running with Amplify Static Site Hosting',
@@ -262,8 +276,8 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -274,19 +288,20 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
-            id: '36',
-            type: 'course',
+            id: '432690',
+            type: 'playlist',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
             path: '/courses/flexbox-fundamentals',
             slug: 'flexbox-fundamentals',
-            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+            description:
+              "Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!",
           },
           {
-            id: '107',
-            type: 'course',
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
             image:
@@ -310,15 +325,16 @@ const courseDependencyData = (courseSlug) =>
         customOgImage:
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613200877/egghead-next-pages/design-with-tailwind-css-masterclass/design-with-tailwind-css-masterclass_2x.png',
         freshness: {
-          status: `awesome`,
-          title: `Still Awesome`,
-          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).`,
-          asOf: `2021-02-04`,
+          status: 'awesome',
+          title: 'Still Awesome',
+          text:
+            'This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).',
+          asOf: '2021-02-04',
         },
         topics: [
           'Get Tailwind CSS up and running in your project',
           'Build complex application layouts with flexbox',
-          `Build accessible user interfaces following industry best practices`,
+          'Build accessible user interfaces following industry best practices',
           'Remove unused CSS from production builds to maximum performance',
           'Use responsive utility variants to build adaptive user interfaces',
           'Use utilities to style elements on hover, focus, and other states',
@@ -330,7 +346,7 @@ const courseDependencyData = (courseSlug) =>
         quickFacts: [
           'Utility classes create an API on top of what is already a declarative API (CSS itself)',
           'Every utility class is reusable so you rarely need to write new CSS',
-          `Tailwind CSS makes easier to maintain a large CSS codebase `,
+          'Tailwind CSS makes easier to maintain a large CSS codebase ',
           'Tailwind CSS uses a mobile first breakpoint system',
           'Tailwind CSS is component-driven',
           'Tailwind CSS is single source of truth for your CSS architecture',
@@ -343,8 +359,8 @@ const courseDependencyData = (courseSlug) =>
         ],
         pairWithResources: [
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -355,8 +371,8 @@ const courseDependencyData = (courseSlug) =>
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
-            id: '107',
-            type: 'course',
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
             image:
@@ -367,19 +383,19 @@ const courseDependencyData = (courseSlug) =>
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
-            id: '36',
-            type: 'course',
+            id: '432690',
+            type: 'playlist',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
             path: '/courses/flexbox-fundamentals',
             slug: 'flexbox-fundamentals',
-            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+            description:
+              "Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!",
           },
         ],
       },
-
       {
         id: '340481',
         type: 'playlist',
@@ -391,13 +407,11 @@ const courseDependencyData = (courseSlug) =>
         moduleLabel: 1,
         totalCourseModules: 4,
         freshness: {
-          status: `awesome`,
-          title: `Still Awesome`,
-          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
-          
-This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
-      `,
-          asOf: `2021-02-04`,
+          status: 'awesome',
+          title: 'Still Awesome',
+          text:
+            'This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). \n          \nThis course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).\n      ',
+          asOf: '2021-02-04',
         },
         multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
         multiModuletitle: 'Design with Tailwind CSS Masterclass',
@@ -409,8 +423,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         pairWithResources: [
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -421,8 +435,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
-            id: '107',
-            type: 'course',
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
             image:
@@ -433,15 +447,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
-            id: '36',
-            type: 'course',
+            id: '432690',
+            type: 'playlist',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
             path: '/courses/flexbox-fundamentals',
             slug: 'flexbox-fundamentals',
-            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+            description:
+              "Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!",
           },
         ],
       },
@@ -456,13 +471,11 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         moduleLabel: 2,
         totalCourseModules: 4,
         freshness: {
-          status: `awesome`,
-          title: `Still Awesome`,
-          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
-          
-This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
-      `,
-          asOf: `2021-02-04`,
+          status: 'awesome',
+          title: 'Still Awesome',
+          text:
+            'This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). \n          \nThis course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).\n      ',
+          asOf: '2021-02-04',
         },
         multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
         multiModuletitle: 'Design with Tailwind CSS Masterclass',
@@ -474,8 +487,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         pairWithResources: [
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -486,8 +499,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
-            id: '107',
-            type: 'course',
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
             image:
@@ -498,15 +511,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
-            id: '36',
-            type: 'course',
+            id: '432690',
+            type: 'playlist',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
             path: '/courses/flexbox-fundamentals',
             slug: 'flexbox-fundamentals',
-            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+            description:
+              "Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!",
           },
         ],
       },
@@ -521,13 +535,11 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         moduleLabel: 3,
         totalCourseModules: 4,
         freshness: {
-          status: `awesome`,
-          title: `Still Awesome`,
-          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
-          
-This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
-      `,
-          asOf: `2021-02-04`,
+          status: 'awesome',
+          title: 'Still Awesome',
+          text:
+            'This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). \n          \nThis course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).\n      ',
+          asOf: '2021-02-04',
         },
         multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
         multiModuletitle: 'Design with Tailwind CSS Masterclass',
@@ -538,8 +550,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         pairWithResources: [
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -550,8 +562,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
-            id: '107',
-            type: 'course',
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
             image:
@@ -562,15 +574,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
-            id: '36',
-            type: 'course',
+            id: '432690',
+            type: 'playlist',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
             path: '/courses/flexbox-fundamentals',
             slug: 'flexbox-fundamentals',
-            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+            description:
+              "Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!",
           },
         ],
       },
@@ -585,13 +598,11 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         moduleLabel: 4,
         totalCourseModules: 4,
         freshness: {
-          status: `awesome`,
-          title: `Still Awesome`,
-          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).
-          
-This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
-      `,
-          asOf: `2021-02-04`,
+          status: 'awesome',
+          title: 'Still Awesome',
+          text:
+            'This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).\n          \nThis course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).\n      ',
+          asOf: '2021-02-04',
         },
         multiModuleSlug: 'design-with-tailwind-css-masterclass-f0db',
         multiModuletitle: 'Design with Tailwind CSS Masterclass',
@@ -602,8 +613,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         pairWithResources: [
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -614,8 +625,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Even the most experienced developer can learn something new when it comes to using and understanding how the browser interprets CSS. In this course, we will slowly style a website according to a mocked image',
           },
           {
-            id: '107',
-            type: 'course',
+            id: '432715',
+            type: 'playlist',
             title: 'Build Complex Layouts with CSS Grid Layout',
             byline: 'Rory Smith・42m・Course',
             image:
@@ -626,15 +637,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'CSS Grid layout is a two-dimensional layout method that gives you control over items in rows as well as columns. In this course we will look at multiple ways to divide the page into major regions with control of the size, position, and layer.',
           },
           {
-            id: '36',
-            type: 'course',
+            id: '432690',
+            type: 'playlist',
             title: 'Flexbox Fundamentals',
             byline: 'Garth Braithwaite・18m・Course',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/thumb/EGH_Flexbox.png',
             path: '/courses/flexbox-fundamentals',
             slug: 'flexbox-fundamentals',
-            description: `Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!`,
+            description:
+              "Flexbox is a wonderful tool built into the CSS specification. Using flexbox doesn't require any special framework or library, just a browser with CSS3 support. It is so awesome, and makes the arranging elements on a page almost fun!",
           },
         ],
       },
@@ -643,18 +655,17 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         type: 'playlist',
         slug: 'introduction-to-cloudflare-workers-5aa3',
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course will give you a solid foundation to start developing serverless applications. Serverless is a great trend to explore and CloudFlare is at the forefront of the technology.
-      `,
-          asOf: `2021-02-01`,
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            'This course will give you a solid foundation to start developing serverless applications. Serverless is a great trend to explore and CloudFlare is at the forefront of the technology.\n      ',
+          asOf: '2021-02-01',
         },
-
         courseProject: {
           label: 'Cloudflare Worker Project',
           url: '/projects/introduction-to-cloudflare-workers',
-          text: `After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? Start with this Project!
-      `,
+          text:
+            "After this course, you'll be ready to start experimenting with your own Cloudflare Workers projects. Need an idea? Start with this Project!\n      ",
         },
         topics: [
           'Configure the Wrangler CLI for local development',
@@ -686,11 +697,12 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
             slug:
               'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
-            description: `Starting from a prebuilt frontend, Jason Lengstorf guides you through the creation of a static "Corgi Up-boop App" and integrates Netlify Functions with Hasura.`,
+            description:
+              'Starting from a prebuilt frontend, Jason Lengstorf guides you through the creation of a static "Corgi Up-boop App" and integrates Netlify Functions with Hasura.',
           },
           {
-            id: '185',
-            type: 'course',
+            id: '432453',
+            type: 'playlist',
             title: 'JavaScript Promises in Depth',
             byline: 'Marius Schulz・1h 07m・Course',
             image:
@@ -701,8 +713,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'ES2015 brought a native Promise to the JavaScript standard library. In this course, we’re going to take an in-depth look at how to use promises to model various kinds of asynchronous operations.',
           },
           {
-            id: '212',
-            type: 'course',
+            id: '432498',
+            type: 'playlist',
             title: 'Develop a Serverless Backend using Node.js on AWS Lambda',
             byline: 'Nik Graf・15m・Course',
             image:
@@ -732,7 +744,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         pairWithResources: [
           {
             id: '392298',
-            type: 'course',
+            type: 'playlist',
             title: 'Build An Eleventy (11ty) Site From Scratch',
             byline: 'Stephanie Eckles・19m・Course',
             image:
@@ -743,8 +755,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               "Start from a blank project and build up to an Eleventy site that includes a blog collection and is prepared to source content from a headless CMS. You'll also learn how to add Sass as the styling solution, complete with triggering 11ty to re-compile when the Sass changes.",
           },
           {
-            id: '227',
-            type: 'course',
+            id: '432619',
+            type: 'playlist',
             title: 'CSS Fundamentals',
             byline: 'Tyler Clark・33m・Course',
             image:
@@ -781,8 +793,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         pairWithResources: [
           {
-            id: '241',
-            type: 'course',
+            id: '432473',
+            type: 'playlist',
             title: 'Just Enough Functional Programming in JavaScript',
             byline: 'Kyle Shevlin・30m・Course',
             image:
@@ -793,8 +805,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming\n            in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.',
           },
           {
-            id: '353',
-            type: 'course',
+            id: '432469',
+            type: 'playlist',
             title: 'Advanced JavaScript Foundations',
             byline: 'Tyler Clark・41m・Course',
             image:
@@ -805,8 +817,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.',
           },
           {
-            id: '185',
-            type: 'course',
+            id: '432453',
+            type: 'playlist',
             title: 'JavaScript Promises in Depth',
             byline: 'Marius Schulz・1h 7m・Course',
             image:
@@ -874,10 +886,10 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '236',
+            id: '432503',
+            type: 'playlist',
             title: 'Graphql Query Language',
             path: '/courses/graphql-query-language',
-            type: 'egghead_course',
             slug: 'graphql-query-language',
           },
           {
@@ -889,10 +901,10 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
             slug: 'introduction-to-urql-a-react-graphql-client-faaa2bf5',
           },
           {
-            id: '262',
+            id: '432508',
+            type: 'playlist',
             title: 'React Context For State Management',
             path: '/courses/react-context-for-state-management',
-            type: 'egghead_course',
             slug: 'react-context-for-state-management',
           },
         ],
@@ -962,7 +974,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         pairWithResources: [
           {
-            type: 'course',
+            type: 'playlist',
             title: 'WTF is Kubernetes (K8s)',
             byline: 'Chris Biscardi・12m・Video',
             image:
@@ -973,8 +985,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               "Kubernetes is an API to a computer. Multiple computers actually. Here we'll talk about what K8s is, how you can choose between the plethora of K8s related hosting options, and what the process looks like for getting some containers running.",
           },
           {
-            id: '120',
-            type: 'course',
+            id: '432681',
+            type: 'playlist',
             title: 'Build a Twelve-Factor Node.js App with Docker',
             byline: 'Mark Shust・30m・Course',
             image:
@@ -985,7 +997,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Take a simple Node.js app that connects to a MongoDB database and uses an Express web server, and learn how to setup a full software development deployment process as well as how to properly “Dockerize” the app.',
           },
           {
-            type: 'course',
+            type: 'playlist',
             title:
               'Set up Hasura GraphQL engine with YugabyteDB distributed SQL',
             byline: 'Vladimir Novick・2m・Video',
@@ -1012,10 +1024,11 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
           next: '^10.0.6',
         },
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is new and up to date—it is a must-watch for any developer that wants to add an e-commerce solution to their portfolio.`,
-          asOf: `2021-02-15`,
+          status: 'fresh',
+          title: 'This is a Fresh Course',
+          text:
+            'This course is new and up to date—it is a must-watch for any developer that wants to add an e-commerce solution to their portfolio.',
+          asOf: '2021-02-15',
         },
         topics: [
           'Starting a project with Create-Next-App',
@@ -1033,7 +1046,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         quickFacts: [
           'eCommerce is dynamic even if its on the JamStack',
           'Taking advantage of service providers can speed up the development process',
-          `The faster your website is, the more likely you are to convert purchases`,
+          'The faster your website is, the more likely you are to convert purchases',
         ],
         essentialQuestions: [
           'How do I optimize the buying experience?',
@@ -1047,7 +1060,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
             path:
               '/talks/react-getting-personal-with-ecommerce-react-the-static-web',
             slug: 'react-getting-personal-with-ecommerce-react-the-static-web',
-            description: `In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.`,
+            description:
+              'In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.',
           },
           {
             title:
@@ -1057,7 +1071,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
             slug:
               'product-images-that-dont-byte-with-the-nextjs-image-component',
-            description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
+            description:
+              'By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.',
           },
           {
             title:
@@ -1067,7 +1082,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
             slug:
               'build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
-            description: `In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,
+            description:
+              'In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.',
           },
         ],
       },
@@ -1101,8 +1117,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '490',
-        type: 'course',
+        id: '432449',
+        type: 'playlist',
         slug: 'build-maps-with-react-leaflet',
         dependencies: {
           react: '>=16.13.1',
@@ -1118,10 +1134,10 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
+            type: 'playlist',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
         ],
@@ -1139,8 +1155,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '451',
-        type: 'course',
+        id: '432491',
+        type: 'playlist',
         slug:
           'eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
         dependencies: {
@@ -1161,10 +1177,10 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
+            type: 'playlist',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
             slug: 'the-beginner-s-guide-to-react',
           },
         ],
@@ -1183,8 +1199,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '450',
-        type: 'course',
+        id: '432500',
+        type: 'playlist',
         slug: 'build-an-app-with-the-aws-cloud-development-kit',
         dependencies: {
           'aws-cdk': '>=1.32.2',
@@ -1254,8 +1270,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '449',
-        type: 'course',
+        id: '432452',
+        type: 'playlist',
         slug: 'advanced-sql-for-professional-developers',
         topics: [
           'CSV import & export',
@@ -1269,10 +1285,10 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '273',
+            id: '432504',
+            type: 'playlist',
             title: 'Sql Fundamentals',
             path: '/courses/sql-fundamentals',
-            type: 'egghead_course',
             slug: 'sql-fundamentals',
           },
           {
@@ -1294,8 +1310,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '448',
-        type: 'course',
+        id: '432461',
+        type: 'playlist',
         slug: 'write-your-first-program-with-the-rust-language',
         dependencies: {
           rust: '>=1.40.0',
@@ -1310,8 +1326,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '447',
-        type: 'course',
+        id: '432547',
+        type: 'playlist',
         slug: 'thinking-reactively-with-rxjs',
         dependencies: {
           react: '>=16.9.0',
@@ -1329,24 +1345,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '20',
+            id: '432558',
             title: 'Introduction To Reactive Programming',
             path: '/courses/introduction-to-reactive-programming',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'introduction-to-reactive-programming',
           },
           {
-            id: '34',
+            id: '432691',
             title: 'Rxjs Beyond The Basics Operators In Depth',
             path: '/playlists/rxjs-beyond-the-basics-operators-in-depth',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'rxjs-beyond-the-basics-operators-in-depth',
           },
         ],
       },
       {
-        id: '413',
-        type: 'course',
+        id: '432485',
+        type: 'playlist',
         slug: 'web-security-essentials-mitm-csrf-and-xss',
         dependencies: {
           express: '>=4.17.1',
@@ -1360,24 +1376,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '78',
+            id: '432697',
             title: 'Understand The Basics Of HTTP',
             path: '/courses/understand-the-basics-of-http',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'understand-the-basics-of-http',
           },
           {
-            id: '18',
+            id: '432563',
             title: 'Getting Started With Express.js',
             path: '/courses/getting-started-with-express-js',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'getting-started-with-express-js',
           },
         ],
       },
       {
-        id: '412',
-        type: 'course',
+        id: '432444',
+        type: 'playlist',
         slug: 'develop-accessible-web-apps-with-react',
         dependencies: {
           react: '>=16.10.2',
@@ -1394,31 +1410,31 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
-            id: '163',
+            id: '432510',
             title: 'Simplify React Apps With React Hooks',
             path: '/courses/simplify-react-apps-with-react-hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'simplify-react-apps-with-react-hooks',
           },
           {
-            id: '55',
+            id: '432561',
             title: 'Start Building Accessible Web Applications Today',
             path: '/courses/start-building-accessible-web-applications-today',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'start-building-accessible-web-applications-today',
           },
         ],
       },
       {
-        id: '405',
-        type: 'course',
+        id: '432506',
+        type: 'playlist',
         slug: 'designing-graphql-schemas-99db',
         dependencies: {
           'apollo-server': '>=2.9.7',
@@ -1437,22 +1453,22 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '236',
+            id: '432503',
             title: 'Graphql Query Language',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/graphql-query-language',
           },
           {
-            id: '231',
+            id: '432477',
             title: 'Graphql Data In React With Apollo Client',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/graphql-data-in-react-with-apollo-client',
           },
         ],
       },
       {
-        id: '403',
-        type: 'course',
+        id: '432472',
+        type: 'playlist',
         slug: 'introduction-to-state-machines-using-xstate',
         dependencies: {
           xstate: '>=4.6.7',
@@ -1470,16 +1486,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '402',
+            id: '432450',
             title: 'Construct Sturdy Uis With Xstate',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/construct-sturdy-uis-with-xstate',
           },
         ],
       },
       {
-        id: '402',
-        type: 'course',
+        id: '432450',
+        type: 'playlist',
         slug: 'construct-sturdy-uis-with-xstate',
         dependencies: {
           xstate: '>=4.6.7',
@@ -1497,16 +1513,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '403',
+            id: '432472',
             title: 'Introduction To State Machines Using Xstate',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/introduction-to-state-machines-using-xstate',
           },
         ],
       },
       {
-        id: '401',
-        type: 'course',
+        id: '432468',
+        type: 'playlist',
         slug: 'fix-common-git-mistakes',
         topics: [
           'Change commit messages',
@@ -1521,22 +1537,22 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '50',
+            id: '432674',
             title: 'Practical Git For Everyday Professional Use',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/practical-git-for-everyday-professional-use',
           },
           {
-            id: '247',
+            id: '432644',
             title: 'Productive Git For Developers',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/productive-git-for-developers',
           },
         ],
       },
       {
-        id: '400',
-        type: 'course',
+        id: '432509',
+        type: 'playlist',
         slug: 'use-suspense-to-simplify-your-async-ui',
         dependencies: {
           react: '0.0.0-experimental-b53ea6ca0',
@@ -1553,22 +1569,22 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '263',
+            id: '432510',
             title: 'Simplify React Apps With React Hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/simplify-react-apps-with-react-hooks',
           },
           {
-            id: '185',
+            id: '432453',
             title: 'Javascript Promises In Depth',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/javascript-promises-in-depth',
           },
         ],
       },
       {
-        id: '399',
-        type: 'course',
+        id: '432617',
+        type: 'playlist',
         slug: 'build-an-app-with-react-suspense',
         dependencies: {
           react: 'experimental',
@@ -1583,35 +1599,35 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
-            id: '263',
+            id: '432510',
             title: 'Simplify React Apps With React Hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/simplify-react-apps-with-react-hooks',
           },
           {
-            id: '166',
+            id: '432466',
             title: 'React Class Component Patterns',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/react-class-component-patterns',
           },
           {
-            id: '264',
+            id: '432528',
             title: 'Reusable State And Effects With React Hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/reusable-state-and-effects-with-react-hooks',
           },
         ],
       },
       {
-        id: '395',
-        type: 'course',
+        id: '432507',
+        type: 'playlist',
         slug: 'build-a-video-chat-app-with-twilio-and-gatsby',
         dependencies: {
           gatsby: '>=2.15.7',
@@ -1630,35 +1646,35 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
-            id: '263',
+            id: '432510',
             title: 'Simplify React Apps With React Hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/simplify-react-apps-with-react-hooks',
           },
           {
-            id: '157',
+            id: '432685',
             title: 'Build A Blog With React And Markdown Using Gatsby',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/build-a-blog-with-react-and-markdown-using-gatsby',
           },
           {
-            id: '311',
+            id: '432482',
             title: 'Gatsby Theme Authoring',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/gatsby-theme-authoring',
           },
         ],
       },
       {
-        id: '355',
-        type: 'course',
+        id: '432548',
+        type: 'playlist',
         slug: 'composable-gatsby-themes',
         dependencies: {
           gatsby: '>=2.16.5',
@@ -1674,16 +1690,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '311',
+            id: '432482',
             title: 'Gatsby Theme Authoring',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/gatsby-theme-authoring',
           },
         ],
       },
       {
-        id: '354',
-        type: 'course',
+        id: '432652',
+        type: 'playlist',
         slug: 'a-journey-with-vue-router',
         dependencies: {
           vue: '>=2.5.22',
@@ -1700,16 +1716,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '83',
+            id: '432736',
             title: 'Develop Basic Web Apps With Vue Js',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/develop-basic-web-apps-with-vue-js',
           },
         ],
       },
       {
-        id: '353',
-        type: 'course',
+        id: '432469',
+        type: 'playlist',
         slug: 'advanced-javascript-foundations',
         topics: [
           'Primitive Types: the What, How, and Why',
@@ -1725,16 +1741,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '49',
+            id: '432653',
             title: 'Learn ES6 Ecmascript 2015',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'learn-es6-ecmascript-2015',
           },
         ],
       },
       {
-        id: '313',
-        type: 'course',
+        id: '432486',
+        type: 'playlist',
         slug: 'shareable-custom-hooks-in-react',
         dependencies: {
           react: '^16.8.6',
@@ -1749,23 +1765,23 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
-            id: '264',
+            id: '432528',
             title: 'Reusable State And Effects With React Hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/reusable-state-and-effects-with-react-hooks',
           },
         ],
       },
       {
-        id: '312',
-        type: 'course',
+        id: '432616',
+        type: 'playlist',
         slug: 'immutable-javascript-data-structures-with-immer',
         dependencies: {
           immer: '^4.0.0',
@@ -1790,30 +1806,30 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
             title: 'Basic knowledge of immutable principles',
           },
           {
-            id: '49',
+            id: '432653',
             title: 'Learn ES6 Ecmascript 2015',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/learn-es6-ecmascript-2015',
           },
           {
-            id: '263',
+            id: '432510',
             title: 'Simplify React Apps With React Hooks',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/simplify-react-apps-with-react-hooks',
           },
         ],
       },
       {
-        id: '311',
-        type: 'course',
+        id: '432482',
+        type: 'playlist',
         slug: 'gatsby-theme-authoring',
         dependencies: {
           gatsby: '>=2.13.1',
         },
       },
       {
-        id: '310',
-        type: 'course',
+        id: '432647',
+        type: 'playlist',
         slug: 'javascript-es2019-in-practice',
         topics: [
           'Flatten arrays',
@@ -1830,15 +1846,14 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
             title: 'Usage of common command line tools',
           },
           {
-            id: '49',
+            id: '432653',
             title: 'Learn ES6 Ecmascript 2015',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/learn-es6-ecmascript-2015',
           },
           {
-            id: '15',
             title: 'Introduction To Node The Fundamentals',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/introduction-to-node-the-fundamentals',
           },
         ],
@@ -1849,8 +1864,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '308',
-        type: 'course',
+        id: '432527',
+        type: 'playlist',
         slug:
           'build-content-rich-progressive-web-apps-with-gatsby-and-contentful',
         dependencies: {
@@ -1868,9 +1883,9 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '157',
+            id: '432685',
             title: 'Build A Blog With React And Markdown Using Gatsby',
-            type: 'egghead_course',
+            type: 'playlist',
             path: '/courses/build-a-blog-with-react-and-markdown-using-gatsby',
           },
           {
@@ -1887,8 +1902,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '307',
-        type: 'course',
+        id: '432622',
+        type: 'playlist',
         slug: 'vue-and-socket-io-for-real-time-communication',
         dependencies: {
           vue: '^2.5.21',
@@ -1926,8 +1941,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '306',
-        type: 'course',
+        id: '432470',
+        type: 'playlist',
         slug: 'test-production-ready-apps-with-cypress',
         dependencies: {
           cypress: '^3.1.5',
@@ -1963,8 +1978,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '273',
-        type: 'course',
+        id: '432504',
+        type: 'playlist',
         slug: 'sql-fundamentals',
         topics: [
           'Tables and table relationships',
@@ -1989,8 +2004,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '272',
-        type: 'course',
+        id: '432575',
+        type: 'playlist',
         slug: 'vr-applications-using-react-360',
         dependencies: {
           react: '^16.3.2',
@@ -2011,10 +2026,10 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         prerequisites: [
           {
-            id: '160',
+            id: '432490',
             title: "The Beginner's Guide To React",
             path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
+            type: 'playlist',
             slug: 'the-beginner-s-guide-to-react',
           },
           {
@@ -2040,8 +2055,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '270',
-        type: 'course',
+        id: '432627',
+        type: 'playlist',
         slug: 'reactive-state-management-in-angular-with-ngrx',
         dependencies: {
           angular: '^7.0.3',
@@ -2055,8 +2070,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '267',
-        type: 'course',
+        id: '432536',
+        type: 'playlist',
         slug: 'redux-and-the-state-adt',
         dependencies: {
           crocks: '^0.11.0',
@@ -2067,8 +2082,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '266',
-        type: 'course',
+        id: '432497',
+        type: 'playlist',
         slug: 'progressive-web-apps-in-react-with-create-react-app',
         dependencies: {
           react: '16.6.3-16.8.6',
@@ -2127,8 +2142,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '263',
-        type: 'course',
+        id: '432510',
+        type: 'playlist',
         slug: 'simplify-react-apps-with-react-hooks',
         dependencies: {
           react: '^16.7.0-alpha',
@@ -2138,16 +2153,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '262',
-        type: 'course',
+        id: '432508',
+        type: 'playlist',
         slug: 'react-context-for-state-management',
         dependencies: {
           react: '^16.6.0',
         },
       },
       {
-        id: '260',
-        type: 'course',
+        id: '432565',
+        type: 'playlist',
         slug: 'build-a-neo4j-graphql-api',
         dependencies: {
           axios: '^0.18.0',
@@ -2161,8 +2176,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '257',
-        type: 'course',
+        id: '432513',
+        type: 'playlist',
         slug: 'modern-javascript-tooling-with-react',
         dependencies: {
           'prop-types': '^15.6.2',
@@ -2173,8 +2188,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '246',
-        type: 'course',
+        type: 'playlist',
         slug: 'use-dom-testing-library-to-test-any-js-framework',
         dependencies: {
           dojo: '^3.0.0',
@@ -2204,8 +2218,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '236',
-        type: 'course',
+        id: '432503',
+        type: 'playlist',
         slug: 'graphql-query-language',
         topics: [
           'Query, mutation, & subscription',
@@ -2233,8 +2247,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '231',
-        type: 'course',
+        id: '432477',
+        type: 'playlist',
         slug: 'graphql-data-in-react-with-apollo-client',
         freshness: {
           status: 'stale',
@@ -2253,16 +2267,15 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '230',
-        type: 'course',
+        id: '432539',
+        type: 'playlist',
         slug: 'build-your-own-rxjs-pipeable-operators',
         dependencies: {
           rxjs: '^6.0.0',
         },
       },
       {
-        id: '228',
-        type: 'course',
+        type: 'playlist',
         slug: 'design-systems-with-react-and-typescript-in-storybook',
         dependencies: {
           react: '^16.0.0',
@@ -2270,16 +2283,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '226',
-        type: 'course',
+        id: '432462',
+        type: 'playlist',
         slug: 'fully-connected-neural-networks-with-keras',
         dependencies: {
           python: '^3.0.0',
         },
       },
       {
-        id: '221',
-        type: 'course',
+        id: '432657',
+        type: 'playlist',
         slug: 'execute-npm-package-binaries-with-the-npx-package-runner',
         dependencies: {
           npm: '>=5.2.0',
@@ -2289,8 +2302,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '219',
-        type: 'course',
+        id: '432456',
+        type: 'playlist',
         slug: 'getting-started-with-angular-elements',
         dependencies: {
           angular: '^7.0.0',
@@ -2307,24 +2320,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '216',
-        type: 'course',
+        id: '432493',
+        type: 'playlist',
         slug: 'practical-advanced-typescript',
         dependencies: {
           typescript: '^3.0.0',
         },
       },
       {
-        id: '215',
-        type: 'course',
+        id: '432514',
+        type: 'playlist',
         slug: 'advanced-angular-component-patterns',
         dependencies: {
           angular: '5 - 6',
         },
       },
       {
-        id: '213',
-        type: 'course',
+        id: '432516',
+        type: 'playlist',
         slug:
           'create-smooth-performant-transitions-with-react-transition-group-v2',
         dependencies: {
@@ -2332,18 +2345,19 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '211',
-        type: 'course',
+        id: '432465',
+        type: 'playlist',
         slug:
           'scalable-offline-ready-graphql-applications-with-aws-appsync-react',
         dependencies: {
           graphql: '^14.0.0',
         },
         freshness: {
-          status: `stale`,
-          title: `This is a Stale Course`,
-          text: `There are portions of this course that have changed a bit since it was recorded, but it is still useful for developers interested in using AWS AppSync. The module versions have changed, but the API is largely the same. The React parts of this course make use of class components. If you'd like to convert the code to use Hooks, check out [Shareable Custom Hooks by Joe Previte](https://egghead.io/courses/shareable-custom-hooks-in-react).`,
-          asOf: `2021-02-10`,
+          status: 'stale',
+          title: 'This is a Stale Course',
+          text:
+            "There are portions of this course that have changed a bit since it was recorded, but it is still useful for developers interested in using AWS AppSync. The module versions have changed, but the API is largely the same. The React parts of this course make use of class components. If you'd like to convert the code to use Hooks, check out [Shareable Custom Hooks by Joe Previte](https://egghead.io/courses/shareable-custom-hooks-in-react).",
+          asOf: '2021-02-10',
         },
         pairWithResources: [
           {
@@ -2379,16 +2393,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '209',
-        type: 'course',
+        id: '432519',
+        type: 'playlist',
         slug: 'beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
         dependencies: {
           react: '^16.0.0',
         },
       },
       {
-        id: '207',
-        type: 'course',
+        id: '432537',
+        type: 'playlist',
         slug: 'json-web-token-jwt-authentication-with-node-js-and-auth0',
         dependencies: {
           express: '^4.0.0',
@@ -2415,8 +2429,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '202',
-        type: 'course',
+        id: '432512',
+        type: 'playlist',
         slug: 'build-async-vue-js-apps-with-rxjs',
         dependencies: {
           rxjs: '5.5.12 - 6.4.0',
@@ -2483,16 +2497,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '200',
-        type: 'course',
+        id: '432594',
+        type: 'playlist',
         slug: 'integrate-ibm-domino-with-node-js',
         dependencies: {
           express: '^4.16.3',
         },
       },
       {
-        id: '198',
-        type: 'course',
+        id: '432672',
+        type: 'playlist',
         slug: 'test-react-components-with-enzyme-and-jest',
         dependencies: {
           react: '^16.0.0',
@@ -2501,8 +2515,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '197',
-        type: 'course',
+        id: '432550',
+        type: 'playlist',
         slug: 'manage-react-form-state-with-redux-form',
         dependencies: {
           react: '^16.0.0',
@@ -2513,8 +2527,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '194',
-        type: 'course',
+        id: '432459',
+        type: 'playlist',
         slug: 'react-navigation-for-native-mobile-applications',
         dependencies: {
           react: '2.0.0 - ^6.0.0',
@@ -2555,16 +2569,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '193',
-        type: 'course',
+        id: '432590',
+        type: 'playlist',
         slug: 'optimistic-ui-updates-in-react',
         dependencies: {
           react: '^16.0.0',
         },
       },
       {
-        id: '192',
-        type: 'course',
+        id: '432660',
+        type: 'playlist',
         slug: 'end-to-end-testing-with-cypress',
         dependencies: {
           cypress: '^1.4.1',
@@ -2572,8 +2586,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '189',
-        type: 'course',
+        id: '432529',
+        type: 'playlist',
         slug: 'angular-service-injection-with-the-dependency-injector-di',
         dependencies: {
           angular: '5 - 7',
@@ -2614,8 +2628,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '186',
-        type: 'course',
+        id: '432704',
+        type: 'playlist',
         slug: 'end-to-end-testing-with-google-s-puppeteer-and-jest',
         dependencies: {
           react: '^16.2.0',
@@ -2624,8 +2638,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '185',
-        type: 'course',
+        id: '432453',
+        type: 'playlist',
         slug: 'javascript-promises-in-depth',
         dependencies: {
           angular: '5.0.0 - ^7.0.2',
@@ -2643,8 +2657,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '183',
-        type: 'course',
+        id: '432457',
+        type: 'playlist',
         slug:
           'build-user-interfaces-by-composing-css-utility-classes-with-tailwind',
         dependencies: {
@@ -2694,16 +2708,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '180',
-        type: 'course',
+        id: '432458',
+        type: 'playlist',
         slug: 'advanced-fine-grained-control-of-vue-js-components',
         dependencies: {
           vue: '^2.5.9',
         },
       },
       {
-        id: '173',
-        type: 'course',
+        id: '432708',
+        type: 'playlist',
         slug:
           'seo-friendly-progressive-web-applications-with-angular-universal',
         dependencies: {
@@ -2715,8 +2729,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '171',
-        type: 'course',
+        id: '432474',
+        type: 'playlist',
         slug: 'create-dynamic-components-in-angular',
         dependencies: {
           angular: '5 - 6',
@@ -2760,16 +2774,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '170',
-        type: 'course',
+        id: '432723',
+        type: 'playlist',
         slug: 'async-await-using-typescript',
         dependencies: {
           '@types/node': '8.0.53',
         },
       },
       {
-        id: '169',
-        type: 'course',
+        id: '432564',
+        type: 'playlist',
         slug: 'manage-application-state-with-mobx-state-tree',
         dependencies: {
           react: '^16.0.0',
@@ -2777,8 +2791,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '166',
-        type: 'course',
+        id: '432466',
+        type: 'playlist',
         slug: 'react-class-component-patterns',
         dependencies: {
           react: '^16.3.2',
@@ -2786,8 +2800,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '165',
-        type: 'course',
+        id: '432695',
+        type: 'playlist',
         slug: 'async-react-with-redux-saga',
         dependencies: {
           react: '^16.0.0',
@@ -2812,8 +2826,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '164',
-        type: 'course',
+        id: '432471',
+        type: 'playlist',
         slug:
           'build-a-server-rendered-code-split-app-in-react-with-react-universal-component',
         dependencies: {
@@ -2822,8 +2836,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '162',
-        type: 'course',
+        id: '432738',
+        type: 'playlist',
         slug: 'use-typescript-to-develop-react-applications',
         dependencies: {
           React: '16.0.0',
@@ -2883,8 +2897,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '161',
-        type: 'course',
+        id: '432709',
+        type: 'playlist',
         slug: 'create-dynamic-forms-in-angular',
         dependencies: {
           angular: '^6.0.0',
@@ -2895,8 +2909,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '160',
-        type: 'course',
+        id: '432490',
+        type: 'playlist',
         slug: 'the-beginner-s-guide-to-react',
         freshness: {
           status: 'fresh',
@@ -2917,8 +2931,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
         pairWithResources: [
           {
-            id: '412',
-            type: 'course',
+            id: '432444',
+            type: 'playlist',
             title: 'Develop Accessible Web Apps with React',
             byline: 'Erin Doyle・1h 28m・Course',
             image:
@@ -2929,8 +2943,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Gain the knowledge and skills required to audit and fix accessibility issues in your applications \n            and gain a better understanding of your target users and how to approach your web app design from their perspectives',
           },
           {
-            id: '263',
-            type: 'course',
+            id: '432510',
+            type: 'playlist',
             title: 'Simplify React Apps with React Hooks',
             byline: 'Kent C. Dodds・38m・Course',
             image:
@@ -2941,8 +2955,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               "React transitioned to an API called Hooks and most consider it the way to develop production applications\n              today. This 38-minute course will help you get started and is the perfect compliment to The Beginner's Guide.",
           },
           {
-            id: '490',
-            type: 'course',
+            id: '432449',
+            type: 'playlist',
             title: 'Build Maps with React Leaflet',
             byline: 'Colby Fayock・47m・Course',
             image:
@@ -2955,8 +2969,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '159',
-        type: 'course',
+        id: '432501',
+        type: 'playlist',
         slug: 'build-react-components-from-streams-with-rxjs-and-recompose',
         dependencies: {
           rxjs: '^5.0.0',
@@ -2964,24 +2978,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '158',
-        type: 'course',
+        id: '432651',
+        type: 'playlist',
         slug: 'make-webpack-easy-with-poi',
         dependencies: {
           poi: '^9.0.0',
         },
       },
       {
-        id: '157',
-        type: 'course',
+        id: '432685',
+        type: 'playlist',
         slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
         dependencies: {
           gatsby: '^2.0.0',
         },
       },
       {
-        id: '154',
-        type: 'course',
+        id: '432670',
+        type: 'playlist',
         slug: 'offline-first-progressive-web-apps-pwa-in-vue-js',
         dependencies: {
           vue: '^2.5.2',
@@ -2991,16 +3005,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '152',
-        type: 'course',
+        id: '432532',
+        type: 'playlist',
         slug: 'leverage-new-features-of-react-16',
         dependencies: {
           react: '^16.0.0',
         },
       },
       {
-        id: '150',
-        type: 'course',
+        id: '432566',
+        type: 'playlist',
         slug: 'structure-angular-apps-with-angular-material-components',
         dependencies: {
           angular: '5 - 6',
@@ -3025,8 +3039,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '147',
-        type: 'course',
+        id: '432671',
+        type: 'playlist',
         slug: 'learn-http-in-angular',
         dependencies: {
           angular: '4 - 6',
@@ -3063,16 +3077,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '146',
-        type: 'course',
+        id: '432636',
+        type: 'playlist',
         slug: 'create-a-news-app-with-vue-js-and-nuxt',
         dependencies: {
           nuxt: '^1.0.0-rc3',
         },
       },
       {
-        id: '145',
-        type: 'course',
+        id: '432725',
+        type: 'playlist',
         slug: 'functional-programming-concepts-in-purescript',
         dependencies: {
           purescript: '0.11.7 - ^0.12',
@@ -3097,8 +3111,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '142',
-        type: 'course',
+        id: '432475',
+        type: 'playlist',
         slug: 'up-and-running-with-redux-observable',
         dependencies: {
           redux: '3 - 4',
@@ -3141,8 +3155,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '140',
-        type: 'course',
+        id: '432555',
+        type: 'playlist',
         slug: 'reduce-redux-boilerplate-with-redux-actions',
         dependencies: {
           redux: '^3.6.0',
@@ -3150,8 +3164,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '139',
-        type: 'course',
+        id: '432581',
+        type: 'playlist',
         slug: 'learn-angular-router-for-real-world-applications',
         dependencies: {
           angular: '~7.0.0',
@@ -3160,8 +3174,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '137',
-        type: 'course',
+        id: '432499',
+        type: 'playlist',
         slug: 'advanced-static-types-in-typescript',
         freshness: {
           status: 'classic',
@@ -3175,8 +3189,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '136',
-        type: 'course',
+        id: '432677',
+        type: 'playlist',
         slug: 'vue-js-state-management-with-vuex-and-typescript',
         dependencies: {
           vue: '^2.2.6',
@@ -3185,8 +3199,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '135',
-        type: 'course',
+        id: '432587',
+        type: 'playlist',
         slug: 'build-a-react-app-with-redux',
         dependencies: {
           react: '15 - 16',
@@ -3194,8 +3208,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '133',
-        type: 'course',
+        id: '432678',
+        type: 'playlist',
         slug: 'fundamentals-of-react-native-video',
         dependencies: {
           'react-native': '^0.44.2',
@@ -3203,8 +3217,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '132',
-        type: 'course',
+        id: '432479',
+        type: 'playlist',
         slug: 'understand-how-to-style-angular-components',
         dependencies: {
           angular: '5.2.0 - 7.2.2',
@@ -3221,8 +3235,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '131',
-        type: 'course',
+        id: '432710',
+        type: 'playlist',
         slug: 'use-typescript-to-develop-vue-js-web-applications',
         dependencies: {
           vue: '^2.2.6',
@@ -3230,24 +3244,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '129',
-        type: 'course',
+        id: '432676',
+        type: 'playlist',
         slug: 'introduction-to-the-python-3-programming-language',
         dependencies: {
           python: '3',
         },
       },
       {
-        id: '128',
-        type: 'course',
+        id: '432489',
+        type: 'playlist',
         slug: 'build-algorithms-using-typescript',
         dependencies: {
           typescript: '^2.1.4',
         },
       },
       {
-        id: '127',
-        type: 'course',
+        id: '432480',
+        type: 'playlist',
         slug: 'build-virtual-reality-experiences-using-react-vr',
         dependencies: {
           react: '15 - 16',
@@ -3279,8 +3293,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '124',
-        type: 'course',
+        id: '432488',
+        type: 'playlist',
         slug: 'add-internationalization-i18n-to-a-react-app-using-react-intl',
         dependencies: {
           react: '15 - 16.8.4',
@@ -3317,16 +3331,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '122',
-        type: 'course',
+        id: '432673',
+        type: 'playlist',
         slug: 'build-a-node-js-rest-api-with-loopback',
         dependencies: {
           loopback: '^3.0.0',
         },
       },
       {
-        id: '120',
-        type: 'course',
+        id: '432681',
+        type: 'playlist',
         slug: 'build-a-twelve-factor-node-js-app-with-docker',
         dependencies: {
           mongodb: '^2.2.26',
@@ -3337,8 +3351,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '119',
-        type: 'course',
+        id: '432706',
+        type: 'playlist',
         slug: 'build-a-desktop-application-with-electron',
         dependencies: {
           axios: '^0.18.0',
@@ -3354,16 +3368,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '118',
-        type: 'course',
+        id: '432478',
+        type: 'playlist',
         slug: 'asynchronous-javascript-with-async-await',
         dependencies: {
           typescript: '^2.3.0',
         },
       },
       {
-        id: '117',
-        type: 'course',
+        id: '432718',
+        type: 'playlist',
         slug: 'up-and-running-with-preact',
         dependencies: {
           preact: '7 - 8',
@@ -3372,8 +3386,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '116',
-        type: 'course',
+        id: '432703',
+        type: 'playlist',
         slug: 'add-routing-to-react-apps-using-react-router-v4',
         dependencies: {
           react: '15 - 16',
@@ -3381,8 +3395,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '115',
-        type: 'course',
+        id: '432731',
+        type: 'playlist',
         slug: 'maintainable-css-using-typestyle',
         dependencies: {
           typescript: '2.2.1',
@@ -3390,8 +3404,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '114',
-        type: 'course',
+        id: '432693',
+        type: 'playlist',
         slug:
           'higher-order-components-with-functional-patterns-using-recompose',
         dependencies: {
@@ -3416,8 +3430,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '112',
-        type: 'course',
+        id: '432518',
+        type: 'playlist',
         slug: 'save-time-avoiding-common-mistakes-using-rxjs',
         dependencies: {
           rxjs: '^5.0.0',
@@ -3431,24 +3445,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '109',
-        type: 'course',
+        id: '432739',
+        type: 'playlist',
         slug: 'create-your-own-twitter-bots',
         dependencies: {
           twit: '^2.2.5',
         },
       },
       {
-        id: '108',
-        type: 'course',
+        id: '432668',
+        type: 'playlist',
         slug: 'understand-joins-and-unions-in-postgres',
         dependencies: {
           PostgreSQL: '9.4.5',
         },
       },
       {
-        id: '106',
-        type: 'course',
+        id: '432496',
+        type: 'playlist',
         slug:
           'use-objective-c-swift-and-java-api-s-in-nativescript-for-angular-ios-and-android-apps',
         dependencies: {
@@ -3458,48 +3472,48 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '105',
-        type: 'course',
+        id: '432659',
+        type: 'playlist',
         slug: 'using-postgres-window-functions',
         dependencies: {
           PostgreSQL: '^9.6',
         },
       },
       {
-        id: '104',
-        type: 'course',
+        id: '432543',
+        type: 'playlist',
         slug: 'get-started-with-postgresql',
         dependencies: {
           PostgreSQL: '^9.6',
         },
       },
       {
-        id: '103',
-        type: 'course',
+        id: '432696',
+        type: 'playlist',
         slug: 'build-basic-nativescript-app-templates',
         dependencies: {
           nativescript: '2 - 4',
         },
       },
       {
-        id: '101',
-        type: 'course',
+        id: '432658',
+        type: 'playlist',
         slug: 'publish-javascript-packages-on-npm',
         dependencies: {
           'babel-cli': '^6.18.0',
         },
       },
       {
-        id: '98',
-        type: 'course',
+        id: '432728',
+        type: 'playlist',
         slug: 'get-started-with-elasticsearch',
         dependencies: {
           elasticsearch: '^12.1.3',
         },
       },
       {
-        id: '96',
-        type: 'course',
+        id: '432734',
+        type: 'playlist',
         slug: 'real-world-react-native-animations',
         dependencies: {
           react: '^15.4.0',
@@ -3507,8 +3521,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '95',
-        type: 'course',
+        id: '432724',
+        type: 'playlist',
         slug: 'building-apps-with-ionic-2',
         dependencies: {
           angular: '2 - 6',
@@ -3545,8 +3559,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '92',
-        type: 'course',
+        id: '432492',
+        type: 'playlist',
         slug: 'build-your-first-production-quality-react-app',
         dependencies: {
           react: '15 - 16',
@@ -3597,8 +3611,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '91',
-        type: 'course',
+        id: '432729',
+        type: 'playlist',
         slug: 'understand-angular-directives-in-depth',
         dependencies: {
           angular: '^6.0.0',
@@ -3644,8 +3658,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '90',
-        type: 'course',
+        id: '432679',
+        type: 'playlist',
         slug: 'build-a-react-native-todo-application',
         dependencies: {
           react: '^15.0.0',
@@ -3653,24 +3667,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '89',
-        type: 'course',
+        id: '432669',
+        type: 'playlist',
         slug: 'natural-language-processing-in-javascript-with-natural',
         dependencies: {
           natural: '^0.4.0',
         },
       },
       {
-        id: '87',
-        type: 'course',
+        id: '432730',
+        type: 'playlist',
         slug: 'learn-the-best-and-most-useful-scss',
         dependencies: {
           'node-sass': '^3.11',
         },
       },
       {
-        id: '85',
-        type: 'course',
+        id: '432606',
+        type: 'playlist',
         slug: 'animate-react-native-ui-elements',
         dependencies: {
           react: '^15.0.0',
@@ -3678,8 +3692,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '84',
-        type: 'course',
+        id: '432705',
+        type: 'playlist',
         slug: 'create-native-mobile-apps-with-nativescript-for-angular',
         dependencies: {
           angular: '^2.0.0',
@@ -3687,32 +3701,32 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '83',
-        type: 'course',
+        id: '432736',
+        type: 'playlist',
         slug: 'develop-basic-web-apps-with-vue-js',
         dependencies: {
           vue: '^2.5.16',
         },
       },
       {
-        id: '80',
-        type: 'course',
+        id: '432545',
+        type: 'playlist',
         slug: 'build-a-graphql-server',
         dependencies: {
           graphql: '0.7 - 14',
         },
       },
       {
-        id: '77',
-        type: 'course',
+        id: '432727',
+        type: 'playlist',
         slug: 'build-interactive-javascript-charts-with-d3-v4',
         dependencies: {
           d3: '^4.1.1',
         },
       },
       {
-        id: '76',
-        type: 'course',
+        id: '432495',
+        type: 'playlist',
         slug: 'build-an-angular-instant-search-component',
         dependencies: {
           angular: '^2.0.0',
@@ -3720,8 +3734,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '72',
-        type: 'course',
+        id: '432655',
+        type: 'playlist',
         slug: 'professor-frisby-introduces-composable-functional-javascript',
         freshness: {
           status: 'classic',
@@ -3735,8 +3749,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
         pairWithResources: [
           {
-            id: '241',
-            type: 'course',
+            id: '432473',
+            type: 'playlist',
             title: 'Just Enough Functional Programming in JavaScript',
             byline: 'Kyle Shevlin・30m・Course',
             image:
@@ -3747,8 +3761,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'Functional programming is a useful evergreen skill that will travel with you for your entire career. This course dives into the fundamentals of functional programming\n              in [JavaScript](/q/javascript) to give you a working vocabulary and patterns you can apply on the job today.',
           },
           {
-            id: '353',
-            type: 'course',
+            id: '432469',
+            type: 'playlist',
             title: 'Advanced JavaScript Foundations',
             byline: 'Tyler Clark・41m・Course',
             image:
@@ -3759,8 +3773,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               'This course is perfect for the **advanced beginner** that is fluent in core JavaScript and is ready to take it to the next level of expertise.',
           },
           {
-            id: '185',
-            type: 'course',
+            id: '432453',
+            type: 'playlist',
             title: 'JavaScript Promises in Depth',
             byline: 'Marius Schulz・1h 7m・Course',
             image:
@@ -3773,24 +3787,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '71',
-        type: 'course',
+        id: '432694',
+        type: 'playlist',
         slug: 'build-node-js-apis-with-openapi-spec-swagger',
         dependencies: {
           express: '^4.12.3',
         },
       },
       {
-        id: '70',
-        type: 'course',
+        id: '432713',
+        type: 'playlist',
         slug: 'build-angular-1-x-apps-with-redux',
         dependencies: {
           angular: '1.5.7',
         },
       },
       {
-        id: '66',
-        type: 'course',
+        id: '432541',
+        type: 'playlist',
         slug: 'angular-dependency-injection-di-explained',
         dependencies: {
           angular: '2 - 6',
@@ -3798,8 +3812,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '65',
-        type: 'course',
+        id: '432682',
+        type: 'playlist',
         slug: 'animate-angular-web-applications',
         dependencies: {
           angular: '2 - ~8.1.1',
@@ -3814,8 +3828,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '64',
-        type: 'course',
+        id: '432735',
+        type: 'playlist',
         slug: 'learn-the-basics-of-angular-forms',
         dependencies: {
           angular: '2 - 6',
@@ -3847,8 +3861,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '63',
-        type: 'course',
+        id: '432692',
+        type: 'playlist',
         slug: 'manage-ui-state-with-the-angular-router',
         dependencies: {
           angular: '2 - 4',
@@ -3856,16 +3870,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '62',
-        type: 'course',
+        id: '432646',
+        type: 'playlist',
         slug: 'using-angular-2-patterns-in-angular-1-x-apps',
         dependencies: {
           angular: '^1.5.7',
         },
       },
       {
-        id: '58',
-        type: 'course',
+        id: '432686',
+        type: 'playlist',
         slug: 'manage-complex-state-in-react-apps-with-mobx',
         dependencies: {
           mobx: '2 - 5',
@@ -3893,8 +3907,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '56',
-        type: 'course',
+        id: '432688',
+        type: 'playlist',
         slug: 'building-angular-components',
         dependencies: {
           angular: '2 - 6',
@@ -3929,8 +3943,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '54',
-        type: 'course',
+        id: '432567',
+        type: 'playlist',
         slug: 'use-webpack-2-for-production-javascript-applications',
         dependencies: {
           webpack: '^2.1.0',
@@ -3938,8 +3952,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '53',
-        type: 'course',
+        id: '432666',
+        type: 'playlist',
         slug: 'building-react-applications-with-idiomatic-redux',
         dependencies: {
           react: '^15.0.0',
@@ -3947,24 +3961,24 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '52',
-        type: 'course',
+        id: '432661',
+        type: 'playlist',
         slug: 'up-and-running-with-typescript',
         dependencies: {
           typescript: '^3.2.1',
         },
       },
       {
-        id: '48',
-        type: 'course',
+        id: '432602',
+        type: 'playlist',
         slug: 'use-types-effectively-in-typescript',
         dependencies: {
           typescript: '^2.0.0',
         },
       },
       {
-        id: '47',
-        type: 'course',
+        id: '432525',
+        type: 'playlist',
         slug: 'build-redux-style-applications-with-angular-rxjs-and-ngrx-store',
         dependencies: {
           angular: '2 - 6',
@@ -3996,8 +4010,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '44',
-        type: 'course',
+        id: '432737',
+        type: 'playlist',
         slug: 'start-using-elm-to-build-web-applications',
         dependencies: {
           elm: '0.17',
@@ -4025,8 +4039,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '43',
-        type: 'course',
+        id: '432526',
+        type: 'playlist',
         slug: 'getting-started-with-react-router-v3',
         dependencies: {
           react: '0.14 - 16',
@@ -4051,8 +4065,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '41',
-        type: 'course',
+        id: '432533',
+        type: 'playlist',
         slug: 'use-higher-order-observables-in-rxjs-effectively',
         dependencies: {
           rxjs: '^5.0.0',
@@ -4066,8 +4080,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '40',
-        type: 'course',
+        id: '432645',
+        type: 'playlist',
         slug: 'rxjs-subjects-and-multicasting-operators',
         dependencies: {
           rxjs: '^5.0.0',
@@ -4081,8 +4095,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '39',
-        type: 'course',
+        id: '432522',
+        type: 'playlist',
         slug: 'rxjs-beyond-the-basics-creating-observables-from-scratch',
         dependencies: {
           rxjs: '^5.0.0',
@@ -4096,16 +4110,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '37',
-        type: 'course',
+        id: '432554',
+        type: 'playlist',
         slug: 'introduction-to-node-servers-with-hapi-js',
         dependencies: {
           hapi: '^11.0.3',
         },
       },
       {
-        id: '35',
-        type: 'course',
+        id: '432711',
+        type: 'playlist',
         slug: 'step-by-step-async-javascript-with-rxjs',
         dependencies: {
           rxjs: '^5.0.0',
@@ -4122,14 +4136,15 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '34',
-        type: 'course',
+        id: '432691',
+        type: 'playlist',
         slug: 'rxjs-beyond-the-basics-operators-in-depth',
         freshness: {
-          status: `classic`,
-          title: `Still good, but there are issues with this course`,
-          text: `While much of the information in this course is useful it is showing its age in specific details. In this course, the code for RxJS has updated from '5.0.0' to '6.3.3'. The operators still achieve the same outcome, the way you use them are slightly different. Also, ES5 has been updated to ES6.`,
-          asOf: `2021-01-25`,
+          status: 'classic',
+          title: 'Still good, but there are issues with this course',
+          text:
+            "While much of the information in this course is useful it is showing its age in specific details. In this course, the code for RxJS has updated from '5.0.0' to '6.3.3'. The operators still achieve the same outcome, the way you use them are slightly different. Also, ES5 has been updated to ES6.",
+          asOf: '2021-01-25',
         },
         dependencies: {
           rxjs: '^6.3.3',
@@ -4143,8 +4158,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '33',
-        type: 'course',
+        id: '432716',
+        type: 'playlist',
         slug: 'introduction-to-angular-material',
         dependencies: {
           'angular-material': '^1.1.12',
@@ -4152,8 +4167,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '31',
-        type: 'course',
+        id: '432630',
+        type: 'playlist',
         slug: 'building-an-angular-1-x-ionic-application',
         dependencies: {
           angular: '1.5.5',
@@ -4161,16 +4176,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '30',
-        type: 'course',
+        id: '432701',
+        type: 'playlist',
         slug: 'cycle-js-fundamentals',
         dependencies: {
           cycle: '^3.1',
         },
       },
       {
-        id: '27',
-        type: 'course',
+        id: '432568',
+        type: 'playlist',
         slug: 'react-testing-cookbook',
         dependencies: {
           react: '0.14 - 15',
@@ -4178,16 +4193,15 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '26',
-        type: 'course',
+        id: '432570',
+        type: 'playlist',
         slug: 'creating-custom-web-elements-with-polymer-2',
         dependencies: {
           polymer: '1.2 - 1.11',
         },
       },
       {
-        id: '25',
-        type: 'course',
+        type: 'playlist',
         slug: 'getting-started-with-redux',
         freshness: {
           status: 'classic',
@@ -4209,8 +4223,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '24',
-        type: 'course',
+        id: '432584',
+        type: 'playlist',
         slug: 'react-flux-architecture-es6',
         dependencies: {
           react: '0.14 - 16',
@@ -4258,8 +4272,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '23',
-        type: 'course',
+        id: '432702',
+        type: 'playlist',
         slug: 'get-started-with-angular',
         dependencies: {
           angular: '5 - 6',
@@ -4267,8 +4281,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '22',
-        type: 'course',
+        id: '432649',
+        type: 'playlist',
         slug: 'learn-how-to-use-immutable-js',
         dependencies: {
           Lodash: '7.1.0',
@@ -4302,8 +4316,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '20',
-        type: 'course',
+        id: '432558',
+        type: 'playlist',
         slug: 'introduction-to-reactive-programming',
         dependencies: {
           rxjs: '4 - 5',
@@ -4343,16 +4357,16 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '18',
-        type: 'course',
+        id: '432563',
+        type: 'playlist',
         slug: 'getting-started-with-express-js',
         dependencies: {
           express: '^4.13.1',
         },
       },
       {
-        id: '14',
-        type: 'course',
+        id: '432574',
+        type: 'playlist',
         slug: 'react-native-fundamentals',
         dependencies: {
           react: '0.14 - 16',
@@ -4405,8 +4419,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         ],
       },
       {
-        id: '12',
-        type: 'course',
+        id: '432662',
+        type: 'playlist',
         slug: 'angular-automation-with-gulp',
         dependencies: {
           gulp: '^3.8.11',
@@ -4414,8 +4428,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '11',
-        type: 'course',
+        id: '432562',
+        type: 'playlist',
         slug: 'asynchronous-programming-the-end-of-the-loop',
         dependencies: {
           rxjs: '^2.3',
@@ -4425,40 +4439,39 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '7',
-        type: 'course',
+        id: '432613',
+        type: 'playlist',
         slug: 'angularjs-authentication-with-jwt',
         dependencies: {
           angular: '^1.2.25',
         },
       },
       {
-        id: '6',
-        type: 'course',
+        id: '432573',
+        type: 'playlist',
         slug: 'angularjs-fundamentals',
         dependencies: {
           angular: '^1.6.5',
         },
       },
       {
-        id: '4',
-        type: 'course',
+        id: '432569',
+        type: 'playlist',
         slug: 'angularjs-data-modeling',
         dependencies: {
           angular: '^1.2.23',
         },
       },
       {
-        id: '3',
-        type: 'course',
+        id: '432572',
+        type: 'playlist',
         slug: 'start-learning-react',
         dependencies: {
           react: '0.14 - 16',
         },
       },
       {
-        id: '2',
-        type: 'course',
+        type: 'playlist',
         slug: 'learn-protractor-testing-for-angularjs',
         dependencies: {
           protractor: '^1.4.0',
@@ -4466,8 +4479,8 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         },
       },
       {
-        id: '1',
-        type: 'course',
+        id: '432667',
+        type: 'playlist',
         slug: 'use-d3-v3-to-build-interactive-charts-with-javascript',
         dependencies: {
           d3: '^3.5',
