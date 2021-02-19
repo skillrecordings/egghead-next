@@ -116,6 +116,27 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
+
+            <Card resource={stateManagement} className="text-center">
+              <ol className="text-left">
+                {stateManagement.resources.map((resource: any, index: any) => {
+                  return (
+                    <li key={resource.path} className="flex space-x-2 my-2">
+                      <span>{index + 1}</span>
+                      <Link href={resource.path}>
+                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                          {resource.title}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ol>
+            </Card>
+
+            <CardVerticalWithStack data={devEssentials} />
+
             <Card resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
@@ -133,11 +154,6 @@ const Home: FunctionComponent = () => {
               </ol>
             </Card>
 
-            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-
-            <CardVerticalWithStack data={devEssentials} />
-
-            <CardVerticalWithStack data={stateManagement} />
             <Card>
               <>
                 <Link href={swag.path}>
