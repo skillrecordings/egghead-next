@@ -78,6 +78,7 @@ const courseDependencyData = (courseSlug) =>
         },
         prerequisites: [
           {
+            id: '392298',
             type: 'playlist',
             title: 'Build An Eleventy (11ty) Site From Scratch',
             path: '/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3',
