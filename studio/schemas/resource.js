@@ -467,7 +467,7 @@ export default {
       console.log(selection)
 
       return {
-        title: title || name,
+        title: name || title,
         subtitle: type,
         media: image ? (
           <img src={image} alt={`${title} movie poster`} />
