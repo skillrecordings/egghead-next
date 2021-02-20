@@ -1,8 +1,9 @@
 import {MdLibraryBooks as icon} from 'react-icons/md'
+import React from 'react'
 
 export default {
-  name: 'npmDependency',
-  title: 'npm Dependency',
+  name: 'software-library',
+  title: 'software library (dependency)',
   type: 'document',
   icon,
   fields: [
@@ -35,15 +36,28 @@ export default {
       type: 'string',
     },
     {
-      title: 'Link to npm',
+      title: 'Link to library',
       name: 'url',
       type: 'url',
     },
     {
-      name: 'imageUrl',
+      name: 'image',
       description: 'An associated image URL. Probably a logo.',
       title: 'Image URL',
-      type: 'url',
+      type: 'image-url',
     },
   ],
+  preview: {
+    select: {
+      name: 'name',
+      media: 'image.url',
+    },
+    prepare(selection) {
+      const {name, media} = selection
+      return {
+        title: `${name}`,
+        media: <img src={media} alt={`${name}`} />,
+      }
+    },
+  },
 }

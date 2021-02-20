@@ -18,6 +18,15 @@ export default {
         collapsed: false,
       },
     },
+    {
+      name: 'source',
+      title: 'Source',
+      description: 'describe where this came from',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+    },
   ],
   fields: [
     {
@@ -34,7 +43,7 @@ export default {
       name: 'name',
       description:
         'Usually internal, but not always. Maybe for a collection or landing page.',
-      title: 'Name',
+      title: 'Code Name',
       type: 'string',
       validation: (Rule) => Rule.max(90),
       options: {
@@ -45,6 +54,7 @@ export default {
       name: 'tags',
       title: 'Tags',
       type: 'tags',
+      description: 'an arbitrary set of global tags',
     },
     {
       name: 'type',
@@ -158,10 +168,29 @@ export default {
       },
     },
     {
+      name: 'challengeDescription',
+      description: 'Describe the challenge rating tweet-sized.',
+      title: 'Challenge Description',
+      type: 'markdown',
+      rows: 3,
+      validation: (Rule) => Rule.max(160),
+      options: {
+        maxLength: 160,
+      },
+    },
+    {
       name: 'externalId',
-      description: 'Numeric ID in egghead.io database.',
-      title: 'External ID',
+      fieldset: 'source',
+      description: 'Numeric ID in egghead.io database. not a slug.',
+      title: 'egghead ID',
       type: 'number',
+    },
+    {
+      name: 'externalType',
+      fieldset: 'source',
+      description: 'what type of resource is this in egghead database',
+      title: 'External Type',
+      type: 'string',
     },
     {
       name: 'slug',
@@ -236,16 +265,21 @@ export default {
         {
           type: 'markdownText',
         },
+        {
+          type: 'string-list',
+        },
       ],
     },
     {
       name: 'url',
+      fieldset: 'source',
       description: 'Full url of this resources (if applicable).',
       title: 'External URL',
       type: 'url',
     },
     {
       name: 'path',
+      fieldset: 'source',
       description: "Path on egghead.io. Don't forget the /",
       title: 'egghead.io/ Path',
       type: 'string',
@@ -256,14 +290,8 @@ export default {
       },
     },
     {
-      name: 'externalPreviewImageUrl',
-      description: 'An associated image URL. Maybe on Cloudinary?',
-      title: 'External Preview Image',
-      type: 'url',
-    },
-    {
       name: 'image',
-      description: 'Links to the primary image',
+      description: 'Links to a full-sized primary image',
       title: 'Image Url',
       type: 'url',
     },
@@ -309,13 +337,13 @@ export default {
       of: [{type: 'string'}],
     },
     {
-      name: 'npmDependencies',
-      description: 'Versioned Dependencies from npm',
-      title: 'NPM Dependencies',
+      name: 'softwareLibraries',
+      description: 'Versioned Software Libraries',
+      title: 'NPM or other Dependencies',
       type: 'array',
       of: [
         {
-          type: 'npmVersionedDependency',
+          type: 'versioned-software-library',
         },
       ],
     },
@@ -353,6 +381,19 @@ export default {
           type: 'reference',
           title: 'Resources Refs',
           to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'essentialQuestions',
+      description: 'The important questions.',
+      title: 'Essential Questions',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          title: 'Essential Question',
+          to: [{type: 'essentialQuestion'}],
         },
       ],
     },
@@ -417,17 +458,19 @@ export default {
       name: 'name',
       meta: 'meta',
       media: 'previewImage',
-      externalPreviewImageUrl: 'externalPreviewImageUrl',
+      image: 'image',
       type: 'type',
     },
     prepare(selection) {
-      const {title, name, type, media, externalPreviewImageUrl} = selection
+      const {title, name, type, media, image} = selection
+
+      console.log(selection)
 
       return {
-        title: name || title,
+        title: title || name,
         subtitle: type,
-        media: externalPreviewImageUrl ? (
-          <img src={externalPreviewImageUrl} alt={`${title} movie poster`} />
+        media: image ? (
+          <img src={image} alt={`${title} movie poster`} />
         ) : (
           media
         ),
