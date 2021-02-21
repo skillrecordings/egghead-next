@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default {
   name: 'authorReference',
   type: 'object',
@@ -8,7 +10,7 @@ export default {
       type: 'reference',
       to: [
         {
-          type: 'collaborator',
+          type: 'person',
         },
       ],
     },
@@ -16,7 +18,15 @@ export default {
   preview: {
     select: {
       title: 'author.name',
-      media: 'author.person.image.url',
+      media: 'author.image',
+    },
+    prepare(selection) {
+      const {title, media} = selection
+      return {
+        title,
+        subtitle: `author`,
+        media: <img src={media.url} alt={`${title}`} />,
+      }
     },
   },
 }

@@ -27,9 +27,14 @@ export default {
       description: 'This can be used to schedule post for publishing',
     },
     {
-      name: 'mainImage',
-      type: 'mainImage',
-      title: 'Main image',
+      name: 'coverImage',
+      type: 'image-url',
+      title: 'Cover image',
+    },
+    {
+      name: 'seo',
+      type: 'seo',
+      title: 'SEO',
     },
     {
       name: 'excerpt',
