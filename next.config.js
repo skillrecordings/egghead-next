@@ -58,7 +58,7 @@ const nextConfig = {
 
 const learnRoutes = [
   {
-    source: `/learn/data/content-modeling-and-data-design-with-sanity-io`,
+    source: `/learn/data/egghead-content-modeling-with-santity-io`,
     destination: '/blog/content-modeling-and-data-design-with-sanity-io',
     permanent: true,
   },
