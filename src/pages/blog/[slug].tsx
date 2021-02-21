@@ -152,23 +152,9 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   body
 }`
 
-const tracer = getTracer('article')
-
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-  params,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-
-  if (!params?.slug) {
-    return {
-      notFound: true,
-    }
-  }
-
+export async function getStaticProps(context: any) {
   const {body, ...post} = await sanityClient.fetch(query, {
-    slug: params?.slug,
+    slug: context.params.slug,
   })
 
   console.log(post)
@@ -192,10 +178,32 @@ export const getServerSideProps: GetServerSideProps = async function ({
       ],
     },
   })
-
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   return {
     props: {...post, body: mdxSource},
+    revalidate: 1,
+  }
+}
+
+const allPostsQuery = groq`
+  *[_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))]{
+    "slug": slug.current
+  }
+`
+
+export async function getStaticPaths() {
+  const allPosts = await sanityClient.fetch(allPostsQuery)
+
+  const paths = allPosts.map((post: {slug: string}) => {
+    return {
+      params: {
+        slug: post.slug,
+      },
+    }
+  })
+
+  return {
+    paths,
+    fallback: false,
   }
 }
 
