@@ -8,11 +8,18 @@ export default {
       type: 'string',
       title: 'Title',
       description: 'Titles should be catchy, descriptive, and not too long',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'body',
+      type: 'markdown',
+      title: 'Body',
     },
     {
       name: 'slug',
       type: 'slug',
       title: 'Slug',
+      validation: (Rule) => Rule.required(),
       description:
         'Some frontends will require a slug to be set to be able to show the post',
       options: {
@@ -38,7 +45,7 @@ export default {
     },
     {
       name: 'excerpt',
-      type: 'excerptPortableText',
+      type: 'markdown',
       title: 'Excerpt',
       description:
         'This ends up on summary pages, on Google, when people share your post in social media.',
@@ -67,9 +74,64 @@ export default {
       ],
     },
     {
-      name: 'body',
-      type: 'markdown',
-      title: 'Body',
+      name: 'softwareLibraries',
+      description: 'Versioned Software Libraries',
+      title: 'NPM or other Dependencies',
+      type: 'array',
+      of: [
+        {
+          type: 'versioned-software-library',
+        },
+      ],
+    },
+    {
+      name: 'essentialQuestions',
+      description: 'The important questions.',
+      title: 'Essential Questions',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          title: 'Essential Question',
+          to: [{type: 'essentialQuestion'}],
+        },
+      ],
+    },
+    {
+      name: 'resources',
+      description:
+        'Arbitrary resources, maybe this is a collection? Internal to this resource (not shared at the top level)',
+      title: 'Resources',
+      type: 'array',
+      of: [
+        {
+          type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
+        },
+      ],
+    },
+    {
+      name: 'projects',
+      description: 'Related Project Resources',
+      title: 'Projects',
+      type: 'array',
+      of: [
+        {type: 'link'},
+        {
+          type: 'resource',
+          title: 'Resource',
+        },
+        {
+          type: 'reference',
+          title: 'Resources Refs',
+          to: [{type: 'resource'}],
+        },
+      ],
     },
   ],
   orderings: [
