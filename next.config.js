@@ -51,9 +51,18 @@ const nextConfig = {
       ...legacyRoutes,
       ...searchRoutes,
       ...instructorRoutes,
+      ...learnRoutes,
     ]
   },
 }
+
+const learnRoutes = [
+  {
+    source: `/learn/data/content-modeling-and-data-design-with-sanity-io`,
+    destination: '/blog/content-modeling-and-data-design-with-sanity-io',
+    permanent: true,
+  },
+]
 
 const instructorRoutes = [
   {
