@@ -10,6 +10,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
+import theme from 'styles/material-theme-dark.json'
+
 import getTracer from '../../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from '@vercel/tracing-js'
@@ -152,12 +154,24 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   body
 }`
 
-export async function getStaticProps(context: any) {
-  const {body, ...post} = await sanityClient.fetch(query, {
-    slug: context.params.slug,
-  })
+const tracer = getTracer('article')
 
-  console.log(post)
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  params,
+}) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+
+  if (!params?.slug) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const {body, ...post} = await sanityClient.fetch(query, {
+    slug: params?.slug,
+  })
 
   const mdxSource = await renderToString(body, {
     components: mdxComponents,
@@ -171,40 +185,17 @@ export async function getStaticProps(context: any) {
         [
           require(`rehype-shiki`),
           {
-            theme: `./src/styles/material-theme-dark.json`,
+            theme,
             useBackground: false,
           },
         ],
       ],
     },
   })
+
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   return {
     props: {...post, body: mdxSource},
-    revalidate: 1,
   }
 }
-
-const allPostsQuery = groq`
-  *[_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))]{
-    "slug": slug.current
-  }
-`
-
-export async function getStaticPaths() {
-  const allPosts = await sanityClient.fetch(allPostsQuery)
-
-  const paths = allPosts.map((post: {slug: string}) => {
-    return {
-      params: {
-        slug: post.slug,
-      },
-    }
-  })
-
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
 export default Tag
