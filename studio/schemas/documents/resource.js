@@ -1,6 +1,6 @@
 import {MdKitchen as icon} from 'react-icons/md'
 import React from 'react'
-import PathInput from './components/path-input'
+import PathInput from '../components/path-input'
 
 export default {
   name: 'resource',
