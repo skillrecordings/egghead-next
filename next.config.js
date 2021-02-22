@@ -72,6 +72,16 @@ const learnRoutes = [
     destination: '/blog/rails-graphql-typescript-react-apollo',
     permanent: true,
   },
+  {
+    source: `/learn/next/tailwindcss-dark-mode-nextjs-typography-prose`,
+    destination: '/blog/tailwindcss-dark-mode-nextjs-typography-prose',
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/codemods-with-babel-plugins`,
+    destination: '/blog/codemods-with-babel-plugins',
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [
