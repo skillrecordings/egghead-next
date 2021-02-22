@@ -62,6 +62,16 @@ const learnRoutes = [
     destination: '/blog/content-modeling-and-data-design-with-sanity-io',
     permanent: true,
   },
+  {
+    source: `/learn/gardening/github-issues-powered-blog`,
+    destination: '/blog/github-issues-powered-blog',
+    permanent: true,
+  },
+  {
+    source: `/learn/rails-graphql-typescript-react-apollo`,
+    destination: '/blog/rails-graphql-typescript-react-apollo',
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [

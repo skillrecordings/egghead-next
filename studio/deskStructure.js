@@ -6,7 +6,6 @@ const hiddenDocTypes = (listItem) =>
     'route',
     'essentialQuestion',
     'bigIdea',
-    'person',
     'software-library',
     'post',
     'page',
