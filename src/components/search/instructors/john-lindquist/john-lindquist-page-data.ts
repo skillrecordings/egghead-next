@@ -2,7 +2,7 @@ const JohnLindquistPageData = [
   {
     id: 'instructor-data',
     name: 'John Lindquist',
-    company: 'egghead.io',
+    company: 'egghead Co-founder',
     twitterHandle: 'johnlindquist',
     websiteURL: 'https://github.com/johnlindquist',
     slug: 'john-lindquist',
