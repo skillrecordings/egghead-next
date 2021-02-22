@@ -6,7 +6,6 @@ const hiddenDocTypes = (listItem) =>
     'route',
     'essentialQuestion',
     'bigIdea',
-    'software-library',
     'post',
     'page',
     'siteSettings',
@@ -17,8 +16,4 @@ const hiddenDocTypes = (listItem) =>
 export default () =>
   S.list()
     .title('egghead')
-    .items([
-      S.listItem().title('Hi.'),
-      ...S.documentTypeListItems().filter(hiddenDocTypes),
-      blog,
-    ])
+    .items([...S.documentTypeListItems().filter(hiddenDocTypes), blog])
