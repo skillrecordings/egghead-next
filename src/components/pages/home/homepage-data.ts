@@ -367,6 +367,8 @@ There are a number of tried and true methods that will allow you to learn more e
     id: 'stateManagement',
     name: 'Research Panel',
     title: 'React State Management in 2021',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png',
     path: '/playlists/react-state-management-in-2021-6732',
     description: '',
     resources: [
@@ -396,10 +398,29 @@ There are a number of tried and true methods that will allow you to learn more e
           '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
       },
       {
+        title: 'State Management in React with Christopher Chedeau',
+        byline: 'Christopher Chedeau & Joel Hooks・35m・Chat',
+        path:
+          '/lessons/react-state-management-in-react-with-christopher-chedeau?pl=react-state-management-in-2021-6732',
+      },
+      {
+        title: 'State Management in React with Paul Henschel',
+        byline: 'Paul Henschel & Joel Hooks・24m・Chat',
+        path:
+          '/lessons/react-state-management-in-react-with-paul-henschel?pl=react-state-management-in-2021-6732',
+      },
+      {
         title: 'Managing Complex State in React with Jared Palmer',
         byline: 'Jared Palmer & Joel Hooks・1h 28m・Chat',
         path:
           '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
+      },
+      {
+        title:
+          'Using react-query to Manage Server Data and Cache with Tanner Linsley',
+        byline: 'Tanner Linsley & Joel Hooks・47m・Chat',
+        path:
+          '/lessons/react-using-react-query-to-manage-server-data-and-cache-with-tanner-linsley?pl=react-state-management-in-2021-6732',
       },
     ],
   },

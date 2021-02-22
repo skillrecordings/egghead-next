@@ -93,7 +93,7 @@ const subscriber = async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(200).end()
       }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       res.status(200).end()
     }
   } else {
