@@ -22,10 +22,10 @@ export default function SearchJohnLindquist({instructor}: {instructor: any}) {
     >
       <div className="flex flex-col items-center text-black flex-shrink-0">
         <SimpleScriptsBadge className="self-center" />
-        <div className="p-8">
-          <div className="my-12">
+        <div className="px-8 pb-8">
+          <div className="my-10">
             <h1 className="text-3xl font-bold min-w-full">SimpleScripts.dev</h1>
-            <h2 className="text-xs uppercase text-gray-500 mt-1">
+            <h2 className="text-xs uppercase font-medium text-gray-500 mt-1">
               by John Lindquist
             </h2>
           </div>
@@ -33,7 +33,7 @@ export default function SearchJohnLindquist({instructor}: {instructor: any}) {
             Write and Share JavaScript to Automate the Repetitive Tasks in Your
             Day
           </p>
-          <p className="bg-yellow-300 font-bold text-lg my-12 py-4 w-4/5 mx-auto rounded-md">
+          <p className="bg-yellow-300 font-bold text-lg mb-7 mt-12 py-4 w-4/5 mx-auto rounded-md">
             Get Simple Scripts
           </p>
         </div>
