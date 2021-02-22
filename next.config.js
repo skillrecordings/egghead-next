@@ -82,6 +82,11 @@ const learnRoutes = [
     destination: '/blog/codemods-with-babel-plugins',
     permanent: true,
   },
+  {
+    source: `/learn/javascript/use-the-intersection-observer-api-for-analytics-events`,
+    destination: '/blog/use-the-intersection-observer-api-for-analytics-events',
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [
