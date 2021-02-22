@@ -18,7 +18,7 @@ export default function SearchJohnLindquist({instructor}: {instructor: any}) {
         location: instructorData.location,
       }}
       href={instructorData.ctaLink}
-      eventName="clicked testing javascript banner"
+      eventName="clicked simple scripts banner"
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 bg-white relative text-center shadow-sm"
     >
       <Image
