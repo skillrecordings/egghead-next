@@ -5,5 +5,5 @@ export const sanityClient = client({
   dataset: 'tester',
   token: process.env.NEXT_PUBLIC_SANITY_PUBLIC_KEY,
   withCredentials: true,
-  useCdn: true, // `false` if you want to ensure fresh data
+  useCdn: false, // `false` if you want to ensure fresh data
 })

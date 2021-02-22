@@ -24,7 +24,7 @@ const Tag = (props: any) => {
   const {
     title = 'Missing title',
     categories,
-    author,
+    author = {name: 'Unknown Author'},
     seo = {},
     coverImage,
     body = ``,
@@ -157,7 +157,7 @@ export async function getStaticProps(context: any) {
     slug: context.params.slug,
   })
 
-  console.log(post)
+  console.log(context.params.slug)
 
   const mdxSource = await renderToString(body, {
     components: mdxComponents,
@@ -203,7 +203,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   }
 }
 
