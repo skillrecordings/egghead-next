@@ -62,6 +62,31 @@ const learnRoutes = [
     destination: '/blog/content-modeling-and-data-design-with-sanity-io',
     permanent: true,
   },
+  {
+    source: `/learn/gardening/github-issues-powered-blog`,
+    destination: '/blog/github-issues-powered-blog',
+    permanent: true,
+  },
+  {
+    source: `/learn/rails-graphql-typescript-react-apollo`,
+    destination: '/blog/rails-graphql-typescript-react-apollo',
+    permanent: true,
+  },
+  {
+    source: `/learn/next/tailwindcss-dark-mode-nextjs-typography-prose`,
+    destination: '/blog/tailwindcss-dark-mode-nextjs-typography-prose',
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/codemods-with-babel-plugins`,
+    destination: '/blog/codemods-with-babel-plugins',
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/use-the-intersection-observer-api-for-analytics-events`,
+    destination: '/blog/use-the-intersection-observer-api-for-analytics-events',
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [

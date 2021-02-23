@@ -42,7 +42,7 @@ const CSSPageData: any = {
               _id: 'flexbox-fundamentals',
               image:
                 'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/036/full/EGH_Flexbox.png',
-              path: '/courses/css-fundamentals',
+              path: '/courses/flexbox-fundamentals',
               title: 'Flexbox Fundamentals',
             },
             {
