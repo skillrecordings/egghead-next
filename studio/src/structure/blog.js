@@ -62,9 +62,7 @@ const blog = S.listItem()
               ),
           ),
         S.divider(),
-        S.documentTypeListItem('collaborator')
-          .title('Authors')
-          .icon(AuthorIcon),
+        S.documentTypeListItem('person').title('Authors').icon(AuthorIcon),
         S.documentTypeListItem('category').title('Categories'),
       ]),
   )

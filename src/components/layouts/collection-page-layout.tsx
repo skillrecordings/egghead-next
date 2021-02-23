@@ -26,6 +26,7 @@ import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
 import {useTheme} from 'next-themes'
+import ClosedCaptionIcon from '../icons/closed-captioning'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -78,7 +79,8 @@ const logCollectionResource = (collection: CollectionResource) => {
 const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
   <div className="flex flex-row items-center">
     <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
-    <span>{duration}</span>
+    <span>{duration}</span>{' '}
+    <ClosedCaptionIcon className="w-4 h-4 inline-block ml-2" />
   </div>
 )
 
@@ -653,7 +655,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div className="text-sm text-gray-600 dark:text-gray-300 font-normal">
                   {duration && `${convertTimeWithTitles(duration)} • `}
                   {lessons.length + playlistLessons.length} lessons{' '}
-                  {multiModuleCourse && '• 4 Modules'}
+                  {multiModuleCourse && '• 4 Modules'}{' '}
                 </div>
               </div>
               {multiModuleCourse ? (
