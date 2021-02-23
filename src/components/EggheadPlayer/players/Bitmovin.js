@@ -60,8 +60,8 @@ export default class Bitmovin extends Base {
     const {dash_url, hls_url} = props || this.props
 
     return {
-      ...(!!dash_url && {dash: dash_url}),
-      ...(!!hls_url && {hls: hls_url}),
+      ...(!!dash_url && {dash: dash_url.replace('.m3u8.mpd', '.mpd')}),
+      ...(!!hls_url && {hls: hls_url.replace('.m3u8.mpd', '.m3u8')}),
     }
   }
 
