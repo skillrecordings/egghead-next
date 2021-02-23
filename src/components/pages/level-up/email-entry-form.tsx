@@ -3,11 +3,9 @@ import {track} from 'utils/analytics'
 import EmailForm from '../../cta/email/email-form'
 import useCio from 'hooks/use-cio'
 import {useViewer} from 'context/viewer-context'
-import useIdentityRequired from 'hooks/use-identity-required'
 import {requestSignInEmail} from 'utils/request-signin-email'
 
 const EmailEntryForm: React.FC = () => {
-  useIdentityRequired()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
 
