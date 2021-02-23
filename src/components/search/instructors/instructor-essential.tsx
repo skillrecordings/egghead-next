@@ -7,7 +7,7 @@ import DefaultCTA from '../curated/default-cta'
 type InstructorProps = {
   className?: string
   instructor: any
-  CTAComponent?: React.FC
+  CTAComponent?: React.ReactElement | React.FC
 }
 
 const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
@@ -129,7 +129,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
             )}
           </div>
         </div>
-        {CTAComponent ? <CTAComponent /> : <DefaultCTA location={location} />}
+        {CTAComponent ? CTAComponent : <DefaultCTA location={location} />}
       </div>
 
       {children}
