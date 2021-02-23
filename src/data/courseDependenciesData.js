@@ -20,7 +20,7 @@ const courseDependencyData = (courseSlug) =>
         essentialQuestions: [
           'How do you know when you need to use a state management library?',
           'Why is state management challenging?',
-          'Why does state need to be managed?'
+          'Why does state need to be managed?',
         ],
         pairWithResources: [
           {
@@ -70,6 +70,8 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614088796/next.egghead.io/cards/accessible-cross-browser-css-form-styling_2x.png',
         prerequisites: [
           {
             id: '392298',
@@ -379,7 +381,6 @@ const courseDependencyData = (courseSlug) =>
           },
         ],
       },
-
       {
         id: '340481',
         type: 'playlist',
