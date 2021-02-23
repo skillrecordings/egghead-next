@@ -53,7 +53,7 @@ const Home: FunctionComponent = () => {
   const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
-  const cms: any = find(homepageData, {id: 'cms'})
+  const ecommerce: any = find(homepageData, {id: 'ecommerce'})
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -89,7 +89,7 @@ const Home: FunctionComponent = () => {
 
             <CardHorizontal resource={portfolioProject} />
 
-            <CardHorizontal resource={cms} />
+            <CardHorizontal resource={ecommerce} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
               <CardVerticalWithStack data={aws} />
               <CardVerticalWithStack

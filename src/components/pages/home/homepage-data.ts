@@ -1,24 +1,22 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    title: 'Accessible Cross-Browser CSS Form Styling',
     byline: 'featured course',
-    description:
-      'Accept payments & sell products powered by Stripe and the best of the JAMStack',
+    description: `Stephanie Eckles has prepared several lessons that work through the creation of a complete form demo featuring the most common controls with a variety of attributes. You'll create semantic fieldsets, add responsive styles without media queries, and prepare styles for accessible validation. The demo is built with Sass and Eleventy.`,
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/background_2x.png',
-    path:
-      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-    slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614094471/next.egghead.io/resources/accessible-cross-browser-css-form-styling/bg-for-accessible-cross-browser-css-form-styling_2x.png',
+    path: '/courses/accessible-cross-browser-css-form-styling-7297',
+    slug: 'accessible-cross-browser-css-form-styling-7297',
     instructor: {
-      name: 'Colby Fayock',
-      slug: 'colby-fayock',
-      path: '/q/resources-by-colby-fayock',
-      twitter: 'colbyfayock',
+      name: 'Stephanie Eckles',
+      slug: 'stephanie-eckles',
+      path: '/q/resources-by-stephanie-eckles',
+      twitter: '5t3ph',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/406/medium/StephEckles.JPG',
     },
   },
   {
@@ -69,15 +67,14 @@ There are a number of tried and true methods that will allow you to learn more e
           '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
       },
       {
-        name: 'Get Reactive',
-        title: 'Thinking Reactively with RxJS',
-        byline: 'Rares Matei・1h 50m・Course',
+        id: 'cms',
+        name: 'Content Management System',
+        title: 'Headless WordPress with GraphQL',
+        path: '/playlists/headless-wordpress-4a14',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/447/thumb/EGH_ThinkingRxJs.png',
-        path: '/courses/thinking-reactively-with-rxjs',
-        slug: 'thinking-reactively-with-rxjs',
-        description:
-          'When a manager gives us the requirements for an application feature, they don\'t care too much about *how* we build it. And often times, they think that hard things will be easy.\n\nDealing with time and coordinating different types of events can be tricky.\n\nLuckily, we have RxJS to help!\n\nIn this course, you will use RxJS to build a loading spinner in an app that meets the ever-changing requirements from a mock Product Manager.\n\nYou\'ll also learn how to implement a "Konami Code" style feature that listens for a correct sequence of keys to be typed in a set amount of time.\n\nFollow the thought process that Rares uses as he breaks problems down into manageable pieces that remain flexible, and become more comfortable solving problems reactively.',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+        byline: 'Kevin Cunningham・59m・Course',
+        description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
       },
     ],
   },
@@ -425,15 +422,15 @@ There are a number of tried and true methods that will allow you to learn more e
     ],
   },
   {
-    id: 'cms',
-    name: 'Content Management System',
-    title:
-      'WordPress as a Headless Content Management System (CMS) and GraphQL API',
-    path: '/playlists/headless-wordpress-4a14',
+    id: 'ecommerce',
+    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    name: 'Accept Payments and Sell Products',
+    byline: 'Colby Fayock',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
-    byline: 'Kevin Cunningham',
-    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+    path:
+      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
   {
     id: 'tailwind',
