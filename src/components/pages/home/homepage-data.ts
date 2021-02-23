@@ -1,24 +1,22 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    title: 'Accessible Cross-Browser CSS Form Styling',
     byline: 'featured course',
-    description:
-      'Accept payments & sell products powered by Stripe and the best of the JAMStack',
+    description: `Stephanie Eckles has prepared several lessons that work through the creation of a complete form demo featuring the most common controls with a variety of attributes. You'll create semantic fieldsets, add responsive styles without media queries, and prepare styles for accessible validation. The demo is built with Sass and Eleventy.`,
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/background_2x.png',
-    path:
-      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-    slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614094471/next.egghead.io/resources/accessible-cross-browser-css-form-styling/bg-for-accessible-cross-browser-css-form-styling_2x.png',
+    path: '/courses/accessible-cross-browser-css-form-styling-7297',
+    slug: 'accessible-cross-browser-css-form-styling-7297',
     instructor: {
-      name: 'Colby Fayock',
-      slug: 'colby-fayock',
-      path: '/q/resources-by-colby-fayock',
-      twitter: 'colbyfayock',
+      name: 'Stephanie Eckles',
+      slug: 'stephanie-eckles',
+      path: '/q/resources-by-stephanie-eckles',
+      twitter: '5t3ph',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/406/medium/StephEckles.JPG',
     },
   },
   {
