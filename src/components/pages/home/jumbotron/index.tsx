@@ -104,7 +104,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
         </div>
       </div>
       <UniqueBackground
-        className="fixed left-0 top-0 w-full h-full z-0 object-cover bg-scroll"
+        className="absolute left-0 top-0 w-full h-full z-0 object-cover"
         background={background}
       />
     </div>
