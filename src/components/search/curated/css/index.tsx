@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Image from 'next/image'
 import SearchCuratedEssential from '../curated-essential'
 import Card from 'components/pages/home/card'
 import {get, find} from 'lodash'
@@ -22,6 +23,7 @@ const SearchCSS = () => {
           name: 'css',
           description: data.description,
         }}
+        CTAComponent={CssFormStyling}
       />
       <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 sm:gap-8 gap-5 ">
         {levels?.map((resource: any) => {
@@ -43,6 +45,49 @@ const SearchCSS = () => {
       </div>
     </main>
   )
+}
+
+const CssFormStyling: React.FC<{location: string}> = ({location}) => {
+  const resource = {
+    title: 'Accessible Cross-Browser CSS Form Styling',
+    byline: 'Stephanie Eckles',
+    name: 'FEATURED COURSE',
+    description: `Confidently build out an accessiblility focused form design system that works in all browsers.`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614094471/next.egghead.io/resources/accessible-cross-browser-css-form-styling/bg-for-accessible-cross-browser-css-form-styling_2x.png',
+    path: '/courses/accessible-cross-browser-css-form-styling-7297',
+    slug: 'accessible-cross-browser-css-form-styling-7297',
+  }
+  return (
+    <div className="relative md:col-span-4">
+      <div className="relative z-10">
+        <Card
+          className="text-center"
+          key={resource.path}
+          resource={resource}
+          location={location}
+        />
+      </div>
+    </div>
+  )
+}
+
+const UniqueBackground = ({className, background}: any) => {
+  return background ? (
+    <Image
+      priority={true}
+      quality={100}
+      className={className}
+      alt=""
+      layout="fill"
+      src={
+        background ||
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612373331/next.egghead.io/resources/introduction-to-cloudflare-workers-5aa3/introduction-to-cloudflare-workers-cover_2.png'
+      }
+    />
+  ) : null
 }
 
 export default SearchCSS
