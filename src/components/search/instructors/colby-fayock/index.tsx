@@ -44,7 +44,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
   return (
     <SearchInstructorEssential
       instructor={combinedInstructor}
-      CTAComponent={EcommerceCTA}
+      CTAComponent={<EcommerceCTA />}
     >
       <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
         {featureCourses.resources.map((resource: any) => {

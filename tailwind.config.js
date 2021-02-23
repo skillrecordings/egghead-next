@@ -150,7 +150,7 @@ module.exports = {
   variants: {
     margin: ['responsive', 'first', 'last'],
     padding: ['responsive', 'first', 'last'],
-    scale: ['hover'],
+    scale: ['hover', 'group-hover'],
     typography: ['dark', 'responsive'],
   },
   plugins: [
