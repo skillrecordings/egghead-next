@@ -4,6 +4,7 @@ import SearchGraphql from './graphql'
 import SearchTypeScript from './typescript'
 import SearchDocker from './docker'
 import SearchCSS from './css'
+import SearchNext from './next'
 
 const CuratedTopicsIndex: any = {
   javascript: SearchJavaScript,
@@ -12,6 +13,7 @@ const CuratedTopicsIndex: any = {
   typescript: SearchTypeScript,
   docker: SearchDocker,
   css: SearchCSS,
+  next: SearchNext,
 }
 
 export default CuratedTopicsIndex
