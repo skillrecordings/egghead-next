@@ -45,7 +45,7 @@ const Home: FunctionComponent = () => {
   const accessibleReactApps: any = find(homepageData, {
     id: 'accessibleReactApps',
   })
-  const nextjsVideoApp: any = find(homepageData, {
+  const projectFeatureCardVideoApp: any = find(homepageData, {
     id: 'nextjsVideoApp',
   })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
