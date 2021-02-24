@@ -138,28 +138,32 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                         />
                       </div>
 
-                      <div className="flex justify-center items-center w-full">
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="w-full mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
-                        >
-                          {button}
-                        </button>
-                      </div>
-
-                      <ExternalTrackedLink
-                        href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
-                        eventName="clicked github login"
-                        className="flex justify-center mt-4 py-3 px-5 text-white bg-black hover:bg-gray-800 active:bg-gray-700 rounded-md transition-all ease-in-out duration-300"
-                      >
-                        <div className="flex items-center dark:text-gray-100">
-                          <span className="mr-2 flex items-center justify-center">
-                            <IconGithub className="fill-current" />
-                          </span>
-                          Sign In (or up) with GitHub
+                      <div className="flex flex-col space-y-2">
+                        <div className="flex justify-center items-center w-full">
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                          >
+                            {button}
+                          </button>
                         </div>
-                      </ExternalTrackedLink>
+                        <p className="font-bold text-sm text-center uppercase text-gray-500 dark:text-gray-400">
+                          or
+                        </p>
+                        <ExternalTrackedLink
+                          href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
+                          eventName="clicked github login"
+                          className="flex justify-center mt-4 py-3 px-5 text-white bg-black hover:bg-gray-800 active:bg-gray-700 rounded-md transition-all ease-in-out duration-300"
+                        >
+                          <div className="flex items-center dark:text-gray-100">
+                            <span className="mr-2 flex items-center justify-center">
+                              <IconGithub className="fill-current" />
+                            </span>
+                            Sign In (or up) with GitHub
+                          </div>
+                        </ExternalTrackedLink>
+                      </div>
                     </form>
                   </>
                 )
