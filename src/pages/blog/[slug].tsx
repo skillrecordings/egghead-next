@@ -152,12 +152,28 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   body
 }`
 
-export async function getStaticProps(context: any) {
+const tracer = getTracer('blog-post')
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  params,
+}) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+
   const {body, ...post} = await sanityClient.fetch(query, {
-    slug: context.params.slug,
+    slug: params?.slug,
   })
 
-  console.log(context.params.slug)
+  if (!post?.title) {
+    res.statusCode = 404
+    res.end()
+    return {
+      props: {
+        error: 'not found',
+      },
+    }
+  }
 
   const mdxSource = await renderToString(body, {
     components: mdxComponents,
@@ -171,39 +187,16 @@ export async function getStaticProps(context: any) {
         [
           require(`rehype-shiki`),
           {
-            theme: `./src/styles/material-theme-dark.json`,
+            theme: 'nord',
             useBackground: false,
           },
         ],
       ],
     },
   })
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   return {
     props: {...post, body: mdxSource},
-    revalidate: 1,
-  }
-}
-
-const allPostsQuery = groq`
-  *[_type == "post" && publishedAt < now() && !(_id in path("drafts.**"))]{
-    "slug": slug.current
-  }
-`
-
-export async function getStaticPaths() {
-  const allPosts = await sanityClient.fetch(allPostsQuery)
-
-  const paths = allPosts.map((post: {slug: string}) => {
-    return {
-      params: {
-        slug: post.slug,
-      },
-    }
-  })
-
-  return {
-    paths,
-    fallback: false,
   }
 }
 
