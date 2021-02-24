@@ -90,7 +90,7 @@ const Home: FunctionComponent = () => {
               })}
             </div>
 
-            <CardHorizontal resource={nextjsVideoApp} />
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
 
             <CardHorizontal resource={portfolioProject} />
 
