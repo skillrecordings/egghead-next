@@ -33,7 +33,9 @@ const ConfirmMembershipPage: React.FC = () => {
   return (
     <>
       {session.status === 'paid' && (
-        <ConfirmMembership session={session} viewer={viewer} />
+        <div className="p-5 dark:bg-gray-900 bg-gray-50 min-h-screen w-full flex flex-col items-center justify-start lg:pt-32 sm:pt-24 pt-16">
+          <ConfirmMembership session={session} viewer={viewer} />
+        </div>
       )}
     </>
   )
