@@ -8,6 +8,10 @@ import axios from 'utils/configured-axios'
 import * as yup from 'yup'
 import Stepper from 'components/pricing/stepper'
 import Spinner from 'components/spinner'
+import getTracer from '../../../utils/honeycomb-tracer'
+import {GetServerSideProps} from 'next'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {useRouter} from 'next/router'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -20,6 +24,14 @@ type EmailFormProps = {
 const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [isError, setIsError] = React.useState<boolean | string>(false)
+  const router = useRouter()
+
+  React.useEffect(() => {
+    if (!priceId) {
+      //no price id needs to select a price
+      router.push('/pricing')
+    }
+  }, [priceId])
 
   const validateEmail = async (email: string) => {
     setIsSubmitted(true)
@@ -61,7 +73,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
         <div className="sm:mx-auto sm:w-full dark:bg-gray-900 bg-white px-5">
           <div>
             <h2 className="py-6 text-center sm:text-2xl text-xl leading-tight font-semibold ">
-              Please provide your email address to join egghead
+              Please provide your email address to create an account.
             </h2>
             <div className=" pb-8 px-4 sm:px-8">
               {!isSubmitted && !isError && (
@@ -138,6 +150,22 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
       </div>
     </div>
   )
+}
+
+const tracer = getTracer('pricing-email-page')
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  query,
+}) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+
+  return {
+    props: {
+      ...(!!query?.priceId && {priceId: query.priceId}),
+    },
+  }
 }
 
 export default EmailForm
