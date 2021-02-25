@@ -45,6 +45,9 @@ const Home: FunctionComponent = () => {
   const accessibleReactApps: any = find(homepageData, {
     id: 'accessibleReactApps',
   })
+  const projectFeatureCardVideoApp: any = find(homepageData, {
+    id: 'nextjsVideoApp',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -86,6 +89,8 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
 
             <CardHorizontal resource={portfolioProject} />
 
