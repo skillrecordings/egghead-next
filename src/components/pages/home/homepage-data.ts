@@ -43,6 +43,19 @@ There are a number of tried and true methods that will allow you to learn more e
       'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   {
+    id: 'nextjsVideoApp',
+    name: 'Create AI-powered Transcripts',
+    title: 'Video Analysis App with NextJS and Symbl.ai',
+    byline: 'Vladimir Novick・38m・Course',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/thumb/next_video_analysis_424_2x.png',
+    path:
+      '/courses/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+    slug: 'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+    description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
+    `,
+  },
+  {
     id: 'featured',
     title: 'Featured',
     resources: [
