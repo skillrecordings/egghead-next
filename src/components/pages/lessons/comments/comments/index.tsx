@@ -29,6 +29,10 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
     setComments([...comments, newComment])
   }
 
+  React.useEffect(() => {
+    setComments(lesson.comments)
+  }, [lesson])
+
   return (
     <div className={commentsAvailable ? 'space-y-10' : 'space-y-6'}>
       {commentsAvailable
