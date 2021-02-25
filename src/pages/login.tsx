@@ -183,7 +183,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                               setAuthMode(SSO_AUTH_MODE)
                             }}
                           >
-                            Sign In (or up) with Single Sign-On (SSO)
+                            Enterprise Login (SSO)
                           </a>
                         </div>
                       </form>
