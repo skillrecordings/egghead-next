@@ -19,9 +19,13 @@ const loginSchema = yup.object().shape({
 
 type EmailFormProps = {
   priceId: string
+  quantity?: number
 }
 
-const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
+const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
+  priceId,
+  quantity = 1,
+}) => {
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [isError, setIsError] = React.useState<boolean | string>(false)
   const router = useRouter()
@@ -48,7 +52,9 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({priceId}) => {
     } else {
       setIsError(false)
       track('checkout: redirect to stripe', {priceId})
-        .then(() => stripeCheckoutRedirect(priceId, email, stripeCustomerId))
+        .then(() =>
+          stripeCheckoutRedirect({priceId, email, stripeCustomerId, quantity}),
+        )
         .catch((error) => {
           setIsError(error)
         })
@@ -164,8 +170,13 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       ...(!!query?.priceId && {priceId: query.priceId}),
+      quantity: query?.quantity || 1,
     },
   }
 }
 
-export default EmailForm
+Email.getLayout = (Page: any, pageProps: any) => {
+  return <Page {...pageProps} />
+}
+
+export default Email
