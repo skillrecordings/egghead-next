@@ -207,16 +207,9 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
                   </strong>{' '}
                   so you can log in and access your membership.
                 </p>
-                <p className="text-lg pt-5">
-                  You can now learn from all premium resources on egghead,
-                  including courses, talks, podcasts, articles, and more. Enjoy!
-                </p>
               </>
             }
           />
-          <div className="space-y-10">
-            <PopularTopics />
-          </div>
           <Support />
         </>
       )}
