@@ -170,6 +170,7 @@ type SelectPlanProps = {
   handleClickGetAccess: (event: any) => any
   quantityAvailable: boolean
   onQuantityChanged: (quantity: number) => void
+  onPriceChanged: (priceId: string) => void
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
@@ -180,6 +181,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   pricesLoading,
   prices,
   onQuantityChanged,
+  onPriceChanged,
 }) => {
   const individualPlans = filter(prices, (plan: any) => true)
 
@@ -217,6 +219,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
 
   React.useEffect(() => {
     setCurrentPlan(annualPlan)
+    onPriceChanged(annualPlan.stripe_price_id)
   }, [annualPlan])
 
   return (
@@ -229,7 +232,10 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
             <PlanIntervalsSwitch
               disabled={false}
               currentPlan={currentPlan}
-              setCurrentPlan={setCurrentPlan}
+              setCurrentPlan={(newPlan: any) => {
+                setCurrentPlan(newPlan)
+                onPriceChanged(newPlan.stripe_price_id)
+              }}
               planTypes={individualPlans}
             />
           </div>

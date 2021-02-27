@@ -27,6 +27,7 @@ type PricingProps = {
 const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const {viewer, authToken} = useViewer()
   const {prices, pricesLoading, quantity, setQuantity} = usePricing()
+  const [priceId, setPriceId] = React.useState()
   const router = useRouter()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
@@ -36,15 +37,15 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     const {annualPrice} = prices
     const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
-      priceId: annualPrice.stripe_price_id,
+      priceId: priceId,
     })
 
     if (emailIsValid(viewer?.email)) {
       await track('checkout: valid email present', {
-        priceId: annualPrice.stripe_price_id,
+        priceId: priceId,
       })
       await track('checkout: redirect to stripe', {
-        priceId: annualPrice.stripe_price_id,
+        priceId: priceId,
       })
       stripeCheckoutRedirect({
         priceId: annualPrice.stripe_price_id,
@@ -55,11 +56,9 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
       })
     } else {
       await track('checkout: get email', {
-        priceId: annualPrice.stripe_price_id,
+        priceId: priceId,
       })
-      router.push(
-        `/pricing/email?priceId=${annualPrice.stripe_price_id}&quantity=${quantity}`,
-      )
+      router.push(`/pricing/email?priceId=${priceId}&quantity=${quantity}`)
     }
   }
   return (
@@ -88,6 +87,9 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
               quantityAvailable={false}
               onQuantityChanged={(quantity: number) => {
                 setQuantity(quantity)
+              }}
+              onPriceChanged={(priceId: string) => {
+                setPriceId(priceId)
               }}
             />
           </div>
