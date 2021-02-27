@@ -27,7 +27,7 @@ type PricingProps = {
 const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const {viewer, authToken} = useViewer()
   const {prices, pricesLoading, quantity, setQuantity} = usePricing()
-  const [priceId, setPriceId] = React.useState()
+  const [priceId, setPriceId] = React.useState<string>()
   const router = useRouter()
 
   const onClickCheckout = async (event: SyntheticEvent) => {
