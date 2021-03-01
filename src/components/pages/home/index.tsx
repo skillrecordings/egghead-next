@@ -17,6 +17,8 @@ import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
 import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
+import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
+import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 
 const Home: FunctionComponent = () => {
   const {viewer, loading} = useViewer()
@@ -346,6 +348,9 @@ const EventSchedule: React.FunctionComponent = () => {
 }
 
 function FeaturedVideoCard(props: {video: any}) {
+  const playerRef = React.useRef(null)
+  const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
+
   return (
     <Card className="lg:col-span-6">
       <div className="flex sm:flex-row flex-col justify-center">
@@ -389,10 +394,12 @@ function FeaturedVideoCard(props: {video: any}) {
             </Markdown>
           </div>
         </div>
-        <div className="sm:w-full sm:-m-8 -m-5 flex items-center flex-grow bg-black">
+        <div className="sm:w-full sm:-m-8 -m-5 bg-black">
           <EggheadPlayer
             preload={false}
             autoplay={false}
+            ref={playerRef}
+            playbackRate={playbackRate}
             poster={props.video.poster}
             hls_url={props.video.hls_url}
             dash_url={props.video.dash_url}
@@ -400,6 +407,17 @@ function FeaturedVideoCard(props: {video: any}) {
             width="100%"
             height="auto"
           />
+          <div className="flex p-5">
+            {playbackRate && (
+              <PlaybackSpeedSelect
+                playbackRate={playbackRate}
+                changePlaybackRate={(rate: number) =>
+                  setPlayerPrefs({playbackRate: rate})
+                }
+                video={props.video.slug}
+              />
+            )}
+          </div>
         </div>
       </div>
     </Card>
