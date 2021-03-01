@@ -349,7 +349,7 @@ const EventSchedule: React.FunctionComponent = () => {
 
 function FeaturedVideoCard(props: {video: any}) {
   const playerRef = React.useRef(null)
-  const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
+  const {setPlayerPrefs, playbackRate} = useEggheadPlayerPrefs()
 
   return (
     <Card className="lg:col-span-6">
@@ -394,7 +394,7 @@ function FeaturedVideoCard(props: {video: any}) {
             </Markdown>
           </div>
         </div>
-        <div className="sm:w-full sm:-m-8 -m-5 bg-black">
+        <div className="sm:w-full sm:-m-8 -m-5 flex flex-wrap  bg-black">
           <EggheadPlayer
             preload={false}
             autoplay={false}
@@ -407,7 +407,7 @@ function FeaturedVideoCard(props: {video: any}) {
             width="100%"
             height="auto"
           />
-          <div className="flex p-5">
+          <div className="p-5">
             {playbackRate && (
               <PlaybackSpeedSelect
                 playbackRate={playbackRate}
