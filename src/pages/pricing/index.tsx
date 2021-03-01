@@ -33,8 +33,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
 
-    if (!prices.annualPrice) return
-    const {annualPrice} = prices
+    if (!priceId) return
     const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
       priceId: priceId,
@@ -45,10 +44,10 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
         priceId: priceId,
       })
       await track('checkout: redirect to stripe', {
-        priceId: priceId,
+        priceId,
       })
       stripeCheckoutRedirect({
-        priceId: annualPrice.stripe_price_id,
+        priceId,
         email: viewer.email,
         stripeCustomerId: account?.stripe_customer_id,
         authToken,
