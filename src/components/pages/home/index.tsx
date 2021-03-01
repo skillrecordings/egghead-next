@@ -348,7 +348,6 @@ const EventSchedule: React.FunctionComponent = () => {
 }
 
 function FeaturedVideoCard(props: {video: any}) {
-  const playerRef = React.useRef(null)
   const {setPlayerPrefs, playbackRate} = useEggheadPlayerPrefs()
 
   return (
@@ -398,7 +397,6 @@ function FeaturedVideoCard(props: {video: any}) {
           <EggheadPlayer
             preload={false}
             autoplay={false}
-            ref={playerRef}
             playbackRate={playbackRate}
             poster={props.video.poster}
             hls_url={props.video.hls_url}
