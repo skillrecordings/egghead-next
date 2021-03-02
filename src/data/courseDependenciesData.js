@@ -16,6 +16,11 @@ const courseDependencyData = (courseSlug) =>
         dependencies: {
           gatsby: '>=2.27.1',
         },
+        courseProject: {
+          label: 'Portfolio Project Challenge',
+          url: '/projects/build-a-developer-blog-with-gatsby',
+          text: `After this course, you'll be ready to start building with Gatsby. Need an idea? Start with this challenge!`,
+        },
         freshness: {
           status: `fresh`,
           title: `The most up-to-date Gatsby course out there`,
