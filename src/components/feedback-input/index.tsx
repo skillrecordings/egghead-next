@@ -130,14 +130,10 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       <DialogOverlay
         isOpen={showDialog}
         onDismiss={closeDialog}
-        css={{
+        className="flex items-center justify-center p-8 z-50"
+        style={{
           background: 'rgba(14, 24, 42, 0.5)',
           backdropFilter: 'blur(2px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '2rem',
-          zIndex: 100,
         }}
       >
         <DialogContent
