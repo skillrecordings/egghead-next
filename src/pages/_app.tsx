@@ -4,7 +4,7 @@ import {CacheProvider} from '@emotion/react'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
 import {DefaultSeo, SocialProfileJsonLd} from 'next-seo'
-import {cache} from '@emotion/css' // Use only { cache } from 'emotion'. Don't use { css }.
+import {cache} from '@emotion/css'
 import AppLayout from 'components/app/layout'
 import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
