@@ -4,6 +4,17 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '425621',
+        type: 'playlist',
+        guid: 'bd96',
+        slug: 'build-a-developer-blog-with-gatsby-bd96',
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614666866/next.egghead.io/cards/build-a-developer-blog-with-gatsby_2x.png',
+      },
+      {
         id: '408538',
         type: 'playlist',
         guid: '6732',
