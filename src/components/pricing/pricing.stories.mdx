@@ -1,5 +1,5 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
-import PricingPage from './'
+import PricingPage from '../../pages/pricing'
 
 export const story = {
   authToken: '',
@@ -14,7 +14,7 @@ export const story = {
       interval: 'month',
       name: 'Pro Membership',
       price: 16,
-      price_id: '`',
+      stripe_price_id: '`',
       tier: 'pro',
       type: 'individual',
       url: '',
@@ -25,7 +25,7 @@ export const story = {
       interval: 'three months',
       name: 'Pro Membership',
       price: 46,
-      price_id: '`',
+      stripe_price_id: '`',
       tier: 'pro',
       type: 'individual',
       url: '',
@@ -36,7 +36,7 @@ export const story = {
       interval: 'year',
       name: 'Pro Membership',
       price: 150,
-      price_id: '`',
+      stripe_price_id: '`',
       tier: 'pro',
       type: 'individual',
       url: '',
@@ -48,7 +48,7 @@ export const story = {
       interval: 'year',
       name: 'For Teams',
       price: 150,
-      price_id: '`',
+      stripe_price_id: '`',
       tier: 'pro',
       type: 'team',
       url: '',
@@ -80,7 +80,7 @@ export const story = {
 }
 
 <Meta
-  title="Components/Pricing"
+  title="Components/Purchase/Pricing"
   component={PricingPage}
   argTypes={{pricesLoading: {control: 'boolean'}}}
 />

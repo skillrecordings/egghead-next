@@ -45,6 +45,9 @@ const Home: FunctionComponent = () => {
   const accessibleReactApps: any = find(homepageData, {
     id: 'accessibleReactApps',
   })
+  const projectFeatureCardVideoApp: any = find(homepageData, {
+    id: 'nextjsVideoApp',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -53,7 +56,7 @@ const Home: FunctionComponent = () => {
   const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
-  const cms: any = find(homepageData, {id: 'cms'})
+  const ecommerce: any = find(homepageData, {id: 'ecommerce'})
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -87,9 +90,11 @@ const Home: FunctionComponent = () => {
               })}
             </div>
 
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
+
             <CardHorizontal resource={portfolioProject} />
 
-            <CardHorizontal resource={cms} />
+            <CardHorizontal resource={ecommerce} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
               <CardVerticalWithStack data={aws} />
               <CardVerticalWithStack
@@ -116,6 +121,27 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={reactTeams} />
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
+
+            <Card resource={stateManagement} className="text-center">
+              <ol className="text-left">
+                {stateManagement.resources.map((resource: any, index: any) => {
+                  return (
+                    <li key={resource.path} className="flex space-x-2 my-2">
+                      <span>{index + 1}</span>
+                      <Link href={resource.path}>
+                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                          {resource.title}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ol>
+            </Card>
+
+            <CardVerticalWithStack data={devEssentials} />
+
             <Card resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
@@ -133,11 +159,6 @@ const Home: FunctionComponent = () => {
               </ol>
             </Card>
 
-            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-
-            <CardVerticalWithStack data={devEssentials} />
-
-            <CardVerticalWithStack data={stateManagement} />
             <Card>
               <>
                 <Link href={swag.path}>

@@ -2,6 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import humanize from 'humanize-list'
+import slugify from 'slugify'
 
 const createPath = (tags: string[]) => {
   return tags.sort().join('-and-')
@@ -64,8 +65,15 @@ export async function getStaticProps(context: any) {
 
 export async function getStaticPaths() {
   const tags: any = await import('./tags.json').then((data) => data.default)
-  const tagSlugs: [string] = tags.map(({slug}: {slug: string}) => slug).sort()
-  const paths = tagSlugs.map((tag) => ({params: {tag}}))
+  const tagSlugs: [string] = tags
+    .map((tag: any) => {
+      const {slug, name}: any = tag
+      return slug === null ? slugify(name) : slug
+    })
+    .sort()
+  const paths = tagSlugs.map((tag) => {
+    return {params: {tag}}
+  })
   return {
     paths,
     fallback: false,

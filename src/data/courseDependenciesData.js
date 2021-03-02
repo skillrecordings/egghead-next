@@ -4,6 +4,59 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '408538',
+        type: 'playlist',
+        guid: '6732',
+        slug: 'react-state-management-in-2021-6732',
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Resource`,
+          text: `This series digs into the deeper patterns of development with leading experts in the field. It's worth your time.`,
+          asOf: `2021-02-19`,
+        },
+        essentialQuestions: [
+          'How do you know when you need to use a state management library?',
+          'Why is state management challenging?',
+          'Why does state need to be managed?',
+        ],
+        pairWithResources: [
+          {
+            id: 432472,
+            title: 'Introduction to State Machines Using XState',
+            byline: 'Kyle Shevlin・58m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/472/full/IntroxState_1000.png',
+            path: '/playlists/introduction-to-state-machines-using-xstate',
+            slug: 'introduction-to-state-machines-using-xstate',
+            description: `We will explore the problems state machines purport to solve, like boolean explosion. We'll try to solve it our own way first, get so far, and then demonstrate how state machines get us all the way. After that, we'll dive into the XState library, JavaScript's premiere state machine library, to learn its API and how to use it to solve our problems.`,
+          },
+          {
+            id: 432528,
+            title: 'Reusable State and Effects with React Hooks',
+            byline: 'Elijah Manor・57m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/528/full/EGH_ReactHooks_Final_%281%29.png',
+            path: '/playlists/reusable-state-and-effects-with-react-hooks',
+            slug: 'reusable-state-and-effects-with-react-hooks',
+            description:
+              "By the end of this course, you'll learn how to: Run (and Skip) side-effects with the useEffect hook, Write a custom hook to share logic in your app, Simplify the Context API with the useContext hook, Update state with dispatch actions using the useReducer hook, Optimize Components with useMemo",
+          },
+          {
+            id: 423944,
+            title: 'Redux with React Hooks',
+            byline: 'Jamund Ferguson・42m・Course',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
+            path: '/playlists/redux-with-react-hooks-8a37',
+            slug: 'redux-with-react-hooks-8a37',
+            description: `Recent updates to redux exposing a hooks-based API address some of its most serious drawbacks and make it even more appealing. This course will show you how to apply redux to a modern react hooks application. I hope you leave this course with a continued appreciation for React Hooks and renewed enthusiasm for Redux.`,
+          },
+        ],
+      },
+      {
         id: '425628',
         type: 'playlist',
         guid: '7297',
@@ -14,6 +67,11 @@ const courseDependencyData = (courseSlug) =>
           'Adjust behavior based on viewport size',
           'Style radio and checkbox elements',
         ],
+        illustrator: {
+          name: 'Kamil Khadeyev',
+        },
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614088796/next.egghead.io/cards/accessible-cross-browser-css-form-styling_2x.png',
         prerequisites: [
           {
             id: '392298',
@@ -246,15 +304,17 @@ const courseDependencyData = (courseSlug) =>
         id: '348912',
         type: 'playlist',
         slug: 'design-with-tailwind-css-masterclass-f0db',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         multiModuleCourse: true,
         multiModuleLineheight: '45rem',
         customOgImage:
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613200877/egghead-next-pages/design-with-tailwind-css-masterclass/design-with-tailwind-css-masterclass_2x.png',
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `Thousands of people have used this multi-module course as an introduction to Tailwind CSS. It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
-      `,
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).`,
           asOf: `2021-02-04`,
         },
         topics: [
@@ -321,18 +381,22 @@ const courseDependencyData = (courseSlug) =>
           },
         ],
       },
-
       {
         id: '340481',
         type: 'playlist',
         slug: 'introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 1,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -386,13 +450,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340482',
         type: 'playlist',
         slug: 'design-and-implement-common-tailwind-components-8fbb9b19',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 2,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -446,13 +515,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340483',
         type: 'playlist',
         slug: 'build-a-responsive-navbar-with-tailwind-4d328a35',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 3,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2). 
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -505,13 +579,18 @@ const courseDependencyData = (courseSlug) =>
         id: '340484',
         type: 'playlist',
         slug: 'build-and-style-a-dropdown-in-tailwind-7f34fead',
+        dependencies: {
+          tailwind: '^1.0.4',
+        },
         moduleResource: true,
         moduleLabel: 4,
         totalCourseModules: 4,
         freshness: {
-          status: `fresh`,
-          title: `This is a Fresh Course`,
-          text: `This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db). It's been reviewed and updated and is relevant and valid. There isn't a better resource for learning how to develop utility-first applications.
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is direct from the library author and is still awesome even though it’s built on the previous version and there are [minor API changes](https://tailwindcss.com/docs/upgrading-to-v2).
+          
+This course is part of the [Design with Tailwind CSS Masterclass](/playlists/design-with-tailwind-css-masterclass-f0db).
       `,
           asOf: `2021-02-04`,
         },
@@ -927,9 +1006,17 @@ const courseDependencyData = (courseSlug) =>
         type: 'playlist',
         guid: '562c',
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613387847/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/card_2x.png',
         dependencies: {
           react: '>= 17.0.1',
-          next: '>=9.5.5',
+          next: '^10.0.6',
+        },
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up to date—it is a must-watch for any developer that wants to add an e-commerce solution to their portfolio.`,
+          asOf: `2021-02-15`,
         },
         topics: [
           'Starting a project with Create-Next-App',
@@ -944,20 +1031,44 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
-        prerequisites: [
-          {
-            id: '160',
-            title: "The Beginner's Guide To React",
-            path: '/courses/the-beginner-s-guide-to-react',
-            type: 'egghead_course',
-            slug: 'the-beginner-s-guide-to-react',
-          },
+        quickFacts: [
+          'eCommerce is dynamic even if its on the JamStack',
+          'Taking advantage of service providers can speed up the development process',
+          `The faster your website is, the more likely you are to convert purchases`,
         ],
-        projects: [
+        essentialQuestions: [
+          'How do I optimize the buying experience?',
+          'How do I manage product inventory?',
+          'What parts of the shopping experience need to be dynamic vs static?',
+        ],
+        pairWithResources: [
           {
-            label:
-              'Create an eCommerce Store with Next.js and Stripe Checkout Workshop Repo',
-            url: 'https://github.com/colbyfayock/space-jelly-store-workshop/',
+            title: 'Getting Personal with Ecommerce, React, & the Static Web',
+            byline: 'Colby Fayock・Talk',
+            path:
+              '/talks/react-getting-personal-with-ecommerce-react-the-static-web',
+            slug: 'react-getting-personal-with-ecommerce-react-the-static-web',
+            description: `In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.`,
+          },
+          {
+            title:
+              "Product Images That Don't Byte with the Next.js Image Component",
+            byline: 'Colby Fayock・Article',
+            path:
+              '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
+            slug:
+              'product-images-that-dont-byte-with-the-nextjs-image-component',
+            description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
+          },
+          {
+            title:
+              'Build a Content Management System for an E-commerce Store with Next.js and Sanity',
+            byline: 'Colby Fayock・Article',
+            path:
+              '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+            slug:
+              'build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+            description: `In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,
           },
         ],
       },

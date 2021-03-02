@@ -1,5 +1,6 @@
 import {GraphQLClient, request} from 'graphql-request'
 import config from './config'
+import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
@@ -92,6 +93,34 @@ export async function loadAllPlaylists() {
   const {all_playlists} = await graphQLClient.request(query)
 
   return all_playlists
+}
+
+export async function loadAuthedPlaylistForUser(slug: string) {
+  const query = /* GraphQL */ `
+    query getPlaylist($slug: String!) {
+      playlist(slug: $slug) {
+        favorited
+        toggle_favorite_url
+        download_url
+        rss_url
+      }
+    }
+  `
+  const token = getAccessTokenFromCookie()
+  const authorizationHeader = token && {
+    authorization: `Bearer ${token}`,
+  }
+  const variables = {
+    slug: slug,
+  }
+
+  graphQLClient.setHeaders({
+    ...authorizationHeader,
+  })
+
+  const {playlist} = await graphQLClient.request(query, variables)
+
+  return playlist
 }
 
 export async function loadPlaylist(slug: string, token?: string) {

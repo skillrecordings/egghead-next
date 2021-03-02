@@ -2,6 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
+import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
@@ -25,6 +26,7 @@ import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {CardHorizontal} from '../pages/home'
 import {useTheme} from 'next-themes'
+import ClosedCaptionIcon from '../icons/closed-captioning'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -77,7 +79,8 @@ const logCollectionResource = (collection: CollectionResource) => {
 const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
   <div className="flex flex-row items-center">
     <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
-    <span>{duration}</span>
+    <span>{duration}</span>{' '}
+    <ClosedCaptionIcon className="w-4 h-4 inline-block ml-2" />
   </div>
 )
 
@@ -104,12 +107,13 @@ const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
 )
 
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
-  lessons,
+  lessons = [],
   course,
   ogImageUrl,
 }) => {
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
+  const [clickable, setIsClickable] = React.useState(true)
 
   const defaultPairWithResources: any[] = take(
     [
@@ -388,26 +392,39 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
-                      track(
-                        `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
-                        {
-                          course: course.slug,
-                        },
-                      )
-                      axios.post(toggle_favorite_url)
-                      setIsFavorite(!isFavorite)
+                      if (clickable) {
+                        setIsClickable(false)
+                        track(
+                          `clicked ${isFavorite ? 'remove' : 'add'} bookmark`,
+                          {
+                            course: course.slug,
+                          },
+                        )
+                        setTimeout(() => {
+                          setIsClickable(true)
+                        }, 1000)
+                        axios.post(toggle_favorite_url).then((resp) => {
+                          setIsFavorite(!isFavorite)
+                          toast(
+                            `Course ${
+                              isFavorite ? 'removed from' : 'added to'
+                            } Bookmarks`,
+                            {duration: 1000},
+                          )
+                        })
+                      }
                     }}
                   >
                     <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
                       <BookmarkIcon
-                        className={`w-4 h-4 mr-1`}
+                        className="w-4 h-4 mr-1"
                         fill={isFavorite}
                       />{' '}
                       Bookmark
                     </div>
                   </button>
                 ) : (
-                  <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
                   </div>
                 )}
@@ -426,7 +443,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                   </div>
                 )}
@@ -445,7 +462,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 opacity-30">
+                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <RSSIcon className="w-4 h-4 mr-1" /> RSS
                   </div>
                 )}
@@ -483,8 +500,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <CoursePodcast podcast={podcast} instructorName={full_name} />
               )}
               <div
-                className={`grid md:gap-x-5 ${
-                  prerequisites && topics ? 'grid-cols-2' : 'grid-cols-1'
+                className={`grid grid-cols-1 md:gap-x-5 ${
+                  prerequisites && topics ? 'md:grid-cols-2' : 'md:grid-cols-1'
                 }`}
               >
                 {topics && (
@@ -638,7 +655,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div className="text-sm text-gray-600 dark:text-gray-300 font-normal">
                   {duration && `${convertTimeWithTitles(duration)} • `}
                   {lessons.length + playlistLessons.length} lessons{' '}
-                  {multiModuleCourse && '• 4 Modules'}
+                  {multiModuleCourse && '• 4 Modules'}{' '}
                 </div>
               </div>
               {multiModuleCourse ? (
@@ -881,12 +898,15 @@ const Fresh = ({freshness}: {freshness: any}) => {
               ? 'border-blue-500 border bg-blue-50 dark:bg-blueGray-800'
               : freshness.status === 'stale'
               ? 'border-orange-500 border bg-orange-50 dark:bg-orange-900'
+              : freshness.status === 'awesome'
+              ? 'border-indigo-500 border bg-indigo-50 dark:bg-indigo-900'
               : 'border'
           } border-opacity-20 p-4 my-3 rounded-md`}
         >
           {freshness.title && (
             <h2 className="text-xl font-semibold">
               {freshness.status === 'fresh' && '🌱'}
+              {freshness.status === 'awesome' && '⭐'}
               {freshness.status === 'stale' && '⛔️'}
               {freshness.status === 'classic' && '💎'} {freshness.title}
             </h2>

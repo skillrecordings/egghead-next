@@ -1,11 +1,11 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {Element, scroller} from 'react-scroll'
+import SimpleBar from 'simplebar-react'
 import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import {bpMinMD, bpMinLG} from 'utils/breakpoints'
 import {convertTimeWithTitles} from '../../../utils/time-utils'
 import CheckIcon from '../../icons/check-icon'
 
@@ -26,55 +26,59 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
 
   React.useEffect(() => {
     setActiveElement(currentLessonSlug)
+    scrollableNodeRef.current.id = 'scrollable-container'
     scroller.scrollTo(activeElement, {
       duration: 0,
       delay: 0,
-      containerId: 'scroller-container',
+      containerId: 'scrollable-container',
     })
   }, [activeElement, setActiveElement, currentLessonSlug])
 
   return lessons ? (
     <div className="h-full overflow-hidden">
-      {/* <span className="font-semibold opacity-80 uppercase text-xs leading-wide">
-        Lessons
-      </span> */}
-      <div className="overflow-hidden bg-white dark:bg-gray-900 dark:border-gray-800 border-gray-100 h-full rounded-md lg:rounded-none border lg:border-none">
-        <ol
-          ref={scrollableNodeRef}
-          id="scroller-container"
-          className="overflow-y-auto h-full"
-          css={{
-            maxHeight: 300,
-            '@media (min-width: 768px)': {
-              maxHeight: 350,
-            },
-            '@media (min-width: 1024px)': {
-              maxHeight: '100%',
-            },
-          }}
+      <div className="overflow-hidden bg-white dark:bg-gray-900 dark:border-gray-800 border-gray-100 h-96 lg:h-full rounded-md lg:rounded-none border lg:border-none">
+        <SimpleBar
+          autoHide={false}
+          className="h-full"
+          scrollableNodeProps={{ref: scrollableNodeRef}}
         >
-          {lessons.map((lesson: LessonResource, index = 0) => {
-            const completedLessons = get(progress, 'completed_lessons', []).map(
-              (lesson: LessonResource) => lesson.slug,
-            )
-            const completed =
-              lesson.completed || completedLessons.includes(lesson.slug)
-            return (
-              <li key={lesson.slug}>
-                <Element name={lesson.slug} />
-                <div>
-                  <Item
-                    active={lesson.slug === currentLessonSlug}
-                    lesson={lesson}
-                    index={index}
-                    completed={completed}
-                    className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
-                  />
-                </div>
-              </li>
-            )
-          })}
-        </ol>
+          <ol
+            className="h-full"
+            css={{
+              maxHeight: 300,
+              '@media (min-width: 768px)': {
+                maxHeight: 350,
+              },
+              '@media (min-width: 1024px)': {
+                maxHeight: '100%',
+              },
+            }}
+          >
+            {lessons.map((lesson: LessonResource, index = 0) => {
+              const completedLessons = get(
+                progress,
+                'completed_lessons',
+                [],
+              ).map((lesson: LessonResource) => lesson.slug)
+              const completed =
+                lesson.completed || completedLessons.includes(lesson.slug)
+              return (
+                <li key={lesson.slug}>
+                  <Element name={lesson.slug} />
+                  <div>
+                    <Item
+                      active={lesson.slug === currentLessonSlug}
+                      lesson={lesson}
+                      index={index}
+                      completed={completed}
+                      className="hover:text-blue-600 hover:bg-blue-50 active:bg-blue-100"
+                    />
+                  </div>
+                </li>
+              )
+            })}
+          </ol>
+        </SimpleBar>
       </div>
     </div>
   ) : null

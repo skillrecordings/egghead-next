@@ -90,7 +90,7 @@ You can find courses below curated just for you whether you're looking for a par
         </ExternalTrackedLink>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner} location={location}>
+        <Card resource={beginner} location={location} className="h-full">
           <Collection />
         </Card>
         <Card resource={intermediate} location={location} className="h-full">
@@ -107,11 +107,11 @@ You can find courses below curated just for you whether you're looking for a par
             <div className="flex-shrink-0">
               <Image
                 src={
-                  'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/166/full/EGH_ReactAdvPatterns2_Final.png'
+                  'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png'
                 }
                 alt="illustration for state management in react"
-                width={150}
-                height={150}
+                width={200}
+                height={200}
                 quality={100}
               />
             </div>

@@ -8,13 +8,14 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
-const stripeCheckoutRedirect = async (
-  priceId: string,
-  email: string,
-  stripeCustomerId?: string,
-  redirectURL?: string,
-  authToken?: string,
-) => {
+const stripeCheckoutRedirect = async (options: {
+  priceId: string
+  email: string
+  stripeCustomerId?: string
+  authToken?: string
+  quantity?: number
+}) => {
+  const {priceId, email, stripeCustomerId, authToken, quantity = 1} = options
   const referralCookieToken = cookie.get('rc')
 
   const identifier = stripeCustomerId
@@ -28,6 +29,7 @@ const stripeCheckoutRedirect = async (
   return await axios
     .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/subscription`, {
       ...identifier,
+      quantity,
       price_id: priceId,
       site: 'egghead.io',
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -35,7 +37,6 @@ const stripeCheckoutRedirect = async (
       cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`,
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
-        ...(!!redirectURL && {redirectURL}),
         email,
         authToken,
       },

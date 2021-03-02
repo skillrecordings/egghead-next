@@ -21,9 +21,8 @@ module.exports = {
       // yellow: colors.amber,
     },
     extend: {
-      colors: {},
       typography: (theme) => ({
-        DEFAULT: {
+        default: {
           css: {
             color: theme('colors.black'),
             a: {
@@ -34,6 +33,7 @@ module.exports = {
               '*': {
                 color: theme('colors.blue.600'),
               },
+              code: {color: theme('colors.blue.600')},
             },
             'strong > a': {
               color: theme('colors.blue.600'),
@@ -60,6 +60,9 @@ module.exports = {
             },
             'h2,h3,h4': {
               'scroll-margin-top': spacing[32],
+            },
+            mark: {
+              background: theme('colors.pink.100'),
             },
           },
         },
@@ -104,7 +107,7 @@ module.exports = {
               padding: 0,
             },
             hr: {borderColor: theme('colors.gray.700')},
-            strong: {color: theme('colors.gray.300')},
+            strong: {color: theme('colors.white')},
             thead: {
               color: theme('colors.gray.100'),
             },
@@ -112,6 +115,9 @@ module.exports = {
               tr: {
                 borderBottomColor: theme('colors.gray.700'),
               },
+            },
+            mark: {
+              background: theme('colors.yellow.100'),
             },
           },
         },
@@ -144,8 +150,9 @@ module.exports = {
   variants: {
     margin: ['responsive', 'first', 'last'],
     padding: ['responsive', 'first', 'last'],
-    scale: ['hover'],
-    typography: ['dark'],
+    scale: ['hover', 'group-hover'],
+    borderOpacity: ['dark'],
+    typography: ['dark', 'responsive'],
   },
   plugins: [
     require('@tailwindcss/typography'),

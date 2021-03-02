@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
-import {isEmpty, get, first, isFunction} from 'lodash'
+import {isEmpty, get, first, isFunction, filter} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {playerMachine} from 'machines/lesson-player-machine'
@@ -24,7 +24,6 @@ import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-over
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
-import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
@@ -310,15 +309,12 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   React.useEffect(() => {
     async function run() {
       console.debug('loading video with auth')
-      const loadedLesson = await loadLesson(
-        initialLesson.slug,
-        getAccessTokenFromCookie(),
-      )
+      const loadedLesson = await loadLesson(initialLesson.slug)
       console.debug('authed video loaded', {video: loadedLesson})
 
       send({
         type: 'LOADED',
-        lesson: loadedLesson,
+        lesson: {...initialLesson, ...loadedLesson},
         viewer,
       })
     }
@@ -337,6 +333,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
     run()
   }, [initialLesson.slug])
+
+  const numberOfComments = filter(
+    comments,
+    (comment) => comment.state !== 'hidden',
+  ).length
 
   return (
     <>
@@ -724,7 +725,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && <Tab>Transcript</Tab>}
                   <Tab>
                     Comments{' '}
-                    <span className="text-sm">({comments.length})</span>
+                    <span className="text-sm">({numberOfComments})</span>
                   </Tab>
                 </TabList>
                 <TabPanels className="bg-gray-50 dark:bg-gray-1000 sm:p-8 p-5 sm:mx-0 -mx-5 rounded-lg rounded-tl-none">

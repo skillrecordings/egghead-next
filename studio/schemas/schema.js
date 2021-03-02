@@ -4,21 +4,29 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 // We import object and document schemas
-import collaborator from './collaborator'
-import resource from './resource'
-import person from './person'
-import npmDependency from './npmDependency'
-import staffReview from './staffReview'
-import bigIdea from './bigIdea'
-import essentialQuestion from './essentialQuestion'
-import blockText from './blockText'
-import blockContent from './blockContent'
-import markdownText from './markdownText'
-import link from './link'
-import npmVersionedDependency from './npmVersionedDependency'
-import cta from './cta'
-import ctaPlug from './ctaPlug'
-import imageUrl from './image-url'
+import collaborator from './documents/collaborator'
+import resource from './documents/resource'
+import person from './documents/person'
+import library from './documents/software-library'
+import staffReview from './objects/staffReview'
+import bigIdea from './documents/bigIdea'
+import essentialQuestion from './documents/essentialQuestion'
+import blockText from './objects/blockText'
+import blockContent from './objects/blockContent'
+import markdownText from './objects/markdownText'
+import link from './objects/link'
+import versionedLibrary from './objects/versioned-software-library'
+import cta from './objects/cta'
+import ctaPlug from './plugs/ctaPlug'
+import imageUrl from './objects/image-url'
+import stringList from './objects/string-list'
+import post from './documents/post'
+import category from './documents/category'
+import authorReference from './objects/author-reference'
+import excerptPortableText from './objects/excerpt-portable-text'
+import bodyPortableText from './objects/body-portable-text'
+import mainImage from './objects/main-image'
+import seo from './objects/seo'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -27,7 +35,7 @@ export default createSchema({
   // Then proceed to concatenate our document type
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
-    npmVersionedDependency,
+    versionedLibrary,
     markdownText,
     blockContent,
     blockText,
@@ -40,9 +48,17 @@ export default createSchema({
     imageUrl,
     collaborator,
     person,
-    npmDependency,
+    library,
     staffReview,
     essentialQuestion,
     bigIdea,
+    stringList,
+    post,
+    category,
+    authorReference,
+    excerptPortableText,
+    bodyPortableText,
+    mainImage,
+    seo,
   ]),
 })

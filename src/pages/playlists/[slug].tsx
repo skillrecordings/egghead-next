@@ -1,10 +1,9 @@
 import * as React from 'react'
 import useSWR from 'swr'
-import {loadPlaylist} from 'lib/playlists'
+import {loadAuthedPlaylistForUser, loadPlaylist} from 'lib/playlists'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import {filter} from 'lodash'
-import fetcher from 'utils/fetcher'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
 
 type PlaylistProps = {
@@ -14,9 +13,9 @@ type PlaylistProps = {
 const Playlist: FunctionComponent<PlaylistProps> = ({
   playlist: initialPlaylist,
 }) => {
-  const {data} = useSWR(initialPlaylist.url, fetcher)
+  const {data} = useSWR(`${initialPlaylist.slug}`, loadAuthedPlaylistForUser)
 
-  const course = {...data, ...initialPlaylist}
+  const course = {...initialPlaylist, ...data}
 
   console.debug(`course loaded`, course)
 
