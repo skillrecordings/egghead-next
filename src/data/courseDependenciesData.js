@@ -73,7 +73,7 @@ const courseDependencyData = (courseSlug) =>
         ],
       },
       {
-        id: '157',
+        id: 432685,
         type: 'course',
         slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
         dependencies: {
