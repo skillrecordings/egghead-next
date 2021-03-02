@@ -12,63 +12,85 @@ type LandingProps = {
 const landingPage: FunctionComponent<LandingProps> = () => {
   const course = {
     id: '418892',
-    title: 'Introduction to Cloudflare Workers',
-    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+    title: 'Build a Developer Blog with Gatsby',
+    path: '/courses/build-a-developer-blog-with-gatsby-bd96',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
     resources: [
       {
-        title: 'Create a Cloudflare Workers Account',
-        slug: 'cloudflare-create-a-cloudflare-workers-account',
-        path: '/lessons/cloudflare-create-a-cloudflare-workers-account',
+        title: 'Use npm init gatsby to create an initial Gatsby site',
+        slug: 'gatsby-use-npm-init-gatsby-to-create-an-initial-gatsby-site',
+        path:
+          '/lessons/gatsby-use-npm-init-gatsby-to-create-an-initial-gatsby-site',
       },
       {
-        title: 'Install and Configure the Cloudflare Workers CLI Wrangler',
-        slug:
-          'cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
+        title: 'Add a Shared Layout Component to a Gatsby Site',
+        slug: 'gatsby-add-a-shared-layout-component-to-a-gatsby-site',
+        path: '/lessons/gatsby-add-a-shared-layout-component-to-a-gatsby-site',
+      },
+      {
+        title: 'Create an Accessible SEO Component using React Helmet',
+        slug: 'gatsby-create-an-accessible-seo-component-using-react-helmet',
         path:
-          '/lessons/cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
+          '/lessons/gatsby-create-an-accessible-seo-component-using-react-helmet',
+      },
+      {
+        title: 'Use Gatsby Plugins to Source and Transform MDX Files',
+        slug: 'gatsby-use-gatsby-plugins-to-source-and-transform-mdx-files',
+        path:
+          '/lessons/gatsby-use-gatsby-plugins-to-source-and-transform-mdx-files',
+      },
+      {
+        title: `Use Gatsby's File System Route API to Generate Pages for Each MDX File`,
+        slug:
+          'gatsby-use-gatsby-s-file-system-route-api-to-generate-pages-for-each-mdx-file',
+        path:
+          '/lessons/gatsby-use-gatsby-s-file-system-route-api-to-generate-pages-for-each-mdx-file',
+      },
+      {
+        title: 'Use MDXRenderer to Render MDX Content in a Gatsby Site',
+        slug: 'gatsby-use-mdxrenderer-to-render-mdx-content-in-a-gatsby-site',
+        path:
+          '/lessons/gatsby-use-mdxrenderer-to-render-mdx-content-in-a-gatsby-site',
+      },
+      {
+        title: 'Add a List of Posts using a GraphQL Page Query',
+        slug: 'gatsby-add-a-list-of-posts-using-a-graphql-page-query',
+        path: '/lessons/gatsby-add-a-list-of-posts-using-a-graphql-page-query',
       },
       {
         title:
-          "Generate New Cloudflare Workers Projects with Wrangler's generate Command",
+          'Add Theme UI to a Gatsby Site using gatsby-plugin-theme-ui and theme-ui',
         slug:
-          'cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
+          'gatsby-add-theme-ui-to-a-gatsby-site-using-gatsby-plugin-theme-ui-and-theme-ui',
         path:
-          '/lessons/cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
-      },
-      {
-        title: 'Write Your First Cloudflare Workers Serverless Function',
-        slug:
-          'cloudflare-write-your-first-cloudflare-workers-serverless-function',
-        path:
-          '/lessons/cloudflare-write-your-first-cloudflare-workers-serverless-function',
-      },
-      {
-        title: 'Preview and Publish Your Cloudflare Workers Project',
-        slug: 'cloudflare-preview-and-publish-your-cloudflare-workers-project',
-        path:
-          '/lessons/cloudflare-preview-and-publish-your-cloudflare-workers-project',
-      },
-      {
-        title: 'Render HTML Pages with Cloudflare Workers',
-        slug: 'cloudflare-render-html-pages-with-cloudflare-workers',
-        path: '/lessons/cloudflare-render-html-pages-with-cloudflare-workers',
-      },
-      {
-        title: 'Render Cloudflare Region Data for a Request Using request.cf',
-        slug:
-          'cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
-        path:
-          '/lessons/cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
+          '/lessons/gatsby-add-theme-ui-to-a-gatsby-site-using-gatsby-plugin-theme-ui-and-theme-ui',
       },
       {
         title:
-          'Deploy to a Custom Domain with Cloudflare Wrangler Environments',
+          'Add Support for Syntax Highlighting in a Gatsby Site with @theme-ui/prism',
         slug:
-          'cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
+          'gatsby-add-support-for-syntax-highlighting-in-a-gatsby-site-with-theme-ui-prism',
         path:
-          '/lessons/cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
+          '/lessons/gatsby-add-support-for-syntax-highlighting-in-a-gatsby-site-with-theme-ui-prism',
+      },
+      {
+        title: 'Render Performant Images with the Gatsby StaticImage Component',
+        slug:
+          'gatsby-render-performant-images-with-the-gatsby-staticimage-component',
+        path:
+          '/lessons/gatsby-render-performant-images-with-the-gatsby-staticimage-component',
+      },
+      {
+        title: 'Process Images and Render them using GatsbyImage',
+        slug: 'gatsby-process-images-and-render-them-using-gatsbyimage',
+        path:
+          '/lessons/gatsby-process-images-and-render-them-using-gatsbyimage',
+      },
+      {
+        title: 'Add Image Support to SEO Component',
+        slug: 'gatsby-add-image-support-to-seo-component',
+        path: '/lessons/gatsby-add-image-support-to-seo-component',
       },
     ],
   }
@@ -90,16 +112,18 @@ const landingPage: FunctionComponent<LandingProps> = () => {
         <ProjectBrief
           className="pb-12"
           topic={{
-            name: 'cloudflare',
+            name: 'gatsby',
             label: 'Project Brief',
           }}
         >
           <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-            {`You are a developer for a national concert promoter.
+            {`As a developer, your GitHub is a huge step up from a bullet point list of buzzwords on a resume. However, your repos alone don't give much room to provide additional context around the other aspects of web development. 
 
-Music fans from all over the world visit your site to see when and where the next show is going to be. To save them time when they visit the page, we want to show them upcoming events at a venue close to their location.
+Your task is to use Gatsby to **build a portfolio site** that features your case studies. Make it performant and accessible out of the box, add SEO support so potential employers can find you with a quick search.
 
-Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
+You can make this site using MDX, or stretch yourself a bit by relying on reusable React components and passing things via props. Both are great approaches to use inside Gatsby.
+
+If you more ideas about what to include in your portfolio, check out [this article by Joel Hooks](https://joelhooks.com/developer-portfolio).`}
           </Markdown>
         </ProjectBrief>
 
@@ -129,16 +153,21 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
                 background:
-                  'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
+                  'linear-gradient(to right, #7b47a3 0%, #9290ff 100%)',
               }}
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-              {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
+              {`- The individual pages to the case studies need to be programmatically created from your GraphQL data using the File System Route API.
+- The index page of your portfolio site needs to include at least 3 case studies.
 
-- In the course, Kristian deploys a worker that makes use of Cloudflare's **IncomingRequestCfProperties** ([see docs](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties)) to retrieve the user's country. There are additional data available here that could be used in fulfilling this project brief.
+- GatsbyImage is a React component specially designed to give users a great image experience. It combines speed and best practices. Process images and render them using GatsbyImage on each page.
 
-- The template rendered in the demo ([see repo](https://github.com/signalnerve/region-workers-example/blob/main/template.js)) imports the country-code-emoji package from npm. While the project brief doesn't call for using a 3rd party library, the learner should be able to see how they could create an object with hardcoded demo data.`}
+- MDX is an authorable format that lets you seamlessly write JSX in your Markdown documents. Use MDX to process and render the content of each page. 
+
+- Gatsby can help your site rank and perform better in search engines. Some advantages, like speed, come out of the box and others require configuration. Add SEO support to your portfolio.
+
+`}
             </Markdown>
           </div>
           <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow rounded-md border border-gray-100 mt-4 md:mt-0">
@@ -146,16 +175,16 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
                 background:
-                  'linear-gradient(to right, #E75E3C 0%, #F5C361 100%)',
+                  'linear-gradient(to right, #938cff 0%, #8440a8 100%)',
               }}
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-              {`- The application uses Cloudflare Workers.
-
-- The application is deployed to the web and is useable for its intended purpose.
+              {`- The application uses Gatsby.
 
 - The application contains minimal bugs.
+
+- The application is deployed to the web and is useable for its intended purpose.
 
 - The application is accessible.`}
             </Markdown>
@@ -186,7 +215,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
           <div
             className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
             style={{
-              background: 'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
+              background: 'linear-gradient(to right, #7b47a3 0%, #9290ff 100%)',
             }}
           />
           <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
@@ -246,7 +275,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             <a
               className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
               title="Share on twitter"
-              href="https://twitter.com/intent/tweet?text=I%20created%20my%20portfolio%20project%20for%20the%20Introduction%20to%20Cloudflare%20Workers%20course%20on%20@eggheadio!"
+              href="https://twitter.com/intent/tweet?text=I%20completed%20the%20Portfolio%20Project%20Challenge%20on%20%40eggheadio%20🙌"
               rel="noopener"
             >
               Tweet @eggheadio
