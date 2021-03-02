@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {AppProps, NextWebVitalsMetric} from 'next/app'
-import {CacheProvider} from '@emotion/core'
+import {CacheProvider} from '@emotion/react'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
 import {DefaultSeo, SocialProfileJsonLd} from 'next-seo'
-import {cache} from 'emotion' // Use only { cache } from 'emotion'. Don't use { css }.
+import createCache from '@emotion/cache'
 import AppLayout from 'components/app/layout'
 import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
@@ -22,6 +22,10 @@ import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
+
+const cache = createCache({
+  key: 'custom',
+})
 
 declare global {
   interface Window {

@@ -6,7 +6,12 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document'
-import {extractCritical} from 'emotion-server'
+import createEmotionServer from '@emotion/server/create-instance'
+import createCache from '@emotion/cache'
+
+const key = 'custom'
+const cache = createCache({key})
+const {extractCritical} = createEmotionServer(cache)
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
