@@ -11,6 +11,8 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Maxime Bourgeois',
         },
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614666866/next.egghead.io/cards/build-a-developer-blog-with-gatsby_2x.png',
         dependencies: {
           gatsby: '>=2.27.1',
         },
