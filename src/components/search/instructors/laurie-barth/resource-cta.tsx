@@ -5,7 +5,7 @@ import {track} from 'utils/analytics'
 
 const SimpleScriptsCTA = ({instructorData}: any) => {
   const {
-    feature: {title, image, path, byline},
+    feature: {title, image, path, byline, backgroundImage},
   } = instructorData
   return (
     <Link href={path}>
@@ -30,7 +30,8 @@ const SimpleScriptsCTA = ({instructorData}: any) => {
           </div>
           <img
             className="absolute top-0 left-0 z-0"
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614677836/next.egghead.io/resources/build-a-developer-blog-with-gatsby/instructor-page-cta-build-a-developer-blog-with-gatsby_2x.svg"
+            src={backgroundImage}
+            alt=""
           />
         </div>
       </a>
