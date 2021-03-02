@@ -129,7 +129,6 @@
     "@babel/preset-env": "^7.12.13",
     "@codemod/cli": "^2.3.0",
     "@cypress/code-coverage": "^3.9.2",
-    "@emotion/babel-plugin": "^11.2.0",
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@mdx-js/loader": "^1.6.22",
     "@next/bundle-analyzer": "^10.0.7",
