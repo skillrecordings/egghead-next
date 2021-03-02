@@ -6,7 +6,6 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document'
-// import {extractCritical} from 'emotion-server'
 import createEmotionServer from '@emotion/server/create-instance'
 import {cache} from '@emotion/css'
 
