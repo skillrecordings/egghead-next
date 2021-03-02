@@ -72,7 +72,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
             {company && (
               <p className="text-xs uppercase text-gray-500">{company}</p>
             )}
-            <h1 className="sm:text-2xl text-xl font-bold">{name}</h1>
+            <h1 className="sm:text-3xl text-2xl font-extrabold">{name}</h1>
             <div className="mt-2">
               <ul className="flex space-x-5">
                 {twitterHandle && (
