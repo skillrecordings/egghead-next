@@ -375,7 +375,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
         />
       </Head>
-      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
+      <div
+        className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100"
+        css={{background: 'magenta'}}
+      >
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 sm:border-b border-gray-100  dark:border-gray-800">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div

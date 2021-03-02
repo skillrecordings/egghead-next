@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {AppProps, NextWebVitalsMetric} from 'next/app'
-import {CacheProvider} from '@emotion/core'
+// import {CacheProvider} from '@emotion/core'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
 import {DefaultSeo, SocialProfileJsonLd} from 'next-seo'
-import {cache} from 'emotion' // Use only { cache } from 'emotion'. Don't use { css }.
+// import {cache} from '@emotion/css' // Use only { cache } from 'emotion'. Don't use { css }.
 import AppLayout from 'components/app/layout'
 import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
@@ -101,9 +101,9 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
             <CioProvider>
               <ConvertkitProvider>
                 <MDXProvider components={mdxComponents}>
-                  <CacheProvider value={cache}>
-                    {getLayout(Component, pageProps)}
-                  </CacheProvider>
+                  {/* <CacheProvider value={cache}> */}
+                  {getLayout(Component, pageProps)}
+                  {/* </CacheProvider> */}
                 </MDXProvider>
               </ConvertkitProvider>
             </CioProvider>

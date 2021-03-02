@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from 'react'
-import {css} from '@emotion/core'
 import Markdown from 'react-markdown/with-html'
 import Image from 'next/image'
 import {PodcastResource} from 'types'
