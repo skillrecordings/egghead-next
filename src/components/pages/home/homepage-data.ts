@@ -3,7 +3,7 @@ const homepageData = [
     id: 'jumbotron',
     title: 'Build a Developer Blog with Gatsby',
     byline: 'featured course',
-    description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Through out the course you’ll learn how to build a site with accessibility and SEO in mind.`,
+    description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Throughout the course, you’ll learn how to build a blazing-fast, secure site with accessibility and SEO in mind.`,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
     background:
