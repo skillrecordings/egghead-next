@@ -158,7 +158,7 @@ If you more ideas about what to include in your portfolio, check out [this artic
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
             <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-              {`- The individuale pages to the case studies need to be programmatically created from your GraphQL data using the File System Route API.
+              {`- The individual pages to the case studies need to be programmatically created from your GraphQL data using the File System Route API.
 - The index page of your portfolio site needs to include at least 3 case studies.
 
 - GatsbyImage is a React component specially designed to give users a great image experience. It combines speed and best practices. Process images and render them using GatsbyImage on each page.
