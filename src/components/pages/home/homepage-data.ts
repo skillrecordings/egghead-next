@@ -1,22 +1,22 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Accessible Cross-Browser CSS Form Styling',
+    title: 'Build a Developer Blog with Gatsby',
     byline: 'featured course',
-    description: `Stephanie Eckles has prepared several lessons that work through the creation of a complete form demo featuring the most common controls with a variety of attributes. You'll create semantic fieldsets, add responsive styles without media queries, and prepare styles for accessible validation. The demo is built with Sass and Eleventy.`,
+    description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Throughout the course, you’ll learn how to build a blazing-fast, secure site with accessibility and SEO in mind.`,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614094471/next.egghead.io/resources/accessible-cross-browser-css-form-styling/bg-for-accessible-cross-browser-css-form-styling_2x.png',
-    path: '/courses/accessible-cross-browser-css-form-styling-7297',
-    slug: 'accessible-cross-browser-css-form-styling-7297',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614667901/next.egghead.io/resources/build-a-developer-blog-with-gatsby/background-build-a-developer-blog-with-gatsby_2x.png',
+    path: '/courses/build-a-developer-blog-with-gatsby-bd96',
+    slug: 'build-a-developer-blog-with-gatsby-bd96',
     instructor: {
-      name: 'Stephanie Eckles',
-      slug: 'stephanie-eckles',
-      path: '/q/resources-by-stephanie-eckles',
-      twitter: '5t3ph',
+      name: 'Laurie Barth',
+      slug: 'laurie-barth',
+      path: '/q/resources-by-laurie-barth',
+      twitter: 'laurieontech',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/406/medium/StephEckles.JPG',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/281/medium/laurie_b.jpg',
     },
   },
   {
@@ -61,6 +61,15 @@ There are a number of tried and true methods that will allow you to learn more e
     resources: [
       {
         name: 'Fresh Course',
+        title: 'Accessible Cross-Browser CSS Form Styling',
+        byline: 'Stephanie Eckles・1h 52m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
+        path: '/courses/accessible-cross-browser-css-form-styling-7297',
+        slug: 'accessible-cross-browser-css-form-styling-7297',
+      },
+      {
+        name: 'Learn Serverless',
         title: 'Netlify Serverless Functions and Hasura',
         byline: 'Jason Lengstorf・1h 27m・Course',
         image:
@@ -78,16 +87,6 @@ There are a number of tried and true methods that will allow you to learn more e
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
         path:
           '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
-      },
-      {
-        id: 'cms',
-        name: 'Content Management System',
-        title: 'Headless WordPress with GraphQL',
-        path: '/playlists/headless-wordpress-4a14',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
-        byline: 'Kevin Cunningham・59m・Course',
-        description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
       },
     ],
   },
@@ -516,6 +515,16 @@ There are a number of tried and true methods that will allow you to learn more e
     path: '/playlists/scale-react-development-with-nx-4038',
     slug: 'scale-react-development-with-nx-4038',
     title: 'Scale React Development with Nx',
+  },
+  {
+    id: 'cms',
+    name: 'Content Management System',
+    title: 'Headless WordPress with GraphQL',
+    path: '/playlists/headless-wordpress-4a14',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+    byline: 'Kevin Cunningham・59m・Course',
+    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
     id: 'portfolioProject',
