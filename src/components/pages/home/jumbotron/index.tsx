@@ -30,7 +30,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
         },
       }}
     >
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-lightBlue-500 w-full h-2 z-20" />
+      <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-500 to-purple-500 w-full h-2 z-20" />
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full">
           <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
@@ -56,12 +56,12 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center w-full">
-              <h2 className="text-xs text-yellow-400 uppercase font-semibold mb-2">
+              <h2 className="text-xs text-orange-300 uppercase font-semibold mb-2">
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-3xl text-xl max-w-lg font-extrabold leading-tighter hover:text-blue-300"
+                  className="sm:text-2xl md:text-3xl text-xl max-w-2xl font-extrabold leading-tighter hover:text-blue-300"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
