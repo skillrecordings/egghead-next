@@ -162,7 +162,7 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
                 <p className="text-lg">
                   We've charged your credit card{' '}
                   <strong className="dark:text-yellow-300 text-rose-500">
-                    ${session.amount} for 1 year egghead membership
+                    ${session.amount} for your egghead membership
                   </strong>{' '}
                   and sent a receipt to{' '}
                   <strong className="dark:text-yellow-300 text-rose-500">
