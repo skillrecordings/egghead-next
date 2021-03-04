@@ -1,6 +1,5 @@
 import React from 'react'
 import SvgIcon from './svg-icon'
-import {css} from 'emotion'
 
 class Star extends React.Component {
   render() {
@@ -10,10 +9,7 @@ class Star extends React.Component {
         viewBoxWidth="22"
         viewBoxHeight="22"
         title="Star icon"
-        className={css`
-          width: 24px;
-          height: 24px;
-        `}
+        className="w-6 h-6"
       >
         $
         {outline && (
