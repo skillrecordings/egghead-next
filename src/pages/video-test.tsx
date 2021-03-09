@@ -55,6 +55,16 @@ const videoResources = {
     subtitlesUrl:
       'https://app.egghead.io/api/v1/lessons/react-use-jsx-effectively-with-react/subtitles',
   },
+  redux: {
+    poster:
+      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-redux-simplifying-the-arrow-functions/egghead-redux-simplifying-the-arrow-functions.jpg',
+    hls_url:
+      'https://d2c5owlt6rorc3.cloudfront.net/javascript-redux-simplifying-the-arrow-functions-4904bfd3df/javascript-redux-simplifying-the-arrow-functions-4904bfd3df.m3u8',
+    dash_url:
+      'https://d2c5owlt6rorc3.cloudfront.net/javascript-redux-simplifying-the-arrow-functions-4904bfd3df/javascript-redux-simplifying-the-arrow-functions-4904bfd3df.mpd',
+    subtitlesUrl:
+      'https://app.egghead.io/api/v1/lessons/javascript-redux-simplifying-the-arrow-functions/subtitles',
+  },
   defaultVideo: {
     id: 'video',
     name: 'Optimize your Learning',
@@ -82,6 +92,8 @@ const pickVideoResource = (query: any) => {
       return videoResources.styleReactComponents
     case 'jsx':
       return videoResources.useJSX
+    case 'redux':
+      return videoResources.redux
     default:
       return videoResources.defaultVideo
   }
