@@ -66,8 +66,15 @@ export default class Bitmovin extends Base {
   }
 
   getConfig(props) {
-    const {poster, title, description, preload, onVolumeChange, muted} =
-      props || this.props
+    const {
+      poster,
+      title,
+      description,
+      preload,
+      onVolumeChange,
+      muted,
+      playbackSpeedSelectionEnabled,
+    } = props || this.props
 
     const CACHE_KEY = `grapenuts`
 
@@ -90,7 +97,8 @@ export default class Bitmovin extends Base {
         },
       },
       ui: {
-        playbackSpeedSelectionEnabled: ALLOW_PLAYBACK_SPEED,
+        playbackSpeedSelectionEnabled:
+          playbackSpeedSelectionEnabled || ALLOW_PLAYBACK_SPEED,
       },
       title,
       description,
