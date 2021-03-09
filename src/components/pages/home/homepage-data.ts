@@ -1,8 +1,29 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Build a Developer Blog with Gatsby',
+    title: 'Declarative UIs without CSS with elm-ui',
     byline: 'featured course',
+    description: `elm-ui separates out style and layout so you leverage Elm in the way you build an interface. You'll learn how to design a UI with a declarative mindset through building a form, creating layouts, and positioning elements on the screen.`,
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288976/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/background-declarative-uis-without-css-with-elm-ui.svg',
+    path: '/courses/declarative-uis-without-css-with-elm-ui-93bd',
+    slug: 'declarative-uis-without-css-with-elm-ui-93bd',
+    instructor: {
+      name: 'Flavio Corpa',
+      slug: 'flavio-corpa',
+      path: '/q/resources-by-flavio-corpa',
+      twitter: 'FlavioCorpa',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/154/medium/avatar.jpg',
+    },
+  },
+  {
+    id: 'developer-blog-with-gatsby',
+    name: 'Start Blogging',
+    title: 'Build a Developer Blog with Gatsby',
+    byline: 'Laurie Barth・35m・Course',
     description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Throughout the course, you’ll learn how to build a blazing-fast, secure site with accessibility and SEO in mind.`,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
