@@ -8,6 +8,7 @@ const courseDependencyData = (courseSlug) =>
         type: 'playlist',
         guid: '93bd',
         slug: 'declarative-uis-without-css-with-elm-ui-93bd',
+        customOgImage: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288740/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/share-card-declarative-uis-without-css-with-elm-ui_2x.png',
         dependencies: {
           elm: '>=0.19.1',
         },
