@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {useViewer} from '../context/viewer-context'
-import LoginRequired from '../components/login-required'
+import {useViewer} from '../../context/viewer-context'
+import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
