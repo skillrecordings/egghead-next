@@ -8,6 +8,10 @@ import axios from 'utils/configured-axios'
 import * as yup from 'yup'
 import Stepper from 'components/pricing/stepper'
 import Spinner from 'components/spinner'
+import getTracer from '../../../utils/honeycomb-tracer'
+import {GetServerSideProps} from 'next'
+import {setupHttpTracing} from '@vercel/tracing-js'
+import {useRouter} from 'next/router'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -15,15 +19,23 @@ const loginSchema = yup.object().shape({
 
 type EmailFormProps = {
   priceId: string
-  redirectURL?: string
+  quantity?: number
 }
 
-const EmailForm: React.FunctionComponent<EmailFormProps> = ({
+const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
   priceId,
-  redirectURL,
+  quantity = 1,
 }) => {
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [isError, setIsError] = React.useState<boolean | string>(false)
+  const router = useRouter()
+
+  React.useEffect(() => {
+    if (!priceId) {
+      //no price id needs to select a price
+      router.push('/pricing')
+    }
+  }, [priceId])
 
   const validateEmail = async (email: string) => {
     setIsSubmitted(true)
@@ -41,7 +53,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
       setIsError(false)
       track('checkout: redirect to stripe', {priceId})
         .then(() =>
-          stripeCheckoutRedirect(priceId, email, stripeCustomerId, redirectURL),
+          stripeCheckoutRedirect({priceId, email, stripeCustomerId, quantity}),
         )
         .catch((error) => {
           setIsError(error)
@@ -67,7 +79,7 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
         <div className="sm:mx-auto sm:w-full dark:bg-gray-900 bg-white px-5">
           <div>
             <h2 className="py-6 text-center sm:text-2xl text-xl leading-tight font-semibold ">
-              Please provide your email address to join egghead
+              Please provide your email address to create an account.
             </h2>
             <div className=" pb-8 px-4 sm:px-8">
               {!isSubmitted && !isError && (
@@ -146,4 +158,25 @@ const EmailForm: React.FunctionComponent<EmailFormProps> = ({
   )
 }
 
-export default EmailForm
+const tracer = getTracer('pricing-email-page')
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  query,
+}) {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+
+  return {
+    props: {
+      ...(!!query?.priceId && {priceId: query.priceId}),
+      quantity: query?.quantity || 1,
+    },
+  }
+}
+
+Email.getLayout = (Page: any, pageProps: any) => {
+  return <Page {...pageProps} />
+}
+
+export default Email

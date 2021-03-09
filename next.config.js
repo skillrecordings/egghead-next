@@ -87,6 +87,11 @@ const learnRoutes = [
     destination: '/blog/use-the-intersection-observer-api-for-analytics-events',
     permanent: true,
   },
+  {
+    source: `/learn/javascript/handling-copy-and-paste-in-cypress`,
+    destination: '/blog/handling-copy-and-paste-in-cypress',
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [

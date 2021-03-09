@@ -4,6 +4,128 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '425621',
+        type: 'playlist',
+        guid: 'bd96',
+        slug: 'build-a-developer-blog-with-gatsby-bd96',
+        illustrator: {
+          name: 'Maxime Bourgeois',
+        },
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614666866/next.egghead.io/cards/build-a-developer-blog-with-gatsby_2x.png',
+        dependencies: {
+          gatsby: '>=2.27.1',
+        },
+        courseProject: {
+          label: 'Portfolio Project Challenge',
+          url: '/projects/build-a-developer-blog-with-gatsby',
+          text: `After this course, you'll be ready to start building with Gatsby. Need an idea? Start with this challenge!`,
+        },
+        freshness: {
+          status: `fresh`,
+          title: `The most up-to-date Gatsby course out there`,
+          text: `The tools introduced in this course improve developer experience and teach you the best practices for building a Gatsby site.`,
+          asOf: `2021-03-01`,
+        },
+        topics: [
+          'Install Gatsby and the Gatsby CLI',
+          'Programmatically create pages from your GraphQL data',
+          'Use GraphiQL to make queries based on source plugins',
+          'Create a blog post listing page with links to every post',
+          'Source and transform images',
+          'Make the site SEO-friendly',
+        ],
+        essentialQuestions: [
+          'How can I reduce the friction of publishing content?',
+          'What are the best practices for optimizing your website?',
+          'Why is it important to have a blog as a developer?',
+        ],
+        pairWithResources: [
+          {
+            title: 'Build a Video Chat App with Twilio and Gatsby',
+            byline: 'Jason Lengstorf・52m・Course',
+            path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
+            slug: 'build-a-video-chat-app-with-twilio-and-gatsby',
+            description: `In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.`,
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/507/full/TwilioGatsby_Final.png',
+          },
+          {
+            title:
+              'Eject create-react-app and Use Gatsby for Advanced React App Development',
+            byline: 'Khaled Garbaya・43m・Course',
+            path:
+              '/courses/eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
+            slug:
+              'eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
+            description:
+              'Create-React-App is a great tool for getting started with React, but at some point you may find yourself needing something more.',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/491/full/preview-full-EGH_cra-to-gatsby_424_2x.png',
+          },
+          {
+            title:
+              'Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB',
+            byline: 'Chris Biscardi・51m・Course',
+            path:
+              '/courses/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb',
+            slug:
+              'building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb',
+            description: `This application serves as an introduction to building products with a JAMStack and Serverless approach.`,
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/211/full/gatsby.png',
+          },
+        ],
+      },
+      {
+        id: 432685,
+        type: 'course',
+        slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
+        dependencies: {
+          gatsby: '^2.0.0',
+        },
+        freshness: {
+          status: `awesome`,
+          title: `Still Awesome`,
+          text: `This course is on ^2.0.0 and is slightly outdated but it is still awesome. To follow along please take a look at the [course notes](https://github.com/eggheadio-projects/build-a-blog-with-react-and-markdown-using-gatsby-notes#%EF%B8%8F-deprecations).`,
+          asOf: `2021-02-04`,
+        },
+        pairWithResources: [
+          {
+            title: 'Build a Developer Blog with Gatsby',
+            byline: 'Laurie Barth・35m・Course',
+            path: '/courses/build-a-developer-blog-with-gatsby-bd96',
+            slug: 'build-a-developer-blog-with-gatsby-bd96',
+            description:
+              "By the end of the course, you'll have a fully functioning developer blog that will serve as a base for larger production-grade applications.",
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
+          },
+          {
+            title: 'Build a Video Chat App with Twilio and Gatsby',
+            byline: 'Jason Lengstorf・52m・Course',
+            path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
+            slug: 'build-a-video-chat-app-with-twilio-and-gatsby',
+            description: `In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.`,
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/507/full/TwilioGatsby_Final.png',
+          },
+          {
+            title:
+              'Eject create-react-app and Use Gatsby for Advanced React App Development',
+            byline: 'Khaled Garbaya・43m・Course',
+            path:
+              '/courses/eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
+            slug:
+              'eject-create-react-app-and-use-gatsby-for-advanced-react-app-development',
+            description:
+              'Create-React-App is a great tool for getting started with React, but at some point you may find yourself needing something more.',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/491/full/preview-full-EGH_cra-to-gatsby_424_2x.png',
+          },
+        ],
+      },
+      {
         id: '408538',
         type: 'playlist',
         guid: '6732',
@@ -20,7 +142,7 @@ const courseDependencyData = (courseSlug) =>
         essentialQuestions: [
           'How do you know when you need to use a state management library?',
           'Why is state management challenging?',
-          'Why does state need to be managed?'
+          'Why does state need to be managed?',
         ],
         pairWithResources: [
           {
@@ -70,6 +192,8 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614088796/next.egghead.io/cards/accessible-cross-browser-css-form-styling_2x.png',
         prerequisites: [
           {
             id: '392298',
@@ -379,7 +503,6 @@ const courseDependencyData = (courseSlug) =>
           },
         ],
       },
-
       {
         id: '340481',
         type: 'playlist',
@@ -2969,14 +3092,6 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         slug: 'make-webpack-easy-with-poi',
         dependencies: {
           poi: '^9.0.0',
-        },
-      },
-      {
-        id: '157',
-        type: 'course',
-        slug: 'build-a-blog-with-react-and-markdown-using-gatsby',
-        dependencies: {
-          gatsby: '^2.0.0',
         },
       },
       {

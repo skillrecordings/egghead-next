@@ -45,6 +45,12 @@ const Home: FunctionComponent = () => {
   const accessibleReactApps: any = find(homepageData, {
     id: 'accessibleReactApps',
   })
+  const projectFeatureCardVideoApp: any = find(homepageData, {
+    id: 'nextjsVideoApp',
+  })
+  const wordpressWithGraphql: any = find(homepageData, {
+    id: 'cms',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -53,7 +59,7 @@ const Home: FunctionComponent = () => {
   const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
-  const cms: any = find(homepageData, {id: 'cms'})
+  const ecommerce: any = find(homepageData, {id: 'ecommerce'})
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -87,9 +93,13 @@ const Home: FunctionComponent = () => {
               })}
             </div>
 
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
+
+            <CardHorizontal resource={wordpressWithGraphql} />
+
             <CardHorizontal resource={portfolioProject} />
 
-            <CardHorizontal resource={cms} />
+            <CardHorizontal resource={ecommerce} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
               <CardVerticalWithStack data={aws} />
               <CardVerticalWithStack

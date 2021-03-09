@@ -5,17 +5,23 @@ import queryString from 'query-string'
 export const usePricing = (options: {mock: any} = {mock: false}) => {
   const {mock} = options
   const [prices, setPrices] = React.useState<Prices>({})
+  const [quantity, setQuantity] = React.useState<number>(1)
   const [pricesLoading, setPricesLoading] = React.useState(true)
   React.useEffect(() => {
-    const run = async (options: {en?: string; dc?: string}) => {
+    const run = async (options: {
+      quantity: number
+      en?: string
+      dc?: string
+    }) => {
       const newPrices = await loadPrices(options, mock)
       setPrices(newPrices)
       setPricesLoading(false)
     }
-    run(queryString.parse(window.location.search))
-  }, [mock])
+    setPricesLoading(true)
+    run({quantity, ...queryString.parse(window.location.search)})
+  }, [mock, quantity])
 
-  return {prices, pricesLoading}
+  return {prices, pricesLoading, quantity, setQuantity}
 }
 
 export default usePricing

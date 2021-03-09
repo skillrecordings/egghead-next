@@ -1,24 +1,22 @@
 const homepageData = [
   {
     id: 'jumbotron',
-    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    title: 'Build a Developer Blog with Gatsby',
     byline: 'featured course',
-    description:
-      'Accept payments & sell products powered by Stripe and the best of the JAMStack',
+    description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Throughout the course, you’ll learn how to build a blazing-fast, secure site with accessibility and SEO in mind.`,
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/background_2x.png',
-    path:
-      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-    slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614667901/next.egghead.io/resources/build-a-developer-blog-with-gatsby/background-build-a-developer-blog-with-gatsby_2x.png',
+    path: '/courses/build-a-developer-blog-with-gatsby-bd96',
+    slug: 'build-a-developer-blog-with-gatsby-bd96',
     instructor: {
-      name: 'Colby Fayock',
-      slug: 'colby-fayock',
-      path: '/q/resources-by-colby-fayock',
-      twitter: 'colbyfayock',
+      name: 'Laurie Barth',
+      slug: 'laurie-barth',
+      path: '/q/resources-by-laurie-barth',
+      twitter: 'laurieontech',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/281/medium/laurie_b.jpg',
     },
   },
   {
@@ -45,11 +43,33 @@ There are a number of tried and true methods that will allow you to learn more e
       'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   {
+    id: 'nextjsVideoApp',
+    name: 'Create AI-powered Transcripts',
+    title: 'Video Analysis App with NextJS and Symbl.ai',
+    byline: 'Vladimir Novick・38m・Course',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/thumb/next_video_analysis_424_2x.png',
+    path:
+      '/courses/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+    slug: 'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+    description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
+    `,
+  },
+  {
     id: 'featured',
     title: 'Featured',
     resources: [
       {
         name: 'Fresh Course',
+        title: 'Accessible Cross-Browser CSS Form Styling',
+        byline: 'Stephanie Eckles・1h 52m・Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
+        path: '/courses/accessible-cross-browser-css-form-styling-7297',
+        slug: 'accessible-cross-browser-css-form-styling-7297',
+      },
+      {
+        name: 'Learn Serverless',
         title: 'Netlify Serverless Functions and Hasura',
         byline: 'Jason Lengstorf・1h 27m・Course',
         image:
@@ -67,17 +87,6 @@ There are a number of tried and true methods that will allow you to learn more e
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
         path:
           '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
-      },
-      {
-        name: 'Get Reactive',
-        title: 'Thinking Reactively with RxJS',
-        byline: 'Rares Matei・1h 50m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/447/thumb/EGH_ThinkingRxJs.png',
-        path: '/courses/thinking-reactively-with-rxjs',
-        slug: 'thinking-reactively-with-rxjs',
-        description:
-          'When a manager gives us the requirements for an application feature, they don\'t care too much about *how* we build it. And often times, they think that hard things will be easy.\n\nDealing with time and coordinating different types of events can be tricky.\n\nLuckily, we have RxJS to help!\n\nIn this course, you will use RxJS to build a loading spinner in an app that meets the ever-changing requirements from a mock Product Manager.\n\nYou\'ll also learn how to implement a "Konami Code" style feature that listens for a correct sequence of keys to be typed in a set amount of time.\n\nFollow the thought process that Rares uses as he breaks problems down into manageable pieces that remain flexible, and become more comfortable solving problems reactively.',
       },
     ],
   },
@@ -425,15 +434,15 @@ There are a number of tried and true methods that will allow you to learn more e
     ],
   },
   {
-    id: 'cms',
-    name: 'Content Management System',
-    title:
-      'WordPress as a Headless Content Management System (CMS) and GraphQL API',
-    path: '/playlists/headless-wordpress-4a14',
+    id: 'ecommerce',
+    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    name: 'Accept Payments and Sell Products',
+    byline: 'Colby Fayock',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
-    byline: 'Kevin Cunningham',
-    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+    path:
+      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
   {
     id: 'tailwind',
@@ -506,6 +515,16 @@ There are a number of tried and true methods that will allow you to learn more e
     path: '/playlists/scale-react-development-with-nx-4038',
     slug: 'scale-react-development-with-nx-4038',
     title: 'Scale React Development with Nx',
+  },
+  {
+    id: 'cms',
+    name: 'Content Management System',
+    title: 'Headless WordPress with GraphQL',
+    path: '/playlists/headless-wordpress-4a14',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+    byline: 'Kevin Cunningham・59m・Course',
+    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
   {
     id: 'portfolioProject',

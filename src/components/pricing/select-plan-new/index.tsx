@@ -15,31 +15,37 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
-  const {price, interval} = plan
+  const {price, interval, interval_count} = plan
+  const intervalLabel = interval_count > 1 ? 'quarter' : interval
   return (
-    <div className="py-6 flex items-end leading-none">
-      <span className="mt-1 self-start">USD</span>
-      <span className="text-4xl font-light">$</span>
-      <span className="text-4xl font-extrabold">
-        {pricesLoading ? (
-          <div className="px-2 w-full h-full bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse rounded-md">
-            <span className="opacity-0">––</span>
-          </div>
-        ) : (
-          price
-        )}
-      </span>
-      <span className="text-lg font-light mb-1">/{interval}</span>
+    <div className="flex flex-col items-center">
+      <div className="py-6 flex items-end leading-none">
+        <span className="mt-1 self-start">USD</span>
+        <span className="text-4xl font-light">$</span>
+        <span className="text-4xl font-extrabold">
+          {pricesLoading ? (
+            <div className="px-2 w-full h-full bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse rounded-md">
+              <span className="opacity-0">––</span>
+            </div>
+          ) : (
+            price
+          )}
+        </span>
+        <span className="text-lg font-light mb-1">/{intervalLabel}</span>
+      </div>
     </div>
   )
 }
 
 const PlanQuantitySelect: React.FunctionComponent<{
   quantity: number
-  setQuantity: (quantity: number) => void
-}> = ({quantity, setQuantity}) => {
+  onQuantityChanged: any
+  plan: any
+  pricesLoading: boolean
+}> = ({quantity, onQuantityChanged, plan, pricesLoading}) => {
+  const {price} = plan
   return (
-    <>
+    <div className="flex flex-col items-center space-y-2">
       <label>
         <span className="pr-2 text-sm">Seats</span>
         <input
@@ -48,10 +54,15 @@ const PlanQuantitySelect: React.FunctionComponent<{
           value={quantity}
           max={1000}
           min={1}
-          onChange={(e) => setQuantity(Number(e.currentTarget.value))}
+          onChange={(e) => onQuantityChanged(Number(e.currentTarget.value))}
         />
       </label>
-    </>
+      {quantity > 1 && (
+        <div className="py-2">
+          ${!pricesLoading ? price / quantity : '---'}/seat
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -65,8 +76,9 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
   return (
     <ul className="flex ">
       {plansToRender.map((plan: any, i: number) => {
-        const {interval} = plan
+        const {interval, interval_count} = plan
         const checked: boolean = plan === currentPlan
+        const intervalLabel = interval_count > 1 ? 'quarter' : interval
         return (
           <li key={interval}>
             <button
@@ -84,7 +96,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
               role="radio"
               aria-active={checked}
             >
-              {interval}
+              {intervalLabel}
             </button>
           </li>
         )
@@ -137,7 +149,7 @@ const PlanFeatures: React.FunctionComponent<{
 
 const GetAccessButton: React.FunctionComponent<{
   label: string
-  handleClick: () => void
+  handleClick: (event: any) => Promise<void>
 }> = ({label, handleClick}) => {
   return (
     <button
@@ -155,8 +167,10 @@ type SelectPlanProps = {
   pricesLoading: boolean
   defaultInterval?: string
   defaultQuantity?: number
-  handleClickGetAccess: () => void
+  handleClickGetAccess: (event: any) => any
   quantityAvailable: boolean
+  onQuantityChanged: (quantity: number) => void
+  onPriceChanged: (priceId: string) => void
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
@@ -166,12 +180,10 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   defaultQuantity = 1,
   pricesLoading,
   prices,
+  onQuantityChanged,
+  onPriceChanged,
 }) => {
-  const individualPlans = filter(
-    prices,
-    (plan: any) => plan.type === 'individual',
-  )
-  const teamPlan = find(prices, {type: 'team'})
+  const individualPlans = filter(prices, (plan: any) => true)
 
   const annualPlan = get(prices, 'annualPrice', {
     name: 'Pro Yearly',
@@ -202,12 +214,13 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
     pricesForInterval(currentInterval),
   )
 
-  const forTeams: boolean = currentQuantity >= 5
-  const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Get Access'
+  const forTeams: boolean = currentQuantity > 1
+  const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
 
   React.useEffect(() => {
-    forTeams ? setCurrentPlan(teamPlan) : setCurrentPlan(annualPlan)
-  }, [forTeams, annualPlan])
+    setCurrentPlan(annualPlan)
+    onPriceChanged(annualPlan.stripe_price_id)
+  }, [annualPlan])
 
   return (
     <>
@@ -217,9 +230,12 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
         {keys(prices).length > 1 && (
           <div className={quantityAvailable ? '' : 'pb-4'}>
             <PlanIntervalsSwitch
-              disabled={forTeams}
+              disabled={false}
               currentPlan={currentPlan}
-              setCurrentPlan={setCurrentPlan}
+              setCurrentPlan={(newPlan: any) => {
+                setCurrentPlan(newPlan)
+                onPriceChanged(newPlan.stripe_price_id)
+              }}
               planTypes={individualPlans}
             />
           </div>
@@ -228,7 +244,12 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
           <div className="py-4">
             <PlanQuantitySelect
               quantity={currentQuantity}
-              setQuantity={setCurrentQuantity}
+              plan={currentPlan}
+              pricesLoading={pricesLoading}
+              onQuantityChanged={(quantity: number) => {
+                setCurrentQuantity(quantity)
+                onQuantityChanged(quantity)
+              }}
             />
           </div>
         )}

@@ -1,0 +1,35 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import ConfirmMembership from './index'
+
+export const data = {
+  confirmed: {
+    session: {
+      status: 'paid',
+      amount: 99,
+      email: 'email@company.com',
+    },
+    viewer: {},
+  },
+  confirm: {
+    session: {
+      status: 'paid',
+      amount: 99,
+      email: 'email@company.com',
+    },
+  },
+}
+
+<Meta title="Components/Purchase/Welcome" />
+
+<Canvas>
+  <Story name="Email Confirmed">
+    <div className="p-5 dark:bg-gray-900 bg-gray-50 min-h-screen w-full flex flex-col items-center justify-start lg:pt-32 sm:pt-24 pt-16">
+      <ConfirmMembership {...data.confirmed} />
+    </div>
+  </Story>
+  <Story name="Confirm Email">
+    <div className="p-5 dark:bg-gray-900 bg-gray-50 min-h-screen w-full flex flex-col items-center justify-start  lg:pt-32 sm:pt-24 pt-16">
+      <ConfirmMembership {...data.confirm} />
+    </div>
+  </Story>
+</Canvas>
