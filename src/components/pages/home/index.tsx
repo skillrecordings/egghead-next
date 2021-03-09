@@ -51,6 +51,9 @@ const Home: FunctionComponent = () => {
   const wordpressWithGraphql: any = find(homepageData, {
     id: 'cms',
   })
+  const developerBlogWithGatsby: any = find(homepageData, {
+    id: 'developer-blog-with-gatsby',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -92,6 +95,8 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+
+            <CardHorizontal resource={developerBlogWithGatsby} />
 
             <CardHorizontal resource={projectFeatureCardVideoApp} />
 
