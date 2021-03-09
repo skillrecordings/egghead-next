@@ -287,6 +287,40 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ) : null
   }
 
+  const CourseArtwork: React.FunctionComponent<{
+    path: string
+    size: number
+    track: string
+  }> = ({path, size, trackText}) => {
+    return path ? (
+      <Link href={path}>
+        <a
+          onClick={() =>
+            track(trackText, {
+              course: course.slug,
+            })
+          }
+        >
+          <Image
+            src={image_url}
+            alt={`illustration for ${title}`}
+            height={size}
+            width={size}
+            quality={100}
+          />
+        </a>
+      </Link>
+    ) : (
+      <Image
+        src={image_url}
+        alt={`illustration for ${title}`}
+        height={size}
+        width={size}
+        quality={100}
+      />
+    )
+  }
+
   return (
     <>
       <NextSeo
@@ -323,17 +357,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             <header>
               {image_url && (
                 <div className="md:hidden flex items-center justify-center">
-                  <Link href={nextLesson.path}>
-                    <a>
-                      <Image
-                        src={image_url}
-                        alt={`illustration for ${title}`}
-                        height={imageIsTag ? 100 : 200}
-                        width={imageIsTag ? 100 : 200}
-                        quality={100}
-                      />
-                    </a>
-                  </Link>
+                  <CourseArtwork
+                    path={nextLesson.path}
+                    trackText="clicked course image on mobile"
+                    size={imageIsTag ? 100 : 200}
+                  />
                 </div>
               )}
               {moduleResource && (
@@ -589,18 +617,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
             {image_url && (
               <div className="md:block hidden">
-                <Link href={nextLesson.path}>
-                  <a>
-                    <Image
-                      src={image_url}
-                      alt={`illustration for ${title}`}
-                      height={imageIsTag ? 200 : 420}
-                      width={imageIsTag ? 200 : 420}
-                      className="md:block hidden"
-                      quality={100}
-                    />
-                  </a>
-                </Link>
+                <CourseArtwork
+                  path={nextLesson.path}
+                  size={imageIsTag ? 200 : 420}
+                  trackText="clicked course image"
+                />
               </div>
             )}
             <div className="md:block hidden space-y-6">
