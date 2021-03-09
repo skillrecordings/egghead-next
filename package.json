@@ -116,7 +116,7 @@
     "swr": "^0.4.2",
     "tailwindcss": "^2.0.3",
     "tincanjs": "^0.50.0",
-    "ts-toolbelt": "^8.4.0",
+    "ts-toolbelt": "^9.3.12",
     "video.js": "^7.11.4",
     "xstate": "^4.16.2",
     "yup": "^0.32.9"
