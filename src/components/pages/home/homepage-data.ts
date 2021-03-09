@@ -3,7 +3,7 @@ const homepageData = [
     id: 'jumbotron',
     title: 'Declarative UIs without CSS with elm-ui',
     byline: 'featured course',
-    description: `elm-ui is a language for layout and interface design. This is a novel iteration on declarative styling where you can use Elm types and functions to define your UI in a declarative way.`,
+    description: `elm-ui separates out style and layout so you leverage Elm in the way you build an interface. You'll learn how to design a UI with a declarative mindset through building a form, creating layouts, and positioning elements on the screen.`,
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
     background:
