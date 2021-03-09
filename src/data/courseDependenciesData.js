@@ -15,7 +15,7 @@ const courseDependencyData = (courseSlug) =>
         freshness: {
           status: `fresh`,
           title: `This is a Fresh Course`,
-          text: `This course is new and up-to-date. It will provide you with a different paradigm to viewing design, layout, and CSS.`,
+          text: `This course is new and up-to-date. It will provide you with a different paradigm to view design, layout, and CSS.`,
           asOf: `2021-03-09`,
         },
         topics: [
