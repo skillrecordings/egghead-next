@@ -7,7 +7,7 @@ const homepageData = [
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284991/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/background-declarative-uis-without-css-with-elm-ui.svg',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288976/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/background-declarative-uis-without-css-with-elm-ui.svg',
     path: '/courses/declarative-uis-without-css-with-elm-ui-93bd',
     slug: 'declarative-uis-without-css-with-elm-ui-93bd',
     instructor: {
