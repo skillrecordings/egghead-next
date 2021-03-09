@@ -287,6 +287,40 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ) : null
   }
 
+  const CourseArtwork: React.FunctionComponent<{
+    path: string
+    size: number
+    trackText: string
+  }> = ({path, size, trackText}) => {
+    return path ? (
+      <Link href={path}>
+        <a
+          onClick={() =>
+            track(trackText, {
+              course: course.slug,
+            })
+          }
+        >
+          <Image
+            src={image_url}
+            alt={`illustration for ${title}`}
+            height={size}
+            width={size}
+            quality={100}
+          />
+        </a>
+      </Link>
+    ) : (
+      <Image
+        src={image_url}
+        alt={`illustration for ${title}`}
+        height={size}
+        width={size}
+        quality={100}
+      />
+    )
+  }
+
   return (
     <>
       <NextSeo
@@ -323,18 +357,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             <header>
               {image_url && (
                 <div className="md:hidden flex items-center justify-center">
-                  <div>
-                    <Image
-                      src={image_url}
-                      alt={`illustration for ${title}`}
-                      height={imageIsTag ? 100 : 200}
-                      width={imageIsTag ? 100 : 200}
-                      quality={100}
-                    />
-                  </div>
+                  <CourseArtwork
+                    path={nextLesson.path}
+                    trackText="clicked course image on mobile"
+                    size={imageIsTag ? 100 : 200}
+                  />
                 </div>
               )}
-
               {moduleResource && (
                 <h1 className="text-base leading-loose text-center mt-4 -mb-4 md:mb-0 md:mt-0 md:text-left">
                   <Link href={multiModuleSlug}>
@@ -348,7 +377,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <span className="font-semibold">Part {moduleLabel}</span>
                 </h1>
               )}
-
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
                 {title}
               </h1>
@@ -376,7 +404,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               </div>
-
               <div className="flex flex-col md:flex-row items-center md:justify-start justify-center mt-4 space-y-4 md:space-y-0 md:space-x-6 w-full">
                 <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
                   {average_rating_out_of_5 > 0 && (
@@ -387,7 +414,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   )}
                 </div>
               </div>
-
               <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {toggle_favorite_url ? (
                   <button
@@ -467,15 +493,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
-
               <div className="md:hidden flex items-center justify-center w-full mt-5">
                 <PlayButton lesson={nextLesson} />
               </div>
-
               <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6 mb-6">
                 {description}
               </Markdown>
-
               <div className="pt-5 md:hidden block">
                 <Fresh freshness={freshness} />
 
@@ -571,7 +594,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               )}
               <LearnerRatings collection={course} />
-
               {!isEmpty(pairWithResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
@@ -595,13 +617,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           <div className="md:col-span-2 flex flex-col items-center justify-start md:mb-0 mb-4">
             {image_url && (
               <div className="md:block hidden">
-                <Image
-                  src={image_url}
-                  alt={`illustration for ${title}`}
-                  height={imageIsTag ? 200 : 420}
-                  width={imageIsTag ? 200 : 420}
-                  className="md:block hidden"
-                  quality={100}
+                <CourseArtwork
+                  path={nextLesson.path}
+                  size={imageIsTag ? 200 : 420}
+                  trackText="clicked course image"
                 />
               </div>
             )}

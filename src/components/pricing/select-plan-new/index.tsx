@@ -215,7 +215,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   )
 
   const forTeams: boolean = currentQuantity > 1
-  const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Get Access'
+  const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
 
   React.useEffect(() => {
     setCurrentPlan(annualPlan)

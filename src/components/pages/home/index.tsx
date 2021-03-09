@@ -50,6 +50,9 @@ const Home: FunctionComponent = () => {
   const projectFeatureCardVideoApp: any = find(homepageData, {
     id: 'nextjsVideoApp',
   })
+  const wordpressWithGraphql: any = find(homepageData, {
+    id: 'cms',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -93,6 +96,8 @@ const Home: FunctionComponent = () => {
             </div>
 
             <CardHorizontal resource={projectFeatureCardVideoApp} />
+
+            <CardHorizontal resource={wordpressWithGraphql} />
 
             <CardHorizontal resource={portfolioProject} />
 
