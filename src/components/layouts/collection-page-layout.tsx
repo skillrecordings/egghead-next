@@ -290,7 +290,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const CourseArtwork: React.FunctionComponent<{
     path: string
     size: number
-    track: string
+    trackText: string
   }> = ({path, size, trackText}) => {
     return path ? (
       <Link href={path}>
