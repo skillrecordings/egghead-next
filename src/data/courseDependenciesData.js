@@ -4,6 +4,74 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '425791',
+        type: 'playlist',
+        guid: '93bd',
+        slug: 'declarative-uis-without-css-with-elm-ui-93bd',
+        customOgImage: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288740/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/share-card-declarative-uis-without-css-with-elm-ui_2x.png',
+        dependencies: {
+          elm: '>=0.19.1',
+        },
+        freshness: {
+          status: `fresh`,
+          title: `This is a Fresh Course`,
+          text: `This course is new and up-to-date. It will provide you with a different paradigm to view design, layout, and CSS.`,
+          asOf: `2021-03-09`,
+        },
+        topics: [
+          'Use a declarative mindset for building UIs',
+          'Positioning elements, including centering',
+          'Creating a layout with rows and columns',
+          'Building a form',
+        ],
+        quickFacts: [
+          'elm-ui allows you to define styling with a minimal knowledge of CSS',
+          'elm-ui is not only useful as a layout system but also on the component/element level',
+          'elm-ui is more logic based than CSS based',
+          'There is no cascade when declaring elm-ui ',
+          `elm doesn't have statements, it has expressions`,
+        ],
+        essentialQuestions: [
+          `What's the best approach to building UIs?`,
+          `How should I balance the tradeoffs between functionality and accessibility?`,
+        ],
+        pairWithResources: [
+          {
+            title: 'Start Using Elm to Build Web Applications',
+            byline: 'Murphy Randle・30m・Course',
+            path: '/courses/start-using-elm-to-build-web-applications',
+            slug: 'start-using-elm-to-build-web-applications',
+            description:
+              'In this course you will learn the basic fundamentals of Elm so that you can start building applications today. Elm is a beginner friendly functional reactive programming language for building web applications.',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/737/full/EGH_Elm_Final.png',
+          },
+          {
+            title:
+              'Sprinkle declarative, reactive behaviour on your HTML with Alpine JS',
+            byline: 'Simon Vrachliotis・17m・Course',
+            path:
+              '/courses/sprinkle-declarative-reactive-behaviour-on-your-html-with-alpine-js-5f8b',
+            slug:
+              'sprinkle-declarative-reactive-behaviour-on-your-html-with-alpine-js-5f8b',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/286/full/alpinejs.png',
+            description:
+              'Alpine JS is a rugged, minimal framework for composing JavaScript behaviour in your markup. It brings declarative, reactive, data-driven nature of libraries like React or Vue to your HTML templates.',
+          },
+          {
+            title: 'Functional Programming in JavaScript with Ramda.js',
+            byline: 'Andy Van Slaars・1h 38m・Course',
+            path: '/courses/functional-programming-in-javascript-with-ramda-js',
+            slug: 'functional-programming-in-javascript-with-ramda-js',
+            description:
+              'Learn how you can use ramda.js to bring functional programming concepts into your JavaScript code. Ramda offers composability and immutability right out of the box, so you can leave your imperative code behind and build cleaner, more maintainable code.',
+            image:
+              'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/943/full/ramda.png',
+          },
+        ],
+      },
+      {
         id: '425621',
         type: 'playlist',
         guid: 'bd96',
