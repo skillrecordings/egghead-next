@@ -1,23 +1,55 @@
 import * as React from 'react'
-import {useViewer} from '../context/viewer-context'
-import LoginRequired from '../components/login-required'
+import {useViewer} from '../../context/viewer-context'
+import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
+import isEmpty from 'lodash/isEmpty'
+
+interface TeamData {
+  inviteUrl: string
+  members: Array<any>
+  isFull: boolean
+}
+
+const normalizeTeamData = (viewer: any): TeamData | undefined => {
+  if (!!viewer?.team) {
+    // Managed Subscription
+    return {
+      inviteUrl: viewer.team.invite_url,
+      members: viewer.team.members || [],
+      isFull: viewer.team.user_limit <= viewer.team.members.length,
+    }
+  } else if (!isEmpty(viewer?.team_accounts)) {
+    // Team Account that this user is an Owner of
+    // *grab the first, assuming just one team account for now
+    const team = viewer.team_accounts[0]
+
+    return {
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
+      members: team.members || [],
+      isFull: team.user_limit <= team.members.length,
+    }
+  }
+  // implicitly return undefined if the user doesn't have a team
+}
 
 const Team = () => {
   const {viewer, loading} = useViewer()
   const router = useRouter()
 
+  const teamData = normalizeTeamData(viewer)
+  const teamDataAvailable = typeof teamData !== 'undefined'
+
   React.useEffect(() => {
-    if (!loading && !viewer.team) {
+    if (!loading && !teamDataAvailable) {
       router.push('/')
     }
-  }, [viewer, loading])
+  }, [loading, teamDataAvailable])
 
   return (
     <LoginRequired>
-      {!loading && viewer?.team && (
+      {!loading && !!teamData && (
         <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
           <h1>Team Account</h1>
           <p>
@@ -29,16 +61,16 @@ const Team = () => {
           </p>
           <p>Your invite link to add new team members is: </p>
           <div className="flex items-center">
-            <code>{viewer.team.invite_url}</code>
+            <code>{teamData.inviteUrl}</code>
             <CopyToClipboard
-              stringToCopy={viewer.team.invite_url}
+              stringToCopy={teamData.inviteUrl}
               className="inline-block"
               label={true}
             />
           </div>
           <h3>Current Team Members:</h3>
           <ul>
-            {viewer.team?.members?.map((member: any) => {
+            {teamData.members.map((member: any) => {
               return <li key={member.email}>{member.email}</li>
             })}
           </ul>
