@@ -26,7 +26,7 @@ const normalizeTeamData = (viewer: any): TeamData | undefined => {
     const team = viewer.team_accounts[0]
 
     return {
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team/invite/${team.invite_token}`,
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
       members: team.members || [],
       isFull: team.user_limit <= team.members.length,
     }
