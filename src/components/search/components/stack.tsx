@@ -27,6 +27,7 @@ const StackResourceItem = ({slug, type}: StackResource) => {
     default:
       break
   }
+
   const {data: resource} = useSWR(slug, loader)
   if (!resource) return null
   return (

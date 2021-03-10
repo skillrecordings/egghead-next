@@ -42,11 +42,7 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
 export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
-  const course =
-    params &&
-    (process.env.NEXT_PUBLIC_PLAYLISTS_ARE_COURSES === 'true'
-      ? await loadPlaylist(params.slug as string)
-      : await loadCourse(params.slug as string))
+  const course = params && (await loadPlaylist(params.slug as string))
 
   if (course && course?.slug !== params?.slug) {
     res.setHeader('Location', course.path)
