@@ -32,6 +32,8 @@ const handleJoinTeam = async (token: string, router: any) => {
   }
 }
 
+const TOKEN_NOT_RECOGNIZED = 'TOKEN_NOT_RECOGNIZED'
+
 const TeamInvite: React.FunctionComponent<{
   token: string
   teamData: any
@@ -40,6 +42,16 @@ const TeamInvite: React.FunctionComponent<{
   const router = useRouter()
 
   const alreadySignedIn = !loading && typeof authToken === 'string'
+
+  React.useEffect(() => {
+    if (token === TOKEN_NOT_RECOGNIZED) {
+      toast.error('This is not a recognized team invite link.', {
+        duration: 6000,
+        icon: '❌',
+      })
+      router.replace('/')
+    }
+  }, [token])
 
   return (
     <section className="mb-32">
@@ -92,13 +104,18 @@ const TeamInvite: React.FunctionComponent<{
 export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
   const token = params && (params.token as string)
   const viewTeamInviteUrl = `${AUTH_DOMAIN}/api/v1/accounts/team_invite/${token}`
-  const {data} = await axios.get(viewTeamInviteUrl)
 
-  return {
-    props: {
-      teamData: data,
-      token,
-    },
+  try {
+    const {data} = await axios.get(viewTeamInviteUrl)
+
+    return {
+      props: {
+        teamData: data,
+        token,
+      },
+    }
+  } catch (e) {
+    return {props: {teamData: {}, token: TOKEN_NOT_RECOGNIZED}}
   }
 }
 
