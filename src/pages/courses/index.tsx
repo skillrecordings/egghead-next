@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {loadAllCourses, loadAllCourseByPage} from 'lib/courses'
+import {loadAllPlaylistsByPage} from 'lib/playlists'
 import Markdown from 'react-markdown'
 import TagList from '../../components/layouts/tag-list'
 import useClipboard from 'react-use-clipboard'
@@ -9,7 +9,7 @@ import {IconLink} from 'components/share'
 import {NextSeo} from 'next-seo'
 
 export async function getStaticProps() {
-  const courses = await loadAllCourseByPage()
+  const courses = await loadAllPlaylistsByPage()
   return {
     props: {courses}, // will be passed to the page component as props
   }

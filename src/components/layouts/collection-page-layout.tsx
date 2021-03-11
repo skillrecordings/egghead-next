@@ -231,7 +231,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     [],
   ).map((lesson: LessonResource) => lesson.slug)
 
-  const {full_name, avatar_64_url, slug: instructor_slug, bio_short, twitter} =
+  const {name, avatar_url, url: instructor_slug, bio_short, twitter} =
     instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
@@ -383,8 +383,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="mt-4 flex flex-col items-center md:items-start">
                 {instructor && (
                   <InstructorProfile
-                    name={full_name}
-                    avatar_url={avatar_64_url}
+                    name={name}
+                    avatar_url={avatar_url}
                     url={instructor_slug}
                     bio_short={bio_short}
                     twitter={twitter}
@@ -520,7 +520,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
               </div>
               {!isEmpty(podcast) && (
-                <CoursePodcast podcast={podcast} instructorName={full_name} />
+                <CoursePodcast podcast={podcast} instructorName={name} />
               )}
               <div
                 className={`grid grid-cols-1 md:gap-x-5 ${

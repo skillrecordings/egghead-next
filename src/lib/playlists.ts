@@ -1,6 +1,7 @@
 import {GraphQLClient, request} from 'graphql-request'
 import config from './config'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
+import {loadCourse} from './courses'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
@@ -127,6 +128,7 @@ export async function loadPlaylist(slug: string, token?: string) {
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
       playlist(slug: $slug) {
+        id
         slug
         title
         description
@@ -283,6 +285,7 @@ export async function loadPlaylist(slug: string, token?: string) {
   })
 
   const {playlist} = await graphQLClient.request(query, variables)
+  const courseMeta = await loadCourse(playlist.id)
 
-  return playlist
+  return {...playlist, ...courseMeta}
 }
