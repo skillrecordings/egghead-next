@@ -36,7 +36,8 @@ const courseQuery = groq`
   },
 	'instructor': collaborators[]->[role == 'instructor'][0]{
     'name': person->name,
-    'image': person->image.url
+    'avatar_url': person->image.url,
+    'url': person->slug.current
   },
 	'dependencies': softwareLibraries[]{
     version,
