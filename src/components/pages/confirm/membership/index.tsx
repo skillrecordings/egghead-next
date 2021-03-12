@@ -74,7 +74,7 @@ const PopularTopics: React.FC = () => {
   return (
     <div>
       <h4 className="text-lg font-semibold pb-2">
-        Start with one of popular topics
+        Start with one of these popular topics
       </h4>
       <ul className="grid lg:grid-cols-8 sm:grid-cols-4 grid-cols-2 gap-3">
         {topics.resources.map((topic: any) => (
