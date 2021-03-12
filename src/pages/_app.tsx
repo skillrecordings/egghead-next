@@ -1,10 +1,8 @@
 import * as React from 'react'
 import {AppProps, NextWebVitalsMetric} from 'next/app'
-import {CacheProvider} from '@emotion/react'
 import {MDXProvider} from '@mdx-js/react'
 import {ViewerProvider} from 'context/viewer-context'
 import {DefaultSeo, SocialProfileJsonLd} from 'next-seo'
-import {cache} from '@emotion/css'
 import AppLayout from 'components/app/layout'
 import mdxComponents from 'components/mdx'
 import defaultSeoConfig from 'next-seo.json'
@@ -22,6 +20,8 @@ import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
+
+// console.log('cache: ', cache)
 
 declare global {
   interface Window {
@@ -101,9 +101,7 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
             <CioProvider>
               <ConvertkitProvider>
                 <MDXProvider components={mdxComponents}>
-                  <CacheProvider value={cache}>
-                    {getLayout(Component, pageProps)}
-                  </CacheProvider>
+                  {getLayout(Component, pageProps)}
                 </MDXProvider>
               </ConvertkitProvider>
             </CioProvider>
