@@ -1,10 +1,13 @@
 import * as React from 'react'
+import Link from 'next/link'
 import {useViewer} from '../../context/viewer-context'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
 import isEmpty from 'lodash/isEmpty'
+import axios from 'axios'
+import {track} from 'utils/analytics'
 
 interface TeamData {
   inviteUrl: string
@@ -12,6 +15,8 @@ interface TeamData {
   numberOfMembers: number
   capacity: number
   isFull: boolean
+  accountSlug: string | undefined
+  stripeCustomerId: string | undefined
 }
 
 const normalizeTeamData = (viewer: any): TeamData | undefined => {
@@ -38,6 +43,8 @@ const normalizeTeamData = (viewer: any): TeamData | undefined => {
       numberOfMembers: members.length,
       capacity: team.user_limit,
       isFull: team.user_limit <= members.length,
+      accountSlug: team.slug,
+      stripeCustomerId: team.stripe_customer_id,
     }
   }
   // implicitly return undefined if the user doesn't have a team
@@ -59,7 +66,34 @@ const TeamComposition = ({teamData}: {teamData: TeamData}) => {
   }
 }
 
+interface SubscriptionData {
+  portalUrl: string | undefined
+}
+
 const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
+  const {accountSlug, stripeCustomerId} = teamData
+  const [
+    subscriptionData,
+    setSubscriptionData,
+  ] = React.useState<SubscriptionData>({} as SubscriptionData)
+
+  React.useEffect(() => {
+    if (stripeCustomerId) {
+      axios
+        .get(`/api/stripe/billing/session`, {
+          params: {
+            customer_id: stripeCustomerId,
+            account_slug: accountSlug,
+          },
+        })
+        .then(({data}) => {
+          if (data) {
+            setSubscriptionData(data)
+          }
+        })
+    }
+  }, [stripeCustomerId, accountSlug])
+
   if (!teamData.isFull) {
     return null
   }
@@ -85,17 +119,24 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
           />
         </svg>
       </span>
-      <p className="ml-8">
-        Your team account is full. If you'd like to add more members to your
-        team, please contact{' '}
-        <a
-          className="font-bold underline transition-colors ease-in-out duration-150"
-          href="mailto:support@egghead.io"
-        >
-          support@egghead.io
-        </a>{' '}
-        to increase the number of seats.
-      </p>
+      <div className="ml-8 flex flex-col space-y-2 p-2">
+        <span>
+          Your team account is full. You can add more seats to your account
+          through the Stripe Billing Portal.
+        </span>
+        {subscriptionData?.portalUrl && (
+          <Link href={subscriptionData.portalUrl}>
+            <a
+              onClick={() => {
+                track(`clicked manage membership`)
+              }}
+              className="transition-all duration-150 ease-in-out text-white font-semibold rounded-md"
+            >
+              Visit Stripe Billing Portal
+            </a>
+          </Link>
+        )}
+      </div>
     </div>
   )
 }
