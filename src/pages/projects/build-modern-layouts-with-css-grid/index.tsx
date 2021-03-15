@@ -63,7 +63,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           </svg>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-16 mb-16">
+        <section className="grid grid-cols-1 md:grid-cols-3 mt-16 mb-16">
           <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow rounded-md border border-gray-100 sm:mr-0 md:mr-4">
             <div
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
@@ -100,7 +100,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               )
             })}
           </div>
-        </div>
+        </section>
 
         <div className="flex justify-center">
           <svg
@@ -122,7 +122,90 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           </svg>
         </div>
 
-        <div className="relative bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mt-16 mb-16 px-10 py-10">
+        <section className="relative bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mt-16 mb-16 p-10">
+          <div
+            className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+            style={{
+              background: 'linear-gradient(to right, #40A3DA 0%, #0972BC 100%)',
+            }}
+          />
+          <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
+            Project Challenges
+          </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 mb-16 gap-5">
+            <div className="mb-8 md:mb-0 text-center">
+              <Image
+                src={course.projects.pricingPage.image}
+                height="780"
+                width="695"
+                className="rounded-md z-0"
+              />
+
+              <div className="dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-10 relative">
+                <h2 className="sm:text-xl text-lg font-bold mb-2 text-center">
+                  {course.projects.pricingPage.title}
+                </h2>
+                <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                  {course.projects.pricingPage.description}
+                </Markdown>
+                <a
+                  className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
+                  title="Share on twitter"
+                  href={course.projects.pricingPage.figmaUrl}
+                  rel="noopener"
+                >
+                  Download Figma File
+                </a>
+              </div>
+            </div>
+            <div className="text-center">
+              <Image
+                src={course.projects.dashboardPage.image}
+                height="780"
+                width="695"
+                className="rounded-md z-0"
+              />
+              <div className="dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-10 relative">
+                <h2 className="sm:text-xl text-lg font-bold mb-2 text-center">
+                  {course.projects.dashboardPage.title}
+                </h2>
+                <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                  {course.projects.dashboardPage.description}
+                </Markdown>
+                <a
+                  className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
+                  title="Share on twitter"
+                  href={course.projects.dashboardPage.figmaUrl}
+                  rel="noopener"
+                >
+                  Download Figma File
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="flex justify-center">
+          <svg
+            width="7"
+            height="155"
+            viewBox="0 0 7 155"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="3.5"
+              y1="-1.5299e-07"
+              x2="3.50001"
+              y2="155"
+              stroke="#B0B0B0"
+              strokeWidth="7"
+              strokeDasharray="10 10"
+            />
+          </svg>
+        </div>
+
+        <section className="relative bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mt-16 mb-16 px-10 py-10">
           <div
             className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
             style={{
@@ -154,7 +237,8 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               })}
             </ul>
           </div>
-        </div>
+        </section>
+
         <div className="flex justify-center">
           <svg
             width="7"
@@ -174,7 +258,8 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
             />
           </svg>
         </div>
-        <div>
+
+        <section>
           <div className="mt-10 text-center pb-12">
             <h1 className="text-2xl md:text-4xl font-bold pb-4">
               Did you complete the Portfolio Project Challenge?
@@ -192,7 +277,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               Tweet @eggheadio
             </a>
           </div>
-        </div>
+        </section>
       </div>
     </>
   )
@@ -292,8 +377,6 @@ const courseQuery = groq`
 	projects[0] {
     title,
     description,
-    "figmaUrl": urls[0].url,
-    "tweetUrl": urls[1].url,
     "goals": resources[0] {
       features
     },
@@ -303,12 +386,14 @@ const courseQuery = groq`
     "pricingPage": resources[2] {
       title,
       description,
-      image
+      image,
+      "figmaUrl": urls[0].url,
     },
     "dashboardPage": resources[3] {
       title,
       description,
-      image
+      image,
+      "figmaUrl": urls[0].url,
     }
   },
 }[0]
