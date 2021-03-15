@@ -15,6 +15,8 @@ type LandingProps = {
 const landingPage: FunctionComponent<LandingProps> = (props) => {
   const {course} = props
 
+  console.log({course})
+
   return (
     <>
       <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
@@ -32,16 +34,12 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
         <ProjectBrief
           className="pb-12"
           topic={{
-            name: 'cloudflare',
+            name: course.tags[0].value,
             label: 'Project Brief',
           }}
         >
           <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-            {`You are a developer for a national concert promoter.
-
-Music fans from all over the world visit your site to see when and where the next show is going to be. To save them time when they visit the page, we want to show them upcoming events at a venue close to their location.
-
-Your task is to create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest [regional Cloudflare Location](https://www.cloudflare.com/network/). Choose locations for testing where you have friends (or a VPN 😅) so you can prove this functionality works as expected.`}
+            {course.projects.description}
           </Markdown>
         </ProjectBrief>
 
@@ -74,14 +72,16 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
                   'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
               }}
             />
-            <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
-            <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-              {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
-
-- In the course, Kristian deploys a worker that makes use of Cloudflare's **IncomingRequestCfProperties** ([see docs](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties)) to retrieve the user's country. There are additional data available here that could be used in fulfilling this project brief.
-
-- The template rendered in the demo ([see repo](https://github.com/signalnerve/region-workers-example/blob/main/template.js)) imports the country-code-emoji package from npm. While the project brief doesn't call for using a 3rd party library, the learner should be able to see how they could create an object with hardcoded demo data.`}
-            </Markdown>
+            <h1 className="sm:text-2xl text-xl font-bold mb-2">Instructions</h1>
+            {course.projects.instructions.features.map(
+              (instruction: string) => {
+                return (
+                  <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+                    {`- ${instruction}`}
+                  </Markdown>
+                )
+              },
+            )}
           </div>
           <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow rounded-md border border-gray-100 mt-4 md:mt-0">
             <div
@@ -91,16 +91,14 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
                   'linear-gradient(to right, #E75E3C 0%, #F5C361 100%)',
               }}
             />
-            <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
-            <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
-              {`- The application uses Cloudflare Workers.
-
-- The application is deployed to the web and is useable for its intended purpose.
-
-- The application contains minimal bugs.
-
-- The application is accessible.`}
-            </Markdown>
+            <h1 className="sm:text-2xl text-xl font-bold mb-2">Goals</h1>
+            {course.projects.goals.features.map((goal: string) => {
+              return (
+                <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+                  {`- ${goal}`}
+                </Markdown>
+              )
+            })}
           </div>
         </div>
 
@@ -188,7 +186,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
             <a
               className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
               title="Share on twitter"
-              href="https://twitter.com/intent/tweet?text=I%20created%20my%20portfolio%20project%20for%20the%20Introduction%20to%20Cloudflare%20Workers%20course%20on%20@eggheadio!"
+              href={course.projects.tweetUrl}
               rel="noopener"
             >
               Tweet @eggheadio
@@ -285,11 +283,34 @@ const courseQuery = groq`
 *[_type == 'resource' && externalId == $courseId]{
   title,
   path,
+  tags,
   image,
   resources[]{
     title,
     path
-  }
+  },
+	projects[0] {
+    title,
+    description,
+    "figmaUrl": urls[0].url,
+    "tweetUrl": urls[1].url,
+    "goals": resources[0] {
+      features
+    },
+    "instructions": resources[1] {
+      features
+    },
+    "pricingPage": resources[2] {
+      title,
+      description,
+      image
+    },
+    "dashboardPage": resources[3] {
+      title,
+      description,
+      image
+    }
+  },
 }[0]
 `
 
@@ -304,6 +325,8 @@ async function loadCourse(id: number) {
 
 export async function getStaticProps() {
   const course = await loadCourse(418653)
+
+  console.log('THESE THE PROPS', {course})
   return {
     props: {
       course,
