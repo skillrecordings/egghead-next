@@ -18,17 +18,17 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
   console.log({course})
 
   return (
-    <>
+    <div className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
       <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
         <div className="mt-10 mb-16 text-center">
           <div className="mb-10">
             <Image priority src={course.image} height="270" width="270" />
           </div>
           <p className="text-lg md:text-2xl leading-6 text-gray-500">
-            Portfolio Project Challenge
+            Portfolio Project
           </p>
           <h1 className="text-2xl md:text-4xl font-bold mt-2">
-            {course.title}
+            {course.projects.title}
           </h1>
         </div>
         <ProjectBrief
@@ -133,7 +133,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
             Project Challenges
           </h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 mb-16 gap-5">
-            <div className="mb-8 md:mb-0 text-center">
+            <div className="mb-8 md:mb-0 text-center relative">
               <Image
                 src={course.projects.pricingPage.image}
                 height="780"
@@ -141,7 +141,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 className="rounded-md z-0"
               />
 
-              <div className="dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-10 relative">
+              <div className="bg-white dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-20 relative shadow-lg">
                 <h2 className="sm:text-xl text-lg font-bold mb-2 text-center">
                   {course.projects.pricingPage.title}
                 </h2>
@@ -165,7 +165,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 width="695"
                 className="rounded-md z-0"
               />
-              <div className="dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-10 relative">
+              <div className="bg-white dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-10 relative shadow-lg">
                 <h2 className="sm:text-xl text-lg font-bold mb-2 text-center">
                   {course.projects.dashboardPage.title}
                 </h2>
@@ -213,7 +213,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
             }}
           />
           <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
-            Course Content
+            Reference Material
           </h1>
 
           <div className="max-w-screen-sm m-auto pb-4">
@@ -279,7 +279,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           </div>
         </section>
       </div>
-    </>
+    </div>
   )
 }
 
