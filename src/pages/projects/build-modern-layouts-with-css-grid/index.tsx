@@ -69,7 +69,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
                 background:
-                  'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
+                  'linear-gradient(to right, #40A3DA 0%, #0972BC 100%)',
               }}
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Instructions</h1>
@@ -88,7 +88,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
               style={{
                 background:
-                  'linear-gradient(to right, #E75E3C 0%, #F5C361 100%)',
+                  'linear-gradient(to right, #0972BC 0%, #40A3DA 100%)',
               }}
             />
             <h1 className="sm:text-2xl text-xl font-bold mb-2">Goals</h1>
@@ -126,7 +126,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           <div
             className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
             style={{
-              background: 'linear-gradient(to right, #F5C361 0%, #E75E3C 100%)',
+              background: 'linear-gradient(to right, #0972BC 0%, #40A3DA 100%)',
             }}
           />
           <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
