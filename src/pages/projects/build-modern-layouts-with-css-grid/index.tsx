@@ -4,7 +4,7 @@ import Markdown from 'react-markdown'
 import Topic from 'components/search/components/topic'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
-import {GetStaticProps} from 'next'
+import {GetStaticProps, GetServerSideProps} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -13,70 +13,7 @@ type LandingProps = {
 }
 
 const landingPage: FunctionComponent<LandingProps> = (props) => {
-  const course = {
-    id: '418892',
-    title: 'Introduction to Cloudflare Workers',
-    path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
-    resources: [
-      {
-        title: 'Create a Cloudflare Workers Account',
-        slug: 'cloudflare-create-a-cloudflare-workers-account',
-        path: '/lessons/cloudflare-create-a-cloudflare-workers-account',
-      },
-      {
-        title: 'Install and Configure the Cloudflare Workers CLI Wrangler',
-        slug:
-          'cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
-        path:
-          '/lessons/cloudflare-install-and-configure-the-cloudflare-workers-cli-wrangler',
-      },
-      {
-        title:
-          "Generate New Cloudflare Workers Projects with Wrangler's generate Command",
-        slug:
-          'cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
-        path:
-          '/lessons/cloudflare-generate-new-cloudflare-workers-projects-with-wrangler-s-generate-command',
-      },
-      {
-        title: 'Write Your First Cloudflare Workers Serverless Function',
-        slug:
-          'cloudflare-write-your-first-cloudflare-workers-serverless-function',
-        path:
-          '/lessons/cloudflare-write-your-first-cloudflare-workers-serverless-function',
-      },
-      {
-        title: 'Preview and Publish Your Cloudflare Workers Project',
-        slug: 'cloudflare-preview-and-publish-your-cloudflare-workers-project',
-        path:
-          '/lessons/cloudflare-preview-and-publish-your-cloudflare-workers-project',
-      },
-      {
-        title: 'Render HTML Pages with Cloudflare Workers',
-        slug: 'cloudflare-render-html-pages-with-cloudflare-workers',
-        path: '/lessons/cloudflare-render-html-pages-with-cloudflare-workers',
-      },
-      {
-        title: 'Render Cloudflare Region Data for a Request Using request.cf',
-        slug:
-          'cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
-        path:
-          '/lessons/cloudflare-render-cloudflare-region-data-for-a-request-using-request-cf',
-      },
-      {
-        title:
-          'Deploy to a Custom Domain with Cloudflare Wrangler Environments',
-        slug:
-          'cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
-        path:
-          '/lessons/cloudflare-deploy-to-a-custom-domain-with-cloudflare-wrangler-environments',
-      },
-    ],
-  }
-
-  console.log(props.course)
+  const {course} = props
 
   return (
     <>
@@ -362,25 +299,35 @@ async function loadCourse(id: number) {
   }
 
   const course = await sanityClient.fetch(courseQuery, params)
-  console.log("this course", course)
   return course
 }
-export const getStaticProps: GetStaticProps = async ({res, params}) => {
-  const course = params && (await loadCourse(418653))
 
-  console.log("-----heeerrreeee--------", course)
-  if (course && course?.slug !== params?.slug) {
-    res.setHeader('Location', course.path)
-    res.statusCode = 302
-    res.end()
-    return {props: {}}
-  } else {
-    return {
-      props: {
-        course: "hey",
-      },
-    }
+export async function getStaticProps() {
+  const course = await loadCourse(418653)
+  return {
+    props: {
+      course,
+    },
   }
 }
+
+// delete and ask about this
+// export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
+//   const course = params && (await loadCourse(418653))
+
+//   console.log('-----heeerrreeee--------', course)
+//   if (course && course?.slug !== params?.slug) {
+//     res.setHeader('Location', course.path)
+//     res.statusCode = 302
+//     res.end()
+//     return {props: {}}
+//   } else {
+//     return {
+//       props: {
+//         course: 'hey',
+//       },
+//     }
+//   }
+// }
 
 export default landingPage
