@@ -81,10 +81,10 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               <Markdown>{introduction.text}</Markdown>
               <Markdown>{challenges.text}</Markdown>
 
-              <section className="relative dark:text-gray-200 shadow rounded-md mt-16 mb-16 p-10">
-                <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
+              <section className="relative dark:text-gray-200 mt-16 mb-16 ml-0 mr-0 md:-ml-20 md:-mr-20">
+                <h2 className="font-bold mb-2 text-center">
                   Project Challenges
-                </h1>
+                </h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 mb-16 gap-5">
                   <div className="mb-8 md:mb-0 text-center relative">
                     <Image
@@ -94,10 +94,13 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       className="rounded-md z-0"
                     />
 
-                    <div className="bg-white dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-20 relative shadow-lg">
-                      <h2 className="sm:text-xl text-lg font-bold mb-2 text-center">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-40 z-20 relative shadow-lg">
+                      <h3
+                        className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
+                        style={{margin: 0}}
+                      >
                         Pricing Page
-                      </h2>
+                      </h3>
                       <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
                         {pricingPageDescription.text}
                       </Markdown>
@@ -105,7 +108,12 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                         className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
                         title="Share on twitter"
                         href={pricingPageFigmaUrl}
-                        rel="noopener"
+                        style={{
+                          color: 'white',
+                          textDecoration: 'none',
+                        }}
+                        target="_blank"
+                        rel="noreferrer"
                       >
                         Download Figma File
                       </a>
@@ -118,10 +126,13 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       width="695"
                       className="rounded-md z-0"
                     />
-                    <div className="bg-white dark:bg-gray-900 rounded-xl ml-4 mr-4 md:ml-10 md:mr-10 text-center p-4 md:p-12 -mt-40 md:-mt-72 z-10 relative shadow-lg">
-                      <h2 className="sm:text-xl text-lg font-bold mb-2 text-center">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-40 z-10 relative shadow-lg">
+                      <h3
+                        className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
+                        style={{margin: 0}}
+                      >
                         Dashboard Page
-                      </h2>
+                      </h3>
                       <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
                         {crmPageDescription.text}
                       </Markdown>
@@ -129,7 +140,12 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                         className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
                         title="Share on twitter"
                         href={crmPageFigmaUrl}
-                        rel="noopener"
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          color: 'white',
+                          textDecoration: 'none',
+                        }}
                       >
                         Download Figma File
                       </a>
