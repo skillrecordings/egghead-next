@@ -9,6 +9,7 @@ import ProseSection from './prose-section'
 import CheatSheet from './cheat-sheet'
 import DefaultLayout from '../../layouts'
 import CodeBlock from './code-block'
+import {TwitterTweetEmbed} from 'react-twitter-embed'
 
 const mdxComponents = {
   Course,
@@ -20,6 +21,7 @@ const mdxComponents = {
   Callout,
   ProseSection,
   CheatSheet,
+  TwitterTweetEmbed,
   DefaultLayout,
   pre: (props: any) => (
     <CodeBlock
