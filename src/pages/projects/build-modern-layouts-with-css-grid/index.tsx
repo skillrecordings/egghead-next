@@ -104,12 +104,12 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       className="rounded-md z-0"
                     />
 
-                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-20 relative shadow-lg">
+                    <div className="bg-gray-50 dark:bg-gray-900 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-20 relative">
                       <h3
                         className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
                         style={{margin: 0}}
                       >
-                        Pricing Page
+                        Pricing Page Layout
                       </h3>
                       <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
                         {pricingPageDescription.text}
@@ -136,12 +136,12 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       width="695"
                       className="rounded-md z-0"
                     />
-                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-10 relative shadow-lg">
+                    <div className="bg-gray-50 dark:bg-gray-900 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-10 relative ">
                       <h3
                         className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
                         style={{margin: 0}}
                       >
-                        Dashboard Page
+                        Dashboard Page Layout
                       </h3>
                       <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
                         {crmPageDescription.text}
@@ -164,12 +164,41 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 </div>
               </section>
               <Markdown>{outcomes.text}</Markdown>
-              <Markdown>{pricingPageChallenge.text}</Markdown>
-              <Markdown>{dashboardPageChallenge.text}</Markdown>
+              <section className="relative dark:text-gray-200 mt-16 mb-16 ml-0 mr-0 md:-ml-28 md:-mr-28">
+                <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 mb-16 gap-5">
+                  <div className="mb-8 md:mb-0 text-center relative">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl text-center p-4 md:p-8 z-20 relative shadow-lg">
+                      <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                        {pricingPageChallenge.text}
+                      </Markdown>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl text-center p-4 md:p-8 z-10 relative shadow-lg">
+                      <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                        {dashboardPageChallenge.text}
+                      </Markdown>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
               <Markdown>{studyQuestions.text}</Markdown>
               <Markdown>{bestPractices.text}</Markdown>
               <Markdown>{challengeResource.text}</Markdown>
               <Markdown>{Submission.text}</Markdown>
+              <a
+                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+                title="Share on twitter"
+                href={course.projects.tweetCTA}
+                rel="noopener"
+                style={{
+                  color: 'white',
+                  textDecoration: 'none',
+                }}
+              >
+                Tweet @eggheadio
+              </a>
             </main>
           </div>
         </div>
@@ -194,6 +223,7 @@ const courseQuery = groq`
 		content,
     "pricingPageFigmaUrl": urls[0].url,
     "crmPageFigmaUrl": urls[1].url,
+    "tweetCTA": urls[2].url,
     "pricingPageImageUrl": images[0].url,
     "crmPageImageUrl": images[1].url,
     "ogImage": images[2].url,
