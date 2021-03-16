@@ -36,9 +36,19 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
   const challengeResource: any = find(course?.projects?.content, {
     label: 'Resource',
   })
-  const nextSteps: any = find(course?.projects?.content, {label: 'Next Steps'})
-
-  console.log({course})
+  const pricingPageChallenge: any = find(course?.projects?.content, {
+    label: 'Pricing page challenge',
+  })
+  const dashboardPageChallenge: any = find(course?.projects?.content, {
+    label: 'Dashboard page challenge',
+  })
+  const studyQuestions: any = find(course?.projects?.content, {
+    label: 'Self-Study Questions',
+  })
+  const bestPractices: any = find(course?.projects?.content, {
+    label: 'Best Practices',
+  })
+  const Submission: any = find(course?.projects?.content, {label: 'Submission'})
 
   const title = course.title
 
@@ -154,8 +164,12 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 </div>
               </section>
               <Markdown>{outcomes.text}</Markdown>
+              <Markdown>{pricingPageChallenge.text}</Markdown>
+              <Markdown>{dashboardPageChallenge.text}</Markdown>
+              <Markdown>{studyQuestions.text}</Markdown>
+              <Markdown>{bestPractices.text}</Markdown>
               <Markdown>{challengeResource.text}</Markdown>
-              <Markdown>{nextSteps.text}</Markdown>
+              <Markdown>{Submission.text}</Markdown>
             </main>
           </div>
         </div>
@@ -199,7 +213,6 @@ async function loadCourse(id: number) {
 export async function getStaticProps() {
   const course = await loadCourse(418653)
 
-  console.log('THESE THE PROPS', {course})
   return {
     props: {
       course,
