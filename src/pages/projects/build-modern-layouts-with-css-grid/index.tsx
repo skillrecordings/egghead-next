@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Markdown from 'react-markdown'
-import Topic from 'components/search/components/topic'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import Image from 'next/image'
@@ -19,6 +18,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
     crmPageFigmaUrl,
     pricingPageImageUrl,
     crmPageImageUrl,
+    ogImage,
   } = course?.projects
 
   const introduction: any = find(course?.projects?.content, {
@@ -58,7 +58,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://og-image-react-egghead.now.sh/topic/${course.tags}?orientation=landscape&v=20201104`,
+              url: ogImage,
             },
           ],
         }}
@@ -94,7 +94,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       className="rounded-md z-0"
                     />
 
-                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-40 z-20 relative shadow-lg">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-20 relative shadow-lg">
                       <h3
                         className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
                         style={{margin: 0}}
@@ -126,7 +126,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       width="695"
                       className="rounded-md z-0"
                     />
-                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-40 z-10 relative shadow-lg">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-10 relative shadow-lg">
                       <h3
                         className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
                         style={{margin: 0}}
@@ -182,6 +182,7 @@ const courseQuery = groq`
     "crmPageFigmaUrl": urls[1].url,
     "pricingPageImageUrl": images[0].url,
     "crmPageImageUrl": images[1].url,
+    "ogImage": images[2].url,
   },
 }[0]
 `
