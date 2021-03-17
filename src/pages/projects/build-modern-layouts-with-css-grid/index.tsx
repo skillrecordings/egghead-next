@@ -24,7 +24,6 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
   const introduction: any = find(course?.projects?.content, {
     label: 'Introduction',
   })
-  console.log('introduction', {introduction})
   const challenges: any = find(course?.projects?.content, {label: 'Challenges'})
   const pricingPageDescription: any = find(course?.projects?.content, {
     label: 'Pricing Page description',
