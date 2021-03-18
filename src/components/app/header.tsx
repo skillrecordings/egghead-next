@@ -11,7 +11,8 @@ import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
 import useCio from '../../hooks/use-cio'
 import {Form, Formik} from 'formik'
-import LevelUpCTA from '../survey/level-up-cta'
+import LevelUpCTA from '../survey/online-presence-cta'
+import OnlinePresenceCTA from '../survey/online-presence-cta'
 
 const ACCOUNT_LINK_ENABLED =
   process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
@@ -39,7 +40,7 @@ const Header: FunctionComponent = () => {
         {viewer ? (
           <div className={className}>
             {children}
-            <LevelUpCTA variant="header" />
+            <OnlinePresenceCTA variant="header" />
             <Feedback
               user={viewer}
               className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
@@ -100,9 +101,9 @@ const Header: FunctionComponent = () => {
           <div className={className}>
             {children}
             <div className="hidden lg:block">
-              <Link href="/level-up">
+              <Link href="/own-your-online-presence">
                 <a className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                  Career Planning 1:1
+                  Own Your Online Presence
                 </a>
               </Link>
             </div>
