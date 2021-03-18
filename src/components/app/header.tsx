@@ -11,11 +11,7 @@ import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
 import useCio from '../../hooks/use-cio'
 import {Form, Formik} from 'formik'
-import LevelUpCTA from '../survey/online-presence-cta'
 import OnlinePresenceCTA from '../survey/online-presence-cta'
-
-const ACCOUNT_LINK_ENABLED =
-  process.env.NEXT_PUBLIC_FEATURE_ACCOUNT_LINK_IN_HEADER === 'true'
 
 const Header: FunctionComponent = () => {
   const router = useRouter()
