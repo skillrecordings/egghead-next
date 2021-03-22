@@ -21,21 +21,26 @@ const StripeCheckoutSession = async (
         throw new Error(`no session loaded for ${req.query.session_id}`)
 
       const customer = await stripe.customers.retrieve(customer_id, {
-        expand: ['default_source'],
+        expand: ['default_source', 'subscriptions.data.latest_invoice'],
       })
 
       const subscription = customer.subscriptions?.data[0]
 
       if (subscription) {
         const price = get(first(subscription.items.data), 'price')
+        const latestInvoice = get(subscription, 'latest_invoice')
 
         const {product: product_id} = price
 
         const product = await stripe.products.retrieve(product_id)
 
-        res
-          .status(200)
-          .json({portalUrl: session.url, subscription, price, product})
+        res.status(200).json({
+          portalUrl: session.url,
+          subscription,
+          price,
+          product,
+          latestInvoice,
+        })
       } else {
         res.status(200).json({portalUrl: session.url, customer})
       }
