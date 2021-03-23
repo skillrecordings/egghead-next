@@ -1,12 +1,12 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 @import '../../node_modules/react-tippy/dist/tippy.css';
 @import '../../node_modules/simplebar/dist/simplebar.min.css';
 
-#__next {
+/* #__next {
   @apply flex flex-col min-h-screen text-gray-900;
-}
+} */
 
 #__next .prose-reset * {
   font-size: inherit !important;
@@ -33,19 +33,19 @@ code {
   font-size: 80% !important;
 }
 
-pre {
+/* pre {
   @apply sm:rounded-md rounded-none !important;
-}
+} */
 
 pre > code {
   font-size: 90% !important;
 }
 
-pre > code {
+/* pre > code {
   ::selection {
     @apply bg-blue-700;
   }
-}
+} */
 
 .simplebar-content:after,
 .simplebar-content:before {
@@ -101,7 +101,7 @@ pre > code {
 
 /* ——— Algolia Pagination ——— */
 
-.ais-Pagination-link {
+/* .ais-Pagination-link {
   @apply text-gray-700 border-gray-200 bg-gray-200 transition-all ease-out duration-150 !important;
 }
 .ais-Pagination-link:hover {
@@ -116,22 +116,22 @@ pre > code {
 }
 .ais-ClearRefinements-button {
   @apply bg-transparent text-blue-600 text-sm !important;
-}
+} */
 
 /* ——— Reach UI Tabs ——— */
 
 /* styles all tabs */
-[data-reach-tabs] [data-reach-tab-list] {
+/* [data-reach-tabs] [data-reach-tab-list] {
   @apply bg-transparent font-semibold space-x-1;
 }
 
 [data-reach-tabs] [data-reach-tab] {
   @apply px-4 py-3 text-base text-gray-700 dark:text-gray-300 rounded-t-lg hover:bg-gray-50 dark:hover:bg-black transition-colors ease-in-out duration-300;
-}
+} */
 /* styles only the selected tab */
-[data-reach-tabs] [data-reach-tab][data-selected] {
+/* [data-reach-tabs] [data-reach-tab][data-selected] {
   @apply bg-gray-50 dark:bg-gray-1000 text-gray-900 dark:text-white transition-colors ease-in-out duration-300 border-gray-200 dark:border-gray-800;
-}
+} */
 
 /*
   This will hide the focus indicator if the element receives focus via the mouse,
