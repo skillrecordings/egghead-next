@@ -379,16 +379,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 sm:border-b border-gray-100  dark:border-gray-800">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
-              className="flex-grow w-full"
+              className="flex-grow w-full min-w-[320px] sm:min-w-[580px] md:min-w-[680px]"
               css={{
                 maxWidth: 'calc(75vh * 1.77777)',
-                minWidth: '320px',
-                [bpMinSM]: {
-                  minWidth: '580px',
-                },
-                [bpMinMD]: {
-                  minWidth: '680px',
-                },
               }}
             >
               <div
