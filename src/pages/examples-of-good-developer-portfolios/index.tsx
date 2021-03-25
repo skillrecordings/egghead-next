@@ -12,32 +12,41 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
 
   return (
     <>
-      {portfolios.map((portfolio: any) => {
-        return (
-          <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-16">
-            <header>
-              <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
-                <Link href={`${url}/${portfolio.slug}`}>{portfolio.title}</Link>
-              </h1>
-              {portfolio.image && (
-                <div className="mt-4">
-                  <Image
-                    src={portfolio.image}
-                    alt={portfolio.title}
-                    width={1280}
-                    height={720}
-                    quality={100}
-                    className="rounded-lg"
-                  />
-                </div>
-              )}
-            </header>
-            <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
-              described in depth
-            </main>
-          </article>
-        )
-      })}
+      <section className="mx-auto max-w-screen-lg lg:mt-14 md:mt-8 mt-3 mb-16">
+        <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold leading-tighter">
+          Gold Star Developer Portfolios
+        </h1>
+        <section className="grid grid-cols-2 gap-x-8 lg:gap-x-12 mt-12 gap-y-6 lg:gap-y-8">
+          {portfolios.map((portfolio: any) => {
+            return (
+              <article className="mx-auto max-w-screen-md">
+                <header>
+                  <h2 className="max-w-screen-md lg:text-2xl md:text-2xl sm:text-xl text-xl w-full font-regular mb-4 lg:mb-6 leading-tighter">
+                    <Link href={`${url}/${portfolio.slug}`}>
+                      {portfolio.title}
+                    </Link>
+                  </h2>
+                  {portfolio.image && (
+                    <div className="mt-4 rounded border-solid border border-gray-200">
+                      <Image
+                        src={portfolio.image}
+                        alt={portfolio.title}
+                        width={1280}
+                        height={720}
+                        quality={100}
+                        className=""
+                      />
+                    </div>
+                  )}
+                </header>
+                <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
+                  <p>{portfolio.description}</p>
+                </main>
+              </article>
+            )
+          })}
+        </section>
+      </section>
     </>
   )
 }

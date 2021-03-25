@@ -27,7 +27,7 @@ const Portfolio = (props: any) => {
     <>
       <NextSeo
         title={title}
-        description={''}
+        description={description}
         openGraph={{
           title: title,
           description: '',
@@ -48,9 +48,9 @@ const Portfolio = (props: any) => {
       />
       <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-16">
         <header>
-          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+          <h2 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
             {title}
-          </h1>
+          </h2>
           {image && (
             <div className="mt-4">
               <Image
@@ -65,7 +65,7 @@ const Portfolio = (props: any) => {
           )}
         </header>
         <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
-          described in depth
+          {description}
         </main>
       </article>
     </>
