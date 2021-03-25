@@ -65,7 +65,7 @@
     "facepaint": "^1.2.1",
     "focus-visible": "^5.2.0",
     "formik": "^2.2.6",
-    "framer-motion": "^3.3.0",
+    "framer-motion": "^4.0.0",
     "friendly-time": "^1.1.1",
     "got": "^11.8.2",
     "graphql": "^15.5.0",
