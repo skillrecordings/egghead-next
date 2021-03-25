@@ -5446,6 +5446,20 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
+"@tailwindcss/jit@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/jit/-/jit-0.1.7.tgz#9916a53e13937346912285faaea05d151d12f1e2"
+  integrity sha512-v2TtFXvecPQ105ko2aaXp26VMtaBudpwB0039rxYy/yg6c34IX91HAmOEuotUwcwNvSW6I97YtzNg9ps3blr0A==
+  dependencies:
+    chokidar "^3.5.1"
+    dlv "^1.1.3"
+    fast-glob "^3.2.5"
+    lodash.topath "^4.5.2"
+    normalize-path "^3.0.0"
+    object-hash "^2.1.1"
+    postcss-selector-parser "^6.0.4"
+    quick-lru "^5.1.1"
+
 "@tailwindcss/typography@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@tailwindcss/typography/-/typography-0.2.0.tgz#b597c83502e3c3c6641a8aaabda223cd494ab349"
@@ -8452,7 +8466,7 @@ check-more-types@2.24.0, check-more-types@^2.24.0:
   resolved "https://registry.yarnpkg.com/check-more-types/-/check-more-types-2.24.0.tgz#1420ffb10fd444dcfc79b43891bbfffd32a84600"
   integrity sha1-FCD/sQ/URNz8ebQ4kbv//TKoRgA=
 
-chokidar@3.5.1:
+chokidar@3.5.1, chokidar@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
   integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
@@ -9874,6 +9888,11 @@ discord.js@^12.5.1:
     tweetnacl "^1.0.3"
     ws "^7.3.1"
 
+dlv@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
+  integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
+
 doctrine@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
@@ -11083,6 +11102,18 @@ fast-glob@^3.1.1:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.4.tgz#d20aefbf99579383e7f3cc66529158c9b98554d3"
   integrity sha512-kr/Oo6PX51265qeuCYsyGypiO5uJFgBS0jksyG7FUeCyQzNwYnzrNIMR1NXfkZXsMYXYLRAHgISHBz8gQcxKHQ==
+  dependencies:
+    "@nodelib/fs.stat" "^2.0.2"
+    "@nodelib/fs.walk" "^1.2.3"
+    glob-parent "^5.1.0"
+    merge2 "^1.3.0"
+    micromatch "^4.0.2"
+    picomatch "^2.2.1"
+
+fast-glob@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.5.tgz#7939af2a656de79a4f1901903ee8adcaa7cb9661"
+  integrity sha512-2DtFcgT68wiTTiwZ2hNdJfcHNke9XOfnwmBRWXhmeKM8rF0TGwmC/Qto3S7RoZKp5cilZbxzO5iTNTQsJ+EeDg==
   dependencies:
     "@nodelib/fs.stat" "^2.0.2"
     "@nodelib/fs.walk" "^1.2.3"
@@ -14401,6 +14432,11 @@ lodash.toarray@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
   integrity sha1-JMS/zWsvuji/0FlNsRedjptlZWE=
+
+lodash.topath@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/lodash.topath/-/lodash.topath-4.5.2.tgz#3616351f3bba61994a0931989660bd03254fd009"
+  integrity sha1-NhY1Hzu6YZlKCTGYlmC9AyVP0Ak=
 
 lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   version "4.5.0"

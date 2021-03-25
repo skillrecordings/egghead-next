@@ -147,13 +147,6 @@ module.exports = {
       },
     },
   },
-  variants: {
-    margin: ['responsive', 'first', 'last'],
-    padding: ['responsive', 'first', 'last'],
-    scale: ['hover', 'group-hover'],
-    borderOpacity: ['dark'],
-    typography: ['dark', 'responsive'],
-  },
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/ui'),
