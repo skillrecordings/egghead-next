@@ -30,6 +30,8 @@ const normalizeTeamData = (viewer: any): TeamData | undefined => {
       numberOfMembers: members.length,
       capacity: viewer.team.user_limit,
       isFull: viewer.team.user_limit <= members.length,
+      accountSlug: undefined,
+      stripeCustomerId: undefined,
     }
   } else if (!isEmpty(viewer?.team_accounts)) {
     // Team Account that this user is an Owner of
