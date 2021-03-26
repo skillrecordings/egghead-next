@@ -14,7 +14,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
     <>
       <section className="mx-auto max-w-screen-lg lg:mt-14 md:mt-8 mt-3 mb-16">
         <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold leading-tighter">
-          Gold Star Developer Portfolios
+          Examples of Good Developer Portfolios
         </h1>
         <section className="grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 mt-12">
           {portfolios.map((portfolio: any) => {
