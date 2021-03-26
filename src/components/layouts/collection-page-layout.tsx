@@ -680,14 +680,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {multiModuleCourse ? (
                 <ul className="relative">
                   <div
-                    className="bg-gray-200 dark:bg-gray-700 absolute"
+                    className="bg-gray-200 dark:bg-gray-700 absolute left-[79px] w-[1px] top-[8%] z-0"
                     // @ts-ignore
                     css={{
-                      left: '79px',
-                      width: '1px',
                       height: multiModuleLineheight,
-                      top: '8%',
-                      zIndex: '0',
                     }}
                   ></div>
                   {playlists.map((course: any) => {
