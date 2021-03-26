@@ -16,7 +16,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
         <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold leading-tighter">
           Gold Star Developer Portfolios
         </h1>
-        <section className="grid grid-cols-2 gap-x-8 lg:gap-x-12 mt-12 gap-y-6 lg:gap-y-8">
+        <section className="grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-5 mt-12">
           {portfolios.map((portfolio: any) => {
             return (
               <article className="mx-auto max-w-screen-md">
