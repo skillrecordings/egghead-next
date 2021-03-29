@@ -12,7 +12,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
 
   return (
     <>
-      <section className="mx-auto max-w-screen-lg lg:mt-14 md:mt-8 mt-3 mb-16">
+      <section className="mx-auto max-w-screen-xl lg:mt-14 md:mt-8 mt-3 mb-16">
         <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold leading-tighter">
           Great Developer Portfolios
         </h1>
@@ -20,41 +20,34 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
           We've gathered up a bunch of portfolios we think are great examples of
           how to present yourself and your work.
         </h2>
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-16">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {portfolios.map((portfolio: any) => {
             return (
-              <article className="mx-auto max-w-screen-md mb-6">
-                <header>
+              <article className="mx-auto max-w-screen-md">
+                <section className="rounded-md border border-gray-200 shadow-sm hover:shadow-md  text-gray-700 hover:text-blue-700 transition duration-200">
                   {portfolio.image && (
                     <a href={`${url}/${portfolio.slug}`}>
-                      <div className="mt-4 rounded-md border border-gray-200 hover:translate-y-3 hover:shadow transition duration-200">
-                        <Image
-                          src={portfolio.image}
-                          alt={portfolio.title}
-                          width={1280}
-                          height={810}
-                          quality={100}
-                          className="rounded-md"
-                        />
-                      </div>
+                      <Image
+                        src={portfolio.image}
+                        alt={portfolio.title}
+                        width={1280}
+                        height={810}
+                        quality={100}
+                        className="rounded-t-md"
+                      />
                     </a>
                   )}
-                  <section className="flex mt-4">
-                    <h2 className="flex-grow max-w-screen-md lg:text-xl md:text-xl sm:text-lg text-lg w-full font-regular leading-tighter text-gray-700 hover:text-blue-700 transition duration-200">
+                  <section className="flex flex-col mt-3 p-4 pt-0 ">
+                    <h2 className="max-w-screen-md lg:text-xl md:text-xl sm:text-lg text-lg w-full font-semibold leading-tighter">
                       <Link href={`${url}/${portfolio.slug}`}>
                         {portfolio.title}
                       </Link>
                     </h2>
-                    <div className="flex flex-col items-end">
-                      <p className="text-base text-gray-500">
-                        <Link href={portfolio.url}>{portfolio.url}</Link>
-                      </p>
-                      <p className="text-gray-500">
-                        <Link href={`${url}/${portfolio.slug}`}>See more</Link>
-                      </p>
-                    </div>
+                    <p className="pt-1 text-xs mb-1 mt-2 text-gray-400 hover:text-gray-500 transition">
+                      <Link href={portfolio.url}>{portfolio.url}</Link>
+                    </p>
                   </section>
-                </header>
+                </section>
               </article>
             )
           })}
@@ -68,8 +61,7 @@ const query = groq`*[_type == "resource" && type == 'portfolio']{
   "slug": slug.current,
   image,
   title,
-  url,
-  description
+  url
 }`
 
 export async function getStaticProps(context: any) {
