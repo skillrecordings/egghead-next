@@ -6,6 +6,7 @@ import renderToString from 'next-mdx-remote/render-to-string'
 import Image from 'next/image'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 
 const Portfolio = (props: any) => {
   const {title = 'Missing title', image, description = ''} = props
@@ -46,20 +47,25 @@ const Portfolio = (props: any) => {
         }}
         canonical={canonicalUrl}
       />
-      <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-16">
+      <article className="mx-auto max-w-screen-lg lg:mt-14 md:mt-8 mt-3 mb-16">
         <header>
-          <h2 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+          <p className="mb-10 text-gray-400">
+            <Link href="/great-developer-portfolios">
+              Back to all portfolios
+            </Link>
+          </p>
+          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-bold mb-8 lg:mb-10 leading-tighter">
             {title}
-          </h2>
+          </h1>
           {image && (
             <div className="mt-4">
               <Image
                 src={image}
                 alt={title}
                 width={1280}
-                height={720}
+                height={810}
                 quality={100}
-                className="rounded-lg"
+                className="rounded-md"
               />
             </div>
           )}
