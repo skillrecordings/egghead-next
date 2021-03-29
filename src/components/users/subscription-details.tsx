@@ -3,6 +3,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import {useViewer} from 'context/viewer-context'
+import get from 'lodash/get'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -44,13 +45,18 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
   }, [stripeCustomerId, slug])
 
   const subscriptionName = subscriptionData && subscriptionData.product?.name
+  const subscriptionUnitAmount = get(
+    subscriptionData,
+    'latestInvoice.amount_due',
+    subscriptionData?.price?.unit_amount,
+  )
   const subscriptionPrice =
     subscriptionData?.price &&
     new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: subscriptionData.price.currency,
       minimumFractionDigits: 0,
-    }).format(subscriptionData.price.unit_amount / 100)
+    }).format(subscriptionUnitAmount / 100)
 
   return (
     <>

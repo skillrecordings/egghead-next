@@ -136,8 +136,8 @@ const EmailForm: FunctionComponent<LoginFormProps> = ({
                 We've got it.
               </h3>
               <p className="text-gray-600">
-                We will be checking response regularly and will reach out via
-                email to chat.
+                We check for responses regularly and will reach out over email
+                to chat.
               </p>
             </div>
           )}

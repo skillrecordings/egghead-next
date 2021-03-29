@@ -108,6 +108,10 @@ export default {
             title: 'talk',
             value: 'talk',
           },
+          {
+            title: 'portfolio',
+            value: 'portfolio',
+          },
         ],
       },
     },
@@ -362,6 +366,10 @@ export default {
           type: 'reference',
           title: 'Resources Refs',
           to: [{type: 'resource'}],
+        },
+        {
+          type: 'post',
+          title: 'Blog Post',
         },
       ],
     },

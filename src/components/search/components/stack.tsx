@@ -13,7 +13,8 @@ type StackProps = {
 }
 
 const StackResourceItem = ({slug, type}: StackResource) => {
-  let loader
+  // const loader = loadLesson
+  let loader = null
   switch (type) {
     case 'lesson':
       loader = loadLesson
