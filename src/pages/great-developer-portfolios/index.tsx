@@ -18,7 +18,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
         </h1>
         <h2 className="text-lg mt-6 text-gray-700">
           We've gathered up a bunch of portfolios we think are great examples of
-          how to present yourself and your work.
+          how to present your work.
         </h2>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {portfolios.map((portfolio: any) => {
@@ -37,13 +37,13 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
                       />
                     </a>
                   )}
-                  <section className="flex flex-col mt-3 p-4 pt-0 ">
+                  <section className="flex flex-col mt-3 pl-5 pb-5">
                     <h2 className="max-w-screen-md lg:text-xl md:text-xl sm:text-lg text-lg w-full font-semibold leading-tighter">
                       <Link href={`${url}/${portfolio.slug}`}>
                         {portfolio.title}
                       </Link>
                     </h2>
-                    <p className="pt-1 text-xs mb-1 mt-2 text-gray-400 hover:text-gray-500 transition">
+                    <p className="text-xs mt-2 text-gray-400 hover:text-gray-500 transition">
                       <Link href={portfolio.url}>{portfolio.url}</Link>
                     </p>
                   </section>
