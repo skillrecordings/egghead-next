@@ -20,7 +20,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
           We've gathered up a bunch of portfolios we think are great examples of
           how to present your work.
         </h2>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-20">
           {portfolios.map((portfolio: any) => {
             return (
               <article className="mx-auto max-w-screen-md">
@@ -46,6 +46,10 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
                     <p className="text-xs mt-2 text-gray-400 hover:text-gray-500 transition">
                       <Link href={portfolio.url}>{portfolio.url}</Link>
                     </p>
+                    {portfolio.tags &&
+                      portfolio.tags.map((tag: any) => {
+                        return <p>{tag.label}</p>
+                      })}
                   </section>
                 </section>
               </article>
@@ -61,7 +65,8 @@ const query = groq`*[_type == "resource" && type == 'portfolio']{
   "slug": slug.current,
   image,
   title,
-  url
+  url,
+  tags
 }`
 
 export async function getStaticProps(context: any) {
