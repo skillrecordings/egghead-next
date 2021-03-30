@@ -4,6 +4,7 @@ import {sanityClient} from 'utils/sanity-client'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import {sortBy} from 'lodash'
 
 const Portfolio: React.FC<{portfolios: any}> = (props) => {
   const {portfolios} = props
@@ -21,7 +22,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
           how to present your work.
         </h2>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-20">
-          {portfolios.map((portfolio: any) => {
+          {sortBy(portfolios, 'title', 'asc').map((portfolio: any) => {
             return (
               <article className="mx-auto max-w-screen-md">
                 <section className="rounded-md border border-gray-200 shadow-sm hover:shadow-md  text-gray-700 hover:text-blue-700 transition duration-200">
@@ -46,10 +47,16 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
                     <p className="text-xs mt-2 text-gray-400 hover:text-gray-500 transition">
                       <Link href={portfolio.url}>{portfolio.url}</Link>
                     </p>
-                    {portfolio.tags &&
-                      portfolio.tags.map((tag: any) => {
-                        return <p>{tag.label}</p>
-                      })}
+                    <div className="flex flex-wrap mt-2">
+                      {portfolio.tags &&
+                        portfolio.tags.map((tag: any) => {
+                          return (
+                            <div className="items-center capitalize rounded-full mt-2 py-1 px-3 mr-2 bg-blue-100 text-blue-500 text-xs">
+                              {tag.label}
+                            </div>
+                          )
+                        })}
+                    </div>
                   </section>
                 </section>
               </article>
