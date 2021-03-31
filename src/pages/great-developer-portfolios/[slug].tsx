@@ -14,8 +14,8 @@ import prettifyUrl from 'utils/prettify-url'
 const Portfolio = (props: any) => {
   const {title, image, url, description = ''} = props
 
-  // there's no `body` field or similar with MDX content in sanity
-  // so I commented out mdx stuff and used plain description markdown for now
+  // there's no `body` field or similar with MDX content in Sanity,
+  // so MDX stuff is commented out and we're using description field as plain markdown for now
   const content = description // useHydrate(body, {components: mdxComponents})
 
   const defaultOgImage: string = `https://og-image-react-egghead.now.sh/article/${encodeURIComponent(
