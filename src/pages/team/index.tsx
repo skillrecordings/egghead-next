@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useViewer} from '../../context/viewer-context'
 import LoginRequired from '../../components/login-required'
@@ -8,6 +9,8 @@ import useClipboard from 'react-use-clipboard'
 import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import {track} from 'utils/analytics'
+import {loadTeams} from 'lib/teams'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 interface TeamData {
   inviteUrl: string
@@ -143,7 +146,8 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
   )
 }
 
-const Team = () => {
+// TODO: Ideally team will eventually be typeable as TeamData.
+const Team = ({team}: {team: any}) => {
   const {viewer, loading} = useViewer()
   const router = useRouter()
 
@@ -155,6 +159,11 @@ const Team = () => {
       router.push('/')
     }
   }, [loading, teamDataAvailable])
+
+  // TODO: This munging of sources to find members is temporary. The concept of
+  // a Team is spread across Accounts and ManagedSubs, one coming from GraphQL
+  // and the other coming from the viewer payload.
+  const members = team.members || teamData?.members || []
 
   return (
     <LoginRequired>
@@ -181,11 +190,27 @@ const Team = () => {
           <h3>
             Current Team Members <TeamComposition teamData={teamData} />
           </h3>
-          <ul>
-            {teamData.members.map((member: any) => {
-              return <li key={member.email}>{member.email}</li>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role(s)</th>
+              <th>Date Added</th>
+            </tr>
+            {members.map((member: any, i: number) => {
+              return (
+                <tr
+                  key={member.id || member.email}
+                  className={i % 2 === 0 ? 'bg-gray-100' : ''}
+                >
+                  <td>{member.name}</td>
+                  <td>{member.email}</td>
+                  <td>{member.roles.join(', ')}</td>
+                  <td>{member.date_added}</td>
+                </tr>
+              )
             })}
-          </ul>
+          </table>
         </div>
       )}
     </LoginRequired>
@@ -244,5 +269,21 @@ const IconLink: FunctionComponent<{className?: string}> = ({
     />
   </svg>
 )
+
+export const getServerSideProps: GetServerSideProps = async function (
+  context: any,
+) {
+  const {eggheadToken} = getTokenFromCookieHeaders(
+    context.req.headers.cookie as string,
+  )
+
+  const {data: teams} = await loadTeams(eggheadToken)
+
+  return {
+    props: {
+      team: teams[0],
+    },
+  }
+}
 
 export default Team
