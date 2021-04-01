@@ -1,8 +1,29 @@
 const homepageData = [
   {
     id: 'jumbotron',
+    title: 'React State Management in 2021',
+    byline: 'fresh resource',
+    description: `A series of interviews with experts, open-source maintainers, and UI developers that have combined decades of experience building stateful UI applications for millions of users.`,
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617263084/next.egghead.io/resources/state-management-in-2021/state_management_2x.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617266919/next.egghead.io/resources/state-management-in-2021/background-react-state-management-in-2021_2x.png',
+    path: '/courses/react-state-management-in-2021-6732',
+    slug: 'react-state-management-in-2021-6732',
+    instructor: {
+      name: 'Joel Hooks',
+      slug: 'joel-hooks',
+      path: '/q/resources-by-joel-hooks',
+      twitter: 'jhooks',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/003/square_128/joel_head.jpg',
+    },
+  },
+  {
+    id: 'modern-layouts-with-css-grid',
     title: 'Build Modern Layouts with CSS Grid',
-    byline: 'featured course',
+    name: 'Write modern CSS',
+    byline: 'Hiroko Nishimura・22m・Course',
     description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
