@@ -54,6 +54,9 @@ const Home: FunctionComponent = () => {
   const developerBlogWithGatsby: any = find(homepageData, {
     id: 'developer-blog-with-gatsby',
   })
+  const modernLayoutsWithCSSGrid: any = find(homepageData, {
+    id: 'modern-layouts-with-css-grid',
+  })
   const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
   const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
@@ -71,6 +74,25 @@ const Home: FunctionComponent = () => {
       })
     }
   }, [currentCourseUrl])
+
+  const ReactStateManagement = () => (
+    <Card resource={stateManagement} className="text-center">
+      <ol className="text-left">
+        {stateManagement.resources.map((resource: any, index: any) => {
+          return (
+            <li key={resource.path} className="flex space-x-2 my-2">
+              <span>{index + 1}</span>
+              <Link href={resource.path}>
+                <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                  {resource.title}
+                </a>
+              </Link>
+            </li>
+          )
+        })}
+      </ol>
+    </Card>
+  )
 
   return (
     <>
@@ -95,6 +117,8 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+
+            <CardHorizontal resource={modernLayoutsWithCSSGrid} />
 
             <CardHorizontal resource={developerBlogWithGatsby} />
 
@@ -132,24 +156,7 @@ const Home: FunctionComponent = () => {
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
             <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-
-            <Card resource={stateManagement} className="text-center">
-              <ol className="text-left">
-                {stateManagement.resources.map((resource: any, index: any) => {
-                  return (
-                    <li key={resource.path} className="flex space-x-2 my-2">
-                      <span>{index + 1}</span>
-                      <Link href={resource.path}>
-                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                          {resource.title}
-                        </a>
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ol>
-            </Card>
-
+            {/* <ReactStateManagement /> */}
             <CardVerticalWithStack data={devEssentials} />
 
             <Card resource={tailwind} className="text-center">
