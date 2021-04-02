@@ -23,7 +23,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
   } = resource
   return (
     <div
-      className="md:-mt-5 relative flex items-center justify-center bg-gray-900 dark:bg-gray-800 border-0 dark:border border-transparent dark:border-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+      className="md:-mt-5 relative flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
       css={{
         [bpMinMD]: {
           minHeight: 477,
@@ -33,7 +33,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
       {/* <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-500 to-purple-500 w-full h-2 z-20" /> */}
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full">
-          <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full">
+          <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
             <div className="flex-shrink-0">
               <Link href={path}>
                 <a
@@ -56,12 +56,12 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center w-full">
-              <h2 className="text-xs text-yellow-300 uppercase font-semibold mb-2">
+              <h2 className="text-xs text-blue-300 uppercase font-semibold mb-2">
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-300"
+                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-blue-300"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -88,7 +88,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                     className="rounded-full"
                     alt={instructor.name}
                   />
-                  <span className="group-hover:text-yellow-200">
+                  <span className="group-hover:text-blue-200">
                     {instructor.name}
                   </span>
                 </a>
@@ -97,7 +97,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                 <Markdown
                   source={description}
                   allowDangerousHtml={true}
-                  className="mt-4 text-gray-200 text-base max-w-screen-md"
+                  className="mt-4 text-gray-200 text-base max-w-screen-sm"
                 />
               )}
             </div>
