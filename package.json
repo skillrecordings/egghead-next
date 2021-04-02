@@ -46,7 +46,7 @@
     "@stripe/stripe-js": "^1.13.1",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/custom-forms": "^0.2.1",
-    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/ui": "^0.7.2",
     "@tanem/react-nprogress": "^3.0.58",
     "@types/react-scroll": "^1.8.2",
