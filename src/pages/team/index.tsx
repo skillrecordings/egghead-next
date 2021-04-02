@@ -21,22 +21,8 @@ interface TeamData {
   stripeCustomerId: string | undefined
 }
 
-const normalizeTeamData = (viewer: any, team: any): TeamData | undefined => {
-  // We are migrating away from managed subscriptions, but until that is
-  // complete, we first look for the SSR-supplied `team`. If that is missing,
-  // then we look for the viewer `team` which will be present if they have a
-  // managed subscription.
-  if (!!team) {
-    return {
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
-      members: team.members,
-      numberOfMembers: team.number_of_members,
-      capacity: team.capacity,
-      isFull: team.is_full,
-      accountSlug: team.slug,
-      stripeCustomerId: team.stripe_customer_id,
-    }
-  } else if (!!viewer?.team) {
+const normalizeTeamData = (viewer: any): TeamData | undefined => {
+  if (!!viewer?.team) {
     const members = viewer.team.members || []
 
     // Managed Subscription
@@ -144,12 +130,19 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
   )
 }
 
-// TODO: Ideally team will eventually be typeable as TeamData.
-const Team = ({team}: {team: any}) => {
+interface TeamPageProps {
+  team: TeamData | undefined
+}
+
+const Team = ({team}: TeamPageProps) => {
   const {viewer, loading} = useViewer()
   const router = useRouter()
 
-  const teamData = normalizeTeamData(viewer, team)
+  // We are migrating away from managed subscriptions, but until that is
+  // complete, we first look for the SSR-supplied `team`. If that is missing,
+  // then we look for the viewer `team` which will be present if they have a
+  // managed subscription.
+  const teamData: TeamData | undefined = team || normalizeTeamData(viewer)
   const teamDataAvailable = typeof teamData !== 'undefined'
 
   React.useEffect(() => {
@@ -263,7 +256,7 @@ const IconLink: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-export const getServerSideProps: GetServerSideProps = async function (
+export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
   context: any,
 ) {
   const {eggheadToken} = getTokenFromCookieHeaders(
@@ -271,7 +264,21 @@ export const getServerSideProps: GetServerSideProps = async function (
   )
 
   const {data: teams} = await loadTeams(eggheadToken)
-  const team = teams[0] || null
+
+  let team: TeamData | undefined
+
+  const fetchedTeam = teams[0]
+  if (fetchedTeam) {
+    team = {
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
+      members: fetchedTeam.members,
+      numberOfMembers: fetchedTeam.number_of_members,
+      capacity: fetchedTeam.capacity,
+      isFull: fetchedTeam.is_full,
+      accountSlug: fetchedTeam.slug,
+      stripeCustomerId: fetchedTeam.stripe_customer_id,
+    }
+  }
 
   return {
     props: {
