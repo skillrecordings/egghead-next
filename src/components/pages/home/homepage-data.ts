@@ -427,7 +427,7 @@ There are a number of tried and true methods that will allow you to learn more e
     name: 'Research Panel',
     title: 'React State Management in 2021',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png',
     path: '/playlists/react-state-management-in-2021-6732',
     description: '',
     resources: [
