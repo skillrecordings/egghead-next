@@ -118,7 +118,7 @@ const Home: FunctionComponent = () => {
               })}
             </div>
 
-            <CardHorizontal resource={modernLayoutsWithCSSGrid} />
+            {/* <CardHorizontal resource={modernLayoutsWithCSSGrid} /> */}
 
             <CardHorizontal resource={developerBlogWithGatsby} />
 
@@ -156,7 +156,7 @@ const Home: FunctionComponent = () => {
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
             <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-            {/* <ReactStateManagement /> */}
+            <ReactStateManagement />
             <CardVerticalWithStack data={devEssentials} />
 
             <Card resource={tailwind} className="text-center">
