@@ -6,7 +6,6 @@ import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
-import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
@@ -22,8 +21,22 @@ interface TeamData {
   stripeCustomerId: string | undefined
 }
 
-const normalizeTeamData = (viewer: any): TeamData | undefined => {
-  if (!!viewer?.team) {
+const normalizeTeamData = (viewer: any, team: any): TeamData | undefined => {
+  // We are migrating away from managed subscriptions, but until that is
+  // complete, we first look for the SSR-supplied `team`. If that is missing,
+  // then we look for the viewer `team` which will be present if they have a
+  // managed subscription.
+  if (!!team) {
+    return {
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
+      members: team.members,
+      numberOfMembers: team.number_of_members,
+      capacity: team.capacity,
+      isFull: team.is_full,
+      accountSlug: team.slug,
+      stripeCustomerId: team.stripe_customer_id,
+    }
+  } else if (!!viewer?.team) {
     const members = viewer.team.members || []
 
     // Managed Subscription
@@ -35,21 +48,6 @@ const normalizeTeamData = (viewer: any): TeamData | undefined => {
       isFull: viewer.team.user_limit <= members.length,
       accountSlug: undefined,
       stripeCustomerId: undefined,
-    }
-  } else if (!isEmpty(viewer?.team_accounts)) {
-    // Team Account that this user is an Owner of
-    // *grab the first, assuming just one team account for now
-    const team = viewer.team_accounts[0]
-    const members = team.members || []
-
-    return {
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
-      members,
-      numberOfMembers: members.length,
-      capacity: team.user_limit,
-      isFull: team.user_limit <= members.length,
-      accountSlug: team.slug,
-      stripeCustomerId: team.stripe_customer_id,
     }
   }
   // implicitly return undefined if the user doesn't have a team
@@ -151,7 +149,7 @@ const Team = ({team}: {team: any}) => {
   const {viewer, loading} = useViewer()
   const router = useRouter()
 
-  const teamData = normalizeTeamData(viewer)
+  const teamData = normalizeTeamData(viewer, team)
   const teamDataAvailable = typeof teamData !== 'undefined'
 
   React.useEffect(() => {
@@ -159,11 +157,6 @@ const Team = ({team}: {team: any}) => {
       router.push('/')
     }
   }, [loading, teamDataAvailable])
-
-  // TODO: This munging of sources to find members is temporary. The concept of
-  // a Team is spread across Accounts and ManagedSubs, one coming from GraphQL
-  // and the other coming from the viewer payload.
-  const members = team.members || teamData?.members || []
 
   return (
     <LoginRequired>
@@ -197,7 +190,7 @@ const Team = ({team}: {team: any}) => {
               <th>Role(s)</th>
               <th>Date Added</th>
             </tr>
-            {members.map((member: any, i: number) => {
+            {teamData.members.map((member: any, i: number) => {
               return (
                 <tr
                   key={member.id || member.email}
@@ -278,10 +271,11 @@ export const getServerSideProps: GetServerSideProps = async function (
   )
 
   const {data: teams} = await loadTeams(eggheadToken)
+  const team = teams[0] || null
 
   return {
     props: {
-      team: teams[0],
+      team,
     },
   }
 }

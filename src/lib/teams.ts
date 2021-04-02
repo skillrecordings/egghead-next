@@ -10,6 +10,11 @@ export async function loadTeams(token: string) {
         data {
           id
           slug
+          is_full
+          capacity
+          number_of_members
+          invite_token
+          stripe_customer_id
           members {
             id
             roles
