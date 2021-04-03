@@ -63,26 +63,22 @@ const homepageData = [
   },
   {
     id: 'video',
-    name: 'Optimize your Learning',
-    title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
-
-There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
-      `,
-    instructor: 'Ceora Ford',
-    instructor_path: '/q/resources-by-ceora-ford',
-    path:
-      '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
+    name: 'climb the engineering ladder',
+    title: 'Standing Out as A Non-Traditional Applicant',
+    description: `In this talk, we explore lessons learned from my career journey and actions you can take to make your non-traditional (or traditional) background stand out in all the best ways - no matter where you are in your career.`,
+    instructor: 'Shaundai Pearson',
+    instructor_path: '/q/resources-by-shaundai-pearson',
+    path: '/talks/egghead-standing-out-as-a-non-traditional-applicant',
     poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617473396/egghead%20talks/Shaundai_Pearson.png',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-standing-out-as-a-non-traditional-applicant-alcovuo_8/hls/egghead-standing-out-as-a-non-traditional-applicant-alcovuo_8.m3u8',
 
     dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/egghead-standing-out-as-a-non-traditional-applicant-alcovuo_8/dash/egghead-standing-out-as-a-non-traditional-applicant-alcovuo_8.mpd',
 
     subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
+      'https://app.egghead.io/api/v1/lessons/egghead-standing-out-as-a-non-traditional-applicant/subtitles',
   },
   {
     id: 'nextjsVideoApp',
