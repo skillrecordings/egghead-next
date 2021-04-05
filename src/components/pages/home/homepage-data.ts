@@ -20,6 +20,27 @@ const homepageData = [
     },
   },
   {
+    id: 'modern-layouts-with-css-grid',
+    title: 'Build Modern Layouts with CSS Grid',
+    name: 'Write modern CSS',
+    byline: 'Hiroko Nishimura・22m・Course',
+    description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615913074/egghead-next-pages/build-modern-layouts-with-css-grid/background-build-modern-layouts-with-css-grid.svg',
+    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+    slug: 'build-modern-layouts-with-css-grid-d3f5',
+    instructor: {
+      name: 'Hiroko Nishimura',
+      slug: 'hiro-nishimura',
+      path: '/q/resources-by-hiro-nishimura',
+      twitter: 'hirokonishimura',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
+    },
+  },
+  {
     id: 'developer-blog-with-gatsby',
     name: 'Start Blogging',
     title: 'Build a Developer Blog with Gatsby',
@@ -406,7 +427,7 @@ There are a number of tried and true methods that will allow you to learn more e
     name: 'Research Panel',
     title: 'React State Management in 2021',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png',
     path: '/playlists/react-state-management-in-2021-6732',
     description: '',
     resources: [

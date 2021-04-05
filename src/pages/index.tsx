@@ -11,7 +11,7 @@ const IndexPage: FunctionComponent = () => {
           images: [
             {
               url:
-                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615844448/egghead-next-pages/build-modern-layouts-with-css-grid/og-image.png',
+                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617403787/egghead-next-pages/build-modern-layouts-with-css-grid/egghead.io-alt-3_2x.png',
             },
           ],
         }}

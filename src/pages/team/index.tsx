@@ -1,13 +1,15 @@
 import * as React from 'react'
+import {GetServerSideProps} from 'next'
 import Link from 'next/link'
 import {useViewer} from '../../context/viewer-context'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
-import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import {track} from 'utils/analytics'
+import {loadTeams} from 'lib/teams'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 interface TeamData {
   inviteUrl: string
@@ -19,8 +21,22 @@ interface TeamData {
   stripeCustomerId: string | undefined
 }
 
-const normalizeTeamData = (viewer: any): TeamData | undefined => {
-  if (!!viewer?.team) {
+const normalizeTeamData = (viewer: any, team: any): TeamData | undefined => {
+  // We are migrating away from managed subscriptions, but until that is
+  // complete, we first look for the SSR-supplied `team`. If that is missing,
+  // then we look for the viewer `team` which will be present if they have a
+  // managed subscription.
+  if (!!team) {
+    return {
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
+      members: team.members,
+      numberOfMembers: team.number_of_members,
+      capacity: team.capacity,
+      isFull: team.is_full,
+      accountSlug: team.slug,
+      stripeCustomerId: team.stripe_customer_id,
+    }
+  } else if (!!viewer?.team) {
     const members = viewer.team.members || []
 
     // Managed Subscription
@@ -32,21 +48,6 @@ const normalizeTeamData = (viewer: any): TeamData | undefined => {
       isFull: viewer.team.user_limit <= members.length,
       accountSlug: undefined,
       stripeCustomerId: undefined,
-    }
-  } else if (!isEmpty(viewer?.team_accounts)) {
-    // Team Account that this user is an Owner of
-    // *grab the first, assuming just one team account for now
-    const team = viewer.team_accounts[0]
-    const members = team.members || []
-
-    return {
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
-      members,
-      numberOfMembers: members.length,
-      capacity: team.user_limit,
-      isFull: team.user_limit <= members.length,
-      accountSlug: team.slug,
-      stripeCustomerId: team.stripe_customer_id,
     }
   }
   // implicitly return undefined if the user doesn't have a team
@@ -143,11 +144,12 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
   )
 }
 
-const Team = () => {
+// TODO: Ideally team will eventually be typeable as TeamData.
+const Team = ({team}: {team: any}) => {
   const {viewer, loading} = useViewer()
   const router = useRouter()
 
-  const teamData = normalizeTeamData(viewer)
+  const teamData = normalizeTeamData(viewer, team)
   const teamDataAvailable = typeof teamData !== 'undefined'
 
   React.useEffect(() => {
@@ -181,11 +183,27 @@ const Team = () => {
           <h3>
             Current Team Members <TeamComposition teamData={teamData} />
           </h3>
-          <ul>
-            {teamData.members.map((member: any) => {
-              return <li key={member.email}>{member.email}</li>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role(s)</th>
+              <th>Date Added</th>
+            </tr>
+            {teamData.members.map((member: any, i: number) => {
+              return (
+                <tr
+                  key={member.id || member.email}
+                  className={i % 2 === 0 ? 'bg-gray-100' : ''}
+                >
+                  <td>{member.name}</td>
+                  <td>{member.email}</td>
+                  <td>{member.roles.join(', ')}</td>
+                  <td>{member.date_added}</td>
+                </tr>
+              )
             })}
-          </ul>
+          </table>
         </div>
       )}
     </LoginRequired>
@@ -244,5 +262,22 @@ const IconLink: FunctionComponent<{className?: string}> = ({
     />
   </svg>
 )
+
+export const getServerSideProps: GetServerSideProps = async function (
+  context: any,
+) {
+  const {eggheadToken} = getTokenFromCookieHeaders(
+    context.req.headers.cookie as string,
+  )
+
+  const {data: teams} = await loadTeams(eggheadToken)
+  const team = teams[0] || null
+
+  return {
+    props: {
+      team,
+    },
+  }
+}
 
 export default Team
