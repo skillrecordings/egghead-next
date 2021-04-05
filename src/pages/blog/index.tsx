@@ -6,16 +6,11 @@ import {sanityClient} from 'utils/sanity-client'
 import {find} from 'lodash'
 
 const Blog: React.FC = (allArticles: any) => {
-  const JavaScript: any = find(allArticles, {categories: 'JavaScript'})
-
-  console.log(JavaScript)
-
   return (
     <div className="mx-auto max-w-screen-lg lg:py-16 py-10">
       <h1 className="md:text-4xl text-2xl text-center font-bold pb-16">
         Articles
       </h1>
-      {JavaScript}
       <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-8">
         {allArticles.allArticles.map((article: any) => {
           const fullSlug = `/blog/${article.slug.current}`
@@ -92,8 +87,6 @@ const allArticlesQuery = groq`
   title,
   slug,
   coverImage,
-  seo,
-  "author": authors[][0].author->
 }
 `
 
