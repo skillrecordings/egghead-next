@@ -112,6 +112,16 @@ const learnRoutes = [
     destination: `/blog/utility-first-tailwind-css-with-sam-selikoff`,
     permanent: true,
   },
+  {
+    source: `/learn/understanding-by-design`,
+    destination: `/blog/understanding-by-design-in-a-nutshell`,
+    permanent: true,
+  },
+  {
+    source: `/learn/understanding-by-design/performance-task-patterns`,
+    destination: `/blog/performance-task-patterns`,
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [
