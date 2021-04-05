@@ -107,6 +107,11 @@ const learnRoutes = [
     destination: `/blog/object-pool-design-pattern`,
     permanent: true,
   },
+  {
+    source: `/learn/tailwind/utility-css-with-tailwind-sam-selikoff`,
+    destination: `/blog/utility-first-tailwind-css-with-sam-selikoff`,
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [
