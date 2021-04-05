@@ -48,8 +48,7 @@ const articles = [
     ogImage: {
       url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612166442/egghead-next-ebombs/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity/system-illustration-ogImage.png`,
     },
-    path:
-      '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+    path: '/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity',
   },
   {
     title: `Product Images That Don't Byte with the Next.js Image Component`,
@@ -81,8 +80,7 @@ const articles = [
     ogImage: {
       url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613465778/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/product-images-ecommerce-article-ogImage.png`,
     },
-    path:
-      '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
+    path: '/blog/product-images-that-dont-byte-with-the-nextjs-image-component',
   },
   {
     title: `Codemods with Babel Plugins`,

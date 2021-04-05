@@ -92,6 +92,21 @@ const learnRoutes = [
     destination: '/blog/handling-copy-and-paste-in-cypress',
     permanent: true,
   },
+  {
+    source: `/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity`,
+    destination: `/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
+    permanent: true,
+  },
+  {
+    source: `/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component`,
+    destination: `/blog/product-images-that-dont-byte-with-the-nextjs-image-component`,
+    permanent: true,
+  },
+  {
+    source: `/learn/javascript/improve-performance-with-the-object-pool-design-pattern-in-javascript`,
+    destination: `/blog/object-pool-design-pattern`,
+    permanent: true,
+  },
 ]
 
 const instructorRoutes = [
