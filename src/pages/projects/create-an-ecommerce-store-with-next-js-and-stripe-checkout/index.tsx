@@ -71,14 +71,14 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
         description: `Having the ability to build an online store opens up a ton of possibilities, whether you’re building that store for a new client to pay the bills or you’re trying to start your own business. In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity`,
         name: `manage product inventory`,
         image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613432463/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/build-cms-e-commerce-article_2x.png`,
-        path: `/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity`,
+        path: `/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
       },
       {
         title: `Product Images That Don't Byte with the Next.js Image Component`,
         name: `Build high-performance ecommerce sites`,
         description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
         image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613454662/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/product-images-ecommerce-article_2x.png`,
-        path: `/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component`,
+        path: `/blog/product-images-that-dont-byte-with-the-nextjs-image-component`,
       },
     ],
     video: {

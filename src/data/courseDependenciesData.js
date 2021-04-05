@@ -1248,7 +1248,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               "Product Images That Don't Byte with the Next.js Image Component",
             byline: 'Colby Fayock・Article',
             path:
-              '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
+              '/blog/product-images-that-dont-byte-with-the-nextjs-image-component',
             slug:
               'product-images-that-dont-byte-with-the-nextjs-image-component',
             description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
@@ -1257,8 +1257,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
             title:
               'Build a Content Management System for an E-commerce Store with Next.js and Sanity',
             byline: 'Colby Fayock・Article',
-            path:
-              '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+            path: '/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity',
             slug:
               'build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
             description: `In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,
