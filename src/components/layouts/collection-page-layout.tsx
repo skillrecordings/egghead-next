@@ -185,7 +185,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     multiModuleLineheight,
   } = courseDependencies
 
-  console.log('course:', course)
   const {
     title,
     image_thumb_url,
@@ -226,8 +225,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const coursePrerequisites = !isEmpty(sanityPrerequisites)
     ? sanityPrerequisites
     : prerequisites
-
-  console.log({courseTopics}, {topics})
 
   const podcast = first(
     course?.items?.filter((item: any) => item.type === 'podcast'),
