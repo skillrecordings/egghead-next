@@ -24,27 +24,6 @@ export interface TeamData {
   stripeCustomerId: string | undefined
 }
 
-// TODO: Remove this: all ManagedSubs are migrated
-const normalizeTeamData = (viewer: any): TeamData | undefined => {
-  if (!!viewer?.team) {
-    const members = viewer.team.members || []
-
-    // Managed Subscription
-    return {
-      accountId: 0,
-      name: '',
-      inviteUrl: viewer.team.invite_url,
-      members: members,
-      numberOfMembers: members.length,
-      capacity: viewer.team.user_limit,
-      isFull: viewer.team.user_limit <= members.length,
-      accountSlug: undefined,
-      stripeCustomerId: undefined,
-    }
-  }
-  // implicitly return undefined if the user doesn't have a team
-}
-
 const TeamComposition = ({teamData}: {teamData: TeamData}) => {
   const {numberOfMembers, capacity} = teamData
 
@@ -140,15 +119,10 @@ interface TeamPageProps {
   team: TeamData | undefined
 }
 
-const Team = ({team}: TeamPageProps) => {
-  const {viewer, loading} = useViewer()
+const Team = ({team: teamData}: TeamPageProps) => {
+  const {loading} = useViewer()
   const router = useRouter()
 
-  // We are migrating away from managed subscriptions, but until that is
-  // complete, we first look for the SSR-supplied `team`. If that is missing,
-  // then we look for the viewer `team` which will be present if they have a
-  // managed subscription.
-  const teamData: TeamData | undefined = team || normalizeTeamData(viewer)
   const teamDataAvailable = typeof teamData !== 'undefined'
 
   React.useEffect(() => {
