@@ -19,6 +19,7 @@ import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
 
 const Home: FunctionComponent = () => {
+  const location = 'home landing'
   const {viewer, loading} = useViewer()
   const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
   const currentCourseUrl = viewer?.current_course?.url
@@ -51,21 +52,17 @@ const Home: FunctionComponent = () => {
   const wordpressWithGraphql: any = find(homepageData, {
     id: 'cms',
   })
-  const developerBlogWithGatsby: any = find(homepageData, {
-    id: 'developer-blog-with-gatsby',
-  })
   const modernLayoutsWithCSSGrid: any = find(homepageData, {
     id: 'modern-layouts-with-css-grid',
   })
-  const reactTeams: any = find(homepageData, {id: 'reactTeams'})
   const tailwind: any = find(homepageData, {id: 'tailwind'})
-  const advancedCourse: any = find(homepageData, {id: 'advancedCourse'})
-  const security: any = find(homepageData, {id: 'security'})
   const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
-  const portfolioBlog: any = find(homepageData, {id: 'portfolioBlog'})
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
   const ecommerce: any = find(homepageData, {id: 'ecommerce'})
+  const digitalGardeningFeatured: any = find(homepageData, {
+    id: 'digital-gardening-featured',
+  })
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -120,13 +117,62 @@ const Home: FunctionComponent = () => {
 
             {/* <CardHorizontal resource={modernLayoutsWithCSSGrid} /> */}
 
-            <CardHorizontal resource={developerBlogWithGatsby} />
+            <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+              <div className="col-span-12 space-y-5">
+                <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={
+                        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                      }
+                      alt="illustration for Digital Gardening for Developers "
+                      width={222}
+                      height={273}
+                      quality={100}
+                    />
+                  </div>
+                  <div className="max-w-screen-sm space-y-3">
+                    <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                      Digital Gardening for Developers
+                    </h1>
 
-            <CardHorizontal resource={projectFeatureCardVideoApp} />
-
-            <CardHorizontal resource={wordpressWithGraphql} />
-
-            <CardHorizontal resource={portfolioProject} />
+                    <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
+                      <p>
+                        Success in software development requires deeply layered,
+                        high-value communication. If you are serious about
+                        making an impact in your coding career, you should get
+                        good at writing words as well as code. This an
+                        agreed-upon quality for developers. And it all starts
+                        with having your own digital garden.
+                      </p>
+                      <blockquote>
+                        The phrase "digital garden" is a metaphor for thinking
+                        about writing and creating that focuses less on the
+                        resulting "showpiece" and more on the process, care, and
+                        craft it takes to get there. &mdash;{' '}
+                        <a href="https://joelhooks.com/digital-garden">
+                          Joel Hooks
+                        </a>
+                      </blockquote>
+                    </div>
+                  </div>
+                </header>
+                <div>
+                  <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+                    {digitalGardeningFeatured.resources.map((resource: any) => {
+                      return (
+                        <Card
+                          className="col-span-4 text-center"
+                          key={resource.path}
+                          resource={resource}
+                          location={location}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </section>
 
             <CardHorizontal resource={ecommerce} />
             <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
@@ -136,7 +182,6 @@ const Home: FunctionComponent = () => {
                 memberTitle="Must Watch"
               />
             </div>
-            <CardHorizontal resource={portfolioBlog} />
 
             <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
               <Card resource={accessibleApps} className="h-full text-center">
@@ -150,9 +195,11 @@ const Home: FunctionComponent = () => {
               </Card>
             </div>
 
-            <CardHorizontal resource={security} />
-            <CardHorizontal resource={advancedCourse} />
-            <CardHorizontal resource={reactTeams} />
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
+
+            <CardHorizontal resource={wordpressWithGraphql} />
+
+            <CardHorizontal resource={portfolioProject} />
           </div>
           <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
             <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
