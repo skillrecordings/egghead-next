@@ -1,43 +1,74 @@
 const homepageData = [
   {
+    id: 'digital-gardening-featured',
+    title: 'Featured',
+    resources: [
+      {
+        name: 'Content Authoring',
+        title: 'Creating a Digital Garden CLI with Rust',
+        byline: 'Chris Biscardi・1h 10m',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
+        path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
+      },
+      {
+        name: 'Start a Blog',
+        title: 'Build a Developer Blog with Gatsby',
+        byline: 'Laurie Barth・35m',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
+        path: '/courses/build-a-developer-blog-with-gatsby-bd96',
+      },
+      {
+        name: 'Create a Portfolio',
+        title: 'Build a site from scratch with Next.js',
+        byline: 'Tomasz Łakomy・37m',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
+        path:
+          '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+      },
+    ],
+  },
+  {
     id: 'jumbotron',
-    title: 'Declarative UIs without CSS with elm-ui',
+    title: 'Build Modern Layouts with CSS Grid',
     byline: 'featured course',
-    description: `elm-ui separates out style and layout so you leverage Elm in the way you build an interface. You'll learn how to design a UI with a declarative mindset through building a form, creating layouts, and positioning elements on the screen.`,
+    description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288976/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/background-declarative-uis-without-css-with-elm-ui.svg',
-    path: '/courses/declarative-uis-without-css-with-elm-ui-93bd',
-    slug: 'declarative-uis-without-css-with-elm-ui-93bd',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615913074/egghead-next-pages/build-modern-layouts-with-css-grid/background-build-modern-layouts-with-css-grid.svg',
+    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+    slug: 'build-modern-layouts-with-css-grid-d3f5',
     instructor: {
-      name: 'Flavio Corpa',
-      slug: 'flavio-corpa',
-      path: '/q/resources-by-flavio-corpa',
-      twitter: 'FlavioCorpa',
+      name: 'Hiroko Nishimura',
+      slug: 'hiro-nishimura',
+      path: '/q/resources-by-hiro-nishimura',
+      twitter: 'hirokonishimura',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/154/medium/avatar.jpg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
   {
-    id: 'developer-blog-with-gatsby',
-    name: 'Start Blogging',
-    title: 'Build a Developer Blog with Gatsby',
-    byline: 'Laurie Barth・35m・Course',
-    description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Throughout the course, you’ll learn how to build a blazing-fast, secure site with accessibility and SEO in mind.`,
+    id: 'modern-layouts-with-css-grid',
+    title: 'Build Modern Layouts with CSS Grid',
+    name: 'Write modern CSS',
+    byline: 'Hiroko Nishimura・22m・Course',
+    description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614667901/next.egghead.io/resources/build-a-developer-blog-with-gatsby/background-build-a-developer-blog-with-gatsby_2x.png',
-    path: '/courses/build-a-developer-blog-with-gatsby-bd96',
-    slug: 'build-a-developer-blog-with-gatsby-bd96',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615913074/egghead-next-pages/build-modern-layouts-with-css-grid/background-build-modern-layouts-with-css-grid.svg',
+    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+    slug: 'build-modern-layouts-with-css-grid-d3f5',
     instructor: {
-      name: 'Laurie Barth',
-      slug: 'laurie-barth',
-      path: '/q/resources-by-laurie-barth',
-      twitter: 'laurieontech',
+      name: 'Hiroko Nishimura',
+      slug: 'hiro-nishimura',
+      path: '/q/resources-by-hiro-nishimura',
+      twitter: 'hirokonishimura',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/281/medium/laurie_b.jpg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
   {
@@ -101,13 +132,21 @@ There are a number of tried and true methods that will allow you to learn more e
           'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
-        name: 'Ship anywhere',
-        title: 'Containerize Apps with Docker',
-        byline: 'Joel Lord ・1h 24m・Course',
+        name: 'layout design',
+        id: 'elm-ui',
+        title: 'Declarative UIs without CSS with elm-ui',
+        byline: 'Flavio Corpa ・1h 27m・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/102/full/egh_intro-to-docker.png',
-        path:
-          '/playlists/containerize-full-stack-javascript-applications-with-docker-30a8',
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
+        path: '/courses/declarative-uis-without-css-with-elm-ui-93bd',
+        instructor: {
+          name: 'Flavio Corpa',
+          slug: 'flavio-corpa',
+          path: '/q/resources-by-flavio-corpa',
+          twitter: 'FlavioCorpa',
+          image:
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/154/medium/avatar.jpg',
+        },
       },
     ],
   },
@@ -398,7 +437,7 @@ There are a number of tried and true methods that will allow you to learn more e
     name: 'Research Panel',
     title: 'React State Management in 2021',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png',
     path: '/playlists/react-state-management-in-2021-6732',
     description: '',
     resources: [
@@ -497,15 +536,6 @@ There are a number of tried and true methods that will allow you to learn more e
     ],
   },
   {
-    id: 'security',
-    name: 'Protect Your Application',
-    title: 'Web Security Essentials: MITM, CSRF, and XSS',
-    byline: 'Mike Sherov・50m・Course',
-    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png`,
-    path: '/courses/web-security-essentials-mitm-csrf-and-xss',
-    description: `Security is important, yet it is often overlooked and forgotten. In this course, you'll learn how to protect your application by learning how to attack it.`,
-  },
-  {
     id: 'accessibleReactApps',
     name: 'Accessible React Applications ',
     byline: 'Erin Doyle・1h 28m・Course',
@@ -524,18 +554,6 @@ There are a number of tried and true methods that will allow you to learn more e
     image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/055/thumb/EGH_AccessibleWeb.png`,
     path: '/courses/start-building-accessible-web-applications-today',
     slug: 'start-building-accessible-web-applications-today',
-  },
-  {
-    id: 'reactTeams',
-    name: 'Techniques and Patterns for React Teams',
-    byline: 'Juri Strumpflohner・1h 40m・Course',
-    description:
-      "On the surface, starting a project sounds easy. First you make some directories, install some dependencies, then you write some code. But there's a bit more to it than just those three steps. The type of project you're working on impacts the decisions you make.",
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
-    path: '/playlists/scale-react-development-with-nx-4038',
-    slug: 'scale-react-development-with-nx-4038',
-    title: 'Scale React Development with Nx',
   },
   {
     id: 'cms',
@@ -557,30 +575,6 @@ There are a number of tried and true methods that will allow you to learn more e
     byline: 'Kristian Freeman',
     description:
       'Create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest regional Cloudflare Location.',
-  },
-  {
-    id: 'portfolioBlog',
-    name: 'Portfolio Blog',
-    title:
-      'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
-    path:
-      '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
-    byline: 'Tomasz Łakomy',
-    description:
-      'Use cutting-edge tools and leverage the best developer experience provided by Next.js to build your developer portfolio blog.',
-  },
-  {
-    id: 'advancedCourse',
-    name: 'Mind-Expanding',
-    title: 'Composing Closures and Callbacks in JavaScript',
-    path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-    byline: 'John Lindquist',
-    description:
-      'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
   },
   {
     id: 'topics',

@@ -13,7 +13,8 @@ type StackProps = {
 }
 
 const StackResourceItem = ({slug, type}: StackResource) => {
-  let loader
+  // const loader = loadLesson
+  let loader = null
   switch (type) {
     case 'lesson':
       loader = loadLesson
@@ -27,6 +28,7 @@ const StackResourceItem = ({slug, type}: StackResource) => {
     default:
       break
   }
+
   const {data: resource} = useSWR(slug, loader)
   if (!resource) return null
   return (

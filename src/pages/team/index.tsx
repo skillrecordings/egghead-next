@@ -1,44 +1,128 @@
 import * as React from 'react'
+import {GetServerSideProps} from 'next'
+import Link from 'next/link'
 import {useViewer} from '../../context/viewer-context'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
 import useClipboard from 'react-use-clipboard'
-import isEmpty from 'lodash/isEmpty'
+import axios from 'axios'
+import {track} from 'utils/analytics'
+import {loadTeams} from 'lib/teams'
+import {getTokenFromCookieHeaders} from 'utils/auth'
+import TeamName from '../../components/team/team-name'
 
-interface TeamData {
+export interface TeamData {
+  accountId: number
+  name: string
   inviteUrl: string
   members: Array<any>
+  numberOfMembers: number
+  capacity: number
   isFull: boolean
+  accountSlug: string | undefined
+  stripeCustomerId: string | undefined
 }
 
-const normalizeTeamData = (viewer: any): TeamData | undefined => {
-  if (!!viewer?.team) {
-    // Managed Subscription
-    return {
-      inviteUrl: viewer.team.invite_url,
-      members: viewer.team.members || [],
-      isFull: viewer.team.user_limit <= viewer.team.members.length,
-    }
-  } else if (!isEmpty(viewer?.team_accounts)) {
-    // Team Account that this user is an Owner of
-    // *grab the first, assuming just one team account for now
-    const team = viewer.team_accounts[0]
+const TeamComposition = ({teamData}: {teamData: TeamData}) => {
+  const {numberOfMembers, capacity} = teamData
 
-    return {
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
-      members: team.members || [],
-      isFull: team.user_limit <= team.members.length,
-    }
+  const valid =
+    typeof numberOfMembers === 'number' &&
+    numberOfMembers > 0 &&
+    typeof capacity === 'number' &&
+    capacity > 0
+
+  if (valid) {
+    return <span>{`(${numberOfMembers}/${capacity})`}</span>
+  } else {
+    return null
   }
-  // implicitly return undefined if the user doesn't have a team
 }
 
-const Team = () => {
-  const {viewer, loading} = useViewer()
+interface SubscriptionData {
+  portalUrl: string | undefined
+}
+
+const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
+  const {accountSlug, stripeCustomerId} = teamData
+  const [
+    subscriptionData,
+    setSubscriptionData,
+  ] = React.useState<SubscriptionData>({} as SubscriptionData)
+
+  React.useEffect(() => {
+    if (stripeCustomerId) {
+      axios
+        .get(`/api/stripe/billing/session`, {
+          params: {
+            customer_id: stripeCustomerId,
+            account_slug: accountSlug,
+          },
+        })
+        .then(({data}) => {
+          if (data) {
+            setSubscriptionData(data)
+          }
+        })
+    }
+  }, [stripeCustomerId, accountSlug])
+
+  if (!teamData.isFull) {
+    return null
+  }
+
+  return (
+    <div
+      className="relative px-4 py-1 mt-4 mb-4 leading-normal text-orange-700 bg-orange-100 dark:text-orange-100 dark:bg-orange-800 rounded"
+      role="alert"
+    >
+      <span className="absolute inset-y-0 left-0 flex items-center ml-4">
+        <svg
+          className="w-6 h-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+      </span>
+      <div className="ml-8 flex flex-col space-y-2 p-2">
+        <span>
+          Your team account is full. You can add more seats to your account
+          through the Stripe Billing Portal.
+        </span>
+        {subscriptionData?.portalUrl && (
+          <Link href={subscriptionData.portalUrl}>
+            <a
+              onClick={() => {
+                track(`clicked manage membership`)
+              }}
+              className="transition-all duration-150 ease-in-out text-white font-semibold rounded-md"
+            >
+              Visit Stripe Billing Portal
+            </a>
+          </Link>
+        )}
+      </div>
+    </div>
+  )
+}
+
+interface TeamPageProps {
+  team: TeamData | undefined
+}
+
+const Team = ({team: teamData}: TeamPageProps) => {
+  const {loading} = useViewer()
   const router = useRouter()
 
-  const teamData = normalizeTeamData(viewer)
   const teamDataAvailable = typeof teamData !== 'undefined'
 
   React.useEffect(() => {
@@ -59,6 +143,8 @@ const Team = () => {
             in there. If you need direct assistance please dont hesitate to
             email <a href="mailto:support@egghead.io">support@egghead.io</a>
           </p>
+          <TeamName teamData={teamData} />
+          <h2>Team Members</h2>
           <p>Your invite link to add new team members is: </p>
           <div className="flex items-center">
             <code>{teamData.inviteUrl}</code>
@@ -68,12 +154,31 @@ const Team = () => {
               label={true}
             />
           </div>
-          <h3>Current Team Members:</h3>
-          <ul>
-            {teamData.members.map((member: any) => {
-              return <li key={member.email}>{member.email}</li>
+          <AtCapacityNotice teamData={teamData} />
+          <h3>
+            Current Team Members <TeamComposition teamData={teamData} />
+          </h3>
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role(s)</th>
+              <th>Date Added</th>
+            </tr>
+            {teamData.members.map((member: any, i: number) => {
+              return (
+                <tr
+                  key={member.id || member.email}
+                  className={i % 2 === 0 ? 'bg-gray-100' : ''}
+                >
+                  <td>{member.name}</td>
+                  <td>{member.email}</td>
+                  <td>{member.roles.join(', ')}</td>
+                  <td>{member.date_added}</td>
+                </tr>
+              )
             })}
-          </ul>
+          </table>
         </div>
       )}
     </LoginRequired>
@@ -132,5 +237,38 @@ const IconLink: FunctionComponent<{className?: string}> = ({
     />
   </svg>
 )
+
+export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
+  context: any,
+) {
+  const {eggheadToken} = getTokenFromCookieHeaders(
+    context.req.headers.cookie as string,
+  )
+
+  const {data: teams} = await loadTeams(eggheadToken)
+
+  let team: TeamData | undefined
+
+  const fetchedTeam = teams[0]
+  if (fetchedTeam) {
+    team = {
+      accountId: fetchedTeam.id,
+      name: fetchedTeam.name,
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
+      members: fetchedTeam.members,
+      numberOfMembers: fetchedTeam.number_of_members,
+      capacity: fetchedTeam.capacity,
+      isFull: fetchedTeam.is_full,
+      accountSlug: fetchedTeam.slug,
+      stripeCustomerId: fetchedTeam.stripe_customer_id,
+    }
+  }
+
+  return {
+    props: {
+      team,
+    },
+  }
+}
 
 export default Team

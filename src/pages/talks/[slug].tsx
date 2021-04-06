@@ -136,7 +136,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
       </Head>
       <div>
-        <div className="bg-black -mt-3 sm:-mt-5 sm:-mx-8 -mx-5">
+        <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
           <div
             className="w-full m-auto"
             css={{
