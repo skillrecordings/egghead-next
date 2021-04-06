@@ -10,8 +10,11 @@ import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import {getTokenFromCookieHeaders} from 'utils/auth'
+import TeamName from '../../components/team/team-name'
 
-interface TeamData {
+export interface TeamData {
+  accountId: number
+  name: string
   inviteUrl: string
   members: Array<any>
   numberOfMembers: number
@@ -21,26 +24,15 @@ interface TeamData {
   stripeCustomerId: string | undefined
 }
 
-const normalizeTeamData = (viewer: any, team: any): TeamData | undefined => {
-  // We are migrating away from managed subscriptions, but until that is
-  // complete, we first look for the SSR-supplied `team`. If that is missing,
-  // then we look for the viewer `team` which will be present if they have a
-  // managed subscription.
-  if (!!team) {
-    return {
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${team.invite_token}`,
-      members: team.members,
-      numberOfMembers: team.number_of_members,
-      capacity: team.capacity,
-      isFull: team.is_full,
-      accountSlug: team.slug,
-      stripeCustomerId: team.stripe_customer_id,
-    }
-  } else if (!!viewer?.team) {
+// TODO: Remove this: all ManagedSubs are migrated
+const normalizeTeamData = (viewer: any): TeamData | undefined => {
+  if (!!viewer?.team) {
     const members = viewer.team.members || []
 
     // Managed Subscription
     return {
+      accountId: 0,
+      name: '',
       inviteUrl: viewer.team.invite_url,
       members: members,
       numberOfMembers: members.length,
@@ -144,12 +136,19 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
   )
 }
 
-// TODO: Ideally team will eventually be typeable as TeamData.
-const Team = ({team}: {team: any}) => {
+interface TeamPageProps {
+  team: TeamData | undefined
+}
+
+const Team = ({team}: TeamPageProps) => {
   const {viewer, loading} = useViewer()
   const router = useRouter()
 
-  const teamData = normalizeTeamData(viewer, team)
+  // We are migrating away from managed subscriptions, but until that is
+  // complete, we first look for the SSR-supplied `team`. If that is missing,
+  // then we look for the viewer `team` which will be present if they have a
+  // managed subscription.
+  const teamData: TeamData | undefined = team || normalizeTeamData(viewer)
   const teamDataAvailable = typeof teamData !== 'undefined'
 
   React.useEffect(() => {
@@ -170,6 +169,8 @@ const Team = ({team}: {team: any}) => {
             in there. If you need direct assistance please dont hesitate to
             email <a href="mailto:support@egghead.io">support@egghead.io</a>
           </p>
+          <TeamName teamData={teamData} />
+          <h2>Team Members</h2>
           <p>Your invite link to add new team members is: </p>
           <div className="flex items-center">
             <code>{teamData.inviteUrl}</code>
@@ -263,7 +264,7 @@ const IconLink: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-export const getServerSideProps: GetServerSideProps = async function (
+export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
   context: any,
 ) {
   const {eggheadToken} = getTokenFromCookieHeaders(
@@ -271,7 +272,23 @@ export const getServerSideProps: GetServerSideProps = async function (
   )
 
   const {data: teams} = await loadTeams(eggheadToken)
-  const team = teams[0] || null
+
+  let team: TeamData | undefined
+
+  const fetchedTeam = teams[0]
+  if (fetchedTeam) {
+    team = {
+      accountId: fetchedTeam.id,
+      name: fetchedTeam.name,
+      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
+      members: fetchedTeam.members,
+      numberOfMembers: fetchedTeam.number_of_members,
+      capacity: fetchedTeam.capacity,
+      isFull: fetchedTeam.is_full,
+      accountSlug: fetchedTeam.slug,
+      stripeCustomerId: fetchedTeam.stripe_customer_id,
+    }
+  }
 
   return {
     props: {

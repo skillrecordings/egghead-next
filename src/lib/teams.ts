@@ -10,6 +10,7 @@ export async function loadTeams(token: string) {
         data {
           id
           slug
+          name
           is_full
           capacity
           number_of_members
