@@ -4,8 +4,16 @@ import {AUTH_DOMAIN, getAuthorizationHeader} from '../../utils/auth'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-const updateTeamName = async (name: string, accountId: number | undefined) => {
+const updateTeamName = async (
+  name: string,
+  accountId: number | undefined,
+  {
+    onSuccess = () => {},
+    onFailure = () => {},
+  }: {onSuccess: Function; onFailure: Function},
+) => {
   const errorResponse = () => {
+    onFailure()
     toast.error(
       'There was an issue updating your team name. Please contact support@egghead.io if the issue persists.',
       {
@@ -29,6 +37,8 @@ const updateTeamName = async (name: string, accountId: number | undefined) => {
       },
     )
 
+    onSuccess()
+
     toast.success('Your team name has been updated.', {
       icon: '✅',
     })
@@ -51,7 +61,9 @@ interface TeamNameProps {
 
 const TeamName = ({teamData}: TeamNameProps) => {
   const accountId: number | undefined = teamData?.accountId
-  const currentTeamName = getCurrentTeamName(teamData || {name: ''})
+  const [currentTeamName, setCurrentTeamName] = React.useState<string>(
+    getCurrentTeamName(teamData || {name: ''}),
+  )
   const [teamName, setTeamName] = React.useState<string>(currentTeamName)
   const teamNameNeedsSaving = currentTeamName !== teamName
 
@@ -75,7 +87,16 @@ const TeamName = ({teamData}: TeamNameProps) => {
                         : 'cursor-not-allowed opacity-50'
                     }`}
             type="button"
-            onClick={() => updateTeamName(teamName, accountId)}
+            onClick={() => {
+              updateTeamName(teamName, accountId, {
+                onSuccess: () => {
+                  setCurrentTeamName(teamName)
+                },
+                onFailure: () => {
+                  setTeamName(currentTeamName)
+                },
+              })
+            }}
           >
             Save
           </button>
