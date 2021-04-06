@@ -118,7 +118,7 @@ const Home: FunctionComponent = () => {
               })}
             </div>
 
-            {/* <CardHorizontal resource={modernLayoutsWithCSSGrid} /> */}
+            <CardHorizontal resource={modernLayoutsWithCSSGrid} />
 
             <CardHorizontal resource={developerBlogWithGatsby} />
 

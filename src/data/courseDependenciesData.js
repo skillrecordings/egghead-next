@@ -4,6 +4,14 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
+        id: '429801',
+        type: 'playlist',
+        guid: '34b8',
+        slug: 'creating-a-digital-garden-cli-with-rust-34b8',
+        customOgImage:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617696691/next.egghead.io/resources/digital-garden-cli-with-rust/share-card-digital-garden-cli-with-rust_2x.png',
+      },
+      {
         id: '425791',
         type: 'playlist',
         guid: '93bd',
