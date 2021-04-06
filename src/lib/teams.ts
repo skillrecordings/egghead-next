@@ -37,7 +37,6 @@ export async function loadTeams(token: string) {
 
   try {
     const {accounts} = await graphQLClient.request(query)
-    console.log({accounts})
     return accounts
   } catch (e) {
     console.error(e)
