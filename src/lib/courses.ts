@@ -8,14 +8,13 @@ const courseQuery = groq`
   description,
   summary,
   essentialQuestions[]->{
-    question 
+    question
    },
   "pairWithResources": related[]->{
     name,
     title,
     byline,
-    description,
-    summary,
+    "description": summary,
     path,
     image,
     'instructor': collaborators[]->[role == 'instructor']{
@@ -25,7 +24,7 @@ const courseQuery = groq`
 	"freshness": staffReviews[0]{
     status,
     title,
-    summary
+    "text": summary
   },
 	"customOgImage": images[label == 'og-image'][0]{
     url
@@ -53,7 +52,7 @@ const courseQuery = groq`
     items[],
 		description
   },
-	"features": content[title == 'reatures'][0]{
+	"features": content[title == 'features'][0]{
     items[],
 		description
   },
