@@ -52,7 +52,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
           </span>
         </ListboxButton>
         <ListboxPopover
-          className="dark:bg-gray-900 dark:text-white dark:border-gray-800 p-0 rounded-md shadow-md overflow-hidden"
+          className="dark:bg-gray-900 dark:text-white dark:border-gray-800 p-0 rounded-md shadow-md overflow-hidden z-10"
           style={{outline: 'none'}}
         >
           <ListboxList
@@ -76,12 +76,6 @@ const PlaybackSpeedSelect: FunctionComponent<{
                   css={{
                     ':first-child': {
                       border: 'none',
-                    },
-                    '[data-reach-listbox-option][aria-selected="true"]': {
-                      background: '#2563EB',
-                      ':hover': {
-                        background: '#2563EB',
-                      },
                     },
                   }}
                 >
