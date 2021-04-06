@@ -9,6 +9,7 @@ import ProseSection from './prose-section'
 import CheatSheet from './cheat-sheet'
 import DefaultLayout from '../../layouts'
 import CodeBlock from './code-block'
+// @ts-ignore
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 
 const mdxComponents = {
