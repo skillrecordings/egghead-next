@@ -55,7 +55,7 @@ const getCurrentTeamName = ({name}: {name: string}): string => {
   return name
 }
 
-interface TeamNameProps {
+type TeamNameProps = {
   teamData: TeamData | undefined
 }
 
