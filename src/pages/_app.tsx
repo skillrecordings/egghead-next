@@ -21,8 +21,6 @@ import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
 
-// console.log('cache: ', cache)
-
 declare global {
   interface Window {
     ahoy: any
