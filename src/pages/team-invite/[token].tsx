@@ -32,26 +32,40 @@ const handleJoinTeam = async (token: string, router: any) => {
   }
 }
 
+const TeamName = ({teamName}: {teamName: string | undefined}) => {
+  if (!teamName) {
+    return <>their team</>
+  } else {
+    return (
+      <>
+        {' '}
+        the <span className="font-bold">{teamName}</span> team
+      </>
+    )
+  }
+}
+
 const TOKEN_NOT_RECOGNIZED = 'TOKEN_NOT_RECOGNIZED'
 
-const TeamInvite: React.FunctionComponent<{
-  token: string
-  teamData: any
-}> = ({token, teamData}) => {
+const TeamInvite: React.FunctionComponent<TeamInviteProps> = ({
+  inviteToken,
+  teamName,
+  teamOwnerEmail,
+}) => {
   const {authToken, loading} = useViewer()
   const router = useRouter()
 
   const alreadySignedIn = !loading && typeof authToken === 'string'
 
   React.useEffect(() => {
-    if (token === TOKEN_NOT_RECOGNIZED) {
+    if (inviteToken === TOKEN_NOT_RECOGNIZED) {
       toast.error('This is not a recognized team invite link.', {
         duration: 6000,
         icon: '❌',
       })
       router.replace('/')
     }
-  }, [token])
+  }, [inviteToken])
 
   return (
     <section className="mb-32">
@@ -63,9 +77,10 @@ const TeamInvite: React.FunctionComponent<{
           <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-xl">
             <p className="text-center pb-4">
               You've been invited by{' '}
-              <span className="font-bold">{teamData.team_owner}</span> to join
-              their team on egghead. Click 'Join Team' to accept the invitation
-              and get full access to everything on egghead.
+              <span className="font-bold">{teamOwnerEmail}</span> to join
+              <TeamName teamName={teamName} /> on egghead. Click 'Join Team' to
+              accept the invitation and get full access to everything on
+              egghead.
             </p>
             {!alreadySignedIn && (
               <p className="text-center mb-4 p-4 bg-blue-50 dark:bg-gray-800 rounded">
@@ -89,7 +104,7 @@ const TeamInvite: React.FunctionComponent<{
                         : 'cursor-not-allowed opacity-50'
                     }`}
                 disabled={!alreadySignedIn}
-                onClick={() => handleJoinTeam(token, router)}
+                onClick={() => handleJoinTeam(inviteToken, router)}
               >
                 Join Team
               </button>
@@ -101,21 +116,46 @@ const TeamInvite: React.FunctionComponent<{
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
-  const token = params && (params.token as string)
-  const viewTeamInviteUrl = `${AUTH_DOMAIN}/api/v1/accounts/team_invite/${token}`
+interface TeamInviteProps {
+  teamOwnerEmail: string
+  teamName: string | undefined
+  inviteToken: string
+}
 
+export const getServerSideProps: GetServerSideProps<TeamInviteProps> = async ({
+  params,
+}) => {
   try {
+    const token = params && (params.token as string)
+    if (!token) {
+      throw new Error('The invite token is not defined')
+    }
+
+    const viewTeamInviteUrl = `${AUTH_DOMAIN}/api/v1/accounts/team_invite/${token}`
     const {data} = await axios.get(viewTeamInviteUrl)
+
+    let teamName = undefined
+    // All accounts were defaulted to have names of 'acc' or 'saml_acc'. We'll
+    // treat the name us `undefined` unless it has been set to something else.
+    if (data.team_name !== 'acc' && data.team_name !== 'saml_acc') {
+      teamName = data.team_name
+    }
 
     return {
       props: {
-        teamData: data,
-        token,
+        teamOwnerEmail: data.team_owner_email,
+        teamName,
+        inviteToken: token,
       },
     }
   } catch (e) {
-    return {props: {teamData: {}, token: TOKEN_NOT_RECOGNIZED}}
+    return {
+      props: {
+        teamOwnerEmail: '',
+        teamName: undefined,
+        inviteToken: TOKEN_NOT_RECOGNIZED,
+      },
+    }
   }
 }
 
