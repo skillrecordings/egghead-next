@@ -212,7 +212,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
-  console.log(ogImage)
   const relatedResources = sanityPairWithResources
     ? sanityPairWithResources
     : pairWithResources
