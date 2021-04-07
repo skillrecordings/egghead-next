@@ -4,6 +4,7 @@ import SearchJohnLindquist from './john-lindquist'
 import SearchLaurieBarth from './laurie-barth'
 import SearchFlavioCorpa from './flavio-corpa'
 import SearchHirokoNishimura from './hiroko-nishimura'
+import SearchChrisBiscardi from './chris-biscardi'
 
 const InstructorsIndex: any = {
   'dan-abramov': SearchDanAbramov,
@@ -12,6 +13,7 @@ const InstructorsIndex: any = {
   'laurie-barth': SearchLaurieBarth,
   'flavio-corpa': SearchFlavioCorpa,
   'hiro-nishimura': SearchHirokoNishimura,
+  'chris-biscardi': SearchChrisBiscardi,
 }
 
 export default InstructorsIndex

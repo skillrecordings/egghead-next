@@ -180,7 +180,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     moduleLabel,
     multiModuleSlug,
     multiModuletitle,
-    customOgImage,
     totalCourseModules,
     multiModuleLineheight,
   } = courseDependencies
@@ -200,6 +199,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
+    customOgImage,
     prerequisites: sanityPrerequisites,
     topics: sanityTopics,
     freshness: sanityFreshness,
@@ -210,7 +210,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     tags = [],
   } = course
 
-  const ogImage = customOgImage ? customOgImage : ogImageUrl
+  const ogImage = customOgImage ? customOgImage.url : ogImageUrl
+
   const relatedResources = sanityPairWithResources
     ? sanityPairWithResources
     : pairWithResources
