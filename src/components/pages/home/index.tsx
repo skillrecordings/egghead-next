@@ -101,7 +101,7 @@ const Home: FunctionComponent = () => {
             </h2>
             <a
               href="#"
-              className="inline-flex justify-center items-center px-3 rounded-md  sm:text-sm text-xs border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-3"
+              className="inline-flex justify-center items-center text-center px-3 rounded-md  sm:text-sm text-xs border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-3"
             >
               View watch history
             </a>
@@ -141,12 +141,38 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4 mt-24">
-          <FeaturedVideoCard video={video} />
-          <EventSchedule />
+        <section className="mt-24">
+          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
+            Recommended For You
+          </h2>
+          <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
+            <div className="bg-gray-200 w-full h-60" />
+            <div className="bg-gray-200 w-full h-60" />
+            <div className="bg-gray-200 w-full h-60" />
+            <div className="bg-gray-200 w-full h-60" />
+            <div className="bg-gray-200 w-full h-60" />
+          </div>
         </section>
 
-        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4 mt-6">
+        <section className="mt-24">
+          <div className="flex justify-between align-text-top">
+            <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
+              Livestreams, Talks, and Events
+            </h2>
+            <a
+              href="#"
+              className="inline-flex justify-center items-center text-center px-3 rounded-md  sm:text-sm text-xs border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-3"
+            >
+              Browse all Talks
+            </a>
+          </div>
+          <div className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
+            <FeaturedVideoCard video={video} />
+            <EventSchedule />
+          </div>
+        </section>
+
+        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4 mt-28">
           <div className="lg:col-span-8 lg:space-y-6 space-y-4">
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
