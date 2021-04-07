@@ -115,7 +115,7 @@ const Home: FunctionComponent = () => {
               })}
             </div>
 
-            {/* <CardHorizontal resource={modernLayoutsWithCSSGrid} /> */}
+            <CardHorizontal resource={modernLayoutsWithCSSGrid} />
 
             <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
               <div className="col-span-12 space-y-5">

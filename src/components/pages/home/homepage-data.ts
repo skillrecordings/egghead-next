@@ -32,22 +32,22 @@ const homepageData = [
   },
   {
     id: 'jumbotron',
-    title: 'Build Modern Layouts with CSS Grid',
-    byline: 'featured course',
-    description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
+    title: 'Create a Digital Garden CLI with Rust',
+    byline: 'new course',
+    description: `You'll work through the first command for the CLI, writing files. You start by initializing a new Cargo binary crate by creating the write command that allows you to create files (and their contents) to the folder that you set.`,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615913074/egghead-next-pages/build-modern-layouts-with-css-grid/background-build-modern-layouts-with-css-grid.svg',
-    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
-    slug: 'build-modern-layouts-with-css-grid-d3f5',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617697132/next.egghead.io/resources/digital-garden-cli-with-rust/background-digital-garden-cli-with-rust_2x.png',
+    path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
+    slug: 'creating-a-digital-garden-cli-with-rust-34b8',
     instructor: {
-      name: 'Hiroko Nishimura',
-      slug: 'hiro-nishimura',
-      path: '/q/resources-by-hiro-nishimura',
-      twitter: 'hirokonishimura',
+      name: 'Chris Biscardi',
+      slug: 'chris-biscardi',
+      path: '/q/resources-by-chris-biscardi',
+      twitter: 'chrisbiscardi',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/275/square_128/headshot_post_gym_dec_2018_500.png',
     },
   },
   {
