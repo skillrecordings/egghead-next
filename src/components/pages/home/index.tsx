@@ -93,15 +93,15 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
-      <div className="lg:space-y-20 space-y-16">
-        <section className="mt-4 ">
-          <div className="flex justify-between">
-            <h2 className="md:text-lg text-md mb-3 text-left">
+      <div className="">
+        <section className="mt-4">
+          <div className="flex justify-between align-text-top">
+            <h2 className="md:text-xl text-lg mb-4 text-left">
               Welcome back <b>Elenore</b>! Ready to continue learning?
             </h2>
             <a
               href="#"
-              className="inline-flex justify-center items-center px-3 rounded-md  text-sm border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-2"
+              className="inline-flex justify-center items-center px-3 rounded-md  sm:text-sm text-xs border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-3"
             >
               View watch history
             </a>
@@ -115,8 +115,8 @@ const Home: FunctionComponent = () => {
           </div>
         </section>
 
-        <section>
-          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-2">
+        <section className="mt-20">
+          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
             What's New
           </h2>
           <Jumbotron resource={jumbotron} />
@@ -131,7 +131,7 @@ const Home: FunctionComponent = () => {
           </div>
         </section>
 
-        <section>
+        <section className="mt-20">
           <h2 className="text-center md:text-xl text-lg sm:font-semibold font-bold leading-tight mb-2">
             Our Curated Guides
           </h2>
@@ -141,12 +141,12 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
+        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4 mt-24">
           <FeaturedVideoCard video={video} />
           <EventSchedule />
         </section>
 
-        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
+        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4 mt-6">
           <div className="lg:col-span-8 lg:space-y-6 space-y-4">
             {currentCourse && (
               <InProgressCollection collection={currentCourse} />
