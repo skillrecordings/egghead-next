@@ -93,20 +93,34 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
-      <div className="lg:space-y-6 space-y-4">
-        <Jumbotron resource={jumbotron} />
-        <section className="">
-          <TopicsList topics={topics} />
+      <div className="lg:space-y-20 space-y-16">
+        <section className="mt-4 ">
+          <div className="flex justify-between">
+            <h2 className="md:text-lg text-md mb-3 text-left">
+              Welcome back <b>Elenore</b>! Ready to continue learning?
+            </h2>
+            <a
+              href="#"
+              className="inline-flex justify-center items-center px-3 rounded-md  text-sm border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-2"
+            >
+              View watch history
+            </a>
+          </div>
+          <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+            <div className="bg-gray-200 w-full h-42"></div>
+            <div className="grid grid-rows-2 gap-4">
+              <div className="bg-gray-200 w-full h-20"></div>
+              <div className="bg-gray-200 w-full h-20"></div>
+            </div>
+          </div>
         </section>
-        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
-          <FeaturedVideoCard video={video} />
-          <EventSchedule />
-        </section>
-        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
-          <div className="lg:col-span-8 lg:space-y-6 space-y-4">
-            {currentCourse && (
-              <InProgressCollection collection={currentCourse} />
-            )}
+
+        <section>
+          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-2">
+            What's New
+          </h2>
+          <Jumbotron resource={jumbotron} />
+          <div className="">
             <div
               className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
             >
@@ -114,10 +128,33 @@ const Home: FunctionComponent = () => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-center md:text-xl text-lg sm:font-semibold font-bold leading-tight mb-2">
+            Our Curated Guides
+          </h2>
+          <p className="text-center  mb-6">
+            Discover the best content on cutting-edge technologies
+          </p>
+          <TopicsList topics={topics} />
+        </section>
+
+        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
+          <FeaturedVideoCard video={video} />
+          <EventSchedule />
+        </section>
+
+        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
+          <div className="lg:col-span-8 lg:space-y-6 space-y-4">
+            {currentCourse && (
+              <InProgressCollection collection={currentCourse} />
+            )}
 
             {/* <CardHorizontal resource={modernLayoutsWithCSSGrid} /> */}
 
-            <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+            <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
               <div className="col-span-12 space-y-5">
                 <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
                   <div className="flex-shrink-0">
@@ -302,7 +339,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
     <>
       <div className="w-full">
         <ul
-          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-6 gap-4`}
+          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-3 sm:gap-5 md:gap-3 lg:gap-6 gap-4`}
         >
           {map(allTopics, (resource) => (
             <li key={resource.path}>
@@ -347,7 +384,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
 const EventSchedule: React.FunctionComponent = () => {
   const [schedule, scheduleLoading] = useEggheadSchedule(3)
   return (
-    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white ">
+    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
       <>
         <h2 className="uppercase font-semibold text-xs text-blue-200">
           Upcoming Events
