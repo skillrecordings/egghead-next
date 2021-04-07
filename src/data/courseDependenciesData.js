@@ -4,20 +4,10 @@ const courseDependencyData = (courseSlug) =>
   find(
     [
       {
-        id: '429801',
-        type: 'playlist',
-        guid: '34b8',
-        slug: 'creating-a-digital-garden-cli-with-rust-34b8',
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617696691/next.egghead.io/resources/digital-garden-cli-with-rust/share-card-digital-garden-cli-with-rust_2x.png',
-      },
-      {
         id: '425791',
         type: 'playlist',
         guid: '93bd',
         slug: 'declarative-uis-without-css-with-elm-ui-93bd',
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288740/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/share-card-declarative-uis-without-css-with-elm-ui_2x.png',
         dependencies: {
           elm: '>=0.19.1',
         },
@@ -88,8 +78,6 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Maxime Bourgeois',
         },
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614666866/next.egghead.io/cards/build-a-developer-blog-with-gatsby_2x.png',
         dependencies: {
           gatsby: '>=2.27.1',
         },
@@ -210,8 +198,6 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Maxime Bourgeois',
         },
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617267115/next.egghead.io/cards/share-card-react-state-management-in-2021_2x.png',
         freshness: {
           status: `fresh`,
           title: `This is a Fresh Resource`,
@@ -271,8 +257,6 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614088796/next.egghead.io/cards/accessible-cross-browser-css-form-styling_2x.png',
         prerequisites: [
           {
             id: '392298',
@@ -510,8 +494,6 @@ const courseDependencyData = (courseSlug) =>
         },
         multiModuleCourse: true,
         multiModuleLineheight: '45rem',
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613200877/egghead-next-pages/design-with-tailwind-css-masterclass/design-with-tailwind-css-masterclass_2x.png',
         freshness: {
           status: `awesome`,
           title: `Still Awesome`,
@@ -1207,8 +1189,6 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         type: 'playlist',
         guid: '562c',
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613387847/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/card_2x.png',
         dependencies: {
           react: '>= 17.0.1',
           next: '^10.0.6',
