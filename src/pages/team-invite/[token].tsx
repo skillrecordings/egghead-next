@@ -116,7 +116,7 @@ const TeamInvite: React.FunctionComponent<TeamInviteProps> = ({
   )
 }
 
-interface TeamInviteProps {
+type TeamInviteProps = {
   teamOwnerEmail: string
   teamName: string | undefined
   inviteToken: string

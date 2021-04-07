@@ -12,7 +12,7 @@ import {loadTeams} from 'lib/teams'
 import {getTokenFromCookieHeaders} from 'utils/auth'
 import TeamName from '../../components/team/team-name'
 
-export interface TeamData {
+export type TeamData = {
   accountId: number
   name: string
   inviteUrl: string
@@ -40,7 +40,7 @@ const TeamComposition = ({teamData}: {teamData: TeamData}) => {
   }
 }
 
-interface SubscriptionData {
+type SubscriptionData = {
   portalUrl: string | undefined
 }
 
@@ -115,7 +115,7 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
   )
 }
 
-interface TeamPageProps {
+type TeamPageProps = {
   team: TeamData | undefined
 }
 
