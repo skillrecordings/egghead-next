@@ -1,4 +1,4 @@
-const HirokoNishimuraPageData = [
+const ChrisBiscardiPageData = [
   {
     id: 'instructor-data',
     name: 'Chris Biscardi',
@@ -22,4 +22,4 @@ const HirokoNishimuraPageData = [
   },
 ]
 
-export default HirokoNishimuraPageData
+export default ChrisBiscardiPageData
