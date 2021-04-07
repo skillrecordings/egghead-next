@@ -200,12 +200,31 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
+    prerequisites: sanityPrerequisites,
+    topics: sanityTopics,
+    freshness: sanityFreshness,
+    pairWithResources: sanityPairWithResources,
+    essentialQuestions: sanityEssentialQuestions,
     state,
     path,
     tags = [],
   } = course
 
   const ogImage = customOgImage ? customOgImage : ogImageUrl
+  const relatedResources = sanityPairWithResources
+    ? sanityPairWithResources
+    : pairWithResources
+
+  const courseFreshness = sanityFreshness ? sanityFreshness : freshness
+  const courseEssentialQuestions = !isEmpty(sanityEssentialQuestions)
+    ? transformSanityEssentialQuestions(sanityEssentialQuestions)
+    : essentialQuestions
+  const courseTopics = !isEmpty(sanityTopics)
+    ? transformSanityTopics(sanityTopics)
+    : topics
+  const coursePrerequisites = !isEmpty(sanityPrerequisites)
+    ? sanityPrerequisites
+    : prerequisites
 
   const podcast = first(
     course?.items?.filter((item: any) => item.type === 'podcast'),
@@ -500,7 +519,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {description}
               </Markdown>
               <div className="pt-5 md:hidden block">
-                <Fresh freshness={freshness} />
+                <Fresh freshness={courseFreshness} />
 
                 <CourseProjectCard courseProject={courseProject} />
 
@@ -524,17 +543,19 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               )}
               <div
                 className={`grid grid-cols-1 md:gap-x-5 ${
-                  prerequisites && topics ? 'md:grid-cols-2' : 'md:grid-cols-1'
+                  coursePrerequisites && courseTopics
+                    ? 'md:grid-cols-2'
+                    : 'md:grid-cols-1'
                 }`}
               >
-                {topics && (
+                {courseTopics && (
                   <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                     <h2 className="text-lg font-semibold mb-3">
                       What you'll learn
                     </h2>
                     <div className="prose dark:prose-dark">
                       <ul className="grid grid-cols-1 md:gap-x-5">
-                        {topics?.map((topic: string) => (
+                        {courseTopics?.map((topic: string) => (
                           <li
                             key={topic}
                             className="text-gray-900 dark:text-gray-100 leading-6"
@@ -546,13 +567,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   </div>
                 )}
-                {prerequisites && (
+                {coursePrerequisites && (
                   <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                     <h2 className="text-lg font-semibold mb-3">
                       Prerequisites
                     </h2>
                     <div className="prose dark:prose-dark">
-                      <Prereqs prerequisites={prerequisites} />
+                      <Prereqs prerequisites={coursePrerequisites} />
                     </div>
                   </div>
                 )}
@@ -574,32 +595,34 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 </div>
               )}
-              {essentialQuestions && (
+              {courseEssentialQuestions && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
                     Questions to Reflect Upon:
                   </h2>
                   <div className="prose dark:prose-dark">
                     <ul className="grid grid-cols-1 md:gap-x-5">
-                      {essentialQuestions?.map((essentialQuestion: string) => (
-                        <li
-                          key={essentialQuestion}
-                          className="text-gray-900 dark:text-gray-100 leading-6"
-                        >
-                          {essentialQuestion}
-                        </li>
-                      ))}
+                      {courseEssentialQuestions?.map(
+                        (essentialQuestion: string) => (
+                          <li
+                            key={essentialQuestion}
+                            className="text-gray-900 dark:text-gray-100 leading-6"
+                          >
+                            {essentialQuestion}
+                          </li>
+                        ),
+                      )}
                     </ul>
                   </div>
                 </div>
               )}
               <LearnerRatings collection={course} />
-              {!isEmpty(pairWithResources) && (
+              {!isEmpty(relatedResources) && (
                 <div className="my-12 md:flex hidden flex-col space-y-2">
                   <h2 className="text-lg font-semibold mb-3">
                     You might also like these resources:
                   </h2>
-                  {pairWithResources.map((resource: any) => {
+                  {relatedResources.map((resource: any) => {
                     return (
                       <div key={resource.slug}>
                         <CardHorizontal
@@ -629,7 +652,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <PlayButton lesson={nextLesson} />
               </div>
 
-              <Fresh freshness={freshness} />
+              <Fresh freshness={courseFreshness} />
 
               <CourseProjectCard courseProject={courseProject} />
 
@@ -1036,6 +1059,14 @@ const Prereqs = ({prerequisites}: any) => {
       )}
     </ul>
   )
+}
+
+const transformSanityEssentialQuestions = (essentialQuestions: any) => {
+  return essentialQuestions.map((question: any) => question.question)
+}
+
+const transformSanityTopics = (topics: any) => {
+  return topics.items
 }
 
 export default CollectionPageLayout

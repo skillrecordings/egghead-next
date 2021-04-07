@@ -10,6 +10,7 @@ export async function loadTeams(token: string) {
         data {
           id
           slug
+          name
           is_full
           capacity
           number_of_members
@@ -36,7 +37,6 @@ export async function loadTeams(token: string) {
 
   try {
     const {accounts} = await graphQLClient.request(query)
-    console.log({accounts})
     return accounts
   } catch (e) {
     console.error(e)
