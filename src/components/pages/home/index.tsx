@@ -120,18 +120,16 @@ const Home: FunctionComponent = () => {
             What's New
           </h2>
           <Jumbotron resource={jumbotron} />
-          <div className="">
-            <div
-              className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
-            >
-              {map(featured, (resource) => {
-                return <CardVerticalLarge key={resource.path} data={resource} />
-              })}
-            </div>
+          <div className="grid grid-cols-12 grid-rows-3 gap-4">
+            <div className="bg-gray-200 w-full h-auto row-span-2 col-span-7" />
+            <div className="bg-gray-200 w-full h-auto row-span-2 col-span-5" />
+            <div className="bg-gray-200 w-full h-40 row-span-1 col-span-4" />
+            <div className="bg-gray-200 w-full h-40 row-span-1 col-span-4" />
+            <div className="bg-gray-200 w-full h-40 row-span-1 col-span-4" />
           </div>
         </section>
 
-        <section className="mt-20">
+        <section className="mt-24">
           <h2 className="text-center md:text-xl text-lg sm:font-semibold font-bold leading-tight mb-2">
             Our Curated Guides
           </h2>
@@ -141,20 +139,62 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="mt-24">
-          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
-            Recommended For You
-          </h2>
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
-            <div className="bg-gray-200 w-full h-60" />
-            <div className="bg-gray-200 w-full h-60" />
-            <div className="bg-gray-200 w-full h-60" />
-            <div className="bg-gray-200 w-full h-60" />
-            <div className="bg-gray-200 w-full h-60" />
+        <section className="mt-32 grid grid-cols-10 gap-5">
+          <div className="col-span-3 flex flex-col">
+            <h2 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight mb-10">
+              Digital Gardening for Developers
+            </h2>
+            <div className="flex-shrink-0">
+              <Image
+                src={
+                  'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                }
+                alt="illustration for Digital Gardening for Developers "
+                width={232}
+                height={283}
+                quality={100}
+              />
+            </div>
+          </div>
+          <div className="col-span-7">
+            <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-6">
+              <p>
+                Success in software development requires deeply layered,
+                high-value communication. If you are serious about making an
+                impact in your coding career, you should get good at writing
+                words as well as code. This an agreed-upon quality for
+                developers. And it all starts with having your own digital
+                garden.
+              </p>
+              <p className="font-semibold">
+                "The phrase <i>digital garden</i> is a metaphor for thinking
+                about writing and creating that focuses less on the resulting{' '}
+                <i>showpiece</i> and more on the process, care, and craft it
+                takes to get there." &mdash;{' '}
+                <a
+                  className="text-blue-600"
+                  href="https://joelhooks.com/digital-garden"
+                >
+                  Joel Hooks
+                </a>
+              </p>
+            </div>
+            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
+              {digitalGardeningFeatured.resources.map((resource: any) => {
+                return (
+                  <Card
+                    className="col-span-4 text-center"
+                    key={resource.path}
+                    resource={resource}
+                    location={location}
+                  />
+                )
+              })}
+            </div>
           </div>
         </section>
 
-        <section className="mt-24">
+        <section className="mt-32">
           <div className="flex justify-between align-text-top">
             <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
               Livestreams, Talks, and Events
@@ -172,103 +212,24 @@ const Home: FunctionComponent = () => {
           </div>
         </section>
 
-        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4 mt-28">
-          <div className="lg:col-span-8 lg:space-y-6 space-y-4">
-            {currentCourse && (
-              <InProgressCollection collection={currentCourse} />
-            )}
-
-            {/* <CardHorizontal resource={modernLayoutsWithCSSGrid} /> */}
-
-            <section className="grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-              <div className="col-span-12 space-y-5">
-                <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-                  <div className="flex-shrink-0">
-                    <Image
-                      src={
-                        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                      }
-                      alt="illustration for Digital Gardening for Developers "
-                      width={222}
-                      height={273}
-                      quality={100}
-                    />
-                  </div>
-                  <div className="max-w-screen-sm space-y-3">
-                    <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                      Digital Gardening for Developers
-                    </h1>
-
-                    <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
-                      <p>
-                        Success in software development requires deeply layered,
-                        high-value communication. If you are serious about
-                        making an impact in your coding career, you should get
-                        good at writing words as well as code. This an
-                        agreed-upon quality for developers. And it all starts
-                        with having your own digital garden.
-                      </p>
-                      <blockquote>
-                        The phrase "digital garden" is a metaphor for thinking
-                        about writing and creating that focuses less on the
-                        resulting "showpiece" and more on the process, care, and
-                        craft it takes to get there. &mdash;{' '}
-                        <a href="https://joelhooks.com/digital-garden">
-                          Joel Hooks
-                        </a>
-                      </blockquote>
-                    </div>
-                  </div>
-                </header>
-                <div>
-                  <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {digitalGardeningFeatured.resources.map((resource: any) => {
-                      return (
-                        <Card
-                          className="col-span-4 text-center"
-                          key={resource.path}
-                          resource={resource}
-                          location={location}
-                        />
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <CardHorizontal resource={ecommerce} />
-            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
-              <CardVerticalWithStack data={aws} />
-              <CardVerticalWithStack
-                data={freeCourses}
-                memberTitle="Must Watch"
-              />
-            </div>
-
-            <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
-              <Card resource={accessibleApps} className="h-full text-center">
-                <Collection />
-              </Card>
-              <Card
-                resource={accessibleReactApps}
-                className="h-full text-center"
-              >
-                <Collection />
-              </Card>
-            </div>
-
-            <CardHorizontal resource={projectFeatureCardVideoApp} />
-
-            <CardHorizontal resource={wordpressWithGraphql} />
-
-            <CardHorizontal resource={portfolioProject} />
-          </div>
-          <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+        <section className="mt-32">
+          <div className="grid grid-cols-3 gap-4">
             <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-            <ReactStateManagement />
-            <CardVerticalWithStack data={devEssentials} />
+            <CardVerticalWithStack data={aws} />
+            <CardVerticalWithStack
+              data={freeCourses}
+              memberTitle="Must Watch"
+            />
+          </div>
+        </section>
 
+        <section className="mt-32">
+          <div className="flex justify-between align-text-top">
+            <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
+              Staff Favourites and Special Collections
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
             <Card resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
@@ -286,72 +247,100 @@ const Home: FunctionComponent = () => {
               </ol>
             </Card>
 
-            <Card>
-              <>
-                <Link href={swag.path}>
-                  <a className="inline-block hover:text-blue-600">
-                    <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
-                      {swag.name}
-                    </h2>
-                  </a>
-                </Link>
-                <Link href={swag.path}>
-                  <a className="inline-block hover:text-blue-600">
-                    <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
-                      {swag.title}
-                    </h3>
-                  </a>
-                </Link>
-                <ul className="grid grid-cols-2 gap-3 mt-3">
-                  {map(get(swag, 'resources'), (resource) => (
-                    <li
-                      className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
-                      key={resource.path}
-                    >
-                      {resource.image && (
-                        <div className="flex-shrink-0">
-                          <Link href={resource.path}>
-                            <a
-                              onClick={() => {
-                                track('clicked home page swag', {
-                                  resource: resource.path,
-                                  linkType: 'image',
-                                })
-                              }}
-                              tabIndex={-1}
-                            >
-                              <Image
-                                className="rounded-lg"
-                                src={resource.image}
-                                alt={resource.title}
-                                width={205}
-                                height={205}
-                              />
-                            </a>
-                          </Link>
-                        </div>
-                      )}
-                      <Link href={resource.path}>
-                        <a
-                          onClick={() => {
-                            track('clicked home page swag', {
-                              resource: resource.path,
-                              linkType: 'text',
-                            })
-                          }}
-                          className="text-xs leading-tight"
-                        >
-                          {resource.title}
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            </Card>
-            <CardVerticalWithStack data={workflows} />
-          </aside>
+            <ReactStateManagement />
+
+            <div className="flex flex-col space-y-4">
+              <Card resource={accessibleApps} className="h-full text-center">
+                <Collection />
+              </Card>
+              <Card
+                resource={accessibleReactApps}
+                className="h-full text-center"
+              >
+                <Collection />
+              </Card>
+            </div>
+          </div>
+
+          <CardHorizontal resource={ecommerce} />
+          <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4"></div>
+
+          <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
+            <CardHorizontal resource={wordpressWithGraphql} />
+          </div>
+
+          <CardHorizontal resource={projectFeatureCardVideoApp} />
+
+          <CardVerticalWithStack data={devEssentials} />
+          <CardHorizontal resource={portfolioProject} />
         </section>
+
+        <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+          <Card>
+            <>
+              <Link href={swag.path}>
+                <a className="inline-block hover:text-blue-600">
+                  <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
+                    {swag.name}
+                  </h2>
+                </a>
+              </Link>
+              <Link href={swag.path}>
+                <a className="inline-block hover:text-blue-600">
+                  <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
+                    {swag.title}
+                  </h3>
+                </a>
+              </Link>
+              <ul className="grid grid-cols-2 gap-3 mt-3">
+                {map(get(swag, 'resources'), (resource) => (
+                  <li
+                    className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
+                    key={resource.path}
+                  >
+                    {resource.image && (
+                      <div className="flex-shrink-0">
+                        <Link href={resource.path}>
+                          <a
+                            onClick={() => {
+                              track('clicked home page swag', {
+                                resource: resource.path,
+                                linkType: 'image',
+                              })
+                            }}
+                            tabIndex={-1}
+                          >
+                            <Image
+                              className="rounded-lg"
+                              src={resource.image}
+                              alt={resource.title}
+                              width={205}
+                              height={205}
+                            />
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+                    <Link href={resource.path}>
+                      <a
+                        onClick={() => {
+                          track('clicked home page swag', {
+                            resource: resource.path,
+                            linkType: 'text',
+                          })
+                        }}
+                        className="text-xs leading-tight"
+                      >
+                        {resource.title}
+                      </a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          </Card>
+          <CardVerticalWithStack data={workflows} />
+        </aside>
       </div>
     </>
   )
