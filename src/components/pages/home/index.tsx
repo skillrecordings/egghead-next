@@ -261,16 +261,14 @@ const Home: FunctionComponent = () => {
               </Card>
             </div>
           </div>
-
-          <CardHorizontal resource={ecommerce} />
-          <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4"></div>
-
-          <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
+          <div className="grid grid-cols-2 gap-4">
             <CardHorizontal resource={wordpressWithGraphql} />
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
           </div>
+        </section>
 
-          <CardHorizontal resource={projectFeatureCardVideoApp} />
-
+        <section className="mt-32">
+          <CardHorizontal resource={ecommerce} />
           <CardVerticalWithStack data={devEssentials} />
           <CardHorizontal resource={portfolioProject} />
         </section>
