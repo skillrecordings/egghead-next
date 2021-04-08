@@ -17,6 +17,8 @@ import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
 import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
+import {userInfo} from 'node:os'
+import {loadUserProgress} from 'lib/users'
 
 const Home: FunctionComponent = () => {
   const location = 'home landing'
@@ -63,6 +65,7 @@ const Home: FunctionComponent = () => {
   const digitalGardeningFeatured: any = find(homepageData, {
     id: 'digital-gardening-featured',
   })
+  const [progress, setProgress] = React.useState<any>([])
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -71,6 +74,17 @@ const Home: FunctionComponent = () => {
       })
     }
   }, [currentCourseUrl])
+
+  React.useEffect(() => {
+    const loadProgressForUser = async (user_id: number) => {
+      if (user_id) {
+        const {data} = await loadUserProgress(user_id)
+        setProgress(data)
+      }
+    }
+
+    loadProgressForUser(viewer.id)
+  }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -97,21 +111,28 @@ const Home: FunctionComponent = () => {
         <section className="mt-4">
           <div className="flex justify-between align-text-top">
             <h2 className="md:text-xl text-lg mb-4 text-left">
-              Welcome back <b>Elenore</b>! Ready to continue learning?
+              Welcome back <b>D</b>! Ready to continue learning?
             </h2>
-            <a
-              href="#"
-              className="inline-flex justify-center items-center text-center px-3 rounded-md  sm:text-sm text-xs border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-3"
-            >
-              View watch history
-            </a>
           </div>
-          <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-            <div className="bg-gray-200 w-full h-42"></div>
-            <div className="grid grid-rows-2 gap-4">
-              <div className="bg-gray-200 w-full h-20"></div>
-              <div className="bg-gray-200 w-full h-20"></div>
+          <div className="grid grid-cols-2 grid-rows-2 gap-4">
+            <div className="row-span-2">
+              {progress.slice(0, 1).map((item: any) => {
+                return (
+                  <InProgressCollection
+                    key={item.slug}
+                    collection={item.collection}
+                  />
+                )
+              })}
             </div>
+            {progress.slice(1, 3).map((item: any) => {
+              return (
+                <InProgressCollection
+                  key={item.slug}
+                  collection={item.collection}
+                />
+              )
+            })}
           </div>
         </section>
 
@@ -139,8 +160,8 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="mt-32 grid grid-cols-10 gap-5">
-          <div className="col-span-3 flex flex-col">
+        <section className="mt-32 grid md:grid-cols-10 grid-cols-2 gap-5">
+          <div className="md:col-span-3 col-span-1 flex flex-col">
             <h2 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight mb-10">
               Digital Gardening for Developers
             </h2>
@@ -156,7 +177,7 @@ const Home: FunctionComponent = () => {
               />
             </div>
           </div>
-          <div className="col-span-7">
+          <div className="md:col-span-7 col-span-1">
             <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-6">
               <p>
                 Success in software development requires deeply layered,
@@ -179,7 +200,7 @@ const Home: FunctionComponent = () => {
                 </a>
               </p>
             </div>
-            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
+            <div className="grid md:grid-cols-12 grid-cols-2 gap-5 mt-8">
               {digitalGardeningFeatured.resources.map((resource: any) => {
                 return (
                   <Card
