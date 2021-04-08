@@ -1,6 +1,4 @@
-import graphQLClient, {
-  setAuthorizationHeaderForClient,
-} from '../utils/configured-graphql-client'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {get} from 'lodash'
 
@@ -33,7 +31,7 @@ export async function loadRatings(slug: string, type: string = 'Series') {
   const SIZE_OF_PAGE = 6
 
   const token = getAccessTokenFromCookie()
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const graphQLClient = getGraphQLClient(token)
 
   const variables = {
     slug,

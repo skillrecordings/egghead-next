@@ -1,10 +1,6 @@
 import {GraphQLClient} from 'graphql-request'
 import config from '../lib/config'
 
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint, {
-  headers: config.headers,
-})
-
 export const setAuthorizationHeaderForClient = (
   client: GraphQLClient,
   authToken: string | undefined,
@@ -15,4 +11,11 @@ export const setAuthorizationHeaderForClient = (
   }
 }
 
-export default graphQLClient
+export const getGraphQLClient = (token?: string) => {
+  const graphQLClient = new GraphQLClient(config.graphQLEndpoint, {
+    headers: config.headers,
+  })
+
+  setAuthorizationHeaderForClient(graphQLClient, token)
+  return graphQLClient
+}

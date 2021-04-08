@@ -1,8 +1,6 @@
 import axios from 'axios'
 import gql from 'graphql-tag'
-import graphQLClient, {
-  setAuthorizationHeaderForClient,
-} from '../utils/configured-graphql-client'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
 export async function loadCurrentUser(
@@ -101,7 +99,7 @@ export async function loadUserProgress(
 
   token = token || getAccessTokenFromCookie()
 
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const graphQLClient = getGraphQLClient(token)
 
   const variables = {
     page,

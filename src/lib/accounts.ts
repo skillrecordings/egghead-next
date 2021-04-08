@@ -1,7 +1,4 @@
-import graphQLClient, {
-  setAuthorizationHeaderForClient,
-} from '../utils/configured-graphql-client'
-import config from './config'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 
 export async function loadAccount(slug: string, token: string) {
   const query = /* GraphQL */ `
@@ -19,7 +16,7 @@ export async function loadAccount(slug: string, token: string) {
     slug,
   }
 
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const graphQLClient = getGraphQLClient(token)
 
   try {
     const {account} = await graphQLClient.request(query, variables)

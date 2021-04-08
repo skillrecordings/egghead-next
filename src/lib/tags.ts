@@ -1,5 +1,5 @@
 import axios from 'axios'
-import graphQLClient from '../utils/configured-graphql-client'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 
 async function readTags() {
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags?size=40`
@@ -39,6 +39,7 @@ export async function loadTag(slug: string) {
     slug: slug,
   }
 
+  const graphQLClient = getGraphQLClient()
   const {tag} = await graphQLClient.request(query, variables)
 
   return tag

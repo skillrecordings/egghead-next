@@ -8,9 +8,7 @@ import Markdown from 'react-markdown'
 import Image from 'next/image'
 import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
-import graphQLClient, {
-  setAuthorizationHeaderForClient,
-} from 'utils/configured-graphql-client'
+import {getGraphQLClient} from 'utils/configured-graphql-client'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {playerMachine} from 'machines/lesson-player-machine'
@@ -45,7 +43,7 @@ const lessonQuery = /* GraphQL */ `
 `
 
 const lessonLoader = (slug: any, token: any) => (query: string) => {
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const graphQLClient = getGraphQLClient(token)
   const variables = {
     slug: slug,
   }

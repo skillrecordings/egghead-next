@@ -1,7 +1,5 @@
 import {LessonResource} from 'types'
-import graphQLClient, {
-  setAuthorizationHeaderForClient,
-} from '../utils/configured-graphql-client'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
@@ -19,6 +17,9 @@ export async function loadLessons(): Promise<LessonResource[]> {
       }
     }
   `
+
+  const graphQLClient = getGraphQLClient()
+
   const {lessons} = await graphQLClient.request(config.graphQLEndpoint, query)
 
   return lessons
@@ -121,7 +122,7 @@ export async function loadLesson(slug: string, token?: string) {
   `
 
   token = token || getAccessTokenFromCookie()
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const graphQLClient = getGraphQLClient(token)
 
   const variables = {
     slug: slug,
@@ -149,7 +150,7 @@ export async function loadLessonForUser(slug: string) {
   `
 
   const token = getAccessTokenFromCookie()
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const graphQLClient = getGraphQLClient(token)
 
   const variables = {
     slug: slug,
@@ -245,6 +246,7 @@ export async function loadBasicLesson(slug: string) {
     slug: slug,
   }
 
+  const graphQLClient = getGraphQLClient()
   const {lesson} = await graphQLClient.request(query, variables)
 
   return lesson as LessonResource
