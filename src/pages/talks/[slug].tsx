@@ -8,10 +8,11 @@ import Markdown from 'react-markdown'
 import Image from 'next/image'
 import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
-import {GraphQLClient} from 'graphql-request'
+import graphQLClient, {
+  setAuthorizationHeaderForClient,
+} from 'utils/configured-graphql-client'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
-import {LessonResource} from 'types'
 import {playerMachine} from 'machines/lesson-player-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from 'components/pages/lessons/transcript'
@@ -44,17 +45,11 @@ const lessonQuery = /* GraphQL */ `
 `
 
 const lessonLoader = (slug: any, token: any) => (query: string) => {
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
+  setAuthorizationHeaderForClient(graphQLClient, token)
   const variables = {
     slug: slug,
   }
-  const graphQLClient = new GraphQLClient(API_ENDPOINT, {
-    headers: {
-      ...authorizationHeader,
-    },
-  })
+
   return graphQLClient.request(query, variables)
 }
 

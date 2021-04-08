@@ -1,10 +1,5 @@
 import axios from 'axios'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
-import {LessonResource} from '../types'
-import {GraphQLClient} from 'graphql-request'
-import config from './config'
-
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+import graphQLClient from '../utils/configured-graphql-client'
 
 async function readTags() {
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags?size=40`
