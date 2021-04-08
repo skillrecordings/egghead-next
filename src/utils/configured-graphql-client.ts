@@ -11,10 +11,7 @@ export const setAuthorizationHeaderForClient = (
 ) => {
   if (authToken) {
     const authorizationHeader = `Bearer ${authToken}`
-
-    if (authorizationHeader) {
-      client.setHeader('authorization', authorizationHeader)
-    }
+    client.setHeader('authorization', authorizationHeader)
   }
 }
 
