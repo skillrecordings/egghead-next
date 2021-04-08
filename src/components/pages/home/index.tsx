@@ -113,7 +113,7 @@ const Home: FunctionComponent = () => {
         <section className="mt-4">
           <div className="flex justify-between align-text-top">
             <h2 className="md:text-xl text-lg mb-4 text-left">
-              Welcome back <b>D</b>! Ready to continue learning?
+              Welcome back <b>{viewer.name}</b>! Ready to continue learning?
             </h2>
           </div>
           <div className="grid grid-cols-2 grid-rows-2 gap-4">
@@ -138,7 +138,7 @@ const Home: FunctionComponent = () => {
           </div>
         </section>
 
-        <section className="mt-20">
+        <section className="mt-16">
           <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
             What's New
           </h2>
