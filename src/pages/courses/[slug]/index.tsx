@@ -43,9 +43,13 @@ export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   const course = params && (await loadPlaylist(params.slug as string))
-
   if (course && course?.slug !== params?.slug) {
     res.setHeader('Location', course.path)
+    res.statusCode = 302
+    res.end()
+    return {props: {}}
+  } else if (course && course.access_state === 'bundled') {
+    res.setHeader('Location', '/')
     res.statusCode = 302
     res.end()
     return {props: {}}

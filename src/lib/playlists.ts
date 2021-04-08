@@ -145,6 +145,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         updated_at
         free_forever
         visibility_state
+        access_state
         tags {
           name
           image_url
