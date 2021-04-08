@@ -48,11 +48,6 @@ export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
     res.statusCode = 302
     res.end()
     return {props: {}}
-  } else if (course && course.access_state === 'bundled') {
-    res.setHeader('Location', '/')
-    res.statusCode = 302
-    res.end()
-    return {props: {}}
   } else {
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     return {

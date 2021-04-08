@@ -3,7 +3,9 @@ import config from './config'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadCourse} from './courses'
 
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+const graphQLClient = new GraphQLClient(config.graphQLEndpoint, {
+  headers: config.headers,
+})
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
@@ -277,6 +279,7 @@ export async function loadPlaylist(slug: string, token?: string) {
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
   }
+
   const variables = {
     slug: slug,
   }

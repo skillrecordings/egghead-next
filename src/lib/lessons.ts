@@ -3,7 +3,9 @@ import {GraphQLClient} from 'graphql-request'
 import config from './config'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+const graphQLClient = new GraphQLClient(config.graphQLEndpoint, {
+  headers: config.headers,
+})
 
 export async function loadLessons(): Promise<LessonResource[]> {
   const query = /* GraphQL */ `
