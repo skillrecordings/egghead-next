@@ -9,7 +9,6 @@ import useClipboard from 'react-use-clipboard'
 import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
-import {getTokenFromCookieHeaders} from 'utils/auth'
 import TeamName from '../../components/team/team-name'
 
 export type TeamData = {
@@ -241,11 +240,7 @@ const IconLink: FunctionComponent<{className?: string}> = ({
 export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
   context: any,
 ) {
-  const {eggheadToken} = getTokenFromCookieHeaders(
-    context.req.headers.cookie as string,
-  )
-
-  const {data: teams} = await loadTeams(eggheadToken)
+  const {data: teams} = await loadTeams()
 
   let team: TeamData | undefined
 

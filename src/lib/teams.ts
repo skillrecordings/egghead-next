@@ -1,6 +1,6 @@
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 
-export async function loadTeams(token: string) {
+export async function loadTeams() {
   const query = /* GraphQL */ `
     query getAccounts {
       accounts {
@@ -24,7 +24,7 @@ export async function loadTeams(token: string) {
       }
     }
   `
-  const graphQLClient = getGraphQLClient(token)
+  const graphQLClient = getGraphQLClient()
 
   try {
     const {accounts} = await graphQLClient.request(query)

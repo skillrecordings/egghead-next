@@ -1,7 +1,6 @@
 import {request} from 'graphql-request'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadCourse} from './courses'
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
@@ -107,8 +106,7 @@ export async function loadAuthedPlaylistForUser(slug: string) {
       }
     }
   `
-  const token = getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
+  const graphQLClient = getGraphQLClient()
 
   const variables = {
     slug: slug,
@@ -119,7 +117,7 @@ export async function loadAuthedPlaylistForUser(slug: string) {
   return playlist
 }
 
-export async function loadPlaylist(slug: string, token?: string) {
+export async function loadPlaylist(slug: string) {
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
       playlist(slug: $slug) {
@@ -272,7 +270,7 @@ export async function loadPlaylist(slug: string, token?: string) {
     slug: slug,
   }
 
-  const graphQLClient = getGraphQLClient(token)
+  const graphQLClient = getGraphQLClient()
 
   const {playlist} = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourse(playlist.id)

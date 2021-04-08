@@ -9,7 +9,6 @@ import Image from 'next/image'
 import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
 import {getGraphQLClient} from 'utils/configured-graphql-client'
-import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {playerMachine} from 'machines/lesson-player-machine'
 import {useWindowSize} from 'react-use'
@@ -17,10 +16,7 @@ import Transcript from 'components/pages/lessons/transcript'
 import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
-import {getTokenFromCookieHeaders} from 'utils/auth'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
-
-const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
 const lessonQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
@@ -42,8 +38,8 @@ const lessonQuery = /* GraphQL */ `
   }
 `
 
-const lessonLoader = (slug: any, token: any) => (query: string) => {
-  const graphQLClient = getGraphQLClient(token)
+const lessonLoader = (slug: any) => (query: string) => {
+  const graphQLClient = getGraphQLClient()
   const variables = {
     slug: slug,
   }
@@ -61,7 +57,6 @@ const VIDEO_MIN_HEIGHT = 480
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken, logout} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
@@ -70,10 +65,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const {data = {}} = useSWR(
-    lessonQuery,
-    lessonLoader(initialLesson.slug, authToken),
-  )
+  const {data = {}} = useSWR(lessonQuery, lessonLoader(initialLesson.slug))
 
   const lesson = {...initialLesson, ...data.lesson}
   const {
@@ -218,10 +210,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   params,
 }) {
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-
-  const initialLesson =
-    params && (await loadLesson(params.slug as string, eggheadToken))
+  const initialLesson = params && (await loadLesson(params.slug as string))
 
   return {
     props: {

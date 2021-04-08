@@ -1,7 +1,6 @@
 import axios from 'axios'
 import gql from 'graphql-tag'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
 export async function loadCurrentUser(
   token: string,
@@ -18,7 +17,6 @@ export async function loadUserProgress(
   user_id: number,
   page = 1,
   per_page = 5,
-  token?: string,
 ): Promise<any> {
   const query = gql`
     query AllProgress($user_id: Int!, $page: Int!, $per_page: Int!) {
@@ -97,9 +95,7 @@ export async function loadUserProgress(
     }
   `
 
-  token = token || getAccessTokenFromCookie()
-
-  const graphQLClient = getGraphQLClient(token)
+  const graphQLClient = getGraphQLClient()
 
   const variables = {
     page,

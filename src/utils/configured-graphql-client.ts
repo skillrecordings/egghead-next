@@ -1,21 +1,17 @@
 import {GraphQLClient} from 'graphql-request'
 import config from '../lib/config'
+import getAccessTokenFromCookie from './get-access-token-from-cookie'
 
-export const setAuthorizationHeaderForClient = (
-  client: GraphQLClient,
-  authToken: string | undefined,
-) => {
-  if (authToken) {
-    const authorizationHeader = `Bearer ${authToken}`
-    client.setHeader('authorization', authorizationHeader)
-  }
-}
-
-export const getGraphQLClient = (token?: string) => {
+export const getGraphQLClient = () => {
   const graphQLClient = new GraphQLClient(config.graphQLEndpoint, {
     headers: config.headers,
   })
 
-  setAuthorizationHeaderForClient(graphQLClient, token)
+  const authToken = getAccessTokenFromCookie()
+
+  if (authToken) {
+    graphQLClient.setHeader('Authorization', `Bearer ${authToken}`)
+  }
+
   return graphQLClient
 }
