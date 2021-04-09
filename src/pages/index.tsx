@@ -58,7 +58,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      sections: {digitalGardeningFeature},
+      sections: [digitalGardeningFeature],
     },
   }
 }

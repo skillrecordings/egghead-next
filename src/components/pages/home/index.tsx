@@ -19,7 +19,7 @@ import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
 
 const Home: FunctionComponent<any> = ({sections}) => {
-  const {digitalGardeningFeature} = sections
+  const [featureCallOut] = sections
 
   const location = 'home landing'
   const {viewer, loading} = useViewer()
@@ -158,7 +158,7 @@ const Home: FunctionComponent<any> = ({sections}) => {
                 </header>
                 <div>
                   <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {digitalGardeningFeature.resources.map((resource: any) => {
+                    {featureCallOut.resources.map((resource: any) => {
                       return (
                         <Card
                           className="col-span-4 text-center"
