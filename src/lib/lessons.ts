@@ -148,7 +148,8 @@ export async function loadLessonForUser(slug: string) {
     }
   `
 
-  const graphQLClient = getGraphQLClient()
+  const token = getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
 
   const variables = {
     slug: slug,

@@ -10,6 +10,7 @@ import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
+import {getTokenFromCookieHeaders} from 'utils/auth'
 
 export type TeamData = {
   accountId: number
@@ -240,7 +241,11 @@ const IconLink: FunctionComponent<{className?: string}> = ({
 export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
   context: any,
 ) {
-  const {data: teams} = await loadTeams()
+  const {eggheadToken} = getTokenFromCookieHeaders(
+    context.req.headers.cookie as string,
+  )
+
+  const {data: teams} = await loadTeams(eggheadToken)
 
   let team: TeamData | undefined
 

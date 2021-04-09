@@ -38,8 +38,8 @@ const lessonQuery = /* GraphQL */ `
   }
 `
 
-const lessonLoader = (slug: any) => (query: string) => {
-  const graphQLClient = getGraphQLClient()
+const lessonLoader = (slug: any, token: any) => (query: string) => {
+  const graphQLClient = getGraphQLClient(token)
   const variables = {
     slug: slug,
   }
