@@ -1,10 +1,7 @@
 import axios from 'axios'
 import gql from 'graphql-tag'
-import {GraphQLClient} from 'graphql-request'
-import config from './config'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
-
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 
 export async function loadCurrentUser(
   token: string,
@@ -99,21 +96,15 @@ export async function loadUserProgress(
       }
     }
   `
-
   token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
 
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
   const variables = {
     page,
     per_page,
     user_id,
   }
 
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
   const {
     user: {all_progress},
   } = await graphQLClient.request(query, variables)

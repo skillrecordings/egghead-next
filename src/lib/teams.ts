@@ -1,7 +1,4 @@
-import {GraphQLClient} from 'graphql-request'
-import config from './config'
-
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 
 export async function loadTeams(token: string) {
   const query = /* GraphQL */ `
@@ -27,13 +24,7 @@ export async function loadTeams(token: string) {
       }
     }
   `
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
-
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
+  const graphQLClient = getGraphQLClient(token)
 
   try {
     const {accounts} = await graphQLClient.request(query)
