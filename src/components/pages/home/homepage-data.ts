@@ -1,36 +1,5 @@
 const homepageData = [
   {
-    id: 'digital-gardening-featured',
-    title: 'Featured',
-    resources: [
-      {
-        name: 'Content Authoring',
-        title: 'Creating a Digital Garden CLI with Rust',
-        byline: 'Chris Biscardi・1h 10m',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
-        path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
-      },
-      {
-        name: 'Start a Blog',
-        title: 'Build a Developer Blog with Gatsby',
-        byline: 'Laurie Barth・35m',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
-        path: '/courses/build-a-developer-blog-with-gatsby-bd96',
-      },
-      {
-        name: 'Create a Portfolio',
-        title: 'Build a site from scratch with Next.js',
-        byline: 'Tomasz Łakomy・37m',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
-        path:
-          '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-      },
-    ],
-  },
-  {
     id: 'jumbotron',
     title: 'Create a Digital Garden CLI with Rust',
     byline: 'new course',
