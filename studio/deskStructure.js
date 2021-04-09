@@ -1,6 +1,7 @@
 import S from '@sanity/desk-tool/structure-builder'
 import blog from './src/structure/blog'
 import portfolio from './src/structure/portfolio'
+import feature from './src/structure/feature'
 
 const hiddenDocTypes = (listItem) =>
   ![
@@ -21,4 +22,5 @@ export default () =>
       ...S.documentTypeListItems().filter(hiddenDocTypes),
       blog,
       portfolio,
+      feature,
     ])
