@@ -9,6 +9,7 @@ import Image from 'next/image'
 import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
 import {getGraphQLClient} from 'utils/configured-graphql-client'
+import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {playerMachine} from 'machines/lesson-player-machine'
 import {useWindowSize} from 'react-use'
@@ -57,6 +58,7 @@ const VIDEO_MIN_HEIGHT = 480
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
+  const {authToken} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
@@ -65,7 +67,10 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const {data = {}} = useSWR(lessonQuery, lessonLoader(initialLesson.slug))
+  const {data = {}} = useSWR(
+    lessonQuery,
+    lessonLoader(initialLesson.slug, authToken),
+  )
 
   const lesson = {...initialLesson, ...data.lesson}
   const {
