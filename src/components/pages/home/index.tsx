@@ -18,7 +18,9 @@ import InProgressCollection from './in-progress-collection'
 import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
 
-const Home: FunctionComponent = () => {
+const Home: FunctionComponent<any> = ({sections}) => {
+  const [featureCallOut] = sections
+
   const location = 'home landing'
   const {viewer, loading} = useViewer()
   const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
@@ -60,9 +62,6 @@ const Home: FunctionComponent = () => {
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
   const ecommerce: any = find(homepageData, {id: 'ecommerce'})
-  const digitalGardeningFeatured: any = find(homepageData, {
-    id: 'digital-gardening-featured',
-  })
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -159,7 +158,7 @@ const Home: FunctionComponent = () => {
                 </header>
                 <div>
                   <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {digitalGardeningFeatured.resources.map((resource: any) => {
+                    {featureCallOut.resources.map((resource: any) => {
                       return (
                         <Card
                           className="col-span-4 text-center"
