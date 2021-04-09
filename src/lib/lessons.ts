@@ -25,7 +25,7 @@ export async function loadLessons(): Promise<LessonResource[]> {
   return lessons
 }
 
-export async function loadLesson(slug: string) {
+export async function loadLesson(slug: string, token?: string) {
   const query = /* GraphQL */ `
     query getLesson($slug: String!) {
       lesson(slug: $slug) {
@@ -121,7 +121,8 @@ export async function loadLesson(slug: string) {
     }
   `
 
-  const graphQLClient = getGraphQLClient()
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
 
   const variables = {
     slug: slug,
