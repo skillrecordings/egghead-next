@@ -9,7 +9,6 @@ import {track} from 'utils/analytics'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {GetServerSideProps} from 'next'
 import {getTokenFromCookieHeaders} from '../../utils/auth'
-import {loadAccount} from '../../lib/accounts'
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
