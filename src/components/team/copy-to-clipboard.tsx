@@ -35,7 +35,7 @@ const CopyToClipboard: FunctionComponent<{
       <button
         type="button"
         onClick={setCopied}
-        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150`}
+        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-white transition-colors ease-in-out duration-150`}
       >
         {isCopied ? (
           'Copied'
