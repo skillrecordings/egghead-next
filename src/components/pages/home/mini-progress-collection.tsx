@@ -65,7 +65,7 @@ const MiniProgressCollection: FunctionComponent<any> = ({collection}) => {
               }
               tabIndex={-1}
             >
-              <Image src={image_url} alt={title} width={62} height={62} />
+              <Image src={image_url} alt={title} width={58} height={58} />
             </a>
           </Link>
         )}
@@ -87,13 +87,15 @@ const MiniProgressCollection: FunctionComponent<any> = ({collection}) => {
             {!isInProgress && series && (
               <div className="text-sm flex items-center">{series?.title}</div>
             )}
-            {isInProgress && (
-              <div className="text-gray-700 dark:text-gray-300 text-sm">
-                {convertTimeWithTitles(time_left)} left to go ({lessons_left}{' '}
-                more lessons)
-              </div>
-            )}
           </div>
+          {isInProgress && (
+            <h2 className=" uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1">
+              Lesson {lessons_left} of {lesson_count}{' '}
+              {time_left
+                ? `| ${convertTimeWithTitles(time_left)} minutes left`
+                : ''}
+            </h2>
+          )}
           {isInProgress && (
             <div className="flex items-center space-x-1">
               <Link href={resource_path || '#'}>

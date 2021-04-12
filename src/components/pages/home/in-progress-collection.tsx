@@ -74,11 +74,8 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
             </a>
           </Link>
         )}
-        <div className="space-y-1 w-full">
+        <div className="space-y-1 w-full pl-3">
           <div className="">
-            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
-              Keep Learning
-            </h2>
             <Link href={resource_path || '#'}>
               <a
                 onClick={() =>
@@ -89,19 +86,23 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
                   })
                 }
               >
-                <h3 className="text-lg font-semibold leading-tight">{title}</h3>
+                <h3 className="text-lg font-semibold leading-tight mb-2">
+                  {title}
+                </h3>
               </a>
             </Link>
             {!isInProgress && series && (
               <div className="text-sm flex items-center">{series?.title}</div>
             )}
-            {isInProgress && (
-              <div className="text-gray-700 dark:text-gray-300 text-sm">
-                {convertTimeWithTitles(time_left)} left to go ({lessons_left}{' '}
-                more lessons)
-              </div>
-            )}
           </div>
+          {isInProgress && (
+            <h2 className=" uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1">
+              Lesson {lessons_left} of {lesson_count}{' '}
+              {time_left
+                ? `| ${convertTimeWithTitles(time_left)} minutes left`
+                : ''}
+            </h2>
+          )}
           {isInProgress && (
             <div className="flex items-center space-x-1">
               <Link href={resource_path || '#'}>
