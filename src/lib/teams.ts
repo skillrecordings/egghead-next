@@ -1,6 +1,8 @@
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 
-export async function loadTeams(token: string) {
+type TeamResponse = {data: Array<any> | undefined}
+
+export async function loadTeams(token: string): Promise<TeamResponse> {
   const query = /* GraphQL */ `
     query getAccounts {
       accounts {
@@ -32,6 +34,6 @@ export async function loadTeams(token: string) {
   } catch (e) {
     console.error(e)
     console.error(e.response.errors)
-    return
+    return {data: undefined}
   }
 }

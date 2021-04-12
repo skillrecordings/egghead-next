@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
-import {useViewer} from '../../context/viewer-context'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import {FunctionComponent} from 'react'
@@ -11,6 +10,7 @@ import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
 import {getTokenFromCookieHeaders} from 'utils/auth'
+import isEmpty from 'lodash/isEmpty'
 
 export type TeamData = {
   accountId: number
@@ -120,20 +120,19 @@ type TeamPageProps = {
 }
 
 const Team = ({team: teamData}: TeamPageProps) => {
-  const {loading} = useViewer()
   const router = useRouter()
 
-  const teamDataAvailable = typeof teamData !== 'undefined'
+  const teamDataNotAvailable = isEmpty(teamData)
 
   React.useEffect(() => {
-    if (!loading && !teamDataAvailable) {
+    if (teamDataNotAvailable) {
       router.push('/')
     }
-  }, [loading, teamDataAvailable])
+  }, [teamDataNotAvailable])
 
   return (
     <LoginRequired>
-      {!loading && !!teamData && (
+      {!!teamData && (
         <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
           <h1>Team Account</h1>
           <p>
@@ -247,9 +246,9 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async funct
 
   const {data: teams} = await loadTeams(eggheadToken)
 
-  let team: TeamData | undefined
+  let team: TeamData | undefined = undefined
 
-  const fetchedTeam = teams[0]
+  const fetchedTeam = teams && teams[0]
   if (fetchedTeam) {
     team = {
       accountId: fetchedTeam.id,
