@@ -132,7 +132,7 @@ const Team = ({team: teamData}: TeamPageProps) => {
   return (
     <LoginRequired>
       {!!teamData && (
-        <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
+        <div className="lg:prose-lg prose dark:prose-dark xl:prose-xl max-w-screen-xl mx-auto mb-24">
           <h1>Team Account</h1>
           <p>
             We are in the process of migrating team accounts to our new website.
