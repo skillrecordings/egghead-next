@@ -15,12 +15,15 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
+import MiniProgressCollection from './mini-progress-collection'
+
 import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
+import {userInfo} from 'node:os'
+import {loadUserProgress} from 'lib/users'
 
 const Home: FunctionComponent<any> = ({sections}) => {
   const [featureCallOut] = sections
-
   const location = 'home landing'
   const {viewer, loading} = useViewer()
   const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
@@ -62,6 +65,7 @@ const Home: FunctionComponent<any> = ({sections}) => {
   const topics: any = find(homepageData, {id: 'topics'})
   const swag: any = find(homepageData, {id: 'swag'})
   const ecommerce: any = find(homepageData, {id: 'ecommerce'})
+  const [progress, setProgress] = React.useState<any>([])
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -71,16 +75,16 @@ const Home: FunctionComponent<any> = ({sections}) => {
     }
   }, [currentCourseUrl])
 
-  // React.useEffect(() => {
-  //   const loadProgressForUser = async (user_id: number) => {
-  //     if (user_id) {
-  //       const {data} = await loadUserProgress(user_id)
-  //       setProgress(data)
-  //     }
-  //   }
+  React.useEffect(() => {
+    const loadProgressForUser = async (user_id: number) => {
+      if (user_id) {
+        const {data} = await loadUserProgress(user_id)
+        setProgress(data)
+      }
+    }
 
-  //   loadProgressForUser(viewer.id)
-  // }, [viewer?.id])
+    loadProgressForUser(viewer.id)
+  }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -103,33 +107,33 @@ const Home: FunctionComponent<any> = ({sections}) => {
 
   return (
     <>
-      {/* <section className="mt-4">
-          <div className="flex justify-between align-text-top">
-            <h2 className="md:text-xl text-lg mb-4 text-left">
-              Welcome back <b>{viewer.name}</b>! Ready to continue learning?
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
-            <div className="row-span-2">
-              {progress.slice(0, 1).map((item: any) => {
-                return (
-                  <InProgressCollection
-                    key={item.slug}
-                    collection={item.collection}
-                  />
-                )
-              })}
-            </div>
-            {progress.slice(1, 3).map((item: any) => {
+      <section className="mt-4">
+        <div className="flex justify-between align-text-top">
+          <h2 className="md:text-xl text-lg mb-4 text-left">
+            Welcome back <b>{viewer.name}</b>! Ready to continue learning?
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
+          <div className="row-span-2">
+            {progress.slice(0, 1).map((item: any) => {
               return (
-                <MiniProgressCollection
+                <InProgressCollection
                   key={item.slug}
                   collection={item.collection}
                 />
               )
             })}
           </div>
-        </section> */}
+          {progress.slice(1, 3).map((item: any) => {
+            return (
+              <MiniProgressCollection
+                key={item.slug}
+                collection={item.collection}
+              />
+            )
+          })}
+        </div>
+      </section>
 
       <section className="mt-16">
         <Jumbotron resource={jumbotron} />
@@ -145,9 +149,6 @@ const Home: FunctionComponent<any> = ({sections}) => {
         </section>
         <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
           <div className="lg:col-span-8 lg:space-y-6 space-y-4">
-            {currentCourse && (
-              <InProgressCollection collection={currentCourse} />
-            )}
             <div
               className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
             >
