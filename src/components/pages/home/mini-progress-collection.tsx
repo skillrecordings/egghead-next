@@ -8,7 +8,7 @@ import {first, get, isEmpty} from 'lodash'
 import {LessonResource} from 'types'
 import Card from './card'
 
-const InProgressCollection: FunctionComponent<any> = ({collection}) => {
+const MiniProgressCollection: FunctionComponent<any> = ({collection}) => {
   const {
     title,
     square_cover_480_url,
@@ -51,8 +51,8 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
   const resource_path = current_lesson?.path || path
   const image_url = square_cover_480_url
   return (
-    <Card>
-      <div className="flex md:items-center md:flex-row flex-col md:space-x-4 space-x-0">
+    <Card className="sm:px-6 sm:py-4">
+      <div className="flex md:items-center flex-row md:space-x-5 space-x-4">
         {image_url && resource_path && (
           <Link href={resource_path}>
             <a
@@ -65,16 +65,11 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               }
               tabIndex={-1}
             >
-              <Image
-                src={image_url}
-                alt={title}
-                width={square_cover_480_url ? 128 : 48}
-                height={square_cover_480_url ? 128 : 48}
-              />
+              <Image src={image_url} alt={title} width={62} height={62} />
             </a>
           </Link>
         )}
-        <div className="space-y-1 w-full pl-3">
+        <div className="space-y-1 w-full">
           <div className="">
             <Link href={resource_path || '#'}>
               <a
@@ -86,9 +81,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
                   })
                 }
               >
-                <h3 className="text-lg font-semibold leading-tight mb-2">
-                  {title}
-                </h3>
+                <h3 className="text-lg font-semibold leading-tight">{title}</h3>
               </a>
             </Link>
             {!isInProgress && series && (
@@ -127,34 +120,13 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               </div>
             </div>
           )}
-          {isInProgress && current_lesson && (
-            <div className="leading-tighter flex items-center space-x-2">
-              <div className="text-xs text-gray-600 dark:text-gray-300">
-                Up Next
-              </div>
-              <Link href={resource_path || '3'}>
-                <a
-                  className="text-sm font-medium"
-                  onClick={() =>
-                    track(`clicked continue watching`, {
-                      slug: slug,
-                      type: type,
-                      location: 'resource in progress (next lesson title)',
-                    })
-                  }
-                >
-                  {current_lesson?.title}
-                </a>
-              </Link>
-            </div>
-          )}
         </div>
       </div>
     </Card>
   )
 }
 
-export default InProgressCollection
+export default MiniProgressCollection
 
 const PlayIcon = () => {
   return (
