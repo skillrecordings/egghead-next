@@ -116,7 +116,7 @@ const Home: FunctionComponent = () => {
               Welcome back <b>{viewer.name}</b>! Ready to continue learning?
             </h2>
           </div>
-          <div className="grid grid-cols-2 grid-rows-2 gap-4">
+          <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
             <div className="row-span-2">
               {progress.slice(0, 1).map((item: any) => {
                 return (

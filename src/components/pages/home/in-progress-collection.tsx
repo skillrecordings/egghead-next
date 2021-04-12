@@ -68,8 +68,8 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               <Image
                 src={image_url}
                 alt={title}
-                width={square_cover_480_url ? 124 : 48}
-                height={square_cover_480_url ? 124 : 48}
+                width={square_cover_480_url ? 128 : 48}
+                height={square_cover_480_url ? 128 : 48}
               />
             </a>
           </Link>

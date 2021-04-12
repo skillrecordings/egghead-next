@@ -52,7 +52,7 @@ const MiniProgressCollection: FunctionComponent<any> = ({collection}) => {
   const image_url = square_cover_480_url
   return (
     <Card className="sm:px-6 sm:py-4">
-      <div className="flex md:items-center md:flex-row flex-col md:space-x-5 space-x-0">
+      <div className="flex md:items-center flex-row md:space-x-5 space-x-4">
         {image_url && resource_path && (
           <Link href={resource_path}>
             <a
@@ -65,7 +65,7 @@ const MiniProgressCollection: FunctionComponent<any> = ({collection}) => {
               }
               tabIndex={-1}
             >
-              <Image src={image_url} alt={title} width={58} height={58} />
+              <Image src={image_url} alt={title} width={62} height={62} />
             </a>
           </Link>
         )}
