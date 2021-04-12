@@ -103,7 +103,7 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
               onClick={() => {
                 track(`clicked manage membership`)
               }}
-              className="transition-all duration-150 ease-in-out text-white font-semibold rounded-md"
+              className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
             >
               Visit Stripe Billing Portal
             </a>
