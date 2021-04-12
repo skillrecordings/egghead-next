@@ -76,14 +76,16 @@ const Home: FunctionComponent<any> = ({sections}) => {
   }, [currentCourseUrl])
 
   React.useEffect(() => {
-    const loadProgressForUser = async (user_id: number) => {
-      if (user_id) {
-        const {data} = await loadUserProgress(user_id)
-        setProgress(data)
+    if (viewer) {
+      const loadProgressForUser = async (user_id: number) => {
+        if (user_id) {
+          const {data} = await loadUserProgress(user_id)
+          setProgress(data)
+        }
       }
-    }
 
-    loadProgressForUser(viewer.id)
+      loadProgressForUser(viewer.id)
+    }
   }, [viewer?.id])
 
   const ReactStateManagement = () => (
@@ -107,39 +109,41 @@ const Home: FunctionComponent<any> = ({sections}) => {
 
   return (
     <>
-      <section className="mt-4">
-        <div className="flex justify-between align-text-top">
-          <h2 className="md:text-xl text-lg mb-4 text-left">
-            Welcome back <b>{viewer.name}</b>! Ready to continue learning?
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
-          <div className="row-span-2">
-            {progress.slice(0, 1).map((item: any) => {
+      {viewer && (
+        <section className="mt-4 mb-16">
+          <div className="flex justify-between align-text-top">
+            <h2 className="md:text-xl text-lg mb-4 text-left">
+              Welcome back <b>{viewer.name}</b>! Ready to continue learning?
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
+            <div className="row-span-2">
+              {progress.slice(0, 1).map((item: any) => {
+                return (
+                  <InProgressCollection
+                    key={item.slug}
+                    collection={item.collection}
+                  />
+                )
+              })}
+            </div>
+            {progress.slice(1, 3).map((item: any) => {
               return (
-                <InProgressCollection
+                <MiniProgressCollection
                   key={item.slug}
                   collection={item.collection}
                 />
               )
             })}
           </div>
-          {progress.slice(1, 3).map((item: any) => {
-            return (
-              <MiniProgressCollection
-                key={item.slug}
-                collection={item.collection}
-              />
-            )
-          })}
-        </div>
-      </section>
+        </section>
+      )}
 
-      <section className="mt-16">
+      <section className="mt-6">
         <Jumbotron resource={jumbotron} />
       </section>
 
-      <div className="lg:space-y-6 space-y-4">
+      <div className="lg:space-y-6 space-y-4 mt-6">
         <section className="">
           <TopicsList topics={topics} />
         </section>
