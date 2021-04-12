@@ -162,7 +162,7 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="mt-32 grid md:grid-cols-10 grid-cols-2 gap-5">
+        <section className="mt-32 grid md:grid-cols-10 grid-cols-1 gap-5">
           <div className="md:col-span-3 col-span-1 flex flex-col">
             <h2 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight mb-10">
               Digital Gardening for Developers
