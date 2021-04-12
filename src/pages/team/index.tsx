@@ -167,7 +167,11 @@ const Team = ({team: teamData}: TeamPageProps) => {
               return (
                 <tr
                   key={member.id || member.email}
-                  className={i % 2 === 0 ? 'bg-gray-100' : ''}
+                  className={
+                    i % 2 === 0
+                      ? 'bg-gray-100 dark:bg-gray-800'
+                      : 'bg-white dark:bg-gray-900'
+                  }
                 >
                   <td>{member.name}</td>
                   <td>{member.email}</td>
