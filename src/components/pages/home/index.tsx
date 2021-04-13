@@ -14,7 +14,7 @@ import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
-import InProgressCollection from './in-progress-collection'
+import InProgressSection from './inprogress/in-progress-section'
 
 import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
@@ -111,47 +111,14 @@ const Home: FunctionComponent<any> = ({sections}) => {
 
   return (
     <>
-      {viewer && !isEmpty(progress) && (
-        <section className="pt-4 pb-10">
-          <div className="flex justify-between align-text-top">
-            <h2 className="md:text-xl text-lg mb-4 text-left">
-              {isEmpty(viewer.name) ? (
-                `Welcome back!`
-              ) : (
-                <>
-                  Welcome back <b>{viewer.name}</b>!
-                </>
-              )}{' '}
-              Ready to continue learning?
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            <InProgressCollection
-              className="h-full flex items-center w-full"
-              collection={courseInProgress.collection}
-            />
-            {coursesInProgress && (
-              <div
-                className={`${
-                  coursesInProgress.length > 1 ? 'grid gap-4' : ''
-                }`}
-              >
-                {coursesInProgress.map((item: any) => {
-                  return (
-                    <InProgressCollection
-                      small
-                      key={item.slug}
-                      collection={item.collection}
-                    />
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+      <InProgressSection
+        viewer={viewer}
+        progress={progress}
+        courseInProgress={courseInProgress}
+        coursesInProgress={coursesInProgress}
+      />
 
-      <section className="mt-16">
+      <section className="mt-6">
         <Jumbotron resource={jumbotron} />
       </section>
 
