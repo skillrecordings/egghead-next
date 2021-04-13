@@ -3,7 +3,7 @@ import Card, {CardResource} from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, isEmpty} from 'lodash'
+import {map, get, find, isEmpty, first} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
@@ -107,39 +107,52 @@ const Home: FunctionComponent<any> = ({sections}) => {
     </Card>
   )
 
+  const courseInProgress: any = first(progress)
+  const coursesInProgress: any = progress.slice(1, 3)
+
   return (
     <>
-      {viewer && (
-        <section className="mt-4 mb-16">
+      {viewer && !isEmpty(progress) && (
+        <section className="pt-4 pb-10">
           <div className="flex justify-between align-text-top">
             <h2 className="md:text-xl text-lg mb-4 text-left">
-              Welcome back <b>{viewer.name}</b>! Ready to continue learning?
+              {isEmpty(viewer.name) ? (
+                `Welcome back!`
+              ) : (
+                <>
+                  Welcome back <b>{viewer.name}</b>!
+                </>
+              )}{' '}
+              Ready to continue learning?
             </h2>
           </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
-            <div className="row-span-2">
-              {progress.slice(0, 1).map((item: any) => {
-                return (
-                  <InProgressCollection
-                    key={item.slug}
-                    collection={item.collection}
-                  />
-                )
-              })}
-            </div>
-            {progress.slice(1, 3).map((item: any) => {
-              return (
-                <MiniProgressCollection
-                  key={item.slug}
-                  collection={item.collection}
-                />
-              )
-            })}
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <InProgressCollection
+              className="h-full flex items-center w-full"
+              collection={courseInProgress.collection}
+            />
+            {coursesInProgress && (
+              <div
+                className={`${
+                  coursesInProgress.length > 1 ? 'grid gap-4' : ''
+                }`}
+              >
+                {coursesInProgress.map((item: any) => {
+                  return (
+                    <InProgressCollection
+                      small
+                      key={item.slug}
+                      collection={item.collection}
+                    />
+                  )
+                })}
+              </div>
+            )}
           </div>
         </section>
       )}
 
-      <section className="mt-6">
+      <section>
         <Jumbotron resource={jumbotron} />
       </section>
 
