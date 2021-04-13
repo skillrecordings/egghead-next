@@ -144,8 +144,8 @@ const Team = ({team: teamData}: TeamPageProps) => {
             email <a href="mailto:support@egghead.io">support@egghead.io</a>
           </p>
           <TeamName teamData={teamData} />
-          <h2>Team Members</h2>
-          <p>Your invite link to add new team members is: </p>
+          <h2 className="font-semibold text-xl mt-16">Team Members</h2>
+          <p className="mt-6">Your invite link to add new team members is: </p>
           <div className="flex items-center">
             <code>{teamData.inviteUrl}</code>
             <CopyToClipboard

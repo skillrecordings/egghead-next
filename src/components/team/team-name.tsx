@@ -80,7 +80,7 @@ const TeamName = ({teamData}: TeamNameProps) => {
         />
         <div className="flex flex-row space-x-2">
           <button
-            className={`text-white bg-green-600 border-0 py-2 px-4 focus:outline-none rounded
+            className={`text-white bg-green-600 border-0 py-2 px-4 focus:outline-none rounded-md
                     ${
                       teamNameNeedsSaving
                         ? 'hover:bg-green-700'
@@ -101,10 +101,10 @@ const TeamName = ({teamData}: TeamNameProps) => {
             Save
           </button>
           <button
-            className={`bg-white dark:bg-gray-700 border-0 py-2 px-4 focus:outline-none rounded
+            className={`border border-gray-300 dark:border-0 dark:bg-gray-600 py-2 px-4 focus:outline-none rounded-md
                     ${
                       teamNameNeedsSaving
-                        ? 'hover:bg-gray-200'
+                        ? 'hover:bg-gray-200 dark:hover:bg-gray-700'
                         : 'cursor-not-allowed opacity-50'
                     }`}
             type="button"

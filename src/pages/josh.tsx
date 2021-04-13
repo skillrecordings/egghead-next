@@ -77,7 +77,7 @@ const Josh = () => {
             Save
           </button>
           <button
-            className="bg-white dark:bg-gray-700 border-0 py-2 px-4 focus:outline-none rounded hover:bg-gray-200"
+            className="border border-gray-300 dark:border-0 dark:bg-gray-600 py-2 px-4 focus:outline-none rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
             type="button"
             onClick={(e) => console.log(e)}
           >
@@ -85,8 +85,8 @@ const Josh = () => {
           </button>
         </div>
       </div>
-      <h2>Team Members</h2>
-      <p>Your invite link to add new team members is: </p>
+      <h2 className="font-semibold text-xl mt-16">Team Members</h2>
+      <p className="mt-6">Your invite link to add new team members is: </p>
       <div className="flex items-center">
         <code>teamData.inviteUrl</code>
         <CopyToClipboard
