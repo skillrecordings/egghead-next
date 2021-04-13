@@ -15,7 +15,6 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import InProgressCollection from './in-progress-collection'
-import MiniProgressCollection from './mini-progress-collection'
 
 import Jumbotron from './jumbotron'
 import LevelUpCTA from '../../survey/level-up-cta'
