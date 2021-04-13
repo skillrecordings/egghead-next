@@ -151,7 +151,7 @@ const Home: FunctionComponent<any> = ({sections}) => {
         </section>
       )}
 
-      <section>
+      <section className="mt-16">
         <Jumbotron resource={jumbotron} />
       </section>
 
