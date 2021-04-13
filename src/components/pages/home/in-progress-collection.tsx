@@ -8,7 +8,21 @@ import {first, get, isEmpty} from 'lodash'
 import {LessonResource} from 'types'
 import Card from './card'
 
-const InProgressCollection: FunctionComponent<any> = ({collection}) => {
+type InProgressCollectionProps = {
+  collection: any
+  small?: boolean
+  className?: string
+}
+
+const InProgressCollection: FunctionComponent<InProgressCollectionProps> = ({
+  collection,
+  small = false,
+  className = '',
+}) => {
+  if (isEmpty(collection)) {
+    return null
+  }
+
   const {
     title,
     square_cover_480_url,
@@ -51,8 +65,14 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
   const resource_path = current_lesson?.path || path
   const image_url = square_cover_480_url
   return (
-    <Card>
-      <div className="flex md:items-center md:flex-row flex-col md:space-x-4 space-x-0">
+    <Card className={`${small ? 'sm:px-6 sm:py-4' : ''} ${className}`}>
+      <div
+        className={`flex w-full ${
+          small
+            ? ''
+            : 'items-center md:flex-row flex-col md:space-x-4 space-x-0'
+        }`}
+      >
         {image_url && resource_path && (
           <Link href={resource_path}>
             <a
@@ -68,8 +88,8 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               <Image
                 src={image_url}
                 alt={title}
-                width={square_cover_480_url ? 128 : 48}
-                height={square_cover_480_url ? 128 : 48}
+                width={small ? 72 : square_cover_480_url ? 160 : 48}
+                height={small ? 72 : square_cover_480_url ? 160 : 48}
               />
             </a>
           </Link>
@@ -78,6 +98,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
           <div className="">
             <Link href={resource_path || '#'}>
               <a
+                className="dark:hover:text-blue-300 hover:text-blue-600"
                 onClick={() =>
                   track(`clicked continue watching`, {
                     slug: slug,
@@ -86,7 +107,11 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
                   })
                 }
               >
-                <h3 className="text-lg font-semibold leading-tight mb-2">
+                <h3
+                  className={`${
+                    small ? 'text-lg' : 'text-xl'
+                  } font-semibold leading-tight mb-2`}
+                >
                   {title}
                 </h3>
               </a>
@@ -107,7 +132,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
             <div className="flex items-center space-x-1">
               <Link href={resource_path || '#'}>
                 <a
-                  className="text-blue-600"
+                  className="text-blue-600 flex bg-white rounded-full"
                   onClick={() =>
                     track(`clicked continue watching`, {
                       slug: slug,
@@ -119,7 +144,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
                   <PlayIcon />
                 </a>
               </Link>
-              <div className="relative w-full h-2 bg-gray-200 overflow-hidden rounded-sm">
+              <div className="relative w-full h-2 bg-gray-200 dark:bg-gray-600 overflow-hidden rounded-sm">
                 <div
                   style={{width: `${percent_complete}%`}}
                   className="absolute left-0 top-0 bg-blue-600 h-full"
@@ -127,7 +152,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
               </div>
             </div>
           )}
-          {isInProgress && current_lesson && (
+          {!small && isInProgress && current_lesson && (
             <div className="leading-tighter flex items-center space-x-2">
               <div className="text-xs text-gray-600 dark:text-gray-300">
                 Up Next
