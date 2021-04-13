@@ -52,7 +52,7 @@ const Josh = () => {
       <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
         Team Account
       </h1>
-      <p>
+      <p className="mt-6 leading-6">
         We are in the process of migrating team accounts to our new website. If
         you would like to manage your account please visit{' '}
         <a href="https://app.egghead.io">https://app.egghead.io</a> and log in
