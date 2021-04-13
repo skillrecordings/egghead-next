@@ -77,7 +77,7 @@ const Josh = () => {
             Save
           </button>
           <button
-            className="border border-gray-300 dark:border-0 dark:bg-gray-600 py-2 px-4 focus:outline-none rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+            className="border border-gray-300 dark:border-0 dark:bg-gray-700 py-2 px-4 focus:outline-none rounded-md hover:bg-gray-200 dark:hover:bg-gray-800"
             type="button"
             onClick={(e) => console.log(e)}
           >
@@ -87,11 +87,13 @@ const Josh = () => {
       </div>
       <h2 className="font-semibold text-xl mt-16">Team Members</h2>
       <p className="mt-6">Your invite link to add new team members is: </p>
-      <div className="flex items-center">
-        <code>teamData.inviteUrl</code>
+      <div className="flex flex-col md:flex-row items-start md:items-center mt-4 space-y-2 md:space-y-0 md:space-x-2">
+        <code className="font-bold bg-gray-100 p-3 rounded-md dark:bg-gray-800">
+          teamData.inviteUrl
+        </code>
         <CopyToClipboard
           stringToCopy="teamData.inviteUrl"
-          className="inline-block"
+          className="inline-block md:self-stretch"
           label={true}
         />
       </div>
@@ -132,8 +134,17 @@ const Josh = () => {
           </Link>
         </div>
       </div>
-      <h3>Current Team Members (3/3)</h3>
-      <table>
+      <h2 className="font-semibold text-xl mt-16">
+        Current Team Members (3/3)
+      </h2>
+      <table
+        className="w-full mt-6 text-left text-lg"
+        css={{
+          td: {
+            padding: '0.5rem 0.75rem',
+          },
+        }}
+      >
         <tr>
           <th>Name</th>
           <th>Email</th>

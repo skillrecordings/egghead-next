@@ -101,10 +101,10 @@ const TeamName = ({teamData}: TeamNameProps) => {
             Save
           </button>
           <button
-            className={`border border-gray-300 dark:border-0 dark:bg-gray-600 py-2 px-4 focus:outline-none rounded-md
+            className={`border border-gray-300 dark:border-0 dark:bg-gray-700 py-2 px-4 focus:outline-none rounded-md
                     ${
                       teamNameNeedsSaving
-                        ? 'hover:bg-gray-200 dark:hover:bg-gray-700'
+                        ? 'hover:bg-gray-200 dark:hover:bg-gray-800'
                         : 'cursor-not-allowed opacity-50'
                     }`}
             type="button"
