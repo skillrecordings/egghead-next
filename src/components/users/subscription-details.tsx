@@ -10,11 +10,10 @@ type SubscriptionDetailsProps = {
   slug: string
 }
 
-const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = ({
+const useSubscriptionDetails = ({
   stripeCustomerId,
   slug,
-}) => {
-  const {viewer} = useViewer()
+}: SubscriptionDetailsProps) => {
   const [subscriptionData, setSubscriptionData] = React.useState<any>()
   const recur = (price: any) => {
     const {
@@ -43,6 +42,19 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
         })
     }
   }, [stripeCustomerId, slug])
+
+  return [subscriptionData, recur]
+}
+
+const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = ({
+  stripeCustomerId,
+  slug,
+}) => {
+  const {viewer} = useViewer()
+  const [subscriptionData, recur] = useSubscriptionDetails({
+    stripeCustomerId,
+    slug,
+  })
 
   const subscriptionName = subscriptionData && subscriptionData.product?.name
   const subscriptionUnitAmount = get(
