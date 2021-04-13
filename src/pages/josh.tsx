@@ -49,7 +49,9 @@ const qqq = [
 const Josh = () => {
   return (
     <div className="max-w-screen-xl mx-auto mb-24">
-      <h1 className="">Team Account</h1>
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
+        Team Account
+      </h1>
       <p>
         We are in the process of migrating team accounts to our new website. If
         you would like to manage your account please visit{' '}
