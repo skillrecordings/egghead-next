@@ -65,9 +65,9 @@ const InProgressCollection: FunctionComponent<InProgressCollectionProps> = ({
   const resource_path = current_lesson?.path || path
   const image_url = square_cover_480_url
   return (
-    <Card className={`${small ? 'sm:px-6 sm:py-4' : ''} ${className}`}>
+    <Card className={`${small ? 'sm:px-6 sm:py-4 max-h-28' : ''} ${className}`}>
       <div
-        className={`flex w-full ${
+        className={`flex w-full items-center ${
           small
             ? ''
             : 'items-center md:flex-row flex-col md:space-x-4 space-x-0'
@@ -94,7 +94,7 @@ const InProgressCollection: FunctionComponent<InProgressCollectionProps> = ({
             </a>
           </Link>
         )}
-        <div className="space-y-1 w-full pl-3">
+        <div className="space-y-1 w-full pl-5">
           <div className="">
             <Link href={resource_path || '#'}>
               <a
