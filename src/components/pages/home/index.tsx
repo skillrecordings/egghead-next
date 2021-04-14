@@ -3,7 +3,7 @@ import Card, {CardResource} from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, isEmpty} from 'lodash'
+import {map, get, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
@@ -44,7 +44,10 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const topics: any = get(homePageData, 'topics')
   const swag: any = get(homePageData, 'swag')
   const ecommerce: any = get(homePageData, 'ecommerce')
-  const featureCallOut: any = get(homePageData, 'featureCallOut')
+  const featureDigitalGardening: any = get(
+    homePageData,
+    'featureDigitalGardening',
+  )
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -114,34 +117,27 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                     />
                   </div>
                   <div className="max-w-screen-sm space-y-3">
-                    <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                      Digital Gardening for Developers
-                    </h1>
+                    <Link href={featureDigitalGardening.path}>
+                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                          {featureDigitalGardening.title}
+                        </h1>
+                      </a>
+                    </Link>
 
                     <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
-                      <p>
-                        Success in software development requires deeply layered,
-                        high-value communication. If you are serious about
-                        making an impact in your coding career, you should get
-                        good at writing words as well as code. This an
-                        agreed-upon quality for developers. And it all starts
-                        with having your own digital garden.
-                      </p>
-                      <blockquote>
-                        The phrase "digital garden" is a metaphor for thinking
-                        about writing and creating that focuses less on the
-                        resulting "showpiece" and more on the process, care, and
-                        craft it takes to get there. &mdash;{' '}
-                        <a href="https://joelhooks.com/digital-garden">
-                          Joel Hooks
-                        </a>
-                      </blockquote>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                        {featureDigitalGardening.description}
+                      </Markdown>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                        {featureDigitalGardening.quote.description}
+                      </Markdown>
                     </div>
                   </div>
                 </header>
                 <div>
                   <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {featureCallOut.resources.map((resource: any) => {
+                    {featureDigitalGardening.resources.map((resource: any) => {
                       return (
                         <Card
                           className="col-span-4 text-center"
