@@ -12,7 +12,7 @@ const content = [
     label: 'Search',
   },
   {
-    path: '/learn',
+    path: '/blog',
     label: 'Articles',
   },
   {
