@@ -121,11 +121,11 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
             )}
           </div>
           {isInProgress && (
-            <h2 className=" uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1">
-              Lesson {lessons_left} of {lesson_count}{' '}
-              {time_left
-                ? `| ${convertTimeWithTitles(time_left)} minutes left`
-                : ''}
+            <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1">
+              Lesson {lessons_left} of {lesson_count}
+              <span className="lowercase font-normal">
+                {time_left ? ` (${convertTimeWithTitles(time_left)} left)` : ''}
+              </span>
             </h2>
           )}
           {isInProgress && (
