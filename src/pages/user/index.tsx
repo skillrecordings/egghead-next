@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import SubscriptionDetails from 'components/users/subscription-details'
 import {loadUserProgress} from 'lib/users'
-import InProgressCollection from '../../components/pages/home/in-progress-collection'
+import InProgressResource from 'components/pages/users/dashboard/activity/inprogress-resource'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -106,9 +106,9 @@ const User: React.FunctionComponent<
               </h2>
               {progress.map((item: any) => {
                 return (
-                  <InProgressCollection
+                  <InProgressResource
                     key={item.slug}
-                    collection={item.collection}
+                    resource={item.collection}
                   />
                 )
               })}
