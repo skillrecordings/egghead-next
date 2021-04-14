@@ -69,8 +69,8 @@ const TeamName = ({teamData}: TeamNameProps) => {
 
   return (
     <>
-      <h2>Team Name</h2>
-      <div className="flex flex-col space-y-2">
+      <h2 className="font-semibold text-xl mt-16">Team Name</h2>
+      <div className="flex flex-col space-y-2 mt-6">
         <input
           className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 block w-full sm:w-1/2 md:w-1/3 appearance-none leading-normal"
           type="text"
@@ -80,7 +80,7 @@ const TeamName = ({teamData}: TeamNameProps) => {
         />
         <div className="flex flex-row space-x-2">
           <button
-            className={`text-white bg-green-600 border-0 py-0 px-4 focus:outline-none rounded
+            className={`text-white bg-green-600 border-0 py-2 px-4 focus:outline-none rounded-md
                     ${
                       teamNameNeedsSaving
                         ? 'hover:bg-green-700'
@@ -101,10 +101,10 @@ const TeamName = ({teamData}: TeamNameProps) => {
             Save
           </button>
           <button
-            className={`bg-white border-0 py-0 px-4 focus:outline-none rounded
+            className={`border border-gray-300 dark:border-0 dark:bg-gray-700 py-2 px-4 focus:outline-none rounded-md
                     ${
                       teamNameNeedsSaving
-                        ? 'hover:bg-gray-200'
+                        ? 'hover:bg-gray-200 dark:hover:bg-gray-800'
                         : 'cursor-not-allowed opacity-50'
                     }`}
             type="button"

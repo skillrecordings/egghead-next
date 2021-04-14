@@ -1,5 +1,5 @@
-const homepageData = [
-  {
+const homepageData = {
+  jumbotron: {
     id: 'jumbotron',
     title: 'Create a Digital Garden CLI with Rust',
     byline: 'new course',
@@ -19,7 +19,7 @@ const homepageData = [
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/275/square_128/headshot_post_gym_dec_2018_500.png',
     },
   },
-  {
+  'modern-layouts-with-css-grid': {
     id: 'modern-layouts-with-css-grid',
     title: 'Build Modern Layouts with CSS Grid',
     name: 'Write modern CSS',
@@ -40,7 +40,7 @@ const homepageData = [
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
-  {
+  video: {
     id: 'video',
     name: 'Optimize your Learning',
     title: 'Learning Tips Every Developer Should Know',
@@ -63,7 +63,7 @@ There are a number of tried and true methods that will allow you to learn more e
     subtitlesUrl:
       'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
-  {
+  nextjsVideoApp: {
     id: 'nextjsVideoApp',
     name: 'Create AI-powered Transcripts',
     title: 'Video Analysis App with NextJS and Symbl.ai',
@@ -76,7 +76,7 @@ There are a number of tried and true methods that will allow you to learn more e
     description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
     `,
   },
-  {
+  featured: {
     id: 'featured',
     title: 'Featured',
     resources: [
@@ -119,7 +119,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  workflows: {
     id: 'workflows',
     title: 'Optimize Daily Workflows',
     description:
@@ -167,7 +167,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  getStarted: {
     id: 'getStarted',
     name: 'Introductions',
     title: 'Start Learning Here',
@@ -219,7 +219,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  freeCourses: {
     id: 'freeCourses',
     name: 'Community Resource ',
     title: 'Learn Something New',
@@ -281,7 +281,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  devEssentials: {
     id: 'devEssentials',
     name: 'Practice Makes Perfect',
     title: 'Web Development Essentials',
@@ -317,7 +317,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  aws: {
     id: 'aws',
     name: 'Amazon Web Services',
     title: 'Deep Dive into AWS 🤯',
@@ -401,7 +401,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  stateManagement: {
     id: 'stateManagement',
     name: 'Research Panel',
     title: 'React State Management in 2021',
@@ -462,7 +462,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  ecommerce: {
     id: 'ecommerce',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
     name: 'Accept Payments and Sell Products',
@@ -473,7 +473,7 @@ There are a number of tried and true methods that will allow you to learn more e
       '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
-  {
+  tailwind: {
     id: 'tailwind',
     name: 'Write Modern CSS',
     byline: 'Adam Wathan・3h 4m・Course',
@@ -504,7 +504,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  accessibleReactApps: {
     id: 'accessibleReactApps',
     name: 'Accessible React Applications ',
     byline: 'Erin Doyle・1h 28m・Course',
@@ -515,7 +515,7 @@ There are a number of tried and true methods that will allow you to learn more e
     slug: 'develop-accessible-web-apps-with-react',
     title: 'Develop Accessible Web Apps with React',
   },
-  {
+  accessibleApps: {
     id: 'accessibleApps',
     name: 'Accessible Portfolio Pieces',
     title: 'Start Building Accessible Web Applications Today',
@@ -524,7 +524,7 @@ There are a number of tried and true methods that will allow you to learn more e
     path: '/courses/start-building-accessible-web-applications-today',
     slug: 'start-building-accessible-web-applications-today',
   },
-  {
+  cms: {
     id: 'cms',
     name: 'Content Management System',
     title: 'Headless WordPress with GraphQL',
@@ -534,7 +534,7 @@ There are a number of tried and true methods that will allow you to learn more e
     byline: 'Kevin Cunningham・59m・Course',
     description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
-  {
+  portfolioProject: {
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Introduction to Cloudflare Workers',
@@ -545,7 +545,7 @@ There are a number of tried and true methods that will allow you to learn more e
     description:
       'Create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest regional Cloudflare Location.',
   },
-  {
+  topics: {
     id: 'topics',
     name: 'Popular Topics',
     resources: [
@@ -614,7 +614,7 @@ There are a number of tried and true methods that will allow you to learn more e
       // },
     ],
   },
-  {
+  swag: {
     id: 'swag',
     name: 'swag',
     title: '',
@@ -646,6 +646,6 @@ There are a number of tried and true methods that will allow you to learn more e
       // },
     ],
   },
-]
+}
 
 export default homepageData
