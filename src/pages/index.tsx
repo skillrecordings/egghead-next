@@ -33,7 +33,7 @@ export default IndexPage
 
 const featureQuery = groq`
 {
-  'featureCallOut': ${digitalGardeningQuery}
+  'featureDigitalGardening': ${digitalGardeningQuery},
 }
 `
 
