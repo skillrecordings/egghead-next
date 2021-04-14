@@ -94,7 +94,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
             {data.related.resources.map((resource: any) => {
               return (
                 <Card
-                  className="col-span-4 text-center dark:bg-gray-800"
+                  className="col-span-3 text-center dark:bg-gray-800"
                   key={resource.path}
                   resource={resource}
                 />
