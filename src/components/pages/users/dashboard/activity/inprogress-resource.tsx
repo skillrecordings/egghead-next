@@ -94,7 +94,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
             </a>
           </Link>
         )}
-        <div className="space-y-1 w-full pl-5">
+        <div className="space-y-1 w-full pl-4">
           <div className="">
             <Link href={resource_path || '#'}>
               <a
