@@ -3,12 +3,13 @@ import Card, {CardResource} from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, isEmpty} from 'lodash'
+import {map, get, first, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-
+import InProgressSection from 'components/pages/home/in-progress-section'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
+import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
@@ -17,11 +18,12 @@ import Jumbotron from './jumbotron'
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
-  const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
   const currentCourseUrl = viewer?.current_course?.url
+  const [progress, setProgress] = React.useState<any>([])
+  const currentCourse: any = first(progress)
+  const coursesInProgress: any = progress.slice(1, 3)
 
   const video: any = get(homePageData, 'video')
-
   const jumbotron: any = get(homePageData, 'jumbotron')
   let featured: any = get(homePageData, 'featured.resources', {})
   const devEssentials: any = get(homePageData, 'devEssentials')
@@ -46,12 +48,17 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const featureCallOut: any = get(homePageData, 'featureCallOut')
 
   React.useEffect(() => {
-    if (currentCourseUrl) {
-      axios.get(currentCourseUrl).then(({data}) => {
-        setCurrentCourse(data)
-      })
+    if (viewer) {
+      const loadProgressForUser = async (user_id: number) => {
+        if (user_id) {
+          const {data} = await loadUserProgress(user_id)
+          setProgress(data)
+        }
+      }
+
+      loadProgressForUser(viewer.id)
     }
-  }, [currentCourseUrl])
+  }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -74,6 +81,16 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
   return (
     <>
+      <div>
+        {currentCourseUrl && viewer && (
+          <InProgressSection
+            viewer={viewer}
+            progress={progress}
+            currentCourse={currentCourse}
+            coursesInProgress={coursesInProgress}
+          />
+        )}
+      </div>
       <div className="lg:space-y-6 space-y-4">
         <Jumbotron resource={jumbotron} />
         <section className="">

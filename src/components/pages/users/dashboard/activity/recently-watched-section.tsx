@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import InProgressResource from './inprogress-resource'
+import InProgressResource from './in-progress-resource'
 import {Resource} from 'types'
 import {filter, uniq} from 'lodash'
 
@@ -27,9 +27,7 @@ const RecentlyWatched: FunctionComponent<RecentlyWatchedProps> = ({
         </h2>
         <div className="space-y-3">
           {lessonsCompleted.map((resource: any) => {
-            return (
-              <InProgressResource small resource={resource} key={resource.id} />
-            )
+            return <InProgressResource resource={resource} key={resource.id} />
           })}
         </div>
       </div>

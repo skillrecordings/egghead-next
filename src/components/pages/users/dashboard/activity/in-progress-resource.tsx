@@ -32,6 +32,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
     progress,
     type,
     path,
+    image_128_url,
     items = [],
   } = resource
 
@@ -63,7 +64,8 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
   const lessons_left = lesson_count - completed_lesson_count
   const percent_complete = (completed_lesson_count * 100) / lesson_count
   const resource_path = current_lesson?.path || path
-  const image_url = square_cover_480_url
+  const image_url = square_cover_480_url || image_128_url
+
   return (
     <Card className={`${small ? 'sm:px-6 sm:py-4' : ''} ${className}`}>
       <div

@@ -1,7 +1,7 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
 import ContinueWatching from './continue-watching-section'
 import RecentlyWatched from './recently-watched-section'
-import InProgressResource from './inprogress-resource'
+import InProgressResource from './in-progress-resource'
 
 <Meta title="Components/Users/Dashboard/Activity" />
 
@@ -42,8 +42,8 @@ https://app.egghead.io/api/v1/users/${id}/lessons?completed=true
       </div>
       <div className="space-y-2">
         <div className="font-medium text-sm">Lesson</div>
-        <InProgressResource small resource={completedLessons[0]} />
-        <InProgressResource small resource={completedLessons[1]} />
+        <InProgressResource resource={completedLessons[0]} />
+        <InProgressResource resource={completedLessons[1]} />
       </div>
     </div>
   </Story>

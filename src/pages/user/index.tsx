@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import SubscriptionDetails from 'components/users/subscription-details'
 import {loadUserProgress} from 'lib/users'
-import InProgressResource from 'components/pages/users/dashboard/activity/inprogress-resource'
+import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
