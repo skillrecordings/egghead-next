@@ -3,68 +3,47 @@ import Card, {CardResource} from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, isEmpty, first} from 'lodash'
+import {map, get, find, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import homepageData from './homepage-data'
-import SortingHat from 'components/survey/sorting-hat'
 
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
-import InProgressSection from './inprogress/in-progress-section'
-
 import Jumbotron from './jumbotron'
-import LevelUpCTA from '../../survey/level-up-cta'
-import {userInfo} from 'node:os'
-import {loadUserProgress} from 'lib/users'
 
-const Home: FunctionComponent<any> = ({sections}) => {
-  const [featureCallOut] = sections
+const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
   const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
   const currentCourseUrl = viewer?.current_course?.url
 
-  const video: any = find(homepageData, {id: 'video'})
+  const video: any = get(homePageData, 'video')
 
-  const jumbotron: any = find(homepageData, {id: 'jumbotron'})
-  let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
-  const devEssentials: any = find(homepageData, {id: 'devEssentials'})
-  const freeCourses: any = find(homepageData, {id: 'freeCourses'})
-  const getStarted: any = find(homepageData, {id: 'getStarted'})
-  const stateManagement: any = find(homepageData, {
-    id: 'stateManagement',
-  })
-  const aws: any = find(homepageData, {
-    id: 'aws',
-  })
-  const workflows: any = find(homepageData, {
-    id: 'workflows',
-  })
-  const accessibleApps: any = find(homepageData, {
-    id: 'accessibleApps',
-  })
-  const accessibleReactApps: any = find(homepageData, {
-    id: 'accessibleReactApps',
-  })
-  const projectFeatureCardVideoApp: any = find(homepageData, {
-    id: 'nextjsVideoApp',
-  })
-  const wordpressWithGraphql: any = find(homepageData, {
-    id: 'cms',
-  })
-  const modernLayoutsWithCSSGrid: any = find(homepageData, {
-    id: 'modern-layouts-with-css-grid',
-  })
-  const tailwind: any = find(homepageData, {id: 'tailwind'})
-  const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
-  const topics: any = find(homepageData, {id: 'topics'})
-  const swag: any = find(homepageData, {id: 'swag'})
-  const ecommerce: any = find(homepageData, {id: 'ecommerce'})
-  const [progress, setProgress] = React.useState<any>([])
+  const jumbotron: any = get(homePageData, 'jumbotron')
+  let featured: any = get(homePageData, 'featured.resources', {})
+  const devEssentials: any = get(homePageData, 'devEssentials')
+  const freeCourses: any = get(homePageData, 'freeCourses')
+  const getStarted: any = get(homePageData, 'getStarted')
+  const stateManagement: any = get(homePageData, 'stateManagement')
+  const aws: any = get(homePageData, 'aws')
+  const workflows: any = get(homePageData, 'workflows')
+  const accessibleApps: any = get(homePageData, 'accessibleApps')
+  const accessibleReactApps: any = get(homePageData, 'accessibleReactApps')
+  const projectFeatureCardVideoApp: any = get(homePageData, 'nextjsVideoApp')
+  const wordpressWithGraphql: any = get(homePageData, 'cms')
+  const modernLayoutsWithCSSGrid: any = get(
+    homePageData,
+    'modern-layouts-with-css-grid',
+  )
+  const tailwind: any = get(homePageData, 'tailwind')
+  const portfolioProject: any = get(homePageData, 'portfolioProject')
+  const topics: any = get(homePageData, 'topics')
+  const swag: any = get(homePageData, 'swag')
+  const ecommerce: any = get(homePageData, 'ecommerce')
+  const featureCallOut: any = get(homePageData, 'featureCallOut')
 
   React.useEffect(() => {
     if (currentCourseUrl) {
@@ -73,19 +52,6 @@ const Home: FunctionComponent<any> = ({sections}) => {
       })
     }
   }, [currentCourseUrl])
-
-  React.useEffect(() => {
-    if (viewer) {
-      const loadProgressForUser = async (user_id: number) => {
-        if (user_id) {
-          const {data} = await loadUserProgress(user_id)
-          setProgress(data)
-        }
-      }
-
-      loadProgressForUser(viewer.id)
-    }
-  }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -106,23 +72,10 @@ const Home: FunctionComponent<any> = ({sections}) => {
     </Card>
   )
 
-  const courseInProgress: any = first(progress)
-  const coursesInProgress: any = progress.slice(1, 3)
-
   return (
     <>
-      <InProgressSection
-        viewer={viewer}
-        progress={progress}
-        courseInProgress={courseInProgress}
-        coursesInProgress={coursesInProgress}
-      />
-
-      <section className="mt-6">
+      <div className="lg:space-y-6 space-y-4">
         <Jumbotron resource={jumbotron} />
-      </section>
-
-      <div className="lg:space-y-6 space-y-4 mt-6">
         <section className="">
           <TopicsList topics={topics} />
         </section>
