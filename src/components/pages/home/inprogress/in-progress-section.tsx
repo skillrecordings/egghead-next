@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import InProgressCollection from './in-progress-collection'
+import InProgressResource from '../../users/dashboard/activity/inprogress-resource'
 import {isEmpty} from 'lodash'
 
 type InProgressSectionProps = {
@@ -33,9 +33,9 @@ const InProgressSection: FunctionComponent<InProgressSectionProps> = ({
             </h2>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            <InProgressCollection
+            <InProgressResource
               className="h-full flex items-center w-full"
-              collection={courseInProgress.collection}
+              resource={courseInProgress.collection}
             />
             {coursesInProgress && (
               <div
@@ -45,10 +45,10 @@ const InProgressSection: FunctionComponent<InProgressSectionProps> = ({
               >
                 {coursesInProgress.map((item: any) => {
                   return (
-                    <InProgressCollection
+                    <InProgressResource
                       small
                       key={item.slug}
-                      collection={item.collection}
+                      resource={item.collection}
                     />
                   )
                 })}

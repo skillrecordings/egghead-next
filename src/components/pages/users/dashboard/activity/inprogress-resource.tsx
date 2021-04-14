@@ -4,54 +4,76 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import {track} from 'utils/analytics'
+import {first, get, isEmpty} from 'lodash'
+import {LessonResource} from 'types'
+import Card from 'components/pages/home/card'
 
-type ResourceProps = {
-  title: string
-  square_cover_480_url?: string
-  image_480_url?: string
-  slug: string
-  series?: {
-    square_cover_url: string
-    title: string
-  }
-  progress?: {
-    current_lesson: any
-    completed_lesson_count: number
-    time_left: number
-    lesson_count: number
-    is_completed: boolean
-  }
-  type: string
-  path: string
+type InProgressResourceProps = {
+  resource: any
+  small?: boolean
+  className?: string
 }
 
-const Resource: FunctionComponent<ResourceProps> = ({
-  title,
-  square_cover_480_url,
-  image_480_url,
-  series,
-  slug,
-  progress,
-  type,
-  path,
+const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
+  resource,
+  small = false,
+  className = '',
 }) => {
+  if (isEmpty(resource)) {
+    return null
+  }
+
   const {
-    current_lesson,
+    title,
+    square_cover_480_url,
+    series,
+    slug,
+    resource_progress,
+    progress,
+    type,
+    path,
+    items = [],
+  } = resource
+
+  const definedProgress = resource_progress || progress
+
+  const {
     completed_lesson_count = 0,
     time_left = 0,
     lesson_count = 0,
     is_completed,
-  } = progress || {}
-  const isInProgress = progress && !is_completed
+  } = definedProgress || {}
+
+  const completedLessonSlugs = get(
+    definedProgress,
+    'completed_lessons',
+    [],
+  ).map((lesson: LessonResource) => lesson.slug)
+
+  const lessons =
+    resource.lessons || items.filter((item: any) => item.type === 'lesson')
+
+  const current_lesson: any = first(
+    lessons.filter(
+      (lesson: LessonResource) => !completedLessonSlugs.includes(lesson.slug),
+    ),
+  )
+
+  const isInProgress = definedProgress && !is_completed
   const lessons_left = lesson_count - completed_lesson_count
   const percent_complete = (completed_lesson_count * 100) / lesson_count
   const resource_path = current_lesson?.path || path
-  const image_url =
-    series?.square_cover_url || image_480_url || square_cover_480_url
+  const image_url = square_cover_480_url
   return (
-    <div>
-      <div className="flex md:items-center md:flex-row flex-col md:space-x-4 space-x-0">
-        {image_url && (
+    <Card className={`${small ? 'sm:px-6 sm:py-4' : ''} ${className}`}>
+      <div
+        className={`flex w-full items-center ${
+          small
+            ? ''
+            : 'items-center md:flex-row flex-col md:space-x-4 space-x-0'
+        }`}
+      >
+        {image_url && resource_path && (
           <Link href={resource_path}>
             <a
               onClick={() =>
@@ -61,20 +83,22 @@ const Resource: FunctionComponent<ResourceProps> = ({
                   location: 'resource in progress (image)',
                 })
               }
+              tabIndex={-1}
             >
               <Image
                 src={image_url}
                 alt={title}
-                width={square_cover_480_url ? 112 : 48}
-                height={square_cover_480_url ? 112 : 48}
+                width={small ? 72 : square_cover_480_url ? 160 : 48}
+                height={small ? 72 : square_cover_480_url ? 160 : 48}
               />
             </a>
           </Link>
         )}
-        <div className="space-y-1 w-full">
+        <div className="space-y-1 w-full pl-5">
           <div className="">
-            <Link href={resource_path}>
+            <Link href={resource_path || '#'}>
               <a
+                className="dark:hover:text-blue-300 hover:text-blue-600"
                 onClick={() =>
                   track(`clicked continue watching`, {
                     slug: slug,
@@ -83,24 +107,32 @@ const Resource: FunctionComponent<ResourceProps> = ({
                   })
                 }
               >
-                <h3 className="text-lg font-semibold leading-tight">{title}</h3>
+                <h3
+                  className={`${
+                    small ? 'text-lg' : 'text-xl'
+                  } font-semibold leading-tight mb-2`}
+                >
+                  {title}
+                </h3>
               </a>
             </Link>
             {!isInProgress && series && (
               <div className="text-sm flex items-center">{series?.title}</div>
             )}
-            {isInProgress && (
-              <div className="text-gray-700 text-sm">
-                {convertTimeWithTitles(time_left)} left to go ({lessons_left}{' '}
-                more lessons)
-              </div>
-            )}
           </div>
           {isInProgress && (
+            <h2 className=" uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1">
+              Lesson {lessons_left} of {lesson_count}{' '}
+              {time_left
+                ? `| ${convertTimeWithTitles(time_left)} minutes left`
+                : ''}
+            </h2>
+          )}
+          {isInProgress && (
             <div className="flex items-center space-x-1">
-              <Link href={resource_path}>
+              <Link href={resource_path || '#'}>
                 <a
-                  className="text-blue-600"
+                  className="text-blue-600 flex bg-white rounded-full"
                   onClick={() =>
                     track(`clicked continue watching`, {
                       slug: slug,
@@ -112,7 +144,7 @@ const Resource: FunctionComponent<ResourceProps> = ({
                   <PlayIcon />
                 </a>
               </Link>
-              <div className="relative w-full h-2 bg-gray-200 overflow-hidden rounded-sm">
+              <div className="relative w-full h-2 bg-gray-200 dark:bg-gray-600 overflow-hidden rounded-sm">
                 <div
                   style={{width: `${percent_complete}%`}}
                   className="absolute left-0 top-0 bg-blue-600 h-full"
@@ -120,10 +152,12 @@ const Resource: FunctionComponent<ResourceProps> = ({
               </div>
             </div>
           )}
-          {isInProgress && (
+          {!small && isInProgress && current_lesson && (
             <div className="leading-tighter flex items-center space-x-2">
-              <div className="text-xs text-gray-600">Up Next</div>
-              <Link href={resource_path}>
+              <div className="text-xs text-gray-600 dark:text-gray-300">
+                Up Next
+              </div>
+              <Link href={resource_path || '3'}>
                 <a
                   className="text-sm font-medium"
                   onClick={() =>
@@ -134,18 +168,18 @@ const Resource: FunctionComponent<ResourceProps> = ({
                     })
                   }
                 >
-                  {current_lesson.title}
+                  {current_lesson?.title}
                 </a>
               </Link>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
 
-export default Resource
+export default InProgressResource
 
 const PlayIcon = () => {
   return (
