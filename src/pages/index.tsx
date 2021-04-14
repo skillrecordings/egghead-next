@@ -3,9 +3,10 @@ import {NextSeo} from 'next-seo'
 import Home from 'components/pages/home'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import InstructorsIndex from 'components/search/instructors'
+import staticHomePageData from 'components/pages/home/homepage-data'
+import {digitalGardeningQuery} from './learn/digital-gardening'
 
-const IndexPage: FunctionComponent = ({sections}: any) => {
+const IndexPage: FunctionComponent = ({homePageData}: any) => {
   return (
     <>
       <NextSeo
@@ -21,7 +22,7 @@ const IndexPage: FunctionComponent = ({sections}: any) => {
       />
       <main className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
         <div className="max-w-screen-xl mx-auto">
-          <Home sections={sections} />
+          <Home homePageData={homePageData} />
         </div>
       </main>
     </>
@@ -30,35 +31,21 @@ const IndexPage: FunctionComponent = ({sections}: any) => {
 
 export default IndexPage
 
-const digitalGardeningQuery = groq`
-*[_type == 'resource' && slug.current == "digital-gardening-for-developers"][0]{
-  title,
-  description,
-  'illustration': images[label == 'eggo'][0]{
-    url,
-    alt
-  },
-  'quote': content[title == 'quote'][0]{
-    description
-  },
-  resources[]{
-    title,
-    byline,
-    'name': content[title == 'name'][0].description,
-    'path': resources[]->[0].path,
-    'image': resources[]->[0].image
-  }
+const featureQuery = groq`
+{
+  'featureCallOut': ${digitalGardeningQuery}
 }
 `
 
 export async function getStaticProps() {
-  const digitalGardeningFeature = await sanityClient.fetch(
-    digitalGardeningQuery,
-  )
+  const sanityHomePageData = await sanityClient.fetch(featureQuery)
 
   return {
     props: {
-      sections: [digitalGardeningFeature],
+      homePageData: {
+        ...staticHomePageData,
+        ...sanityHomePageData,
+      },
     },
   }
 }
