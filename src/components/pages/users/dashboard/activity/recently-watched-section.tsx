@@ -27,7 +27,9 @@ const RecentlyWatched: FunctionComponent<RecentlyWatchedProps> = ({
         </h2>
         <div className="space-y-3">
           {lessonsCompleted.map((resource: any) => {
-            return <InProgressResource resource={resource} key={resource.id} />
+            return (
+              <InProgressResource small resource={resource} key={resource.id} />
+            )
           })}
         </div>
       </div>
