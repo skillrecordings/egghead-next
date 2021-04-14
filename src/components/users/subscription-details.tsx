@@ -50,11 +50,17 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
     'latestInvoice.amount_due',
     subscriptionData?.price?.unit_amount,
   )
+  const currency = get(
+    subscriptionData,
+    'latestInvoice.currency',
+    subscriptionData?.price?.unit_amount,
+  )
   const subscriptionPrice =
-    subscriptionData?.price &&
+    subscriptionUnitAmount &&
+    currency &&
     new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: subscriptionData.price.currency,
+      currency: currency,
       minimumFractionDigits: 0,
     }).format(subscriptionUnitAmount / 100)
 
