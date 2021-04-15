@@ -8,8 +8,11 @@ const useSubscriptionDetails = ({
   stripeCustomerId: string
   slug: string
 }) => {
+  const [loading, setLoading] = React.useState<boolean>(true)
   const [subscriptionData, setSubscriptionData] = React.useState<any>()
   const recur = (price: any) => {
+    if (price === undefined) return ''
+
     const {
       recurring: {interval, interval_count},
     } = price
@@ -22,6 +25,8 @@ const useSubscriptionDetails = ({
 
   React.useEffect(() => {
     if (stripeCustomerId) {
+      setLoading(true)
+
       axios
         .get(`/api/stripe/billing/session`, {
           params: {
@@ -34,10 +39,13 @@ const useSubscriptionDetails = ({
             setSubscriptionData(data)
           }
         })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }, [stripeCustomerId, slug])
 
-  return [subscriptionData, recur]
+  return {subscriptionData, recur, loading}
 }
 
 export default useSubscriptionDetails

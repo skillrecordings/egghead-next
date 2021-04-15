@@ -15,7 +15,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
   slug,
 }) => {
   const {viewer} = useViewer()
-  const [subscriptionData, recur] = useSubscriptionDetails({
+  const {subscriptionData, recur, loading} = useSubscriptionDetails({
     stripeCustomerId,
     slug,
   })
@@ -43,7 +43,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
   return (
     <>
       {/* Payment details */}
-      {subscriptionData && (
+      {!loading && subscriptionData && (
         <div className="sm:px-6 lg:px-0 lg:col-span-9">
           <section className="mb-32">
             <div className="p-4 w-full">
