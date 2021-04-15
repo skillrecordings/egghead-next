@@ -84,6 +84,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
   return (
     <>
+      {/* 
       <div>
         {currentCourseUrl && viewer && (
           <InProgressSection
@@ -93,7 +94,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             coursesInProgress={coursesInProgress}
           />
         )}
-      </div>
+      </div> */}
       <div className="lg:space-y-6 space-y-4">
         <Jumbotron resource={jumbotron} />
         <section className="">
