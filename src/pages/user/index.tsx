@@ -99,21 +99,21 @@ const User: React.FunctionComponent<
             stripeCustomerId={stripe_customer_id}
             slug={slug}
           />
-          {!isEmpty(progress) && (
-            <div className="flex flex-col space-y-2">
-              <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
-                Continue learning
-              </h2>
-              {progress.map((item: any) => {
-                return (
-                  <InProgressResource
-                    key={item.slug}
-                    resource={item.collection}
-                  />
-                )
-              })}
-            </div>
-          )}
+          {/*{!isEmpty(progress) && (*/}
+          {/*  <div className="flex flex-col space-y-2">*/}
+          {/*    <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">*/}
+          {/*      Continue learning*/}
+          {/*    </h2>*/}
+          {/*    {progress.map((item: any) => {*/}
+          {/*      return (*/}
+          {/*        <InProgressResource*/}
+          {/*          key={item.slug}*/}
+          {/*          resource={item.collection}*/}
+          {/*        />*/}
+          {/*      )*/}
+          {/*    })}*/}
+          {/*  </div>*/}
+          {/*)}*/}
         </div>
       </main>
     </LoginRequired>
