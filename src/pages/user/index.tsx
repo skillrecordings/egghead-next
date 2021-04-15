@@ -10,11 +10,14 @@ import InProgressCollection from '../../components/pages/home/in-progress-collec
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
-}> = ({authToken}) => {
+  className: string
+}> = ({authToken, className}) => {
   return (
     <a
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
-      className={`text-white bg-blue-600 border-0 py-2 px-4 rounded focus:outline-none hover:bg-blue-700`}
+      className={`inline-block text-white bg-blue-600 border-0 py-2 px-4 rounded focus:outline-none hover:bg-blue-700 ${
+        className ? className : ''
+      }`}
     >
       Connect your GitHub account
     </a>
@@ -64,14 +67,14 @@ const User: React.FunctionComponent<
   return (
     <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
-        <div className="max-w-screen-md mx-auto flex flex-col space-y-8">
+        <div className="max-w-screen-md mx-auto flex flex-col space-y-8 md:space-y-12">
           {/* Account details */}
-          <div className="sm:px-6 lg:px-0 lg:col-span-9">
+          <div className="lg:col-span-9">
             <RequestEmailChangeForm originalEmail={currentEmail} />
           </div>
           {/* Connect to GitHub */}
           {isConnectedToGithub ? (
-            <div className="sm:px-6 lg:px-0 lg:col-span-9">
+            <div className="lg:col-span-9">
               <div className="flex flex-col space-y-2">
                 <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
                   Your Account is Connected to Github
@@ -82,23 +85,21 @@ const User: React.FunctionComponent<
               </div>
             </div>
           ) : (
-            <div className="sm:px-6 lg:px-0 lg:col-span-9">
+            <div className="lg:col-span-9">
               <div className="flex flex-col space-y-2">
                 <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
                   Connect to GitHub
                 </h2>
                 <p>Connect your GitHub account to log in with GitHub Oauth.</p>
-                <div>
-                  <GithubConnectButton authToken={authToken} />
-                </div>
               </div>
+              <GithubConnectButton authToken={authToken} className="mt-5" />
             </div>
           )}
           <SubscriptionDetails
             stripeCustomerId={stripe_customer_id}
             slug={slug}
           />
-          <div>
+          <div className="space-y-4">
             {progress.map((item: any) => {
               return (
                 <InProgressCollection

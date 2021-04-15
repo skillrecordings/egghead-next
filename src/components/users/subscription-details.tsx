@@ -68,7 +68,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
     <>
       {/* Payment details */}
       {subscriptionData && (
-        <div className="sm:px-6 lg:px-0 lg:col-span-9">
+        <div className="lg:col-span-9">
           <section className="mb-32">
             <div className="p-4 w-full">
               <div className="border border-accents-1	w-full p rounded-md m-auto my-8 max-w-max-content">

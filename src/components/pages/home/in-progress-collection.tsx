@@ -52,7 +52,7 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
   const image_url = square_cover_480_url
   return (
     <Card>
-      <div className="flex md:items-center md:flex-row flex-col md:space-x-4 space-x-0">
+      <div className="flex md:items-center space-x-4">
         {image_url && resource_path && (
           <Link href={resource_path}>
             <a
@@ -89,7 +89,9 @@ const InProgressCollection: FunctionComponent<any> = ({collection}) => {
                   })
                 }
               >
-                <h3 className="text-lg font-semibold leading-tight">{title}</h3>
+                <h3 className="text-base md:text-lg font-semibold leading-tight">
+                  {title}
+                </h3>
               </a>
             </Link>
             {!isInProgress && series && (
