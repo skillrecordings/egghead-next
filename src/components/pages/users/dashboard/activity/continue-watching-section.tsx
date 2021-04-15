@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import ResourceCard from './resource'
+import InProgressResource from './in-progress-resource'
 import {Resource} from 'types'
 import {filter, uniq, orderBy} from 'lodash'
 
@@ -29,7 +29,9 @@ const ContinueWatching: FunctionComponent<ContinueWatchingProps> = ({
         </h2>
         <div className="space-y-5">
           {coursesInProgress.map((resource: any) => {
-            return <ResourceCard {...resource} key={resource.id} />
+            return (
+              <InProgressResource resource={resource} key={resource.id} small />
+            )
           })}
         </div>
       </div>

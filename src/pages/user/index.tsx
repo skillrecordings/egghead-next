@@ -4,9 +4,10 @@ import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {useViewer} from 'context/viewer-context'
 import RequestEmailChangeForm from 'components/users/request-email-change-form'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import SubscriptionDetails from 'components/users/subscription-details'
 import {loadUserProgress} from 'lib/users'
-import InProgressCollection from '../../components/pages/home/in-progress-collection'
+import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -14,7 +15,7 @@ const GithubConnectButton: React.FunctionComponent<{
   return (
     <a
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
-      className={`text-white bg-blue-600 border-0 py-2 px-4 rounded focus:outline-none hover:bg-blue-700`}
+      className={`text-white bg-blue-600 border-0 py-3 px-4 rounded focus:outline-none hover:bg-blue-700`}
     >
       Connect your GitHub account
     </a>
@@ -64,7 +65,7 @@ const User: React.FunctionComponent<
   return (
     <LoginRequired>
       <main className="pb-10 lg:py-3 lg:px-8">
-        <div className="max-w-screen-md mx-auto flex flex-col space-y-8">
+        <div className="max-w-screen-md mx-auto flex flex-col sm:space-y-16 space-y-10">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <RequestEmailChangeForm originalEmail={currentEmail} />
@@ -73,7 +74,7 @@ const User: React.FunctionComponent<
           {isConnectedToGithub ? (
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
               <div className="flex flex-col space-y-2">
-                <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+                <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
                   Your Account is Connected to Github
                 </h2>
                 <p>
@@ -84,11 +85,11 @@ const User: React.FunctionComponent<
           ) : (
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
               <div className="flex flex-col space-y-2">
-                <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+                <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
                   Connect to GitHub
                 </h2>
                 <p>Connect your GitHub account to log in with GitHub Oauth.</p>
-                <div>
+                <div className="pt-2">
                   <GithubConnectButton authToken={authToken} />
                 </div>
               </div>
@@ -98,16 +99,21 @@ const User: React.FunctionComponent<
             stripeCustomerId={stripe_customer_id}
             slug={slug}
           />
-          <div>
-            {progress.map((item: any) => {
-              return (
-                <InProgressCollection
-                  key={item.slug}
-                  collection={item.collection}
-                />
-              )
-            })}
-          </div>
+          {!isEmpty(progress) && (
+            <div className="flex flex-col space-y-2">
+              <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
+                Continue learning
+              </h2>
+              {progress.map((item: any) => {
+                return (
+                  <InProgressResource
+                    key={item.slug}
+                    resource={item.collection}
+                  />
+                )
+              })}
+            </div>
+          )}
         </div>
       </main>
     </LoginRequired>

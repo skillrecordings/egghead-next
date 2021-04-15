@@ -58,7 +58,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
         return (
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-2">
-              <h2 className="text-xl border-b border-gray-200 dark:border-gray-800">
+              <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
                 Email
               </h2>
               <p>Your email address:</p>
