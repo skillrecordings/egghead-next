@@ -24,7 +24,7 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
 
 const question = {
   version: '1.0.0',
-  career_chat: {
+  online_presence: {
     heading: `Own Your Online Presence`,
     subheading: `We want to help you present your best as a professional web developer.`,
     type: `cta-link`,
@@ -69,7 +69,7 @@ const OnlinePresenceCTA: React.FunctionComponent<{
           }}
           className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
         >
-          Career Planning 1:1
+          {state.question.heading}
         </a>
       </Link>
     </div>
