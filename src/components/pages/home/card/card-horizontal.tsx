@@ -12,9 +12,9 @@ export const CardHorizontal: FunctionComponent<{
   location?: string
 }> = ({resource, className = 'border-none my-4', location = 'home'}) => {
   return (
-    <Card className={className}>
+    <Card className={`flex items-center ${className ? className : ''}`}>
       <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
+        <div className="flex md:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
           {resource.image && (
             <Link href={resource.path}>
               <a
@@ -25,7 +25,7 @@ export const CardHorizontal: FunctionComponent<{
                     location,
                   })
                 }}
-                className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
+                className="block flex-shrink-0 sm:w-auto w-36"
                 tabIndex={-1}
               >
                 <Image
@@ -62,7 +62,7 @@ export const CardHorizontal: FunctionComponent<{
             </div>
             <Markdown
               source={resource.description || ''}
-              className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none"
+              className="prose dark:prose-dark dark:prose-dark-sm prose-sm"
             />
           </div>
         </div>
