@@ -1,8 +1,8 @@
-import {MdLightbulbOutline as icon} from 'react-icons/md'
+import {MdList as icon} from 'react-icons/md'
 
 export default {
   name: 'string-list',
-  title: 'Big Idea',
+  title: 'String List',
   type: 'object',
   icon,
   fields: [
