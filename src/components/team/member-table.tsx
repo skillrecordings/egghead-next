@@ -2,7 +2,7 @@ import {format} from 'date-fns'
 
 const MemberTable = ({members}: {members: any[]}) => {
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+    <div className="bg-white shadow overflow-hidden sm:rounded-md mt-2">
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {members.map((member: any, i: number) => {
           const {id, name, email, roles, date_added} = member
