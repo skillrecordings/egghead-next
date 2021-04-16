@@ -28,9 +28,9 @@ const MemberTable = ({members}: {members: any[]}) => {
                     )}
                   </p>
                   <div className="ml-2 flex-shrink-0 flex">
-                    <p className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-700 text-red-800 dark:text-red-100 hover:shadow">
-                      Remove
-                    </p>
+                    {/* <p className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-700 text-red-800 dark:text-red-100 hover:shadow"> */}
+                    {/*   Remove */}
+                    {/* </p> */}
                   </div>
                 </div>
                 <div className="mt-2 sm:flex sm:justify-between">
