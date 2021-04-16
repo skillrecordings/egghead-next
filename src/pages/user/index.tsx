@@ -15,7 +15,7 @@ const GithubConnectButton: React.FunctionComponent<{
   return (
     <a
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
-      className={`text-white bg-blue-600 border-0 py-3 px-4 rounded focus:outline-none hover:bg-blue-700`}
+      className="text-white bg-blue-600 border-0 py-3 px-4 rounded focus:outline-none hover:bg-blue-700 inline-block"
     >
       Connect your GitHub account
     </a>
