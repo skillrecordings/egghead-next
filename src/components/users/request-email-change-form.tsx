@@ -89,7 +89,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                   </p>
                 )}
               </div>
-              <div className="flex flex-row space-x-2">
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                 <input
                   id="email"
                   type="email"
@@ -102,7 +102,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                   className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
                 />
                 {state.matches('edit') || state.matches('loading') ? (
-                  <>
+                  <div className="flex space-x-2">
                     <button
                       type="submit"
                       className="text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-700 rounded"
@@ -119,7 +119,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
                     >
                       Cancel
                     </button>
-                  </>
+                  </div>
                 ) : (
                   <button
                     onClick={() => send({type: 'EDIT'})}
