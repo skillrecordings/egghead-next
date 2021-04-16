@@ -23,6 +23,7 @@ import InProgressCollection from './in-progress-collection'
 import MiniProgressCollection from './mini-progress-collection'
 
 import Jumbotron from './jumbotron'
+import WhatsNew from './featured/whats-new'
 import LevelUpCTA from '../../survey/level-up-cta'
 import {userInfo} from 'node:os'
 import {loadUserProgress} from 'lib/users'
@@ -101,22 +102,12 @@ const Home: FunctionComponent = () => {
     </Card>
   )
 
+  const featuredResources = [wordpressWithGraphql, accessibleApps]
+
   return (
     <>
       <div>
-        <section className="mt-16">
-          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
-            What's New
-          </h2>
-          <Jumbotron resource={jumbotron} />
-          <div className="grid grid-cols-12 grid-rows-3 gap-4">
-            <div className="bg-gray-200 w-full h-auto row-span-2 col-span-7" />
-            <div className="bg-gray-200 w-full h-auto row-span-2 col-span-5" />
-            <div className="bg-gray-200 w-full h-40 row-span-1 col-span-4" />
-            <div className="bg-gray-200 w-full h-40 row-span-1 col-span-4" />
-            <div className="bg-gray-200 w-full h-40 row-span-1 col-span-4" />
-          </div>
-        </section>
+        <WhatsNew jumbotron={jumbotron} featuredResources={featuredResources} />
 
         <section className="mt-24">
           <h2 className="text-center md:text-xl text-lg sm:font-semibold font-bold leading-tight mb-2">
