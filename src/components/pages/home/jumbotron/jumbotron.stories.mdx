@@ -1,5 +1,5 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
-import FeaturedResource from './'
+import JumbotronResource from './'
 import {find} from 'lodash'
 import {sanityClient} from 'utils/sanity-client'
 
@@ -25,12 +25,12 @@ export const resource = {
 
 <Meta title="Components/Home/Jumbotron" />
 
-# Featured Resource
+# Jumbotron Resource
 
 <Canvas>
   <Story name="Default">
     <div className="max-w-screen-xl mx-auto bg-gray-50 p-5">
-      <FeaturedResource resource={resource} />
+      <JumbotronResource resource={resource} />
       <Primary />
     </div>
   </Story>

@@ -1,0 +1,56 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import WhatsNew from './whats-new.tsx'
+import {find} from 'lodash'
+import {sanityClient} from 'utils/sanity-client'
+
+export const jumbotron = {
+  id: 'header',
+  title: 'Introduction to Cloudflare Workers',
+  byline: 'new course',
+  description:
+    "Follow along with Kristian Freeman as you build a localization engine that renders data based on the Edge location nearest to the application's user.",
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
+  path: '/playlists/introduction-to-cloudflare-workers-5aa3',
+  slug: 'introduction-to-cloudflare-workers-5aa3',
+  instructor: {
+    name: 'Kristian Freeman',
+    slug: 'kristian-freeman',
+    path: '/q/resources-by-kristian-freeman',
+    twitter: 'signalnerve',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/469/square_128/kristian.jpeg',
+  },
+}
+
+export const featuredResources = [
+  {
+    id: 'accessibleApps',
+    name: 'Accessible Portfolio Pieces',
+    title: 'Start Building Accessible Web Applications Today',
+    byline: 'Marcy Sutton・2h 7m ・ Course',
+    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/055/thumb/EGH_AccessibleWeb.png`,
+    path: '/courses/start-building-accessible-web-applications-today',
+    slug: 'start-building-accessible-web-applications-today',
+  },
+  {
+    id: 'cms',
+    name: 'Content Management System',
+    title: 'Headless WordPress with GraphQL',
+    path: '/playlists/headless-wordpress-4a14',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+    byline: 'Kevin Cunningham・59m・Course',
+    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
+  },
+]
+
+<Meta title="Components/Home/Features" />
+
+<Canvas>
+  <Story name="Whats New">
+    <div className="max-w-screen-xl mx-auto bg-gray-50 p-5">
+      <WhatsNew featuredResources={featuredResources} jumbotron={jumbotron} />
+    </div>
+  </Story>
+</Canvas>
