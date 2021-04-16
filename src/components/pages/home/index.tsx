@@ -1,10 +1,15 @@
 import React, {FunctionComponent} from 'react'
 import Card, {CardResource} from './card'
+import CardHorizontal from 'components/pages/home/card/card-horizontal'
+import {
+  CardVerticalLarge,
+  CardVerticalWithStack,
+} from 'components/pages/home/card/card-vertical'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, find, isEmpty} from 'lodash'
-import Textfit from 'react-textfit'
+
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import homepageData from './homepage-data'
@@ -77,16 +82,16 @@ const Home: FunctionComponent = () => {
     }
   }, [currentCourseUrl])
 
-  React.useEffect(() => {
-    const loadProgressForUser = async (user_id: number) => {
-      if (user_id) {
-        const {data} = await loadUserProgress(user_id)
-        setProgress(data)
-      }
-    }
+  // React.useEffect(() => {
+  //   const loadProgressForUser = async (user_id: number) => {
+  //     if (user_id) {
+  //       const {data} = await loadUserProgress(user_id)
+  //       setProgress(data)
+  //     }
+  //   }
 
-    loadProgressForUser(viewer.id)
-  }, [viewer?.id])
+  //   loadProgressForUser(viewer.id)
+  // }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -113,7 +118,7 @@ const Home: FunctionComponent = () => {
         <section className="mt-4">
           <div className="flex justify-between align-text-top">
             <h2 className="md:text-xl text-lg mb-4 text-left">
-              Welcome back <b>{viewer.name}</b>! Ready to continue learning?
+              Welcome back <b>May</b>! Ready to continue learning?
             </h2>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 grid-rows-2 gap-4">
@@ -237,9 +242,14 @@ const Home: FunctionComponent = () => {
 
         <section className="mt-32">
           <div className="grid grid-cols-3 gap-4">
-            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-            <CardVerticalWithStack data={aws} />
             <CardVerticalWithStack
+              viewer={viewer}
+              className="sm:py-3 py-2"
+              data={getStarted}
+            />
+            <CardVerticalWithStack viewer={viewer} data={aws} />
+            <CardVerticalWithStack
+              viewer={viewer}
               data={freeCourses}
               memberTitle="Must Watch"
             />
@@ -539,178 +549,6 @@ function FeaturedVideoCard(props: {video: any}) {
           />
         </div>
       </div>
-    </Card>
-  )
-}
-
-type CardProps = {
-  data: CardResource
-  className?: string
-  memberTitle?: string
-}
-
-export const CardHorizontal: FunctionComponent<{
-  resource: CardResource
-  className?: string
-  location?: string
-}> = ({resource, className = 'border-none my-4', location = 'home'}) => {
-  return (
-    <Card className={className}>
-      <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
-          {resource.image && (
-            <Link href={resource.path}>
-              <a
-                onClick={() => {
-                  track('clicked resource', {
-                    resource: resource.path,
-                    linkType: 'image',
-                    location,
-                  })
-                }}
-                className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
-                tabIndex={-1}
-              >
-                <Image
-                  src={get(resource.image, 'src', resource.image)}
-                  width={160}
-                  height={160}
-                  alt={`illustration for ${resource.title}`}
-                />
-              </a>
-            </Link>
-          )}
-          <div className="flex flex-col justify-center sm:items-start items-center">
-            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
-              {resource.name}
-            </h2>
-            <Link href={resource.path}>
-              <a
-                onClick={() => {
-                  track('clicked resource', {
-                    resource: resource.path,
-                    linkType: 'text',
-                    location,
-                  })
-                }}
-                className="hover:text-blue-600 dark:hover:text-blue-300"
-              >
-                <h3 className="text-xl font-bold leading-tighter">
-                  {resource.title}
-                </h3>
-              </a>
-            </Link>
-            <div className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
-              {resource.byline}
-            </div>
-            <Markdown
-              source={resource.description || ''}
-              className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none"
-            />
-          </div>
-        </div>
-      </>
-    </Card>
-  )
-}
-
-const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
-  const {path, image, title, name, byline} = data
-  return (
-    <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
-      <>
-        {image && (
-          <Link href={path}>
-            <a
-              onClick={() => {
-                track('clicked home page resource', {
-                  resource: path,
-                  linkType: 'image',
-                })
-              }}
-              className="mb-2 mx-auto w-32"
-              tabIndex={-1}
-            >
-              <Image
-                width={220}
-                height={220}
-                src={get(image, 'src', image)}
-                alt={`illustration for ${title}`}
-              />
-            </a>
-          </Link>
-        )}
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
-          {name}
-        </h2>
-        <Link href={path}>
-          <a
-            onClick={() => {
-              track('clicked home page resource', {
-                resource: path,
-                linkType: 'text',
-              })
-            }}
-            className="hover:text-blue-600 dark:hover:text-blue-300"
-          >
-            <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
-              <Textfit mode="multi" min={14} max={20}>
-                {title}
-              </Textfit>
-            </h3>
-          </a>
-        </Link>
-        <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
-          {byline}
-        </div>
-      </>
-    </Card>
-  )
-}
-
-const CardVerticalWithStack: FunctionComponent<CardProps> = ({
-  data,
-  memberTitle,
-}) => {
-  const {viewer} = useViewer()
-  const {name, title, description, path} = data
-  return (
-    <Card>
-      <>
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
-          {(viewer?.is_pro || viewer?.is_instructor) && memberTitle
-            ? memberTitle
-            : name}
-        </h2>
-        {path ? (
-          <Link href={path}>
-            <a
-              onClick={() => {
-                track('clicked home page resource', {
-                  resource: path,
-                  linkType: 'text',
-                })
-              }}
-              className="hover:text-blue-600 dark:hover:text-blue-300"
-            >
-              <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-                {title}
-              </h3>
-            </a>
-          </Link>
-        ) : (
-          <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
-            {title}
-          </h3>
-        )}
-        <div>
-          <Markdown
-            source={description || ''}
-            className="prose prose-sm dark:prose-dark dark:prose-dark-sm max-w-none mb-3 "
-          />
-          <Collection resource={data} />
-        </div>
-      </>
     </Card>
   )
 }
