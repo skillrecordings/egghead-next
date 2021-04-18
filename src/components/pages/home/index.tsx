@@ -112,11 +112,22 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <EventSchedule />
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-1  md:mt-20 mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-          <div className="md:col-span-8 flex items-center justify-center text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
+        <section className="grid grid-cols-1 lg:grid-cols-1 md:mt-20 mt-5 md:bg-gray-100 dark:bg-gray-700 md:p-5 shadow-sm rounded-lg">
+          <div className="md:col-span-8 items-center justify-center text-gray-700 dark:text-gray-50 overflow-hidden mb-4">
             <div className="px-5 md:p-5 w-full mt-5">
-              <div className="items-center justify-center grid sm:grid-cols-1 md:grid-cols-3 object-center">
-                <div className="text-center">
+              <div className="items-center justify-center grid sm:grid-cols-1 md:grid-cols-5 object-center">
+                <div className="w-full sm:col-span-1 md:col-span-3">
+                  <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight max-w-xl">
+                    {featurebusinessOrientedPortfolio.title}
+                  </h1>
+
+                  <Markdown
+                    source={featurebusinessOrientedPortfolio.description}
+                    allowDangerousHtml={true}
+                    className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
+                  />
+                </div>
+                <div className="text-center col-span-2">
                   <Link href={featureDigitalGardening.path}>
                     <a
                       tabIndex={-1}
@@ -130,28 +141,17 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                       <Image
                         quality={100}
                         src={featurebusinessOrientedPortfolio.image}
-                        width={250}
-                        height={250}
+                        width={300}
+                        height={300}
                         alt={featurebusinessOrientedPortfolio.title}
                       />
                     </a>
                   </Link>
                 </div>
-                <div className="w-full sm:col-span-1 md:col-span-2">
-                  <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                    {featurebusinessOrientedPortfolio.title}
-                  </h1>
-
-                  <Markdown
-                    source={featurebusinessOrientedPortfolio.description}
-                    allowDangerousHtml={true}
-                    className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
-                  />
-                </div>
               </div>
             </div>
           </div>
-          <div className="col-span-4 grid sm:grid-cols-1 md:grid-cols-2 gap-4 px-5 py-5">
+          <div className="col-span-4 grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4 md:p-0">
             <Card resource={accessibleApps} className="text-center">
               <Collection />
             </Card>
@@ -173,9 +173,9 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
             <CardHorizontal resource={modernLayoutsWithCSSGrid} />
 
-            <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+            <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 shadow-sm rounded-lg md:p-5">
               <div className="col-span-12 space-y-5">
-                <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
+                <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
                   <div className="flex-shrink-0">
                     <Image
                       src={
@@ -207,7 +207,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                   </div>
                 </header>
                 <div>
-                  <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+                  <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 p-4 md:p-0">
                     {featureDigitalGardening.resources.map((resource: any) => {
                       return (
                         <Card

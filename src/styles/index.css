@@ -77,6 +77,16 @@ pre > code {
   }
 }
 
+/* ——— Live Club ——— */
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
 #egghead-player
   .bmpui-player-state-paused
   .bmpui-ui-hugeplaybacktogglebutton.bmpui-off
