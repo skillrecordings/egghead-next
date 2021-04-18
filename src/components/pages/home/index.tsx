@@ -50,6 +50,13 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     'featureDigitalGardening',
   )
 
+  const featurebusinessOrientedPortfolio: any = get(
+    homePageData,
+    'featurebusinessOrientedPortfolio',
+  )
+
+  console.log(featurebusinessOrientedPortfolio)
+
   React.useEffect(() => {
     if (viewer) {
       const loadProgressForUser = async (user_id: number) => {
@@ -105,55 +112,52 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <EventSchedule />
         </section>
 
-        <section className="grid grid-cols-1 lg:grid-cols-12  md:mt-20 mt-5 md:bg-gray-100 dark:bg-gray-800 rounded-lg md:p-5">
+        <section className="grid grid-cols-1 lg:grid-cols-1  md:mt-20 mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
           <div className="md:col-span-8 flex items-center justify-center text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
-            <div className="px-5 md:p-5 sm:text-left text-center">
-              <div className="space-y-5 mx-auto flex items-center justify-center w-full">
-                <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full">
-                  <div className="flex-shrink-0">
-                    <Link href={featureDigitalGardening.path}>
-                      <a
-                        tabIndex={-1}
-                        onClick={() =>
-                          track('clicked jumbotron resource', {
-                            resource: featureDigitalGardening.path,
-                            linkType: 'image',
-                          })
-                        }
-                      >
-                        <Image
-                          quality={100}
-                          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png"
-                          width={222}
-                          height={273}
-                          alt="lol"
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="flex flex-col sm:items-start items-center w-full">
-                    <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                      Build Business Oriented Portfolio
-                    </h1>
+            <div className="px-5 md:p-5 w-full mt-5">
+              <div className="items-center justify-center grid sm:grid-cols-1 md:grid-cols-3 object-center">
+                <div className="text-center">
+                  <Link href={featureDigitalGardening.path}>
+                    <a
+                      tabIndex={-1}
+                      onClick={() =>
+                        track('clicked jumbotron resource', {
+                          resource: featureDigitalGardening.path,
+                          linkType: 'image',
+                        })
+                      }
+                    >
+                      <Image
+                        quality={100}
+                        src={featurebusinessOrientedPortfolio.image}
+                        width={250}
+                        height={250}
+                        alt={featurebusinessOrientedPortfolio.title}
+                      />
+                    </a>
+                  </Link>
+                </div>
+                <div className="w-full sm:col-span-1 md:col-span-2">
+                  <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                    {featurebusinessOrientedPortfolio.title}
+                  </h1>
 
-                    <Markdown
-                      source={featureDigitalGardening.description}
-                      allowDangerousHtml={true}
-                      className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
-                    />
-                    <Markdown
-                      source={featureDigitalGardening.description}
-                      allowDangerousHtml={true}
-                      className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
-                    />
-                  </div>
+                  <Markdown
+                    source={featurebusinessOrientedPortfolio.description}
+                    allowDangerousHtml={true}
+                    className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-span-4 grid grid-rows-2 gap-4 px-5 py-5">
-            <EventSchedule />
-            <EventSchedule />
+          <div className="col-span-4 grid sm:grid-cols-1 md:grid-cols-2 gap-4 px-5 py-5">
+            <Card resource={accessibleApps} className="text-center">
+              <Collection />
+            </Card>
+            <Card resource={accessibleApps} className="h-full text-center">
+              <Collection />
+            </Card>
           </div>
         </section>
 
