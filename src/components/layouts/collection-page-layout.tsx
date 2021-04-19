@@ -418,9 +418,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
                     )}
-                    {updated_at && (
-                      <UpdatedAt date={friendlyTime(new Date(updated_at))} />
-                    )}
+                  
                   </div>
                 </div>
               </div>
