@@ -10,6 +10,8 @@ import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
 import {getTokenFromCookieHeaders} from 'utils/auth'
 import isEmpty from 'lodash/isEmpty'
+import SubscriptionDetails from 'components/users/subscription-details'
+import BillingSection from 'components/team/billing-section'
 
 export type TeamData = {
   accountId: number
@@ -19,8 +21,8 @@ export type TeamData = {
   numberOfMembers: number
   capacity: number
   isFull: boolean
-  accountSlug: string | undefined
-  stripeCustomerId: string | undefined
+  accountSlug: string
+  stripeCustomerId: string
 }
 
 const TeamComposition = ({teamData}: {teamData: TeamData}) => {
@@ -192,6 +194,10 @@ const Team = ({team: teamData}: TeamPageProps) => {
               )
             })}
           </table>
+          <BillingSection
+            stripeCustomerId={teamData.stripeCustomerId}
+            slug={teamData.accountSlug}
+          />
         </div>
       )}
     </LoginRequired>
