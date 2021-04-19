@@ -69,10 +69,17 @@ const BillingSection = ({
     get(subscriptionData, 'subscription.current_period_end') * 1000,
   )
 
-  // const subscriptionStatus = get(subscriptionData, 'subscription.status')
-  const nextBillDate = new Date(
-    get(subscriptionData, 'upcomingInvoice.next_payment_attempt') * 1000,
-  )
+  const activeSubscription =
+    get(subscriptionData, 'subscription.status') === 'active' &&
+    !get(subscriptionData, 'subscription.canceled_at')
+  const nextBillDate: string | undefined = activeSubscription
+    ? format(
+        new Date(
+          get(subscriptionData, 'upcomingInvoice.next_payment_attempt') * 1000,
+        ),
+        'yyyy/MM/dd',
+      )
+    : undefined
 
   const quantity = get(subscriptionData, 'subscription.quantity', 1)
 
@@ -87,7 +94,11 @@ const BillingSection = ({
     currency,
   )
 
-  const totalAmountInCents = get(subscriptionData, 'upcomingInvoice.amount_due')
+  const totalAmountInCents = get(
+    subscriptionData,
+    'upcomingInvoice.amount_due',
+    get(subscriptionData, 'latestInvoice.amount_due'),
+  )
   const subscriptionTotalPrice = formatAmountWithCurrency(
     totalAmountInCents,
     currency,
@@ -141,9 +152,7 @@ const BillingSection = ({
               <span className="font-semibold text-sm text-gray-500 dark:text-gray-400">
                 Next Billing Date
               </span>
-              <span className="">
-                {nextBillDate ? format(nextBillDate, 'yyyy/MM/dd') : 'N/A'}
-              </span>
+              <span className="">{nextBillDate || 'Canceled'}</span>
             </div>
             <div className="flex flex-row space-x-8">
               <div className="flex flex-col space-y-0.5">

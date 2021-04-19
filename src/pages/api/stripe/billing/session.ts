@@ -1,5 +1,6 @@
 import {first, get} from 'lodash'
 import {NextApiRequest, NextApiResponse} from 'next'
+import isEmpty from 'lodash/isEmpty'
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -23,9 +24,6 @@ const StripeCheckoutSession = async (
       const customer = await stripe.customers.retrieve(customer_id, {
         expand: ['default_source', 'subscriptions.data.latest_invoice'],
       })
-      const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
-        customer: customer_id,
-      })
 
       const subscription = customer.subscriptions?.data[0]
 
@@ -36,6 +34,16 @@ const StripeCheckoutSession = async (
         const {product: product_id} = price
 
         const product = await stripe.products.retrieve(product_id)
+
+        // Try fetching the upcoming invoice
+        let upcomingInvoice = {}
+        if (!isEmpty(subscription.canceled_at)) {
+          // Only retrieve it if the subscription hasn't been cancelled,
+          // otherwise it will result in a StripeInvalidRequestError.
+          upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+            customer: customer_id,
+          })
+        }
 
         res.status(200).json({
           portalUrl: session.url,
