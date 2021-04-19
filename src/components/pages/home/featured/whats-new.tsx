@@ -14,7 +14,7 @@ const WhatsNew: FunctionComponent<WhatsNewProps> = ({
 }) => {
   return (
     <section className="mt-16">
-      <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
+      <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
         What's New
       </h2>
       <Jumbotron resource={jumbotron} />
