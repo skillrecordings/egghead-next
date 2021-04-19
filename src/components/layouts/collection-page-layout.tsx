@@ -205,6 +205,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     freshness: sanityFreshness,
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
+    illustrator: sanityIllustrator,
     state,
     path,
     tags = [],
@@ -226,6 +227,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const coursePrerequisites = !isEmpty(sanityPrerequisites)
     ? sanityPrerequisites
     : prerequisites
+  const courseIllustrator = !isEmpty(sanityIllustrator)
+    ? sanityIllustrator
+    : illustrator
 
   const podcast = first(
     course?.items?.filter((item: any) => item.type === 'podcast'),
@@ -418,7 +422,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
                     )}
-                  
                   </div>
                 </div>
               </div>
@@ -528,11 +531,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
 
-                {illustrator && (
+                {courseIllustrator && (
                   <div className="w-full py-6">
                     <h4 className="font-semibold">Credits</h4>
                     <span className="text-sm">
-                      {illustrator?.name} (illustration)
+                      {courseIllustrator?.name} (illustration)
                     </span>
                   </div>
                 )}
@@ -661,11 +664,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </div>
               )}
 
-              {illustrator && (
+              {courseIllustrator && (
                 <div className="w-full">
                   <h4 className="font-semibold">Credits</h4>
                   <span className="text-sm">
-                    {illustrator?.name} (illustration)
+                    {courseIllustrator?.name} (illustration)
                   </span>
                 </div>
               )}
