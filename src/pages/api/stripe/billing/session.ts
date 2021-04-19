@@ -23,6 +23,9 @@ const StripeCheckoutSession = async (
       const customer = await stripe.customers.retrieve(customer_id, {
         expand: ['default_source', 'subscriptions.data.latest_invoice'],
       })
+      const upcomingInvoice = await stripe.invoices.retrieveUpcoming({
+        customer: customer_id,
+      })
 
       const subscription = customer.subscriptions?.data[0]
 
@@ -40,6 +43,7 @@ const StripeCheckoutSession = async (
           price,
           product,
           latestInvoice,
+          upcomingInvoice,
         })
       } else {
         res.status(200).json({portalUrl: session.url, customer})
