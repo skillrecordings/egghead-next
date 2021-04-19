@@ -24,7 +24,7 @@ import CommunityResource from 'components/community-resource'
 import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
-import {CardHorizontal} from '../pages/home'
+import {CardHorizontal} from 'components/pages/home/card/card-horizontal'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 
