@@ -24,6 +24,7 @@ import MiniProgressCollection from './mini-progress-collection'
 
 import Jumbotron from './jumbotron'
 import WhatsNew from './featured/whats-new'
+import FeaturedSectionVerbose from './featured/featured-section-detail'
 import LevelUpCTA from '../../survey/level-up-cta'
 import {userInfo} from 'node:os'
 import {loadUserProgress} from 'lib/users'
@@ -119,60 +120,32 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="mt-32 grid md:grid-cols-10 grid-cols-1 gap-5">
-          <div className="md:col-span-3 col-span-1 flex flex-col">
-            <h2 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight mb-10">
-              Digital Gardening for Developers
-            </h2>
-            <div className="flex-shrink-0">
-              <Image
-                src={
-                  'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                }
-                alt="illustration for Digital Gardening for Developers "
-                width={232}
-                height={283}
-                quality={100}
-              />
-            </div>
-          </div>
-          <div className="md:col-span-7 col-span-1">
-            <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-6">
-              <p>
-                Success in software development requires deeply layered,
-                high-value communication. If you are serious about making an
-                impact in your coding career, you should get good at writing
-                words as well as code. This an agreed-upon quality for
-                developers. And it all starts with having your own digital
-                garden.
-              </p>
-              <p className="font-semibold">
-                "The phrase <i>digital garden</i> is a metaphor for thinking
-                about writing and creating that focuses less on the resulting{' '}
-                <i>showpiece</i> and more on the process, care, and craft it
-                takes to get there." &mdash;{' '}
-                <a
-                  className="text-blue-600"
-                  href="https://joelhooks.com/digital-garden"
-                >
-                  Joel Hooks
-                </a>
-              </p>
-            </div>
-            <div className="grid md:grid-cols-12 grid-cols-2 gap-5 mt-8">
-              {digitalGardeningFeatured.resources.map((resource: any) => {
-                return (
-                  <Card
-                    className="col-span-4 text-center"
-                    key={resource.path}
-                    resource={resource}
-                    location={location}
-                  />
-                )
-              })}
-            </div>
-          </div>
-        </section>
+        <FeaturedSectionVerbose
+          image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png"
+          title="Digital Gardening for Developers"
+          location={location}
+          featuredResources={digitalGardeningFeatured}
+        >
+          <p>
+            Success in software development requires deeply layered, high-value
+            communication. If you are serious about making an impact in your
+            coding career, you should get good at writing words as well as code.
+            This an agreed-upon quality for developers. And it all starts with
+            having your own digital garden.
+          </p>
+          <p className="font-semibold">
+            "The phrase <i>digital garden</i> is a metaphor for thinking about
+            writing and creating that focuses less on the resulting{' '}
+            <i>showpiece</i> and more on the process, care, and craft it takes
+            to get there." &mdash;{' '}
+            <a
+              className="text-blue-600"
+              href="https://joelhooks.com/digital-garden"
+            >
+              Joel Hooks
+            </a>
+          </p>
+        </FeaturedSectionVerbose>
 
         <section className="mt-32">
           <div className="flex justify-between align-text-top">
@@ -251,6 +224,8 @@ const Home: FunctionComponent = () => {
             <CardHorizontal resource={projectFeatureCardVideoApp} />
           </div>
         </section>
+
+        {console.log(wordpressWithGraphql, projectFeatureCardVideoApp)}
 
         <section className="mt-32">
           <CardHorizontal resource={ecommerce} />
