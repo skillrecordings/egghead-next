@@ -57,7 +57,7 @@ const Header: FunctionComponent = () => {
                 </a>
               </Link>
             )}
-            {(!isEmpty(viewer?.team) || !isEmpty(viewer?.team_accounts)) && (
+            {!isEmpty(viewer?.team_accounts) && (
               <Link href={`/team`}>
                 <a
                   onClick={() =>

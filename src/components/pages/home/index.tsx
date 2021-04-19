@@ -1,88 +1,67 @@
 import React, {FunctionComponent} from 'react'
 import Card, {CardResource} from './card'
-import CardHorizontal from 'components/pages/home/card/card-horizontal'
-import {
-  CardVerticalLarge,
-  CardVerticalWithStack,
-} from 'components/pages/home/card/card-vertical'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, isEmpty} from 'lodash'
-
+import {map, get, first, isEmpty} from 'lodash'
+import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import homepageData from './homepage-data'
-import SortingHat from 'components/survey/sorting-hat'
-
+import InProgressSection from 'components/pages/home/in-progress-section'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
+import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
-import InProgressCollection from './in-progress-collection'
-import MiniProgressCollection from './mini-progress-collection'
-
 import Jumbotron from './jumbotron'
-import WhatsNew from './featured/whats-new'
-import FeaturedSectionDetail from './featured/featured-section-detail'
-import LevelUpCTA from '../../survey/level-up-cta'
-import {userInfo} from 'node:os'
-import {loadUserProgress} from 'lib/users'
 
-const Home: FunctionComponent = () => {
+const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
-  const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
   const currentCourseUrl = viewer?.current_course?.url
-
-  const video: any = find(homepageData, {id: 'video'})
-
-  const jumbotron: any = find(homepageData, {id: 'jumbotron'})
-  let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
-  const devEssentials: any = find(homepageData, {id: 'devEssentials'})
-  const freeCourses: any = find(homepageData, {id: 'freeCourses'})
-  const getStarted: any = find(homepageData, {id: 'getStarted'})
-  const stateManagement: any = find(homepageData, {
-    id: 'stateManagement',
-  })
-  const aws: any = find(homepageData, {
-    id: 'aws',
-  })
-  const workflows: any = find(homepageData, {
-    id: 'workflows',
-  })
-  const accessibleApps: any = find(homepageData, {
-    id: 'accessibleApps',
-  })
-  const accessibleReactApps: any = find(homepageData, {
-    id: 'accessibleReactApps',
-  })
-  const projectFeatureCardVideoApp: any = find(homepageData, {
-    id: 'nextjsVideoApp',
-  })
-  const wordpressWithGraphql: any = find(homepageData, {
-    id: 'cms',
-  })
-  const modernLayoutsWithCSSGrid: any = find(homepageData, {
-    id: 'modern-layouts-with-css-grid',
-  })
-  const tailwind: any = find(homepageData, {id: 'tailwind'})
-  const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
-  const topics: any = find(homepageData, {id: 'topics'})
-  const swag: any = find(homepageData, {id: 'swag'})
-  const ecommerce: any = find(homepageData, {id: 'ecommerce'})
-  const digitalGardeningFeatured: any = find(homepageData, {
-    id: 'digital-gardening-featured',
-  })
   const [progress, setProgress] = React.useState<any>([])
+  const currentCourse: any = first(progress)
+  const coursesInProgress: any = progress.slice(1, 3)
+
+  const video: any = get(homePageData, 'video')
+  const jumbotron: any = get(homePageData, 'jumbotron')
+  let featured: any = get(homePageData, 'featured.resources', {})
+  const devEssentials: any = get(homePageData, 'devEssentials')
+  const freeCourses: any = get(homePageData, 'freeCourses')
+  const getStarted: any = get(homePageData, 'getStarted')
+  const stateManagement: any = get(homePageData, 'stateManagement')
+  const aws: any = get(homePageData, 'aws')
+  const workflows: any = get(homePageData, 'workflows')
+  const accessibleApps: any = get(homePageData, 'accessibleApps')
+  const accessibleReactApps: any = get(homePageData, 'accessibleReactApps')
+  const projectFeatureCardVideoApp: any = get(homePageData, 'nextjsVideoApp')
+  const wordpressWithGraphql: any = get(homePageData, 'cms')
+  const modernLayoutsWithCSSGrid: any = get(
+    homePageData,
+    'modern-layouts-with-css-grid',
+  )
+  const tailwind: any = get(homePageData, 'tailwind')
+  const portfolioProject: any = get(homePageData, 'portfolioProject')
+  const topics: any = get(homePageData, 'topics')
+  const swag: any = get(homePageData, 'swag')
+  const ecommerce: any = get(homePageData, 'ecommerce')
+  const featureDigitalGardening: any = get(
+    homePageData,
+    'featureDigitalGardening',
+  )
 
   React.useEffect(() => {
-    if (currentCourseUrl) {
-      axios.get(currentCourseUrl).then(({data}) => {
-        setCurrentCourse(data)
-      })
+    if (viewer) {
+      const loadProgressForUser = async (user_id: number) => {
+        if (user_id) {
+          const {data} = await loadUserProgress(user_id)
+          setProgress(data)
+        }
+      }
+
+      loadProgressForUser(viewer.id)
     }
-  }, [currentCourseUrl])
+  }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -103,91 +82,122 @@ const Home: FunctionComponent = () => {
     </Card>
   )
 
-  const featuredResources = [wordpressWithGraphql, accessibleApps]
-
   return (
     <>
+      {/* 
       <div>
-        <WhatsNew jumbotron={jumbotron} featuredResources={featuredResources} />
-
-        <section className="mt-24">
-          <h2 className="text-center md:text-xl text-lg sm:font-semibold font-bold leading-tight mb-2">
-            Our Curated Guides
-          </h2>
-          <p className="text-center  mb-6">
-            Discover the best content on cutting-edge technologies
-          </p>
+        {currentCourseUrl && viewer && (
+          <InProgressSection
+            viewer={viewer}
+            progress={progress}
+            currentCourse={currentCourse}
+            coursesInProgress={coursesInProgress}
+          />
+        )}
+      </div> */}
+      <div className="lg:space-y-6 space-y-4">
+        <Jumbotron resource={jumbotron} />
+        <section className="">
           <TopicsList topics={topics} />
         </section>
-
-        <FeaturedSectionDetail
-          image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png"
-          title="Digital Gardening for Developers"
-          location={location}
-          featuredResources={digitalGardeningFeatured}
-        >
-          <p>
-            Success in software development requires deeply layered, high-value
-            communication. If you are serious about making an impact in your
-            coding career, you should get good at writing words as well as code.
-            This an agreed-upon quality for developers. And it all starts with
-            having your own digital garden.
-          </p>
-          <p className="font-semibold">
-            "The phrase <i>digital garden</i> is a metaphor for thinking about
-            writing and creating that focuses less on the resulting{' '}
-            <i>showpiece</i> and more on the process, care, and craft it takes
-            to get there." &mdash;{' '}
-            <a
-              className="text-blue-600"
-              href="https://joelhooks.com/digital-garden"
-            >
-              Joel Hooks
-            </a>
-          </p>
-        </FeaturedSectionDetail>
-
-        <section className="mt-32">
-          <div className="flex justify-between align-text-top">
-            <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
-              Livestreams, Talks, and Events
-            </h2>
-            <a
-              href="#"
-              className="inline-flex justify-center items-center text-center px-3 rounded-md  sm:text-sm text-xs border border-gray-300 text-gray-500 transition-all ease-in-out duration-200 mb-3"
-            >
-              Browse all Talks
-            </a>
-          </div>
-          <div className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
-            <FeaturedVideoCard video={video} />
-            <EventSchedule />
-          </div>
+        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
+          <FeaturedVideoCard video={video} />
+          <EventSchedule />
         </section>
+        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
+          <div className="lg:col-span-8 lg:space-y-6 space-y-4">
+            <div
+              className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
+            >
+              {map(featured, (resource) => {
+                return <CardVerticalLarge key={resource.path} data={resource} />
+              })}
+            </div>
 
-        <section className="mt-32">
-          <div className="grid grid-cols-3 gap-4">
-            <CardVerticalWithStack
-              viewer={viewer}
-              className="sm:py-3 py-2"
-              data={getStarted}
-            />
-            <CardVerticalWithStack viewer={viewer} data={aws} />
-            <CardVerticalWithStack
-              viewer={viewer}
-              data={freeCourses}
-              memberTitle="Must Watch"
-            />
-          </div>
-        </section>
+            <CardHorizontal resource={modernLayoutsWithCSSGrid} />
 
-        <section className="mt-32">
-          <div className="flex justify-between align-text-top">
-            <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3">
-              Staff Favourites and Special Collections
-            </h2>
+            <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+              <div className="col-span-12 space-y-5">
+                <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={
+                        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                      }
+                      alt="illustration for Digital Gardening for Developers "
+                      width={222}
+                      height={273}
+                      quality={100}
+                    />
+                  </div>
+                  <div className="max-w-screen-sm space-y-3">
+                    <Link href={featureDigitalGardening.path}>
+                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                          {featureDigitalGardening.title}
+                        </h1>
+                      </a>
+                    </Link>
+
+                    <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                        {featureDigitalGardening.description}
+                      </Markdown>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                        {featureDigitalGardening.quote.description}
+                      </Markdown>
+                    </div>
+                  </div>
+                </header>
+                <div>
+                  <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+                    {featureDigitalGardening.resources.map((resource: any) => {
+                      return (
+                        <Card
+                          className="col-span-4 text-center"
+                          key={resource.path}
+                          resource={resource}
+                          location={location}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <CardHorizontal resource={ecommerce} />
+            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
+              <CardVerticalWithStack data={aws} />
+              <CardVerticalWithStack
+                data={freeCourses}
+                memberTitle="Must Watch"
+              />
+            </div>
+
+            <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
+              <Card resource={accessibleApps} className="h-full text-center">
+                <Collection />
+              </Card>
+              <Card
+                resource={accessibleReactApps}
+                className="h-full text-center"
+              >
+                <Collection />
+              </Card>
+            </div>
+
+            <CardHorizontal resource={projectFeatureCardVideoApp} />
+
+            <CardHorizontal resource={wordpressWithGraphql} />
+
+            <CardHorizontal resource={portfolioProject} />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
+            <ReactStateManagement />
+            <CardVerticalWithStack data={devEssentials} />
+
             <Card resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
@@ -205,98 +215,72 @@ const Home: FunctionComponent = () => {
               </ol>
             </Card>
 
-            <ReactStateManagement />
-
-            <div className="flex flex-col space-y-4">
-              <Card resource={accessibleApps} className="h-full text-center">
-                <Collection />
-              </Card>
-              <Card
-                resource={accessibleReactApps}
-                className="h-full text-center"
-              >
-                <Collection />
-              </Card>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <CardHorizontal resource={wordpressWithGraphql} />
-            <CardHorizontal resource={projectFeatureCardVideoApp} />
-          </div>
+            <Card>
+              <>
+                <Link href={swag.path}>
+                  <a className="inline-block hover:text-blue-600">
+                    <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
+                      {swag.name}
+                    </h2>
+                  </a>
+                </Link>
+                <Link href={swag.path}>
+                  <a className="inline-block hover:text-blue-600">
+                    <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
+                      {swag.title}
+                    </h3>
+                  </a>
+                </Link>
+                <ul className="grid grid-cols-2 gap-3 mt-3">
+                  {map(get(swag, 'resources'), (resource) => (
+                    <li
+                      className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
+                      key={resource.path}
+                    >
+                      {resource.image && (
+                        <div className="flex-shrink-0">
+                          <Link href={resource.path}>
+                            <a
+                              onClick={() => {
+                                track('clicked home page swag', {
+                                  resource: resource.path,
+                                  linkType: 'image',
+                                })
+                              }}
+                              tabIndex={-1}
+                            >
+                              <Image
+                                className="rounded-lg"
+                                src={resource.image}
+                                alt={resource.title}
+                                width={205}
+                                height={205}
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                      )}
+                      <Link href={resource.path}>
+                        <a
+                          onClick={() => {
+                            track('clicked home page swag', {
+                              resource: resource.path,
+                              linkType: 'text',
+                            })
+                          }}
+                          className="text-xs leading-tight"
+                        >
+                          {resource.title}
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            </Card>
+            <CardVerticalWithStack data={workflows} />
+          </aside>
         </section>
-
-        <section className="mt-32">
-          <CardHorizontal resource={ecommerce} />
-          <CardVerticalWithStack data={devEssentials} />
-          <CardHorizontal resource={portfolioProject} />
-        </section>
-
-        <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
-          <Card>
-            <>
-              <Link href={swag.path}>
-                <a className="inline-block hover:text-blue-600">
-                  <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
-                    {swag.name}
-                  </h2>
-                </a>
-              </Link>
-              <Link href={swag.path}>
-                <a className="inline-block hover:text-blue-600">
-                  <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
-                    {swag.title}
-                  </h3>
-                </a>
-              </Link>
-              <ul className="grid grid-cols-2 gap-3 mt-3">
-                {map(get(swag, 'resources'), (resource) => (
-                  <li
-                    className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
-                    key={resource.path}
-                  >
-                    {resource.image && (
-                      <div className="flex-shrink-0">
-                        <Link href={resource.path}>
-                          <a
-                            onClick={() => {
-                              track('clicked home page swag', {
-                                resource: resource.path,
-                                linkType: 'image',
-                              })
-                            }}
-                            tabIndex={-1}
-                          >
-                            <Image
-                              className="rounded-lg"
-                              src={resource.image}
-                              alt={resource.title}
-                              width={205}
-                              height={205}
-                            />
-                          </a>
-                        </Link>
-                      </div>
-                    )}
-                    <Link href={resource.path}>
-                      <a
-                        onClick={() => {
-                          track('clicked home page swag', {
-                            resource: resource.path,
-                            linkType: 'text',
-                          })
-                        }}
-                        className="text-xs leading-tight"
-                      >
-                        {resource.title}
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </>
-          </Card>
-          <CardVerticalWithStack data={workflows} />
-        </aside>
       </div>
     </>
   )
@@ -310,7 +294,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
     <>
       <div className="w-full">
         <ul
-          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-3 sm:gap-5 md:gap-3 lg:gap-6 gap-4`}
+          className={`grid sm:grid-cols-4 md:grid-cols-8 grid-cols-2 sm:gap-5 md:gap-3 lg:gap-6 gap-4`}
         >
           {map(allTopics, (resource) => (
             <li key={resource.path}>
@@ -355,7 +339,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
 const EventSchedule: React.FunctionComponent = () => {
   const [schedule, scheduleLoading] = useEggheadSchedule(3)
   return (
-    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white">
+    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white ">
       <>
         <h2 className="uppercase font-semibold text-xs text-blue-200">
           Upcoming Events
@@ -474,6 +458,178 @@ function FeaturedVideoCard(props: {video: any}) {
           />
         </div>
       </div>
+    </Card>
+  )
+}
+
+type CardProps = {
+  data: CardResource
+  className?: string
+  memberTitle?: string
+}
+
+export const CardHorizontal: FunctionComponent<{
+  resource: CardResource
+  className?: string
+  location?: string
+}> = ({resource, className = 'border-none my-4', location = 'home'}) => {
+  return (
+    <Card className={className}>
+      <>
+        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
+          {resource.image && (
+            <Link href={resource.path}>
+              <a
+                onClick={() => {
+                  track('clicked resource', {
+                    resource: resource.path,
+                    linkType: 'image',
+                    location,
+                  })
+                }}
+                className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
+                tabIndex={-1}
+              >
+                <Image
+                  src={get(resource.image, 'src', resource.image)}
+                  width={160}
+                  height={160}
+                  alt={`illustration for ${resource.title}`}
+                />
+              </a>
+            </Link>
+          )}
+          <div className="flex flex-col justify-center sm:items-start items-center">
+            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
+              {resource.name}
+            </h2>
+            <Link href={resource.path}>
+              <a
+                onClick={() => {
+                  track('clicked resource', {
+                    resource: resource.path,
+                    linkType: 'text',
+                    location,
+                  })
+                }}
+                className="hover:text-blue-600 dark:hover:text-blue-300"
+              >
+                <h3 className="text-xl font-bold leading-tighter">
+                  {resource.title}
+                </h3>
+              </a>
+            </Link>
+            <div className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
+              {resource.byline}
+            </div>
+            <Markdown
+              source={resource.description || ''}
+              className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none"
+            />
+          </div>
+        </div>
+      </>
+    </Card>
+  )
+}
+
+const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
+  const {path, image, title, name, byline} = data
+  return (
+    <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
+      <>
+        {image && (
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track('clicked home page resource', {
+                  resource: path,
+                  linkType: 'image',
+                })
+              }}
+              className="mb-2 mx-auto w-32"
+              tabIndex={-1}
+            >
+              <Image
+                width={220}
+                height={220}
+                src={get(image, 'src', image)}
+                alt={`illustration for ${title}`}
+              />
+            </a>
+          </Link>
+        )}
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
+          {name}
+        </h2>
+        <Link href={path}>
+          <a
+            onClick={() => {
+              track('clicked home page resource', {
+                resource: path,
+                linkType: 'text',
+              })
+            }}
+            className="hover:text-blue-600 dark:hover:text-blue-300"
+          >
+            <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
+              <Textfit mode="multi" min={14} max={20}>
+                {title}
+              </Textfit>
+            </h3>
+          </a>
+        </Link>
+        <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+          {byline}
+        </div>
+      </>
+    </Card>
+  )
+}
+
+const CardVerticalWithStack: FunctionComponent<CardProps> = ({
+  data,
+  memberTitle,
+}) => {
+  const {viewer} = useViewer()
+  const {name, title, description, path} = data
+  return (
+    <Card>
+      <>
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
+          {(viewer?.is_pro || viewer?.is_instructor) && memberTitle
+            ? memberTitle
+            : name}
+        </h2>
+        {path ? (
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track('clicked home page resource', {
+                  resource: path,
+                  linkType: 'text',
+                })
+              }}
+              className="hover:text-blue-600 dark:hover:text-blue-300"
+            >
+              <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+                {title}
+              </h3>
+            </a>
+          </Link>
+        ) : (
+          <h3 className="text-xl font-bold tracking-tight leading-tight mb-2">
+            {title}
+          </h3>
+        )}
+        <div>
+          <Markdown
+            source={description || ''}
+            className="prose prose-sm dark:prose-dark dark:prose-dark-sm max-w-none mb-3 "
+          />
+          <Collection resource={data} />
+        </div>
+      </>
     </Card>
   )
 }

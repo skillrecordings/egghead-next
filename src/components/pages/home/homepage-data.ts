@@ -1,56 +1,25 @@
-const homepageData = [
-  {
-    id: 'digital-gardening-featured',
-    title: 'Featured',
-    resources: [
-      {
-        name: 'Content Authoring',
-        title: 'Creating a Digital Garden CLI with Rust',
-        byline: 'Chris Biscardi・1h 10m',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
-        path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
-      },
-      {
-        name: 'Start a Blog',
-        title: 'Build a Developer Blog with Gatsby',
-        byline: 'Laurie Barth・35m',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
-        path: '/courses/build-a-developer-blog-with-gatsby-bd96',
-      },
-      {
-        name: 'Create a Portfolio',
-        title: 'Build a site from scratch with Next.js',
-        byline: 'Tomasz Łakomy・37m',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
-        path:
-          '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-      },
-    ],
-  },
-  {
+const homepageData = {
+  jumbotron: {
     id: 'jumbotron',
-    title: 'Build Modern Layouts with CSS Grid',
-    byline: 'featured course',
-    description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
+    title: 'Create a Digital Garden CLI with Rust',
+    byline: 'new course',
+    description: `You'll work through the first command for the CLI, writing files. You start by initializing a new Cargo binary crate by creating the write command that allows you to create files (and their contents) to the folder that you set.`,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615913074/egghead-next-pages/build-modern-layouts-with-css-grid/background-build-modern-layouts-with-css-grid.svg',
-    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
-    slug: 'build-modern-layouts-with-css-grid-d3f5',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617697132/next.egghead.io/resources/digital-garden-cli-with-rust/background-digital-garden-cli-with-rust_2x.png',
+    path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
+    slug: 'creating-a-digital-garden-cli-with-rust-34b8',
     instructor: {
-      name: 'Hiroko Nishimura',
-      slug: 'hiro-nishimura',
-      path: '/q/resources-by-hiro-nishimura',
-      twitter: 'hirokonishimura',
+      name: 'Chris Biscardi',
+      slug: 'chris-biscardi',
+      path: '/q/resources-by-chris-biscardi',
+      twitter: 'chrisbiscardi',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/275/square_128/headshot_post_gym_dec_2018_500.png',
     },
   },
-  {
+  'modern-layouts-with-css-grid': {
     id: 'modern-layouts-with-css-grid',
     title: 'Build Modern Layouts with CSS Grid',
     name: 'Write modern CSS',
@@ -71,7 +40,7 @@ const homepageData = [
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
-  {
+  video: {
     id: 'video',
     name: 'Optimize your Learning',
     title: 'Learning Tips Every Developer Should Know',
@@ -94,7 +63,7 @@ There are a number of tried and true methods that will allow you to learn more e
     subtitlesUrl:
       'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
-  {
+  nextjsVideoApp: {
     id: 'nextjsVideoApp',
     name: 'Create AI-powered Transcripts',
     title: 'Video Analysis App with NextJS and Symbl.ai',
@@ -107,7 +76,7 @@ There are a number of tried and true methods that will allow you to learn more e
     description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
     `,
   },
-  {
+  featured: {
     id: 'featured',
     title: 'Featured',
     resources: [
@@ -150,7 +119,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  workflows: {
     id: 'workflows',
     title: 'Optimize Daily Workflows',
     description:
@@ -198,7 +167,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  getStarted: {
     id: 'getStarted',
     name: 'Introductions',
     title: 'Start Learning Here',
@@ -250,7 +219,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  freeCourses: {
     id: 'freeCourses',
     name: 'Community Resource ',
     title: 'Learn Something New',
@@ -312,7 +281,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  devEssentials: {
     id: 'devEssentials',
     name: 'Practice Makes Perfect',
     title: 'Web Development Essentials',
@@ -348,7 +317,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  aws: {
     id: 'aws',
     name: 'Amazon Web Services',
     title: 'Deep Dive into AWS 🤯',
@@ -432,7 +401,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  stateManagement: {
     id: 'stateManagement',
     name: 'Research Panel',
     title: 'React State Management in 2021',
@@ -493,7 +462,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  ecommerce: {
     id: 'ecommerce',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
     name: 'Accept Payments and Sell Products',
@@ -504,7 +473,7 @@ There are a number of tried and true methods that will allow you to learn more e
       '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
-  {
+  tailwind: {
     id: 'tailwind',
     name: 'Write Modern CSS',
     byline: 'Adam Wathan・3h 4m・Course',
@@ -535,7 +504,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  accessibleReactApps: {
     id: 'accessibleReactApps',
     name: 'Accessible React Applications ',
     byline: 'Erin Doyle・1h 28m・Course',
@@ -546,7 +515,7 @@ There are a number of tried and true methods that will allow you to learn more e
     slug: 'develop-accessible-web-apps-with-react',
     title: 'Develop Accessible Web Apps with React',
   },
-  {
+  accessibleApps: {
     id: 'accessibleApps',
     name: 'Accessible Portfolio Pieces',
     title: 'Start Building Accessible Web Applications Today',
@@ -555,7 +524,7 @@ There are a number of tried and true methods that will allow you to learn more e
     path: '/courses/start-building-accessible-web-applications-today',
     slug: 'start-building-accessible-web-applications-today',
   },
-  {
+  cms: {
     id: 'cms',
     name: 'Content Management System',
     title: 'Headless WordPress with GraphQL',
@@ -565,7 +534,7 @@ There are a number of tried and true methods that will allow you to learn more e
     byline: 'Kevin Cunningham・59m・Course',
     description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
-  {
+  portfolioProject: {
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Introduction to Cloudflare Workers',
@@ -576,7 +545,7 @@ There are a number of tried and true methods that will allow you to learn more e
     description:
       'Create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest regional Cloudflare Location.',
   },
-  {
+  topics: {
     id: 'topics',
     name: 'Popular Topics',
     resources: [
@@ -645,7 +614,7 @@ There are a number of tried and true methods that will allow you to learn more e
       // },
     ],
   },
-  {
+  swag: {
     id: 'swag',
     name: 'swag',
     title: '',
@@ -677,6 +646,6 @@ There are a number of tried and true methods that will allow you to learn more e
       // },
     ],
   },
-]
+}
 
 export default homepageData

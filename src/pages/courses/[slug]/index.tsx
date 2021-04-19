@@ -43,7 +43,6 @@ export default Course
 
 export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
   const course = params && (await loadPlaylist(params.slug as string))
-
   if (course && course?.slug !== params?.slug) {
     res.setHeader('Location', course.path)
     res.statusCode = 302

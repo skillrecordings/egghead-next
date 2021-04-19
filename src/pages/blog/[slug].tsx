@@ -157,8 +157,6 @@ export async function getStaticProps(context: any) {
     slug: context.params.slug,
   })
 
-  console.log(context.params.slug)
-
   const mdxSource = await renderToString(body, {
     components: mdxComponents,
     mdxOptions: {
