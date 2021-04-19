@@ -24,7 +24,7 @@ import MiniProgressCollection from './mini-progress-collection'
 
 import Jumbotron from './jumbotron'
 import WhatsNew from './featured/whats-new'
-import FeaturedSectionVerbose from './featured/featured-section-detail'
+import FeaturedSectionDetail from './featured/featured-section-detail'
 import LevelUpCTA from '../../survey/level-up-cta'
 import {userInfo} from 'node:os'
 import {loadUserProgress} from 'lib/users'
@@ -120,7 +120,7 @@ const Home: FunctionComponent = () => {
           <TopicsList topics={topics} />
         </section>
 
-        <FeaturedSectionVerbose
+        <FeaturedSectionDetail
           image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png"
           title="Digital Gardening for Developers"
           location={location}
@@ -145,7 +145,7 @@ const Home: FunctionComponent = () => {
               Joel Hooks
             </a>
           </p>
-        </FeaturedSectionVerbose>
+        </FeaturedSectionDetail>
 
         <section className="mt-32">
           <div className="flex justify-between align-text-top">
