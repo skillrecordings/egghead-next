@@ -1,7 +1,60 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
 import WhatsNew from './whats-new.tsx'
+import FeaturedSectionDetail from './featured-section-detail.tsx'
+import FeaturedSectionSimple from './featured-section-simple.tsx'
 import {find} from 'lodash'
 import {sanityClient} from 'utils/sanity-client'
+import CardHorizontal from 'components/pages/home/card/card-horizontal'
+
+<Meta title="Components/Home/Features" />
+
+<Canvas>
+  <Story name="Whats New">
+    <div className="max-w-screen-xl mx-auto bg-gray-50 p-5 dark:bg-gray-700">
+      <WhatsNew featuredResources={featuredResources} jumbotron={jumbotron} />
+    </div>
+  </Story>
+  <Story name="Featured Section Detailed">
+    <div className="max-w-screen-xl mx-auto bg-gray-50 p-5 dark:bg-gray-700">
+      <FeaturedSectionDetail
+        image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png"
+        title="Digital Gardening for Developers"
+        location="home"
+        featuredResources={digitalGardeningFeatured}
+      >
+        <p>
+          Success in software development requires deeply layered, high-value
+          communication. If you are serious about making an impact in your
+          coding career, you should get good at writing words as well as code.
+          This an agreed-upon quality for developers. And it all starts with
+          having your own digital garden.
+        </p>
+        <p className="font-semibold">
+          "The phrase <i>digital garden</i> is a metaphor for thinking about
+          writing and creating that focuses less on the resulting{' '}
+          <i>showpiece</i> and more on the process, care, and craft it takes to
+          get there." &mdash;{' '}
+          <a
+            className="text-blue-600"
+            href="https://joelhooks.com/digital-garden"
+          >
+            Joel Hooks
+          </a>
+        </p>
+      </FeaturedSectionDetail>
+    </div>
+  </Story>
+  <Story name="Featured Section Simple">
+    <div className="max-w-screen-xl mx-auto bg-gray-50 p-5 dark:bg-gray-700">
+      <FeaturedSectionSimple title="Staff Favourites">
+        <div className="grid grid-cols-2 gap-4">
+          <CardHorizontal resource={wordpressWithGraphql} />
+          <CardHorizontal resource={projectFeatureCardVideoApp} />
+        </div>
+      </FeaturedSectionSimple>
+    </div>
+  </Story>
+</Canvas>
 
 export const jumbotron = {
   id: 'header',
@@ -44,12 +97,60 @@ export const featuredResources = [
   },
 ]
 
-<Meta title="Components/Home/Features" />
+export const digitalGardeningFeatured = {
+  id: 'digital-gardening-featured',
+  title: 'Featured',
+  resources: [
+    {
+      name: 'Content Authoring',
+      title: 'Creating a Digital Garden CLI with Rust',
+      byline: 'Chris Biscardi・1h 10m',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
+      path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
+    },
+    {
+      name: 'Start a Blog',
+      title: 'Build a Developer Blog with Gatsby',
+      byline: 'Laurie Barth・35m',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
+      path: '/courses/build-a-developer-blog-with-gatsby-bd96',
+    },
+    {
+      name: 'Create a Portfolio',
+      title: 'Build a site from scratch with Next.js',
+      byline: 'Tomasz Łakomy・37m',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
+      path:
+        '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
+    },
+  ],
+}
 
-<Canvas>
-  <Story name="Whats New">
-    <div className="max-w-screen-xl mx-auto bg-gray-50 p-5">
-      <WhatsNew featuredResources={featuredResources} jumbotron={jumbotron} />
-    </div>
-  </Story>
-</Canvas>
+export const projectFeatureCardVideoApp = {
+  id: 'nextjsVideoApp',
+  name: 'Create AI-powered Transcripts',
+  title: 'Video Analysis App with NextJS and Symbl.ai',
+  byline: 'Vladimir Novick・38m・Course',
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/thumb/next_video_analysis_424_2x.png',
+  path:
+    '/courses/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+  slug: 'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+  description:
+    'Add Conversation Intelligence to your video or voice application without training Machine Learning models.\n    ',
+}
+
+export const wordpressWithGraphql = {
+  id: 'cms',
+  name: 'Content Management System',
+  title: 'Headless WordPress with GraphQL',
+  path: '/playlists/headless-wordpress-4a14',
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
+  byline: 'Kevin Cunningham・59m・Course',
+  description:
+    "You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.",
+}
