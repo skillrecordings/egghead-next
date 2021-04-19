@@ -12,7 +12,7 @@ const FeaturedSectionSimple: FunctionComponent<FeaturedSectionSimpleProps> = ({
   return (
     <section className="mt-32">
       <div className="flex justify-between align-text-top">
-        <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
+        <h2 className="md:text-xl text-lg sm:font-semibold font-bold dark:text-white">
           {title}
         </h2>
       </div>
