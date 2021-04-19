@@ -8,7 +8,6 @@ import Card from 'components/pages/home/card'
 import {track} from 'utils/analytics'
 
 const DigitalGardening: React.FC<any> = ({data}) => {
-  console.log(data)
   return (
     <div className="sm:-my-5 -my-3 -mx-5 p-5 dark:bg-gray-900 bg-gray-50">
       <div className="mx-auto max-w-screen-xl">

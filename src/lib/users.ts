@@ -57,6 +57,7 @@ export async function loadUserProgress(
                     title
                     slug
                     path
+                    type
                   }
                 }
                 instructor {
