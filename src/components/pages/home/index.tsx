@@ -225,8 +225,6 @@ const Home: FunctionComponent = () => {
           </div>
         </section>
 
-        {console.log(wordpressWithGraphql, projectFeatureCardVideoApp)}
-
         <section className="mt-32">
           <CardHorizontal resource={ecommerce} />
           <CardVerticalWithStack data={devEssentials} />
