@@ -133,14 +133,6 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
           )}
 
           {isInProgress && (
-            <h2 className=" uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 mb-1">
-              Lesson {lessons_left} of {lesson_count}{' '}
-              {time_left
-                ? `| ${convertTimeWithTitles(time_left)} minutes left`
-                : ''}
-            </h2>
-          )}
-          {isInProgress && (
             <div className="flex items-center space-x-1">
               <Link href={resource_path || '#'}>
                 <a
