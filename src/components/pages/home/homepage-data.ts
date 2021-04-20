@@ -1,22 +1,22 @@
 const homepageData = {
   jumbotron: {
     id: 'jumbotron',
-    title: 'Create a Digital Garden CLI with Rust',
-    byline: 'new course',
-    description: `You'll work through the first command for the CLI, writing files. You start by initializing a new Cargo binary crate by creating the write command that allows you to create files (and their contents) to the folder that you set.`,
+    title: 'Deploy Ghost to AWS using RDS and EC2',
+    byline: 'featured course',
+    description: `Set up a linux server on AWS EC2 with a relational database (AWS RDS) connected to deploy a JavaScript platforms.`,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617697132/next.egghead.io/resources/digital-garden-cli-with-rust/background-digital-garden-cli-with-rust_2x.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618861248/egghead-next-pages/deploy-ghost-to-aws-using-rds-and-ec2/background-deploy-ghost-to-aws-using-rds-and-ec2_2x.png',
     path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
     slug: 'creating-a-digital-garden-cli-with-rust-34b8',
     instructor: {
-      name: 'Chris Biscardi',
-      slug: 'chris-biscardi',
-      path: '/q/resources-by-chris-biscardi',
-      twitter: 'chrisbiscardi',
+      name: 'Sam Julien',
+      slug: 'sam-julien',
+      path: '/q/resources-by-sam-julien',
+      twitter: 'samjulien',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/275/square_128/headshot_post_gym_dec_2018_500.png',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/324/medium/new_headshot_wedding.jpg',
     },
   },
   'modern-layouts-with-css-grid': {
