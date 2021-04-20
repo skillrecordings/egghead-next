@@ -3,13 +3,13 @@ const homepageData = {
     id: 'jumbotron',
     title: 'Deploy Ghost to AWS using RDS and EC2',
     byline: 'featured course',
-    description: `Set up a linux server on AWS EC2 with a relational database (AWS RDS) connected to deploy a JavaScript platforms.`,
+    description: `Set up a Linux server on AWS EC2 with a relational database (AWS RDS) ready to run Ghost or other full stack JavaScript applications.`,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
     background:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618861248/egghead-next-pages/deploy-ghost-to-aws-using-rds-and-ec2/background-deploy-ghost-to-aws-using-rds-and-ec2_2x.png',
-    path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
-    slug: 'creating-a-digital-garden-cli-with-rust-34b8',
+    path: '/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+    slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
     instructor: {
       name: 'Sam Julien',
       slug: 'sam-julien',
