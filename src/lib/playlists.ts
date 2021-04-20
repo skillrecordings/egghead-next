@@ -1,9 +1,8 @@
-import {GraphQLClient, request} from 'graphql-request'
+import {request} from 'graphql-request'
+import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 import config from './config'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadCourse} from './courses'
-
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
 export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
   const query = /* GraphQL */ `
@@ -91,6 +90,7 @@ export async function loadAllPlaylists() {
       }
     }
   `
+  const graphQLClient = getGraphQLClient()
   const {all_playlists} = await graphQLClient.request(query)
 
   return all_playlists
@@ -108,16 +108,11 @@ export async function loadAuthedPlaylistForUser(slug: string) {
     }
   `
   const token = getAccessTokenFromCookie()
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
+  const graphQLClient = getGraphQLClient(token)
+
   const variables = {
     slug: slug,
   }
-
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
 
   const {playlist} = await graphQLClient.request(query, variables)
 
@@ -273,16 +268,11 @@ export async function loadPlaylist(slug: string, token?: string) {
       }
     }
   `
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
   const variables = {
     slug: slug,
   }
 
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
+  const graphQLClient = getGraphQLClient(token)
 
   const {playlist} = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourse(playlist.id)

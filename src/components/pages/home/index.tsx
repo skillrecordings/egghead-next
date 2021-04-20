@@ -3,74 +3,65 @@ import Card, {CardResource} from './card'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, find, isEmpty} from 'lodash'
+import {map, get, first, isEmpty} from 'lodash'
 import Textfit from 'react-textfit'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import homepageData from './homepage-data'
-import SortingHat from 'components/survey/sorting-hat'
-
+import InProgressSection from 'components/pages/home/in-progress-section'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
+import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
-import InProgressCollection from './in-progress-collection'
 import Jumbotron from './jumbotron'
-import LevelUpCTA from '../../survey/level-up-cta'
 
-const Home: FunctionComponent = () => {
+const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
-  const [currentCourse, setCurrentCourse] = React.useState<CardResource>()
   const currentCourseUrl = viewer?.current_course?.url
+  const [progress, setProgress] = React.useState<any>([])
+  const currentCourse: any = first(progress)
+  const coursesInProgress: any = progress.slice(1, 3)
 
-  const video: any = find(homepageData, {id: 'video'})
-
-  const jumbotron: any = find(homepageData, {id: 'jumbotron'})
-  let featured: any = get(find(homepageData, {id: 'featured'}), 'resources', {})
-  const devEssentials: any = find(homepageData, {id: 'devEssentials'})
-  const freeCourses: any = find(homepageData, {id: 'freeCourses'})
-  const getStarted: any = find(homepageData, {id: 'getStarted'})
-  const stateManagement: any = find(homepageData, {
-    id: 'stateManagement',
-  })
-  const aws: any = find(homepageData, {
-    id: 'aws',
-  })
-  const workflows: any = find(homepageData, {
-    id: 'workflows',
-  })
-  const accessibleApps: any = find(homepageData, {
-    id: 'accessibleApps',
-  })
-  const accessibleReactApps: any = find(homepageData, {
-    id: 'accessibleReactApps',
-  })
-  const projectFeatureCardVideoApp: any = find(homepageData, {
-    id: 'nextjsVideoApp',
-  })
-  const wordpressWithGraphql: any = find(homepageData, {
-    id: 'cms',
-  })
-  const modernLayoutsWithCSSGrid: any = find(homepageData, {
-    id: 'modern-layouts-with-css-grid',
-  })
-  const tailwind: any = find(homepageData, {id: 'tailwind'})
-  const portfolioProject: any = find(homepageData, {id: 'portfolioProject'})
-  const topics: any = find(homepageData, {id: 'topics'})
-  const swag: any = find(homepageData, {id: 'swag'})
-  const ecommerce: any = find(homepageData, {id: 'ecommerce'})
-  const digitalGardeningFeatured: any = find(homepageData, {
-    id: 'digital-gardening-featured',
-  })
+  const video: any = get(homePageData, 'video')
+  const jumbotron: any = get(homePageData, 'jumbotron')
+  let featured: any = get(homePageData, 'featured.resources', {})
+  const devEssentials: any = get(homePageData, 'devEssentials')
+  const freeCourses: any = get(homePageData, 'freeCourses')
+  const getStarted: any = get(homePageData, 'getStarted')
+  const stateManagement: any = get(homePageData, 'stateManagement')
+  const aws: any = get(homePageData, 'aws')
+  const workflows: any = get(homePageData, 'workflows')
+  const accessibleApps: any = get(homePageData, 'accessibleApps')
+  const accessibleReactApps: any = get(homePageData, 'accessibleReactApps')
+  const projectFeatureCardVideoApp: any = get(homePageData, 'nextjsVideoApp')
+  const wordpressWithGraphql: any = get(homePageData, 'cms')
+  const modernLayoutsWithCSSGrid: any = get(
+    homePageData,
+    'modern-layouts-with-css-grid',
+  )
+  const tailwind: any = get(homePageData, 'tailwind')
+  const portfolioProject: any = get(homePageData, 'portfolioProject')
+  const topics: any = get(homePageData, 'topics')
+  const swag: any = get(homePageData, 'swag')
+  const ecommerce: any = get(homePageData, 'ecommerce')
+  const featureDigitalGardening: any = get(
+    homePageData,
+    'featureDigitalGardening',
+  )
 
   React.useEffect(() => {
-    if (currentCourseUrl) {
-      axios.get(currentCourseUrl).then(({data}) => {
-        setCurrentCourse(data)
-      })
+    if (viewer) {
+      const loadProgressForUser = async (user_id: number) => {
+        if (user_id) {
+          const {data} = await loadUserProgress(user_id)
+          setProgress(data)
+        }
+      }
+
+      loadProgressForUser(viewer.id)
     }
-  }, [currentCourseUrl])
+  }, [viewer?.id])
 
   const ReactStateManagement = () => (
     <Card resource={stateManagement} className="text-center">
@@ -93,6 +84,17 @@ const Home: FunctionComponent = () => {
 
   return (
     <>
+      {/* 
+      <div>
+        {currentCourseUrl && viewer && (
+          <InProgressSection
+            viewer={viewer}
+            progress={progress}
+            currentCourse={currentCourse}
+            coursesInProgress={coursesInProgress}
+          />
+        )}
+      </div> */}
       <div className="lg:space-y-6 space-y-4">
         <Jumbotron resource={jumbotron} />
         <section className="">
@@ -104,9 +106,6 @@ const Home: FunctionComponent = () => {
         </section>
         <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
           <div className="lg:col-span-8 lg:space-y-6 space-y-4">
-            {currentCourse && (
-              <InProgressCollection collection={currentCourse} />
-            )}
             <div
               className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
             >
@@ -132,34 +131,27 @@ const Home: FunctionComponent = () => {
                     />
                   </div>
                   <div className="max-w-screen-sm space-y-3">
-                    <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                      Digital Gardening for Developers
-                    </h1>
+                    <Link href={featureDigitalGardening.path}>
+                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                          {featureDigitalGardening.title}
+                        </h1>
+                      </a>
+                    </Link>
 
                     <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
-                      <p>
-                        Success in software development requires deeply layered,
-                        high-value communication. If you are serious about
-                        making an impact in your coding career, you should get
-                        good at writing words as well as code. This an
-                        agreed-upon quality for developers. And it all starts
-                        with having your own digital garden.
-                      </p>
-                      <blockquote>
-                        The phrase "digital garden" is a metaphor for thinking
-                        about writing and creating that focuses less on the
-                        resulting "showpiece" and more on the process, care, and
-                        craft it takes to get there. &mdash;{' '}
-                        <a href="https://joelhooks.com/digital-garden">
-                          Joel Hooks
-                        </a>
-                      </blockquote>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                        {featureDigitalGardening.description}
+                      </Markdown>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                        {featureDigitalGardening.quote.description}
+                      </Markdown>
                     </div>
                   </div>
                 </header>
                 <div>
                   <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {digitalGardeningFeatured.resources.map((resource: any) => {
+                    {featureDigitalGardening.resources.map((resource: any) => {
                       return (
                         <Card
                           className="col-span-4 text-center"

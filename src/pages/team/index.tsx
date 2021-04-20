@@ -1,16 +1,17 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import Link from 'next/link'
-import {useViewer} from '../../context/viewer-context'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
-import {FunctionComponent} from 'react'
-import useClipboard from 'react-use-clipboard'
+import CopyToClipboard from '../../components/team/copy-to-clipboard'
 import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
-import {getTokenFromCookieHeaders} from 'utils/auth'
 import TeamName from '../../components/team/team-name'
+import {getTokenFromCookieHeaders} from 'utils/auth'
+import isEmpty from 'lodash/isEmpty'
+import BillingSection from 'components/team/billing-section'
+import MemberTable from 'components/team/member-table'
 
 export type TeamData = {
   accountId: number
@@ -20,8 +21,8 @@ export type TeamData = {
   numberOfMembers: number
   capacity: number
   isFull: boolean
-  accountSlug: string | undefined
-  stripeCustomerId: string | undefined
+  accountSlug: string
+  stripeCustomerId: string
 }
 
 const TeamComposition = ({teamData}: {teamData: TeamData}) => {
@@ -104,7 +105,7 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
               onClick={() => {
                 track(`clicked manage membership`)
               }}
-              className="transition-all duration-150 ease-in-out text-white font-semibold rounded-md"
+              className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
             >
               Visit Stripe Billing Portal
             </a>
@@ -120,23 +121,24 @@ type TeamPageProps = {
 }
 
 const Team = ({team: teamData}: TeamPageProps) => {
-  const {loading} = useViewer()
   const router = useRouter()
 
-  const teamDataAvailable = typeof teamData !== 'undefined'
+  const teamDataNotAvailable = isEmpty(teamData)
 
   React.useEffect(() => {
-    if (!loading && !teamDataAvailable) {
+    if (teamDataNotAvailable) {
       router.push('/')
     }
-  }, [loading, teamDataAvailable])
+  }, [teamDataNotAvailable])
 
   return (
     <LoginRequired>
-      {!loading && !!teamData && (
-        <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
-          <h1>Team Account</h1>
-          <p>
+      {!!teamData && (
+        <div className="max-w-screen-xl mx-auto mb-24">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
+            Team Account
+          </h1>
+          <p className="mt-6 leading-6">
             We are in the process of migrating team accounts to our new website.
             If you would like to manage your account please visit{' '}
             <a href="https://app.egghead.io">https://app.egghead.io</a> and log
@@ -144,10 +146,12 @@ const Team = ({team: teamData}: TeamPageProps) => {
             email <a href="mailto:support@egghead.io">support@egghead.io</a>
           </p>
           <TeamName teamData={teamData} />
-          <h2>Team Members</h2>
-          <p>Your invite link to add new team members is: </p>
-          <div className="flex items-center">
-            <code>{teamData.inviteUrl}</code>
+          <h2 className="font-semibold text-xl mt-16">Team Members</h2>
+          <p className="mt-6">Your invite link to add new team members is: </p>
+          <div className="flex flex-col md:flex-row items-start md:items-center mt-4 space-y-2 md:space-y-0 md:space-x-2">
+            <code className="font-bold bg-gray-100 p-3 rounded-md dark:bg-gray-800">
+              {teamData.inviteUrl}
+            </code>
             <CopyToClipboard
               stringToCopy={teamData.inviteUrl}
               className="inline-block"
@@ -155,88 +159,15 @@ const Team = ({team: teamData}: TeamPageProps) => {
             />
           </div>
           <AtCapacityNotice teamData={teamData} />
-          <h3>
+          <h2 className="font-semibold text-xl mt-16">
             Current Team Members <TeamComposition teamData={teamData} />
-          </h3>
-          <table>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role(s)</th>
-              <th>Date Added</th>
-            </tr>
-            {teamData.members.map((member: any, i: number) => {
-              return (
-                <tr
-                  key={member.id || member.email}
-                  className={i % 2 === 0 ? 'bg-gray-100' : ''}
-                >
-                  <td>{member.name}</td>
-                  <td>{member.email}</td>
-                  <td>{member.roles.join(', ')}</td>
-                  <td>{member.date_added}</td>
-                </tr>
-              )
-            })}
-          </table>
+          </h2>
+          <MemberTable members={teamData.members} />
         </div>
       )}
     </LoginRequired>
   )
 }
-
-const CopyToClipboard: FunctionComponent<{
-  stringToCopy: string
-  className?: string
-  label?: boolean
-}> = ({stringToCopy = '', className = '', label = false}) => {
-  const [isCopied, setCopied] = useClipboard(stringToCopy, {
-    successDuration: 1000,
-  })
-
-  return (
-    <div className={className}>
-      <button
-        type="button"
-        onClick={setCopied}
-        className={`group flex text-sm items-center space-x-1 rounded p-2 bg-gray-50 hover:bg-blue-100 hover:text-blue-600 transition-colors ease-in-out duration-150`}
-      >
-        {isCopied ? (
-          'Copied'
-        ) : (
-          <>
-            <IconLink className="w-5" />
-            {label && (
-              <span>
-                Copy link
-                <span className="hidden lg:inline"> to clipboard</span>
-              </span>
-            )}
-          </>
-        )}
-      </button>
-    </div>
-  )
-}
-
-const IconLink: FunctionComponent<{className?: string}> = ({
-  className = '',
-}) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    className={className}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-    />
-  </svg>
-)
 
 export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
   context: any,
@@ -247,9 +178,9 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async funct
 
   const {data: teams} = await loadTeams(eggheadToken)
 
-  let team: TeamData | undefined
+  let team: TeamData | undefined = undefined
 
-  const fetchedTeam = teams[0]
+  const fetchedTeam = teams && teams[0]
   if (fetchedTeam) {
     team = {
       accountId: fetchedTeam.id,

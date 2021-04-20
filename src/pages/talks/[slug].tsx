@@ -8,20 +8,16 @@ import Markdown from 'react-markdown'
 import Image from 'next/image'
 import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
-import {GraphQLClient} from 'graphql-request'
+import {getGraphQLClient} from 'utils/configured-graphql-client'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
-import {LessonResource} from 'types'
 import {playerMachine} from 'machines/lesson-player-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from 'components/pages/lessons/transcript'
 import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
-import {getTokenFromCookieHeaders} from 'utils/auth'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
-
-const API_ENDPOINT = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/graphql`
 
 const lessonQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
@@ -44,17 +40,11 @@ const lessonQuery = /* GraphQL */ `
 `
 
 const lessonLoader = (slug: any, token: any) => (query: string) => {
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
+  const graphQLClient = getGraphQLClient(token)
   const variables = {
     slug: slug,
   }
-  const graphQLClient = new GraphQLClient(API_ENDPOINT, {
-    headers: {
-      ...authorizationHeader,
-    },
-  })
+
   return graphQLClient.request(query, variables)
 }
 
@@ -68,7 +58,7 @@ const VIDEO_MIN_HEIGHT = 480
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken, logout} = useViewer()
+  const {authToken} = useViewer()
   const [playerState, send] = useMachine(playerMachine)
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
@@ -225,10 +215,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   params,
 }) {
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-
-  const initialLesson =
-    params && (await loadLesson(params.slug as string, eggheadToken))
+  const initialLesson = params && (await loadLesson(params.slug as string))
 
   return {
     props: {

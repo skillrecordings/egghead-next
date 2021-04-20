@@ -38,9 +38,6 @@ const SelectPlan: React.FunctionComponent = ({children}) => {
                         />
                       </svg>
                     </div>
-                    <p className="ml-3 text-sm leading-5 text-gray-700 dark:text-gray-100">
-                      Discord access
-                    </p>
                   </li>
                   <li className="flex items-start lg:col-span-1">
                     <div className="flex-shrink-0">
