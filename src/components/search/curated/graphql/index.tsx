@@ -3,7 +3,6 @@ import {NextSeo} from 'next-seo'
 import Card from 'components/pages/home/card'
 import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
-import reactPageData from '../react/react-page-data'
 import graphqlPageData from './graphql-page-data'
 
 import {find} from 'lodash'
