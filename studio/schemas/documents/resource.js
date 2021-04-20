@@ -51,6 +51,12 @@ export default {
       },
     },
     {
+      name: 'updatedAt',
+      description: 'The last time this resource was meaningfully updated',
+      title: 'Updated At',
+      type: 'date',
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'tags',
