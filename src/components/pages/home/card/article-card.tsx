@@ -27,8 +27,8 @@ const ArticleCard: FunctionComponent<ArticleProps> = ({resource}) => {
       className="flex flex-col rounded-lg shadow-lg overflow-hidden mb-4 max-w-md"
       key={path}
     >
-      <div className="flex-shrink-0">
-        {image && path && (
+      {image && path && (
+        <div className="flex-shrink-0">
           <Link href={path}>
             <a className="block sm:w-auto w-22 mx-auto sm:mb-2 mb-0">
               <Image
@@ -40,19 +40,20 @@ const ArticleCard: FunctionComponent<ArticleProps> = ({resource}) => {
               />
             </a>
           </Link>
-        )}
-      </div>
+        </div>
+      )}
+
       <div className="flex-1 dark:bg-gray-800 p-6 flex flex-col justify-between">
         <p className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
           {name}
         </p>
         <div className="flex-1">
           <a href={path} className="block mt-2">
-            <h2 className="text-xl font-semibold dark:text-white text-gray-900 leading-tight hover:text-blue-600 transition delay-150">
+            <h2 className="sm:text-xl text-lg font-semibold dark:text-white text-gray-900 leading-tighter hover:text-blue-600 transition delay-150">
               {title}
             </h2>
             {author && (
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-3 mt-1">
+              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2 mt-2">
                 {author}
               </div>
             )}
