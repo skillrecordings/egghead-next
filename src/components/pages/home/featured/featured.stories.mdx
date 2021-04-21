@@ -5,6 +5,7 @@ import FeaturedSectionSimple from './featured-section-simple.tsx'
 import {find} from 'lodash'
 import {sanityClient} from 'utils/sanity-client'
 import CardHorizontal from 'components/pages/home/card/card-horizontal'
+import {CardVerticalLarge} from 'components/pages/home/card/card-vertical'
 
 <Meta title="Components/Home/Features" />
 
@@ -50,6 +51,20 @@ import CardHorizontal from 'components/pages/home/card/card-horizontal'
         <div className="grid grid-cols-2 gap-4">
           <CardHorizontal resource={wordpressWithGraphql} />
           <CardHorizontal resource={projectFeatureCardVideoApp} />
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <CardVerticalLarge
+            key={projectFeatureCardVideoApp.path}
+            data={projectFeatureCardVideoApp}
+          />
+          <CardVerticalLarge
+            key={wordpressWithGraphql.path}
+            data={wordpressWithGraphql}
+          />
+          <CardVerticalLarge
+            key={projectFeatureCardVideoApp.path}
+            data={projectFeatureCardVideoApp}
+          />
         </div>
       </FeaturedSectionSimple>
     </div>
