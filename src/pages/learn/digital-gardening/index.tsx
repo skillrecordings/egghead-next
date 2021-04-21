@@ -8,6 +8,7 @@ import Card from 'components/pages/home/card'
 import {track} from 'utils/analytics'
 
 const DigitalGardening: React.FC<any> = ({data}) => {
+  console.log({courses: data.featured.courses})
   return (
     <div className="sm:-my-5 -my-3 -mx-5 p-5 dark:bg-gray-900 bg-gray-50">
       <div className="mx-auto max-w-screen-xl">
@@ -63,7 +64,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
 
         <div>
           <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-            {data.resources.map((resource: any) => {
+            {data.featured.courses.map((resource: any) => {
               return (
                 <Card
                   className="col-span-4 text-center"
@@ -80,17 +81,17 @@ const DigitalGardening: React.FC<any> = ({data}) => {
             <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
               <div className="mx-auto">
                 <h2 className="text-xs text-yellow-600 dark:yellow-green-300 uppercase font-semibold mb-2 text-center">
-                  {data.related.cta.description}
+                  {data.talks.cta}
                 </h2>
 
                 <h1 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
-                  {data.related.title}
+                  {data.talks.title}
                 </h1>
               </div>
             </div>
           </div>
           <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-            {data.related.resources.map((resource: any) => {
+            {data.talks.resources.map((resource: any) => {
               return (
                 <Card
                   className="col-span-3 text-center dark:bg-gray-800"
@@ -108,7 +109,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
 
 export default DigitalGardening
 
-export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current == "digital-gardening-for-developers"][0]{
+export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current == "digital-gardening-for-developers-v2"][0]{
   title,
   description,
   path,
@@ -122,12 +123,25 @@ export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current 
   'cta': content[title == 'cta'][0]{
     description
   },
-  resources[]{
+  'featured': resources[title == 'Featured digital gardening courses'][0]{
+ 		'courses': resources[]{
+    	title,
+    	byline,
+      'name': content[title == 'name'][0].description,
+    	'path': resources[]->[0].path,
+    	'image': resources[]->[0].image
+  	}
+  },
+	'talks': resources[title == 'Infrastructure for Digital Gardens'][0]{
     title,
-    byline,
-    'name': content[title == 'name'][0].description,
-    'path': resources[]->[0].path,
-    'image': resources[]->[0].image
+    description,
+    'cta': content[title == 'cta'][0].description,
+		resources[]{
+      title,
+      'path': slug.current,
+      byline,
+      image,
+    },
   },
   related[0]{
     title,
@@ -146,6 +160,8 @@ export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current 
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(digitalGardeningQuery)
+
+  console.log('from getstaticprops', data.featured.courses)
 
   return {
     props: {
