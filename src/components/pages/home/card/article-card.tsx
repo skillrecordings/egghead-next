@@ -56,10 +56,12 @@ const ArticleCard: FunctionComponent<ArticleProps> = ({resource}) => {
                 {author}
               </div>
             )}
-            <Markdown
-              source={description}
-              className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
-            />
+            {description && (
+              <Markdown
+                source={description}
+                className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
+              />
+            )}
           </a>
         </div>
       </div>
