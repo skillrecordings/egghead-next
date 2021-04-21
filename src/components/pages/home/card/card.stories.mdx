@@ -4,6 +4,16 @@ import homepageData from 'components/pages/home/homepage-data'
 import Card from './'
 import Collection from 'components/pages/home/collection'
 import PodcastCard from 'components/pages/home/card/podcast-card'
+import ArticleCard from 'components/pages/home/card/article-card'
+
+export const articleData = {
+  title: `Build a CMS for an E-commerce Store with Next.js and Sanity`,
+  description: `Having the ability to build an online store opens up a ton of possibilities, whether you're building that store for a new client to pay the bills or you're trying to start your own business. In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity`,
+  name: `manage product inventory`,
+  image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613432463/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/build-cms-e-commerce-article_2x.png`,
+  path: `/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
+  author: 'Jack Nicholson',
+}
 
 export const podcastData = {
   id: 83,
@@ -110,6 +120,11 @@ export const RESOURCE = {}
   <Story name="Podcast">
     <div className="bg-gray-100 p-5">
       <PodcastCard resource={podcastData} />
+    </div>
+  </Story>
+  <Story name="Article">
+    <div className="bg-gray-100 p-5">
+      <ArticleCard resource={articleData} />
     </div>
   </Story>
 </Canvas>
