@@ -3,6 +3,35 @@ import {find} from 'lodash'
 import homepageData from 'components/pages/home/homepage-data'
 import Card from './'
 import Collection from 'components/pages/home/collection'
+import PodcastCard from 'components/pages/home/card/podcast-card'
+
+export const podcastData = {
+  id: 83,
+  title: 'Developing Yourself While Teaching Others with Ali Spittel',
+  summary:
+    'Joel and Ali Spittel discuss her time in a teaching position, code challenges, blogging platforms, teaching beginners, and getting involved in local dev communities.',
+  media_url:
+    'https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/5a4528b4-dbfe-49b2-b521-11dda68ade41/2ed84114_tc.mp3',
+  image_url:
+    'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/405/medium/alkamt7b_400x400.jpg',
+  simplecast_uid: '5a4528b4-dbfe-49b2-b521-11dda68ade41',
+  slug: 'developing-yourself-while-teaching-others-with-ali-spittel',
+  description:
+    '<p>Today we are joined by Ali Spittel, a Software Engineer and Developer Advocate at dev.to, who speaks with us about:</p><ul><li>The skills she gained from a developer teaching job</li><li>How she kept up on her coding skills without writting production code by doing daily code challenges</li><li>Why she began to blog and how she made a habit out of it</li><li>Blogging on a platform vs having your own website</li><li>Using visual feedback to teach beginners to code</li><li>Involving herself in the local developer community</li></ul><hr /><h3>Transcript</h3><p><a href="https://egghead.simplecast.com/episodes/2ed84114/transcript">"Developing Yourself While Teaching Others - with Ali Spittel" Transcript</a></p><h3>Resources:</h3><ul><li><a href="https://dev.to">dev.to</a></li></ul><h3>Ali Spittel:</h3><ul><li><a href="https://twitter.com/aspittel?lang=en">Twitter</a></li><li><a href="https://dev.to/aspittel">Ali on dev.to</a></li><li><a href="https://www.alispit.tel/#/">alispit.tel</a></li></ul><h3>Joel Hooks</h3><ul><li><a href="https://twitter.com/jhooks">Twitter</a></li><li><a href="https://joelhooks.com/">Website</a></li></ul>',
+  duration: 4689,
+  episode_number: 38,
+  contributors: ['Joel Hooks'],
+  tracklist_id: null,
+  type: 'podcast',
+  http_short_url: 'https://app.egghead.io/s/9ezpz',
+  path: '/podcasts/developing-yourself-while-teaching-others-with-ali-spittel',
+  published_at: 'February 22nd, 2019',
+  url:
+    'https://app.egghead.io/api/v1/podcasts/developing-yourself-while-teaching-others-with-ali-spittel',
+  edit_podcast_url:
+    'https://app.egghead.io/podcasts/developing-yourself-while-teaching-others-with-ali-spittel/edit',
+}
+
 export const sideProject = {
   id: 'sideProject',
   name: 'Weekend Side Project',
@@ -14,6 +43,7 @@ export const sideProject = {
   description:
     'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
 }
+
 export const devEssentials = {
   id: 'devEssentials',
   name: 'Practice Makes Perfect',
@@ -75,6 +105,11 @@ export const RESOURCE = {}
       <Card resource={devEssentials}>
         <Collection />
       </Card>
+    </div>
+  </Story>
+  <Story name="Podcast">
+    <div className="bg-gray-100 p-5">
+      <PodcastCard resource={podcastData} />
     </div>
   </Story>
 </Canvas>
