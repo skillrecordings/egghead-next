@@ -8,7 +8,6 @@ import {
   ControlBar,
   ReplayControl,
   ClosedCaptionButton,
-  PlaybackRate,
   PlayToggle,
   ForwardControl,
   VolumeMenuButton,
@@ -136,10 +135,6 @@ const Team: React.FC<any> = ({videoResource}) => {
             console.log(test)
           }}
           crossOrigin="anonymous"
-          onLoadedMetadata={(event) => {
-            // activateTextTrack(event.target.textTracks[0])
-            console.log(event.target.textTracks[0])
-          }}
         >
           <BigPlayButton position="center" />
           <HLSSource isVideoChild src={videoResource.hls_url} />
