@@ -11,6 +11,7 @@ import EggheadPlayer from 'components/EggheadPlayer'
 import ExternalTrackedLink from '../../../external-tracked-link'
 import {track} from 'utils/analytics'
 import {bpMinMD} from 'utils/breakpoints'
+import {useTheme} from 'next-themes'
 
 const SearchAWS = () => {
   const location = 'AWS landing'
@@ -155,7 +156,7 @@ const AWSCourse: React.FC<{location: string}> = ({location}) => {
                 </h2>
                 <Link href={path}>
                   <a
-                    className="text-xl font-extrabold leading-tighter hover:text-blue-300"
+                    className="text-xl font-extrabold leading-tighter hover:text-blue-300 text-gray-800 dark:text-gray-200"
                     onClick={() =>
                       track('clicked jumbotron resource', {
                         resource: path,
@@ -182,7 +183,7 @@ const AWSCourse: React.FC<{location: string}> = ({location}) => {
                       className="rounded-full"
                       alt={instructor.name}
                     />
-                    <span className="group-hover:text-blue-200">
+                    <span className="group-hover:text-blue-200 text-gray-900 dark:text-gray-200">
                       {instructor.name}
                     </span>
                   </a>
@@ -198,6 +199,10 @@ const AWSCourse: React.FC<{location: string}> = ({location}) => {
 }
 
 const UniqueBackground = ({className}: any) => {
+  const {theme} = useTheme()
+
+  const fill = theme === 'dark' ? '#121927' : '#ffffff'
+  const stroke = theme === 'dark' ? '#C1D7EC' : '#0f131e'
   return (
     <svg
       viewBox="0 0 540 1200"
@@ -206,14 +211,14 @@ const UniqueBackground = ({className}: any) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <g clip-path="url(#clip0)">
-        <rect width="540" height="960" fill="#121927" />
+        <rect width="540" height="960" fill={fill} />
         <g opacity="0.2">
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 544.593 36.5376)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
         </g>
         <g opacity="0.2">
@@ -221,8 +226,8 @@ const UniqueBackground = ({className}: any) => {
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.85 780.054)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
         </g>
         <g opacity="0.2">
@@ -230,8 +235,8 @@ const UniqueBackground = ({className}: any) => {
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 631.264)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -239,8 +244,8 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 705.898)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -248,8 +253,8 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 705.898)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -257,15 +262,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.156 556.39)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 780.533)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -273,15 +278,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 855.167)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.236 780.533)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -289,15 +294,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.953 855.167)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 929.801)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -305,15 +310,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.517 855.167)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.235 929.801)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
         </g>
         <g opacity="0.2">
@@ -321,8 +326,8 @@ const UniqueBackground = ({className}: any) => {
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.832 183.762)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -330,15 +335,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 258.396)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.269 333.031)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -346,22 +351,22 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.987 407.665)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.7041 482.299)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.831 333.031)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -369,15 +374,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 407.665)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.269 482.299)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -385,15 +390,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.987 556.934)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.831 482.299)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -401,22 +406,22 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 556.934)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.269 631.568)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.831 631.568)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -424,8 +429,8 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 706.202)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
         </g>
         <g opacity="0.2">
@@ -433,8 +438,8 @@ const UniqueBackground = ({className}: any) => {
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 -113.993)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -442,8 +447,8 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 -39.3584)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -451,15 +456,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 -39.3584)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 35.2759)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -467,15 +472,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 109.91)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.235 35.2759)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -483,15 +488,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 109.91)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 184.544)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -499,8 +504,8 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 259.179)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -508,16 +513,16 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.517 109.91)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             y="0.546839"
             width="148.185"
             height="148.185"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.709 184.818)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -525,15 +530,15 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 259.179)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
             height="149.278"
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 333.813)"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
           <rect
             width="149.278"
@@ -541,8 +546,8 @@ const UniqueBackground = ({className}: any) => {
             transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 408.447)"
             fill="white"
             fill-opacity="0.1"
-            stroke="#C1D7EC"
-            stroke-width="1.09375"
+            stroke={stroke}
+            stroke-width="1.59375"
           />
         </g>
         <rect width="545" height="960" fill="url(#paint0_linear)" />
@@ -556,8 +561,8 @@ const UniqueBackground = ({className}: any) => {
           y2="3.59151e-06"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#131A27" />
-          <stop offset="1" stop-color="#131A27" stop-opacity="0" />
+          <stop stop-color={fill} />
+          <stop offset="1" stop-color={fill} stop-opacity=".5" />
         </linearGradient>
         <clipPath id="clip0">
           <rect width="540" height="960" fill="white" />
