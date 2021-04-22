@@ -37,7 +37,7 @@ const DeveloperPortfolio: React.FC<any> = ({data}) => {
                 </div>
                 <div className="flex flex-col sm:items-start items-center w-full">
                   <h2 className="text-xs text-yellow-600 dark:text-yellow-300 uppercase font-semibold mb-2">
-                    Create a Developer Portfolio
+                    Craft a Portfolio that gets you hired
                   </h2>
 
                   <h1 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
@@ -46,7 +46,7 @@ const DeveloperPortfolio: React.FC<any> = ({data}) => {
 
                   <Markdown
                     source={data.description}
-                    className="prose dark:prose-dark dark:prose-md-dark prose-md"
+                    className="prose dark:prose-dark dark:prose-md-dark prose-md mt-4"
                   />
                 </div>
               </div>
