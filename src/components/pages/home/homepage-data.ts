@@ -1,22 +1,22 @@
 const homepageData = {
   jumbotron: {
     id: 'jumbotron',
-    title: 'Create a Digital Garden CLI with Rust',
-    byline: 'new course',
-    description: `You'll work through the first command for the CLI, writing files. You start by initializing a new Cargo binary crate by creating the write command that allows you to create files (and their contents) to the folder that you set.`,
+    title: 'Deploy Ghost to AWS using RDS and EC2',
+    byline: 'featured course',
+    description: `Set up a Linux server on AWS EC2 with a relational database (AWS RDS) ready to run Ghost or other full stack JavaScript applications.`,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/429/801/full/rust-garden-cli_424_2x.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
     background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617697132/next.egghead.io/resources/digital-garden-cli-with-rust/background-digital-garden-cli-with-rust_2x.png',
-    path: '/courses/creating-a-digital-garden-cli-with-rust-34b8',
-    slug: 'creating-a-digital-garden-cli-with-rust-34b8',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618861248/egghead-next-pages/deploy-ghost-to-aws-using-rds-and-ec2/background-deploy-ghost-to-aws-using-rds-and-ec2_2x.png',
+    path: '/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+    slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
     instructor: {
-      name: 'Chris Biscardi',
-      slug: 'chris-biscardi',
-      path: '/q/resources-by-chris-biscardi',
-      twitter: 'chrisbiscardi',
+      name: 'Sam Julien',
+      slug: 'sam-julien',
+      path: '/q/resources-by-sam-julien',
+      twitter: 'samjulien',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/275/square_128/headshot_post_gym_dec_2018_500.png',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/324/medium/new_headshot_wedding.jpg',
     },
   },
   'modern-layouts-with-css-grid': {
@@ -44,24 +44,14 @@ const homepageData = {
     id: 'video',
     name: 'Optimize your Learning',
     title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
-
-There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.\n\nThere are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
       `,
     instructor: 'Ceora Ford',
     instructor_path: '/q/resources-by-ceora-ford',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
     path:
       '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
-    poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
-
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
-
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   nextjsVideoApp: {
     id: 'nextjsVideoApp',
