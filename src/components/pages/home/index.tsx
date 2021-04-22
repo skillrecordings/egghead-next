@@ -151,16 +151,18 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 </header>
                 <div>
                   <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {featureDigitalGardening.resources.map((resource: any) => {
-                      return (
-                        <Card
-                          className="col-span-4 text-center"
-                          key={resource.path}
-                          resource={resource}
-                          location={location}
-                        />
-                      )
-                    })}
+                    {featureDigitalGardening.featured.courses.map(
+                      (resource: any) => {
+                        return (
+                          <Card
+                            className="col-span-4 text-center"
+                            key={resource.path}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                      },
+                    )}
                   </div>
                 </div>
               </div>
