@@ -122,7 +122,7 @@ export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current 
   'cta': content[title == 'cta'][0]{
     description
   },
-  'featured': resources[title == 'Featured digital gardening courses'][0]{
+  'featured': resources[slug.current == 'featured-digital-gardening-courses'][0]{
  		'courses': resources[]{
     	title,
     	byline,
@@ -131,16 +131,16 @@ export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current 
     	'image': resources[]->[0].image
   	}
   },
-	'talks': resources[title == 'Infrastructure for Digital Gardens'][0]{
-    title,
-    description,
-    'cta': content[title == 'cta'][0].description,
-		resources[]{
+  'talks': resources[slug.current == 'infrastructure-for-digital-gardens'][0]{
       title,
-      'path': slug.current,
-      byline,
-      image,
-    },
+      description,
+      'cta': content[title == 'cta'][0].description,
+      resources[]{
+        title,
+        'path': slug.current,
+        byline,
+        image,
+      },
   },
 }`
 
