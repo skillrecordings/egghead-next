@@ -101,14 +101,8 @@ const graphqlPageData = [
     description: `GraphQL is a query language for your API, which means that you can query or ask for the data that you need in one request, and you'll get one response as JSON. In this lesson, we'll introduce the key features of GraphQL.`,
     byline: 'Eve Porcello',
     path: '/lessons/graphql-wtf-is-graphql',
-    poster:
+    image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611990262/egghead-next-pages/graphql/video-cover-image_2x.png',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-wtf-is-graphql-83e388b9cb/egghead-wtf-is-graphql-83e388b9cb.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-wtf-is-graphql-83e388b9cb/egghead-wtf-is-graphql-83e388b9cb.mpd',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/graphql-wtf-is-graphql/subtitles',
   },
   {
     id: 'graphql-serverless',
