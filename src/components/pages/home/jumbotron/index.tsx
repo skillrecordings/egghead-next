@@ -56,12 +56,12 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center w-full">
-              <h2 className="text-xs text-green-300 uppercase font-semibold mb-2">
+              <h2 className="text-xs text-yellow-500 uppercase font-semibold mb-2">
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-green-300"
+                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-500"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -88,7 +88,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                     className="rounded-full"
                     alt={instructor.name}
                   />
-                  <span className="group-hover:text-green-200">
+                  <span className="group-hover:text-orange-200">
                     {instructor.name}
                   </span>
                 </a>
