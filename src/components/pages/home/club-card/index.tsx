@@ -63,14 +63,14 @@ const ClubCard: FunctionComponent<CardProps> = ({
                     location,
                   })
                 }}
-                className="block flex-shrink-0 sm:w-auto w-20 mx-auto text-center"
+                className="block flex-shrink-0 sm:w-auto w-20 mx-auto text-center mb-8"
               >
                 <Image
                   src={get(image, 'src', image)}
-                  width={140}
-                  height={140}
+                  width={100}
+                  height={100}
                   alt={`illustration for ${title}`}
-                  className="inline mb-4"
+                  className="inline"
                 />
               </a>
             </Link>

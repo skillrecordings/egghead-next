@@ -42,11 +42,11 @@ const xStateClub: React.FC<any> = ({data}) => {
             width={100}
             height={100}
           />
-          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold leading-tighter">
+          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold leading-tighter mt-8">
             {data.xstate.title}
           </h1>
           <p className="md:text-lg text-base font-semibold mt-4 text-gray-500">
-            {data.xstate.subTitle}
+            Portfolio Project Club ・ {data.xstate.subTitle}
           </p>
         </div>
         <Markdown className="prose dark:prose-dark dark:prose-lg-dark prose-lg">
