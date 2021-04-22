@@ -142,18 +142,6 @@ export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current 
       image,
     },
   },
-  related[0]{
-    title,
-    description,
-    'cta': content[title == 'cta'][0]{
-      description
-    },
-    resources[]{
-      title,
-      'path': slug.current,
-      byline,
-      image,
-    },
   },
 }`
 
