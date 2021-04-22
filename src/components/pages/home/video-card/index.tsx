@@ -22,6 +22,7 @@ const VideoCard: React.FC<{
     description,
     instructor_path,
     instructor,
+    byline,
     image,
   } = resource
 
@@ -51,8 +52,9 @@ const VideoCard: React.FC<{
                 </h3>
               </a>
             </Link>
-            {instructor && instructor_path && (
-              <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+              {byline}
+              {instructor && instructor_path && (
                 <Link href={instructor_path || ''}>
                   <a
                     onClick={() =>
@@ -67,8 +69,8 @@ const VideoCard: React.FC<{
                     {instructor}
                   </a>
                 </Link>
-              </div>
-            )}
+              )}
+            </div>
             <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
               {description}
             </Markdown>
