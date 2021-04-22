@@ -72,8 +72,7 @@ const Search: FunctionComponent<SearchProps> = ({
   const numberOfRefinements =
     get(searchState, 'refinementList.instructor_name', []).length +
     get(searchState, 'refinementList._tags', []).length +
-    get(searchState, 'refinementList.type', []).length +
-    get(searchState, 'page', 0)
+    get(searchState, 'refinementList.type', []).length
 
   const refinementRef = React.useRef(null)
   useClickAway(refinementRef, () => setShowFilter(false))
@@ -120,7 +119,6 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <ScrollTo scrollOn="page" />
         <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
           <div
             className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
@@ -209,6 +207,7 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+              <ScrollTo scrollOn="page" />
               <Hits />
             </div>
           </div>
