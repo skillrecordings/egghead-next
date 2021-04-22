@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from 'react'
 import Card, {CardResource} from './card'
-import EggheadPlayer from 'components/EggheadPlayer'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, first, isEmpty} from 'lodash'
@@ -14,6 +13,7 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import Jumbotron from './jumbotron'
+import VideoCard from 'components/pages/home/video-card'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
@@ -101,7 +101,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <TopicsList topics={topics} />
         </section>
         <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
-          <FeaturedVideoCard video={video} />
+          <VideoCard className="lg:col-span-6" resource={video} />
           <EventSchedule />
         </section>
         <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
@@ -397,67 +397,6 @@ const EventSchedule: React.FunctionComponent = () => {
           }}
         />
       </>
-    </Card>
-  )
-}
-
-function FeaturedVideoCard(props: {video: any}) {
-  return (
-    <Card className="lg:col-span-6">
-      <div className="flex sm:flex-row flex-col justify-center">
-        <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
-          <div>
-            <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
-              {props.video.name}
-            </h2>
-            <Link href={props.video.path}>
-              <a
-                onClick={() =>
-                  track('clicked home page video link', {
-                    resource: props.video.path,
-                    linkType: 'text',
-                  })
-                }
-                className="hover:text-blue-600 dark:hover:text-blue-300"
-              >
-                <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2">
-                  {props.video.title}
-                </h3>
-              </a>
-            </Link>
-            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
-              <Link href={props.video.instructor_path || ''}>
-                <a
-                  onClick={() =>
-                    track('clicked home page video instructor', {
-                      instructor: props.video.instructor,
-                      linkType: 'image',
-                    })
-                  }
-                  className="hover:text-blue-600 dark:hover:text-blue-300"
-                >
-                  {props.video.instructor}
-                </a>
-              </Link>
-            </div>
-            <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-              {props.video.description}
-            </Markdown>
-          </div>
-        </div>
-        <div className="sm:w-full sm:-m-8 -m-5 flex items-center flex-grow bg-black">
-          <EggheadPlayer
-            preload={false}
-            autoplay={false}
-            poster={props.video.poster}
-            hls_url={props.video.hls_url}
-            dash_url={props.video.dash_url}
-            subtitlesUrl={props.video.subtitlesUrl}
-            width="100%"
-            height="auto"
-          />
-        </div>
-      </div>
     </Card>
   )
 }

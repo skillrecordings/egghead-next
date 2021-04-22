@@ -61,7 +61,7 @@ const Card: FunctionComponent<CardProps> = ({
                 src={get(image, 'src', image)}
                 width={140}
                 height={140}
-                alt={`illustration for ${title}`}
+                alt={title}
                 className="inline"
               />
             </a>
