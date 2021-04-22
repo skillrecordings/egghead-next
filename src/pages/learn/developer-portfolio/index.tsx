@@ -72,7 +72,6 @@ export const developerPortfolioQuery = groq`*[_type == 'resource' && slug.curren
       subTitle,
       "slug": slug.current,
       path,
-      meta,
       image,
       summary,
 	}
@@ -84,7 +83,6 @@ export const reduxClubQuery = groq`*[_type == 'resource' && slug.current == "bui
       subTitle,
       description,
       "slug": slug.current,
-      meta,
       image,
       summary,
     }
@@ -96,7 +94,6 @@ export const xStateClubQuery = groq`*[_type == 'resource' && slug.current == "bu
       subTitle,
       description,
       "slug": slug.current,
-      meta,
       image,
       summary,
     }

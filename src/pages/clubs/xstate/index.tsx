@@ -46,7 +46,7 @@ const xStateClub: React.FC<any> = ({data}) => {
             {data.xstate.title}
           </h1>
           <p className="md:text-lg text-base font-semibold mt-4 text-gray-500">
-            Portfolio Project Club ・ {data.xstate.subTitle}
+            Portfolio Club ・ {data.xstate.subTitle}
           </p>
         </div>
         <Markdown className="prose dark:prose-dark dark:prose-lg-dark prose-lg">

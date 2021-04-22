@@ -46,7 +46,7 @@ const reduxClub: React.FC<any> = ({data}) => {
             {data.redux.title}
           </h1>
           <p className="md:text-lg text-base font-semibold mt-4 text-gray-500">
-            Portfolio Project Club ・ {data.redux.subTitle}
+            Portfolio Club ・ {data.redux.subTitle}
           </p>
         </div>
         <Markdown className="prose dark:prose-dark dark:prose-lg-dark prose-lg">
