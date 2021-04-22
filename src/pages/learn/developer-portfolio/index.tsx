@@ -17,7 +17,8 @@ export const developerPortfolioQuery = groq`*[_type == 'resource' && slug.curren
       subTitle,
       "slug": slug.current,
       meta,
-      image
+      image,
+      summary,
 	}
 }`
 
@@ -25,9 +26,11 @@ export const reduxClubQuery = groq`*[_type == 'resource' && slug.current == "bui
   "redux": resources[0].resources[slug.current == "redux"][0]{
       title,
       subTitle,
+      description,
       "slug": slug.current,
       meta,
-      image
+      image,
+      summary,
     }
 }`
 
@@ -35,9 +38,11 @@ export const xStateClubQuery = groq`*[_type == 'resource' && slug.current == "bu
   "xstate": resources[0].resources[slug.current == "xstate"][0]{
       title,
       subTitle,
+      description,
       "slug": slug.current,
       meta,
-      image
+      image,
+      summary,
     }
 }`
 
