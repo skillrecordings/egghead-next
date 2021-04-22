@@ -126,7 +126,7 @@ export const getServerSideProps: GetServerSideProps = async function ({query}) {
     },
   }
 }
-const Team: React.FC<any> = ({videoResource}) => {
+const VideoTest: React.FC<any> = ({videoResource}) => {
   return (
     <div>
       {videoResource.hls_url && (
@@ -135,6 +135,8 @@ const Team: React.FC<any> = ({videoResource}) => {
             console.log(test)
           }}
           crossOrigin="anonymous"
+          className="font-sans"
+          poster={videoResource.poster}
         >
           <BigPlayButton position="center" />
           <HLSSource isVideoChild src={videoResource.hls_url} />
@@ -169,4 +171,4 @@ const Team: React.FC<any> = ({videoResource}) => {
   )
 }
 
-export default Team
+export default VideoTest
