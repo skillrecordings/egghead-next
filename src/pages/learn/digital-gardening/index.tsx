@@ -142,7 +142,6 @@ export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current 
       image,
     },
   },
-  },
 }`
 
 export async function getStaticProps() {
