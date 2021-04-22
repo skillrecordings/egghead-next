@@ -25,7 +25,7 @@ const VideoCard: React.FC<{
     image,
   } = resource
 
-  console.log(location ? location : router.pathname)
+  const currentLocation = location ? location : router.pathname
 
   return (
     <Card className={className}>
@@ -38,10 +38,10 @@ const VideoCard: React.FC<{
             <Link href={path}>
               <a
                 onClick={() =>
-                  track('clicked home page video link', {
+                  track('clicked resource', {
                     resource: path,
                     linkType: 'text',
-                    location: location ? location : router.pathname,
+                    location: currentLocation,
                   })
                 }
                 className="hover:text-blue-600 dark:hover:text-blue-300"
@@ -51,21 +51,24 @@ const VideoCard: React.FC<{
                 </h3>
               </a>
             </Link>
-            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
-              <Link href={instructor_path || ''}>
-                <a
-                  onClick={() =>
-                    track('clicked home page video instructor', {
-                      instructor: instructor,
-                      linkType: 'image',
-                    })
-                  }
-                  className="hover:text-blue-600 dark:hover:text-blue-300"
-                >
-                  {instructor}
-                </a>
-              </Link>
-            </div>
+            {instructor && instructor_path && (
+              <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
+                <Link href={instructor_path || ''}>
+                  <a
+                    onClick={() =>
+                      track('clicked instructor', {
+                        instructor: instructor,
+                        linkType: 'text',
+                        location: currentLocation,
+                      })
+                    }
+                    className="hover:text-blue-600 dark:hover:text-blue-300"
+                  >
+                    {instructor}
+                  </a>
+                </Link>
+              </div>
+            )}
             <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
               {description}
             </Markdown>
@@ -76,6 +79,11 @@ const VideoCard: React.FC<{
             <a
               onClick={() => {
                 setPlayerPrefs({autoplay: true})
+                track('clicked resource', {
+                  resource: path,
+                  linkType: 'video',
+                  location: currentLocation,
+                })
               }}
               className="group sm:w-full flex items-center justify-center relative overflow-hidden rounded-md border dark:border-gray-700 border-gray-200"
             >
