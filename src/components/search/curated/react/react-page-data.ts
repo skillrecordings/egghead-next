@@ -189,16 +189,8 @@ const reactPageData = [
     byline: 'David Khourshid & Joel Hooks',
     path:
       '/talks/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
-    poster:
+    image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611317992/next.egghead.io/react/react-xstate-for-state-management-in-react-apps-with-david-khourshid.png',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/react-xstate-for-state-management-in-react-apps-with-david-khourshid-R0Tbe57sa/hls/react-xstate-for-state-management-in-react-apps-with-david-khourshid-R0Tbe57sa.m3u8',
-
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/react-xstate-for-state-management-in-react-apps-with-david-khourshid-R0Tbe57sa/dash/react-xstate-for-state-management-in-react-apps-with-david-khourshid-R0Tbe57sa.mpd',
-
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid/subtitles',
   },
   {
     id: 'state-management-featured',

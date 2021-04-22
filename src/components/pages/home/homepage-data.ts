@@ -44,24 +44,14 @@ const homepageData = {
     id: 'video',
     name: 'Optimize your Learning',
     title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
-
-There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.\n\nThere are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
       `,
     instructor: 'Ceora Ford',
     instructor_path: '/q/resources-by-ceora-ford',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
     path:
       '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
-    poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
-
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
-
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   nextjsVideoApp: {
     id: 'nextjsVideoApp',

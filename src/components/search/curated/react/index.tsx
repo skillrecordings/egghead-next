@@ -8,6 +8,7 @@ import {find} from 'lodash'
 import EggheadPlayer from 'components/EggheadPlayer'
 import Image from 'next/image'
 import ExternalTrackedLink from '../../../external-tracked-link'
+import VideoCard from 'components/pages/home/video-card'
 
 const SearchReact = () => {
   const location = 'react landing'
@@ -107,7 +108,7 @@ You can find courses below curated just for you whether you're looking for a par
             <div className="flex-shrink-0">
               <Image
                 src={
-                  'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png'
+                  'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png'
                 }
                 alt="illustration for state management in react"
                 width={200}
@@ -138,24 +139,11 @@ You can find courses below curated just for you whether you're looking for a par
             </div>
           </header>
           <div>
-            <Card
+            <VideoCard
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
               location={location}
-            >
-              <div className="sm:w-full sm:-mt-5 -mt-0 sm:-mb-5 -mb-4 md:-mr-5 -mr-4 md:ml-8 -ml-4  flex items-center bg-black flex-shrink-0 md:max-w-sm">
-                <EggheadPlayer
-                  preload={false}
-                  autoplay={false}
-                  poster={stateManagementVideo.poster}
-                  hls_url={stateManagementVideo.hls_url}
-                  dash_url={stateManagementVideo.dash_url}
-                  subtitlesUrl={stateManagementVideo.subtitlesUrl}
-                  width="100%"
-                  height="auto"
-                />
-              </div>
-            </Card>
+            />
             <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
               {stateManagementFeatured.resources.map((resource: any) => {
                 return (
