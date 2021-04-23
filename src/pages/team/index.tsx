@@ -10,6 +10,8 @@ import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
 import {getTokenFromCookieHeaders} from 'utils/auth'
 import isEmpty from 'lodash/isEmpty'
+import BillingSection from 'components/team/billing-section'
+import MemberTable from 'components/team/member-table'
 
 export type TeamData = {
   accountId: number
@@ -19,8 +21,8 @@ export type TeamData = {
   numberOfMembers: number
   capacity: number
   isFull: boolean
-  accountSlug: string | undefined
-  stripeCustomerId: string | undefined
+  accountSlug: string
+  stripeCustomerId: string
 }
 
 const TeamComposition = ({teamData}: {teamData: TeamData}) => {
@@ -160,38 +162,7 @@ const Team = ({team: teamData}: TeamPageProps) => {
           <h2 className="font-semibold text-xl mt-16">
             Current Team Members <TeamComposition teamData={teamData} />
           </h2>
-          <table
-            className="w-full mt-6 text-left text-lg"
-            css={{
-              td: {
-                padding: '0.5rem 0.75rem',
-              },
-            }}
-          >
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role(s)</th>
-              <th>Date Added</th>
-            </tr>
-            {teamData.members.map((member: any, i: number) => {
-              return (
-                <tr
-                  key={member.id || member.email}
-                  className={
-                    i % 2 === 0
-                      ? 'bg-gray-100 dark:bg-gray-800'
-                      : 'bg-white dark:bg-gray-900'
-                  }
-                >
-                  <td>{member.name}</td>
-                  <td>{member.email}</td>
-                  <td>{member.roles.join(', ')}</td>
-                  <td>{member.date_added}</td>
-                </tr>
-              )
-            })}
-          </table>
+          <MemberTable members={teamData.members} />
         </div>
       )}
     </LoginRequired>
