@@ -4,6 +4,7 @@ import get from 'lodash/get'
 import {format} from 'date-fns'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
+import isEmpty from 'lodash/isEmpty'
 
 const formatAmountWithCurrency = (
   amountInCents: number,
@@ -29,6 +30,8 @@ const BillingSection = ({
     stripeCustomerId,
     slug,
   })
+
+  if (subscriptionData === undefined) return null
 
   const currency = get(
     subscriptionData,
@@ -72,14 +75,31 @@ const BillingSection = ({
   const activeSubscription =
     get(subscriptionData, 'subscription.status') === 'active' &&
     !get(subscriptionData, 'subscription.canceled_at')
-  const nextBillDate: string | undefined = activeSubscription
-    ? format(
-        new Date(
-          get(subscriptionData, 'upcomingInvoice.next_payment_attempt') * 1000,
-        ),
-        'yyyy/MM/dd',
-      )
-    : undefined
+
+  // Figure out what to display for the Next Billing Date.
+  //
+  // If it is too early in the billing period or if the subscription was just
+  // created, there may not be an upcoming invoice generated yet. In that case,
+  // we see the subscription is active and display 'Pending' for now.
+  const nextPaymentAttempt = get(
+    subscriptionData,
+    'upcomingInvoice.next_payment_attempt',
+  )
+  let nextBillDateDisplay: string
+  if (!activeSubscription) {
+    nextBillDateDisplay = 'Canceled'
+  } else if (activeSubscription && isEmpty(subscriptionData.upcomingInvoice)) {
+    nextBillDateDisplay = 'Pending'
+  } else if (activeSubscription && nextPaymentAttempt) {
+    nextBillDateDisplay = format(
+      new Date(
+        get(subscriptionData, 'upcomingInvoice.next_payment_attempt') * 1000,
+      ),
+      'yyyy/MM/dd',
+    )
+  } else {
+    nextBillDateDisplay = '-'
+  }
 
   const quantity = get(subscriptionData, 'subscription.quantity', 1)
 
@@ -152,7 +172,7 @@ const BillingSection = ({
               <span className="font-semibold text-sm text-gray-500 dark:text-gray-400">
                 Next Billing Date
               </span>
-              <span className="">{nextBillDate || 'Canceled'}</span>
+              <span className="">{nextBillDateDisplay}</span>
             </div>
             <div className="flex flex-row space-x-8">
               <div className="flex flex-col space-y-0.5">
