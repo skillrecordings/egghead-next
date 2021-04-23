@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import Markdown from 'react-markdown'
+import ClubCard from 'components/pages/home/club-card'
 
 const DeveloperPortfolio: React.FC<any> = ({data}) => {
   return (
@@ -52,6 +53,11 @@ const DeveloperPortfolio: React.FC<any> = ({data}) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4 mt-5">
+          {data.clubs.map((resource: any) => {
+            return <ClubCard key={resource.slug} resource={resource} />
+          })}
         </div>
       </div>
     </div>
