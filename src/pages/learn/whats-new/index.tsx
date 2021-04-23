@@ -13,7 +13,7 @@ const WhatsNewPage: FunctionComponent<any> = ({data}) => {
   const [firstBottom, secondBottom] = bottom.resources
 
   return (
-    <section className="sm:-my-5 -my-3 p-5 dark:bg-gray-900 bg-gray-50 mx-auto max-w-screen-xl">
+    <section className="sm:-my-5 -my-3 p-5 mx-auto max-w-screen-xl">
       <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
         What's New
       </h2>
