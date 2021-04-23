@@ -108,7 +108,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
 
 export default DigitalGardening
 
-export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current == "digital-gardening-for-developers-v2"][0]{
+export const digitalGardeningQuery = groq`*[_type == 'resource' && slug.current == "digital-gardening-for-developers"][0]{
   title,
   description,
   path,
