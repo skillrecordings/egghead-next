@@ -14,6 +14,7 @@ import Collection from './collection'
 import axios from 'utils/configured-axios'
 import Jumbotron from './jumbotron'
 import VideoCard from 'components/pages/home/video-card'
+import WhatsNew from '../../../pages/learn/whats-new'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
@@ -49,6 +50,8 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     homePageData,
     'featureDigitalGardening',
   )
+
+  const featureWhatsNew: any = get(homePageData, 'whatsNew')
 
   React.useEffect(() => {
     if (viewer) {
@@ -96,14 +99,23 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         )}
       </div> */}
       <div className="lg:space-y-6 space-y-4">
-        <Jumbotron resource={jumbotron} />
+        <Jumbotron
+          resource={jumbotron}
+          titleHover="hover:text-yellow-500"
+          instructorHover="group-hover:text-orange-200"
+        />
         <section className="">
           <TopicsList topics={topics} />
         </section>
+
         <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
           <VideoCard className="lg:col-span-6" resource={video} />
           <EventSchedule />
         </section>
+        <section className="py-12">
+          <WhatsNew data={featureWhatsNew} />
+        </section>
+
         <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
           <div className="lg:col-span-8 lg:space-y-6 space-y-4">
             <div

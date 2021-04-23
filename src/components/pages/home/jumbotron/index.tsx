@@ -9,9 +9,15 @@ import {track} from 'utils/analytics'
 
 type JumbotronProps = {
   resource: CardResource
+  titleHover?: String
+  instructorHover?: String
 }
 
-const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
+const Jumbotron: FunctionComponent<JumbotronProps> = ({
+  resource,
+  titleHover,
+  instructorHover,
+}) => {
   const {
     path,
     image,
@@ -61,7 +67,9 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-500"
+                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter ${
+                    titleHover ? titleHover : 'hover:text-blue-600'
+                  }`}
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -88,7 +96,13 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                     className="rounded-full"
                     alt={instructor.name}
                   />
-                  <span className="group-hover:text-orange-200">
+                  <span
+                    className={`group-hover:text-orange-200 ${
+                      instructorHover
+                        ? instructorHover
+                        : 'group-hover:text-blue-300'
+                    }`}
+                  >
                     {instructor.name}
                   </span>
                 </a>
