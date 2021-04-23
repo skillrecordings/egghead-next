@@ -2,6 +2,8 @@ import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
 import {find} from 'lodash'
 import homepageData from 'components/pages/home/homepage-data'
 import Card from './'
+import {CardVerticalLarge, CardVerticalWithStack} from './card-vertical'
+import CardHorizontal from './card-horizontal'
 import Collection from 'components/pages/home/collection'
 import PodcastCard from 'components/pages/home/card/podcast-card'
 import ArticleCard from 'components/pages/home/card/article-card'
@@ -91,40 +93,178 @@ export const devEssentials = {
   ],
 }
 
-export const RESOURCE = {}
+export const workflows = {
+  id: 'workflows',
+  title: 'Optimize Daily Workflows',
+  description:
+    'Humans were never meant to repeat joyless tasks in a precise manner, over and over and over. Computers are meant precisely for these types of tasks. Automation is all about saving you time — and these courses are well worth yours. Enjoy!',
+  resources: [
+    {
+      title: 'Advanced Bash Automation for Web Developers',
+      byline: 'Cameron Nokes・ Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/239/thumb/EGH_BashAutomation_Final.png',
+      path: '/courses/advanced-bash-automation-for-web-developers',
+      slug: 'advanced-bash-automation-for-web-developers',
+    },
+    {
+      title: 'Regex in Javascript',
+      byline: 'Joe Maddalone・ Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/029/thumb/course_image.png',
+      path: '/courses/regex-in-javascript',
+      slug: 'regex-in-javascript',
+    },
+    {
+      title: 'Use Grep for Fast Search from the Command Line',
+      byline: 'Bonnie Eisenman・ Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/088/thumb/EGH_Grep_Final_Small.png',
+      path: '/courses/use-grep-for-fast-search-from-the-command-line',
+      slug: 'use-grep-for-fast-search-from-the-command-line',
+    },
+    {
+      title: 'Wrangle your terminal with tmux',
+      byline: 'Bonnie Eisenman・ Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/thumb/EGH_TMUX_Final_2x.png',
+      path: '/courses/wrangle-your-terminal-with-tmux',
+      slug: 'wrangle-your-terminal-with-tmux',
+    },
+    {
+      title: 'Productive Git for Developers',
+      byline: 'Juri Strumpflohner・ Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/247/thumb/EGH_ProductiveGitFinal.png',
+      path: '/courses/productive-git-for-developers',
+      slug: 'productive-git-for-developers',
+    },
+  ],
+}
+
+export const featured = {
+  id: 'featured',
+  title: 'Featured',
+  resources: [
+    {
+      name: 'Fresh Course',
+      title: 'Accessible Cross-Browser CSS Form Styling',
+      byline: 'Stephanie Eckles・1h 52m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
+      path: '/courses/accessible-cross-browser-css-form-styling-7297',
+      slug: 'accessible-cross-browser-css-form-styling-7297',
+    },
+    {
+      name: 'Learn Serverless',
+      title: 'Netlify Serverless Functions and Hasura',
+      byline: 'Jason Lengstorf・1h 27m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
+      path:
+        '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+      slug:
+        'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+    },
+    {
+      name: 'layout design',
+      id: 'elm-ui',
+      title: 'Declarative UIs without CSS with elm-ui',
+      byline: 'Flavio Corpa ・1h 27m・Course',
+      image:
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
+      path: '/courses/declarative-uis-without-css-with-elm-ui-93bd',
+      instructor: {
+        name: 'Flavio Corpa',
+        slug: 'flavio-corpa',
+        path: '/q/resources-by-flavio-corpa',
+        twitter: 'FlavioCorpa',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/154/medium/avatar.jpg',
+      },
+    },
+  ],
+}
+
+export const modernLayoutsWithCSSGrid = {
+  id: 'modern-layouts-with-css-grid',
+  title: 'Build Modern Layouts with CSS Grid',
+  name: 'Write modern CSS',
+  byline: 'Hiroko Nishimura・22m・Course',
+  description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
+  background:
+    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615913074/egghead-next-pages/build-modern-layouts-with-css-grid/background-build-modern-layouts-with-css-grid.svg',
+  path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+  slug: 'build-modern-layouts-with-css-grid-d3f5',
+  instructor: {
+    name: 'Hiroko Nishimura',
+    slug: 'hiro-nishimura',
+    path: '/q/resources-by-hiro-nishimura',
+    twitter: 'hirokonishimura',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
+  },
+}
 
 <Meta title="Components/Home/Card" />
 
 # Card Component
 
 <Canvas>
-  <Story name="Default">
+  <Story name="Default Card">
     <div className="bg-gray-100 p-5">
       <Card>
         <>Children</>
       </Card>
     </div>
   </Story>
-  <Story name="Resource">
+  <Story name="Vertical Cards">
+    <div className="bg-gray-100 p-5">
+      <CardVerticalWithStack data={workflows} />
+    </div>
+    <div className="flex flex-row space-x-8 bg-gray-100 p-5">
+      <CardVerticalLarge
+        key={featured.resources[0].path}
+        data={featured.resources[0]}
+      />
+      <CardVerticalLarge
+        key={featured.resources[1].path}
+        data={featured.resources[1]}
+      />
+      <CardVerticalLarge
+        key={featured.resources[2].path}
+        data={featured.resources[2]}
+      />
+    </div>
+  </Story>
+  <Story name="Horizontal Cards">
+    <div className="bg-gray-100 p-5">
+      <CardHorizontal resource={modernLayoutsWithCSSGrid} />
+    </div>
+  </Story>
+  <Story name="Resource Card">
     <div className="bg-gray-100 p-5">
       <Card className="flex space-x-5" resource={sideProject} />
     </div>
   </Story>
-  <Story name="Collection">
+  <Story name="Collection Card">
     <div className="bg-gray-100 p-5">
       <Card resource={devEssentials}>
         <Collection />
       </Card>
     </div>
   </Story>
-  <Story name="Podcast">
+  <Story name="Podcast Card">
     <div className="bg-gray-100 p-5">
       <PodcastCard resource={podcastData} />
     </div>
   </Story>
-  <Story name="Article">
+  <Story name="Article Cards">
     <div className="bg-gray-100 p-5">
       <ArticleCard resource={articleData} />
+      <ArticleCard horizontal resource={articleData} />
     </div>
   </Story>
 </Canvas>
