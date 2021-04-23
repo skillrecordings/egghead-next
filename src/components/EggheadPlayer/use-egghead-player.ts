@@ -221,7 +221,7 @@ const defaultPlayerPreferences = {
     id: null,
     kind: null,
     label: 'off',
-    lang: null,
+    language: null,
   },
   muted: false,
   theater: false,
