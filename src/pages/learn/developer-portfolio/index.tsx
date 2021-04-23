@@ -54,7 +54,7 @@ const DeveloperPortfolio: React.FC<any> = ({data}) => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
           {data.clubs.map((resource: any) => {
             return <ClubCard key={resource.slug} resource={resource} />
           })}
