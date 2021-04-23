@@ -30,6 +30,8 @@ const BillingSection = ({
     slug,
   })
 
+  if (subscriptionData === undefined) return null
+
   const currency = get(
     subscriptionData,
     'latestInvoice.currency',

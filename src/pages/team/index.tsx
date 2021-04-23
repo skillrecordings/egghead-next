@@ -163,6 +163,10 @@ const Team = ({team: teamData}: TeamPageProps) => {
             Current Team Members <TeamComposition teamData={teamData} />
           </h2>
           <MemberTable members={teamData.members} />
+          <BillingSection
+            stripeCustomerId={teamData.stripeCustomerId}
+            slug={teamData.accountSlug}
+          />
         </div>
       )}
     </LoginRequired>
