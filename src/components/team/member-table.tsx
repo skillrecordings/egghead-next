@@ -1,11 +1,19 @@
+import * as React from 'react'
 import {format} from 'date-fns'
 
-const MemberTable = ({members}: {members: any[]}) => {
+const MemberTable = ({
+  members,
+  removeTeamMember,
+}: {
+  members: any[]
+  removeTeamMember: Function
+}) => {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md mt-2">
       <ul className="divide-y divide-gray-200 dark:divide-gray-700">
         {members.map((member: any, i: number) => {
           const {id, name, email, roles, date_added} = member
+          const isOwner = roles.includes('Owner')
 
           return (
             <li
@@ -28,9 +36,16 @@ const MemberTable = ({members}: {members: any[]}) => {
                     )}
                   </p>
                   <div className="ml-2 flex-shrink-0 flex">
-                    {/* <p className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-700 text-red-800 dark:text-red-100 hover:shadow"> */}
-                    {/*   Remove */}
-                    {/* </p> */}
+                    {!isOwner && (
+                      <p
+                        onClick={() => {
+                          removeTeamMember(id)
+                        }}
+                        className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-700 text-red-800 dark:text-red-100 hover:shadow"
+                      >
+                        Remove
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="mt-2 sm:flex sm:justify-between">

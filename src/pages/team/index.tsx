@@ -8,7 +8,7 @@ import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
-import {getTokenFromCookieHeaders} from 'utils/auth'
+import {getTokenFromCookieHeaders, getAuthorizationHeader} from 'utils/auth'
 import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
@@ -25,9 +25,13 @@ export type TeamData = {
   stripeCustomerId: string
 }
 
-const TeamComposition = ({teamData}: {teamData: TeamData}) => {
-  const {numberOfMembers, capacity} = teamData
-
+const TeamComposition = ({
+  capacity,
+  numberOfMembers,
+}: {
+  capacity: number
+  numberOfMembers: number
+}) => {
   const valid =
     typeof numberOfMembers === 'number' &&
     numberOfMembers > 0 &&
@@ -123,6 +127,7 @@ type TeamPageProps = {
 
 const Team = ({team: teamData}: TeamPageProps) => {
   const router = useRouter()
+  const [members, setMembers] = React.useState<any[]>(teamData?.members || [])
 
   const teamDataNotAvailable = isEmpty(teamData)
 
@@ -132,44 +137,65 @@ const Team = ({team: teamData}: TeamPageProps) => {
     }
   }, [teamDataNotAvailable])
 
+  const removeTeamMember = (userId: number) => {
+    if (teamData?.accountId) {
+      const removeTeamMemberUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/accounts/${teamData.accountId}/team_members/${userId}`
+
+      return axios
+        .delete(removeTeamMemberUrl, {
+          headers: {...getAuthorizationHeader()},
+        })
+        .then((response: Object) => {
+          console.log({response, userId})
+          setMembers((prevMembers) => {
+            return prevMembers.filter(({id}: {id: number}) => id !== userId)
+          })
+        })
+    }
+  }
+
+  if (teamData === undefined) return null
+
   return (
     <LoginRequired>
-      {!!teamData && (
-        <div className="max-w-screen-xl mx-auto mb-24">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
-            Team Account
-          </h1>
-          <p className="mt-6 leading-6">
-            We are in the process of migrating team accounts to our new website.
-            If you would like to manage your account please visit{' '}
-            <a href="https://app.egghead.io">https://app.egghead.io</a> and log
-            in there. If you need direct assistance please dont hesitate to
-            email <a href="mailto:support@egghead.io">support@egghead.io</a>
-          </p>
-          <TeamName teamData={teamData} />
-          <h2 className="font-semibold text-xl mt-16">Team Members</h2>
-          <p className="mt-6">Your invite link to add new team members is: </p>
-          <div className="flex flex-col md:flex-row items-start md:items-center mt-4 space-y-2 md:space-y-0 md:space-x-2">
-            <code className="font-bold bg-gray-100 p-3 rounded-md dark:bg-gray-800">
-              {teamData.inviteUrl}
-            </code>
-            <CopyToClipboard
-              stringToCopy={teamData.inviteUrl}
-              className="inline-block"
-              label={true}
-            />
-          </div>
-          <AtCapacityNotice teamData={teamData} />
-          <h2 className="font-semibold text-xl mt-16">
-            Current Team Members <TeamComposition teamData={teamData} />
-          </h2>
-          <MemberTable members={teamData.members} />
-          <BillingSection
-            stripeCustomerId={teamData.stripeCustomerId}
-            slug={teamData.accountSlug}
+      <div className="max-w-screen-xl mx-auto mb-24">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
+          Team Account
+        </h1>
+        <p className="mt-6 leading-6">
+          We are in the process of migrating team accounts to our new website.
+          If you would like to manage your account please visit{' '}
+          <a href="https://app.egghead.io">https://app.egghead.io</a> and log in
+          there. If you need direct assistance please dont hesitate to email{' '}
+          <a href="mailto:support@egghead.io">support@egghead.io</a>
+        </p>
+        <TeamName teamData={teamData} />
+        <h2 className="font-semibold text-xl mt-16">Team Members</h2>
+        <p className="mt-6">Your invite link to add new team members is: </p>
+        <div className="flex flex-col md:flex-row items-start md:items-center mt-4 space-y-2 md:space-y-0 md:space-x-2">
+          <code className="font-bold bg-gray-100 p-3 rounded-md dark:bg-gray-800">
+            {teamData.inviteUrl}
+          </code>
+          <CopyToClipboard
+            stringToCopy={teamData.inviteUrl}
+            className="inline-block"
+            label={true}
           />
         </div>
-      )}
+        <AtCapacityNotice teamData={teamData} />
+        <h2 className="font-semibold text-xl mt-16">
+          Current Team Members{' '}
+          <TeamComposition
+            capacity={teamData.capacity}
+            numberOfMembers={members.length}
+          />
+        </h2>
+        <MemberTable members={members} removeTeamMember={removeTeamMember} />
+        <BillingSection
+          stripeCustomerId={teamData.stripeCustomerId}
+          slug={teamData.accountSlug}
+        />
+      </div>
     </LoginRequired>
   )
 }
