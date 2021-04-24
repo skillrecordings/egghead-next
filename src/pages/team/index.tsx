@@ -137,23 +137,6 @@ const Team = ({team: teamData}: TeamPageProps) => {
     }
   }, [teamDataNotAvailable])
 
-  const removeTeamMember = (userId: number) => {
-    if (teamData?.accountId) {
-      const removeTeamMemberUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/accounts/${teamData.accountId}/team_members/${userId}`
-
-      return axios
-        .delete(removeTeamMemberUrl, {
-          headers: {...getAuthorizationHeader()},
-        })
-        .then((response: Object) => {
-          console.log({response, userId})
-          setMembers((prevMembers) => {
-            return prevMembers.filter(({id}: {id: number}) => id !== userId)
-          })
-        })
-    }
-  }
-
   if (teamData === undefined) return null
 
   return (
@@ -190,7 +173,11 @@ const Team = ({team: teamData}: TeamPageProps) => {
             numberOfMembers={members.length}
           />
         </h2>
-        <MemberTable members={members} removeTeamMember={removeTeamMember} />
+        <MemberTable
+          accountId={teamData.accountId}
+          members={members}
+          setMembers={setMembers}
+        />
         <BillingSection
           stripeCustomerId={teamData.stripeCustomerId}
           slug={teamData.accountSlug}
