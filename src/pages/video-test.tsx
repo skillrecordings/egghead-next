@@ -39,7 +39,7 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
   const lastAutoPlayed = React.useRef()
   const [autoplay, setAutoplay] = React.useState(true)
 
-  const send = (message) => {
+  const send = (message:any) => {
     console.debug(message)
   }
 
