@@ -125,7 +125,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     subtitle,
   } = useEggheadPlayerPrefs()
 
-  const {md} = useBreakpoint()
+  const {sm, md} = useBreakpoint()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -545,50 +545,55 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       default={subtitle?.language === 'en'}
                     />
                     <BigPlayButton position="center" />
-                    <ControlBar disableDefaultControls>
-                      <PlayToggle key="play-toggle" order={1} />
-                      <ReplayControl key="replay-control" order={2} />
-                      <ForwardControl key="forward-control" order={3} />
-                      <VolumeMenuButton key="volume-menu-button" order={4} />
-                      <CurrentTimeDisplay
-                        key="current-time-display"
-                        order={5}
-                      />
-                      <TimeDivider key="time-divider" order={6} />
-                      <DurationDisplay key="duration-display" order={7} />
-                      <ProgressControl key="progress-control" order={8} />
-                      <RemainingTimeDisplay
-                        key="remaining-time-display"
-                        order={9}
-                      />
-                      <PlaybackRateMenuButton
-                        rates={[1, 1.25, 1.5, 2]}
-                        key="playback-rate"
-                        order={10}
-                        selected={playbackRate}
-                        onChange={(playbackRate: number) => {
-                          setPlayerPrefs({playbackRate})
-                        }}
-                      />
-                      {lesson?.subtitles_url && (
-                        <ClosedCaptionButton
-                          key={lesson?.subtitles_url}
-                          order={11}
-                          selected={subtitle}
-                          onChange={(track: TextTrack) => {
-                            setPlayerPrefs({
-                              subtitle: {
-                                id: track.id,
-                                kind: track.kind,
-                                label: track.label,
-                                language: track.language,
-                              },
-                            })
+                    {!sm && (
+                      <ControlBar disableDefaultControls>
+                        <PlayToggle key="play-toggle" order={1} />
+
+                        <ProgressControl key="progress-control" order={8} />
+                        <RemainingTimeDisplay
+                          key="remaining-time-display"
+                          order={9}
+                        />
+                        <ReplayControl key="replay-control" order={2} />
+                        <ForwardControl key="forward-control" order={3} />
+                        <VolumeMenuButton key="volume-menu-button" order={4} />
+                        <CurrentTimeDisplay
+                          key="current-time-display"
+                          order={5}
+                        />
+                        <TimeDivider key="time-divider" order={6} />
+                        <DurationDisplay key="duration-display" order={7} />
+                        <PlaybackRateMenuButton
+                          rates={[1, 1.25, 1.5, 2]}
+                          className="hidden"
+                          key="playback-rate"
+                          order={10}
+                          selected={playbackRate}
+                          onChange={(playbackRate: number) => {
+                            setPlayerPrefs({playbackRate})
                           }}
                         />
-                      )}
-                      <FullscreenToggle key="fullscreen-toggle" order={12} />
-                    </ControlBar>
+                        {lesson?.subtitles_url && (
+                          <ClosedCaptionButton
+                            key={lesson?.subtitles_url}
+                            className="hidden"
+                            order={11}
+                            selected={subtitle}
+                            onChange={(track: TextTrack) => {
+                              setPlayerPrefs({
+                                subtitle: {
+                                  id: track.id,
+                                  kind: track.kind,
+                                  label: track.label,
+                                  language: track.language,
+                                },
+                              })
+                            }}
+                          />
+                        )}
+                        <FullscreenToggle key="fullscreen-toggle" order={12} />
+                      </ControlBar>
+                    )}
                   </Player>
                 </div>
 
@@ -679,15 +684,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     onDark={true}
                     player={actualPlayerRef.current}
                   />
-                  {playbackRate && (
-                    <PlaybackSpeedSelect
-                      playbackRate={playbackRate}
-                      changePlaybackRate={(rate: number) =>
-                        setPlayerPrefs({playbackRate: rate})
-                      }
-                      video={slug}
-                    />
-                  )}
                 </div>
               </div>
             </div>
