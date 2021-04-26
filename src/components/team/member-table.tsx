@@ -18,8 +18,6 @@ const MemberTable = ({
     context: initialContext,
   })
 
-  console.log({current})
-
   return (
     <>
       <RemoveMemberConfirmDialog
