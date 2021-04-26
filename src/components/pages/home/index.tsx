@@ -13,6 +13,7 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import Jumbotron from './jumbotron'
+import ClubCard from './club-card'
 import VideoCard from 'components/pages/home/video-card'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
@@ -48,6 +49,10 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
+  )
+  const featureDeveloperPortfolio: any = get(
+    homePageData,
+    'featureDeveloperPortfolio',
   )
 
   React.useEffect(() => {
@@ -113,6 +118,29 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 return <CardVerticalLarge key={resource.path} data={resource} />
               })}
             </div>
+
+            <section className="md:mt-20 mt-5 bg-gray-100 dark:bg-gray-700 rounded-lg p-5 grid md:grid-cols-6 sm:grid-cols-1 gap-4">
+              <div className="md:p-5 rounded-lg max-full col-span-3">
+                <div className="text-left">
+                  <Link href={featureDeveloperPortfolio.path}>
+                    <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                      <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                        {featureDeveloperPortfolio.title}
+                      </h1>
+                    </a>
+                  </Link>
+                  <Markdown
+                    source={featureDeveloperPortfolio.cta}
+                    className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-rows-2 gap-4 col-span-3">
+                {featureDeveloperPortfolio.clubs.map((resource: any) => {
+                  return <ClubCard key={resource.slug} resource={resource} />
+                })}
+              </div>
+            </section>
 
             <CardHorizontal resource={modernLayoutsWithCSSGrid} />
 
