@@ -113,7 +113,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
     image,
     path,
     description,
-    fancyCardBackground,
+    featureCardBackground,
     instructor: {name},
   } = resource
   return (
@@ -136,7 +136,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
           </div>
           <img
             className="absolute top-0 left-0 z-0 w-full"
-            src={fancyCardBackground}
+            src={featureCardBackground}
             alt=""
           />
         </div>
@@ -155,7 +155,7 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
     	path,
     	image,
       'background': images[label == 'banner-image-blank'][0].url,
-      'fancyCardBackground': images[label == 'fancy-card'][0].url,
+      'featureCardBackground': images[label == 'feature-card-background'][0].url,
       'instructor': collaborators[]->[role == 'instructor'][0]{
         title,
         'slug': person->slug.current,
