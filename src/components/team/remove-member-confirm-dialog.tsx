@@ -31,7 +31,7 @@ const RemoveMemberConfirmDialog: FunctionComponent<DialogProps> = ({
     <div>
       <DialogOverlay isOpen={isOpen} onDismiss={onClose}>
         <DialogContent
-          aria-label=""
+          aria-label="Confirm removing team member"
           className="bg-white rounded-md border-gray-400"
           css={{padding: '2rem'}}
         >
