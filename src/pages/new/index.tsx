@@ -127,7 +127,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
           <div className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
             <div className="flex flex-col items-center">
               <Image src={image} width={200} height={200} alt={title} />
-              <h2 className="text-xl font-bold min-w-full mt-10 mb-2 leading-tighter group-hover:underline">
+              <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter group-hover:underline">
                 {title}
               </h2>
               <span className="text-sm opacity-80">{name}</span>
