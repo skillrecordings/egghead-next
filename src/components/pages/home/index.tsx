@@ -51,6 +51,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     'featureDigitalGardening',
   )
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
+  const concurrentReactTalk: any = get(
+    homePageData,
+    'react-concurrent-react-from-scratch',
+  )
+  const reactMetaphorTalk: any = get(
+    homePageData,
+    'drawing-the-invisible-react-explained-in-five-visual-metaphors',
+  )
 
   React.useEffect(() => {
     if (viewer) {
@@ -116,11 +124,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             <EventSchedule />
             <CardHorizontal
               className="col-span-4"
-              resource={modernLayoutsWithCSSGrid}
+              resource={concurrentReactTalk}
             />
             <CardHorizontal
               className="col-span-4"
-              resource={modernLayoutsWithCSSGrid}
+              resource={reactMetaphorTalk}
             />
           </div>
         </section>
@@ -463,6 +471,8 @@ export const CardHorizontal: FunctionComponent<{
                   src={get(resource.image, 'src', resource.image)}
                   width={160}
                   height={160}
+                  layout="fixed"
+                  className="object-cover rounded-md"
                   alt={`illustration for ${resource.title}`}
                 />
               </a>
