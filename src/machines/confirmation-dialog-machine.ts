@@ -3,6 +3,7 @@ import {assign, createMachine} from 'xstate'
 import {Dispatch, SetStateAction} from 'react'
 import {getAuthorizationHeader} from 'utils/auth'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 type Member = {
   id: number
@@ -79,8 +80,8 @@ const confirmationDialogMachine = createMachine<
             invoke: {
               src: 'executeAction',
               onError: {
-                target: 'idle',
-                actions: 'assignErrorMessageToContext',
+                target: '#closed',
+                actions: 'displayErrorToast',
               },
               onDone: {
                 target: '#closed',
@@ -109,11 +110,26 @@ const confirmationDialogMachine = createMachine<
           memberToRemove: event.payload.member,
         }
       }),
-      assignErrorMessageToContext: assign((context, event: any) => {
-        return {
-          errorMessage: event.data?.message || 'An unknown error occurred',
+      displayErrorToast: (context) => {
+        const {name, email} = context.memberToRemove || {}
+
+        let displayName: string
+        if (name && email) {
+          displayName = `${name} (${email})`
+        } else if (email) {
+          displayName = email
+        } else {
+          displayName = 'that member'
         }
-      }),
+
+        toast.error(
+          `There was a problem removing ${displayName} from your team. Contact support@egghead.io if the issue persists.`,
+          {
+            duration: 6000,
+            icon: '❌',
+          },
+        )
+      },
       clearErrorMessage: assign({
         errorMessage: undefined,
       }),
@@ -121,11 +137,30 @@ const confirmationDialogMachine = createMachine<
         action: undefined,
       }),
       onSuccess: (context) => {
-        const {id: userId} = context.memberToRemove
+        const {id: userId, name, email} = context.memberToRemove || {}
 
         context.setMembers((prevMembers: any[]) => {
           return prevMembers.filter(({id}: {id: number}) => id !== userId)
         })
+
+        let displayName: string | undefined
+        if (name && email) {
+          displayName = `${name} (${email})`
+        } else if (email) {
+          displayName = email
+        } else {
+          displayName = undefined
+        }
+
+        const genericMessage =
+          "You've successfully removed that member from your team."
+
+        toast.success(
+          displayName
+            ? `You've successfully removed ${displayName} from your team.`
+            : genericMessage,
+          {duration: 3000, icon: '✅'},
+        )
       },
     },
   },
