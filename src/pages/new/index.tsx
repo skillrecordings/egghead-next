@@ -20,24 +20,19 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
         What's New
       </h2>
       <Jumbotron resource={jumbotron} textColor="text-green-400" />
-      <div className="grid grid-cols-12 grid-rows-2 gap-4 mt-4">
-        <CourseFeatureCard
-          className="h-auto row-span-2 w-full col-span-6"
-          resource={secondPrimary}
-        />
-        <CardHorizontal className="h-auto col-span-6" resource={firstSide} />
-        <CardHorizontal
-          className="w-full row-span-1 col-span-6"
-          resource={secondSide}
-        />
-        <CardHorizontal
-          className="w-full row-span-1 col-span-6"
-          resource={thirdPrimary}
-        />
-        <CardHorizontal
-          className="w-full row-span-1 col-span-6"
-          resource={thirdSide}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <div className="h-full grid gap-4">
+          <CourseFeatureCard
+            className="h-auto row-span-2 w-full"
+            resource={secondPrimary}
+          />
+          <CardHorizontal className="w-full" resource={thirdPrimary} />
+        </div>
+        <div className="grid gap-4">
+          <CardHorizontal className="h-auto flex" resource={firstSide} />
+          <CardHorizontal className="w-full flex" resource={secondSide} />
+          <CardHorizontal className="w-full flex" resource={thirdSide} />
+        </div>
       </div>
     </section>
   )
@@ -69,8 +64,8 @@ export const CardHorizontal: FunctionComponent<{
               >
                 <Image
                   src={get(resource.image, 'src', resource.image)}
-                  width={160}
-                  height={160}
+                  width={130}
+                  height={130}
                   layout="fixed"
                   className="object-cover rounded-md"
                   alt={`illustration for ${resource?.title}`}
@@ -129,8 +124,8 @@ const CourseFeatureCard = ({resource, className}: any) => {
         }`}
       >
         <div className="flex flex-col items-center h-full">
-          <div className="relative z-10 flex flex-col h-full justify-between p-2 items-center">
-            <div className="flex flex-col items-center mt-14">
+          <div className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
+            <div className="flex flex-col items-center">
               <Image src={image} width={200} height={200} alt={title} />
               <h2 className="text-xl font-bold min-w-full mt-10 mb-2 leading-tighter group-hover:underline">
                 {title}
