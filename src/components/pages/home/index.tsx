@@ -119,17 +119,21 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
             egghead Talks and Events
           </h2>
-          <div className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
-            <VideoCard className="lg:col-span-6" resource={video} />
-            <EventSchedule />
-            <CardHorizontal
-              className="col-span-4"
-              resource={concurrentReactTalk}
-            />
-            <CardHorizontal
-              className="col-span-4"
-              resource={reactMetaphorTalk}
-            />
+          <div className="">
+            <div className="grid lg:grid-cols-8 grid-cols-1 col-span-8 gap-4">
+              <VideoCard className="lg:col-span-6" resource={video} />
+              <EventSchedule />
+            </div>
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+              <CardHorizontal
+                resource={concurrentReactTalk}
+                className="m-0 mt-4"
+              />
+              <CardHorizontal
+                resource={reactMetaphorTalk}
+                className="m-0 lg:mt-4"
+              />
+            </div>
           </div>
         </section>
 
