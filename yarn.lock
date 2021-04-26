@@ -9392,10 +9392,10 @@ csstype@^3.0.6:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.6.tgz#865d0b5833d7d8d40f4e5b8a6d76aea3de4725ef"
   integrity sha512-+ZAmfyWMT7TiIlzdqJgjMb7S4f1beorDbWbsocyK4RaiqA5RTX3K14bnBWmmA9QEM0gRdsjyyrEmcyga8Zsxmw==
 
-cueplayer-react@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.0.11.tgz#edfaf0aa0aae14cc09071ae9ce019192af533b19"
-  integrity sha512-Ycm818WAywd5iXehtrsldaDeLggnLNekPNEUj0M97ZYWcC60g84ElRv06gfx16I+JktqmnTSTJ/6tnoInRNwMQ==
+cueplayer-react@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.0.12.tgz#fb5efaf109ec10cf1918b5cb0d7401b8efddb943"
+  integrity sha512-cjUn9yaJ/pQCyY/1QPAx8OIZNsBggsJpEv9dnNAOj2TF2IhdrKBdMKOBCj8NRJBEPlkIoP7BMcjVi9KiAZ9EQg==
   dependencies:
     "@babel/runtime" "^7.4.5"
     classnames "^2.2.6"
