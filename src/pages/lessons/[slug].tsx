@@ -394,12 +394,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         uploadDate={lesson?.created_at}
         thumbnailUrls={[lesson?.thumb_url]}
       />
-      <Head>
-        <script
-          async
-          src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
-        />
-      </Head>
 
       <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 sm:border-b border-gray-100  dark:border-gray-800">
@@ -427,61 +421,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     playerVisible ? 'block' : 'hidden'
                   } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
                 >
-                  {/*<EggheadPlayer*/}
-                  {/*  id="egghead-player"*/}
-                  {/*  ref={playerRef}*/}
-                  {/*  hidden={playerState.matches('LOADING')}*/}
-                  {/*  resource={lesson}*/}
-                  {/*  poster={lesson?.thumb_url}*/}
-                  {/*  hls_url={lesson?.hls_url}*/}
-                  {/*  dash_url={lesson?.dash_url}*/}
-                  {/*  playing={playerState.matches('playing')}*/}
-                  {/*  playbackRate={playbackRate}*/}
-                  {/*  width="100%"*/}
-                  {/*  height="auto"*/}
-                  {/*  pip="true"*/}
-                  {/*  controls*/}
-                  {/*  onPlay={() => send('PLAY')}*/}
-                  {/*  onViewModeChanged={({to}: {to: string}) => {*/}
-                  {/*    if (to === 'fullscreen') {*/}
-                  {/*      track('entered fullscreen video', {*/}
-                  {/*        video: lesson.slug,*/}
-                  {/*      })*/}
-
-                  {/*      setIsFullscreen(true)*/}
-                  {/*    } else {*/}
-                  {/*      setIsFullscreen(false)*/}
-                  {/*    }*/}
-                  {/*  }}*/}
-                  {/*  onReady={(player: any) => {*/}
-                  {/*    actualPlayerRef.current = player*/}
-                  {/*    console.debug(`player ready [autoplay:${autoplay}]`)*/}
-                  {/*    const isDifferent = lastAutoPlayed.current !== lesson.slug*/}
-                  {/*    if (autoplay && isDifferent && isFunction(player.play)) {*/}
-                  {/*      console.debug(`autoplaying`)*/}
-                  {/*      lastAutoPlayed.current = lesson.slug*/}
-                  {/*      player.play()*/}
-                  {/*    }*/}
-                  {/*  }}*/}
-                  {/*  onPause={() => {*/}
-                  {/*    send('PAUSE')*/}
-                  {/*  }}*/}
-                  {/*  onProgress={({...progress}) => {*/}
-                  {/*    onProgress(progress, lesson).then((lessonView: any) => {*/}
-                  {/*      if (lessonView) {*/}
-                  {/*        console.debug('progress recorded', {*/}
-                  {/*          progress: lessonView,*/}
-                  {/*        })*/}
-                  {/*        setLessonView(lessonView)*/}
-                  {/*      }*/}
-                  {/*    })*/}
-                  {/*  }}*/}
-                  {/*  onEnded={() => {*/}
-                  {/*    console.debug(`received ended event from player`)*/}
-                  {/*    send('COMPLETE')*/}
-                  {/*  }}*/}
-                  {/*  subtitlesUrl={get(lesson, 'subtitles_url')}*/}
-                  {/*/>*/}
                   <Player
                     id="egghead-player"
                     ref={playerRef}
@@ -575,7 +514,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         {lesson?.subtitles_url && (
                           <ClosedCaptionButton
                             key={lesson?.subtitles_url}
-                            className="hidden"
                             order={11}
                             selected={subtitle}
                             onChange={(track: TextTrack) => {
