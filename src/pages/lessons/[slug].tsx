@@ -564,7 +564,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                         <TimeDivider key="time-divider" order={6} />
                         <DurationDisplay key="duration-display" order={7} />
                         <PlaybackRateMenuButton
-                          rates={[1, 1.25, 1.5, 2]}
                           className="hidden"
                           key="playback-rate"
                           order={10}
