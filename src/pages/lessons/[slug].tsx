@@ -517,6 +517,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                             order={11}
                             selected={subtitle}
                             onChange={(track: TextTrack) => {
+                              console.log(track)
                               setPlayerPrefs({
                                 subtitle: {
                                   id: track.id,
