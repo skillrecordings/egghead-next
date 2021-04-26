@@ -71,6 +71,8 @@ export const CardHorizontal: FunctionComponent<{
                   src={get(resource.image, 'src', resource.image)}
                   width={160}
                   height={160}
+                  layout="fixed"
+                  className="object-cover rounded-md"
                   alt={`illustration for ${resource?.title}`}
                 />
               </a>
