@@ -483,7 +483,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       label="English"
                       default={subtitle?.language === 'en'}
                     />
-                    <BigPlayButton position="center" />
+                    {!autoplay && <BigPlayButton position="center" />}
                     {!sm && (
                       <ControlBar disableDefaultControls>
                         <PlayToggle key="play-toggle" order={1} />
