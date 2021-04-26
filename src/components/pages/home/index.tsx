@@ -14,6 +14,7 @@ import Collection from './collection'
 import axios from 'utils/configured-axios'
 import Jumbotron from './jumbotron'
 import VideoCard from 'components/pages/home/video-card'
+import WhatsNew from '../../../pages/new'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
@@ -49,6 +50,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     homePageData,
     'featureDigitalGardening',
   )
+  const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
 
   React.useEffect(() => {
     if (viewer) {
@@ -95,193 +97,219 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           />
         )}
       </div> */}
-      <div className="lg:space-y-6 space-y-4">
-        <Jumbotron resource={jumbotron} />
-        <section className="">
+      <div className="mt-12">
+        <WhatsNew resource={featureWhatsNew} />
+
+        <section className="mt-32">
+          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white text-center">
+            Our Curated Guides
+          </h2>
           <TopicsList topics={topics} />
         </section>
-        <section className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
-          <VideoCard className="lg:col-span-6" resource={video} />
-          <EventSchedule />
-        </section>
-        <section className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
-          <div className="lg:col-span-8 lg:space-y-6 space-y-4">
-            <div
-              className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
-            >
-              {map(featured, (resource) => {
-                return <CardVerticalLarge key={resource.path} data={resource} />
-              })}
-            </div>
 
-            <CardHorizontal resource={modernLayoutsWithCSSGrid} />
-
-            <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-              <div className="col-span-12 space-y-5">
-                <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-                  <div className="flex-shrink-0">
-                    <Image
-                      src={
-                        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                      }
-                      alt="illustration for Digital Gardening for Developers "
-                      width={222}
-                      height={273}
-                      quality={100}
-                    />
-                  </div>
-                  <div className="max-w-screen-sm space-y-3">
-                    <Link href={featureDigitalGardening.path}>
-                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                          {featureDigitalGardening.title}
-                        </h1>
-                      </a>
-                    </Link>
-
-                    <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
-                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                        {featureDigitalGardening.description}
-                      </Markdown>
-                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                        {featureDigitalGardening.quote.description}
-                      </Markdown>
-                    </div>
-                  </div>
-                </header>
-                <div>
-                  <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                    {featureDigitalGardening.featured.courses.map(
-                      (resource: any) => {
-                        return (
-                          <Card
-                            className="col-span-4 text-center"
-                            key={resource.path}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                      },
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <CardHorizontal resource={ecommerce} />
-            <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
-              <CardVerticalWithStack data={aws} />
-              <CardVerticalWithStack
-                data={freeCourses}
-                memberTitle="Must Watch"
-              />
-            </div>
-
-            <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
-              <Card resource={accessibleApps} className="h-full text-center">
-                <Collection />
-              </Card>
-              <Card
-                resource={accessibleReactApps}
-                className="h-full text-center"
-              >
-                <Collection />
-              </Card>
-            </div>
-
-            <CardHorizontal resource={projectFeatureCardVideoApp} />
-
-            <CardHorizontal resource={wordpressWithGraphql} />
-
-            <CardHorizontal resource={portfolioProject} />
+        <section className="mt-32">
+          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
+            egghead Talks and Events
+          </h2>
+          <div className="grid lg:grid-cols-8 grid-cols-1 lg:gap-6 gap-4">
+            <VideoCard className="lg:col-span-6" resource={video} />
+            <EventSchedule />
+            <CardHorizontal
+              className="col-span-4"
+              resource={modernLayoutsWithCSSGrid}
+            />
+            <CardHorizontal
+              className="col-span-4"
+              resource={modernLayoutsWithCSSGrid}
+            />
           </div>
-          <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
-            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
-            <ReactStateManagement />
-            <CardVerticalWithStack data={devEssentials} />
+        </section>
 
-            <Card resource={tailwind} className="text-center">
-              <ol className="text-left">
-                {tailwind.resources.map((resource: any, index: any) => {
+        <section className="mt-32">
+          <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
+            <div className="lg:col-span-8 lg:space-y-6 space-y-4">
+              <div
+                className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
+              >
+                {map(featured, (resource) => {
                   return (
-                    <li key={resource.path} className="flex space-x-2 my-2">
-                      <span>{index + 1}</span>
-                      <Link href={resource.path}>
-                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                          {resource.title}
-                        </a>
-                      </Link>
-                    </li>
+                    <CardVerticalLarge key={resource.path} data={resource} />
                   )
                 })}
-              </ol>
-            </Card>
+              </div>
 
-            <Card>
-              <>
-                <Link href={swag.path}>
-                  <a className="inline-block hover:text-blue-600">
-                    <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
-                      {swag.name}
-                    </h2>
-                  </a>
-                </Link>
-                <Link href={swag.path}>
-                  <a className="inline-block hover:text-blue-600">
-                    <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
-                      {swag.title}
-                    </h3>
-                  </a>
-                </Link>
-                <ul className="grid grid-cols-2 gap-3 mt-3">
-                  {map(get(swag, 'resources'), (resource) => (
-                    <li
-                      className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
-                      key={resource.path}
-                    >
-                      {resource.image && (
-                        <div className="flex-shrink-0">
-                          <Link href={resource.path}>
-                            <a
-                              onClick={() => {
-                                track('clicked home page swag', {
-                                  resource: resource.path,
-                                  linkType: 'image',
-                                })
-                              }}
-                              tabIndex={-1}
-                            >
-                              <Image
-                                className="rounded-lg"
-                                src={resource.image}
-                                alt={resource.title}
-                                width={205}
-                                height={205}
-                              />
-                            </a>
-                          </Link>
-                        </div>
-                      )}
-                      <Link href={resource.path}>
-                        <a
-                          onClick={() => {
-                            track('clicked home page swag', {
-                              resource: resource.path,
-                              linkType: 'text',
-                            })
-                          }}
-                          className="text-xs leading-tight"
-                        >
-                          {resource.title}
+              <CardHorizontal resource={modernLayoutsWithCSSGrid} />
+
+              <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+                <div className="col-span-12 space-y-5">
+                  <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={
+                          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                        }
+                        alt="illustration for Digital Gardening for Developers "
+                        width={222}
+                        height={273}
+                        quality={100}
+                      />
+                    </div>
+                    <div className="max-w-screen-sm space-y-3">
+                      <Link href={featureDigitalGardening.path}>
+                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                          <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                            {featureDigitalGardening.title}
+                          </h1>
                         </a>
                       </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            </Card>
-            <CardVerticalWithStack data={workflows} />
-          </aside>
+
+                      <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
+                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                          {featureDigitalGardening.description}
+                        </Markdown>
+                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+                          {featureDigitalGardening.quote.description}
+                        </Markdown>
+                      </div>
+                    </div>
+                  </header>
+                  <div>
+                    <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+                      {featureDigitalGardening.featured.courses.map(
+                        (resource: any) => {
+                          return (
+                            <Card
+                              className="col-span-4 text-center"
+                              key={resource.path}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        },
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <CardHorizontal resource={ecommerce} />
+              <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
+                <CardVerticalWithStack data={aws} />
+                <CardVerticalWithStack
+                  data={freeCourses}
+                  memberTitle="Must Watch"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
+                <Card resource={accessibleApps} className="h-full text-center">
+                  <Collection />
+                </Card>
+                <Card
+                  resource={accessibleReactApps}
+                  className="h-full text-center"
+                >
+                  <Collection />
+                </Card>
+              </div>
+
+              <CardHorizontal resource={projectFeatureCardVideoApp} />
+
+              <CardHorizontal resource={wordpressWithGraphql} />
+
+              <CardHorizontal resource={portfolioProject} />
+            </div>
+            <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
+              <CardVerticalWithStack
+                className="sm:py-3 py-2"
+                data={getStarted}
+              />
+              <ReactStateManagement />
+              <CardVerticalWithStack data={devEssentials} />
+
+              <Card resource={tailwind} className="text-center">
+                <ol className="text-left">
+                  {tailwind.resources.map((resource: any, index: any) => {
+                    return (
+                      <li key={resource.path} className="flex space-x-2 my-2">
+                        <span>{index + 1}</span>
+                        <Link href={resource.path}>
+                          <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                            {resource.title}
+                          </a>
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ol>
+              </Card>
+
+              <Card>
+                <>
+                  <Link href={swag.path}>
+                    <a className="inline-block hover:text-blue-600">
+                      <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
+                        {swag.name}
+                      </h2>
+                    </a>
+                  </Link>
+                  <Link href={swag.path}>
+                    <a className="inline-block hover:text-blue-600">
+                      <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
+                        {swag.title}
+                      </h3>
+                    </a>
+                  </Link>
+                  <ul className="grid grid-cols-2 gap-3 mt-3">
+                    {map(get(swag, 'resources'), (resource) => (
+                      <li
+                        className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
+                        key={resource.path}
+                      >
+                        {resource.image && (
+                          <div className="flex-shrink-0">
+                            <Link href={resource.path}>
+                              <a
+                                onClick={() => {
+                                  track('clicked home page swag', {
+                                    resource: resource.path,
+                                    linkType: 'image',
+                                  })
+                                }}
+                                tabIndex={-1}
+                              >
+                                <Image
+                                  className="rounded-lg"
+                                  src={resource.image}
+                                  alt={resource.title}
+                                  width={205}
+                                  height={205}
+                                />
+                              </a>
+                            </Link>
+                          </div>
+                        )}
+                        <Link href={resource.path}>
+                          <a
+                            onClick={() => {
+                              track('clicked home page swag', {
+                                resource: resource.path,
+                                linkType: 'text',
+                              })
+                            }}
+                            className="text-xs leading-tight"
+                          >
+                            {resource.title}
+                          </a>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              </Card>
+              <CardVerticalWithStack data={workflows} />
+            </aside>
+          </div>
         </section>
       </div>
     </>
