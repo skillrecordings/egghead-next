@@ -178,11 +178,11 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
 }`
 
 export async function getStaticProps() {
-  const data = await sanityClient.fetch(whatsNewQuery)
+  const resource = await sanityClient.fetch(whatsNewQuery)
 
   return {
     props: {
-      data,
+      resource,
     },
   }
 }
