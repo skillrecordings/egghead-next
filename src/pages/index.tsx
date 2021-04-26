@@ -6,6 +6,7 @@ import {sanityClient} from 'utils/sanity-client'
 import staticHomePageData from 'components/pages/home/homepage-data'
 import {digitalGardeningQuery} from './learn/digital-gardening'
 import {whatsNewQuery} from './new'
+import {developerPortfolioQuery} from './learn/developer-portfolio'
 
 const IndexPage: FunctionComponent = ({homePageData}: any) => {
   return (
@@ -36,6 +37,7 @@ const featureQuery = groq`
 {
   'featureDigitalGardening': ${digitalGardeningQuery},
   'featureWhatsNew': ${whatsNewQuery},
+  'featureDeveloperPortfolio': ${developerPortfolioQuery},
 }
 `
 

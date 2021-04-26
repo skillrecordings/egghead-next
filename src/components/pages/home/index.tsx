@@ -13,6 +13,7 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import Jumbotron from './jumbotron'
+import ClubCard from './club-card'
 import VideoCard from 'components/pages/home/video-card'
 import WhatsNew from '../../../pages/new'
 
@@ -50,6 +51,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     homePageData,
     'featureDigitalGardening',
   )
+
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
   const concurrentReactTalk: any = get(
     homePageData,
@@ -58,6 +60,10 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const reactMetaphorTalk: any = get(
     homePageData,
     'drawing-the-invisible-react-explained-in-five-visual-metaphors',
+  )
+  const featureDeveloperPortfolio: any = get(
+    homePageData,
+    'featureDeveloperPortfolio',
   )
 
   React.useEffect(() => {
@@ -149,9 +155,29 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                   )
                 })}
               </div>
-
-              <CardHorizontal resource={modernLayoutsWithCSSGrid} />
-
+              <section className="md:mt-20 mt-5 bg-gray-100 dark:bg-gray-700 rounded-lg p-5 grid md:grid-cols-6 sm:grid-cols-1 gap-4">
+                <div className="md:p-5 rounded-lg max-full col-span-3">
+                  <div className="text-left">
+                    <Link href={featureDeveloperPortfolio.path}>
+                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                          {featureDeveloperPortfolio.title}
+                        </h1>
+                      </a>
+                    </Link>
+                    <Markdown
+                      source={featureDeveloperPortfolio.cta}
+                      className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-rows-2 gap-4 col-span-3">
+                  {featureDeveloperPortfolio.clubs.map((resource: any) => {
+                    return <ClubCard key={resource.slug} resource={resource} />
+                  })}
+                </div>
+              </section>
+              <CardHorizontal resource={portfolioProject} />
               <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
                 <div className="col-span-12 space-y-5">
                   <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
@@ -228,8 +254,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               <CardHorizontal resource={projectFeatureCardVideoApp} />
 
               <CardHorizontal resource={wordpressWithGraphql} />
-
-              <CardHorizontal resource={portfolioProject} />
             </div>
             <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
               <CardVerticalWithStack
