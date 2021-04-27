@@ -1,13 +1,13 @@
 import * as React from 'react'
 import {sanityClient} from 'utils/sanity-client'
-import {reduxClubQuery} from '../../learn/developer-portfolio'
 import Markdown from 'react-markdown'
 import Image from 'next/image'
 import {NextSeo} from 'next-seo'
+import groq from 'groq'
 
-const reduxClub: React.FC<any> = ({data}) => {
+const reduxClub: React.FC<any> = ({redux}) => {
   const defaultOgImage: string = `https://og-image-react-egghead.now.sh/article/${encodeURIComponent(
-    `Portfolio Club: ${data.redux.title}`,
+    `Portfolio Club: ${redux.title}`,
   )}?&theme=dark`
 
   const ogImage = defaultOgImage
@@ -15,15 +15,15 @@ const reduxClub: React.FC<any> = ({data}) => {
   return (
     <>
       <NextSeo
-        title={`Portfolio Club: ${data.redux.title}`}
-        description={data.redux.summary}
+        title={`Portfolio Club: ${redux.title}`}
+        description={redux.summary}
         openGraph={{
-          title: data.redux.title,
-          description: data.redux.summary,
+          title: redux.title,
+          description: redux.summary,
           images: [
             {
               url: ogImage,
-              alt: data.redux.title,
+              alt: redux.title,
             },
           ],
         }}
@@ -37,20 +37,20 @@ const reduxClub: React.FC<any> = ({data}) => {
         <div className="mb-12 lg:mb-20 text-center">
           <Image
             quality={100}
-            src={data.redux.image}
-            alt={`Tag image of ${data.redux.title} `}
+            src={redux.image}
+            alt={`Tag image of ${redux.title} `}
             width={100}
             height={100}
           />
           <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold leading-tighter mt-8">
-            {data.redux.title}
+            {redux.title}
           </h1>
           <p className="md:text-lg text-base font-semibold mt-4 text-gray-500">
-            Portfolio Club ・ {data.redux.subTitle}
+            Portfolio Club ・ {redux.subTitle}
           </p>
         </div>
         <Markdown className="prose dark:prose-dark dark:prose-lg-dark prose-lg">
-          {data.redux.description}
+          {redux.description}
         </Markdown>
       </div>
     </>
@@ -59,12 +59,23 @@ const reduxClub: React.FC<any> = ({data}) => {
 
 export default reduxClub
 
+export const reduxClubQuery = groq`*[_type == 'resource' && slug.current == "build-business-oriented-portfolio"][0]{
+  "redux": resources[0].resources[slug.current == "redux"][0]{
+      title,
+      subTitle,
+      description,
+      "slug": slug.current,
+      image,
+      summary,
+    }
+}`
+
 export async function getStaticProps() {
-  const data = await sanityClient.fetch(reduxClubQuery)
+  const {redux} = await sanityClient.fetch(reduxClubQuery)
 
   return {
     props: {
-      data,
+      redux,
     },
   }
 }
