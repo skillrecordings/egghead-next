@@ -12,7 +12,6 @@ type Member = {
 }
 
 export interface ConfirmationDialogMachineContext {
-  action?: () => Promise<void>
   accountId: number | undefined
   memberToRemove: Member | undefined
   setMembers: Dispatch<SetStateAction<any[]>>
@@ -21,7 +20,6 @@ export interface ConfirmationDialogMachineContext {
 export type ConfirmationDialogMachineEvent =
   | {
       type: 'OPEN_DIALOG'
-      action: () => Promise<void>
       payload: {member: Member}
     }
   | {
@@ -62,7 +60,7 @@ const confirmationDialogMachine = createMachine<
         on: {
           OPEN_DIALOG: {
             target: 'open',
-            actions: 'assignActionToContext',
+            actions: 'assignMemberToRemoveToContext',
           },
         },
       },
@@ -110,11 +108,10 @@ const confirmationDialogMachine = createMachine<
       },
     },
     actions: {
-      assignActionToContext: assign((_context, event) => {
+      assignMemberToRemoveToContext: assign((_context, event) => {
         if (event.type !== 'OPEN_DIALOG') return {}
 
         return {
-          action: event.action,
           memberToRemove: event.payload.member,
         }
       }),

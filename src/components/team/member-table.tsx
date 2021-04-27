@@ -86,7 +86,6 @@ const MemberTable = ({
                           onClick={() => {
                             send({
                               type: 'OPEN_DIALOG',
-                              action: () => Promise.resolve(),
                               payload: {member: {id, name, email}},
                             })
                           }}
