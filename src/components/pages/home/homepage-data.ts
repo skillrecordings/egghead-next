@@ -40,6 +40,46 @@ const homepageData = {
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
+  'react-concurrent-react-from-scratch': {
+    id: 'react-concurrent-react-from-scratch',
+    title: 'Concurrent React from Scratch',
+    name: 'Mental Models for concurrent React',
+    byline: 'Shawn Wang・36m',
+    description: `In this talk, we’ll create an effective mental model of Concurrent React by building a tiny clone of React! We will start with a blank JS file and learn about how React renders components, schedules Time-Slicing updates with a Work Loop, and more!`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
+    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+    slug: 'build-modern-layouts-with-css-grid-d3f5',
+    instructor: {
+      name: 'Shawn Wang',
+      slug: 'shawn-wang',
+      path: '/q/resources-by-shawn-wang',
+      twitter: 'swyx',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
+    },
+  },
+  'drawing-the-invisible-react-explained-in-five-visual-metaphors': {
+    id: 'drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    title: 'Drawing the Invisible: React Explained ',
+    name: 'Visualize React through Metaphor',
+    byline: 'Maggie Appleton・36m',
+    description: `A guide to the fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her "get" React for the first time.`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
+    path:
+      '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    slug:
+      'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    instructor: {
+      name: 'Maggie Appleton',
+      slug: 'maggie-appleton',
+      path: '/q/resources-by-maggie-appleton',
+      twitter: 'mappletons',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
+    },
+  },
   video: {
     id: 'video',
     name: 'Optimize your Learning',

@@ -76,7 +76,7 @@ const VideoCard: React.FC<{
             </Markdown>
           </div>
         </div>
-        <div className="flex-shrink-0 flex items-center">
+        <div className="flex-shrink-0 flex items-center self-center">
           <Link href={path}>
             <a
               onClick={() => {

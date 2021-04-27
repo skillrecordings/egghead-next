@@ -13,7 +13,7 @@ const tracer = getTracer('subscriber-api')
 function getTokenFromCookieHeaders(serverCookies: string) {
   const parsedCookie = serverCookie.parse(serverCookies)
   const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
-  const cioId = parsedCookie['_cioid'] || ''
+  const cioId = parsedCookie['_cioid'] || parsedCookie['cio_id'] || ''
   return {cioId, eggheadToken, loginRequired: eggheadToken.length <= 0}
 }
 
@@ -46,6 +46,7 @@ async function fetchEggheadUser(token: any) {
 
 const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({name: cioSubscriber.name, tracer, req, res})
+
   if (req.method === 'GET') {
     try {
       const {cioId, eggheadToken} = getTokenFromCookieHeaders(

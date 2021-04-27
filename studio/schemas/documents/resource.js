@@ -118,6 +118,10 @@ export default {
             title: 'portfolio',
             value: 'portfolio',
           },
+          {
+            title: 'club',
+            value: 'club',
+          },
         ],
       },
     },
