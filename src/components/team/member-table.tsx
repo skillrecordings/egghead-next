@@ -1,7 +1,10 @@
 import * as React from 'react'
 import {format} from 'date-fns'
 import {useMachine} from '@xstate/react'
-import confirmationDialogMachine from 'machines/confirmation-dialog-machine'
+import confirmationDialogMachine, {
+  ConfirmationDialogMachineContext,
+  ConfirmationDialogMachineEvent,
+} from 'machines/confirmation-dialog-machine'
 import RemoveMemberConfirmDialog from 'components/team/remove-member-confirm-dialog'
 
 const MemberTable = ({
@@ -13,8 +16,14 @@ const MemberTable = ({
   members: any[]
   setMembers: any
 }) => {
-  const initialContext = {accountId, setMembers}
-  const [current, send] = useMachine(confirmationDialogMachine, {
+  const initialContext: ConfirmationDialogMachineContext = {
+    accountId,
+    setMembers,
+  }
+  const [current, send] = useMachine<
+    ConfirmationDialogMachineContext,
+    ConfirmationDialogMachineEvent
+  >(confirmationDialogMachine, {
     context: initialContext,
   })
 
@@ -62,7 +71,6 @@ const MemberTable = ({
                         <p
                           onClick={() => {
                             send({type: 'OPEN_DIALOG', payload: {member}})
-                            // removeTeamMember(id)
                           }}
                           className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-700 text-red-800 dark:text-red-100 hover:shadow"
                         >
