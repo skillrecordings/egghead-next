@@ -1,0 +1,35 @@
+import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
+import ClubCard from './'
+
+export const xStateClub = {
+  id: 'xstateClub',
+  title: 'Build an App with xState',
+  subTitle: '6 weeks ・ Starting April 20th',
+  path: '/clubs/xstate',
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/282/thumb/xstate.png',
+}
+
+export const reduxClub = {
+  id: 'reduxClub',
+  title: 'Build an App with Redux',
+  subTitle: '3 weeks ・ Start Anytime',
+  path: '/clubs/redux',
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
+}
+
+<Meta title="Components/Home/ClubCard" />
+
+# Club Card Component
+
+<Canvas>
+  <Story name="Default">
+    <div className="bg-gray-100 p-5">
+      <ClubCard resource={xStateClub} />
+    </div>
+    <div className="bg-gray-100 p-5">
+      <ClubCard resource={reduxClub} />
+    </div>
+  </Story>
+</Canvas>
