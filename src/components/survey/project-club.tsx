@@ -34,7 +34,7 @@ const question = {
   },
 }
 
-const OnlinePresenceCTA: React.FunctionComponent<{
+const ProjectClubCTA: React.FunctionComponent<{
   className?: any
   alternative?: JSX.Element
   variant?: string
@@ -107,4 +107,4 @@ const OnlinePresenceCTA: React.FunctionComponent<{
   )
 }
 
-export default OnlinePresenceCTA
+export default ProjectClubCTA
