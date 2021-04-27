@@ -1,9 +1,9 @@
 import * as React from 'react'
 import {sanityClient} from 'utils/sanity-client'
-import {xStateClubQuery} from '../../learn/developer-portfolio'
 import Markdown from 'react-markdown'
 import Image from 'next/image'
 import {NextSeo} from 'next-seo'
+import groq from 'groq'
 
 const xStateClub: React.FC<any> = ({data}) => {
   const defaultOgImage: string = `https://og-image-react-egghead.now.sh/article/${encodeURIComponent(
@@ -58,6 +58,17 @@ const xStateClub: React.FC<any> = ({data}) => {
 }
 
 export default xStateClub
+
+export const xStateClubQuery = groq`*[_type == 'resource' && slug.current == "build-business-oriented-portfolio"][0]{
+  "xstate": resources[0].resources[slug.current == "xstate"][0]{
+      title,
+      subTitle,
+      description,
+      "slug": slug.current,
+      image,
+      summary,
+    }
+}`
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(xStateClubQuery)
