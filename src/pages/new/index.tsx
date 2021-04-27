@@ -8,6 +8,7 @@ import Markdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import Card, {CardResource} from 'components/pages/home/card'
 import Jumbotron from 'components/pages/home/jumbotron'
+import {useTheme} from 'next-themes'
 
 const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
   const {primary, secondary} = resource
@@ -121,14 +122,20 @@ export const CardHorizontal: FunctionComponent<{
 }
 
 const CourseFeatureCard = ({resource, className}: any) => {
+  const {theme} = useTheme()
   const {
     title,
     image,
     path,
     description,
     featureCardBackground,
+    lightFeatureCardBackground,
     instructor: {name},
   } = resource
+
+  const themedFeatureCardBackground =
+    theme === 'light' ? lightFeatureCardBackground : featureCardBackground
+
   return (
     <Link href={path}>
       <a
@@ -149,7 +156,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
           </div>
           <img
             className="absolute top-0 left-0 z-0 w-full"
-            src={featureCardBackground}
+            src={themedFeatureCardBackground}
             alt=""
           />
         </div>
@@ -168,7 +175,9 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
     	path,
     	image,
       'background': images[label == 'banner-image-blank'][0].url,
+      'lightBackground': images[label == 'light-banner-image-blank'][0].url,
       'featureCardBackground': images[label == 'feature-card-background'][0].url,
+      'lightFeatureCardBackground': images[label == 'light-feature-card-background'][0].url,
       'instructor': collaborators[]->[role == 'instructor'][0]{
         title,
         'slug': person->slug.current,
