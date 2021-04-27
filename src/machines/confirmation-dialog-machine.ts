@@ -23,6 +23,7 @@ type ConfirmationDialogMachineEvent =
   | {
       type: 'OPEN_DIALOG'
       action: () => Promise<void>
+      payload: {member: any}
     }
   | {
       type: 'CONFIRM'
@@ -31,8 +32,11 @@ type ConfirmationDialogMachineEvent =
       type: 'CANCEL'
     }
 
-const removeTeamMember = (accountId: number, userId: number) => {
-  if (accountId) {
+const removeTeamMember = (
+  accountId: number | undefined,
+  userId: number | undefined,
+) => {
+  if (accountId && userId) {
     const removeTeamMemberUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/accounts/${accountId}/team_members/${userId}`
 
     return axios.delete(removeTeamMemberUrl, {
@@ -100,13 +104,14 @@ const confirmationDialogMachine = createMachine<
   {
     services: {
       executeAction: (context, _event) => async () => {
-        const {memberToRemove, accountId} = context
+        const userId = context?.memberToRemove?.id
+        const {accountId} = context
 
-        await removeTeamMember(accountId, memberToRemove.id)
+        await removeTeamMember(accountId, userId)
       },
     },
     actions: {
-      assignActionToContext: assign((context, event) => {
+      assignActionToContext: assign((_context, event) => {
         if (event.type !== 'OPEN_DIALOG') return {}
 
         return {
