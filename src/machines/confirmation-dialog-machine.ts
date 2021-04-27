@@ -68,7 +68,7 @@ const confirmationDialogMachine = createMachine<
         },
       },
       open: {
-        exit: ['clearErrorMessage'],
+        exit: ['clearMemberToRemoveFromContext'],
         initial: 'idle',
         states: {
           idle: {
@@ -93,7 +93,7 @@ const confirmationDialogMachine = createMachine<
               },
               onDone: {
                 target: '#closed',
-                actions: ['clearActionFromContext', 'onSuccess'],
+                actions: 'onSuccess',
               },
             },
           },
@@ -144,9 +144,9 @@ const confirmationDialogMachine = createMachine<
           errorMessage: undefined,
         }
       }),
-      clearActionFromContext: assign((_context) => {
+      clearMemberToRemoveFromContext: assign((_context) => {
         return {
-          action: undefined,
+          memberToRemove: undefined,
         }
       }),
       onSuccess: (context) => {
