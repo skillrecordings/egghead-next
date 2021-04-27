@@ -71,7 +71,11 @@ const confirmationDialogMachine = createMachine<
             on: {
               CANCEL: {
                 target: '#closed',
-                actions: [assign({memberToRemove: undefined})],
+                actions: [
+                  assign((_context) => {
+                    return {memberToRemove: undefined}
+                  }),
+                ],
               },
               CONFIRM: 'executingAction',
             },
@@ -130,11 +134,15 @@ const confirmationDialogMachine = createMachine<
           },
         )
       },
-      clearErrorMessage: assign({
-        errorMessage: undefined,
+      clearErrorMessage: assign((_context) => {
+        return {
+          errorMessage: undefined,
+        }
       }),
-      clearActionFromContext: assign({
-        action: undefined,
+      clearActionFromContext: assign((_context) => {
+        return {
+          action: undefined,
+        }
       }),
       onSuccess: (context) => {
         const {id: userId, name, email} = context.memberToRemove || {}
