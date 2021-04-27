@@ -9,7 +9,7 @@ import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
 import {getTokenFromCookieHeaders} from 'utils/auth'
-import isEmpty from 'lodash/isEmpty'
+import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
 
@@ -117,7 +117,8 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
 }
 
 type TeamPageProps = {
-  team: TeamData | undefined
+  team?: TeamData
+  error?: boolean
 }
 
 const Team = ({team: teamData}: TeamPageProps) => {
@@ -180,13 +181,12 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async funct
     context.req.headers.cookie as string,
   )
 
-  const {data: teams} = await loadTeams(eggheadToken)
+  const {data: teams = []} = await loadTeams(eggheadToken)
 
-  let team: TeamData | undefined = undefined
+  const fetchedTeam = find(teams, (team) => team.capacity > 0)
 
-  const fetchedTeam = teams && teams[0]
   if (fetchedTeam) {
-    team = {
+    const team: TeamData = {
       accountId: fetchedTeam.id,
       name: fetchedTeam.name,
       inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
@@ -197,12 +197,20 @@ export const getServerSideProps: GetServerSideProps<TeamPageProps> = async funct
       accountSlug: fetchedTeam.slug,
       stripeCustomerId: fetchedTeam.stripe_customer_id,
     }
-  }
 
-  return {
-    props: {
-      team,
-    },
+    return {
+      props: {
+        team,
+      },
+    }
+  } else {
+    const props = {
+      error: true,
+    }
+
+    return {
+      props,
+    }
   }
 }
 
