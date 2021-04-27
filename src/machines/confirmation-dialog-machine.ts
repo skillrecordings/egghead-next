@@ -13,7 +13,6 @@ type Member = {
 
 export interface ConfirmationDialogMachineContext {
   action?: () => Promise<void>
-  errorMessage?: string
   accountId: number | undefined
   memberToRemove: Member | undefined
   setMembers: Dispatch<SetStateAction<any[]>>
@@ -139,11 +138,6 @@ const confirmationDialogMachine = createMachine<
           },
         )
       },
-      clearErrorMessage: assign((_context) => {
-        return {
-          errorMessage: undefined,
-        }
-      }),
       clearMemberToRemoveFromContext: assign((_context) => {
         return {
           memberToRemove: undefined,
