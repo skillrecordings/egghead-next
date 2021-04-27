@@ -19,7 +19,7 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
   ] = secondary.resources
 
   return (
-    <section className="sm:-my-5 -my-3">
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
         What's New
       </h2>
