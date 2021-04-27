@@ -2,16 +2,19 @@ import React, {FunctionComponent} from 'react'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
 import IconX from 'components/icons/icon-x'
 import isObject from 'lodash/isObject'
+import {StateValue} from 'xstate'
 
 type DialogProps = {
-  state: string | {open: string}
+  state: StateValue
   isOpen: boolean
   onClose: () => void
-  member: {
-    id: number
-    name: string
-    email: string
-  }
+  member:
+    | {
+        id: number
+        name: string
+        email: string
+      }
+    | undefined
   onConfirm: () => void
 }
 

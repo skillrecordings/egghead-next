@@ -19,11 +19,11 @@ export interface ConfirmationDialogMachineContext {
   setMembers: Dispatch<SetStateAction<any[]>>
 }
 
-type ConfirmationDialogMachineEvent =
+export type ConfirmationDialogMachineEvent =
   | {
       type: 'OPEN_DIALOG'
       action: () => Promise<void>
-      payload: {member: any}
+      payload: {member: Member}
     }
   | {
       type: 'CONFIRM'

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {format} from 'date-fns'
+import {StateValue} from 'xstate'
 import {useMachine} from '@xstate/react'
 import confirmationDialogMachine, {
   ConfirmationDialogMachineContext,
@@ -19,6 +20,7 @@ const MemberTable = ({
   const initialContext: ConfirmationDialogMachineContext = {
     accountId,
     setMembers,
+    memberToRemove: undefined,
   }
   const [current, send] = useMachine<
     ConfirmationDialogMachineContext,
@@ -43,7 +45,19 @@ const MemberTable = ({
       <div className="bg-white shadow overflow-hidden sm:rounded-md mt-2">
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {members.map((member: any, i: number) => {
-            const {id, name, email, roles, date_added} = member
+            const {
+              id,
+              name,
+              email,
+              roles,
+              date_added,
+            }: {
+              id: number
+              name: string
+              email: string
+              roles: string[]
+              date_added: string
+            } = member
             const isOwner = roles.includes('Owner')
 
             return (
@@ -70,7 +84,11 @@ const MemberTable = ({
                       {!isOwner && (
                         <p
                           onClick={() => {
-                            send({type: 'OPEN_DIALOG', payload: {member}})
+                            send({
+                              type: 'OPEN_DIALOG',
+                              action: () => Promise.resolve(),
+                              payload: {member: {id, name, email}},
+                            })
                           }}
                           className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-700 text-red-800 dark:text-red-100 hover:shadow"
                         >
