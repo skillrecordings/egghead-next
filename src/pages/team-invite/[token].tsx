@@ -77,7 +77,7 @@ const TeamInvite: React.FunctionComponent<TeamInviteProps> = ({
           <div className="sm:mt-8 mt-4 sm:mx-auto sm:w-full sm:max-w-xl">
             <p className="text-center pb-4">
               You've been invited by{' '}
-              <span className="font-bold">{teamOwnerEmail}</span> to join
+              <span className="font-bold">{teamOwnerEmail}</span> to join{' '}
               <TeamName teamName={teamName} /> on egghead. Click 'Join Team' to
               accept the invitation and get full access to everything on
               egghead.
@@ -134,7 +134,7 @@ export const getServerSideProps: GetServerSideProps<TeamInviteProps> = async ({
     const viewTeamInviteUrl = `${AUTH_DOMAIN}/api/v1/accounts/team_invite/${token}`
     const {data} = await axios.get(viewTeamInviteUrl)
 
-    let teamName = undefined
+    let teamName = null
     // All accounts were defaulted to have names of 'acc' or 'saml_acc'. We'll
     // treat the name us `undefined` unless it has been set to something else.
     if (data.team_name !== 'acc' && data.team_name !== 'saml_acc') {
@@ -152,7 +152,7 @@ export const getServerSideProps: GetServerSideProps<TeamInviteProps> = async ({
     return {
       props: {
         teamOwnerEmail: '',
-        teamName: undefined,
+        teamName: null,
         inviteToken: TOKEN_NOT_RECOGNIZED,
       },
     }
