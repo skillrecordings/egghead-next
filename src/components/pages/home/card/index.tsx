@@ -17,6 +17,8 @@ export type CardResource = {
   instructor?: any
   background?: string
   lightBackground?: string
+  featureCardBackground?: string
+  lightFeatureCardBackground?: string
 }
 
 type CardProps = {

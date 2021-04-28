@@ -10,7 +10,7 @@ import Card, {CardResource} from 'components/pages/home/card'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {useTheme} from 'next-themes'
 
-const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
+const WhatsNewPage: FunctionComponent<WhatsNewResource> = ({resource}) => {
   const [mounted, setMounted] = React.useState(false)
   const {theme} = useTheme()
 
@@ -43,7 +43,7 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
           <CourseFeatureCard
             className="h-auto row-span-2 w-full"
             resource={secondPrimary}
-            featureCardBackground={themedFeatureCardBackground}
+            featureCardBackground={themedFeatureCardBackground!}
           />
           <CardHorizontal className="w-full" resource={thirdPrimary} />
         </div>
@@ -135,11 +135,17 @@ export const CardHorizontal: FunctionComponent<{
   )
 }
 
+type CourseFeatureCardProps = {
+  resource: CardResource
+  featureCardBackground: string
+  className?: string
+}
+
 const CourseFeatureCard = ({
   resource,
   featureCardBackground,
   className,
-}: any) => {
+}: CourseFeatureCardProps) => {
   const {
     title,
     image,
@@ -158,7 +164,14 @@ const CourseFeatureCard = ({
         <div className="flex flex-col items-center h-full">
           <div className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
             <div className="flex flex-col items-center">
-              <Image src={image} width={200} height={200} alt={title} />
+              {image && (
+                <Image
+                  src={get(image, 'src', image)}
+                  width={200}
+                  height={200}
+                  alt={title}
+                />
+              )}
               <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter group-hover:text-blue-600 dark:group-hover:text-blue-300">
                 {title}
               </h2>
@@ -175,6 +188,14 @@ const CourseFeatureCard = ({
       </a>
     </Link>
   )
+}
+
+type WhatsNewResource = {
+  resource: {
+    title: string
+    primary: {resources: CardResource[]}
+    secondary: {resources: CardResource[]}
+  }
 }
 
 export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "whats-new"][0]{
