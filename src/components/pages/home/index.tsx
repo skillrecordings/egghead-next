@@ -120,7 +120,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <TopicsList topics={topics} />
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             egghead Talks and Events
           </h2>
@@ -142,7 +142,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
@@ -187,7 +187,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Popular Courses & Topics
           </h2>
@@ -213,7 +213,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Staff Picks and Favorites
           </h2>
@@ -238,7 +238,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
@@ -298,7 +298,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Build a New Portfolio Project
           </h2>
@@ -308,7 +308,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-18 sm:mt-24">
+        <section className="mt-20 sm:mt-24">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols 1 gap-4">
             <CardVerticalWithStack data={aws} />
             <CardVerticalWithStack
