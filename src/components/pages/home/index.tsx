@@ -240,41 +240,62 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-24 sm:mt-28">
-          <h2 className="md:text-3xl text-2xl sm:font-semibold font-bold md:mb-3 dark:text-white text-center">
-            {featureDigitalGardening.title}
-          </h2>
-          <div className="flex md:flex-row flex-col mx-auto items-center justify-center space-x-10">
-            <div className="flex-shrink-0">
-              <Image
-                src={
-                  'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                }
-                alt="illustration for Digital Gardening for Developers "
-                width={190}
-                height={230}
-                quality={100}
-              />
+          <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
+            <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
+              <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
+                <div className="flex lg:flex-row flex-col sm:space-x-12 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+                  <div className="flex-shrink-0">
+                    <Link href={featureDigitalGardening.path}>
+                      <a tabIndex={-1}>
+                        <Image
+                          quality={100}
+                          src={
+                            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                          }
+                          width={240}
+                          height={300}
+                          alt={featureDigitalGardening.title}
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="flex flex-col sm:items-start items-center w-full">
+                    <h3 className="text-xs text-green-700 dark:text-green-400 uppercase font-semibold mb-2">
+                      Learn in public with a digital garden
+                    </h3>
+                    <Link href={featureDigitalGardening.path}>
+                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
+                        <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                          {featureDigitalGardening.title}
+                        </h2>
+                      </a>
+                    </Link>
+                    <div>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
+                        {featureDigitalGardening.description}
+                      </Markdown>
+                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4 font-medium">
+                        {featureDigitalGardening.quote.description}
+                      </Markdown>
+                    </div>
+                    <div className="grid md:grid-cols-12 grid-cols-2 gap-5 mt-12">
+                      {featureDigitalGardening.featured.courses.map(
+                        (resource: any) => {
+                          return (
+                            <Card
+                              className="col-span-4 text-center"
+                              key={resource.path}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        },
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
-                {featureDigitalGardening.description}
-              </Markdown>
-              <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
-                {featureDigitalGardening.quote.description}
-              </Markdown>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-12 grid-cols-2 gap-5 mt-12">
-            {featureDigitalGardening.featured.courses.map((resource: any) => {
-              return (
-                <Card
-                  className="col-span-4 text-center"
-                  key={resource.path}
-                  resource={resource}
-                  location={location}
-                />
-              )
-            })}
           </div>
         </section>
 
