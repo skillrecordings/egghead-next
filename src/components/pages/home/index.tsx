@@ -221,6 +221,45 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-32">
+          <h2 className="md:text-4xl text-3xl dark:text-gray-200 font-bold leading-tight mb-10 dark:text-white text-center">
+            {featureDigitalGardening.title}
+          </h2>
+          <div className="flex md:flex-row flex-col mx-auto items-center justify-center space-x-10">
+            <div className="flex-shrink-0">
+              <Image
+                src={
+                  'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                }
+                alt="illustration for Digital Gardening for Developers "
+                width={190}
+                height={230}
+                quality={100}
+              />
+            </div>
+            <div>
+              <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
+                {featureDigitalGardening.description}
+              </Markdown>
+              <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
+                {featureDigitalGardening.quote.description}
+              </Markdown>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-12 grid-cols-2 gap-5 mt-12">
+            {featureDigitalGardening.featured.courses.map((resource: any) => {
+              return (
+                <Card
+                  className="col-span-4 text-center"
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                />
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="mt-32">
           <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
             <div className="lg:col-span-8 lg:space-y-6 space-y-4">
               <div
@@ -250,7 +289,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                           </h1>
                         </a>
                       </Link>
-
                       <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
                         <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
                           {featureDigitalGardening.description}
