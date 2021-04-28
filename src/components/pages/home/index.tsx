@@ -13,7 +13,6 @@ import {track} from 'utils/analytics'
 import Collection from './collection'
 import axios from 'utils/configured-axios'
 import Jumbotron from './jumbotron'
-import ClubCard from './club-card'
 import VideoCard from 'components/pages/home/video-card'
 import WhatsNew from '../../../pages/new'
 
