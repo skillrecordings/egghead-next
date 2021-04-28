@@ -144,26 +144,45 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-24 sm:mt-28">
-          <Link href={featureDeveloperPortfolio.path}>
-            <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
-              <h2 className="md:text-3xl text-2xl sm:font-semibold font-bold md:mb-3 dark:text-white">
-                {featureDeveloperPortfolio.title}
-              </h2>
-            </a>
-          </Link>
-          <div className="flex lg:flex-row flex-col lg:space-x-12">
-            <Markdown
-              source={featureDeveloperPortfolio.cta}
-              className="prose dark:prose-dark dark:prose-sm-dark mt-4 lg:w-1/3"
-            />
-            <div>
-              <h4 className="mb-4 lg:mt-4 mt-8 uppercase text-gray-500 font-semibold text-sm">
-                Current Clubs
-              </h4>
-              <div className="flex lg:flex-row lg:space-y-0 space-y-4 flex-col lg:space-x-4">
-                {featureDeveloperPortfolio.clubs.map((resource: any) => {
-                  return <ClubCard key={resource.slug} resource={resource} />
-                })}
+          <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
+            <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
+              <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
+                <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+                  <div className="flex-shrink-0">
+                    <Link href={featureDeveloperPortfolio.path}>
+                      <a tabIndex={-1}>
+                        <Image
+                          quality={100}
+                          src={featureDeveloperPortfolio.image}
+                          width={300}
+                          height={300}
+                          alt={featureDeveloperPortfolio.title}
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="flex flex-col sm:items-start items-center w-full">
+                    <h3 className="text-xs text-yellow-600 dark:text-yellow-300 uppercase font-semibold mb-2">
+                      Craft a Portfolio that gets you hired
+                    </h3>
+                    <Link href={featureDeveloperPortfolio.path}>
+                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
+                        <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                          {featureDeveloperPortfolio.title}
+                        </h2>
+                      </a>
+                    </Link>
+                    <Markdown
+                      source={featureDeveloperPortfolio.cta}
+                      className="prose dark:prose-dark dark:prose-md-dark prose-md mt-4"
+                    />
+                    <Link href={featureDeveloperPortfolio.path}>
+                      <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-4 font-semibold">
+                        Join a Portfolio Project Club
+                      </a>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
