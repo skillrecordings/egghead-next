@@ -111,18 +111,18 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           />
         )}
       </div> */}
-      <div className="mt-12">
+      <div className="mt-8">
         <WhatsNew resource={featureWhatsNew} />
 
         <section className="mt-32">
-          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white text-center">
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white text-center">
             Our Curated Guides
           </h2>
           <TopicsList topics={topics} />
         </section>
 
         <section className="mt-32">
-          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             egghead Talks and Events
           </h2>
           <div className="">
@@ -144,39 +144,89 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-32">
+          <Link href={featureDeveloperPortfolio.path}>
+            <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
+              <h2 className="md:text-3xl text-2xl sm:font-semibold font-bold md:mb-3 dark:text-white">
+                {featureDeveloperPortfolio.title}
+              </h2>
+            </a>
+          </Link>
+          <div className="flex lg:flex-row flex-col lg:space-x-12">
+            <Markdown
+              source={featureDeveloperPortfolio.cta}
+              className="prose dark:prose-dark dark:prose-sm-dark mt-4 lg:w-1/3"
+            />
+            <div>
+              <h4 className="mb-4 lg:mt-4 mt-8 uppercase text-gray-500 font-semibold text-sm">
+                Current Clubs
+              </h4>
+              <div className="flex lg:flex-row lg:space-y-0 space-y-4 flex-col lg:space-x-4">
+                {featureDeveloperPortfolio.clubs.map((resource: any) => {
+                  return <ClubCard key={resource.slug} resource={resource} />
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-32">
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+            Popular Courses & Topics
+          </h2>
+          <div className="grid lg:grid-cols-3 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
+            <CardVerticalWithStack className="sm:py-3 py-2" data={getStarted} />
+            <Card resource={tailwind} className="text-center">
+              <ol className="text-left">
+                {tailwind.resources.map((resource: any, index: any) => {
+                  return (
+                    <li key={resource.path} className="flex space-x-2 my-2">
+                      <span>{index + 1}</span>
+                      <Link href={resource.path}>
+                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                          {resource.title}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ol>
+            </Card>
+            <ReactStateManagement />
+          </div>
+        </section>
+
+        <section className="mt-32">
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+            Staff Picks and Favorites
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
+            <div className="flex flex-col col-span-1 space-y-4">
+              {map(featured, (resource) => {
+                return <CardVerticalLarge key={resource.path} data={resource} />
+              })}
+            </div>
+            <div className="flex flex-col col-span-1 space-y-4">
+              <CardVerticalWithStack data={devEssentials} />
+              <Card resource={accessibleReactApps} className="text-center">
+                <Collection />
+              </Card>
+            </div>
+            <div className="flex flex-col col-span-1 space-y-4">
+              <Card resource={accessibleApps} className="text-center">
+                <Collection />
+              </Card>
+              <CardVerticalWithStack data={workflows} />
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-32">
           <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
             <div className="lg:col-span-8 lg:space-y-6 space-y-4">
               <div
                 className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
-              >
-                {map(featured, (resource) => {
-                  return (
-                    <CardVerticalLarge key={resource.path} data={resource} />
-                  )
-                })}
-              </div>
-              <section className="md:mt-20 mt-5 bg-gray-100 dark:bg-gray-700 rounded-lg p-5 grid md:grid-cols-6 sm:grid-cols-1 gap-4">
-                <div className="md:p-5 rounded-lg max-full col-span-3">
-                  <div className="text-left">
-                    <Link href={featureDeveloperPortfolio.path}>
-                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                          {featureDeveloperPortfolio.title}
-                        </h1>
-                      </a>
-                    </Link>
-                    <Markdown
-                      source={featureDeveloperPortfolio.cta}
-                      className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-rows-2 gap-4 col-span-3">
-                  {featureDeveloperPortfolio.clubs.map((resource: any) => {
-                    return <ClubCard key={resource.slug} resource={resource} />
-                  })}
-                </div>
-              </section>
+              ></div>
+
               <CardHorizontal resource={portfolioProject} />
               <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
                 <div className="col-span-12 space-y-5">
@@ -239,17 +289,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8">
-                <Card resource={accessibleApps} className="h-full text-center">
-                  <Collection />
-                </Card>
-                <Card
-                  resource={accessibleReactApps}
-                  className="h-full text-center"
-                >
-                  <Collection />
-                </Card>
-              </div>
+              <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8"></div>
 
               <CardHorizontal resource={projectFeatureCardVideoApp} />
 
@@ -260,25 +300,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 className="sm:py-3 py-2"
                 data={getStarted}
               />
-              <ReactStateManagement />
-              <CardVerticalWithStack data={devEssentials} />
-
-              <Card resource={tailwind} className="text-center">
-                <ol className="text-left">
-                  {tailwind.resources.map((resource: any, index: any) => {
-                    return (
-                      <li key={resource.path} className="flex space-x-2 my-2">
-                        <span>{index + 1}</span>
-                        <Link href={resource.path}>
-                          <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                            {resource.title}
-                          </a>
-                        </Link>
-                      </li>
-                    )
-                  })}
-                </ol>
-              </Card>
 
               <Card>
                 <>
@@ -343,7 +364,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                   </ul>
                 </>
               </Card>
-              <CardVerticalWithStack data={workflows} />
             </aside>
           </div>
         </section>
@@ -435,7 +455,7 @@ const EventSchedule: React.FunctionComponent = () => {
                     <Link href={resource.calendarUrl}>
                       <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
                         {/* prettier-ignore */}
-                        <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor"/><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor"/></g></svg>
+                        <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor" /><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor" /></g></svg>
                       </a>
                     </Link>
                   )}
