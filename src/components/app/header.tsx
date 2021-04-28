@@ -11,7 +11,7 @@ import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
 import useCio from '../../hooks/use-cio'
 import {Form, Formik} from 'formik'
-import OnlinePresenceCTA from '../survey/online-presence-cta'
+import ProjectClubCTA from '../survey/project-club'
 
 const Header: FunctionComponent = () => {
   const router = useRouter()
@@ -36,7 +36,7 @@ const Header: FunctionComponent = () => {
         {viewer ? (
           <div className={className}>
             {children}
-            <OnlinePresenceCTA variant="header" />
+            {viewer.is_pro && <ProjectClubCTA variant="header" />}
             <Feedback
               user={viewer}
               className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
@@ -96,13 +96,6 @@ const Header: FunctionComponent = () => {
         ) : (
           <div className={className}>
             {children}
-            <div className="hidden lg:block">
-              <Link href="/own-your-online-presence">
-                <a className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                  Own Your Online Presence
-                </a>
-              </Link>
-            </div>
             <Link href="/login" activeClassName="bg-gray-100 dark:bg-gray-400">
               <a
                 onClick={() =>

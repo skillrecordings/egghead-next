@@ -103,16 +103,25 @@ const BillingSection = ({
 
   const quantity = get(subscriptionData, 'subscription.quantity', 1)
 
-  const tiers = get(subscriptionData, 'subscription.plan.tiers', [])
-  const matchingTier = tiers.find((tier: {up_to: number}) => {
-    if (quantity <= tier.up_to || tier.up_to === null) return true
+  let subscriptionUnitPrice
 
-    return false
-  })
-  const subscriptionUnitPrice = formatAmountWithCurrency(
-    matchingTier?.unit_amount,
-    currency,
-  )
+  if (get(subscriptionData, 'subscription.plan.billing_scheme') === 'tiered') {
+    // if the user/account is on tiered pricing...
+    const tiers = get(subscriptionData, 'subscription.plan.tiers', [])
+    const matchingTier = tiers.find((tier: {up_to: number}) => {
+      if (quantity <= tier.up_to || tier.up_to === null) return true
+
+      return false
+    })
+    subscriptionUnitPrice = formatAmountWithCurrency(
+      matchingTier?.unit_amount,
+      currency,
+    )
+  } else {
+    // otherwise, they are on legacy pricing...
+    const unitAmount = get(subscriptionData, 'subscription.plan.amount')
+    subscriptionUnitPrice = formatAmountWithCurrency(unitAmount, currency)
+  }
 
   const totalAmountInCents = get(
     subscriptionData,
