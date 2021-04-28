@@ -227,7 +227,7 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
       href={path}
     >
       <div
-        className="md:-mt-5 flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
         css={{
           [bpMinMD]: {
             minHeight: 477,
@@ -260,12 +260,12 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-white uppercase font-semibold mb-2">
+                <h2 className="text-xs text-gray-900 dark:text-white  uppercase font-semibold mb-2">
                   {byline}
                 </h2>
                 <Link href={path}>
                   <a
-                    className="text-xl font-extrabold leading-tighter hover:text-blue-300"
+                    className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-blue-300"
                     onClick={() =>
                       track('clicked jumbotron resource', {
                         resource: path,
@@ -276,7 +276,9 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
                     <h1>{title}</h1>
                   </a>
                 </Link>
-                <p className="mt-4">{description}</p>
+                <p className="mt-4 text-gray-900 dark:text-white">
+                  {description}
+                </p>
               </div>
             </div>
           </div>
