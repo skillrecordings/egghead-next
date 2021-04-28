@@ -114,14 +114,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
       <div className="mt-8">
         <WhatsNew resource={featureWhatsNew} />
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white text-center">
             Our Curated Guides
           </h2>
           <TopicsList topics={topics} />
         </section>
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             egghead Talks and Events
           </h2>
@@ -143,7 +143,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <Link href={featureDeveloperPortfolio.path}>
             <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
               <h2 className="md:text-3xl text-2xl sm:font-semibold font-bold md:mb-3 dark:text-white">
@@ -169,7 +169,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Popular Courses & Topics
           </h2>
@@ -195,7 +195,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Staff Picks and Favorites
           </h2>
@@ -220,8 +220,8 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
-          <h2 className="md:text-4xl text-3xl dark:text-gray-200 font-bold leading-tight mb-10 dark:text-white text-center">
+        <section className="mt-16 border-t pt-16">
+          <h2 className="md:text-3xl text-2xl sm:font-semibold font-bold md:mb-3 dark:text-white text-center">
             {featureDigitalGardening.title}
           </h2>
           <div className="flex md:flex-row flex-col mx-auto items-center justify-center space-x-10">
@@ -259,7 +259,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Build a New Portfolio Project
           </h2>
@@ -269,7 +269,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
+        <section className="mt-16 border-t pt-16">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols 1 gap-4">
             <CardVerticalWithStack data={aws} />
             <CardVerticalWithStack
