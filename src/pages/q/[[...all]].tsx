@@ -11,6 +11,10 @@ import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
 import {isEmpty, get, first, isArray} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
+
 import {loadInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
@@ -57,6 +61,7 @@ type SearchIndexProps = {
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
+  sanityInstructor: any
   initialTopic: any
 }
 
@@ -66,6 +71,7 @@ const SearchIndex: any = ({
   pageTitle,
   noIndexInitial,
   initialInstructor,
+  sanityInstructor,
   initialTopic,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
@@ -143,6 +149,7 @@ const SearchIndex: any = ({
         {...defaultProps}
         {...customProps}
         instructor={instructor}
+        sanityInstructor={sanityInstructor}
         topic={topic}
       />
     </div>
@@ -181,6 +188,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   let initialInstructor = null
+  let sanityInstructor = null
   let initialTopic = null
 
   const {rawResults, state} = resultsState
@@ -211,6 +219,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
     )
     try {
       initialInstructor = await loadInstructor(instructorSlug)
+
+      sanityInstructor = await loadSanityInstructor(instructorSlug)
     } catch (error) {
       console.error(error)
     }
@@ -223,7 +233,31 @@ export const getServerSideProps: GetServerSideProps = async function ({
       pageTitle,
       noIndexInitial,
       initialInstructor,
+      sanityInstructor,
       ...(!!initialTopic && {initialTopic}),
     },
   }
+}
+
+const sanityInstructorHash = {
+  'stephanie-eckles': stephanieEcklesQuery,
+}
+
+type SelectedInstructor = keyof typeof sanityInstructorHash
+
+const canLoadSanityInstructor = (
+  selectedInstructor: string,
+): selectedInstructor is SelectedInstructor => {
+  const keyNames = Object.keys(sanityInstructorHash)
+
+  return keyNames.includes(selectedInstructor)
+}
+
+const loadSanityInstructor = async (selectedInstructor: string) => {
+  if (!canLoadSanityInstructor(selectedInstructor)) return
+
+  const query = sanityInstructorHash[selectedInstructor]
+  if (!query) return
+
+  return await sanityClient.fetch(query)
 }

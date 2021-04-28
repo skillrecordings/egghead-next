@@ -1,4 +1,5 @@
 import {request} from 'graphql-request'
+import groq from 'groq'
 import config from './config'
 
 export type Instructor = {
