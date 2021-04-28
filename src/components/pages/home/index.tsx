@@ -261,7 +261,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-32">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Build a Portfolio Project
+            Build a New Portfolio Project
           </h2>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
             <CardHorizontal resource={portfolioProject} />
@@ -270,7 +270,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-32">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols 1 gap-4">
             <CardVerticalWithStack data={aws} />
             <CardVerticalWithStack
               data={freeCourses}
@@ -286,75 +286,69 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </div>
         </section>
 
-        <section className="mt-32">
-          <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
-            <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
-              <Card>
-                <>
-                  <Link href={swag.path}>
-                    <a className="inline-block hover:text-blue-600">
-                      <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
-                        {swag.name}
-                      </h2>
+        {/* <Card>
+          <>
+            <Link href={swag.path}>
+              <a className="inline-block hover:text-blue-600">
+                <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300">
+                  {swag.name}
+                </h2>
+              </a>
+            </Link>
+            <Link href={swag.path}>
+              <a className="inline-block hover:text-blue-600">
+                <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
+                  {swag.title}
+                </h3>
+              </a>
+            </Link>
+            <ul className="grid grid-cols-2 gap-3 mt-3">
+              {map(get(swag, 'resources'), (resource) => (
+                <li
+                  className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
+                  key={resource.path}
+                >
+                  {resource.image && (
+                    <div className="flex-shrink-0">
+                      <Link href={resource.path}>
+                        <a
+                          onClick={() => {
+                            track('clicked home page swag', {
+                              resource: resource.path,
+                              linkType: 'image',
+                            })
+                          }}
+                          tabIndex={-1}
+                        >
+                          <Image
+                            className="rounded-lg"
+                            src={resource.image}
+                            alt={resource.title}
+                            width={205}
+                            height={205}
+                          />
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                  <Link href={resource.path}>
+                    <a
+                      onClick={() => {
+                        track('clicked home page swag', {
+                          resource: resource.path,
+                          linkType: 'text',
+                        })
+                      }}
+                      className="text-xs leading-tight"
+                    >
+                      {resource.title}
                     </a>
                   </Link>
-                  <Link href={swag.path}>
-                    <a className="inline-block hover:text-blue-600">
-                      <h3 className="text-lg tracking-tight font-bold leading-tight mb-1">
-                        {swag.title}
-                      </h3>
-                    </a>
-                  </Link>
-                  <ul className="grid grid-cols-2 gap-3 mt-3">
-                    {map(get(swag, 'resources'), (resource) => (
-                      <li
-                        className="py-1 flex flex-col items-center text-center  text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
-                        key={resource.path}
-                      >
-                        {resource.image && (
-                          <div className="flex-shrink-0">
-                            <Link href={resource.path}>
-                              <a
-                                onClick={() => {
-                                  track('clicked home page swag', {
-                                    resource: resource.path,
-                                    linkType: 'image',
-                                  })
-                                }}
-                                tabIndex={-1}
-                              >
-                                <Image
-                                  className="rounded-lg"
-                                  src={resource.image}
-                                  alt={resource.title}
-                                  width={205}
-                                  height={205}
-                                />
-                              </a>
-                            </Link>
-                          </div>
-                        )}
-                        <Link href={resource.path}>
-                          <a
-                            onClick={() => {
-                              track('clicked home page swag', {
-                                resource: resource.path,
-                                linkType: 'text',
-                              })
-                            }}
-                            className="text-xs leading-tight"
-                          >
-                            {resource.title}
-                          </a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              </Card>
-            </aside>
-          </div>
-        </section>
+                </li>
+              ))}
+            </ul>
+          </>
+        </Card> */}
       </div>
     </>
   )
