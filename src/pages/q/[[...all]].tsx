@@ -11,11 +11,7 @@ import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
 import {isEmpty, get, first, isArray} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
-import {sanityClient} from 'utils/sanity-client'
-import groq from 'groq'
-import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
-
-import {loadInstructor} from 'lib/instructors'
+import {loadInstructor, loadSanityInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
@@ -237,27 +233,4 @@ export const getServerSideProps: GetServerSideProps = async function ({
       ...(!!initialTopic && {initialTopic}),
     },
   }
-}
-
-const sanityInstructorHash = {
-  'stephanie-eckles': stephanieEcklesQuery,
-}
-
-type SelectedInstructor = keyof typeof sanityInstructorHash
-
-const canLoadSanityInstructor = (
-  selectedInstructor: string,
-): selectedInstructor is SelectedInstructor => {
-  const keyNames = Object.keys(sanityInstructorHash)
-
-  return keyNames.includes(selectedInstructor)
-}
-
-const loadSanityInstructor = async (selectedInstructor: string) => {
-  if (!canLoadSanityInstructor(selectedInstructor)) return
-
-  const query = sanityInstructorHash[selectedInstructor]
-  if (!query) return
-
-  return await sanityClient.fetch(query)
 }
