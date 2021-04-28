@@ -21,8 +21,6 @@ export default function SearchStephanieEckles({
 }) {
   const combinedInstructor = {...instructor}
 
-  console.log({sanityInstructor})
-
   const {projects, courses} = sanityInstructor
   const [
     primaryCourse,
@@ -30,8 +28,6 @@ export default function SearchStephanieEckles({
     thirdCourse,
     fourthCourse,
   ] = courses.resources
-
-  console.log({primaryCourse})
 
   return (
     <div>
