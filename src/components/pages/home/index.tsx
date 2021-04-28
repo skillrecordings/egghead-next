@@ -116,7 +116,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-32">
           <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white text-center">
-            Our Curated Guides
+            Browse Curated Developer Resources on the Best Tools
           </h2>
           <TopicsList topics={topics} />
         </section>
@@ -375,7 +375,7 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full bg-white shadow-sm dark:bg-gray-800 hover:shadow-lg dark:hover:bg-gray-700 dark:active:bg-gray-600 active:bg-gray-50 transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-white tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="w-full scale-100 hover:scale-105 transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-white tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
                 >
                   <div className="w-full flex flex-col items-center justify-center px-3 py-8 space-y-4">
                     {resource.image && (
