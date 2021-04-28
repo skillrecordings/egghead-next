@@ -37,11 +37,7 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
       <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
         What's New
       </h2>
-      <Jumbotron
-        resource={jumbotron}
-        background={themedBackground}
-        textColor="text-green-400"
-      />
+      <Jumbotron resource={jumbotron} background={themedBackground} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <div className="h-full grid gap-4">
           <CourseFeatureCard
@@ -163,7 +159,7 @@ const CourseFeatureCard = ({
           <div className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
             <div className="flex flex-col items-center">
               <Image src={image} width={200} height={200} alt={title} />
-              <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter group-hover:underline">
+              <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter group-hover:text-blue-600 dark:group-hover:text-blue-300">
                 {title}
               </h2>
               <span className="text-sm opacity-80">{name}</span>

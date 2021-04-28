@@ -9,13 +9,11 @@ import {track} from 'utils/analytics'
 
 type JumbotronProps = {
   resource: CardResource
-  textColor?: String
   background?: String
 }
 
 const Jumbotron: FunctionComponent<JumbotronProps> = ({
   resource,
-  textColor,
   background,
 }) => {
   const {path, image, title, byline, instructor, description} = resource
@@ -62,7 +60,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </h2>
               <Link href={path}>
                 <a
-                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-900 dark:text-white `}
+                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-300`}
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -73,27 +71,18 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                   <h1>{title}</h1>
                 </a>
               </Link>
-              <Link href={instructor.path}>
-                <a
-                  className="mt-4 flex items-center space-x-2 text-base group"
-                  onClick={() =>
-                    track('clicked instructor in jumbotron', {
-                      instructor: instructor.slug,
-                    })
-                  }
-                >
-                  <Image
-                    src={instructor.image}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                    alt={instructor.name}
-                  />
-                  <span className="group-hover:text-orange-200 text-gray-900 dark:text-white">
-                    {instructor.name}
-                  </span>
-                </a>
-              </Link>
+              <div className="mt-4 flex items-center space-x-2 text-base group">
+                <Image
+                  src={instructor.image}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  alt={instructor.name}
+                />
+                <span className="text-gray-900 dark:text-white">
+                  {instructor.name}
+                </span>
+              </div>
               {description && (
                 <Markdown
                   source={description}
