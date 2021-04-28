@@ -3,7 +3,6 @@ import {CardResource} from 'components/pages/home/card'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import Image from 'next/image'
-import {useTheme} from 'next-themes'
 import {get} from 'lodash'
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
@@ -11,26 +10,15 @@ import {track} from 'utils/analytics'
 type JumbotronProps = {
   resource: CardResource
   textColor?: String
+  background?: String
 }
 
 const Jumbotron: FunctionComponent<JumbotronProps> = ({
   resource,
   textColor,
+  background,
 }) => {
-  const {theme} = useTheme()
-  const {
-    path,
-    image,
-    title,
-    byline,
-    instructor,
-    background,
-    lightBackground,
-    description,
-  } = resource
-
-  console.log(theme)
-  const themedBackground = theme === 'dark' ? background : lightBackground
+  const {path, image, title, byline, instructor, description} = resource
 
   return (
     <div
@@ -74,7 +62,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </h2>
               <Link href={path}>
                 <a
-                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-yellow-500`}
+                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-900 dark:text-white `}
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -119,7 +107,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
       </div>
       <UniqueBackground
         className="absolute left-0 top-0 w-full h-full z-0 object-cover"
-        background={themedBackground}
+        background={background}
       />
     </div>
   )

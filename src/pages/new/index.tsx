@@ -11,6 +11,12 @@ import Jumbotron from 'components/pages/home/jumbotron'
 import {useTheme} from 'next-themes'
 
 const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
+  const [mounted, setMounted] = React.useState(false)
+  const {theme} = useTheme()
+
+  React.useEffect(() => setMounted(true), [])
+  if (!mounted) return null
+
   const {primary, secondary} = resource
   const [jumbotron, secondPrimary, thirdPrimary] = primary.resources
   const [
@@ -19,17 +25,29 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
     thirdSecondaryResource,
   ] = secondary.resources
 
+  const {background, lightBackground} = jumbotron
+  const {lightFeatureCardBackground, featureCardBackground} = secondPrimary
+
+  const themedBackground = theme === 'light' ? lightBackground : background
+  const themedFeatureCardBackground =
+    theme === 'light' ? lightFeatureCardBackground : featureCardBackground
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
         What's New
       </h2>
-      <Jumbotron resource={jumbotron} textColor="text-green-400" />
+      <Jumbotron
+        resource={jumbotron}
+        background={themedBackground}
+        textColor="text-green-400"
+      />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <div className="h-full grid gap-4">
           <CourseFeatureCard
             className="h-auto row-span-2 w-full"
             resource={secondPrimary}
+            featureCardBackground={themedFeatureCardBackground}
           />
           <CardHorizontal className="w-full" resource={thirdPrimary} />
         </div>
@@ -121,20 +139,18 @@ export const CardHorizontal: FunctionComponent<{
   )
 }
 
-const CourseFeatureCard = ({resource, className}: any) => {
-  const {theme} = useTheme()
+const CourseFeatureCard = ({
+  resource,
+  featureCardBackground,
+  className,
+}: any) => {
   const {
     title,
     image,
     path,
     description,
-    featureCardBackground,
-    lightFeatureCardBackground,
     instructor: {name},
   } = resource
-
-  const themedFeatureCardBackground =
-    theme === 'light' ? lightFeatureCardBackground : featureCardBackground
 
   return (
     <Link href={path}>
@@ -156,7 +172,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
           </div>
           <img
             className="absolute top-0 left-0 z-0 w-full"
-            src={themedFeatureCardBackground}
+            src={featureCardBackground}
             alt=""
           />
         </div>
