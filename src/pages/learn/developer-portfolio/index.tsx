@@ -83,28 +83,6 @@ export const developerPortfolioQuery = groq`*[_type == 'resource' && slug.curren
 	}
 }`
 
-export const reduxClubQuery = groq`*[_type == 'resource' && slug.current == "build-business-oriented-portfolio"][0]{
-  "redux": resources[0].resources[slug.current == "redux"][0]{
-      title,
-      subTitle,
-      description,
-      "slug": slug.current,
-      image,
-      summary,
-    }
-}`
-
-export const xStateClubQuery = groq`*[_type == 'resource' && slug.current == "build-business-oriented-portfolio"][0]{
-  "xstate": resources[0].resources[slug.current == "xstate"][0]{
-      title,
-      subTitle,
-      description,
-      "slug": slug.current,
-      image,
-      summary,
-    }
-}`
-
 export async function getStaticProps() {
   const data = await sanityClient.fetch(developerPortfolioQuery)
 
