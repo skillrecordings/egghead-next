@@ -260,85 +260,35 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-32">
-          <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
-            <div className="lg:col-span-8 lg:space-y-6 space-y-4">
-              <div
-                className={`grid sm:grid-cols-${featured.length} grid-cols-2 sm:gap-5 gap-3`}
-              ></div>
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+            Build a Portfolio Project
+          </h2>
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+            <CardHorizontal resource={portfolioProject} />
+            <CardHorizontal resource={ecommerce} />
+          </div>
+        </section>
 
-              <CardHorizontal resource={portfolioProject} />
-              <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-                <div className="col-span-12 space-y-5">
-                  <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-                    <div className="flex-shrink-0">
-                      <Image
-                        src={
-                          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                        }
-                        alt="illustration for Digital Gardening for Developers "
-                        width={222}
-                        height={273}
-                        quality={100}
-                      />
-                    </div>
-                    <div className="max-w-screen-sm space-y-3">
-                      <Link href={featureDigitalGardening.path}>
-                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                          <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                            {featureDigitalGardening.title}
-                          </h1>
-                        </a>
-                      </Link>
-                      <div className="prose dark:prose-dark leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 ">
-                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                          {featureDigitalGardening.description}
-                        </Markdown>
-                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                          {featureDigitalGardening.quote.description}
-                        </Markdown>
-                      </div>
-                    </div>
-                  </header>
-                  <div>
-                    <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
-                      {featureDigitalGardening.featured.courses.map(
-                        (resource: any) => {
-                          return (
-                            <Card
-                              className="col-span-4 text-center"
-                              key={resource.path}
-                              resource={resource}
-                              location={location}
-                            />
-                          )
-                        },
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <CardHorizontal resource={ecommerce} />
-              <div className="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
-                <CardVerticalWithStack data={aws} />
-                <CardVerticalWithStack
-                  data={freeCourses}
-                  memberTitle="Must Watch"
-                />
-              </div>
-
-              <div className="grid md:grid-cols-2 grid-cols-1 lg:gap-6 gap-4 items-start mt-8"></div>
-
-              <CardHorizontal resource={projectFeatureCardVideoApp} />
-
-              <CardHorizontal resource={wordpressWithGraphql} />
-            </div>
-            <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
-              <CardVerticalWithStack
-                className="sm:py-3 py-2"
-                data={getStarted}
+        <section className="mt-32">
+          <div className="grid grid-cols-3 gap-4">
+            <CardVerticalWithStack data={aws} />
+            <CardVerticalWithStack
+              data={freeCourses}
+              memberTitle="Must Watch"
+            />
+            <div className="space-y-4">
+              <Card
+                className="text-center"
+                resource={projectFeatureCardVideoApp}
               />
+              <Card className="text-center" resource={wordpressWithGraphql} />
+            </div>
+          </div>
+        </section>
 
+        <section className="mt-32">
+          <div className="grid lg:grid-cols-12 grid-cols-1 lg:gap-6 gap-4">
+            <aside className="lg:col-span-4 lg:space-y-6 space-y-4">
               <Card>
                 <>
                   <Link href={swag.path}>
