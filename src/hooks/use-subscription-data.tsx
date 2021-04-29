@@ -12,10 +12,8 @@ type SubscriptionData = {
 
 const useSubscriptionDetails = ({
   stripeCustomerId,
-  slug,
 }: {
   stripeCustomerId?: string
-  slug?: string
 }): {subscriptionData: SubscriptionData; loading: boolean} => {
   const [loading, setLoading] = React.useState<boolean>(true)
   const [
@@ -31,7 +29,6 @@ const useSubscriptionDetails = ({
         .get(`/api/stripe/billing/session`, {
           params: {
             customer_id: stripeCustomerId,
-            account_slug: slug,
           },
         })
         .then(({data}) => {
@@ -43,7 +40,7 @@ const useSubscriptionDetails = ({
           setLoading(false)
         })
     }
-  }, [stripeCustomerId, slug])
+  }, [stripeCustomerId])
 
   return {subscriptionData, loading}
 }

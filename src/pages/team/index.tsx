@@ -116,13 +116,11 @@ const Team = ({team: teamData}: TeamPageProps) => {
     }
   }, [teamDataNotAvailable])
 
-  // TODO: The slug value isn't used, so can be omitted
   const {
     subscriptionData,
     loading: subscriptionDataLoading,
   } = useSubscriptionDetails({
     stripeCustomerId: teamData?.stripeCustomerId,
-    slug: teamData?.accountSlug,
   })
 
   if (teamData === undefined) return null
