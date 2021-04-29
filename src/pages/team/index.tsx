@@ -4,7 +4,6 @@ import Link from 'next/link'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import CopyToClipboard from '../../components/team/copy-to-clipboard'
-import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
@@ -12,6 +11,7 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
+import useSubscriptionDetails from 'hooks/use-subscription-data'
 
 export type TeamData = {
   accountId: number
@@ -45,35 +45,14 @@ const TeamComposition = ({
   }
 }
 
-type SubscriptionData = {
-  portalUrl: string | undefined
-}
-
-const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
-  const {accountSlug, stripeCustomerId} = teamData
-  const [
-    subscriptionData,
-    setSubscriptionData,
-  ] = React.useState<SubscriptionData>({} as SubscriptionData)
-
-  React.useEffect(() => {
-    if (stripeCustomerId) {
-      axios
-        .get(`/api/stripe/billing/session`, {
-          params: {
-            customer_id: stripeCustomerId,
-            account_slug: accountSlug,
-          },
-        })
-        .then(({data}) => {
-          if (data) {
-            setSubscriptionData(data)
-          }
-        })
-    }
-  }, [stripeCustomerId, accountSlug])
-
-  if (!teamData.isFull) {
+const AtCapacityNotice = ({
+  isFull,
+  billingPortalUrl,
+}: {
+  isFull: boolean
+  billingPortalUrl: string | undefined
+}) => {
+  if (!isFull) {
     return null
   }
 
@@ -103,8 +82,8 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
           Your team account is full. You can add more seats to your account
           through the Stripe Billing Portal.
         </span>
-        {subscriptionData?.portalUrl && (
-          <Link href={subscriptionData.portalUrl}>
+        {billingPortalUrl && (
+          <Link href={billingPortalUrl}>
             <a
               onClick={() => {
                 track(`clicked manage membership`)
@@ -137,6 +116,15 @@ const Team = ({team: teamData}: TeamPageProps) => {
     }
   }, [teamDataNotAvailable])
 
+  // TODO: The slug value isn't used, so can be omitted
+  const {
+    subscriptionData,
+    loading: subscriptionDataLoading,
+  } = useSubscriptionDetails({
+    stripeCustomerId: teamData?.stripeCustomerId,
+    slug: teamData?.accountSlug,
+  })
+
   if (teamData === undefined) return null
 
   return (
@@ -165,7 +153,10 @@ const Team = ({team: teamData}: TeamPageProps) => {
             label={true}
           />
         </div>
-        <AtCapacityNotice teamData={teamData} />
+        <AtCapacityNotice
+          isFull={teamData.isFull}
+          billingPortalUrl={subscriptionData.portalUrl}
+        />
         <h2 className="font-semibold text-xl mt-16">
           Current Team Members{' '}
           <TeamComposition
@@ -179,8 +170,8 @@ const Team = ({team: teamData}: TeamPageProps) => {
           setMembers={setMembers}
         />
         <BillingSection
-          stripeCustomerId={teamData.stripeCustomerId}
-          slug={teamData.accountSlug}
+          subscriptionData={subscriptionData}
+          loading={subscriptionDataLoading}
         />
       </div>
     </LoginRequired>
