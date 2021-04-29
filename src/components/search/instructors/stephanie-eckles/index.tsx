@@ -12,16 +12,10 @@ import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
-export default function SearchStephanieEckles({
-  instructor,
-  sanityInstructor,
-}: {
-  instructor: any
-  sanityInstructor: any
-}) {
+export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
 
-  const {projects, courses} = sanityInstructor
+  const {projects, courses} = instructor
   const [
     primaryCourse,
     secondCourse,

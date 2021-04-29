@@ -34,7 +34,6 @@ type SearchProps = {
   searchClient?: any
   searchState?: any
   instructor?: any
-  sanityInstructor?: any
   topic?: any
 }
 
@@ -43,7 +42,6 @@ const Search: FunctionComponent<SearchProps> = ({
   searchClient,
   searchState,
   instructor,
-  sanityInstructor,
   topic,
   ...rest
 }) => {
@@ -193,10 +191,7 @@ const Search: FunctionComponent<SearchProps> = ({
           {!isEmpty(instructor) && (
             <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <InstructorCuratedPage
-                  instructor={instructor}
-                  sanityInstructor={sanityInstructor}
-                />
+                <InstructorCuratedPage instructor={instructor} />
               )}
             </div>
           )}

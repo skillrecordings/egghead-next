@@ -57,7 +57,6 @@ type SearchIndexProps = {
   pageTitle: string
   noIndexInitial: boolean
   initialInstructor: any
-  sanityInstructor: any
   initialTopic: any
 }
 
@@ -67,7 +66,6 @@ const SearchIndex: any = ({
   pageTitle,
   noIndexInitial,
   initialInstructor,
-  sanityInstructor,
   initialTopic,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
@@ -145,7 +143,6 @@ const SearchIndex: any = ({
         {...defaultProps}
         {...customProps}
         instructor={instructor}
-        sanityInstructor={sanityInstructor}
         topic={topic}
       />
     </div>
@@ -217,6 +214,11 @@ export const getServerSideProps: GetServerSideProps = async function ({
       initialInstructor = await loadInstructor(instructorSlug)
 
       sanityInstructor = await loadSanityInstructor(instructorSlug)
+
+      initialInstructor = {
+        ...initialInstructor,
+        ...sanityInstructor,
+      }
     } catch (error) {
       console.error(error)
     }
@@ -229,7 +231,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
       pageTitle,
       noIndexInitial,
       initialInstructor,
-      sanityInstructor,
       ...(!!initialTopic && {initialTopic}),
     },
   }
