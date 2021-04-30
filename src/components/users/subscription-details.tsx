@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import get from 'lodash/get'
-import useSubscriptionDetails from 'hooks/use-subscription-data'
+import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -15,9 +15,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
   slug,
 }) => {
   const {viewer} = useViewer()
-  const {subscriptionData, recur, loading} = useSubscriptionDetails({
+  const {subscriptionData, loading} = useSubscriptionDetails({
     stripeCustomerId,
-    slug,
   })
 
   const subscriptionName = subscriptionData && subscriptionData.product?.name
