@@ -48,7 +48,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   const advanced: any = find(pageData, {id: 'advanced'})
 
   return (
-    <div className="sm:pb-8 pb-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+    <div className="sm:pb-8 pb-5 max-w-screen-xl lg:mx-auto mx-5 dark:bg-gray-900">
       <NextSeo
         description={description}
         title={title}
@@ -70,7 +70,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 sm:gap-8 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
         <Topic
           className="col-span-8"
           title={topic.label}
@@ -84,7 +84,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         {CTAComponent ? <CTAComponent /> : <DefaultCTA location={location} />}
       </div>
       {beginner && intermediate && advanced && (
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-5">
           <Card resource={beginner} location={location}>
             <Collection />
           </Card>
