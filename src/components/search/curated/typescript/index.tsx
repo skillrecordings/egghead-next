@@ -81,7 +81,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
           className ? className : ''
         }`}
       >
-        <div className="items-center h-full w-full block">
+        <div className="items-center h-full w-full block bg-white dark:bg-gray-800">
           <div
             className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5"
             css={{
