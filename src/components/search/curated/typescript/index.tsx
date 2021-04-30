@@ -51,7 +51,7 @@ Love them or hate them, static types are here to stay, and at the very least an 
             </Card>
           </div>
           <Card
-            className="mt-5 col-span-4 h-full"
+            className="sm:mt-0 mt-5 col-span-4 h-full"
             resource={algorithms}
             location={location}
           >
