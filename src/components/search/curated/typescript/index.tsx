@@ -35,7 +35,7 @@ Love them or hate them, static types are here to stay, and at the very least an 
       pageData={typescriptPageData}
       CTAComponent={CourseFeatureCard}
     >
-      <div className="mb-10 pb-10 xl:px-0 max-w-screen-xl mx-auto">
+      <div className="mb-10 pb-10 xl:px-0 max-w-screen-xl mx-2">
         {/* Featured Section */}
         <section className="grid lg:grid-cols-12 grid-cols-1 items-start mt-12 ">
           <div className="md:col-span-8 mr-0 md:mr-5">
@@ -51,7 +51,7 @@ Love them or hate them, static types are here to stay, and at the very least an 
             </Card>
           </div>
           <Card
-            className="col-span-4 h-full"
+            className="mt-5 col-span-4 h-full"
             resource={algorithms}
             location={location}
           >
@@ -109,8 +109,8 @@ const CourseFeatureCard = ({resource, className}: any) => {
             </div>
           </div>
           <img
-            className="absolute top-0 left-0 z-0 w-full"
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619807045/next.egghead.io/resources/advanced-typescript-fundamentals/background-feature-card.svg"
+            className="absolute top-0 left-0 z-0 w-full object-fit"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619808981/next.egghead.io/resources/advanced-typescript-fundamentals/background-feature-card-v2.svg"
             alt=""
           />
         </div>
