@@ -84,7 +84,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         {CTAComponent ? <CTAComponent /> : <DefaultCTA location={location} />}
       </div>
       {beginner && intermediate && advanced && (
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-5">
           <Card resource={beginner} location={location}>
             <Collection />
           </Card>
