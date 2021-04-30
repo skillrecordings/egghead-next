@@ -3,6 +3,7 @@ import axios from 'axios'
 
 type SubscriptionData = {
   portalUrl?: string
+  billingScheme: 'tiered' | 'per_unit'
   subscription?: any
   price?: any
   product?: any
@@ -19,7 +20,7 @@ const useSubscriptionDetails = ({
   const [
     subscriptionData,
     setSubscriptionData,
-  ] = React.useState<SubscriptionData>({})
+  ] = React.useState<SubscriptionData>({billingScheme: 'per_unit'})
 
   React.useEffect(() => {
     if (stripeCustomerId) {
