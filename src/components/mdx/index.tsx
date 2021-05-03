@@ -9,6 +9,7 @@ import ProseSection from './prose-section'
 import CheatSheet from './cheat-sheet'
 import DefaultLayout from '../../layouts'
 import CodeBlock from './code-block'
+import ArticleCourseCard from 'components/blog/article-course-card'
 // @ts-ignore
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 
@@ -24,6 +25,7 @@ const mdxComponents = {
   CheatSheet,
   TwitterTweetEmbed,
   DefaultLayout,
+  ArticleCourseCard,
   pre: (props: any) => (
     <CodeBlock
       language={props.children.props.className || ''}
