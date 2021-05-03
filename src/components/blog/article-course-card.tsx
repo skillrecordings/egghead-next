@@ -4,9 +4,7 @@ import {loadPlaylist} from '../../lib/playlists'
 import {CardHorizontal} from '../pages/home'
 
 const ArticleCourseCard: React.FC<{course: any}> = ({course}) => {
-  const {data, error} = useSwr(course, loadPlaylist)
-
-  console.log('DATA', data, error)
+  const {data} = useSwr(course, loadPlaylist)
 
   return data ? (
     <div className="my-32">
