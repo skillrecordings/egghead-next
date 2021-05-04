@@ -1,10 +1,10 @@
 import * as React from 'react'
-import useSubscriptionDetails from 'hooks/use-subscription-data'
 import get from 'lodash/get'
 import {format} from 'date-fns'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import isEmpty from 'lodash/isEmpty'
+import {recur} from 'hooks/use-subscription-data'
 
 const formatAmountWithCurrency = (
   amountInCents: number,
@@ -20,17 +20,12 @@ const formatAmountWithCurrency = (
 }
 
 const BillingSection = ({
-  stripeCustomerId,
-  slug,
+  subscriptionData,
+  loading,
 }: {
-  stripeCustomerId: string
-  slug: string
+  subscriptionData: any
+  loading: boolean
 }) => {
-  const {subscriptionData, recur, loading} = useSubscriptionDetails({
-    stripeCustomerId,
-    slug,
-  })
-
   if (subscriptionData === undefined) return null
 
   const currency = get(
@@ -76,8 +71,6 @@ const BillingSection = ({
     get(subscriptionData, 'subscription.status') === 'active' &&
     !get(subscriptionData, 'subscription.canceled_at')
 
-  // Figure out what to display for the Next Billing Date.
-  //
   // If it is too early in the billing period or if the subscription was just
   // created, there may not be an upcoming invoice generated yet. In that case,
   // we see the subscription is active and display 'Pending' for now.

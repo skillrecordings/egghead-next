@@ -131,14 +131,16 @@ const Header: FunctionComponent = () => {
             </Link>
           </div>
           {!sm && !isTopics && (
-            <Link href="/topics">
-              <a
-                onClick={() => track(`clicked browse`, {location: 'header'})}
-                className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-              >
-                Browse
-              </a>
-            </Link>
+            <div className={`${isSearch && 'w-full'}`}>
+              <Link href="/topics">
+                <a
+                  onClick={() => track(`clicked browse`, {location: 'header'})}
+                  className={`inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200`}
+                >
+                  Browse
+                </a>
+              </Link>
+            </div>
           )}
           {!sm && !isSearch && <SearchBar />}
           {!sm && <Navigation></Navigation>}
