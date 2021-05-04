@@ -1,4 +1,4 @@
-import {Tracer} from '@vercel/tracing-js'
+import {Tracer} from 'utils/tracing-js/dist/src/index'
 
 const getTracer = (serviceName: string) => {
   return new Tracer(
