@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import {CIO_KEY} from '../../hooks/use-cio'
 
 const serverCookie = require('cookie')
