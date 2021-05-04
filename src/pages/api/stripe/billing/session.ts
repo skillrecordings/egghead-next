@@ -30,6 +30,7 @@ const StripeCheckoutSession = async (
       if (subscription) {
         const price = get(first(subscription.items.data), 'price')
         const latestInvoice = get(subscription, 'latest_invoice')
+        const billingScheme = get(subscription, 'plan.billing_scheme')
 
         const {product: product_id} = price
 
@@ -47,6 +48,7 @@ const StripeCheckoutSession = async (
 
         res.status(200).json({
           portalUrl: session.url,
+          billingScheme,
           subscription,
           price,
           product,
