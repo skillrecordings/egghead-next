@@ -15,6 +15,7 @@ import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import {LessonResource} from '../../types'
 import {loadBasicLesson} from '../../lib/lessons'
+import {withProse} from 'utils/remark/with-prose'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -161,6 +162,7 @@ export async function getStaticProps(context: any) {
     components: mdxComponents,
     mdxOptions: {
       remarkPlugins: [
+        withProse,
         require(`remark-slug`),
         require(`remark-footnotes`),
         require(`remark-code-titles`),

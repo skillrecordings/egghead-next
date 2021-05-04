@@ -1,10 +1,15 @@
+import ArticleCourseCard from '../components/blog/article-course-card'
 export const meta = {
   title: `A Sale Page`,
 }
 
-import DefaultLayout from 'layouts'
+import TestProseLayout from 'layouts/test-prose'
 export default ({children}) => (
-  <DefaultLayout meta={meta}>{children}</DefaultLayout>
+  <TestProseLayout meta={meta}>{children}</TestProseLayout>
 )
 
-# A sale for sure.
+# Hello and welcome
+
+We've got some text here.
+
+<ArticleCourseCard course={'react-state-management-in-2021-6732'} />

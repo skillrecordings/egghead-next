@@ -4,9 +4,11 @@ const withPlugins = require(`next-compose-plugins`)
 const rehypeShiki = require(`rehype-shiki`)
 const checkEnv = require(`@47ng/check-env`).default
 const withImages = require(`next-images`)
+const {withProse} = require('./src/utils/remark/with-prose')
 const withMDX = require(`@next/mdx`)({
   extension: /\.mdx?$/,
   options: {
+    remarkPlugins: [withProse],
     rehypePlugins: [
       [
         rehypeShiki,
