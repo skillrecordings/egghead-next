@@ -12,7 +12,7 @@ import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import getTracer from '../../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import {LessonResource} from '../../types'
 import {loadBasicLesson} from '../../lib/lessons'
 
