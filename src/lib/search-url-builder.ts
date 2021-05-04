@@ -81,11 +81,13 @@ export const createUrl = (searchState: {
     ? `${refinementList._tags.map(nameToSlug).sort().join('-and-')}`
     : ''
   const type = get(refinementList, 'type')
+  const access_state = get(refinementList, 'access_state')
 
   const queryString = qs.stringify(
     {
       q: query ? `${query.split(' ').join('+')}` : undefined,
       type: type ? type.join(',') : undefined,
+      access_state: access_state ? access_state.join(',') : undefined,
       ...(page && page > 1 && {page}),
     },
     {encode: false},
@@ -108,6 +110,7 @@ export const parseUrl = (query: {
   all?: any
   q?: any
   type?: any
+  access_state?: any
   page?: number
 }) => {
   if (isEmpty(query)) return query
@@ -117,11 +120,13 @@ export const parseUrl = (query: {
   const tags = tagsForPath(firstPath)
 
   const type: string[] = query.type?.split(',')
+  const access_state: string[] = query.access_state?.split(',')
 
   return pickBy({
     query: query?.q?.replace('+', ' '),
     page: query.page,
     refinementList: pickBy({
+      access_state,
       type,
       _tags: tags,
       instructor_name: instructors,

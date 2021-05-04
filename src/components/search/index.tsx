@@ -67,11 +67,13 @@ const Search: FunctionComponent<SearchProps> = ({
   const isRefinementOn =
     !isEmpty(get(searchState, 'refinementList.instructor_name')) ||
     !isEmpty(get(searchState, 'refinementList._tags')) ||
+    !isEmpty(get(searchState, 'refinementList.access_state')) ||
     !isEmpty(get(searchState, 'refinementList.type'))
 
   const numberOfRefinements =
     get(searchState, 'refinementList.instructor_name', []).length +
     get(searchState, 'refinementList._tags', []).length +
+    get(searchState, 'refinementList.access_state', []).length +
     get(searchState, 'refinementList.type', []).length
 
   const refinementRef = React.useRef(null)
@@ -174,8 +176,14 @@ const Search: FunctionComponent<SearchProps> = ({
                   <RefinementList limit={6} attribute="instructor_name" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Content Type</h3>
-                  <RefinementList attribute="type" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Content Type</h3>
+                    <RefinementList attribute="type" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Free or Pro</h3>
+                    <RefinementList attribute="access_state" />
+                  </div>
                 </div>
                 {isRefinementOn && (
                   <button
