@@ -35,12 +35,12 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
           />
         }
       />
-      <section className="grid lg:grid-cols-4 grid-cols-1 -mt-10 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full gap-0 lg:gap-3">
+      <section className="grid lg:grid-cols-6 grid-cols-1 -mt-10 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full gap-0 lg:gap-3">
         <ProjectStack
-          className="col-span-1 mb-3 lg:mb-0"
+          className="col-span-2 mb-3 lg:mb-0"
           data={projects.resources}
         />
-        <div className="col-span-3 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
+        <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
           <CardHorizontal className="col-span-2" resource={secondCourse} />
           <CardVerticalLarge className="col-span-1" data={thirdCourse} />
           <CardVerticalLarge className="col-span-1" data={fourthCourse} />
@@ -88,49 +88,47 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
           Stephanie's Projects
         </h2>
         <hr />
-        <div>
-          <ul>
+        <div className="h-full">
+          <ul className="flex flex-col h-full justify-evenly">
             {data.map((item: any) => {
               const {description, title, image, path} = item
               return (
-                <li key={path}>
-                  <div className="space-y-3 mt-2">
-                    {path && (
-                      <Link href={path}>
-                        <a
-                          onClick={() => {
-                            track('clicked instructor project resource', {
-                              resource: path,
-                              linkType: 'image',
-                              location,
-                            })
-                          }}
-                          className="flex lg:flex-row flex-col flex-shrink-0 sm:space-x-5 space-x-0 space-y-5 sm:space-y-5 items-center sm:text-left text-center overflow-x-scroll"
-                          tabIndex={-1}
-                        >
-                          <div className="block flex-shrink-0 sm:w-auto">
-                            {/* {image && (
+                <li key={path} className="my-5">
+                  {path && (
+                    <Link href={path}>
+                      <a
+                        onClick={() => {
+                          track('clicked instructor project resource', {
+                            resource: path,
+                            linkType: 'image',
+                            location,
+                          })
+                        }}
+                        tabIndex={-1}
+                      >
+                        <div className="flex items-center gap-4 rounded transition duration-200 ease-in-out">
+                          <div className="flex-shrink-0">
+                            {image && (
                               <Image
                                 src={get(image, 'src', image)}
                                 width="40"
                                 height="40"
                                 alt={`illustration for ${title}`}
                               />
-                            )} */}
+                            )}
                           </div>
-                          <div className="flex flex-col justify-center sm:items-start items-center space-y-1 ">
-                            <h2 className="text-lg font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300">
+                          <div>
+                            <h2 className="text-lg font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300 mb-1">
                               {title}
                             </h2>
-                            {/* <p className=" text-sm leading-tight max-w-none">
+                            <p className=" text-sm leading-tight max-w-none">
                               {description}
-                            </p> */}
+                            </p>
                           </div>
-                        </a>
-                      </Link>
-                    )}
-                    <hr />
-                  </div>
+                        </div>
+                      </a>
+                    </Link>
+                  )}
                 </li>
               )
             })}
