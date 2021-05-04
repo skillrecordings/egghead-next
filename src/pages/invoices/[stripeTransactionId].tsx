@@ -1,7 +1,7 @@
 import * as React from 'react'
 import LoginRequired from 'components/login-required'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import getTracer from 'utils/honeycomb-tracer'
 import axios from 'utils/configured-axios'
 import Invoice from 'components/pages/invoice'

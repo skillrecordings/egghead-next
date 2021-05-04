@@ -6426,9 +6426,9 @@
     "@typescript-eslint/types" "4.7.0"
     eslint-visitor-keys "^2.0.0"
 
-"@vercel/tracing-js@^0.5.0":
+"utils/tracing-js/dist/src/index@^0.5.0":
   version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@vercel/tracing-js/-/tracing-js-0.5.0.tgz#734fc67cd9971225c31784c03be0951308228015"
+  resolved "https://registry.yarnpkg.com/utils/tracing-js/dist/src/index/-/tracing-js-0.5.0.tgz#734fc67cd9971225c31784c03be0951308228015"
   integrity sha512-5J9/u38UL1772q+1cAnu3Z6tubkwhYm8fpffMCfA6pf+SAbqLHzCqylVLBo45vl05aw15bWsgsDU2KXhYeATOw==
   dependencies:
     libhoney "^1.2.1"
