@@ -15,7 +15,7 @@ import {loadInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'

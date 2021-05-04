@@ -45,7 +45,9 @@ const TweetLink: FunctionComponent<ShareProps> = ({
     const instructorTwitterText = isEmpty(get(instructor, 'twitter'))
       ? ''
       : `by @${instructor.twitter}`
-    const tweetText = `${resource.title} ${instructorTwitterText} (${resource.type} on @eggheadio)`
+    const tweetText = `${resource.title} ${instructorTwitterText} (${
+      resource.type === 'playlist' ? 'course' : resource.type
+    } on @eggheadio)`
     const encodeResourceUrl = encodeURIComponent(
       process.env.NEXT_PUBLIC_DEPLOYMENT_URL + resource.path,
     )
