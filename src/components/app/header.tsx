@@ -131,7 +131,7 @@ const Header: FunctionComponent = () => {
             </Link>
           </div>
           {!sm && !isTopics && (
-            <div className={`${isSearch && 'w-full1'}`}>
+            <div className={`${isSearch && 'w-full'}`}>
               <Link href="/topics">
                 <a
                   onClick={() => track(`clicked browse`, {location: 'header'})}
