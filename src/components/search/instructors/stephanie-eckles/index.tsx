@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/image'
+import Textfit from 'react-textfit'
 import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
@@ -34,12 +35,15 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
           />
         }
       />
-      <section className="grid grid-cols-4 gap-3 -mt-10 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full">
-        <ProjectStack className="col-span-1" data={projects.resources} />
-        <div className="col-span-3 grid grid-cols-2 gap-3">
+      <section className="grid lg:grid-cols-4 grid-cols-1 gap-3 -mt-10 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full">
+        <ProjectStack
+          className="col-span-1 lg:col-start-auto col-start-2"
+          data={projects.resources}
+        />
+        <div className="col-span-3 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
           <CardHorizontal className="col-span-2" resource={secondCourse} />
-          <CardHorizontal className="col-span-1" resource={thirdCourse} />
-          <CardHorizontal className="col-span-1" resource={fourthCourse} />
+          <CardVerticalLarge className="col-span-1" data={thirdCourse} />
+          <CardVerticalLarge className="col-span-1" data={fourthCourse} />
         </div>
       </section>
     </div>
@@ -90,7 +94,7 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
               const {description, title, image, path} = item
               return (
                 <li key={path}>
-                  <div className="space-y-3">
+                  <div className="space-y-3 mt-2">
                     {path && (
                       <Link href={path}>
                         <a
@@ -101,26 +105,26 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
                               location,
                             })
                           }}
-                          className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 space-y-5 sm:space-y-5 items-center sm:text-left text-center overflow-x-scroll"
+                          className="flex lg:flex-row flex-col flex-shrink-0 sm:space-x-5 space-x-0 space-y-5 sm:space-y-5 items-center sm:text-left text-center overflow-x-scroll"
                           tabIndex={-1}
                         >
                           <div className="block flex-shrink-0 sm:w-auto">
-                            {image && (
+                            {/* {image && (
                               <Image
                                 src={get(image, 'src', image)}
                                 width="40"
                                 height="40"
                                 alt={`illustration for ${title}`}
                               />
-                            )}
+                            )} */}
                           </div>
-                          <div className="flex flex-col justify-center sm:items-start items-center space-y-1">
-                            <h2 className="text-lg font-bold leading-tighter">
+                          <div className="flex flex-col justify-center sm:items-start items-center space-y-1 ">
+                            <h2 className="text-lg font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300">
                               {title}
                             </h2>
-                            <p className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
+                            {/* <p className=" text-sm leading-tight max-w-none">
                               {description}
-                            </p>
+                            </p> */}
                           </div>
                         </a>
                       </Link>
@@ -131,6 +135,60 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
               )
             })}
           </ul>
+        </div>
+      </>
+    </Card>
+  )
+}
+
+const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
+  const {path, image, title, name, byline} = data
+  return (
+    <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
+      <>
+        {image && (
+          <Link href={path}>
+            <a
+              onClick={() => {
+                track('clicked home page resource', {
+                  resource: path,
+                  linkType: 'image',
+                })
+              }}
+              className="mb-2 mx-auto w-32"
+              tabIndex={-1}
+            >
+              <Image
+                width={220}
+                height={220}
+                src={get(image, 'src', image)}
+                alt={`illustration for ${title}`}
+              />
+            </a>
+          </Link>
+        )}
+        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
+          {name}
+        </h2>
+        <Link href={path}>
+          <a
+            onClick={() => {
+              track('clicked home page resource', {
+                resource: path,
+                linkType: 'text',
+              })
+            }}
+            className="hover:text-blue-600 dark:hover:text-blue-300"
+          >
+            <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
+              <Textfit mode="multi" min={14} max={20}>
+                {title}
+              </Textfit>
+            </h3>
+          </a>
+        </Link>
+        <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+          {byline}
         </div>
       </>
     </Card>
