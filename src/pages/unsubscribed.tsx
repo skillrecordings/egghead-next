@@ -2,7 +2,7 @@ import * as React from 'react'
 import EmailConfirmation from 'components/pages/email-confirmation'
 import getTracer from '../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import useCio from '../hooks/use-cio'
 import Link from 'next/link'
 

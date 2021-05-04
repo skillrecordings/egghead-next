@@ -10,7 +10,7 @@ import Stepper from 'components/pricing/stepper'
 import Spinner from 'components/spinner'
 import getTracer from '../../../utils/honeycomb-tracer'
 import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import {useRouter} from 'next/router'
 
 const loginSchema = yup.object().shape({
