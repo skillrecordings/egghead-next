@@ -131,7 +131,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
         </div>
         {CTAComponent ? CTAComponent : <DefaultCTA location={location} />}
       </div>
-
       {children}
     </div>
   )
