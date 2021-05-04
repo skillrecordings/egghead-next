@@ -6,6 +6,7 @@ import {GetStaticProps} from 'next'
 import Image from 'next/image'
 
 import tags from 'pages/site-directory/tags.json'
+import {track} from '../utils/analytics'
 
 type TagsProps = {
   tags: any[]
@@ -18,7 +19,15 @@ const Tags: FunctionComponent<TagsProps> = ({tags}) => {
         return (
           <div className="flex justify-center" key={tag.slug}>
             <Link href={`/q/${tag.slug}`}>
-              <a className="space-x-2 flex flex-row items-center justify-start rounded-lg hover:shadow-sm border border-transparent hover:border-gray-200 sm:p-5 p-4 w-full transition-all ease-in-out duration-150">
+              <a
+                onClick={() =>
+                  track(`clicked topic`, {
+                    location: 'topic page',
+                    topic: tag.slug,
+                  })
+                }
+                className="space-x-2 flex flex-row items-center justify-start rounded-lg hover:shadow-sm border border-transparent hover:border-gray-200 sm:p-5 p-4 w-full transition-all ease-in-out duration-150"
+              >
                 {tag.image_64_url && (
                   <Image
                     quality={100}
