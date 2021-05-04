@@ -10,12 +10,16 @@ import Card, {CardResource} from 'components/pages/home/card'
 import Jumbotron from 'components/pages/home/jumbotron'
 
 const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
-  const {primary, side} = resource
+  const {primary, secondary} = resource
   const [jumbotron, secondPrimary, thirdPrimary] = primary.resources
-  const [firstSide, secondSide, thirdSide] = side.resources
+  const [
+    firstSecondaryResource,
+    secondSecondaryResource,
+    thirdSecondaryResource,
+  ] = secondary.resources
 
   return (
-    <section className="sm:-my-5 -my-3 p-5 mx-auto max-w-screen-xl">
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
         What's New
       </h2>
@@ -29,9 +33,18 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
           <CardHorizontal className="w-full" resource={thirdPrimary} />
         </div>
         <div className="grid gap-4">
-          <CardHorizontal className="h-auto flex" resource={firstSide} />
-          <CardHorizontal className="w-full flex" resource={secondSide} />
-          <CardHorizontal className="w-full flex" resource={thirdSide} />
+          <CardHorizontal
+            className="h-auto flex"
+            resource={firstSecondaryResource}
+          />
+          <CardHorizontal
+            className="w-full flex"
+            resource={secondSecondaryResource}
+          />
+          <CardHorizontal
+            className="w-full flex"
+            resource={thirdSecondaryResource}
+          />
         </div>
       </div>
     </section>
@@ -147,7 +160,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
 
 export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "whats-new"][0]{
   title,
-	'primary': resources[slug.current == 'primary-resources'][0]{
+	'primary': resources[slug.current == 'new-page-primary-resource-collection'][0]{
  		resources[]->{
       title,
       'name': type,
@@ -166,7 +179,7 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
   		},
     }
   },
-	'side': resources[slug.current == 'side-resources'][0]{
+	'secondary': resources[slug.current == 'new-page-secondary-resource-collection'][0]{
     resources[]{
       'name': type,
       title,

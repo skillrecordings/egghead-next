@@ -24,6 +24,7 @@ const Header: FunctionComponent = () => {
   }, [sm, router])
 
   const isSearch = router.pathname.includes('/q')
+  const isTopics = router.pathname.includes('/topics')
 
   const Navigation: FunctionComponent<{
     className?: string
@@ -129,8 +130,18 @@ const Header: FunctionComponent = () => {
               </a>
             </Link>
           </div>
+          {!sm && !isTopics && (
+            <Link href="/topics">
+              <a
+                onClick={() => track(`clicked browse`, {location: 'header'})}
+                className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+              >
+                Browse
+              </a>
+            </Link>
+          )}
           {!sm && !isSearch && <SearchBar />}
-          {!sm && <Navigation />}
+          {!sm && <Navigation></Navigation>}
           {sm && !loading && (
             <button
               onClick={() => setOpen(!isOpen)}

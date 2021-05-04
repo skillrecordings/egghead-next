@@ -48,8 +48,8 @@ const homepageData = {
     description: `In this talk, we’ll create an effective mental model of Concurrent React by building a tiny clone of React! We will start with a blank JS file and learn about how React renders components, schedules Time-Slicing updates with a Work Loop, and more!`,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
-    path: '/courses/build-modern-layouts-with-css-grid-d3f5',
-    slug: 'build-modern-layouts-with-css-grid-d3f5',
+    path: '/talks/react-concurrent-react-from-scratch',
+    slug: 'react-concurrent-react-from-scratch',
     instructor: {
       name: 'Shawn Wang',
       slug: 'shawn-wang',

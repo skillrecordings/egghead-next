@@ -199,6 +199,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
+    created_at,
+    access_state,
     customOgImage,
     prerequisites: sanityPrerequisites,
     topics: sanityTopics,
@@ -388,8 +390,17 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 </div>
               )}
+              {access_state && (
+                <div
+                  className={`${
+                    access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
+                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold mb-2 text-xs`}
+                >
+                  {access_state}
+                </div>
+              )}
               {moduleResource && (
-                <h1 className="text-base leading-loose text-center mt-4 -mb-4 md:mb-0 md:mt-0 md:text-left">
+                <div className="text-base leading-loose text-center mt-4 -mb-4 md:mb-0 md:mt-0 md:text-left">
                   <Link href={multiModuleSlug}>
                     <a>
                       <span className="text-gray-700 dark:text-gray-400 hover:underline">
@@ -399,7 +410,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </Link>
                   {' • '}
                   <span className="font-semibold">Part {moduleLabel}</span>
-                </h1>
+                </div>
               )}
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
                 {title}
@@ -525,7 +536,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
                 <CourseProjectCard courseProject={courseProject} />
 
-                {get(course, 'free_forever') && (
+                {get(course, 'access_state') === 'free' && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
@@ -658,7 +669,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               <CourseProjectCard courseProject={courseProject} />
 
-              {get(course, 'free_forever') && (
+              {get(course, 'access_state') === 'free' && (
                 <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                   <CommunityResource type="course" />
                 </div>
