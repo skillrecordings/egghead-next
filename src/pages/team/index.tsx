@@ -4,7 +4,6 @@ import Link from 'next/link'
 import LoginRequired from '../../components/login-required'
 import {useRouter} from 'next/router'
 import CopyToClipboard from '../../components/team/copy-to-clipboard'
-import axios from 'axios'
 import {track} from 'utils/analytics'
 import {loadTeams} from 'lib/teams'
 import TeamName from '../../components/team/team-name'
@@ -12,6 +11,7 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
+import useSubscriptionDetails from 'hooks/use-subscription-data'
 
 export type TeamData = {
   accountId: number
@@ -45,35 +45,16 @@ const TeamComposition = ({
   }
 }
 
-type SubscriptionData = {
-  portalUrl: string | undefined
-}
-
-const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
-  const {accountSlug, stripeCustomerId} = teamData
-  const [
-    subscriptionData,
-    setSubscriptionData,
-  ] = React.useState<SubscriptionData>({} as SubscriptionData)
-
-  React.useEffect(() => {
-    if (stripeCustomerId) {
-      axios
-        .get(`/api/stripe/billing/session`, {
-          params: {
-            customer_id: stripeCustomerId,
-            account_slug: accountSlug,
-          },
-        })
-        .then(({data}) => {
-          if (data) {
-            setSubscriptionData(data)
-          }
-        })
-    }
-  }, [stripeCustomerId, accountSlug])
-
-  if (!teamData.isFull) {
+const AtCapacityNotice = ({
+  isFull,
+  billingPortalUrl,
+  billingScheme,
+}: {
+  isFull: boolean
+  billingPortalUrl: string | undefined
+  billingScheme: 'tiered' | 'per_unit'
+}) => {
+  if (!isFull) {
     return null
   }
 
@@ -98,24 +79,44 @@ const AtCapacityNotice = ({teamData}: {teamData: TeamData}) => {
           />
         </svg>
       </span>
-      <div className="ml-8 flex flex-col space-y-2 p-2">
-        <span>
-          Your team account is full. You can add more seats to your account
-          through the Stripe Billing Portal.
-        </span>
-        {subscriptionData?.portalUrl && (
-          <Link href={subscriptionData.portalUrl}>
+      {billingScheme === 'tiered' && (
+        <div className="ml-8 flex flex-col space-y-2 p-2">
+          <span>
+            Your team account is full. You can add more seats to your account
+            through the Stripe Billing Portal.
+          </span>
+          {billingPortalUrl && (
+            <Link href={billingPortalUrl}>
+              <a
+                onClick={() => {
+                  track(`clicked manage membership`)
+                }}
+                className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
+              >
+                Visit Stripe Billing Portal
+              </a>
+            </Link>
+          )}
+        </div>
+      )}
+      {billingScheme === 'per_unit' && (
+        <div className="ml-8 flex flex-col space-y-2 p-2">
+          <span>
+            Your team account is full. Our support team can help you add more
+            seats to your account.
+          </span>
+          <Link href="mailto:support@egghead.io">
             <a
               onClick={() => {
-                track(`clicked manage membership`)
+                track(`clicked contact us for account at capacity`)
               }}
               className="transition-all duration-150 ease-in-out font-semibold rounded-md dark:text-yellow-400 dark:hover:text-yellow-300"
             >
-              Visit Stripe Billing Portal
+              Contact Us
             </a>
           </Link>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -136,6 +137,13 @@ const Team = ({team: teamData}: TeamPageProps) => {
       router.push('/')
     }
   }, [teamDataNotAvailable])
+
+  const {
+    subscriptionData,
+    loading: subscriptionDataLoading,
+  } = useSubscriptionDetails({
+    stripeCustomerId: teamData?.stripeCustomerId,
+  })
 
   if (teamData === undefined) return null
 
@@ -165,7 +173,11 @@ const Team = ({team: teamData}: TeamPageProps) => {
             label={true}
           />
         </div>
-        <AtCapacityNotice teamData={teamData} />
+        <AtCapacityNotice
+          isFull={teamData.isFull}
+          billingPortalUrl={subscriptionData.portalUrl}
+          billingScheme={subscriptionData.billingScheme}
+        />
         <h2 className="font-semibold text-xl mt-16">
           Current Team Members{' '}
           <TeamComposition
@@ -179,9 +191,45 @@ const Team = ({team: teamData}: TeamPageProps) => {
           setMembers={setMembers}
         />
         <BillingSection
-          stripeCustomerId={teamData.stripeCustomerId}
-          slug={teamData.accountSlug}
+          subscriptionData={subscriptionData}
+          loading={subscriptionDataLoading}
         />
+        {!subscriptionDataLoading &&
+          subscriptionData.billingScheme === 'per_unit' && (
+            <div
+              className="relative px-4 py-1 mt-4 mb-4 leading-normal text-blue-700 bg-blue-100 dark:text-blue-100 dark:bg-blue-800 rounded"
+              role="alert"
+            >
+              <span className="absolute inset-y-0 left-0 flex items-center ml-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
+                </svg>
+              </span>
+              <div className="ml-8 flex flex-col space-y-2 p-2">
+                <span>
+                  Is the size of your team changing?{' '}
+                  <a
+                    className="transition-all duration-150 ease-in-out underline font-semibold rounded-md"
+                    href="mailto:support@egghead.io"
+                  >
+                    Contact us
+                  </a>{' '}
+                  at anytime to adjust the number of seats for your account.
+                </span>
+              </div>
+            </div>
+          )}
       </div>
     </LoginRequired>
   )
