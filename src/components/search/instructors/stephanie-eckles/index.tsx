@@ -101,7 +101,7 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
                           track('clicked instructor project resource', {
                             resource: path,
                             linkType: 'image',
-                            location,
+                            location: 'instructor page',
                           })
                         }}
                         tabIndex={-1}

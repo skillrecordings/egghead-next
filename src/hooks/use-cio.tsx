@@ -31,21 +31,20 @@ export const CioProvider: React.FunctionComponent = ({children}) => {
   const [subscriber, setSubscriber] = React.useState<CIOSubscriber>()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const queryParams = queryString.parse(window.location.search)
-      const cioSubscriberId = get(queryParams, CIO_KEY)
-
-      if (!isEmpty(cioSubscriberId)) {
-        cookie.set(CIO_KEY, cioSubscriberId)
-        setTimeout(() => {
-          window.history.replaceState(
-            null,
-            document.title,
-            window.location.pathname,
-          )
-        }, 250)
-      }
-    }
+    // if (typeof window !== 'undefined') {
+    // const queryParams = queryString.parse(window.location.search)
+    // const cioSubscriberId = get(queryParams, CIO_KEY)
+    // if (!isEmpty(cioSubscriberId)) {
+    //   cookie.set(CIO_KEY, cioSubscriberId)
+    //   setTimeout(() => {
+    //     window.history.replaceState(
+    //       null,
+    //       document.title,
+    //       window.location.pathname,
+    //     )
+    //   }, 250)
+    // }
+    // }
 
     axios
       .get(`/api/cio-subscriber`)
