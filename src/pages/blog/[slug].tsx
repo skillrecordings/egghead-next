@@ -10,11 +10,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
-import getTracer from '../../utils/honeycomb-tracer'
-import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
-import {LessonResource} from '../../types'
-import {loadBasicLesson} from '../../lib/lessons'
 import {withProse} from 'utils/remark/with-prose'
 
 function urlFor(source: any): any {
@@ -96,9 +91,7 @@ const Tag = (props: any) => {
             </ul>
           )}
         </header>
-        <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
-          {content}
-        </main>
+        <main>{content}</main>
       </article>
     </>
   )
