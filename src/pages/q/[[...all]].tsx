@@ -11,11 +11,11 @@ import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
 import {isEmpty, get, first, isArray} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
-import {loadInstructor} from 'lib/instructors'
+import {loadInstructor, loadSanityInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
@@ -181,6 +181,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   let initialInstructor = null
+  let sanityInstructor = null
   let initialTopic = null
 
   const {rawResults, state} = resultsState
@@ -196,9 +197,13 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)
+
+    console.log({selectedTopics})
     try {
       if (topic) {
         initialTopic = await loadTag(topic)
+
+        console.log({topic})
       }
     } catch (error) {
       console.error(error)
@@ -211,6 +216,13 @@ export const getServerSideProps: GetServerSideProps = async function ({
     )
     try {
       initialInstructor = await loadInstructor(instructorSlug)
+
+      sanityInstructor = await loadSanityInstructor(instructorSlug)
+
+      initialInstructor = {
+        ...initialInstructor,
+        ...sanityInstructor,
+      }
     } catch (error) {
       console.error(error)
     }

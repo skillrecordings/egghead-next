@@ -203,6 +203,8 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
         return 'topics'
       case 'instructor_name':
         return 'instructors'
+      case 'access_state':
+        return 'free v pro'
       case 'type':
         return 'type'
       default:
@@ -211,10 +213,12 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
   }
   const tabIndex = isShown ? 0 : -1
 
+  const propsNotSearched = ['type', 'access_state']
+
   return (
     <div>
       <div className="relative">
-        {attribute !== `type` && (
+        {!propsNotSearched.includes(attribute || '') && (
           <>
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               {/* prettier-ignore */}
@@ -257,6 +261,18 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
                   />
                 )
               case `type`:
+                if (item.label === 'playlist') item.label = 'course'
+                return (
+                  <Item
+                    tabIndex={tabIndex}
+                    key={item.label}
+                    item={item}
+                    isFromSearch={isFromSearch}
+                    refine={refine}
+                    createURL={createURL}
+                  />
+                )
+              case `access_state`:
                 return (
                   <Item
                     tabIndex={tabIndex}

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import SearchInstructorEssential from '../instructor-essential'
 import JohnLindquistPageData from './john-lindquist-page-data'
-import SimpleScriptsCTA from './simple-scripts-cta'
+import ScriptKitCTA from './script-kit-cta'
 import find from 'lodash/find'
 
 export default function SearchJohnLindquist({instructor}: {instructor: any}) {
@@ -14,7 +14,7 @@ export default function SearchJohnLindquist({instructor}: {instructor: any}) {
   return (
     <SearchInstructorEssential
       instructor={combinedInstructor}
-      CTAComponent={<SimpleScriptsCTA instructorData={instructorData} />}
+      CTAComponent={<ScriptKitCTA instructorData={instructorData} />}
     />
   )
 }

@@ -9,9 +9,13 @@ import {track} from 'utils/analytics'
 
 type JumbotronProps = {
   resource: CardResource
+  textColor?: String
 }
 
-const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
+const Jumbotron: FunctionComponent<JumbotronProps> = ({
+  resource,
+  textColor,
+}) => {
   const {
     path,
     image,
@@ -56,12 +60,14 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center w-full">
-              <h2 className="text-xs text-yellow-500 uppercase font-semibold mb-2">
+              <h2
+                className={`text-xs text-yellow-500 uppercase font-semibold mb-2`}
+              >
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-500"
+                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-500`}
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
