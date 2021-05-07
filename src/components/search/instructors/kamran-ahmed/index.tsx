@@ -1,14 +1,9 @@
-import React, {FunctionComponent} from 'react'
+import React from 'react'
 import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/image'
-import Textfit from 'react-textfit'
 import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
-import Markdown from 'react-markdown'
-
-import Card, {CardResource} from 'components/pages/home/card'
-
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
@@ -35,7 +30,7 @@ export default function SearchKamranAhmed({instructor}: {instructor: any}) {
 }
 
 export const kamranAhmedQuery = groq`*[_type == 'resource' && slug.current == "kamran-ahmed-landing-page"][0]{
-  'featuredCourse': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
+  'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
     resources[]->{
       title,
       'description': summary,
@@ -70,7 +65,7 @@ const FeaturedTypescriptCourse: React.FC<{location: string; resource: any}> = ({
           },
         }}
       >
-        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-lightBlue-500 w-full h-2 z-20" />
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-lightBlue-300 w-full h-2 z-20" />
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
             <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">
