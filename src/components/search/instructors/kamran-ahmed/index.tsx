@@ -37,7 +37,6 @@ export const kamranAhmedQuery = groq`*[_type == 'resource' && slug.current == "k
     	path,
       byline,
     	image,
-      'background': images[label == 'feature-card-background'][0].url,
       'instructor': collaborators[]->[role == 'instructor'][0]{
       	'name': person->.name
     	},
@@ -54,11 +53,11 @@ const FeaturedTypescriptCourse: React.FC<{location: string; resource: any}> = ({
     <ExternalTrackedLink
       eventName="clicked CSS page CTA"
       params={{location}}
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 border-gray-100 relative text-center"
       href={path}
     >
       <div
-        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
         css={{
           [bpMinMD]: {
             minHeight: 477,
