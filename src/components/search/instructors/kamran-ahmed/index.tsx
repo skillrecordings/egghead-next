@@ -53,21 +53,21 @@ const FeaturedTypescriptCourse: React.FC<{location: string; resource: any}> = ({
     <ExternalTrackedLink
       eventName="clicked CSS page CTA"
       params={{location}}
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 border-gray-100 relative text-center"
+      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 bg-white border-gray-100 shadow-sm relative text-center"
       href={path}
     >
       <div
-        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        className="md:-mt-5 flex items-center justify-center text-white overflow-hidden "
         css={{
           [bpMinMD]: {
             minHeight: 477,
           },
         }}
       >
-        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-lightBlue-300 w-full h-2 z-20" />
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-400 to-blue-300 w-full h-2 z-20" />
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
-            <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">
+            <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 gap-10">
               <div className="flex-shrink-0">
                 <Link href={path}>
                   <a
