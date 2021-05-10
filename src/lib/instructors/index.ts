@@ -1,8 +1,7 @@
 import {request} from 'graphql-request'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
-import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
-import config from './config'
+import config from '../config'
 
 export type Instructor = {
   full_name: string
@@ -39,6 +38,30 @@ export async function loadInstructor(slug: string) {
 
   return instructor
 }
+
+export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current == "stephanie-eckles-landing-page"][0]{
+	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
+    resources[]{
+      title,
+      'path': url,
+      description,
+      image
+    }
+},
+	'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
+    resources[]->{
+      title,
+      'description': summary,
+    	path,
+      byline,
+    	image,
+      'background': images[label == 'feature-card-background'][0].url,
+      'instructor': collaborators[]->[role == 'instructor'][0]{
+      	'name': person->.name
+    	},
+    }
+  },
+}`
 
 const sanityInstructorHash = {
   'stephanie-eckles': stephanieEcklesQuery,

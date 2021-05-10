@@ -198,7 +198,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)
 
-    console.log({selectedTopics})
     try {
       if (topic) {
         initialTopic = await loadTag(topic)
@@ -216,8 +215,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     )
     try {
       initialInstructor = await loadInstructor(instructorSlug)
-      console.log('IM RUNNING HERE')
-
       sanityInstructor = await loadSanityInstructor(instructorSlug)
 
       initialInstructor = {
