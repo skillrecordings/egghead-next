@@ -1,7 +1,7 @@
 import {request} from 'graphql-request'
 import {sanityClient} from 'utils/sanity-client'
-import groq from 'groq'
 import config from '../config'
+import {sanityInstructorHash, canLoadSanityInstructor} from './queries'
 
 export type Instructor = {
   full_name: string
@@ -37,44 +37,6 @@ export async function loadInstructor(slug: string) {
   const {instructor} = await request(config.graphQLEndpoint, query, {slug})
 
   return instructor
-}
-
-export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current == "stephanie-eckles-landing-page"][0]{
-	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
-    resources[]{
-      title,
-      'path': url,
-      description,
-      image
-    }
-},
-	'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
-    resources[]->{
-      title,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
-      	'name': person->.name
-    	},
-    }
-  },
-}`
-
-const sanityInstructorHash = {
-  'stephanie-eckles': stephanieEcklesQuery,
-}
-
-type SelectedInstructor = keyof typeof sanityInstructorHash
-
-const canLoadSanityInstructor = (
-  selectedInstructor: string,
-): selectedInstructor is SelectedInstructor => {
-  const keyNames = Object.keys(sanityInstructorHash)
-
-  return keyNames.includes(selectedInstructor)
 }
 
 export const loadSanityInstructor = async (selectedInstructor: string) => {
