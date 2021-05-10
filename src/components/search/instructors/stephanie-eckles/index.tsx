@@ -8,47 +8,11 @@ import groq from 'groq'
 import Markdown from 'react-markdown'
 
 import Card, {CardResource} from 'components/pages/home/card'
+import {loadSanityInstructor} from 'lib/instructors'
 
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
-
-export default function SearchStephanieEckles({instructor}: {instructor: any}) {
-  const combinedInstructor = {...instructor}
-
-  const {projects, courses} = instructor
-  const [
-    primaryCourse,
-    secondCourse,
-    thirdCourse,
-    fourthCourse,
-  ] = courses.resources
-
-  return (
-    <div>
-      <SearchInstructorEssential
-        instructor={combinedInstructor}
-        CTAComponent={
-          <CssFormStyling
-            resource={primaryCourse}
-            location="Stephanie Eckles instructor page"
-          />
-        }
-      />
-      <section className="grid lg:grid-cols-6 grid-cols-1 -mt-10 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full gap-0 lg:gap-3">
-        <ProjectStack
-          className="col-span-2 mb-3 lg:mb-0"
-          data={projects.resources}
-        />
-        <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
-          <CardHorizontal className="col-span-2" resource={secondCourse} />
-          <CardVerticalLarge className="col-span-1" data={thirdCourse} />
-          <CardVerticalLarge className="col-span-1" data={fourthCourse} />
-        </div>
-      </section>
-    </div>
-  )
-}
 
 export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current == "stephanie-eckles-landing-page"][0]{
 	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
@@ -73,6 +37,56 @@ export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current =
     }
   },
 }`
+
+export default function SearchStephanieEckles({instructor}: {instructor: any}) {
+  const [instructorResources, setInstructorResources] = React.useState(
+    instructor,
+  )
+  const {projects, courses} = instructorResources
+
+  React.useEffect(() => {
+    const fetchInstructorData = async () => {
+      return await loadSanityInstructor(stephanieEcklesQuery)
+    }
+    if (!instructorResources) {
+      let instructorData = fetchInstructorData()
+
+      setInstructorResources(instructorData)
+    }
+  }, [])
+
+  const [
+    primaryCourse,
+    secondCourse,
+    thirdCourse,
+    fourthCourse,
+  ] = courses.resources
+
+  return (
+    <div>
+      <SearchInstructorEssential
+        instructor={instructor}
+        CTAComponent={
+          <CssFormStyling
+            resource={primaryCourse}
+            location="Stephanie Eckles instructor page"
+          />
+        }
+      />
+      <section className="grid lg:grid-cols-6 grid-cols-1 -mt-10 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full gap-0 lg:gap-3">
+        <ProjectStack
+          className="col-span-2 mb-3 lg:mb-0"
+          data={projects.resources}
+        />
+        <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
+          <CardHorizontal className="col-span-2" resource={secondCourse} />
+          <CardVerticalLarge className="col-span-1" data={thirdCourse} />
+          <CardVerticalLarge className="col-span-1" data={fourthCourse} />
+        </div>
+      </section>
+    </div>
+  )
+}
 
 type CardProps = {
   data: CardResource

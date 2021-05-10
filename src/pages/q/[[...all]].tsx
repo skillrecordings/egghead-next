@@ -216,6 +216,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     )
     try {
       initialInstructor = await loadInstructor(instructorSlug)
+      console.log('IM RUNNING HERE')
 
       sanityInstructor = await loadSanityInstructor(instructorSlug)
 
