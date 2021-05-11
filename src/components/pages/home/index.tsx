@@ -3,6 +3,7 @@ import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, isEmpty} from 'lodash'
+
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
@@ -12,9 +13,11 @@ import axios from 'utils/configured-axios'
 import VideoCard from 'components/pages/home/video-card'
 import WhatsNew from 'pages/new'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
+
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'

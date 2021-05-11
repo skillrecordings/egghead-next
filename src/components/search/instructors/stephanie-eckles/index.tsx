@@ -13,6 +13,7 @@ import ExternalTrackedLink from 'components/external-tracked-link'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import {VerticalResourceCard} from '../../../card/verticle-resource-card'
 
+
 export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
 
@@ -138,6 +139,7 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
     </Card>
   )
 }
+
 
 const CssFormStyling: React.FC<{location: string; resource: any}> = ({
   location,
