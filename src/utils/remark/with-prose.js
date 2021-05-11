@@ -22,10 +22,8 @@ const isJsNode = (node) => {
 
 module.exports.withProse = () => {
   return (tree) => {
-    console.log('WITH PROSE')
     let insideProse = false
     tree.children = tree.children.flatMap((node, i) => {
-      console.log('PROSE', insideProse, isJsNode(node), node)
       if (insideProse && isJsNode(node)) {
         insideProse = false
         return [{type: 'jsx', value: '</div>'}, node]
