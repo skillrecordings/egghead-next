@@ -39,6 +39,7 @@
     "@reach/listbox": "^0.15.0",
     "@reach/menu-button": "^0.15.1",
     "@reach/tabs": "^0.15.0",
+    "@reach/utils": "^0.15.0",
     "@reach/visually-hidden": "^0.15.0",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^2.8.0",

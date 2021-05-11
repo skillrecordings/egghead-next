@@ -1,13 +1,23 @@
 import {Meta, Story, Canvas} from '@storybook/addon-docs/blocks'
-import Card from './index'
-import CardPreview from './card-preview'
-import CardTitle from './card-title'
-import CardDetail from './card-detail'
-import CardMarkdown from './card-markdown'
-import CardFooter from './card-footer'
-import CardContent from './card-content'
+import {Card, CardPreview, CardHeader, CardBody, CardMeta} from './index'
+import Image from 'next/image'
+import Link from 'next/link'
+import Markdown from '../markdown'
+import {HorizontalResourceCard} from './horizontal-resource-card'
 
 <Meta title="Components/card" />
+
+export const simpleResource = {
+  id: 'sideProject',
+  name: 'Weekend Side Project',
+  title: 'Build a Video Chat App with Twilio and Gatsby',
+  path: '/courses/build-a-video-chat-app-with-twilio-and-gatsby',
+  image:
+    'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/395/full/TwilioGatsby_Final.png',
+  byline: 'Jason Lengstorf',
+  description:
+    'In this workshop, Jason Lengstorf will take you from an empty project folder all the way through deployment of a Twilio-powered video chat app built on Gatsby.',
+}
 
 # Card Component
 
@@ -17,18 +27,28 @@ A Cool Card
   <Story name="Default">
     <div className="max-w-2xl bg-gray-100 p-5">
       <Card>
+        <CardHeader>
+          {simpleResource.name}
+          <h3>{simpleResource.title}</h3>
+        </CardHeader>
         <CardPreview>
-          <img src="https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/236/full/EGH_GraphQLQuery_Final.png" />
+          <Image src={simpleResource.image} />
         </CardPreview>
-        <CardTitle>This is the Title</CardTitle>
-        <CardDetail>Video</CardDetail>
-        <CardContent>
-          <CardMarkdown>This is some markdown content **high**</CardMarkdown>
-        </CardContent>
+        <CardBody>
+          <Markdown>{simpleResource.description}</Markdown>
+        </CardBody>
+        <CardMeta>by {simpleResource.byline}</CardMeta>
         <CardFooter>
-          <CardMarkdown>More Content in the footer</CardMarkdown>
+          <Link href={simpleResource.path}>
+            <a>This one?</a>
+          </Link>
         </CardFooter>
       </Card>
+    </div>
+  </Story>
+  <Story name="Horizontal">
+    <div className="max-w-2xl bg-gray-100 p-5">
+      <HorizontalResourceCard resource={simpleResource} />
     </div>
   </Story>
 </Canvas>
