@@ -1,13 +1,13 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
 import javascriptPageData from './javascript-page-data'
 import {find} from 'lodash'
 import Image from 'next/image'
-import Markdown from 'react-markdown'
 import ExternalTrackedLink from '../../../external-tracked-link'
+import {ThreeLevels} from '../curated-essential'
+import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
 const SearchJavaScript = () => {
   const location = 'javascript landing'
@@ -94,50 +94,44 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       </div>
 
       {/* Learning Level Section */}
-      <section className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-8 sm:mt-12">
-        <Card resource={beginner} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card resource={intermediate} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card resource={advanced} location={location} className="h-full">
-          <Collection />
-        </Card>
-      </section>
+      <ThreeLevels
+        beginner={beginner}
+        intermediate={intermediate}
+        advanced={advanced}
+        location={location}
+      />
 
       {/* Feature Section */}
       <section className="grid lg:grid-cols-12 grid-cols-1 items-start sm:mt-12 mt-4 gap-5">
-        <Card
+        <VerticalResourceCollectionCard
           className="col-span-4"
           resource={javascriptDebugging}
           location={location}
-        >
-          <Collection />
-        </Card>
+        />
         <div className="md:col-span-8 gap-5">
-          <Card resource={composingCallbacks} location={location}>
-            <Collection />
-          </Card>
-          <Card className="mt-5" resource={asyncResource} location={location}>
-            <Collection />
-          </Card>
+          <VerticalResourceCollectionCard
+            resource={composingCallbacks}
+            location={location}
+          />
+          <VerticalResourceCollectionCard
+            className="mt-5"
+            resource={asyncResource}
+            location={location}
+          />
         </div>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-12 grid-cols-1  mt-12">
-        <Card
+        <VerticalResourceCollectionCard
           className="col-span-4"
           resource={interviewPrep}
           location={location}
-        >
-          <Collection />
-        </Card>
+        />
         <div className="md:col-span-8">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
             {addtionalInterviewPrep.resources.map((resource: any) => {
               return (
-                <Card
+                <VerticalResourceCard
                   className="text-center"
                   key={resource.path}
                   resource={resource}
@@ -151,12 +145,14 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
 
       <div>
         <section className="mt-12 grid md:grid-cols-2 grid-cols-1 gap-5">
-          <Card resource={javaScriptArticles} location={location}>
-            <Collection />
-          </Card>
-          <Card resource={javascriptPodcasts} location={location}>
-            <Collection />
-          </Card>
+          <VerticalResourceCollectionCard
+            resource={javaScriptArticles}
+            location={location}
+          />
+          <VerticalResourceCollectionCard
+            resource={javascriptPodcasts}
+            location={location}
+          />
         </section>
       </div>
     </div>

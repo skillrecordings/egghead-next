@@ -1,12 +1,7 @@
 import {find, get} from 'lodash'
-import Card from 'components/pages/home/card'
-import Image from 'next/image'
 import SearchInstructorEssential from '../instructor-essential'
-import ExternalTrackedLink from 'components/external-tracked-link'
-import Link from 'next/link'
-import {track} from '../../../../utils/analytics'
-import Markdown from 'react-markdown'
 import React from 'react'
+import {VerticalResourceCard} from '../../../card/verticle-resource-card'
 
 export default function SearchColbyFayock({instructor}: {instructor: any}) {
   const instructorData: any = find(pageData, {
@@ -32,7 +27,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
         'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
     }
     return (
-      <Card
+      <VerticalResourceCard
         className="md:col-span-4 text-center"
         key={resource.path}
         resource={resource}
@@ -49,7 +44,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
       <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
         {featureCourses.resources.map((resource: any) => {
           return (
-            <Card
+            <VerticalResourceCard
               className="col-span-6 text-center"
               key={resource.path}
               resource={resource}

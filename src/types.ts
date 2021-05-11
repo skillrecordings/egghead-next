@@ -3,9 +3,19 @@ export type Resource = {
   slug: string
   description: string
   icon_url?: string
-  completed: boolean
+  completed?: boolean
   path: string
-  type: string
+  type?: string
+}
+
+export type CardResource = Resource & {
+  id?: string
+  image: string | {src: string; alt: string}
+  name: string
+  byline: string
+  resources?: CardResource[]
+  instructor?: any
+  background?: string
 }
 
 export type LessonResource = Resource & {

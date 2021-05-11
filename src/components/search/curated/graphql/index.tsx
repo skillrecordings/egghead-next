@@ -1,13 +1,13 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
 import graphqlPageData from './graphql-page-data'
 import {find} from 'lodash'
 import Image from 'next/image'
 import ExternalTrackedLink from '../../../external-tracked-link'
 import VideoCard from 'components/pages/home/video-card'
+import {VerticalResourceCard} from '../../../card/verticle-resource-card'
+import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
 
 const SearchGraphql = () => {
   const location = 'graphQL landing'
@@ -84,7 +84,7 @@ These curated courses will teach you GraphQL from the ground up, all the way to 
       <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
         {graphqlFeatured.resources.map((resource: any) => {
           return (
-            <Card
+            <VerticalResourceCard
               className="col-span-4 text-center"
               key={resource.path}
               resource={resource}
@@ -100,22 +100,24 @@ These curated courses will teach you GraphQL from the ground up, all the way to 
           className="flex md:flex-row flex-col col-span-2 md:mr-4 mr-0"
           location={location}
         />
-        <Card resource={beginner} location={location} className="md:mt-0 mt-4">
-          <Collection />
-        </Card>
+        <VerticalResourceCollectionCard
+          resource={beginner}
+          location={location}
+          className="md:mt-0 mt-4"
+        />
       </div>
 
       <div className="grid md:grid-cols-2 grid-cols-1 gap-5 items-start mt-8">
-        <Card resource={projectBased} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card
+        <VerticalResourceCollectionCard
+          resource={projectBased}
+          location={location}
+          className="h-full"
+        />
+        <VerticalResourceCollectionCard
           resource={graphqlServerless}
           location={location}
           className="h-full"
-        >
-          <Collection />
-        </Card>
+        />
       </div>
     </div>
   )

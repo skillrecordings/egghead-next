@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {CardResource} from 'components/pages/home/card'
+import {CardResource} from 'types'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import Image from 'next/image'
