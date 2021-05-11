@@ -19,9 +19,14 @@ const VerticalResourceCard: React.FC<{
   location?: string
   describe?: boolean
   className?: string
-}> = ({resource, location, className = '', describe = false, ...props}) => {
-  className = `${className} border-none flex flex-col items-center justify-center text-center sm:py-8 py-6`
-
+}> = ({
+  children,
+  resource,
+  location,
+  className = 'border-none flex flex-col items-center justify-center text-center sm:py-8 py-6',
+  describe = false,
+  ...props
+}) => {
   return (
     <Card {...props} className={className}>
       {resource.image && (
@@ -81,6 +86,7 @@ const VerticalResourceCard: React.FC<{
           </CardBody>
         )}
       </CardContent>
+      {children}
     </Card>
   )
 }

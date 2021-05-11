@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import Card from './card'
+import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, isEmpty} from 'lodash'
@@ -71,7 +71,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   }, [viewer?.id])
 
   const ReactStateManagement = () => (
-    <Card resource={stateManagement} className="text-center">
+    <VerticalResourceCard resource={stateManagement} className="text-center">
       <ol className="text-left">
         {stateManagement.resources.map((resource: any, index: any) => {
           return (
@@ -86,7 +86,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           )
         })}
       </ol>
-    </Card>
+    </VerticalResourceCard>
   )
 
   return (
@@ -177,7 +177,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               className="sm:py-3 py-2"
               resource={getStarted}
             />
-            <Card resource={tailwind} className="text-center">
+            <VerticalResourceCard resource={tailwind} className="text-center">
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
                   return (
@@ -192,7 +192,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                   )
                 })}
               </ol>
-            </Card>
+            </VerticalResourceCard>
             <ReactStateManagement />
           </div>
         </section>
@@ -266,7 +266,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                       {featureDigitalGardening.featured.courses.map(
                         (resource: any) => {
                           return (
-                            <Card
+                            <VerticalResourceCard
                               className="col-span-4 text-center border border-gray-200"
                               key={resource.path}
                               resource={resource}
@@ -298,11 +298,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             <VerticalResourceCollectionCard resource={aws} />
             <VerticalResourceCollectionCard resource={freeCourses} />
             <div className="space-y-4">
-              <Card
+              <VerticalResourceCard
                 className="text-center"
                 resource={projectFeatureCardVideoApp}
               />
-              <Card className="text-center" resource={wordpressWithGraphql} />
+              <VerticalResourceCard
+                className="text-center"
+                resource={wordpressWithGraphql}
+              />
             </div>
           </div>
         </section>
