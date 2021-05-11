@@ -84,7 +84,7 @@ const SearchIndex: any = ({
       const instructorSlug = getInstructorSlugFromInstructorList(instructors)
       try {
         await loadInstructor(instructorSlug).then((instructor: any) => {
-          setInstructor(instructor)
+          setInstructor(instructor),
         )
       } catch (error) {}
     } else {
