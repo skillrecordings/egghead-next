@@ -184,7 +184,7 @@
     "nyc": "^15.1.0",
     "pad-number": "^0.0.4",
     "parse-link-header": "^1.0.1",
-    "postcss": "^8.2.9",
+    "postcss": "^8.2.14",
     "postcss-loader": "^4.2.0",
     "postcss-nested": "^5.0.5",
     "postcss-preset-env": "^6.7.0",
