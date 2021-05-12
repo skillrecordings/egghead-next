@@ -38,7 +38,6 @@ const SearchCSS = () => {
                 ...resource,
                 title: resource.name,
                 name: '',
-                image: undefined,
               }}
             />
           )
