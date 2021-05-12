@@ -1,17 +1,18 @@
 import React, {FunctionComponent} from 'react'
 import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/image'
-import Textfit from 'react-textfit'
 import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
 
-import Card, {CardResource} from 'components/pages/home/card'
+import {Card} from 'components/card'
 
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+import {VerticalResourceCard} from '../../../card/verticle-resource-card'
+
 
 export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
@@ -45,8 +46,11 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
             className="col-span-2"
             resource={secondCourse}
           />
-          <CardVerticalLarge className="col-span-1" data={thirdCourse} />
-          <CardVerticalLarge className="col-span-1" data={fourthCourse} />
+          <VerticalResourceCard className="col-span-1" resource={thirdCourse} />
+          <VerticalResourceCard
+            className="col-span-1"
+            resource={fourthCourse}
+          />
         </div>
       </section>
     </div>
@@ -76,12 +80,6 @@ export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current =
     }
   },
 }`
-
-type CardProps = {
-  data: CardResource
-  className?: string
-  memberTitle?: string
-}
 
 const ProjectStack: FunctionComponent<any> = ({data, className}) => {
   return (
@@ -142,59 +140,6 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
   )
 }
 
-const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
-  const {path, image, title, name, byline} = data
-  return (
-    <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
-      <>
-        {image && (
-          <Link href={path}>
-            <a
-              onClick={() => {
-                track('clicked home page resource', {
-                  resource: path,
-                  linkType: 'image',
-                })
-              }}
-              className="mb-2 mx-auto w-32"
-              tabIndex={-1}
-            >
-              <Image
-                width={220}
-                height={220}
-                src={get(image, 'src', image)}
-                alt={`illustration for ${title}`}
-              />
-            </a>
-          </Link>
-        )}
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
-          {name}
-        </h2>
-        <Link href={path}>
-          <a
-            onClick={() => {
-              track('clicked home page resource', {
-                resource: path,
-                linkType: 'text',
-              })
-            }}
-            className="hover:text-blue-600 dark:hover:text-blue-300"
-          >
-            <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
-              <Textfit mode="multi" min={14} max={20}>
-                {title}
-              </Textfit>
-            </h3>
-          </a>
-        </Link>
-        <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
-          {byline}
-        </div>
-      </>
-    </Card>
-  )
-}
 
 const CssFormStyling: React.FC<{location: string; resource: any}> = ({
   location,

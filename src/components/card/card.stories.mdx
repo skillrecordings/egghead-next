@@ -4,6 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Markdown from '../markdown'
 import {HorizontalResourceCard} from './horizontal-resource-card'
+import {VerticalResourceCard} from './verticle-resource-card'
+import {VerticalResourceCollectionCard} from './vertical-resource-collection-card'
+
 
 <Meta title="Components/card" />
 
@@ -51,4 +54,51 @@ A Cool Card
       <HorizontalResourceCard resource={simpleResource} />
     </div>
   </Story>
+  <Story name="Vertical">
+    <div className="max-w-2xl bg-gray-100 p-5">
+      <VerticalResourceCard resource={simpleResource} />
+    </div>
+  </Story>
+  <Story name="Vertical Collection">
+    <div className="max-w-2xl bg-gray-100 p-5">
+      <VerticalResourceCollectionCard resource={devEssentials} />
+    </div>
+  </Story>
 </Canvas>
+
+export const devEssentials = {
+  id: 'devEssentials',
+  name: 'Practice Makes Perfect',
+  title: 'Web Development Essentials',
+  description: '',
+  resources: [
+    {
+      title: 'Web Security Essentials: MITM, CSRF, and XSS',
+      byline: 'Mike Sherov・50m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png',
+      path: '/courses/web-security-essentials-mitm-csrf-and-xss',
+    },
+    {
+      title: 'How to Contribute to an Open Source Project on GitHub',
+      byline: 'Kent C. Dodds・38m ・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/032/thumb/EGH_JSopensource_final.png',
+      path: '/courses/how-to-contribute-to-an-open-source-project-on-github',
+    },
+    {
+      title: 'Fix Common Git Mistakes',
+      byline: 'Chris Achard・44m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/401/full/GitMistakes_1000.png',
+      path: '/courses/fix-common-git-mistakes',
+    },
+    {
+      title: 'GraphQL Query Language',
+      byline: 'Eve Porcello・30m・Course',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/236/full/EGH_GraphQLQuery_Final.png',
+      path: '/courses/graphql-query-language',
+    },
+  ],
+}

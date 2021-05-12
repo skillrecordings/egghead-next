@@ -2,14 +2,12 @@ import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import SearchCuratedEssential from '../curated-essential'
-import Card from 'components/pages/home/card'
-import Markdown from 'react-markdown'
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import {get, find} from 'lodash'
-import Collection from 'components/pages/home/collection'
 import data from './css-page-data'
 import ExternalTrackedLink from 'components/external-tracked-link'
+import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
 
 const SearchCSS = () => {
   const resources: any = get(data, 'resources')
@@ -30,23 +28,20 @@ const SearchCSS = () => {
         }}
         CTAComponent={CssFormStyling}
       />
+
       <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 sm:gap-8 gap-5 ">
         {levels?.map((resource: any) => {
           return (
-            <Card
+            <VerticalResourceCollectionCard
               location={data.slug.current}
               key={resource._id}
               resource={{...resource, title: resource.name, name: ''}}
-            >
-              <Collection />
-            </Card>
+            />
           )
         })}
       </div>
       <div className="grid grid-cols-2 md:gap-8 gap-5 md:mt-8 mt-5">
-        <Card resource={{...animation, name: ''}}>
-          <Collection />
-        </Card>
+        <VerticalResourceCollectionCard resource={{...animation, name: ''}} />
       </div>
     </main>
   )

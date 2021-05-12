@@ -2,16 +2,16 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {NextSeo} from 'next-seo'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
 import awsPageData from './aws-page-data'
 import {find, get} from 'lodash'
-import EggheadPlayer from 'components/EggheadPlayer'
 import ExternalTrackedLink from '../../../external-tracked-link'
 import {track} from 'utils/analytics'
 import {bpMinMD} from 'utils/breakpoints'
 import {useTheme} from 'next-themes'
+import {ThreeLevels} from '../curated-essential'
+import VideoCard from '../../../pages/home/video-card'
+import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
 
 const SearchAWS = () => {
   const location = 'AWS landing'
@@ -69,40 +69,24 @@ AWS provides services for data, presentation, authentication, security, video en
         <AWSCourse location="AWS Page" />
       </div>
 
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card resource={intermediate} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card resource={advanced} location={location} className="h-full">
-          <Collection />
-        </Card>
-      </div>
+      <ThreeLevels
+        beginner={beginner}
+        intermediate={intermediate}
+        advanced={advanced}
+        location={location}
+      />
 
       <div className="grid md:grid-cols-3 grid-cols-1 mt-8">
-        <Card
+        <VideoCard
           resource={awsVideo}
           className="flex md:flex-row flex-col col-span-2 md:mr-4 mr-0"
           location={location}
-        >
-          <div className="sm:w-full sm:-mt-5 -mt-0 sm:-mb-5 -mb-4 md:-mr-5 -mr-4 md:ml-8 -ml-4  flex items-center bg-black flex-shrink-0 md:max-w-sm">
-            <EggheadPlayer
-              preload={false}
-              autoplay={false}
-              poster={awsVideo.poster}
-              hls_url={awsVideo.hls_url}
-              dash_url={awsVideo.dash_url}
-              subtitlesUrl={awsVideo.subtitlesUrl}
-              width="100%"
-              height="auto"
-            />
-          </div>
-        </Card>
-        <Card resource={awsSam} location={location} className="md:mt-0 mt-4">
-          <Collection />
-        </Card>
+        />
+        <VerticalResourceCollectionCard
+          resource={awsSam}
+          location={location}
+          className="md:mt-0 mt-4"
+        />
       </div>
     </div>
   )

@@ -4,9 +4,8 @@ import Link from 'next/link'
 import typescriptPageData from './typescript-page-data'
 import SearchCuratedEssential from '../curated-essential'
 import {bpMinMD} from 'utils/breakpoints'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import {find} from 'lodash'
+import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
 
 const SearchTypescript = () => {
   const location = 'typescript landing'
@@ -39,34 +38,35 @@ Love them or hate them, static types are here to stay, and at the very least an 
         {/* Featured Section */}
         <section className="grid lg:grid-cols-12 grid-cols-1 items-start mt-12 ">
           <div className="md:col-span-8 mr-0 md:mr-5">
-            <Card resource={designResources} location={location}>
-              <Collection />
-            </Card>
-            <Card
+            <VerticalResourceCollectionCard
+              resource={designResources}
+              location={location}
+            />
+            <VerticalResourceCollectionCard
               className="mt-5"
               resource={stateManagement}
               location={location}
-            >
-              <Collection />
-            </Card>
+            />
           </div>
-          <Card
+          <VerticalResourceCollectionCard
             className="sm:mt-0 mt-5 col-span-4 h-full"
             resource={algorithms}
             location={location}
-          >
-            <Collection />
-          </Card>
+          />
         </section>
 
         {/* Playlists and Podcasts */}
         <section className="grid md:grid-cols-2 grid-cols-1 gap-5 items-start mt-12">
-          <Card resource={podcasts} location={location} className="h-full">
-            <Collection />
-          </Card>
-          <Card resource={playlists} location={location} className="h-full">
-            <Collection />
-          </Card>
+          <VerticalResourceCollectionCard
+            resource={podcasts}
+            location={location}
+            className="h-full"
+          />
+          <VerticalResourceCollectionCard
+            resource={playlists}
+            location={location}
+            className="h-full"
+          />
         </section>
       </div>
     </SearchCuratedEssential>
