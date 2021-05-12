@@ -24,9 +24,9 @@ import CommunityResource from 'components/community-resource'
 import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
-import {CardHorizontal} from '../pages/home'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
+import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -638,7 +638,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   {relatedResources.map((resource: any) => {
                     return (
                       <div key={resource.slug}>
-                        <CardHorizontal
+                        <HorizontalResourceCard
                           className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-700"
                           resource={resource}
                           location={course.path}
@@ -915,7 +915,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {pairWithResources.map((resource: any) => {
                   return (
                     <div key={resource.slug}>
-                      <CardHorizontal
+                      <HorizontalResourceCard
                         className="border my-4 border-opacity-10 border-gray-400 dark:border-gray-500"
                         resource={resource}
                         location={course.path}
