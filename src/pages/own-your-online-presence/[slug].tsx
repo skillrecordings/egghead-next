@@ -56,6 +56,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
         props: {code, title: resource.title},
       }
     } catch (e) {
+      console.error(e.message)
       res.statusCode = 404
       res.end()
       return {props: {}}
