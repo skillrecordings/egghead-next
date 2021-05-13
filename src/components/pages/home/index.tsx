@@ -18,7 +18,6 @@ import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
 
-
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
