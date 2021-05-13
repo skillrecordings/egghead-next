@@ -29,53 +29,28 @@ const VerticalResourceCard: React.FC<{
 }) => {
   return (
     <Card {...props} className={className}>
-      {resource.image && (
-        <Link href={resource.path}>
-          <a
-            onClick={() => {
-              track('clicked resource', {
-                resource: resource.path,
-                linkType: 'image',
-                location,
-              })
-            }}
-            className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
-            tabIndex={-1}
-          >
-            <CardPreview>
-              <Image
-                src={get(resource.image, 'src', resource.image)}
-                width={220}
-                height={220}
-                layout="fixed"
-                className="object-cover rounded-md"
-                alt={`illustration for ${resource.title}`}
-              />
-            </CardPreview>
-          </a>
-        </Link>
+      {resource.image && resource.path ? (
+        <ResourceLink
+          path={resource.path}
+          location={location}
+          linkType="image"
+          className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
+        >
+          <PreviewImage image={resource.image} title={resource.title} />
+        </ResourceLink>
+      ) : (
+        <PreviewImage image={resource.image} title={resource.title} />
       )}
       <CardContent>
         <CardHeader>
           <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
             {resource.name}
           </h2>
-          <Link href={resource.path}>
-            <a
-              onClick={() => {
-                track('clicked resource', {
-                  resource: resource.path,
-                  linkType: 'text',
-                  location,
-                })
-              }}
-              className="hover:text-blue-600 dark:hover:text-blue-300"
-            >
-              <h3 className="text-xl font-bold leading-tighter">
-                {resource.title}
-              </h3>
-            </a>
-          </Link>
+          <ResourceLink path={resource.path} location={location}>
+            <h3 className="text-xl font-bold leading-tighter">
+              {resource.title}
+            </h3>
+          </ResourceLink>
         </CardHeader>
         <CardMeta className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
           {resource.byline}
@@ -91,4 +66,41 @@ const VerticalResourceCard: React.FC<{
   )
 }
 
+const ResourceLink: React.FC<{
+  path: string
+  location?: string
+  className?: string
+  linkType?: string
+}> = ({children, path, location, linkType = 'text', ...props}) => (
+  <Link href={path}>
+    <a
+      onClick={() => {
+        track('clicked resource', {
+          resource: path,
+          linkType,
+          location,
+        })
+      }}
+      {...props}
+    >
+      {children}
+    </a>
+  </Link>
+)
+
+const PreviewImage: React.FC<{title: string; image: any}> = ({
+  title,
+  image,
+}) => (
+  <CardPreview>
+    <Image
+      src={get(image, 'src', image)}
+      width={220}
+      height={220}
+      layout="fixed"
+      className="object-cover rounded-md"
+      alt={`illustration for ${title}`}
+    />
+  </CardPreview>
+)
 export {VerticalResourceCard}
