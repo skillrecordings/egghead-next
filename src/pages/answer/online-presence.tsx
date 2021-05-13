@@ -5,14 +5,13 @@ import Layout from 'layouts'
 import Link from 'next/link'
 import EssayQuestion from 'components/forms/quiz/essay-question'
 import MultipleChoiceQuestion from 'components/forms/quiz/multiple-choice-question'
-import Image from '../images/a11y-2.svg'
 import {Question, Questions} from 'types'
 
 type AnswerProps = {
   questions: Questions
 }
 
-const OnlinePresenceAnswer: React.FC<AnswerProps> = () => {
+const OnlinePresenceAnswer: React.FC<AnswerProps> = ({questions}) => {
   const router = useRouter()
   const [currentQuestion, setCurrentQuestion] = React.useState<Question>()
 
@@ -37,7 +36,9 @@ const OnlinePresenceAnswer: React.FC<AnswerProps> = () => {
           />
         )
       default:
-        return <EssayQuestion question={currentQuestion} />
+        return (
+          <EssayQuestion question={currentQuestion} questions={questions} />
+        )
     }
   }
 
@@ -49,11 +50,6 @@ const OnlinePresenceAnswer: React.FC<AnswerProps> = () => {
           <h1 className="sr-only">
             TestingAccessibility.com Quiz by Marcy Sutton
           </h1>
-          <Link href="/">
-            <a aria-label="Home" className="sm:w-36 w-28 sm:mt-6 mt-4 absolute">
-              <Image />
-            </a>
-          </Link>
         </header>
         <main className="max-w-screen-sm w-full mx-auto flex items-center justify-center xl:pt-36 md:pt-32 pt-24 sm:pb-16 pb-8">
           {QuestionToShow()}

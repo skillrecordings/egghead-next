@@ -1,4 +1,4 @@
-import Spinner from 'components/spinner'
+import Spinner from 'components/forms/quiz/spinner'
 import React from 'react'
 
 const SubmitButton: React.FC<{
