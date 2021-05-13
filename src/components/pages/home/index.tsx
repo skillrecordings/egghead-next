@@ -18,7 +18,6 @@ import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
 
-
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
@@ -122,51 +121,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 resource={reactMetaphorTalk}
                 className="m-0 lg:mt-4"
               />
-            </div>
-          </div>
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
-            <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
-              <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
-                  <div className="flex-shrink-0">
-                    <Link href={featureDeveloperPortfolio.path}>
-                      <a tabIndex={-1}>
-                        <Image
-                          quality={100}
-                          src={featureDeveloperPortfolio.image}
-                          width={300}
-                          height={300}
-                          alt={featureDeveloperPortfolio.title}
-                        />
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="flex flex-col sm:items-start items-center w-full">
-                    <h3 className="text-xs text-yellow-600 dark:text-yellow-300 uppercase font-semibold mb-2">
-                      Craft a Portfolio that gets you hired
-                    </h3>
-                    <Link href={featureDeveloperPortfolio.path}>
-                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
-                        <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
-                          {featureDeveloperPortfolio.title}
-                        </h2>
-                      </a>
-                    </Link>
-                    <Markdown
-                      source={featureDeveloperPortfolio.cta}
-                      className="prose dark:prose-dark dark:prose-md-dark prose-md mt-4"
-                    />
-                    <Link href={featureDeveloperPortfolio.path}>
-                      <a className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-4 font-semibold">
-                        Join a Portfolio Project Club
-                      </a>
-                    </Link>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
