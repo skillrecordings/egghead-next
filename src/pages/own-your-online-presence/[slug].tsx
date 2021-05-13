@@ -47,6 +47,19 @@ export const getServerSideProps: GetServerSideProps = async function ({
           options.remarkPlugins = [...(options.remarkPlugins ?? [])]
           return options
         },
+        esbuildOptions(options) {
+          options.minify = false
+          options.target = [
+            'es2020',
+            'chrome58',
+            'firefox57',
+            'safari11',
+            'edge16',
+            'node12',
+          ]
+
+          return options
+        },
       })
 
       const {code} = result
