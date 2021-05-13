@@ -83,7 +83,7 @@ const SearchIndex: any = ({
     if (instructors.length === 1) {
       const instructorSlug = getInstructorSlugFromInstructorList(instructors)
       try {
-        await loadInstructor(instructorSlug).then((instructor: any) => 
+        await loadInstructor(instructorSlug).then((instructor: any) =>
           setInstructor(instructor),
         )
       } catch (error) {}
@@ -198,12 +198,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)
 
-    console.log({selectedTopics})
     try {
       if (topic) {
         initialTopic = await loadTag(topic)
-
-        console.log({topic})
       }
     } catch (error) {
       console.error(error)

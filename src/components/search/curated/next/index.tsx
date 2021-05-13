@@ -1,7 +1,7 @@
 import React from 'react'
-import nextPageData from './next-page-data'
-import Card from 'components/pages/home/card'
 import SearchCuratedEssential from '../curated-essential'
+import {CardResource} from 'types'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
 const SearchNext = () => {
   return (
@@ -17,7 +17,7 @@ const SearchNext = () => {
 }
 
 const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
-  const resource = {
+  const resource: CardResource = {
     slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     id: 'portfolioProject',
     name: 'Portfolio Project',
@@ -31,7 +31,7 @@ const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
       'Build a modern eCommerce store with the best-in-class tools available to web developers to add to your portfolio.',
   }
   return (
-    <Card
+    <VerticalResourceCard
       className="md:col-span-4 text-center"
       key={resource.path}
       resource={resource}

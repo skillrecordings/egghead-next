@@ -1,11 +1,11 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import Topic from '../components/topic'
 import {find} from 'lodash'
 
 import DefaultCTA from './default-cta'
+import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
+import {CardResource} from '../../../types'
 
 export enum CARD_TYPES {
   SUMMARY = 'summary',
@@ -83,22 +83,46 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         </Topic>
         {CTAComponent ? <CTAComponent /> : <DefaultCTA location={location} />}
       </div>
-      {beginner && intermediate && advanced && (
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-5">
-          <Card resource={beginner} location={location}>
-            <Collection />
-          </Card>
-          <Card resource={intermediate} location={location} className="h-full">
-            <Collection />
-          </Card>
-          <Card resource={advanced} location={location} className="h-full">
-            <Collection />
-          </Card>
-        </div>
-      )}
+      <ThreeLevels
+        beginner={beginner}
+        intermediate={intermediate}
+        advanced={advanced}
+        location={location}
+      />
       {children}
     </div>
   )
 }
 
 export default SearchCuratedEssential
+
+export const ThreeLevels: React.FC<{
+  beginner: CardResource
+  intermediate: CardResource
+  advanced: CardResource
+  location?: string
+}> = ({beginner, intermediate, advanced, location}) => {
+  return (
+    <>
+      {beginner && intermediate && advanced && (
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-5">
+          <VerticalResourceCollectionCard
+            resource={beginner}
+            location={location}
+            className="h-full"
+          />
+          <VerticalResourceCollectionCard
+            resource={intermediate}
+            location={location}
+            className="h-full"
+          />
+          <VerticalResourceCollectionCard
+            resource={advanced}
+            location={location}
+            className="h-full"
+          />
+        </div>
+      )}
+    </>
+  )
+}
