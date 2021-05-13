@@ -57,6 +57,22 @@ export const getServerSideProps: GetServerSideProps = async function ({
     }
   }
   `
+      if (process.platform === 'win32') {
+        process.env.ESBUILD_BINARY_PATH = path.join(
+          process.cwd(),
+          'node_modules',
+          'esbuild',
+          'esbuild.exe',
+        )
+      } else {
+        process.env.ESBUILD_BINARY_PATH = path.join(
+          process.cwd(),
+          'node_modules',
+          'esbuild',
+          'bin',
+          'esbuild',
+        )
+      }
 
       const {resource} = await sanityClient.fetch(articleQuery)
 
