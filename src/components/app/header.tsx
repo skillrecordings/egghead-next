@@ -26,6 +26,15 @@ const Header: FunctionComponent = () => {
   const isSearch = router.pathname.includes('/q')
   const isTopics = router.pathname.includes('/topics')
 
+  const showTeamNavLink =
+    viewer?.accounts &&
+    !isEmpty(
+      viewer.accounts.filter(
+        (account: {account_capacity: string}) =>
+          account.account_capacity === 'team',
+      ),
+    )
+
   const Navigation: FunctionComponent<{
     className?: string
   }> = ({
@@ -58,7 +67,7 @@ const Header: FunctionComponent = () => {
                 </a>
               </Link>
             )}
-            {!isEmpty(viewer?.team_accounts) && (
+            {showTeamNavLink && (
               <Link href={`/team`}>
                 <a
                   onClick={() =>
