@@ -482,8 +482,6 @@ export default {
     prepare(selection) {
       const {title, name, type, media, image} = selection
 
-      console.log(selection)
-
       return {
         title: name || title,
         subtitle: type,

@@ -4,8 +4,8 @@ import {sanityClient} from 'utils/sanity-client'
 import Image from 'next/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import Card from 'components/pages/home/card'
 import {track} from 'utils/analytics'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
 const DigitalGardening: React.FC<any> = ({data}) => {
   return (
@@ -65,7 +65,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
           <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
             {data.featured.courses.map((resource: any) => {
               return (
-                <Card
+                <VerticalResourceCard
                   className="col-span-4 text-center"
                   key={resource.path}
                   resource={resource}
@@ -92,7 +92,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
           <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
             {data.talks.resources.map((resource: any) => {
               return (
-                <Card
+                <VerticalResourceCard
                   className="col-span-3 text-center dark:bg-gray-800"
                   key={resource.path}
                   resource={resource}

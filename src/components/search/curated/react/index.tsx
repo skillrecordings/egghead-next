@@ -1,14 +1,14 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
 import reactPageData from './react-page-data'
 import {find} from 'lodash'
-import EggheadPlayer from 'components/EggheadPlayer'
 import Image from 'next/image'
-import ExternalTrackedLink from '../../../external-tracked-link'
+import ExternalTrackedLink from 'components/external-tracked-link'
 import VideoCard from 'components/pages/home/video-card'
+import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {ThreeLevels} from '../curated-essential'
 
 const SearchReact = () => {
   const location = 'react landing'
@@ -90,17 +90,12 @@ You can find courses below curated just for you whether you're looking for a par
           />
         </ExternalTrackedLink>
       </div>
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={beginner} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card resource={intermediate} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card resource={advanced} location={location} className="h-full">
-          <Collection />
-        </Card>
-      </div>
+      <ThreeLevels
+        beginner={beginner}
+        intermediate={intermediate}
+        advanced={advanced}
+        location={location}
+      />
 
       <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
         <div className="lg:col-span-8 col-span-12 space-y-5">
@@ -144,10 +139,11 @@ You can find courses below curated just for you whether you're looking for a par
               className="flex md:flex-row flex-col"
               location={location}
             />
+
             <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
               {stateManagementFeatured.resources.map((resource: any) => {
                 return (
-                  <Card
+                  <VerticalResourceCard
                     className="col-span-4 text-center"
                     key={resource.path}
                     resource={resource}
@@ -159,42 +155,40 @@ You can find courses below curated just for you whether you're looking for a par
           </div>
         </div>
         <div className="md:col-span-4 col-span-12">
-          <Card resource={stateManagementCollection} location={location}>
-            <Collection />
-          </Card>
-          <Card
+          <VerticalResourceCollectionCard
+            resource={stateManagementCollection}
+            location={location}
+          />
+          <VerticalResourceCollectionCard
             resource={stateManagementQuickly}
             className="mt-5"
             location={location}
-          >
-            <Collection />
-          </Card>
+          />
         </div>
       </section>
 
       <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
-        <Card resource={style} location={location}>
-          <Collection />
-        </Card>
-        <Card
+        <VerticalResourceCollectionCard resource={style} location={location} />
+        <VerticalResourceCollectionCard
           className="h-full md:col-span-2"
           resource={sideProjects}
           location={location}
-        >
-          <Collection />
-        </Card>
+        />
       </div>
 
       <section className="mt-20 grid md:grid-cols-3 grid-cols-1 gap-5">
-        <Card resource={reactArticles} location={location}>
-          <Collection />
-        </Card>
-        <Card resource={reactPodcasts} location={location}>
-          <Collection />
-        </Card>
-        <Card resource={reactTalks} location={location}>
-          <Collection />
-        </Card>
+        <VerticalResourceCollectionCard
+          resource={reactArticles}
+          location={location}
+        />
+        <VerticalResourceCollectionCard
+          resource={reactPodcasts}
+          location={location}
+        />
+        <VerticalResourceCollectionCard
+          resource={reactTalks}
+          location={location}
+        />
       </section>
     </div>
   )
