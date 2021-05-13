@@ -1,17 +1,17 @@
 import React, {FunctionComponent} from 'react'
 import SearchInstructorEssential from '../instructor-essential'
 import Image from 'next/image'
-import Textfit from 'react-textfit'
 import {get} from 'lodash'
 import Link from 'next/link'
 import groq from 'groq'
-import Markdown from 'react-markdown'
 
-import Card, {CardResource} from 'components/pages/home/card'
+import {Card} from 'components/card'
 
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
+import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+import {VerticalResourceCard} from '../../../card/verticle-resource-card'
 
 export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
@@ -41,9 +41,15 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
           data={projects.resources}
         />
         <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
-          <CardHorizontal className="col-span-2" resource={secondCourse} />
-          <CardVerticalLarge className="col-span-1" data={thirdCourse} />
-          <CardVerticalLarge className="col-span-1" data={fourthCourse} />
+          <HorizontalResourceCard
+            className="col-span-2"
+            resource={secondCourse}
+          />
+          <VerticalResourceCard className="col-span-1" resource={thirdCourse} />
+          <VerticalResourceCard
+            className="col-span-1"
+            resource={fourthCourse}
+          />
         </div>
       </section>
     </div>
@@ -73,12 +79,6 @@ export const stephanieEcklesQuery = groq`*[_type == 'resource' && slug.current =
     }
   },
 }`
-
-type CardProps = {
-  data: CardResource
-  className?: string
-  memberTitle?: string
-}
 
 const ProjectStack: FunctionComponent<any> = ({data, className}) => {
   return (
@@ -133,127 +133,6 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
               )
             })}
           </ul>
-        </div>
-      </>
-    </Card>
-  )
-}
-
-const CardVerticalLarge: FunctionComponent<CardProps> = ({data}) => {
-  const {path, image, title, name, byline} = data
-  return (
-    <Card className="border-none flex flex-col items-center justify-center text-center sm:py-8 py-6">
-      <>
-        {image && (
-          <Link href={path}>
-            <a
-              onClick={() => {
-                track('clicked home page resource', {
-                  resource: path,
-                  linkType: 'image',
-                })
-              }}
-              className="mb-2 mx-auto w-32"
-              tabIndex={-1}
-            >
-              <Image
-                width={220}
-                height={220}
-                src={get(image, 'src', image)}
-                alt={`illustration for ${title}`}
-              />
-            </a>
-          </Link>
-        )}
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
-          {name}
-        </h2>
-        <Link href={path}>
-          <a
-            onClick={() => {
-              track('clicked home page resource', {
-                resource: path,
-                linkType: 'text',
-              })
-            }}
-            className="hover:text-blue-600 dark:hover:text-blue-300"
-          >
-            <h3 className="md:text-lg text-base sm:font-semibold font-bold leading-tight">
-              <Textfit mode="multi" min={14} max={20}>
-                {title}
-              </Textfit>
-            </h3>
-          </a>
-        </Link>
-        <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
-          {byline}
-        </div>
-      </>
-    </Card>
-  )
-}
-
-export const CardHorizontal: FunctionComponent<{
-  resource: CardResource
-  className?: string
-  location?: string
-}> = ({resource, className = 'border-none my-4', location = 'home'}) => {
-  return (
-    <Card className={className}>
-      <>
-        <div className="flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center">
-          {resource.image && (
-            <Link href={resource.path}>
-              <a
-                onClick={() => {
-                  track('clicked resource', {
-                    resource: resource.path,
-                    linkType: 'image',
-                    location,
-                  })
-                }}
-                className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
-                tabIndex={-1}
-              >
-                <Image
-                  src={get(resource.image, 'src', resource.image)}
-                  width={160}
-                  height={160}
-                  layout="fixed"
-                  className="object-cover rounded-md"
-                  alt={`illustration for ${resource.title}`}
-                />
-              </a>
-            </Link>
-          )}
-          <div className="flex flex-col justify-center sm:items-start items-center">
-            <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
-              {resource.name}
-            </h2>
-            <Link href={resource.path}>
-              <a
-                onClick={() => {
-                  track('clicked resource', {
-                    resource: resource.path,
-                    linkType: 'text',
-                    location,
-                  })
-                }}
-                className="hover:text-blue-600 dark:hover:text-blue-300"
-              >
-                <h3 className="text-xl font-bold leading-tighter">
-                  {resource.title}
-                </h3>
-              </a>
-            </Link>
-            <div className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
-              {resource.byline}
-            </div>
-            <Markdown
-              source={resource.description || ''}
-              className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none"
-            />
-          </div>
         </div>
       </>
     </Card>

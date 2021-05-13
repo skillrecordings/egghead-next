@@ -118,7 +118,7 @@ const awsPageData = [
     byline: 'Nader Dabit',
     path:
       '/talks/egghead-full-stack-development-in-the-era-of-serverless-computing',
-    poster:
+    image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618886259/egghead%20talks/egghead-full-stack-development-in-the-era-of-serverless-computing.png',
     hls_url:
       'https://d2c5owlt6rorc3.cloudfront.net/egghead-wtf-is-graphql-83e388b9cb/egghead-wtf-is-graphql-83e388b9cb.m3u8',

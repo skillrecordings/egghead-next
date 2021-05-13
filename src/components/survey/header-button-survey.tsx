@@ -1,7 +1,7 @@
 import * as React from 'react'
 import useCio from 'hooks/use-cio'
 import Link from 'next/link'
-import Card from '../pages/home/card'
+import {Card} from 'components/card'
 import {SurveyQuestion} from '../../data/sorting-hat'
 import Markdown from 'react-markdown'
 import {sortingHatReducer, SortingHatState} from './sorting-hat-reducer'

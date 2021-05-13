@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Card from './card'
 import {Form, Formik} from 'formik'
 import {useRouter} from 'next/router'
 import {track} from 'utils/analytics'
