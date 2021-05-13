@@ -7,8 +7,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "yarn make-tags-sitemap",
-    "build": "yarn test:ci && next build",
+    "prebuild": "npm run make-tags-sitemap",
+    "build": "npm run test:ci && next build",
     "postbuild": "NODE_ENV=production next-sitemap",
     "build:style": "tailwind build src/styles/index.css -o src/styles/output.css",
     "start": "next start",
@@ -18,7 +18,7 @@
     "cy:open": "cypress open",
     "pree2e": "rm -rf .nyc_output coverage .next || true",
     "check-coverage-limits": "nyc report --reporter=text-summary --check-coverage --statements 100",
-    "format": "yarn format:index && yarn format:src",
+    "format": "npm run format:index && npm run format:src",
     "format:index": "prettier --write \"*.{js,ts,json,md}\"",
     "format:src": "prettier --write \"src/**/*.{js,ts,tsx,md,mdx}\"",
     "analyze": "ANALYZE=true next build",
@@ -211,7 +211,7 @@
       "prettier --write"
     ],
     "src/**/*.{ts,tsx}": [
-      "yarn lint"
+      "npm run lint"
     ]
   },
   "prettier": {
