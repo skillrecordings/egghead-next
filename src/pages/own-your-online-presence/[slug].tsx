@@ -5,6 +5,7 @@ import {getMDXComponent} from 'mdx-bundler/client'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import Image from 'next/image'
+import path from 'path'
 
 const OnlinePresenceArticle: React.FC<any> = ({code, title}) => {
   const Component = React.useMemo(() => getMDXComponent(code), [code])
@@ -30,6 +31,23 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
 }) {
   if (params?.slug) {
+    if (process.platform === 'win32') {
+      process.env.ESBUILD_BINARY_PATH = path.join(
+        process.cwd(),
+        'node_modules',
+        'esbuild',
+        'esbuild.exe',
+      )
+    } else {
+      process.env.ESBUILD_BINARY_PATH = path.join(
+        process.cwd(),
+        'node_modules',
+        'esbuild',
+        'bin',
+        'esbuild',
+      )
+    }
+
     try {
       const articleQuery = groq`
     *[_type == 'resource' && slug.current == 'own-your-online-presence'][0]{
