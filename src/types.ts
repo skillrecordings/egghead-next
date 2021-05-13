@@ -68,3 +68,16 @@ export type Viewer = {
   purchases: any[]
   accounts: StripeAccount[]
 }
+
+export type Question = {
+  question: string
+  type: 'multiple-choice' | 'essay'
+  tagId: number
+  correct?: string[] | string
+  answer?: string
+  choices?: {answer: string; label: string}[]
+}
+
+export type Questions = {
+  [key: string]: Question
+}
