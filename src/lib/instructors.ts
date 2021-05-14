@@ -2,6 +2,7 @@ import {request} from 'graphql-request'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
+import {kamranAhmedQuery} from 'components/search/instructors/kamran-ahmed'
 import config from './config'
 
 export type Instructor = {
@@ -47,6 +48,7 @@ export async function loadInstructor(slug: string) {
 
 const sanityInstructorHash = {
   'stephanie-eckles': stephanieEcklesQuery,
+  'kamran-ahmed': kamranAhmedQuery,
 }
 
 type SelectedInstructor = keyof typeof sanityInstructorHash
