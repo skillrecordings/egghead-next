@@ -115,6 +115,8 @@
     "remark-gfm": "^1.0.0",
     "remark-slug": "^6.0.0",
     "remove-markdown": "^0.3.0",
+    "remove-markdown-and-html": "^0.1.0",
+    "sanity-algolia": "https://github.com/theianjones/sanity-algolia",
     "simplebar-react": "^2.3.2",
     "slugify": "^1.5.2",
     "stripe": "^8.145.0",

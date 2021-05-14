@@ -2366,7 +2366,7 @@
     "@sanity/block-content-to-hyperscript" "^2.0.10"
     prop-types "^15.6.2"
 
-"@sanity/client@^2.8.0":
+"@sanity/client@^2.0.1", "@sanity/client@^2.8.0":
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/@sanity/client/-/client-2.8.0.tgz#43e35937e4de0f75c0b6bf029fca0e598c8a04ed"
   integrity sha512-S/EYj4SOJ4OMOOULCjNE2moFsb4h2Vy9zV/v4dOappal+GBxafJ9E/J4+qLhkMZqd2hTfECfawjshuoUUo+L+g==
@@ -4397,7 +4397,7 @@ algoliasearch-helper@>=3, algoliasearch-helper@^3.4.3:
   dependencies:
     events "^1.1.1"
 
-algoliasearch@>=4, algoliasearch@^4.9.0:
+algoliasearch@>=4, algoliasearch@^4.5.1, algoliasearch@^4.9.0:
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.9.1.tgz#1fa8ece3f9808e465226176b88b953801c2274e0"
   integrity sha512-EeJUYXzBEhZSsL6tXc3hseLBCtlNLa1MZ4mlMK6EeX38yRjY5vgnFcNNml6uUhlOjvheKxgkKRpPWkxgL8Cqkg==
@@ -15400,6 +15400,11 @@ remark-squeeze-paragraphs@4.0.0:
   dependencies:
     mdast-squeeze-paragraphs "^4.0.0"
 
+remove-markdown-and-html@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/remove-markdown-and-html/-/remove-markdown-and-html-0.1.0.tgz#2877a831bc69a19d05a6b38023410fde7913254f"
+  integrity sha1-KHeoMbxpoZ0FprOAI0EP3nkTJU8=
+
 remove-markdown@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/remove-markdown/-/remove-markdown-0.3.0.tgz#5e4b667493a93579728f3d52ecc1db9ca505dc98"
@@ -15743,6 +15748,14 @@ sane@^4.0.3:
     micromatch "^3.1.4"
     minimist "^1.1.1"
     walker "~1.0.5"
+
+"sanity-algolia@https://github.com/theianjones/sanity-algolia":
+  version "1.0.2"
+  resolved "https://github.com/theianjones/sanity-algolia#75c7da33fa7d63e44397603666f6bba013cec445"
+  dependencies:
+    "@sanity/client" "^2.0.1"
+    algoliasearch "^4.5.1"
+    stopword "^1.0.3"
 
 sax@~1.2.4:
   version "1.2.4"
@@ -16474,6 +16487,11 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
+
+stopword@^1.0.3:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/stopword/-/stopword-1.0.7.tgz#927c8c7e038c38b62c96855493a305a16a6c4dc7"
+  integrity sha512-KKPM5LGeulAxoNrg384AfNSoUvphG87sgj/vTHOkJ5M5U7hO99XA6Sl0HBhtCBv17Tv3kQPLj+5fCt7cadjXWQ==
 
 store2@^2.12.0:
   version "2.12.0"
