@@ -1,14 +1,13 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
-import {bundleMDX} from 'mdx-bundler'
-import {getMDXComponent} from 'mdx-bundler/client'
+import mdxComponents from 'components/mdx'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
-import Image from 'next/image'
+import {serialize} from 'next-mdx-remote/serialize'
+import {MDXRemote} from 'next-mdx-remote'
+import {withProse} from '../../utils/remark/with-prose'
 
-const OnlinePresenceArticle: React.FC<any> = ({code, title}) => {
-  const Component = React.useMemo(() => getMDXComponent(code), [code])
-
+const OnlinePresenceArticle: React.FC<any> = ({source, title}) => {
   return (
     <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3">
       <header>
@@ -17,7 +16,7 @@ const OnlinePresenceArticle: React.FC<any> = ({code, title}) => {
         </h1>
       </header>
       <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
-        <Component />
+        <MDXRemote {...source} components={mdxComponents} />
       </main>
     </article>
   )
@@ -42,20 +41,23 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
       const {resource} = await sanityClient.fetch(articleQuery)
 
-      const result = await bundleMDX(resource.article, {
-        xdmOptions(options) {
-          options.remarkPlugins = [...(options.remarkPlugins ?? [])]
-          return options
+      const source = await serialize(resource.article, {
+        mdxOptions: {
+          remarkPlugins: [
+            withProse,
+            require(`remark-slug`),
+            require(`remark-footnotes`),
+            require(`remark-code-titles`),
+          ],
         },
       })
 
-      const {code} = result
-
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
-        props: {code, title: resource.title},
+        props: {source, title: resource.title},
       }
     } catch (e) {
+      console.error(e.message)
       res.statusCode = 404
       res.end()
       return {props: {}}

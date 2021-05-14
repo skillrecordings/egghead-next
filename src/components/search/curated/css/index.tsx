@@ -18,7 +18,7 @@ const SearchCSS = () => {
   const animation: any = find(resources, {slug: {current: 'css-animation'}})
 
   return (
-    <main className="max-w-screen-xl mx-auto lg:px-0 px-5">
+    <main className="max-w-screen-xl px-5 mx-auto lg:px-0">
       <SearchCuratedEssential
         verticalImage={data?.image}
         topic={{
@@ -28,19 +28,22 @@ const SearchCSS = () => {
         }}
         CTAComponent={CssFormStyling}
       />
-
-      <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 sm:gap-8 gap-5 ">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 md:grid-cols-1 sm:gap-8 ">
         {levels?.map((resource: any) => {
           return (
             <VerticalResourceCollectionCard
               location={data.slug.current}
               key={resource._id}
-              resource={{...resource, title: resource.name, name: ''}}
+              resource={{
+                ...resource,
+                title: resource.name,
+                name: '',
+              }}
             />
           )
         })}
       </div>
-      <div className="grid grid-cols-2 md:gap-8 gap-5 md:mt-8 mt-5">
+      <div className="grid grid-cols-2 gap-5 mt-5 md:gap-8 md:mt-8">
         <VerticalResourceCollectionCard resource={{...animation, name: ''}} />
       </div>
     </main>
@@ -64,21 +67,21 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
     <ExternalTrackedLink
       eventName="clicked CSS page CTA"
       params={{location}}
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      className="relative block w-full h-full overflow-hidden text-center border-0 border-gray-100 rounded-md md:col-span-4"
       href="/courses/accessible-cross-browser-css-form-styling-7297"
     >
       <div
-        className="md:-mt-5 flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        className="flex items-center justify-center overflow-hidden text-white bg-gray-900 rounded-t-lg rounded-b-lg shadow-sm md:-mt-5 dark:bg-gray-800 md:rounded-t-none"
         css={{
           [bpMinMD]: {
             minHeight: 477,
           },
         }}
       >
-        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-lightBlue-500 w-full h-2 z-20" />
-        <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
-          <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
-            <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">
+        <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-yellow-500 to-lightBlue-500" />
+        <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
+          <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
+            <div className="flex flex-col items-center justify-center space-y-5 sm:space-x-5 sm:space-y-0">
               <div className="flex-shrink-0">
                 <Link href={path}>
                   <a
@@ -100,8 +103,8 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
                   </a>
                 </Link>
               </div>
-              <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-white uppercase font-semibold mb-2">
+              <div className="flex flex-col items-center sm:items-start">
+                <h2 className="mb-2 text-xs font-semibold text-white uppercase">
                   {byline}
                 </h2>
                 <Link href={path}>
@@ -122,7 +125,7 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
             </div>
           </div>
         </div>
-        <UniqueBackground className="absolute left-0 top-0 w-full h-full z-0" />
+        <UniqueBackground className="absolute top-0 left-0 z-0 w-full h-full" />
       </div>
     </ExternalTrackedLink>
   )
