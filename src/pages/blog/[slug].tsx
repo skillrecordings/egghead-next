@@ -3,8 +3,8 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import imageUrlBuilder from '@sanity/image-url'
 import mdxComponents from 'components/mdx'
-import renderToString from 'next-mdx-remote/render-to-string'
-import hydrate from 'next-mdx-remote/hydrate'
+import {serialize} from 'next-mdx-remote/serialize'
+import {MDXRemote} from 'next-mdx-remote'
 import {FunctionComponent} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -23,10 +23,8 @@ const Tag = (props: any) => {
     author = {name: 'Unknown Author'},
     seo = {},
     coverImage,
-    body = ``,
+    source,
   } = props
-
-  const content = hydrate(body, {components: mdxComponents})
 
   const router = useRouter()
 
@@ -91,7 +89,9 @@ const Tag = (props: any) => {
             </ul>
           )}
         </header>
-        <main>{content}</main>
+        <main>
+          <MDXRemote {...source} components={mdxComponents} />
+        </main>
       </article>
     </>
   )
@@ -151,8 +151,7 @@ export async function getStaticProps(context: any) {
     slug: context.params.slug,
   })
 
-  const mdxSource = await renderToString(body, {
-    components: mdxComponents,
+  const mdxSource = await serialize(body, {
     mdxOptions: {
       remarkPlugins: [
         withProse,
@@ -172,7 +171,7 @@ export async function getStaticProps(context: any) {
     },
   })
   return {
-    props: {...post, body: mdxSource},
+    props: {...post, source: mdxSource},
     revalidate: 1,
   }
 }
