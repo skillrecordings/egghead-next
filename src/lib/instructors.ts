@@ -3,6 +3,8 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
 import {kamranAhmedQuery} from 'components/search/instructors/kamran-ahmed'
+import {alexReardonQuery} from 'components/search/instructors/alex-reardon'
+
 import config from './config'
 
 export type Instructor = {
@@ -49,6 +51,7 @@ export async function loadInstructor(slug: string) {
 const sanityInstructorHash = {
   'stephanie-eckles': stephanieEcklesQuery,
   'kamran-ahmed': kamranAhmedQuery,
+  'alex-reardon': alexReardonQuery,
 }
 
 type SelectedInstructor = keyof typeof sanityInstructorHash
