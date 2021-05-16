@@ -16,15 +16,9 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
   resource,
   textColor,
 }) => {
-  const {
-    path,
-    image,
-    title,
-    byline,
-    instructor,
-    background,
-    description,
-  } = resource
+  const {path, image, title, byline, instructor, background, description} =
+    resource
+
   return (
     <div
       className="relative flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-lg shadow-sm"
@@ -36,7 +30,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
     >
       {/* <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-500 to-purple-500 w-full h-2 z-20" /> */}
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
-        <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full">
+        <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full sm:mb-0 mb-12">
           <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
             <div className="flex-shrink-0">
               <Link href={path}>
@@ -54,6 +48,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                     src={get(image, 'src', image)}
                     width={340}
                     height={340}
+                    priority={true}
                     alt={get(image, 'alt', `illustration for ${title}`)}
                   />
                 </a>
@@ -67,7 +62,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </h2>
               <Link href={path}>
                 <a
-                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-500`}
+                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-400`}
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -93,8 +88,9 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                     height={40}
                     className="rounded-full"
                     alt={instructor.name}
+                    priority={true}
                   />
-                  <span className="group-hover:text-orange-200">
+                  <span className="group-hover:text-yellow-300">
                     {instructor.name}
                   </span>
                 </a>
@@ -110,6 +106,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
           </div>
         </div>
       </div>
+
       <UniqueBackground
         className="absolute left-0 top-0 w-full h-full z-0 object-cover"
         background={background}
