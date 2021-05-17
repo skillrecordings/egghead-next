@@ -109,9 +109,9 @@ const javascriptPageData = [
     byline: 'Alex Reardon 2h 9m・Course',
     description:
       'Listening to and responding to events is a foundational skill for building software for the web. The Document Object Model, or DOM for short, has a powerful built-in event system. ',
-    path: '/courses/dom-events-6c0c0d23',
+    path: '/courses/the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
     slug: 'dom-events-6c0c0d23',
-    title: 'DOM Events',
+    title: 'The Ultimate Guide for Understanding DOM Events',
   },
   {
     id: 'interview-prep',
