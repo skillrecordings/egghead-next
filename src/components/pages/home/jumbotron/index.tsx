@@ -73,28 +73,19 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                   <h1>{title}</h1>
                 </a>
               </Link>
-              <Link href={instructor.path}>
-                <a
-                  className="mt-4 flex items-center space-x-2 text-base group"
-                  onClick={() =>
-                    track('clicked instructor in jumbotron', {
-                      instructor: instructor.slug,
-                    })
-                  }
-                >
-                  <Image
-                    src={instructor.image}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                    alt={instructor.name}
-                    priority={true}
-                  />
-                  <span className="group-hover:text-yellow-300">
-                    {instructor.name}
-                  </span>
-                </a>
-              </Link>
+
+              <span className="mt-4 flex items-center space-x-2 text-base group">
+                <Image
+                  src={instructor.image}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  alt={instructor.name}
+                  priority={true}
+                />
+                <span className="text-gray-200">{instructor.name}</span>
+              </span>
+
               {description && (
                 <Markdown
                   source={description}
