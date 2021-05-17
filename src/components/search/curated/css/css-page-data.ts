@@ -46,7 +46,7 @@ const CSSPageData: any = {
             {
               _id: 'build-modern-layouts-with-css-grid-d3f5',
               image:
-                'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
+                'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
               path: '/playlists/build-modern-layouts-with-css-grid-d3f5',
               title: 'Build Modern Layouts with CSS Grid',
             },
