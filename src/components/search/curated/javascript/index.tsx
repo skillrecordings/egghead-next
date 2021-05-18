@@ -37,6 +37,10 @@ const SearchJavaScript = () => {
   const asyncResource: any = find(javascriptPageData, {id: 'async'})
   const javascriptPodcasts: any = find(javascriptPageData, {id: 'podcasts'})
 
+  const domEvents: any = find(javascriptPageData, {
+    id: 'dom-events',
+  })
+
   return (
     <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto">
       <NextSeo
@@ -102,13 +106,16 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       />
 
       {/* Feature Section */}
-      <section className="grid lg:grid-cols-12 grid-cols-1 items-start sm:mt-12 mt-4 gap-5">
-        <VerticalResourceCollectionCard
-          className="col-span-4"
-          resource={javascriptDebugging}
-          location={location}
-        />
-        <div className="md:col-span-8 gap-5">
+      <section className="grid lg:grid-cols-12 grid-cols-1 items-start sm:mt-12 mt-4">
+        <div className="col-span-4 mr-0 lg:mr-5">
+          <VerticalResourceCard resource={domEvents} />
+          <VerticalResourceCollectionCard
+            resource={javascriptDebugging}
+            location={location}
+            className="mt-5"
+          />
+        </div>
+        <div className="md:col-span-8 gap-5 mt-5 lg:mt-0">
           <VerticalResourceCollectionCard
             resource={composingCallbacks}
             location={location}
@@ -118,16 +125,16 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
             resource={asyncResource}
             location={location}
           />
+          <VerticalResourceCollectionCard
+            className="mt-5"
+            resource={interviewPrep}
+            location={location}
+          />
         </div>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-12 grid-cols-1  mt-12">
-        <VerticalResourceCollectionCard
-          className="col-span-4"
-          resource={interviewPrep}
-          location={location}
-        />
-        <div className="md:col-span-8">
+        <div className="md:col-span-12">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
             {addtionalInterviewPrep.resources.map((resource: any) => {
               return (
