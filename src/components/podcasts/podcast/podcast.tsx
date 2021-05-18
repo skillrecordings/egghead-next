@@ -1,7 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import Markdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
-import rehypeSanitize from 'rehype-sanitize'
+import Markdown from 'react-markdown/with-html'
 import Image from 'next/image'
 import {PodcastResource} from 'types'
 import Rss from '../../images/rss.svg'
@@ -16,7 +14,8 @@ const LINKS = [
   {
     component: ApplePodcasts,
     title: 'Listen on Apple Podcasts',
-    link: 'https://itunes.apple.com/us/podcast/egghead-io-instructor-chats/id1308497805',
+    link:
+      'https://itunes.apple.com/us/podcast/egghead-io-instructor-chats/id1308497805',
   },
   {
     component: Spotify,
@@ -85,17 +84,9 @@ const Podcast: FunctionComponent<PodcastProps> = ({
             ))}
           </div>
         </div>
-        {description && (
-          <Markdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>
-            {description}
-          </Markdown>
-        )}
+        {description && <Markdown allowDangerousHtml>{description}</Markdown>}
         {transcript && <h2>Transcript</h2>}
-        {transcript && (
-          <Markdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>
-            {transcript}
-          </Markdown>
-        )}
+        {transcript && <Markdown allowDangerousHtml>{transcript}</Markdown>}
       </div>
     </div>
   )

@@ -4,8 +4,6 @@ import {sanityClient} from 'utils/sanity-client'
 import Image from 'next/image'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
-import rehypeSanitize from 'rehype-sanitize'
 import {track} from 'utils/analytics'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
@@ -48,13 +46,13 @@ const DigitalGardening: React.FC<any> = ({data}) => {
                   </h1>
 
                   <Markdown
-                    children={data.description}
-                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                    source={data.description}
+                    allowDangerousHtml={true}
                     className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
                   />
                   <Markdown
-                    children={data.quote.description}
-                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                    source={data.quote.description}
+                    allowDangerousHtml={true}
                     className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
                   />
                 </div>
