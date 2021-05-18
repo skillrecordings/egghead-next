@@ -116,13 +116,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
-  const {
-    setPlayerPrefs,
-    playbackRate,
-    defaultView,
-    volumeRate,
-    subtitle,
-  } = useEggheadPlayerPrefs()
+  const {setPlayerPrefs, playbackRate, defaultView, volumeRate, subtitle} =
+    useEggheadPlayerPrefs()
 
   const {sm, md} = useBreakpoint()
 
@@ -429,7 +424,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     volume={0.2}
                     onCanPlay={(event: SyntheticEvent) => {
                       console.debug(`player ready [autoplay:${autoplay}]`)
-                      const player: HTMLVideoElement = event.target as HTMLVideoElement
+                      const player: HTMLVideoElement =
+                        event.target as HTMLVideoElement
                       player.volume = volumeRate / 100
                       player.playbackRate = playbackRate
                       actualPlayerRef.current = player
@@ -463,7 +459,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       send('COMPLETE')
                     }}
                     onVolumeChange={(event: SyntheticEvent) => {
-                      const player: HTMLVideoElement = event.target as HTMLVideoElement
+                      const player: HTMLVideoElement =
+                        event.target as HTMLVideoElement
                       setPlayerPrefs({volumeRate: player.volume * 100})
                     }}
                   >
@@ -626,14 +623,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             </div>
             {collection && collection?.lessons && (
               <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 self-stretch dark:text-gray-100 dark:bg-gray-900">
-                {!md && (
-                  <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
-                    <Course
-                      course={collection}
-                      currentLessonSlug={lesson.slug}
-                    />
-                  </div>
-                )}
+                <div>
+                  {!md && (
+                    <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
+                      <Course
+                        course={collection}
+                        currentLessonSlug={lesson.slug}
+                      />
+                    </div>
+                  )}
+                </div>
                 <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
                   <div className="lg:absolute top-0 bottom-0 left-0 right-0">
                     <CollectionLessonsList
@@ -767,11 +766,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 )}
               </div>
-              {md && (
-                <div className="py-4">
-                  <Course course={collection} currentLessonSlug={lesson.slug} />
-                </div>
-              )}
+              <div>
+                {md && (
+                  <div className="py-4">
+                    <Course
+                      course={collection}
+                      currentLessonSlug={lesson.slug}
+                    />
+                  </div>
+                )}
+              </div>
               <Tabs
                 index={defaultView === 'comments' ? 1 : 0}
                 onChange={(index) => {
