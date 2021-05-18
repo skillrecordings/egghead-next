@@ -1,15 +1,13 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Card from 'components/pages/home/card'
-import Collection from 'components/pages/home/collection'
 import Topic from '../../components/topic'
-import reactPageData from '../react/react-page-data'
 import graphqlPageData from './graphql-page-data'
-
 import {find} from 'lodash'
-import EggheadPlayer from 'components/EggheadPlayer'
 import Image from 'next/image'
 import ExternalTrackedLink from '../../../external-tracked-link'
+import VideoCard from 'components/pages/home/video-card'
+import {VerticalResourceCard} from '../../../card/verticle-resource-card'
+import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
 
 const SearchGraphql = () => {
   const location = 'graphQL landing'
@@ -86,7 +84,7 @@ These curated courses will teach you GraphQL from the ground up, all the way to 
       <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
         {graphqlFeatured.resources.map((resource: any) => {
           return (
-            <Card
+            <VerticalResourceCard
               className="col-span-4 text-center"
               key={resource.path}
               resource={resource}
@@ -97,41 +95,29 @@ These curated courses will teach you GraphQL from the ground up, all the way to 
       </div>
 
       <div className="grid md:grid-cols-3 grid-cols-1 mt-8">
-        <Card
+        <VideoCard
           resource={graphqlVideo}
           className="flex md:flex-row flex-col col-span-2 md:mr-4 mr-0"
           location={location}
-        >
-          <div className="sm:w-full sm:-mt-5 -mt-0 sm:-mb-5 -mb-4 md:-mr-5 -mr-4 md:ml-8 -ml-4  flex items-center bg-black flex-shrink-0 md:max-w-sm">
-            <EggheadPlayer
-              preload={false}
-              autoplay={false}
-              poster={graphqlVideo.poster}
-              hls_url={graphqlVideo.hls_url}
-              dash_url={graphqlVideo.dash_url}
-              subtitlesUrl={graphqlVideo.subtitlesUrl}
-              width="100%"
-              height="auto"
-            />
-          </div>
-        </Card>
-
-        <Card resource={beginner} location={location} className="md:mt-0 mt-4">
-          <Collection />
-        </Card>
+        />
+        <VerticalResourceCollectionCard
+          resource={beginner}
+          location={location}
+          className="md:mt-0 mt-4"
+        />
       </div>
 
       <div className="grid md:grid-cols-2 grid-cols-1 gap-5 items-start mt-8">
-        <Card resource={projectBased} location={location} className="h-full">
-          <Collection />
-        </Card>
-        <Card
+        <VerticalResourceCollectionCard
+          resource={projectBased}
+          location={location}
+          className="h-full"
+        />
+        <VerticalResourceCollectionCard
           resource={graphqlServerless}
           location={location}
           className="h-full"
-        >
-          <Collection />
-        </Card>
+        />
       </div>
     </div>
   )

@@ -3,14 +3,20 @@ import {NextSeo} from 'next-seo'
 
 type LayoutProps = {
   meta: any
+  noIndex?: boolean
 }
 
-const DefaultLayout: FunctionComponent<LayoutProps> = ({children, meta}) => {
+const DefaultLayout: FunctionComponent<LayoutProps> = ({
+  children,
+  meta,
+  noIndex = false,
+}) => {
   const {title, description, titleAppendSiteName = false, url, ogImage} =
     meta || {}
   return (
     <>
       <NextSeo
+        noindex={noIndex}
         title={title}
         description={description}
         titleTemplate={titleAppendSiteName ? undefined : '%s'}

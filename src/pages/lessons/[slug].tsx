@@ -1,10 +1,11 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, SyntheticEvent} from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import {isEmpty, get, first, isFunction, filter} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {playerMachine} from 'machines/lesson-player-machine'
+
 import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import Transcript from 'components/pages/lessons/transcript'
@@ -15,7 +16,7 @@ import {LessonResource} from 'types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
-import {setupHttpTracing} from '@vercel/tracing-js'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import Head from 'next/head'
@@ -43,9 +44,26 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
-import LevelUpCTA from '../../components/survey/level-up-cta'
 import Comments from '../../components/pages/lessons/comments/comments'
 import Spinner from 'components/spinner'
+import {
+  BigPlayButton,
+  ClosedCaptionButton,
+  ControlBar,
+  CurrentTimeDisplay,
+  DurationDisplay,
+  ForwardControl,
+  FullscreenToggle,
+  HLSSource,
+  PlaybackRateMenuButton,
+  Player,
+  PlayToggle,
+  ProgressControl,
+  RemainingTimeDisplay,
+  ReplayControl,
+  TimeDivider,
+  VolumeMenuButton,
+} from 'cueplayer-react'
 
 const tracer = getTracer('lesson-page')
 
@@ -98,9 +116,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
-  const {setPlayerPrefs, playbackRate, defaultView} = useEggheadPlayerPrefs()
+  const {setPlayerPrefs, playbackRate, defaultView, volumeRate, subtitle} =
+    useEggheadPlayerPrefs()
 
-  const {md} = useBreakpoint()
+  const {sm, md} = useBreakpoint()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
@@ -369,12 +388,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         uploadDate={lesson?.created_at}
         thumbnailUrls={[lesson?.thumb_url]}
       />
-      <Head>
-        <script
-          async
-          src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"
-        />
-      </Head>
+
       <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 sm:border-b border-gray-100  dark:border-gray-800">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
@@ -401,47 +415,37 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     playerVisible ? 'block' : 'hidden'
                   } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
                 >
-                  <EggheadPlayer
+                  <Player
                     id="egghead-player"
                     ref={playerRef}
-                    hidden={playerState.matches('LOADING')}
-                    resource={lesson}
+                    crossOrigin="anonymous"
+                    className="font-sans"
                     poster={lesson?.thumb_url}
-                    hls_url={lesson?.hls_url}
-                    dash_url={lesson?.dash_url}
-                    playing={playerState.matches('playing')}
-                    playbackRate={playbackRate}
-                    width="100%"
-                    height="auto"
-                    pip="true"
-                    controls
-                    onPlay={() => send('PLAY')}
-                    onViewModeChanged={({to}: {to: string}) => {
-                      if (to === 'fullscreen') {
-                        track('entered fullscreen video', {
-                          video: lesson.slug,
-                        })
-
-                        setIsFullscreen(true)
-                      } else {
-                        setIsFullscreen(false)
-                      }
-                    }}
-                    onReady={(player: any) => {
-                      actualPlayerRef.current = player
+                    volume={0.2}
+                    onCanPlay={(event: SyntheticEvent) => {
                       console.debug(`player ready [autoplay:${autoplay}]`)
-                      const isDifferent = lastAutoPlayed.current !== lesson.slug
+                      const player: HTMLVideoElement =
+                        event.target as HTMLVideoElement
+                      player.volume = volumeRate / 100
+                      player.playbackRate = playbackRate
+                      actualPlayerRef.current = player
+                      const isDifferent =
+                        lastAutoPlayed.current !== lesson?.hls_url
                       if (autoplay && isDifferent && isFunction(player.play)) {
                         console.debug(`autoplaying`)
-                        lastAutoPlayed.current = lesson.slug
+                        lastAutoPlayed.current = lesson?.hls_url
                         player.play()
                       }
                     }}
                     onPause={() => {
                       send('PAUSE')
                     }}
-                    onProgress={({...progress}) => {
-                      onProgress(progress, lesson).then((lessonView: any) => {
+                    onPlay={() => send('PLAY')}
+                    onTimeUpdate={(event: any) => {
+                      onProgress(
+                        {playedSeconds: event.target.currentTime},
+                        lesson,
+                      ).then((lessonView: any) => {
                         if (lessonView) {
                           console.debug('progress recorded', {
                             progress: lessonView,
@@ -454,8 +458,77 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       console.debug(`received ended event from player`)
                       send('COMPLETE')
                     }}
-                    subtitlesUrl={get(lesson, 'subtitles_url')}
-                  />
+                    onVolumeChange={(event: SyntheticEvent) => {
+                      const player: HTMLVideoElement =
+                        event.target as HTMLVideoElement
+                      setPlayerPrefs({volumeRate: player.volume * 100})
+                    }}
+                  >
+                    {lesson?.hls_url && (
+                      <HLSSource
+                        key={lesson?.hls_url}
+                        isVideoChild
+                        src={lesson?.hls_url}
+                      />
+                    )}
+                    <track
+                      key={lesson?.subtitles_url}
+                      src={lesson?.subtitles_url}
+                      kind="subtitles"
+                      srcLang="en"
+                      label="English"
+                      default={subtitle?.language === 'en'}
+                    />
+                    {!autoplay && <BigPlayButton position="center" />}
+                    {!sm && (
+                      <ControlBar disableDefaultControls>
+                        <PlayToggle key="play-toggle" order={1} />
+
+                        <ProgressControl key="progress-control" order={8} />
+                        <RemainingTimeDisplay
+                          key="remaining-time-display"
+                          order={9}
+                        />
+                        <ReplayControl key="replay-control" order={2} />
+                        <ForwardControl key="forward-control" order={3} />
+                        <VolumeMenuButton key="volume-menu-button" order={4} />
+                        <CurrentTimeDisplay
+                          key="current-time-display"
+                          order={5}
+                        />
+                        <TimeDivider key="time-divider" order={6} />
+                        <DurationDisplay key="duration-display" order={7} />
+                        <PlaybackRateMenuButton
+                          className="hidden"
+                          key="playback-rate"
+                          order={10}
+                          selected={playbackRate}
+                          onChange={(playbackRate: number) => {
+                            setPlayerPrefs({playbackRate})
+                          }}
+                        />
+                        {lesson?.subtitles_url && (
+                          <ClosedCaptionButton
+                            key={lesson?.subtitles_url}
+                            order={11}
+                            selected={subtitle}
+                            onChange={(track: TextTrack) => {
+                              console.log(track)
+                              setPlayerPrefs({
+                                subtitle: {
+                                  id: track.id,
+                                  kind: track.kind,
+                                  label: track.label,
+                                  language: track.language,
+                                },
+                              })
+                            }}
+                          />
+                        )}
+                        <FullscreenToggle key="fullscreen-toggle" order={12} />
+                      </ControlBar>
+                    )}
+                  </Player>
                 </div>
 
                 {spinnerVisible && (
@@ -545,28 +618,21 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     onDark={true}
                     player={actualPlayerRef.current}
                   />
-                  {playbackRate && (
-                    <PlaybackSpeedSelect
-                      playbackRate={playbackRate}
-                      changePlaybackRate={(rate: number) =>
-                        setPlayerPrefs({playbackRate: rate})
-                      }
-                      video={slug}
-                    />
-                  )}
                 </div>
               </div>
             </div>
             {collection && collection?.lessons && (
               <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 self-stretch dark:text-gray-100 dark:bg-gray-900">
-                {!md && (
-                  <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
-                    <Course
-                      course={collection}
-                      currentLessonSlug={lesson.slug}
-                    />
-                  </div>
-                )}
+                <div>
+                  {!md && (
+                    <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
+                      <Course
+                        course={collection}
+                        currentLessonSlug={lesson.slug}
+                      />
+                    </div>
+                  )}
+                </div>
                 <div className="relative h-full px-4 lg:px-0 py-3 lg:py-0">
                   <div className="lg:absolute top-0 bottom-0 left-0 right-0">
                     <CollectionLessonsList
@@ -587,7 +653,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           >
             <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
               <div className="space-y-4 sm:pb-8 pb-2 sm:pt-6 pt-0">
-                <LevelUpCTA />
                 {title && (
                   <h1 className="font-extrabold leading-tight text-xl lg:text-3xl">
                     {title}
@@ -701,11 +766,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </div>
                 )}
               </div>
-              {md && (
-                <div className="py-4">
-                  <Course course={collection} currentLessonSlug={lesson.slug} />
-                </div>
-              )}
+              <div>
+                {md && (
+                  <div className="py-4">
+                    <Course
+                      course={collection}
+                      currentLessonSlug={lesson.slug}
+                    />
+                  </div>
+                )}
+              </div>
               <Tabs
                 index={defaultView === 'comments' ? 1 : 0}
                 onChange={(index) => {

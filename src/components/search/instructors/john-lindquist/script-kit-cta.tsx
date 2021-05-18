@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
-const SimpleScriptsBadge = ({className}: any) => {
+const ScriptKitBadge = ({className}: any) => {
   return (
     <svg
       width="60"
@@ -28,25 +28,25 @@ const SimpleScriptsBadge = ({className}: any) => {
   )
 }
 
-const SimpleScriptsCTA = ({instructorData}: any) => {
+const ScriptKitCTA = ({instructorData}: any) => {
   return (
     <ExternalTrackedLink
       params={{
         location: instructorData.location,
       }}
       href={instructorData.ctaLink}
-      eventName="clicked simple scripts banner"
+      eventName="clicked script kit banner"
       className="group block md:col-span-4 rounded-md w-full h-full overflow-hidden bg-yellow-300 transition-all ease-in-out duration-300 text-center shadow-sm"
     >
       <div className="flex flex-col items-center text-black h-full">
         <div className="flex flex-col h-full justify-between p-8 items-center">
           <div className="flex flex-col items-center">
-            <SimpleScriptsBadge className="text-white" />
+            <ScriptKitBadge className="text-white" />
             <h1 className="sm:text-2xl text-2xl font-bold min-w-full mt-10 mb-2 leading-tighter">
-              Simple Scripts
+              Script Kit
             </h1>
             <p className="text-gray-800 px-4 mx-auto">
-              Automate any repetitive tasks in your day.
+              Making scripts easy to run, write, and share
             </p>
           </div>
           <div className="w-full bg-gray-900 font-bold py-4 mx-auto rounded-md text-white sm:mt-0 mt-10 group-hover:scale-105 transform transition-all ease-in-out duration-300">
@@ -58,4 +58,4 @@ const SimpleScriptsCTA = ({instructorData}: any) => {
   )
 }
 
-export default SimpleScriptsCTA
+export default ScriptKitCTA

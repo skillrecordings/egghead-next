@@ -13,20 +13,19 @@ export const ConvertkitProvider: React.FunctionComponent = ({children}) => {
   const [subscriber, setSubscriber] = React.useState()
   const [loadingSubscriber, setLoadingSubscriber] = React.useState(true)
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const queryParams = queryString.parse(window.location.search)
-      const ckSubscriberId = get(queryParams, 'ck_subscriber_id')
-
-      if (!isEmpty(ckSubscriberId)) {
-        cookie.set('ck_subscriber_id', ckSubscriberId)
-
-        window.history.replaceState(
-          null,
-          document.title,
-          window.location.pathname,
-        )
-      }
-    }
+    // if (typeof window !== 'undefined') {
+    // const queryParams = queryString.parse(window.location.search)
+    // const ckSubscriberId = get(queryParams, 'ck_subscriber_id')
+    // if (!isEmpty(ckSubscriberId)) {
+    //   cookie.set('ck_subscriber_id', ckSubscriberId)
+    //
+    //   window.history.replaceState(
+    //     null,
+    //     document.title,
+    //     window.location.pathname,
+    //   )
+    // }
+    // }
 
     axios
       .get(`/api/subscriber`)

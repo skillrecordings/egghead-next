@@ -4,9 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import {track} from 'utils/analytics'
-import {first, get, isEmpty, find} from 'lodash'
+import {first, get, isEmpty} from 'lodash'
 import {LessonResource} from 'types'
-import Card from 'components/pages/home/card'
+import {Card} from 'components/card'
 
 type InProgressResourceProps = {
   resource: any
@@ -159,7 +159,6 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
               <div className="flex relative w-full h-2 bg-gray-200 dark:bg-gray-600 overflow-hidden rounded-sm">
                 {allLessons.map((lesson: any) => {
                   const isComplete = completedLessonSlugs.includes(lesson.slug)
-                  console.log(isComplete)
                   return (
                     <Link href={lesson.path}>
                       <a

@@ -15,6 +15,8 @@ export async function loadAllPlaylistsByPage(retryCount = 0): Promise<any> {
           watched_count
           path
           description
+          access_state
+          created_at
           tags {
             name
             label
@@ -76,6 +78,8 @@ export async function loadAllPlaylists() {
         watched_count
         path
         description
+        access_state
+        created_at
         tags {
           name
           label
@@ -138,7 +142,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         type
         created_at
         updated_at
-        free_forever
+        access_state
         visibility_state
         tags {
           name

@@ -118,6 +118,10 @@ export default {
             title: 'portfolio',
             value: 'portfolio',
           },
+          {
+            title: 'club',
+            value: 'club',
+          },
         ],
       },
     },
@@ -477,8 +481,6 @@ export default {
     },
     prepare(selection) {
       const {title, name, type, media, image} = selection
-
-      console.log(selection)
 
       return {
         title: name || title,

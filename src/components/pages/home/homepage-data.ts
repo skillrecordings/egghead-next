@@ -40,28 +40,58 @@ const homepageData = {
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
+  'react-concurrent-react-from-scratch': {
+    id: 'react-concurrent-react-from-scratch',
+    title: 'Concurrent React from Scratch',
+    name: 'Mental Models for concurrent React',
+    byline: 'Shawn Wang・36m',
+    description: `In this talk, we’ll create an effective mental model of Concurrent React by building a tiny clone of React! We will start with a blank JS file and learn about how React renders components, schedules Time-Slicing updates with a Work Loop, and more!`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
+    path: '/talks/react-concurrent-react-from-scratch',
+    slug: 'react-concurrent-react-from-scratch',
+    instructor: {
+      name: 'Shawn Wang',
+      slug: 'shawn-wang',
+      path: '/q/resources-by-shawn-wang',
+      twitter: 'swyx',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
+    },
+  },
+  'drawing-the-invisible-react-explained-in-five-visual-metaphors': {
+    id: 'drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    title: 'Drawing the Invisible: React Explained ',
+    name: 'Visualize React through Metaphor',
+    byline: 'Maggie Appleton・36m',
+    description: `A guide to the fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her "get" React for the first time.`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
+    path:
+      '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    slug:
+      'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    instructor: {
+      name: 'Maggie Appleton',
+      slug: 'maggie-appleton',
+      path: '/q/resources-by-maggie-appleton',
+      twitter: 'mappletons',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
+    },
+  },
   video: {
     id: 'video',
     name: 'Optimize your Learning',
     title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
-
-There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.\n\nThere are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
       `,
     instructor: 'Ceora Ford',
     instructor_path: '/q/resources-by-ceora-ford',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
     path:
       '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
-    poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
-
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
-
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
   nextjsVideoApp: {
     id: 'nextjsVideoApp',

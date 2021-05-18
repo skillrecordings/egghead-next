@@ -1,6 +1,117 @@
 import * as React from 'react'
 import {useVideoJS} from '../hooks/useVideo'
 import {GetServerSideProps} from 'next'
+import {
+  Player,
+  BigPlayButton,
+  HLSSource,
+  ControlBar,
+  ReplayControl,
+  ClosedCaptionButton,
+  PlayToggle,
+  ForwardControl,
+  VolumeMenuButton,
+  CurrentTimeDisplay,
+  TimeDivider,
+  DurationDisplay,
+  ProgressControl,
+  RemainingTimeDisplay,
+  PlaybackRateMenuButton,
+  FullscreenToggle,
+} from 'cueplayer-react'
+import {SyntheticEvent} from 'react'
+import {isFunction} from 'lodash'
+
+export const getServerSideProps: GetServerSideProps = async function ({query}) {
+  const videoResource = pickVideoResource(query.v)
+
+  return {
+    props: {
+      videoResource,
+    },
+  }
+}
+
+const VideoTest: React.FC<any> = ({videoResource}) => {
+  const actualPlayerRef = React.useRef<any>()
+
+  //autoplay
+  const lastAutoPlayed = React.useRef()
+  const [autoplay, setAutoplay] = React.useState(true)
+
+  const send = (message:any) => {
+    console.debug(message)
+  }
+
+  const onProgress = () => {
+    console.log('progress happened')
+  }
+
+  return (
+    <div>
+      {videoResource.hls_url && (
+        <Player
+          ref={(test: any) => {
+            console.log(test.manager.store.getState())
+          }}
+          crossOrigin="anonymous"
+          className="font-sans"
+          poster={videoResource.poster}
+          onCanPlay={(event: SyntheticEvent) => {
+            console.debug(`player ready [autoplay:${autoplay}]`)
+            const player: HTMLVideoElement = event.target as HTMLVideoElement
+            actualPlayerRef.current = player
+            const isDifferent = lastAutoPlayed.current !== videoResource.hls_url
+            if (autoplay && isDifferent && isFunction(player.play)) {
+              console.debug(`autoplaying`)
+              lastAutoPlayed.current = videoResource.hls_url
+              player.play()
+            }
+          }}
+          onPause={() => {
+            send('PAUSE')
+          }}
+          onPlay={() => send('PLAY')}
+          onTimeUpdate={() => {
+            onProgress()
+          }}
+          onEnded={() => {
+            console.debug(`received ended event from player`)
+            send('COMPLETE')
+          }}
+        >
+          <BigPlayButton position="center" />
+          <HLSSource isVideoChild src={videoResource.hls_url} />
+          <track
+            src={videoResource.subtitlesUrl}
+            kind="subtitles"
+            srcLang="en"
+            label="English"
+            default
+          />
+          <ControlBar disableDefaultControls>
+            <PlayToggle key="play-toggle" order={1} />
+            <ReplayControl key="replay-control" order={2} />
+            <ForwardControl key="forward-control" order={3} />
+            <VolumeMenuButton key="volume-menu-button" order={4} />
+            <CurrentTimeDisplay key="current-time-display" order={5} />
+            <TimeDivider key="time-divider" order={6} />
+            <DurationDisplay key="duration-display" order={7} />
+            <ProgressControl key="progress-control" order={8} />
+            <RemainingTimeDisplay key="remaining-time-display" order={9} />
+            <PlaybackRateMenuButton
+              rates={[1, 1.25, 1.5, 2]}
+              key="playback-rate"
+              order={10}
+            />
+            <ClosedCaptionButton order={11} />
+            <FullscreenToggle key="fullscreen-toggle" order={12} />
+          </ControlBar>
+        </Player>
+      )}
+    </div>
+  )
+}
 
 const videoResources = {
   testingjavascript: {
@@ -99,46 +210,4 @@ const pickVideoResource = (query: any) => {
   }
 }
 
-export const getServerSideProps: GetServerSideProps = async function ({query}) {
-  const videoResource = pickVideoResource(query.v)
-
-  return {
-    props: {
-      videoResource,
-    },
-  }
-}
-const Team: React.FC<any> = ({videoResource}) => {
-  const {Video, player, ready} = useVideoJS({
-    poster: videoResource.poster,
-    sources: [{src: videoResource.hls_url}, {src: videoResource.dash_url}],
-    controls: true,
-    playbackRates: [0.5, 1, 1.5, 2],
-    responsive: true,
-  })
-
-  if (ready) {
-    console.log(player.textTracks())
-    player.on('timeupdate', () => {
-      console.log(player.currentTime())
-    })
-    player.on('ended', () => {
-      console.log(player.ended())
-    })
-  }
-  return (
-    <div className="lg:prose-lg prose xl:prose-xl max-w-screen-xl mx-auto mb-24">
-      <Video>
-        <track
-          src={videoResource.subtitlesUrl}
-          kind="subtitles"
-          srcLang="en"
-          label="English"
-          default
-        />
-      </Video>
-    </div>
-  )
-}
-
-export default Team
+export default VideoTest
