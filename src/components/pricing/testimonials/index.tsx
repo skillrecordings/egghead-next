@@ -1,5 +1,7 @@
 import * as React from 'react'
 import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import Image from 'next/image'
 
 type TestimonialsProps = {
@@ -23,7 +25,9 @@ const Testimonials: React.FunctionComponent<TestimonialsProps> = ({
         return (
           <div className="flex flex-col items-center" key={author.name}>
             <div className="text-lg font-medium leading-tight text-center">
-              <Markdown allowDangerousHtml={true}>{praise}</Markdown>
+              <Markdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+                {praise}
+              </Markdown>
             </div>
             <div className="flex items-center space-x-2 pt-4">
               <Image

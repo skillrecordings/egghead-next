@@ -1,6 +1,8 @@
 import React, {FunctionComponent} from 'react'
 import {CardResource} from 'types'
 import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import Link from 'next/link'
 import Image from 'next/image'
 import {get} from 'lodash'
@@ -89,7 +91,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               {description && (
                 <Markdown
                   children={description}
-                  allowDangerousHtml={true}
+                  rehypePlugins={[rehypeRaw, rehypeSanitize]}
                   className="mt-4 text-gray-200 text-base max-w-screen-sm"
                 />
               )}
