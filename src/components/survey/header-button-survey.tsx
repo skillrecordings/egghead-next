@@ -23,12 +23,29 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
 
 type HeaderButtonProps = {
   initialState: SortingHatState
+  subscriberRequired?: boolean
   className?: string
   alternative?: any
   variant?: string
 }
 
+const HeaderButton: React.FC<any> = ({url, label, onClick = () => {}}) => {
+  return (
+    <div className="hidden lg:block">
+      <Link href={url}>
+        <a
+          onClick={onClick}
+          className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+        >
+          {label}
+        </a>
+      </Link>
+    </div>
+  )
+}
+
 const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
+  subscriberRequired = false,
   initialState,
   className,
   alternative,
@@ -45,23 +62,29 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
     dispatch({type: 'answered', answer})
   }
 
+  if (
+    state.question &&
+    !subscriberRequired &&
+    !subscriber &&
+    !loadingSubscriber
+  ) {
+    return (
+      <HeaderButton label={state.question.heading} url={state.question.url} />
+    )
+  }
+
   className = className || `border p-6 mb-16`
 
   return !state.question || state.closed ? (
     alternative || null
   ) : variant === 'header' ? (
-    <div className="hidden lg:block">
-      <Link href={state.question.url}>
-        <a
-          onClick={() => {
-            onAnswer('maybe')
-          }}
-          className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-        >
-          {state.question.heading}
-        </a>
-      </Link>
-    </div>
+    <HeaderButton
+      label={state.question.heading}
+      url={state.question.url}
+      onClick={() => {
+        onAnswer('maybe')
+      }}
+    />
   ) : (
     <Card>
       <div className={className}>

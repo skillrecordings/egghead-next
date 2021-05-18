@@ -38,18 +38,24 @@ const Header: FunctionComponent = () => {
     )
 
   let ActiveCTA: React.FC = () => null
+  let one = 'bleh'
 
   switch (true) {
     case !subscriber?.attributes?.online_presence:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
+      one = 'gais'
       break
     case viewer.is_pro && !subscriber?.attributes?.project_club:
       ActiveCTA = () => <ProjectClubCTA variant="header" />
+      one = 'uao,kds'
       break
     case !subscriber && !loadingSubscriber:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
+      one = 'jdjsa98'
       break
   }
+
+  console.log(one)
 
   const Navigation: FunctionComponent<{
     className?: string
@@ -121,6 +127,7 @@ const Header: FunctionComponent = () => {
           </div>
         ) : (
           <div className={className}>
+            <ActiveCTA />
             {children}
             <Link href="/login" activeClassName="bg-gray-100 dark:bg-gray-400">
               <a

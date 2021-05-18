@@ -79,7 +79,7 @@ function loadSurvey(
     if (surveyIncomplete) {
       return initializeSurveyState(state, subscriber, question)
     } else {
-      return {...state, closed: true}
+      return {...state, question, closed: true}
     }
   }
 
@@ -88,9 +88,9 @@ function loadSurvey(
     cioIdentify(subscriber.id, state.answers, state)
     return getInitialSurveyState(subscriber)
   } else if (action.type === 'load' && !action.loadingSubscriber) {
-    return {...state, closed: true}
+    return {...state, question, closed: true}
   } else {
-    return state // we are waiting on the subscriber to load
+    return {...state, question} // we are waiting on the subscriber to load
   }
 }
 

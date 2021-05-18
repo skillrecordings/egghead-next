@@ -18,6 +18,7 @@ const OnlinePresenceCTA: React.FunctionComponent<{
   alternative?: JSX.Element
   variant?: string
 }> = (props) => {
+  console.log('PRRROS', props)
   return (
     <HeaderButtonCTA
       initialState={{
