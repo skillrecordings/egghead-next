@@ -156,6 +156,7 @@ const legacyRoutes = [
   {
     source: `/membership`,
     destination: `/user`,
+    permanent: true,
   },
   {
     source: `/update_billing.html`,
