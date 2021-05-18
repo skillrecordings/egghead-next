@@ -118,7 +118,7 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
                           </h3>
                         )}
                         <Markdown
-                          source={course.description}
+                          children={course.description}
                           className="prose dark:prose-dark prose-sm opacity-80 group-hover:opacity-100 transition-opacity ease-in-out duration-300"
                         />
                       </div>

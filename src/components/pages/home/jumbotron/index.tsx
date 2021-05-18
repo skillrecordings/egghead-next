@@ -88,7 +88,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
 
               {description && (
                 <Markdown
-                  source={description}
+                  children={description}
                   allowDangerousHtml={true}
                   className="mt-4 text-gray-200 text-base max-w-screen-sm"
                 />

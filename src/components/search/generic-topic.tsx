@@ -51,7 +51,7 @@ const GenericTopic: FunctionComponent<TopicProps> = ({
           <h1 className="sm:text-2xl text-xl font-bold">{title}</h1>
           {description && (
             <Markdown
-              source={description}
+              children={description}
               className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
             />
           )}

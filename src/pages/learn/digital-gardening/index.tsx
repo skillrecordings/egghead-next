@@ -46,12 +46,12 @@ const DigitalGardening: React.FC<any> = ({data}) => {
                   </h1>
 
                   <Markdown
-                    source={data.description}
+                    children={data.description}
                     allowDangerousHtml={true}
                     className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
                   />
                   <Markdown
-                    source={data.quote.description}
+                    children={data.quote.description}
                     allowDangerousHtml={true}
                     className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
                   />
