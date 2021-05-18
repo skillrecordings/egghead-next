@@ -12,10 +12,12 @@ import {useTheme} from 'next-themes'
 import useCio from '../../hooks/use-cio'
 import {Form, Formik} from 'formik'
 import ProjectClubCTA from '../survey/project-club'
+import OnlinePresenceCTA from '../survey/online-presence-cta'
 
 const Header: FunctionComponent = () => {
   const router = useRouter()
   const {viewer, loading} = useViewer()
+  const {subscriber, loadingSubscriber} = useCio()
   const {sm} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
 
@@ -35,6 +37,20 @@ const Header: FunctionComponent = () => {
       ),
     )
 
+  let ActiveCTA: React.FC = () => null
+
+  switch (true) {
+    case !subscriber?.attributes?.online_presence:
+      ActiveCTA = () => <OnlinePresenceCTA variant="header" />
+      break
+    case viewer.is_pro && !subscriber?.attributes?.project_club:
+      ActiveCTA = () => <ProjectClubCTA variant="header" />
+      break
+    case !subscriber && !loadingSubscriber:
+      ActiveCTA = () => <OnlinePresenceCTA variant="header" />
+      break
+  }
+
   const Navigation: FunctionComponent<{
     className?: string
   }> = ({
@@ -46,7 +62,7 @@ const Header: FunctionComponent = () => {
         {viewer ? (
           <div className={className}>
             {children}
-            {viewer.is_pro && <ProjectClubCTA variant="header" />}
+            <ActiveCTA />
             <Feedback
               user={viewer}
               className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
