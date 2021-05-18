@@ -3,7 +3,6 @@ import {NextApiRequest, NextApiResponse} from 'next'
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const Transaction = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('REQUEST')
   if (req.method === 'GET') {
     try {
       const transaction_id = req.query.transaction_id
