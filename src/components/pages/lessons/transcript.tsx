@@ -26,8 +26,7 @@ const hmsToSeconds = (str: string) => {
 }
 
 // https://regexr.com/58bnr
-const regex =
-  /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g
+const regex = /[0-9]:[0-9][0-9]|[0-9]{2}:[0-9][0-9]|[[0-9]{2}:[0-9][0-9]]|[[0-9]{3}:[0-9][0-9]]/g
 
 const Transcript: FunctionComponent<TranscriptProps> = ({
   player,
@@ -98,10 +97,10 @@ const Transcript: FunctionComponent<TranscriptProps> = ({
     <>
       <ReactMarkdown
         skipHtml={false}
-        components={{
+        renderers={{
           link: LinkReference,
           code: (props) => {
-            return <CodeBlock {...(props as any)} />
+            return <CodeBlock {...props} />
           },
         }}
         className={
