@@ -63,8 +63,7 @@ const javascriptPageData = [
     resources: [
       {
         title: 'Write simple asynchronous code with JavaScript generators',
-        path:
-          '/courses/write-simple-asynchronous-code-with-javascript-generators',
+        path: '/courses/write-simple-asynchronous-code-with-javascript-generators',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/110/full/EGH_JSAsync_1000.png',
         byline: 'Max Stoiber',
@@ -103,14 +102,25 @@ const javascriptPageData = [
     ],
   },
   {
+    id: 'dom-events',
+    name: 'Master DOM Events',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/603/full/DOM_424_2x.png',
+    byline: 'Alex Reardon 2h 9m・Course',
+    description:
+      'Listening to and responding to events is a foundational skill for building software for the web. The Document Object Model, or DOM for short, has a powerful built-in event system. ',
+    path: '/courses/the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
+    slug: 'dom-events-6c0c0d23',
+    title: 'The Ultimate Guide for Understanding DOM Events',
+  },
+  {
     id: 'interview-prep',
     title: 'Confidently Solve Interview Problems ',
     name: 'Interview Prep',
     resources: [
       {
         title: 'Functional programming for Solving Coding Challenges',
-        path:
-          '/playlists/javascript-interview-learn-functional-programming-with-solving-coding-challenges-8c0c',
+        path: '/playlists/javascript-interview-learn-functional-programming-with-solving-coding-challenges-8c0c',
         byline: 'Dimitri Ivashchuk',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/full/javascriptlang.png',
@@ -175,8 +185,7 @@ const javascriptPageData = [
       },
       {
         title: 'Chrome DevTools tips & tricks',
-        path:
-          '/playlists/4-things-you-might-not-know-about-chrome-devtools-98f99710',
+        path: '/playlists/4-things-you-might-not-know-about-chrome-devtools-98f99710',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/028/full/chrome.png',
         byline: 'Tomasz Łakomy',
@@ -230,8 +239,7 @@ const javascriptPageData = [
         title:
           'Improve Performance with the Object Pool Design Pattern in JavaScript',
         byline: 'Yonatan Kra',
-        path:
-          '/learn/javascript/improve-performance-with-the-object-pool-design-pattern-in-javascript',
+        path: '/learn/javascript/improve-performance-with-the-object-pool-design-pattern-in-javascript',
       },
       {
         title: 'The Real Introduction to JavaScript',
@@ -277,8 +285,7 @@ const javascriptPageData = [
         byline: 'Max Stoiber',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/110/full/EGH_JSAsync_1000.png',
-        path:
-          '/courses/write-simple-asynchronous-code-with-javascript-generators',
+        path: '/courses/write-simple-asynchronous-code-with-javascript-generators',
       },
     ],
   },
@@ -292,8 +299,7 @@ const javascriptPageData = [
         byline: 'Brian Lonsdorf',
         image:
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/ce5d6c4f-3f8c-47d7-b6eb-8f952038e5c9/1541152460artwork.jpg',
-        path:
-          '/podcasts/math-and-functional-programming-aren-t-exclusive-to-wizards-with-brian-lonsdorf',
+        path: '/podcasts/math-and-functional-programming-aren-t-exclusive-to-wizards-with-brian-lonsdorf',
       },
       {
         title: 'Henry Zhu, Maintainer of Babel',
@@ -314,16 +320,14 @@ const javascriptPageData = [
         byline: 'Mark Shust',
         image:
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/826f1b9f-3c99-4712-919a-03cbad5356ac/1534346494artwork.jpg',
-        path:
-          '/podcasts/12-factor-javascript-applications-using-docker-with-mark-shust',
+        path: '/podcasts/12-factor-javascript-applications-using-docker-with-mark-shust',
       },
       {
         title: 'Learning and Experimenting with Physical and Digital Mediums',
         byline: 'Keith Peters',
         image:
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/4d753431-9b5e-4ede-8675-f28cb9306ae0/1538717402artwork.jpg',
-        path:
-          '/podcasts/learning-and-experimenting-with-physical-and-digital-mediums-with-keith-peters',
+        path: '/podcasts/learning-and-experimenting-with-physical-and-digital-mediums-with-keith-peters',
       },
     ],
   },
@@ -338,8 +342,7 @@ const javascriptPageData = [
         byline: 'Colby Fayock',
         image:
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/ce5d6c4f-3f8c-47d7-b6eb-8f952038e5c9/1541152460artwork.jpg',
-        path:
-          '/talks/egghead-put-down-the-javascript-level-up-with-the-fundamentals-of-web-development',
+        path: '/talks/egghead-put-down-the-javascript-level-up-with-the-fundamentals-of-web-development',
       },
       {
         title: 'Henry Zhu, Maintainer of Babel',
@@ -360,16 +363,14 @@ const javascriptPageData = [
         byline: 'Mark Shust',
         image:
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/826f1b9f-3c99-4712-919a-03cbad5356ac/1534346494artwork.jpg',
-        path:
-          '/podcasts/12-factor-javascript-applications-using-docker-with-mark-shust',
+        path: '/podcasts/12-factor-javascript-applications-using-docker-with-mark-shust',
       },
       {
         title: 'Learning and Experimenting with Physical and Digital Mediums',
         byline: 'Keith Peters',
         image:
           'https://image.simplecastcdn.com/images/2ac34c/2ac34cab-4949-40aa-bac7-d7e3a70f0a39/4d753431-9b5e-4ede-8675-f28cb9306ae0/1538717402artwork.jpg',
-        path:
-          '/podcasts/learning-and-experimenting-with-physical-and-digital-mediums-with-keith-peters',
+        path: '/podcasts/learning-and-experimenting-with-physical-and-digital-mediums-with-keith-peters',
       },
     ],
   },
