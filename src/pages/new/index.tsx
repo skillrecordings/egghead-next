@@ -5,8 +5,12 @@ import Link from 'next/link'
 import React, {FunctionComponent} from 'react'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+import {track} from '../../utils/analytics'
 
-const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
+const WhatsNewPage: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}) => {
   const {primary, secondary} = resource
   const [jumbotron, secondPrimary, thirdPrimary] = primary.resources
   const [
@@ -26,21 +30,29 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
           <CourseFeatureCard
             className="h-auto row-span-2 w-full"
             resource={secondPrimary}
+            location={location}
           />
-          <HorizontalResourceCard className="w-full" resource={thirdPrimary} />
+          <HorizontalResourceCard
+            className="w-full"
+            resource={thirdPrimary}
+            location={location}
+          />
         </div>
         <div className="grid gap-4">
           <HorizontalResourceCard
             className="h-auto flex"
             resource={firstSecondaryResource}
+            location={location}
           />
           <HorizontalResourceCard
             className="w-full flex"
             resource={secondSecondaryResource}
+            location={location}
           />
           <HorizontalResourceCard
             className="w-full flex"
             resource={thirdSecondaryResource}
+            location={location}
           />
         </div>
       </div>
@@ -50,7 +62,7 @@ const WhatsNewPage: FunctionComponent<any> = ({resource}) => {
 
 export default WhatsNewPage
 
-const CourseFeatureCard = ({resource, className}: any) => {
+const CourseFeatureCard = ({resource, className, location}: any) => {
   const {
     title,
     image,
@@ -62,6 +74,12 @@ const CourseFeatureCard = ({resource, className}: any) => {
   return (
     <Link href={path}>
       <a
+        onClick={() => {
+          track('clicked resource', {
+            resource: path,
+            location,
+          })
+        }}
         className={`relative dark:bg-gray-800 bg-white group block rounded-md w-full h-full overflow-hidden text-center shadow-sm dark:text-white ${
           className ? className : ''
         }`}

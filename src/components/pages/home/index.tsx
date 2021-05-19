@@ -73,7 +73,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   }, [viewer?.id])
 
   const ReactStateManagement = () => (
-    <VerticalResourceCard resource={stateManagement} className="text-center">
+    <VerticalResourceCard
+      resource={stateManagement}
+      location={location}
+      className="text-center"
+    >
       <ol className="text-left">
         {stateManagement.resources.map((resource: any, index: any) => {
           return (
@@ -115,10 +119,12 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
               <HorizontalResourceCard
                 resource={concurrentReactTalk}
+                location={location}
                 className="m-0 mt-4"
               />
               <HorizontalResourceCard
                 resource={reactMetaphorTalk}
+                location={location}
                 className="m-0 lg:mt-4"
               />
             </div>
@@ -133,15 +139,28 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             <VerticalResourceCollectionCard
               className="sm:py-3 py-2"
               resource={getStarted}
+              location={location}
             />
-            <VerticalResourceCard resource={tailwind} className="text-center">
+            <VerticalResourceCard
+              location={location}
+              resource={tailwind}
+              className="text-center"
+            >
               <ol className="text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
                   return (
                     <li key={resource.path} className="flex space-x-2 my-2">
                       <span>{index + 1}</span>
                       <Link href={resource.path}>
-                        <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
+                        <a
+                          onClick={() => {
+                            track('clicked resource', {
+                              resource: resource.path,
+                              location,
+                            })
+                          }}
+                          className="font-bold hover:text-blue-600 dark:hover:text-blue-300"
+                        >
                           {resource.title}
                         </a>
                       </Link>
@@ -165,17 +184,30 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                   <VerticalResourceCard
                     key={resource.path}
                     resource={resource}
+                    location={location}
                   />
                 )
               })}
             </div>
             <div className="flex flex-col col-span-1 space-y-4">
-              <VerticalResourceCollectionCard resource={devEssentials} />
-              <VerticalResourceCard resource={accessibleReactApps} />
+              <VerticalResourceCollectionCard
+                resource={devEssentials}
+                location={location}
+              />
+              <VerticalResourceCard
+                resource={accessibleReactApps}
+                location={location}
+              />
             </div>
             <div className="flex flex-col col-span-1 space-y-4">
-              <VerticalResourceCard resource={accessibleApps} />
-              <VerticalResourceCollectionCard resource={workflows} />
+              <VerticalResourceCard
+                resource={accessibleApps}
+                location={location}
+              />
+              <VerticalResourceCollectionCard
+                resource={workflows}
+                location={location}
+              />
             </div>
           </div>
         </section>
@@ -187,7 +219,15 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 <div className="flex lg:flex-row flex-col sm:space-x-12 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
                   <div className="flex-shrink-0">
                     <Link href={featureDigitalGardening.path}>
-                      <a tabIndex={-1}>
+                      <a
+                        tabIndex={-1}
+                        onClick={() => {
+                          track('clicked resource', {
+                            resource: featureDigitalGardening.path,
+                            location,
+                          })
+                        }}
+                      >
                         <Image
                           quality={100}
                           src={
@@ -204,7 +244,15 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                     <h3 className="text-xs text-green-700 dark:text-green-400 uppercase font-semibold mb-2">
                       Learn in public with a digital garden
                     </h3>
-                    <Link href={featureDigitalGardening.path}>
+                    <Link
+                      onClick={() => {
+                        track('clicked resource', {
+                          resource: featureDigitalGardening.path,
+                          location,
+                        })
+                      }}
+                      href={featureDigitalGardening.path}
+                    >
                       <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
                         <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
                           {featureDigitalGardening.title}
@@ -245,23 +293,34 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             Build a New Portfolio Project
           </h2>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-            <HorizontalResourceCard resource={portfolioProject} />
-            <HorizontalResourceCard resource={ecommerce} />
+            <HorizontalResourceCard
+              resource={portfolioProject}
+              location={location}
+            />
+            <HorizontalResourceCard resource={ecommerce} location={location} />
           </div>
         </section>
 
         <section className="mt-20 sm:mt-24">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols 1 gap-4">
-            <VerticalResourceCollectionCard resource={aws} />
-            <VerticalResourceCollectionCard resource={freeCourses} />
+            <VerticalResourceCollectionCard
+              resource={aws}
+              location={location}
+            />
+            <VerticalResourceCollectionCard
+              resource={freeCourses}
+              location={location}
+            />
             <div className="space-y-4">
               <VerticalResourceCard
                 className="text-center"
                 resource={projectFeatureCardVideoApp}
+                location={location}
               />
               <VerticalResourceCard
                 className="text-center"
                 resource={wordpressWithGraphql}
+                location={location}
               />
             </div>
           </div>
@@ -337,7 +396,16 @@ const EventSchedule: React.FunctionComponent = () => {
                   <div>
                     {resource.informationUrl ? (
                       <Link href={resource.informationUrl}>
-                        <a className="hover:underline">{resource.title}</a>
+                        <a
+                          onClick={() => {
+                            track('clicked event', {
+                              event: resource.title,
+                            })
+                          }}
+                          className="hover:underline"
+                        >
+                          {resource.title}
+                        </a>
                       </Link>
                     ) : (
                       resource.title
@@ -352,7 +420,14 @@ const EventSchedule: React.FunctionComponent = () => {
                   )}
                   {resource.calendarUrl && (
                     <Link href={resource.calendarUrl}>
-                      <a className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out">
+                      <a
+                        onClick={() => {
+                          track('clicked event calendar', {
+                            event: resource.title,
+                          })
+                        }}
+                        className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out"
+                      >
                         {/* prettier-ignore */}
                         <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor" /><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor" /></g></svg>
                       </a>
