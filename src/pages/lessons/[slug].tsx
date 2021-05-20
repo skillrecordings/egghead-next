@@ -251,6 +251,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       }
 
       if (!hasNextLesson && progress?.rate_url) {
+        console.debug('presenting opportunity to rate course', {
+          lessonView,
+          video: lesson,
+        })
         send('RATE')
       } else {
         checkAutoPlay()
@@ -268,6 +272,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
+    console.debug(`current state of player:`, currentPlayerState)
     const lesson = get(playerState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
     switch (currentPlayerState) {
@@ -291,24 +296,25 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
         )
         if (!mediaPresent && !isFullscreen) {
-          console.log(`sending load event from viewing`)
+          console.debug(`sending load event from viewing`)
           send('LOAD')
         }
         break
       case 'completed':
-        let completed = false
         console.debug('handling a change to completed', {lesson, lessonView})
-        onEnded(lesson).then((lessonView: any) => {
-          if (lessonView) {
-            setLessonView(lessonView)
-          }
-          if (!completed) completeVideo(lessonView)
-        })
+        onEnded(lesson)
+          .then((lessonView: any) => {
+            if (lessonView) {
+              setLessonView(lessonView)
+              completeVideo(lessonView)
+            }
+          })
+          .catch(() => {
+            if (lessonView) {
+              completeVideo(lessonView)
+            }
+          })
 
-        if (lessonView) {
-          completeVideo(lessonView)
-          completed = true
-        }
         break
     }
   }, [currentPlayerState])
