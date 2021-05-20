@@ -244,16 +244,16 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                     <h3 className="text-xs text-green-700 dark:text-green-400 uppercase font-semibold mb-2">
                       Learn in public with a digital garden
                     </h3>
-                    <Link
-                      onClick={() => {
-                        track('clicked resource', {
-                          resource: featureDigitalGardening.path,
-                          location,
-                        })
-                      }}
-                      href={featureDigitalGardening.path}
-                    >
-                      <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out">
+                    <Link href={featureDigitalGardening.path}>
+                      <a
+                        className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out"
+                        onClick={() => {
+                          track('clicked resource', {
+                            resource: featureDigitalGardening.path,
+                            location,
+                          })
+                        }}
+                      >
                         <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
                           {featureDigitalGardening.title}
                         </h2>
