@@ -247,7 +247,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                     <Link href={featureDigitalGardening.path}>
                       <a
                         className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out"
-                        onClick={(): void => {
+                        onClick={() => {
                           track('clicked resource', {
                             resource: featureDigitalGardening.path,
                             location,
