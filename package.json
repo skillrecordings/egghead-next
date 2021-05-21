@@ -141,6 +141,7 @@
     "@storybook/addon-actions": "^6.2.8",
     "@storybook/addon-essentials": "^6.2.8",
     "@storybook/addon-links": "^6.2.8",
+    "@storybook/builder-webpack5": "^6.2.9",
     "@storybook/react": "^6.2.8",
     "@tailwindcss/typography": "^0.4.0",
     "@testing-library/jest-dom": "^5.12.0",
