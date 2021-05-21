@@ -43,6 +43,10 @@ const about = [
     label: 'Store',
   },
   {
+    path: 'mailto:support@egghead.io',
+    label: 'support@egghead.io',
+  },
+  {
     path: '/logout',
     label: 'Log Out',
     viewerRequired: true,
