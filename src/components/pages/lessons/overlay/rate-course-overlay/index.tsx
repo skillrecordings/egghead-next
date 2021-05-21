@@ -61,11 +61,11 @@ const TextComment: React.FunctionComponent<{
   const MESSAGES: any = {
     7: {
       subtitle: "We're so glad you enjoyed it! 🤗",
-      title: 'What did you like about this course?',
+      title: 'How will you use what you learned from this course?',
     },
     6: {
       subtitle: 'We really appreciate your feedback.',
-      title: 'What would make this course a 7 for you?',
+      title: 'How will you use what you learned from this course?',
     },
     5: {
       subtitle: 'Thanks for the feedback.',
@@ -73,7 +73,7 @@ const TextComment: React.FunctionComponent<{
     },
     4: {
       subtitle: 'Thank you so much.',
-      title: 'What was your strongest take away from this course?',
+      title: 'How will you use what you learned from this course?',
     },
     3: {
       subtitle: "We're sorry this course didn't meet your expectations",

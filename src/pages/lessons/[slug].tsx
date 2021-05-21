@@ -5,11 +5,12 @@ import {isEmpty, get, first, isFunction, filter} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {playerMachine} from 'machines/lesson-player-machine'
-
-import EggheadPlayer, {useEggheadPlayer} from 'components/EggheadPlayer'
-import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
+import {useEggheadPlayer} from 'components/EggheadPlayer'
+import {
+  useEggheadPlayerPrefs,
+  defaultSubtitlePreference,
+} from 'components/EggheadPlayer/use-egghead-player'
 import Transcript from 'components/pages/lessons/transcript'
-import PlaybackSpeedSelect from 'components/pages/lessons/playback-speed-select'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from 'types'
@@ -19,7 +20,6 @@ import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
-import Head from 'next/head'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import axios from 'utils/configured-axios'
@@ -251,6 +251,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       }
 
       if (!hasNextLesson && progress?.rate_url) {
+        console.debug('presenting opportunity to rate course', {
+          lessonView,
+          video: lesson,
+        })
         send('RATE')
       } else {
         checkAutoPlay()
@@ -268,6 +272,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   React.useEffect(() => {
+    console.debug(`current state of player:`, currentPlayerState)
     const lesson = get(playerState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
     switch (currentPlayerState) {
@@ -291,24 +296,25 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
         )
         if (!mediaPresent && !isFullscreen) {
-          console.log(`sending load event from viewing`)
+          console.debug(`sending load event from viewing`)
           send('LOAD')
         }
         break
       case 'completed':
-        let completed = false
         console.debug('handling a change to completed', {lesson, lessonView})
-        onEnded(lesson).then((lessonView: any) => {
-          if (lessonView) {
-            setLessonView(lessonView)
-          }
-          if (!completed) completeVideo(lessonView)
-        })
+        onEnded(lesson)
+          .then((lessonView: any) => {
+            if (lessonView) {
+              setLessonView(lessonView)
+              completeVideo(lessonView)
+            }
+          })
+          .catch(() => {
+            if (lessonView) {
+              completeVideo(lessonView)
+            }
+          })
 
-        if (lessonView) {
-          completeVideo(lessonView)
-          completed = true
-        }
         break
     }
   }, [currentPlayerState])
@@ -512,14 +518,18 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                             key={lesson?.subtitles_url}
                             order={11}
                             selected={subtitle}
-                            onChange={(track: TextTrack) => {
+                            onChange={(track?: TextTrack) => {
+                              const updatedSubtitlePref = track
+                                ? {
+                                    id: track.id,
+                                    kind: track.kind,
+                                    label: track.label,
+                                    language: track.language,
+                                  }
+                                : defaultSubtitlePreference
+
                               setPlayerPrefs({
-                                subtitle: {
-                                  id: track.id,
-                                  kind: track.kind,
-                                  label: track.label,
-                                  language: track.language,
-                                },
+                                subtitle: updatedSubtitlePref,
                               })
                             }}
                           />
