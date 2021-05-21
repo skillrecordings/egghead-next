@@ -207,6 +207,13 @@ function onError() {}
 
 const PLAY_PREFS_KEY = 'egghead-player-prefs'
 
+export const defaultSubtitlePreference = {
+  id: null,
+  kind: null,
+  label: 'off',
+  language: null,
+}
+
 const defaultPlayerPreferences = {
   volumeRate: 80,
   playbackRate: 1,
@@ -217,12 +224,7 @@ const defaultPlayerPreferences = {
     id: 'auto',
     width: null,
   },
-  subtitle: {
-    id: null,
-    kind: null,
-    label: 'off',
-    language: null,
-  },
+  subtitle: defaultSubtitlePreference,
   muted: false,
   theater: false,
   defaultView: 'transcript',
