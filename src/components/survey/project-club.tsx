@@ -21,6 +21,7 @@ const ProjectClubCTA: React.FunctionComponent<{
 }> = (props) => {
   return (
     <HeaderButtonCTA
+      subscriberRequired
       initialState={{
         currentQuestionKey: 'project_club',
         answers: {},

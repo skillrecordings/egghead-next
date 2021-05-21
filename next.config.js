@@ -154,6 +154,11 @@ const searchRoutes = [
 
 const legacyRoutes = [
   {
+    source: `/membership`,
+    destination: `/user`,
+    permanent: true,
+  },
+  {
     source: `/update_billing.html`,
     destination: `${appUrl}/update_billing.html`,
     permanent: true,
