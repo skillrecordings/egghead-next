@@ -24,7 +24,7 @@ const SamlSignInForm: FunctionComponent<SamlSignInFormProps> = ({
           const {values, isSubmitting, handleChange, handleBlur} = props
           return (
             <form
-              action={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/managed_subscriptions/saml_init`}
+              action={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/saml_sessions/saml_init`}
             >
               <label
                 htmlFor="email"
