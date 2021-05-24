@@ -132,8 +132,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         byline: 'Colby Fayock・1h 4m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
-        path:
-          '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
+        path: '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
         description: `This is a practical project based look at building a working e-commerce store
         using modern tools and APIs. Excellent for a weekend side-project for your [developer project portfolio](https://joelhooks.com/developer-portfolio)`,
@@ -257,8 +256,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     [],
   ).map((lesson: LessonResource) => lesson.slug)
 
-  const {name, avatar_url, url: instructor_slug, bio_short, twitter} =
-    instructor || {}
+  const {
+    full_name: name,
+    avatar_url,
+    slug,
+    bio_short,
+    twitter,
+  } = instructor || {}
 
   const image_url = square_cover_480_url || image_thumb_url
 
@@ -420,7 +424,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <InstructorProfile
                     name={name}
                     avatar_url={avatar_url}
-                    url={instructor_slug}
+                    url={slug}
                     bio_short={bio_short}
                     twitter={twitter}
                   />
@@ -790,9 +794,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                             <ul className="ml-8">
                               {playlist?.lessons?.map(
                                 (lesson: LessonResource, index: number) => {
-                                  const isComplete = completedLessonSlugs.includes(
-                                    lesson.slug,
-                                  )
+                                  const isComplete =
+                                    completedLessonSlugs.includes(lesson.slug)
                                   return (
                                     <li
                                       key={`${playlist.slug}::${lesson.slug}`}
