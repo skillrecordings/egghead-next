@@ -1,4 +1,5 @@
 import {sanityClient} from 'utils/sanity-client'
+import {pickBy, identity} from 'lodash'
 import groq from 'groq'
 
 const courseQuery = groq`
@@ -34,9 +35,9 @@ const courseQuery = groq`
     'image': person->image.url
   },
 	'instructor': collaborators[]->[role == 'instructor'][0]{
-    'name': person->name,
+    'full_name': person->name,
     'avatar_url': person->image.url,
-    'url': person->slug.current
+    'slug': person->slug.current
   },
 	'dependencies': softwareLibraries[]{
     version,
