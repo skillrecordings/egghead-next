@@ -105,6 +105,7 @@ export const playerMachine = Machine<
         on: {
           PLAY: 'playing',
           LOAD: 'loading',
+          COMPLETE: 'completed',
         },
       },
 

@@ -1,9 +1,9 @@
 import React from 'react'
-import axios from 'axios'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import get from 'lodash/get'
+import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -15,34 +15,9 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
   slug,
 }) => {
   const {viewer} = useViewer()
-  const [subscriptionData, setSubscriptionData] = React.useState<any>()
-  const recur = (price: any) => {
-    const {
-      recurring: {interval, interval_count},
-    } = price
-
-    if (interval === 'month' && interval_count === 3) return 'quarter'
-    if (interval === 'month' && interval_count === 6) return '6-months'
-    if (interval === 'month' && interval_count === 1) return 'month'
-    if (interval === 'year' && interval_count === 1) return 'year'
-  }
-
-  React.useEffect(() => {
-    if (stripeCustomerId) {
-      axios
-        .get(`/api/stripe/billing/session`, {
-          params: {
-            customer_id: stripeCustomerId,
-            account_slug: slug,
-          },
-        })
-        .then(({data}) => {
-          if (data) {
-            setSubscriptionData(data)
-          }
-        })
-    }
-  }, [stripeCustomerId, slug])
+  const {subscriptionData, loading} = useSubscriptionDetails({
+    stripeCustomerId,
+  })
 
   const subscriptionName = subscriptionData && subscriptionData.product?.name
   const subscriptionUnitAmount = get(
@@ -50,18 +25,24 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> = (
     'latestInvoice.amount_due',
     subscriptionData?.price?.unit_amount,
   )
+  const currency = get(
+    subscriptionData,
+    'latestInvoice.currency',
+    subscriptionData?.price?.unit_amount,
+  )
   const subscriptionPrice =
-    subscriptionData?.price &&
+    subscriptionUnitAmount &&
+    currency &&
     new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: subscriptionData.price.currency,
+      currency: currency,
       minimumFractionDigits: 0,
     }).format(subscriptionUnitAmount / 100)
 
   return (
     <>
       {/* Payment details */}
-      {subscriptionData && (
+      {!loading && subscriptionData && (
         <div className="sm:px-6 lg:px-0 lg:col-span-9">
           <section className="mb-32">
             <div className="p-4 w-full">

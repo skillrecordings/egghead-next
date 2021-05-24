@@ -1,9 +1,6 @@
-import {GraphQLClient} from 'graphql-request'
-import config from './config'
-import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
+import {getGraphQLClient} from '../utils/configured-graphql-client'
 import {get} from 'lodash'
-
-const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
+import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 
 const CourseRatingsQuery = `
   query RatingsQuery($slug: String!, $per_page: Int!, $type: String!) {
@@ -34,17 +31,13 @@ export async function loadRatings(slug: string, type: string = 'Series') {
   const SIZE_OF_PAGE = 6
 
   const token = getAccessTokenFromCookie()
-  const authorizationHeader = token && {
-    authorization: `Bearer ${token}`,
-  }
+  const graphQLClient = getGraphQLClient(token)
+
   const variables = {
     slug,
     type,
     per_page: SIZE_OF_PAGE,
   }
-  graphQLClient.setHeaders({
-    ...authorizationHeader,
-  })
 
   try {
     const result = await graphQLClient.request(CourseRatingsQuery, variables)

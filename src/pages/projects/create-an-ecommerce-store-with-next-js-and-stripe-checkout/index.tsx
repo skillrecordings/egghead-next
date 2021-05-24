@@ -9,8 +9,7 @@ import {NextSeo} from 'next-seo'
 import {track} from 'utils/analytics'
 import {first, get} from 'lodash'
 import {useViewer} from '../../../context/viewer-context'
-import Card from 'components/pages/home/card/index'
-import EggheadPlayer from 'components/EggheadPlayer'
+import VideoCard from 'components/pages/home/video-card'
 
 type CourseProps = {
   course: any
@@ -71,14 +70,14 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
         description: `Having the ability to build an online store opens up a ton of possibilities, whether you’re building that store for a new client to pay the bills or you’re trying to start your own business. In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity`,
         name: `manage product inventory`,
         image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613432463/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/build-cms-e-commerce-article_2x.png`,
-        path: `/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity`,
+        path: `/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity`,
       },
       {
         title: `Product Images That Don't Byte with the Next.js Image Component`,
         name: `Build high-performance ecommerce sites`,
         description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
         image: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613454662/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/product-images-ecommerce-article_2x.png`,
-        path: `/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component`,
+        path: `/blog/product-images-that-dont-byte-with-the-nextjs-image-component`,
       },
     ],
     video: {
@@ -89,16 +88,8 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
 In this talk, we’ll explore the challenges of ecommerce in a static world. We’ll talk about what tools are available to us and how we can take advantage of them to build dynamic web apps with a practical example of a Next.js app.`,
       byline: 'Colby Fayock',
       path: '/talks/react-getting-personal-with-ecommerce-react-the-static-web',
-      poster:
+      image:
         'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613463219/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/challenges-of-ecommerce-cover_2.png',
-      hls_url:
-        'https://d2c5owlt6rorc3.cloudfront.net/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV/hls/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV.m3u8',
-
-      dash_url:
-        'https://d2c5owlt6rorc3.cloudfront.net/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV/dash/egghead-getting-personal-with-ecommerce-react-the-static-web-0uIrLH4hV.mpd',
-
-      subtitlesUrl:
-        'https://app.egghead.io/api/v1/lessons/react-getting-personal-with-ecommerce-react-the-static-web/subtitles',
     },
     resources: [
       {
@@ -391,7 +382,7 @@ In this talk, we’ll explore the challenges of ecommerce in a static world. We�
 
         <Instructor instructor={course.instructor} />
         <Articles articles={course.articles}>
-          <FeaturedVideoCard video={course.video} />
+          <VideoCard resource={course.video} />
         </Articles>
 
         <Join />
@@ -669,67 +660,6 @@ const Articles: React.FC<{articles: any}> = ({articles, children}) => {
         {children}
       </div>
     </div>
-  )
-}
-
-const FeaturedVideoCard: React.FC<{video: any}> = ({video}) => {
-  return (
-    <Card className="lg:col-span-6 mt-4 shadow-lg">
-      <div className="flex sm:flex-row flex-col justify-center">
-        <div className="flex flex-col justify-between items-start sm:pr-16 sm:pb-0 pb-10">
-          <div>
-            <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
-              {video.name}
-            </h2>
-            <Link href={video.path}>
-              <a
-                onClick={() =>
-                  track('clicked home page video link', {
-                    resource: video.path,
-                    linkType: 'text',
-                  })
-                }
-                className="hover:text-blue-600 dark:hover:text-blue-300"
-              >
-                <h3 className="text-2xl font-bold tracking-tight leading-tighter mt-2 text-gray-900 dark:text-gray-100">
-                  {video.title}
-                </h3>
-              </a>
-            </Link>
-            <div className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 transition-colors duration-150 ease-in-out mt-1">
-              <Link href={video.instructor_path || ''}>
-                <a
-                  onClick={() =>
-                    track('clicked home page video instructor', {
-                      instructor: video.instructor,
-                      linkType: 'image',
-                    })
-                  }
-                  className="hover:text-blue-600 dark:hover:text-blue-300"
-                >
-                  {video.instructor}
-                </a>
-              </Link>
-            </div>
-            <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-              {video.description}
-            </Markdown>
-          </div>
-        </div>
-        <div className="sm:w-full sm:-m-8 -m-5 flex items-center flex-grow bg-black">
-          <EggheadPlayer
-            preload={false}
-            autoplay={false}
-            poster={video.poster}
-            hls_url={video.hls_url}
-            dash_url={video.dash_url}
-            subtitlesUrl={video.subtitlesUrl}
-            width="100%"
-            height="auto"
-          />
-        </div>
-      </div>
-    </Card>
   )
 }
 

@@ -111,7 +111,6 @@ const DEFAULT_FEATURES = [
   'Offline viewing',
   'Commenting and support',
   'Enhanced Transcripts',
-  'Discord access',
   'Closed captions for every video',
 ]
 

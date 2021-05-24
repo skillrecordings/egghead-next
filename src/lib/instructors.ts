@@ -1,4 +1,10 @@
 import {request} from 'graphql-request'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
+import {kamranAhmedQuery} from 'components/search/instructors/kamran-ahmed'
+import {alexReardonQuery} from 'components/search/instructors/alex-reardon'
+
 import config from './config'
 
 export type Instructor = {
@@ -33,6 +39,36 @@ export async function loadInstructor(slug: string) {
     }
   }`
   const {instructor} = await request(config.graphQLEndpoint, query, {slug})
+  let sanityInstructor
 
-  return instructor
+  if (canLoadSanityInstructor(slug)) {
+    sanityInstructor = await loadSanityInstructor(slug)
+  }
+
+  return {...instructor, ...sanityInstructor}
+}
+
+const sanityInstructorHash = {
+  'stephanie-eckles': stephanieEcklesQuery,
+  'kamran-ahmed': kamranAhmedQuery,
+  'alex-reardon': alexReardonQuery,
+}
+
+type SelectedInstructor = keyof typeof sanityInstructorHash
+
+const canLoadSanityInstructor = (
+  selectedInstructor: string,
+): selectedInstructor is SelectedInstructor => {
+  const keyNames = Object.keys(sanityInstructorHash)
+
+  return keyNames.includes(selectedInstructor)
+}
+
+export const loadSanityInstructor = async (selectedInstructor: string) => {
+  if (!canLoadSanityInstructor(selectedInstructor)) return
+
+  const query = sanityInstructorHash[selectedInstructor]
+  if (!query) return
+
+  return await sanityClient.fetch(query)
 }

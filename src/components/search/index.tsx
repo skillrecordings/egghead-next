@@ -67,13 +67,14 @@ const Search: FunctionComponent<SearchProps> = ({
   const isRefinementOn =
     !isEmpty(get(searchState, 'refinementList.instructor_name')) ||
     !isEmpty(get(searchState, 'refinementList._tags')) ||
+    !isEmpty(get(searchState, 'refinementList.access_state')) ||
     !isEmpty(get(searchState, 'refinementList.type'))
 
   const numberOfRefinements =
     get(searchState, 'refinementList.instructor_name', []).length +
     get(searchState, 'refinementList._tags', []).length +
-    get(searchState, 'refinementList.type', []).length +
-    get(searchState, 'page', 0)
+    get(searchState, 'refinementList.access_state', []).length +
+    get(searchState, 'refinementList.type', []).length
 
   const refinementRef = React.useRef(null)
   useClickAway(refinementRef, () => setShowFilter(false))
@@ -120,7 +121,6 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <ScrollTo scrollOn="page" />
         <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
           <div
             className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
@@ -176,8 +176,14 @@ const Search: FunctionComponent<SearchProps> = ({
                   <RefinementList limit={6} attribute="instructor_name" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Content Type</h3>
-                  <RefinementList attribute="type" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Content Type</h3>
+                    <RefinementList attribute="type" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Free or Pro</h3>
+                    <RefinementList attribute="access_state" />
+                  </div>
                 </div>
                 {isRefinementOn && (
                   <button
@@ -209,6 +215,7 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+              <ScrollTo scrollOn="page" />
               <Hits />
             </div>
           </div>

@@ -12,7 +12,7 @@ const content = [
     label: 'Search',
   },
   {
-    path: '/learn',
+    path: '/blog',
     label: 'Articles',
   },
   {
@@ -41,6 +41,10 @@ const about = [
   {
     path: 'https://store.egghead.io/',
     label: 'Store',
+  },
+  {
+    path: 'mailto:support@egghead.io',
+    label: 'support@egghead.io',
   },
   {
     path: '/logout',

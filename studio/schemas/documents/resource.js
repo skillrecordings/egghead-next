@@ -51,6 +51,12 @@ export default {
       },
     },
     {
+      name: 'updatedAt',
+      description: 'The last time this resource was meaningfully updated',
+      title: 'Updated At',
+      type: 'date',
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'tags',
@@ -111,6 +117,10 @@ export default {
           {
             title: 'portfolio',
             value: 'portfolio',
+          },
+          {
+            title: 'club',
+            value: 'club',
           },
         ],
       },
@@ -471,8 +481,6 @@ export default {
     },
     prepare(selection) {
       const {title, name, type, media, image} = selection
-
-      console.log(selection)
 
       return {
         title: name || title,

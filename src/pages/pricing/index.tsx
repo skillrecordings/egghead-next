@@ -83,7 +83,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
               prices={prices}
               pricesLoading={pricesLoading}
               handleClickGetAccess={onClickCheckout}
-              quantityAvailable={false}
+              quantityAvailable={true}
               onQuantityChanged={(quantity: number) => {
                 setQuantity(quantity)
               }}

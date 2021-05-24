@@ -8,7 +8,6 @@ const courseDependencyData = (courseSlug) =>
         type: 'playlist',
         guid: '93bd',
         slug: 'declarative-uis-without-css-with-elm-ui-93bd',
-        customOgImage: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615288740/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/share-card-declarative-uis-without-css-with-elm-ui_2x.png',
         dependencies: {
           elm: '>=0.19.1',
         },
@@ -79,8 +78,6 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Maxime Bourgeois',
         },
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614666866/next.egghead.io/cards/build-a-developer-blog-with-gatsby_2x.png',
         dependencies: {
           gatsby: '>=2.27.1',
         },
@@ -260,8 +257,6 @@ const courseDependencyData = (courseSlug) =>
         illustrator: {
           name: 'Kamil Khadeyev',
         },
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614088796/next.egghead.io/cards/accessible-cross-browser-css-form-styling_2x.png',
         prerequisites: [
           {
             id: '392298',
@@ -499,8 +494,6 @@ const courseDependencyData = (courseSlug) =>
         },
         multiModuleCourse: true,
         multiModuleLineheight: '45rem',
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613200877/egghead-next-pages/design-with-tailwind-css-masterclass/design-with-tailwind-css-masterclass_2x.png',
         freshness: {
           status: `awesome`,
           title: `Still Awesome`,
@@ -1196,8 +1189,6 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
         type: 'playlist',
         guid: '562c',
         slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-        customOgImage:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613387847/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/card_2x.png',
         dependencies: {
           react: '>= 17.0.1',
           next: '^10.0.6',
@@ -1245,7 +1236,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
               "Product Images That Don't Byte with the Next.js Image Component",
             byline: 'Colby Fayock・Article',
             path:
-              '/learn/ecommerce/product-images-that-dont-byte-with-the-nextjs-image-component',
+              '/blog/product-images-that-dont-byte-with-the-nextjs-image-component',
             slug:
               'product-images-that-dont-byte-with-the-nextjs-image-component',
             description: `By using the Next.js Image Component, you can add images to your project just like you would the standard img tag and be confident that you’ll be serving optimized images to your website visitors.`,
@@ -1254,8 +1245,7 @@ This course is part of the [Design with Tailwind CSS Masterclass](/playlists/des
             title:
               'Build a Content Management System for an E-commerce Store with Next.js and Sanity',
             byline: 'Colby Fayock・Article',
-            path:
-              '/learn/ecommerce/build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
+            path: '/blog/build-cms-for-ecommerce-store-with-nextjs-and-sanity',
             slug:
               'build-a-content-management-system-for-an-e-commerce-store-with-nextjs-and-sanity',
             description: `In this article, you will learn how to build a CMS for an ecommerce store with Next.js and Sanity.`,

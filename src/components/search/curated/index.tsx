@@ -6,6 +6,8 @@ import SearchDocker from './docker'
 import SearchCSS from './css'
 import SearchNext from './next'
 import SearchGatsby from './gatsby'
+import SearchAWS from './aws'
+import SearchNode from './node'
 
 const CuratedTopicsIndex: any = {
   javascript: SearchJavaScript,
@@ -16,6 +18,8 @@ const CuratedTopicsIndex: any = {
   css: SearchCSS,
   next: SearchNext,
   gatsby: SearchGatsby,
+  aws: SearchAWS,
+  node: SearchNode,
 }
 
 export default CuratedTopicsIndex

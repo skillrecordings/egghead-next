@@ -12,18 +12,18 @@ const typescriptPageData = [
         byline: 'John Lindquist',
       },
       {
-        title: 'Use TypeScript to Develop React Applications',
-        path: '/courses/use-typescript-to-develop-react-applications',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/162/thumb/EGH_ReactTS-01-02.png',
-        byline: 'Basarat Ali Syed',
-      },
-      {
         title: 'Use TypeScript to Develop Vue.js Web Applications',
         path: '/courses/use-typescript-to-develop-vue-js-web-applications',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/131/thumb/EGH_TSVue_Final.png',
         byline: 'Alex Jover Morales',
+      },
+      {
+        title: 'TypeScript: Tips and Tricks',
+        path: '/playlists/typescript-tips-and-tricks-20c4',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/352/310/full/typescripts_tipstricks.png',
+        byline: 'Kamran Ahmed',
       },
     ],
   },
@@ -99,11 +99,11 @@ const typescriptPageData = [
         byline: 'Tomasz Łakomy',
       },
       {
-        title: 'TypeScript: Tips and Tricks',
-        path: '/playlists/typescript-tips-and-tricks-20c4',
+        title: 'Use TypeScript to Develop React Applications',
+        path: '/courses/use-typescript-to-develop-react-applications',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_480/typescriptlang.png',
-        byline: 'Kamran Ahmed',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/162/thumb/EGH_ReactTS-01-02.png',
+        byline: 'Basarat Ali Syed',
       },
       {
         title: 'Create a Figma Plugin Using Typescript',

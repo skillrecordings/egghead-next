@@ -3,18 +3,14 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import imageUrlBuilder from '@sanity/image-url'
 import mdxComponents from 'components/mdx'
-import renderToString from 'next-mdx-remote/render-to-string'
-import hydrate from 'next-mdx-remote/hydrate'
+import {serialize} from 'next-mdx-remote/serialize'
+import {MDXRemote} from 'next-mdx-remote'
 import {FunctionComponent} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
-import getTracer from '../../utils/honeycomb-tracer'
-import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '@vercel/tracing-js'
-import {LessonResource} from '../../types'
-import {loadBasicLesson} from '../../lib/lessons'
+import {withProse} from 'utils/remark/with-prose'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -27,10 +23,8 @@ const Tag = (props: any) => {
     author = {name: 'Unknown Author'},
     seo = {},
     coverImage,
-    body = ``,
+    source,
   } = props
-
-  const content = hydrate(body, {components: mdxComponents})
 
   const router = useRouter()
 
@@ -95,8 +89,8 @@ const Tag = (props: any) => {
             </ul>
           )}
         </header>
-        <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
-          {content}
+        <main>
+          <MDXRemote {...source} components={mdxComponents} />
         </main>
       </article>
     </>
@@ -157,12 +151,10 @@ export async function getStaticProps(context: any) {
     slug: context.params.slug,
   })
 
-  console.log(context.params.slug)
-
-  const mdxSource = await renderToString(body, {
-    components: mdxComponents,
+  const mdxSource = await serialize(body, {
     mdxOptions: {
       remarkPlugins: [
+        withProse,
         require(`remark-slug`),
         require(`remark-footnotes`),
         require(`remark-code-titles`),
@@ -179,7 +171,7 @@ export async function getStaticProps(context: any) {
     },
   })
   return {
-    props: {...post, body: mdxSource},
+    props: {...post, source: mdxSource},
     revalidate: 1,
   }
 }

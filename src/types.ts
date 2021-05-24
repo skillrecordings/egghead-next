@@ -3,9 +3,19 @@ export type Resource = {
   slug: string
   description: string
   icon_url?: string
-  completed: boolean
+  completed?: boolean
   path: string
-  type: string
+  type?: string
+}
+
+export type CardResource = Resource & {
+  id?: string
+  image: string | {src: string; alt: string}
+  name: string
+  byline: string
+  resources?: CardResource[]
+  instructor?: any
+  background?: string
 }
 
 export type LessonResource = Resource & {
@@ -57,4 +67,17 @@ export type Viewer = {
   opted_out: boolean
   purchases: any[]
   accounts: StripeAccount[]
+}
+
+export type Question = {
+  question: string
+  type: 'multiple-choice' | 'essay'
+  tagId: number
+  correct?: string[] | string
+  answer?: string
+  choices?: {answer: string; label: string}[]
+}
+
+export type Questions = {
+  [key: string]: Question
 }

@@ -1,9 +1,9 @@
 import DanAbramovPageData from './dan-abramov-page-data'
 import {find} from 'lodash'
-import Card from 'components/pages/home/card'
 import Image from 'next/image'
 import SearchInstructorEssential from '../instructor-essential'
 import ExternalTrackedLink from '../../../external-tracked-link'
+import {VerticalResourceCard} from '../../../card/verticle-resource-card'
 
 export default function SearchDanAbramov({instructor}: {instructor: any}) {
   const instructorData: any = find(DanAbramovPageData, {
@@ -42,7 +42,7 @@ export default function SearchDanAbramov({instructor}: {instructor: any}) {
       <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
         {featureCourses.resources.map((resource: any) => {
           return (
-            <Card
+            <VerticalResourceCard
               className="col-span-6 text-center"
               key={resource.path}
               resource={resource}

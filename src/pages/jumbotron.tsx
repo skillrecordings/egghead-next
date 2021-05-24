@@ -7,7 +7,6 @@ import {sanityClient} from '../utils/sanity-client'
 import {loadHomePageData} from '../lib/pages/home-page-data'
 
 export const Jumbotron = ({resources}: {resources: any}) => {
-  console.log(resources)
   return (
     <main className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
       <div className="max-w-screen-xl mx-auto">

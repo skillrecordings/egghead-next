@@ -1,8 +1,29 @@
-const homepageData = [
-  {
+const homepageData = {
+  jumbotron: {
     id: 'jumbotron',
-    title: 'Build Modern Layouts with CSS Grid',
+    title: 'Deploy Ghost to AWS using RDS and EC2',
     byline: 'featured course',
+    description: `Set up a Linux server on AWS EC2 with a relational database (AWS RDS) ready to run Ghost or other full stack JavaScript applications.`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618861248/egghead-next-pages/deploy-ghost-to-aws-using-rds-and-ec2/background-deploy-ghost-to-aws-using-rds-and-ec2_2x.png',
+    path: '/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+    slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+    instructor: {
+      name: 'Sam Julien',
+      slug: 'sam-julien',
+      path: '/q/resources-by-sam-julien',
+      twitter: 'samjulien',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/324/medium/new_headshot_wedding.jpg',
+    },
+  },
+  'modern-layouts-with-css-grid': {
+    id: 'modern-layouts-with-css-grid',
+    title: 'Build Modern Layouts with CSS Grid',
+    name: 'Write modern CSS',
+    byline: 'Hiroko Nishimura・22m・Course',
     description: `CSS Grid is a new technology that allows you to problem solve at the page-layout level. Learn how to create two-dimensional layouts that adapt content to the available space and intelligently size and position items within those bounds. `,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
@@ -19,51 +40,60 @@ const homepageData = [
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
-  {
-    id: 'developer-blog-with-gatsby',
-    name: 'Start Blogging',
-    title: 'Build a Developer Blog with Gatsby',
-    byline: 'Laurie Barth・35m・Course',
-    description: `Build a stand-alone developer blog that leverages MDX and Theme UI. Throughout the course, you’ll learn how to build a blazing-fast, secure site with accessibility and SEO in mind.`,
+  'react-concurrent-react-from-scratch': {
+    id: 'react-concurrent-react-from-scratch',
+    title: 'Concurrent React from Scratch',
+    name: 'Mental Models for concurrent React',
+    byline: 'Shawn Wang・36m',
+    description: `In this talk, we’ll create an effective mental model of Concurrent React by building a tiny clone of React! We will start with a blank JS file and learn about how React renders components, schedules Time-Slicing updates with a Work Loop, and more!`,
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/621/full/developer_blog_1000_2x.png',
-    background:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614667901/next.egghead.io/resources/build-a-developer-blog-with-gatsby/background-build-a-developer-blog-with-gatsby_2x.png',
-    path: '/courses/build-a-developer-blog-with-gatsby-bd96',
-    slug: 'build-a-developer-blog-with-gatsby-bd96',
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
+    path: '/talks/react-concurrent-react-from-scratch',
+    slug: 'react-concurrent-react-from-scratch',
     instructor: {
-      name: 'Laurie Barth',
-      slug: 'laurie-barth',
-      path: '/q/resources-by-laurie-barth',
-      twitter: 'laurieontech',
+      name: 'Shawn Wang',
+      slug: 'shawn-wang',
+      path: '/q/resources-by-shawn-wang',
+      twitter: 'swyx',
       image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/281/medium/laurie_b.jpg',
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/211/original/download.jpeg',
     },
   },
-  {
+  'drawing-the-invisible-react-explained-in-five-visual-metaphors': {
+    id: 'drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    title: 'Drawing the Invisible: React Explained ',
+    name: 'Visualize React through Metaphor',
+    byline: 'Maggie Appleton・36m',
+    description: `A guide to the fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her "get" React for the first time.`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
+    path:
+      '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    slug:
+      'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    instructor: {
+      name: 'Maggie Appleton',
+      slug: 'maggie-appleton',
+      path: '/q/resources-by-maggie-appleton',
+      twitter: 'mappletons',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
+    },
+  },
+  video: {
     id: 'video',
     name: 'Optimize your Learning',
     title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.
-
-There are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.\n\nThere are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
       `,
     instructor: 'Ceora Ford',
     instructor_path: '/q/resources-by-ceora-ford',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
     path:
       '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
-    poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
-
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
-
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
   },
-  {
+  nextjsVideoApp: {
     id: 'nextjsVideoApp',
     name: 'Create AI-powered Transcripts',
     title: 'Video Analysis App with NextJS and Symbl.ai',
@@ -76,7 +106,7 @@ There are a number of tried and true methods that will allow you to learn more e
     description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
     `,
   },
-  {
+  featured: {
     id: 'featured',
     title: 'Featured',
     resources: [
@@ -119,7 +149,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  workflows: {
     id: 'workflows',
     title: 'Optimize Daily Workflows',
     description:
@@ -167,7 +197,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  getStarted: {
     id: 'getStarted',
     name: 'Introductions',
     title: 'Start Learning Here',
@@ -219,7 +249,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  freeCourses: {
     id: 'freeCourses',
     name: 'Community Resource ',
     title: 'Learn Something New',
@@ -281,7 +311,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  devEssentials: {
     id: 'devEssentials',
     name: 'Practice Makes Perfect',
     title: 'Web Development Essentials',
@@ -317,7 +347,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  aws: {
     id: 'aws',
     name: 'Amazon Web Services',
     title: 'Deep Dive into AWS 🤯',
@@ -401,12 +431,12 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  stateManagement: {
     id: 'stateManagement',
     name: 'Research Panel',
     title: 'React State Management in 2021',
     image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_1000.png',
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png',
     path: '/playlists/react-state-management-in-2021-6732',
     description: '',
     resources: [
@@ -462,7 +492,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
+  ecommerce: {
     id: 'ecommerce',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
     name: 'Accept Payments and Sell Products',
@@ -473,7 +503,7 @@ There are a number of tried and true methods that will allow you to learn more e
       '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
-  {
+  tailwind: {
     id: 'tailwind',
     name: 'Write Modern CSS',
     byline: 'Adam Wathan・3h 4m・Course',
@@ -504,16 +534,7 @@ There are a number of tried and true methods that will allow you to learn more e
       },
     ],
   },
-  {
-    id: 'security',
-    name: 'Protect Your Application',
-    title: 'Web Security Essentials: MITM, CSRF, and XSS',
-    byline: 'Mike Sherov・50m・Course',
-    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/413/square_280/EGH_WebSecurity.png`,
-    path: '/courses/web-security-essentials-mitm-csrf-and-xss',
-    description: `Security is important, yet it is often overlooked and forgotten. In this course, you'll learn how to protect your application by learning how to attack it.`,
-  },
-  {
+  accessibleReactApps: {
     id: 'accessibleReactApps',
     name: 'Accessible React Applications ',
     byline: 'Erin Doyle・1h 28m・Course',
@@ -524,7 +545,7 @@ There are a number of tried and true methods that will allow you to learn more e
     slug: 'develop-accessible-web-apps-with-react',
     title: 'Develop Accessible Web Apps with React',
   },
-  {
+  accessibleApps: {
     id: 'accessibleApps',
     name: 'Accessible Portfolio Pieces',
     title: 'Start Building Accessible Web Applications Today',
@@ -533,19 +554,7 @@ There are a number of tried and true methods that will allow you to learn more e
     path: '/courses/start-building-accessible-web-applications-today',
     slug: 'start-building-accessible-web-applications-today',
   },
-  {
-    id: 'reactTeams',
-    name: 'Techniques and Patterns for React Teams',
-    byline: 'Juri Strumpflohner・1h 40m・Course',
-    description:
-      "On the surface, starting a project sounds easy. First you make some directories, install some dependencies, then you write some code. But there's a bit more to it than just those three steps. The type of project you're working on impacts the decisions you make.",
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
-    path: '/playlists/scale-react-development-with-nx-4038',
-    slug: 'scale-react-development-with-nx-4038',
-    title: 'Scale React Development with Nx',
-  },
-  {
+  cms: {
     id: 'cms',
     name: 'Content Management System',
     title: 'Headless WordPress with GraphQL',
@@ -555,7 +564,7 @@ There are a number of tried and true methods that will allow you to learn more e
     byline: 'Kevin Cunningham・59m・Course',
     description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
-  {
+  portfolioProject: {
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Introduction to Cloudflare Workers',
@@ -566,31 +575,7 @@ There are a number of tried and true methods that will allow you to learn more e
     description:
       'Create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest regional Cloudflare Location.',
   },
-  {
-    id: 'portfolioBlog',
-    name: 'Portfolio Blog',
-    title:
-      'Build a site from scratch with Next.js, TypeScript, Emotion and Netlify',
-    path:
-      '/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/387/163/square_480/netlify-ts.png',
-    byline: 'Tomasz Łakomy',
-    description:
-      'Use cutting-edge tools and leverage the best developer experience provided by Next.js to build your developer portfolio blog.',
-  },
-  {
-    id: 'advancedCourse',
-    name: 'Mind-Expanding',
-    title: 'Composing Closures and Callbacks in JavaScript',
-    path: '/playlists/composing-closures-and-callbacks-in-javascript-1223',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/402/036/full/EGH_ComposingCallbacks_Final.png',
-    byline: 'John Lindquist',
-    description:
-      'This course is for aspiring lead developers. John Lindquist guides you from a blank JavaScript file all the way through creating a library of reusable functions, solving Callback Hell with composition, implementing debouncing, and building a word game among several other examples.',
-  },
-  {
+  topics: {
     id: 'topics',
     name: 'Popular Topics',
     resources: [
@@ -659,7 +644,7 @@ There are a number of tried and true methods that will allow you to learn more e
       // },
     ],
   },
-  {
+  swag: {
     id: 'swag',
     name: 'swag',
     title: '',
@@ -691,6 +676,6 @@ There are a number of tried and true methods that will allow you to learn more e
       // },
     ],
   },
-]
+}
 
 export default homepageData

@@ -11,8 +11,6 @@ const CSSPageData: any = {
       resources: [
         {
           _id: '099b01d5-f852-4d74-81a6-7e23e84527ab',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
           name: 'Beginner',
           resources: [
             {
@@ -48,7 +46,7 @@ const CSSPageData: any = {
             {
               _id: 'build-modern-layouts-with-css-grid-d3f5',
               image:
-                'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
+                'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
               path: '/playlists/build-modern-layouts-with-css-grid-d3f5',
               title: 'Build Modern Layouts with CSS Grid',
             },
@@ -61,8 +59,6 @@ const CSSPageData: any = {
         },
         {
           _id: '8e0f4575-29de-4224-aac5-f8becfa47f89',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
           name: 'Intermediate',
           resources: [
             {
@@ -113,8 +109,6 @@ const CSSPageData: any = {
         },
         {
           _id: '18473d30-8edb-49a1-a69b-65755844cde3',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/full/csslang.png',
           name: 'Advanced',
           resources: [
             {
