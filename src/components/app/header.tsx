@@ -145,7 +145,7 @@ const Header: FunctionComponent = () => {
   return (
     <>
       <header className="h-16 px-5 py-5 sm:mb-5 mb-3 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
-        <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-10">
+        <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-4">
           <div className="flex items-center">
             <Link href="/">
               <a className="flex items-center">
@@ -161,7 +161,7 @@ const Header: FunctionComponent = () => {
               <Link href="/topics">
                 <a
                   onClick={() => track(`clicked browse`, {location: 'header'})}
-                  className={`inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200`}
+                  className={`inline-flex justify-center items-center px-4 py-2 rounded-md transition-all hover:bg-gray-100 ease-in-out duration-200`}
                 >
                   Browse
                 </a>
@@ -225,14 +225,8 @@ const SearchBar = () => {
                   onChange={handleChange}
                   type="search"
                   placeholder={`What do you want to learn today?`}
-                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-none rounded-l-md pr-1 py-2 pl-10 w-full focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-md pr-1 py-2 pl-10 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
-                <button
-                  type="submit"
-                  className={`font-semibold px-4 py-2 rounded-none rounded-r-md transform bg-blue-600 hover:bg-indigo-600 hover:border-indigo-600 transition-all ease-in-out border border-blue-600 duration-200 text-white leading-5 text-sm`}
-                >
-                  Search
-                </button>
               </div>
             </div>
           </Form>
