@@ -4,6 +4,7 @@
 @import '../../node_modules/react-tippy/dist/tippy.css';
 @import '../../node_modules/simplebar/dist/simplebar.min.css';
 @import '../../node_modules/cueplayer-react/dist/cueplayer-react.css';
+@import "cueplayer.css";
 
 #__next {
   @apply flex flex-col min-h-screen text-gray-900;
