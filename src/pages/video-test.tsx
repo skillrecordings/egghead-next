@@ -4,7 +4,6 @@ import {GetServerSideProps} from 'next'
 import {
   Player,
   BigPlayButton,
-  HLSSource,
   ControlBar,
   ReplayControl,
   ClosedCaptionButton,
@@ -22,6 +21,7 @@ import {
 import {SyntheticEvent} from 'react'
 import {isFunction} from 'lodash'
 import CueBar from '../components/player/cue-bar'
+import HLSSource from '../components/player/hls-source'
 
 export const getServerSideProps: GetServerSideProps = async function ({query}) {
   const videoResource = pickVideoResource(query.v)
