@@ -1,17 +1,127 @@
 import React from 'react'
 import angularPageData from './angular-page-data'
-import SearchCuratedEssential from '../curated-essential'
+import {find} from 'lodash'
+import {ThreeLevels} from '../curated-essential'
+import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {NextSeo} from 'next-seo'
+import Topic from '../../components/topic'
 
 const SearchAngular = () => {
+  const location = 'Angular Topic Page'
+  const description = ``
+  const title = `In-Depth Angular Resources for ${new Date().getFullYear()}`
+
+  const beginner: any = find(angularPageData, {id: 'beginner'})
+  const intermediate: any = find(angularPageData, {
+    id: 'intermediate',
+  })
+  const advanced: any = find(angularPageData, {
+    id: 'advanced',
+  })
+  const featurePodcast: any = find(angularPageData, {
+    id: 'feature-podcast',
+  })
+  const featureCourse: any = find(angularPageData, {
+    id: 'feature-course',
+  })
+  const secondaryFeatureCourse: any = find(angularPageData, {
+    id: 'secondary-feature-course',
+  })
+
   return (
-    <SearchCuratedEssential
-      topic={{
-        label: 'Angular',
-        name: 'angular',
-        description: `Description text for Angular`,
-      }}
-      pageData={angularPageData}
-    />
+    <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+      <NextSeo
+        description={description}
+        title={title}
+        titleTemplate={'%s | egghead.io'}
+        twitter={{
+          site: `@eggheadio`,
+          cardType: 'summary_large_image',
+        }}
+        openGraph={{
+          title,
+          description: description,
+          site_name: 'egghead',
+          images: [
+            {
+              url: `https://og-image-react-egghead.vercel.app/topic/angular`,
+            },
+          ],
+        }}
+      />
+      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+        <Topic
+          className="col-span-8"
+          title="Angular"
+          imageUrl="https://og-image-react-egghead.now.sh/topic/angular?orientation=portrait&v=20201104"
+        >
+          {`Angular is a TypeScript-based open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.
+          
+Angular fully embraces functional and reactive programming with RxJS, while adding the power of strong typing via TypeScript.
+
+Angular is sure to be a killer combination for large scale applications and big teams. Does that mean that it isn’t for you because you aren’t building a large app and don’t have a big team? No, it just means that these badass tools will scale really well. That’s a good sign. 
+
+It’s worth an hour or so of your time to see what’s up!`}
+        </Topic>
+        <VerticalResourceCard
+          resource={featureCourse}
+          className="col-span-4 text-center relative z-10"
+          location={location}
+          describe={true}
+        >
+          <div className="absolute top-0 left-0 bg-gradient-to-r from-red-300 to-red-400 w-full h-2 z-20" />
+        </VerticalResourceCard>
+      </div>
+
+      <ThreeLevels
+        beginner={beginner}
+        intermediate={intermediate}
+        advanced={advanced}
+        location={location}
+      />
+
+      <div className="grid md:grid-cols-3 grid-cols-1 mt-8 gap-4">
+        <HorizontalResourceCard
+          resource={featurePodcast}
+          className="flex md:flex-row flex-col col-span-2"
+          location={location}
+        />
+        <VerticalResourceCard
+          resource={secondaryFeatureCourse}
+          className="text-center relative z-10"
+          location={location}
+          describe={true}
+        />
+      </div>
+      <div className="md:mt-20 mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight text-center mb-5">
+          State Management in Angular
+        </h1>
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
+          <VerticalResourceCard
+            resource={featureCourse}
+            className="text-center relative z-10"
+            location={location}
+            describe={true}
+          />
+
+          <VerticalResourceCard
+            resource={featureCourse}
+            className="text-center relative z-10"
+            location={location}
+            describe={true}
+          />
+
+          <VerticalResourceCard
+            resource={featureCourse}
+            className="text-center relative z-10"
+            location={location}
+            describe={true}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 
