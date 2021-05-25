@@ -29,6 +29,16 @@ const SearchAngular = () => {
     id: 'secondary-feature-course',
   })
 
+  const stateManagementCourseOne: any = find(angularPageData, {
+    id: 'state-management-course-one',
+  })
+  const stateManagementCourseTwo: any = find(angularPageData, {
+    id: 'state-management-course-two',
+  })
+  const stateManagementCourseThree: any = find(angularPageData, {
+    id: 'state-management-course-three',
+  })
+
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
@@ -70,7 +80,7 @@ It’s worth an hour or so of your time to see what’s up!`}
           location={location}
           describe={true}
         >
-          <div className="absolute top-0 left-0 bg-gradient-to-r from-red-300 to-red-400 w-full h-2 z-20" />
+          <div className="absolute top-0 left-0 bg-gradient-to-r from-red-600 to-red-400 w-full h-2 z-20" />
         </VerticalResourceCard>
       </div>
 
@@ -81,7 +91,43 @@ It’s worth an hour or so of your time to see what’s up!`}
         location={location}
       />
 
-      <div className="grid md:grid-cols-3 grid-cols-1 mt-8 gap-4">
+      <div className="mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg py-10 p-5">
+        <h1 className="md:text-3xl text-2xl dark:text-gray-100 font-bold leading-tight text-center mb-4">
+          State Management in Angular
+        </h1>
+        <p className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 w-full max-w-screen-sm mx-auto text-center">
+          Managing state in a UI is challenging. It's genuinely difficult and
+          the solutions require a depth of knowledge and experience to
+          understand. Everything is a balance of tradeoffs in complexity,
+          performance, and user experience.{' '}
+          <strong>
+            These courses explore State Management in Angular web applications.
+          </strong>
+        </p>
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-10">
+          <VerticalResourceCard
+            resource={stateManagementCourseOne}
+            className="text-center relative z-10"
+            location={location}
+            describe={true}
+          />
+
+          <VerticalResourceCard
+            resource={stateManagementCourseTwo}
+            className="text-center relative z-10"
+            location={location}
+            describe={true}
+          />
+
+          <VerticalResourceCard
+            resource={stateManagementCourseThree}
+            className="text-center relative z-10"
+            location={location}
+            describe={true}
+          />
+        </div>
+      </div>
+      <div className="grid md:grid-cols-3 grid-cols-1 mt-5 gap-4">
         <HorizontalResourceCard
           resource={featurePodcast}
           className="flex md:flex-row flex-col col-span-2"
@@ -93,33 +139,6 @@ It’s worth an hour or so of your time to see what’s up!`}
           location={location}
           describe={true}
         />
-      </div>
-      <div className="md:mt-20 mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-        <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight text-center mb-5">
-          State Management in Angular
-        </h1>
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
-          <VerticalResourceCard
-            resource={featureCourse}
-            className="text-center relative z-10"
-            location={location}
-            describe={true}
-          />
-
-          <VerticalResourceCard
-            resource={featureCourse}
-            className="text-center relative z-10"
-            location={location}
-            describe={true}
-          />
-
-          <VerticalResourceCard
-            resource={featureCourse}
-            className="text-center relative z-10"
-            location={location}
-            describe={true}
-          />
-        </div>
       </div>
     </div>
   )
