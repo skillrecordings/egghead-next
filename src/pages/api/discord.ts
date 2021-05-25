@@ -123,7 +123,7 @@ async function updateDiscordRolesForEggheadUser({
       })
       .json()
 
-    if (updateEgghead.is_pro && DISCORD_MEMBER_ROLE_ID) {
+    if (updateEgghead?.is_pro && DISCORD_MEMBER_ROLE_ID) {
       await discordMember.roles.add(DISCORD_MEMBER_ROLE_ID)
     } else if (DISCORD_MEMBER_ROLE_ID) {
       await discordMember.roles.remove(DISCORD_MEMBER_ROLE_ID)

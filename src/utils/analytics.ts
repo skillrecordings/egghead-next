@@ -73,6 +73,7 @@ export const track = (
 
 export const identify = (data: Viewer, properties?: any) => {
   if (
+    data &&
     !data.opted_out &&
     data.email &&
     data.contact_id &&
