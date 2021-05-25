@@ -43,7 +43,7 @@ const Header: FunctionComponent = () => {
     case !subscriber?.attributes?.online_presence:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
       break
-    case viewer.is_pro && !subscriber?.attributes?.project_club:
+    case viewer?.is_pro && !subscriber?.attributes?.project_club:
       ActiveCTA = () => <ProjectClubCTA variant="header" />
       break
     case !subscriber && !loadingSubscriber:
