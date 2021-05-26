@@ -54,7 +54,6 @@ import {
   DurationDisplay,
   ForwardControl,
   FullscreenToggle,
-  HLSSource,
   PlaybackRateMenuButton,
   Player,
   PlayToggle,
@@ -64,6 +63,7 @@ import {
   TimeDivider,
   VolumeMenuButton,
 } from 'cueplayer-react'
+import HLSSource from 'components/player/hls-source'
 
 const tracer = getTracer('lesson-page')
 

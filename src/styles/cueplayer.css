@@ -1,0 +1,31 @@
+.cueplayer-react .cueplayer-react-cue-bar {
+    display: none;
+    width: 100%;
+    position: absolute;
+    bottom: 3.0em;
+    left: 0;
+    right: 0;
+    height: 1.0em;
+    background-color: #2B333F90;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note {
+    position: absolute;
+    height: 100%;
+    width: 6px;
+    background-color: gray;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
+    background-color: orangered;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
+    background-color: orange;
+}
+
+.cueplayer-react-has-started .cueplayer-react-cue-bar {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+}
