@@ -4,7 +4,6 @@ import {GetServerSideProps} from 'next'
 import {
   Player,
   BigPlayButton,
-  HLSSource,
   ControlBar,
   ReplayControl,
   ClosedCaptionButton,
@@ -21,6 +20,8 @@ import {
 } from 'cueplayer-react'
 import {SyntheticEvent} from 'react'
 import {isFunction} from 'lodash'
+import CueBar from '../components/player/cue-bar'
+import HLSSource from '../components/player/hls-source'
 
 export const getServerSideProps: GetServerSideProps = async function ({query}) {
   const videoResource = pickVideoResource(query.v)
@@ -39,20 +40,18 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
   const lastAutoPlayed = React.useRef()
   const [autoplay, setAutoplay] = React.useState(true)
 
-  const send = (message:any) => {
+  const send = (message: any) => {
     console.debug(message)
   }
 
-  const onProgress = () => {
-    console.log('progress happened')
-  }
+  const onProgress = () => {}
 
   return (
     <div>
       {videoResource.hls_url && (
         <Player
           ref={(test: any) => {
-            console.log(test.manager.store.getState())
+            console.log(test.manager)
           }}
           crossOrigin="anonymous"
           className="font-sans"
@@ -89,6 +88,13 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
             label="English"
             default
           />
+          <track
+            id="notes"
+            src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
+            kind="metadata"
+            label="notes"
+          />
+          <CueBar order={6.0} />
           <ControlBar disableDefaultControls>
             <PlayToggle key="play-toggle" order={1} />
             <ReplayControl key="replay-control" order={2} />
@@ -178,16 +184,14 @@ const videoResources = {
   },
   defaultVideo: {
     id: 'video',
-    name: 'Optimize your Learning',
-    title: 'Learning Tips Every Developer Should Know',
+    name: 'get started with react',
+    title: 'Create a User Interface with Vanilla JavaScript and DOM',
     poster:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1612390842/egghead-next-pages/home-page/LearningTipsCover.png.png',
+      'https://dcv19h61vib2d.cloudfront.net/thumbs/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.jpg',
     hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/hls/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh/dash/egghead-eggheadtalk-learning-tips-every-developer-should-know--ZSo0lRrh.mpd',
+      'https://d2c5owlt6rorc3.cloudfront.net/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/hls/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.m3u8',
     subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know/subtitles',
+      'https://app.egghead.io/api/v1/lessons/react-create-a-user-interface-with-vanilla-javascript-and-dom/subtitles',
   },
 }
 

@@ -7011,14 +7011,15 @@ csstype@^3.0.2, csstype@^3.0.6:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
-cueplayer-react@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.1.0.tgz#699450b5ae8adce4528e54eadea3c531c0ac96fa"
-  integrity sha512-65FzTo79hIkFHLs46JHoXskVaOs/x0uboKL1IeXsB1yoS+keHnOYZeAjx8rSNRQDB6lbKi8t70mHquV9VPyEtw==
+cueplayer-react@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.0.tgz#060395df754aa2a70b183e38407bc3afd4c0b814"
+  integrity sha512-q4JarGD93NhnyIX1ahXOqy3xl8biZsb/gGj5chmYRWLTgPhh5MHoIYdr/LmatmYCu0J+fyrYi03uyxUvc+63Dg==
   dependencies:
     "@babel/runtime" "^7.4.5"
     classnames "^2.2.6"
-    hls.js "^1.0.2"
+    global "^4.4.0"
+    lodash "^4.17.21"
     lodash.throttle "^4.1.1"
     prop-types "^15.7.2"
     redux "^4.0.1"
@@ -9900,10 +9901,10 @@ highlight.js@^10.1.1, highlight.js@~10.7.0:
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.2.tgz#89319b861edc66c48854ed1e6da21ea89f847360"
   integrity sha512-oFLl873u4usRM9K63j4ME9u3etNF0PLiJhSQ8rdfuL51Wn3zkD6drf9ZW0dOzjnZI22YYG24z30JcmfCZjMgYg==
 
-hls.js@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.3.tgz#856aef94108f99772632343994725a9165ef66f6"
-  integrity sha512-9pNhXI6dTO5rLfdcroj+p8kRGjkDeDtVJsVvCuj3KpyROTA2D0h0sFwBbvXC5h5nbXxvjMf+w6jTeBGYyfjcjQ==
+hls.js@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.4.tgz#1b191f0f49c992e5c22d4a648ac73630d13d3c2e"
+  integrity sha512-sTea9L0ORE9u5dThUjEhDP4t9YzakEYRyMHEYQctaLZf2X9ihjmUbqKneExQWHXZz2cYQs5ihaKUe8QnrQDp7Q==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
