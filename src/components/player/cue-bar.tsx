@@ -67,6 +67,7 @@ export default class CueBar extends React.Component<any> {
 const NoteCue: React.FC<any> = ({cue, duration, className}) => {
   const note = JSON.parse(cue.text)
   const [active, setActive] = React.useState(false)
+  const [popupIsShown, setPopupIsShowing] = React.useState(false)
 
   const startPosition = `${(cue.startTime / duration) * 100}%`
 
@@ -91,16 +92,41 @@ const NoteCue: React.FC<any> = ({cue, duration, className}) => {
 
   return (
     <div
-      title={note?.title}
+      // title={note?.title}
       className={classNames(
         'cueplayer-react-cue-note',
         {
           'cueplayer-react-cue-note-active': active,
           'cueplayer-react-cue-note-inactive': !active,
         },
+        'relative',
         className,
       )}
       style={{left: startPosition}}
-    />
+      onClick={() => setPopupIsShowing(!popupIsShown)}
+    >
+      {popupIsShown && (
+        <div
+          className="absolute w-40 h-20 rounded-md bg-white p-3 text-xs top-0 left-0 z-10 text-black"
+          css={{
+            transform:
+              'translateX(calc(-50% + 3px)) translateY(calc(-100% - 15px))',
+            ':before': {
+              content: '""',
+              position: 'absolute',
+              bottom: '-10px',
+              left: 'calc(50% - 10px)',
+              width: 0,
+              height: 0,
+              borderStyle: 'solid',
+              borderWidth: '10px 10px 0 10px',
+              borderColor: '#ffffff transparent transparent transparent',
+            },
+          }}
+        >
+          {note?.title}
+        </div>
+      )}
+    </div>
   )
 }
