@@ -1,82 +1,54 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import {isEqual} from 'lodash'
 
-export default class CueBar extends React.Component<any> {
-  state: any = {cues: []}
-  constructor(props: any) {
-    super(props)
-    this.state = {cues: this.getTextTrackItems(), currentCuePopup: null}
-  }
+const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
+  const {duration, activeMetadataTracks} = player
 
-  componentDidMount() {
-    // this.getTextTrackItems()
-  }
+  const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
+    return track.label === 'notes'
+  })
 
-  componentDidUpdate() {
-    this.updateState()
-  }
+  const noteCues = noteTracks.reduce((acc: VTTCue[], track: TextTrack) => {
+    return [...acc, ...Array.from(track.cues || [])]
+  }, [])
 
-  setCurrentCuePopup(popup: string | null) {
-    this.setState({...this.state, currentCuePopup: popup})
-  }
-
-  getTextTrackItems() {
-    const {kinds = ['metadata'], player} = this.props as any
-    const {textTracks} = player
-    const textTrackItems: any = {}
-    const tracks = Array.from(textTracks || [])
-
-    if (tracks.length === 0) {
-      return textTrackItems
-    }
-
-    tracks.forEach((textTrack: any) => {
-      // ignore invalid text track kind
-      if (kinds.length && !kinds.includes(textTrack.kind)) {
-        return
-      }
-
-      textTrack.mode = 'showing'
-      textTrackItems[textTrack.label] = Array.from(textTrack.cues) || []
-    })
-
-    return textTrackItems
-  }
-
-  updateState() {
-    const textTrackItems = this.getTextTrackItems()
-    if (!isEqual(this.state.cues, textTrackItems)) {
-      console.log({cues: textTrackItems})
-      this.setState({cues: textTrackItems})
-    }
-  }
-
-  render() {
-    console.log('this.state: ', this.state)
-    const {className, disableCompletely, children, player} = this.props as any
-    const {duration} = player
-
-    return disableCompletely ? null : (
-      <div className={classNames('cueplayer-react-cue-bar', className)}>
-        {this.state?.cues?.notes?.map((noteCue: any) => {
-          return (
-            <NoteCue
-              key={noteCue.text}
-              cue={noteCue}
-              duration={duration}
-              currentCuePopup={this.state.currentCuePopup}
-              setCurrentCuePopup={this.setCurrentCuePopup.bind(this)}
-            />
-          )
-        })}
-      </div>
-    )
-  }
+  return disableCompletely ? null : (
+    <div className={classNames('cueplayer-react-cue-bar', className)}>
+      {noteCues.map((noteCue: any) => {
+        return <NoteCue key={noteCue.text} cue={noteCue} duration={duration} />
+      })}
+    </div>
+  )
 }
 
-const CuePopup: React.FC<any> = ({note, popupPersists, currentCuePopup}) => {
-  return note?.title === currentCuePopup || popupPersists ? (
+export default CueBar
+
+const useCue = (cue: VTTCue) => {
+  const [active, setActive] = React.useState<any>(false)
+  React.useEffect(() => {
+    const enterCue = () => {
+      setActive(true)
+    }
+
+    const exitCue = () => {
+      setActive(false)
+    }
+
+    cue.addEventListener('enter', enterCue)
+    cue.addEventListener('exit', exitCue)
+
+    return () => {
+      cue.removeEventListener('enter', enterCue)
+      cue.removeEventListener('exit', exitCue)
+    }
+  }, [cue])
+
+  return [active, setActive]
+}
+
+const CuePopup: React.FC<any> = ({cue, active}) => {
+  const note = JSON.parse(cue.text)
+  return active ? (
     <div
       className="absolute w-40 min-h-[4rem] rounded-md bg-white p-3 text-xs top-0 left-0 z-10 text-black border border-gray-400"
       css={{
@@ -100,39 +72,11 @@ const CuePopup: React.FC<any> = ({note, popupPersists, currentCuePopup}) => {
   ) : null
 }
 
-const NoteCue: React.FC<any> = ({
-  cue,
-  duration,
-  className,
-  currentCuePopup,
-  setCurrentCuePopup,
-}) => {
-  const note = JSON.parse(cue.text)
-  const [active, setActive] = React.useState(false)
-  const [popupIsShown, setPopupIsShowing] = React.useState(false)
-  const [popupPersists, setPopupPersists] = React.useState(false)
-  console.log('popupPersists: ', popupPersists)
+const NoteCue: React.FC<any> = ({cue, duration, className}) => {
+  const [active, setActive] = useCue(cue)
+  const [persist, setPersist] = React.useState(false)
 
   const startPosition = `${(cue.startTime / duration) * 100}%`
-
-  React.useEffect(() => {
-    const enterCue = () => {
-      setActive(true)
-      console.log(note)
-    }
-
-    const exitCue = () => {
-      setActive(false)
-    }
-
-    cue.addEventListener('enter', enterCue)
-    cue.addEventListener('exit', exitCue)
-
-    return () => {
-      cue.removeEventListener('enter', enterCue)
-      cue.removeEventListener('exit', exitCue)
-    }
-  }, [cue])
 
   return (
     <div
@@ -147,23 +91,20 @@ const NoteCue: React.FC<any> = ({
       )}
       style={{left: startPosition}}
       onClick={() => {
-        setCurrentCuePopup(
-          note?.title === currentCuePopup && popupPersists ? null : note?.title,
-        )
-        setPopupPersists(!popupPersists)
+        if (active && !persist) {
+          setPersist(true)
+        } else if (active) {
+          setActive(false)
+          setPersist(false)
+        } else {
+          setActive(true)
+          setPersist(true)
+        }
       }}
-      onMouseOver={() => setCurrentCuePopup(note?.title)}
-      onMouseLeave={() =>
-        setCurrentCuePopup(
-          note?.title === currentCuePopup && popupPersists ? note?.title : null,
-        )
-      }
+      onMouseOver={() => setActive(true)}
+      onMouseLeave={() => !persist && setActive(false)}
     >
-      <CuePopup
-        note={note}
-        popupPersists={popupPersists}
-        currentCuePopup={currentCuePopup}
-      />
+      <CuePopup cue={cue} active={active} />
     </div>
   )
 }
