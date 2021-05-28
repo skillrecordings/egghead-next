@@ -29,9 +29,6 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
   const developmentStandards: any = find(course?.projects?.content, {
     label: 'Development Standards',
   })
-  const getStarted: any = find(course?.projects?.content, {
-    label: 'Get Started',
-  })
   const stretchGoal: any = find(course?.projects?.content, {
     label: 'Stretch Goal',
   })
@@ -89,7 +86,13 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 <Markdown className="rounded mt-20">{appData.text}</Markdown>
               </section>
               <Markdown>{developmentStandards.text}</Markdown>
-              <Markdown>{getStarted.text}</Markdown>
+
+              <ProjectCTA
+                title="Show you're hard won Vue skills. Make it stick."
+                meta="Fork the codesandbox and get started with your solution."
+                buttonText="Start the Vue Fundamentals Project"
+                projectLink={course.projects.projectLink}
+              />
               <Markdown>{stretchGoal.text}</Markdown>
               <Markdown>{appDesign.text}</Markdown>
               <Markdown>{productPage.description}</Markdown>
@@ -112,7 +115,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               </section>
               <Markdown>{Submission.text}</Markdown>
               <a
-                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:scale-105 transform hover:shadow-xl  hover:bg-blue-700 ease-in-out duration-200"
                 title="Share on twitter"
                 href={course.projects.tweetCTA}
                 rel="noopener"
@@ -128,6 +131,48 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
         </div>
       </div>
     </>
+  )
+}
+
+type projectCTAProps = {
+  title: string
+  meta: string
+  buttonText: string
+  projectLink: string
+}
+
+const ProjectCTA = ({
+  title,
+  meta,
+  buttonText,
+  projectLink,
+}: projectCTAProps) => {
+  return (
+    <div className="flex flex-col items-center p-16 my-16 bg-gray-100 dark:bg-gray-800 rounded-lg">
+      <div className="text-center">
+        <h1 className="text-black dark:text-white text-2xl tracking-tight font-light text-center max-w-xl mx-auto">
+          {title}
+        </h1>
+        <p className="font-normal text-blue-600 sm:text-lg text-base mt-4">
+          {meta}
+        </p>
+        <div className="flex justify-center items-center w-full">
+          <a
+            href={projectLink}
+            className="mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+            title="Open Project in Codesandbox"
+            rel="noopener noreferrer"
+            target="_blank"
+            style={{
+              color: 'white',
+              textDecoration: 'none',
+            }}
+          >
+            {buttonText}
+          </a>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -155,6 +200,7 @@ const courseQuery = groq`
     description
   },
   "tweetCTA": urls[label == 'tweetCTA'][0].url,
+  "projectLink": urls[label == 'projectLink'][0].url,
   },
 }[0]`
 
