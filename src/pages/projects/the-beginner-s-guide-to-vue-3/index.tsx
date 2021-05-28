@@ -29,6 +29,9 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
   const developmentStandards: any = find(course?.projects?.content, {
     label: 'Development Standards',
   })
+  const getStarted: any = find(course?.projects?.content, {
+    label: 'Get Started',
+  })
   const stretchGoal: any = find(course?.projects?.content, {
     label: 'Stretch Goal',
   })
@@ -86,6 +89,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 <Markdown className="rounded mt-20">{appData.text}</Markdown>
               </section>
               <Markdown>{developmentStandards.text}</Markdown>
+              <Markdown>{getStarted.text}</Markdown>
               <Markdown>{stretchGoal.text}</Markdown>
               <Markdown>{appDesign.text}</Markdown>
               <Markdown>{productPage.description}</Markdown>
@@ -101,8 +105,8 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 </Markdown>
                 <Image
                   src={productCard.url}
-                  height="390"
-                  width="348"
+                  height="471"
+                  width="296"
                   className="rounded-md z-0"
                 />
               </section>
