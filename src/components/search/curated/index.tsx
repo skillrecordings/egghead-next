@@ -8,6 +8,7 @@ import SearchNext from './next'
 import SearchGatsby from './gatsby'
 import SearchAWS from './aws'
 import SearchNode from './node'
+import SearchAngular from './angular'
 
 const CuratedTopicsIndex: any = {
   javascript: SearchJavaScript,
@@ -20,6 +21,7 @@ const CuratedTopicsIndex: any = {
   gatsby: SearchGatsby,
   aws: SearchAWS,
   node: SearchNode,
+  angular: SearchAngular,
 }
 
 export default CuratedTopicsIndex
