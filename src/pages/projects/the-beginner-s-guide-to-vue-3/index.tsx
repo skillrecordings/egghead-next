@@ -5,6 +5,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import Image from 'next/image'
 import {find} from 'lodash'
+import {track} from 'utils/analytics'
 
 type LandingProps = {
   course: any
@@ -117,6 +118,9 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               <a
                 className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:scale-105 transform hover:shadow-xl  hover:bg-blue-700 ease-in-out duration-200"
                 title="Share on twitter"
+                onClick={() =>
+                  track(`clicked Vue 3 fundamentals challenge CTA`)
+                }
                 href={course.projects.tweetCTA}
                 rel="noopener"
                 style={{
