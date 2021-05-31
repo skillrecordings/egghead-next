@@ -72,26 +72,7 @@ const useCue = (cue: VTTCue, actions: any) => {
 const CuePopup: React.FC<any> = ({cue, active}) => {
   const note = JSON.parse(cue.text)
   return active ? (
-    <div
-      className="absolute w-40 min-h-[4rem] rounded-md bg-white p-3 text-xs top-0 left-0 z-10 text-black border border-gray-400"
-      css={{
-        transform:
-          'translateX(calc(-50% + 3px)) translateY(calc(-100% - 15px))',
-        ':before': {
-          content: '""',
-          position: 'absolute',
-          bottom: '-10px',
-          left: 'calc(50% - 10px)',
-          width: 0,
-          height: 0,
-          borderStyle: 'solid',
-          borderWidth: '10px 10px 0 10px',
-          borderColor: '#ffffff transparent transparent transparent',
-        },
-      }}
-    >
-      {note?.title}
-    </div>
+    <div className="cueplayer-react-cue-popup">{note?.title}</div>
   ) : null
 }
 
