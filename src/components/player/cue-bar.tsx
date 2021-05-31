@@ -1,7 +1,12 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
-const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
+const CueBar: React.FC<any> = ({
+  className,
+  disableCompletely,
+  player,
+  actions,
+}) => {
   const {duration, activeMetadataTracks} = player
 
   const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
@@ -15,7 +20,15 @@ const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
   return disableCompletely ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
       {noteCues.map((noteCue: any) => {
-        return <NoteCue key={noteCue.text} cue={noteCue} duration={duration} />
+        return (
+          <NoteCue
+            key={noteCue.text}
+            cue={noteCue}
+            duration={duration}
+            player={player}
+            actions={actions}
+          />
+        )
       })}
     </div>
   )
@@ -23,8 +36,18 @@ const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
 
 export default CueBar
 
-const useCue = (cue: VTTCue) => {
-  const [active, setActive] = React.useState<any>(false)
+const useCue = (cue: VTTCue, actions: any) => {
+  const setActive = React.useCallback(
+    function setActive(active) {
+      if (active) {
+        actions.activateMetadataTrackCue(cue)
+      } else {
+        actions.activateMetadataTrackCue(null)
+      }
+    },
+    [actions],
+  )
+
   React.useEffect(() => {
     const enterCue = () => {
       setActive(true)
@@ -41,9 +64,9 @@ const useCue = (cue: VTTCue) => {
       cue.removeEventListener('enter', enterCue)
       cue.removeEventListener('exit', exitCue)
     }
-  }, [cue])
+  }, [cue, setActive])
 
-  return [active, setActive]
+  return setActive
 }
 
 const CuePopup: React.FC<any> = ({cue, active}) => {
@@ -72,10 +95,16 @@ const CuePopup: React.FC<any> = ({cue, active}) => {
   ) : null
 }
 
-const NoteCue: React.FC<any> = ({cue, duration, className}) => {
-  const [active, setActive] = useCue(cue)
+const NoteCue: React.FC<any> = ({
+  cue,
+  duration,
+  className,
+  actions,
+  player,
+}) => {
+  const setActive = useCue(cue, actions)
   const [persist, setPersist] = React.useState(false)
-
+  const active = cue === player.activeMetadataTrackCue
   const startPosition = `${(cue.startTime / duration) * 100}%`
 
   return (
