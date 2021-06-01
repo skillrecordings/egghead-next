@@ -161,7 +161,7 @@ const Header: FunctionComponent = () => {
               <Link href="/topics">
                 <a
                   onClick={() => track(`clicked browse`, {location: 'header'})}
-                  className={`inline-flex justify-center items-center px-4 py-2 rounded-md transition-all hover:bg-gray-100 ease-in-out duration-200`}
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white rounded-md inline-flex transition-all ease-in-out duration-200"
                 >
                   Browse
                 </a>
