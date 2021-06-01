@@ -103,7 +103,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 width="736"
                 className="rounded-md z-0"
               />
-              <section className="flex-none justify-content sm:flex sm:justify-between sm:mt-4 w-full">
+              <section className="flex-none sm:flex sm:justify-between sm:mt-4 w-full">
                 <Markdown className="sm:w-1/2 mr-4 w-full">
                   {productCard.description}
                 </Markdown>
