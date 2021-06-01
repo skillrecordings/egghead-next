@@ -107,7 +107,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   When you're ready to go, you can fork the project challenge
                   GitHub repository or get started right now in CodeSandbox.
                 </p>
-                <div className="flex flex-wrap">
+                <div className="flex sm:flex-row flex-col">
                   <div className="flex justify-center items-center w-full">
                     <a
                       href={course.projects.githubLink}
@@ -120,16 +120,14 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                         textDecoration: 'none',
                       }}
                     >
-                      <div className="flex align-bottom justify-center text-white">
-                        <span className="mr-2">
-                          <Image
-                            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622561606/next.egghead.io/icons/github.svg"
-                            height="20"
-                            width="20"
-                          />
-                        </span>
+                      <div className="flex items-center justify-center text-white">
+                        <Image
+                          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622561606/next.egghead.io/icons/github.svg"
+                          height="20"
+                          width="20"
+                        />
                         <div
-                          className=""
+                          className="ml-2"
                           style={{
                             color: 'white',
                           }}
@@ -139,7 +137,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       </div>
                     </a>
                   </div>
-                  <div className="flex justify-center items-center w-full">
+                  <div className="flex items-center justify-center w-full">
                     <a
                       href={course.projects.codesandboxLink}
                       className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
@@ -151,16 +149,15 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                         textDecoration: 'none',
                       }}
                     >
-                      <div className="flex align-center justify-center">
-                        <span className="mr-2">
-                          <Image
-                            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622560912/next.egghead.io/icons/codesandbox.svg"
-                            height="20"
-                            width="20"
-                            layout="fixed"
-                          />
-                        </span>
+                      <div className="flex items-center justify-center">
+                        <Image
+                          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622560912/next.egghead.io/icons/codesandbox.svg"
+                          height="20"
+                          width="20"
+                          layout="fixed"
+                        />
                         <div
+                          className="ml-2"
                           style={{
                             color: 'white',
                           }}
