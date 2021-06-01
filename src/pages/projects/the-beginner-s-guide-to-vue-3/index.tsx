@@ -80,11 +80,13 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
             <main className="prose dark:prose-dark prose-lg max-w-none w-full">
               <Markdown>{introduction.text}</Markdown>
               <Markdown>{projectBrief.text}</Markdown>
-              <section className="grid grid-cols-2 gap-4">
+              <section className="flex-none sm:flex sm:justify-between sm:mt-4 w-full">
                 <Markdown className="col-span-1">
                   {appRequirements.text}
                 </Markdown>
-                <Markdown className="rounded mt-24">{appData.text}</Markdown>
+                <Markdown className="rounded-md sm:mt-24">
+                  {appData.text}
+                </Markdown>
               </section>
               <Markdown>{developmentStandards.text}</Markdown>
 
@@ -113,7 +115,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                     height="471"
                     width="296"
                     layout="fixed"
-                    className="rounded-md z-0 block mx-auto"
+                    className="rounded-md z-0"
                   />
                 </span>
               </section>
