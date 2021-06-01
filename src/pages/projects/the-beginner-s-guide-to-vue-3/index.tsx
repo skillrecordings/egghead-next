@@ -107,11 +107,11 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   When you're ready to go, you can fork the project challenge
                   GitHub repository or get started right now in CodeSandbox.
                 </p>
-                <div className="flex">
+                <div className="flex flex-wrap">
                   <div className="flex justify-center items-center w-full">
                     <a
                       href={course.projects.githubLink}
-                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-1/2"
+                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
                       title="Open Project in Codesandbox"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -142,7 +142,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   <div className="flex justify-center items-center w-full">
                     <a
                       href={course.projects.codesandboxLink}
-                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-1/2"
+                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
                       title="Open Project in Codesandbox"
                       rel="noopener noreferrer"
                       target="_blank"
