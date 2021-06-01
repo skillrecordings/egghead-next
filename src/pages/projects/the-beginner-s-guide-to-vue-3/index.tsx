@@ -84,7 +84,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 <Markdown className="col-span-1">
                   {appRequirements.text}
                 </Markdown>
-                <Markdown className="rounded mt-20">{appData.text}</Markdown>
+                <Markdown className="rounded mt-24">{appData.text}</Markdown>
               </section>
               <Markdown>{developmentStandards.text}</Markdown>
 
