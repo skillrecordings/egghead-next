@@ -103,16 +103,19 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 width="736"
                 className="rounded-md z-0"
               />
-              <section className="grid grid-cols-2 mt-4 gap-4">
-                <Markdown className="col-span-1">
+              <section className="flex-none justify-content sm:flex sm:justify-between sm:mt-4 w-full">
+                <Markdown className="sm:w-1/2 mr-4 w-full">
                   {productCard.description}
                 </Markdown>
-                <Image
-                  src={productCard.url}
-                  height="471"
-                  width="296"
-                  className="rounded-md z-0"
-                />
+                <span className="mt-4 flex justify-center">
+                  <Image
+                    src={productCard.url}
+                    height="471"
+                    width="296"
+                    layout="fixed"
+                    className="rounded-md z-0 block mx-auto"
+                  />
+                </span>
               </section>
               <Markdown>{Submission.text}</Markdown>
               <a
