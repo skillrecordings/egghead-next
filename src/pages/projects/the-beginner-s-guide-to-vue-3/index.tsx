@@ -89,13 +89,89 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 </Markdown>
               </section>
               <Markdown>{developmentStandards.text}</Markdown>
-
-              <ProjectCTA
-                title="Show you're hard won Vue skills. Make it stick."
-                meta="Fork the codesandbox and get started with your solution."
-                buttonText="Start the Vue Fundamentals Project"
-                projectLink={course.projects.projectLink}
-              />
+              <section>
+                <h2 className="text-black dark:text-white text-md tracking-tight font-light max-w-xl">
+                  Steps To Get Started
+                </h2>
+                <p>
+                  This project aims to test the skills and understanding you've
+                  gained from The Beginner's Guide to Vue 3. If you are new to
+                  Vue or don't know where to start with the project, watch the
+                  course and come back here after to get started on the project.
+                </p>
+                <CtaButton
+                  text="Watch The Beginner's Guide to Vue 3"
+                  path={course?.path}
+                />
+                <p>
+                  When you're ready to go, you can fork the project challenge
+                  GitHub repository or get started right now in CodeSandbox.
+                </p>
+                <div className="flex">
+                  <div className="flex justify-center items-center w-full">
+                    <a
+                      href={course.projects.githubLink}
+                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-1/2"
+                      title="Open Project in Codesandbox"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      style={{
+                        color: 'white',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <div className="flex align-bottom justify-center text-white">
+                        <span className="mr-2">
+                          <Image
+                            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622561606/next.egghead.io/icons/github.svg"
+                            height="20"
+                            width="20"
+                          />
+                        </span>
+                        <div
+                          className=""
+                          style={{
+                            color: 'white',
+                          }}
+                        >
+                          GitHub
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div className="flex justify-center items-center w-full">
+                    <a
+                      href={course.projects.codesandboxLink}
+                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-1/2"
+                      title="Open Project in Codesandbox"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      style={{
+                        color: 'white',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <div className="flex align-center justify-center">
+                        <span className="mr-2">
+                          <Image
+                            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1622560912/next.egghead.io/icons/codesandbox.svg"
+                            height="20"
+                            width="20"
+                            layout="fixed"
+                          />
+                        </span>
+                        <div
+                          style={{
+                            color: 'white',
+                          }}
+                        >
+                          CodeSandbox
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </section>
               <Markdown>{stretchGoal.text}</Markdown>
               <Markdown>{appDesign.text}</Markdown>
               <Markdown>{productPage.description}</Markdown>
@@ -148,6 +224,26 @@ type projectCTAProps = {
   meta: string
   buttonText: string
   projectLink: string
+}
+
+const CtaButton = ({text, path}: any) => {
+  return (
+    <div className="flex justify-center items-center w-full">
+      <a
+        href={path}
+        className="mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+        title="Open Project in Codesandbox"
+        rel="noopener noreferrer"
+        target="_blank"
+        style={{
+          color: 'white',
+          textDecoration: 'none',
+        }}
+      >
+        {text}
+      </a>
+    </div>
+  )
 }
 
 const ProjectCTA = ({
@@ -209,7 +305,8 @@ const courseQuery = groq`
     description
   },
   "tweetCTA": urls[label == 'tweetCTA'][0].url,
-  "projectLink": urls[label == 'projectLink'][0].url,
+  "githubLink": urls[label == 'githubLink'][0].url,
+  "codesandboxLink": urls[label == 'codesandboxLink'][0].url,
   },
 }[0]`
 
@@ -223,7 +320,7 @@ async function loadCourse(id: number) {
 }
 
 export async function getStaticProps() {
-  const course = await loadCourse(447580)
+  const course = await loadCourse(447579)
 
   return {
     props: {
