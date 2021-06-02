@@ -216,13 +216,6 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
   )
 }
 
-type projectCTAProps = {
-  title: string
-  meta: string
-  buttonText: string
-  projectLink: string
-}
-
 const CtaButton = ({text, path}: any) => {
   return (
     <div className="flex justify-center items-center w-full">
@@ -239,41 +232,6 @@ const CtaButton = ({text, path}: any) => {
       >
         {text}
       </a>
-    </div>
-  )
-}
-
-const ProjectCTA = ({
-  title,
-  meta,
-  buttonText,
-  projectLink,
-}: projectCTAProps) => {
-  return (
-    <div className="flex flex-col items-center p-16 my-16 bg-gray-100 dark:bg-gray-800 rounded-lg">
-      <div className="text-center">
-        <h1 className="text-black dark:text-white text-2xl tracking-tight font-light text-center max-w-xl mx-auto">
-          {title}
-        </h1>
-        <p className="font-normal text-blue-600 sm:text-lg text-base mt-4">
-          {meta}
-        </p>
-        <div className="flex justify-center items-center w-full">
-          <a
-            href={projectLink}
-            className="mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
-            title="Open Project in Codesandbox"
-            rel="noopener noreferrer"
-            target="_blank"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-            }}
-          >
-            {buttonText}
-          </a>
-        </div>
-      </div>
     </div>
   )
 }
