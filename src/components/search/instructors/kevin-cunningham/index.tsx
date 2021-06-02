@@ -64,7 +64,7 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink
-      eventName="clicked Alex Reardon instructor page CTA"
+      eventName="clicked kevin cunningham page course CTA"
       params={{location}}
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 bg-white border-gray-100 shadow-sm relative text-center"
       href={path}
@@ -91,7 +91,7 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
                   <a
                     tabIndex={-1}
                     onClick={() =>
-                      track('clicked jumbotron resource', {
+                      track('clicked kevin cunningham page course CTA', {
                         resource: path,
                         linkType: 'image',
                       })
@@ -115,7 +115,7 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
                   <a
                     className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
                     onClick={() =>
-                      track('clicked instructor landing page course CTA', {
+                      track('clicked kevin cunningham page course CTA', {
                         resource: path,
                         linkType: 'text',
                       })
