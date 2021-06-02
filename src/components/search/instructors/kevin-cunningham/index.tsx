@@ -12,7 +12,6 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 export default function SearchKevinCunningham({instructor}: {instructor: any}) {
   const {courses} = instructor
 
-  console.log(instructor)
   const [primaryCourse, secondaryCourse, thirdCourse] = courses.resources
 
   return (
