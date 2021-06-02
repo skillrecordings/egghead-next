@@ -4,6 +4,7 @@ import groq from 'groq'
 import {stephanieEcklesQuery} from 'components/search/instructors/stephanie-eckles'
 import {kamranAhmedQuery} from 'components/search/instructors/kamran-ahmed'
 import {alexReardonQuery} from 'components/search/instructors/alex-reardon'
+import {kevinCunninghamQuery} from 'components/search/instructors/kevin-cunningham'
 
 import config from './config'
 
@@ -52,6 +53,7 @@ const sanityInstructorHash = {
   'stephanie-eckles': stephanieEcklesQuery,
   'kamran-ahmed': kamranAhmedQuery,
   'alex-reardon': alexReardonQuery,
+  'kevin-cunningham': kevinCunninghamQuery,
 }
 
 type SelectedInstructor = keyof typeof sanityInstructorHash
