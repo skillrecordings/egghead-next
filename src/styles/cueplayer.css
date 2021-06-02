@@ -30,3 +30,31 @@
   visibility: visible;
   opacity: 1;
 }
+
+.cueplayer-react .cueplayer-react-cue-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  width: 10rem;
+  min-height: 4rem;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  color: black;
+  border: 1px solid #9ca3af;
+  transform: translateX(calc(-50% + 3px)) translateY(calc(-100% - 15px));
+}
+
+.cueplayer-react .cueplayer-react-cue-popup:before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: calc(50% - 10px);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #ffffff transparent transparent transparent;
+}

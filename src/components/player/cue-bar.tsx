@@ -1,7 +1,12 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
-const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
+const CueBar: React.FC<any> = ({
+  className,
+  disableCompletely,
+  player,
+  actions,
+}) => {
   const {duration, activeMetadataTracks} = player
 
   const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
@@ -15,7 +20,15 @@ const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
   return disableCompletely ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
       {noteCues.map((noteCue: any) => {
-        return <NoteCue key={noteCue.text} cue={noteCue} duration={duration} />
+        return (
+          <NoteCue
+            key={noteCue.text}
+            cue={noteCue}
+            duration={duration}
+            player={player}
+            actions={actions}
+          />
+        )
       })}
     </div>
   )
@@ -23,8 +36,18 @@ const CueBar: React.FC<any> = ({className, disableCompletely, player}) => {
 
 export default CueBar
 
-const useCue = (cue: VTTCue) => {
-  const [active, setActive] = React.useState<any>(false)
+const useCue = (cue: VTTCue, actions: any) => {
+  const setActive = React.useCallback(
+    function setActive(active) {
+      if (active) {
+        actions.activateMetadataTrackCue(cue)
+      } else {
+        actions.activateMetadataTrackCue(null)
+      }
+    },
+    [actions],
+  )
+
   React.useEffect(() => {
     const enterCue = () => {
       setActive(true)
@@ -41,41 +64,28 @@ const useCue = (cue: VTTCue) => {
       cue.removeEventListener('enter', enterCue)
       cue.removeEventListener('exit', exitCue)
     }
-  }, [cue])
+  }, [cue, setActive])
 
-  return [active, setActive]
+  return setActive
 }
 
 const CuePopup: React.FC<any> = ({cue, active}) => {
   const note = JSON.parse(cue.text)
   return active ? (
-    <div
-      className="absolute w-40 min-h-[4rem] rounded-md bg-white p-3 text-xs top-0 left-0 z-10 text-black border border-gray-400"
-      css={{
-        transform:
-          'translateX(calc(-50% + 3px)) translateY(calc(-100% - 15px))',
-        ':before': {
-          content: '""',
-          position: 'absolute',
-          bottom: '-10px',
-          left: 'calc(50% - 10px)',
-          width: 0,
-          height: 0,
-          borderStyle: 'solid',
-          borderWidth: '10px 10px 0 10px',
-          borderColor: '#ffffff transparent transparent transparent',
-        },
-      }}
-    >
-      {note?.title}
-    </div>
+    <div className="cueplayer-react-cue-popup">{note?.title}</div>
   ) : null
 }
 
-const NoteCue: React.FC<any> = ({cue, duration, className}) => {
-  const [active, setActive] = useCue(cue)
+const NoteCue: React.FC<any> = ({
+  cue,
+  duration,
+  className,
+  actions,
+  player,
+}) => {
+  const setActive = useCue(cue, actions)
   const [persist, setPersist] = React.useState(false)
-
+  const active = cue === player.activeMetadataTrackCue
   const startPosition = `${(cue.startTime / duration) * 100}%`
 
   return (
