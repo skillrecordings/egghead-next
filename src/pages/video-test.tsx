@@ -45,14 +45,17 @@ const TestSidePanel: React.FC<any> = ({className, disableCompletely}) => {
     return track.label === 'notes'
   })
 
-  const noteCues = noteTracks.reduce((acc: VTTCue[], track: TextTrack) => {
-    return [...acc, ...Array.from(track.cues || [])]
-  }, [])
+  const noteCues: VTTCue[] = noteTracks.reduce(
+    (acc: VTTCue[], track: TextTrack) => {
+      return [...acc, ...Array.from(track.cues || [])]
+    },
+    [],
+  )
 
   disableCompletely = disableCompletely || isEmpty(noteCues)
 
   return disableCompletely ? null : (
-    <div className={classNames('cueplayer-react-side-panel', className)}>
+    <div className={classNames('cueplayer-react-side-panel w-1/3', className)}>
       {noteCues.map((cue) => {
         const note = JSON.parse(cue.text)
         const active = cue === player.activeMetadataTrackCue
@@ -79,7 +82,7 @@ const TestSidePanel: React.FC<any> = ({className, disableCompletely}) => {
 
 const VideoTest: React.FC<any> = ({videoResource}) => {
   const actualPlayerRef = React.useRef<any>()
-
+  const playerContainer = React.useRef<any>()
   //autoplay
   const lastAutoPlayed = React.useRef()
   const [autoplay, setAutoplay] = React.useState(true)
@@ -94,75 +97,81 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
     <div>
       {videoResource.hls_url && (
         <PlayerProvider>
-          <Player
-            muted
-            t
-            ref={(test: any) => {
-              console.log(test?.manager)
-            }}
-            crossOrigin="anonymous"
-            className="font-sans"
-            poster={videoResource.poster}
-            onCanPlay={(event: SyntheticEvent) => {
-              console.debug(`player ready [autoplay:${autoplay}]`)
-              const player: HTMLVideoElement = event.target as HTMLVideoElement
-              actualPlayerRef.current = player
-              const isDifferent =
-                lastAutoPlayed.current !== videoResource.hls_url
-              if (autoplay && isDifferent && isFunction(player.play)) {
-                console.debug(`autoplaying`)
-                lastAutoPlayed.current = videoResource.hls_url
-                player.play()
-              }
-            }}
-            onPause={() => {
-              send('PAUSE')
-            }}
-            onPlay={() => send('PLAY')}
-            onTimeUpdate={() => {
-              onProgress()
-            }}
-            onEnded={() => {
-              console.debug(`received ended event from player`)
-              send('COMPLETE')
-            }}
-          >
-            <BigPlayButton position="center" />
-            <HLSSource isVideoChild src={videoResource.hls_url} />
-            <track
-              src={videoResource.subtitlesUrl}
-              kind="subtitles"
-              srcLang="en"
-              label="English"
-              default
-            />
-            <track
-              id="notes"
-              src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
-              kind="metadata"
-              label="notes"
-            />
-            <CueBar order={6.0} />
-            <ControlBar disableDefaultControls>
-              <PlayToggle key="play-toggle" order={1} />
-              <ReplayControl key="replay-control" order={2} />
-              <ForwardControl key="forward-control" order={3} />
-              <VolumeMenuButton key="volume-menu-button" order={4} />
-              <CurrentTimeDisplay key="current-time-display" order={5} />
-              <TimeDivider key="time-divider" order={6} />
-              <DurationDisplay key="duration-display" order={7} />
-              <ProgressControl key="progress-control" order={8} />
-              <RemainingTimeDisplay key="remaining-time-display" order={9} />
-              <PlaybackRateMenuButton
-                rates={[1, 1.25, 1.5, 2]}
-                key="playback-rate"
-                order={10}
+          <div ref={playerContainer} className="flex">
+            <Player
+              muted
+              ref={(test: any) => {
+                console.log(test?.manager)
+              }}
+              crossOrigin="anonymous"
+              className="font-sans"
+              poster={videoResource.poster}
+              onCanPlay={(event: SyntheticEvent) => {
+                console.debug(`player ready [autoplay:${autoplay}]`)
+                const player: HTMLVideoElement =
+                  event.target as HTMLVideoElement
+                actualPlayerRef.current = player
+                const isDifferent =
+                  lastAutoPlayed.current !== videoResource.hls_url
+                if (autoplay && isDifferent && isFunction(player.play)) {
+                  console.debug(`autoplaying`)
+                  lastAutoPlayed.current = videoResource.hls_url
+                  player.play()
+                }
+              }}
+              onPause={() => {
+                send('PAUSE')
+              }}
+              onPlay={() => send('PLAY')}
+              onTimeUpdate={() => {
+                onProgress()
+              }}
+              onEnded={() => {
+                console.debug(`received ended event from player`)
+                send('COMPLETE')
+              }}
+            >
+              <BigPlayButton position="center" />
+              <HLSSource isVideoChild src={videoResource.hls_url} />
+              <track
+                src={videoResource.subtitlesUrl}
+                kind="subtitles"
+                srcLang="en"
+                label="English"
+                default
               />
-              <ClosedCaptionButton order={11} />
-              <FullscreenToggle key="fullscreen-toggle" order={12} />
-            </ControlBar>
-          </Player>
-          <TestSidePanel />
+              <track
+                id="notes"
+                src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
+                kind="metadata"
+                label="notes"
+              />
+              <CueBar order={6.0} />
+              <ControlBar disableDefaultControls>
+                <PlayToggle key="play-toggle" order={1} />
+                <ReplayControl key="replay-control" order={2} />
+                <ForwardControl key="forward-control" order={3} />
+                <VolumeMenuButton key="volume-menu-button" order={4} />
+                <CurrentTimeDisplay key="current-time-display" order={5} />
+                <TimeDivider key="time-divider" order={6} />
+                <DurationDisplay key="duration-display" order={7} />
+                <ProgressControl key="progress-control" order={8} />
+                <RemainingTimeDisplay key="remaining-time-display" order={9} />
+                <PlaybackRateMenuButton
+                  rates={[1, 1.25, 1.5, 2]}
+                  key="playback-rate"
+                  order={10}
+                />
+                <ClosedCaptionButton order={11} />
+                <FullscreenToggle
+                  key="fullscreen-toggle"
+                  fullscreenElement={playerContainer.current}
+                  order={12}
+                />
+              </ControlBar>
+            </Player>
+            <TestSidePanel className="" />
+          </div>
         </PlayerProvider>
       )}
     </div>
