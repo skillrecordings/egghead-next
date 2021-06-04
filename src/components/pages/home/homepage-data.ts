@@ -67,10 +67,8 @@ const homepageData = {
     description: `A guide to the fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her "get" React for the first time.`,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
-    path:
-      '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
-    slug:
-      'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    path: '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    slug: 'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
     instructor: {
       name: 'Maggie Appleton',
       slug: 'maggie-appleton',
@@ -90,8 +88,7 @@ const homepageData = {
     instructor_path: '/q/resources-by-ceora-ford',
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
-    path:
-      '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
+    path: '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
   },
   nextjsVideoApp: {
     id: 'nextjsVideoApp',
@@ -100,8 +97,7 @@ const homepageData = {
     byline: 'Vladimir Novick・38m・Course',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/thumb/next_video_analysis_424_2x.png',
-    path:
-      '/courses/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
+    path: '/courses/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
     slug: 'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
     description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
     `,
@@ -125,10 +121,8 @@ const homepageData = {
         byline: 'Jason Lengstorf・1h 27m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
-        path:
-          '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
-        slug:
-          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        path: '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        slug: 'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
         name: 'layout design',
@@ -298,8 +292,7 @@ const homepageData = {
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/211/thumb/EGH_GraphQL-AWs_Final.png',
 
-        path:
-          '/courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
+        path: '/courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
       },
       {
         title: 'GraphQL Data in React with Apollo Client',
@@ -365,6 +358,16 @@ const homepageData = {
         title: 'Build an App with the AWS Cloud Development Kit',
       },
       {
+        byline: 'Sam Julien・40m・Course',
+        description:
+          "One of the hardest parts of learning AWS is understanding how the different moving parts work together.This course ties together skills like networking, SSH, and using the command line while getting a realistic full-stack platform up and running. Whether you're studying for a certificate like Certified Cloud Practitioner or just learning for fun, this hands-on project will be a great way to dig in and get some practice!",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
+        path: '/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+        slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+        title: 'Deploy Ghost to AWS using RDS and EC2',
+      },
+      {
         byline: 'Lee Robinson・30m・Course',
         description:
           'Learn how to use the [AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install) to create and deploy a [DynamoDB table](https://aws.amazon.com/dynamodb/) with [Next.js](https://nextjs.org).- 🛠 API Route to handle CRUD actions- 📦 AWS CDK for Infrastructure as Code- 🔓 IAM role to restrict permissions- 🚀 Deploy instantly to [Vercel](https://vercel.com)You can view the completed code [here](https://github.com/leerob/nextjs-aws-dynamodb). ',
@@ -409,10 +412,8 @@ const homepageData = {
           "We generally tend to avoid paying for things unless we actually need them, and the same goes for AWSWhen using a cloud provider like AWS sometimes an unexpected charge may occur and we'd like to understand what are we being charged for and how to be notified whenever an unexpected charge occurs (especially when we're trying to stay within a free tier).In this quick (4 minutes, 2 lessons) collection we're going to learn how to:- Review the AWS Billing & Cost Management Dashboard- Set up a billing alarm to be notified whenever our bill is larger than $5- Review the AWS bill to understand how much are we going to pay this month and why",
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
-        path:
-          '/playlists/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
-        slug:
-          'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        path: '/playlists/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        slug: 'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
         title:
           'Use AWS Billing & Cost Management Dashboard to keep your AWS bill to minimum',
       },
@@ -422,10 +423,8 @@ const homepageData = {
           'This collection is a sequel to the [Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb) collection. In this collection we take the TODO application we built and convert it to run using Netlify Identity, AWS Lambda (using the serverless framework) and DynamoDB. We cover* Fauna vs DynamoDB and when to use each* Setting up AWS accounts* Creating DynamoDB tables and data modeling differences between Fauna and Dynamo* Converting our Netlify Functions deployment to a Serverless Framework deployment* Implementing Custom authorizer functions on AWSIt uses tools that remove as many of the barriers as possible. Netlify Functions grows into Serverless Framework adn AWS Lambda, Netlify Identity is kept around, and FaunaDB can grows into DynamoDB.',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
-        path:
-          '/playlists/converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
-        slug:
-          'converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        path: '/playlists/converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        slug: 'converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
         title:
           'Converting a Serverless App to run on AWS Lambda and DynamoDB with Serverless Framework',
       },
@@ -443,52 +442,44 @@ const homepageData = {
       {
         title: 'Using Redux in Modern React Apps with Mark Erikson',
         byline: 'Mark Erikson & Joel Hooks・90m・Chat',
-        path:
-          '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
+        path: '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
       },
       {
         title: 'XState for State Management in React Apps with David Khourshid',
         byline: 'David Khourshid & Joel Hooks・55m・Chat',
-        path:
-          '/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
+        path: '/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
       },
       {
         title: 'State Management in React with Chance Strickland',
         byline: 'Chance Strickland & Joel Hooks・46m・Chat',
-        path:
-          '/lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
+        path: '/lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
       },
       {
         title:
           'Using Recoil to Manage Orthogonal State in React Apps with David McCabe',
         byline: 'David McCabe & Joel Hooks・34m・Chat',
-        path:
-          '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
+        path: '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
       },
       {
         title: 'State Management in React with Christopher Chedeau',
         byline: 'Christopher Chedeau & Joel Hooks・35m・Chat',
-        path:
-          '/lessons/react-state-management-in-react-with-christopher-chedeau?pl=react-state-management-in-2021-6732',
+        path: '/lessons/react-state-management-in-react-with-christopher-chedeau?pl=react-state-management-in-2021-6732',
       },
       {
         title: 'State Management in React with Paul Henschel',
         byline: 'Paul Henschel & Joel Hooks・24m・Chat',
-        path:
-          '/lessons/react-state-management-in-react-with-paul-henschel?pl=react-state-management-in-2021-6732',
+        path: '/lessons/react-state-management-in-react-with-paul-henschel?pl=react-state-management-in-2021-6732',
       },
       {
         title: 'Managing Complex State in React with Jared Palmer',
         byline: 'Jared Palmer & Joel Hooks・1h 28m・Chat',
-        path:
-          '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
+        path: '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
       },
       {
         title:
           'Using react-query to Manage Server Data and Cache with Tanner Linsley',
         byline: 'Tanner Linsley & Joel Hooks・47m・Chat',
-        path:
-          '/lessons/react-using-react-query-to-manage-server-data-and-cache-with-tanner-linsley?pl=react-state-management-in-2021-6732',
+        path: '/lessons/react-using-react-query-to-manage-server-data-and-cache-with-tanner-linsley?pl=react-state-management-in-2021-6732',
       },
     ],
   },
@@ -499,8 +490,7 @@ const homepageData = {
     byline: 'Colby Fayock',
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
-    path:
-      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
     description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
   tailwind: {
@@ -516,13 +506,11 @@ const homepageData = {
     resources: [
       {
         title: 'Introduction to Tailwind and the Utility First Workflow',
-        path:
-          '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+        path: '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
       },
       {
         title: 'Design and Implement Common Tailwind Components',
-        path:
-          '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
+        path: '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
       },
       {
         title: 'Build a Responsive Navbar with Tailwind',
