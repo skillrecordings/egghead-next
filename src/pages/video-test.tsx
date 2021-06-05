@@ -63,9 +63,6 @@ const TestSidePanel: React.FC<any> = ({className, disableCompletely}) => {
             {noteCues.map((cue) => {
               const note = JSON.parse(cue.text)
               const active = cue === player.activeMetadataTrackCue
-
-              console.log('cue: ', cue)
-
               return (
                 <section
                   className={classNames(
