@@ -9,7 +9,7 @@
   background-color: #2b333f90;
 }
 
-.cueplayer-react-cue-bar .cueplayer-react-cue-note {
+/* .cueplayer-react-cue-bar .cueplayer-react-cue-note {
   position: absolute;
   height: 100%;
   width: 6px;
@@ -23,7 +23,7 @@
 
 .cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
   background-color: orange;
-}
+} */
 
 .cueplayer-react-has-started .cueplayer-react-cue-bar {
   display: flex;

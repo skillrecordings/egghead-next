@@ -55,27 +55,36 @@ const TestSidePanel: React.FC<any> = ({className, disableCompletely}) => {
   disableCompletely = disableCompletely || isEmpty(noteCues)
 
   return disableCompletely ? null : (
-    <div className={classNames('cueplayer-react-side-panel', className)}>
-      {noteCues.map((cue) => {
-        const note = JSON.parse(cue.text)
-        const active = cue === player.activeMetadataTrackCue
+    <div className="relative h-full">
+      <div className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
+        <div className="flex-shrink-0 p-6 text-white">some menu here</div>
+        <div className="flex-grow overflow-y-scroll">
+          <div className="">
+            {noteCues.map((cue) => {
+              const note = JSON.parse(cue.text)
+              const active = cue === player.activeMetadataTrackCue
 
-        return (
-          <section
-            className={classNames(
-              'cueplayer-react-cue-note',
-              {
-                'cueplayer-react-cue-note-active': active,
-                'cueplayer-react-cue-note-inactive': !active,
-              },
-              className,
-            )}
-          >
-            <h1 className="font-bold">{note.title}</h1>
-            {note.description}
-          </section>
-        )
-      })}
+              console.log('cue: ', cue)
+
+              return (
+                <section
+                  className={classNames(
+                    'text-sm p-4',
+                    {
+                      'bg-red-500': active,
+                      'bg-orange-400': !active,
+                    },
+                    className,
+                  )}
+                >
+                  <h1 className="font-bold">{note.title}</h1>
+                  {note.description}
+                </section>
+              )
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -179,16 +188,7 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
               </Player>
             </div>
             <div className="lg:col-span-3">
-              <div className="relative h-full">
-                <div className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
-                  <div className="flex-shrink-0 p-6 text-white">
-                    some menu here
-                  </div>
-                  <div className="flex-grow overflow-y-scroll bg-blue-500">
-                    <TestSidePanel className="" />
-                  </div>
-                </div>
-              </div>
+              <TestSidePanel />
             </div>
           </div>
         </PlayerProvider>
