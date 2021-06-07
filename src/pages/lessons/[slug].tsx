@@ -21,6 +21,7 @@ import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import CoursePitchOverlay from 'components/pages/lessons/overlay/course-pitch-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
@@ -136,7 +137,24 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
+
   const currentPlayerState = playerState.value as string
+
+  const [isIncomingAnonViewer, setIsIncomingAnonViewer] =
+    React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    const storage = window?.sessionStorage
+    if (!storage) return
+
+    const prevPath = storage.getItem('prevPath')
+
+    if (!prevPath && !subscriber && !viewer) {
+      setIsIncomingAnonViewer(true)
+    } else {
+      setIsIncomingAnonViewer(false)
+    }
+  }, [subscriber, viewer])
 
   const {clearResource, updateResource} = useLastResource({
     ...lesson,
@@ -225,6 +243,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       } else {
         router.push(nextLesson.path)
       }
+    } else if (lesson.collection && isIncomingAnonViewer) {
+      send(`COURSE_PITCH`)
     } else if (nextLesson) {
       console.debug(`Showing Next Lesson Overlay`)
       send(`NEXT`)
@@ -303,11 +323,27 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             if (lessonView) {
               setLessonView(lessonView)
               completeVideo(lessonView)
+            } else if (lesson.collection && isIncomingAnonViewer) {
+              send(`COURSE_PITCH`)
+            } else if (nextLesson) {
+              console.debug(`Showing Next Lesson Overlay`)
+              send(`NEXT`)
+            } else {
+              console.debug(`Showing Recommend Overlay`)
+              send(`RECOMMEND`)
             }
           })
           .catch(() => {
             if (lessonView) {
               completeVideo(lessonView)
+            } else if (lesson.collection && isIncomingAnonViewer) {
+              send(`COURSE_PITCH`)
+            } else if (nextLesson) {
+              console.debug(`Showing Next Lesson Overlay`)
+              send(`NEXT`)
+            } else {
+              console.debug(`Showing Recommend Overlay`)
+              send(`RECOMMEND`)
             }
           })
 
@@ -336,6 +372,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       send({
         type: 'LOADED',
         lesson: {...initialLesson, ...loadedLesson},
+        isIncomingAnonViewer,
         viewer,
       })
     }
@@ -553,6 +590,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 {playerState.matches('subscribing') && (
                   <OverlayWrapper>
                     <JoinCTA lesson={lesson} />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('pitchingCourse') && (
+                  <OverlayWrapper>
+                    <CoursePitchOverlay
+                      lesson={lesson}
+                      onClickRewatch={() => {
+                        send('VIEW')
+                        if (actualPlayerRef.current) {
+                          actualPlayerRef.current.play()
+                        }
+                      }}
+                    />
                   </OverlayWrapper>
                 )}
                 {playerState.matches('showingNext') && (
