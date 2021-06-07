@@ -36,7 +36,7 @@ const CoursePitchOverlay: React.FunctionComponent<{
         >
           <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
-        <Link href={lesson.collection.path || '#'}>
+        <Link href={lesson?.collection?.path || '#'}>
           <a
             onClick={() => {
               track('clicked view course', {
