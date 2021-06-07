@@ -372,7 +372,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       send({
         type: 'LOADED',
         lesson: {...initialLesson, ...loadedLesson},
-        isIncomingAnonViewer,
         viewer,
       })
     }

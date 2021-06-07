@@ -28,7 +28,7 @@ export type PlayerStateEvent =
   | {type: 'PLAY'}
   | {type: 'PAUSE'}
   | {type: 'LOADED'}
-  | {type: 'LOADED'; lesson: any; viewer: any; isIncomingAnonViewer?: boolean}
+  | {type: 'LOADED'; lesson: any; viewer: any}
   | {type: 'SUBSCRIBE'}
   | {type: 'JOIN'}
   | {type: 'QUIZ'}
