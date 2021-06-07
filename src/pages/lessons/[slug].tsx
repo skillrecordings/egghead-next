@@ -83,10 +83,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     res.end()
     return {props: {}}
   } else {
-    res.setHeader(
-      'Link',
-      'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
-    )
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     return {
       props: {
