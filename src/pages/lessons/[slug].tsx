@@ -77,8 +77,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const initialLesson: LessonResource | undefined =
     params && (await loadBasicLesson(params.slug as string))
 
-  console.log(`----------> referer: ${req?.headers?.referer}`)
-
   if (initialLesson && initialLesson?.slug !== params?.slug) {
     res.setHeader('Location', initialLesson.path)
     res.statusCode = 302
