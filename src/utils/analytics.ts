@@ -94,7 +94,6 @@ export const identify = (data: Viewer, properties?: any) => {
 
     if (isFunction(mixpanel.identify)) {
       mixpanel.people.set({
-        $distinct_id: data.contact_id,
         $email: data.email,
         $first_name: data.name,
         pro: data.is_pro,
