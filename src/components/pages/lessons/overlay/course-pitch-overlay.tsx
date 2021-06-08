@@ -3,12 +3,16 @@ import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
+import {useTrackComponent} from 'hooks/use-track-component'
 
 const CoursePitchOverlay: React.FunctionComponent<{
   lesson: any
   onClickRewatch?: () => void
 }> = ({lesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
+
+  useTrackComponent('show course pitch', {course: lesson?.collection?.slug})
+
   return (
     <>
       {courseImage && (
