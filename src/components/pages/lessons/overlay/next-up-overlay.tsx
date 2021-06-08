@@ -3,6 +3,7 @@ import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
+import {useTrackComponent} from 'hooks/use-track-component'
 
 const NextUpOverlay: React.FunctionComponent<{
   lesson: any
@@ -10,6 +11,12 @@ const NextUpOverlay: React.FunctionComponent<{
   onClickRewatch?: () => void
 }> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
+
+  useTrackComponent('show next up', {
+    course: lesson?.collection?.slug,
+    lesson: lesson.slug,
+  })
+
   return (
     <>
       {courseImage && (
