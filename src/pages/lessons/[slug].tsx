@@ -144,16 +144,20 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     React.useState<boolean>(false)
 
   React.useEffect(() => {
-    const storage = window?.sessionStorage
-    if (!storage) return
+    function run() {
+      const storage = window?.sessionStorage
+      if (!storage) return
 
-    const prevPath = storage.getItem('prevPath')
+      const prevPath = storage.getItem('prevPath')
 
-    if (!prevPath && !subscriber && !viewer) {
-      setIsIncomingAnonViewer(true)
-    } else {
-      setIsIncomingAnonViewer(false)
+      if (isEmpty(prevPath) && !subscriber && !viewer) {
+        setIsIncomingAnonViewer(true)
+      } else {
+        setIsIncomingAnonViewer(false)
+      }
     }
+
+    setTimeout(run, 750)
   }, [subscriber, viewer])
 
   const {clearResource, updateResource} = useLastResource({
@@ -317,7 +321,11 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'completed':
-        console.debug('handling a change to completed', {lesson, lessonView})
+        console.debug('handling a change to completed', {
+          lesson,
+          lessonView,
+          isIncomingAnonViewer,
+        })
         onEnded(lesson)
           .then((lessonView: any) => {
             if (lessonView) {
