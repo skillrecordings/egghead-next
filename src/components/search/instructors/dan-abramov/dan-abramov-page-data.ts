@@ -23,8 +23,8 @@ He started using React for front-end development when he was working with a U.S-
     name: 'Just starting out with JavaScript',
     resources: [
       {
-        title: 'Getting Started with Redux',
-        path: '/courses/getting-started-with-redux',
+        title: 'Fundamentals of Redux Course from Dan Abramov',
+        path: '/courses/fundamentals-of-redux-course-from-dan-abramov-bd5cc867',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/025/full/EGH_Redux-New.png',
         byline: 'Dan Abramov',
