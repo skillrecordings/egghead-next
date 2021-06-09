@@ -156,7 +156,6 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
                   kind="metadata"
                   label="notes"
                 />
-                <CueBar order={6.0} />
                 <ControlBar disableDefaultControls>
                   <PlayToggle key="play-toggle" order={1} />
                   <ReplayControl key="replay-control" order={2} />
@@ -165,7 +164,9 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
                   <CurrentTimeDisplay key="current-time-display" order={5} />
                   <TimeDivider key="time-divider" order={6} />
                   <DurationDisplay key="duration-display" order={7} />
-                  <ProgressControl key="progress-control" order={8} />
+                  <ProgressControl key="progress-control" order={8}>
+                    <CueBar key="cue-bar" />
+                  </ProgressControl>
                   <RemainingTimeDisplay
                     key="remaining-time-display"
                     order={9}

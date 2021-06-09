@@ -1,0 +1,7 @@
+.cueplayer-react .cueplayer-react-cue-bar {
+  @apply bottom-0 h-8;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note {
+  @apply w-[4px];
+}
