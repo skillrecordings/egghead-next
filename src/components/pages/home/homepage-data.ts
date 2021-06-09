@@ -80,15 +80,15 @@ const homepageData = {
   },
   video: {
     id: 'video',
-    name: 'Optimize your Learning',
-    title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.\n\nThere are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+    name: 'Successfully Market Your Work',
+    title: 'Marketing Tactics for Software Developers',
+    description: `Developers understand that marketing is beneficial, but can be put off by marketing tactics that seem more focused on making a sale than with sharing something they need or value. But self-promotion doesn’t have to be self-centered, and marketing content can, and should, be relevant to what software developers have created.
       `,
-    instructor: 'Ceora Ford',
-    instructor_path: '/q/resources-by-ceora-ford',
+    instructor: 'Stephanie Morillo',
+    instructor_path: '/q/resources-by-stephanie-morillo',
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
-    path: '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1623277905/egghead-next-ebombs/egghead-marketing-tactics-for-software-developers/cover.png',
+    path: '/talks/egghead-marketing-tactics-for-software-developers',
   },
   nextjsVideoApp: {
     id: 'nextjsVideoApp',
