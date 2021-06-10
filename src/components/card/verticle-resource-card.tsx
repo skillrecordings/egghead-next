@@ -90,8 +90,8 @@ const PreviewImage: React.FC<{title: string; image: any}> = ({
   <CardPreview>
     <Image
       src={get(image, 'src', image)}
-      width={200}
-      height={200}
+      width={220}
+      height={220}
       quality={100}
       alt={`illustration for ${title}`}
     />
