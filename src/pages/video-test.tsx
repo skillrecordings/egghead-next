@@ -85,7 +85,7 @@ const Notes: React.FunctionComponent = () => {
   )
 }
 
-const getSideBarTabs = () => {
+const getSidePanelTabs = () => {
   const noteCues = getNoteCues()
   return [
     {label: 'Notes', content: !isEmpty(noteCues) ? <Notes /> : null},
@@ -93,18 +93,18 @@ const getSideBarTabs = () => {
   ]
 }
 
-type SideBarProps = {
+type SidePanelProps = {
   tabs: {label: string; content: React.ReactElement | null}[]
 }
 
-const SideBar: React.FC<SideBarProps> = ({tabs}) => {
+const SidePanel: React.FC<SidePanelProps> = ({tabs}) => {
   const availableTabs = tabs.filter(({content}) => content)
 
   return (
-    <div className="relative h-full sidebar">
+    <div className="relative h-full sidepanel">
       {!isEmpty(tabs) && (
         <Tabs className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
-          <TabList className="relative z-[1] flex-shrink-0 shadow-sm">
+          <TabList className="relative z-[1] flex-shrink-0">
             {availableTabs.map(({label}) => (
               <Tab key={label}>{label}</Tab>
             ))}
@@ -231,7 +231,7 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
             </Player>
           </div>
           <div className="lg:col-span-3">
-            <SideBar tabs={getSideBarTabs()} />
+            <SidePanel tabs={getSidePanelTabs()} />
           </div>
         </div>
       )}

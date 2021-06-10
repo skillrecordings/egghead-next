@@ -134,17 +134,6 @@ pre > code {
   @apply text-gray-900 transition-colors duration-300 ease-in-out border-gray-200 bg-gray-50 dark:bg-gray-1000 dark:text-white dark:border-gray-800;
 }
 
-/* tabs in lesson sidebar */
-.sidebar > [data-reach-tabs] [data-reach-tab-list] {
-  @apply space-x-0 bg-transparent rounded-none;
-}
-.sidebar > [data-reach-tabs] [data-reach-tab] {
-  @apply px-4 py-3 text-sm font-medium uppercase border-none rounded-none;
-}
-.sidebar > [data-reach-tabs] [data-reach-tab][data-selected] {
-  @apply bg-gray-100 dark:bg-gray-1000;
-}
-
 /*
   This will hide the focus indicator if the element receives focus via the mouse,
   but it will still show up on keyboard focus.
