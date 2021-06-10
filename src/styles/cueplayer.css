@@ -1,0 +1,7 @@
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
+  @apply bg-white opacity-100;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
+  @apply bg-white opacity-50;
+}
