@@ -146,7 +146,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               resource={tailwind}
               className="text-center"
             >
-              <ol className="text-left">
+              <ol className="inline-block text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
                   return (
                     <li key={resource.path} className="flex space-x-2 my-2">
