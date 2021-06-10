@@ -101,25 +101,27 @@ const SideBar: React.FC<SideBarProps> = ({tabs}) => {
   const availableTabs = tabs.filter(({content}) => content)
 
   return (
-    <div className="sidebar">
+    <div className="relative h-full sidebar">
       {!isEmpty(tabs) && (
-        <Tabs>
-          <TabList>
+        <Tabs className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
+          <TabList className="relative z-[1] flex-shrink-0 shadow-sm">
             {availableTabs.map(({label}) => (
               <Tab key={label}>{label}</Tab>
             ))}
           </TabList>
-          <TabPanels>
-            {availableTabs.map(({content, label}) => {
-              return (
-                <TabPanel
-                  key={label}
-                  className="p-4 overflow-y-auto bg-gray-100 dark:bg-gray-1000"
-                >
-                  {content}
-                </TabPanel>
-              )
-            })}
+          <TabPanels className="flex-grow overflow-y-scroll">
+            <div>
+              {availableTabs.map(({content, label}) => {
+                return (
+                  <TabPanel
+                    key={label}
+                    className="p-4 bg-gray-100 dark:bg-gray-1000"
+                  >
+                    {content}
+                  </TabPanel>
+                )
+              })}
+            </div>
           </TabPanels>
         </Tabs>
       )}
@@ -155,7 +157,7 @@ const VideoTest: React.FC<any> = ({videoResource}) => {
           ref={playerContainer}
           className="relative grid grid-cols-1 lg:grid-cols-12 "
         >
-          <div className="lg:col-span-9">
+          <div className="relative z-10 lg:col-span-9">
             <Player
               muted
               ref={(test: any) => {
