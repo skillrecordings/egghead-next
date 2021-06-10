@@ -23,7 +23,7 @@ const VerticalResourceCard: React.FC<{
   children,
   resource,
   location,
-  className = 'text-center sm:py-8 py-6',
+  className = 'border-none flex flex-col items-center justify-center text-center sm:py-8 py-6',
   describe = false,
   ...props
 }) => {
@@ -34,7 +34,7 @@ const VerticalResourceCard: React.FC<{
           path={resource.path}
           location={location}
           linkType="image"
-          className="flex-shrink-0 sm:w-auto m:w-24 w-36"
+          className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
         >
           <PreviewImage image={resource.image} title={resource.title} />
         </ResourceLink>
