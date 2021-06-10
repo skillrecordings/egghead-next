@@ -30,12 +30,7 @@ const VerticalResourceCard: React.FC<{
   return (
     <Card {...props} className={className}>
       {resource.image && resource.path ? (
-        <ResourceLink
-          path={resource.path}
-          location={location}
-          linkType="image"
-          className="block flex-shrink-0 sm:w-auto m:w-24 w-36"
-        >
+        <ResourceLink path={resource.path} location={location} linkType="image">
           <PreviewImage image={resource.image} title={resource.title} />
         </ResourceLink>
       ) : (
@@ -95,10 +90,9 @@ const PreviewImage: React.FC<{title: string; image: any}> = ({
   <CardPreview>
     <Image
       src={get(image, 'src', image)}
-      width={220}
-      height={220}
-      layout="fixed"
-      className="object-cover rounded-md"
+      width={200}
+      height={200}
+      quality={100}
       alt={`illustration for ${title}`}
     />
   </CardPreview>
