@@ -50,8 +50,9 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
   return (
     <div className="video-test -mx-5">
       {videoResource.hls_url && (
-        <div
+        <PlayerContainer
           ref={playerContainer}
+          player={player}
           className="relative grid grid-cols-1 lg:grid-cols-12 "
         >
           <div className="relative z-10 lg:col-span-9 pb-[4.5rem]">
@@ -126,7 +127,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
               </Tabs>
             </div>
           </div>
-        </div>
+        </PlayerContainer>
       )}
     </div>
   )
@@ -175,6 +176,38 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
     </div>
   )
 }
+
+const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
+  HTMLDivElement,
+  any
+>((props, ref) => {
+  const {player, className, children, ...rest} = props
+  const {paused, hasStarted, waiting, seeking, isFullscreen, userActivity} =
+    player
+
+  return (
+    <div
+      {...rest}
+      ref={ref}
+      className={classNames(
+        {
+          'cueplayer-react-has-started': hasStarted,
+          'cueplayer-react-paused': paused,
+          'cueplayer-react-playing': !paused,
+          'cueplayer-react-waiting': waiting,
+          'cueplayer-react-seeking': seeking,
+          'cueplayer-react-fullscreen': isFullscreen,
+          'cueplayer-react-user-inactive': !userActivity,
+          'cueplayer-react-user-active': userActivity,
+        },
+        'cueplayer-react',
+        className,
+      )}
+    >
+      {children}
+    </div>
+  )
+})
 
 const VideoTest: React.FC<{videoResource: VideoResource}> = ({
   videoResource,
