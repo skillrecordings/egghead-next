@@ -1,5 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
+import truncate from 'lodash/truncate'
 import Tippy from '@tippyjs/react'
 
 const CueBar: React.FC<any> = ({
@@ -97,7 +98,19 @@ const NoteCue: React.FC<any> = ({
     <Tippy
       placement="top"
       theme="light"
-      content={note.title}
+      maxWidth={600}
+      content={
+        <div className="p-1">
+          {note.title && (
+            <span className="pb-2 font-semibold inline-block">
+              {note.title}
+            </span>
+          )}
+          <div>
+            {truncate(note.description, {length: 250, separator: '...'})}
+          </div>
+        </div>
+      }
       visible={visible}
       onClickOutside={close}
     >
