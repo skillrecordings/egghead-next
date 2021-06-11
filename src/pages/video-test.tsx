@@ -78,7 +78,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                 label="notes"
               />
               <CueBar order={6.0} />
-              <ControlBar disableDefaultControls>
+              <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
                 <ReplayControl key="replay-control" order={2} />
                 <ForwardControl key="forward-control" order={3} />
