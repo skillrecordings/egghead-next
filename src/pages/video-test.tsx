@@ -21,243 +21,173 @@ import {
   CueBar,
   usePlayer,
 } from 'cueplayer-react'
-import {SyntheticEvent} from 'react'
-import {isFunction} from 'lodash'
 import HLSSource from '../components/player/hls-source'
 import classNames from 'classnames'
+import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
+import {convertTime} from 'utils/time-utils'
+import ReactMarkdown from 'react-markdown'
 
-export const getServerSideProps: GetServerSideProps = async function ({query}) {
-  const videoResource = pickVideoResource(query.v)
+type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
 
-  return {
-    props: {
-      videoResource,
-    },
-  }
-}
-
-const TestSidePanel: React.FC<any> = ({className, disableCompletely}) => {
+const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
+  videoResource,
+}) => {
+  const playerContainer = React.useRef<any>()
   const {player} = usePlayer()
-
   const {activeMetadataTracks = []} = player
 
   const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
     return track.label === 'notes'
   })
 
-  const noteCues: VTTCue[] = noteTracks.reduce(
+  const cues: VTTCue[] = noteTracks.reduce(
     (acc: VTTCue[], track: TextTrack) => {
       return [...acc, ...Array.from(track.cues || [])]
     },
     [],
   )
 
-  disableCompletely = disableCompletely || isEmpty(noteCues)
-
-  return disableCompletely ? null : (
-    <div className="relative h-full">
-      <div className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
-        <div className="flex-shrink-0 p-6 text-white">some menu here</div>
-        <div className="flex-grow overflow-y-scroll">
-          <div className="">
-            {noteCues.map((cue) => {
-              const note = JSON.parse(cue.text)
-              const active = cue === player.activeMetadataTrackCue
-              return (
-                <section
-                  className={classNames(
-                    'text-sm p-4',
-                    {
-                      'bg-red-500': active,
-                      'bg-orange-400': !active,
-                    },
-                    className,
-                  )}
-                >
-                  <h1 className="font-bold">{note.title}</h1>
-                  {note.description}
-                </section>
-              )
-            })}
+  return (
+    <div className="-mx-5 -mt-5">
+      {videoResource.hls_url && (
+        <div
+          ref={playerContainer}
+          className="relative grid grid-cols-1 lg:grid-cols-12 "
+        >
+          <div className="relative z-10 lg:col-span-9">
+            <Player
+              muted
+              autoplay
+              crossOrigin="anonymous"
+              className="font-sans"
+              poster={videoResource.poster}
+            >
+              <BigPlayButton position="center" />
+              <HLSSource isVideoChild src={videoResource.hls_url} />
+              <track
+                src={videoResource.subtitlesUrl}
+                kind="subtitles"
+                srcLang="en"
+                label="English"
+                default
+              />
+              <track
+                id="notes"
+                src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
+                kind="metadata"
+                label="notes"
+              />
+              <CueBar order={6.0} />
+              <ControlBar disableDefaultControls>
+                <PlayToggle key="play-toggle" order={1} />
+                <ReplayControl key="replay-control" order={2} />
+                <ForwardControl key="forward-control" order={3} />
+                <VolumeMenuButton key="volume-menu-button" order={4} />
+                <CurrentTimeDisplay key="current-time-display" order={5} />
+                <TimeDivider key="time-divider" order={6} />
+                <DurationDisplay key="duration-display" order={7} />
+                <ProgressControl key="progress-control" order={8} />
+                <RemainingTimeDisplay key="remaining-time-display" order={9} />
+                <PlaybackRateMenuButton
+                  rates={[1, 1.25, 1.5, 2]}
+                  key="playback-rate"
+                  order={10}
+                />
+                <ClosedCaptionButton order={11} />
+                <FullscreenToggle
+                  key="fullscreen-toggle"
+                  fullscreenElement={playerContainer.current}
+                  order={12}
+                />
+              </ControlBar>
+            </Player>
+          </div>
+          <div className="lg:col-span-3">
+            <div className="relative h-full sidepanel">
+              <Tabs className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
+                <TabList className="relative z-[1] flex-shrink-0">
+                  {!isEmpty(cues) && <Tab>Notes</Tab>}
+                  <Tab>Lessons</Tab>
+                </TabList>
+                <TabPanels className="flex-grow overflow-y-scroll">
+                  <div>
+                    {!isEmpty(cues) && (
+                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
+                        <NotesTabContent cues={cues} />
+                      </TabPanel>
+                    )}
+                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
+                      <div className="p-4">This will be a list of lessons.</div>
+                    </TabPanel>
+                  </div>
+                </TabPanels>
+              </Tabs>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
-
-const VideoTest: React.FC<any> = ({videoResource}) => {
-  const actualPlayerRef = React.useRef<any>()
-  const playerContainer = React.useRef<any>()
-  //autoplay
-  const lastAutoPlayed = React.useRef()
-  const [autoplay, setAutoplay] = React.useState(true)
-
-  const send = (message: any) => {
-    console.debug(message)
-  }
-
-  const onProgress = () => {}
-
-  return (
-    <div>
-      {videoResource.hls_url && (
-        <PlayerProvider>
-          <div
-            ref={playerContainer}
-            className="grid grid-cols-1 lg:grid-cols-12"
-          >
-            <div className="lg:col-span-9">
-              <Player
-                muted
-                ref={(test: any) => {
-                  console.log(test?.manager)
-                }}
-                crossOrigin="anonymous"
-                className="font-sans"
-                poster={videoResource.poster}
-                onCanPlay={(event: SyntheticEvent) => {
-                  console.debug(`player ready [autoplay:${autoplay}]`)
-                  const player: HTMLVideoElement =
-                    event.target as HTMLVideoElement
-                  actualPlayerRef.current = player
-                  const isDifferent =
-                    lastAutoPlayed.current !== videoResource.hls_url
-                  if (autoplay && isDifferent && isFunction(player.play)) {
-                    console.debug(`autoplaying`)
-                    lastAutoPlayed.current = videoResource.hls_url
-                    player.play()
-                  }
-                }}
-                onPause={() => {
-                  send('PAUSE')
-                }}
-                onPlay={() => send('PLAY')}
-                onTimeUpdate={() => {
-                  onProgress()
-                }}
-                onEnded={() => {
-                  console.debug(`received ended event from player`)
-                  send('COMPLETE')
-                }}
-              >
-                <BigPlayButton position="center" />
-                <HLSSource isVideoChild src={videoResource.hls_url} />
-                <track
-                  src={videoResource.subtitlesUrl}
-                  kind="subtitles"
-                  srcLang="en"
-                  label="English"
-                  default
-                />
-                <track
-                  id="notes"
-                  src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
-                  kind="metadata"
-                  label="notes"
-                />
-                <CueBar order={6.0} />
-                <ControlBar disableDefaultControls>
-                  <PlayToggle key="play-toggle" order={1} />
-                  <ReplayControl key="replay-control" order={2} />
-                  <ForwardControl key="forward-control" order={3} />
-                  <VolumeMenuButton key="volume-menu-button" order={4} />
-                  <CurrentTimeDisplay key="current-time-display" order={5} />
-                  <TimeDivider key="time-divider" order={6} />
-                  <DurationDisplay key="duration-display" order={7} />
-                  <ProgressControl key="progress-control" order={8} />
-                  <RemainingTimeDisplay
-                    key="remaining-time-display"
-                    order={9}
-                  />
-                  <PlaybackRateMenuButton
-                    rates={[1, 1.25, 1.5, 2]}
-                    key="playback-rate"
-                    order={10}
-                  />
-                  <ClosedCaptionButton order={11} />
-                  <FullscreenToggle
-                    key="fullscreen-toggle"
-                    fullscreenElement={playerContainer.current}
-                    order={12}
-                  />
-                </ControlBar>
-              </Player>
-            </div>
-            <div className="lg:col-span-3">
-              <TestSidePanel />
-            </div>
-          </div>
-        </PlayerProvider>
       )}
     </div>
   )
 }
 
-const videoResources = {
-  testingjavascript: {
-    subtitle:
-      'https://app.egghead.io/api/v1/lessons/node-js-create-a-casify-function-to-generate-cases-for-jest-in-case/subtitles',
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS/hls/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS/dash/scikit-learn-create-a-casify-function-to-generate-cases-for-jest-in-case-BkAh7QjsS.mpd',
-  },
-  configureAngularCLI: {
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter-S1MetkKSG/egghead-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter-S1MetkKSG.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter-eacfbcf344/egghead-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter-eacfbcf344.m3u8',
+const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
+  const {player} = usePlayer()
+  const disabled: boolean = isEmpty(cues)
 
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter-eacfbcf344/egghead-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter-eacfbcf344.mpd',
+  return disabled ? null : (
+    <div>
+      {cues.map((cue: any) => {
+        const note = JSON.parse(cue.text)
+        const active = cue === player.activeMetadataTrackCue
+        return (
+          <div
+            key={note.title}
+            className={classNames(
+              'text-sm p-4 bg-white dark:bg-gray-900 rounded-md mb-3 shadow-sm border-2 border-transparent',
+              {
+                'border-indigo-500': active,
+                '': !active,
+              },
+            )}
+          >
+            {note.title && (
+              <div className="text-base font-semibold text-black dark:text-white pb-3">
+                {note.title}
+              </div>
+            )}
+            {note.description && (
+              <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                {note.description}
+              </ReactMarkdown>
+            )}
+            {cue.startTime && (
+              <div className="w-full flex items-baseline justify-end pt-3">
+                <time className="text-xs opacity-60 font-medium">
+                  {convertTime(cue.startTime)}
+                </time>
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/angular-configure-the-angular-cli-to-use-the-karma-mocha-test-reporter/subtitles',
-  },
-  rxJS: {
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-combination-operator-combinelatest/egghead-combination-operator-combinelatest.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/rxjs-combination-operator-combinelatest-6166b0d1b8/rxjs-combination-operator-combinelatest-6166b0d1b8.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/rxjs-combination-operator-combinelatest-6166b0d1b8/rxjs-combination-operator-combinelatest-6166b0d1b8.mpd',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/rxjs-join-values-from-multiple-observables-with-rxjs-combinelatest/subtitles',
-  },
-  styleReactComponents: {
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-v2-10-style-react-components-with-classname-and-inline-styles-B1QzWK8rU/egghead-v2-10-style-react-components-with-classname-and-inline-styles-B1QzWK8rU.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-v2-10-style-react-components-with-classname-and-inline-styles-B1QzWK8rU/hls/egghead-v2-10-style-react-components-with-classname-and-inline-styles-B1QzWK8rU.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/egghead-v2-10-style-react-components-with-classname-and-inline-styles-B1QzWK8rU/dash/egghead-v2-10-style-react-components-with-classname-and-inline-styles-B1QzWK8rU.mpd',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/react-style-react-components-with-classname-and-inline-styles/subtitles',
-  },
-  useJSX: {
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/react-v2-04-use-jsx-effectively-with-react-SJrnCuUSL/react-v2-04-use-jsx-effectively-with-react-SJrnCuUSL.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/react-v2-04-use-jsx-effectively-with-react-SJrnCuUSL/hls/react-v2-04-use-jsx-effectively-with-react-SJrnCuUSL.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/react-v2-04-use-jsx-effectively-with-react-SJrnCuUSL/dash/react-v2-04-use-jsx-effectively-with-react-SJrnCuUSL.mpd',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/react-use-jsx-effectively-with-react/subtitles',
-  },
-  redux: {
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/egghead-redux-simplifying-the-arrow-functions/egghead-redux-simplifying-the-arrow-functions.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/javascript-redux-simplifying-the-arrow-functions-4904bfd3df/javascript-redux-simplifying-the-arrow-functions-4904bfd3df.m3u8',
-    dash_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/javascript-redux-simplifying-the-arrow-functions-4904bfd3df/javascript-redux-simplifying-the-arrow-functions-4904bfd3df.mpd',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/javascript-redux-simplifying-the-arrow-functions/subtitles',
-  },
-  defaultVideo: {
+const VideoTest: React.FC<{videoResource: VideoResource}> = ({
+  videoResource,
+}) => {
+  return (
+    <PlayerProvider>
+      <EggheadPlayer videoResource={videoResource} />
+    </PlayerProvider>
+  )
+}
+
+export default VideoTest
+
+export const getServerSideProps: GetServerSideProps = async function ({query}) {
+  const videoResource = {
     id: 'video',
     name: 'get started with react',
     title: 'Create a User Interface with Vanilla JavaScript and DOM',
@@ -267,26 +197,11 @@ const videoResources = {
       'https://d2c5owlt6rorc3.cloudfront.net/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/hls/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.m3u8',
     subtitlesUrl:
       'https://app.egghead.io/api/v1/lessons/react-create-a-user-interface-with-vanilla-javascript-and-dom/subtitles',
-  },
-}
+  }
 
-const pickVideoResource = (query: any) => {
-  switch (query) {
-    case 'testing':
-      return videoResources.testingjavascript
-    case 'angular':
-      return videoResources.configureAngularCLI
-    case 'rxjs':
-      return videoResources.rxJS
-    case 'stylereactcomponents':
-      return videoResources.styleReactComponents
-    case 'jsx':
-      return videoResources.useJSX
-    case 'redux':
-      return videoResources.redux
-    default:
-      return videoResources.defaultVideo
+  return {
+    props: {
+      videoResource,
+    },
   }
 }
-
-export default VideoTest
