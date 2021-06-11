@@ -54,7 +54,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
           ref={playerContainer}
           className="relative grid grid-cols-1 lg:grid-cols-12 "
         >
-          <div className="relative z-10 lg:col-span-9">
+          <div className="relative z-10 lg:col-span-9 pb-[4.5rem]">
             <Player
               muted
               autoplay
@@ -86,7 +86,6 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                 <CurrentTimeDisplay key="current-time-display" order={5} />
                 <TimeDivider key="time-divider" order={6} />
                 <DurationDisplay key="duration-display" order={7} />
-                <ProgressControl key="progress-control" order={8} />
                 <RemainingTimeDisplay key="remaining-time-display" order={9} />
                 <PlaybackRateMenuButton
                   rates={[1, 1.25, 1.5, 2]}
@@ -100,6 +99,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                   order={12}
                 />
               </ControlBar>
+              <ProgressControl key="progress-control" order={8} />
             </Player>
           </div>
           <div className="lg:col-span-3">
