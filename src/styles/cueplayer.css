@@ -32,3 +32,7 @@
 .video-test .cueplayer-react .cueplayer-react-control-bar {
   @apply transform translate-y-[4.5rem] flex bg-gray-1000;
 }
+
+.video-test .cueplayer-react.cueplayer-react-fullscreen {
+  @apply relative;
+}
