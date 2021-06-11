@@ -162,9 +162,9 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
             )}
             {cue.startTime && (
               <div className="w-full flex items-baseline justify-end">
-                <span className="text-xs opacity-60 font-medium">
+                <time className="text-xs opacity-60 font-medium">
                   {convertTime(cue.startTime)}
-                </span>
+                </time>
               </div>
             )}
           </div>
