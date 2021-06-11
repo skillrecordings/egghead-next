@@ -133,7 +133,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
 const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
   const {player} = usePlayer()
   const disabled: boolean = isEmpty(cues)
-  const {duration} = player
+
   return disabled ? null : (
     <div>
       {cues.map((cue: any) => {
