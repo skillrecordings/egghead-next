@@ -24,6 +24,8 @@ import {
 import HLSSource from '../components/player/hls-source'
 import classNames from 'classnames'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
+import {convertTime} from 'utils/time-utils'
+import ReactMarkdown from 'react-markdown'
 
 type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
 
@@ -131,7 +133,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
 const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
   const {player} = usePlayer()
   const disabled: boolean = isEmpty(cues)
-
+  const {duration} = player
   return disabled ? null : (
     <div>
       {cues.map((cue: any) => {
@@ -148,12 +150,23 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
               },
             )}
           >
-            <h1 className="pb-2 text-base font-semibold text-black dark:text-white">
-              {note.title}
-            </h1>
-            <div className="leading-normal prose-sm prose dark:prose-dark">
-              {note.description}
-            </div>
+            {note.title && (
+              <div className="text-base font-semibold text-black dark:text-white pb-3">
+                {note.title}
+              </div>
+            )}
+            {note.description && (
+              <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                {note.description}
+              </ReactMarkdown>
+            )}
+            {cue.startTime && (
+              <div className="w-full flex items-baseline justify-end">
+                <span className="text-xs opacity-60 font-medium">
+                  {convertTime(cue.startTime)}
+                </span>
+              </div>
+            )}
           </div>
         )
       })}
