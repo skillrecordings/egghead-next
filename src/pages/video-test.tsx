@@ -18,14 +18,14 @@ import {
   PlaybackRateMenuButton,
   FullscreenToggle,
   PlayerProvider,
-  CueBar,
   usePlayer,
 } from 'cueplayer-react'
-import HLSSource from '../components/player/hls-source'
+import HLSSource from 'components/player/hls-source'
 import classNames from 'classnames'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {convertTime} from 'utils/time-utils'
 import ReactMarkdown from 'react-markdown'
+import CueBar from 'components/player/cue-bar'
 
 type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
 
