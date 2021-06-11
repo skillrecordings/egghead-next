@@ -48,7 +48,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
   )
 
   return (
-    <div className="-mx-5 -mt-5">
+    <div className="video-test">
       {videoResource.hls_url && (
         <div
           ref={playerContainer}
