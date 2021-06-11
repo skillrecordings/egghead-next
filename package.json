@@ -108,6 +108,7 @@
     "react-markdown": "^5.0.3",
     "react-scroll": "^1.8.2",
     "react-textfit": "^1.1.1",
+    "react-truncate-markup": "^5.1.0",
     "react-twitter-embed": "^3.0.3",
     "react-use": "^17.2.4",
     "react-use-clipboard": "1.0.7",

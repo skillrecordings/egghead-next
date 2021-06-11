@@ -1,7 +1,7 @@
 import * as React from 'react'
 import classNames from 'classnames'
-import truncate from 'lodash/truncate'
 import Tippy from '@tippyjs/react'
+import TruncateMarkup from 'react-truncate-markup'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -96,19 +96,23 @@ const NoteCue: React.FC<any> = ({
 
   return (
     <Tippy
-      placement="top"
+      placement="bottom"
       theme="light"
-      maxWidth={600}
+      maxWidth={800}
       content={
-        <div className="p-1">
+        <div className="p-2">
           {note.title && (
             <span className="pb-2 font-semibold inline-block">
               {note.title}
             </span>
           )}
-          <div>
-            {truncate(note.description, {length: 250, separator: '...'})}
-          </div>
+          <TruncateMarkup lines={2}>
+            <div>{note.description}</div>
+          </TruncateMarkup>
+          {/* <ReactMarkdown className="prose prose-sm dark:prose-dark max-w-none"> */}
+          {/* {note.description}</div> */}
+          {/* {truncate(note.description, {length: 220, separator: '...'})} */}
+          {/* </ReactMarkdown> */}
         </div>
       }
       visible={visible}
