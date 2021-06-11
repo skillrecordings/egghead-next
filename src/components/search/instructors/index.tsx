@@ -16,7 +16,7 @@ const InstructorsIndex: any = {
   'john-lindquist': SearchJohnLindquist,
   'laurie-barth': SearchLaurieBarth,
   'flavio-corpa': SearchFlavioCorpa,
-  'hiro-nishimura': SearchHirokoNishimura,
+  'hiroko-nishimura': SearchHirokoNishimura,
   'chris-biscardi': SearchChrisBiscardi,
   'stephanie-eckles': SearchStephanieEckles,
   'kamran-ahmed': SearchKamranAhmed,
