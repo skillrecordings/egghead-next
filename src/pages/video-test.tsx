@@ -161,7 +161,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
               </ReactMarkdown>
             )}
             {cue.startTime && (
-              <div className="w-full flex items-baseline justify-end">
+              <div className="w-full flex items-baseline justify-end pt-3">
                 <time className="text-xs opacity-60 font-medium">
                   {convertTime(cue.startTime)}
                 </time>
