@@ -100,7 +100,6 @@ const NoteCue: React.FC<any> = ({
       content={note.title}
       visible={visible}
       onClickOutside={close}
-      followCursor={true}
     >
       <div
         onMouseOver={show}
