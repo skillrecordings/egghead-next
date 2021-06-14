@@ -1,11 +1,11 @@
 /* sidepanel tabs */
-.sidepanel > [data-reach-tabs] [data-reach-tab-list] {
+.sidepanel [data-reach-tabs] [data-reach-tab-list] {
   @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
 }
-.sidepanel > [data-reach-tabs] [data-reach-tab] {
+.sidepanel [data-reach-tabs] [data-reach-tab] {
   @apply px-5 py-4 text-sm font-semibold uppercase border-none rounded-none xl:px-6;
 }
-.sidepanel > [data-reach-tabs] [data-reach-tab][data-selected] {
+.sidepanel [data-reach-tabs] [data-reach-tab][data-selected] {
   @apply bg-gray-100 dark:bg-gray-1000;
 }
 
@@ -33,6 +33,6 @@
   @apply transform translate-y-[4.5rem] flex bg-gray-1000;
 }
 
-.video-test .cueplayer-react.cueplayer-react-fullscreen {
+.video-test .cueplayer-react .cueplayer-react-fullscreen {
   @apply relative;
 }
