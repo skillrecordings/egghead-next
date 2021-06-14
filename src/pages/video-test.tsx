@@ -55,7 +55,6 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
           player={player}
           className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
         >
-          {/* <div className="relative z-10 lg:col-span-9 pb-[4.5rem]"> */}
           <div
             className={`relative z-10 pb-[4.5rem] ${
               player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
@@ -94,16 +93,17 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                 <TimeDivider key="time-divider" order={6} />
                 <DurationDisplay key="duration-display" order={7} />
                 <RemainingTimeDisplay key="remaining-time-display" order={9} />
+                <div key="divider" order={10} className="flex-grow" />
                 <PlaybackRateMenuButton
                   rates={[1, 1.25, 1.5, 2]}
                   key="playback-rate"
-                  order={10}
+                  order={11}
                 />
-                <ClosedCaptionButton order={11} />
+                <ClosedCaptionButton order={12}>1123</ClosedCaptionButton>
                 <FullscreenToggle
                   key="fullscreen-toggle"
                   fullscreenElement={playerContainer.current}
-                  order={12}
+                  order={13}
                 />
               </ControlBar>
               <ProgressControl key="progress-control" order={8} />
