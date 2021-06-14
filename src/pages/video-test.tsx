@@ -53,7 +53,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
         <PlayerContainer
           ref={playerContainer}
           player={player}
-          className="relative grid grid-cols-1 lg:grid-cols-12 "
+          className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
         >
           <div className="relative z-10 lg:col-span-9 pb-[4.5rem]">
             <Player
@@ -106,12 +106,12 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
           </div>
           <div className="lg:col-span-3">
             <div className="relative h-full sidepanel">
-              <Tabs className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col">
+              <Tabs className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white">
                 <TabList className="relative z-[1] flex-shrink-0">
                   {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
                 </TabList>
-                <TabPanels className="flex-grow overflow-y-scroll">
+                <TabPanels className="flex-grow overflow-y-auto">
                   <div>
                     {!isEmpty(cues) && (
                       <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
@@ -119,7 +119,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                       </TabPanel>
                     )}
                     <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
-                      <div className="p-4">This will be a list of lessons.</div>
+                      <div>This will be a list of lessons.</div>
                     </TabPanel>
                   </div>
                 </TabPanels>
@@ -163,7 +163,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
               </ReactMarkdown>
             )}
             {cue.startTime && (
-              <div className="w-full flex items-baseline justify-end pt-3">
+              <div className="w-full flex items-baseline justify-end pt-3 text-gray-900 dark:text-white">
                 <time className="text-xs opacity-60 font-medium">
                   {convertTime(cue.startTime)}
                 </time>

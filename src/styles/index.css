@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import '../../node_modules/tippy.js/dist/tippy.css';
+@import '../../node_modules/tippy.js/themes/light.css';
 @import '../../node_modules/simplebar/dist/simplebar.min.css';
 @import '../../node_modules/cueplayer-react/dist/cueplayer-react.css';
 @import 'cueplayer.css';

@@ -96,7 +96,7 @@ const NoteCue: React.FC<any> = ({
 
   return (
     <Tippy
-      placement="bottom"
+      placement="top"
       theme="light"
       maxWidth={800}
       content={

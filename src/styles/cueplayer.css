@@ -1,6 +1,6 @@
 /* sidepanel tabs */
 .sidepanel > [data-reach-tabs] [data-reach-tab-list] {
-  @apply space-x-0 bg-transparent rounded-none;
+  @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
 }
 .sidepanel > [data-reach-tabs] [data-reach-tab] {
   @apply px-5 py-4 text-sm font-semibold uppercase border-none rounded-none xl:px-6;
