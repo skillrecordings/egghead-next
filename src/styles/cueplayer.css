@@ -37,3 +37,8 @@
 .video-test .cueplayer-react .cueplayer-react-fullscreen {
   @apply relative;
 }
+
+/* Hide side bar in fullscreen */
+.cueplayer-react-fullscreen .side-bar {
+  display: none;
+}

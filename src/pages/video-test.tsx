@@ -55,7 +55,12 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
           player={player}
           className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
         >
-          <div className="relative z-10 lg:col-span-9 pb-[4.5rem]">
+          {/* <div className="relative z-10 lg:col-span-9 pb-[4.5rem]"> */}
+          <div
+            className={`relative z-10 pb-[4.5rem] ${
+              player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
+            }`}
+          >
             <Player
               muted
               autoplay
