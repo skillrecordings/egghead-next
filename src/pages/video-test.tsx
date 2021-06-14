@@ -62,7 +62,6 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
               crossOrigin="anonymous"
               className="font-sans"
               poster={videoResource.poster}
-              // className="cueplayer-react-fullscreen"
             >
               <BigPlayButton position="center" />
               <HLSSource isVideoChild src={videoResource.hls_url} />
