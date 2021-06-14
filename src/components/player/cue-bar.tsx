@@ -8,6 +8,7 @@ const CueBar: React.FC<any> = ({
   disableCompletely,
   player,
   actions,
+  onClickCue,
 }) => {
   const {duration, activeMetadataTracks} = player
 
@@ -24,6 +25,7 @@ const CueBar: React.FC<any> = ({
       {noteCues.map((noteCue: any) => {
         return (
           <NoteCue
+            onClickCue={onClickCue}
             key={noteCue.text}
             cue={noteCue}
             duration={duration}
@@ -77,6 +79,7 @@ const NoteCue: React.FC<any> = ({
   className,
   actions,
   player,
+  onClickCue,
 }) => {
   const setVisible = useCue(cue, actions)
   const [persist, setPersist] = React.useState(false)
@@ -85,6 +88,7 @@ const NoteCue: React.FC<any> = ({
   const open = () => {
     show()
     setPersist(true)
+    onClickCue()
   }
   const close = () => {
     hide()
