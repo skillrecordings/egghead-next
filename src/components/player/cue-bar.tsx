@@ -99,6 +99,7 @@ const NoteCue: React.FC<any> = ({
       placement="top"
       theme="light"
       maxWidth={800}
+      appendTo="parent"
       content={
         <div className="p-2">
           {note.title && (
