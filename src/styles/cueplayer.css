@@ -1,11 +1,12 @@
-/* sidepanel tabs */
-.sidepanel [data-reach-tabs] [data-reach-tab-list] {
+/* side-panel */
+/* tabs */
+.side-panel [data-reach-tabs] [data-reach-tab-list] {
   @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
 }
-.sidepanel [data-reach-tabs] [data-reach-tab] {
+.side-panel [data-reach-tabs] [data-reach-tab] {
   @apply px-5 py-4 text-sm font-semibold uppercase border-none rounded-none xl:px-6;
 }
-.sidepanel [data-reach-tabs] [data-reach-tab][data-selected] {
+.side-panel [data-reach-tabs] [data-reach-tab][data-selected] {
   @apply bg-gray-100 dark:bg-gray-1000;
 }
 
