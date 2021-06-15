@@ -16,7 +16,7 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1621135706/egghead-next-pages/dom-events/main-ogImage-dom-events_2x.png',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1623765516/egghead-next-pages/build-a-serverless-api-with-cloudflare-workers/main-ogImage--cloudflare-workers_2x.png',
             },
           ],
         }}
