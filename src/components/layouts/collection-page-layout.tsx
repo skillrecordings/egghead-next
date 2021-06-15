@@ -558,46 +558,37 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {!isEmpty(podcast) && (
                 <CoursePodcast podcast={podcast} instructorName={name} />
               )}
-              <div
-                className={`grid grid-cols-1 md:gap-x-5 ${
-                  coursePrerequisites && courseTopics
-                    ? 'md:grid-cols-2'
-                    : 'md:grid-cols-1'
-                }`}
-              >
-                {courseTopics && (
-                  <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                    <h2 className="text-lg font-semibold mb-3">
-                      What you'll learn
-                    </h2>
-                    <div className="prose dark:prose-dark">
-                      <ul className="grid grid-cols-1 md:gap-x-5">
-                        {courseTopics?.map((topic: string) => (
-                          <li
-                            key={topic}
-                            className="text-gray-900 dark:text-gray-100 leading-6"
-                          >
-                            {topic}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+
+              {courseTopics && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">
+                    What you'll learn:
+                  </h2>
+                  <div className="prose dark:prose-dark">
+                    <ul className="grid grid-cols-1 md:gap-x-5">
+                      {courseTopics?.map((topic: string) => (
+                        <li
+                          key={topic}
+                          className="text-gray-900 dark:text-gray-100 leading-6"
+                        >
+                          {topic}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                )}
-                {coursePrerequisites && (
-                  <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                    <h2 className="text-lg font-semibold mb-3">
-                      Prerequisites
-                    </h2>
-                    <div className="prose dark:prose-dark">
-                      <Prereqs prerequisites={coursePrerequisites} />
-                    </div>
+                </div>
+              )}
+              {coursePrerequisites && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">Prerequisites:</h2>
+                  <div className="prose dark:prose-dark">
+                    <Prereqs prerequisites={coursePrerequisites} />
                   </div>
-                )}
-              </div>
+                </div>
+              )}
               {quickFacts && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                  <h2 className="text-lg font-semibold mb-3">Quick Facts</h2>
+                  <h2 className="text-lg font-semibold mb-3">Quick Facts:</h2>
                   <div className="prose dark:prose-dark">
                     <ul className="grid grid-cols-1 md:gap-x-5">
                       {quickFacts?.map((quickFact: string) => (
