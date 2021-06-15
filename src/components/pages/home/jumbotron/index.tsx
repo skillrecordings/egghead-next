@@ -21,14 +21,14 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
 
   return (
     <div
-      className="relative flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-lg shadow-sm"
+      className="relative flex items-center justify-center bg-white dark:bg-gray-800 text-white overflow-hidden rounded-lg shadow-sm"
       css={{
         [bpMinMD]: {
           minHeight: 477,
         },
       }}
     >
-      {/* <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-500 to-purple-500 w-full h-2 z-20" /> */}
+      <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-400 to-orange-500 w-full h-2 z-20" />
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full sm:mb-4 md:my-12 lg:m-0 mt-0 mb-15">
           <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
@@ -56,13 +56,13 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
             </div>
             <div className="flex flex-col sm:items-start items-center w-full">
               <h2
-                className={`text-xs text-yellow-500 uppercase font-semibold mb-2`}
+                className={`text-xs text-orange-400 uppercase font-semibold mb-2`}
               >
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter hover:text-yellow-400`}
+                  className={`sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-white hover:text-orange-400`}
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -90,7 +90,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                 <Markdown
                   source={description}
                   allowDangerousHtml={true}
-                  className="mt-4 text-gray-200 text-base max-w-screen-sm"
+                  className="mt-4 text-gray-200 text-base max-w-screen-sm opacity-80"
                 />
               )}
             </div>
