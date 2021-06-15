@@ -19,7 +19,6 @@ import {
   FullscreenToggle,
   PlayerProvider,
   usePlayer,
-  // Divider
 } from 'cueplayer-react'
 import HLSSource from 'components/player/hls-source'
 import classNames from 'classnames'
@@ -27,14 +26,11 @@ import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {convertTime} from 'utils/time-utils'
 import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
+import ControlBarDivider from 'components/player/control-bar-divider'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {Element, scroller} from 'react-scroll'
 
 type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
-
-const Divider: React.FC<{key: string; order: number; className: string}> = (
-  props,
-) => <div {...props} />
 
 const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
   videoResource,
@@ -114,7 +110,11 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                 <CurrentTimeDisplay key="current-time-display" order={5} />
                 <TimeDivider key="time-divider" order={6} />
                 <DurationDisplay key="duration-display" order={7} />
-                <Divider key="divider" order={9} className="flex-grow" />
+                <ControlBarDivider
+                  key="divider"
+                  order={9}
+                  className="flex-grow"
+                />
                 <RemainingTimeDisplay key="remaining-time-display" order={10} />
                 <PlaybackRateMenuButton
                   rates={[1, 1.25, 1.5, 2]}
