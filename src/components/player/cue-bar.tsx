@@ -46,10 +46,10 @@ const useCue = (cue: VTTCue, actions: any) => {
       if (active) {
         actions.activateMetadataTrackCue(cue)
       } else {
-        actions.activateMetadataTrackCue(null)
+        actions.deactivateMetadataTrackCue(cue)
       }
     },
-    [actions],
+    [actions, cue],
   )
 
   React.useEffect(() => {
@@ -79,22 +79,23 @@ const NoteCue: React.FC<any> = ({
   className,
   actions,
   player,
-  onClickCue,
+  onClickCue, // we might want to do other stuff with this, but player state covers the same base
 }) => {
   const setVisible = useCue(cue, actions)
-  const [persist, setPersist] = React.useState(false)
-  const show = () => setVisible(true)
-  const hide = () => setVisible(false)
+
   const open = () => {
-    show()
-    setPersist(true)
-    onClickCue()
+    setVisible(true)
+    // if we seek to the correct time, the note is displayed
+    actions.seek(cue.startTime)
   }
+
   const close = () => {
-    hide()
-    setPersist(false)
+    setVisible(false)
   }
-  const visible = cue === player.activeMetadataTrackCue
+
+  // added seeking to the list here but getting some janky perf issues
+  const visible =
+    player.activeMetadataTrackCues.includes(cue) && !player.seeking
   const startPosition = `${(cue.startTime / duration) * 100}%`
   const note = JSON.parse(cue.text)
 
@@ -124,9 +125,7 @@ const NoteCue: React.FC<any> = ({
       onClickOutside={close}
     >
       <div
-        onMouseOver={show}
         onClick={open}
-        onMouseOut={() => !persist && hide()}
         className={classNames(
           'cueplayer-react-cue-note',
           {

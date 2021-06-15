@@ -176,7 +176,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
     <div>
       {cues.map((cue: VTTCue) => {
         const note = JSON.parse(cue.text)
-        const active = cue === player.activeMetadataTrackCue
+        const active = player.activeMetadataTrackCues.includes(cue)
         return (
           <div key={cue.startTime}>
             {active && <Element name="active-note" />}
