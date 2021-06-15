@@ -124,15 +124,14 @@ pre > code {
 
 /* styles all tabs */
 [data-reach-tabs] [data-reach-tab-list] {
-  @apply bg-transparent font-semibold space-x-1;
+  @apply space-x-1 font-semibold bg-transparent;
 }
-
 [data-reach-tabs] [data-reach-tab] {
-  @apply px-4 py-3 text-base text-gray-700 dark:text-gray-300 rounded-t-lg hover:bg-gray-50 dark:hover:bg-black transition-colors ease-in-out duration-300;
+  @apply px-4 py-3 text-base text-gray-700 transition-colors duration-300 ease-in-out rounded-t-lg dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-black;
 }
 /* styles only the selected tab */
 [data-reach-tabs] [data-reach-tab][data-selected] {
-  @apply bg-gray-50 dark:bg-gray-1000 text-gray-900 dark:text-white transition-colors ease-in-out duration-300 border-gray-200 dark:border-gray-800;
+  @apply text-gray-900 transition-colors duration-300 ease-in-out border-gray-200 bg-gray-50 dark:bg-gray-1000 dark:text-white dark:border-gray-800;
 }
 
 /*
