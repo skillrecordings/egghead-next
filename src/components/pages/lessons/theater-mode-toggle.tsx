@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import {Tooltip} from 'react-tippy'
+import Tippy from '@tippyjs/react'
 
 const TheaterModeToggle: FunctionComponent<{
   toggleTheaterMode: () => void
@@ -8,8 +8,8 @@ const TheaterModeToggle: FunctionComponent<{
   className?: string
 }> = ({toggleTheaterMode, theaterMode, className}) => {
   return (
-    <Tooltip
-      title={theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
+    <Tippy
+      content={theaterMode ? 'Disable theater mode' : 'Activate theater mode'}
     >
       <button onClick={toggleTheaterMode} className="p-2">
         {theaterMode ? (
@@ -18,7 +18,7 @@ const TheaterModeToggle: FunctionComponent<{
           <IconTheaterModeOn className={className} />
         )}
       </button>
-    </Tooltip>
+    </Tippy>
   )
 }
 
