@@ -14,8 +14,6 @@ export default function SearchKristianFreeman({instructor}: {instructor: any}) {
   const {courses} = instructor
   const [primaryCourse] = courses.resources
 
-  console.log(courses.resources)
-
   return (
     <div>
       <SearchInstructorEssential
