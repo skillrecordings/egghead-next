@@ -26,6 +26,8 @@ import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {convertTime} from 'utils/time-utils'
 import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
+import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
+import {Element, scroller} from 'react-scroll'
 
 type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
 
@@ -33,6 +35,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
   videoResource,
 }) => {
   const playerContainer = React.useRef<any>()
+  const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
   const {activeMetadataTracks = []} = player
 
@@ -82,7 +85,21 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                 kind="metadata"
                 label="notes"
               />
-              <CueBar key="cue-bar" order={6.0} />
+              <CueBar
+                onClickCue={() => {
+                  playerPrefs.setPlayerPrefs({sideBar: {activeTab: 0}})
+                  setTimeout(() => {
+                    scroller.scrollTo('active-note', {
+                      duration: 0,
+                      delay: 0,
+                      offset: -12,
+                      containerId: 'notes-tab-scroll-container',
+                    })
+                  }, 0.1)
+                }}
+                key="cue-bar"
+                order={6.0}
+              />
 
               <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
@@ -111,12 +128,21 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
           </div>
           <div className="lg:col-span-3 side-bar">
             <div className="relative h-full">
-              <Tabs className="max-h-[500px] lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white">
+              <Tabs
+                index={playerPrefs.sideBar?.activeTab || 0}
+                onChange={(tabIndex) =>
+                  playerPrefs.setPlayerPrefs({sideBar: {activeTab: tabIndex}})
+                }
+                className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
+              >
                 <TabList className="relative z-[1] flex-shrink-0">
                   {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
                 </TabList>
-                <TabPanels className="flex-grow overflow-y-auto">
+                <TabPanels
+                  id="notes-tab-scroll-container"
+                  className="flex-grow overflow-y-auto"
+                >
                   <div>
                     {!isEmpty(cues) && (
                       <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
@@ -143,37 +169,39 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
 
   return disabled ? null : (
     <div>
-      {cues.map((cue: any) => {
+      {cues.map((cue: VTTCue) => {
         const note = JSON.parse(cue.text)
         const active = cue === player.activeMetadataTrackCue
         return (
-          <div
-            key={note.title}
-            className={classNames(
-              'text-sm p-4 bg-white dark:bg-gray-900 rounded-md mb-3 shadow-sm border-2 border-transparent',
-              {
-                'border-indigo-500': active,
-                '': !active,
-              },
-            )}
-          >
-            {note.title && (
-              <div className="text-base font-semibold text-black dark:text-white pb-3">
-                {note.title}
-              </div>
-            )}
-            {note.description && (
-              <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
-                {note.description}
-              </ReactMarkdown>
-            )}
-            {cue.startTime && (
-              <div className="w-full flex items-baseline justify-end pt-3 text-gray-900 dark:text-white">
-                <time className="text-xs opacity-60 font-medium">
-                  {convertTime(cue.startTime)}
-                </time>
-              </div>
-            )}
+          <div key={cue.startTime}>
+            {active && <Element name="active-note" />}
+            <div
+              className={classNames(
+                'text-sm p-4 bg-white dark:bg-gray-900 rounded-md mb-3 shadow-sm border-2 border-transparent',
+                {
+                  'border-indigo-500': active,
+                  '': !active,
+                },
+              )}
+            >
+              {note.title && (
+                <div className="text-base font-semibold text-black dark:text-white pb-3">
+                  {note.title}
+                </div>
+              )}
+              {note.description && (
+                <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                  {note.description}
+                </ReactMarkdown>
+              )}
+              {cue.startTime && (
+                <div className="w-full flex items-baseline justify-end pt-3 text-gray-900 dark:text-white">
+                  <time className="text-xs opacity-60 font-medium">
+                    {convertTime(cue.startTime)}
+                  </time>
+                </div>
+              )}
+            </div>
           </div>
         )
       })}
