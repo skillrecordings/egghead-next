@@ -228,9 +228,6 @@ const defaultPlayerPreferences = {
   muted: false,
   theater: false,
   defaultView: 'transcript',
-  sideBar: {
-    activeTab: 0,
-  },
 }
 
 export const getPlayerPrefs = () => {
