@@ -78,7 +78,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
       location={location}
       className="text-center"
     >
-      <ol className="text-left">
+      <ol className="inline-block text-left">
         {stateManagement.resources.map((resource: any, index: any) => {
           return (
             <li key={resource.path} className="flex space-x-2 my-2">
@@ -137,7 +137,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           </h2>
           <div className="grid lg:grid-cols-3 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
             <VerticalResourceCollectionCard
-              className="sm:py-3 py-2"
+              className="sm:py-8 py-6"
               resource={getStarted}
               location={location}
             />
@@ -146,7 +146,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               resource={tailwind}
               className="text-center"
             >
-              <ol className="text-left">
+              <ol className="inline-block text-left">
                 {tailwind.resources.map((resource: any, index: any) => {
                   return (
                     <li key={resource.path} className="flex space-x-2 my-2">
@@ -185,6 +185,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                     key={resource.path}
                     resource={resource}
                     location={location}
+                    className="text-center"
                   />
                 )
               })}
@@ -216,71 +217,73 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="flex lg:flex-row flex-col sm:space-x-12 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
-                  <div className="flex-shrink-0">
-                    <Link href={featureDigitalGardening.path}>
-                      <a
-                        tabIndex={-1}
-                        onClick={() => {
-                          track('clicked resource', {
-                            resource: featureDigitalGardening.path,
-                            location,
-                          })
-                        }}
-                      >
-                        <Image
-                          quality={100}
-                          src={
-                            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                          }
-                          width={270}
-                          height={330}
-                          alt={featureDigitalGardening.title}
-                        />
-                      </a>
-                    </Link>
+                <div className="sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+                  <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
+                    <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
+                      <Link href={featureDigitalGardening.path}>
+                        <a
+                          tabIndex={-1}
+                          onClick={() => {
+                            track('clicked resource', {
+                              resource: featureDigitalGardening.path,
+                              location,
+                            })
+                          }}
+                        >
+                          <Image
+                            quality={100}
+                            src={
+                              'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                            }
+                            width={250}
+                            height={305}
+                            alt={featureDigitalGardening.title}
+                          />
+                        </a>
+                      </Link>
+                    </div>
+                    <div className="sm:col-span-2 flex flex-col sm:items-start items-center w-full">
+                      <h3 className="text-xs text-green-700 dark:text-green-400 uppercase font-semibold mb-2">
+                        Learn in public with a digital garden
+                      </h3>
+                      <Link href={featureDigitalGardening.path}>
+                        <a
+                          className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out"
+                          onClick={() => {
+                            track('clicked resource', {
+                              resource: featureDigitalGardening.path,
+                              location,
+                            })
+                          }}
+                        >
+                          <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                            {featureDigitalGardening.title}
+                          </h2>
+                        </a>
+                      </Link>
+                      <div>
+                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
+                          {featureDigitalGardening.description}
+                        </Markdown>
+                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4 font-medium">
+                          {featureDigitalGardening.quote.description}
+                        </Markdown>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex flex-col sm:items-start items-center w-full">
-                    <h3 className="text-xs text-green-700 dark:text-green-400 uppercase font-semibold mb-2">
-                      Learn in public with a digital garden
-                    </h3>
-                    <Link href={featureDigitalGardening.path}>
-                      <a
-                        className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out"
-                        onClick={() => {
-                          track('clicked resource', {
-                            resource: featureDigitalGardening.path,
-                            location,
-                          })
-                        }}
-                      >
-                        <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
-                          {featureDigitalGardening.title}
-                        </h2>
-                      </a>
-                    </Link>
-                    <div>
-                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
-                        {featureDigitalGardening.description}
-                      </Markdown>
-                      <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4 font-medium">
-                        {featureDigitalGardening.quote.description}
-                      </Markdown>
-                    </div>
-                    <div className="grid md:grid-cols-12 grid-cols-2 gap-5 mt-12">
-                      {featureDigitalGardening.featured.courses.map(
-                        (resource: any) => {
-                          return (
-                            <VerticalResourceCard
-                              className="col-span-4 text-center border border-gray-200"
-                              key={resource.path}
-                              resource={resource}
-                              location={location}
-                            />
-                          )
-                        },
-                      )}
-                    </div>
+                  <div className="grid grid-cols-3 gap-5 mt-12">
+                    {featureDigitalGardening.featured.courses.map(
+                      (resource: any) => {
+                        return (
+                          <VerticalResourceCard
+                            className="col-span-3 sm:col-span-1 text-center border border-gray-200"
+                            key={resource.path}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                      },
+                    )}
                   </div>
                 </div>
               </div>
