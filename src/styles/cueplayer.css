@@ -1,20 +1,44 @@
-/* sidepanel tabs */
-.sidepanel > [data-reach-tabs] [data-reach-tab-list] {
-  @apply space-x-0 bg-transparent rounded-none;
+/* side-bar */
+/* tabs */
+.side-bar [data-reach-tabs] [data-reach-tab-list] {
+  @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
 }
-.sidepanel > [data-reach-tabs] [data-reach-tab] {
+.side-bar [data-reach-tabs] [data-reach-tab] {
   @apply px-5 py-4 text-sm font-semibold uppercase border-none rounded-none xl:px-6;
 }
-.sidepanel > [data-reach-tabs] [data-reach-tab][data-selected] {
+.side-bar [data-reach-tabs] [data-reach-tab][data-selected] {
   @apply bg-gray-100 dark:bg-gray-1000;
 }
 
 /* cue note */
-
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
+.video-test .cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
   @apply bg-white opacity-100;
 }
 
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
+.video-test .cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
   @apply bg-white opacity-50;
+}
+
+/* progress bar */
+.video-test .cueplayer-react .cueplayer-react-progress-control {
+  @apply transform translate-y-6 bottom-0 w-full h-6 absolute bg-gray-1000;
+}
+
+/* cue bar */
+.video-test .cueplayer-react .cueplayer-react-cue-bar {
+  @apply transform translate-y-10 bottom-0 h-4 flex bg-gray-1000 z-10;
+}
+
+/* control bar */
+.video-test .cueplayer-react .cueplayer-react-control-bar {
+  @apply transform translate-y-[4.5rem] flex bg-gray-1000;
+}
+
+.video-test .cueplayer-react .cueplayer-react-fullscreen {
+  @apply relative;
+}
+
+/* Hide side bar in fullscreen */
+.cueplayer-react-fullscreen .side-bar {
+  display: none;
 }
