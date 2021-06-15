@@ -5,7 +5,7 @@ const HirokoNishimuraPageData = [
     bio: `AWS Community Hero. Founder of AWS Newbies and LinkedIn Learning instructor.`,
     twitterHandle: 'hirokonishimura',
     websiteURL: 'https://hirokonishimura.com/',
-    slug: 'resources-by-hiro-nishimura',
+    slug: 'resources-by-hiroko-nishimura',
     location: 'Hiroko Nishimura Instructor Page',
     imageUrl:
       'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
