@@ -86,21 +86,7 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                 kind="metadata"
                 label="notes"
               />
-              <CueBar
-                onClickCue={() => {
-                  playerPrefs.setPlayerPrefs({sideBar: {activeTab: 0}})
-                  setTimeout(() => {
-                    scroller.scrollTo('active-note', {
-                      duration: 0,
-                      delay: 0,
-                      offset: -12,
-                      containerId: 'notes-tab-scroll-container',
-                    })
-                  }, 0.1)
-                }}
-                key="cue-bar"
-                order={6.0}
-              />
+              <CueBar key="cue-bar" order={6.0} scroller={scroller} />
 
               <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
@@ -176,7 +162,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
     <div>
       {cues.map((cue: VTTCue) => {
         const note = JSON.parse(cue.text)
-        const active = cue === player.activeMetadataTrackCue
+        const active = player.activeMetadataTrackCues.includes(cue)
         return (
           <div key={cue.startTime}>
             {active && <Element name="active-note" />}

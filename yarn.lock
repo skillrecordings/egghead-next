@@ -3541,6 +3541,11 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
+"@tailwindcss/line-clamp@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/line-clamp/-/line-clamp-0.2.1.tgz#efafe556719c26a3926f0679a98307c4bc9270d2"
+  integrity sha512-Hq2KJY1+T2v7jw/mnT3mnC7CKbp5kj1XTqzSb2xbEt1j+JkxIR6N3ijsN/WevZtsKJfVE1KOejA/3IRKuhZEsQ==
+
 "@tailwindcss/typography@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@tailwindcss/typography/-/typography-0.2.0.tgz#b597c83502e3c3c6641a8aaabda223cd494ab349"
@@ -6764,11 +6769,6 @@ compute-scroll-into-view@^1.0.17:
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.17.tgz#6a88f18acd9d42e9cf4baa6bec7e0522607ab7ab"
   integrity sha512-j4dx+Fb0URmzbwwMUrhqWM2BEWHdFGx+qZ9qqASHRPqvTYdqvWnHg0H1hIbcyLnvgnoNAVMlwkepyqM3DaIFUg==
 
-computed-style@~0.1.3:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/computed-style/-/computed-style-0.1.4.tgz#7f344fd8584b2e425bedca4a1afc0e300bb05d74"
-  integrity sha1-fzRP2FhLLkJb7cpKGvwOMAuwXXQ=
-
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -7251,16 +7251,19 @@ csstype@^3.0.2, csstype@^3.0.6:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
-cueplayer-react@^0.3.11:
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.11.tgz#73af2d8b7c114abafcfa5f41507d0c0cf2e788f3"
-  integrity sha512-Qc2w7aFCXTPt+8RwdKZXMXBbulICn8lhfuDoCN/plXTmAdWYGIFNSW1E6FBnxnYflj7I03dssb51vXyQ8EavTw==
+cueplayer-react@^0.3.14:
+  version "0.3.14"
+  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.14.tgz#61402421496250a2fbd81acbd8d2753e95574dd0"
+  integrity sha512-H2wKfzTX1SPAvgpsGgt3oJYgel+1xjTGREk1Yjzc+IalwJhd0GO/iuC1t2+aypxq1BTIGoZeoIRo9iEow+ENdA==
   dependencies:
     "@babel/runtime" "^7.4.5"
     classnames "^2.2.6"
     global "^4.4.0"
-    lodash "^4.17.21"
+    lodash.isempty "^4.4.0"
+    lodash.isequal "^4.5.0"
+    lodash.remove "^4.7.0"
     lodash.throttle "^4.1.1"
+    lodash.union "^4.6.0"
     prop-types "^15.7.2"
     redux "^4.0.1"
 
@@ -11999,13 +12002,6 @@ libhoney@^2.2.1, libhoney@^2.3.0:
     superagent-proxy "^2.0.0"
     urljoin "^0.1.5"
 
-line-height@0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/line-height/-/line-height-0.3.1.tgz#4b1205edde182872a5efa3c8f620b3187a9c54c9"
-  integrity sha1-SxIF7d4YKHKl76PI9iCzGHqcVMk=
-  dependencies:
-    computed-style "~0.1.3"
-
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -12218,6 +12214,16 @@ lodash.get@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
+lodash.isempty@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
+  integrity sha1-b4bL7di+TsmHvpqvM8loTbGzHn4=
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
 lodash.isplainobject@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
@@ -12243,6 +12249,11 @@ lodash.once@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
 
+lodash.remove@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/lodash.remove/-/lodash.remove-4.7.0.tgz#f31d31e7c39a0690d5074ec0d3627162334ee626"
+  integrity sha1-8x0x58OaBpDVB07A02JxYjNO5iY=
+
 lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
@@ -12267,6 +12278,11 @@ lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
+
+lodash.union@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.union/-/lodash.union-4.6.0.tgz#48bb5088409f16f1821666641c44dd1aaae3cd88"
+  integrity sha1-SLtQiECfFvGCFmZkHETdGqrjzYg=
 
 lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   version "4.5.0"
@@ -12730,11 +12746,6 @@ memfs@^3.1.2, memfs@^3.2.2:
   integrity sha512-RE0CwmIM3CEvpcdK3rZ19BC4E6hv9kADkMN5rPduRak58cNArWLi/9jFLsa4rhsjfVxMP3v0jO7FHXq7SvFY5Q==
   dependencies:
     fs-monkey "1.0.3"
-
-memoize-one@^5.1.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
-  integrity sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==
 
 memoizerific@^1.11.3:
   version "1.11.3"
@@ -15698,16 +15709,6 @@ react-textfit@^1.1.1:
     process "^0.11.10"
     prop-types "^15.7.2"
 
-react-truncate-markup@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/react-truncate-markup/-/react-truncate-markup-5.1.0.tgz#632f263a7d70925ab6368d5620ef32f066c2857a"
-  integrity sha512-TTp8gj63w/o5jQC7HnLMEeAHp9jjSxFlA5lzklvPzcSubcurkEI4g0YjW67YG1yNAJHqQwCadj4mTUvz58S1wQ==
-  dependencies:
-    line-height "0.3.1"
-    memoize-one "^5.1.1"
-    prop-types "^15.6.0"
-    resize-observer-polyfill "1.5.x"
-
 react-twitter-embed@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/react-twitter-embed/-/react-twitter-embed-3.0.3.tgz#a534132d4bbec812a63e3899dc716de2bfc3cec2"
@@ -16279,7 +16280,7 @@ requires-port@^1.0.0:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
-resize-observer-polyfill@1.5.x, resize-observer-polyfill@^1.5.1:
+resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
   integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
