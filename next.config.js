@@ -19,6 +19,10 @@ const withMDX = require(`@next/mdx`)({
   },
 })
 
+const withTM = require('next-transpile-modules')(['unist-util-visit'], {
+  debug: true,
+})
+
 const searchUrlRoot = `/q`
 
 checkEnv({
@@ -369,6 +373,7 @@ module.exports = withPlugins(
       enabled: process.env.ANALYZE === `true`,
     }),
     withSvgr,
+    withTM,
     withImages(),
     withMDX({
       pageExtensions: [`ts`, `tsx`, `mdx`],
