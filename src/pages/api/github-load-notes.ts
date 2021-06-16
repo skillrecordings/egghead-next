@@ -1,26 +1,12 @@
-import axios from 'axios'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getTokenFromCookieHeaders, AUTH_DOMAIN} from 'utils/auth'
 import mdx from '@mdx-js/mdx'
-import detectFrontmatter from 'remark-frontmatter'
 import VFile from 'vfile'
 import visit from 'unist-util-visit'
 import fetch from 'isomorphic-fetch'
 import toMarkdown from 'mdast-util-to-markdown'
 
 const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   if (req.method === 'GET' && req.query.url) {
-    // await axios
-    //   .get(req.query.url)
-    //   .then(({data}) => {
-    //     res.status(200).json(data)
-    //   })
-    //   .catch((error) => {
-    //     console.error(error)
-    //     res.status(error.response.status).end(error.response.statusText)
-    //   })
-
     const test = await loadNotesFromUrl(req.query.url as string)
 
     res.status(200).json(test)
@@ -39,7 +25,7 @@ export async function loadNotesFromUrl(url: string) {
   // @ts-ignore
   const file = new VFile(text.trimStart())
 
-  function extractFrontmatter() {
+  function extractNotes() {
     return function transformer(tree: any, file: any) {
       file.data.notes = []
       visit(tree, 'mdxJsxFlowElement', function visitor(node) {
@@ -51,7 +37,7 @@ export async function loadNotesFromUrl(url: string) {
 
   // @ts-ignore
   const mdxCompiler = mdx.createCompiler({
-    remarkPlugins: [detectFrontmatter, extractFrontmatter],
+    remarkPlugins: [extractNotes],
   })
 
   return mdxCompiler.process(file).then((file: any) => {

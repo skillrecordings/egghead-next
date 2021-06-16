@@ -19569,35 +19569,6 @@ xdm@^1.11.0:
   optionalDependencies:
     deasync "^0.1.0"
 
-xdm@^1.11.1:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/xdm/-/xdm-1.11.1.tgz#9a30864635fff945bed88f232f7f5515b5e5aa42"
-  integrity sha512-aC7Pau3BdeP5xxR0vA14vpHtVL4EFE8bjXX0DeNPdIKQ3GU71POFlCbptq6hF0U6OZpO+cdEQdbCL6KY+3COGg==
-  dependencies:
-    "@rollup/pluginutils" "^4.0.0"
-    "@types/estree-jsx" "^0.0.1"
-    "@types/loader-utils" "^2.0.0"
-    "@types/source-map" "^0.5.0"
-    astring "^1.6.0"
-    estree-util-build-jsx "^2.0.0"
-    estree-util-is-identifier-name "^2.0.0"
-    estree-walker "^3.0.0"
-    hast-util-to-estree "^2.0.0"
-    loader-utils "^2.0.0"
-    markdown-extensions "^1.0.0"
-    mdast-util-mdx "^0.1.0"
-    micromark-extension-mdxjs "^0.3.0"
-    periscopic "^3.0.0"
-    remark-parse "^9.0.0"
-    remark-rehype "^8.1.0"
-    unified "^9.0.0"
-    unist-util-position-from-estree "^1.0.0"
-    unist-util-stringify-position "^3.0.0"
-    unist-util-visit "^3.0.0"
-    vfile "^4.0.0"
-  optionalDependencies:
-    deasync "^0.1.0"
-
 xhr2@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.0.7.tgz#fcb61f704e80c3aabe424295479407c6072d25b3"
