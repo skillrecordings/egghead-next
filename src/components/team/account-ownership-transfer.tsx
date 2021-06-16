@@ -19,6 +19,7 @@ const sendOwnershipTransferInvite = async (
 }
 
 const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
+  const [loading, setLoading] = React.useState<boolean>(false)
   const [inviteeEmail, setInviteeEmail] = React.useState<string>('')
 
   return (
@@ -45,13 +46,16 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
           <button
             className={`text-white bg-green-600 border-0 py-2 px-4 focus:outline-none rounded-md
                     ${
-                      inviteeEmail !== ''
-                        ? 'hover:bg-green-700'
-                        : 'cursor-not-allowed opacity-50'
+                      loading || inviteeEmail === ''
+                        ? 'cursor-not-allowed opacity-50'
+                        : 'hover:bg-green-700'
                     }`}
             type="button"
+            disabled={loading || inviteeEmail === ''}
             onClick={async () => {
               try {
+                setLoading(true)
+
                 await sendOwnershipTransferInvite(inviteeEmail, accountId)
 
                 setInviteeEmail('')
@@ -70,6 +74,8 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
                     icon: '❌',
                   },
                 )
+              } finally {
+                setLoading(false)
               }
             }}
           >
@@ -78,10 +84,11 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
           <button
             className={`border border-gray-300 dark:border-0 dark:bg-gray-700 py-2 px-4 focus:outline-none rounded-md
                     ${
-                      inviteeEmail !== ''
-                        ? 'hover:bg-gray-200 dark:hover:bg-gray-800'
-                        : 'cursor-not-allowed opacity-50'
+                      loading || inviteeEmail === ''
+                        ? 'cursor-not-allowed opacity-50'
+                        : 'hover:bg-gray-200 dark:hover:bg-gray-800'
                     }`}
+            disabled={loading || inviteeEmail === ''}
             type="button"
             onClick={() => setInviteeEmail('')}
           >
