@@ -7,24 +7,38 @@ import groq from 'groq'
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
+import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 
 export default function SearchKristianFreeman({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
 
-  const {courses} = instructor
-  const [primaryCourse] = courses.resources
+  const {courses, projects} = instructor
+
+  const primaryProject = projects.resources
+
+  const [primaryCourse, secondaryCourse] = courses.resources
+  const location = 'Kristian Freeman instructor page'
 
   return (
     <div>
       <SearchInstructorEssential
         instructor={combinedInstructor}
         CTAComponent={
-          <FeaturedCourse
-            resource={primaryCourse}
-            location="Kristian Freeman instructor page"
-          />
+          <FeaturedCourse resource={primaryCourse} location={location} />
         }
       />
+      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0 -mt-10">
+        <HorizontalResourceCard
+          resource={primaryProject}
+          location={location}
+          className="md:w-2/5"
+        />
+        <HorizontalResourceCard
+          resource={secondaryCourse}
+          location={location}
+          className="md:w-3/5"
+        />
+      </section>
     </div>
   )
 }
@@ -43,6 +57,16 @@ export const kristianFreemanQuery = groq`*[_type == 'resource' && slug.current =
     	},
     }
   },
+	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
+    resources[0]{
+      title,
+      'path': url,
+      path,
+      description,
+      image,
+      byline
+    }
+  }
 }`
 
 const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
