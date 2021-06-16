@@ -11,11 +11,8 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 
 export default function SearchKristianFreeman({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
-
   const {courses, projects} = instructor
-
   const primaryProject = projects.resources
-
   const [primaryCourse, secondaryCourse] = courses.resources
   const location = 'Kristian Freeman instructor page'
 
