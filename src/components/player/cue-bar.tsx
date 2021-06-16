@@ -1,7 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import Tippy from '@tippyjs/react'
-import TruncateMarkup from 'react-truncate-markup'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -112,9 +111,7 @@ const NoteCue: React.FC<any> = ({
               {note.title}
             </span>
           )}
-          <TruncateMarkup lines={2}>
-            <div>{note.description}</div>
-          </TruncateMarkup>
+          <div className="line-clamp-2">{note.description}</div>
           {/* <ReactMarkdown className="prose prose-sm dark:prose-dark max-w-none"> */}
           {/* {note.description}</div> */}
           {/* {truncate(note.description, {length: 220, separator: '...'})} */}
