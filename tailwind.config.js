@@ -154,5 +154,6 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/custom-forms'),
+    require('@tailwindcss/line-clamp'),
   ],
 }
