@@ -123,7 +123,7 @@
     "slugify": "^1.5.2",
     "stripe": "^8.145.0",
     "swr": "^0.5.5",
-    "tailwindcss": "^2.1.2",
+    "tailwindcss": "^2.1.4",
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^9.6.0",
     "video.js": "^7.11.8",
