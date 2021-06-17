@@ -85,7 +85,6 @@ const EggheadPlayer: React.FC<{
               />
               <track id="notes" src={notesUrl} kind="metadata" label="notes" />
               <CueBar key="cue-bar" order={6.0} />
-
               <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
                 <ReplayControl key="replay-control" order={2} />

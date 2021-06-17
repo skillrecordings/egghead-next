@@ -54,10 +54,12 @@ const useCue = (cue: VTTCue, actions: any) => {
   React.useEffect(() => {
     const enterCue = () => {
       setActive(true)
+      console.log('enter', cue.text)
     }
 
     const exitCue = () => {
       setActive(false)
+      console.log('exit', cue.text)
     }
 
     cue.addEventListener('enter', enterCue)
