@@ -103,7 +103,7 @@ const NoteCue: React.FC<any> = ({
       playerPrefs.setPlayerPrefs({sideBar: {activeTab: 0}})
       scroller.scrollTo('active-note', {
         duration: 0,
-        delay: 1,
+        delay: 0,
         offset: -12,
         containerId: 'notes-tab-scroll-container',
       })
