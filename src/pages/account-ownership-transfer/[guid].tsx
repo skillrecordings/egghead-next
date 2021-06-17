@@ -29,7 +29,7 @@ async function confirmAccountOwnershipTransfer(guid: string) {
   return transferSucceeded
 }
 
-type accountOwnershipTransferData = {
+type AccountOwnershipTransferData = {
   ownerEmail?: string
   validInvite: boolean
 }
@@ -40,7 +40,7 @@ export async function getServerSideProps(context: any) {
     context.req.headers.cookie as string,
   )
 
-  let props: accountOwnershipTransferData = {
+  let props: AccountOwnershipTransferData = {
     validInvite: false,
   }
 
@@ -69,7 +69,7 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-const AccountOwnershipTransfer: React.FunctionComponent<accountOwnershipTransferData> =
+const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransferData> =
   ({validInvite, ownerEmail}) => {
     const router = useRouter()
     const {guid} = router.query
