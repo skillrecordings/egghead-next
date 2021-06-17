@@ -29,12 +29,14 @@ import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {Element, scroller} from 'react-scroll'
+import {VideoResource} from '../types'
+import {loadBasicLesson} from '../lib/lessons'
+import {loadNotesFromUrl} from './api/github-load-notes'
 
-type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
-
-const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
-  videoResource,
-}) => {
+const EggheadPlayer: React.FC<{
+  videoResource: VideoResource
+  notesUrl: string
+}> = ({videoResource, notesUrl}) => {
   const playerContainer = React.useRef<any>()
   const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
@@ -69,23 +71,18 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
               autoplay
               crossOrigin="anonymous"
               className="font-sans"
-              poster={videoResource.poster}
+              poster={videoResource.thumb_url}
             >
               <BigPlayButton position="center" />
               <HLSSource isVideoChild src={videoResource.hls_url} />
               <track
-                src={videoResource.subtitlesUrl}
+                src={videoResource.subtitles_url}
                 kind="subtitles"
                 srcLang="en"
                 label="English"
                 default
               />
-              <track
-                id="notes"
-                src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
-                kind="metadata"
-                label="notes"
-              />
+              <track id="notes" src={notesUrl} kind="metadata" label="notes" />
               <CueBar key="cue-bar" order={6.0} scroller={scroller} />
 
               <ControlBar disableDefaultControls autoHide={false}>
@@ -161,7 +158,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
   return disabled ? null : (
     <div>
       {cues.map((cue: VTTCue) => {
-        const note = JSON.parse(cue.text)
+        const note = cue.text
         const active = player.activeMetadataTrackCues.includes(cue)
         return (
           <div key={cue.startTime}>
@@ -175,14 +172,9 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
                 },
               )}
             >
-              {note.title && (
-                <div className="text-base font-semibold text-black dark:text-white pb-3">
-                  {note.title}
-                </div>
-              )}
-              {note.description && (
+              {note && (
                 <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
-                  {note.description}
+                  {note}
                 </ReactMarkdown>
               )}
               {cue.startTime && (
@@ -232,34 +224,38 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
   )
 })
 
-const VideoTest: React.FC<{videoResource: VideoResource}> = ({
+const VideoTest: React.FC<{videoResource: VideoResource; notesUrl: string}> = ({
   videoResource,
+  notesUrl,
 }) => {
   return (
     <PlayerProvider>
-      <EggheadPlayer videoResource={videoResource} />
+      <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />
     </PlayerProvider>
   )
 }
 
 export default VideoTest
 
-export const getServerSideProps: GetServerSideProps = async function ({query}) {
-  const videoResource = {
-    id: 'video',
-    name: 'get started with react',
-    title: 'Create a User Interface with Vanilla JavaScript and DOM',
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/hls/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.m3u8',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/react-create-a-user-interface-with-vanilla-javascript-and-dom/subtitles',
-  }
+const lessonNotes = {
+  'react-a-beginners-guide-to-react-introduction':
+    'https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md',
+}
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  params,
+}) {
+  const lesson = 'react-a-beginners-guide-to-react-introduction'
+  const videoResource: VideoResource = (await loadBasicLesson(
+    lesson,
+  )) as VideoResource
 
   return {
     props: {
       videoResource,
+      notesUrl: `/api/github-load-notes?url=${lessonNotes[lesson]}`,
     },
   }
 }

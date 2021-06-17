@@ -98,7 +98,7 @@ const NoteCue: React.FC<any> = ({
   const visible =
     player.activeMetadataTrackCues.includes(cue) && !player.seeking
   const startPosition = `${(cue.startTime / duration) * 100}%`
-  const note = JSON.parse(cue.text)
+  const note = cue.text
 
   React.useEffect(() => {
     if (visible) {
@@ -120,12 +120,7 @@ const NoteCue: React.FC<any> = ({
       appendTo="parent"
       content={
         <div className="p-2">
-          {note.title && (
-            <span className="pb-2 font-semibold inline-block">
-              {note.title}
-            </span>
-          )}
-          <div className="line-clamp-2">{note.description}</div>
+          <div className="line-clamp-2">{note}</div>
           {/* <ReactMarkdown className="prose prose-sm dark:prose-dark max-w-none"> */}
           {/* {note.description}</div> */}
           {/* {truncate(note.description, {length: 220, separator: '...'})} */}
