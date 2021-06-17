@@ -70,7 +70,7 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
                 setInviteeEmail('')
 
                 track(
-                  'AccountOwnershipTransferInvite successfully sent',
+                  'sent account ownership transfer invite',
                   invitationDetails,
                 )
 
