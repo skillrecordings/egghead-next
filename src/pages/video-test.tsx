@@ -149,7 +149,8 @@ const EggheadPlayer: React.FC<{
 }
 
 const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
-  const {player} = usePlayer()
+  const {player, manager} = usePlayer()
+  const actions = manager.getActions()
   const disabled: boolean = isEmpty(cues)
   const scrollableNodeRef: any = React.createRef()
 
@@ -184,7 +185,12 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
                 </ReactMarkdown>
               )}
               {cue.startTime && (
-                <div className="w-full flex items-baseline justify-end pt-3 text-gray-900 dark:text-white">
+                <div
+                  onClick={() => {
+                    actions.seek(cue.startTime)
+                  }}
+                  className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
+                >
                   <time className="text-xs opacity-60 font-medium">
                     {convertTime(cue.startTime)}
                   </time>
