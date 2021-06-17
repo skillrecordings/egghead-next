@@ -20,6 +20,7 @@ import {
   PlayerProvider,
   usePlayer,
 } from 'cueplayer-react'
+import SimpleBar from 'simplebar-react'
 import HLSSource from 'components/player/hls-source'
 import classNames from 'classnames'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
@@ -28,7 +29,7 @@ import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
-import {Element, scroller} from 'react-scroll'
+import {Element} from 'react-scroll'
 import {VideoResource} from '../types'
 import {loadBasicLesson} from '../lib/lessons'
 import {loadNotesFromUrl} from './api/github-load-notes'
@@ -83,7 +84,7 @@ const EggheadPlayer: React.FC<{
                 default
               />
               <track id="notes" src={notesUrl} kind="metadata" label="notes" />
-              <CueBar key="cue-bar" order={6.0} scroller={scroller} />
+              <CueBar key="cue-bar" order={6.0} />
 
               <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
@@ -127,17 +128,14 @@ const EggheadPlayer: React.FC<{
                   {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
                 </TabList>
-                <TabPanels
-                  id="notes-tab-scroll-container"
-                  className="flex-grow overflow-y-auto"
-                >
-                  <div>
+                <TabPanels className="flex-grow relative">
+                  <div className="absolute" css={{inset: 0}}>
                     {!isEmpty(cues) && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
+                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
-                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
+                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                       <div>This will be a list of lessons.</div>
                     </TabPanel>
                   </div>
@@ -154,9 +152,18 @@ const EggheadPlayer: React.FC<{
 const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
   const {player} = usePlayer()
   const disabled: boolean = isEmpty(cues)
+  const scrollableNodeRef: any = React.createRef()
 
   return disabled ? null : (
-    <div>
+    <SimpleBar
+      forceVisible="y"
+      autoHide={false}
+      scrollableNodeProps={{
+        ref: scrollableNodeRef,
+        id: 'notes-tab-scroll-container',
+      }}
+      className="h-full overscroll-contain"
+    >
       {cues.map((cue: VTTCue) => {
         const note = cue.text
         const active = player.activeMetadataTrackCues.includes(cue)
@@ -188,7 +195,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
           </div>
         )
       })}
-    </div>
+    </SimpleBar>
   )
 }
 
