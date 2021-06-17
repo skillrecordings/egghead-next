@@ -11,6 +11,7 @@ import {getTokenFromCookieHeaders} from 'utils/auth'
 import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
+import AccountOwnershipTransfer from 'components/team/account-ownership-transfer'
 import useSubscriptionDetails from 'hooks/use-subscription-data'
 
 export type TeamData = {
@@ -138,12 +139,10 @@ const Team = ({team: teamData}: TeamPageProps) => {
     }
   }, [teamDataNotAvailable])
 
-  const {
-    subscriptionData,
-    loading: subscriptionDataLoading,
-  } = useSubscriptionDetails({
-    stripeCustomerId: teamData?.stripeCustomerId,
-  })
+  const {subscriptionData, loading: subscriptionDataLoading} =
+    useSubscriptionDetails({
+      stripeCustomerId: teamData?.stripeCustomerId,
+    })
 
   if (teamData === undefined) return null
 
@@ -230,49 +229,49 @@ const Team = ({team: teamData}: TeamPageProps) => {
               </div>
             </div>
           )}
+        <AccountOwnershipTransfer accountId={teamData.accountId} />
       </div>
     </LoginRequired>
   )
 }
 
-export const getServerSideProps: GetServerSideProps<TeamPageProps> = async function (
-  context: any,
-) {
-  const {eggheadToken} = getTokenFromCookieHeaders(
-    context.req.headers.cookie as string,
-  )
+export const getServerSideProps: GetServerSideProps<TeamPageProps> =
+  async function (context: any) {
+    const {eggheadToken} = getTokenFromCookieHeaders(
+      context.req.headers.cookie as string,
+    )
 
-  const {data: teams = []} = await loadTeams(eggheadToken)
+    const {data: teams = []} = await loadTeams(eggheadToken)
 
-  const fetchedTeam = find(teams, (team) => team.capacity > 0)
+    const fetchedTeam = find(teams, (team) => team.capacity > 0)
 
-  if (fetchedTeam) {
-    const team: TeamData = {
-      accountId: fetchedTeam.id,
-      name: fetchedTeam.name,
-      inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
-      members: fetchedTeam.members,
-      numberOfMembers: fetchedTeam.number_of_members,
-      capacity: fetchedTeam.capacity,
-      isFull: fetchedTeam.is_full,
-      accountSlug: fetchedTeam.slug,
-      stripeCustomerId: fetchedTeam.stripe_customer_id,
-    }
+    if (fetchedTeam) {
+      const team: TeamData = {
+        accountId: fetchedTeam.id,
+        name: fetchedTeam.name,
+        inviteUrl: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/team-invite/${fetchedTeam.invite_token}`,
+        members: fetchedTeam.members,
+        numberOfMembers: fetchedTeam.number_of_members,
+        capacity: fetchedTeam.capacity,
+        isFull: fetchedTeam.is_full,
+        accountSlug: fetchedTeam.slug,
+        stripeCustomerId: fetchedTeam.stripe_customer_id,
+      }
 
-    return {
-      props: {
-        team,
-      },
-    }
-  } else {
-    const props = {
-      error: true,
-    }
+      return {
+        props: {
+          team,
+        },
+      }
+    } else {
+      const props = {
+        error: true,
+      }
 
-    return {
-      props,
+      return {
+        props,
+      }
     }
   }
-}
 
 export default Team
