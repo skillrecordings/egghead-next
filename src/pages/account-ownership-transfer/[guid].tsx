@@ -10,8 +10,6 @@ import {
 } from 'utils/auth'
 
 async function confirmAccountOwnershipTransfer(guid: string) {
-  let transferSucceeded
-
   try {
     await axios.patch(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/account_ownership_transfer_invitations/${guid}/accept_invite`,
@@ -21,12 +19,10 @@ async function confirmAccountOwnershipTransfer(guid: string) {
       },
     )
 
-    transferSucceeded = true
+    return true
   } catch (e) {
-    transferSucceeded = false
+    return false
   }
-
-  return transferSucceeded
 }
 
 type AccountOwnershipTransferData = {
