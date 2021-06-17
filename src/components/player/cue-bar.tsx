@@ -1,6 +1,7 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import Tippy from '@tippyjs/react'
+import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 
 const CueBar: React.FC<any> = ({
@@ -8,7 +9,6 @@ const CueBar: React.FC<any> = ({
   disableCompletely,
   player,
   actions,
-  scroller,
 }) => {
   const {duration, activeMetadataTracks} = player
 
@@ -30,7 +30,6 @@ const CueBar: React.FC<any> = ({
             duration={duration}
             player={player}
             actions={actions}
-            scroller={scroller}
           />
         )
       })}
@@ -79,7 +78,6 @@ const NoteCue: React.FC<any> = ({
   className,
   actions,
   player,
-  scroller,
 }) => {
   const playerPrefs = useEggheadPlayerPrefs()
   const setVisible = useCue(cue, actions)

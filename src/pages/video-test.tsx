@@ -28,7 +28,7 @@ import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
-import {Element, scroller} from 'react-scroll'
+import {Element} from 'react-scroll'
 import {VideoResource} from '../types'
 import {loadBasicLesson} from '../lib/lessons'
 import {loadNotesFromUrl} from './api/github-load-notes'
@@ -83,7 +83,7 @@ const EggheadPlayer: React.FC<{
                 default
               />
               <track id="notes" src={notesUrl} kind="metadata" label="notes" />
-              <CueBar key="cue-bar" order={6.0} scroller={scroller} />
+              <CueBar key="cue-bar" order={6.0} />
 
               <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
