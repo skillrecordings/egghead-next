@@ -44,3 +44,43 @@
 .cueplayer-react-fullscreen .side-bar {
   display: none;
 }
+
+.cueplayer-react .cueplayer-react-cue-bar {
+  display: none;
+  width: 100%;
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background-color: #2b333f90;
+
+  animation-timing-function: cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+.cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
+  .cueplayer-react-cue-bar {
+  bottom: 0;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note {
+  position: absolute;
+  height: 100%;
+  width: 6px;
+  background-color: gray;
+  cursor: pointer;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
+  background-color: orangered;
+}
+
+.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
+  background-color: orange;
+}
+
+.cueplayer-react-has-started .cueplayer-react-cue-bar {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+}
