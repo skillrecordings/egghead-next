@@ -153,9 +153,9 @@ const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransfer
                       }
 
                       track(
-                        `Acceptance of AccountOwnershipTransferInvite ${
-                          transferSucceeded ? 'succeeded' : 'failed'
-                        }`,
+                        `${
+                          transferSucceeded ? 'accepted' : 'failed to accept'
+                        } account ownership transfer`,
                         {inviteGuid: guid, inviteeId: viewer?.id},
                       )
                     }}
