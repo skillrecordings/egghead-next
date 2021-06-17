@@ -83,7 +83,7 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
               } catch (e) {
                 const {data} = e.response
 
-                track('AccountOwnershipTransferInvite failed', {
+                track('encountered error transfering account ownership', {
                   ...invitationDetails,
                   error: data.error,
                 })
