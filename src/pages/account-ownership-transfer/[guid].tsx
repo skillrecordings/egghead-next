@@ -8,6 +8,8 @@ import {
   getTokenFromCookieHeaders,
   AUTH_DOMAIN,
 } from 'utils/auth'
+import {track} from 'utils/analytics'
+import {useViewer} from 'context/viewer-context'
 
 async function confirmAccountOwnershipTransfer(guid: string) {
   try {
@@ -67,6 +69,7 @@ export async function getServerSideProps(context: any) {
 
 const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransferData> =
   ({validInvite, ownerEmail}) => {
+    const {viewer} = useViewer()
     const router = useRouter()
     const {guid} = router.query
 
@@ -130,18 +133,16 @@ const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransfer
                     }`}
                     disabled={!validInvite}
                     onClick={async () => {
-                      try {
-                        const transferSucceeded =
-                          await confirmAccountOwnershipTransfer(guid as string)
+                      const transferSucceeded =
+                        await confirmAccountOwnershipTransfer(guid as string)
 
-                        if (transferSucceeded === true) {
-                          toast.success(
-                            'You are now the owner of this account.',
-                            {icon: '✅'},
-                          )
-                          router.replace('/user')
-                        }
-                      } catch (e) {
+                      if (transferSucceeded === true) {
+                        toast.success(
+                          'You are now the owner of this account.',
+                          {icon: '✅'},
+                        )
+                        router.replace('/user')
+                      } else {
                         toast.error(
                           'This link for transferring account ownership is no longer valid. You can either request a new invite from the current account owner or reach out to support@egghead.io for help.',
                           {
@@ -150,6 +151,13 @@ const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransfer
                           },
                         )
                       }
+
+                      track(
+                        `Acceptance of AccountOwnershipTransferInvite ${
+                          transferSucceeded ? 'succeeded' : 'failed'
+                        }`,
+                        {inviteGuid: guid, inviteeId: viewer?.id},
+                      )
                     }}
                   >
                     Confirm
