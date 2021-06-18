@@ -8,10 +8,10 @@ import {
   getTokenFromCookieHeaders,
   AUTH_DOMAIN,
 } from 'utils/auth'
+import {track} from 'utils/analytics'
+import {useViewer} from 'context/viewer-context'
 
 async function confirmAccountOwnershipTransfer(guid: string) {
-  let transferSucceeded
-
   try {
     await axios.patch(
       `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/account_ownership_transfer_invitations/${guid}/accept_invite`,
@@ -21,15 +21,13 @@ async function confirmAccountOwnershipTransfer(guid: string) {
       },
     )
 
-    transferSucceeded = true
+    return true
   } catch (e) {
-    transferSucceeded = false
+    return false
   }
-
-  return transferSucceeded
 }
 
-type accountOwnershipTransferData = {
+type AccountOwnershipTransferData = {
   ownerEmail?: string
   validInvite: boolean
 }
@@ -40,7 +38,7 @@ export async function getServerSideProps(context: any) {
     context.req.headers.cookie as string,
   )
 
-  let props: accountOwnershipTransferData = {
+  let props: AccountOwnershipTransferData = {
     validInvite: false,
   }
 
@@ -69,8 +67,9 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-const AccountOwnershipTransfer: React.FunctionComponent<accountOwnershipTransferData> =
+const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransferData> =
   ({validInvite, ownerEmail}) => {
+    const {viewer} = useViewer()
     const router = useRouter()
     const {guid} = router.query
 
@@ -134,18 +133,16 @@ const AccountOwnershipTransfer: React.FunctionComponent<accountOwnershipTransfer
                     }`}
                     disabled={!validInvite}
                     onClick={async () => {
-                      try {
-                        const transferSucceeded =
-                          await confirmAccountOwnershipTransfer(guid as string)
+                      const transferSucceeded =
+                        await confirmAccountOwnershipTransfer(guid as string)
 
-                        if (transferSucceeded === true) {
-                          toast.success(
-                            'You are now the owner of this account.',
-                            {icon: '✅'},
-                          )
-                          router.replace('/user')
-                        }
-                      } catch (e) {
+                      if (transferSucceeded === true) {
+                        toast.success(
+                          'You are now the owner of this account.',
+                          {icon: '✅'},
+                        )
+                        router.replace('/user')
+                      } else {
                         toast.error(
                           'This link for transferring account ownership is no longer valid. You can either request a new invite from the current account owner or reach out to support@egghead.io for help.',
                           {
@@ -154,6 +151,13 @@ const AccountOwnershipTransfer: React.FunctionComponent<accountOwnershipTransfer
                           },
                         )
                       }
+
+                      track(
+                        `${
+                          transferSucceeded ? 'accepted' : 'failed to accept'
+                        } account ownership transfer`,
+                        {inviteGuid: guid, inviteeId: viewer?.id},
+                      )
                     }}
                   >
                     Confirm
