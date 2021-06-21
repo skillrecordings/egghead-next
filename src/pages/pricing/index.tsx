@@ -30,6 +30,13 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const [priceId, setPriceId] = React.useState<string>()
   const router = useRouter()
 
+  React.useEffect(() => {
+    track('visited pricing')
+    if (router?.query?.stripe === 'cancelled') {
+      track('checkout: cancelled from stripe')
+    }
+  }, [])
+
   const onClickCheckout = async (event: SyntheticEvent) => {
     event.preventDefault()
 
