@@ -2,6 +2,8 @@ import * as React from 'react'
 import toast from 'react-hot-toast'
 import {AUTH_DOMAIN, getAuthorizationHeader} from '../../utils/auth'
 import axios from 'axios'
+import {track} from 'utils/analytics'
+import {useViewer} from 'context/viewer-context'
 
 const sendOwnershipTransferInvite = async (
   inviteeEmail: string,
@@ -19,6 +21,7 @@ const sendOwnershipTransferInvite = async (
 }
 
 const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
+  const {viewer} = useViewer()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [inviteeEmail, setInviteeEmail] = React.useState<string>('')
 
@@ -53,12 +56,23 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
             type="button"
             disabled={loading || inviteeEmail === ''}
             onClick={async () => {
+              const invitationDetails = {
+                accountId,
+                inviteeEmail,
+                ownerId: viewer?.id,
+              }
+
               try {
                 setLoading(true)
 
                 await sendOwnershipTransferInvite(inviteeEmail, accountId)
 
                 setInviteeEmail('')
+
+                track(
+                  'sent account ownership transfer invite',
+                  invitationDetails,
+                )
 
                 toast.success(
                   'Your account ownership transfer invitation has been sent.',
@@ -67,6 +81,13 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
                   },
                 )
               } catch (e) {
+                const {data} = e.response
+
+                track('encountered error transfering account ownership', {
+                  ...invitationDetails,
+                  error: data.error,
+                })
+
                 toast.error(
                   'There was an issue sending the ownership transfer invite. Please contact support@egghead.io if the issue persists.',
                   {

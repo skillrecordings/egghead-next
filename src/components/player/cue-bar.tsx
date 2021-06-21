@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import Tippy from '@tippyjs/react'
 import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
+import ReactMarkdown from 'react-markdown'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -79,8 +80,10 @@ const NoteCue: React.FC<any> = ({
   actions,
   player,
 }) => {
-  const playerPrefs = useEggheadPlayerPrefs()
-  const setVisible = useCue(cue, actions)
+  const {setPlayerPrefs} = useEggheadPlayerPrefs()
+  const [visible, setVisible] = React.useState(false)
+
+  useCue(cue, actions)
 
   const open = () => {
     setVisible(true)
@@ -92,15 +95,18 @@ const NoteCue: React.FC<any> = ({
     setVisible(false)
   }
 
+  React.useEffect(() => {
+    setVisible(player.activeMetadataTrackCues.includes(cue) && !player.seeking)
+  }, [player.activeMetadataTrackCues, player.seeking, cue])
+
   // added seeking to the list here but getting some janky perf issues
-  const visible =
-    player.activeMetadataTrackCues.includes(cue) && !player.seeking
+
   const startPosition = `${(cue.startTime / duration) * 100}%`
   const note = cue.text
 
   React.useEffect(() => {
     if (visible) {
-      playerPrefs.setPlayerPrefs({sideBar: {activeTab: 0}})
+      setPlayerPrefs({sideBar: {activeTab: 0}})
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
@@ -108,21 +114,21 @@ const NoteCue: React.FC<any> = ({
         containerId: 'notes-tab-scroll-container',
       })
     }
-  }, [visible])
+  }, [visible, setPlayerPrefs])
 
   return (
     <Tippy
       placement="top"
       theme="light"
-      maxWidth={800}
+      maxWidth={300}
       appendTo="parent"
+      offset={[0, 30]}
+      interactive={true}
       content={
         <div className="p-2">
-          <div className="line-clamp-2">{note}</div>
-          {/* <ReactMarkdown className="prose prose-sm dark:prose-dark max-w-none"> */}
-          {/* {note.description}</div> */}
-          {/* {truncate(note.description, {length: 220, separator: '...'})} */}
-          {/* </ReactMarkdown> */}
+          <div className="line-clamp-6 prose-sm prose">
+            <ReactMarkdown>{note}</ReactMarkdown>
+          </div>
         </div>
       }
       visible={visible}

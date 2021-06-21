@@ -7285,14 +7285,15 @@ csstype@^3.0.2, csstype@^3.0.6:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
-cueplayer-react@^0.3.14:
-  version "0.3.14"
-  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.14.tgz#61402421496250a2fbd81acbd8d2753e95574dd0"
-  integrity sha512-H2wKfzTX1SPAvgpsGgt3oJYgel+1xjTGREk1Yjzc+IalwJhd0GO/iuC1t2+aypxq1BTIGoZeoIRo9iEow+ENdA==
+cueplayer-react@^0.3.17:
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.17.tgz#21d858ce21f49edf9651a7c26de762cc9fb65d4f"
+  integrity sha512-EwVGvBHy1ua1VIFrLJj8f3GMrdV9XqZGeCLcTuhdZCEN98tvTB6uCvpHbM8ZL/Yp6WOlIYxvia4i9sj0JFVhuA==
   dependencies:
     "@babel/runtime" "^7.4.5"
     classnames "^2.2.6"
     global "^4.4.0"
+    jotai "^1.0.0"
     lodash.isempty "^4.4.0"
     lodash.isequal "^4.5.0"
     lodash.remove "^4.7.0"
@@ -11725,6 +11726,11 @@ joi@^17.3.0:
     "@sideway/address" "^4.1.0"
     "@sideway/formula" "^3.0.0"
     "@sideway/pinpoint" "^2.0.0"
+
+jotai@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.0.0.tgz#d5e7f7044d89e543a9c7429a9723e11528b2760e"
+  integrity sha512-6hZGy3hqIlBlLSKppTrxDc1Vb7mi3I8eEQOIu7Kj6ceX1PSzjxdsEVC9TjAqaio8gZJEz+2ufNUf4afvbs0RXg==
 
 js-cookie@^2.2.1:
   version "2.2.1"
