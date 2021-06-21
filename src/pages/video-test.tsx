@@ -20,6 +20,7 @@ import {
   PlayerProvider,
   usePlayer,
 } from 'cueplayer-react'
+import SimpleBar from 'simplebar-react'
 import HLSSource from 'components/player/hls-source'
 import classNames from 'classnames'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
@@ -28,13 +29,15 @@ import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
-import {Element, scroller} from 'react-scroll'
+import {Element} from 'react-scroll'
+import {VideoResource} from '../types'
+import {loadBasicLesson} from '../lib/lessons'
+import {loadNotesFromUrl} from './api/github-load-notes'
 
-type VideoResource = {hls_url: string; subtitlesUrl: string; poster: string}
-
-const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
-  videoResource,
-}) => {
+const EggheadPlayer: React.FC<{
+  videoResource: VideoResource
+  notesUrl: string
+}> = ({videoResource, notesUrl}) => {
   const playerContainer = React.useRef<any>()
   const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
@@ -69,39 +72,19 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
               autoplay
               crossOrigin="anonymous"
               className="font-sans"
-              poster={videoResource.poster}
+              poster={videoResource.thumb_url}
             >
               <BigPlayButton position="center" />
               <HLSSource isVideoChild src={videoResource.hls_url} />
               <track
-                src={videoResource.subtitlesUrl}
+                src={videoResource.subtitles_url}
                 kind="subtitles"
                 srcLang="en"
                 label="English"
                 default
               />
-              <track
-                id="notes"
-                src="https://gist.githubusercontent.com/joelhooks/bd3c1d68cb5a67adfcd6c035200d1fde/raw/aa7060f584e04db26c5fa6b464bf2058ed6f6e93/notes.vtt"
-                kind="metadata"
-                label="notes"
-              />
-              <CueBar
-                onClickCue={() => {
-                  playerPrefs.setPlayerPrefs({sideBar: {activeTab: 0}})
-                  setTimeout(() => {
-                    scroller.scrollTo('active-note', {
-                      duration: 0,
-                      delay: 0,
-                      offset: -12,
-                      containerId: 'notes-tab-scroll-container',
-                    })
-                  }, 0.1)
-                }}
-                key="cue-bar"
-                order={6.0}
-              />
-
+              <track id="notes" src={notesUrl} kind="metadata" label="notes" />
+              <CueBar key="cue-bar" order={6.0} />
               <ControlBar disableDefaultControls autoHide={false}>
                 <PlayToggle key="play-toggle" order={1} />
                 <ReplayControl key="replay-control" order={2} />
@@ -144,17 +127,14 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
                   {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
                 </TabList>
-                <TabPanels
-                  id="notes-tab-scroll-container"
-                  className="flex-grow overflow-y-auto"
-                >
-                  <div>
+                <TabPanels className="flex-grow relative">
+                  <div className="absolute" css={{inset: 0}}>
                     {!isEmpty(cues) && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
+                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
-                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000">
+                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                       <div>This will be a list of lessons.</div>
                     </TabPanel>
                   </div>
@@ -169,14 +149,24 @@ const EggheadPlayer: React.FC<{videoResource: VideoResource}> = ({
 }
 
 const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
-  const {player} = usePlayer()
+  const {player, manager} = usePlayer()
+  const actions = manager.getActions()
   const disabled: boolean = isEmpty(cues)
+  const scrollableNodeRef: any = React.createRef()
 
   return disabled ? null : (
-    <div>
+    <SimpleBar
+      forceVisible="y"
+      autoHide={false}
+      scrollableNodeProps={{
+        ref: scrollableNodeRef,
+        id: 'notes-tab-scroll-container',
+      }}
+      className="h-full overscroll-contain"
+    >
       {cues.map((cue: VTTCue) => {
-        const note = JSON.parse(cue.text)
-        const active = cue === player.activeMetadataTrackCue
+        const note = cue.text
+        const active = player.activeMetadataTrackCues.includes(cue)
         return (
           <div key={cue.startTime}>
             {active && <Element name="active-note" />}
@@ -189,18 +179,18 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
                 },
               )}
             >
-              {note.title && (
-                <div className="text-base font-semibold text-black dark:text-white pb-3">
-                  {note.title}
-                </div>
-              )}
-              {note.description && (
+              {note && (
                 <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
-                  {note.description}
+                  {note}
                 </ReactMarkdown>
               )}
               {cue.startTime && (
-                <div className="w-full flex items-baseline justify-end pt-3 text-gray-900 dark:text-white">
+                <div
+                  onClick={() => {
+                    actions.seek(cue.startTime)
+                  }}
+                  className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
+                >
                   <time className="text-xs opacity-60 font-medium">
                     {convertTime(cue.startTime)}
                   </time>
@@ -210,7 +200,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
           </div>
         )
       })}
-    </div>
+    </SimpleBar>
   )
 }
 
@@ -246,34 +236,38 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
   )
 })
 
-const VideoTest: React.FC<{videoResource: VideoResource}> = ({
+const VideoTest: React.FC<{videoResource: VideoResource; notesUrl: string}> = ({
   videoResource,
+  notesUrl,
 }) => {
   return (
     <PlayerProvider>
-      <EggheadPlayer videoResource={videoResource} />
+      <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />
     </PlayerProvider>
   )
 }
 
 export default VideoTest
 
-export const getServerSideProps: GetServerSideProps = async function ({query}) {
-  const videoResource = {
-    id: 'video',
-    name: 'get started with react',
-    title: 'Create a User Interface with Vanilla JavaScript and DOM',
-    poster:
-      'https://dcv19h61vib2d.cloudfront.net/thumbs/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.jpg',
-    hls_url:
-      'https://d2c5owlt6rorc3.cloudfront.net/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI/hls/react-v2-01-create-a-user-interface-with-vanilla-javascript-and-dom-rJShvuIrI.m3u8',
-    subtitlesUrl:
-      'https://app.egghead.io/api/v1/lessons/react-create-a-user-interface-with-vanilla-javascript-and-dom/subtitles',
-  }
+const lessonNotes = {
+  'react-a-beginners-guide-to-react-introduction':
+    'https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md',
+}
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  req,
+  res,
+  params,
+}) {
+  const lesson = 'react-a-beginners-guide-to-react-introduction'
+  const videoResource: VideoResource = (await loadBasicLesson(
+    lesson,
+  )) as VideoResource
 
   return {
     props: {
       videoResource,
+      notesUrl: `/api/github-load-notes?url=${lessonNotes[lesson]}`,
     },
   }
 }
