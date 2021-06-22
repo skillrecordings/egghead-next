@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FunctionComponent} from 'react'
 import axios from 'utils/configured-axios'
 import {track} from 'utils/analytics'
-import {Tooltip} from 'react-tippy'
+import Tippy from '@tippyjs/react'
 
 type DownloadButtonProps = {
   lesson: any
@@ -43,9 +43,11 @@ const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
   return lesson?.download_url ? (
     <DownloadButton lesson={lesson} />
   ) : (
-    <Tooltip title="Download feature is for members only">
-      <DownloadButton lesson={lesson} />
-    </Tooltip>
+    <Tippy content="Download feature is for members only">
+      <div>
+        <DownloadButton lesson={lesson} />
+      </div>
+    </Tippy>
   )
 }
 

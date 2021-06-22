@@ -21,6 +21,7 @@ import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
 import JoinCTA from 'components/pages/lessons/join-cta'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import CoursePitchOverlay from 'components/pages/lessons/overlay/course-pitch-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
@@ -83,10 +84,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     res.end()
     return {props: {}}
   } else {
-    res.setHeader(
-      'Link',
-      'https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js; rel="preload"; as="script"',
-    )
     res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
     return {
       props: {
@@ -140,7 +137,28 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
+
   const currentPlayerState = playerState.value as string
+
+  const [isIncomingAnonViewer, setIsIncomingAnonViewer] =
+    React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    function run() {
+      const storage = window?.sessionStorage
+      if (!storage) return
+
+      const prevPath = storage.getItem('prevPath')
+
+      if (isEmpty(prevPath) && !subscriber && !viewer) {
+        setIsIncomingAnonViewer(true)
+      } else {
+        setIsIncomingAnonViewer(false)
+      }
+    }
+
+    setTimeout(run, 750)
+  }, [subscriber, viewer])
 
   const {clearResource, updateResource} = useLastResource({
     ...lesson,
@@ -229,6 +247,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       } else {
         router.push(nextLesson.path)
       }
+    } else if (lesson.collection && isIncomingAnonViewer) {
+      send(`COURSE_PITCH`)
     } else if (nextLesson) {
       console.debug(`Showing Next Lesson Overlay`)
       send(`NEXT`)
@@ -301,17 +321,37 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         }
         break
       case 'completed':
-        console.debug('handling a change to completed', {lesson, lessonView})
+        console.debug('handling a change to completed', {
+          lesson,
+          lessonView,
+          isIncomingAnonViewer,
+        })
         onEnded(lesson)
           .then((lessonView: any) => {
             if (lessonView) {
               setLessonView(lessonView)
               completeVideo(lessonView)
+            } else if (lesson.collection && isIncomingAnonViewer) {
+              send(`COURSE_PITCH`)
+            } else if (nextLesson) {
+              console.debug(`Showing Next Lesson Overlay`)
+              send(`NEXT`)
+            } else {
+              console.debug(`Showing Recommend Overlay`)
+              send(`RECOMMEND`)
             }
           })
           .catch(() => {
             if (lessonView) {
               completeVideo(lessonView)
+            } else if (lesson.collection && isIncomingAnonViewer) {
+              send(`COURSE_PITCH`)
+            } else if (nextLesson) {
+              console.debug(`Showing Next Lesson Overlay`)
+              send(`NEXT`)
+            } else {
+              console.debug(`Showing Recommend Overlay`)
+              send(`RECOMMEND`)
             }
           })
 
@@ -557,6 +597,19 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 {playerState.matches('subscribing') && (
                   <OverlayWrapper>
                     <JoinCTA lesson={lesson} />
+                  </OverlayWrapper>
+                )}
+                {playerState.matches('pitchingCourse') && (
+                  <OverlayWrapper>
+                    <CoursePitchOverlay
+                      lesson={lesson}
+                      onClickRewatch={() => {
+                        send('VIEW')
+                        if (actualPlayerRef.current) {
+                          actualPlayerRef.current.play()
+                        }
+                      }}
+                    />
                   </OverlayWrapper>
                 )}
                 {playerState.matches('showingNext') && (

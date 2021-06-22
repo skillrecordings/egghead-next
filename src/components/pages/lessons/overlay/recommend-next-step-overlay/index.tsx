@@ -3,11 +3,18 @@ import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import Share from 'components/share'
+import {useTrackComponent} from 'hooks/use-track-component'
 
 const RecommendNextStepOverlay: React.FunctionComponent<{
   lesson: any
 }> = ({lesson}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
+
+  useTrackComponent('show recommendations', {
+    course: lesson?.collection?.slug,
+    lesson: lesson?.slug,
+  })
+
   return (
     <div className="flex flex-col items-center">
       {courseImage && (

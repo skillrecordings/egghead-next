@@ -18,6 +18,7 @@ interface PlayerStateSchema {
     joining: {}
     completed: {}
     recommending: {}
+    pitchingCourse: {}
   }
 }
 
@@ -33,6 +34,7 @@ export type PlayerStateEvent =
   | {type: 'QUIZ'}
   | {type: 'COMPLETE'}
   | {type: 'NEXT'}
+  | {type: 'COURSE_PITCH'}
   | {type: 'RATE'}
   | {type: 'LOAD'}
   | {type: 'RECOMMEND'}
@@ -113,6 +115,7 @@ export const playerMachine = Machine<
         entry: ['sendTelemetry'],
         on: {
           NEXT: 'showingNext',
+          COURSE_PITCH: 'pitchingCourse',
           SUBSCRIBE: 'subscribing',
           JOIN: 'joining',
           RATE: 'rating',
@@ -163,6 +166,12 @@ export const playerMachine = Machine<
         },
       },
       showingNext: {
+        on: {
+          LOAD: 'loading',
+          VIEW: 'viewing',
+        },
+      },
+      pitchingCourse: {
         on: {
           LOAD: 'loading',
           VIEW: 'viewing',

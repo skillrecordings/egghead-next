@@ -9,6 +9,7 @@ import SearchStephanieEckles from './stephanie-eckles'
 import SearchKamranAhmed from './kamran-ahmed'
 import SearchAlexReardon from './alex-reardon'
 import SearchKevinCunningham from './kevin-cunningham'
+import SearchKristianFreeman from './kristian-freeman'
 
 const InstructorsIndex: any = {
   'dan-abramov': SearchDanAbramov,
@@ -16,12 +17,13 @@ const InstructorsIndex: any = {
   'john-lindquist': SearchJohnLindquist,
   'laurie-barth': SearchLaurieBarth,
   'flavio-corpa': SearchFlavioCorpa,
-  'hiro-nishimura': SearchHirokoNishimura,
+  'hiroko-nishimura': SearchHirokoNishimura,
   'chris-biscardi': SearchChrisBiscardi,
   'stephanie-eckles': SearchStephanieEckles,
   'kamran-ahmed': SearchKamranAhmed,
   'alex-reardon': SearchAlexReardon,
   'kevin-cunningham': SearchKevinCunningham,
+  'kristian-freeman': SearchKristianFreeman,
 }
 
 export default InstructorsIndex

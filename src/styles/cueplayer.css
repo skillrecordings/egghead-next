@@ -1,12 +1,66 @@
+/* side-bar */
+/* tabs */
+.side-bar [data-reach-tabs] [data-reach-tab-list] {
+  @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
+}
+.side-bar [data-reach-tabs] [data-reach-tab] {
+  @apply px-5 py-4 text-sm font-semibold uppercase border-none rounded-none xl:px-6;
+}
+.side-bar [data-reach-tabs] [data-reach-tab][data-selected] {
+  @apply bg-gray-100 dark:bg-gray-1000;
+}
+
+/* cue note */
+.video-test .cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
+  @apply bg-white opacity-100;
+}
+
+.video-test .cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
+  @apply bg-white opacity-50;
+}
+
+/* progress bar */
+.video-test .cueplayer-react .cueplayer-react-progress-control {
+  @apply transform translate-y-6 bottom-0 w-full h-6 absolute bg-gray-1000;
+  transform: translateY(1.5rem);
+}
+
+/* cue bar */
+.video-test .cueplayer-react .cueplayer-react-cue-bar {
+  @apply transform translate-y-10 bottom-0 h-4 flex bg-gray-1000 z-10;
+  transform: translateY(2.5rem);
+}
+
+/* control bar */
+.video-test .cueplayer-react .cueplayer-react-control-bar {
+  @apply transform translate-y-[4.5rem] flex bg-gray-1000;
+}
+
+.video-test .cueplayer-react .cueplayer-react-fullscreen {
+  @apply relative;
+}
+
+/* Hide side bar in fullscreen */
+.cueplayer-react-fullscreen .side-bar {
+  display: none;
+}
+
 .cueplayer-react .cueplayer-react-cue-bar {
   display: none;
   width: 100%;
   position: absolute;
-  bottom: 3em;
+  bottom: 32px;
   left: 0;
   right: 0;
-  height: 1.5em;
+  height: 16px;
   background-color: #2b333f90;
+
+  animation-timing-function: cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+.cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
+  .cueplayer-react-cue-bar {
+  bottom: 0;
 }
 
 .cueplayer-react-cue-bar .cueplayer-react-cue-note {
@@ -29,32 +83,4 @@
   display: flex;
   visibility: visible;
   opacity: 1;
-}
-
-.cueplayer-react .cueplayer-react-cue-popup {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  background-color: white;
-  width: 10rem;
-  min-height: 4rem;
-  border-radius: 0.375rem;
-  padding: 0.75rem;
-  font-size: 0.75rem;
-  color: black;
-  border: 1px solid #9ca3af;
-  transform: translateX(calc(-50% + 3px)) translateY(calc(-100% - 15px));
-}
-
-.cueplayer-react .cueplayer-react-cue-popup:before {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: calc(50% - 10px);
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 10px 10px 0 10px;
-  border-color: #ffffff transparent transparent transparent;
 }

@@ -3,7 +3,6 @@ import omit from 'lodash/omit'
 
 import {propTypes, defaultProps} from './props'
 import Bitmovin from './players/Bitmovin'
-import YouTube from './players/YouTube'
 import {track} from 'utils/analytics'
 
 import useEggheadPlayer, {
