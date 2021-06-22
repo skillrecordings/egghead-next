@@ -94,7 +94,7 @@
     "mdast-util-to-markdown": "^0.6.5",
     "mdx-bundler": "^4.1.0",
     "mixpanel-browser": "^2.41.0",
-    "next": "^10.2.3",
+    "next": "^11.0.0",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.1",
     "next-mdx-remote": "^3.0.2",
