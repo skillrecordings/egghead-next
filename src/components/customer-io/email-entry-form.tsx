@@ -3,7 +3,7 @@ import {track} from 'utils/analytics'
 import EmailForm from '../cta/email/email-form'
 import useCio from 'hooks/use-cio'
 import {useViewer} from 'context/viewer-context'
-import {requestSignInEmail} from 'utils/request-signin-email'
+import {requestContactGuid} from 'utils/request-contact-guid'
 
 const EmailEntryForm: React.FC<any> = ({
   campaignAttribute,
@@ -21,14 +21,15 @@ const EmailEntryForm: React.FC<any> = ({
     let id = subscriber?.id || viewer?.contact_id
 
     if (!id) {
-      const {contact_id} = await requestSignInEmail(email)
+      const {contact_id} = await requestContactGuid(email)
       id = contact_id
     }
 
-    cioIdentify(id, {
+    await cioIdentify(id, {
       email: subscriber?.email || viewer?.email || email,
       [campaignAttribute]: 'yes',
     })
+
     track('submitted email cta', {
       location: siteLocation,
       email,
