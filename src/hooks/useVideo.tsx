@@ -4,7 +4,7 @@ import 'video.js/dist/video-js.css'
 import * as React from 'react'
 
 export const useVideoJS = (videoJsOptions: any) => {
-  const videoNode = useRef(null)
+  const videoNode = useRef<any>(null)
   const [ready, setReady] = useState(false)
   const changedKey = JSON.stringify(videoJsOptions)
   const player = useRef<any>(null)
