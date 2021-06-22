@@ -28,14 +28,12 @@ import {convertTime} from 'utils/time-utils'
 import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
+import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {Element} from 'react-scroll'
 import {VideoResource} from '../types'
 import {loadBasicLesson} from '../lib/lessons'
 import {loadNotesFromUrl} from './api/github-load-notes'
-
-import {loadCollection} from 'lib/collections'
-import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 
 const EggheadPlayer: React.FC<{
   videoResource: VideoResource
