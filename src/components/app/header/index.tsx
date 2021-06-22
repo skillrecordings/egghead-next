@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Link from '../link'
+import Link from '../../link'
 import Eggo from 'components/icons/eggo'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
@@ -9,10 +9,11 @@ import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 import {useTheme} from 'next-themes'
-import useCio from '../../hooks/use-cio'
+import useCio from 'hooks/use-cio'
 import {Form, Formik} from 'formik'
-import ProjectClubCTA from '../survey/project-club'
-import OnlinePresenceCTA from '../survey/online-presence-cta'
+import ProjectClubCTA from 'components/survey/project-club'
+import OnlinePresenceCTA from 'components/survey/online-presence-cta'
+import {HeaderButtonShapedLink} from './header-button-shaped-link'
 
 const Header: FunctionComponent = () => {
   const router = useRouter()
@@ -49,6 +50,19 @@ const Header: FunctionComponent = () => {
     case !subscriber && !loadingSubscriber:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
       break
+    case !viewer?.is_pro:
+      ActiveCTA = () => (
+        <HeaderButtonShapedLink
+          url="/pricing"
+          label="Go Pro"
+          onClick={() => {
+            track('clicked go pro', {location: 'header'})
+          }}
+        />
+      )
+      break
+    default:
+      ActiveCTA = () => null
   }
 
   const Navigation: FunctionComponent<{

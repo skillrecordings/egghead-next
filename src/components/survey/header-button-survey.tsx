@@ -2,9 +2,10 @@ import * as React from 'react'
 import useCio from 'hooks/use-cio'
 import Link from 'next/link'
 import {Card} from 'components/card'
-import {SurveyQuestion} from '../../data/sorting-hat'
+import {SurveyQuestion} from 'data/sorting-hat'
 import Markdown from 'react-markdown'
 import {sortingHatReducer, SortingHatState} from './sorting-hat-reducer'
+import {HeaderButtonShapedLink} from 'components/app/header/header-button-shaped-link'
 
 const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
   question,
@@ -27,21 +28,6 @@ type HeaderButtonProps = {
   className?: string
   alternative?: any
   variant?: string
-}
-
-const HeaderButton: React.FC<any> = ({url, label, onClick = () => {}}) => {
-  return (
-    <div className="hidden lg:block">
-      <Link href={url}>
-        <a
-          onClick={onClick}
-          className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-        >
-          {label}
-        </a>
-      </Link>
-    </div>
-  )
 }
 
 const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
@@ -69,7 +55,10 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
     !loadingSubscriber
   ) {
     return (
-      <HeaderButton label={state.question.heading} url={state.question.url} />
+      <HeaderButtonShapedLink
+        label={state.question.heading}
+        url={state.question.url}
+      />
     )
   }
 
@@ -78,7 +67,7 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
   return !state.question || state.closed ? (
     alternative || null
   ) : variant === 'header' ? (
-    <HeaderButton
+    <HeaderButtonShapedLink
       label={state.question.heading}
       url={state.question.url}
       onClick={() => {
