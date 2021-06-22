@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take} from 'lodash'
+import {get, first, filter, isEmpty, take, find} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -207,6 +207,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
     illustrator: sanityIllustrator,
+    dependencies: sanityDependencies,
     state,
     path,
     tags = [],
@@ -232,6 +233,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ? sanityIllustrator
     : illustrator
 
+  const courseDependenciesWithData = !isEmpty(sanityDependencies)
+    ? sanityDependencies
+    : dependencies
+
   const podcast = first(
     course?.items?.filter((item: any) => item.type === 'podcast'),
   )
@@ -239,7 +244,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   logCollectionResource(course)
 
   const courseTags = tags.map((tag: any) => {
-    const version = get(dependencies, tag.name)
+    const ogVersion = get(dependencies, tag.name)
+    const sanityTag = find(sanityDependencies, {name: tag.name}).version
+
+    const version = !isEmpty(sanityTag) ? sanityTag : ogVersion
+
     return {
       ...tag,
       ...(!!version && {version}),
