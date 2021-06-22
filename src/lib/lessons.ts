@@ -171,6 +171,7 @@ export async function loadBasicLesson(slug: string) {
         description
         free_forever
         media_url
+        hls_url
         thumb_url
         subtitles_url
         path

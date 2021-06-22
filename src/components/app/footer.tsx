@@ -78,10 +78,10 @@ const FooterNavigation: FunctionComponent = () => {
     })
   }
   return (
-    <nav className="w-full md:space-y-0 space-y-6 flex md:flex-row flex-col items-start justify-between gap-6 md:pt-14 pt-16 lg:pb-40 pb-16">
-      <div className="space-y-5 h-full flex flex-col md:items-start items-center lg:w-72 w-full">
+    <nav className="w-full md:space-y-0 space-y-6 flex md:flex-row flex-col items-center md:items-start justify-between gap-6 md:pt-14 pt-16 lg:pb-40 pb-16">
+      <div className="space-y-5 h-full flex flex-col md:items-start items-center w-72">
         <Link href="/">
-          <a className="flex md:flex-row flex-col lg:items-start md:items-center items-center md:text-left text-center md:space-x-2 md:space-y-0 space-y-2">
+          <a className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left md:space-x-2 space-y-3 md:space-y-0">
             <Eggo className="md:w-8 w-12 flex-shrink-0" />
             <div className="mt-1 text-lg font-semibold leading-tighter tracking-tight">
               Build your Developer Portfolio and climb the engineering career

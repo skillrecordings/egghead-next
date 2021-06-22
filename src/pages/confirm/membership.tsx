@@ -4,6 +4,7 @@ import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import ConfirmMembership from 'components/pages/confirm/membership/index'
+import {track} from 'utils/analytics'
 
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   return {
@@ -23,6 +24,9 @@ const ConfirmMembershipPage: React.FC = () => {
         .get(`/api/stripe/checkout/session?session_id=${session_id}`)
         .then(({data}) => {
           setSession(data)
+          track('checkout: membership confirmed', {
+            session_id,
+          })
           if (viewer) refreshUser()
         })
     }
