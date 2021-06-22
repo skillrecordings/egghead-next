@@ -124,19 +124,19 @@ const EggheadPlayer: React.FC<{
                 className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
               >
                 <TabList className="relative z-[1] flex-shrink-0">
-                  {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
+                  {!isEmpty(cues) && <Tab>Notes</Tab>}
                 </TabList>
                 <TabPanels className="flex-grow relative">
                   <div className="absolute" css={{inset: 0}}>
+                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                      <div>This will be a list of lessons.</div>
+                    </TabPanel>
                     {!isEmpty(cues) && (
                       <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
-                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
-                      <div>This will be a list of lessons.</div>
-                    </TabPanel>
                   </div>
                 </TabPanels>
               </Tabs>
@@ -162,7 +162,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
         ref: scrollableNodeRef,
         id: 'notes-tab-scroll-container',
       }}
-      className="h-full overscroll-contain"
+      className="h-full overscroll-contain space-y-3"
     >
       {cues.map((cue: VTTCue) => {
         const note = cue.text
@@ -172,7 +172,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
             {active && <Element name="active-note" />}
             <div
               className={classNames(
-                'text-sm p-4 bg-white dark:bg-gray-900 rounded-md mb-3 shadow-sm border-2 border-transparent',
+                'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
                 {
                   'border-indigo-500': active,
                   '': !active,
