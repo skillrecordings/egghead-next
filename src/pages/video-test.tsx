@@ -28,6 +28,7 @@ import {convertTime} from 'utils/time-utils'
 import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
+import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {Element} from 'react-scroll'
 import {VideoResource} from '../types'
@@ -36,8 +37,9 @@ import {loadNotesFromUrl} from './api/github-load-notes'
 
 const EggheadPlayer: React.FC<{
   videoResource: VideoResource
+  currentLessonSlug: string
   notesUrl: string
-}> = ({videoResource, notesUrl}) => {
+}> = ({videoResource, currentLessonSlug, notesUrl}) => {
   const playerContainer = React.useRef<any>()
   const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
@@ -124,19 +126,25 @@ const EggheadPlayer: React.FC<{
                 className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
               >
                 <TabList className="relative z-[1] flex-shrink-0">
-                  {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
+                  {!isEmpty(cues) && <Tab>Notes</Tab>}
                 </TabList>
                 <TabPanels className="flex-grow relative">
-                  <div className="absolute" css={{inset: 0}}>
+                  <div className="lg:absolute" css={{inset: 0}}>
+                    {videoResource?.collection && (
+                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                        <CollectionLessonsList
+                          course={videoResource?.collection}
+                          currentLessonSlug={currentLessonSlug}
+                          progress={[]}
+                        />
+                      </TabPanel>
+                    )}
                     {!isEmpty(cues) && (
                       <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
-                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
-                      <div>This will be a list of lessons.</div>
-                    </TabPanel>
                   </div>
                 </TabPanels>
               </Tabs>
@@ -164,42 +172,44 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
       }}
       className="h-full overscroll-contain"
     >
-      {cues.map((cue: VTTCue) => {
-        const note = cue.text
-        const active = player.activeMetadataTrackCues.includes(cue)
-        return (
-          <div key={cue.startTime}>
-            {active && <Element name="active-note" />}
-            <div
-              className={classNames(
-                'text-sm p-4 bg-white dark:bg-gray-900 rounded-md mb-3 shadow-sm border-2 border-transparent',
-                {
-                  'border-indigo-500': active,
-                  '': !active,
-                },
-              )}
-            >
-              {note && (
-                <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
-                  {note}
-                </ReactMarkdown>
-              )}
-              {cue.startTime && (
-                <div
-                  onClick={() => {
-                    actions.seek(cue.startTime)
-                  }}
-                  className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
-                >
-                  <time className="text-xs opacity-60 font-medium">
-                    {convertTime(cue.startTime)}
-                  </time>
-                </div>
-              )}
+      <div className="space-y-3">
+        {cues.map((cue: VTTCue) => {
+          const note = cue.text
+          const active = player.activeMetadataTrackCues.includes(cue)
+          return (
+            <div key={cue.startTime}>
+              {active && <Element name="active-note" />}
+              <div
+                className={classNames(
+                  'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
+                  {
+                    'border-indigo-500': active,
+                    '': !active,
+                  },
+                )}
+              >
+                {note && (
+                  <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                    {note}
+                  </ReactMarkdown>
+                )}
+                {cue.startTime && (
+                  <div
+                    onClick={() => {
+                      actions.seek(cue.startTime)
+                    }}
+                    className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
+                  >
+                    <time className="text-xs opacity-60 font-medium">
+                      {convertTime(cue.startTime)}
+                    </time>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </SimpleBar>
   )
 }
@@ -236,13 +246,18 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
   )
 })
 
-const VideoTest: React.FC<{videoResource: VideoResource; notesUrl: string}> = ({
-  videoResource,
-  notesUrl,
-}) => {
+const VideoTest: React.FC<{
+  videoResource: VideoResource
+  currentLessonSlug: string
+  notesUrl: string
+}> = ({videoResource, currentLessonSlug, notesUrl}) => {
   return (
     <PlayerProvider>
-      <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />
+      <EggheadPlayer
+        videoResource={videoResource}
+        currentLessonSlug={currentLessonSlug}
+        notesUrl={notesUrl}
+      />
     </PlayerProvider>
   )
 }
@@ -267,6 +282,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       videoResource,
+      currentLessonSlug: lesson,
       notesUrl: `/api/github-load-notes?url=${lessonNotes[lesson]}`,
     },
   }

@@ -49,6 +49,9 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
       setIsError(
         `You've already got a pro account at ${email}. [Please login](/login).`,
       )
+      track('checkout: existing pro account found', {
+        email,
+      })
     } else {
       setIsError(false)
       track('checkout: redirect to stripe', {priceId})
