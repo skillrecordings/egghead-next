@@ -34,10 +34,14 @@ import {VideoResource} from '../types'
 import {loadBasicLesson} from '../lib/lessons'
 import {loadNotesFromUrl} from './api/github-load-notes'
 
+import {loadCollection} from 'lib/collections'
+import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
+
 const EggheadPlayer: React.FC<{
   videoResource: VideoResource
+  currentLessonSlug: string
   notesUrl: string
-}> = ({videoResource, notesUrl}) => {
+}> = ({videoResource, currentLessonSlug, notesUrl}) => {
   const playerContainer = React.useRef<any>()
   const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
@@ -128,10 +132,16 @@ const EggheadPlayer: React.FC<{
                   {!isEmpty(cues) && <Tab>Notes</Tab>}
                 </TabList>
                 <TabPanels className="flex-grow relative">
-                  <div className="absolute" css={{inset: 0}}>
-                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
-                      <div>This will be a list of lessons.</div>
-                    </TabPanel>
+                  <div className="lg:absolute" css={{inset: 0}}>
+                    {videoResource?.collection && (
+                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                        <CollectionLessonsList
+                          course={videoResource?.collection}
+                          currentLessonSlug={currentLessonSlug}
+                          progress={[]}
+                        />
+                      </TabPanel>
+                    )}
                     {!isEmpty(cues) && (
                       <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
@@ -162,44 +172,46 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
         ref: scrollableNodeRef,
         id: 'notes-tab-scroll-container',
       }}
-      className="h-full overscroll-contain space-y-3"
+      className="h-full overscroll-contain"
     >
-      {cues.map((cue: VTTCue) => {
-        const note = cue.text
-        const active = player.activeMetadataTrackCues.includes(cue)
-        return (
-          <div key={cue.startTime}>
-            {active && <Element name="active-note" />}
-            <div
-              className={classNames(
-                'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
-                {
-                  'border-indigo-500': active,
-                  '': !active,
-                },
-              )}
-            >
-              {note && (
-                <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
-                  {note}
-                </ReactMarkdown>
-              )}
-              {cue.startTime && (
-                <div
-                  onClick={() => {
-                    actions.seek(cue.startTime)
-                  }}
-                  className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
-                >
-                  <time className="text-xs opacity-60 font-medium">
-                    {convertTime(cue.startTime)}
-                  </time>
-                </div>
-              )}
+      <div className="space-y-3">
+        {cues.map((cue: VTTCue) => {
+          const note = cue.text
+          const active = player.activeMetadataTrackCues.includes(cue)
+          return (
+            <div key={cue.startTime}>
+              {active && <Element name="active-note" />}
+              <div
+                className={classNames(
+                  'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
+                  {
+                    'border-indigo-500': active,
+                    '': !active,
+                  },
+                )}
+              >
+                {note && (
+                  <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                    {note}
+                  </ReactMarkdown>
+                )}
+                {cue.startTime && (
+                  <div
+                    onClick={() => {
+                      actions.seek(cue.startTime)
+                    }}
+                    className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
+                  >
+                    <time className="text-xs opacity-60 font-medium">
+                      {convertTime(cue.startTime)}
+                    </time>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </SimpleBar>
   )
 }
@@ -236,13 +248,18 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
   )
 })
 
-const VideoTest: React.FC<{videoResource: VideoResource; notesUrl: string}> = ({
-  videoResource,
-  notesUrl,
-}) => {
+const VideoTest: React.FC<{
+  videoResource: VideoResource
+  currentLessonSlug: string
+  notesUrl: string
+}> = ({videoResource, currentLessonSlug, notesUrl}) => {
   return (
     <PlayerProvider>
-      <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />
+      <EggheadPlayer
+        videoResource={videoResource}
+        currentLessonSlug={currentLessonSlug}
+        notesUrl={notesUrl}
+      />
     </PlayerProvider>
   )
 }
@@ -267,6 +284,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       videoResource,
+      currentLessonSlug: lesson,
       notesUrl: `/api/github-load-notes?url=${lessonNotes[lesson]}`,
     },
   }
