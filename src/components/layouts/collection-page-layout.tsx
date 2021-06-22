@@ -233,10 +233,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ? sanityIllustrator
     : illustrator
 
-  const courseDependenciesWithData = !isEmpty(sanityDependencies)
-    ? sanityDependencies
-    : dependencies
-
   const podcast = first(
     course?.items?.filter((item: any) => item.type === 'podcast'),
   )
