@@ -35,6 +35,7 @@ export type VideoResource = LessonResource & {
   hls_url: string
   thumb_url: string
   subtitles_url: string
+  collection: any
 }
 
 export type PodcastResource = Resource & {
