@@ -150,7 +150,7 @@
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@mdx-js/loader": "^1.6.22",
     "@next/bundle-analyzer": "^10.2.3",
-    "@next/mdx": "^10.2.3",
+    "@next/mdx": "^11.0.0",
     "@storybook/addon-actions": "^6.2.8",
     "@storybook/addon-essentials": "^6.2.8",
     "@storybook/addon-links": "^6.2.8",
