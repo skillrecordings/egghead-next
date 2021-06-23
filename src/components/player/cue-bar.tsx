@@ -1,14 +1,15 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import Tippy from '@tippyjs/react'
-import TruncateMarkup from 'react-truncate-markup'
+import {scroller} from 'react-scroll'
+import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
+import ReactMarkdown from 'react-markdown'
 
 const CueBar: React.FC<any> = ({
   className,
   disableCompletely,
   player,
   actions,
-  onClickCue,
 }) => {
   const {duration, activeMetadataTracks} = player
 
@@ -25,7 +26,6 @@ const CueBar: React.FC<any> = ({
       {noteCues.map((noteCue: any) => {
         return (
           <NoteCue
-            onClickCue={onClickCue}
             key={noteCue.text}
             cue={noteCue}
             duration={duration}
@@ -46,10 +46,10 @@ const useCue = (cue: VTTCue, actions: any) => {
       if (active) {
         actions.activateMetadataTrackCue(cue)
       } else {
-        actions.activateMetadataTrackCue(null)
+        actions.deactivateMetadataTrackCue(cue)
       }
     },
-    [actions],
+    [actions, cue],
   )
 
   React.useEffect(() => {
@@ -79,54 +79,63 @@ const NoteCue: React.FC<any> = ({
   className,
   actions,
   player,
-  onClickCue,
 }) => {
-  const setVisible = useCue(cue, actions)
-  const [persist, setPersist] = React.useState(false)
-  const show = () => setVisible(true)
-  const hide = () => setVisible(false)
+  const {setPlayerPrefs} = useEggheadPlayerPrefs()
+  const [visible, setVisible] = React.useState(false)
+
+  useCue(cue, actions)
+
   const open = () => {
-    show()
-    setPersist(true)
-    onClickCue()
+    setVisible(true)
+    // if we seek to the correct time, the note is displayed
+    actions.seek(cue.startTime)
   }
+
   const close = () => {
-    hide()
-    setPersist(false)
+    setVisible(false)
   }
-  const visible = cue === player.activeMetadataTrackCue
+
+  React.useEffect(() => {
+    setVisible(player.activeMetadataTrackCues.includes(cue) && !player.seeking)
+  }, [player.activeMetadataTrackCues, player.seeking, cue])
+
+  // added seeking to the list here but getting some janky perf issues
+
   const startPosition = `${(cue.startTime / duration) * 100}%`
-  const note = JSON.parse(cue.text)
+  const note = cue.text
+
+  React.useEffect(() => {
+    if (visible) {
+      setPlayerPrefs({sideBar: {activeTab: 0}})
+      scroller.scrollTo('active-note', {
+        duration: 0,
+        delay: 0,
+        offset: -12,
+        containerId: 'notes-tab-scroll-container',
+      })
+    }
+  }, [visible, setPlayerPrefs])
 
   return (
     <Tippy
       placement="top"
       theme="light"
-      maxWidth={800}
+      maxWidth={300}
       appendTo="parent"
+      offset={[0, 30]}
+      interactive={true}
       content={
         <div className="p-2">
-          {note.title && (
-            <span className="pb-2 font-semibold inline-block">
-              {note.title}
-            </span>
-          )}
-          <TruncateMarkup lines={2}>
-            <div>{note.description}</div>
-          </TruncateMarkup>
-          {/* <ReactMarkdown className="prose prose-sm dark:prose-dark max-w-none"> */}
-          {/* {note.description}</div> */}
-          {/* {truncate(note.description, {length: 220, separator: '...'})} */}
-          {/* </ReactMarkdown> */}
+          <div className="line-clamp-6 prose-sm prose">
+            <ReactMarkdown>{note}</ReactMarkdown>
+          </div>
         </div>
       }
       visible={visible}
       onClickOutside={close}
     >
       <div
-        onMouseOver={show}
         onClick={open}
-        onMouseOut={() => !persist && hide()}
         className={classNames(
           'cueplayer-react-cue-note',
           {
