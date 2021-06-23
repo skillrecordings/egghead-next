@@ -149,7 +149,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+                <div className="w-full xl:pr-16">
                   <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                     <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
                       <Link href={featureDigitalGardening.path}>
@@ -175,7 +175,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                       </Link>
                     </div>
                     <div className="sm:col-span-2 flex flex-col sm:items-start items-center w-full">
-                      <h3 className="text-xs text-green-600 dark:text-green-400 uppercase font-semibold mb-2">
+                      <h3 className="text-xs text-green-600 dark:text-green-300 uppercase font-semibold mb-2">
                         Learn in public with a digital garden
                       </h3>
                       <Link href={featureDigitalGardening.path}>
@@ -203,12 +203,12 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-5 mt-12">
+                  <div className="grid md:grid-cols-3 grid-cols-1 gap-5 mt-12">
                     {featureDigitalGardening.featured.courses.map(
                       (resource: any) => {
                         return (
                           <VerticalResourceCard
-                            className="col-span-3 sm:col-span-1 text-center shadow-md"
+                            className="col-span-3 sm:col-span-1 text-center shadow"
                             key={resource.path}
                             resource={resource}
                             location={location}
