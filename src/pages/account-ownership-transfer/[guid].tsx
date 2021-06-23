@@ -1,6 +1,7 @@
 import * as React from 'react'
 import LoginRequired from 'components/login-required'
 import {useRouter} from 'next/router'
+import {GetServerSideProps} from 'next'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import {
@@ -32,40 +33,33 @@ type AccountOwnershipTransferData = {
   validInvite: boolean
 }
 
-export async function getServerSideProps(context: any) {
-  const {guid} = context.params
-  const {eggheadToken} = getTokenFromCookieHeaders(
-    context.req.headers.cookie as string,
-  )
-
-  let props: AccountOwnershipTransferData = {
-    validInvite: false,
-  }
-
-  try {
-    const {data}: {data: {owner_email: string}} = await axios.get(
-      `${AUTH_DOMAIN}/api/v1/account_ownership_transfer_invitations/${guid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${eggheadToken}`,
-        },
-      },
+export const getServerSideProps: GetServerSideProps<AccountOwnershipTransferData> =
+  async function (context: any) {
+    const {guid} = context.params
+    const {eggheadToken} = getTokenFromCookieHeaders(
+      context.req.headers.cookie as string,
     )
 
-    props = {
-      validInvite: true,
-      ownerEmail: data.owner_email,
-    }
-  } catch (e) {
-    if (e.response.status === 404) {
-      props.validInvite = false
-    }
-  }
+    try {
+      const {data}: {data: {owner_email: string}} = await axios.get(
+        `${AUTH_DOMAIN}/api/v1/account_ownership_transfer_invitations/${guid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${eggheadToken}`,
+          },
+        },
+      )
 
-  return {
-    props,
+      return {
+        props: {
+          validInvite: true,
+          ownerEmail: data.owner_email,
+        },
+      }
+    } catch (e) {
+      return {props: {validInvite: false}}
+    }
   }
-}
 
 const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransferData> =
   ({validInvite, ownerEmail}) => {

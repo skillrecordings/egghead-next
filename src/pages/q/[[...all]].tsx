@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import * as React from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
@@ -208,9 +208,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 
   if (selectedInstructors.length === 1) {
-    const instructorSlug = getInstructorSlugFromInstructorList(
-      selectedInstructors,
-    )
+    const instructorSlug =
+      getInstructorSlugFromInstructorList(selectedInstructors)
     try {
       initialInstructor = await loadInstructor(instructorSlug)
 
