@@ -471,7 +471,6 @@ const homepageData = {
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/365/616/full/react-crash-course-hooks.png',
   },
-
   topics: {
     id: 'topics',
     name: 'Popular Topics',
