@@ -36,7 +36,7 @@ module.exports = {
               },
               code: {color: theme('colors.blue.600')},
             },
-            'strong > a': {
+            'strong > a, a > strong': {
               color: theme('colors.blue.600'),
             },
             code: {
@@ -83,7 +83,7 @@ module.exports = {
                 },
               },
             },
-            'strong > a': {
+            'strong > a, a > strong': {
               color: theme('colors.blue.400'),
             },
             blockquote: {
