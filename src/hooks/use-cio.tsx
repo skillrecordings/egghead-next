@@ -1,17 +1,11 @@
 import * as React from 'react'
-import queryString from 'query-string'
-import {isEmpty, get} from 'lodash'
-import cookie from '../utils/cookies'
 import axios from 'axios'
 
 export const CIO_KEY = 'cio_id'
 
-export const cioIdentify = (id: string, options?: any) => {
-  if (id || options?.email) {
-    window._cio.identify({
-      ...(!!id && {id}),
-      ...options,
-    })
+export const cioIdentify = async (id: string, options?: any) => {
+  if (id) {
+    return await axios.post(`/api/cio/identify/${id}`, options)
   }
 }
 

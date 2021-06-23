@@ -106,7 +106,7 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible) {
-      setPlayerPrefs({sideBar: {activeTab: 0}})
+      setPlayerPrefs({sideBar: {activeTab: 1}})
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
