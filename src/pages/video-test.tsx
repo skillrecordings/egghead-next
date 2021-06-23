@@ -40,9 +40,10 @@ const EggheadPlayer: React.FC<{
   notesUrl: string
 }> = ({videoResource, notesUrl}) => {
   const playerContainer = React.useRef<any>()
-  const playerPrefs = useEggheadPlayerPrefs()
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {player} = usePlayer()
   const {activeMetadataTracks = []} = player
+  const {activeSidebarTab} = getPlayerPrefs()
 
   const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
     return track.label === 'notes'
@@ -54,7 +55,6 @@ const EggheadPlayer: React.FC<{
     },
     [],
   )
-
   return (
     <div className="video-test -mx-5">
       {videoResource.hls_url && (
@@ -123,10 +123,11 @@ const EggheadPlayer: React.FC<{
           </div>
           <div className="lg:col-span-3 side-bar">
             <div className="relative h-full">
+              {activeSidebarTab}
               <Tabs
-                index={playerPrefs.sideBar?.activeTab || 0}
+                index={activeSidebarTab || 0}
                 onChange={(tabIndex) =>
-                  playerPrefs.setPlayerPrefs({sideBar: {activeTab: tabIndex}})
+                  setPlayerPrefs({activeSidebarTab: tabIndex})
                 }
                 className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
               >
