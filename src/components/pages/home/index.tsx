@@ -101,7 +101,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-20 sm:mt-24">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            The Beginners Guided Path
+            Popular Courses & Topics
           </h2>
           <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
             <VerticalResourceCollectionCard
