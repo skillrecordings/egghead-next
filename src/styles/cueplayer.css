@@ -1,5 +1,8 @@
 /* side-bar */
 /* tabs */
+.side-bar {
+  @apply select-text;
+}
 .side-bar [data-reach-tabs] [data-reach-tab-list] {
   @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
 }
