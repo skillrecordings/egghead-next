@@ -28,6 +28,7 @@ import {convertTime} from 'utils/time-utils'
 import ReactMarkdown from 'react-markdown'
 import CueBar from 'components/player/cue-bar'
 import ControlBarDivider from 'components/player/control-bar-divider'
+import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import {Element} from 'react-scroll'
 import {VideoResource} from '../types'
@@ -63,9 +64,9 @@ const EggheadPlayer: React.FC<{
           className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
         >
           <div
-            className={`relative z-10 pb-[4.5rem] ${
-              player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
-            }`}
+            className={`relative z-10 ${
+              isEmpty(cues) ? 'pb-14' : 'pb-[4.5rem]'
+            } ${player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'}`}
           >
             <Player
               muted
@@ -85,7 +86,13 @@ const EggheadPlayer: React.FC<{
               />
               <track id="notes" src={notesUrl} kind="metadata" label="notes" />
               <CueBar key="cue-bar" order={6.0} />
-              <ControlBar disableDefaultControls autoHide={false}>
+              <ControlBar
+                disableDefaultControls
+                autoHide={false}
+                className={`transform ${
+                  isEmpty(cues) ? 'translate-y-14' : 'translate-y-[4.5rem]'
+                }`}
+              >
                 <PlayToggle key="play-toggle" order={1} />
                 <ReplayControl key="replay-control" order={2} />
                 <ForwardControl key="forward-control" order={3} />
@@ -124,19 +131,25 @@ const EggheadPlayer: React.FC<{
                 className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
               >
                 <TabList className="relative z-[1] flex-shrink-0">
-                  {!isEmpty(cues) && <Tab>Notes</Tab>}
                   <Tab>Lessons</Tab>
+                  {!isEmpty(cues) && <Tab>Notes</Tab>}
                 </TabList>
                 <TabPanels className="flex-grow relative">
-                  <div className="absolute" css={{inset: 0}}>
+                  <div className="lg:absolute" css={{inset: 0}}>
+                    {videoResource?.collection && (
+                      <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                        <CollectionLessonsList
+                          course={videoResource?.collection}
+                          currentLessonSlug={videoResource?.slug}
+                          progress={[]}
+                        />
+                      </TabPanel>
+                    )}
                     {!isEmpty(cues) && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                      <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
-                    <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
-                      <div>This will be a list of lessons.</div>
-                    </TabPanel>
                   </div>
                 </TabPanels>
               </Tabs>
@@ -162,44 +175,46 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
         ref: scrollableNodeRef,
         id: 'notes-tab-scroll-container',
       }}
-      className="h-full overscroll-contain"
+      className="h-full overscroll-contain p-4"
     >
-      {cues.map((cue: VTTCue) => {
-        const note = cue.text
-        const active = player.activeMetadataTrackCues.includes(cue)
-        return (
-          <div key={cue.startTime}>
-            {active && <Element name="active-note" />}
-            <div
-              className={classNames(
-                'text-sm p-4 bg-white dark:bg-gray-900 rounded-md mb-3 shadow-sm border-2 border-transparent',
-                {
-                  'border-indigo-500': active,
-                  '': !active,
-                },
-              )}
-            >
-              {note && (
-                <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
-                  {note}
-                </ReactMarkdown>
-              )}
-              {cue.startTime && (
-                <div
-                  onClick={() => {
-                    actions.seek(cue.startTime)
-                  }}
-                  className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
-                >
-                  <time className="text-xs opacity-60 font-medium">
-                    {convertTime(cue.startTime)}
-                  </time>
-                </div>
-              )}
+      <div className="space-y-3">
+        {cues.map((cue: VTTCue) => {
+          const note = cue.text
+          const active = player.activeMetadataTrackCues.includes(cue)
+          return (
+            <div key={cue.startTime}>
+              {active && <Element name="active-note" />}
+              <div
+                className={classNames(
+                  'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
+                  {
+                    'border-indigo-500': active,
+                    '': !active,
+                  },
+                )}
+              >
+                {note && (
+                  <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                    {note}
+                  </ReactMarkdown>
+                )}
+                {cue.startTime && (
+                  <div
+                    onClick={() => {
+                      actions.seek(cue.startTime)
+                    }}
+                    className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
+                  >
+                    <time className="text-xs opacity-60 font-medium">
+                      {convertTime(cue.startTime)}
+                    </time>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </SimpleBar>
   )
 }
@@ -236,10 +251,10 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
   )
 })
 
-const VideoTest: React.FC<{videoResource: VideoResource; notesUrl: string}> = ({
-  videoResource,
-  notesUrl,
-}) => {
+const VideoTest: React.FC<{
+  videoResource: VideoResource
+  notesUrl: string
+}> = ({videoResource, notesUrl}) => {
   return (
     <PlayerProvider>
       <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />

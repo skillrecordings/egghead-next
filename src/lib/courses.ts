@@ -46,7 +46,8 @@ const courseQuery = groq`
       "slug": slug.current,
       path,
       name,
-      'image': image.url
+      'label': name,
+      'image_url': image.url
     }
   },
 	"topics": content[title == 'topics'][0]{
