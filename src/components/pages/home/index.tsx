@@ -228,17 +228,17 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             Build a New Portfolio Project
           </h2>
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
-            <VerticalResourceCollectionCard
+            <VerticalResourceCard
               resource={portfolioProjectOne}
               location={location}
               className="text-center"
             />
-            <VerticalResourceCollectionCard
+            <VerticalResourceCard
               resource={portfolioProjectTwo}
               location={location}
               className="text-center"
             />
-            <VerticalResourceCollectionCard
+            <VerticalResourceCard
               resource={wordpressWithGraphql}
               location={location}
               className="text-center"
