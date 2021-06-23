@@ -37,9 +37,8 @@ import {loadNotesFromUrl} from './api/github-load-notes'
 
 const EggheadPlayer: React.FC<{
   videoResource: VideoResource
-  currentLessonSlug: string
   notesUrl: string
-}> = ({videoResource, currentLessonSlug, notesUrl}) => {
+}> = ({videoResource, notesUrl}) => {
   const playerContainer = React.useRef<any>()
   const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
@@ -65,9 +64,9 @@ const EggheadPlayer: React.FC<{
           className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
         >
           <div
-            className={`relative z-10 pb-[4.5rem] ${
-              player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
-            }`}
+            className={`relative z-10 ${
+              isEmpty(cues) ? 'pb-14' : 'pb-[4.5rem]'
+            } ${player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'}`}
           >
             <Player
               muted
@@ -87,7 +86,13 @@ const EggheadPlayer: React.FC<{
               />
               <track id="notes" src={notesUrl} kind="metadata" label="notes" />
               <CueBar key="cue-bar" order={6.0} />
-              <ControlBar disableDefaultControls autoHide={false}>
+              <ControlBar
+                disableDefaultControls
+                autoHide={false}
+                className={`transform ${
+                  isEmpty(cues) ? 'translate-y-14' : 'translate-y-[4.5rem]'
+                }`}
+              >
                 <PlayToggle key="play-toggle" order={1} />
                 <ReplayControl key="replay-control" order={2} />
                 <ForwardControl key="forward-control" order={3} />
@@ -132,16 +137,16 @@ const EggheadPlayer: React.FC<{
                 <TabPanels className="flex-grow relative">
                   <div className="lg:absolute" css={{inset: 0}}>
                     {videoResource?.collection && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                      <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <CollectionLessonsList
                           course={videoResource?.collection}
-                          currentLessonSlug={currentLessonSlug}
+                          currentLessonSlug={videoResource?.slug}
                           progress={[]}
                         />
                       </TabPanel>
                     )}
                     {!isEmpty(cues) && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                      <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
@@ -170,7 +175,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
         ref: scrollableNodeRef,
         id: 'notes-tab-scroll-container',
       }}
-      className="h-full overscroll-contain"
+      className="h-full overscroll-contain p-4"
     >
       <div className="space-y-3">
         {cues.map((cue: VTTCue) => {
@@ -248,16 +253,11 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
 
 const VideoTest: React.FC<{
   videoResource: VideoResource
-  currentLessonSlug: string
   notesUrl: string
-}> = ({videoResource, currentLessonSlug, notesUrl}) => {
+}> = ({videoResource, notesUrl}) => {
   return (
     <PlayerProvider>
-      <EggheadPlayer
-        videoResource={videoResource}
-        currentLessonSlug={currentLessonSlug}
-        notesUrl={notesUrl}
-      />
+      <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />
     </PlayerProvider>
   )
 }
@@ -282,7 +282,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       videoResource,
-      currentLessonSlug: lesson,
       notesUrl: `/api/github-load-notes?url=${lessonNotes[lesson]}`,
     },
   }

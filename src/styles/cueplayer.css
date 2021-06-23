@@ -1,5 +1,8 @@
 /* side-bar */
 /* tabs */
+.side-bar {
+  @apply select-text;
+}
 .side-bar [data-reach-tabs] [data-reach-tab-list] {
   @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
 }
@@ -33,7 +36,7 @@
 
 /* control bar */
 .video-test .cueplayer-react .cueplayer-react-control-bar {
-  @apply transform translate-y-[4.5rem] flex bg-gray-1000;
+  @apply flex bg-gray-1000;
 }
 
 .video-test .cueplayer-react .cueplayer-react-fullscreen {
@@ -46,7 +49,6 @@
 }
 
 .cueplayer-react .cueplayer-react-cue-bar {
-  display: none;
   width: 100%;
   position: absolute;
   bottom: 32px;
@@ -54,8 +56,6 @@
   right: 0;
   height: 16px;
   background-color: #2b333f90;
-
-  animation-timing-function: cubic-bezier(0.28, 0.84, 0.42, 1);
 }
 
 .cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
