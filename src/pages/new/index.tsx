@@ -72,7 +72,7 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
     	path,
       'byline': meta,
     	image,
-      'background': images[label == 'banner-background'][0].url,
+      'background': images[label == 'banner-image-blank'][0].url,
       'featureCardBackground': images[label == 'feature-card-background'][0].url,
       'instructor': collaborators[]->[role == 'instructor'][0]{
         title,
