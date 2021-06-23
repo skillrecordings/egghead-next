@@ -131,7 +131,7 @@ const EggheadPlayer: React.FC<{
                 <TabPanels className="flex-grow relative">
                   <div className="lg:absolute" css={{inset: 0}}>
                     {videoResource?.collection && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                      <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <CollectionLessonsList
                           course={videoResource?.collection}
                           currentLessonSlug={videoResource?.slug}
@@ -140,7 +140,7 @@ const EggheadPlayer: React.FC<{
                       </TabPanel>
                     )}
                     {!isEmpty(cues) && (
-                      <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
+                      <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <NotesTabContent cues={cues} />
                       </TabPanel>
                     )}
@@ -169,7 +169,7 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
         ref: scrollableNodeRef,
         id: 'notes-tab-scroll-container',
       }}
-      className="h-full overscroll-contain"
+      className="h-full overscroll-contain p-4"
     >
       <div className="space-y-3">
         {cues.map((cue: VTTCue) => {
