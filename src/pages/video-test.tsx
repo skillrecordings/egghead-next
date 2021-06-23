@@ -64,9 +64,9 @@ const EggheadPlayer: React.FC<{
           className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
         >
           <div
-            className={`relative z-10 pb-[4.5rem] ${
-              player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
-            }`}
+            className={`relative z-10 ${
+              isEmpty(cues) ? 'pb-14' : 'pb-[4.5rem]'
+            } ${player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'}`}
           >
             <Player
               muted
@@ -86,7 +86,13 @@ const EggheadPlayer: React.FC<{
               />
               <track id="notes" src={notesUrl} kind="metadata" label="notes" />
               <CueBar key="cue-bar" order={6.0} />
-              <ControlBar disableDefaultControls autoHide={false}>
+              <ControlBar
+                disableDefaultControls
+                autoHide={false}
+                className={`transform ${
+                  isEmpty(cues) ? 'translate-y-14' : 'translate-y-[4.5rem]'
+                }`}
+              >
                 <PlayToggle key="play-toggle" order={1} />
                 <ReplayControl key="replay-control" order={2} />
                 <ForwardControl key="forward-control" order={3} />

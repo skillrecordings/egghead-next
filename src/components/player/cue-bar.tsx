@@ -1,5 +1,6 @@
 import * as React from 'react'
 import classNames from 'classnames'
+import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
 import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -21,7 +22,7 @@ const CueBar: React.FC<any> = ({
     return [...acc, ...Array.from(track.cues || [])]
   }, [])
 
-  return disableCompletely ? null : (
+  return disableCompletely || isEmpty(noteCues) ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
       {noteCues.map((noteCue: any) => {
         return (
