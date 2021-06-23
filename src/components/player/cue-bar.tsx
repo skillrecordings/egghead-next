@@ -126,7 +126,7 @@ const NoteCue: React.FC<any> = ({
       interactive={true}
       content={
         <div className="p-2">
-          <div className="line-clamp-6 prose-sm prose">
+          <div className="line-clamp-6 prose-sm prose leading-normal">
             <ReactMarkdown>{note}</ReactMarkdown>
           </div>
         </div>
