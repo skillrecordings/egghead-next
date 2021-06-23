@@ -28,18 +28,13 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const devEssentials: any = get(homePageData, 'devEssentials')
   const freeCourses: any = get(homePageData, 'freeCourses')
   const getStarted: any = get(homePageData, 'getStarted')
-  const stateManagement: any = get(homePageData, 'stateManagement')
   const aws: any = get(homePageData, 'aws')
-  const workflows: any = get(homePageData, 'workflows')
-  const accessibleApps: any = get(homePageData, 'accessibleApps')
-  const accessibleReactApps: any = get(homePageData, 'accessibleReactApps')
-  const projectFeatureCardVideoApp: any = get(homePageData, 'nextjsVideoApp')
   const wordpressWithGraphql: any = get(homePageData, 'cms')
-
-  const tailwind: any = get(homePageData, 'tailwind')
-  const portfolioProject: any = get(homePageData, 'portfolioProject')
+  const portfolioProjectOne: any = get(homePageData, 'portfolioProjectOne')
+  const typescriptFeature: any = get(homePageData, 'typescriptFeature')
+  const reactFeature: any = get(homePageData, 'reactFeature')
   const topics: any = get(homePageData, 'topics')
-  const ecommerce: any = get(homePageData, 'ecommerce')
+  const portfolioProjectTwo: any = get(homePageData, 'portfolioProjectTwo')
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
@@ -54,10 +49,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     homePageData,
     'drawing-the-invisible-react-explained-in-five-visual-metaphors',
   )
-  const featureDeveloperPortfolio: any = get(
-    homePageData,
-    'featureDeveloperPortfolio',
-  )
 
   React.useEffect(() => {
     if (viewer) {
@@ -71,29 +62,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
       loadProgressForUser(viewer.id)
     }
   }, [viewer?.id])
-
-  const ReactStateManagement = () => (
-    <VerticalResourceCard
-      resource={stateManagement}
-      location={location}
-      className="text-center"
-    >
-      <ol className="inline-block text-left">
-        {stateManagement.resources.map((resource: any, index: any) => {
-          return (
-            <li key={resource.path} className="flex space-x-2 my-2">
-              <span>{index + 1}</span>
-              <Link href={resource.path}>
-                <a className="font-bold hover:text-blue-600 dark:hover:text-blue-300">
-                  {resource.title}
-                </a>
-              </Link>
-            </li>
-          )
-        })}
-      </ol>
-    </VerticalResourceCard>
-  )
 
   return (
     <>
@@ -135,41 +103,17 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Popular Courses & Topics
           </h2>
-          <div className="grid lg:grid-cols-3 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
+          <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
             <VerticalResourceCollectionCard
               className="sm:py-8 py-6"
               resource={getStarted}
               location={location}
             />
-            <VerticalResourceCard
+            <VerticalResourceCollectionCard
+              resource={devEssentials}
               location={location}
-              resource={tailwind}
-              className="text-center"
-            >
-              <ol className="inline-block text-left">
-                {tailwind.resources.map((resource: any, index: any) => {
-                  return (
-                    <li key={resource.path} className="flex space-x-2 my-2">
-                      <span>{index + 1}</span>
-                      <Link href={resource.path}>
-                        <a
-                          onClick={() => {
-                            track('clicked resource', {
-                              resource: resource.path,
-                              location,
-                            })
-                          }}
-                          className="font-bold hover:text-blue-600 dark:hover:text-blue-300"
-                        >
-                          {resource.title}
-                        </a>
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ol>
-            </VerticalResourceCard>
-            <ReactStateManagement />
+              className="text-left"
+            />
           </div>
         </section>
 
@@ -178,46 +122,34 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             Staff Picks and Favorites
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
-            <div className="flex flex-col col-span-1 space-y-4">
-              {map(featured, (resource) => {
-                return (
-                  <VerticalResourceCard
-                    key={resource.path}
-                    resource={resource}
-                    location={location}
-                    className="text-center"
-                  />
-                )
-              })}
-            </div>
-            <div className="flex flex-col col-span-1 space-y-4">
-              <VerticalResourceCollectionCard
-                resource={devEssentials}
-                location={location}
-              />
-              <VerticalResourceCard
-                resource={accessibleReactApps}
-                location={location}
-              />
-            </div>
-            <div className="flex flex-col col-span-1 space-y-4">
-              <VerticalResourceCard
-                resource={accessibleApps}
-                location={location}
-              />
-              <VerticalResourceCollectionCard
-                resource={workflows}
-                location={location}
-              />
-            </div>
+            {map(featured, (resource) => {
+              return (
+                <VerticalResourceCard
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                  className="text-center"
+                />
+              )
+            })}
+          </div>
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+            <HorizontalResourceCard
+              resource={reactFeature}
+              location={location}
+            />
+            <HorizontalResourceCard
+              resource={typescriptFeature}
+              location={location}
+            />
           </div>
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
+          <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+                <div className="w-full xl:pr-16">
                   <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                     <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
                       <Link href={featureDigitalGardening.path}>
@@ -243,7 +175,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                       </Link>
                     </div>
                     <div className="sm:col-span-2 flex flex-col sm:items-start items-center w-full">
-                      <h3 className="text-xs text-green-700 dark:text-green-400 uppercase font-semibold mb-2">
+                      <h3 className="text-xs text-green-600 dark:text-green-300 uppercase font-semibold mb-2">
                         Learn in public with a digital garden
                       </h3>
                       <Link href={featureDigitalGardening.path}>
@@ -271,12 +203,12 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-5 mt-12">
+                  <div className="grid md:grid-cols-3 grid-cols-1 gap-5 mt-12">
                     {featureDigitalGardening.featured.courses.map(
                       (resource: any) => {
                         return (
                           <VerticalResourceCard
-                            className="col-span-3 sm:col-span-1 text-center border border-gray-200"
+                            className="col-span-3 sm:col-span-1 text-center shadow"
                             key={resource.path}
                             resource={resource}
                             location={location}
@@ -295,17 +227,27 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Build a New Portfolio Project
           </h2>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-            <HorizontalResourceCard
-              resource={portfolioProject}
+          <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
+            <VerticalResourceCard
+              resource={portfolioProjectOne}
               location={location}
+              className="text-center"
             />
-            <HorizontalResourceCard resource={ecommerce} location={location} />
+            <VerticalResourceCard
+              resource={portfolioProjectTwo}
+              location={location}
+              className="text-center"
+            />
+            <VerticalResourceCard
+              resource={wordpressWithGraphql}
+              location={location}
+              className="text-center"
+            />
           </div>
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols 1 gap-4">
+          <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
             <VerticalResourceCollectionCard
               resource={aws}
               location={location}
@@ -314,18 +256,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               resource={freeCourses}
               location={location}
             />
-            <div className="space-y-4">
-              <VerticalResourceCard
-                className="text-center"
-                resource={projectFeatureCardVideoApp}
-                location={location}
-              />
-              <VerticalResourceCard
-                className="text-center"
-                resource={wordpressWithGraphql}
-                location={location}
-              />
-            </div>
           </div>
         </section>
       </div>
