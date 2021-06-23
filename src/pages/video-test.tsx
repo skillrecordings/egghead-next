@@ -37,9 +37,8 @@ import {loadNotesFromUrl} from './api/github-load-notes'
 
 const EggheadPlayer: React.FC<{
   videoResource: VideoResource
-  currentLessonSlug: string
   notesUrl: string
-}> = ({videoResource, currentLessonSlug, notesUrl}) => {
+}> = ({videoResource, notesUrl}) => {
   const playerContainer = React.useRef<any>()
   const playerPrefs = useEggheadPlayerPrefs()
   const {player} = usePlayer()
@@ -135,7 +134,7 @@ const EggheadPlayer: React.FC<{
                       <TabPanel className="p-4 bg-gray-100 dark:bg-gray-1000 w-full h-full">
                         <CollectionLessonsList
                           course={videoResource?.collection}
-                          currentLessonSlug={currentLessonSlug}
+                          currentLessonSlug={videoResource?.slug}
                           progress={[]}
                         />
                       </TabPanel>
@@ -248,16 +247,11 @@ const PlayerContainer: React.ForwardRefExoticComponent<any> = React.forwardRef<
 
 const VideoTest: React.FC<{
   videoResource: VideoResource
-  currentLessonSlug: string
   notesUrl: string
-}> = ({videoResource, currentLessonSlug, notesUrl}) => {
+}> = ({videoResource, notesUrl}) => {
   return (
     <PlayerProvider>
-      <EggheadPlayer
-        videoResource={videoResource}
-        currentLessonSlug={currentLessonSlug}
-        notesUrl={notesUrl}
-      />
+      <EggheadPlayer videoResource={videoResource} notesUrl={notesUrl} />
     </PlayerProvider>
   )
 }
@@ -282,7 +276,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   return {
     props: {
       videoResource,
-      currentLessonSlug: lesson,
       notesUrl: `/api/github-load-notes?url=${lessonNotes[lesson]}`,
     },
   }
