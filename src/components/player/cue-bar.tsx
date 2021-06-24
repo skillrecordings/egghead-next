@@ -81,8 +81,9 @@ const NoteCue: React.FC<any> = ({
   actions,
   player,
 }) => {
-  const {setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
+  const {muteNotes} = getPlayerPrefs()
 
   useCue(cue, actions)
 
@@ -97,8 +98,14 @@ const NoteCue: React.FC<any> = ({
   }
 
   React.useEffect(() => {
-    setVisible(player.activeMetadataTrackCues.includes(cue) && !player.seeking)
-  }, [player.activeMetadataTrackCues, player.seeking, cue])
+    if (!muteNotes) {
+      // don't automatically pop if muted
+      setVisible(
+        player.activeMetadataTrackCues.includes(cue) && !player.seeking,
+      )
+      setPlayerPrefs({activeSidebarTab: 1})
+    }
+  }, [player.activeMetadataTrackCues, player.seeking, cue, muteNotes])
 
   // added seeking to the list here but getting some janky perf issues
 
@@ -107,7 +114,7 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible) {
-      setPlayerPrefs({sideBar: {activeTab: 1}})
+      setPlayerPrefs({activeSidebarTab: 1})
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
