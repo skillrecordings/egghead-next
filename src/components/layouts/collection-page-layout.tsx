@@ -241,7 +241,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
   const courseTags = tags.map((tag: any) => {
     const ogVersion = get(dependencies, tag.name)
-    const sanityTag = find(sanityDependencies, {name: tag.name}).version
+    const sanityTag = find(sanityDependencies, {name: tag.name})?.version
 
     const version = !isEmpty(sanityTag) ? sanityTag : ogVersion
 
