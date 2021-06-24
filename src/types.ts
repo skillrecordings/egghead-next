@@ -28,6 +28,7 @@ export type LessonResource = Resource & {
   completed: boolean
   duration: number
   instructor: any
+  staff_notes_url?: string
 }
 
 export type VideoResource = LessonResource & {
