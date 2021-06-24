@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   res,
   params,
 }) {
-  const lesson = 'react-a-beginners-guide-to-react-introduction'
+  const lesson = 'react-create-a-user-interface-with-vanilla-javascript-and-dom'
   const videoResource: VideoResource = (await loadBasicLesson(
     lesson,
   )) as VideoResource

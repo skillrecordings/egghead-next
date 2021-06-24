@@ -79,10 +79,10 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
             label="English"
             default
           />
-          {videoResource?.staff_notes_url && (
+          {!isEmpty(videoResource?.staff_notes_url) && (
             <track
               id="notes"
-              src={`/api/github-load-notes?url=${videoResource?.staff_notes_url}`}
+              src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
               kind="metadata"
               label="notes"
             />
@@ -122,24 +122,25 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
       </div>
       <div className="lg:col-span-3 side-bar">
         <div className="relative h-full">
+          {/* TODO: remove weird logic that assumes 2 tabs */}
           <Tabs
-            index={activeSidebarTab || 0}
+            index={(!isEmpty(cues) && activeSidebarTab) || 0}
             onChange={(tabIndex) =>
               setPlayerPrefs({activeSidebarTab: tabIndex})
             }
             className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
           >
             <TabList className="relative z-[1] flex-shrink-0">
-              <Tab>Lessons</Tab>
+              {!isEmpty(videoResource.collection) && <Tab>Lessons</Tab>}
               {!isEmpty(cues) && <Tab>Notes</Tab>}
             </TabList>
             <TabPanels className="flex-grow relative">
               <div className="lg:absolute" css={{inset: 0}}>
-                {videoResource?.collection && (
+                {!isEmpty(videoResource.collection) && (
                   <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
                     <CollectionLessonsList
-                      course={videoResource?.collection}
-                      currentLessonSlug={videoResource?.slug}
+                      course={videoResource.collection}
+                      currentLessonSlug={videoResource.slug}
                       progress={[]}
                     />
                   </TabPanel>
