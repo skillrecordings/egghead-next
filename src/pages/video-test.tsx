@@ -123,7 +123,6 @@ const EggheadPlayer: React.FC<{
           </div>
           <div className="lg:col-span-3 side-bar">
             <div className="relative h-full">
-              {activeSidebarTab}
               <Tabs
                 index={activeSidebarTab || 0}
                 onChange={(tabIndex) =>
