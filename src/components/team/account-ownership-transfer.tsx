@@ -88,13 +88,13 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
                   error: data.error,
                 })
 
-                toast.error(
-                  'There was an issue sending the ownership transfer invite. Please contact support@egghead.io if the issue persists.',
-                  {
-                    duration: 6000,
-                    icon: '❌',
-                  },
-                )
+                const defaultMessage =
+                  'There was an issue sending the ownership transfer invite. Please contact support@egghead.io if the issue persists.'
+
+                toast.error(data.error || defaultMessage, {
+                  duration: 6000,
+                  icon: '❌',
+                })
               } finally {
                 setLoading(false)
               }
