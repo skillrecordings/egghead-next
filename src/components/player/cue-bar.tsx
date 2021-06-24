@@ -74,6 +74,19 @@ const useCue = (cue: VTTCue, actions: any) => {
   return setActive
 }
 
+const MutePopupButton: React.FC<any> = () => {
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
+  const {muteNotes} = getPlayerPrefs()
+  return (
+    <button
+      className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
+      onClick={() => setPlayerPrefs({muteNotes: !muteNotes})}
+    >
+      {muteNotes ? <IconVolumeOn /> : <IconVolumeOff />}
+    </button>
+  )
+}
+
 const NoteCue: React.FC<any> = ({
   cue,
   duration,
@@ -84,6 +97,8 @@ const NoteCue: React.FC<any> = ({
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
+
+ // console.log('muteNotes: ', muteNotes)
 
   useCue(cue, actions)
 
@@ -134,6 +149,15 @@ const NoteCue: React.FC<any> = ({
       interactive={true}
       content={
         <div className="p-2">
+          <div className="flex justify-end space-x-2">
+            <MutePopupButton />
+            <button
+              className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
+              onClick={close}
+            >
+              <IconX />
+            </button>
+          </div>
           <div className="line-clamp-6 prose-sm prose leading-normal">
             <ReactMarkdown>{note}</ReactMarkdown>
           </div>
@@ -157,3 +181,66 @@ const NoteCue: React.FC<any> = ({
     </Tippy>
   )
 }
+
+const IconVolumeOff: React.FC<any> = ({className}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      className={`w-5 h-5 ${className ?? ''}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+        clipRule="evenodd"
+      ></path>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+      ></path>
+    </svg>
+  )
+}
+
+const IconVolumeOn: React.FC<any> = ({className}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      className={`w-5 h-5 ${className ?? ''}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+      ></path>
+    </svg>
+  )
+}
+
+const IconX: React.FC<any> = ({className}) => (
+  <svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`w-5 h-5 ${className ?? ''}`}
+  >
+    <g fill="none">
+      <path
+        d="M6 18L18 6M6 6l12 12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+  </svg>
+)
