@@ -74,6 +74,19 @@ const useCue = (cue: VTTCue, actions: any) => {
   return setActive
 }
 
+const MutePopupButton: React.FC<any> = () => {
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
+  const {muteNotes} = getPlayerPrefs()
+  return (
+    <button
+      className="p-1 border border-gray-300 rounded"
+      onClick={() => setPlayerPrefs({muteNotes: !muteNotes})}
+    >
+      {muteNotes ? 'unmute' : 'mute'}
+    </button>
+  )
+}
+
 const NoteCue: React.FC<any> = ({
   cue,
   duration,
@@ -84,6 +97,8 @@ const NoteCue: React.FC<any> = ({
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
+
+  console.log('muteNotes: ', muteNotes)
 
   useCue(cue, actions)
 
@@ -134,6 +149,7 @@ const NoteCue: React.FC<any> = ({
       interactive={true}
       content={
         <div className="p-2">
+          <MutePopupButton />
           <div className="line-clamp-6 prose-sm prose leading-normal">
             <ReactMarkdown>{note}</ReactMarkdown>
           </div>
