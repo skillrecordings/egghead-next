@@ -98,7 +98,7 @@ const NoteCue: React.FC<any> = ({
   const [visible, setVisible] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
 
-  console.log('muteNotes: ', muteNotes)
+ // console.log('muteNotes: ', muteNotes)
 
   useCue(cue, actions)
 
