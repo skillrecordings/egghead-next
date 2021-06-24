@@ -184,7 +184,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/036/square_128/vue.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/036/square_64/vue.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/036/square_32/vue.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/a-journey-with-vue-router?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/the-beginner-s-guide-to-vue-3-1c46da8b?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/vue",
     "path": "/browse/frameworks/vue",
     "search_url": "https://app.egghead.io/search?topic=vue"
@@ -241,7 +241,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_128/typescriptlang.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_64/typescriptlang.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_32/typescriptlang.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-blog-with-next-js-typescript-emotion-and-netlify-adcc?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/advanced-typescript-fundamentals-579c174f?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/languages/typescript",
     "path": "/browse/languages/typescript",
     "search_url": "https://app.egghead.io/search?topic=typescript"
@@ -837,7 +837,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_128/react.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_64/react.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_32/react.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/modernizing-a-legacy-redux-application-with-react-hooks-c528?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/manage-application-state-with-jotai-atoms-2c3a29f0?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/react",
     "path": "/browse/frameworks/react",
     "search_url": "https://app.egghead.io/search?topic=react"
@@ -1751,7 +1751,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_128/javascriptlang.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_64/javascriptlang.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_32/javascriptlang.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/es6-and-beyond-9922?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/web-frameworks-in-60-seconds-964d25d0?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/javascript",
     "path": "/browse/frameworks/javascript",
     "search_url": "https://app.egghead.io/search?topic=javascript"
@@ -2539,7 +2539,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_128/csslang.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_64/csslang.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_32/csslang.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/creating-accessible-skeleton-loader-animation-from-scratch-with-html-and-css-4b3d6427?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/develop-custom-twitch-scenes-and-setup-in-obs-2d5d489d?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/languages/css",
     "path": "/browse/languages/css",
     "search_url": "https://app.egghead.io/search?topic=css"
@@ -2558,7 +2558,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_128/cloudflare-2000.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_64/cloudflare-2000.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/293/square_32/cloudflare-2000.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/introduction-to-cloudflare-workers-5aa3?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-serverless-api-with-cloudflare-workers-d67ca551?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/cloudflare",
     "path": "/browse/libraries/cloudflare",
     "search_url": "https://app.egghead.io/search?topic=cloudflare"
@@ -3021,7 +3021,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/square_128/11ty.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/square_64/11ty.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/284/square_32/11ty.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-an-eleventy-11ty-site-from-scratch-bfd3?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/develop-custom-twitch-scenes-and-setup-in-obs-2d5d489d?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/11ty",
     "path": "/browse/frameworks/11ty",
     "search_url": "https://app.egghead.io/search?topic=11ty"

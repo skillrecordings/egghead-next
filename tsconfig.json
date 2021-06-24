@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["@emotion/core", "node"],
     "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -12,7 +13,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react",
+    "jsxImportSource": "@emotion/react",
     "baseUrl": "./src/"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
