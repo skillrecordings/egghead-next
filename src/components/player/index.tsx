@@ -52,6 +52,12 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
     [],
   )
 
+  // TODO: we rely on `staff_notes_url` property to display the notes tab
+  //  but notes can come from other sources as well so we will want to fix
+  //  for that in the future
+
+  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
+
   return (
     <PlayerContainer
       ref={playerContainer}
@@ -59,7 +65,7 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
       className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
     >
       <div
-        className={`relative z-10 ${isEmpty(cues) ? 'pb-14' : 'pb-[4.5rem]'} ${
+        className={`relative z-10 ${!hasNotes ? 'pb-14' : 'pb-[4.5rem]'} ${
           player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
         }`}
       >
@@ -79,7 +85,7 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
             label="English"
             default
           />
-          {!isEmpty(videoResource?.staff_notes_url) && (
+          {hasNotes && (
             <track
               id="notes"
               src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
@@ -93,7 +99,7 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
             disableDefaultControls
             autoHide={false}
             className={`transform ${
-              isEmpty(cues) ? 'translate-y-14' : 'translate-y-[4.5rem]'
+              !hasNotes ? 'translate-y-14' : 'translate-y-[4.5rem]'
             }`}
           >
             <PlayToggle key="play-toggle" order={1} />
@@ -124,7 +130,7 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
         <div className="relative h-full">
           {/* TODO: remove weird logic that assumes 2 tabs */}
           <Tabs
-            index={(!isEmpty(cues) && activeSidebarTab) || 0}
+            index={(hasNotes && activeSidebarTab) || 0}
             onChange={(tabIndex) =>
               setPlayerPrefs({activeSidebarTab: tabIndex})
             }
@@ -132,7 +138,7 @@ const VideoResourcePlayer: React.FC<{videoResource: VideoResource}> = ({
           >
             <TabList className="relative z-[1] flex-shrink-0">
               {!isEmpty(videoResource.collection) && <Tab>Lessons</Tab>}
-              {!isEmpty(cues) && <Tab>Notes</Tab>}
+              {hasNotes && <Tab>Notes</Tab>}
             </TabList>
             <TabPanels className="flex-grow relative">
               <div className="lg:absolute" css={{inset: 0}}>
