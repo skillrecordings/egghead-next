@@ -2,7 +2,6 @@ import * as React from 'react'
 import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
-import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
 
@@ -108,8 +107,6 @@ const NoteCue: React.FC<any> = ({
   const [visible, setVisible] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
 
-  // console.log('muteNotes: ', muteNotes)
-
   useCue(cue, actions)
 
   const open = () => {
@@ -140,12 +137,6 @@ const NoteCue: React.FC<any> = ({
   React.useEffect(() => {
     if (visible) {
       setPlayerPrefs({activeSidebarTab: 1})
-      scroller.scrollTo('active-note', {
-        duration: 0,
-        delay: 0,
-        offset: -12,
-        containerId: 'notes-tab-scroll-container',
-      })
     }
   }, [visible, setPlayerPrefs])
 

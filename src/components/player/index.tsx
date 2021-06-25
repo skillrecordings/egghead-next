@@ -26,7 +26,7 @@ import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import SimpleBar from 'simplebar-react'
-import {Element} from 'react-scroll'
+import {scroller, Element} from 'react-scroll'
 import ReactMarkdown from 'react-markdown'
 import {convertTime} from 'utils/time-utils'
 import {VideoResource} from 'types'
@@ -202,6 +202,15 @@ const NotesTabContent: React.FC<{cues: VTTCue[]}> = ({cues}) => {
   const actions = manager.getActions()
   const disabled: boolean = isEmpty(cues)
   const scrollableNodeRef: any = React.createRef()
+
+  React.useEffect(() => {
+    scroller.scrollTo('active-note', {
+      duration: 0,
+      delay: 0,
+      offset: -16,
+      containerId: 'notes-tab-scroll-container',
+    })
+  }, [player.activeMetadataTrackCues])
 
   return disabled ? null : (
     <SimpleBar
