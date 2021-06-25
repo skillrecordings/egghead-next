@@ -36,7 +36,7 @@
 
 /* control bar */
 .video-test .cueplayer-react .cueplayer-react-control-bar {
-  @apply flex bg-gray-1000;
+  @apply flex bg-gray-1000 z-[1];
 }
 
 .video-test .cueplayer-react .cueplayer-react-fullscreen {
