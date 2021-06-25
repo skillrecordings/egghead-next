@@ -13,7 +13,7 @@ import {
 import Transcript from 'components/pages/lessons/transcript'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
-import {LessonResource} from 'types'
+import {LessonResource, VideoResource} from 'types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
@@ -65,6 +65,9 @@ import {
   VolumeMenuButton,
 } from 'cueplayer-react'
 import HLSSource from 'components/player/hls-source'
+import {animateScroll as scroll} from 'react-scroll'
+import {PlayerProvider} from 'cueplayer-react'
+import VideoResourcePlayer from '../../components/player'
 
 const tracer = getTracer('lesson-page')
 
@@ -120,7 +123,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
 
-  const playerRef = React.useRef(null)
   const actualPlayerRef = React.useRef<any>(null)
   const lastAutoPlayed = React.useRef()
 
@@ -456,129 +458,51 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   },
                 }}
               >
-                <div
-                  className={`${
-                    playerVisible ? 'block' : 'hidden'
-                  } w-full lg:block absolute top-0 left-0 right-0 bottom-0`}
-                >
-                  <Player
-                    id="egghead-player"
-                    ref={playerRef}
-                    crossOrigin="anonymous"
-                    className="font-sans"
-                    poster={lesson?.thumb_url}
-                    volume={0.2}
-                    onCanPlay={(event: SyntheticEvent) => {
-                      console.debug(`player ready [autoplay:${autoplay}]`)
-                      const player: HTMLVideoElement =
-                        event.target as HTMLVideoElement
-                      player.volume = volumeRate / 100
-                      player.playbackRate = playbackRate
-                      actualPlayerRef.current = player
-                      const isDifferent =
-                        lastAutoPlayed.current !== lesson?.hls_url
-                      if (autoplay && isDifferent && isFunction(player.play)) {
-                        console.debug(`autoplaying`)
-                        lastAutoPlayed.current = lesson?.hls_url
-                        player.play()
+                <VideoResourcePlayer
+                  videoResource={lesson}
+                  hidden={!playerVisible}
+                  onCanPlay={(event: SyntheticEvent) => {
+                    console.debug(`player ready [autoplay:${autoplay}]`)
+                    const player: HTMLVideoElement =
+                      event.target as HTMLVideoElement
+                    player.volume = volumeRate / 100
+                    player.playbackRate = playbackRate
+                    actualPlayerRef.current = player
+                    const isDifferent =
+                      lastAutoPlayed.current !== lesson?.hls_url
+                    if (autoplay && isDifferent && isFunction(player.play)) {
+                      console.debug(`autoplaying`)
+                      lastAutoPlayed.current = lesson?.hls_url
+                      player.play()
+                    }
+                  }}
+                  onPause={() => {
+                    send('PAUSE')
+                  }}
+                  onPlay={() => send('PLAY')}
+                  onTimeUpdate={(event: any) => {
+                    onProgress(
+                      {playedSeconds: event.target.currentTime},
+                      lesson,
+                    ).then((lessonView: any) => {
+                      if (lessonView) {
+                        console.debug('progress recorded', {
+                          progress: lessonView,
+                        })
+                        setLessonView(lessonView)
                       }
-                    }}
-                    onPause={() => {
-                      send('PAUSE')
-                    }}
-                    onPlay={() => send('PLAY')}
-                    onTimeUpdate={(event: any) => {
-                      onProgress(
-                        {playedSeconds: event.target.currentTime},
-                        lesson,
-                      ).then((lessonView: any) => {
-                        if (lessonView) {
-                          console.debug('progress recorded', {
-                            progress: lessonView,
-                          })
-                          setLessonView(lessonView)
-                        }
-                      })
-                    }}
-                    onEnded={() => {
-                      console.debug(`received ended event from player`)
-                      send('COMPLETE')
-                    }}
-                    onVolumeChange={(event: SyntheticEvent) => {
-                      const player: HTMLVideoElement =
-                        event.target as HTMLVideoElement
-                      setPlayerPrefs({volumeRate: player.volume * 100})
-                    }}
-                  >
-                    {lesson?.hls_url && (
-                      <HLSSource
-                        key={lesson?.hls_url}
-                        isVideoChild
-                        src={lesson?.hls_url}
-                      />
-                    )}
-                    <track
-                      key={lesson?.subtitles_url}
-                      src={lesson?.subtitles_url}
-                      kind="subtitles"
-                      srcLang="en"
-                      label="English"
-                      default={subtitle?.language === 'en'}
-                    />
-                    {!autoplay && <BigPlayButton position="center" />}
-                    {!sm && (
-                      <ControlBar disableDefaultControls>
-                        <PlayToggle key="play-toggle" order={1} />
-
-                        <ProgressControl key="progress-control" order={8} />
-                        <RemainingTimeDisplay
-                          key="remaining-time-display"
-                          order={9}
-                        />
-                        <ReplayControl key="replay-control" order={2} />
-                        <ForwardControl key="forward-control" order={3} />
-                        <VolumeMenuButton key="volume-menu-button" order={4} />
-                        <CurrentTimeDisplay
-                          key="current-time-display"
-                          order={5}
-                        />
-                        <TimeDivider key="time-divider" order={6} />
-                        <DurationDisplay key="duration-display" order={7} />
-                        <PlaybackRateMenuButton
-                          className="hidden"
-                          key="playback-rate"
-                          order={10}
-                          selected={playbackRate}
-                          onChange={(playbackRate: number) => {
-                            setPlayerPrefs({playbackRate})
-                          }}
-                        />
-                        {lesson?.subtitles_url && (
-                          <ClosedCaptionButton
-                            key={lesson?.subtitles_url}
-                            order={11}
-                            selected={subtitle}
-                            onChange={(track?: TextTrack) => {
-                              const updatedSubtitlePref = track
-                                ? {
-                                    id: track.id,
-                                    kind: track.kind,
-                                    label: track.label,
-                                    language: track.language,
-                                  }
-                                : defaultSubtitlePreference
-
-                              setPlayerPrefs({
-                                subtitle: updatedSubtitlePref,
-                              })
-                            }}
-                          />
-                        )}
-                        <FullscreenToggle key="fullscreen-toggle" order={12} />
-                      </ControlBar>
-                    )}
-                  </Player>
-                </div>
+                    })
+                  }}
+                  onEnded={() => {
+                    console.debug(`received ended event from player`)
+                    send('COMPLETE')
+                  }}
+                  onVolumeChange={(event: SyntheticEvent) => {
+                    const player: HTMLVideoElement =
+                      event.target as HTMLVideoElement
+                    setPlayerPrefs({volumeRate: player.volume * 100})
+                  }}
+                />
 
                 {spinnerVisible && (
                   <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
@@ -683,6 +607,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
             </div>
+            {/* TODO: Sidebar goes here */}
             {collection && collection?.lessons && (
               <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 self-stretch dark:text-gray-100 dark:bg-gray-900">
                 <div>
@@ -857,9 +782,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   {transcriptAvailable && (
                     <TabPanel>
                       <Transcript
-                        player={playerRef}
-                        playerAvailable={playerVisible}
-                        playVideo={() => send('PLAY')}
                         initialTranscript={transcript}
                         enhancedTranscript={enhancedTranscript}
                       />
@@ -886,7 +808,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   )
 }
 
-export default Lesson
+const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
+  initialLesson,
+  ...props
+}) => (
+  <PlayerProvider>
+    <Lesson initialLesson={initialLesson} {...props} />
+  </PlayerProvider>
+)
+
+export default LessonPage
 
 const Course: FunctionComponent<{
   course: {
