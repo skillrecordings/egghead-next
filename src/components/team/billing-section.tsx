@@ -73,7 +73,7 @@ const BillingSection = ({
 
   const displayCurrentPeriod = [currentPeriodStart, currentPeriodEnd]
     .map(isValidDate)
-    .every((value: boolean) => value === true)
+    .every((isValid) => isValid)
 
   const activeSubscription =
     get(subscriptionData, 'subscription.status') === 'active' &&
