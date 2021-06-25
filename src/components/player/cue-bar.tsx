@@ -108,8 +108,6 @@ const NoteCue: React.FC<any> = ({
   const [visible, setVisible] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
 
-  // console.log('muteNotes: ', muteNotes)
-
   useCue(cue, actions)
 
   const open = () => {
@@ -143,7 +141,7 @@ const NoteCue: React.FC<any> = ({
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
-        offset: -12,
+        offset: -16,
         containerId: 'notes-tab-scroll-container',
       })
     }
