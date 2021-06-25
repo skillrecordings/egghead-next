@@ -84,3 +84,13 @@
   visibility: visible;
   opacity: 1;
 }
+
+.cueplayer-react .cueplayer-react-button.cueplayer-react-replay-control,
+.cueplayer-react .cueplayer-react-button.cueplayer-react-forward-control {
+  @apply hidden lg:inline-block;
+}
+
+.cueplayer-react .cueplayer-react-control.cueplayer-react-remaining-time,
+.cueplayer-react .cueplayer-react-time-control.cueplayer-react-time-divider {
+  @apply hidden lg:flex;
+}
