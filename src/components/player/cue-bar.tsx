@@ -143,7 +143,7 @@ const NoteCue: React.FC<any> = ({
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
-        offset: -12,
+        offset: -16,
         containerId: 'notes-tab-scroll-container',
       })
     }
