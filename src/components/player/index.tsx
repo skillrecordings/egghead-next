@@ -59,9 +59,9 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
 
   return (
     <div
-      className={`relative z-10 ${className} 
+      className={`relative z-10 pb-14 ${className} 
           ${hidden ? 'hidden' : 'block'} 
-          ${!hasNotes ? 'pb-14' : 'pb-[4.5rem]'}`}
+          ${hasNotes ? 'lg:pb-[4.5rem]' : ''}`}
     >
       <Player
         muted
@@ -89,6 +89,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         {hasNotes && (
           <track
             id="notes"
+            // src="/api/github-load-notes?url=https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md"
             src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
             kind="metadata"
             label="notes"
@@ -99,8 +100,8 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         <ControlBar
           disableDefaultControls
           autoHide={false}
-          className={`transform ${
-            !hasNotes ? 'translate-y-14' : 'translate-y-[4.5rem]'
+          className={`hidden lg:flex transform translate-y-14 ${
+            hasNotes ? 'lg:translate-y-[4.5rem]' : ''
           }`}
           order={8.0}
         >
@@ -177,6 +178,7 @@ export const useNotesCues = (videoResource: VideoResource) => {
   //  for that in the future
 
   const hasNotes = !isEmpty(videoResource?.staff_notes_url)
+  // const hasNotes = true
 
   return {
     hasNotes,
