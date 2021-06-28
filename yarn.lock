@@ -9798,6 +9798,11 @@ flatted@^3.1.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.1.1.tgz#c4b489e80096d9df1dfc97c79871aea7c617c469"
   integrity sha512-zAoAQiudy+r5SvnSw3KJy5os/oRJYHzrzja/tBDqrZtNhUw8bt6y8OBzMWcjWr+8liV8Eb6yOhw8WZ7VFZ5ZzA==
 
+flatten-tailwindcss-theme@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/flatten-tailwindcss-theme/-/flatten-tailwindcss-theme-0.1.1.tgz#c74a06aeb98e110b8f711ec26a973be74fc62a0b"
+  integrity sha512-H4VV6pXPVX+NZMy4Ddky+Ae3y8hRrDmYn1piauHx3nPWa/4YS6ufL2G4crxqisGawHGztSTJ5TjZkmiyTA035Q==
+
 flatten@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
@@ -18656,6 +18661,18 @@ table@^6.0.9:
     slice-ansi "^4.0.0"
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
+
+tailwindcss-autofill@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-autofill/-/tailwindcss-autofill-0.1.0.tgz#ca5872c866bea13ac45fd1610c7b48199156702f"
+  integrity sha512-U7P+smNko8729EIe/FOXJvcoZt6LAzexevBuZ8pkrdoazAoabUGFdE/xOaGTb9P7rzkNp4OGH0WeE8Y8UvnDtw==
+
+tailwindcss-text-fill@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/tailwindcss-text-fill/-/tailwindcss-text-fill-0.1.2.tgz#fe402971115fe5393aaf1992b8bb4cbacdd58ad9"
+  integrity sha512-zhff4E8tjWVriuiFBRtnw1n6R9HfaEGVTixUbiF8tnlzzbFTPLY+1a5LRWp6cE0T46GUVoXIQIa5rw1zc7NOqg==
+  dependencies:
+    flatten-tailwindcss-theme "^0.1.1"
 
 tailwindcss@^2.1.4:
   version "2.1.4"
