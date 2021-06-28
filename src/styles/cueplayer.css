@@ -36,7 +36,7 @@
 
 /* control bar */
 .video-test .cueplayer-react .cueplayer-react-control-bar {
-  @apply flex bg-gray-1000;
+  @apply flex bg-gray-1000 z-[1];
 }
 
 .video-test .cueplayer-react .cueplayer-react-fullscreen {
@@ -83,4 +83,14 @@
   display: flex;
   visibility: visible;
   opacity: 1;
+}
+
+.cueplayer-react .cueplayer-react-button.cueplayer-react-replay-control,
+.cueplayer-react .cueplayer-react-button.cueplayer-react-forward-control {
+  @apply hidden lg:inline-block;
+}
+
+.cueplayer-react .cueplayer-react-control.cueplayer-react-remaining-time,
+.cueplayer-react .cueplayer-react-time-control.cueplayer-react-time-divider {
+  @apply hidden lg:flex;
 }
