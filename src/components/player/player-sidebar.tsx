@@ -20,29 +20,27 @@ const PlayerSidebar: React.FC<{
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
   return (
-    <div className="lg:col-span-3 side-bar">
-      <div className="relative h-full">
-        {/* TODO: remove weird logic that assumes 2 tabs */}
-        <Tabs
-          index={(hasNotes && activeSidebarTab) || 0}
-          onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
-          className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
-        >
-          <TabList className="relative z-[1] flex-shrink-0">
-            {!isEmpty(videoResource.collection) && <Tab>Lessons</Tab>}
-            {hasNotes && <Tab>Notes</Tab>}
-          </TabList>
-          <TabPanels className="flex-grow relative">
-            <div className="lg:absolute" css={{inset: 0}}>
-              <LessonListTab
-                videoResource={videoResource}
-                lessonView={lessonView}
-              />
-              <NotesTab videoResource={videoResource} />
-            </div>
-          </TabPanels>
-        </Tabs>
-      </div>
+    <div className="relative h-full">
+      {/* TODO: remove weird logic that assumes 2 tabs */}
+      <Tabs
+        index={(hasNotes && activeSidebarTab) || 0}
+        onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
+        className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
+      >
+        <TabList className="relative z-[1] flex-shrink-0">
+          {!isEmpty(videoResource.collection) && <Tab>Lessons</Tab>}
+          {hasNotes && <Tab>Notes</Tab>}
+        </TabList>
+        <TabPanels className="flex-grow relative">
+          <div className="lg:absolute" css={{inset: 0}}>
+            <LessonListTab
+              videoResource={videoResource}
+              lessonView={lessonView}
+            />
+            <NotesTab videoResource={videoResource} />
+          </div>
+        </TabPanels>
+      </Tabs>
     </div>
   )
 }
