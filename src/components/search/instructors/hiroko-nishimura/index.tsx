@@ -81,7 +81,7 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
     >
       <div className="absolute top-0 left-0 bg-gradient-to-r from-blue-700 to-blue-800 w-full h-2 z-20"></div>
       <img
-        className="absolute h-full w-full object-cover object-left-top"
+        className="absolute w-full object-fit object-left-top"
         src={background}
         alt=""
       />
@@ -119,7 +119,7 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-white text-opacity-80 uppercase font-semibold mb-2">
+                <h2 className="text-xs text-gray-900 dark:text-white text-opacity-80 uppercase font-semibold mb-2">
                   {byline}
                 </h2>
                 <Link href={path}>
@@ -135,7 +135,9 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                     <h1>{title}</h1>
                   </a>
                 </Link>
-                <p className="mt-4 text-white">{description}</p>
+                <p className="mt-4 text-gray-900 dark:text-white">
+                  {description}
+                </p>
               </div>
             </div>
           </div>
