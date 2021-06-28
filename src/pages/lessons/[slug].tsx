@@ -442,7 +442,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 containerRef={playerContainer}
                 videoResource={lesson}
                 hidden={!playerVisible}
-                onCanPlay={(event: SyntheticEvent) => {
+                onCanPlay={(event: any) => {
                   console.debug(`player ready [autoplay:${autoplay}]`)
                   const player: HTMLVideoElement =
                     event.target as HTMLVideoElement

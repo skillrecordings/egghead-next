@@ -33,12 +33,12 @@ import useBreakpoint from 'utils/breakpoints'
 export type VideoResourcePlayerProps = {
   videoResource: VideoResource
   containerRef?: MutableRefObject<any>
-  onCanPlay?: (event?: SyntheticEvent) => void
+  onCanPlay?: (event: any) => void
   onPause?: () => void
   onPlay?: () => void
   onTimeUpdate?: (event: any) => void
   onEnded?: () => void
-  onVolumeChange?: (event?: SyntheticEvent) => void
+  onVolumeChange?: (event: any) => void
   hidden?: boolean
   className?: string
   volume?: number
