@@ -48,22 +48,20 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   videoResource,
   containerRef,
   hidden = false,
-  className,
+  className = '',
   children,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {hasNotes} = useNotesCues(videoResource)
   const {subtitle, playbackRate} = getPlayerPrefs()
-  const {player} = usePlayer()
   const {sm} = useBreakpoint()
 
   return (
     <div
       className={`relative z-10 ${className} 
           ${hidden ? 'hidden' : 'block'} 
-          ${!hasNotes ? 'pb-14' : 'pb-[4.5rem]'} 
-          ${player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'}`}
+          ${!hasNotes ? 'pb-14' : 'pb-[4.5rem]'}`}
     >
       <Player
         muted
@@ -96,65 +94,63 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             label="notes"
           />
         )}
-        {!sm && <CueBar key="cue-bar" order={6.0} />}
+        <CueBar key="cue-bar" order={6.0} />
         <ProgressControl key="progress-control" order={7.0} />
-        {!sm && (
-          <ControlBar
-            disableDefaultControls
-            autoHide={false}
-            className={`transform ${
-              !hasNotes ? 'translate-y-14' : 'translate-y-[4.5rem]'
-            }`}
-            order={8.0}
-          >
-            <PlayToggle key="play-toggle" order={1} />
-            <ReplayControl key="replay-control" order={2} />
-            <ForwardControl key="forward-control" order={3} />
-            <VolumeMenuButton key="volume-menu-button" order={4} />
-            <CurrentTimeDisplay key="current-time-display" order={5} />
-            <TimeDivider key="time-divider" order={6} />
-            <DurationDisplay key="duration-display" order={7} />
-            <ControlBarDivider key="divider" order={9} className="flex-grow" />
-            <RemainingTimeDisplay key="remaining-time-display" order={10} />
-            <PlaybackRateMenuButton
-              rates={[1, 1.25, 1.5, 2]}
-              key="playback-rate"
-              order={11}
-              selected={playbackRate}
-              onChange={(playbackRate: number) => {
-                setPlayerPrefs({playbackRate})
-              }}
-            />
-            {videoResource.subtitles_url && (
-              <ClosedCaptionButton
-                key={videoResource.subtitles_url}
-                order={12}
-                selected={subtitle}
-                onChange={(track?: TextTrack) => {
-                  const updatedSubtitlePref = track
-                    ? {
-                        id: track.id,
-                        kind: track.kind,
-                        label: track.label,
-                        language: track.language,
-                      }
-                    : defaultSubtitlePreference
+        <ControlBar
+          disableDefaultControls
+          autoHide={false}
+          className={`transform ${
+            !hasNotes ? 'translate-y-14' : 'translate-y-[4.5rem]'
+          }`}
+          order={8.0}
+        >
+          <PlayToggle key="play-toggle" order={1} />
+          <ReplayControl key="replay-control" order={2} />
+          <ForwardControl key="forward-control" order={3} />
+          <VolumeMenuButton key="volume-menu-button" order={4} />
+          <CurrentTimeDisplay key="current-time-display" order={5} />
+          <TimeDivider key="time-divider" order={6} />
+          <DurationDisplay key="duration-display" order={7} />
+          <ControlBarDivider key="divider" order={9} className="flex-grow" />
+          <RemainingTimeDisplay key="remaining-time-display" order={10} />
+          <PlaybackRateMenuButton
+            rates={[1, 1.25, 1.5, 2]}
+            key="playback-rate"
+            order={11}
+            selected={playbackRate}
+            onChange={(playbackRate: number) => {
+              setPlayerPrefs({playbackRate})
+            }}
+          />
+          {videoResource.subtitles_url && (
+            <ClosedCaptionButton
+              key={videoResource.subtitles_url}
+              order={12}
+              selected={subtitle}
+              onChange={(track?: TextTrack) => {
+                const updatedSubtitlePref = track
+                  ? {
+                      id: track.id,
+                      kind: track.kind,
+                      label: track.label,
+                      language: track.language,
+                    }
+                  : defaultSubtitlePreference
 
-                  setPlayerPrefs({
-                    subtitle: updatedSubtitlePref,
-                  })
-                }}
-              >
-                1123
-              </ClosedCaptionButton>
-            )}
-            <FullscreenToggle
-              key="fullscreen-toggle"
-              fullscreenElement={containerRef?.current}
-              order={13}
-            />
-          </ControlBar>
-        )}
+                setPlayerPrefs({
+                  subtitle: updatedSubtitlePref,
+                })
+              }}
+            >
+              1123
+            </ClosedCaptionButton>
+          )}
+          <FullscreenToggle
+            key="fullscreen-toggle"
+            fullscreenElement={containerRef?.current}
+            order={13}
+          />
+        </ControlBar>
       </Player>
       {children}
     </div>

@@ -63,11 +63,14 @@ import {
   ReplayControl,
   TimeDivider,
   VolumeMenuButton,
+  usePlayer,
+  PlayerProvider,
 } from 'cueplayer-react'
 import HLSSource from 'components/player/hls-source'
 import {animateScroll as scroll} from 'react-scroll'
-import {PlayerProvider} from 'cueplayer-react'
-import VideoResourcePlayer from '../../components/player'
+import VideoResourcePlayer from 'components/player'
+import PlayerContainer from 'components/player/player-container'
+import PlayerSidebar from 'components/player/player-sidebar'
 
 const tracer = getTracer('lesson-page')
 
@@ -112,7 +115,10 @@ type LessonProps = {
 
 const MAX_FREE_VIEWS = 7
 
-const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
+const Lesson: FunctionComponent<LessonProps> = ({
+  initialLesson,
+  playerContainer,
+}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
@@ -125,6 +131,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const actualPlayerRef = React.useRef<any>(null)
   const lastAutoPlayed = React.useRef()
+
+  const {player} = usePlayer()
 
   const [playerState, send] = useMachine(playerMachine, {
     context: {
@@ -407,7 +415,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   ).length
 
   return (
-    <>
+    <div className="-mx-5">
       <NextSeo
         description={removeMarkdown(description)}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
@@ -437,7 +445,61 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         thumbnailUrls={[lesson?.thumb_url]}
       />
 
-      <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
+      <div className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base">
+        <div
+          className={`egghead-player ${
+            player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
+          }`}
+        >
+          <VideoResourcePlayer
+            containerRef={playerContainer}
+            // videoResource={lesson}
+            videoResource={{}}
+            hidden={!playerVisible}
+            onCanPlay={(event: SyntheticEvent) => {
+              console.debug(`player ready [autoplay:${autoplay}]`)
+              const player: HTMLVideoElement = event.target as HTMLVideoElement
+              player.volume = volumeRate / 100
+              player.playbackRate = playbackRate
+              actualPlayerRef.current = player
+              const isDifferent = lastAutoPlayed.current !== lesson?.hls_url
+              if (autoplay && isDifferent && isFunction(player.play)) {
+                console.debug(`autoplaying`)
+                lastAutoPlayed.current = lesson?.hls_url
+                player.play()
+              }
+            }}
+            onPause={() => {
+              send('PAUSE')
+            }}
+            onPlay={() => send('PLAY')}
+            onTimeUpdate={(event: any) => {
+              onProgress(
+                {playedSeconds: event.target.currentTime},
+                lesson,
+              ).then((lessonView: any) => {
+                if (lessonView) {
+                  console.debug('progress recorded', {
+                    progress: lessonView,
+                  })
+                  setLessonView(lessonView)
+                }
+              })
+            }}
+            onEnded={() => {
+              console.debug(`received ended event from player`)
+              send('COMPLETE')
+            }}
+            onVolumeChange={(event: SyntheticEvent) => {
+              const player: HTMLVideoElement = event.target as HTMLVideoElement
+              setPlayerPrefs({volumeRate: player.volume * 100})
+            }}
+          />
+        </div>
+        <PlayerSidebar videoResource={lesson} />
+      </div>
+
+      {/* <div className="sm:space-y-8 space-y-6 w-full sm:pb-16 pb-8 dark:text-gray-100">
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5 sm:border-b border-gray-100  dark:border-gray-800">
           <div className="w-full flex flex-col lg:flex-row justify-center items-center">
             <div
@@ -447,7 +509,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               }}
             >
               <div
-                className="flex justify-center relative bg-black"
+                className="flex justify-center relative bg-black video-test"
                 css={{
                   '::before': {
                     content: '""',
@@ -459,6 +521,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 }}
               >
                 <VideoResourcePlayer
+                  containerRef={playerContainer}
                   videoResource={lesson}
                   hidden={!playerVisible}
                   onCanPlay={(event: SyntheticEvent) => {
@@ -607,7 +670,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </div>
               </div>
             </div>
-            {/* TODO: Sidebar goes here */}
             {collection && collection?.lessons && (
               <div className="flex flex-shrink-0 bg-white flex-col w-full lg:w-3/12 2xl:w-1/5 self-stretch dark:text-gray-100 dark:bg-gray-900">
                 <div>
@@ -803,19 +865,28 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </div> */}
+    </div>
   )
 }
 
 const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
   initialLesson,
   ...props
-}) => (
-  <PlayerProvider>
-    <Lesson initialLesson={initialLesson} {...props} />
-  </PlayerProvider>
-)
+}) => {
+  const playerContainer = React.useRef(null)
+  return (
+    <PlayerProvider>
+      <PlayerContainer ref={playerContainer}>
+        <Lesson
+          initialLesson={initialLesson}
+          playerContainer={playerContainer}
+          {...props}
+        />
+      </PlayerContainer>
+    </PlayerProvider>
+  )
+}
 
 export default LessonPage
 

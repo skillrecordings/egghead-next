@@ -33,11 +33,11 @@ const PlayerSidebar: React.FC<{
             {hasNotes && <Tab>Notes</Tab>}
           </TabList>
           <TabPanels className="flex-grow relative">
-            <LessonListTab
-              videoResource={videoResource}
-              lessonView={lessonView}
-            />
             <div className="lg:absolute" css={{inset: 0}}>
+              <LessonListTab
+                videoResource={videoResource}
+                lessonView={lessonView}
+              />
               <NotesTab videoResource={videoResource} />
             </div>
           </TabPanels>
