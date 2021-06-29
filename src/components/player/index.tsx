@@ -21,6 +21,7 @@ import {
 import HLSSource from './hls-source'
 import CueBar from './cue-bar'
 import ControlBarDivider from './control-bar-divider'
+import DownloadControl from './download-control'
 import {
   defaultSubtitlePreference,
   useEggheadPlayerPrefs,
@@ -59,7 +60,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
 
   return (
     <div
-      className={`relative z-10 pb-14 ${className} 
+      className={`relative z-10 h-full sm:pb-14 ${className} 
           ${hidden ? 'hidden' : 'block'} 
           ${hasNotes ? 'lg:pb-[4.5rem]' : ''}`}
     >
@@ -89,8 +90,8 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         {hasNotes && (
           <track
             id="notes"
-            // src="/api/github-load-notes?url=https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md"
-            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
+            src="/api/github-load-notes?url=https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md"
+            // src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
             kind="metadata"
             label="notes"
           />
@@ -112,6 +113,11 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <CurrentTimeDisplay key="current-time-display" order={5} />
           <TimeDivider key="time-divider" order={6} />
           <DurationDisplay key="duration-display" order={7} />
+          <DownloadControl
+            key="download-control"
+            order={8}
+            lesson={videoResource}
+          />
           <ControlBarDivider key="divider" order={9} className="flex-grow" />
           <RemainingTimeDisplay key="remaining-time-display" order={10} />
           <PlaybackRateMenuButton
@@ -177,8 +183,8 @@ export const useNotesCues = (videoResource: VideoResource) => {
   //  but notes can come from other sources as well so we will want to fix
   //  for that in the future
 
-  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
-  // const hasNotes = true
+  // const hasNotes = !isEmpty(videoResource?.staff_notes_url)
+  const hasNotes = true
 
   return {
     hasNotes,

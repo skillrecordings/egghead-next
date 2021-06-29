@@ -1,0 +1,73 @@
+import * as React from 'react'
+import {FunctionComponent} from 'react'
+import axios from 'utils/configured-axios'
+import {track} from 'utils/analytics'
+import Tippy from '@tippyjs/react'
+
+type DownloadButtonProps = {
+  lesson: any
+}
+
+type DownloadControlProps = {
+  lesson: any
+  key: string
+  order: number
+  className: string
+}
+
+const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
+  return (
+    <button
+      onClick={(e) => {
+        e.preventDefault()
+        if (lesson?.download_url) {
+          axios.get(lesson.download_url).then(({data}) => {
+            window.location.href = data
+          })
+        }
+        track(`clicked download lesson`, {
+          lesson: lesson.slug,
+        })
+      }}
+      aria-label="download video"
+      className={`w-10 h-8 flex items-center justify-center border-none text-white ${
+        !lesson?.download_url ? 'opacity-50 cursor-default' : ''
+      }`}
+    >
+      <IconDownload className="w-4" />
+    </button>
+  )
+}
+
+const DownloadControl: FunctionComponent<DownloadControlProps> = ({lesson}) => {
+  return lesson?.download_url ? (
+    <DownloadButton lesson={lesson} />
+  ) : (
+    <Tippy content="Download feature is for members only">
+      <div>
+        <DownloadButton lesson={lesson} />
+      </div>
+    </Tippy>
+  )
+}
+
+const IconDownload: FunctionComponent<{className?: string}> = ({
+  className = '',
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+    />
+  </svg>
+)
+
+export default DownloadControl
