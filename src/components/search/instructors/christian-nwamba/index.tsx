@@ -12,7 +12,7 @@ export default function SearchChristianNwamba({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
   const {courses} = instructor
   const [primaryCourse] = courses.resources
-  const location = 'Kristian Freeman instructor page'
+  const location = 'Christian Nwamba instructor page'
 
   return (
     <div>
