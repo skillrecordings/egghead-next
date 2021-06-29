@@ -6,12 +6,14 @@ type AutoplayControlProps = {
   enabled: boolean
   onDark?: boolean
   player: any
+  order?: number
 }
 
 const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
   enabled,
   onDark = false,
   player,
+  order,
 }) => {
   const {autoplay, setPlayerPrefs} = useEggheadPlayerPrefs()
 
