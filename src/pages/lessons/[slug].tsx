@@ -35,14 +35,14 @@ import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
 import Share from 'components/share'
-import LessonDownload from 'components/pages/lessons/lesson-download'
+// import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
 import CodeLink, {
   IconCode,
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
-import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
+// import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
 import Comments from '../../components/pages/lessons/comments/comments'
 import Spinner from 'components/spinner'
@@ -440,6 +440,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             <PlayerContainer ref={playerContainer}>
               <VideoResourcePlayer
                 containerRef={playerContainer}
+                actualPlayerRef={actualPlayerRef.current}
                 videoResource={lesson}
                 hidden={!playerVisible}
                 onCanPlay={(event: any) => {
@@ -571,7 +572,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <RecommendNextStepOverlay lesson={lesson} />
               </OverlayWrapper>
             )}
-            <div className="flex justify-between items-center w-full bg-gray-1000 p-4">
+            {/* <div className="flex justify-between items-center w-full bg-gray-1000 p-4">
               <div className="flex items-center justify-start flex-grow space-x-4">
                 <LessonDownload lesson={lesson} />
               </div>
@@ -582,7 +583,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   player={actualPlayerRef.current}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="lg:col-span-3 side-bar">
             <PlayerSidebar videoResource={lesson} />

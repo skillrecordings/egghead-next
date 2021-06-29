@@ -22,6 +22,7 @@ import HLSSource from './hls-source'
 import CueBar from './cue-bar'
 import ControlBarDivider from './control-bar-divider'
 import DownloadControl from './download-control'
+import AutoplayControl from './autoplay-control'
 import {
   defaultSubtitlePreference,
   useEggheadPlayerPrefs,
@@ -34,6 +35,7 @@ import useBreakpoint from 'utils/breakpoints'
 export type VideoResourcePlayerProps = {
   videoResource: VideoResource
   containerRef?: MutableRefObject<any>
+  actualPlayerRef?: MutableRefObject<any>
   onCanPlay?: (event: any) => void
   onPause?: () => void
   onPlay?: () => void
@@ -48,6 +50,7 @@ export type VideoResourcePlayerProps = {
 const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   videoResource,
   containerRef,
+  actualPlayerRef,
   hidden = false,
   className = '',
   children,
@@ -90,8 +93,8 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         {hasNotes && (
           <track
             id="notes"
-            src="/api/github-load-notes?url=https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md"
-            // src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
+            // src="/api/github-load-notes?url=https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md"
+            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
             kind="metadata"
             label="notes"
           />
@@ -118,12 +121,19 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             order={8}
             lesson={videoResource}
           />
-          <ControlBarDivider key="divider" order={9} className="flex-grow" />
-          <RemainingTimeDisplay key="remaining-time-display" order={10} />
+          <AutoplayControl
+            enabled={true}
+            onDark={true}
+            player={actualPlayerRef}
+            key="autoplay-control"
+            order={9}
+          />
+          <ControlBarDivider key="divider" order={10} className="flex-grow" />
+          <RemainingTimeDisplay key="remaining-time-display" order={11} />
           <PlaybackRateMenuButton
             rates={[1, 1.25, 1.5, 2]}
             key="playback-rate"
-            order={11}
+            order={12}
             selected={playbackRate}
             onChange={(playbackRate: number) => {
               setPlayerPrefs({playbackRate})
@@ -132,7 +142,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           {videoResource.subtitles_url && (
             <ClosedCaptionButton
               key={videoResource.subtitles_url}
-              order={12}
+              order={13}
               selected={subtitle}
               onChange={(track?: TextTrack) => {
                 const updatedSubtitlePref = track
@@ -155,7 +165,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <FullscreenToggle
             key="fullscreen-toggle"
             fullscreenElement={containerRef?.current}
-            order={13}
+            order={14}
           />
         </ControlBar>
       </Player>
@@ -183,8 +193,8 @@ export const useNotesCues = (videoResource: VideoResource) => {
   //  but notes can come from other sources as well so we will want to fix
   //  for that in the future
 
-  // const hasNotes = !isEmpty(videoResource?.staff_notes_url)
-  const hasNotes = true
+  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
+  // const hasNotes = true
 
   return {
     hasNotes,

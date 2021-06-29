@@ -12,7 +12,6 @@ type DownloadControlProps = {
   lesson: any
   key: string
   order: number
-  className: string
 }
 
 const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
