@@ -12,7 +12,7 @@ const VideoTest: React.FC<{
 }> = ({videoResource}) => {
   const playerContainer = React.useRef(null)
   return (
-    <div className="egghead-player -mx-5">
+    <div className="-mx-5">
       <PlayerProvider>
         {videoResource.hls_url && (
           <PlayerContainer

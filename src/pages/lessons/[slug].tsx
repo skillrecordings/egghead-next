@@ -433,7 +433,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           }}
         >
           <div
-            className={`egghead-player relative ${
+            className={`relative ${
               player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
             }`}
           >
