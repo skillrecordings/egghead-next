@@ -44,7 +44,7 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
         <div
           className={`${
             onDark ? 'text-gray-300' : ''
-          } text-xs transition-colors ease-in-out duration-200 ${
+          } text-[10px] transition-colors ease-in-out duration-200 ${
             !enabled && 'opacity-30'
           }`}
         >
@@ -59,7 +59,7 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
                     ? 'bg-gray-700 group-hover:bg-gray-600'
                     : 'bg-gray-200 group-hover:bg-gray-300'
                 }`
-          } relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+          } relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
         >
           {enabled && (
             <span className="sr-only">
@@ -71,7 +71,7 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
             aria-hidden="true"
             className={`${
               enabled && autoplay ? 'translate-x-4' : 'translate-x-0'
-            } inline-block h-4 w-4 rounded-full ${
+            } inline-block h-3 w-3 rounded-full ${
               onDark ? 'bg-gray-200' : 'bg-white'
             } shadow transform ring-0 transition ease-in-out duration-200`}
           />
