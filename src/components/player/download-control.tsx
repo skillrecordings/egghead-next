@@ -34,7 +34,7 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
         !lesson?.download_url ? 'opacity-50 cursor-default' : ''
       }`}
     >
-      <IconDownload className="w-4" />
+      <IconDownload className="w-5" />
     </button>
   )
 }
