@@ -34,7 +34,7 @@
 
 /* progress bar */
 .cueplayer-react .cueplayer-react-progress-control {
-  @apply bottom-0 w-full h-6 absolute bg-gray-1000;
+  @apply bottom-0 w-full h-6 absolute bg-gray-1000 hidden sm:flex;
   transform: translateY(1.5rem);
 }
 
@@ -44,20 +44,9 @@
   transform: translateY(2.5rem);
 }
 
-/* .cueplayer-react-has-started .cueplayer-react-cue-bar {
-  display: flex;
-  visibility: visible;
-  opacity: 1;
-} */
-
-/* .cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
-  .cueplayer-react-cue-bar {
-  bottom: 0;
-} */
-
 /* control bar */
 .cueplayer-react .cueplayer-react-control-bar {
-  @apply flex bg-gray-1000 z-[1];
+  @apply hidden sm:flex bg-gray-1000 z-[10];
 }
 
 .cueplayer-react .cueplayer-react-fullscreen {
@@ -68,11 +57,3 @@
 .cueplayer-react-fullscreen .side-bar {
   display: none;
 }
-
-/* .cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
-  background-color: orangered;
-}
-
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
-  background-color: orange;
-} */
