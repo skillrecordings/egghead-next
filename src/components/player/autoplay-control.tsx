@@ -18,7 +18,7 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
   const {autoplay, setPlayerPrefs} = useEggheadPlayerPrefs()
 
   return (
-    <div className="flex">
+    <div className="flex px-3">
       <button
         onClick={() => {
           if (enabled) {
@@ -43,15 +43,6 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
         aria-pressed="false"
         className="flex items-center group space-x-1"
       >
-        <div
-          className={`${
-            onDark ? 'text-gray-300' : ''
-          } text-[10px] transition-colors ease-in-out duration-200 ${
-            !enabled && 'opacity-30'
-          }`}
-        >
-          Autoplay
-        </div>
         <div
           className={`${
             enabled && autoplay

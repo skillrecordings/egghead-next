@@ -116,11 +116,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <CurrentTimeDisplay key="current-time-display" order={5} />
           <TimeDivider key="time-divider" order={6} />
           <DurationDisplay key="duration-display" order={7} />
-          <DownloadControl
-            key="download-control"
-            order={8}
-            lesson={videoResource}
-          />
+          <ControlBarDivider key="divider" order={8} className="flex-grow" />
           <AutoplayControl
             enabled={true}
             onDark={true}
@@ -128,21 +124,24 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             key="autoplay-control"
             order={9}
           />
-          <ControlBarDivider key="divider" order={10} className="flex-grow" />
-          <RemainingTimeDisplay key="remaining-time-display" order={11} />
           <PlaybackRateMenuButton
             rates={[1, 1.25, 1.5, 2]}
             key="playback-rate"
-            order={12}
+            order={10}
             selected={playbackRate}
             onChange={(playbackRate: number) => {
               setPlayerPrefs({playbackRate})
             }}
           />
+          <DownloadControl
+            key="download-control"
+            order={11}
+            lesson={videoResource}
+          />
           {videoResource.subtitles_url && (
             <ClosedCaptionButton
               key={videoResource.subtitles_url}
-              order={13}
+              order={12}
               selected={subtitle}
               onChange={(track?: TextTrack) => {
                 const updatedSubtitlePref = track
@@ -165,7 +164,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <FullscreenToggle
             key="fullscreen-toggle"
             fullscreenElement={containerRef?.current}
-            order={14}
+            order={13}
           />
         </ControlBar>
       </Player>

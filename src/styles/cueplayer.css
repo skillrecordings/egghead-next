@@ -57,3 +57,23 @@
 .cueplayer-react-fullscreen .side-bar {
   display: none;
 }
+
+.cueplayer-react
+  .cueplayer-react-menu-button-popup
+  .cueplayer-react-menu
+  .cueplayer-react-menu-content {
+  @apply bg-[#333539];
+}
+
+.cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item {
+  @apply bg-transparent text-white py-2 text-xs;
+  text-shadow: none;
+}
+
+.cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item:hover,
+.cueplayer-react
+  .cueplayer-react-menu
+  .cueplayer-react-menu-item.cueplayer-react-selected {
+  @apply bg-[#606163] text-white;
+  text-shadow: none;
+}
