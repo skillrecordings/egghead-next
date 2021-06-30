@@ -229,10 +229,17 @@ const SearchBar = () => {
           <Form role="search" className="w-full">
             <div className="flex items-center flex-grow space-x-2">
               <div className="relative w-full flex items-center">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <button
+                  type="submit"
+                  disabled={isEmpty(values.query)}
+                  className={`absolute inset-y-0 left-0 pl-3 flex items-center ${
+                    isEmpty(values.query) ? '' : 'group'
+                  }`}
+                >
                   {/* prettier-ignore */}
-                  <svg className="text-gray-400 dark:text-gray-600" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
-                </div>
+                  <svg aria-hidden="true" className="text-gray-400 group-hover:text-blue-500 dark:text-gray-500 dark:group-hover:text-blue-300 transition-all ease-in-out duration-100" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
+                  <span className="sr-only">Search</span>
+                </button>
                 <input
                   name="query"
                   value={values.query}
