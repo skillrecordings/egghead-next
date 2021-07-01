@@ -68,8 +68,6 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           ${hasNotes ? 'lg:pb-[4.5rem]' : ''}`}
     >
       <Player
-        muted
-        autoplay
         crossOrigin="anonymous"
         className="font-sans"
         volume={0.2}
