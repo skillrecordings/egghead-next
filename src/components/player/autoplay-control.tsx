@@ -22,7 +22,7 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
       <div
         className={`${
           onDark ? 'text-gray-300' : ''
-        } text-xs transition-colors ease-in-out duration-200 ${
+        } text-xxs transition-colors ease-in-out duration-200 leading-normal ${
           !enabled && 'opacity-30'
         }`}
       >

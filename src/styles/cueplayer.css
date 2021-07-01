@@ -34,7 +34,7 @@
 
 /* progress bar */
 .cueplayer-react .cueplayer-react-progress-control {
-  @apply bottom-0 w-full h-6 absolute bg-gray-1000 hidden sm:flex;
+  @apply bottom-0 w-full h-6 absolute bg-gray-1000 hidden sm:flex px-1;
   transform: translateY(1.5rem);
 }
 
@@ -76,4 +76,16 @@
   .cueplayer-react-menu-item.cueplayer-react-selected {
   @apply bg-[#606163] text-white;
   text-shadow: none;
+}
+
+.cueplayer-react-current-time-display {
+  @apply tabular-nums;
+}
+
+.cueplayer-react .cueplayer-react-control.cueplayer-react-playback-rate {
+  @apply flex justify-center items-center;
+}
+
+.cueplayer-react .cueplayer-react-playback-rate .cueplayer-react-playback-rate-value {
+  line-height: 1;
 }
