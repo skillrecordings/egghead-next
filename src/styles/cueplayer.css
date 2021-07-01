@@ -34,13 +34,13 @@
 
 /* progress bar */
 .cueplayer-react .cueplayer-react-progress-control {
-  @apply bottom-0 w-full h-6 absolute bg-gray-1000 hidden sm:flex px-1;
+  @apply bottom-0 w-full h-6 absolute hidden sm:flex px-2;
   transform: translateY(1.5rem);
 }
 
 /* cue bar */
 .cueplayer-react .cueplayer-react-cue-bar {
-  @apply bottom-0 h-4 bg-gray-1000 z-10 w-full absolute bottom-0 hidden lg:flex;
+  @apply bottom-0 h-4 z-10 absolute bottom-0 left-2 right-3 hidden lg:flex;
   transform: translateY(2.5rem);
 }
 
