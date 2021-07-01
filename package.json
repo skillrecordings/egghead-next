@@ -131,6 +131,8 @@
     "stripe": "^8.154.0",
     "swr": "^0.5.5",
     "tailwindcss": "^2.1.4",
+    "tailwindcss-autofill": "^0.1.0",
+    "tailwindcss-text-fill": "^0.1.2",
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^9.6.0",
     "unist-util-visit": "^2.0.3",

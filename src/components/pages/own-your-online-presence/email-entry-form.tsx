@@ -43,7 +43,7 @@ const OnlinePresenceEmailEntryForm: React.FC = () => {
             Your online presence is your first impression.{' '}
             <strong className="font-bold">Make it count.</strong>
           </h1>
-          <p className="font-normal text-blue-600 sm:text-lg text-base mt-4">
+          <p className="font-normal text-blue-600 dark:text-blue-300 sm:text-lg text-base mt-4">
             Enter your email and we'll be in touch.
           </p>
         </div>
