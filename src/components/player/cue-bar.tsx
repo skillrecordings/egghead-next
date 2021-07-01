@@ -156,7 +156,7 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="p-2">
+        <div className="py-1">
           <div className="flex justify-end space-x-2">
             <MutePopupButton />
             <button
@@ -223,7 +223,7 @@ const IconVolumeOn: React.FC<any> = ({className}) => {
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
-      className={`w-5 h-5 ${className ?? ''}`}
+      className={`w-4 h-4 ${className ?? ''}`}
     >
       <path
         strokeLinecap="round"
@@ -239,7 +239,7 @@ const IconX: React.FC<any> = ({className}) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
-    className={`w-5 h-5 ${className ?? ''}`}
+    className={`w-4 h-4 ${className ?? ''}`}
   >
     <g fill="none">
       <path
