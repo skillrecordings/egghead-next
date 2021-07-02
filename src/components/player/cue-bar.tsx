@@ -5,6 +5,7 @@ import Tippy from '@tippyjs/react'
 import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
+import {track} from 'utils/analytics'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -80,7 +81,10 @@ const MutePopupButton: React.FC<any> = () => {
   return (
     <button
       className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
-      onClick={() => setPlayerPrefs({muteNotes: !muteNotes})}
+      onClick={() => {
+        track('muted note popup')
+        setPlayerPrefs({muteNotes: !muteNotes})
+      }}
     >
       {muteNotes ? (
         <>
@@ -114,6 +118,7 @@ const NoteCue: React.FC<any> = ({
     setVisible(true)
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
+    track('opened cue', {cue: cue.text})
   }
 
   const close = () => {

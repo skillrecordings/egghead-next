@@ -11,6 +11,7 @@ import {Element} from 'react-scroll'
 import classNames from 'classnames'
 import ReactMarkdown from 'react-markdown'
 import {convertTime} from 'utils/time-utils'
+import {track} from '../../utils/analytics'
 
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
@@ -107,6 +108,7 @@ const NotesTab: React.FC<{videoResource: VideoResource}> = ({
                     <div
                       onClick={() => {
                         actions?.seek(cue.startTime)
+                        track('clicked cue in sidebar', {cue: cue.text})
                       }}
                       className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
                     >
