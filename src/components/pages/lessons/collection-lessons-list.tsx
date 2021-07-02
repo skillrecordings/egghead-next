@@ -84,6 +84,29 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   ) : null
 }
 
+interface WrappedLinkProps extends React.HTMLProps<HTMLAnchorElement> {
+  lesson: any
+}
+
+const WrappedAnchor = React.forwardRef<HTMLAnchorElement, WrappedLinkProps>(
+  ({onClick = () => {}, href, lesson, children}, ref) => {
+    return (
+      <a
+        href={href}
+        onClick={(e) => {
+          track(`clicked next up lesson`, {
+            lesson: lesson.slug,
+          })
+          onClick(e)
+        }}
+        ref={ref}
+      >
+        {children}
+      </a>
+    )
+  },
+)
+
 const Item: FunctionComponent<{
   lesson: any
   active: boolean
@@ -91,7 +114,7 @@ const Item: FunctionComponent<{
   index: number
   completed: boolean
 }> = ({lesson, className, index, completed, active = false, ...props}) => {
-  const Item = () => (
+  const InnerItem = () => (
     <div
       className={`group flex p-3 ${
         active
@@ -126,19 +149,12 @@ const Item: FunctionComponent<{
     </div>
   )
   return active ? (
-    <Item />
+    <InnerItem />
   ) : (
-    <Link href={lesson.path}>
-      <a
-        onClick={() => {
-          track(`clicked next up lesson`, {
-            lesson: lesson.slug,
-          })
-        }}
-        className="font-semibold"
-      >
-        <Item />
-      </a>
+    <Link href={lesson.path} passHref>
+      <WrappedAnchor lesson={lesson}>
+        <InnerItem />
+      </WrappedAnchor>
     </Link>
   )
 }
