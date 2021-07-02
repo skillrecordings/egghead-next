@@ -77,11 +77,10 @@ const OverlayWrapper: FunctionComponent<{
   children: React.ReactNode
 }> = ({children}) => {
   return (
-    <div
-      className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center px-4 py-6 absolute z-50"
-      css={{inset: 0}}
-    >
-      {children}
+    <div className="lg:aspect-w-16 lg:aspect-h-9">
+      <div className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center px-4 py-6 min-h-[16rem] md:min-h-[24rem] lg:min-h-0">
+        {children}
+      </div>
     </div>
   )
 }
@@ -420,7 +419,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         thumbnailUrls={[lesson?.thumb_url]}
       />
 
-      <div className="-mx-5 overflow-hidden">
+      <div className="-mx-5 -mt-3 sm:-mt-5 overflow-hidden">
         <div
           className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0"
           css={{
