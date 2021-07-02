@@ -25,7 +25,7 @@ const PlayerSidebar: React.FC<{
       <Tabs
         index={(hasNotes && activeSidebarTab) || 0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
-        className="max-h-[500px] shadow-sm lg:max-h-[none] lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
+        className="shadow-sm lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
       >
         <TabList className="relative z-[1] flex-shrink-0">
           {!isEmpty(videoResource.collection) && <Tab>Lessons</Tab>}
@@ -72,7 +72,7 @@ const NotesTab: React.FC<{videoResource: VideoResource}> = ({
   const scrollableNodeRef: any = React.createRef()
 
   return hidden ? null : (
-    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
+    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
       <SimpleBar
         forceVisible="y"
         autoHide={false}
