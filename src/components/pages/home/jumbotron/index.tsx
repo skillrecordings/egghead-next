@@ -28,7 +28,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
         },
       }}
     >
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-purple-500 to-indigo-600 w-full h-2 z-20" />
+      {/* <div className="absolute top-0 left-0 bg-gradient-to-r from-purple-500 to-indigo-600 w-full h-2 z-20" /> */}
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full sm:mb-4 md:my-12 lg:m-0 mt-0 mb-15">
           <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
@@ -62,7 +62,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-800 hover:text-indigo-600  dark:text-gray-50 dark:hover:text-indigo-400 "
+                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-50 hover:text-indigo-400 "
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
@@ -83,16 +83,14 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                   alt={instructor.name}
                   priority={true}
                 />
-                <span className="dark:text-gray-200 text-gray-900">
-                  {instructor.name}
-                </span>
+                <span className="text-gray-200">{instructor.name}</span>
               </span>
 
               {description && (
                 <Markdown
                   source={description}
                   allowDangerousHtml={true}
-                  className="mt-4 dark:text-gray-200 text-gray-900 text-base max-w-screen-sm opacity-80"
+                  className="mt-4 text-gray-200 text-base max-w-screen-sm opacity-80"
                 />
               )}
             </div>

@@ -5,6 +5,7 @@ import Tippy from '@tippyjs/react'
 import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
+import {track} from 'utils/analytics'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -74,6 +75,32 @@ const useCue = (cue: VTTCue, actions: any) => {
   return setActive
 }
 
+const MutePopupButton: React.FC<any> = () => {
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
+  const {muteNotes} = getPlayerPrefs()
+  return (
+    <button
+      className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
+      onClick={() => {
+        track('muted note popup')
+        setPlayerPrefs({muteNotes: !muteNotes})
+      }}
+    >
+      {muteNotes ? (
+        <>
+          <span className="pr-1">unmute notes</span>
+          <IconVolumeOff />
+        </>
+      ) : (
+        <>
+          <span className="pr-1">mute notes</span>
+          <IconVolumeOn />
+        </>
+      )}
+    </button>
+  )
+}
+
 const NoteCue: React.FC<any> = ({
   cue,
   duration,
@@ -81,8 +108,9 @@ const NoteCue: React.FC<any> = ({
   actions,
   player,
 }) => {
-  const {setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
+  const {muteNotes} = getPlayerPrefs()
 
   useCue(cue, actions)
 
@@ -90,6 +118,7 @@ const NoteCue: React.FC<any> = ({
     setVisible(true)
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
+    track('opened cue', {cue: cue.text})
   }
 
   const close = () => {
@@ -97,8 +126,14 @@ const NoteCue: React.FC<any> = ({
   }
 
   React.useEffect(() => {
-    setVisible(player.activeMetadataTrackCues.includes(cue) && !player.seeking)
-  }, [player.activeMetadataTrackCues, player.seeking, cue])
+    if (!muteNotes) {
+      // don't automatically pop if muted
+      setVisible(
+        player.activeMetadataTrackCues.includes(cue) && !player.seeking,
+      )
+      setPlayerPrefs({activeSidebarTab: 1})
+    }
+  }, [player.activeMetadataTrackCues, player.seeking, cue, muteNotes])
 
   // added seeking to the list here but getting some janky perf issues
 
@@ -107,11 +142,11 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible) {
-      setPlayerPrefs({sideBar: {activeTab: 1}})
+      setPlayerPrefs({activeSidebarTab: 1})
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
-        offset: -12,
+        offset: -16,
         containerId: 'notes-tab-scroll-container',
       })
     }
@@ -126,7 +161,16 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="p-2">
+        <div className="py-1">
+          <div className="flex justify-end space-x-2">
+            <MutePopupButton />
+            <button
+              className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
+              onClick={close}
+            >
+              <IconX />
+            </button>
+          </div>
           <div className="line-clamp-6 prose-sm prose leading-normal">
             <ReactMarkdown>{note}</ReactMarkdown>
           </div>
@@ -150,3 +194,66 @@ const NoteCue: React.FC<any> = ({
     </Tippy>
   )
 }
+
+const IconVolumeOff: React.FC<any> = ({className}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      className={`w-5 h-5 ${className ?? ''}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+        clipRule="evenodd"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+      />
+    </svg>
+  )
+}
+
+const IconVolumeOn: React.FC<any> = ({className}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      className={`w-4 h-4 ${className ?? ''}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+      />
+    </svg>
+  )
+}
+
+const IconX: React.FC<any> = ({className}) => (
+  <svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    className={`w-4 h-4 ${className ?? ''}`}
+  >
+    <g fill="none">
+      <path
+        d="M6 18L18 6M6 6l12 12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+  </svg>
+)

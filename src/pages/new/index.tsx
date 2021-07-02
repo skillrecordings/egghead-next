@@ -27,8 +27,8 @@ const WhatsNewPage: FunctionComponent<any> = ({
       <Jumbotron resource={jumbotron} textColor="text-green-400" />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <div className="h-full grid gap-4">
-          <CourseFeatureCard
-            className="h-auto row-span-2 w-full"
+          <HorizontalResourceCard
+            className="w-full"
             resource={secondPrimary}
             location={location}
           />
@@ -61,50 +61,6 @@ const WhatsNewPage: FunctionComponent<any> = ({
 }
 
 export default WhatsNewPage
-
-const CourseFeatureCard = ({resource, className, location}: any) => {
-  const {
-    title,
-    image,
-    path,
-    description,
-    // featureCardBackground,
-    instructor: {name},
-  } = resource
-  return (
-    <Link href={path}>
-      <a
-        onClick={() => {
-          track('clicked resource', {
-            resource: path,
-            location,
-          })
-        }}
-        className={`relative dark:bg-gray-800 bg-white group block rounded-md w-full h-full overflow-hidden text-center shadow-sm dark:text-white ${
-          className ? className : ''
-        }`}
-      >
-        <div className="flex flex-col items-center h-full">
-          <div className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
-            <div className="flex flex-col items-center">
-              <Image src={image} width={200} height={200} alt={title} />
-              <h2 className="text-xl font-bold min-w-full mt-4 sm:mt-14 mb-2 leading-tighter hover:text-blue-600 dark:hover:text-blue-300">
-                {title}
-              </h2>
-              <span className="text-sm opacity-80">{name}</span>
-              <p className="text-sm mt-4">{description}</p>
-            </div>
-          </div>
-          {/* <img
-            className="absolute top-0 left-0 z-0 w-full"
-            src={featureCardBackground}
-            alt=""
-          /> */}
-        </div>
-      </a>
-    </Link>
-  )
-}
 
 export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "whats-new"][0]{
   title,
