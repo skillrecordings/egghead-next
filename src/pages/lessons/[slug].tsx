@@ -6,10 +6,7 @@ import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
 import {playerMachine} from 'machines/lesson-player-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
-import {
-  useEggheadPlayerPrefs,
-  defaultSubtitlePreference,
-} from 'components/EggheadPlayer/use-egghead-player'
+import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import Transcript from 'components/pages/lessons/transcript'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -35,14 +32,12 @@ import Image from 'next/image'
 import cookieUtil from 'utils/cookies'
 import useBreakpoint from 'utils/breakpoints'
 import Share from 'components/share'
-// import LessonDownload from 'components/pages/lessons/lesson-download'
 import {useNextForCollection} from 'hooks/use-next-up-data'
 import CodeLink, {
   IconCode,
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import getDependencies from 'data/courseDependencies'
-// import AutoplayToggle from 'components/pages/lessons/autoplay-toggle'
 import useCio from 'hooks/use-cio'
 import Comments from '../../components/pages/lessons/comments/comments'
 import Spinner from 'components/spinner'
@@ -83,7 +78,7 @@ const OverlayWrapper: FunctionComponent<{
 }> = ({children}) => {
   return (
     <div
-      className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center relative z-5 px-4 py-6 absolute z-50"
+      className="flex-grow bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center px-4 py-6 absolute z-50"
       css={{inset: 0}}
     >
       {children}
@@ -572,18 +567,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <RecommendNextStepOverlay lesson={lesson} />
               </OverlayWrapper>
             )}
-            {/* <div className="flex justify-between items-center w-full bg-gray-1000 p-4">
-              <div className="flex items-center justify-start flex-grow space-x-4">
-                <LessonDownload lesson={lesson} />
-              </div>
-              <div className="flex items-center justify-end flex-grow space-x-4">
-                <AutoplayToggle
-                  enabled={true}
-                  onDark={true}
-                  player={actualPlayerRef.current}
-                />
-              </div>
-            </div> */}
           </div>
           <div className="lg:col-span-3 side-bar">
             <PlayerSidebar videoResource={lesson} />
