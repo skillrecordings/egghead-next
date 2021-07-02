@@ -5,6 +5,7 @@ import Tippy from '@tippyjs/react'
 import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
+import {track} from 'utils/analytics'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -80,7 +81,10 @@ const MutePopupButton: React.FC<any> = () => {
   return (
     <button
       className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
-      onClick={() => setPlayerPrefs({muteNotes: !muteNotes})}
+      onClick={() => {
+        track('muted note popup')
+        setPlayerPrefs({muteNotes: !muteNotes})
+      }}
     >
       {muteNotes ? (
         <>
@@ -114,6 +118,7 @@ const NoteCue: React.FC<any> = ({
     setVisible(true)
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
+    track('opened cue', {cue: cue.text})
   }
 
   const close = () => {
@@ -156,7 +161,7 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="p-2">
+        <div className="py-1">
           <div className="flex justify-end space-x-2">
             <MutePopupButton />
             <button
@@ -223,7 +228,7 @@ const IconVolumeOn: React.FC<any> = ({className}) => {
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
-      className={`w-5 h-5 ${className ?? ''}`}
+      className={`w-4 h-4 ${className ?? ''}`}
     >
       <path
         strokeLinecap="round"
@@ -239,7 +244,7 @@ const IconX: React.FC<any> = ({className}) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
-    className={`w-5 h-5 ${className ?? ''}`}
+    className={`w-4 h-4 ${className ?? ''}`}
   >
     <g fill="none">
       <path
