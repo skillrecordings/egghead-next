@@ -65,13 +65,13 @@ const HorizontalResourceCard: React.FC<any> = ({
               }}
               className="hover:text-blue-600 dark:hover:text-blue-300"
             >
-              <h3 className="text-xl font-bold leading-tighter">
+              <h3 className="text-lg font-bold leading-tighter pt-2">
                 {resource.title}
               </h3>
             </a>
           </Link>
         </CardHeader>
-        <CardMeta className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
+        <CardMeta className="text-xs text-gray-600 dark:text-gray-300 pb-2 pt-1">
           {resource.byline}
         </CardMeta>
         <CardBody className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
