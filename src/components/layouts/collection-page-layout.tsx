@@ -27,6 +27,7 @@ import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
+import ExternalTrackedLink from 'components/external-tracked-link'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -638,6 +639,27 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold mb-3">
                     You might also like these resources:
                   </h2>
+                  {get(course, 'owner.id') === 15369 && (
+                    <ExternalTrackedLink
+                      eventName="clicked epic react banner"
+                      params={{location: course.path}}
+                      href="https://epicreact.dev"
+                      target="_blank"
+                      rel="noopener"
+                      className="block"
+                    >
+                      <div className="overflow-hidden flex items-center justify-center rounded-lg">
+                        <Image
+                          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226638/epic-react/summer-sale-2021/banner-course-page_2x.jpg"
+                          alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
+                          width={1416}
+                          height={508}
+                          quality={100}
+                          className="hover:scale-[102%] transform ease-in-out duration-500"
+                        />
+                      </div>
+                    </ExternalTrackedLink>
+                  )}
                   {relatedResources.map((resource: any) => {
                     return (
                       <div key={resource.slug}>
@@ -908,7 +930,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </ul>
               </div>
             </section>
-
             {!isEmpty(pairWithResources) && (
               <div className="my-12 flex md:hidden flex-col space-y-2">
                 <h2 className="text-lg font-semibold mb-3">
