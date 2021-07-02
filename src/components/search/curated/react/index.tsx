@@ -92,7 +92,7 @@ You can find courses below curated just for you whether you're looking for a par
               className="hover:scale-[102%] transform ease-in-out duration-500"
               // default
               // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
-              // 20% off
+              // 25% off
               src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625224539/epic-react/summer-sale-2021/banner-react-page_2x.png"
             />
           </div>
