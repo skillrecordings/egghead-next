@@ -713,6 +713,25 @@
     "search_url": "https://app.egghead.io/search?topic=recompose"
   },
   {
+    "id": 1298,
+    "label": "Recoil",
+    "name": "recoil",
+    "description": "A state management library for React.\n\nRecoil works and thinks like React. Add some to your app and get fast and flexible shared state.",
+    "slug": "recoil",
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/thumb/recoil.png",
+    "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/thumb/recoil.png",
+    "image_480_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_480/recoil.png",
+    "image_280_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_280/recoil.png",
+    "image_256_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_256/recoil.png",
+    "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_128/recoil.png",
+    "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_64/recoil.png",
+    "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_32/recoil.png",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/manage-react-state-with-recoiljs-70b5?load_lessons=false",
+    "http_url": "https://app.egghead.io/browse/libraries/recoil",
+    "path": "/browse/libraries/recoil",
+    "search_url": "https://app.egghead.io/search?topic=recoil"
+  },
+  {
     "id": 1214,
     "label": "Reason",
     "name": "reason",
