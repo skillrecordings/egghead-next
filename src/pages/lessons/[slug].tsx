@@ -86,7 +86,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {viewer} = useViewer()
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
 
-  const {defaultView, autoplay} = getPlayerPrefs()
+  const {defaultView} = getPlayerPrefs()
+  const autoplay = false
 
   const {sm, md} = useBreakpoint()
 
