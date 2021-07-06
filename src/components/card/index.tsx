@@ -19,7 +19,7 @@ type CardProps = {
   horizontal?: boolean
 }
 
-const cardDefaultClasses = `bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden sm:p-8 p-5`
+const cardDefaultClasses = `bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5`
 
 const Card = React.forwardRef(function Card(
   {

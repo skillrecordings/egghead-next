@@ -14,55 +14,6 @@
 }
 
 /* cue note */
-.video-test .cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
-  @apply bg-white opacity-100;
-}
-
-.video-test .cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
-  @apply bg-white opacity-50;
-}
-
-/* progress bar */
-.video-test .cueplayer-react .cueplayer-react-progress-control {
-  @apply transform translate-y-6 bottom-0 w-full h-6 absolute bg-gray-1000;
-  transform: translateY(1.5rem);
-}
-
-/* cue bar */
-.video-test .cueplayer-react .cueplayer-react-cue-bar {
-  @apply transform translate-y-10 bottom-0 h-4 flex bg-gray-1000 z-10;
-  transform: translateY(2.5rem);
-}
-
-/* control bar */
-.video-test .cueplayer-react .cueplayer-react-control-bar {
-  @apply flex bg-gray-1000 z-[1];
-}
-
-.video-test .cueplayer-react .cueplayer-react-fullscreen {
-  @apply relative;
-}
-
-/* Hide side bar in fullscreen */
-.cueplayer-react-fullscreen .side-bar {
-  display: none;
-}
-
-.cueplayer-react .cueplayer-react-cue-bar {
-  width: 100%;
-  position: absolute;
-  bottom: 32px;
-  left: 0;
-  right: 0;
-  height: 16px;
-  background-color: #2b333f90;
-}
-
-.cueplayer-react-has-started.cueplayer-react-user-inactive.cueplayer-react-playing
-  .cueplayer-react-cue-bar {
-  bottom: 0;
-}
-
 .cueplayer-react-cue-bar .cueplayer-react-cue-note {
   position: absolute;
   height: 100%;
@@ -71,26 +22,70 @@
   cursor: pointer;
 }
 
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
-  background-color: orangered;
+.cueplayer-react-cue-bar
+  .cueplayer-react-cue-note.cueplayer-react-cue-note-active {
+  @apply bg-white opacity-100;
 }
 
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
-  background-color: orange;
+.cueplayer-react-cue-bar
+  .cueplayer-react-cue-note.cueplayer-react-cue-note-inactive {
+  @apply bg-white opacity-50;
 }
 
-.cueplayer-react-has-started .cueplayer-react-cue-bar {
-  display: flex;
-  visibility: visible;
-  opacity: 1;
+/* progress bar */
+.cueplayer-react .cueplayer-react-progress-control {
+  @apply bottom-0 w-full h-6 absolute hidden sm:flex px-2;
+  transform: translateY(1.5rem);
 }
 
-.cueplayer-react .cueplayer-react-button.cueplayer-react-replay-control,
-.cueplayer-react .cueplayer-react-button.cueplayer-react-forward-control {
-  @apply hidden lg:inline-block;
+/* cue bar */
+.cueplayer-react .cueplayer-react-cue-bar {
+  @apply bottom-0 h-4 z-10 absolute bottom-0 left-2 right-3 hidden lg:flex;
+  transform: translateY(2.5rem);
 }
 
-.cueplayer-react .cueplayer-react-control.cueplayer-react-remaining-time,
-.cueplayer-react .cueplayer-react-time-control.cueplayer-react-time-divider {
-  @apply hidden lg:flex;
+/* control bar */
+.cueplayer-react .cueplayer-react-control-bar {
+  @apply hidden sm:flex bg-gray-1000 z-[10];
+}
+
+.cueplayer-react .cueplayer-react-fullscreen {
+  @apply relative;
+}
+
+/* Hide side bar in fullscreen */
+.cueplayer-react-fullscreen .side-bar {
+  display: none;
+}
+
+.cueplayer-react
+  .cueplayer-react-menu-button-popup
+  .cueplayer-react-menu
+  .cueplayer-react-menu-content {
+  @apply bg-[#333539];
+}
+
+.cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item {
+  @apply bg-transparent text-white py-2 text-xs;
+  text-shadow: none;
+}
+
+.cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item:hover,
+.cueplayer-react
+  .cueplayer-react-menu
+  .cueplayer-react-menu-item.cueplayer-react-selected {
+  @apply bg-[#606163] text-white;
+  text-shadow: none;
+}
+
+.cueplayer-react-current-time-display {
+  @apply tabular-nums;
+}
+
+.cueplayer-react .cueplayer-react-control.cueplayer-react-playback-rate {
+  @apply flex justify-center items-center;
+}
+
+.cueplayer-react .cueplayer-react-playback-rate .cueplayer-react-playback-rate-value {
+  line-height: 1;
 }
