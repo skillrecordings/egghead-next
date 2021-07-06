@@ -15,7 +15,10 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
   player,
   order,
 }) => {
-  const {autoplay, setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {getPlayerPrefs, setPlayerPrefs} = useEggheadPlayerPrefs()
+  const {autoplay} = getPlayerPrefs()
+
+  const shouldAutoplay = enabled && autoplay
 
   return (
     <div className="flex px-3">
@@ -29,11 +32,12 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
         <button
           onClick={() => {
             if (enabled) {
+              const newAutoplayPref = !autoplay
               track(`clicked toggle autoplay`, {
                 state: !autoplay ? 'off' : 'on',
               })
-              setPlayerPrefs({autoplay: !autoplay})
-              if (!autoplay) {
+              setPlayerPrefs({autoplay: newAutoplayPref})
+              if (newAutoplayPref) {
                 if (player) {
                   player.play()
                 }
@@ -56,13 +60,11 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
         >
           <div
             className={`${
-              enabled && autoplay
+              shouldAutoplay
                 ? 'bg-blue-600 group-hover:bg-blue-500'
-                : `${
-                    onDark
-                      ? 'bg-gray-700 group-hover:bg-gray-600'
-                      : 'bg-gray-200 group-hover:bg-gray-300'
-                  }`
+                : onDark
+                ? 'bg-gray-700 group-hover:bg-gray-600'
+                : 'bg-gray-200 group-hover:bg-gray-300'
             } relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
           >
             {enabled && (
