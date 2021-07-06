@@ -42,7 +42,7 @@ const VerticalResourceCard: React.FC<{
             {resource.name}
           </h2>
           <ResourceLink path={resource.path} location={location}>
-            <h3 className="text-xl font-bold leading-tighter">
+            <h3 className="text-lg font-bold leading-tighter py-3">
               {resource.title}
             </h3>
           </ResourceLink>
@@ -90,8 +90,8 @@ const PreviewImage: React.FC<{title: string; image: any}> = ({
   <CardPreview>
     <Image
       src={get(image, 'src', image)}
-      width={220}
-      height={220}
+      width={200}
+      height={200}
       quality={100}
       alt={`illustration for ${title}`}
     />
