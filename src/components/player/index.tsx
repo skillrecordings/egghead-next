@@ -182,7 +182,8 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
 
 export const hasNotes = (resource: VideoResource) => {
   return (
-    process.env.NEXT_PUBLIC_NOTES_ENABLE && !isEmpty(resource.staff_notes_url)
+    process.env.NEXT_PUBLIC_NOTES_ENABLE === 'true' &&
+    !isEmpty(resource.staff_notes_url)
   )
 }
 
