@@ -38,6 +38,7 @@ export type VideoResourcePlayerProps = {
   onPause?: () => void
   onPlay?: () => void
   onTimeUpdate?: (event: any) => void
+  onFullscreenChange?: (isFullscreen: boolean) => void
   onEnded?: () => void
   onVolumeChange?: (event: any) => void
   hidden?: boolean
@@ -52,6 +53,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   hidden = false,
   className = '',
   children,
+  onFullscreenChange,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
@@ -168,6 +170,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             key="fullscreen-toggle"
             fullscreenElement={containerRef?.current}
             order={13}
+            onFullscreenChange={onFullscreenChange}
           />
         </ControlBar>
       </Player>
