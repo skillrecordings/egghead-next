@@ -17,7 +17,7 @@ const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
 }> = ({videoResource, lessonView}) => {
-  const {hasNotes} = useNotesCues(videoResource)
+  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
   return (
@@ -29,8 +29,10 @@ const PlayerSidebar: React.FC<{
         className="shadow-sm lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
       >
         <TabList className="relative z-[1] flex-shrink-0">
-          {!isEmpty(videoResource.collection) && <Tab>Lessons</Tab>}
-          {hasNotes && <Tab>Notes</Tab>}
+          {!isEmpty(videoResource.collection) && (
+            <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
+          )}
+          {hasNotes && <Tab onClick={(e) => console.log('e')}>Notes</Tab>}
         </TabList>
         <TabPanels className="flex-grow relative">
           <div className="lg:absolute inset-0">
@@ -38,7 +40,7 @@ const PlayerSidebar: React.FC<{
               videoResource={videoResource}
               lessonView={lessonView}
             />
-            <NotesTab videoResource={videoResource} />
+            <NotesTab />
           </div>
         </TabPanels>
       </Tabs>
@@ -63,11 +65,10 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<{videoResource: VideoResource}> = ({
-  videoResource,
-}) => {
-  const {cues} = useNotesCues(videoResource)
+const NotesTab: React.FC = () => {
   const {player, manager} = usePlayer()
+
+  const {cues} = useNotesCues()
   const actions = manager?.getActions()
   const hidden: boolean = isEmpty(cues)
   const scrollableNodeRef: any = React.createRef()
@@ -88,7 +89,7 @@ const NotesTab: React.FC<{videoResource: VideoResource}> = ({
             const note = cue.text
             const active = player.activeMetadataTrackCues.includes(cue)
             return (
-              <div key={cue.startTime}>
+              <div key={cue.text}>
                 {active && <Element name="active-note" />}
                 <div
                   className={classNames(
