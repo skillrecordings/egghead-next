@@ -29,8 +29,6 @@ import {
 } from 'components/EggheadPlayer/use-egghead-player'
 import {VideoResource} from 'types'
 import {MutableRefObject, SyntheticEvent} from 'react'
-import noop from 'utils/noop'
-import useBreakpoint from 'utils/breakpoints'
 
 export type VideoResourcePlayerProps = {
   videoResource: VideoResource
@@ -40,6 +38,7 @@ export type VideoResourcePlayerProps = {
   onPause?: () => void
   onPlay?: () => void
   onTimeUpdate?: (event: any) => void
+  onFullscreenChange?: (isFullscreen: boolean) => void
   onEnded?: () => void
   onVolumeChange?: (event: any) => void
   hidden?: boolean
@@ -54,12 +53,12 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   hidden = false,
   className = '',
   children,
+  onFullscreenChange,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
-  const {hasNotes} = useNotesCues(videoResource)
+  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
   const {subtitle, playbackRate} = getPlayerPrefs()
-  const {sm} = useBreakpoint()
 
   return (
     <div
@@ -72,11 +71,19 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         className="font-sans"
         volume={0.2}
         poster={videoResource.thumb_url}
+        onVolumeChange={(event: SyntheticEvent) => {
+          const player: HTMLVideoElement = event.target as HTMLVideoElement
+          setPlayerPrefs({volumeRate: player.volume * 100})
+        }}
         {...props}
       >
         <BigPlayButton position="center" />
         {videoResource.hls_url && (
-          <HLSSource isVideoChild src={videoResource.hls_url} />
+          <HLSSource
+            key={videoResource.hls_url}
+            isVideoChild
+            src={videoResource.hls_url}
+          />
         )}
         {videoResource.subtitles_url && (
           <track
@@ -90,14 +97,14 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         )}
         {hasNotes && (
           <track
+            key={videoResource.slug}
             id="notes"
-            // src="/api/github-load-notes?url=https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/the-beginners-guide-to-react/notes/00-react-a-beginners-guide-to-react-introduction.md"
             src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
             kind="metadata"
             label="notes"
           />
         )}
-        <CueBar key="cue-bar" order={6.0} />
+        <CueBar key={videoResource.slug} order={6.0} />
         <ProgressControl key="progress-control" order={7.0} />
         <ControlBar
           disableDefaultControls
@@ -163,6 +170,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             key="fullscreen-toggle"
             fullscreenElement={containerRef?.current}
             order={13}
+            onFullscreenChange={onFullscreenChange}
           />
         </ControlBar>
       </Player>
@@ -171,7 +179,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   )
 }
 
-export const useNotesCues = (videoResource: VideoResource) => {
+export const useNotesCues = () => {
   const {player} = usePlayer()
   const {activeMetadataTracks = []} = player
 
@@ -186,15 +194,7 @@ export const useNotesCues = (videoResource: VideoResource) => {
     [],
   )
 
-  // TODO: we rely on `staff_notes_url` property to display the notes tab
-  //  but notes can come from other sources as well so we will want to fix
-  //  for that in the future
-
-  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
-  // const hasNotes = true
-
   return {
-    hasNotes,
     cues,
   }
 }

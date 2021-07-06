@@ -6,7 +6,7 @@ import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import {convertTimeWithTitles} from '../../../utils/time-utils'
+import {convertTimeWithTitles} from 'utils/time-utils'
 import CheckIcon from '../../icons/check-icon'
 
 type NextUpListProps = {
