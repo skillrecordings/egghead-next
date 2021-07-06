@@ -12,7 +12,6 @@ import {
   PlaybackRateMenuButton,
   PlayToggle,
   ProgressControl,
-  RemainingTimeDisplay,
   ReplayControl,
   TimeDivider,
   usePlayer,
@@ -57,14 +56,14 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
-  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
+
   const {subtitle, playbackRate} = getPlayerPrefs()
 
   return (
     <div
       className={`relative z-10 h-full sm:pb-14 ${className} 
           ${hidden ? 'hidden' : 'block'} 
-          ${hasNotes ? 'lg:pb-[4.5rem]' : ''}`}
+          ${hasNotes(videoResource) ? 'lg:pb-[4.5rem]' : ''}`}
     >
       <Player
         crossOrigin="anonymous"
@@ -95,7 +94,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             default={subtitle?.language === 'en'}
           />
         )}
-        {hasNotes && (
+        {hasNotes(videoResource) && (
           <track
             key={videoResource.slug}
             id="notes"
@@ -104,13 +103,15 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             label="notes"
           />
         )}
-        <CueBar key={videoResource.slug} order={6.0} />
+        {hasNotes(videoResource) && (
+          <CueBar key={videoResource.slug} order={6.0} />
+        )}
         <ProgressControl key="progress-control" order={7.0} />
         <ControlBar
           disableDefaultControls
           autoHide={false}
           className={`hidden lg:flex transform translate-y-14 ${
-            hasNotes ? 'lg:translate-y-[4.5rem]' : ''
+            hasNotes(videoResource) ? 'lg:translate-y-[4.5rem]' : ''
           }`}
           order={8.0}
         >
@@ -176,6 +177,12 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
       </Player>
       {children}
     </div>
+  )
+}
+
+export const hasNotes = (resource: VideoResource) => {
+  return (
+    process.env.NEXT_PUBLIC_NOTES_ENABLE && !isEmpty(resource.staff_notes_url)
   )
 }
 

@@ -3,7 +3,7 @@ import {useEggheadPlayerPrefs} from '../EggheadPlayer/use-egghead-player'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {isEmpty} from 'lodash'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import {useNotesCues} from './index'
+import {hasNotes, useNotesCues} from './index'
 import {VideoResource} from 'types'
 import {usePlayer} from 'cueplayer-react'
 import SimpleBar from 'simplebar-react'
@@ -11,20 +11,21 @@ import {Element} from 'react-scroll'
 import classNames from 'classnames'
 import ReactMarkdown from 'react-markdown'
 import {convertTime} from 'utils/time-utils'
-import {track} from '../../utils/analytics'
+import {track} from 'utils/analytics'
+import Link from 'components/link'
+import Image from 'next/image'
 
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
 }> = ({videoResource, lessonView}) => {
-  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
   return (
     <div className="relative h-full">
       {/* TODO: remove weird logic that assumes 2 tabs */}
       <Tabs
-        index={(hasNotes && activeSidebarTab) || 0}
+        index={(hasNotes(videoResource) && activeSidebarTab) || 0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
         className="shadow-sm lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
       >
@@ -32,7 +33,9 @@ const PlayerSidebar: React.FC<{
           {!isEmpty(videoResource.collection) && (
             <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
           )}
-          {hasNotes && <Tab onClick={(e) => console.log('e')}>Notes</Tab>}
+          {hasNotes(videoResource) && (
+            <Tab onClick={(e) => console.log('e')}>Notes</Tab>
+          )}
         </TabList>
         <TabPanels className="flex-grow relative">
           <div className="lg:absolute inset-0">
@@ -56,6 +59,12 @@ const LessonListTab: React.FC<{
 
   return hidden ? null : (
     <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
+      <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
+        <CourseHeader
+          course={videoResource.collection}
+          currentLessonSlug={videoResource.slug}
+        />
+      </div>
       <CollectionLessonsList
         course={videoResource.collection}
         currentLessonSlug={videoResource.slug}
@@ -126,6 +135,51 @@ const NotesTab: React.FC = () => {
       </SimpleBar>
     </TabPanel>
   )
+}
+
+const CourseHeader: React.FunctionComponent<{
+  course: {
+    title: string
+    square_cover_480_url: string
+    slug: string
+    path: string
+  }
+  currentLessonSlug: string
+}> = ({course, currentLessonSlug}) => {
+  return course ? (
+    <div>
+      <div className="flex items-center">
+        <Link href={course.path}>
+          <a className="flex-shrink-0 relative block w-12 h-12 lg:w-20 lg:h-20">
+            <Image
+              src={course.square_cover_480_url}
+              alt={`illustration for ${course.title}`}
+              layout="fill"
+            />
+          </a>
+        </Link>
+        <div className="ml-2 lg:ml-4">
+          <h4 className="text-gray-700 dark:text-gray-100 font-semibold mb-px text-xs uppercase">
+            Course
+          </h4>
+          <Link href={course.path}>
+            <a
+              onClick={() => {
+                track(`clicked open course`, {
+                  lesson: currentLessonSlug,
+                })
+              }}
+              className="hover:underline"
+            >
+              <h3 className="font-bold leading-tighter 2xl:text-lg">
+                {course.title}
+              </h3>
+            </a>
+          </Link>
+        </div>
+      </div>
+    </div>
+  ) : null
 }
 
 export default PlayerSidebar
