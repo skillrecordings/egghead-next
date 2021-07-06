@@ -393,14 +393,6 @@ const FlyoutMenu = () => {
       name: 'Go',
       href: '/q/go',
     },
-    {
-      name: 'GraphQL',
-      href: '/q/graphql',
-    },
-    {
-      name: 'All Topics',
-      href: '/topics',
-    },
   ]
   const callsToAction = [
     {name: 'Articles', href: '/blog', icon: DocumentTextIcon},
@@ -448,15 +440,15 @@ const FlyoutMenu = () => {
           >
             <Popover.Panel
               static
-              className="absolute z-20 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0"
+              className="absolute z-20 mt-3 px-2 w-screen max-w-md sm:px-0"
             >
               <div className=" rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                <div className="relative grid gap-6 bg-gray-50 dark:bg-gray-900 px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-3">
+                <div className="relative grid grid-cols-3 gap-0 bg-white dark:bg-gray-800 px-5 py-6 sm:gap-8 sm:p-8 row-gap:0px">
                   {browse.map((item) => (
                     <a
                       key={item.name}
                       href={item.href}
-                      className="-m-3 p-3 flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      className="-m-3 p-3 flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-200 dark:hover:bg-gray-900"
                     >
                       <div className="ml-4">
                         <p className="text-base font-medium text-black dark:text-white ">
@@ -465,13 +457,21 @@ const FlyoutMenu = () => {
                       </div>
                     </a>
                   ))}
+                  <div className="ml-4 text-base font-medium ">
+                    <a
+                      href="/topics"
+                      className="item-strech text-blue-500 transition ease-in-out duration-150 row-gap:0px"
+                    >
+                      Browse all topics<span aria-hidden="true">&rarr;</span>
+                    </a>
+                  </div>
                 </div>
-                <div className="relative grid gap-6 bg-gray-50 dark:bg-gray-900 px-5 py-6 sm:gap-8 sm:p-8  lg:grid-cols-3">
+                <div className="relative grid grid-cols-3 gap-0 bg-gray-100 dark:bg-gray-700 px-5 py-6 sm:gap-8 sm:p-8">
                   {callsToAction.map((item) => (
                     <div key={item.name} className="flow-root">
                       <a
                         href={item.href}
-                        className="-m-3 p-3 flex items-center rounded-mdt text-base text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition ease-in-out duration-150 "
+                        className="-m-3 p-3 flex items-center rounded-mdt text-base text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 "
                       >
                         <item.icon
                           className="flex-shrink-0 h-6 w-6 text-gray-400"
