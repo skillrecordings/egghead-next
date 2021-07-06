@@ -12,7 +12,6 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
   const {courses, projects} = instructor
-  console.log(courses, projects)
   const primaryProject = projects.resources
   const [primaryCourse, secondaryCourse] = courses.resources
   const location = 'Hiroko Nishimura instructor page'
