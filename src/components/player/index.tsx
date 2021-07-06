@@ -34,6 +34,7 @@ export type VideoResourcePlayerProps = {
   containerRef?: MutableRefObject<any>
   actualPlayerRef?: MutableRefObject<any>
   onCanPlay?: (event: any) => void
+  onLoadStart?: (event: any) => void
   onPause?: () => void
   onPlay?: () => void
   onTimeUpdate?: (event: any) => void
@@ -53,11 +54,12 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   className = '',
   children,
   onFullscreenChange,
+  onLoadStart,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
 
-  const {subtitle, playbackRate} = getPlayerPrefs()
+  const {subtitle, playbackRate, volumeRate} = getPlayerPrefs()
 
   return (
     <div
@@ -70,6 +72,15 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         className="font-sans"
         volume={0.2}
         poster={videoResource.thumb_url}
+        onLoadStart={(event: any) => {
+          const videoElement: HTMLVideoElement =
+            event.target as HTMLVideoElement
+          videoElement.volume = volumeRate / 100
+          videoElement.playbackRate = playbackRate
+          if (onLoadStart) {
+            onLoadStart(event)
+          }
+        }}
         onVolumeChange={(event: SyntheticEvent) => {
           const player: HTMLVideoElement = event.target as HTMLVideoElement
           setPlayerPrefs({volumeRate: player.volume * 100})
@@ -131,7 +142,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             order={9}
           />
           <PlaybackRateMenuButton
-            rates={[1, 1.25, 1.5, 2]}
+            rates={[2, 1.75, 1.5, 1.25, 1, 0.85, 0.75]}
             key="playback-rate"
             order={10}
             selected={playbackRate}

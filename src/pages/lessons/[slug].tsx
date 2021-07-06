@@ -84,8 +84,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
-  const {setPlayerPrefs, playbackRate, defaultView, volumeRate, subtitle} =
-    useEggheadPlayerPrefs()
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
+
+  const {defaultView} = getPlayerPrefs()
 
   const {sm, md} = useBreakpoint()
 
@@ -432,9 +433,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     console.debug(`player ready [autoplay:${autoplay}]`)
                     const videoElement: HTMLVideoElement =
                       event.target as HTMLVideoElement
-
-                    videoElement.volume = volumeRate / 100
-                    videoElement.playbackRate = playbackRate
 
                     actualPlayerRef.current = videoElement
 
