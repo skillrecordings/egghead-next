@@ -14,6 +14,14 @@ import {Form, Formik} from 'formik'
 import ProjectClubCTA from 'components/survey/project-club'
 import OnlinePresenceCTA from 'components/survey/online-presence-cta'
 import {HeaderButtonShapedLink} from './header-button-shaped-link'
+import {Fragment} from 'react'
+import {Popover, Transition} from '@headlessui/react'
+import {
+  ChevronDownIcon,
+  MicrophoneIcon,
+  PresentationChartBarIcon,
+  DocumentTextIcon,
+} from '@heroicons/react/solid'
 
 const Header: FunctionComponent = () => {
   const router = useRouter()
@@ -170,18 +178,7 @@ const Header: FunctionComponent = () => {
               </a>
             </Link>
           </div>
-          {!sm && !isTopics && (
-            <div className={`${isSearch && 'w-full'}`}>
-              <Link href="/topics">
-                <a
-                  onClick={() => track(`clicked browse`, {location: 'header'})}
-                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white rounded-md inline-flex transition-all ease-in-out duration-200"
-                >
-                  Browse
-                </a>
-              </Link>
-            </div>
-          )}
+          <FlyoutMenu />
           {!sm && !isSearch && <SearchBar />}
           {!sm && <Navigation></Navigation>}
           {sm && !loading && (
@@ -340,3 +337,156 @@ const IconX = () => (
     </g>
   </svg>
 )
+
+const FlyoutMenu = () => {
+  const browse = [
+    {
+      name: 'React',
+      href: '/q/react',
+    },
+    {
+      name: 'JavaScript',
+      href: '/q/javascript',
+    },
+    {name: 'Angular', href: '/q/angular'},
+    {
+      name: 'CSS',
+      href: '/q/css',
+    },
+    {
+      name: 'TypeScript',
+      href: '/q/typescript',
+    },
+    {
+      name: 'AWS',
+      href: '/q/aws',
+    },
+    {
+      name: 'Node.js',
+      href: '/q/node',
+    },
+    {
+      name: 'Next.js',
+      href: '/q/next',
+    },
+    {
+      name: 'Docker',
+      href: '/q/docker',
+    },
+    {
+      name: 'Vue.js',
+      href: '/q/vue',
+    },
+    {
+      name: 'ReactNative',
+      href: '/q/react-native',
+    },
+    {
+      name: 'Algolia',
+      href: '/q/algolia',
+    },
+    {
+      name: 'Python',
+      href: '/q/python',
+    },
+    {
+      name: 'Go',
+      href: '/q/go',
+    },
+    {
+      name: 'GraphQL',
+      href: '/q/graphql',
+    },
+    {
+      name: 'All Topics',
+      href: '/topics',
+    },
+  ]
+  const callsToAction = [
+    {name: 'Articles', href: '/blog', icon: DocumentTextIcon},
+    {name: 'Podcasts', href: '/q?type=podcast', icon: MicrophoneIcon},
+    {name: 'Talks', href: '/q?type=talk', icon: PresentationChartBarIcon},
+  ]
+
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+  }
+
+  return (
+    <Popover className="relative">
+      {({open}) => (
+        <>
+          <Popover.Button
+            className={classNames(
+              open
+                ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                : 'active:bg-gray-200 dark:hover:text-white',
+              'group rounded-md inline-flex items-center text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white transition-all ease-in-out duration-200',
+            )}
+          >
+            <span>Browse</span>
+            <ChevronDownIcon
+              className={classNames(
+                open
+                  ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                  : 'active:bg-gray-200 dark:hover:text-white',
+                'ml-2 h-5 w-5',
+              )}
+              aria-hidden="true"
+            />
+          </Popover.Button>
+          {/* @ts-expect-error */}
+          <Transition
+            show={open}
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+          >
+            <Popover.Panel
+              static
+              className="absolute z-20 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0"
+            >
+              <div className=" rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="relative grid gap-6 bg-gray-50 dark:bg-gray-900 px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-3">
+                  {browse.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="-m-3 p-3 flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >
+                      <div className="ml-4">
+                        <p className="text-base font-medium text-black dark:text-white ">
+                          {item.name}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                <div className="relative grid gap-6 bg-gray-50 dark:bg-gray-900 px-5 py-6 sm:gap-8 sm:p-8  lg:grid-cols-3">
+                  {callsToAction.map((item) => (
+                    <div key={item.name} className="flow-root">
+                      <a
+                        href={item.href}
+                        className="-m-3 p-3 flex items-center rounded-mdt text-base text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition ease-in-out duration-150 "
+                      >
+                        <item.icon
+                          className="flex-shrink-0 h-6 w-6 text-gray-400"
+                          aria-hidden="true"
+                        />
+                        <span className="ml-3">{item.name}</span>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
+  )
+}
