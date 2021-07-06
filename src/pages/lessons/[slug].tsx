@@ -109,6 +109,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
 
+  const {player} = usePlayer()
+
   const currentPlayerState = playerState.value as string
 
   const [isIncomingAnonViewer, setIsIncomingAnonViewer] =
@@ -414,7 +416,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
           }}
         >
           <div
-            className={`relative ${false ? 'lg:col-span-12' : 'lg:col-span-9'}`}
+            className={`relative ${
+              player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
+            }`}
           >
             <PlayerContainer ref={playerContainer}>
               <VideoResourcePlayer
