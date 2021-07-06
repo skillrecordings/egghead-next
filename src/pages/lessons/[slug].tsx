@@ -45,6 +45,7 @@ import {usePlayer, PlayerProvider} from 'cueplayer-react'
 import VideoResourcePlayer from 'components/player'
 import PlayerContainer from 'components/player/player-container'
 import PlayerSidebar from 'components/player/player-sidebar'
+import OverlayWrapper from '../../components/pages/lessons/overlay/wrapper'
 
 const tracer = getTracer('lesson-page')
 
@@ -73,18 +74,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-const OverlayWrapper: FunctionComponent<{
-  children: React.ReactNode
-}> = ({children}) => {
-  return (
-    <div className="lg:aspect-w-16 lg:aspect-h-9">
-      <div className="bg-gray-800 text-white bg-opacity-90 flex flex-col items-center justify-center px-4 py-6 min-h-[16rem] md:min-h-[24rem] lg:min-h-0">
-        {children}
-      </div>
-    </div>
-  )
-}
-
 type LessonProps = {
   initialLesson: LessonResource
 }
@@ -105,8 +94,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const playerContainer = React.useRef<any>(null)
   const actualPlayerRef = React.useRef<any>(null)
   const lastAutoPlayed = React.useRef()
-
-  const {player} = usePlayer()
 
   const [playerState, send] = useMachine(playerMachine, {
     context: {
@@ -420,157 +407,166 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
       />
 
       <div className="-mx-5 -mt-3 sm:-mt-5 overflow-hidden">
-        <div
-          className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0"
-          css={{
-            maxWidth: 'calc((75vh * 1.77777) + 300px)',
-          }}
-        >
+        <PlayerProvider>
           <div
-            className={`relative ${
-              player.isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
-            }`}
+            className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0"
+            css={{
+              maxWidth: 'calc((75vh * 1.77777) + 300px)',
+            }}
           >
-            <PlayerContainer ref={playerContainer}>
-              <VideoResourcePlayer
-                containerRef={playerContainer}
-                actualPlayerRef={actualPlayerRef.current}
-                videoResource={lesson}
-                hidden={!playerVisible}
-                onCanPlay={(event: any) => {
-                  console.debug(`player ready [autoplay:${autoplay}]`)
-                  const player: HTMLVideoElement =
-                    event.target as HTMLVideoElement
-                  player.volume = volumeRate / 100
-                  player.playbackRate = playbackRate
-                  actualPlayerRef.current = player
-                  const isDifferent = lastAutoPlayed.current !== lesson?.hls_url
-                  if (autoplay && isDifferent && isFunction(player.play)) {
-                    console.debug(`autoplaying`)
-                    lastAutoPlayed.current = lesson?.hls_url
-                    player.play()
-                  }
-                }}
-                onPause={() => {
-                  send('PAUSE')
-                }}
-                onPlay={() => send('PLAY')}
-                onTimeUpdate={(event: any) => {
-                  onProgress(
-                    {playedSeconds: event.target.currentTime},
-                    lesson,
-                  ).then((lessonView: any) => {
-                    if (lessonView) {
-                      console.debug('progress recorded', {
-                        progress: lessonView,
-                      })
-                      setLessonView(lessonView)
-                    }
-                  })
-                }}
-                onEnded={() => {
-                  console.debug(`received ended event from player`)
-                  send('COMPLETE')
-                }}
-                onVolumeChange={(event: SyntheticEvent) => {
-                  const player: HTMLVideoElement =
-                    event.target as HTMLVideoElement
-                  setPlayerPrefs({volumeRate: player.volume * 100})
-                }}
-              />
-            </PlayerContainer>
-            {spinnerVisible && (
-              <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
-                <Spinner />
-              </div>
-            )}
+            <div
+              className={`relative ${
+                isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
+              }`}
+            >
+              <PlayerContainer ref={playerContainer}>
+                <VideoResourcePlayer
+                  containerRef={playerContainer}
+                  actualPlayerRef={actualPlayerRef.current}
+                  videoResource={lesson}
+                  hidden={!playerVisible}
+                  onFullscreenChange={(isFullscreen: boolean) => {
+                    setIsFullscreen(isFullscreen)
+                  }}
+                  onCanPlay={(event: any) => {
+                    console.debug(`player ready [autoplay:${autoplay}]`)
+                    const videoElement: HTMLVideoElement =
+                      event.target as HTMLVideoElement
 
-            {playerState.matches('joining') && (
-              <OverlayWrapper>
-                <CreateAccountCTA
-                  lesson={get(lesson, 'slug')}
-                  technology={primary_tag}
-                />
-              </OverlayWrapper>
-            )}
-            {playerState.matches('subscribing') && (
-              <OverlayWrapper>
-                <JoinCTA lesson={lesson} />
-              </OverlayWrapper>
-            )}
-            {playerState.matches('pitchingCourse') && (
-              <OverlayWrapper>
-                <CoursePitchOverlay
-                  lesson={lesson}
-                  onClickRewatch={() => {
-                    send('VIEW')
-                    if (actualPlayerRef.current) {
-                      actualPlayerRef.current.play()
+                    videoElement.volume = volumeRate / 100
+                    videoElement.playbackRate = playbackRate
+
+                    actualPlayerRef.current = videoElement
+
+                    const isDifferent =
+                      lastAutoPlayed.current !== lesson?.hls_url
+                    if (
+                      autoplay &&
+                      isDifferent &&
+                      isFunction(videoElement.play)
+                    ) {
+                      console.debug(`autoplaying`)
+                      lastAutoPlayed.current = lesson?.hls_url
+                      videoElement.play()
                     }
                   }}
-                />
-              </OverlayWrapper>
-            )}
-            {playerState.matches('showingNext') && (
-              <OverlayWrapper>
-                <NextUpOverlay
-                  lesson={lesson}
-                  nextLesson={nextLesson}
-                  onClickRewatch={() => {
-                    send('VIEW')
-                    if (actualPlayerRef.current) {
-                      actualPlayerRef.current.play()
-                    }
+                  onPause={() => {
+                    send('PAUSE')
+                  }}
+                  onPlay={() => send('PLAY')}
+                  onTimeUpdate={(event: any) => {
+                    onProgress(
+                      {playedSeconds: event.target.currentTime},
+                      lesson,
+                    ).then((lessonView: any) => {
+                      if (lessonView) {
+                        console.debug('progress recorded', {
+                          progress: lessonView,
+                        })
+                        setLessonView(lessonView)
+                      }
+                    })
+                  }}
+                  onEnded={() => {
+                    console.debug(`received ended event from player`)
+                    send('COMPLETE')
                   }}
                 />
-              </OverlayWrapper>
-            )}
-            {playerState.matches('rating') && (
-              <OverlayWrapper>
-                <RateCourseOverlay
-                  course={lesson.collection}
-                  onRated={(review) => {
-                    axios
-                      .post(lessonView.collection_progress.rate_url, review)
-                      .then(() => {
-                        const comment = get(review, 'comment.comment')
-                        const prompt = get(review, 'comment.context.prompt')
+              </PlayerContainer>
+              {spinnerVisible && (
+                <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
+                  <Spinner />
+                </div>
+              )}
 
-                        if (review) {
-                          track('rated course', {
-                            course: slug,
-                            rating: review.rating,
-                            ...(comment && {comment}),
-                            ...(!!prompt && {prompt}),
-                          })
-                          if (subscriber) {
-                            const currentScore =
-                              Number(subscriber.attributes?.learner_score) || 0
-                            cioIdentify(subscriber.id, {
-                              learner_score: currentScore + 20,
+              {playerState.matches('joining') && (
+                <OverlayWrapper>
+                  <CreateAccountCTA
+                    lesson={get(lesson, 'slug')}
+                    technology={primary_tag}
+                  />
+                </OverlayWrapper>
+              )}
+              {playerState.matches('subscribing') && (
+                <OverlayWrapper>
+                  <JoinCTA lesson={lesson} />
+                </OverlayWrapper>
+              )}
+              {playerState.matches('pitchingCourse') && (
+                <OverlayWrapper>
+                  <CoursePitchOverlay
+                    lesson={lesson}
+                    onClickRewatch={() => {
+                      send('VIEW')
+                      if (actualPlayerRef.current) {
+                        actualPlayerRef.current.play()
+                      }
+                    }}
+                  />
+                </OverlayWrapper>
+              )}
+              {playerState.matches('showingNext') && (
+                <OverlayWrapper>
+                  <NextUpOverlay
+                    lesson={lesson}
+                    nextLesson={nextLesson}
+                    onClickRewatch={() => {
+                      send('VIEW')
+                      if (actualPlayerRef.current) {
+                        actualPlayerRef.current.play()
+                      }
+                    }}
+                  />
+                </OverlayWrapper>
+              )}
+              {playerState.matches('rating') && (
+                <OverlayWrapper>
+                  <RateCourseOverlay
+                    course={lesson.collection}
+                    onRated={(review) => {
+                      axios
+                        .post(lessonView.collection_progress.rate_url, review)
+                        .then(() => {
+                          const comment = get(review, 'comment.comment')
+                          const prompt = get(review, 'comment.context.prompt')
+
+                          if (review) {
+                            track('rated course', {
+                              course: slug,
+                              rating: review.rating,
+                              ...(comment && {comment}),
+                              ...(!!prompt && {prompt}),
                             })
+                            if (subscriber) {
+                              const currentScore =
+                                Number(subscriber.attributes?.learner_score) ||
+                                0
+                              cioIdentify(subscriber.id, {
+                                learner_score: currentScore + 20,
+                              })
+                            }
                           }
-                        }
-                      })
-                      .finally(() => {
-                        setTimeout(() => {
-                          send('RECOMMEND')
-                        }, 1500)
-                      })
-                  }}
-                />
-              </OverlayWrapper>
-            )}
-            {playerState.matches('recommending') && (
-              <OverlayWrapper>
-                <RecommendNextStepOverlay lesson={lesson} />
-              </OverlayWrapper>
-            )}
+                        })
+                        .finally(() => {
+                          setTimeout(() => {
+                            send('RECOMMEND')
+                          }, 1500)
+                        })
+                    }}
+                  />
+                </OverlayWrapper>
+              )}
+              {playerState.matches('recommending') && (
+                <OverlayWrapper>
+                  <RecommendNextStepOverlay lesson={lesson} />
+                </OverlayWrapper>
+              )}
+            </div>
+            <div className="lg:col-span-3 side-bar">
+              <PlayerSidebar videoResource={lesson} />
+            </div>
           </div>
-          <div className="lg:col-span-3 side-bar">
-            <PlayerSidebar videoResource={lesson} />
-          </div>
-        </div>
+        </PlayerProvider>
       </div>
 
       <div
@@ -738,11 +734,7 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
   initialLesson,
   ...props
 }) => {
-  return (
-    <PlayerProvider>
-      <Lesson initialLesson={initialLesson} {...props} />
-    </PlayerProvider>
-  )
+  return <Lesson initialLesson={initialLesson} {...props} />
 }
 
 export default LessonPage

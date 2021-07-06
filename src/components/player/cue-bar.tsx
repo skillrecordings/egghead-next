@@ -6,6 +6,7 @@ import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
 import {track} from 'utils/analytics'
+import {useNotesCues} from './index'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -13,19 +14,13 @@ const CueBar: React.FC<any> = ({
   player,
   actions,
 }) => {
-  const {duration, activeMetadataTracks} = player
+  const {duration} = player
 
-  const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
-    return track.label === 'notes'
-  })
+  const {cues} = useNotesCues()
 
-  const noteCues = noteTracks.reduce((acc: VTTCue[], track: TextTrack) => {
-    return [...acc, ...Array.from(track.cues || [])]
-  }, [])
-
-  return disableCompletely || isEmpty(noteCues) ? null : (
+  return disableCompletely || isEmpty(cues) ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
-      {noteCues.map((noteCue: any) => {
+      {cues.map((noteCue: any) => {
         return (
           <NoteCue
             key={noteCue.text}
@@ -56,10 +51,12 @@ const useCue = (cue: VTTCue, actions: any) => {
 
   React.useEffect(() => {
     const enterCue = () => {
+      console.log('enter cue')
       setActive(true)
     }
 
     const exitCue = () => {
+      console.log('exit cue')
       setActive(false)
     }
 
@@ -119,21 +116,21 @@ const NoteCue: React.FC<any> = ({
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
     track('opened cue', {cue: cue.text})
+    !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
   }
 
   const close = () => {
     setVisible(false)
   }
 
+  const cueActive = player.activeMetadataTrackCues.includes(cue)
+  const seeking = player.seeking
+  const playerReadyEnough = player.readyState > 0
+
   React.useEffect(() => {
-    if (!muteNotes) {
-      // don't automatically pop if muted
-      setVisible(
-        player.activeMetadataTrackCues.includes(cue) && !player.seeking,
-      )
-      setPlayerPrefs({activeSidebarTab: 1})
-    }
-  }, [player.activeMetadataTrackCues, player.seeking, cue, muteNotes])
+    const isVisible = !muteNotes && cueActive && !seeking && playerReadyEnough
+    setVisible(isVisible)
+  }, [setPlayerPrefs, cueActive, seeking, muteNotes, playerReadyEnough])
 
   // added seeking to the list here but getting some janky perf issues
 
@@ -142,7 +139,6 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible) {
-      setPlayerPrefs({activeSidebarTab: 1})
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
@@ -161,7 +157,7 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="py-1">
+        <div className={`py-1`}>
           <div className="flex justify-end space-x-2">
             <MutePopupButton />
             <button

@@ -17,6 +17,7 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
+import ExternalTrackedLink from 'components/external-tracked-link'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
@@ -243,6 +244,41 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               location={location}
               className="text-center"
             />
+          </div>
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+            Learn React with Kent
+          </h2>
+          <div className="grid lg:grid-cols-4 grid-cols-1 gap-4">
+            {get(homePageData, 'learnWithKent').map((i: any) => (
+              <VerticalResourceCard
+                key={i.path}
+                resource={i}
+                location={location}
+                className="text-center"
+              />
+            ))}
+            <ExternalTrackedLink
+              eventName="clicked epic react banner"
+              params={{location}}
+              href="https://epicreact.dev"
+              target="_blank"
+              rel="noopener"
+              className="block"
+            >
+              <div className="overflow-hidden flex items-center justify-center rounded-lg">
+                <Image
+                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
+                  alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
+                  width={704}
+                  height={836}
+                  quality={100}
+                  className="rounded-lg hover:scale-[102%] transform ease-in-out duration-500"
+                />
+              </div>
+            </ExternalTrackedLink>
           </div>
         </section>
 
