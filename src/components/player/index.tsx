@@ -12,7 +12,6 @@ import {
   PlaybackRateMenuButton,
   PlayToggle,
   ProgressControl,
-  RemainingTimeDisplay,
   ReplayControl,
   TimeDivider,
   usePlayer,
@@ -35,6 +34,7 @@ export type VideoResourcePlayerProps = {
   containerRef?: MutableRefObject<any>
   actualPlayerRef?: MutableRefObject<any>
   onCanPlay?: (event: any) => void
+  onLoadStart?: (event: any) => void
   onPause?: () => void
   onPlay?: () => void
   onTimeUpdate?: (event: any) => void
@@ -54,23 +54,33 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   className = '',
   children,
   onFullscreenChange,
+  onLoadStart,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
-  const hasNotes = !isEmpty(videoResource?.staff_notes_url)
-  const {subtitle, playbackRate} = getPlayerPrefs()
+
+  const {subtitle, playbackRate, volumeRate} = getPlayerPrefs()
 
   return (
     <div
       className={`relative z-10 h-full sm:pb-14 ${className} 
           ${hidden ? 'hidden' : 'block'} 
-          ${hasNotes ? 'lg:pb-[4.5rem]' : ''}`}
+          ${hasNotes(videoResource) ? 'lg:pb-[4.5rem]' : ''}`}
     >
       <Player
         crossOrigin="anonymous"
         className="font-sans"
         volume={0.2}
         poster={videoResource.thumb_url}
+        onLoadStart={(event: any) => {
+          const videoElement: HTMLVideoElement =
+            event.target as HTMLVideoElement
+          videoElement.volume = volumeRate / 100
+          videoElement.playbackRate = playbackRate
+          if (onLoadStart) {
+            onLoadStart(event)
+          }
+        }}
         onVolumeChange={(event: SyntheticEvent) => {
           const player: HTMLVideoElement = event.target as HTMLVideoElement
           setPlayerPrefs({volumeRate: player.volume * 100})
@@ -95,7 +105,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             default={subtitle?.language === 'en'}
           />
         )}
-        {hasNotes && (
+        {hasNotes(videoResource) && (
           <track
             key={videoResource.slug}
             id="notes"
@@ -104,13 +114,15 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             label="notes"
           />
         )}
-        <CueBar key={videoResource.slug} order={6.0} />
+        {hasNotes(videoResource) && (
+          <CueBar key={videoResource.slug} order={6.0} />
+        )}
         <ProgressControl key="progress-control" order={7.0} />
         <ControlBar
           disableDefaultControls
           autoHide={false}
           className={`hidden lg:flex transform translate-y-14 ${
-            hasNotes ? 'lg:translate-y-[4.5rem]' : ''
+            hasNotes(videoResource) ? 'lg:translate-y-[4.5rem]' : ''
           }`}
           order={8.0}
         >
@@ -122,15 +134,15 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <TimeDivider key="time-divider" order={6} />
           <DurationDisplay key="duration-display" order={7} />
           <ControlBarDivider key="divider" order={8} className="flex-grow" />
-          <AutoplayControl
-            enabled={true}
-            onDark={true}
-            player={actualPlayerRef}
-            key="autoplay-control"
-            order={9}
-          />
+          {/*<AutoplayControl*/}
+          {/*  enabled={true}*/}
+          {/*  onDark={true}*/}
+          {/*  player={actualPlayerRef}*/}
+          {/*  key="autoplay-control"*/}
+          {/*  order={9}*/}
+          {/*/>*/}
           <PlaybackRateMenuButton
-            rates={[1, 1.25, 1.5, 2]}
+            rates={[2, 1.75, 1.5, 1.25, 1, 0.85, 0.75]}
             key="playback-rate"
             order={10}
             selected={playbackRate}
@@ -176,6 +188,14 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
       </Player>
       {children}
     </div>
+  )
+}
+
+export const hasNotes = (resource: VideoResource) => {
+  console.log(resource, process.env.NEXT_PUBLIC_NOTES_ENABLED)
+  return (
+    process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true' &&
+    !isEmpty(resource.staff_notes_url)
   )
 }
 

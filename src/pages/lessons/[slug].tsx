@@ -84,8 +84,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
-  const {setPlayerPrefs, playbackRate, defaultView, volumeRate, subtitle} =
-    useEggheadPlayerPrefs()
+  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
+
+  const {defaultView} = getPlayerPrefs()
+  const autoplay = false
 
   const {sm, md} = useBreakpoint()
 
@@ -104,7 +106,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   const lesson: any = get(playerState, 'context.lesson', initialLesson)
 
-  const {onProgress, onEnded, autoplay} = useEggheadPlayer(lesson)
+  const {onProgress, onEnded} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
   const [watchCount, setWatchCount] = React.useState<number>(0)
@@ -306,7 +308,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               send(`COURSE_PITCH`)
             } else if (nextLesson) {
               console.debug(`Showing Next Lesson Overlay`)
-              send(`NEXT`)
+              checkAutoPlay()
             } else {
               console.debug(`Showing Recommend Overlay`)
               send(`RECOMMEND`)
@@ -319,7 +321,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               send(`COURSE_PITCH`)
             } else if (nextLesson) {
               console.debug(`Showing Next Lesson Overlay`)
-              send(`NEXT`)
+              checkAutoPlay()
             } else {
               console.debug(`Showing Recommend Overlay`)
               send(`RECOMMEND`)
@@ -421,6 +423,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             >
               <PlayerContainer ref={playerContainer}>
                 <VideoResourcePlayer
+                  key={lesson.slug}
                   containerRef={playerContainer}
                   actualPlayerRef={actualPlayerRef.current}
                   videoResource={lesson}
@@ -432,9 +435,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     console.debug(`player ready [autoplay:${autoplay}]`)
                     const videoElement: HTMLVideoElement =
                       event.target as HTMLVideoElement
-
-                    videoElement.volume = volumeRate / 100
-                    videoElement.playbackRate = playbackRate
 
                     actualPlayerRef.current = videoElement
 
