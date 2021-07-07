@@ -178,7 +178,11 @@ const Header: FunctionComponent = () => {
               </a>
             </Link>
           </div>
-          <FlyoutMenu />
+          {!sm && !isTopics && (
+            <div className={`${isSearch && 'w-full'}`}>
+              <FlyoutMenu />
+            </div>
+          )}
           {!sm && !isSearch && <SearchBar />}
           {!sm && <Navigation></Navigation>}
           {sm && !loading && (
@@ -405,83 +409,85 @@ const FlyoutMenu = () => {
   }
 
   return (
-    <Popover className="relative">
-      {({open}) => (
-        <>
-          <Popover.Button
-            className={classNames(
-              open
-                ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                : 'active:bg-gray-200 dark:hover:text-white',
-              'group rounded-md inline-flex items-center text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white transition-all ease-in-out duration-200',
-            )}
-          >
-            <span>Browse</span>
-            <ChevronDownIcon
+    <div>
+      <Popover className="relative">
+        {({open}) => (
+          <>
+            <Popover.Button
               className={classNames(
                 open
                   ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
                   : 'active:bg-gray-200 dark:hover:text-white',
-                'ml-2 h-5 w-5',
+                'group rounded-md inline-flex items-center text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white transition-all ease-in-out duration-200',
               )}
-              aria-hidden="true"
-            />
-          </Popover.Button>
-          {/* @ts-expect-error */}
-          <Transition
-            show={open}
-            as={Fragment}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-150"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
-          >
-            <Popover.Panel
-              static
-              className="absolute z-20 mt-3 px-2 w-screen max-w-xl sm:px-0 min-w-max"
             >
-              <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                <div className="relative grid grid-cols-flyoutmenu bg-white dark:bg-gray-800 px-7 py-6 gap-1">
-                  {browse.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 py-2 px-3"
-                    >
-                      <p className="text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
-                        {item.name}
-                      </p>
-                    </a>
-                  ))}
-                  <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 py-2 px-3">
-                    <a href="/topics" className="text-blue-500">
-                      Browse all topics <span aria-hidden="true">&rarr;</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="relative grid grid-cols-flyoutmenu bg-gray-100 dark:bg-gray-700 px-7 py-5 gap-1">
-                  {callsToAction.map((item) => (
-                    <div key={item.name} className="flow-root">
+              <span>Browse</span>
+              <ChevronDownIcon
+                className={classNames(
+                  open
+                    ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                    : 'active:bg-gray-200 dark:hover:text-white',
+                  'ml-2 h-5 w-5',
+                )}
+                aria-hidden="true"
+              />
+            </Popover.Button>
+            {/* @ts-expect-error */}
+            <Transition
+              show={open}
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
+            >
+              <Popover.Panel
+                static
+                className="absolute z-20 mt-3 px-2 w-screen max-w-xl sm:px-0 min-w-max"
+              >
+                <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                  <div className="relative grid grid-cols-flyoutmenu bg-white dark:bg-gray-800 px-7 py-6 gap-1">
+                    {browse.map((item) => (
                       <a
+                        key={item.name}
                         href={item.href}
-                        className="flex items-center rounded-md text-base text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 py-3 px-3"
+                        className="flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3"
                       >
-                        <item.icon
-                          className="flex-shrink-0 h-6 w-6 text-gray-400"
-                          aria-hidden="true"
-                        />
-                        <span className="ml-3">{item.name}</span>
+                        <p className="text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
+                          {item.name}
+                        </p>
+                      </a>
+                    ))}
+                    <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3">
+                      <a href="/topics" className="text-blue-500">
+                        Browse all topics <span aria-hidden="true">&rarr;</span>
                       </a>
                     </div>
-                  ))}
+                  </div>
+                  <div className="relative grid grid-cols-flyoutmenu bg-gray-100 dark:bg-gray-700 px-7 py-5 gap-1">
+                    {callsToAction.map((item) => (
+                      <div key={item.name} className="flow-root">
+                        <a
+                          href={item.href}
+                          className="flex items-center rounded-md text-base text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 py-3 px-3"
+                        >
+                          <item.icon
+                            className="flex-shrink-0 h-6 w-6 text-gray-400"
+                            aria-hidden="true"
+                          />
+                          <span className="ml-3">{item.name}</span>
+                        </a>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Popover.Panel>
-          </Transition>
-        </>
-      )}
-    </Popover>
+              </Popover.Panel>
+            </Transition>
+          </>
+        )}
+      </Popover>
+    </div>
   )
 }
