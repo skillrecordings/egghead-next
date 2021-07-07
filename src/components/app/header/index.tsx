@@ -440,38 +440,33 @@ const FlyoutMenu = () => {
           >
             <Popover.Panel
               static
-              className="absolute z-20 mt-3 px-2 w-screen max-w-md sm:px-0"
+              className="absolute z-20 mt-3 px-2 w-screen max-w-xl sm:px-0 min-w-max"
             >
-              <div className=" rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                <div className="relative grid grid-cols-3 gap-0 bg-white dark:bg-gray-800 px-5 py-6 sm:gap-8 sm:p-8 row-gap:0px">
+              <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="relative grid grid-cols-flyoutmenu bg-white dark:bg-gray-800 px-7 py-6 gap-1">
                   {browse.map((item) => (
                     <a
                       key={item.name}
                       href={item.href}
-                      className="-m-3 p-3 flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-200 dark:hover:bg-gray-900"
+                      className="flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 py-2 px-3"
                     >
-                      <div className="ml-4">
-                        <p className="text-base font-medium text-black dark:text-white ">
-                          {item.name}
-                        </p>
-                      </div>
+                      <p className="text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
+                        {item.name}
+                      </p>
                     </a>
                   ))}
-                  <div className="ml-4 text-base font-medium ">
-                    <a
-                      href="/topics"
-                      className="item-strech text-blue-500 transition ease-in-out duration-150 row-gap:0px"
-                    >
-                      Browse all topics<span aria-hidden="true">&rarr;</span>
+                  <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 py-2 px-3">
+                    <a href="/topics" className="text-blue-500">
+                      Browse all topics <span aria-hidden="true">&rarr;</span>
                     </a>
                   </div>
                 </div>
-                <div className="relative grid grid-cols-3 gap-0 bg-gray-100 dark:bg-gray-700 px-5 py-6 sm:gap-8 sm:p-8">
+                <div className="relative grid grid-cols-flyoutmenu bg-gray-100 dark:bg-gray-700 px-7 py-5 gap-1">
                   {callsToAction.map((item) => (
                     <div key={item.name} className="flow-root">
                       <a
                         href={item.href}
-                        className="-m-3 p-3 flex items-center rounded-mdt text-base text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 "
+                        className="flex items-center rounded-md text-base text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 py-3 px-3"
                       >
                         <item.icon
                           className="flex-shrink-0 h-6 w-6 text-gray-400"

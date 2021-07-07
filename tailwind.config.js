@@ -146,6 +146,9 @@ module.exports = {
       lineHeight: {
         tighter: 1.1,
       },
+      gridTemplateColumns: {
+        flyoutmenu: 'minmax(0, 1fr) minmax(0, 1fr) 200px',
+      },
     },
   },
   plugins: [
