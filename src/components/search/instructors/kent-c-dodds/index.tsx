@@ -12,8 +12,8 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 const SearchKentCDodds = ({instructor}: any) => {
   const {collection, courses, podcast, products, caseStudy} = instructor
 
-  const [primaryCourse, secondCourse, thirdCourse] = courses.resources
-  console.log({instructor})
+  const [primaryCourse, secondCourse] = courses.resources
+
   return (
     <div className="max-w-screen-xl mx-auto">
       <SearchInstructorEssential
