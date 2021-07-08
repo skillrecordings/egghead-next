@@ -51,12 +51,12 @@ const useCue = (cue: VTTCue, actions: any) => {
 
   React.useEffect(() => {
     const enterCue = () => {
-      console.log('enter cue')
+      console.debug('enter cue')
       setActive(true)
     }
 
     const exitCue = () => {
-      console.log('exit cue')
+      console.debug('exit cue')
       setActive(false)
     }
 
