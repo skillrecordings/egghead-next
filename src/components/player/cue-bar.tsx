@@ -107,19 +107,23 @@ const NoteCue: React.FC<any> = ({
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
+  const [clickedOpen, setClickedOpen] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
 
   useCue(cue, actions)
 
-  const open = () => {
+  const clickOpen = () => {
     setVisible(true)
+    setClickedOpen(true)
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
+    actions.pause()
     track('opened cue', {cue: cue.text})
     !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
   }
 
-  const close = () => {
+  const clickClose = () => {
+    setClickedOpen(false)
     setVisible(false)
   }
 
@@ -129,8 +133,17 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     const isVisible = !muteNotes && cueActive && !seeking && playerReadyEnough
-    setVisible(isVisible)
-  }, [setPlayerPrefs, cueActive, seeking, muteNotes, playerReadyEnough])
+    if (!clickedOpen) {
+      setVisible(isVisible)
+    }
+  }, [
+    setPlayerPrefs,
+    clickedOpen,
+    cueActive,
+    seeking,
+    muteNotes,
+    playerReadyEnough,
+  ])
 
   // added seeking to the list here but getting some janky perf issues
 
@@ -162,7 +175,7 @@ const NoteCue: React.FC<any> = ({
             <MutePopupButton />
             <button
               className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
-              onClick={close}
+              onClick={clickClose}
             >
               <IconX />
             </button>
@@ -173,10 +186,10 @@ const NoteCue: React.FC<any> = ({
         </div>
       }
       visible={visible}
-      onClickOutside={close}
+      onClickOutside={clickClose}
     >
       <div
-        onClick={open}
+        onClick={clickOpen}
         className={classNames(
           'cueplayer-react-cue-note',
           {
