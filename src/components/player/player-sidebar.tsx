@@ -58,19 +58,21 @@ const LessonListTab: React.FC<{
   const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
-    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full flex flex-col">
-      <div className="flex-shrink-0 p-4 sm:border-b border-gray-100 dark:border-gray-800">
-        <CourseHeader
-          course={videoResource.collection}
-          currentLessonSlug={videoResource.slug}
-        />
-      </div>
-      <div className="flex-grow overflow-hidden">
-        <CollectionLessonsList
-          course={videoResource.collection}
-          currentLessonSlug={videoResource.slug}
-          progress={lessonView?.collection_progress}
-        />
+    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full overflow-hidden">
+      <div className="flex flex-col h-full">
+        <div className="flex-shrink-0 p-4 sm:border-b border-gray-100 dark:border-gray-800">
+          <CourseHeader
+            course={videoResource.collection}
+            currentLessonSlug={videoResource.slug}
+          />
+        </div>
+        <div className="flex-grow overflow-hidden">
+          <CollectionLessonsList
+            course={videoResource.collection}
+            currentLessonSlug={videoResource.slug}
+            progress={lessonView?.collection_progress}
+          />
+        </div>
       </div>
     </TabPanel>
   )
