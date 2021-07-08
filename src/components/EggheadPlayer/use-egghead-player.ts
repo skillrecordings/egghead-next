@@ -214,7 +214,31 @@ export const defaultSubtitlePreference = {
   language: null,
 }
 
-const defaultPlayerPreferences = {
+export type PlayerPrefs = {
+  volumeRate: number
+  playbackRate: number
+
+  autoplay: boolean
+  videoQuality: {
+    bitrate: any
+    height: any
+    id: string
+    width: any
+  }
+  subtitle: {
+    id: any
+    kind: any
+    label: any
+    language: any
+  }
+  muted: boolean
+  theater: boolean
+  defaultView: string
+  activeSidebarTab: number
+  muteNotes: boolean
+}
+
+const defaultPlayerPreferences: PlayerPrefs = {
   volumeRate: 80,
   playbackRate: 1,
   autoplay: false,
@@ -228,9 +252,8 @@ const defaultPlayerPreferences = {
   muted: false,
   theater: false,
   defaultView: 'transcript',
-  sideBar: {
-    activeTab: 0,
-  },
+  activeSidebarTab: 0,
+  muteNotes: false,
 }
 
 export const getPlayerPrefs = () => {
@@ -253,39 +276,36 @@ export const savePlayerPrefs = (options: any) => {
 }
 
 export const useEggheadPlayerPrefs = () => {
-  const [playerPrefs, setPlayerPrefs] = React.useState<any>()
-  React.useEffect(() => {
-    setPlayerPrefs(getPlayerPrefs())
-  }, [])
+  const [playerPrefs, setPlayerPrefs] = React.useState<PlayerPrefs>(
+    getPlayerPrefs(),
+  )
 
   const setPlayerPrefsOptions = React.useCallback((options: any) => {
     console.debug('setting player prefs', {options})
-    setPlayerPrefs(savePlayerPrefs(options))
+    const newPrefs = savePlayerPrefs(options)
+    setPlayerPrefs(newPrefs)
   }, [])
 
   return {
     setPlayerPrefs: setPlayerPrefsOptions,
+    getPlayerPrefs: React.useCallback(getPlayerPrefs, []),
     ...playerPrefs,
   }
 }
 
 export default function useEggheadPlayer(lesson: LessonResource) {
-  const [playerPrefs, setPlayerPrefs] = React.useState<any>()
+  const {setPlayerPrefs, ...playerPrefs} = useEggheadPlayerPrefs()
 
   React.useEffect(() => {
     setPlayerPrefs(getPlayerPrefs())
   }, [lesson.slug])
 
-  const setPlayerPrefsOptions = (options: any) => {
-    console.debug('setting player prefs', {options})
-    setPlayerPrefs(savePlayerPrefs(options))
-  }
-
   return {
     onProgress,
     onEnded,
     onError,
-    setPlayerPrefs: setPlayerPrefsOptions,
+    setPlayerPrefs,
     ...playerPrefs,
+    getPlayerPrefs: React.useCallback(getPlayerPrefs, []),
   }
 }

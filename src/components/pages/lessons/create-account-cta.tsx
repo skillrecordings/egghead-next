@@ -30,11 +30,11 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
         track={trackEmailCapture}
       >
         <div className="text-center">
-          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
+          <h2 className="text-xl md:text-2xl lg:text-xl xl:text-3xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
             This lesson is <strong className="font-bold">free to watch</strong>{' '}
             with an egghead account.
           </h2>
-          <p className="font-normal text-blue-300 sm:text-lg text-base mt-4">
+          <p className="font-normal text-blue-300 text-base sm:text-lg lg:text-base xl:text-lg mt-4">
             Enter your email to unlock this free lesson.
           </p>
         </div>

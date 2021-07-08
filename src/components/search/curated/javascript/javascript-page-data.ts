@@ -103,15 +103,15 @@ const javascriptPageData = [
   },
   {
     id: 'dom-events',
-    name: 'Master DOM Events',
+    name: 'Engage with the DOM',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/603/full/DOM_424_2x.png',
     byline: 'Alex Reardon 2h 9m・Course',
     description:
       'Listening to and responding to events is a foundational skill for building software for the web. The Document Object Model, or DOM for short, has a powerful built-in event system. ',
-    path: '/courses/the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
-    slug: 'dom-events-6c0c0d23',
-    title: 'The Ultimate Guide for Understanding DOM Events',
+    path: '/courses/your-ultimate-guide-to-understanding-dom-events-6c0c0d23',
+    slug: 'your-ultimate-guide-to-understanding-dom-events-6c0c0d23',
+    title: 'Your Ultimate Guide to Understanding DOM Events',
   },
   {
     id: 'interview-prep',

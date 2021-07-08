@@ -46,7 +46,7 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
           {lesson.instructor.full_name.split(' ')[0]} get the word out.
         </div>
       </Share>
-      <div className="mt-8 text-xs md:mt-10 lg:mt-16 text-center">
+      <div className="mt-8 text-xs md:mt-10 lg:mt-6 xl:mt-16 text-center">
         Ready for something new?{' '}
         <Link href="/">
           <a
