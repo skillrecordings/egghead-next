@@ -66,7 +66,7 @@ const logCollectionResource = (collection: CollectionResource) => {
       instructor?.full_name && `${instructor.full_name}・`
     }${formattedDuration}・Course`
 
-    console.debug({
+    console.debug('collection resource', {
       title,
       byline,
       ...(!!image && {image}),
