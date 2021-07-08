@@ -59,24 +59,18 @@ const LessonListTab: React.FC<{
 
   return hidden ? null : (
     <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full flex flex-col">
-      <div className="flex-shrink-0">
-        <div className="p-4 sm:border-b border-gray-100 dark:border-gray-800">
-          <CourseHeader
-            course={videoResource.collection}
-            currentLessonSlug={videoResource.slug}
-          />
-        </div>
+      <div className="flex-shrink-0 p-4 sm:border-b border-gray-100 dark:border-gray-800">
+        <CourseHeader
+          course={videoResource.collection}
+          currentLessonSlug={videoResource.slug}
+        />
       </div>
-      <div className="flex-grow relative">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="h-full">
-            <CollectionLessonsList
-              course={videoResource.collection}
-              currentLessonSlug={videoResource.slug}
-              progress={lessonView?.collection_progress}
-            />
-          </div>
-        </div>
+      <div className="flex-grow overflow-hidden">
+        <CollectionLessonsList
+          course={videoResource.collection}
+          currentLessonSlug={videoResource.slug}
+          progress={lessonView?.collection_progress}
+        />
       </div>
     </TabPanel>
   )
