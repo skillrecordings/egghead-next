@@ -154,7 +154,7 @@ const CourseHeader: React.FunctionComponent<{
     <div>
       <div className="flex items-center">
         <Link href={course.path}>
-          <a className="flex-shrink-0 relative block w-12 h-12 lg:w-20 lg:h-20">
+          <a className="flex-shrink-0 relative block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
             <Image
               src={course.square_cover_480_url}
               alt={`illustration for ${course.title}`}
