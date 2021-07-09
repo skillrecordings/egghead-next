@@ -211,7 +211,7 @@ const IconVolumeOff: React.FC<any> = ({className}) => {
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
-      className={`w-5 h-5 ${className ?? ''}`}
+      className={`w-4 h-4 ${className ?? ''}`}
     >
       <path
         strokeLinecap="round"
