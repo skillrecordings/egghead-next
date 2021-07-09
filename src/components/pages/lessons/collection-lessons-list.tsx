@@ -6,7 +6,7 @@ import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import {convertTimeWithTitles} from '../../../utils/time-utils'
+import {convertTimeWithTitles} from 'utils/time-utils'
 import CheckIcon from '../../icons/check-icon'
 
 type NextUpListProps = {
@@ -36,7 +36,7 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
 
   return lessons ? (
     <div className="h-full overflow-hidden">
-      <div className="overflow-hidden dark:bg-gray-900 dark:border-gray-800 border-gray-100 h-96 lg:h-full rounded-md lg:rounded-none border lg:border-none">
+      <div className="overflow-hidden bg-gray-100 dark:bg-gray-1000 dark:border-gray-800 border-gray-100 h-96 lg:h-full rounded-md lg:rounded-none border lg:border-none">
         <SimpleBar
           autoHide={false}
           className="h-full"

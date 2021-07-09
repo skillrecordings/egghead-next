@@ -5,6 +5,8 @@ import Tippy from '@tippyjs/react'
 import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
+import {track} from 'utils/analytics'
+import {useNotesCues} from './index'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -12,19 +14,13 @@ const CueBar: React.FC<any> = ({
   player,
   actions,
 }) => {
-  const {duration, activeMetadataTracks} = player
+  const {duration} = player
 
-  const noteTracks = activeMetadataTracks.filter((track: TextTrack) => {
-    return track.label === 'notes'
-  })
+  const {cues} = useNotesCues()
 
-  const noteCues = noteTracks.reduce((acc: VTTCue[], track: TextTrack) => {
-    return [...acc, ...Array.from(track.cues || [])]
-  }, [])
-
-  return disableCompletely || isEmpty(noteCues) ? null : (
+  return disableCompletely || isEmpty(cues) ? null : (
     <div className={classNames('cueplayer-react-cue-bar', className)}>
-      {noteCues.map((noteCue: any) => {
+      {cues.map((noteCue: any) => {
         return (
           <NoteCue
             key={noteCue.text}
@@ -55,10 +51,12 @@ const useCue = (cue: VTTCue, actions: any) => {
 
   React.useEffect(() => {
     const enterCue = () => {
+      console.debug('enter cue')
       setActive(true)
     }
 
     const exitCue = () => {
+      console.debug('exit cue')
       setActive(false)
     }
 
@@ -80,7 +78,10 @@ const MutePopupButton: React.FC<any> = () => {
   return (
     <button
       className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
-      onClick={() => setPlayerPrefs({muteNotes: !muteNotes})}
+      onClick={() => {
+        track('muted note popup')
+        setPlayerPrefs({muteNotes: !muteNotes})
+      }}
     >
       {muteNotes ? (
         <>
@@ -106,29 +107,43 @@ const NoteCue: React.FC<any> = ({
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
+  const [clickedOpen, setClickedOpen] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
 
   useCue(cue, actions)
 
-  const open = () => {
+  const clickOpen = () => {
     setVisible(true)
+    setClickedOpen(true)
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
+    actions.pause()
+    track('opened cue', {cue: cue.text})
+    !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
   }
 
-  const close = () => {
+  const clickClose = () => {
+    setClickedOpen(false)
     setVisible(false)
   }
 
+  const cueActive = player.activeMetadataTrackCues.includes(cue)
+  const seeking = player.seeking
+  const playerReadyEnough = player.readyState > 0
+
   React.useEffect(() => {
-    if (!muteNotes) {
-      // don't automatically pop if muted
-      setVisible(
-        player.activeMetadataTrackCues.includes(cue) && !player.seeking,
-      )
-      setPlayerPrefs({activeSidebarTab: 1})
+    const isVisible = !muteNotes && cueActive && !seeking && playerReadyEnough
+    if (!clickedOpen) {
+      setVisible(isVisible)
     }
-  }, [player.activeMetadataTrackCues, player.seeking, cue, muteNotes])
+  }, [
+    setPlayerPrefs,
+    clickedOpen,
+    cueActive,
+    seeking,
+    muteNotes,
+    playerReadyEnough,
+  ])
 
   // added seeking to the list here but getting some janky perf issues
 
@@ -137,7 +152,6 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible) {
-      setPlayerPrefs({activeSidebarTab: 1})
       scroller.scrollTo('active-note', {
         duration: 0,
         delay: 0,
@@ -156,12 +170,12 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className="p-2">
+        <div className={`py-1`}>
           <div className="flex justify-end space-x-2">
             <MutePopupButton />
             <button
               className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
-              onClick={close}
+              onClick={clickClose}
             >
               <IconX />
             </button>
@@ -172,10 +186,10 @@ const NoteCue: React.FC<any> = ({
         </div>
       }
       visible={visible}
-      onClickOutside={close}
+      onClickOutside={clickClose}
     >
       <div
-        onClick={open}
+        onClick={clickOpen}
         className={classNames(
           'cueplayer-react-cue-note',
           {
@@ -223,7 +237,7 @@ const IconVolumeOn: React.FC<any> = ({className}) => {
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
-      className={`w-5 h-5 ${className ?? ''}`}
+      className={`w-4 h-4 ${className ?? ''}`}
     >
       <path
         strokeLinecap="round"
@@ -239,7 +253,7 @@ const IconX: React.FC<any> = ({className}) => (
   <svg
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
-    className={`w-5 h-5 ${className ?? ''}`}
+    className={`w-4 h-4 ${className ?? ''}`}
   >
     <g fill="none">
       <path
