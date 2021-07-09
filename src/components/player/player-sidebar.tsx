@@ -18,7 +18,8 @@ import Image from 'next/image'
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-}> = ({videoResource, lessonView}) => {
+  setAddNoteDialogShown?: any
+}> = ({videoResource, lessonView, setAddNoteDialogShown}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
   return (
@@ -43,7 +44,7 @@ const PlayerSidebar: React.FC<{
               videoResource={videoResource}
               lessonView={lessonView}
             />
-            <NotesTab />
+            <NotesTab setAddNoteDialogShown={setAddNoteDialogShown} />
           </div>
         </TabPanels>
       </Tabs>
@@ -78,7 +79,7 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC = () => {
+const NotesTab: React.FC = ({setAddNoteDialogShown}) => {
   const {player, manager} = usePlayer()
 
   const {cues} = useNotesCues()
@@ -145,10 +146,11 @@ const NotesTab: React.FC = () => {
             type="button"
             onClick={(e) => {
               e.preventDefault()
+              setAddNoteDialogShown(true)
               track(`clicked add note`)
             }}
             aria-label="download video"
-            className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-400 hover:text-gray-600 duration-100 p-4 flex justify-center items-center rounded-md w-full text-sm font-semibold"
+            className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-600 duration-100 p-4 flex justify-center items-center rounded-md w-full text-sm font-semibold"
           >
             <IconNote />
             <span className="ml-2">Add a note</span>
