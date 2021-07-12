@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import {motion} from 'framer-motion'
 
 const Talks: React.FC = ({allTalks}: any) => {
   console.log({allTalks})
@@ -16,7 +15,7 @@ const Talks: React.FC = ({allTalks}: any) => {
       <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-8">
         {allTalks.map((talk: any) => {
           return (
-            <motion.div
+            <div
               whileHover={{scale: 1.07}}
               key={talk.path}
               className="flex flex-col"
@@ -62,7 +61,7 @@ const Talks: React.FC = ({allTalks}: any) => {
                   {talk.summary}
                 </div>
               )}
-            </motion.div>
+            </div>
           )
         })}
       </div>
