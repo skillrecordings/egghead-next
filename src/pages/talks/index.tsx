@@ -15,11 +15,7 @@ const Talks: React.FC = ({allTalks}: any) => {
       <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-8">
         {allTalks.map((talk: any) => {
           return (
-            <div
-              whileHover={{scale: 1.07}}
-              key={talk.path}
-              className="flex flex-col"
-            >
+            <div key={talk.path} className="flex flex-col">
               {talk.image ? (
                 <div className="md:mb-4 mb-2">
                   <Link href={talk.path}>
