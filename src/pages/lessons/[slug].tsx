@@ -80,45 +80,45 @@ type LessonProps = {
 
 const MAX_FREE_VIEWS = 7
 
-type AddNoteDialogProps = {
-  setAddNoteDialogShown: any
-}
+// type AddNoteDialogProps = {
+//   setAddNoteDialogShown: any
+// }
 
-const AddNoteDialog: FunctionComponent<AddNoteDialogProps> = ({
-  setAddNoteDialogShown,
-}) => {
-  return (
-    <div className="absolute inset-0 z-50 bg-black bg-opacity-70 p-4 flex justify-center items-center text-black">
-      <div className="w-[34rem] h-[20rem] rounded-md bg-white p-4 flex flex-col">
-        <div className="flex-shrink-0 flex justify-end">
-          <button
-            type="button"
-            onClick={() => setAddNoteDialogShown(false)}
-            className="text-gray-400 hover:text-gray-500"
-          >
-            <IconX />
-          </button>
-        </div>
-        <div className="flex-grow my-2 overflow-hidden">
-          <textarea
-            className="w-full h-full resize-none border-none p-0 placeholder-gray-400"
-            placeholder={`Write a note...\n\nYou can use markdown to [add links](https://stackoverflow.com), **bold text** or \`write syntax\``}
-          />
-        </div>
-        <div className="flex-shrink-0 flex justify-between items-end">
-          <span>Publicly visible</span>
-          <button
-            type="button"
-            onClick={() => setAddNoteDialogShown(false)}
-            className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-          >
-            Add to notes
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+// const AddNoteDialog: FunctionComponent<AddNoteDialogProps> = ({
+//   setAddNoteDialogShown,
+// }) => {
+//   return (
+//     <div className="absolute inset-0 z-50 bg-black bg-opacity-70 p-4 flex justify-center items-center text-black">
+//       <div className="w-[34rem] h-[20rem] rounded-md bg-white p-4 flex flex-col">
+//         <div className="flex-shrink-0 flex justify-end">
+//           <button
+//             type="button"
+//             onClick={() => setAddNoteDialogShown(false)}
+//             className="text-gray-400 hover:text-gray-500"
+//           >
+//             <IconX />
+//           </button>
+//         </div>
+//         <div className="flex-grow my-2 overflow-hidden">
+//           <textarea
+//             className="w-full h-full resize-none border-none p-0 placeholder-gray-400"
+//             placeholder={`Write a note...\n\nYou can use markdown to [add links](https://stackoverflow.com), **bold text** or \`write syntax\``}
+//           />
+//         </div>
+//         <div className="flex-shrink-0 flex justify-between items-end">
+//           <span>Publicly visible</span>
+//           <button
+//             type="button"
+//             onClick={() => setAddNoteDialogShown(false)}
+//             className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+//           >
+//             Add to notes
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
 
 const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
@@ -144,8 +144,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     },
   })
 
-  const [addNoteDialogShown, setAddNoteDialogShown] =
-    React.useState<boolean>(false)
+  // const [addNoteDialogShown, setAddNoteDialogShown] =
+  //   React.useState<boolean>(false)
 
   const lesson: any = get(playerState, 'context.lesson', initialLesson)
 
@@ -604,15 +604,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   <RecommendNextStepOverlay lesson={lesson} />
                 </OverlayWrapper>
               )}
-              {addNoteDialogShown && (
-                <AddNoteDialog setAddNoteDialogShown={setAddNoteDialogShown} />
-              )}
+              {/* <OverlayWrapper>testeste</OverlayWrapper> */}
             </div>
             <div className="lg:col-span-3 side-bar">
-              <PlayerSidebar
-                videoResource={lesson}
-                setAddNoteDialogShown={setAddNoteDialogShown}
-              />
+              <PlayerSidebar videoResource={lesson} />
             </div>
           </div>
         </PlayerProvider>
