@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import {find} from 'lodash'
 import {motion} from 'framer-motion'
 
 const Talks: React.FC = ({allTalks}: any) => {
