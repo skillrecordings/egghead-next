@@ -90,10 +90,9 @@ You can find courses below curated just for you whether you're looking for a par
               height={463}
               alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
               className="hover:scale-[102%] transform ease-in-out duration-500"
-              // default
-              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
               // 25% off
-              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
             />
           </div>
         </ExternalTrackedLink>

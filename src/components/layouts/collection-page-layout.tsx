@@ -358,7 +358,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   }
 
   const EpicReactBanner = ({
-    image = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226638/epic-react/summer-sale-2021/banner-course-page_2x.jpg',
+    image = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-course-page_2x.jpg',
     width = 1416,
     height = 508,
   }) => {
@@ -944,7 +944,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   You might also like these resources:
                 </h2>
                 <EpicReactBanner
-                  image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+                  // 25% off
+                  // image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+                  // default
+                  image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
                   width={916 / 2}
                   height={1024 / 2}
                 />
