@@ -18,7 +18,8 @@ import Image from 'next/image'
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-}> = ({videoResource, lessonView}) => {
+  sendPlayerState: any
+}> = ({videoResource, lessonView, sendPlayerState}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
   return (
@@ -43,7 +44,7 @@ const PlayerSidebar: React.FC<{
               videoResource={videoResource}
               lessonView={lessonView}
             />
-            <NotesTab />
+            <NotesTab sendPlayerState={sendPlayerState} />
           </div>
         </TabPanels>
       </Tabs>
@@ -78,7 +79,7 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC = () => {
+const NotesTab: React.FC<any> = ({sendPlayerState}) => {
   const {player, manager} = usePlayer()
 
   const {cues} = useNotesCues()
@@ -145,6 +146,8 @@ const NotesTab: React.FC = () => {
             type="button"
             onClick={(e) => {
               e.preventDefault()
+              sendPlayerState('ADD_NOTE')
+              actions.pause()
               track(`clicked add note`)
             }}
             aria-label="download video"
