@@ -44,7 +44,7 @@ const Talks: React.FC = ({allTalks}: any) => {
               )}
               <Link href={talk.path}>
                 <a>
-                  <h2 className="md:text-2xl text-xl font-bold leading-tighter">
+                  <h2 className="md:text-2xl text-xl font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300">
                     {talk.title}
                   </h2>
                 </a>
