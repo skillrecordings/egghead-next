@@ -21,6 +21,7 @@ import JoinCTA from 'components/pages/lessons/join-cta'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import CoursePitchOverlay from 'components/pages/lessons/overlay/course-pitch-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
+import AddNoteOverlay from 'components/pages/lessons/overlay/add-note-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
@@ -578,36 +579,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('addingNote') && (
                 <OverlayWrapper>
-                  <div className="w-[34rem] h-[20rem] rounded-md bg-white p-4 flex flex-col">
-                    <div className="flex-shrink-0 flex justify-end">
-                      <button
-                        type="button"
-                        onClick={() => send('VIEW')}
-                        className="text-gray-400 hover:text-gray-500"
-                      >
-                        <VisuallyHidden>Close</VisuallyHidden>
-                        <span aria-hidden="true">
-                          <IconX />
-                        </span>
-                      </button>
-                    </div>
-                    <div className="flex-grow my-2 overflow-hidden">
-                      <textarea
-                        className="w-full h-full resize-none border-none p-0 placeholder-gray-400"
-                        placeholder={`Write a note...\n\nYou can use markdown to [add links](https://stackoverflow.com), **bold text** or \`write syntax\``}
-                      />
-                    </div>
-                    <div className="flex-shrink-0 flex justify-between items-end">
-                      <span>Publicly visible</span>
-                      <button
-                        type="button"
-                        onClick={() => console.log('add note')}
-                        className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-                      >
-                        Add to notes
-                      </button>
-                    </div>
-                  </div>
+                  <AddNoteOverlay sendPlayerState={send} />
                 </OverlayWrapper>
               )}
             </div>
@@ -875,19 +847,3 @@ const Tags: FunctionComponent<{tags: any; lesson: any}> = ({tags, lesson}) => {
     </>
   )
 }
-
-const IconX: React.FC<any> = ({className}) => (
-  <svg
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-    className={`w-5 h-5 ${className ?? ''}`}
-  >
-    <path
-      d="M6 18L18 6M6 6l12 12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
