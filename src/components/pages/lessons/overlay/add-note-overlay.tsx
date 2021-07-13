@@ -6,7 +6,7 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
   sendPlayerState,
 }) => {
   const [enabled, setEnabled] = React.useState(false)
-  const inputRef = React.useRef()
+  const inputRef = React.useRef<HTMLTextAreaElement>(null)
   React.useEffect(() => {
     if (inputRef) {
       inputRef.current?.focus({preventScroll: true})
