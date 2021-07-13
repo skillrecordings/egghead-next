@@ -21,6 +21,7 @@ import Main from 'components/app/main'
 import Footer from 'components/app/footer'
 import {loadTag} from 'lib/tags'
 import {tagCacheLoader} from 'utils/tag-cache-loader'
+import {topicExtractor} from '../../utils/search/topic-extractor'
 
 const tracer = getTracer('search-page')
 
@@ -91,15 +92,7 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
-    const selectedTopics = searchState?.refinementList?._tags || []
-
-    const query = (searchState?.query || '').trim()
-
-    const terms = query.split(' ')
-
-    if (terms.length === 1 && selectedTopics.length === 0) {
-      selectedTopics.push(first(terms))
-    }
+    const selectedTopics = topicExtractor(searchState)
 
     if (
       isArray(selectedTopics) &&
@@ -202,15 +195,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
-  const selectedTopics = initialSearchState.refinementList?._tags || []
-
-  const userQuery = (initialSearchState?.query || '').trim()
-
-  const terms = userQuery.split(' ')
-
-  if (terms.length === 1 && selectedTopics.length === 0) {
-    selectedTopics.push(first(terms))
-  }
+  const selectedTopics = topicExtractor(initialSearchState)
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)

@@ -26,6 +26,7 @@ import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
 import CuratedTopicsIndex from './curated'
+import {searchQueryToArray} from '../../utils/search/topic-extractor'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -78,9 +79,7 @@ const Search: FunctionComponent<SearchProps> = ({
     : undefined
 
   const shouldDisplayLandingPageForTopics = (topic: string) => {
-    const query = (searchState.query || '').trim()
-
-    const terms = query.split(' ')
+    const terms = searchQueryToArray(searchState)
 
     return (
       (isEmpty(searchState.query) || terms.length === 1) &&
