@@ -6,13 +6,23 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
   sendPlayerState,
 }) => {
   const [enabled, setEnabled] = React.useState(false)
+  const inputRef = React.useRef()
+  React.useEffect(() => {
+    if (inputRef) {
+      inputRef.current?.focus({preventScroll: true})
+    }
+  }, [])
   return (
-    <div className="w-[34rem] h-[20rem] rounded-md bg-white p-4 flex flex-col">
+    <div
+      className="w-[34rem] h-[20rem] rounded-md bg-white p-4 flex flex-col"
+      id="add-note-overlay"
+    >
       <div className="flex-shrink-0 flex justify-end">
         <button
           type="button"
           onClick={() => sendPlayerState('VIEW')}
           className="text-gray-400 hover:text-gray-500"
+          tabIndex={0}
         >
           <VisuallyHidden>Close</VisuallyHidden>
           <span aria-hidden="true">
@@ -20,9 +30,11 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
           </span>
         </button>
       </div>
-      <div className="flex-grow my-2 overflow-hidden">
+      <div className="flex-grow my-3">
         <textarea
-          className="w-full h-full resize-none border-none p-0 placeholder-gray-400"
+          ref={inputRef}
+          tabIndex={0}
+          className="w-full h-full rounded-lg resize-none border-gray-300 p-3 placeholder-gray-400 text-black transition duration-150 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50"
           placeholder={`Write a note...\n\nYou can use markdown to [add links](https://stackoverflow.com), **bold text** or \`write syntax\``}
         />
       </div>
@@ -30,11 +42,12 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
         <Switch.Group>
           <div className="flex items-center">
             <Switch
+              tabIndex={0}
               checked={enabled}
               onChange={setEnabled}
               className={`${
                 enabled ? 'bg-blue-600' : 'bg-gray-200'
-              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+              } relative inline-flex items-center h-6 rounded-full w-11 transition duration-150 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50`}
             >
               <span
                 className={`${
@@ -49,8 +62,9 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
         </Switch.Group>
         <button
           type="button"
+          tabIndex={0}
           onClick={() => console.log('add note')}
-          className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+          className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 duration-150 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50"
         >
           Add to notes
         </button>
