@@ -91,7 +91,15 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
-    const selectedTopics = searchState?.refinementList?._tags
+    const selectedTopics = searchState?.refinementList?._tags || []
+
+    const query = (searchState?.query || '').trim()
+
+    const terms = query.split(' ')
+
+    if (terms.length === 1 && selectedTopics.length === 0) {
+      selectedTopics.push(first(terms))
+    }
 
     if (
       isArray(selectedTopics) &&
@@ -99,6 +107,7 @@ const SearchIndex: any = ({
       !selectedTopics.includes('undefined')
     ) {
       const newTopic = first<string>(selectedTopics)
+
       try {
         if (newTopic) {
           const cachedTag = tagCacheLoader(newTopic)
@@ -121,7 +130,7 @@ const SearchIndex: any = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
-      router.push(`/q/[[all]]`, href, {
+      router.push(href, undefined, {
         shallow: true,
       })
     }, 250)
