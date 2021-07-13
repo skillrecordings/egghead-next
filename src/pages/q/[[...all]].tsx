@@ -202,7 +202,15 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
-  const selectedTopics = initialSearchState.refinementList?._tags
+  const selectedTopics = initialSearchState.refinementList?._tags || []
+
+  const userQuery = (initialSearchState?.query || '').trim()
+
+  const terms = userQuery.split(' ')
+
+  if (terms.length === 1 && selectedTopics.length === 0) {
+    selectedTopics.push(first(terms))
+  }
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)
