@@ -91,3 +91,10 @@
   .cueplayer-react-playback-rate-value {
   line-height: 1;
 }
+
+/* Hide some controls in mobile */
+.cueplayer-react .cueplayer-react-control.cueplayer-react-replay-control,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-forward-control,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-volume-menu-button {
+  @apply hidden sm:inline-block;
+}
