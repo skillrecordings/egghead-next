@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, useEffect} from 'react'
 import Head from 'next/head'
 import Hits from './hits'
 import SearchBox from './search-box'
@@ -11,7 +11,7 @@ import {
   ScrollTo,
 } from 'react-instantsearch-dom'
 import {get, isEqual, isEmpty, first} from 'lodash'
-import {useToggle, useClickAway} from 'react-use'
+import {useToggle} from 'react-use'
 
 import config from 'lib/config'
 
@@ -46,7 +46,15 @@ const Search: FunctionComponent<SearchProps> = ({
   topic,
   ...rest
 }) => {
-  const [isFilterShown, setShowFilter] = useToggle(false)
+  const [isFilterShown, setShowFilter] = useToggle(true)
+
+  useEffect(() => {
+    if (localStorage.getItem('isFilterShown')) {
+      setShowFilter(localStorage.getItem('isFilterShown') === 'true')
+    } else {
+      localStorage.setItem('isFilterShown', 'true')
+    }
+  }, [setShowFilter])
 
   const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
@@ -72,7 +80,6 @@ const Search: FunctionComponent<SearchProps> = ({
     get(searchState, 'refinementList.type', []).length
 
   const refinementRef = React.useRef(null)
-  useClickAway(refinementRef, () => setShowFilter(false))
 
   const searchBoxPlaceholder = !isEmpty(instructor)
     ? `Search resources by ${instructor.full_name}`
@@ -129,7 +136,13 @@ const Search: FunctionComponent<SearchProps> = ({
                 className="w-full "
               />
               <button
-                onClick={setShowFilter}
+                onClick={() => {
+                  setShowFilter()
+                  localStorage.setItem(
+                    'isFilterShown',
+                    isFilterShown ? 'false' : 'true',
+                  )
+                }}
                 className={`ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border-2 ${
                   isRefinementOn ? 'border-blue-400' : 'border-transparent'
                 } focus:border-blue-600 focus:outline-none`}
