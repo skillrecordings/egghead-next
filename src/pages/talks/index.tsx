@@ -5,8 +5,6 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 
 const Talks: React.FC = ({allTalks}: any) => {
-  console.log({allTalks})
-
   return (
     <div className="mx-auto max-w-screen-lg lg:py-16 py-10">
       <h1 className="md:text-4xl text-2xl text-center font-bold pb-16">
