@@ -17,5 +17,8 @@ export const topicExtractor = (searchState: SearchState) => {
 }
 
 export const searchQueryToArray = (searchState: SearchState) => {
-  return (searchState?.query || '').trim().split(' ')
+  return (searchState?.query || '')
+    .trim()
+    .split(' ')
+    .map((term) => term?.toLowerCase())
 }
