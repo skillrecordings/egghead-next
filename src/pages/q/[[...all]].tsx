@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import * as React from 'react'
 import {useRouter} from 'next/router'
 import {findResultsState} from 'react-instantsearch-dom/server'
 import algoliasearchLite from 'algoliasearch/lite'
@@ -21,6 +21,7 @@ import Main from 'components/app/main'
 import Footer from 'components/app/footer'
 import {loadTag} from 'lib/tags'
 import {tagCacheLoader} from 'utils/tag-cache-loader'
+import {topicExtractor} from '../../utils/search/topic-extractor'
 
 const tracer = getTracer('search-page')
 
@@ -91,7 +92,7 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
-    const selectedTopics = searchState?.refinementList?._tags
+    const selectedTopics = topicExtractor(searchState)
 
     if (
       isArray(selectedTopics) &&
@@ -99,6 +100,7 @@ const SearchIndex: any = ({
       !selectedTopics.includes('undefined')
     ) {
       const newTopic = first<string>(selectedTopics)
+
       try {
         if (newTopic) {
           const cachedTag = tagCacheLoader(newTopic)
@@ -121,7 +123,7 @@ const SearchIndex: any = ({
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
-      router.push(`/q/[[all]]`, href, {
+      router.push(href, undefined, {
         shallow: true,
       })
     }, 250)
@@ -193,7 +195,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
-  const selectedTopics = initialSearchState.refinementList?._tags
+
+  const selectedTopics = topicExtractor(initialSearchState)
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
     const topic = first<string>(selectedTopics)
@@ -208,9 +211,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 
   if (selectedInstructors.length === 1) {
-    const instructorSlug = getInstructorSlugFromInstructorList(
-      selectedInstructors,
-    )
+    const instructorSlug =
+      getInstructorSlugFromInstructorList(selectedInstructors)
     try {
       initialInstructor = await loadInstructor(instructorSlug)
 

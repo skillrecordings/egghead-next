@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {Field, Form, Formik} from 'formik'
+import {useTrackComponent} from 'hooks/use-track-component'
 
 const rangeArr = [1, 2, 3, 4, 5, 6, 7]
 
@@ -20,6 +21,9 @@ const RateCourseOverlay: React.FunctionComponent<{
   const [rating, setRating] = React.useState(false)
   const [complete, setComplete] = React.useState(false)
   const {title, square_cover_480_url, slug} = course
+
+  useTrackComponent('show rate course', {course: slug})
+
   return (
     <>
       <div className="flex flex-col items-center">
@@ -61,19 +65,19 @@ const TextComment: React.FunctionComponent<{
   const MESSAGES: any = {
     7: {
       subtitle: "We're so glad you enjoyed it! 🤗",
-      title: 'How will you use what you learned from this course?',
+      title: 'What did you like about this course?',
     },
     6: {
       subtitle: 'We really appreciate your feedback.',
-      title: 'How will you use what you learned from this course?',
+      title: 'What did you like about this course?',
     },
     5: {
       subtitle: 'Thanks for the feedback.',
-      title: 'How will you use what you learned from this course?',
+      title: 'What did you like about this course?',
     },
     4: {
       subtitle: 'Thank you so much.',
-      title: 'How will you use what you learned from this course?',
+      title: 'What did you like about this course?',
     },
     3: {
       subtitle: "We're sorry this course didn't meet your expectations",

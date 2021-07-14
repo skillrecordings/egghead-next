@@ -19,6 +19,10 @@ const formatAmountWithCurrency = (
   }).format(amountInCents / 100)
 }
 
+const isValidDate = (date: any) => {
+  return date instanceof Date && !isNaN(date.getTime())
+}
+
 const BillingSection = ({
   subscriptionData,
   loading,
@@ -66,6 +70,10 @@ const BillingSection = ({
   const currentPeriodEnd = new Date(
     get(subscriptionData, 'subscription.current_period_end') * 1000,
   )
+
+  const displayCurrentPeriod = [currentPeriodStart, currentPeriodEnd]
+    .map(isValidDate)
+    .every((isValid) => isValid)
 
   const activeSubscription =
     get(subscriptionData, 'subscription.status') === 'active' &&
@@ -125,7 +133,6 @@ const BillingSection = ({
     totalAmountInCents,
     currency,
   )
-
   return (
     <>
       <h2 className="font-semibold text-xl mt-16">Team Billing</h2>
@@ -162,13 +169,17 @@ const BillingSection = ({
               </div>
             </div>
             <div className="flex flex-col space-y-0.5">
-              <span className="font-semibold text-sm text-gray-500 dark:text-gray-400">
-                Current Billing Period
-              </span>
-              <span className="">
-                {format(currentPeriodStart, 'yyyy/MM/dd')} -{' '}
-                {format(currentPeriodEnd, 'yyyy/MM/dd')}
-              </span>
+              {displayCurrentPeriod && (
+                <>
+                  <span className="font-semibold text-sm text-gray-500 dark:text-gray-400">
+                    Current Billing Period
+                  </span>
+                  <span className="">
+                    {format(currentPeriodStart, 'yyyy/MM/dd')} -{' '}
+                    {format(currentPeriodEnd, 'yyyy/MM/dd')}
+                  </span>
+                </>
+              )}
             </div>
             <div className="flex flex-col space-y-0.5">
               <span className="font-semibold text-sm text-gray-500 dark:text-gray-400">

@@ -42,7 +42,7 @@ const EmailEntryForm: React.FC = () => {
           <h1 className="text-black dark:text-white text-2xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
             Let's chat about <strong className="font-bold">your career</strong>.
           </h1>
-          <p className="font-normal text-blue-600 sm:text-lg text-base mt-4">
+          <p className="font-normal text-blue-600 dark:text-blue-300 sm:text-lg text-base mt-4">
             Enter your email and we'll be in touch.
           </p>
         </div>

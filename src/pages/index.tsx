@@ -16,7 +16,7 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1621135706/egghead-next-pages/dom-events/main-ogImage-dom-events_2x.png',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1624391508/egghead-next-ebombs/apply-redux-to-a-modern-react-hooks-application/main-ogimage.png',
             },
           ],
         }}

@@ -19,9 +19,8 @@ export type CardResource = Resource & {
 }
 
 export type LessonResource = Resource & {
-  dash_url: string
-  hls_url: string
   media_url: string
+  thumb_url: string
   lesson_view_url: string
   id: string | number
   tags: any[]
@@ -29,6 +28,15 @@ export type LessonResource = Resource & {
   completed: boolean
   duration: number
   instructor: any
+  staff_notes_url?: string
+}
+
+export type VideoResource = LessonResource & {
+  dash_url: string
+  hls_url: string
+  thumb_url: string
+  subtitles_url: string
+  collection: any
 }
 
 export type PodcastResource = Resource & {

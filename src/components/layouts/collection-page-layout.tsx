@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take} from 'lodash'
+import {get, first, filter, isEmpty, take, find} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -27,6 +27,7 @@ import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
+import ExternalTrackedLink from 'components/external-tracked-link'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -65,7 +66,7 @@ const logCollectionResource = (collection: CollectionResource) => {
       instructor?.full_name && `${instructor.full_name}・`
     }${formattedDuration}・Course`
 
-    console.debug({
+    console.debug('collection resource', {
       title,
       byline,
       ...(!!image && {image}),
@@ -207,6 +208,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
     illustrator: sanityIllustrator,
+    dependencies: sanityDependencies,
     state,
     path,
     tags = [],
@@ -239,7 +241,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   logCollectionResource(course)
 
   const courseTags = tags.map((tag: any) => {
-    const version = get(dependencies, tag.name)
+    const ogVersion = get(dependencies, tag.name)
+    const sanityTag = find(sanityDependencies, {name: tag.name})?.version
+
+    const version = !isEmpty(sanityTag) ? sanityTag : ogVersion
+
     return {
       ...tag,
       ...(!!version && {version}),
@@ -351,6 +357,34 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     )
   }
 
+  const EpicReactBanner = ({
+    image = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-course-page_2x.jpg',
+    width = 1416,
+    height = 508,
+  }) => {
+    return get(course, 'owner.id') === 15369 ? (
+      <ExternalTrackedLink
+        eventName="clicked epic react banner"
+        params={{location: course.path}}
+        href="https://epicreact.dev"
+        target="_blank"
+        rel="noopener"
+        className="block"
+      >
+        <div className="overflow-hidden flex items-center justify-center rounded-lg">
+          <Image
+            src={image}
+            alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
+            width={width}
+            height={height}
+            quality={100}
+            className="hover:scale-[102%] transform ease-in-out duration-500"
+          />
+        </div>
+      </ExternalTrackedLink>
+    ) : null
+  }
+
   return (
     <>
       <NextSeo
@@ -436,6 +470,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       <div className="mr-4">
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
+                    )}
+                    {updated_at && (
+                      <UpdatedAt date={friendlyTime(new Date(updated_at))} />
                     )}
                   </div>
                 </div>
@@ -558,46 +595,37 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {!isEmpty(podcast) && (
                 <CoursePodcast podcast={podcast} instructorName={name} />
               )}
-              <div
-                className={`grid grid-cols-1 md:gap-x-5 ${
-                  coursePrerequisites && courseTopics
-                    ? 'md:grid-cols-2'
-                    : 'md:grid-cols-1'
-                }`}
-              >
-                {courseTopics && (
-                  <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                    <h2 className="text-lg font-semibold mb-3">
-                      What you'll learn
-                    </h2>
-                    <div className="prose dark:prose-dark">
-                      <ul className="grid grid-cols-1 md:gap-x-5">
-                        {courseTopics?.map((topic: string) => (
-                          <li
-                            key={topic}
-                            className="text-gray-900 dark:text-gray-100 leading-6"
-                          >
-                            {topic}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+
+              {courseTopics && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">
+                    What you'll learn:
+                  </h2>
+                  <div className="prose dark:prose-dark">
+                    <ul className="grid grid-cols-1 md:gap-x-5">
+                      {courseTopics?.map((topic: string) => (
+                        <li
+                          key={topic}
+                          className="text-gray-900 dark:text-gray-100 leading-6"
+                        >
+                          {topic}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                )}
-                {coursePrerequisites && (
-                  <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                    <h2 className="text-lg font-semibold mb-3">
-                      Prerequisites
-                    </h2>
-                    <div className="prose dark:prose-dark">
-                      <Prereqs prerequisites={coursePrerequisites} />
-                    </div>
+                </div>
+              )}
+              {coursePrerequisites && (
+                <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
+                  <h2 className="text-lg font-semibold mb-3">Prerequisites:</h2>
+                  <div className="prose dark:prose-dark">
+                    <Prereqs prerequisites={coursePrerequisites} />
                   </div>
-                )}
-              </div>
+                </div>
+              )}
               {quickFacts && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
-                  <h2 className="text-lg font-semibold mb-3">Quick Facts</h2>
+                  <h2 className="text-lg font-semibold mb-3">Quick Facts:</h2>
                   <div className="prose dark:prose-dark">
                     <ul className="grid grid-cols-1 md:gap-x-5">
                       {quickFacts?.map((quickFact: string) => (
@@ -639,6 +667,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="text-lg font-semibold mb-3">
                     You might also like these resources:
                   </h2>
+                  <EpicReactBanner />
                   {relatedResources.map((resource: any) => {
                     return (
                       <div key={resource.slug}>
@@ -909,12 +938,19 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 </ul>
               </div>
             </section>
-
             {!isEmpty(pairWithResources) && (
               <div className="my-12 flex md:hidden flex-col space-y-2">
                 <h2 className="text-lg font-semibold mb-3">
                   You might also like these resources:
                 </h2>
+                <EpicReactBanner
+                  // 25% off
+                  // image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+                  // default
+                  image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
+                  width={916 / 2}
+                  height={1024 / 2}
+                />
                 {pairWithResources.map((resource: any) => {
                   return (
                     <div key={resource.slug}>

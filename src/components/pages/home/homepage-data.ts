@@ -67,10 +67,8 @@ const homepageData = {
     description: `A guide to the fundamentals of React explained through five visual metaphors. From component trees to state, Maggie explains the analogies and metaphorical comparisons that helped her "get" React for the first time.`,
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/053/original/profile_photo_big_2.png',
-    path:
-      '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
-    slug:
-      'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    path: '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+    slug: 'javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
     instructor: {
       name: 'Maggie Appleton',
       slug: 'maggie-appleton',
@@ -82,36 +80,22 @@ const homepageData = {
   },
   video: {
     id: 'video',
-    name: 'Optimize your Learning',
-    title: 'Learning Tips Every Developer Should Know',
-    description: `Learning will be a constant in your career no matter what you decide to do, especially if you are breaking into tech.\n\nThere are a number of tried and true methods that will allow you to learn more efficiently so that you can keep up with the industry. These evergreen methods will serve you well no matter your level of expertise.
+    name: 'Successfully Market Your Work',
+    title: 'Marketing Tactics for Software Developers',
+    description: `Developers understand that marketing is beneficial, but can be put off by marketing tactics that seem more focused on making a sale than with sharing something they need or value. But self-promotion doesn’t have to be self-centered, and marketing content can, and should, be relevant to what software developers have created.
       `,
-    instructor: 'Ceora Ford',
-    instructor_path: '/q/resources-by-ceora-ford',
+    instructor: 'Stephanie Morillo',
+    instructor_path: '/q/resources-by-stephanie-morillo',
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1619072044/egghead-next-pages/home-page/cover-learning-tips-by-ceora-ford.png',
-    path:
-      '/lessons/egghead-egghead-talks-learning-tips-every-developer-should-know',
-  },
-  nextjsVideoApp: {
-    id: 'nextjsVideoApp',
-    name: 'Create AI-powered Transcripts',
-    title: 'Video Analysis App with NextJS and Symbl.ai',
-    byline: 'Vladimir Novick・38m・Course',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/422/773/thumb/next_video_analysis_424_2x.png',
-    path:
-      '/courses/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
-    slug: 'create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb',
-    description: `Add Conversation Intelligence to your video or voice application without training Machine Learning models.
-    `,
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1623277905/egghead-next-ebombs/egghead-marketing-tactics-for-software-developers/cover.png',
+    path: '/talks/egghead-marketing-tactics-for-software-developers',
   },
   featured: {
     id: 'featured',
     title: 'Featured',
     resources: [
       {
-        name: 'Fresh Course',
+        name: 'Build Accessible Forms',
         title: 'Accessible Cross-Browser CSS Form Styling',
         byline: 'Stephanie Eckles・1h 52m・Course',
         image:
@@ -121,85 +105,36 @@ const homepageData = {
       },
       {
         name: 'Learn Serverless',
-        title: 'Netlify Serverless Functions and Hasura',
+        title: 'Build Apps with Serverless Functions and Hasura',
         byline: 'Jason Lengstorf・1h 27m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
-        path:
-          '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
-        slug:
-          'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        path: '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
+        slug: 'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
       },
       {
-        name: 'layout design',
-        id: 'elm-ui',
-        title: 'Declarative UIs without CSS with elm-ui',
-        byline: 'Flavio Corpa ・1h 27m・Course',
+        id: 'dom-events',
+        byline: 'Alex Reardon・2h 9m・Course',
+        path: '/courses/the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
+        slug: 'the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
+        title: 'Your Ultimate Guide to Understanding DOM Events',
+        name: 'Master DOM Events',
         image:
-          'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1615284992/next.egghead.io/resources/declarative-uis-without-css-with-elm-ui/illustration-declarative-uis-without-css-with-elm-ui_2x.png',
-        path: '/courses/declarative-uis-without-css-with-elm-ui-93bd',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/603/full/DOM_424_2x.png',
         instructor: {
-          name: 'Flavio Corpa',
-          slug: 'flavio-corpa',
-          path: '/q/resources-by-flavio-corpa',
-          twitter: 'FlavioCorpa',
+          name: 'Alex Reardon',
+          slug: 'alex-reardon',
+          path: '/q/resources-by-alex-reardon',
+          twitter: 'alexandereardon',
           image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/154/medium/avatar.jpg',
+            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/213/square_128/profile-500.jpg',
         },
-      },
-    ],
-  },
-  workflows: {
-    id: 'workflows',
-    title: 'Optimize Daily Workflows',
-    description:
-      'Humans were never meant to repeat joyless tasks in a precise manner, over and over and over. Computers are meant precisely for these types of tasks. Automation is all about saving you time — and these courses are well worth yours. Enjoy!',
-    resources: [
-      {
-        title: 'Advanced Bash Automation for Web Developers',
-        byline: 'Cameron Nokes・ Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/239/thumb/EGH_BashAutomation_Final.png',
-        path: '/courses/advanced-bash-automation-for-web-developers',
-        slug: 'advanced-bash-automation-for-web-developers',
-      },
-      {
-        title: 'Regex in Javascript',
-        byline: 'Joe Maddalone・ Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/029/thumb/course_image.png',
-        path: '/courses/regex-in-javascript',
-        slug: 'regex-in-javascript',
-      },
-      {
-        title: 'Use Grep for Fast Search from the Command Line',
-        byline: 'Bonnie Eisenman・ Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/088/thumb/EGH_Grep_Final_Small.png',
-        path: '/courses/use-grep-for-fast-search-from-the-command-line',
-        slug: 'use-grep-for-fast-search-from-the-command-line',
-      },
-      {
-        title: 'Wrangle your terminal with tmux',
-        byline: 'Bonnie Eisenman・ Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/099/thumb/EGH_TMUX_Final_2x.png',
-        path: '/courses/wrangle-your-terminal-with-tmux',
-        slug: 'wrangle-your-terminal-with-tmux',
-      },
-      {
-        title: 'Productive Git for Developers',
-        byline: 'Juri Strumpflohner・ Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/247/thumb/EGH_ProductiveGitFinal.png',
-        path: '/courses/productive-git-for-developers',
-        slug: 'productive-git-for-developers',
       },
     ],
   },
   getStarted: {
     id: 'getStarted',
-    name: 'Introductions',
+    name: 'Build real-world applications ',
     title: 'Start Learning Here',
     description:
       'These courses will get you started building real-world applications with these tools. They are all excellent introductions if you want to learn something new today.',
@@ -212,11 +147,20 @@ const homepageData = {
         path: '/courses/the-beginner-s-guide-to-react',
       },
       {
-        title: 'CSS Fundamentals',
-        byline: 'Tyler Clark・33m・Course',
+        byline: 'Kevin Cunningham・49m・Course',
+        path: '/courses/the-beginner-s-guide-to-vue-3-1c46da8b',
+        slug: 'the-beginner-s-guide-to-vue-3-1c46da8b',
+        title: "The Beginner's Guide to Vue 3",
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/227/thumb/EGH_CSSFundamentals_Final.png',
-        path: '/courses/css-fundamentals',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/447/579/full/EGH_vue3.png',
+      },
+      {
+        byline: 'Hiroko Nishimura・22m・Course',
+        path: '/courses/build-modern-layouts-with-css-grid-d3f5',
+        slug: 'build-modern-layouts-with-css-grid-d3f5',
+        title: 'Build Modern Layouts with CSS Grid',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/653/full/EGH_modern-layouts-css__1000.png',
       },
       {
         title: "The Beginner's Guide to Figma",
@@ -230,15 +174,8 @@ const homepageData = {
         title: 'Up and running with Svelte 3',
         byline: 'Tomasz Łakomy・26m ・Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/236/thumb/svelte-logo-vertical.png',
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/306/412/full/egh_svelte3_424_2x.png',
         path: '/playlists/getting-started-with-svelte-3-05a8541a',
-      },
-      {
-        title: 'Develop Basic Web Apps with Vue.js',
-        byline: 'Greg Thoman・16m ・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/083/thumb/EGH_VueJS_Final.png',
-        path: '/courses/develop-basic-web-apps-with-vue-js',
       },
       {
         title: 'Write Your First Program with the Rust Language',
@@ -298,8 +235,7 @@ const homepageData = {
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/211/thumb/EGH_GraphQL-AWs_Final.png',
 
-        path:
-          '/courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
+        path: '/courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
       },
       {
         title: 'GraphQL Data in React with Apollo Client',
@@ -313,16 +249,25 @@ const homepageData = {
   },
   devEssentials: {
     id: 'devEssentials',
-    name: 'Practice Makes Perfect',
+    name: 'Advance your skills',
     title: 'Web Development Essentials',
-    description: '',
+    description:
+      'If you are a complete beginner, web development can be challenging — these courses will provide the essential skills needed to be a well-rounded web developer. ',
     resources: [
       {
-        title: 'How to Contribute to an Open Source Project on GitHub',
+        title: 'Contribute to an Open Source Project on GitHub',
         byline: 'Kent C. Dodds・38m ・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/032/thumb/EGH_JSopensource_final.png',
         path: '/courses/how-to-contribute-to-an-open-source-project-on-github',
+      },
+      {
+        byline: 'Kent C. Dodds・1h 30m・Course',
+        path: '/courses/how-to-write-an-open-source-javascript-library',
+        slug: 'how-to-write-an-open-source-javascript-library',
+        title: 'Write an Open Source JavaScript Library',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/567/full/EGH_Webpack-Final.png',
       },
       {
         title: 'Fix Common Git Mistakes',
@@ -332,14 +277,23 @@ const homepageData = {
         path: '/courses/fix-common-git-mistakes',
       },
       {
-        title: 'GraphQL Query Language',
-        byline: 'Eve Porcello・30m・Course',
+        title: 'Bash Automation for Web Developers',
+        byline: 'Cameron Nokes・ Course',
         image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/236/full/EGH_GraphQLQuery_Final.png',
-        path: '/courses/graphql-query-language',
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/239/thumb/EGH_BashAutomation_Final.png',
+        path: '/courses/advanced-bash-automation-for-web-developers',
+        slug: 'advanced-bash-automation-for-web-developers',
       },
       {
-        title: 'Debug the DOM in Chrome with the Devtools Elements panel',
+        title: 'Use Grep for Fast Search from the Command Line',
+        byline: 'Bonnie Eisenman・ Course',
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/088/thumb/EGH_Grep_Final_Small.png',
+        path: '/courses/use-grep-for-fast-search-from-the-command-line',
+        slug: 'use-grep-for-fast-search-from-the-command-line',
+      },
+      {
+        title: 'Debug the DOM in Chrome with the Devtools',
         byline: 'Mykola Bilokonsky・25m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/060/full/EGH_Chrome_Elements.png',
@@ -363,6 +317,16 @@ const homepageData = {
         path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
         slug: 'build-an-app-with-the-aws-cloud-development-kit',
         title: 'Build an App with the AWS Cloud Development Kit',
+      },
+      {
+        byline: 'Sam Julien・40m・Course',
+        description:
+          "One of the hardest parts of learning AWS is understanding how the different moving parts work together.This course ties together skills like networking, SSH, and using the command line while getting a realistic full-stack platform up and running. Whether you're studying for a certificate like Certified Cloud Practitioner or just learning for fun, this hands-on project will be a great way to dig in and get some practice!",
+        image:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
+        path: '/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+        slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+        title: 'Deploy Ghost to AWS using RDS and EC2',
       },
       {
         byline: 'Lee Robinson・30m・Course',
@@ -409,10 +373,8 @@ const homepageData = {
           "We generally tend to avoid paying for things unless we actually need them, and the same goes for AWSWhen using a cloud provider like AWS sometimes an unexpected charge may occur and we'd like to understand what are we being charged for and how to be notified whenever an unexpected charge occurs (especially when we're trying to stay within a free tier).In this quick (4 minutes, 2 lessons) collection we're going to learn how to:- Review the AWS Billing & Cost Management Dashboard- Set up a billing alarm to be notified whenever our bill is larger than $5- Review the AWS bill to understand how much are we going to pay this month and why",
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
-        path:
-          '/playlists/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
-        slug:
-          'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        path: '/playlists/use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
+        slug: 'use-aws-billing-cost-management-dashboard-to-keep-your-aws-bill-to-minimum-ff0f',
         title:
           'Use AWS Billing & Cost Management Dashboard to keep your AWS bill to minimum',
       },
@@ -422,86 +384,12 @@ const homepageData = {
           'This collection is a sequel to the [Building a Serverless JAMStack Todo app with Netlify, Gatsby, GraphQL, and FaunaDB](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb) collection. In this collection we take the TODO application we built and convert it to run using Netlify Identity, AWS Lambda (using the serverless framework) and DynamoDB. We cover* Fauna vs DynamoDB and when to use each* Setting up AWS accounts* Creating DynamoDB tables and data modeling differences between Fauna and Dynamo* Converting our Netlify Functions deployment to a Serverless Framework deployment* Implementing Custom authorizer functions on AWSIt uses tools that remove as many of the barriers as possible. Netlify Functions grows into Serverless Framework adn AWS Lambda, Netlify Identity is kept around, and FaunaDB can grows into DynamoDB.',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
-        path:
-          '/playlists/converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
-        slug:
-          'converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        path: '/playlists/converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
+        slug: 'converting-a-serverless-app-to-run-on-aws-lambda-and-dynamodb-with-serverless-framework-223a',
         title:
           'Converting a Serverless App to run on AWS Lambda and DynamoDB with Serverless Framework',
       },
     ],
-  },
-  stateManagement: {
-    id: 'stateManagement',
-    name: 'Research Panel',
-    title: 'React State Management in 2021',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png',
-    path: '/playlists/react-state-management-in-2021-6732',
-    description: '',
-    resources: [
-      {
-        title: 'Using Redux in Modern React Apps with Mark Erikson',
-        byline: 'Mark Erikson & Joel Hooks・90m・Chat',
-        path:
-          '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson?pl=react-state-management-2020-6bec',
-      },
-      {
-        title: 'XState for State Management in React Apps with David Khourshid',
-        byline: 'David Khourshid & Joel Hooks・55m・Chat',
-        path:
-          '/lessons/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
-      },
-      {
-        title: 'State Management in React with Chance Strickland',
-        byline: 'Chance Strickland & Joel Hooks・46m・Chat',
-        path:
-          '/lessons/react-state-management-in-react-with-chance-strickland?pl=react-state-management-2020-6bec',
-      },
-      {
-        title:
-          'Using Recoil to Manage Orthogonal State in React Apps with David McCabe',
-        byline: 'David McCabe & Joel Hooks・34m・Chat',
-        path:
-          '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe?pl=react-state-management-2020-6bec',
-      },
-      {
-        title: 'State Management in React with Christopher Chedeau',
-        byline: 'Christopher Chedeau & Joel Hooks・35m・Chat',
-        path:
-          '/lessons/react-state-management-in-react-with-christopher-chedeau?pl=react-state-management-in-2021-6732',
-      },
-      {
-        title: 'State Management in React with Paul Henschel',
-        byline: 'Paul Henschel & Joel Hooks・24m・Chat',
-        path:
-          '/lessons/react-state-management-in-react-with-paul-henschel?pl=react-state-management-in-2021-6732',
-      },
-      {
-        title: 'Managing Complex State in React with Jared Palmer',
-        byline: 'Jared Palmer & Joel Hooks・1h 28m・Chat',
-        path:
-          '/lessons/react-managing-complex-state-in-react-with-jared-palmer?pl=react-state-management-2020-6bec',
-      },
-      {
-        title:
-          'Using react-query to Manage Server Data and Cache with Tanner Linsley',
-        byline: 'Tanner Linsley & Joel Hooks・47m・Chat',
-        path:
-          '/lessons/react-using-react-query-to-manage-server-data-and-cache-with-tanner-linsley?pl=react-state-management-in-2021-6732',
-      },
-    ],
-  },
-  ecommerce: {
-    id: 'ecommerce',
-    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-    name: 'Accept Payments and Sell Products',
-    byline: 'Colby Fayock',
-    image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
-    path:
-      '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-    description: `E-commerce is here to stay and as professional developers we need to understand how to build fully custom stores for our clients using the best modern tools available.`,
   },
   tailwind: {
     id: 'tailwind',
@@ -516,13 +404,11 @@ const homepageData = {
     resources: [
       {
         title: 'Introduction to Tailwind and the Utility First Workflow',
-        path:
-          '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
+        path: '/playlists/introduction-to-tailwind-and-the-utility-first-workflow-ac67',
       },
       {
         title: 'Design and Implement Common Tailwind Components',
-        path:
-          '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
+        path: '/playlists/design-and-implement-common-tailwind-components-8fbb9b19',
       },
       {
         title: 'Build a Responsive Navbar with Tailwind',
@@ -534,47 +420,83 @@ const homepageData = {
       },
     ],
   },
-  accessibleReactApps: {
-    id: 'accessibleReactApps',
-    name: 'Accessible React Applications ',
-    byline: 'Erin Doyle・1h 28m・Course',
-
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/412/thumb/AccessibleReact_1000.png',
-    path: '/courses/develop-accessible-web-apps-with-react',
-    slug: 'develop-accessible-web-apps-with-react',
-    title: 'Develop Accessible Web Apps with React',
-  },
-  accessibleApps: {
-    id: 'accessibleApps',
-    name: 'Accessible Portfolio Pieces',
-    title: 'Start Building Accessible Web Applications Today',
-    byline: 'Marcy Sutton・2h 7m ・ Course',
-    image: `https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/055/thumb/EGH_AccessibleWeb.png`,
-    path: '/courses/start-building-accessible-web-applications-today',
-    slug: 'start-building-accessible-web-applications-today',
-  },
   cms: {
     id: 'cms',
     name: 'Content Management System',
-    title: 'Headless WordPress with GraphQL',
+    title: 'Build a Headless Content Management System',
     path: '/playlists/headless-wordpress-4a14',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
     byline: 'Kevin Cunningham・59m・Course',
-    description: `You and your clients will be able to take advantage of WordPress's content editing experience, without having to settle for a cookie-cutter theme on the frontend.`,
   },
-  portfolioProject: {
-    id: 'portfolioProject',
-    name: 'Portfolio Project',
-    title: 'Introduction to Cloudflare Workers',
-    path: '/projects/introduction-to-cloudflare-workers',
+  portfolioProjectOne: {
+    id: 'portfolioProjectOne',
+    name: 'Build Serverless Applications',
+    title: 'Build a Geolocation Data Engine with Cloudflare Workers',
+    path: '/courses/introduction-to-cloudflare-workers-5aa3',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
     byline: 'Kristian Freeman',
-    description:
-      'Create and deploy a Cloudflare Worker that will examine the request for location data, and render HTML featuring information for the closest concert taking place based on the nearest regional Cloudflare Location.',
   },
+  portfolioProjectTwo: {
+    id: 'portfolioProjectTwo',
+    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
+    name: 'Accept Payments and Sell Products',
+    byline: 'Colby Fayock',
+    image:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
+    path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+  },
+  typescriptFeature: {
+    id: 'typescriptFeature',
+    name: 'Learn New language features',
+    byline: 'Marius Schulz・1h 14m・Course',
+    description:
+      "This course will teach you these new language features TypeScript has to offer. You'll use optional chaining, handle undefined behavior with the unknown type and more!",
+    path: '/courses/advanced-typescript-fundamentals-579c174f',
+    slug: 'advanced-typescript-fundamentals-579c174f',
+    title: 'Advanced TypeScript Fundamentals',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/433/579/full/typescript.png',
+  },
+  reactFeature: {
+    id: 'reactFeature',
+    name: 'Beginners Hands-On Project',
+    byline: 'Chris Achard・14m・Course',
+    description:
+      'This course gets you up and running with react in under a minute by using codesandbox.io to skip the painful process of setting up your dev environment.',
+    path: '/courses/react-crash-course-with-hooks-ca06',
+    slug: 'react-crash-course-with-hooks-ca06',
+    title: 'React Crash Course with Hooks',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/365/616/full/react-crash-course-hooks.png',
+  },
+  learnWithKent: [
+    {
+      title: 'Simplify React Apps with React Hooks',
+      byline: 'Kent C. Dodds・38m・Course',
+      path: '/courses/simplify-react-apps-with-react-hooks',
+      slug: 'simplify-react-apps-with-react-hooks',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/510/full/EGH_SimplifyHooks_Final.png',
+    },
+    {
+      title: 'Use Suspense to Simplify Your Async UI',
+      byline: 'Kent C. Dodds・1h 26m・Course',
+      path: '/courses/use-suspense-to-simplify-your-async-ui',
+      slug: 'use-suspense-to-simplify-your-async-ui',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/509/full/SuspenseAsyncUI_1000.png',
+    },
+    {
+      title: "The Beginner's Guide to React",
+      byline: 'Kent C. Dodds・2h 29m・Course',
+      path: '/courses/the-beginner-s-guide-to-react',
+      slug: 'the-beginner-s-guide-to-react',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/490/full/EGH_BeginnersReact2.png',
+    },
+  ],
   topics: {
     id: 'topics',
     name: 'Popular Topics',

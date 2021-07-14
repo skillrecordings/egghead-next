@@ -7,6 +7,7 @@ import TagList from '../../components/layouts/tag-list'
 import useClipboard from 'react-use-clipboard'
 import {IconLink} from 'components/share'
 import {NextSeo} from 'next-seo'
+import FiveStars from '../../components/five-stars'
 
 export async function getStaticProps() {
   const courses = await loadAllPlaylistsByPage()
@@ -102,6 +103,13 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
                             )}
                             <span className="opacity-70 group-hover:opacity-100 transition-opacity ease-in-out duration-300">
                               {course.watched_count}× completed
+                            </span>
+                            <span className="opacity-70 group-hover:opacity-100 transition-opacity ease-in-out duration-300">
+                              {course.average_rating_out_of_5 > 0 && (
+                                <FiveStars
+                                  rating={course.average_rating_out_of_5}
+                                />
+                              )}
                             </span>
                           </div>
                           <TagList

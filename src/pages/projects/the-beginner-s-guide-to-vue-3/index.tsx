@@ -40,8 +40,6 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
 
   const {productCard, productPage} = course?.projects
 
-  console.log(course)
-
   return (
     <>
       <NextSeo

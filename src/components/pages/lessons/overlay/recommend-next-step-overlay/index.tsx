@@ -3,11 +3,18 @@ import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import Share from 'components/share'
+import {useTrackComponent} from 'hooks/use-track-component'
 
 const RecommendNextStepOverlay: React.FunctionComponent<{
   lesson: any
 }> = ({lesson}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
+
+  useTrackComponent('show recommendations', {
+    course: lesson?.collection?.slug,
+    lesson: lesson?.slug,
+  })
+
   return (
     <div className="flex flex-col items-center">
       {courseImage && (
@@ -39,7 +46,7 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
           {lesson.instructor.full_name.split(' ')[0]} get the word out.
         </div>
       </Share>
-      <div className="mt-8 text-xs md:mt-10 lg:mt-16 text-center">
+      <div className="mt-8 text-xs md:mt-10 lg:mt-6 xl:mt-16 text-center">
         Ready for something new?{' '}
         <Link href="/">
           <a

@@ -193,9 +193,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </h3>
                 <Transcript
                   className="prose dark:prose-dark max-w-none text-gray-800"
-                  player={playerRef}
-                  playVideo={() => send('PLAY')}
-                  playerAvailable={playerVisible}
                   initialTranscript={transcript}
                   enhancedTranscript={enhancedTranscript}
                 />

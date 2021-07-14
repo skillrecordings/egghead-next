@@ -1,14 +1,19 @@
-.cueplayer-react .cueplayer-react-cue-bar {
-  display: none;
-  width: 100%;
-  position: absolute;
-  bottom: 3em;
-  left: 0;
-  right: 0;
-  height: 1.5em;
-  background-color: #2b333f90;
+/* side-bar */
+/* tabs */
+.side-bar {
+  @apply select-text;
+}
+.side-bar [data-reach-tabs] [data-reach-tab-list] {
+  @apply space-x-0 bg-transparent rounded-none bg-white dark:bg-gray-900;
+}
+.side-bar [data-reach-tabs] [data-reach-tab] {
+  @apply px-5 py-4 text-sm font-semibold uppercase border-none rounded-none xl:px-6;
+}
+.side-bar [data-reach-tabs] [data-reach-tab][data-selected] {
+  @apply bg-gray-100 dark:bg-gray-1000;
 }
 
+/* cue note */
 .cueplayer-react-cue-bar .cueplayer-react-cue-note {
   position: absolute;
   height: 100%;
@@ -17,44 +22,70 @@
   cursor: pointer;
 }
 
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-active {
-  background-color: orangered;
+.cueplayer-react-cue-bar
+  .cueplayer-react-cue-note.cueplayer-react-cue-note-active {
+  @apply bg-white opacity-100;
 }
 
-.cueplayer-react-cue-bar .cueplayer-react-cue-note-inactive {
-  background-color: orange;
+.cueplayer-react-cue-bar
+  .cueplayer-react-cue-note.cueplayer-react-cue-note-inactive {
+  @apply bg-white opacity-50;
 }
 
-.cueplayer-react-has-started .cueplayer-react-cue-bar {
-  display: flex;
-  visibility: visible;
-  opacity: 1;
+/* progress bar */
+.cueplayer-react .cueplayer-react-progress-control {
+  @apply bottom-0 w-full h-6 absolute hidden sm:flex px-2;
+  transform: translateY(1.5rem);
 }
 
-.cueplayer-react .cueplayer-react-cue-popup {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  background-color: white;
-  width: 10rem;
-  min-height: 4rem;
-  border-radius: 0.375rem;
-  padding: 0.75rem;
-  font-size: 0.75rem;
-  color: black;
-  border: 1px solid #9ca3af;
-  transform: translateX(calc(-50% + 3px)) translateY(calc(-100% - 15px));
+/* cue bar */
+.cueplayer-react .cueplayer-react-cue-bar {
+  @apply bottom-0 h-4 z-10 absolute bottom-0 left-2 right-3 hidden lg:flex;
+  transform: translateY(2.5rem);
 }
 
-.cueplayer-react .cueplayer-react-cue-popup:before {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: calc(50% - 10px);
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 10px 10px 0 10px;
-  border-color: #ffffff transparent transparent transparent;
+/* control bar */
+.cueplayer-react .cueplayer-react-control-bar {
+  @apply hidden sm:flex bg-gray-1000 z-[10];
+}
+
+.cueplayer-react .cueplayer-react-fullscreen {
+  @apply relative;
+}
+
+/* Hide side bar in fullscreen */
+.cueplayer-react-fullscreen .side-bar {
+  display: none;
+}
+
+.cueplayer-react
+  .cueplayer-react-menu-button-popup
+  .cueplayer-react-menu
+  .cueplayer-react-menu-content {
+  @apply bg-[#333539];
+}
+
+.cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item {
+  @apply bg-transparent text-white py-2 text-xs;
+  text-shadow: none;
+}
+
+.cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item:hover,
+.cueplayer-react
+  .cueplayer-react-menu
+  .cueplayer-react-menu-item.cueplayer-react-selected {
+  @apply bg-[#606163] text-white;
+  text-shadow: none;
+}
+
+.cueplayer-react-current-time-display {
+  @apply tabular-nums;
+}
+
+.cueplayer-react .cueplayer-react-control.cueplayer-react-playback-rate {
+  @apply flex justify-center items-center;
+}
+
+.cueplayer-react .cueplayer-react-playback-rate .cueplayer-react-playback-rate-value {
+  line-height: 1;
 }

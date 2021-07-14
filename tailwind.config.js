@@ -36,7 +36,7 @@ module.exports = {
               },
               code: {color: theme('colors.blue.600')},
             },
-            'strong > a': {
+            'strong > a, a > strong': {
               color: theme('colors.blue.600'),
             },
             code: {
@@ -83,7 +83,7 @@ module.exports = {
                 },
               },
             },
-            'strong > a': {
+            'strong > a, a > strong': {
               color: theme('colors.blue.400'),
             },
             blockquote: {
@@ -146,6 +146,9 @@ module.exports = {
       lineHeight: {
         tighter: 1.1,
       },
+      gridTemplateColumns: {
+        flyoutmenu: 'minmax(0, 1fr) minmax(0, 1fr) 200px',
+      },
     },
   },
   plugins: [
@@ -154,5 +157,8 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/custom-forms'),
+    require('@tailwindcss/line-clamp'),
+    require('tailwindcss-autofill'),
+    require('tailwindcss-text-fill'),
   ],
 }

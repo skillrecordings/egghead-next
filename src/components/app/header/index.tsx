@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import Link from '../link'
+import Link from '../../link'
 import Eggo from 'components/icons/eggo'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
@@ -8,11 +8,19 @@ import {isEmpty} from 'lodash'
 import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
-import {useTheme} from 'next-themes'
-import useCio from '../../hooks/use-cio'
+import useCio from 'hooks/use-cio'
 import {Form, Formik} from 'formik'
-import ProjectClubCTA from '../survey/project-club'
-import OnlinePresenceCTA from '../survey/online-presence-cta'
+import ProjectClubCTA from 'components/survey/project-club'
+import OnlinePresenceCTA from 'components/survey/online-presence-cta'
+import {HeaderButtonShapedLink} from './header-button-shaped-link'
+import {Fragment} from 'react'
+import {Popover, Transition} from '@headlessui/react'
+import {
+  ChevronDownIcon,
+  MicrophoneIcon,
+  PresentationChartBarIcon,
+  DocumentTextIcon,
+} from '@heroicons/react/solid'
 
 const Header: FunctionComponent = () => {
   const router = useRouter()
@@ -49,6 +57,19 @@ const Header: FunctionComponent = () => {
     case !subscriber && !loadingSubscriber:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
       break
+    case !viewer?.is_pro:
+      ActiveCTA = () => (
+        <HeaderButtonShapedLink
+          url="/pricing"
+          label="Go Pro"
+          onClick={() => {
+            track('clicked go pro', {location: 'header'})
+          }}
+        />
+      )
+      break
+    default:
+      ActiveCTA = () => null
   }
 
   const Navigation: FunctionComponent<{
@@ -117,7 +138,6 @@ const Header: FunctionComponent = () => {
                 </span>
               </a>
             </Link>
-            <DarkModeToggle />
           </div>
         ) : (
           <div className={className}>
@@ -135,7 +155,6 @@ const Header: FunctionComponent = () => {
                 Sign in
               </a>
             </Link>
-            <DarkModeToggle />
           </div>
         )}
       </div>
@@ -158,14 +177,7 @@ const Header: FunctionComponent = () => {
           </div>
           {!sm && !isTopics && (
             <div className={`${isSearch && 'w-full'}`}>
-              <Link href="/topics">
-                <a
-                  onClick={() => track(`clicked browse`, {location: 'header'})}
-                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white rounded-md inline-flex transition-all ease-in-out duration-200"
-                >
-                  Browse
-                </a>
-              </Link>
+              <FlyoutMenu />
             </div>
           )}
           {!sm && !isSearch && <SearchBar />}
@@ -215,77 +227,29 @@ const SearchBar = () => {
           <Form role="search" className="w-full">
             <div className="flex items-center flex-grow space-x-2">
               <div className="relative w-full flex items-center">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  {/* prettier-ignore */}
-                  <svg className="text-gray-400 dark:text-gray-600" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
-                </div>
                 <input
+                  required={true}
                   name="query"
                   value={values.query}
                   onChange={handleChange}
                   type="search"
                   placeholder={`What do you want to learn today?`}
-                  className="form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-md pr-1 py-2 pl-10 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="autofill:text-fill-black form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-md pr-1 py-2 pl-10 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
+                <button
+                  type="submit"
+                  className="absolute inset-y-0 left-0 pl-3 flex items-center group"
+                >
+                  {/* prettier-ignore */}
+                  <svg aria-hidden="true" className="text-gray-400 group-hover:text-blue-500 dark:text-gray-500 dark:group-hover:text-blue-300 transition-all ease-in-out duration-100" width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g></svg>
+                  <span className="sr-only">Search</span>
+                </button>
               </div>
             </div>
           </Form>
         )
       }}
     </Formik>
-  )
-}
-
-const DarkModeToggle = () => {
-  const [mounted, setMounted] = React.useState(false)
-  const {subscriber, cioIdentify} = useCio()
-  const {theme, setTheme} = useTheme()
-  React.useEffect(() => setMounted(true), [])
-
-  return (
-    <button
-      aria-label="Toggle Dark Mode"
-      type="button"
-      className="rounded p-3 h-10 w-10"
-      onClick={() => {
-        const nextTheme = theme === 'dark' ? 'light' : 'dark'
-        setTheme(nextTheme)
-        track(`toggled dark mode`, {
-          mode: nextTheme,
-        })
-        if (subscriber) {
-          cioIdentify(subscriber.id, {
-            theme_preference: nextTheme,
-          })
-        }
-      }}
-    >
-      {mounted && (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          stroke="currentColor"
-          className="h-4 w-4 text-gray-800 dark:text-gray-200"
-        >
-          {theme === 'dark' ? (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            />
-          ) : (
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            />
-          )}
-        </svg>
-      )}
-    </button>
   )
 }
 
@@ -326,3 +290,165 @@ const IconX = () => (
     </g>
   </svg>
 )
+
+const FlyoutMenu = () => {
+  const browse = [
+    {
+      name: 'React',
+      href: '/q/react',
+    },
+    {
+      name: 'JavaScript',
+      href: '/q/javascript',
+    },
+    {name: 'Angular', href: '/q/angular'},
+    {
+      name: 'CSS',
+      href: '/q/css',
+    },
+    {
+      name: 'TypeScript',
+      href: '/q/typescript',
+    },
+    {
+      name: 'AWS',
+      href: '/q/aws',
+    },
+    {
+      name: 'Node.js',
+      href: '/q/node',
+    },
+    {
+      name: 'Next.js',
+      href: '/q/next',
+    },
+    {
+      name: 'Docker',
+      href: '/q/docker',
+    },
+    {
+      name: 'Vue.js',
+      href: '/q/vue',
+    },
+    {
+      name: 'ReactNative',
+      href: '/q/react-native',
+    },
+    {
+      name: 'Algolia',
+      href: '/q/algolia',
+    },
+    {
+      name: 'Python',
+      href: '/q/python',
+    },
+    {
+      name: 'Go',
+      href: '/q/go',
+    },
+  ]
+  const contentSectionLinks = [
+    {name: 'Articles', href: '/blog', icon: DocumentTextIcon},
+    {name: 'Podcasts', href: '/q?type=podcast', icon: MicrophoneIcon},
+    {name: 'Talks', href: '/q?type=talk', icon: PresentationChartBarIcon},
+  ]
+
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ')
+  }
+
+  return (
+    <div>
+      <Popover className="relative">
+        {({open}) => (
+          <>
+            <Popover.Button
+              className={classNames(
+                open
+                  ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                  : 'active:bg-gray-200 dark:hover:text-white',
+                'group rounded-md inline-flex items-center text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white transition-all ease-in-out duration-200',
+              )}
+            >
+              <span>Browse</span>
+              <ChevronDownIcon
+                className={classNames(
+                  open
+                    ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                    : 'active:bg-gray-200 dark:hover:text-white',
+                  'ml-2 h-5 w-5',
+                )}
+                aria-hidden="true"
+              />
+            </Popover.Button>
+            {/* @ts-expect-error */}
+            <Transition
+              show={open}
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
+            >
+              <Popover.Panel
+                static
+                className="absolute z-20 mt-3 px-2 w-screen max-w-xl sm:px-0 min-w-max"
+              >
+                <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                  <div className="relative grid grid-cols-flyoutmenu bg-white dark:bg-gray-800 px-7 py-6 gap-1">
+                    {browse.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        onClick={() =>
+                          track(`clicked topic`, {resource: item.href})
+                        }
+                        className="flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3"
+                      >
+                        <p className="text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
+                          {item.name}
+                        </p>
+                      </a>
+                    ))}
+                    <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3">
+                      <a
+                        href="/topics"
+                        onClick={() => track(`clicked all topics`)}
+                        className="text-blue-500"
+                      >
+                        Browse all topics <span aria-hidden="true">&rarr;</span>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="relative grid grid-cols-flyoutmenu bg-gray-100 dark:bg-gray-700 px-7 py-5 gap-1">
+                    {contentSectionLinks.map((item) => (
+                      <div key={item.name} className="flow-root">
+                        <a
+                          href={item.href}
+                          onClick={() =>
+                            track(`clicked browse section`, {
+                              resource: item.href,
+                            })
+                          }
+                          className="flex items-center rounded-md text-base text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 py-3 px-3"
+                        >
+                          <item.icon
+                            className="flex-shrink-0 h-6 w-6 text-gray-400"
+                            aria-hidden="true"
+                          />
+                          <span className="ml-3">{item.name}</span>
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Popover.Panel>
+            </Transition>
+          </>
+        )}
+      </Popover>
+    </div>
+  )
+}
