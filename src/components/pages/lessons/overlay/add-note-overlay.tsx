@@ -41,6 +41,7 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
       <div className="flex-shrink-0 flex justify-between items-end">
         <Switch.Group>
           <div className="flex items-center">
+            {/* @ts-expect-error */}
             <Switch
               tabIndex={0}
               checked={enabled}

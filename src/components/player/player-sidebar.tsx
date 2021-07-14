@@ -18,7 +18,7 @@ import Image from 'next/image'
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-  sendPlayerState: any
+  sendPlayerState?: any
 }> = ({videoResource, lessonView, sendPlayerState}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
