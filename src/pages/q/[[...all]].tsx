@@ -195,6 +195,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
+
   const selectedTopics = topicExtractor(initialSearchState)
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {

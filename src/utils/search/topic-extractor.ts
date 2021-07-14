@@ -1,15 +1,17 @@
 import {SearchState} from 'react-instantsearch-core'
-import {first} from 'lodash'
+import {first, isEmpty} from 'lodash'
 
 export const topicExtractor = (searchState: SearchState) => {
-  const selectedTopics = searchState.refinementList?._tags || []
+  if (!isEmpty(searchState.refinementList?._tags)) {
+    return searchState.refinementList?._tags
+  }
+  const selectedTopics = []
 
   const terms: string[] = searchQueryToArray(searchState)
 
   if (terms.length === 1 && selectedTopics.length === 0) {
     selectedTopics.push(first(terms) as string)
   }
-
   return selectedTopics
 }
 
