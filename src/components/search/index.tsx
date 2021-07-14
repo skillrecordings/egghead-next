@@ -10,19 +10,14 @@ import {
   ClearRefinements,
   ScrollTo,
 } from 'react-instantsearch-dom'
+
 import {get, isEqual, isEmpty, first} from 'lodash'
 import {useToggle, useClickAway} from 'react-use'
 
 import config from 'lib/config'
 
-import SearchReact from 'components/search/curated/react'
-import SearchJavaScript from 'components/search/curated/javascript'
-import SearchGraphql from 'components/search/curated/graphql'
-import SearchTypescript from './curated/typescript'
-
 import InstructorsIndex from 'components/search/instructors/index'
 
-import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
 import CuratedTopicsIndex from './curated'
