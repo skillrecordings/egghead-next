@@ -96,13 +96,13 @@ const graphqlPageData = [
   },
   {
     id: 'graphql-video',
-    name: 'Introduce GraphQL',
-    title: 'WTF is GraphQL?',
-    description: `GraphQL is a query language for your API, which means that you can query or ask for the data that you need in one request, and you'll get one response as JSON. In this lesson, we'll introduce the key features of GraphQL.`,
-    byline: 'Eve Porcello',
-    path: '/lessons/graphql-wtf-is-graphql',
+    name: 'Secure GraphQL',
+    title: 'Securing GraphQL Backends with JWTs',
+    description: `Demystify auth while learning how to use JSON Web Tokens (JWTs) with GraphQL APIs!`,
+    byline: 'Sam Julien',
+    path: 'talks/graphql-securing-graphql-backends-with-jwts',
     image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611990262/egghead-next-pages/graphql/video-cover-image_2x.png',
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1618961127/egghead%20talks/graphql-securing-graphql-backends-with-jwts.png',
   },
   {
     id: 'graphql-serverless',
