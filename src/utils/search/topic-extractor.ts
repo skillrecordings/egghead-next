@@ -12,6 +12,7 @@ export const topicExtractor = (searchState: SearchState) => {
   if (terms.length === 1 && selectedTopics.length === 0) {
     selectedTopics.push(first(terms) as string)
   }
+
   return selectedTopics
 }
 

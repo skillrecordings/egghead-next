@@ -10,7 +10,8 @@ import {
   ClearRefinements,
   ScrollTo,
 } from 'react-instantsearch-dom'
-import {get, isEmpty} from 'lodash'
+
+import {get, isEqual, isEmpty, first} from 'lodash'
 import {useToggle, useClickAway} from 'react-use'
 
 import config from 'lib/config'
