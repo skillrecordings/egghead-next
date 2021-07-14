@@ -236,11 +236,6 @@ const contentIndexRoutes = [
     permanent: true,
   },
   {
-    source: `/talks`,
-    destination: `${searchUrlRoot}?type=talk`,
-    permanent: true,
-  },
-  {
     source: `/lessons`,
     destination: `${searchUrlRoot}?type=lesson`,
     permanent: true,
