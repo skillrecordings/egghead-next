@@ -10,7 +10,7 @@ import {
   ClearRefinements,
   ScrollTo,
 } from 'react-instantsearch-dom'
-import {get, isEqual, isEmpty} from 'lodash'
+import {get, isEqual, isEmpty, first} from 'lodash'
 import {useToggle, useClickAway} from 'react-use'
 
 import config from 'lib/config'
@@ -26,6 +26,7 @@ import {isArray} from 'lodash'
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
 import CuratedTopicsIndex from './curated'
+import {searchQueryToArray} from '../../utils/search/topic-extractor'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -52,16 +53,10 @@ const Search: FunctionComponent<SearchProps> = ({
   }
 
   const noTopicsSelected = (searchState: any) => {
-    return get(searchState, 'refinementList._tags', []).length === 0
-  }
-
-  const onlyTheseTagsSelected = (tags: string[], searchState: any) => {
-    const selectedTags = get(
-      searchState,
-      'refinementList._tags',
-      [],
-    ) as string[]
-    return isEqual(tags, selectedTags)
+    return (
+      isEmpty(topic) &&
+      get(searchState, 'refinementList._tags', []).length === 0
+    )
   }
 
   const isRefinementOn =
@@ -84,8 +79,10 @@ const Search: FunctionComponent<SearchProps> = ({
     : undefined
 
   const shouldDisplayLandingPageForTopics = (topic: string) => {
+    const terms = searchQueryToArray(searchState)
+
     return (
-      isEmpty(searchState.query) &&
+      (isEmpty(searchState.query) || terms.length === 1) &&
       isEmpty(searchState.page) &&
       noInstructorsSelected(searchState)
     )
