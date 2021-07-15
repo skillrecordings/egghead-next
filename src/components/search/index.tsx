@@ -120,11 +120,26 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
+        <ScrollTo scrollOn="query" />
         <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
-          <div
-            className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
-            ref={refinementRef}
-          >
+          {!isEmpty(instructor) && (
+            <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
+              {shouldDisplayLandingPageForInstructor(instructor.slug) && (
+                <InstructorCuratedPage instructor={instructor} />
+              )}
+            </div>
+          )}
+
+          {!isEmpty(topic) && (
+            <div className="dark:bg-gray-900 bg-gray-50">
+              {CuratedTopicPage &&
+                shouldDisplayLandingPageForTopics(topic.name) && (
+                  <CuratedTopicPage topic={topic} />
+                )}
+            </div>
+          )}
+
+          <div className="max-w-screen-xl mx-auto " ref={refinementRef}>
             <header className="flex xl:px-0 px-5">
               <SearchBox
                 placeholder={searchBoxPlaceholder}
@@ -201,24 +216,8 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
             </div>
           </div>
-          {!isEmpty(instructor) && (
-            <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
-              {shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <InstructorCuratedPage instructor={instructor} />
-              )}
-            </div>
-          )}
 
-          {!isEmpty(topic) && (
-            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
-              {CuratedTopicPage &&
-                shouldDisplayLandingPageForTopics(topic.name) && (
-                  <CuratedTopicPage topic={topic} />
-                )}
-            </div>
-          )}
-
-          <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+          <div className="dark:bg-gray-900 bg-gray-50 mt-5">
             <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
               <ScrollTo scrollOn="page" />
               <Hits />
