@@ -15,6 +15,9 @@ import {track} from 'utils/analytics'
 import Link from 'components/link'
 import Image from 'next/image'
 
+const notesCreationAvailable =
+  process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
+
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
@@ -141,25 +144,27 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
             </div>
           </SimpleBar>
         </div>
-        <div className="flex-shrink-0 p-4">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault()
-              if (isFunction(onAddNote)) {
-                onAddNote()
-                actions.pause()
-                track(`clicked add note`)
-              }
-            }}
-            aria-expanded={true}
-            aria-controls="add-note-overlay"
-            className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-600 duration-100 p-3 flex justify-center items-center rounded-md w-full text-xs font-semibold"
-          >
-            <IconNote />
-            <span className="ml-2">Add a note</span>
-          </button>
-        </div>
+        {notesCreationAvailable && (
+          <div className="flex-shrink-0 p-4">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault()
+                if (isFunction(onAddNote)) {
+                  onAddNote()
+                  actions.pause()
+                  track(`clicked add note`)
+                }
+              }}
+              aria-expanded={true}
+              aria-controls="add-note-overlay"
+              className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-600 duration-100 p-3 flex justify-center items-center rounded-md w-full text-xs font-semibold"
+            >
+              <IconNote />
+              <span className="ml-2">Add a note</span>
+            </button>
+          </div>
+        )}
       </div>
     </TabPanel>
   )
