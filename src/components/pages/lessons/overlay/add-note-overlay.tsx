@@ -2,9 +2,7 @@ import * as React from 'react'
 import {Switch} from '@headlessui/react'
 import VisuallyHidden from '@reach/visually-hidden'
 
-const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
-  sendPlayerState,
-}) => {
+const AddNoteOverlay: React.FC<{onClose: any}> = ({onClose}) => {
   const [enabled, setEnabled] = React.useState(false)
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   React.useEffect(() => {
@@ -20,7 +18,7 @@ const AddNoteOverlay: React.FC<{sendPlayerState: any}> = ({
       <div className="flex-shrink-0 flex justify-end">
         <button
           type="button"
-          onClick={() => sendPlayerState('VIEW')}
+          onClick={onClose}
           className="text-gray-400 hover:text-gray-500"
           tabIndex={0}
         >

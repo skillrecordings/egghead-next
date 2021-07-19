@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useEggheadPlayerPrefs} from '../EggheadPlayer/use-egghead-player'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import {isEmpty} from 'lodash'
+import {isEmpty, isFunction} from 'lodash'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
 import {hasNotes, useNotesCues} from './index'
 import {VideoResource} from 'types'
@@ -18,8 +18,8 @@ import Image from 'next/image'
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-  sendPlayerState?: any
-}> = ({videoResource, lessonView, sendPlayerState}) => {
+  onAddNote?: any
+}> = ({videoResource, lessonView, onAddNote}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
   return (
@@ -44,7 +44,7 @@ const PlayerSidebar: React.FC<{
               videoResource={videoResource}
               lessonView={lessonView}
             />
-            <NotesTab sendPlayerState={sendPlayerState} />
+            <NotesTab onAddNote={onAddNote} />
           </div>
         </TabPanels>
       </Tabs>
@@ -79,7 +79,7 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({sendPlayerState}) => {
+const NotesTab: React.FC<any> = ({onAddNote}) => {
   const {player, manager} = usePlayer()
 
   const {cues} = useNotesCues()
@@ -146,9 +146,11 @@ const NotesTab: React.FC<any> = ({sendPlayerState}) => {
             type="button"
             onClick={(e) => {
               e.preventDefault()
-              sendPlayerState('ADD_NOTE')
-              actions.pause()
-              track(`clicked add note`)
+              if (isFunction(onAddNote)) {
+                onAddNote()
+                actions.pause()
+                track(`clicked add note`)
+              }
             }}
             aria-expanded={true}
             aria-controls="add-note-overlay"

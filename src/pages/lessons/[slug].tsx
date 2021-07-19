@@ -579,12 +579,15 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('addingNote') && (
                 <OverlayWrapper>
-                  <AddNoteOverlay sendPlayerState={send} />
+                  <AddNoteOverlay onClose={() => send('VIEW')} />
                 </OverlayWrapper>
               )}
             </div>
             <div className="lg:col-span-3 side-bar">
-              <PlayerSidebar videoResource={lesson} sendPlayerState={send} />
+              <PlayerSidebar
+                videoResource={lesson}
+                onAddNote={() => send('ADD_NOTE')}
+              />
             </div>
           </div>
         </PlayerProvider>
