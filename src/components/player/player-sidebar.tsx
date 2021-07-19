@@ -154,7 +154,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
             }}
             aria-expanded={true}
             aria-controls="add-note-overlay"
-            className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-600 duration-100 p-4 flex justify-center items-center rounded-md w-full text-sm font-semibold"
+            className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-600 duration-100 p-3 flex justify-center items-center rounded-md w-full text-xs font-semibold"
           >
             <IconNote />
             <span className="ml-2">Add a note</span>
