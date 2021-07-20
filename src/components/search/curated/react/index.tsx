@@ -1,9 +1,10 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import Topic from '../../components/topic'
-import reactPageData from './react-page-data'
 import {find} from 'lodash'
 import Image from 'next/image'
+import groq from 'groq'
+import Topic from '../../components/topic'
+import reactPageData from './react-page-data'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
@@ -200,5 +201,26 @@ You can find courses below curated just for you whether you're looking for a par
     </div>
   )
 }
+
+export const reactPageQuery = groq`
+*[_type == 'resource' && slug.current == 'react-landing-page'][0]{
+  title,
+  'reactStateManagement': resources[slug.current == 'react-state-management-section'][0] {
+    'recoilCollection': resources[slug.current == 'recoil-collection'][0]{
+      'courses': resources[]->{
+       title,
+       'description': summary,
+       path,
+       byline,
+       image,
+       'background': images[label == 'feature-card-background'][0].url,
+       'instructor': collaborators[]->[role == 'instructor'][0]{
+         'name': person->.name
+       },
+     }
+    }
+	},
+ }
+`
 
 export default SearchReact
