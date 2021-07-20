@@ -138,7 +138,7 @@
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^9.6.0",
     "unist-util-visit": "^2.0.3",
-    "vfile": "^4.2.1",
+    "vfile": "^5.0.2",
     "video.js": "^7.12.3",
     "xstate": "^4.20.0",
     "yaml": "^1.10.2",
