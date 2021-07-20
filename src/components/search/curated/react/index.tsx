@@ -11,7 +11,7 @@ import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {ThreeLevels} from '../curated-essential'
 
-const SearchReact = () => {
+const SearchReact = ({topic}: any) => {
   const location = 'react landing'
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
   const title = `In-Depth Up-to-Date React Tutorials for ${new Date().getFullYear()}`
@@ -32,12 +32,12 @@ const SearchReact = () => {
   const stateManagementCollection: any = find(reactPageData, {
     id: 'state-management-collection',
   })
-  const stateManagementQuickly: any = find(reactPageData, {
-    id: 'state-management-quickly',
-  })
   const reactArticles: any = find(reactPageData, {id: 'articles'})
   const reactTalks: any = find(reactPageData, {id: 'talks'})
   const reactPodcasts: any = find(reactPageData, {id: 'podcasts'})
+
+  const {reactStateManagement} = topic
+  const {recoilCollection} = reactStateManagement
 
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
@@ -105,43 +105,44 @@ You can find courses below curated just for you whether you're looking for a par
         location={location}
       />
 
-      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-        <div className="lg:col-span-8 col-span-12 space-y-5">
-          <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-            <div className="flex-shrink-0">
-              <Image
-                src={
-                  'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png'
-                }
-                alt="illustration for state management in react"
-                width={200}
-                height={200}
-                quality={100}
-              />
-            </div>
-            <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                State Management in React
-              </h1>
-              <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
-                <p>
-                  When it comes down to it, nearly every UI problem is a state
-                  management problem. Orchestrating a whole symphony of menus,
-                  forms, and data requests is hard enough before you even begin
-                  debating which of the 99 React state management libraries you
-                  should pick.
-                </p>
-                <p>
-                  We've spoken to top experts in the field of state management
-                  to hear their thoughts on why the best ideas in state
-                  management aren't always the newest, why principles are often
-                  universal where implementations are not, and how state
-                  management concepts carry across frameworks and tools.
-                </p>
+      <section>
+        <div className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
+          <div className="lg:col-span-8 col-span-12 space-y-5">
+            <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
+              <div className="flex-shrink-0">
+                <Image
+                  src={
+                    'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png'
+                  }
+                  alt="illustration for state management in react"
+                  width={200}
+                  height={200}
+                  quality={100}
+                />
               </div>
-            </div>
-          </header>
-          <div>
+              <div className="max-w-screen-sm space-y-3">
+                <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+                  State Management in React
+                </h1>
+                <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
+                  <p>
+                    When it comes down to it, nearly every UI problem is a state
+                    management problem. Orchestrating a whole symphony of menus,
+                    forms, and data requests is hard enough before you even
+                    begin debating which of the 99 React state management
+                    libraries you should pick.
+                  </p>
+                  <p>
+                    We've spoken to top experts in the field of state management
+                    to hear their thoughts on why the best ideas in state
+                    management aren't always the newest, why principles are
+                    often universal where implementations are not, and how state
+                    management concepts carry across frameworks and tools.
+                  </p>
+                </div>
+              </div>
+            </header>
+
             <VideoCard
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
@@ -152,7 +153,7 @@ You can find courses below curated just for you whether you're looking for a par
               {stateManagementFeatured.resources.map((resource: any) => {
                 return (
                   <VerticalResourceCard
-                    className="col-span-4 text-center"
+                    className="col-span-4 text-center h-full"
                     key={resource.path}
                     resource={resource}
                     location={location}
@@ -161,17 +162,17 @@ You can find courses below curated just for you whether you're looking for a par
               })}
             </div>
           </div>
-        </div>
-        <div className="md:col-span-4 col-span-12">
-          <VerticalResourceCollectionCard
-            resource={stateManagementCollection}
-            location={location}
-          />
-          <VerticalResourceCollectionCard
-            resource={stateManagementQuickly}
-            className="mt-5"
-            location={location}
-          />
+          <div className="md:col-span-4 col-span-12">
+            <VerticalResourceCollectionCard
+              resource={stateManagementCollection}
+              location={location}
+            />
+            <VerticalResourceCollectionCard
+              resource={recoilCollection}
+              className="mt-5"
+              location={location}
+            />
+          </div>
         </div>
       </section>
 
@@ -207,7 +208,9 @@ export const reactPageQuery = groq`
   title,
   'reactStateManagement': resources[slug.current == 'react-state-management-section'][0] {
     'recoilCollection': resources[slug.current == 'recoil-collection'][0]{
-      'courses': resources[]->{
+      title,
+      description,
+      resources[]->{
        title,
        'description': summary,
        path,
