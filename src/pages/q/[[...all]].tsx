@@ -183,7 +183,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   let initialInstructor = null
-  let sanityInstructor = null
   let initialTopic = null
 
   const {rawResults, state} = resultsState
@@ -204,6 +203,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     try {
       if (topic) {
         initialTopic = await loadTag(topic)
+        console.log(initialTopic)
       }
     } catch (error) {
       console.error(error)
@@ -215,13 +215,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
       getInstructorSlugFromInstructorList(selectedInstructors)
     try {
       initialInstructor = await loadInstructor(instructorSlug)
-
-      sanityInstructor = await loadSanityInstructor(instructorSlug)
-
-      initialInstructor = {
-        ...initialInstructor,
-        ...sanityInstructor,
-      }
     } catch (error) {
       console.error(error)
     }
