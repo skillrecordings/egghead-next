@@ -34,7 +34,7 @@ export const sortingHatReducer = (
   state: SortingHatState,
   action: SortingHatAction,
 ): SortingHatState => {
-  console.debug(state, action)
+  console.debug('survey reducer state + action', {state, action})
   try {
     switch (action.type) {
       case `load`:

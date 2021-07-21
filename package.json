@@ -33,6 +33,8 @@
     "@emotion/css": "^11.1.3",
     "@emotion/react": "^11.1.5",
     "@emotion/server": "^11.0.0",
+    "@headlessui/react": "^1.3.0",
+    "@heroicons/react": "^1.0.1",
     "@mdx-js/mdx": "^2.0.0-next.9",
     "@mdx-js/react": "^1.6.22",
     "@reach/dialog": "^0.15.0",

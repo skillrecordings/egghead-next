@@ -90,10 +90,9 @@ You can find courses below curated just for you whether you're looking for a par
               height={463}
               alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
               className="hover:scale-[102%] transform ease-in-out duration-500"
-              // default
-              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
               // 25% off
-              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
             />
           </div>
         </ExternalTrackedLink>
@@ -105,8 +104,8 @@ You can find courses below curated just for you whether you're looking for a par
         location={location}
       />
 
-      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-        <div className="lg:col-span-8 col-span-12 space-y-5">
+      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 md:dark:bg-gray-700 rounded-lg md:p-5 relative">
+        <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
             <div className="flex-shrink-0">
               <Image
@@ -141,18 +140,17 @@ You can find courses below curated just for you whether you're looking for a par
               </div>
             </div>
           </header>
-          <div>
+          <div className="flex flex-col flex-grow">
             <VideoCard
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
               location={location}
             />
-
-            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
               {stateManagementFeatured.resources.map((resource: any) => {
                 return (
                   <VerticalResourceCard
-                    className="col-span-4 text-center"
+                    className="col-span-4 text-center flex flex-col items-center justify-center"
                     key={resource.path}
                     resource={resource}
                     location={location}
@@ -162,14 +160,14 @@ You can find courses below curated just for you whether you're looking for a par
             </div>
           </div>
         </div>
-        <div className="md:col-span-4 col-span-12">
+        <div className="md:col-span-4 col-span-12 flex flex-col">
           <VerticalResourceCollectionCard
             resource={stateManagementCollection}
             location={location}
           />
           <VerticalResourceCollectionCard
             resource={stateManagementQuickly}
-            className="mt-5"
+            className="mt-5 flex-grow"
             location={location}
           />
         </div>
