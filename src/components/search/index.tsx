@@ -77,7 +77,8 @@ const Search: FunctionComponent<SearchProps> = ({
     const terms = searchQueryToArray(searchState)
 
     return (
-      (isEmpty(searchState.query) || terms.length === 1) &&
+      (isEmpty(searchState.query) ||
+        (terms.includes(topic) && terms.length === 1)) &&
       isEmpty(searchState.page) &&
       noInstructorsSelected(searchState)
     )
