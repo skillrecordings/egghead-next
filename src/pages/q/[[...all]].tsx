@@ -203,7 +203,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     try {
       if (topic) {
         initialTopic = await loadTag(topic)
-        console.log(initialTopic)
       }
     } catch (error) {
       console.error(error)
