@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 const CheckIcon: React.FunctionComponent<{className?: string}> = ({
-  className = 'transform -translate-x-1',
+  className = '-translate-x-1',
 }) => (
   <svg
     className={className}

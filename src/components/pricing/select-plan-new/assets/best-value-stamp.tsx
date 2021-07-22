@@ -1,6 +1,6 @@
 const BestValueStamp = () => (
   <svg
-    className="sm:block hidden absolute top-0 right-0 z-10 transform translate-x-8 -translate-y-8"
+    className="sm:block hidden absolute top-0 right-0 z-10 translate-x-8 -translate-y-8"
     xmlns="http://www.w3.org/2000/svg"
     width="74"
     height="73"

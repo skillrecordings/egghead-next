@@ -79,7 +79,7 @@ const AutoplayControl: FunctionComponent<AutoplayControlProps> = ({
                 enabled && autoplay ? 'translate-x-4' : 'translate-x-0'
               } inline-block h-3 w-3 rounded-full ${
                 onDark ? 'bg-gray-200' : 'bg-white'
-              } shadow transform ring-0 transition ease-in-out duration-200`}
+              } shadow ring-0 transition ease-in-out duration-200`}
             />
           </div>
         </button>
