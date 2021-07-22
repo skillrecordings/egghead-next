@@ -29,11 +29,11 @@ const SearchBar = () => {
                   onChange={handleChange}
                   type="search"
                   placeholder={`What do you want to learn today?`}
-                  className="autofill:text-fill-black form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-md pr-1 py-2 pl-10 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="autofill:text-fill-black form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-l-md rounded-r-none px-3 py-2 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
                 <button
                   type="submit"
-                  className="absolute inset-y-0 left-0 pl-3 flex items-center group"
+                  className="flex items-center group bg-red-500"
                 >
                   <IconMagnifier />
                   <span className="sr-only">Search</span>
