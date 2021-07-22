@@ -277,7 +277,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                   width={704}
                   height={836}
                   quality={100}
-                  className="rounded-lg hover:scale-[102%] transform ease-in-out duration-500"
+                  className="rounded-lg hover:scale-[102%] ease-in-out duration-500"
                 />
               </div>
             </ExternalTrackedLink>

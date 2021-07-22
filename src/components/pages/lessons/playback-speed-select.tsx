@@ -40,12 +40,12 @@ const PlaybackSpeedSelect: FunctionComponent<{
           className="text-white text-sm rounded-md bg-gray-800 group flex items-center justify-center"
           css={{padding: '0.5rem 0.75rem', border: 'none'}}
         >
-          <span className="text-xs mb-px transform translate-y-px text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
+          <span className="text-xs mb-px translate-y-px text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
             Speed
           </span>
           <MultiplySymbol
             strokeWidth={3}
-            className="w-3 sm:mb-px transform translate-y-px ml-2 flex-shrink-0 text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200"
+            className="w-3 sm:mb-px translate-y-px ml-2 flex-shrink-0 text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200"
           />
           <span className="font-sans sm:text-base text-xs text-gray-100 group-hover:text-white transition-colors ease-in-out duration-200">
             {playbackRate}

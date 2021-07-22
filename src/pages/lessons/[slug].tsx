@@ -419,7 +419,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className={`relative ${
+              className={`relative before:float-left after:clear-both after:table ${
                 isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
               }`}
               css={{
@@ -427,13 +427,6 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   paddingBottom: `calc(56.25% + ${
                     isEmpty(lesson.staff_notes_url) ? '3.5rem' : '4.5rem'
                   })`,
-                  content: '""',
-                  float: 'left',
-                },
-                ':after': {
-                  display: 'table',
-                  content: '""',
-                  clear: 'both',
                 },
               }}
             >

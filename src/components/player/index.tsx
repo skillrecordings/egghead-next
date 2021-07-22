@@ -121,7 +121,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         <ControlBar
           disableDefaultControls
           autoHide={false}
-          className={`flex transform ${
+          className={`flex ${
             hasNotes(videoResource) ? 'translate-y-[4.5rem]' : 'translate-y-14'
           }`}
           order={8.0}
