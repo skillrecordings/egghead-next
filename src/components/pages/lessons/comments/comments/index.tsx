@@ -64,7 +64,7 @@ const Comments: React.FunctionComponent<CommentsProps> = ({
                     location: 'comments',
                   })
                 }
-                className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
+                className="inline-flex px-3 py-2 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 hover:scale-105 transition-all duration-150 ease-in-out"
               >
                 View Pricing
               </a>

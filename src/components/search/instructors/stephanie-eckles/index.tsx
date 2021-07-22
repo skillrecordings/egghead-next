@@ -17,12 +17,8 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
 
   const {projects, courses} = instructor
-  const [
-    primaryCourse,
-    secondCourse,
-    thirdCourse,
-    fourthCourse,
-  ] = courses.resources
+  const [primaryCourse, secondCourse, thirdCourse, fourthCourse] =
+    courses.resources
 
   return (
     <div>
@@ -159,7 +155,7 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
           },
         }}
       >
-        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-lightBlue-500 w-full h-2 z-20" />
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-sky-500 w-full h-2 z-20" />
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
             <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">

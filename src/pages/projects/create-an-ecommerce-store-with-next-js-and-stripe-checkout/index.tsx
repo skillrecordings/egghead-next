@@ -46,8 +46,7 @@ how to make your Next.js e-commerce store portable to deploy to other platforms.
       name: 'Colby Fayock',
       slug: 'colby-fayock',
       path: '/q/resources-by-colby-fayock',
-      bio:
-        'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
+      bio: 'Colby is a UX designer and front-end engineer living on the Philly side of Pennsylvania. He got his start in web design customizing his AIM and MySpace pages, and quickly graduated to whole websites for teams and bands. He currently works as a developer advocate for Applitools.',
       twitter: 'colbyfayock',
       image:
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/366/medium/IMG_7414.JPG',
@@ -102,8 +101,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli`,
             title:
               'Create a New React Application with the Next.js create-next-app CLI',
-            path:
-              '/lessons/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli',
+            path: '/lessons/next-js-create-a-new-react-application-with-the-next-js-create-next-app-cli',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -111,8 +109,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app`,
             title:
               'Add and Style a Grid of Products with Images in a Next.js React App',
-            path:
-              '/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
+            path: '/lessons/next-js-add-and-style-a-grid-of-products-with-images-in-a-next-js-react-app',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -120,8 +117,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store`,
             title:
               'Add and Configure Products in the Stripe Dashboard for an Online Store',
-            path:
-              '/lessons/next-js-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store',
+            path: '/lessons/next-js-add-and-configure-products-in-the-stripe-dashboard-for-an-online-store',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -129,8 +125,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `javascript-dynamically-manage-a-grid-of-products-in-an-online-store-with-a-json-document`,
             title:
               'Dynamically Manage a Grid of Products in an Online Store with a JSON Document',
-            path:
-              '/lessons/javascript-dynamically-manage-a-grid-of-products-in-an-online-store-with-a-json-document',
+            path: '/lessons/javascript-dynamically-manage-a-grid-of-products-in-an-online-store-with-a-json-document',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_280/javascriptlang.png',
           },
@@ -138,8 +133,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-host-deploy-a-next-js-react-app-on-vercel-imported-from-github`,
             title:
               'Host & Deploy a Next.js React App on Vercel imported from GitHub',
-            path:
-              '/lessons/next-js-host-deploy-a-next-js-react-app-on-vercel-imported-from-github',
+            path: '/lessons/next-js-host-deploy-a-next-js-react-app-on-vercel-imported-from-github',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -154,8 +148,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `stripe-configure-a-stripe-checkout-domain-for-client-only-integration`,
             title:
               'Configure a Stripe Checkout Domain for Client-Only Integration',
-            path:
-              '/lessons/stripe-configure-a-stripe-checkout-domain-for-client-only-integration',
+            path: '/lessons/stripe-configure-a-stripe-checkout-domain-for-client-only-integration',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/294/square_280/Artboard.png',
           },
@@ -163,8 +156,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-add-a-stripe-api-key-as-an-environment-variable-in-next-js-vercel`,
             title:
               'Add a Stripe API Key as an Environment Variable in Next.js & Vercel',
-            path:
-              '/lessons/next-js-add-a-stripe-api-key-as-an-environment-variable-in-next-js-vercel',
+            path: '/lessons/next-js-add-a-stripe-api-key-as-an-environment-variable-in-next-js-vercel',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -172,8 +164,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `stripe-integrate-stripe-checkout-to-purchase-products-in-next-js-with-stripe-stripe-stripe-js-cl`,
             title:
               'Integrate Stripe Checkout to Purchase Products in Next.js with Stripe @stripe/stripe-js Cl',
-            path:
-              '/lessons/stripe-integrate-stripe-checkout-to-purchase-products-in-next-js-with-stripe-stripe-stripe-js-cl',
+            path: '/lessons/stripe-integrate-stripe-checkout-to-purchase-products-in-next-js-with-stripe-stripe-stripe-js-cl',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/294/square_280/Artboard.png',
           },
@@ -188,16 +179,14 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `react-create-a-shopping-cart-with-the-usestate-react-hook-to-manage-product-quantity-and-total`,
             title:
               'Create a Shopping Cart with the useState React Hook to Manage Product Quantity and Total',
-            path:
-              '/lessons/react-create-a-shopping-cart-with-the-usestate-react-hook-to-manage-product-quantity-and-total',
+            path: '/lessons/react-create-a-shopping-cart-with-the-usestate-react-hook-to-manage-product-quantity-and-total',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
           {
             slug: `react-create-a-custom-react-hook-to-manage-cart-state`,
             title: 'Create a Custom React Hook to Manage Cart State',
-            path:
-              '/lessons/react-create-a-custom-react-hook-to-manage-cart-state',
+            path: '/lessons/react-create-a-custom-react-hook-to-manage-cart-state',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
@@ -205,8 +194,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `react-use-the-react-context-api-to-globally-manage-cart-state-in-a-next-js-app`,
             title:
               'Use the React Context API to Globally Manage Cart State in a Next.js App',
-            path:
-              '/lessons/react-use-the-react-context-api-to-globally-manage-cart-state-in-a-next-js-app',
+            path: '/lessons/react-use-the-react-context-api-to-globally-manage-cart-state-in-a-next-js-app',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
@@ -214,8 +202,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `react-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page`,
             title:
               'Store and Load Cart State from Local Storage to Persist Cart Data When Reloading the Page',
-            path:
-              '/lessons/react-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page',
+            path: '/lessons/react-store-and-load-cart-state-from-local-storage-to-persist-cart-data-when-reloading-the-page',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
@@ -223,8 +210,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-use-next-js-dynamic-routes-to-create-product-pages-for-an-online-store`,
             title:
               'Use Next.js Dynamic Routes to Create Product Pages for an Online Store',
-            path:
-              '/lessons/next-js-use-next-js-dynamic-routes-to-create-product-pages-for-an-online-store',
+            path: '/lessons/next-js-use-next-js-dynamic-routes-to-create-product-pages-for-an-online-store',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -232,8 +218,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `next-js-create-a-shopping-cart-page-to-manage-products-to-purchase-in-a-next-js-app`,
             title:
               'Create a Shopping Cart Page to Manage Products to Purchase in a Next.js App',
-            path:
-              '/lessons/next-js-create-a-shopping-cart-page-to-manage-products-to-purchase-in-a-next-js-app',
+            path: '/lessons/next-js-create-a-shopping-cart-page-to-manage-products-to-purchase-in-a-next-js-app',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_280/nextjs.png',
           },
@@ -241,8 +226,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
             slug: `react-add-a-quantity-input-to-the-cart-page-to-add-or-remove-items-from-a-shopping-cart-in-next`,
             title:
               'Add a Quantity Input to the Cart Page to Add or Remove Items from a Shopping Cart in Next',
-            path:
-              '/lessons/react-add-a-quantity-input-to-the-cart-page-to-add-or-remove-items-from-a-shopping-cart-in-next',
+            path: '/lessons/react-add-a-quantity-input-to-the-cart-page-to-add-or-remove-items-from-a-shopping-cart-in-next',
             image:
               'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_280/react.png',
           },
@@ -414,7 +398,7 @@ const Join: FunctionComponent = () => {
                       'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
                   })
                 }
-                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
+                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
               >
                 Build this E-Commerce Store
               </a>
@@ -433,7 +417,7 @@ const Join: FunctionComponent = () => {
                       'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
                   })
                 }
-                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 transform hover:bg-blue-500 hover:shadow-xl"
+                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
               >
                 Build this E-Commerce Store
               </a>
@@ -569,7 +553,7 @@ const Part: FunctionComponent<{
         )} */}
       </div>
       <div className={`md:w-full ${gap}`}>
-        <h3 className="text-lg font-bold relative transform -translate-y-1 pb-1">
+        <h3 className="text-lg font-bold relative -translate-y-1 pb-1">
           {title}
         </h3>
         {body && <Markdown className="prose" source={body} />}

@@ -46,7 +46,7 @@ const Invoices: React.FunctionComponent<any> = () => {
                             </div>
                             <div>
                               <a
-                                className="md:w-auto w-full px-2 py-1 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition-all duration-150 ease-in-out"
+                                className="md:w-auto w-full px-2 py-1 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 hover:scale-105 transition-all duration-150 ease-in-out"
                                 href={`/invoices/${transaction.stripe_transaction_id}`}
                               >
                                 full invoice

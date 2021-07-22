@@ -51,7 +51,7 @@ const AddNoteOverlay: React.FC<{onClose: any}> = ({onClose}) => {
               <span
                 className={`${
                   enabled ? 'translate-x-[1.375rem]' : 'translate-x-0.5'
-                } inline-block w-5 h-5 transform bg-white rounded-full transition-transform`}
+                } inline-block w-5 h-5 bg-white rounded-full transition-transform`}
               />
             </Switch>
             <Switch.Label className="ml-4 text-gray-500 text-sm">

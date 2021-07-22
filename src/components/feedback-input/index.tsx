@@ -217,7 +217,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                                       className="form-radio hidden"
                                     />
                                     <div
-                                      className={`p-3 transform hover:scale-110 flex items-center border border-transparent justify-center cursor-pointer rounded-full  transition-all ease-in-out duration-100 ${
+                                      className={`p-3 hover:scale-110 flex items-center border border-transparent justify-center cursor-pointer rounded-full  transition-all ease-in-out duration-100 ${
                                         values.emoji === emoji
                                           ? 'bg-blue-100 dark:bg-gray-600 border border-blue-200 dark:border-gray-500'
                                           : 'hover:border-blue-200'
@@ -247,7 +247,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                               errors.feedback && touched.feedback
                                 ? 'cursor-not-allowed'
                                 : ''
-                            } mt-3 block font-semibold px-5 py-3 text-base hover:scale-105 transform bg-blue-600 hover:bg-blue-700 transition-all ease-in-out duration-200 text-white rounded-md leading-6`}
+                            } mt-3 block font-semibold px-5 py-3 text-base hover:scale-105 bg-blue-600 hover:bg-blue-700 transition-all ease-in-out duration-200 text-white rounded-md leading-6`}
                             disabled={!isValid || isSubmitting || state.loading}
                             type="submit"
                           >
@@ -287,7 +287,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
             <button
               onClick={closeDialog}
               type="button"
-              className={`text-gray-600 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-800 p-2 focus:shadow-outline-blue transition-all rounded-full transform hover:scale-110 ease-in-out duration-200`}
+              className={`text-gray-600 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-800 p-2 focus:shadow-outline-blue transition-all rounded-full hover:scale-110 ease-in-out duration-200`}
               aria-label="Close"
             >
               <span className="sr-only">close feedback dialog</span>
