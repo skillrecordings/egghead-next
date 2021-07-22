@@ -20,8 +20,8 @@ const SearchBar = () => {
       {({values, handleChange}) => {
         return (
           <Form role="search" className="w-full">
-            <div className="flex items-center flex-grow space-x-2">
-              <div className="relative w-full flex items-center">
+            <div className="flex items-center flex-grow">
+              <div className="relative w-full flex items-stretch h-9">
                 <input
                   required={true}
                   name="query"
@@ -29,11 +29,11 @@ const SearchBar = () => {
                   onChange={handleChange}
                   type="search"
                   placeholder={`What do you want to learn today?`}
-                  className="autofill:text-fill-black form-input border border-gray-100 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-800 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-l-md rounded-r-none px-3 py-2 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="autofill:text-fill-black form-input border border-gray-200 dark:border-gray-700 text-black dark:text-white bg-gray-50 dark:bg-gray-700 dark:placeholder-gray-300 placeholder-gray-600 text-sm rounded-l-md rounded-r-none px-3 py-2 w-full max-w-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 relative focus:z-10"
                 />
                 <button
                   type="submit"
-                  className="flex items-center group bg-red-500"
+                  className="flex items-center group p-2 rounded-r-md rounded-l-0 border border-gray-200 hover:border-gray-300 dark:border-gray-600 dark:hover:border-gray-800 bg-gray-100 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-800 duration-100 -translate-x-px"
                 >
                   <IconMagnifier />
                   <span className="sr-only">Search</span>
@@ -52,7 +52,7 @@ export default SearchBar
 const IconMagnifier = () => (
   <svg
     aria-hidden="true"
-    className="text-gray-400 group-hover:text-blue-500 dark:text-gray-500 dark:group-hover:text-blue-300 transition-all ease-in-out duration-100"
+    className="text-gray-500 group-hover:text-gray-700 dark:text-white dark:group-hover:text-white transition-all ease-in-out duration-100"
     width="22"
     height="22"
     viewBox="0 0 24 24"
