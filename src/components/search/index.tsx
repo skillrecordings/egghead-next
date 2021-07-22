@@ -216,27 +216,32 @@ const Search: FunctionComponent<SearchProps> = ({
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
             <div className="grid sm:grid-cols-4 grid-cols-1 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
-              {!sm && (
-                <div className="p-8 flex flex-col space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-1">Topics</h3>
-                    <RefinementList limit={6} attribute="_tags" />
+              <div>
+                {!sm && (
+                  <div className="p-8 flex flex-col space-y-6">
+                    <div>
+                      <h3 className="font-semibold mb-1">Topics</h3>
+                      <RefinementList limit={6} attribute="_tags" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Instructors</h3>
+                      <RefinementList limit={6} attribute="instructor_name" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Content Type</h3>
+                      <RefinementList attribute="type" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Free or Pro</h3>
+                      <RefinementList attribute="access_state" />
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Instructors</h3>
-                    <RefinementList limit={6} attribute="instructor_name" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Content Type</h3>
-                    <RefinementList attribute="type" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Free or Pro</h3>
-                    <RefinementList attribute="access_state" />
-                  </div>
-                </div>
-              )}
-              <div className="col-span-4 sm:col-span-3 p-5">
+                )}
+              </div>
+              <div
+                key="search-results"
+                className="col-span-4 sm:col-span-3 p-5"
+              >
                 <Hits />
               </div>
             </div>
