@@ -36,7 +36,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
                           width={1280}
                           height={810}
                           quality={100}
-                          className="rounded-t-md hover:scale-105 transform transition-transform ease-in-out duration-700"
+                          className="rounded-t-md hover:scale-105 transition-transform ease-in-out duration-700"
                         />
                       </a>
                     </Link>

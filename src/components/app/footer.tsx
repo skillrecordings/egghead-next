@@ -167,7 +167,7 @@ const DarkModeToggle = () => {
       >
         <div
           className={`bg-white w-8 h-8 rounded-full shadow-md duration-300 ease-in-out flex items-center justify-center dark:bg-gray-800 ${
-            mounted && (theme === 'dark' ? 'transform translate-x-6' : '')
+            mounted && (theme === 'dark' ? 'translate-x-6' : '')
           }`}
         >
           {mounted && (
