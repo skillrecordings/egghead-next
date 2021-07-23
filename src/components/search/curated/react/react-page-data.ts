@@ -77,8 +77,7 @@ const reactPageData = [
       },
       {
         title: 'Up and running with Recoil',
-        path:
-          '/playlists/up-and-running-with-recoil-a-new-state-management-library-for-react-78b8',
+        path: '/playlists/up-and-running-with-recoil-a-new-state-management-library-for-react-78b8',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         byline: 'Tomasz łakomy',
@@ -106,16 +105,14 @@ const reactPageData = [
         byline: 'Alex Reardon',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/209/thumb/React_Dnd_Final.png',
-        path:
-          '/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
+        path: '/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
         slug: 'beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd',
         description:
           'Drag and drop (dnd) experiences are often built to sort lists of content vertically and horizontally. \n\nreact-beautiful-dnd is an excellent tool for these use cases. It utilizes the render props pattern to build accessible dnd functionality into lists that look and behave as you would expect—and you’ll even get keyboard-accessible dnd, straight out of the box, with no extra work required. It’s actually easy to start using, and this course is a great place to start.\n\n\nWe will create a highly interactive task management application from scratch using the building blocks of react-beautiful-dnd. Over 14 lessons, you will get practice in:\n\n- building droppable containers to sort draggable items horizontally and vertically\n- moving items between columns\n- and even moving the columns themselves\n\nFollowing the course, you’ll be ready to build powerful dnd experiences into your own projects.\n\nCheck out [the community notes for this course on Github](https://github.com/eggheadio-projects/Beautiful-and-Accessible-Drag-and-Drop-with-react-beautiful-dnd-notes).',
       },
       {
         title: 'Styling React Applications with Styled Components',
-        path:
-          '/playlists/styling-react-applications-with-styled-components-8834',
+        path: '/playlists/styling-react-applications-with-styled-components-8834',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         byline: 'Sara Vieira',
@@ -149,8 +146,7 @@ const reactPageData = [
       },
       {
         title: 'React Real-Time Messaging with GraphQL using urql and OneGraph',
-        path:
-          '/playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
+        path: '/playlists/react-real-time-messaging-with-graphql-using-urql-and-onegraph-be5a',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/409/013/full/EGH_RealtimeGraphqL.png',
         byline: 'Ian Jones',
@@ -172,8 +168,7 @@ const reactPageData = [
       {
         title:
           'Building an OpenGraph image generation API with Cloudinary, Netlify Functions, and React',
-        path:
-          '/playlists/building-an-opengraph-image-generation-api-with-cloudinary-netlify-functions-and-react-914e',
+        path: '/playlists/building-an-opengraph-image-generation-api-with-cloudinary-netlify-functions-and-react-914e',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
         byline: 'Chris Biscardi',
@@ -187,8 +182,7 @@ const reactPageData = [
     description:
       'Joel and David chat about the big ideas of State Management, the difference between a State Machine and Statecharts, and how they overlap with music. David also gives a walkthrough of XState, XState Visualizer, and the upcoming dev tools for XState.',
     byline: 'David Khourshid & Joel Hooks',
-    path:
-      '/talks/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
+    path: '/talks/react-xstate-for-state-management-in-react-apps-with-david-khourshid?pl=react-state-management-2020-6bec',
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611317992/next.egghead.io/react/react-xstate-for-state-management-in-react-apps-with-david-khourshid.png',
   },
@@ -233,8 +227,7 @@ const reactPageData = [
       {
         title: 'Using Redux in Modern React Apps with Mark Erikson',
         byline: 'Mark Erikson',
-        path:
-          '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson',
+        path: '/lessons/react-using-redux-in-modern-react-apps-with-mark-erikson',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/thumb/redux.png',
       },
@@ -242,16 +235,14 @@ const reactPageData = [
         title:
           'Using Recoil to Manage Orthogonal State in React Apps with David McCabe',
         byline: 'David McCabe',
-        path:
-          '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe',
+        path: '/lessons/react-using-recoil-to-manage-orthogonal-state-in-react-apps-with-david-mccabe',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
       },
       {
         title: 'Managing Complex State in React with Jared Palmer [explicit]',
         byline: 'Jared Palmer',
-        path:
-          '/lessons/react-managing-complex-state-in-react-with-jared-palmer-explicit',
+        path: '/lessons/react-managing-complex-state-in-react-with-jared-palmer-explicit',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
       },
@@ -265,8 +256,7 @@ const reactPageData = [
       {
         title: 'State Management in React with Christopher Chedeau',
         byline: 'Christopher Chedeau',
-        path:
-          '/lessons/react-state-management-in-react-with-christopher-chedeau',
+        path: '/lessons/react-state-management-in-react-with-christopher-chedeau',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
       },
@@ -276,29 +266,6 @@ const reactPageData = [
         path: '/lessons/react-state-management-in-react-with-paul-henschel',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/full/react.png',
-      },
-    ],
-  },
-  {
-    id: 'state-management-quickly',
-    title: 'Favorites',
-    resources: [
-      {
-        title: `Intro to React, Hooks & Context API`,
-        path:
-          '/playlists/build-a-name-picker-app-intro-to-react-hooks-context-api-1ded',
-        byline: 'Simon Vrachliotis',
-      },
-      {
-        title: 'Lifting and colocating React State',
-        path: '/lessons/react-lifting-and-colocating-react-state',
-        byline: 'Kent C. Dodds',
-      },
-      {
-        title: 'Create forms in React applications with React Final Form',
-        path:
-          '/playlists/create-forms-in-react-applications-with-react-final-form-2bcd34cb',
-        byline: 'Tomasz łakomy',
       },
     ],
   },
@@ -358,8 +325,7 @@ const reactPageData = [
         byline: 'Maggie Appleton',
         image:
           'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611320253/next.egghead.io/react/react-potato-metaphor.png',
-        path:
-          '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
+        path: '/talks/javascript-drawing-the-invisible-react-explained-in-five-visual-metaphors',
       },
       {
         title: 'Concurrent React from Scratch',
@@ -375,14 +341,12 @@ const reactPageData = [
         title:
           'Accessibility-flavored React Components make your Design System Delicious',
         byline: 'Kathleen McMahon',
-        path:
-          '/talks/react-accessibility-flavored-react-components-make-your-design-system-delicious',
+        path: '/talks/react-accessibility-flavored-react-components-make-your-design-system-delicious',
       },
       {
         title: 'Lessons Learned From Building React Native Apps',
         byline: 'Adhithi Ravichandran',
-        path:
-          '/talks/react-native-egghead-talks-lessons-learned-from-building-react-native-apps',
+        path: '/talks/react-native-egghead-talks-lessons-learned-from-building-react-native-apps',
       },
     ],
   },
@@ -404,8 +368,7 @@ const reactPageData = [
         byline: 'Ryan Florence',
         image:
           'https://image.simplecastcdn.com/images/e21d35da-a28e-4f59-97cc-3c82e6b81011/1dec447a-fc65-4929-b8cf-001889a456c5/podcast-logo-700x700-recovered.jpg',
-        path:
-          '/podcasts/ryan-florence-talks-about-bringing-web-1-0-philosophies-back-with-remix',
+        path: '/podcasts/ryan-florence-talks-about-bringing-web-1-0-philosophies-back-with-remix',
       },
       {
         title: 'Jason Lengstorf on GatsbyJS',
@@ -420,8 +383,7 @@ const reactPageData = [
         byline: 'Kent C. Dodds',
         image:
           'https://image.simplecastcdn.com/images/e21d35da-a28e-4f59-97cc-3c82e6b81011/83951ec7-07a5-40d2-9cb3-82985c7bb2b4/kent-logo.jpg',
-        path:
-          '/podcasts/kent-c-dodds-chats-about-how-epic-react-was-designed-for-learner-success',
+        path: '/podcasts/kent-c-dodds-chats-about-how-epic-react-was-designed-for-learner-success',
       },
       {
         title:
@@ -429,8 +391,7 @@ const reactPageData = [
         byline: 'Segun Adeyabo',
         image:
           'https://image.simplecastcdn.com/images/e21d35da-a28e-4f59-97cc-3c82e6b81011/e7a23942-2e20-4a08-bf95-84a9869ee042/art.jpg',
-        path:
-          '/podcasts/why-segun-adebayo-calls-himself-a-ux-engineer-instead-of-a-designer',
+        path: '/podcasts/why-segun-adebayo-calls-himself-a-ux-engineer-instead-of-a-designer',
       },
     ],
   },

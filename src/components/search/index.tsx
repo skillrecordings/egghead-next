@@ -132,7 +132,7 @@ const Search: FunctionComponent<SearchProps> = ({
               >
                 <span className="sm:block hidden">Filter</span>
                 {numberOfRefinements > 0 ? (
-                  <div className="-mr-1 w-6 h-6 transform scale-75 flex items-center justify-center bg-blue-600 rounded-full text-white text-xs font-bold">
+                  <div className="-mr-1 w-6 h-6 scale-75 flex items-center justify-center bg-blue-600 rounded-full text-white text-xs font-bold">
                     {numberOfRefinements}
                   </div>
                 ) : (
