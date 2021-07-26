@@ -42,9 +42,6 @@ export const StateManagementQuery = groq`*[_type == 'resource' && slug.current =
       "description": text,
       "title": label,
     },
-    'text2': content[type == 'start-here-text-2'][0]{
-      "description": text,
-    },
   }
 }`
 
@@ -62,21 +59,21 @@ const SecondarySection = ({resource}: any) => {
   const {text1, text2} = resource
   return (
     <div className="">
-      <div className="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 rounded-lg shadow-sm px-5 sm:py-16 py-10">
-        <h1 className="sm:text-2xl md:text-4xl text-xl font-extrabold leading-tighter text-center mb-4">
-          {text1.title}
-        </h1>
-        <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-2 gap-10">
+        <div className="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 rounded-lg shadow-sm px-5 sm:py-16 py-10">
+          <h1 className="sm:text-2xl md:text-4xl text-xl font-extrabold leading-tighter text-center mb-4">
+            {text1.title}
+          </h1>
           <Markdown
             source={text1.description}
             allowDangerousHtml={true}
             className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100  mt-4 max-w-screen-md"
           />
-          <Markdown
-            source={text2.description}
-            allowDangerousHtml={true}
-            className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100  mt-4 max-w-screen-md"
-          />
+        </div>
+        <div className="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 rounded-lg shadow-sm px-5 sm:py-16 py-10">
+          <h1 className="sm:text-2xl md:text-4xl text-xl font-extrabold leading-tighter text-center mb-4">
+            Big Ideas of State Management
+          </h1>
         </div>
       </div>
     </div>
