@@ -215,10 +215,10 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
-            <div className="grid sm:grid-cols-4 grid-cols-1 mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
-              <div>
+            <div className="flex mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+              <div className="flex-shrink-0">
                 {!sm && (
-                  <div className="p-8 flex flex-col space-y-6">
+                  <div className="pl-0 pt-0 p-10 flex flex-col space-y-6">
                     <div>
                       <h3 className="font-semibold mb-1">Topics</h3>
                       <RefinementList limit={6} attribute="_tags" />
@@ -238,15 +238,12 @@ const Search: FunctionComponent<SearchProps> = ({
                   </div>
                 )}
               </div>
-              <div
-                key="search-results"
-                className="col-span-4 sm:col-span-3 p-5"
-              >
+              <div key="search-results" className="col-span-4 sm:col-span-3">
                 <Hits />
               </div>
             </div>
           </div>
-          <div className="max-w-screen-xl mx-auto w-full flex items-center justify-between mt-8 mb-4 overflow-x-auto">
+          <div className="max-w-screen-xl mx-auto w-full flex items-center justify-center mt-8 mb-4 overflow-x-auto">
             <Pagination />
           </div>
           {children}
