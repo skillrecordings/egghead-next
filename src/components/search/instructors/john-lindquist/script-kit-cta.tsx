@@ -49,7 +49,7 @@ const ScriptKitCTA = ({instructorData}: any) => {
               Making scripts easy to run, write, and share
             </p>
           </div>
-          <div className="w-full bg-gray-900 font-bold py-4 mx-auto rounded-md text-white sm:mt-0 mt-10 group-hover:scale-105 transform transition-all ease-in-out duration-300">
+          <div className="w-full bg-gray-900 font-bold py-4 mx-auto rounded-md text-white sm:mt-0 mt-10 group-hover:scale-105 transition-all ease-in-out duration-300">
             Get Superpowers
           </div>
         </div>
