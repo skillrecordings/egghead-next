@@ -61,7 +61,7 @@ const MultipleChoiceQuestion: FunctionComponent<{
                     hasMultipleCorrectAnswers
                       ? 'form-checkbox sm:translate-y-0'
                       : 'form-radio sm:-translate-y-px'
-                  } border-gray-400 transform  translate-y-1`}
+                  } border-gray-400 translate-y-1`}
                 />
                 <div className="flex sm:flex-row flex-col sm:items-center justify-between relative w-full pl-2 leading-tighter">
                   <span className="flex-grow">{choice.label}</span>

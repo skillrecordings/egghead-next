@@ -183,7 +183,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   })
 
   let initialInstructor = null
-  let sanityInstructor = null
   let initialTopic = null
 
   const {rawResults, state} = resultsState
@@ -195,6 +194,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const noIndexInitial = queryParamsPresent || noHits || userQueryPresent
 
   const selectedInstructors = getInstructorsFromSearchState(initialSearchState)
+
   const selectedTopics = topicExtractor(initialSearchState)
 
   if (selectedTopics?.length === 1 && !selectedTopics.includes('undefined')) {
@@ -214,13 +214,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
       getInstructorSlugFromInstructorList(selectedInstructors)
     try {
       initialInstructor = await loadInstructor(instructorSlug)
-
-      sanityInstructor = await loadSanityInstructor(instructorSlug)
-
-      initialInstructor = {
-        ...initialInstructor,
-        ...sanityInstructor,
-      }
     } catch (error) {
       console.error(error)
     }

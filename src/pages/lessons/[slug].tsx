@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {isEmpty, get, first, isFunction, filter} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tabs, TabList, Tab, TabPanels, TabPanel} from '@reach/tabs'
+import VisuallyHidden from '@reach/visually-hidden'
 import {playerMachine} from 'machines/lesson-player-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
@@ -20,6 +21,7 @@ import JoinCTA from 'components/pages/lessons/join-cta'
 import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
 import CoursePitchOverlay from 'components/pages/lessons/overlay/course-pitch-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
+import AddNoteOverlay from 'components/pages/lessons/overlay/add-note-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
@@ -417,9 +419,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
             }}
           >
             <div
-              className={`relative ${
+              className={`relative before:float-left after:clear-both after:table ${
                 isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
               }`}
+              css={{
+                ':before': {
+                  paddingBottom: `calc(56.25% + ${
+                    isEmpty(lesson.staff_notes_url) ? '3.5rem' : '4.5rem'
+                  })`,
+                },
+              }}
             >
               <PlayerContainer ref={playerContainer}>
                 <VideoResourcePlayer
@@ -561,9 +570,17 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   <RecommendNextStepOverlay lesson={lesson} />
                 </OverlayWrapper>
               )}
+              {playerState.matches('addingNote') && (
+                <OverlayWrapper>
+                  <AddNoteOverlay onClose={() => send('VIEW')} />
+                </OverlayWrapper>
+              )}
             </div>
             <div className="lg:col-span-3 side-bar">
-              <PlayerSidebar videoResource={lesson} />
+              <PlayerSidebar
+                videoResource={lesson}
+                onAddNote={() => send('ADD_NOTE')}
+              />
             </div>
           </div>
         </PlayerProvider>
