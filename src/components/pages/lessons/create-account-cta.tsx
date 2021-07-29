@@ -20,7 +20,7 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center px-5">
+    <div className="flex flex-col items-center p-4">
       <LoginForm
         image={<></>}
         className="w-full mx-auto flex flex-col items-center justify-center text-white"

@@ -19,6 +19,7 @@ interface PlayerStateSchema {
     completed: {}
     recommending: {}
     pitchingCourse: {}
+    addingNote: {}
   }
 }
 
@@ -38,6 +39,7 @@ export type PlayerStateEvent =
   | {type: 'RATE'}
   | {type: 'LOAD'}
   | {type: 'RECOMMEND'}
+  | {type: 'ADD_NOTE'}
 
 interface PlayerContext {
   lesson: any
@@ -90,6 +92,7 @@ export const playerMachine = Machine<
           PLAY: 'playing',
           LOAD: 'loading',
           LOADED: 'loaded',
+          ADD_NOTE: 'addingNote',
         },
       },
       playing: {
@@ -100,6 +103,7 @@ export const playerMachine = Machine<
           RATE: 'rating',
           PAUSE: 'paused',
           LOAD: 'loading',
+          ADD_NOTE: 'addingNote',
         },
       },
       paused: {
@@ -108,6 +112,7 @@ export const playerMachine = Machine<
           PLAY: 'playing',
           LOAD: 'loading',
           COMPLETE: 'completed',
+          ADD_NOTE: 'addingNote',
         },
       },
 
@@ -180,6 +185,13 @@ export const playerMachine = Machine<
       recommending: {
         on: {
           LOAD: 'loading',
+        },
+      },
+      addingNote: {
+        on: {
+          PLAY: 'playing',
+          VIEW: 'viewing',
+          PAUSE: 'paused',
         },
       },
     },

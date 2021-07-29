@@ -34,19 +34,19 @@
 
 /* progress bar */
 .cueplayer-react .cueplayer-react-progress-control {
-  @apply bottom-0 w-full h-6 absolute hidden sm:flex px-2;
+  @apply bottom-0 w-full h-6 absolute flex px-2;
   transform: translateY(1.5rem);
 }
 
 /* cue bar */
 .cueplayer-react .cueplayer-react-cue-bar {
-  @apply bottom-0 h-4 z-10 absolute bottom-0 left-2 right-3 hidden lg:flex;
+  @apply bottom-0 h-4 z-10 absolute left-2 right-3 flex;
   transform: translateY(2.5rem);
 }
 
 /* control bar */
 .cueplayer-react .cueplayer-react-control-bar {
-  @apply hidden sm:flex bg-gray-1000 z-[10];
+  @apply flex bg-gray-1000 z-[10];
 }
 
 .cueplayer-react .cueplayer-react-fullscreen {
@@ -86,6 +86,15 @@
   @apply flex justify-center items-center;
 }
 
-.cueplayer-react .cueplayer-react-playback-rate .cueplayer-react-playback-rate-value {
+.cueplayer-react
+  .cueplayer-react-playback-rate
+  .cueplayer-react-playback-rate-value {
   line-height: 1;
+}
+
+/* Hide some controls in mobile */
+.cueplayer-react .cueplayer-react-control.cueplayer-react-replay-control,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-forward-control,
+.cueplayer-react .cueplayer-react-control.cueplayer-react-volume-menu-button {
+  @apply hidden sm:inline-block;
 }

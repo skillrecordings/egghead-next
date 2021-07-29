@@ -270,12 +270,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
             >
               <div className="overflow-hidden flex items-center justify-center rounded-lg">
                 <Image
-                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
+                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-home_2x.jpg"
+                  // 25% off
+                  // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
                   alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
                   width={704}
                   height={836}
                   quality={100}
-                  className="rounded-lg hover:scale-[102%] transform ease-in-out duration-500"
+                  className="rounded-lg hover:scale-[102%] ease-in-out duration-500"
                 />
               </div>
             </ExternalTrackedLink>
