@@ -1,16 +1,17 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
+import {find, get} from 'lodash'
+import Image from 'next/image'
+import groq from 'groq'
 import Topic from '../../components/topic'
 import reactPageData from './react-page-data'
-import {find} from 'lodash'
-import Image from 'next/image'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {ThreeLevels} from '../curated-essential'
 
-const SearchReact = () => {
+const SearchReact = ({topic}: any) => {
   const location = 'react landing'
   const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
   const title = `In-Depth Up-to-Date React Tutorials for ${new Date().getFullYear()}`
@@ -31,13 +32,11 @@ const SearchReact = () => {
   const stateManagementCollection: any = find(reactPageData, {
     id: 'state-management-collection',
   })
-  const stateManagementQuickly: any = find(reactPageData, {
-    id: 'state-management-quickly',
-  })
   const reactArticles: any = find(reactPageData, {id: 'articles'})
   const reactTalks: any = find(reactPageData, {id: 'talks'})
   const reactPodcasts: any = find(reactPageData, {id: 'podcasts'})
 
+  const recoilCollection = get(topic?.reactStateManagement, 'recoilCollection')
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
@@ -89,11 +88,10 @@ You can find courses below curated just for you whether you're looking for a par
               width={417}
               height={463}
               alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-              className="hover:scale-[102%] transform ease-in-out duration-500"
-              // default
-              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611336740/next.egghead.io/react/epic_react_link_banner.png"
+              className="hover:scale-[102%] ease-in-out duration-500"
+              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
               // 25% off
-              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
             />
           </div>
         </ExternalTrackedLink>
@@ -105,8 +103,8 @@ You can find courses below curated just for you whether you're looking for a par
         location={location}
       />
 
-      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg md:p-5">
-        <div className="lg:col-span-8 col-span-12 space-y-5">
+      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 md:dark:bg-gray-700 rounded-lg md:p-5 relative">
+        <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
             <div className="flex-shrink-0">
               <Image
@@ -141,18 +139,17 @@ You can find courses below curated just for you whether you're looking for a par
               </div>
             </div>
           </header>
-          <div>
+          <div className="flex flex-col flex-grow">
             <VideoCard
               resource={stateManagementVideo}
               className="flex md:flex-row flex-col"
               location={location}
             />
-
-            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
               {stateManagementFeatured.resources.map((resource: any) => {
                 return (
                   <VerticalResourceCard
-                    className="col-span-4 text-center"
+                    className="col-span-4 text-center flex flex-col items-center justify-center"
                     key={resource.path}
                     resource={resource}
                     location={location}
@@ -162,16 +159,18 @@ You can find courses below curated just for you whether you're looking for a par
             </div>
           </div>
         </div>
-        <div className="md:col-span-4 col-span-12">
+        <div className="md:col-span-4 col-span-12 flex flex-col">
           <VerticalResourceCollectionCard
             resource={stateManagementCollection}
             location={location}
           />
-          <VerticalResourceCollectionCard
-            resource={stateManagementQuickly}
-            className="mt-5"
-            location={location}
-          />
+          {recoilCollection && (
+            <VerticalResourceCollectionCard
+              resource={recoilCollection}
+              className="mt-5 flex-grow"
+              location={location}
+            />
+          )}
         </div>
       </section>
 
@@ -201,5 +200,28 @@ You can find courses below curated just for you whether you're looking for a par
     </div>
   )
 }
+
+export const reactPageQuery = groq`
+*[_type == 'resource' && slug.current == 'react-landing-page'][0]{
+  title,
+  'reactStateManagement': resources[slug.current == 'react-state-management-section'][0] {
+    'recoilCollection': resources[slug.current == 'recoil-collection'][0]{
+      title,
+      description,
+      resources[]->{
+       title,
+       'description': summary,
+       path,
+       byline,
+       image,
+       'background': images[label == 'feature-card-background'][0].url,
+       'instructor': collaborators[]->[role == 'instructor'][0]{
+         'name': person->.name
+       },
+     }
+    }
+	},
+ }
+`
 
 export default SearchReact

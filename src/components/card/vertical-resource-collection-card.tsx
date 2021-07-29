@@ -124,9 +124,7 @@ const VerticalResourceCollectionCard: React.FC<{
                   </Link>
                 )}
                 <CardContent
-                  className={`${
-                    resource.image ? 'ml-3' : ''
-                  } flex flex-col justify-center sm:items-start items-center`}
+                  className={`${resource.image ? 'ml-3' : ''} flex flex-col`}
                 >
                   <CardHeader>
                     <Link href={resource.path}>

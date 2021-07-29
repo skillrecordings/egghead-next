@@ -152,7 +152,7 @@ const GetAccessButton: React.FunctionComponent<{
 }> = ({label, handleClick}) => {
   return (
     <button
-      className="mt-8 px-5 py-4 text-center bg-blue-600 text-white font-semibold rounded-md w-full hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105"
+      className="mt-8 px-5 py-4 text-center bg-blue-600 text-white font-semibold rounded-md w-full hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105"
       onClick={handleClick}
       type="button"
     >
@@ -205,9 +205,8 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   }
 
   const [currentInterval] = React.useState<string>(defaultInterval)
-  const [currentQuantity, setCurrentQuantity] = React.useState<number>(
-    defaultQuantity,
-  )
+  const [currentQuantity, setCurrentQuantity] =
+    React.useState<number>(defaultQuantity)
 
   const [currentPlan, setCurrentPlan] = React.useState<any>(
     pricesForInterval(currentInterval),

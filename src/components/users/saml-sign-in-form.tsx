@@ -63,7 +63,7 @@ const SamlSignInForm: FunctionComponent<SamlSignInFormProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                    className="w-full mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
                   >
                     Continue with SSO
                   </button>

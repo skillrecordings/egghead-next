@@ -63,9 +63,9 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
 
   return (
     <div
-      className={`relative z-10 h-full sm:pb-14 ${className} 
+      className={`relative z-10 h-full ${className} 
           ${hidden ? 'hidden' : 'block'} 
-          ${hasNotes(videoResource) ? 'lg:pb-[4.5rem]' : ''}`}
+          ${hasNotes(videoResource) ? 'pb-[4.5rem]' : 'pb-14'}`}
     >
       <Player
         crossOrigin="anonymous"
@@ -121,8 +121,8 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         <ControlBar
           disableDefaultControls
           autoHide={false}
-          className={`hidden lg:flex transform translate-y-14 ${
-            hasNotes(videoResource) ? 'lg:translate-y-[4.5rem]' : ''
+          className={`flex ${
+            hasNotes(videoResource) ? 'translate-y-[4.5rem]' : 'translate-y-14'
           }`}
           order={8.0}
         >
@@ -192,7 +192,6 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
 }
 
 export const hasNotes = (resource: VideoResource) => {
-  console.log(resource, process.env.NEXT_PUBLIC_NOTES_ENABLED)
   return (
     process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true' &&
     !isEmpty(resource.staff_notes_url)

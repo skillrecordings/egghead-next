@@ -33,7 +33,7 @@ const TagItem: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 dark:hover:bg-gray-900 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-gray-100 sm:dark:hover:bg-gray-800 dark:hover:bg-gray-900 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined
             ? 'text-blue-600 dark:text-blue-300 font-semibold'
             : 'font-normal'
@@ -94,7 +94,7 @@ const InstructorItem: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 dark:hover:bg-gray-900 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-gray-100 sm:dark:hover:bg-gray-800 dark:hover:bg-gray-900 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined
             ? 'text-blue-600 dark:text-blue-300 font-semibold'
             : 'font-normal'
@@ -150,7 +150,7 @@ const Item: FunctionComponent<RefinementListProps> = ({
     <li key={item.label}>
       <a
         tabIndex={tabIndex}
-        className={`block hover:bg-gray-100 dark:hover:bg-gray-900 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
+        className={`block hover:bg-gray-100 sm:dark:hover:bg-gray-800 dark:hover:bg-gray-900 px-2 py-2 rounded-md transition ease-in-out duration-150 ${
           item.isRefined
             ? 'text-blue-600 dark:text-blue-300 font-semibold'
             : 'font-normal'
@@ -227,7 +227,7 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
             <input
               tabIndex={tabIndex}
               type="search"
-              className="form-input text-black bg-gray-100 border-none rounded-md px-3 pl-8 py-2 w-full"
+              className="form-input text-black dark:text-white bg-gray-100 dark:bg-gray-800 border border-transparent dark:border-gray-700 rounded-md px-3 pl-8 py-2 w-full"
               placeholder={`Search ${label(attribute)}`}
               onChange={(event) => searchForItems(event.currentTarget.value)}
             />
