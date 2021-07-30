@@ -37,7 +37,7 @@ const SearchBar = () => {
                 />
                 <button
                   type="submit"
-                  className={`font-semibold px-5 py-4 transform bg-blue-600 hover:bg-blue-700 transition-all ease-in-out border-none duration-200 text-white leading-6`}
+                  className={`font-semibold px-5 py-4 bg-blue-600 hover:bg-blue-700 transition-all ease-in-out border-none duration-200 text-white leading-6`}
                 >
                   Search
                 </button>

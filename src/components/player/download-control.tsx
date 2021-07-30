@@ -8,8 +8,10 @@ type DownloadButtonProps = {
   lesson: any
 }
 
-type LessonDownloadProps = {
+type DownloadControlProps = {
   lesson: any
+  key: string
+  order: number
 }
 
 const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
@@ -27,19 +29,16 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
         })
       }}
       aria-label="download video"
-      className={`space-x-2 flex items-center rounded-md px-3 py-2 bg-gray-800 border-none text-gray-300 hover:text-white text-xs transition-colors ease-in-out duration-200 ${
-        !lesson?.download_url
-          ? 'opacity-50 hover:text-gray-300 cursor-default'
-          : ''
+      className={`w-10 h-8 flex items-center justify-center border-none text-white ${
+        !lesson?.download_url ? 'opacity-50 cursor-default' : ''
       }`}
     >
       <IconDownload className="w-5" />
-      <span className="hidden xs:inline">Download</span>
     </button>
   )
 }
 
-const LessonDownload: FunctionComponent<LessonDownloadProps> = ({lesson}) => {
+const DownloadControl: FunctionComponent<DownloadControlProps> = ({lesson}) => {
   return lesson?.download_url ? (
     <DownloadButton lesson={lesson} />
   ) : (
@@ -56,18 +55,12 @@ const IconDownload: FunctionComponent<{className?: string}> = ({
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
+    fill="currentColor"
+    viewBox="0 0 32 32"
     className={className}
   >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-    />
+    <path d="M24.853 12.838h-5.059V5.25h-7.588v7.588H7.147L16 21.691l8.853-8.853zM7.147 24.22v2.53h17.706v-2.53H7.147z" />
   </svg>
 )
 
-export default LessonDownload
+export default DownloadControl
