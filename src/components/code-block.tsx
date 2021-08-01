@@ -19,10 +19,9 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({language, value}) => {
         >
           {tokens.map((line, i) => (
             <div {...getLineProps({line, key: i})} style={{fontSize: '90%'}}>
-              {line.map((token, key) => {
-                if (!token) return null
-                return <span {...getTokenProps({token, key})} />
-              })}
+              {line.map((token, key) => (
+                <span {...getTokenProps({token, key})} />
+              ))}
             </div>
           ))}
         </pre>
