@@ -46,6 +46,7 @@ const PlayerSidebar: React.FC<{
             <LessonListTab
               videoResource={videoResource}
               lessonView={lessonView}
+              selected={activeSidebarTab === 0}
             />
             <NotesTab onAddNote={onAddNote} selected={activeSidebarTab === 1} />
           </div>
@@ -58,8 +59,9 @@ const PlayerSidebar: React.FC<{
 const LessonListTab: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-}> = ({videoResource, lessonView}) => {
-  const hidden: boolean = isEmpty(videoResource.collection)
+  selected: boolean
+}> = ({videoResource, lessonView, selected}) => {
+  const hidden: boolean = isEmpty(videoResource.collection) || !selected
 
   return hidden ? null : (
     <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
