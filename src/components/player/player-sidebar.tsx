@@ -46,9 +46,8 @@ const PlayerSidebar: React.FC<{
             <LessonListTab
               videoResource={videoResource}
               lessonView={lessonView}
-              selected={activeSidebarTab === 0}
             />
-            <NotesTab onAddNote={onAddNote} selected={activeSidebarTab === 1} />
+            <NotesTab onAddNote={onAddNote} />
           </div>
         </TabPanels>
       </Tabs>
@@ -59,9 +58,8 @@ const PlayerSidebar: React.FC<{
 const LessonListTab: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-  selected: boolean
-}> = ({videoResource, lessonView, selected}) => {
-  const hidden: boolean = isEmpty(videoResource.collection) || !selected
+}> = ({videoResource, lessonView}) => {
+  const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
     <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
@@ -84,12 +82,12 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({onAddNote, selected}) => {
+const NotesTab: React.FC<any> = ({onAddNote}) => {
   const {player, manager} = usePlayer()
 
   const {cues} = useNotesCues()
   const actions = manager?.getActions()
-  const hidden: boolean = isEmpty(cues) || !selected
+  const hidden: boolean = isEmpty(cues)
   const scrollableNodeRef: any = React.createRef()
 
   return hidden ? null : (
