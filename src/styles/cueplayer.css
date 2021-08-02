@@ -32,10 +32,6 @@
   @apply bg-white opacity-50;
 }
 
-.tippy-content {
-  user-select: text !important;
-}
-
 /* progress bar */
 .cueplayer-react .cueplayer-react-progress-control {
   @apply bottom-0 w-full h-6 absolute flex px-2;
