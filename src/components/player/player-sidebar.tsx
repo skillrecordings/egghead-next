@@ -47,7 +47,7 @@ const PlayerSidebar: React.FC<{
               videoResource={videoResource}
               lessonView={lessonView}
             />
-            <NotesTab onAddNote={onAddNote} />
+            <NotesTab onAddNote={onAddNote} selected={activeSidebarTab === 1} />
           </div>
         </TabPanels>
       </Tabs>
@@ -82,12 +82,12 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({onAddNote}) => {
+const NotesTab: React.FC<any> = ({onAddNote, selected}) => {
   const {player, manager} = usePlayer()
 
   const {cues} = useNotesCues()
   const actions = manager?.getActions()
-  const hidden: boolean = isEmpty(cues)
+  const hidden: boolean = isEmpty(cues) || !selected
   const scrollableNodeRef: any = React.createRef()
 
   return hidden ? null : (
