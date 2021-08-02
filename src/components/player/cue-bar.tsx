@@ -2,12 +2,11 @@ import * as React from 'react'
 import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
-import {scroller} from 'react-scroll'
+// import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {useNotesCues} from './index'
-import CodeBlock from 'components/code-block'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -151,16 +150,16 @@ const NoteCue: React.FC<any> = ({
   const startPosition = `${(cue.startTime / duration) * 100}%`
   const note = cue.text
 
-  React.useEffect(() => {
-    if (visible) {
-      scroller.scrollTo('active-note', {
-        duration: 0,
-        delay: 0,
-        offset: -16,
-        containerId: 'notes-tab-scroll-container',
-      })
-    }
-  }, [visible, setPlayerPrefs])
+  // React.useEffect(() => {
+  //   if (visible) {
+  //     scroller.scrollTo('active-note', {
+  //       duration: 0,
+  //       delay: 0,
+  //       offset: -16,
+  //       containerId: 'notes-tab-scroll-container',
+  //     })
+  //   }
+  // }, [visible, setPlayerPrefs])
 
   return (
     <Tippy
