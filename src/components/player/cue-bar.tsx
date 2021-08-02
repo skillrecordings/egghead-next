@@ -7,6 +7,7 @@ import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player
 import ReactMarkdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {useNotesCues} from './index'
+import CodeBlock from 'components/code-block'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -170,7 +171,7 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className={`py-1`}>
+        <div className="py-1">
           <div className="flex justify-end space-x-2">
             <MutePopupButton />
             <button

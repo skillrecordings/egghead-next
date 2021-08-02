@@ -1,6 +1,6 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
-import {find} from 'lodash'
+import {find, get} from 'lodash'
 import Image from 'next/image'
 import groq from 'groq'
 import Topic from '../../components/topic'
@@ -36,9 +36,7 @@ const SearchReact = ({topic}: any) => {
   const reactTalks: any = find(reactPageData, {id: 'talks'})
   const reactPodcasts: any = find(reactPageData, {id: 'podcasts'})
 
-  const {reactStateManagement} = topic
-  const {recoilCollection} = reactStateManagement
-
+  const recoilCollection = get(topic?.reactStateManagement, 'recoilCollection')
   return (
     <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
       <NextSeo
@@ -166,11 +164,13 @@ You can find courses below curated just for you whether you're looking for a par
             resource={stateManagementCollection}
             location={location}
           />
-          <VerticalResourceCollectionCard
-            resource={recoilCollection}
-            className="mt-5 flex-grow"
-            location={location}
-          />
+          {recoilCollection && (
+            <VerticalResourceCollectionCard
+              resource={recoilCollection}
+              className="mt-5 flex-grow"
+              location={location}
+            />
+          )}
         </div>
       </section>
 
