@@ -182,7 +182,15 @@ const NoteCue: React.FC<any> = ({
             </button>
           </div>
           <div className="line-clamp-6 prose-sm prose leading-normal">
-            <ReactMarkdown>{note}</ReactMarkdown>
+            <ReactMarkdown
+              renderers={{
+                code: (props) => {
+                  return <CodeBlock {...props} />
+                },
+              }}
+            >
+              {note}
+            </ReactMarkdown>
           </div>
         </div>
       }

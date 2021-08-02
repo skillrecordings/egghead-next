@@ -121,7 +121,14 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                       )}
                     >
                       {note && (
-                        <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                        <ReactMarkdown
+                          className="leading-normal prose-sm prose dark:prose-dark"
+                          renderers={{
+                            code: (props) => {
+                              return <CodeBlock {...props} />
+                            },
+                          }}
+                        >
                           {note}
                         </ReactMarkdown>
                       )}
