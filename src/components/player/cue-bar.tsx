@@ -7,6 +7,7 @@ import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player
 import ReactMarkdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {useNotesCues} from './index'
+import CodeBlock from 'components/code-block'
 
 const CueBar: React.FC<any> = ({
   className,
