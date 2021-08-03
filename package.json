@@ -71,7 +71,7 @@
     "cookie": "^0.4.1",
     "cueplayer-react": "^0.3.21",
     "customerio-node": "^2.1.1",
-    "date-fns": "^2.22.1",
+    "date-fns": "^2.23.0",
     "discord.js": "^12.5.3",
     "facepaint": "^1.2.1",
     "focus-visible": "^5.2.0",
@@ -118,7 +118,7 @@
     "react-hot-toast": "^2.0.0",
     "react-instantsearch-dom": "^6.12.0",
     "react-markdown": "^5.0.3",
-    "react-scroll": "^1.8.2",
+    "react-scroll": "^1.8.3",
     "react-textfit": "^1.1.1",
     "react-twitter-embed": "^3.0.3",
     "react-use": "^17.2.4",
@@ -174,7 +174,7 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.14",
     "@types/react-instantsearch-dom": "^6.12.0",
-    "@types/video.js": "^7.3.23",
+    "@types/video.js": "^7.3.26",
     "@types/yup": "^0.29.13",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.5",
@@ -188,7 +188,7 @@
     "command-line-args": "^5.1.3",
     "cypress": "^6.9.1",
     "dotenv-flow": "^3.2.0",
-    "eslint": "^7.30.0",
+    "eslint": "^7.31.0",
     "eslint-config-next": "^11.0.1",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.8.0",
@@ -220,7 +220,7 @@
     "storybook-addon-themes": "^6.1.0",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
-    "webpack": "^5.47.0"
+    "webpack": "^5.47.1"
   },
   "husky": {
     "hooks": {
