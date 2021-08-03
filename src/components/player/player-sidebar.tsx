@@ -14,6 +14,7 @@ import {convertTime} from 'utils/time-utils'
 import {track} from 'utils/analytics'
 import Link from 'components/link'
 import Image from 'next/image'
+import CodeBlock from 'components/code-block'
 
 const notesCreationAvailable =
   process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
@@ -120,7 +121,14 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                       )}
                     >
                       {note && (
-                        <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                        <ReactMarkdown
+                          className="leading-normal prose-sm prose dark:prose-dark"
+                          renderers={{
+                            code: (props) => {
+                              return <CodeBlock {...props} />
+                            },
+                          }}
+                        >
                           {note}
                         </ReactMarkdown>
                       )}
