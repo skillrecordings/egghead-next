@@ -203,6 +203,11 @@ const legacyRoutes = [
     permanent: true,
   },
   {
+    source: `/lessons/new`,
+    destination: `${appUrl}/lessons/new`,
+    permanent: true,
+  },
+  {
     source: `/watch/:all*`,
     destination: `${appUrl}/watch/:all*`,
     permanent: true,
