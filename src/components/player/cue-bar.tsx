@@ -2,11 +2,12 @@ import * as React from 'react'
 import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
-import {scroller} from 'react-scroll'
+// import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {useNotesCues} from './index'
+import CodeBlock from 'components/code-block'
 
 const CueBar: React.FC<any> = ({
   className,
@@ -51,12 +52,12 @@ const useCue = (cue: VTTCue, actions: any) => {
 
   React.useEffect(() => {
     const enterCue = () => {
-      console.log('enter cue')
+      console.debug('enter cue')
       setActive(true)
     }
 
     const exitCue = () => {
-      console.log('exit cue')
+      console.debug('exit cue')
       setActive(false)
     }
 
@@ -107,19 +108,23 @@ const NoteCue: React.FC<any> = ({
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
+  const [clickedOpen, setClickedOpen] = React.useState(false)
   const {muteNotes} = getPlayerPrefs()
 
   useCue(cue, actions)
 
-  const open = () => {
+  const clickOpen = () => {
     setVisible(true)
+    setClickedOpen(true)
     // if we seek to the correct time, the note is displayed
     actions.seek(cue.startTime)
+    actions.pause()
     track('opened cue', {cue: cue.text})
     !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
   }
 
-  const close = () => {
+  const clickClose = () => {
+    setClickedOpen(false)
     setVisible(false)
   }
 
@@ -129,24 +134,33 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     const isVisible = !muteNotes && cueActive && !seeking && playerReadyEnough
-    setVisible(isVisible)
-  }, [setPlayerPrefs, cueActive, seeking, muteNotes, playerReadyEnough])
+    if (!clickedOpen) {
+      setVisible(isVisible)
+    }
+  }, [
+    setPlayerPrefs,
+    clickedOpen,
+    cueActive,
+    seeking,
+    muteNotes,
+    playerReadyEnough,
+  ])
 
   // added seeking to the list here but getting some janky perf issues
 
   const startPosition = `${(cue.startTime / duration) * 100}%`
   const note = cue.text
 
-  React.useEffect(() => {
-    if (visible) {
-      scroller.scrollTo('active-note', {
-        duration: 0,
-        delay: 0,
-        offset: -16,
-        containerId: 'notes-tab-scroll-container',
-      })
-    }
-  }, [visible, setPlayerPrefs])
+  // React.useEffect(() => {
+  //   if (visible) {
+  //     scroller.scrollTo('active-note', {
+  //       duration: 0,
+  //       delay: 0,
+  //       offset: -16,
+  //       containerId: 'notes-tab-scroll-container',
+  //     })
+  //   }
+  // }, [visible, setPlayerPrefs])
 
   return (
     <Tippy
@@ -157,26 +171,34 @@ const NoteCue: React.FC<any> = ({
       offset={[0, 30]}
       interactive={true}
       content={
-        <div className={`py-1`}>
+        <div className="py-1">
           <div className="flex justify-end space-x-2">
             <MutePopupButton />
             <button
               className="text-gray-400 rounded flex-nowrap flex items-center text-xs"
-              onClick={close}
+              onClick={clickClose}
             >
               <IconX />
             </button>
           </div>
           <div className="line-clamp-6 prose-sm prose leading-normal">
-            <ReactMarkdown>{note}</ReactMarkdown>
+            <ReactMarkdown
+              renderers={{
+                code: (props) => {
+                  return <CodeBlock {...props} />
+                },
+              }}
+            >
+              {note}
+            </ReactMarkdown>
           </div>
         </div>
       }
       visible={visible}
-      onClickOutside={close}
+      onClickOutside={clickClose}
     >
       <div
-        onClick={open}
+        onClick={clickOpen}
         className={classNames(
           'cueplayer-react-cue-note',
           {
@@ -198,7 +220,7 @@ const IconVolumeOff: React.FC<any> = ({className}) => {
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
-      className={`w-5 h-5 ${className ?? ''}`}
+      className={`w-4 h-4 ${className ?? ''}`}
     >
       <path
         strokeLinecap="round"

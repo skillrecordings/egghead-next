@@ -1,5 +1,7 @@
 import axios from 'axios'
+import {sanityClient} from 'utils/sanity-client'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
+import {reactPageQuery} from 'components/search/curated/react'
 
 async function readTags() {
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags?size=40`
@@ -42,5 +44,31 @@ export async function loadTag(slug: string) {
   const graphQLClient = getGraphQLClient()
   const {tag} = await graphQLClient.request(query, variables)
 
-  return tag
+  let sanityTag
+  if (canLoadSanityTag(slug)) {
+    sanityTag = await loadSanityTag(slug)
+  }
+
+  return {...tag, ...sanityTag}
+}
+
+const sanityTagPageHash = {
+  react: reactPageQuery,
+}
+
+type SelectedTag = keyof typeof sanityTagPageHash
+
+const canLoadSanityTag = (selectedTag: string): selectedTag is SelectedTag => {
+  const keyNames = Object.keys(sanityTagPageHash)
+
+  return keyNames.includes(selectedTag)
+}
+
+export const loadSanityTag = async (selectedTag: string) => {
+  if (!canLoadSanityTag(selectedTag)) return
+
+  const query = sanityTagPageHash[selectedTag]
+  if (!query) return
+
+  return await sanityClient.fetch(query)
 }

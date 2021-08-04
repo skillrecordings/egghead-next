@@ -95,7 +95,7 @@ const VideoCard: React.FC<{
                 width={1280 / 2.6}
                 height={720 / 2.6}
               />
-              <div className="group-hover:scale-105 shadow-xl backdrop-filter backdrop-blur-sm border-2 border-white transform absolute bg-gray-800 bg-opacity-70 z-10 rounded-full w-16 h-16 flex items-center justify-center leading-none transition-all ease-in-out duration-200">
+              <div className="group-hover:scale-105 shadow-xl backdrop-filter backdrop-blur-sm border-2 border-white absolute bg-gray-800 bg-opacity-70 z-10 rounded-full w-16 h-16 flex items-center justify-center leading-none transition-all ease-in-out duration-200">
                 <PlayIcon className="w-4 h-4 text-white" />
                 <span className="sr-only">Play</span>
               </div>

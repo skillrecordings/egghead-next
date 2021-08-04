@@ -203,6 +203,11 @@ const legacyRoutes = [
     permanent: true,
   },
   {
+    source: `/lessons/new`,
+    destination: `${appUrl}/lessons/new`,
+    permanent: true,
+  },
+  {
     source: `/watch/:all*`,
     destination: `${appUrl}/watch/:all*`,
     permanent: true,
@@ -233,11 +238,6 @@ const contentIndexRoutes = [
   {
     source: `/podcasts`,
     destination: `${searchUrlRoot}?type=podcast`,
-    permanent: true,
-  },
-  {
-    source: `/talks`,
-    destination: `${searchUrlRoot}?type=talk`,
     permanent: true,
   },
   {

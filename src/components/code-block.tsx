@@ -10,7 +10,7 @@ type CodeBlockProps = {
 }
 
 const CodeBlock: FunctionComponent<CodeBlockProps> = ({language, value}) => {
-  return (
+  return value ? (
     <Highlight {...defaultProps} code={value} language={language} theme={theme}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre
@@ -27,7 +27,7 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({language, value}) => {
         </pre>
       )}
     </Highlight>
-  )
+  ) : null
 }
 
 export default CodeBlock

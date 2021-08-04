@@ -66,7 +66,7 @@ const logCollectionResource = (collection: CollectionResource) => {
       instructor?.full_name && `${instructor.full_name}・`
     }${formattedDuration}・Course`
 
-    console.debug({
+    console.debug('collection resource', {
       title,
       byline,
       ...(!!image && {image}),
@@ -358,7 +358,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   }
 
   const EpicReactBanner = ({
-    image = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226638/epic-react/summer-sale-2021/banner-course-page_2x.jpg',
+    image = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-course-page_2x.jpg',
     width = 1416,
     height = 508,
   }) => {
@@ -378,7 +378,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             width={width}
             height={height}
             quality={100}
-            className="hover:scale-[102%] transform ease-in-out duration-500"
+            className="hover:scale-[102%] ease-in-out duration-500"
           />
         </div>
       </ExternalTrackedLink>
@@ -831,7 +831,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                     >
                                       <div className="flex items-center leading-tight py-2">
                                         <div className="flex items-center mr-2 flex-grow">
-                                          <small className="text-gray-500 dark:text-gray-600 pt-px font-xs transform scale-75 font-normal w-4">
+                                          <small className="text-gray-500 dark:text-gray-600 pt-px font-xs scale-75 font-normal w-4">
                                             {isComplete ? `✔️` : index + 1}
                                           </small>
                                           <PlayIcon className="text-gray-500 dark:text-gray-100 mx-1" />
@@ -886,10 +886,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                                 isComplete
                                   ? 'text-blue-600 dark:text-green-400'
                                   : 'text-gray-500 dark:text-gray-400'
-                              } pt-px font-xs transform scale-75 font-normal w-4`}
+                              } pt-px font-xs scale-75 font-normal w-4`}
                             >
                               {isComplete ? (
-                                <CheckIcon className="w-6 h-6 transform -translate-x-2" />
+                                <CheckIcon className="w-6 h-6 -translate-x-2" />
                               ) : (
                                 index + 1
                               )}
@@ -944,7 +944,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   You might also like these resources:
                 </h2>
                 <EpicReactBanner
-                  image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+                  // 25% off
+                  // image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+                  // default
+                  image="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
                   width={916 / 2}
                   height={1024 / 2}
                 />

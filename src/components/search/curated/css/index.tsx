@@ -78,7 +78,7 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
           },
         }}
       >
-        <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-yellow-500 to-lightBlue-500" />
+        <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-yellow-500 to-sky-500" />
         <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
           <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
             <div className="flex flex-col items-center justify-center space-y-5 sm:space-x-5 sm:space-y-0">
