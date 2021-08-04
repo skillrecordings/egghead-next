@@ -65,6 +65,7 @@ export async function loadNotesFromUrl(url: string) {
       }, {})
       note.type = 'root'
       const contents = toMarkdown(note)
+
       return {
         text: contents.trim(),
         ...attributes,
