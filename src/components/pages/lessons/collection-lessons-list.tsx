@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
-import {Element, scroller} from 'react-scroll'
+// import {Element, scroller} from 'react-scroll'
 import SimpleBar from 'simplebar-react'
 import {LessonResource} from 'types'
 import {get} from 'lodash'
@@ -22,16 +22,16 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
 }) => {
   const {lessons} = course
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
-  const scrollableNodeRef: any = React.createRef()
+  // const scrollableNodeRef: any = React.createRef()
 
   React.useEffect(() => {
     setActiveElement(currentLessonSlug)
-    scrollableNodeRef.current.id = 'scrollable-container'
-    scroller.scrollTo(activeElement, {
-      duration: 0,
-      delay: 0,
-      containerId: 'scrollable-container',
-    })
+    // scrollableNodeRef.current.id = 'scrollable-container'
+    // scroller.scrollTo(activeElement, {
+    //   duration: 0,
+    //   delay: 0,
+    //   containerId: 'scrollable-container',
+    // })
   }, [activeElement, setActiveElement, currentLessonSlug])
 
   return lessons ? (
@@ -40,7 +40,7 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
         <SimpleBar
           autoHide={false}
           className="h-full"
-          scrollableNodeProps={{ref: scrollableNodeRef}}
+          // scrollableNodeProps={{ref: scrollableNodeRef}}
         >
           <ol
             className="h-full"
@@ -64,7 +64,7 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
                 lesson.completed || completedLessons.includes(lesson.slug)
               return (
                 <li key={lesson.slug}>
-                  <Element name={lesson.slug} />
+                  {/* <Element name={lesson.slug} /> */}
                   <div>
                     <Item
                       active={lesson.slug === currentLessonSlug}
