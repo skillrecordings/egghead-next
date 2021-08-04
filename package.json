@@ -25,7 +25,8 @@
     "make-tags-sitemap": "NODE_ENV=production node tags-sitemap.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook --no-dll",
-    "lint": "eslint --ext ts --ext tsx --fix src/"
+    "lint": "eslint --ext ts --ext tsx --fix src/",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
@@ -87,7 +88,6 @@
     "hls.js": "^1.0.7",
     "honeycomb-beeline": "^2.7.3",
     "humanize-list": "^1.0.1",
-    "husky": "4.3.8",
     "isomorphic-fetch": "^3.0.0",
     "js-cookie": "^3.0.0",
     "libhoney": "^2.3.0",
@@ -200,9 +200,10 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-testing-library": "^4.9.0",
     "globby": "^12.0.0",
+    "husky": "^7.0.1",
     "istanbul-lib-coverage": "^3.0.0",
     "jest": "^27.0.6",
-    "lint-staged": "^11.0.1",
+    "lint-staged": "^11.1.1",
     "next-sitemap": "^1.6.140",
     "normalize.css": "^8.0.1",
     "nyc": "^15.1.0",
@@ -221,11 +222,6 @@
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
     "webpack": "^5.47.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,json,md}": [
