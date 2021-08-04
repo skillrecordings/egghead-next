@@ -11,5 +11,37 @@ This is a **note**.
 `
   const parsedNotes = parseMdxNotesFile(markdownNotes)
 
-  await expect(parsedNotes).resolves.toEqual('not the answer')
+  await expect(parsedNotes).resolves.toEqual(`WEBVTT
+
+note
+00:00:44.000 --> 00:00:50.000
+This is a **note**.
+
+`)
+})
+
+test('properly parses markdown codeblock and text in the same timestamp', async () => {
+  const markdownNotes = `
+<TimeStamp start="0:44" end="0:50">
+
+This is a **note**.
+
+\`\`\`js
+This is a code block!
+\`\`\`
+
+</TimeStamp>
+`
+
+  const parsedNotes = parseMdxNotesFile(markdownNotes)
+  await expect(parsedNotes).resolves.toBe(`WEBVTT
+
+note
+00:00:44.000 --> 00:00:50.000
+This is a **note**.
+ \`\`\`js
+This is a code block!
+\`\`\`
+
+`)
 })
