@@ -579,7 +579,13 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('addingNote') && (
                 <OverlayWrapper>
-                  <AddNoteOverlay onClose={() => send('VIEW')} />
+                  <AddNoteOverlay
+                    resourceId={lesson.slug}
+                    onClose={() => send('VIEW')}
+                    currentTime={Math.floor(
+                      actualPlayerRef.current?.currentTime ?? 0,
+                    )}
+                  />
                 </OverlayWrapper>
               )}
             </div>
