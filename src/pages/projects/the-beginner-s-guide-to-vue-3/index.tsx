@@ -109,7 +109,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   <div className="flex justify-center items-center w-full">
                     <a
                       href={course.projects.githubLink}
-                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
+                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
                       title="Open Project in Codesandbox"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -138,7 +138,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   <div className="flex items-center justify-center w-full">
                     <a
                       href={course.projects.codesandboxLink}
-                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 transform hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
+                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
                       title="Open Project in Codesandbox"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -192,7 +192,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               </section>
               <Markdown>{Submission.text}</Markdown>
               <a
-                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:scale-105 transform hover:shadow-xl  hover:bg-blue-700 ease-in-out duration-200"
+                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:scale-105 hover:shadow-xl  hover:bg-blue-700 ease-in-out duration-200"
                 title="Share on twitter"
                 onClick={() =>
                   track(`clicked Vue 3 fundamentals challenge CTA`)
@@ -219,7 +219,7 @@ const CtaButton = ({text, path}: any) => {
     <div className="flex justify-center items-center w-full">
       <a
         href={path}
-        className="mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 transform hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+        className="mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
         title="Open Project in Codesandbox"
         rel="noopener noreferrer"
         target="_blank"

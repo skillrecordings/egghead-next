@@ -11,7 +11,7 @@ const IMAGE_SIZE = 220
 const PodcastCard: FunctionComponent<PodcastCardProps> = ({
   podcast: {title, path, image_url, contributors},
 }) => (
-  <li className="list-none bg-white p-3 text-center max-w-xs shadow-md rounded-md transform transition-transform duration-300 hover:scale-105">
+  <li className="list-none bg-white p-3 text-center max-w-xs shadow-md rounded-md transition-transform duration-300 hover:scale-105">
     <a
       title="View podcast"
       href={path}
