@@ -7,7 +7,7 @@ import {hasNotes, useNotesCues} from './index'
 import {VideoResource} from 'types'
 import {usePlayer} from 'cueplayer-react'
 import SimpleBar from 'simplebar-react'
-import {Element} from 'react-scroll'
+// import {Element} from 'react-scroll'
 import classNames from 'classnames'
 import ReactMarkdown from 'react-markdown'
 import {convertTime} from 'utils/time-utils'
@@ -89,7 +89,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
   const {cues} = useNotesCues()
   const actions = manager?.getActions()
   const hidden: boolean = isEmpty(cues)
-  const scrollableNodeRef: any = React.createRef()
+  // const scrollableNodeRef: any = React.createRef()
 
   return hidden ? null : (
     <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
@@ -98,10 +98,10 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
           <SimpleBar
             forceVisible="y"
             autoHide={false}
-            scrollableNodeProps={{
-              ref: scrollableNodeRef,
-              id: 'notes-tab-scroll-container',
-            }}
+            // scrollableNodeProps={{
+            //   ref: scrollableNodeRef,
+            //   id: 'notes-tab-scroll-container',
+            // }}
             className="h-full overscroll-contain p-4"
           >
             <div className="space-y-3">
@@ -110,7 +110,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                 const active = player.activeMetadataTrackCues.includes(cue)
                 return (
                   <div key={cue.text}>
-                    {active && <Element name="active-note" />}
+                    {/* {active && <Element name="active-note" />} */}
                     <div
                       className={classNames(
                         'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
@@ -121,7 +121,14 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                       )}
                     >
                       {note && (
-                        <ReactMarkdown className="leading-normal prose-sm prose dark:prose-dark">
+                        <ReactMarkdown
+                          className="leading-normal prose-sm prose dark:prose-dark"
+                          renderers={{
+                            code: (props) => {
+                              return <CodeBlock {...props} />
+                            },
+                          }}
+                        >
                           {note}
                         </ReactMarkdown>
                       )}
