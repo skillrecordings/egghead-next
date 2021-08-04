@@ -1,8 +1,13 @@
 import * as React from 'react'
 import {Switch} from '@headlessui/react'
 import VisuallyHidden from '@reach/visually-hidden'
+import axios from 'axios'
 
-const AddNoteOverlay: React.FC<{onClose: any}> = ({onClose}) => {
+const AddNoteOverlay: React.FC<{
+  onClose: any
+  resourceId: string
+  currentTime: number
+}> = ({onClose, resourceId, currentTime}) => {
   const [enabled, setEnabled] = React.useState(false)
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   React.useEffect(() => {
@@ -10,6 +15,16 @@ const AddNoteOverlay: React.FC<{onClose: any}> = ({onClose}) => {
       inputRef.current?.focus({preventScroll: true})
     }
   }, [])
+
+  const addNote = () => {
+    if (inputRef.current) {
+      axios.post(`/api/lessons/notes/${resourceId}`, {
+        text: inputRef.current.value,
+        startTime: currentTime,
+      })
+    }
+  }
+
   return (
     <div
       className="w-[34rem] h-[20rem] rounded-md bg-white p-4 flex flex-col"
@@ -62,7 +77,7 @@ const AddNoteOverlay: React.FC<{onClose: any}> = ({onClose}) => {
         <button
           type="button"
           tabIndex={0}
-          onClick={() => console.log('add note')}
+          onClick={addNote}
           className="inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 duration-150 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50"
         >
           Add to notes
