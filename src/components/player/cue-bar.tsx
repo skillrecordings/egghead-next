@@ -111,26 +111,6 @@ const NoteCue: React.FC<any> = ({
   const [clickedOpen, setClickedOpen] = React.useState(false)
   const {muteNotes, activeSidebarTab} = getPlayerPrefs()
 
-  useCue(cue, actions)
-
-  const clickOpen = () => {
-    if (activeSidebarTab === 1) {
-      scrollToActiveNote()
-    }
-    setVisible(true)
-    setClickedOpen(true)
-    // if we seek to the correct time, the note is displayed
-    actions.seek(cue.startTime)
-    actions.pause()
-    track('opened cue', {cue: cue.text})
-    !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
-  }
-
-  const clickClose = () => {
-    setClickedOpen(false)
-    setVisible(false)
-  }
-
   const scrollToActiveNote = () => {
     scroller.scrollTo('active-note', {
       duration: 0,
@@ -138,6 +118,26 @@ const NoteCue: React.FC<any> = ({
       offset: -16,
       containerId: 'notes-tab-scroll-container',
     })
+  }
+
+  useCue(cue, actions)
+
+  const clickOpen = () => {
+    setVisible(true)
+    setClickedOpen(true)
+    // if we seek to the correct time, the note is displayed
+    actions.seek(cue.startTime)
+    actions.pause()
+    track('opened cue', {cue: cue.text})
+    // !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
+    if (activeSidebarTab === 1) {
+      scrollToActiveNote()
+    }
+  }
+
+  const clickClose = () => {
+    setClickedOpen(false)
+    setVisible(false)
   }
 
   const cueActive = player.activeMetadataTrackCues.includes(cue)
@@ -165,12 +165,6 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible && activeSidebarTab === 1) {
-      // scroller.scrollTo('active-note', {
-      //   duration: 0,
-      //   delay: 0,
-      //   offset: -16,
-      //   containerId: 'notes-tab-scroll-container',
-      // })
       scrollToActiveNote()
     }
   }, [visible, setPlayerPrefs])
