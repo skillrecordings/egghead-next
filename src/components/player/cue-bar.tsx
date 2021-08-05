@@ -114,6 +114,9 @@ const NoteCue: React.FC<any> = ({
   useCue(cue, actions)
 
   const clickOpen = () => {
+    if (activeSidebarTab === 1) {
+      scrollToActiveNote()
+    }
     setVisible(true)
     setClickedOpen(true)
     // if we seek to the correct time, the note is displayed
@@ -126,6 +129,15 @@ const NoteCue: React.FC<any> = ({
   const clickClose = () => {
     setClickedOpen(false)
     setVisible(false)
+  }
+
+  const scrollToActiveNote = () => {
+    scroller.scrollTo('active-note', {
+      duration: 0,
+      delay: 0,
+      offset: -16,
+      containerId: 'notes-tab-scroll-container',
+    })
   }
 
   const cueActive = player.activeMetadataTrackCues.includes(cue)
@@ -153,12 +165,13 @@ const NoteCue: React.FC<any> = ({
 
   React.useEffect(() => {
     if (visible && activeSidebarTab === 1) {
-      scroller.scrollTo('active-note', {
-        duration: 0,
-        delay: 0,
-        offset: -16,
-        containerId: 'notes-tab-scroll-container',
-      })
+      // scroller.scrollTo('active-note', {
+      //   duration: 0,
+      //   delay: 0,
+      //   offset: -16,
+      //   containerId: 'notes-tab-scroll-container',
+      // })
+      scrollToActiveNote()
     }
   }, [visible, setPlayerPrefs])
 
