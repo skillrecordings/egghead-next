@@ -26,6 +26,7 @@ const PlayerSidebar: React.FC<{
 }> = ({videoResource, lessonView, onAddNote}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
+  console.log('activeSidebarTab: ', activeSidebarTab)
   return (
     <div className="relative h-full">
       {/* TODO: remove weird logic that assumes 2 tabs */}
@@ -47,6 +48,7 @@ const PlayerSidebar: React.FC<{
             <LessonListTab
               videoResource={videoResource}
               lessonView={lessonView}
+              onActiveTab={activeSidebarTab === 0}
             />
             <NotesTab onAddNote={onAddNote} />
           </div>
@@ -59,7 +61,8 @@ const PlayerSidebar: React.FC<{
 const LessonListTab: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-}> = ({videoResource, lessonView}) => {
+  onActiveTab: boolean
+}> = ({videoResource, lessonView, onActiveTab}) => {
   const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
@@ -76,6 +79,7 @@ const LessonListTab: React.FC<{
             course={videoResource.collection}
             currentLessonSlug={videoResource.slug}
             progress={lessonView?.collection_progress}
+            onActiveTab={onActiveTab}
           />
         </div>
       </div>
