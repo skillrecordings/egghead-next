@@ -139,7 +139,7 @@
     "tailwindcss-text-fill": "^0.1.2",
     "tincanjs": "^0.50.0",
     "ts-toolbelt": "^9.6.0",
-    "unist-util-visit": "^2.0.3",
+    "unist-util-visit": "^4.0.0",
     "vfile": "^4.2.1",
     "video.js": "^7.13.3",
     "xstate": "^4.22.0",
