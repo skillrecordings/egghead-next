@@ -3291,17 +3291,6 @@
     react-remove-scroll "^2.4.3"
     tslib "^2.3.0"
 
-"@reach/disclosure@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@reach/disclosure/-/disclosure-0.16.0.tgz#2bcbc32f21c6207e267372ffb58bc091ad0a12ca"
-  integrity sha512-WE2w7fVilUDrgy97w0Egab6EP1ckwq4+phTlHBiPuAHaMLp4SNcXxSy+lu7ANMEPX/Rp4O2leCVxNxD67jWWZA==
-  dependencies:
-    "@reach/auto-id" "0.16.0"
-    "@reach/utils" "0.16.0"
-    prop-types "^15.7.2"
-    tiny-warning "^1.0.3"
-    tslib "^2.3.0"
-
 "@reach/dropdown@0.16.0":
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/@reach/dropdown/-/dropdown-0.16.0.tgz#4b73b29a49d853c813abbd5e22f24afaf7e6bb95"

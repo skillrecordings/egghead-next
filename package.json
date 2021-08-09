@@ -39,7 +39,6 @@
     "@mdx-js/mdx": "^2.0.0-next.9",
     "@mdx-js/react": "^1.6.22",
     "@reach/dialog": "^0.16.0",
-    "@reach/disclosure": "^0.16.0",
     "@reach/listbox": "^0.15.3",
     "@reach/menu-button": "^0.16.0",
     "@reach/tabs": "^0.16.0",
