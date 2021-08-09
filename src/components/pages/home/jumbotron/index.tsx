@@ -19,6 +19,8 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
   const {path, image, title, byline, instructor, background, description} =
     resource
 
+  console.log('description: ', description)
+
   return (
     <div
       className="relative flex items-center justify-center bg-white text-white overflow-hidden rounded-lg shadow-sm bg-gradient-to-t dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-600"
@@ -87,11 +89,9 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </span>
 
               {description && (
-                <Markdown
-                  source={description}
-                  allowDangerousHtml={true}
-                  className="mt-4 text-gray-200 text-base max-w-screen-sm opacity-80"
-                />
+                <Markdown className="mt-4 text-gray-200 text-base max-w-screen-sm opacity-80">
+                  {description}
+                </Markdown>
               )}
             </div>
           </div>
