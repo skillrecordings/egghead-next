@@ -65,7 +65,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
     <div
       className={`relative z-10 h-full ${className} 
           ${hidden ? 'hidden' : 'block'} 
-          ${hasNotes(videoResource) ? 'pb-[4.5rem]' : 'pb-14'}`}
+          ${hasNotes(videoResource) ? 'pb-[5rem]' : 'pb-14'}`}
     >
       <Player
         crossOrigin="anonymous"
@@ -122,7 +122,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           disableDefaultControls
           autoHide={false}
           className={`flex ${
-            hasNotes(videoResource) ? 'translate-y-[4.5rem]' : 'translate-y-14'
+            hasNotes(videoResource) ? 'translate-y-[5rem]' : 'translate-y-14'
           }`}
           order={8.0}
         >
