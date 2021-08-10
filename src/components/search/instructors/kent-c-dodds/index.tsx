@@ -10,7 +10,14 @@ import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 
 const SearchKentCDodds = ({instructor}: any) => {
-  const {collection, courses, podcast, products, caseStudy} = instructor
+  const {
+    collection,
+    courses,
+    podcast,
+    products,
+    caseStudy,
+    epicReactCaseStudy,
+  } = instructor
 
   const [primaryCourse, secondCourse] = courses.resources
 
@@ -26,7 +33,7 @@ const SearchKentCDodds = ({instructor}: any) => {
           />
         }
       />
-      <section className="flex sm:flex-nowrap flex-wrap justify-between gap-4 mb-4 xl:px-0 px-5">
+      <section className="mb-10 flex sm:flex-nowrap flex-wrap flex-shrink justify-between gap-4 xl:px-0 px-5">
         <ExternalTrackedLink
           eventName="clicked testing javascript banner"
           location="Kent C. Dodds instructor page"
@@ -60,32 +67,48 @@ const SearchKentCDodds = ({instructor}: any) => {
         </ExternalTrackedLink>
       </section>
 
-      <div className="flex gap-4 sm:flex-nowrap flex-wrap xl:px-0 px-5">
-        <VerticalResourceCollectionCard
-          className="sm:py-8 py-6 mx-auto max-w-md"
-          resource={collection}
-          location="Kent C. Dodds instructor Landing page"
-        />
-        <div className="flex flex-col">
-          <HorizontalResourceCard
-            className="mt-0"
+      <section className="xl:px-0 px-5">
+        <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+          {collection.title}
+        </h2>
+        <p className="max-w-md">{collection.description}</p>
+        <div className="flex sm:flex-nowrap flex-wrap gap-4 my-12">
+          {collection.resources.map((resource: any) => {
+            return (
+              <VerticalResourceCard
+                resource={resource}
+                className="sm:w-1/2 border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
+                location="Kent C. Dodds instructor Landing page"
+              />
+            )
+          })}
+        </div>
+      </section>
+
+      <section className="xl:px-0 px-5">
+        <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+          More From Kent
+        </h2>
+        <div className="flex sm:flex-nowrap flex-wrap gap-4 mt-4">
+          <VerticalResourceCard
+            className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
             resource={podcast}
+            describe
             location="Kent C. Dodds instructor Landing page"
           />
-          <div className="flex gap-4 mt-4">
-            <VerticalResourceCard
-              resource={secondCourse}
-              className="w-1/2 border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
-              location="Kent C. Dodds instructor Landing page"
-            />
-            <VerticalResourceCard
-              className="w-1/2  border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
-              resource={caseStudy}
-              location="Kent C. Dodds instructor Landing page"
-            />
-          </div>
+          <VerticalResourceCard
+            resource={epicReactCaseStudy}
+            className="sm:w-1/2 w-full border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
+            location="Kent C. Dodds instructor Landing page"
+          />
+          <VerticalResourceCard
+            className="sm:w-1/2 w-full border-none flex flex-col items-center justify-center text-center sm:py-8 py-6"
+            resource={caseStudy}
+            describe
+            location="Kent C. Dodds instructor Landing page"
+          />
         </div>
-      </div>
+      </section>
     </div>
   )
 }
@@ -138,6 +161,7 @@ export const kentCDoddsQuery = groq`
        _type == 'resource' => {
          title,
          image,
+         byline,
          "path": url,
        }
      }
@@ -149,6 +173,13 @@ export const kentCDoddsQuery = groq`
      description,
      image,
    },
+   'epicReactCaseStudy': resources[slug.current == 'epic-react-case-study'][0]{
+    title,
+    'path': url,
+    byline,
+    description,
+    image,
+  },
    'caseStudy': resources[slug.current == 'instructor-landing-page-egghead-case-study'][0]{
     title,
     'path': url,

@@ -71,7 +71,7 @@ const CtaCard: React.FC<{location: string; trackTitle: string; resource: any}> =
             </div>
           </div>
           <img
-            className="absolute top-0 left-0 z-0 w-full"
+            className="absolute top-0 left-0 z-0 w-full h-full"
             src={background}
             alt=""
           />
