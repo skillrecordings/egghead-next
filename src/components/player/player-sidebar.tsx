@@ -26,7 +26,6 @@ const PlayerSidebar: React.FC<{
 }> = ({videoResource, lessonView, onAddNote}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
-  console.log('activeSidebarTab: ', activeSidebarTab)
   return (
     <div className="relative h-full">
       {/* TODO: remove weird logic that assumes 2 tabs */}
