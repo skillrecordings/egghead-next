@@ -12,7 +12,7 @@ type HeaderProps = {
 
 type ConfirmMembershipProps = {
   session: any
-  viewer: any
+  alreadyAuthenticated: boolean
 }
 
 const Illustration = () => (
@@ -149,11 +149,11 @@ const Callout: React.FC = ({children}) => {
 
 export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   session,
-  viewer,
+  alreadyAuthenticated,
 }) => {
   return (
     <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
-      {viewer ? (
+      {alreadyAuthenticated ? (
         <>
           <Header
             heading={<>Thank you so much for joining egghead!</>}
