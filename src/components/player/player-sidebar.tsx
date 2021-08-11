@@ -7,7 +7,7 @@ import {hasNotes, useNotesCues} from './index'
 import {VideoResource} from 'types'
 import {usePlayer} from 'cueplayer-react'
 import SimpleBar from 'simplebar-react'
-// import {Element} from 'react-scroll'
+import {Element} from 'react-scroll'
 import classNames from 'classnames'
 import ReactMarkdown from 'react-markdown'
 import {convertTime} from 'utils/time-utils'
@@ -43,13 +43,16 @@ const PlayerSidebar: React.FC<{
           )}
         </TabList>
         <TabPanels className="flex-grow relative">
-          <div className="lg:absolute inset-0">
+          <TabPanel className="lg:absolute inset-0">
             <LessonListTab
               videoResource={videoResource}
               lessonView={lessonView}
+              onActiveTab={activeSidebarTab === 0}
             />
+          </TabPanel>
+          <TabPanel className="lg:absolute inset-0">
             <NotesTab onAddNote={onAddNote} />
-          </div>
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
@@ -59,11 +62,12 @@ const PlayerSidebar: React.FC<{
 const LessonListTab: React.FC<{
   videoResource: VideoResource
   lessonView?: any
-}> = ({videoResource, lessonView}) => {
+  onActiveTab: boolean
+}> = ({videoResource, lessonView, onActiveTab}) => {
   const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
-    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
+    <div className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
       <div className="flex flex-col h-full">
         <div className="flex-shrink-0 p-4 sm:border-b border-gray-100 dark:border-gray-800">
           <CourseHeader
@@ -76,10 +80,11 @@ const LessonListTab: React.FC<{
             course={videoResource.collection}
             currentLessonSlug={videoResource.slug}
             progress={lessonView?.collection_progress}
+            onActiveTab={onActiveTab}
           />
         </div>
       </div>
-    </TabPanel>
+    </div>
   )
 }
 
@@ -89,19 +94,19 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
   const {cues} = useNotesCues()
   const actions = manager?.getActions()
   const hidden: boolean = isEmpty(cues)
-  // const scrollableNodeRef: any = React.createRef()
+  const scrollableNodeRef: any = React.createRef()
 
   return hidden ? null : (
-    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
+    <div className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
       <div className="flex flex-col h-full">
         <div className="flex-grow overflow-hidden">
           <SimpleBar
             forceVisible="y"
             autoHide={false}
-            // scrollableNodeProps={{
-            //   ref: scrollableNodeRef,
-            //   id: 'notes-tab-scroll-container',
-            // }}
+            scrollableNodeProps={{
+              ref: scrollableNodeRef,
+              id: 'notes-tab-scroll-container',
+            }}
             className="h-full overscroll-contain p-4"
           >
             <div className="space-y-3">
@@ -110,7 +115,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                 const active = player.activeMetadataTrackCues.includes(cue)
                 return (
                   <div key={cue.text}>
-                    {/* {active && <Element name="active-note" />} */}
+                    {active && <Element name="active-note" />}
                     <div
                       className={classNames(
                         'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
@@ -174,7 +179,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
           </div>
         )}
       </div>
-    </TabPanel>
+    </div>
   )
 }
 

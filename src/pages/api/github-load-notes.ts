@@ -17,11 +17,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export default loadGithubNotes
 
-export async function loadNotesFromUrl(url: string) {
-  const result = await fetch(url)
-
-  const text = await result.text()
-
+export function parseMdxNotesFile(text: string) {
   // @ts-ignore
   const file = new VFile(text.trimStart())
 
@@ -64,7 +60,9 @@ export async function loadNotesFromUrl(url: string) {
         }
       }, {})
       note.type = 'root'
-      const contents = toMarkdown(note)
+      const contents = note.children
+        .map((node: any) => toMarkdown(node))
+        .join(' ')
 
       return {
         text: contents.trim(),
@@ -87,4 +85,12 @@ ${note.text}\n\n`
 
     return vtt
   })
+}
+
+export async function loadNotesFromUrl(url: string) {
+  const result = await fetch(url)
+
+  const text = await result.text()
+
+  return parseMdxNotesFile(text)
 }
