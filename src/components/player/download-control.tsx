@@ -29,11 +29,11 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
         })
       }}
       aria-label="download video"
-      className={`w-10 h-8 flex items-center justify-center border-none text-white ${
+      className={`w-10 h-10 flex items-center justify-center border-none text-white ${
         !lesson?.download_url ? 'opacity-50 cursor-default' : ''
       }`}
     >
-      <IconDownload className="w-5" />
+      <IconDownload className="w-6" />
     </button>
   )
 }
