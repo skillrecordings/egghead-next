@@ -16,7 +16,7 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1624391508/egghead-next-ebombs/apply-redux-to-a-modern-react-hooks-application/main-ogimage.png',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1628710683/next.egghead.io/resources/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js/main-ogImage--nextjs--supabase.png',
             },
           ],
         }}
