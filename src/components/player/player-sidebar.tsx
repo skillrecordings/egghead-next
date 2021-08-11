@@ -43,14 +43,16 @@ const PlayerSidebar: React.FC<{
           )}
         </TabList>
         <TabPanels className="flex-grow relative">
-          <div className="lg:absolute inset-0">
+          <TabPanel className="lg:absolute inset-0">
             <LessonListTab
               videoResource={videoResource}
               lessonView={lessonView}
               onActiveTab={activeSidebarTab === 0}
             />
+          </TabPanel>
+          <TabPanel className="lg:absolute inset-0">
             <NotesTab onAddNote={onAddNote} />
-          </div>
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
@@ -65,7 +67,7 @@ const LessonListTab: React.FC<{
   const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
-    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
+    <div className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
       <div className="flex flex-col h-full">
         <div className="flex-shrink-0 p-4 sm:border-b border-gray-100 dark:border-gray-800">
           <CourseHeader
@@ -82,7 +84,7 @@ const LessonListTab: React.FC<{
           />
         </div>
       </div>
-    </TabPanel>
+    </div>
   )
 }
 
@@ -95,7 +97,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
   const scrollableNodeRef: any = React.createRef()
 
   return hidden ? null : (
-    <TabPanel className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
+    <div className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
       <div className="flex flex-col h-full">
         <div className="flex-grow overflow-hidden">
           <SimpleBar
@@ -177,7 +179,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
           </div>
         )}
       </div>
-    </TabPanel>
+    </div>
   )
 }
 
