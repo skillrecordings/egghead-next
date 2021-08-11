@@ -149,3 +149,11 @@
   display: flex;
   align-items: center;
 }
+
+.cueplayer-react
+  .cueplayer-react-playback-rate.cueplayer-react-menu-button-popup
+  .cueplayer-react-menu
+  .cueplayer-react-menu-content {
+  bottom: 2em;
+  max-height: none;
+}
