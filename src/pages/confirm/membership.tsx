@@ -5,11 +5,60 @@ import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import ConfirmMembership from 'components/pages/confirm/membership/index'
 import {track} from 'utils/analytics'
+import {useInterval} from 'react-use'
+import {AUTH_DOMAIN} from 'utils/auth'
 
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   return {
     props: {},
   }
+}
+
+const TWENTY_FOUR_HOURS_IN_SECONDS = JSON.stringify(24 * 60 * 60)
+
+const useRequestPurchaseAuthToken = (sessionId) => {
+  const {viewer, handleAccessTokenAuthentication} = useViewer()
+
+  const requestLimit = 5
+  const [requestCount, setRequestCount] = React.useState<number>(0)
+  const [authToken, setAuthToken] = React.useState<String | null>(null)
+
+  // Only poll for a new purchase auth token if the following conditions are
+  // met:
+  const allowPolling =
+    !viewer && // no one is currently signed in
+    !authToken && // we haven't received an auth token yet
+    requestCount < requestLimit && // we haven't tried more than X times yet
+    !!sessionId // we have a sessionId to make the request with
+
+  useInterval(
+    async () => {
+      console.log('Polling for a new purchase auth token')
+
+      try {
+        const {data} = await axios.post(
+          `${AUTH_DOMAIN}/api/v1/purchase_sessions`,
+          {checkout_session_id: sessionId},
+        )
+
+        const {auth_token: authToken} = data || {}
+
+        if (authToken) {
+          setAuthToken(authToken)
+
+          handleAccessTokenAuthentication(
+            authToken,
+            TWENTY_FOUR_HOURS_IN_SECONDS,
+          )
+        }
+      } catch (e) {
+        // errors, e.g. 404 are expected during polling
+      } finally {
+        setRequestCount((prevCount) => prevCount + 1)
+      }
+    },
+    allowPolling ? 2000 : null,
+  )
 }
 
 const ConfirmMembershipPage: React.FC = () => {
@@ -31,6 +80,8 @@ const ConfirmMembershipPage: React.FC = () => {
         })
     }
   }, [])
+
+  useRequestPurchaseAuthToken(query.session_id)
 
   if (!session) return null
 
