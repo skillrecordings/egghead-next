@@ -432,7 +432,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div
                   className={`${
                     access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
-                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold mb-2 text-xs`}
+                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold mb-2 text-xs mx-auto md:m-0`}
                 >
                   {access_state}
                 </div>
