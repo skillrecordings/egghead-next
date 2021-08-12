@@ -17,6 +17,11 @@ export default {
       description: 'This can be used to schedule post for publishing',
     },
     {
+      name: 'description',
+      type: 'markdown',
+      title: 'Description',
+    },
+    {
       name: 'body',
       type: 'markdown',
       title: 'Body',

@@ -3,8 +3,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
+import {parse} from 'date-fns'
+import friendlyTime from 'friendly-time'
+
 import {find} from 'lodash'
 
+const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
+  <div>{date}</div>
+)
 const Blog: React.FC = (allArticles: any) => {
   return (
     <div className="mx-auto max-w-screen-lg lg:py-16 py-10">
@@ -49,9 +55,34 @@ const Blog: React.FC = (allArticles: any) => {
                   </h2>
                 </a>
               </Link>
-              {article.description && (
-                <div className="prose sm:prose prose-sm dark:prose-dark sm:mt-4 mt-2 text-gray-700 dark:text-gray-300">
-                  {article.description}
+
+              {article.author && (
+                <div className="mt-2 flex items-center space-x-2">
+                  <div className="flex-none">
+                    <Image
+                      src={article.author.image}
+                      alt={article.author.name}
+                      quality={100}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  </div>
+                  <div className="flex-none leading-tight opacity-90">
+                    {article.author.name}
+                    {article.publishedAt && (
+                      <div className="text-purple leading-tight opacity-90">
+                        <UpdatedAt
+                          date={friendlyTime(new Date(article.publishedAt))}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {article.description && (
+                    <div className="pl-5 leading-tight opacity-90 text-justify">
+                      {article.description}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -87,6 +118,12 @@ const allArticlesQuery = groq`
   title,
   slug,
   coverImage,
+  description,
+  publishedAt,
+  "author": authors[0].author-> {
+    name, 
+   'image': image.url,
+   }
 }
 `
 
