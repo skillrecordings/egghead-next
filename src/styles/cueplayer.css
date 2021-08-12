@@ -50,7 +50,7 @@
 
 /* control bar */
 .cueplayer-react .cueplayer-react-control-bar {
-  @apply flex bg-gray-1000 z-[10];
+  @apply flex bg-gray-1000 z-[10] h-10;
 }
 
 .cueplayer-react .cueplayer-react-fullscreen {
@@ -67,6 +67,10 @@
   .cueplayer-react-menu
   .cueplayer-react-menu-content {
   @apply bg-[#333539];
+}
+
+.cueplayer-react .cueplayer-react-menu {
+  @apply w-40;
 }
 
 .cueplayer-react .cueplayer-react-menu .cueplayer-react-menu-item {
@@ -91,6 +95,12 @@
 }
 
 .cueplayer-react
+  .cueplayer-react-control.cueplayer-react-playback-rate
+  .cueplayer-react-menu {
+  @apply w-16;
+}
+
+.cueplayer-react
   .cueplayer-react-playback-rate
   .cueplayer-react-playback-rate-value {
   line-height: 1;
@@ -101,4 +111,49 @@
 .cueplayer-react .cueplayer-react-control.cueplayer-react-forward-control,
 .cueplayer-react .cueplayer-react-control.cueplayer-react-volume-menu-button {
   @apply hidden sm:inline-block;
+}
+
+.cueplayer-react .cueplayer-react-control:before {
+  font-size: 2.3em;
+  line-height: 2.5rem;
+  height: 2.5rem;
+}
+
+.cueplayer-react .cueplayer-react-control:hover:before {
+  text-shadow: 0em 0em 0.5em #fff, 0em 0em 0.5em #fff;
+}
+
+.cueplayer-react .cueplayer-react-time-control,
+.cueplayer-react
+  .cueplayer-react-playback-rate
+  .cueplayer-react-playback-rate-value {
+  font-size: 1.3em;
+  line-height: 2.5rem;
+}
+
+.cueplayer-react
+  .cueplayer-react-volume-menu-button-horizontal:hover
+  .cueplayer-react-menu-content,
+.cueplayer-react
+  .cueplayer-react-volume-menu-button-horizontal:focus
+  .cueplayer-react-menu-content,
+.cueplayer-react
+  .cueplayer-react-volume-menu-button-horizontal
+  .cueplayer-react-slider-active
+  .cueplayer-react-menu-content,
+.cueplayer-react
+  .cueplayer-react-volume-menu-button-horizontal
+  .cueplayer-react-lock-showing
+  .cueplayer-react-menu-content {
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.cueplayer-react
+  .cueplayer-react-playback-rate.cueplayer-react-menu-button-popup
+  .cueplayer-react-menu
+  .cueplayer-react-menu-content {
+  bottom: 2em;
+  max-height: none;
 }
