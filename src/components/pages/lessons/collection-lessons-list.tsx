@@ -6,19 +6,21 @@ import {LessonResource} from 'types'
 import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
-import {convertTimeWithTitles} from '../../../utils/time-utils'
+import {convertTimeWithTitles} from 'utils/time-utils'
 import CheckIcon from '../../icons/check-icon'
 
 type NextUpListProps = {
   currentLessonSlug: string
   course: any
   progress: any
+  onActiveTab: boolean
 }
 
 const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   course,
   currentLessonSlug,
   progress,
+  onActiveTab,
 }) => {
   const {lessons} = course
   const [activeElement, setActiveElement] = React.useState(currentLessonSlug)
@@ -27,16 +29,18 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
   React.useEffect(() => {
     setActiveElement(currentLessonSlug)
     scrollableNodeRef.current.id = 'scrollable-container'
-    scroller.scrollTo(activeElement, {
-      duration: 0,
-      delay: 0,
-      containerId: 'scrollable-container',
-    })
+    if (onActiveTab) {
+      scroller.scrollTo(activeElement, {
+        duration: 0,
+        delay: 0,
+        containerId: 'scrollable-container',
+      })
+    }
   }, [activeElement, setActiveElement, currentLessonSlug])
 
   return lessons ? (
     <div className="h-full overflow-hidden">
-      <div className="overflow-hidden dark:bg-gray-900 dark:border-gray-800 border-gray-100 h-96 lg:h-full rounded-md lg:rounded-none border lg:border-none">
+      <div className="overflow-hidden bg-gray-100 dark:bg-gray-1000 dark:border-gray-800 border-gray-100 h-96 lg:h-full rounded-md lg:rounded-none border lg:border-none">
         <SimpleBar
           autoHide={false}
           className="h-full"
@@ -64,7 +68,9 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
                 lesson.completed || completedLessons.includes(lesson.slug)
               return (
                 <li key={lesson.slug}>
-                  <Element name={lesson.slug} />
+                  {lesson.slug === currentLessonSlug && (
+                    <Element name={lesson.slug} />
+                  )}
                   <div>
                     <Item
                       active={lesson.slug === currentLessonSlug}

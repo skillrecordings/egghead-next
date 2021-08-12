@@ -4,18 +4,30 @@ import VideoResourcePlayer from 'components/player'
 import {PlayerProvider} from 'cueplayer-react'
 import {VideoResource} from 'types'
 import {loadBasicLesson} from 'lib/lessons'
+import PlayerSidebar from 'components/player/player-sidebar'
+import PlayerContainer from 'components/player/player-container'
 
 const VideoTest: React.FC<{
   videoResource: VideoResource
 }> = ({videoResource}) => {
+  const playerContainer = React.useRef(null)
   return (
-    <PlayerProvider>
-      <div className="video-test -mx-5">
+    <div className="-mx-5">
+      <PlayerProvider>
         {videoResource.hls_url && (
-          <VideoResourcePlayer videoResource={videoResource} />
+          <PlayerContainer
+            ref={playerContainer}
+            className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base"
+          >
+            <VideoResourcePlayer
+              containerRef={playerContainer}
+              videoResource={videoResource}
+            />
+            <PlayerSidebar videoResource={videoResource} />
+          </PlayerContainer>
         )}
-      </div>
-    </PlayerProvider>
+      </PlayerProvider>
+    </div>
   )
 }
 
