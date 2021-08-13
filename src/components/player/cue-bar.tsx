@@ -2,7 +2,7 @@ import * as React from 'react'
 import classNames from 'classnames'
 import {isEmpty} from 'lodash'
 import Tippy from '@tippyjs/react'
-// import {scroller} from 'react-scroll'
+import {scroller} from 'react-scroll'
 import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import ReactMarkdown from 'react-markdown'
 import {track} from 'utils/analytics'
@@ -109,7 +109,16 @@ const NoteCue: React.FC<any> = ({
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const [visible, setVisible] = React.useState(false)
   const [clickedOpen, setClickedOpen] = React.useState(false)
-  const {muteNotes} = getPlayerPrefs()
+  const {muteNotes, activeSidebarTab} = getPlayerPrefs()
+
+  const scrollToActiveNote = () => {
+    scroller.scrollTo('active-note', {
+      duration: 0,
+      delay: 0,
+      offset: -16,
+      containerId: 'notes-tab-scroll-container',
+    })
+  }
 
   useCue(cue, actions)
 
@@ -120,7 +129,10 @@ const NoteCue: React.FC<any> = ({
     actions.seek(cue.startTime)
     actions.pause()
     track('opened cue', {cue: cue.text})
-    !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
+    // !muteNotes && setPlayerPrefs({activeSidebarTab: 1})
+    if (activeSidebarTab === 1) {
+      scrollToActiveNote()
+    }
   }
 
   const clickClose = () => {
@@ -151,16 +163,11 @@ const NoteCue: React.FC<any> = ({
   const startPosition = `${(cue.startTime / duration) * 100}%`
   const note = cue.text
 
-  // React.useEffect(() => {
-  //   if (visible) {
-  //     scroller.scrollTo('active-note', {
-  //       duration: 0,
-  //       delay: 0,
-  //       offset: -16,
-  //       containerId: 'notes-tab-scroll-container',
-  //     })
-  //   }
-  // }, [visible, setPlayerPrefs])
+  React.useEffect(() => {
+    if (visible && activeSidebarTab === 1) {
+      scrollToActiveNote()
+    }
+  }, [visible, setPlayerPrefs])
 
   return (
     <Tippy
