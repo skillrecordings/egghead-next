@@ -432,7 +432,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div
                   className={`${
                     access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
-                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold mb-2 text-xs`}
+                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold mb-2 text-xs mx-auto md:m-0`}
                 >
                   {access_state}
                 </div>
@@ -643,7 +643,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {courseEssentialQuestions && (
                 <div className="mt-8 border border-gray-100 dark:border-gray-700 rounded-md p-5">
                   <h2 className="text-lg font-semibold mb-3">
-                    Questions to Reflect Upon:
+                    Questions to Think About:
                   </h2>
                   <div className="prose dark:prose-dark">
                     <ul className="grid grid-cols-1 md:gap-x-5">
