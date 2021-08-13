@@ -9,7 +9,7 @@ import friendlyTime from 'friendly-time'
 import {find} from 'lodash'
 
 const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
-  <div>{date}</div>
+  <div>Published {date}</div>
 )
 const Blog: React.FC = (allArticles: any) => {
   return (
@@ -70,17 +70,17 @@ const Blog: React.FC = (allArticles: any) => {
                   </div>
                   <div className="flex-none leading-tight opacity-90">
                     {article.author.name}
-                    {article.publishedAt && (
-                      <div className="text-purple leading-tight opacity-90">
-                        <UpdatedAt
-                          date={friendlyTime(new Date(article.publishedAt))}
-                        />
-                      </div>
-                    )}
                   </div>
                   {article.description && (
-                    <div className="pl-5 leading-tight opacity-90 text-justify">
+                    <div className="pl-2 leading-tight opacity-90 text-justify">
                       {article.description}
+                    </div>
+                  )}
+                  {article.publishedAt && (
+                    <div className="place-content-end	 text-gray-500 leading-tight opacity-90">
+                      <UpdatedAt
+                        date={friendlyTime(new Date(article.publishedAt))}
+                      />
                     </div>
                   )}
                 </div>
