@@ -21,7 +21,7 @@ const VerticalResourceCollectionCard: React.FC<{
   describe?: boolean
   className?: string
 }> = ({resource, location, className = '', ...props}) => {
-  className = `${className} border-none flex flex-col sm:py-8 py-6`
+  className = `${className} border-none flex flex-col sm:py-8 py-6 `
 
   return (
     <Card {...props} className={className}>
