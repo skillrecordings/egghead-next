@@ -9,7 +9,7 @@ import friendlyTime from 'friendly-time'
 import {find} from 'lodash'
 
 const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
-  <div>Published {date}</div>
+  <div>{date}</div>
 )
 const Blog: React.FC = (allArticles: any) => {
   return (
@@ -57,8 +57,8 @@ const Blog: React.FC = (allArticles: any) => {
               </Link>
 
               {article.author && (
-                <div className="mt-2 flex items-center space-x-2">
-                  <div className="flex-none">
+                <div className="mt-4 flex items-start text-sm">
+                  <div className="items-center flex space-x-3">
                     <Image
                       src={article.author.image}
                       alt={article.author.name}
@@ -67,20 +67,22 @@ const Blog: React.FC = (allArticles: any) => {
                       height={40}
                       className="rounded-full"
                     />
-                  </div>
-                  <div className="flex-none leading-tight opacity-90">
-                    {article.author.name}
+                    <div className="flex flex-col w-40">
+                      <div className="flex-none leading-tight opacity-90">
+                        {article.author.name}
+                      </div>
+                      {article.publishedAt && (
+                        <div className="place-content-end text-gray-500 leading-tight opacity-90">
+                          <UpdatedAt
+                            date={friendlyTime(new Date(article.publishedAt))}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                   {article.description && (
-                    <div className="pl-2 leading-tight opacity-90 text-justify">
+                    <div className="opacity-70 text-sm leading-snug  pl-2">
                       {article.description}
-                    </div>
-                  )}
-                  {article.publishedAt && (
-                    <div className="place-content-end	 text-gray-500 leading-tight opacity-90">
-                      <UpdatedAt
-                        date={friendlyTime(new Date(article.publishedAt))}
-                      />
                     </div>
                   )}
                 </div>
