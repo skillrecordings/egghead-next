@@ -23,7 +23,7 @@ const VerticalResourceCard: React.FC<{
   children,
   resource,
   location,
-  className = 'border-none transition duration-300 hover:shadow-md transform hover:-translate-y-1 flex flex-col items-center justify-center text-center sm:py-8 py-6',
+  className = 'border-none transition duration-300 hover:shadow-md hover:-translate-y-1 flex flex-col items-center justify-center text-center sm:py-8 py-6',
   describe = false,
   ...props
 }) => {

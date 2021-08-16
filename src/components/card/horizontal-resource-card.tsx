@@ -19,7 +19,7 @@ const HorizontalResourceCard: React.FC<any> = ({
   className = 'border-none my-4',
   ...props
 }) => {
-  className = `${className} flex sm:flex-row transition duration-300 hover:shadow-md transform hover:-translate-y-1 flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center`
+  className = `${className} flex sm:flex-row transition duration-300 hover:shadow-md hover:-translate-y-1 flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center`
 
   return (
     <Card {...props} className={className}>
