@@ -20,6 +20,9 @@ export default {
       name: 'description',
       type: 'markdown',
       title: 'Description',
+      description:
+        'This can be used to provide a short description of the article. Max 150 characters',
+      validation: (Rule) => Rule.max(150),
     },
     {
       name: 'body',
