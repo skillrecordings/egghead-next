@@ -216,15 +216,28 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
                 )}
                 {currentState.matches('authTokenRetrieved') && (
                   <>
-                    <Callout>Your egghead membership is ready to go!</Callout>
+                    <Callout>
+                      <p className="text-lg">
+                        Your egghead membership is ready to go!
+                      </p>
+                    </Callout>
                     <p className="text-lg">
-                      Are you ready to start learning? Browse the egghead
-                      catalogue and start accessing paid content. We've charged
-                      your credit card{' '}
+                      Are you ready to browse the egghead catalogue and access
+                      paid content?
+                    </p>
+                    <div className="flex justify-center py-4">
+                      <Link href="/q">
+                        <a className="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none rounded hover:bg-blue-600">
+                          Start Learning
+                        </a>
+                      </Link>
+                    </div>
+                    <p className="text-lg">
+                      We've charged your credit card{' '}
                       <strong className="dark:text-yellow-300 text-rose-500">
                         ${session.amount} for an egghead membership
                       </strong>
-                      . When you have a chance, find the email we sent to
+                      . When you have a chance, find the email we sent to{' '}
                       <strong className="dark:text-yellow-300 text-rose-500">
                         {session.email}
                       </strong>{' '}
