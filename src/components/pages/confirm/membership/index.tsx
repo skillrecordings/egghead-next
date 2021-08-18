@@ -13,6 +13,7 @@ type HeaderProps = {
 type ConfirmMembershipProps = {
   session: any
   alreadyAuthenticated: boolean
+  currentState: {value: any; context: any; matches: Function}
 }
 
 const Illustration = () => (
@@ -150,6 +151,7 @@ const Callout: React.FC = ({children}) => {
 export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   session,
   alreadyAuthenticated,
+  currentState,
 }) => {
   return (
     <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
@@ -185,28 +187,51 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
         </>
       ) : (
         <>
+          {currentState.matches('pending') && <p>Setting up your account...</p>}
           <Header
             heading={<>Thank you so much for joining egghead! </>}
             primaryMessage={
               <>
-                <Callout>
-                  <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
-                  <p className="text-lg">
-                    Please check your inbox to{' '}
-                    <strong>confirm your email address</strong>.
-                  </p>
-                </Callout>
-                <p className="text-lg">
-                  We've charged your credit card{' '}
-                  <strong className="dark:text-yellow-300 text-rose-500">
-                    ${session.amount} for an egghead membership
-                  </strong>{' '}
-                  and sent an email to{' '}
-                  <strong className="dark:text-yellow-300 text-rose-500">
-                    {session.email}
-                  </strong>{' '}
-                  so you can log in and access your membership.
-                </p>
+                {currentState.matches('pollingExpired') && (
+                  <>
+                    <Callout>
+                      <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
+                      <p className="text-lg">
+                        Please check your inbox to{' '}
+                        <strong>confirm your email address</strong>.
+                      </p>
+                    </Callout>
+                    <p className="text-lg">
+                      We've charged your credit card{' '}
+                      <strong className="dark:text-yellow-300 text-rose-500">
+                        ${session.amount} for an egghead membership
+                      </strong>{' '}
+                      and sent an email to{' '}
+                      <strong className="dark:text-yellow-300 text-rose-500">
+                        {session.email}
+                      </strong>{' '}
+                      so you can log in and access your membership.
+                    </p>
+                  </>
+                )}
+                {currentState.matches('authTokenRetrieved') && (
+                  <>
+                    <Callout>Your egghead membership is ready to go!</Callout>
+                    <p className="text-lg">
+                      Are you ready to start learning? Browse the egghead
+                      catalogue and start accessing paid content. We've charged
+                      your credit card{' '}
+                      <strong className="dark:text-yellow-300 text-rose-500">
+                        ${session.amount} for an egghead membership
+                      </strong>
+                      . When you have a chance, find the email we sent to
+                      <strong className="dark:text-yellow-300 text-rose-500">
+                        {session.email}
+                      </strong>{' '}
+                      and verify your account.
+                    </p>
+                  </>
+                )}
               </>
             }
           />

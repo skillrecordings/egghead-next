@@ -5,9 +5,11 @@ import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import ConfirmMembership from 'components/pages/confirm/membership/index'
 import {track} from 'utils/analytics'
-import {useInterval} from 'react-use'
 import {AUTH_DOMAIN} from 'utils/auth'
+import {useMachine} from '@xstate/react'
+import {authTokenPollingMachine} from 'machines/auth-token-polling-machine'
 
+// TODO: Not sure why this is here. Can it be removed?
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   return {
     props: {},
@@ -16,55 +18,18 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
 
 const TWENTY_FOUR_HOURS_IN_SECONDS = JSON.stringify(24 * 60 * 60)
 
-const useRequestPurchaseAuthToken = (sessionId) => {
-  const {viewer, handleAccessTokenAuthentication} = useViewer()
-
-  const requestLimit = 5
-  const [requestCount, setRequestCount] = React.useState<number>(0)
-  const [authToken, setAuthToken] = React.useState<String | null>(null)
-
-  // Only poll for a new purchase auth token if the following conditions are
-  // met:
-  const allowPolling =
-    !viewer && // no one is currently signed in
-    !authToken && // we haven't received an auth token yet
-    requestCount < requestLimit && // we haven't tried more than X times yet
-    !!sessionId // we have a sessionId to make the request with
-
-  useInterval(
-    async () => {
-      console.log('Polling for a new purchase auth token')
-
-      try {
-        const {data} = await axios.post(
-          `${AUTH_DOMAIN}/api/v1/purchase_sessions`,
-          {checkout_session_id: sessionId},
-        )
-
-        const {auth_token: authToken} = data || {}
-
-        if (authToken) {
-          setAuthToken(authToken)
-
-          handleAccessTokenAuthentication(
-            authToken,
-            TWENTY_FOUR_HOURS_IN_SECONDS,
-          )
-        }
-      } catch (e) {
-        // errors, e.g. 404 are expected during polling
-      } finally {
-        setRequestCount((prevCount) => prevCount + 1)
-      }
-    },
-    allowPolling ? 2000 : null,
-  )
-}
-
 const ConfirmMembershipPage: React.FC = () => {
   const {query} = useRouter()
   const [session, setSession] = React.useState<any>()
-  const {viewer, refreshUser} = useViewer()
+  const {
+    viewer,
+    refreshUser,
+    handleAccessTokenAuthentication: _handleAccessTokenAuthentication,
+  } = useViewer()
+
+  // We want to know if the user was already authenticated when the component
+  // loads, not after. Hence capturing that boolean in a ref.
+  const alreadyAuthenticated = React.useRef(!!viewer)
 
   React.useEffect(() => {
     const {session_id} = query
@@ -81,7 +46,52 @@ const ConfirmMembershipPage: React.FC = () => {
     }
   }, [])
 
-  useRequestPurchaseAuthToken(query.session_id)
+  const {session_id} = query
+  // Narrow the type of the session ID
+  const stripeCheckoutSessionId =
+    session_id instanceof Array ? session_id[0] : session_id
+
+  // This polling machine will attempt to fetch a fresh access token for the
+  // customer associated with the Stripe Checkout Session ID using the declared
+  // service.
+  const [current, _send] = useMachine(authTokenPollingMachine, {
+    context: {stripeCheckoutSessionId},
+    services: {
+      requestAuthToken: async (context) => {
+        const {data} = await axios.post(
+          `${AUTH_DOMAIN}/api/v1/purchase_sessions`,
+          {checkout_session_id: context.stripeCheckoutSessionId},
+        )
+
+        const {auth_token: authToken} = data || {}
+
+        if (authToken) {
+          return Promise.resolve({authToken})
+        } else {
+          return Promise.reject()
+        }
+      },
+    },
+  })
+
+  // Memoize the function so that it doesn't re-trigger the useEffect over and
+  // over.
+  const handleAccessTokenAuthentication = React.useCallback(
+    (authToken, expiration) => {
+      _handleAccessTokenAuthentication(authToken, expiration)
+    },
+    [],
+  )
+
+  // Once we have an authToken, update the viewer-context
+  React.useEffect(() => {
+    if (current.context.authToken) {
+      handleAccessTokenAuthentication(
+        current.context.authToken,
+        TWENTY_FOUR_HOURS_IN_SECONDS,
+      )
+    }
+  }, [current.context.authToken, handleAccessTokenAuthentication])
 
   if (!session) return null
 
@@ -91,7 +101,8 @@ const ConfirmMembershipPage: React.FC = () => {
         <div className="p-5 dark:bg-gray-900 bg-gray-50 min-h-screen w-full flex flex-col items-center justify-start lg:pt-32 sm:pt-24 pt-16">
           <ConfirmMembership
             session={session}
-            alreadyAuthenticated={!!viewer}
+            alreadyAuthenticated={alreadyAuthenticated.current}
+            currentState={current}
           />
         </div>
       )}
