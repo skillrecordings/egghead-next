@@ -205,7 +205,7 @@ const Search: FunctionComponent<SearchProps> = ({
           )}
 
           {!isEmpty(topic) && (
-            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+            <div className="dark:bg-gray-900 bg-gray-50">
               {CuratedTopicPage &&
                 shouldDisplayLandingPageForTopics(topic.name) && (
                   <CuratedTopicPage topic={topic} />
@@ -213,9 +213,9 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+          <div className="dark:bg-gray-900 bg-gray-50">
             <ScrollTo scrollOn="page" />
-            <div className="flex mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+            <div className="flex mb-10 pb-10 max-w-screen-xl mx-auto dark:bg-gray-900">
               <div className="flex-shrink-0">
                 {!sm && (
                   <div className="pl-0 pt-0 p-10 flex flex-col space-y-6">
