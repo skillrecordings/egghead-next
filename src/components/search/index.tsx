@@ -216,7 +216,7 @@ const Search: FunctionComponent<SearchProps> = ({
               <ScrollTo scrollOn="page" />
 
               {/* SortBy widget goes below. Related indicies should be added on Algolia side before */}
-              <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200">
+              {/* <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200">
                 <div>
                   <span className="font-bold">XX results</span> for "XXX"
                 </div>
@@ -244,7 +244,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     ]}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex mb-10 pb-10 dark:bg-gray-900">
                 <div className="flex-shrink-0">
