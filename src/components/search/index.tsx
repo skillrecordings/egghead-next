@@ -215,7 +215,7 @@ const Search: FunctionComponent<SearchProps> = ({
             <div className="dark:bg-gray-900 bg-gray-50 mt-6">
               <ScrollTo scrollOn="page" />
 
-              {/* SortBy widget goes below. Related indicies should be added on Algolia side before */}
+              {/* SortBy widget goes below. Related indices should be added on Algolia side before */}
               {/* <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200">
                 <div>
                   <span className="font-bold">XX results</span> for "XXX"
