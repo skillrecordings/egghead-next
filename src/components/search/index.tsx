@@ -117,12 +117,12 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
+        <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5 px-5">
           <div
             className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
             ref={refinementRef}
           >
-            <header className="flex xl:px-0 px-5">
+            <header className="flex">
               <SearchBox
                 placeholder={searchBoxPlaceholder}
                 className="w-full "
