@@ -9,6 +9,7 @@ import {
   InstantSearch,
   ClearRefinements,
   ScrollTo,
+  SortBy,
 } from 'react-instantsearch-dom'
 
 import {get, isEqual, isEmpty, first} from 'lodash'
@@ -215,6 +216,38 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50">
             <ScrollTo scrollOn="page" />
+
+            {/* SortBy widget goes below. Related indicies should be added on Algolia side before */}
+            {/* <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200">
+              <div>
+                <span className="font-bold">XX results</span> for "XXX"
+              </div>
+              <div>
+                <SortBy
+                  defaultRefinement="instant_search"
+                  items={[
+                    {value: 'instant_search', label: 'Most Popular'},
+                    {
+                      value: 'instant_search_highest_rated',
+                      label: 'Highest Rated',
+                    },
+                    {
+                      value: 'instant_search_recently_updated',
+                      label: 'Recently Updated',
+                    },
+                    {
+                      value: 'instant_search_published',
+                      label: 'Published',
+                    },
+                    {
+                      value: 'instant_search_duration',
+                      label: 'Duration',
+                    },
+                  ]}
+                />
+              </div>
+            </div> */}
+
             <div className="flex mb-10 pb-10 max-w-screen-xl mx-auto dark:bg-gray-900">
               <div className="flex-shrink-0">
                 {!sm && (
