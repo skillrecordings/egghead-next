@@ -149,17 +149,21 @@ const strongConfirmationDialogMachine = createMachine<
           errorMessage,
         }
       }),
-      clearErrorMessage: assign({
-        errorMessage: undefined,
+      clearErrorMessage: assign((_context) => {
+        return {
+          errorMessage: undefined,
+        }
       }),
-      clearActionFromContext: assign({
-        action: () => Promise.resolve(),
-        invitationDetails: {
-          accountId: undefined,
-          inviteeEmail: '',
-          ownerId: undefined,
-        },
-        inputConfirmText: '',
+      clearActionFromContext: assign((_context) => {
+        return {
+          action: () => Promise.resolve(),
+          invitationDetails: {
+            accountId: undefined,
+            inviteeEmail: '',
+            ownerId: undefined,
+          },
+          inputConfirmText: '',
+        }
       }),
       onSuccess: () => {
         console.log(

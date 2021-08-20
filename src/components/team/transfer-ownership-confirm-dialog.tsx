@@ -4,7 +4,7 @@ import IconX from 'components/icons/icon-x'
 import {State} from 'xstate'
 
 type DialogProps = {
-  current: State<any>
+  current: any
   inviteeEmail: string
   inviteeEmailConfirmation: string
   onClose: () => void
