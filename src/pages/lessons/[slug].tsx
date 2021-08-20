@@ -48,6 +48,11 @@ import VideoResourcePlayer from 'components/player'
 import PlayerContainer from 'components/player/player-container'
 import PlayerSidebar from 'components/player/player-sidebar'
 import OverlayWrapper from '../../components/pages/lessons/overlay/wrapper'
+import friendlyTime from 'friendly-time'
+import {
+  PublishedAt,
+  UpdatedAt,
+} from '../../components/layouts/collection-page-layout'
 
 const tracer = getTracer('lesson-page')
 
@@ -145,6 +150,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     transcript,
     transcript_url,
     title,
+    created_at,
+    updated_at,
     tags = [],
     description,
     collection,
@@ -647,6 +654,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
                 {!md && <Tags tags={collectionTags} lesson={lesson} />}
               </div>
+
               {md && <Tags tags={collectionTags} lesson={lesson} />}
               <div className="flex items-center space-x-8">
                 <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
@@ -661,6 +669,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   />
                 </div>
               </div>
+            </div>
+            <div className="opacity-80 mt-4 text-sm flex flex-col items-center md:items-start">
+              {created_at && (
+                <PublishedAt date={friendlyTime(new Date(created_at))} />
+              )}
+              {updated_at && (
+                <UpdatedAt date={friendlyTime(new Date(updated_at))} />
+              )}
             </div>
             {description && (
               <Markdown className="prose prose-lg dark:prose-dark max-w-none font-medium text-gray-1000 dark:text-white">

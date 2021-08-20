@@ -85,9 +85,13 @@ const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
   </div>
 )
 
-const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
+export const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
   <div>Updated {date}</div>
 )
+
+export const PublishedAt: React.FunctionComponent<{date: string}> = ({
+  date,
+}) => <div>Created {date}</div>
 
 const StarsRating: React.FunctionComponent<{
   rating: number
@@ -199,6 +203,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
+    published_at,
     created_at,
     access_state,
     customOgImage,
@@ -471,12 +476,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
                     )}
-                    {updated_at && (
-                      <UpdatedAt date={friendlyTime(new Date(updated_at))} />
-                    )}
                   </div>
                 </div>
               </div>
+
               <div className="flex flex-col md:flex-row items-center md:justify-start justify-center mt-4 space-y-4 md:space-y-0 md:space-x-6 w-full">
                 <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
                   {average_rating_out_of_5 > 0 && (
@@ -487,6 +490,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   )}
                 </div>
               </div>
+
               <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {toggle_favorite_url ? (
                   <button
@@ -564,6 +568,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
                     <RSSIcon className="w-4 h-4 mr-1" /> RSS
                   </div>
+                )}
+              </div>
+              <div className="opacity-80 mt-4 text-sm flex flex-col items-center md:items-start">
+                {created_at && (
+                  <PublishedAt date={friendlyTime(new Date(created_at))} />
+                )}
+                {updated_at && (
+                  <UpdatedAt date={friendlyTime(new Date(updated_at))} />
                 )}
               </div>
               <div className="md:hidden flex items-center justify-center w-full mt-5">
