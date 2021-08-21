@@ -99,6 +99,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {sm, md} = useBreakpoint()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
+  const [newNotes, setNewNotes] = React.useState([])
 
   const playerContainer = React.useRef<any>(null)
   const actualPlayerRef = React.useRef<any>(null)
@@ -447,6 +448,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   onFullscreenChange={(isFullscreen: boolean) => {
                     setIsFullscreen(isFullscreen)
                   }}
+                  newNotes={newNotes}
                   onCanPlay={(event: any) => {
                     console.debug(`player ready [autoplay:${autoplay}]`)
                     const videoElement: HTMLVideoElement =
@@ -581,7 +583,10 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 <OverlayWrapper>
                   <AddNoteOverlay
                     resourceId={lesson.slug}
-                    onClose={() => send('VIEW')}
+                    onClose={(notes: any) => {
+                      setNewNotes(notes)
+                      send('VIEW')
+                    }}
                     currentTime={Math.floor(
                       actualPlayerRef.current?.currentTime ?? 0,
                     )}

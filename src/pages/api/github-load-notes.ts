@@ -4,12 +4,54 @@ import VFile from 'vfile'
 import visit from 'unist-util-visit'
 import fetch from 'isomorphic-fetch'
 import toMarkdown from 'mdast-util-to-markdown'
+import {getTokenFromCookieHeaders} from '../../utils/parse-server-cookie'
+import fetchEggheadUser from '../../api/egghead/users/from-token'
+import {loadUserNotesForResource} from '../../lib/notes'
 
 const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET' && req.query.url) {
-    const test = await loadNotesFromUrl(req.query.url as string)
+    const text = await loadNotesFromUrl(req.query.url as string)
 
-    res.status(200).json(test)
+    const notes = await parseMdxNotesFile(text)
+
+    const {eggheadToken} = getTokenFromCookieHeaders(
+      req.headers.cookie as string,
+    )
+
+    const {contact_id} = await fetchEggheadUser(eggheadToken, true)
+
+    const {data} = await loadUserNotesForResource(
+      contact_id,
+      req.query.resource as string,
+    )
+
+    const toNotes = data
+      ? data.map((note) => {
+          return {
+            start: note.start_time,
+            end: note.end_time,
+            text: note.text,
+            type: 'learner',
+          }
+        })
+      : []
+
+    const allNotes = [...notes, ...toNotes].sort((a, b) => b.start - a.start)
+
+    let vtt = `WEBVTT\n\n`
+
+    allNotes.forEach((note: any) => {
+      vtt =
+        vtt +
+        `note\n${new Date(note.start * 1000)
+          .toISOString()
+          .substr(11, 8)}.000 --> ${new Date(note.end * 1000)
+          .toISOString()
+          .substr(11, 8)}.000
+${JSON.stringify(note)}\n\n`
+    })
+
+    res.status(200).json(vtt)
   } else {
     res.status(200).end()
   }
@@ -66,31 +108,17 @@ export function parseMdxNotesFile(text: string) {
 
       return {
         text: contents.trim(),
+        type: 'staff',
         ...attributes,
       }
     })
 
-    let vtt = `WEBVTT\n\n`
-
-    notes.forEach((note: any) => {
-      vtt =
-        vtt +
-        `note\n${new Date(note.start * 1000)
-          .toISOString()
-          .substr(11, 8)}.000 --> ${new Date(note.end * 1000)
-          .toISOString()
-          .substr(11, 8)}.000
-${note.text}\n\n`
-    })
-
-    return vtt
+    return notes
   })
 }
 
 export async function loadNotesFromUrl(url: string) {
   const result = await fetch(url)
 
-  const text = await result.text()
-
-  return parseMdxNotesFile(text)
+  return await result.text()
 }

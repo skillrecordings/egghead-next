@@ -41,6 +41,7 @@ export type VideoResourcePlayerProps = {
   onFullscreenChange?: (isFullscreen: boolean) => void
   onEnded?: () => void
   onVolumeChange?: (event: any) => void
+  newNotes?: any[]
   hidden?: boolean
   className?: string
   volume?: number
@@ -55,11 +56,32 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   children,
   onFullscreenChange,
   onLoadStart,
+  newNotes,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
 
   const {subtitle, playbackRate, volumeRate} = getPlayerPrefs()
+
+  const noteTrack = React.useRef<HTMLTrackElement>(null)
+
+  React.useEffect(() => {
+    const track = noteTrack.current?.track
+
+    if (track && newNotes) {
+      console.log(newNotes)
+      newNotes.forEach((note) => {
+        const cue = new VTTCue(
+          note.start_time,
+          note.end_time,
+          JSON.stringify(note),
+        )
+        track.addCue(cue)
+      })
+    }
+
+    console.log({newNotes, noteTrack: noteTrack.current?.track})
+  }, [newNotes, noteTrack])
 
   return (
     <div
@@ -108,8 +130,9 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         {hasNotes(videoResource) && (
           <track
             key={videoResource.slug}
+            ref={noteTrack}
             id="notes"
-            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
+            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}&resource=${videoResource.slug}`}
             kind="metadata"
             label="notes"
           />
