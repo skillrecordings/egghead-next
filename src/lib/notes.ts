@@ -10,10 +10,14 @@ export const loadUserNotesForResource = async (
 ) => {
   // all notes for the specific user
   // all public notes
-  if (supabase)
-    return supabase
+  if (supabase) {
+    const {data, error} = await supabase
       .from('resource_notes')
       .select()
       .eq('resource_id', lessonSlug)
       .or(`state.eq.published${contactId ? `,user_id.eq.${contactId}` : ``}`)
+    return {data, error}
+  } else {
+    return {data: [], error: 'no supabase'}
+  }
 }

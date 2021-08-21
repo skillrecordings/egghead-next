@@ -26,7 +26,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
     )
 
     const toNotes = data
-      ? data.map((note) => {
+      ? data.map((note: any) => {
           return {
             start: note.start_time,
             end: note.end_time,
