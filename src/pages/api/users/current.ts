@@ -7,7 +7,7 @@ const current = async (req: NextApiRequest, res: NextApiResponse) => {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
 
   if (req.method === 'GET' && eggheadToken) {
-    const eggheadUser = fetchEggheadUser(eggheadToken)
+    const eggheadUser = await fetchEggheadUser(eggheadToken, true)
 
     res.status(200).json(eggheadUser)
   } else {

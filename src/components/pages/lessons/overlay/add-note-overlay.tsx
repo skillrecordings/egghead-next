@@ -18,10 +18,12 @@ const AddNoteOverlay: React.FC<{
 
   const addNote = () => {
     if (inputRef.current) {
-      axios.post(`/api/lessons/notes/${resourceId}`, {
-        text: inputRef.current.value,
-        startTime: currentTime,
-      })
+      axios
+        .post(`/api/lessons/notes/${resourceId}`, {
+          text: inputRef.current.value,
+          startTime: currentTime,
+        })
+        .then(({data}) => onClose(data.data))
     }
   }
 

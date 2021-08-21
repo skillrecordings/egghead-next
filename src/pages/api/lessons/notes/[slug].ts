@@ -4,9 +4,9 @@ import {setupHttpTracing} from 'utils/tracing-js/dist/src'
 import fetchEggheadUser from 'api/egghead/users/from-token'
 import {getTokenFromCookieHeaders} from 'utils/parse-server-cookie'
 import {createClient} from '@supabase/supabase-js'
-import {loadCurrentUser} from '../../../../lib/users'
+import {loadUserNotesForResource} from '../../../../lib/notes'
 
-const tracer = getTracer('subscriber-api')
+const tracer = getTracer('note-api')
 
 const SUPABASE_URL = 'https://aprlrbqhhehhvukdhgbz.supabase.co'
 const SUPABASE_KEY = process.env.SUPABASE_KEY || ''
@@ -40,6 +40,10 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
           text: req.body.text,
           state: 'draft',
           start_time: req.body.startTime,
+          type: 'learner',
+          end_time: req.body.endTime
+            ? req.body.endTime
+            : Number(req.body.startTime) + 5,
         },
       ])
 
@@ -49,20 +53,17 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(400).end()
     }
   } else if (req.method === 'GET') {
-    console.log(req.method, req.query)
     const {eggheadToken} = getTokenFromCookieHeaders(
       req.headers.cookie as string,
     )
 
     // TODO: Cache the egghead user so we aren't hammering?
     const {contact_id} = await fetchEggheadUser(eggheadToken, true)
-    // all notes for the specific user
-    // all public notes
-    const {data, error} = await supabase
-      .from('resource_notes')
-      .select()
-      .eq('resource_id', req.query.slug)
-      .or(`state.eq.published,user_id.eq.${contact_id}`)
+
+    const {data} = await loadUserNotesForResource(
+      contact_id,
+      req.query.slug as string,
+    )
     res.status(200).json(data)
   } else {
     console.error('unhandled request made')
