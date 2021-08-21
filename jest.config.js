@@ -22,4 +22,5 @@ module.exports = {
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
+  moduleDirectories: ['node_modules', 'src'],
 }

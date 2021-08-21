@@ -69,7 +69,6 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
     const track = noteTrack.current?.track
 
     if (track && newNotes) {
-      console.log(newNotes)
       newNotes.forEach((note) => {
         const cue = new VTTCue(
           note.start_time,
@@ -80,7 +79,6 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
       })
     }
 
-    console.log({newNotes, noteTrack: noteTrack.current?.track})
   }, [newNotes, noteTrack])
 
   return (

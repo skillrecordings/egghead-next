@@ -31,7 +31,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
             start: note.start_time,
             end: note.end_time,
             text: note.text,
-            type: 'learner',
+            type: note.type ?? 'learner',
           }
         })
       : []
