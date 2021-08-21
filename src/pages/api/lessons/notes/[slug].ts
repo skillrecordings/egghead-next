@@ -9,8 +9,8 @@ import {loadUserNotesForResource} from '../../../../lib/notes'
 const tracer = getTracer('note-api')
 
 const SUPABASE_URL = 'https://aprlrbqhhehhvukdhgbz.supabase.co'
-const SUPABASE_KEY = process.env.SUPABASE_KEY || ''
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+const SUPABASE_KEY = process.env.SUPABASE_KEY
+const supabase = SUPABASE_KEY && createClient(SUPABASE_URL, SUPABASE_KEY)
 
 const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
   setupHttpTracing({name: addNote.name, tracer, req, res})
@@ -28,7 +28,7 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
         true,
       )
 
-      if (!can_comment) {
+      if (!can_comment || !supabase) {
         throw new Error('Unable to add note.')
       }
 
@@ -50,7 +50,7 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).send({data, error})
     } catch (error) {
       console.error(error.message)
-      res.status(400).end()
+      res.status(400).end(error.message)
     }
   } else if (req.method === 'GET') {
     const {eggheadToken} = getTokenFromCookieHeaders(
