@@ -80,7 +80,6 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
       })
     }
 
-    console.log({newNotes, noteTrack: noteTrack.current?.track})
   }, [newNotes, noteTrack])
 
   return (
