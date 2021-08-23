@@ -584,6 +584,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   <AddNoteOverlay
                     resourceId={lesson.slug}
                     onClose={(notes: any) => {
+                      // when the notes dialog closes it sends an "array of notes" but it is only a single note currently
+                      // so we just replace the "new notes" instance with the fresh array and it gets added to the timeline
+                      // accordingly
                       setNewNotes(notes)
                       send('VIEW')
                     }}
