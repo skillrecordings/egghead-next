@@ -171,7 +171,7 @@
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.172",
     "@types/mdx-js__react": "^1.5.4",
-    "@types/node": "^15.14.0",
+    "@types/node": "^16.6.2",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.15",
     "@types/react-instantsearch-dom": "^6.12.0",
