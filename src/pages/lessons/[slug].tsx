@@ -584,7 +584,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   <AddNoteOverlay
                     resourceId={lesson.slug}
                     onClose={(newNote: any) => {
-                      if ([newNote]) setNewNotes([newNote])
+                      if (newNote) setNewNotes([newNote])
                       send('VIEW')
                     }}
                     currentTime={Math.floor(
