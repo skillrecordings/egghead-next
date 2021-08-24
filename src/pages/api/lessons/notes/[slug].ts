@@ -42,7 +42,7 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
           start_time: Math.floor(req.body.startTime),
           type: 'learner',
           end_time: req.body.endTime
-            ? Math.floor(req.body.endTime)
+            ? Math.floor(req.body.endTime) + 2
             : Math.floor(req.body.startTime) + 5,
         },
       ])
