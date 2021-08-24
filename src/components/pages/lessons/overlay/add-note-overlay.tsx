@@ -2,6 +2,7 @@ import * as React from 'react'
 import {Switch} from '@headlessui/react'
 import VisuallyHidden from '@reach/visually-hidden'
 import axios from 'axios'
+import readingTime from 'reading-time'
 
 const AddNoteOverlay: React.FC<{
   onClose: any
@@ -18,10 +19,12 @@ const AddNoteOverlay: React.FC<{
 
   const addNote = () => {
     if (inputRef.current) {
+      const text = inputRef.current.value || ''
       axios
         .post(`/api/lessons/notes/${resourceId}`, {
-          text: inputRef.current.value,
+          text,
           startTime: currentTime,
+          endTime: currentTime + readingTime(text).time / 1000,
         })
         .then(({data}) => onClose(data))
     }

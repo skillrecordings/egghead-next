@@ -39,15 +39,16 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
           resource_type: 'Lesson',
           text: req.body.text,
           state: 'draft',
-          start_time: req.body.startTime,
+          start_time: Math.floor(req.body.startTime),
           type: 'learner',
           end_time: req.body.endTime
-            ? req.body.endTime
-            : Number(req.body.startTime) + 5,
+            ? Math.floor(req.body.endTime)
+            : Math.floor(req.body.startTime) + 5,
         },
       ])
 
       if (error) {
+        console.log(error)
         throw new Error('Data not loaded')
       }
 
