@@ -5,6 +5,7 @@ import fetchEggheadUser from 'api/egghead/users/from-token'
 import {getTokenFromCookieHeaders} from 'utils/parse-server-cookie'
 import {createClient} from '@supabase/supabase-js'
 import {loadUserNotesForResource} from '../../../../lib/notes'
+import {first} from 'lodash'
 
 const tracer = getTracer('note-api')
 
@@ -17,7 +18,6 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'POST') {
     try {
-      console.log(req.method, req.body, req.query)
       const {eggheadToken} = getTokenFromCookieHeaders(
         req.headers.cookie as string,
       )
@@ -32,7 +32,7 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
         throw new Error('Unable to add note.')
       }
 
-      const {data, error} = await supabase.from('resource_notes').insert([
+      const {data = [], error} = await supabase.from('resource_notes').insert([
         {
           user_id: contact_id,
           resource_id: req.query.slug,
@@ -47,7 +47,11 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       ])
 
-      res.status(200).send({data, error})
+      if (error) {
+        throw new Error('Data not loaded')
+      }
+
+      res.status(200).json(first(data))
     } catch (error) {
       console.error(error.message)
       res.status(400).end(error.message)
