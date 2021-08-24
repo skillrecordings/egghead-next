@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {isEmpty} from 'lodash'
+import {isEmpty, isArray} from 'lodash'
 import {
   Player,
   BigPlayButton,
@@ -68,7 +68,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   React.useEffect(() => {
     const track = noteTrack.current?.track
 
-    if (track && newNotes) {
+    if (track && isArray(newNotes)) {
       newNotes.forEach((note) => {
         const cue = new VTTCue(
           note.start_time,
@@ -78,7 +78,6 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         track.addCue(cue)
       })
     }
-
   }, [newNotes, noteTrack])
 
   return (

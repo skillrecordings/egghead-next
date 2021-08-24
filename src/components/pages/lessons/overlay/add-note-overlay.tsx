@@ -23,7 +23,7 @@ const AddNoteOverlay: React.FC<{
           text: inputRef.current.value,
           startTime: currentTime,
         })
-        .then(({data}) => onClose(data.data))
+        .then(({data}) => onClose(data))
     }
   }
 
@@ -54,28 +54,28 @@ const AddNoteOverlay: React.FC<{
         />
       </div>
       <div className="flex-shrink-0 flex justify-between items-end">
-        <Switch.Group>
-          <div className="flex items-center">
-            {/* @ts-expect-error */}
-            <Switch
-              tabIndex={0}
-              checked={enabled}
-              onChange={setEnabled}
-              className={`${
-                enabled ? 'bg-blue-600' : 'bg-gray-200'
-              } relative inline-flex items-center h-6 rounded-full w-11 transition duration-150 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50`}
-            >
-              <span
-                className={`${
-                  enabled ? 'translate-x-[1.375rem]' : 'translate-x-0.5'
-                } inline-block w-5 h-5 bg-white rounded-full transition-transform`}
-              />
-            </Switch>
-            <Switch.Label className="ml-4 text-gray-500 text-sm">
-              Publicly visible
-            </Switch.Label>
-          </div>
-        </Switch.Group>
+        {/*<Switch.Group>*/}
+        {/*  <div className="flex items-center">*/}
+        {/*    /!* @ts-expect-error *!/*/}
+        {/*    <Switch*/}
+        {/*      tabIndex={0}*/}
+        {/*      checked={enabled}*/}
+        {/*      onChange={setEnabled}*/}
+        {/*      className={`${*/}
+        {/*        enabled ? 'bg-blue-600' : 'bg-gray-200'*/}
+        {/*      } relative inline-flex items-center h-6 rounded-full w-11 transition duration-150 ease-in-out focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50`}*/}
+        {/*    >*/}
+        {/*      <span*/}
+        {/*        className={`${*/}
+        {/*          enabled ? 'translate-x-[1.375rem]' : 'translate-x-0.5'*/}
+        {/*        } inline-block w-5 h-5 bg-white rounded-full transition-transform`}*/}
+        {/*      />*/}
+        {/*    </Switch>*/}
+        {/*    <Switch.Label className="ml-4 text-gray-500 text-sm">*/}
+        {/*      Publicly visible*/}
+        {/*    </Switch.Label>*/}
+        {/*  </div>*/}
+        {/*</Switch.Group>*/}
         <button
           type="button"
           tabIndex={0}
