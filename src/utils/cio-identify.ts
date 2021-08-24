@@ -1,4 +1,4 @@
-import {SortingHatState} from './sorting-hat-reducer'
+import {SortingHatState} from 'components/survey/sorting-hat-reducer'
 
 export function cioIdentify(id: string, answers: any, state: SortingHatState) {
   if (id) {
