@@ -169,7 +169,7 @@ const StartLearning: React.FC = () => {
   return (
     <Link href="/q">
       <a className="text-white bg-blue-500 border-0 py-3 px-5 rounded-md hover:bg-blue-600">
-        Browse Catalogue
+        Browse Catalog
       </a>
     </Link>
   )
