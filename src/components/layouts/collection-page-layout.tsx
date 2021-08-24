@@ -421,7 +421,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             information.
           </div>
         )}
-        <div className="mt-5 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
+        <div className="mt-10 grid md:grid-cols-5 grid-cols-1 md:gap-16 gap-5 rounded-md w-full left-0 mb-4">
           <div className="md:col-span-3 md:row-start-auto flex flex-col h-full max-w-screen-2xl w-full mx-auto">
             <header>
               {image_url && (
@@ -437,7 +437,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 <div
                   className={`${
                     access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
-                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold mb-2 text-xs mx-auto md:m-0`}
+                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold my-2 text-xs mx-auto md:m-0 md:mb-2`}
                 >
                   {access_state}
                 </div>
@@ -455,10 +455,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <span className="font-semibold">Part {moduleLabel}</span>
                 </div>
               )}
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight md:leading-tighter md:text-left text-center mt-4 md:mt-0">
                 {title}
               </h1>
-              <div className="mt-4 flex flex-col items-center md:items-start">
+
+              {/* Start of metadata block */}
+              <div className="flex flex-col my-6 items-center md:items-start space-y-2">
                 {instructor && (
                   <InstructorProfile
                     name={name}
@@ -468,29 +470,42 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     twitter={twitter}
                   />
                 )}
-                <div className="flex items-center flex-col md:flex-row flex-wrap">
+
+                <div className="pt-2 flex items-center flex-col md:flex-row flex-wrap">
                   <TagList tags={courseTags} courseSlug={course.slug} />
-                  <div className="flex items-center md:justify-start justify-center md:mr-4 mt-4">
+                  <div className="flex items-center md:justify-start justify-center md:mr-4">
                     {duration && (
-                      <div className="mr-4">
+                      <div className="mr-4 mt-2 md:mt-0">
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
                     )}
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col md:flex-row items-center md:justify-start justify-center mt-4 space-y-4 md:space-y-0 md:space-x-6 w-full">
-                <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
-                  {average_rating_out_of_5 > 0 && (
-                    <StarsRating rating={average_rating_out_of_5} />
-                  )}
-                  {watched_count > 0 && (
-                    <PeopleCompleted count={watched_count} />
+                <div className="flex flex-col md:flex-row items-center md:justify-start justify-center space-y-4 md:space-y-0 md:space-x-6 w-full">
+                  <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
+                    {average_rating_out_of_5 > 0 && (
+                      <StarsRating rating={average_rating_out_of_5} />
+                    )}
+                    {watched_count > 0 && (
+                      <PeopleCompleted count={watched_count} />
+                    )}
+                  </div>
+                </div>
+
+                <div className="opacity-80 text-sm flex flex-row space-x-3 md:items-start">
+                  {created_at && (
+                    <PublishedAt date={friendlyTime(new Date(created_at))} />
+                  )}{' '}
+                  <span className="text-gray-400">|</span>
+                  {updated_at && (
+                    <UpdatedAt date={friendlyTime(new Date(updated_at))} />
                   )}
                 </div>
               </div>
+              {/* End of metadata block */}
 
+              {/* Start of action buttons block */}
               <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
                 {toggle_favorite_url ? (
                   <button
@@ -518,7 +533,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       }
                     }}
                   >
-                    <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
+                    <div
+                      className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                    >
                       <BookmarkIcon
                         className="w-4 h-4 mr-1"
                         fill={isFavorite}
@@ -527,7 +545,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   </button>
                 ) : (
-                  <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
+                  <div
+                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  >
                     <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
                   </div>
                 )}
@@ -540,13 +561,19 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="dark:text-gray-900 flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
+                      <div
+                        className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      >
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
                   </Link>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
+                  <div
+                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  >
                     <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                   </div>
                 )}
@@ -559,29 +586,29 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         })
                       }}
                     >
-                      <div className="flex flex-row items-center border px-2 py-1 rounded hover:bg-gray-200 bg-gray-100 transition-colors text-sm xs:text-base">
+                      <div
+                        className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      >
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
                     </a>
                   </Link>
                 ) : (
-                  <div className="flex flex-row items-center border px-2 py-1 rounded bg-gray-100 text-sm xs:text-base opacity-30">
+                  <div
+                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  >
                     <RSSIcon className="w-4 h-4 mr-1" /> RSS
                   </div>
                 )}
               </div>
-              <div className="opacity-80 mt-4 text-sm flex flex-col items-center md:items-start">
-                {created_at && (
-                  <PublishedAt date={friendlyTime(new Date(created_at))} />
-                )}
-                {updated_at && (
-                  <UpdatedAt date={friendlyTime(new Date(updated_at))} />
-                )}
-              </div>
+              {/* End of action buttons block */}
+
               <div className="md:hidden flex items-center justify-center w-full mt-5">
                 <PlayButton lesson={nextLesson} />
               </div>
-              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-6 mb-6">
+              <Markdown className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100 mt-14 mb-6">
                 {description}
               </Markdown>
               <div className="pt-5 md:hidden block">
