@@ -14,6 +14,7 @@ import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
+import LockIcon from '../icons/lock'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
@@ -534,22 +535,26 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     }}
                   >
                     <div
-                      className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      className={
+                        ' flex flex-row items-center rounded  px-4 py-2 border transition-all text-sm xs:text-base ease-in-out duration-150' +
+                        (isFavorite
+                          ? 'hover:bg-blue-500 bg-blue-600 border-blue-700 text-white'
+                          : 'bg-white text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 border-gray-300  dark:bg-gray-800 dark:border-gray-600')
+                      }
                     >
                       <BookmarkIcon
                         className="w-4 h-4 mr-1"
                         fill={isFavorite}
                       />{' '}
-                      Bookmark
+                      {isFavorite ? 'Saved' : 'Bookmark'}
                     </div>
                   </button>
                 ) : (
                   <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
                   >
-                    <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
+                    <LockIcon className="h-4 w-4 mr-2" /> Bookmark
                   </div>
                 )}
                 {download_url ? (
@@ -571,10 +576,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </Link>
                 ) : (
                   <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
                   >
-                    <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
+                    <LockIcon className="h-4 w-4 mr-2" /> Download
                   </div>
                 )}
                 {rss_url ? (
@@ -595,12 +600,21 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <a
+                    onClick={() => {
+                      track(`clicked disabled rss feed link`, {
+                        course: course.slug,
+                      })
+                      console.log('hello')
+                    }}
                   >
-                    <RSSIcon className="w-4 h-4 mr-1" /> RSS
-                  </div>
+                    <div
+                      className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                    dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
+                    >
+                      <LockIcon className="h-4 w-4 mr-2" /> RSS
+                    </div>
+                  </a>
                 )}
               </div>
               {/* End of action buttons block */}
