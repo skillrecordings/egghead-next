@@ -72,11 +72,7 @@ const Support: React.FC = () => {
         </p>
       </div>
       <div className="">
-        <h4 className="text-lg font-bold pb-3">Tell your friends</h4>
-        <p className="prose dark:prose-dark max-w-none">
-          Please consider telling your friends about egghead, it would help us
-          to get a word out. :)
-        </p>
+        <h4 className="text-lg font-bold pb-3">Share</h4>
         <a
           href={tweet}
           rel="noopener noreferrer"
