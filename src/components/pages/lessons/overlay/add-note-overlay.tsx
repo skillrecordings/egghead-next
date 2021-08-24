@@ -49,7 +49,7 @@ const AddNoteOverlay: React.FC<{
       <div className="flex-shrink-0 flex justify-end">
         <button
           type="button"
-          onClick={onClose}
+          onClick={() => onClose(false)}
           className="text-gray-400 hover:text-gray-500"
           tabIndex={0}
         >
