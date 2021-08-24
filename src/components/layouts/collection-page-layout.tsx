@@ -475,7 +475,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <TagList tags={courseTags} courseSlug={course.slug} />
                   <div className="flex items-center md:justify-start justify-center md:mr-4">
                     {duration && (
-                      <div className="mr-4">
+                      <div className="mr-4 mt-2 md:mt-0">
                         <Duration duration={convertTimeWithTitles(duration)} />
                       </div>
                     )}
