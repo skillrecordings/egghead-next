@@ -2,11 +2,11 @@
  * @jest-environment jsdom
  */
 
-import {cioIdentify} from '../cio-identify'
-import {sortingHatReducer, sortingHatInitialState} from '../sorting-hat-reducer'
+import {cioIdentify} from 'utils/cio-identify'
+import {sortingHatReducer, sortingHatInitialState} from './sorting-hat-reducer'
 import {track} from 'utils/analytics'
 
-jest.mock('../cio-identify', () => ({
+jest.mock('utils/cio-identify', () => ({
   cioIdentify: jest.fn(() => null),
 }))
 
