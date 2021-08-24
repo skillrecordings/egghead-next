@@ -42,7 +42,7 @@ const VerticalResourceCard: React.FC<{
             {resource.name}
           </h2>
           <ResourceLink path={resource.path} location={location}>
-            <h3 className="text-lg font-bold leading-tighter py-3">
+            <h3 className="text-lg font-bold leading-tighter py-3 hover:text-blue-700">
               {resource.title}
             </h3>
           </ResourceLink>
