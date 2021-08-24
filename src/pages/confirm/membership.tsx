@@ -98,12 +98,14 @@ const ConfirmMembershipPage: React.FC = () => {
   return (
     <>
       {session.status === 'paid' && (
-        <div className="p-5 dark:bg-gray-900 bg-gray-50 min-h-screen w-full flex flex-col items-center justify-start lg:pt-32 sm:pt-24 pt-16">
-          <ConfirmMembership
-            session={session}
-            alreadyAuthenticated={alreadyAuthenticated.current}
-            currentState={current}
-          />
+        <div className="-m-5 dark:bg-gray-900 bg-gray-50 min-h-screen">
+          <div className="max-w-screen-sm mx-auto p-5 w-full flex flex-col items-center justify-start sm:py-16 py-8">
+            <ConfirmMembership
+              session={session}
+              alreadyAuthenticated={alreadyAuthenticated.current}
+              currentState={current}
+            />
+          </div>
         </div>
       )}
     </>
