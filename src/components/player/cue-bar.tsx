@@ -161,7 +161,14 @@ const NoteCue: React.FC<any> = ({
   // added seeking to the list here but getting some janky perf issues
 
   const startPosition = `${(cue.startTime / duration) * 100}%`
-  const note = cue.text
+
+  let note: {text: string; type?: string}
+
+  try {
+    note = JSON.parse(cue.text)
+  } catch (e) {
+    note = {text: cue.text}
+  }
 
   React.useEffect(() => {
     if (visible && activeSidebarTab === 1) {
@@ -196,7 +203,7 @@ const NoteCue: React.FC<any> = ({
                 },
               }}
             >
-              {note}
+              {note.text}
             </ReactMarkdown>
           </div>
         </div>
@@ -207,7 +214,11 @@ const NoteCue: React.FC<any> = ({
       <div
         onClick={clickOpen}
         className={classNames(
-          'cueplayer-react-cue-note',
+          `${
+            note.type === 'learner'
+              ? 'cueplayer-react-cue-note-learner'
+              : 'cueplayer-react-cue-note'
+          }`,
           {
             'cueplayer-react-cue-note-active': visible,
             'cueplayer-react-cue-note-inactive': !visible,

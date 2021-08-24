@@ -4,6 +4,9 @@ import {AUTH_DOMAIN, getAuthorizationHeader} from '../../utils/auth'
 import axios from 'axios'
 import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
+import {useMachine} from '@xstate/react'
+import strongConfirmationDialogMachine from 'machines/strong-confirmation-dialog-machine'
+import TransferOwnershipConfirmDialog from 'components/team/transfer-ownership-confirm-dialog'
 
 const sendOwnershipTransferInvite = async (
   inviteeEmail: string,
@@ -22,11 +25,58 @@ const sendOwnershipTransferInvite = async (
 
 const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
   const {viewer} = useViewer()
-  const [loading, setLoading] = React.useState<boolean>(false)
   const [inviteeEmail, setInviteeEmail] = React.useState<string>('')
+
+  const invitationDetails = {
+    accountId,
+    inviteeEmail,
+    ownerId: viewer?.id as string | undefined,
+  }
+
+  const [current, send] = useMachine(strongConfirmationDialogMachine, {
+    actions: {
+      onSuccess: (context) => {
+        setInviteeEmail('')
+
+        track(
+          'sent account ownership transfer invite',
+          context.invitationDetails,
+        )
+
+        toast.success(
+          'Your account ownership transfer invitation has been sent.',
+          {
+            icon: '✅',
+          },
+        )
+      },
+      onFail: (context) => {
+        track('encountered error transfering account ownership', {
+          ...context.invitationDetails,
+          error: context.errorMessage,
+        })
+      },
+    },
+  })
+
+  const loading = current.matches({open: 'executingAction'})
 
   return (
     <>
+      <TransferOwnershipConfirmDialog
+        current={current}
+        inviteeEmail={current.context.doubleConfirmText || ''}
+        inviteeEmailConfirmation={current.context.inputConfirmText}
+        onClose={() => {
+          send('CANCEL')
+        }}
+        onConfirm={() => {
+          send('CONFIRM')
+        }}
+        handleInputChange={(value) => {
+          send({type: 'CHANGE', inputConfirmText: value})
+        }}
+      />
       <h2 className="font-semibold text-xl mt-16">
         Account Ownership Transfer
       </h2>
@@ -56,48 +106,14 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
             type="button"
             disabled={loading || inviteeEmail === ''}
             onClick={async () => {
-              const invitationDetails = {
-                accountId,
-                inviteeEmail,
-                ownerId: viewer?.id,
-              }
-
-              try {
-                setLoading(true)
-
-                await sendOwnershipTransferInvite(inviteeEmail, accountId)
-
-                setInviteeEmail('')
-
-                track(
-                  'sent account ownership transfer invite',
-                  invitationDetails,
-                )
-
-                toast.success(
-                  'Your account ownership transfer invitation has been sent.',
-                  {
-                    icon: '✅',
-                  },
-                )
-              } catch (e) {
-                const {data} = e.response
-
-                track('encountered error transfering account ownership', {
-                  ...invitationDetails,
-                  error: data.error,
-                })
-
-                const defaultMessage =
-                  'There was an issue sending the ownership transfer invite. Please contact support@egghead.io if the issue persists.'
-
-                toast.error(data.error || defaultMessage, {
-                  duration: 6000,
-                  icon: '❌',
-                })
-              } finally {
-                setLoading(false)
-              }
+              send({
+                type: 'OPEN_DIALOG',
+                invitationDetails,
+                action: async () => {
+                  await sendOwnershipTransferInvite(inviteeEmail, accountId)
+                },
+                doubleConfirmText: inviteeEmail,
+              })
             }}
           >
             Send Invite
