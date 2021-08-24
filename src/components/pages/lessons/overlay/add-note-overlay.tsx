@@ -3,6 +3,7 @@ import {Switch} from '@headlessui/react'
 import VisuallyHidden from '@reach/visually-hidden'
 import axios from 'axios'
 import readingTime from 'reading-time'
+import {track} from '../../../../utils/analytics'
 
 const AddNoteOverlay: React.FC<{
   onClose: any
@@ -26,7 +27,17 @@ const AddNoteOverlay: React.FC<{
           startTime: currentTime,
           endTime: currentTime + readingTime(text).time / 1000,
         })
-        .then(({data}) => onClose(data))
+        .then(({data}) => {
+          track('add note', {
+            contact: data.user_id,
+            resource: data.resource_id,
+            type: data.type,
+            startTime: data.start_time,
+            endTime: data.end_time,
+            text: data.text,
+          })
+          onClose(data)
+        })
     }
   }
 
