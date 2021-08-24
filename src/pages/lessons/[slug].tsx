@@ -99,7 +99,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {sm, md} = useBreakpoint()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
-  const [newNotes, setNewNotes] = React.useState([])
+  const [newNotes, setNewNotes] = React.useState<any>([])
 
   const playerContainer = React.useRef<any>(null)
   const actualPlayerRef = React.useRef<any>(null)
