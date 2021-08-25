@@ -42,7 +42,7 @@ export default function SearchJamundFerguson({instructor}: {instructor: any}) {
         location="Jamund Ferguson instructor page"
       />
 
-      <section className="xl:px-0 px-5 mt-4">
+      <section className="xl:px-0 px-5 mt-20">
         <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
           More from Jamund
         </h2>
@@ -77,7 +77,7 @@ type FeatureSectionType = {
 
 const FeatureSection = ({resource, location}: FeatureSectionType) => {
   return (
-    <section className="mt-5 sm:mt-5">
+    <section className="sm:mt-5 xl:px-0 px-5">
       <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
         <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
