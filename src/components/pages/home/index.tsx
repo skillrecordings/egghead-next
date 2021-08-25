@@ -71,8 +71,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   return (
     <>
       <div className="mb-32">
-        {console.log(currentCourse)}
-        {console.log(viewer)}
         <div>
           {currentCourse && viewer && (
             <InProgressSection
