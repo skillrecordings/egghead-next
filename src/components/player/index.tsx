@@ -28,6 +28,7 @@ import {
 } from 'components/EggheadPlayer/use-egghead-player'
 import {VideoResource} from 'types'
 import {MutableRefObject, SyntheticEvent} from 'react'
+import AddNoteControl from './add-note-control'
 
 export type VideoResourcePlayerProps = {
   videoResource: VideoResource
@@ -41,6 +42,7 @@ export type VideoResourcePlayerProps = {
   onFullscreenChange?: (isFullscreen: boolean) => void
   onEnded?: () => void
   onVolumeChange?: (event: any) => void
+  onAddNote?: () => void
   newNotes?: any[]
   hidden?: boolean
   className?: string
@@ -57,6 +59,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   onFullscreenChange,
   onLoadStart,
   newNotes,
+  onAddNote,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
@@ -170,15 +173,21 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
               setPlayerPrefs({playbackRate})
             }}
           />
+          <AddNoteControl
+            key="add-note-control"
+            order={11}
+            lesson={videoResource}
+            onAddNote={onAddNote}
+          />
           <DownloadControl
             key="download-control"
-            order={11}
+            order={12}
             lesson={videoResource}
           />
           {videoResource.subtitles_url && (
             <ClosedCaptionButton
               key={videoResource.subtitles_url}
-              order={12}
+              order={13}
               selected={subtitle}
               onChange={(track?: TextTrack) => {
                 const updatedSubtitlePref = track
@@ -201,7 +210,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <FullscreenToggle
             key="fullscreen-toggle"
             fullscreenElement={containerRef?.current}
-            order={13}
+            order={14}
             onFullscreenChange={onFullscreenChange}
           />
         </ControlBar>
