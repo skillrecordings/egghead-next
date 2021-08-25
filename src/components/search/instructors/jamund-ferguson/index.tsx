@@ -81,7 +81,7 @@ const FeatureSection = ({resource, location}: FeatureSectionType) => {
       <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
         <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-            <div className="w-full xl:pr-16">
+            <div className="w-full">
               <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                 <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
                   {resource.path ? (
