@@ -142,7 +142,7 @@ const FeatureSection = ({resource, location}: FeatureSectionType) => {
                     </h2>
                   )}
                   <div>
-                    <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
+                    <Markdown className="leading-relaxed text-gray-700 dark:text-gray-50 mt-4">
                       {resource.description}
                     </Markdown>
                   </div>
