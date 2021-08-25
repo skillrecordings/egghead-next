@@ -2,10 +2,12 @@ import React, {FunctionComponent} from 'react'
 import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, isEmpty} from 'lodash'
+import {map, get, first, isEmpty} from 'lodash'
 
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
+import InProgressSection from 'components/pages/home/in-progress-section'
+
 import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
@@ -23,6 +25,8 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
+  const currentCourse: any = first(progress)
+  const coursesInProgress: any = progress.slice(1, 3)
 
   const video: any = get(homePageData, 'video')
   let featured: any = get(homePageData, 'featured.resources', {})
@@ -66,7 +70,20 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
   return (
     <>
-      <div className="mt-8">
+      <div className="mb-32">
+        {console.log(currentCourse)}
+        {console.log(viewer)}
+        <div>
+          {currentCourse && viewer && (
+            <InProgressSection
+              viewer={viewer}
+              progress={progress}
+              currentCourse={currentCourse}
+              coursesInProgress={coursesInProgress}
+            />
+          )}
+        </div>
+
         <WhatsNew resource={featureWhatsNew} />
 
         <section className="mt-32">
