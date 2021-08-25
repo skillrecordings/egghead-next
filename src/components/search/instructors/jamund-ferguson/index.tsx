@@ -43,7 +43,7 @@ export default function SearchJamundFerguson({instructor}: {instructor: any}) {
       />
 
       <section className="xl:px-0 px-5 mt-20">
-        <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+        <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white text-center">
           More from Jamund
         </h2>
         <div className="flex sm:flex-nowrap flex-wrap justify-center gap-4 mt-4">
