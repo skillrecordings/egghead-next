@@ -90,8 +90,8 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
               <Image
                 src={image_url}
                 alt={title}
-                width={small ? 84 : square_cover_480_url ? 160 : 48}
-                height={small ? 84 : square_cover_480_url ? 160 : 48}
+                width={small ? 84 : square_cover_480_url ? 200 : 48}
+                height={small ? 84 : square_cover_480_url ? 200 : 48}
               />
             </a>
           </Link>
@@ -111,7 +111,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
               >
                 <h3
                   className={`${
-                    small ? 'text-md sm:text-lg' : 'text-lg sm:text-xl'
+                    small ? 'text-md sm:text-lg' : 'text-xl'
                   } font-semibold leading-tight`}
                 >
                   {title}
@@ -124,7 +124,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
           </div>
 
           {isInProgress && (
-            <h2 className="uppercase font-semibold text-xs text-gray-600 dark:text-gray-300 pb-1">
+            <h2 className="uppercase font-semibold text-xs text-gray-500 dark:text-gray-400 pb-2">
               {lessons_left} lessons left
               <span className="lowercase font-normal">
                 {time_left ? ` (${convertTimeWithTitles(time_left)} left)` : ''}
@@ -136,7 +136,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
             <div className="flex items-center space-x-1">
               <Link href={resource_path || '#'}>
                 <a
-                  className="text-teal-500 dark:text-teal-600 flex bg-white rounded-full"
+                  className="text-teal-500 dark:text-teal-600 flex hover:text-teal-600 transition-all hover:scale-110 ease-in-out bg-white rounded-full"
                   onClick={() =>
                     track(`clicked continue watching`, {
                       slug: slug,
@@ -149,14 +149,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
                 </a>
               </Link>
 
-              {/* <div className="relative w-full h-2 bg-gray-200 dark:bg-gray-600 overflow-hidden rounded-sm">
-                <div
-                  style={{width: `${percent_complete}%`}}
-                  className="absolute left-0 top-0 bg-blue-600 h-full"
-                />
-              </div> */}
-
-              <div className="flex relative w-full h-2 bg-gray-200 dark:bg-gray-600 overflow-hidden rounded-sm">
+              <div className="flex relative w-full h-2 overflow-hidden rounded-sm">
                 {allLessons.map((lesson: any) => {
                   const isComplete = completedLessonSlugs.includes(lesson.slug)
                   return (
@@ -166,9 +159,9 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
                         style={{width: `${100 / allLessons.length}%`}}
                         className={`${
                           isComplete
-                            ? 'dark:bg-teal-500 dark:hover:bg-teal-600 bg-teal-400 hover:bg-teal-500'
-                            : 'dark:bg-gray-500 dark:hover:bg-gray-400 bg-gray-200 hover:bg-gray-300'
-                        } h-full border dark:border-gray-800 border-white transition-colors ease-in-out duration-200`}
+                            ? 'dark:bg-teal-400 dark:hover:bg-teal-500 bg-teal-400 hover:bg-teal-500 border dark:border-gray-800 '
+                            : 'dark:bg-gray-500 dark:hover:bg-gray-400 bg-gray-200 border dark:border-gray-800 hover:bg-gray-300 '
+                        } h-full rounded-xl border-white ease-in-out transition-all hover:scale-105 duration-200`}
                       />
                     </Link>
                   )

@@ -18,7 +18,7 @@ const InProgressSection: FunctionComponent<InProgressSectionProps> = ({
   coursesInProgress,
 }) => {
   return (
-    <section className="pt-4 pb-10">
+    <section className="pt-4 pb-12">
       <div className="flex justify-between align-text-top">
         <h2 className="md:text-xl text-lg mb-4 text-left">
           {isEmpty(viewer.name) ? (
