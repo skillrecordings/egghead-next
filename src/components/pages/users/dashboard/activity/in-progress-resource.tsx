@@ -90,8 +90,8 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
               <Image
                 src={image_url}
                 alt={title}
-                width={small ? 72 : square_cover_480_url ? 160 : 48}
-                height={small ? 72 : square_cover_480_url ? 160 : 48}
+                width={small ? 84 : square_cover_480_url ? 160 : 48}
+                height={small ? 84 : square_cover_480_url ? 160 : 48}
               />
             </a>
           </Link>
@@ -111,7 +111,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
               >
                 <h3
                   className={`${
-                    small ? 'text-lg' : 'text-xl'
+                    small ? 'text-md sm:text-lg' : 'text-lg sm:text-xl'
                   } font-semibold leading-tight`}
                 >
                   {title}
