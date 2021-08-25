@@ -6,7 +6,7 @@ import readingTime from 'reading-time'
 import {track} from '../../../../utils/analytics'
 
 const AddNoteOverlay: React.FC<{
-  onClose: any
+  onClose: (newNote: any) => void
   resourceId: string
   currentTime: number
 }> = ({onClose, resourceId, currentTime}) => {
