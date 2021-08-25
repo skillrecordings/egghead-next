@@ -489,6 +489,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     console.debug(`received ended event from player`)
                     send('COMPLETE')
                   }}
+                  onAddNote={() => {
+                    send('ADD_NOTE')
+                  }}
                 />
               </PlayerContainer>
               {spinnerVisible && (
