@@ -53,9 +53,8 @@ export default class Auth {
     this.login = this.login.bind(this)
     this.logout = this.logout.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
-    this.handleCookieBasedAccessTokenAuthentication = this.handleCookieBasedAccessTokenAuthentication.bind(
-      this,
-    )
+    this.handleAccessTokenAuthentication =
+      this.handleAccessTokenAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
     this.refreshUser = this.refreshUser.bind(this)
     this.monitor = this.monitor.bind(this)
@@ -133,7 +132,7 @@ export default class Auth {
     }
   }
 
-  handleCookieBasedAccessTokenAuthentication(
+  handleAccessTokenAuthentication(
     accessToken: string,
     expiresInSeconds: string = SIXTY_DAYS_IN_SECONDS,
   ) {

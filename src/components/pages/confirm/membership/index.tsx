@@ -4,6 +4,8 @@ import {find, isEmpty} from 'lodash'
 import Link from 'next/link'
 import Image from 'next/image'
 import homepageData from 'components/pages/home/homepage-data'
+import Spinner from 'components/spinner'
+import {IconTwitter} from 'components/share'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -12,24 +14,27 @@ type HeaderProps = {
 
 type ConfirmMembershipProps = {
   session: any
-  viewer: any
+  alreadyAuthenticated: boolean
+  currentState: {value: any; context: any; matches: Function}
 }
 
 const Illustration = () => (
-  <Image
-    src={
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1614168840/next.egghead.io/illustrations/3d-objects_2x.png'
-    }
-    width={860 / 5}
-    height={624 / 5}
-    quality={100}
-    alt="eggo astronaut floating in space"
-  />
+  <div>
+    <Image
+      src={
+        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467216/next.egghead.io/eggodex/playful-eggo_2x.png'
+      }
+      width={646 / 3}
+      height={622 / 3}
+      quality={100}
+      alt="welcome to egghead"
+    />
+  </div>
 )
 
 const Heading: React.FC = ({children}) => {
   return (
-    <h1 className="sm:leading-tighter leading-tight sm:text-2xl text-xl font-bold">
+    <h1 className="sm:leading-tighter leading-tight sm:text-2xl text-xl font-bold text-center">
       {children}
     </h1>
   )
@@ -39,10 +44,12 @@ const PrimaryMessage: React.FC = ({children}) => {
   return <div className="dark:text-gray-200 text-gray-800">{children}</div>
 }
 
+const tweet = `https://twitter.com/intent/tweet/?text=Just joined @eggheadio to level up my development skills.`
+
 const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
   return (
     <header className="w-full h-full flex flex-col items-start justify-center">
-      <div className="flex flex-col justify-center space-y-6 max-w-screen-sm">
+      <div className="flex flex-col justify-center items-center space-y-6">
         <Illustration />
         <Heading>{heading}</Heading>
         <PrimaryMessage>{primaryMessage}</PrimaryMessage>
@@ -53,16 +60,28 @@ const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
 
 const Support: React.FC = () => {
   return (
-    <div className="border-t dark:border-gray-800 border-gray-100 pt-16">
-      <div className="sm:max-w-xs">
+    <div className="border-t dark:border-gray-800 border-gray-100 pt-16 sm:grid grid-cols-2 gap-5">
+      <div className="">
         <h4 className="text-lg font-bold pb-3">Support</h4>
-        <p className="prose dark:prose-dark">
+        <p className="prose dark:prose-dark max-w-none">
           If you have any issues, please email support{' '}
           <strong>
             <a href="mailto:support@egghead.io">support@egghead.io</a>
           </strong>{' '}
           and we will help you as soon as possible.
         </p>
+      </div>
+      <div className="">
+        <h4 className="text-lg font-bold pb-3">Share</h4>
+        <a
+          href={tweet}
+          rel="noopener noreferrer"
+          target="_blank"
+          className="mt-1 text-white rounded-md text-sm inline-flex items-center px-3 py-2 bg-blue-500 hover:bg-blue-600"
+        >
+          <IconTwitter className="w-5" />{' '}
+          <span className="pl-2">Share with your friends!</span>
+        </a>
       </div>
     </div>
   )
@@ -73,22 +92,21 @@ const PopularTopics: React.FC = () => {
 
   return (
     <div>
-      <h4 className="text-lg font-semibold pb-2">
+      <h4 className="text-lg font-semibold pb-4 text-center">
         Start with one of these popular topics
       </h4>
-      <ul className="grid lg:grid-cols-8 sm:grid-cols-4 grid-cols-2 gap-3">
+      <ul className="grid sm:grid-cols-4 grid-cols-2 gap-3">
         {topics.resources.map((topic: any) => (
           <li key={topic.path}>
             <Link href={topic.path}>
-              <a className="px-6 py-5 rounded-lg dark:bg-gray-800 bg-white dark:hover:bg-gray-700 hover:shadow-lg border dark:border-transparent border-gray-200 border-opacity-50 flex flex-col items-center justify-center">
+              <a className="px-6 pt-6 pb-5 rounded-lg dark:bg-gray-800 bg-white dark:hover:bg-gray-700 hover:shadow-lg border dark:border-transparent border-gray-200 border-opacity-50 flex flex-col items-center justify-center">
                 <Image
                   src={topic.image}
                   alt={topic.title}
                   width={40}
                   height={40}
-                  className="mb-2"
                 />
-                {topic.title}
+                <div className="pt-3">{topic.title}</div>
               </a>
             </Link>
           </li>
@@ -141,36 +159,41 @@ const LastResource = () => {
 
 const Callout: React.FC = ({children}) => {
   return (
-    <div className="sm:p-6 p-5 border dark:border-gray-800 border-rose-100 rounded-lg mb-5 inline-flex items-center space-x-3">
+    <div className="sm:p-6 p-5 border border-gray-200 rounded-lg mb-5 inline-flex items-center space-x-3 w-full">
       {children}
     </div>
   )
 }
 
+const StartLearning: React.FC = () => {
+  return (
+    <Link href="/q">
+      <a className="text-white bg-blue-500 border-0 py-3 px-5 rounded-md hover:bg-blue-600">
+        Browse Catalog
+      </a>
+    </Link>
+  )
+}
+
 export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   session,
-  viewer,
+  alreadyAuthenticated,
+  currentState,
 }) => {
   return (
     <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
-      {viewer ? (
+      {alreadyAuthenticated ? (
         <>
           <Header
             heading={<>Thank you so much for joining egghead!</>}
             primaryMessage={
               <>
-                <p className="text-lg">
+                <p className="text-lg text-center">
                   We've charged your credit card{' '}
-                  <strong className="dark:text-yellow-300 text-rose-500">
-                    ${session.amount} for your egghead membership
-                  </strong>{' '}
-                  and sent a receipt to{' '}
-                  <strong className="dark:text-yellow-300 text-rose-500">
-                    {session.email}
-                  </strong>
-                  .
+                  <strong>${session.amount} for your egghead membership</strong>{' '}
+                  and sent a receipt to <strong>{session.email}</strong>.
                 </p>
-                <p className="text-lg pt-5">
+                <p className="text-lg pt-5 text-center">
                   You can now learn from all premium resources on egghead,
                   including courses, talks, podcasts, articles, and more. Enjoy!
                 </p>
@@ -180,6 +203,9 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
           <div className="space-y-10">
             <PopularTopics />
             <LastResource />
+            <div className="flex justify-center">
+              <StartLearning />
+            </div>
           </div>
           <Support />
         </>
@@ -189,24 +215,60 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
             heading={<>Thank you so much for joining egghead! </>}
             primaryMessage={
               <>
-                <Callout>
-                  <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
-                  <p className="text-lg">
-                    Please check your inbox to{' '}
-                    <strong>confirm your email address</strong>.
-                  </p>
-                </Callout>
-                <p className="text-lg">
-                  We've charged your credit card{' '}
-                  <strong className="dark:text-yellow-300 text-rose-500">
-                    ${session.amount} for an egghead membership
-                  </strong>{' '}
-                  and sent an email to{' '}
-                  <strong className="dark:text-yellow-300 text-rose-500">
-                    {session.email}
-                  </strong>{' '}
-                  so you can log in and access your membership.
-                </p>
+                {currentState.matches('pending') && (
+                  <Callout>
+                    <Spinner color="gray-700" />
+                    <p className="text-lg">Setting up your account...</p>
+                  </Callout>
+                )}
+                {currentState.matches('pollingExpired') && (
+                  <>
+                    <Callout>
+                      <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
+                      <p className="text-lg">
+                        Please check your inbox ({session.email}) to{' '}
+                        <strong>confirm your email address</strong> and{' '}
+                        <strong>access your membership</strong>.
+                      </p>
+                    </Callout>
+                    <p className="text-lg">
+                      We've charged your credit card{' '}
+                      <strong>
+                        ${session.amount} for an egghead membership
+                      </strong>{' '}
+                      and sent an email along with a receipt to{' '}
+                      <strong>{session.email}</strong> so you can log in and
+                      access your membership.
+                    </p>
+                  </>
+                )}
+                {currentState.matches('authTokenRetrieved') && (
+                  <>
+                    <Callout>
+                      <p className="text-lg w-full text-center">
+                        <span role="img" aria-label="party popper">
+                          🎉
+                        </span>{' '}
+                        Your egghead membership is ready to go!
+                      </p>
+                    </Callout>
+                    <p className="text-lg pb-8 border-b border-gray-100 text-center max-w-lg mx-auto">
+                      We've charged your credit card{' '}
+                      <strong>
+                        ${session.amount} for an egghead membership
+                      </strong>{' '}
+                      and sent a receipt to <strong>{session.email}</strong>.
+                      Please check your inbox to{' '}
+                      <strong>confirm your email address</strong>.
+                    </p>
+                    <div className="pt-8">
+                      <PopularTopics />
+                    </div>
+                    <div className="flex justify-center pt-6">
+                      <StartLearning />
+                    </div>
+                  </>
+                )}
               </>
             }
           />

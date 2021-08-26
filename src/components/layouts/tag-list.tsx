@@ -19,10 +19,7 @@ const TagList: FunctionComponent<{
       {!isEmpty(tags) && (
         <ul className={className}>
           {tags.map((tag: any, index: number) => (
-            <li
-              key={index}
-              className="inline-flex items-center mr-4 mt-2 sm:mt-3"
-            >
+            <li key={index} className="inline-flex items-center mr-4 mt-0">
               <Link href={`/q/${tag.name}`}>
                 <a
                   onClick={() => {

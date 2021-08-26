@@ -9,7 +9,7 @@ import Feedback from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 import useCio from 'hooks/use-cio'
-import ProjectClubCTA from 'components/survey/project-club'
+import PortfolioFoundationsCTA from 'components/survey/portfolio-foundations'
 import OnlinePresenceCTA from 'components/survey/online-presence-cta'
 import {HeaderButtonShapedLink} from './header-button-shaped-link'
 import SearchBar from './search-bar'
@@ -51,8 +51,8 @@ const Header: FunctionComponent = () => {
     case !subscriber?.attributes?.online_presence:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
       break
-    case viewer?.is_pro && !subscriber?.attributes?.project_club:
-      ActiveCTA = () => <ProjectClubCTA variant="header" />
+    case viewer?.is_pro && !subscriber?.attributes?.portfolio_foundations:
+      ActiveCTA = () => <PortfolioFoundationsCTA variant="header" />
       break
     case !subscriber && !loadingSubscriber:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
