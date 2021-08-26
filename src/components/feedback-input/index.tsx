@@ -16,23 +16,71 @@ import Hearteyes from './images/Hearteyes'
 import NeutralFace from './images/NeutralFace'
 import useCio from 'hooks/use-cio'
 
+// supportingInformation is a ReactFragment so that we can wrap support@egghead.io in an anchor tag
+type FeedbackCategory = {
+  id: number
+  category: string
+  label: string
+  placeholderText: string
+  supportingInformation: React.ReactFragment | string
+  buttonText: string
+}
+
+type FeedbackSelectCategoryProps = {
+  selectedCategory: FeedbackCategory
+  setSelectedCategory: any
+}
+
 // Feedback categories select menu
 
-const feedbackCategories = [
-  {id: 1, category: 'general', label: 'General product feedback'},
-  {id: 2, category: 'account', label: 'Help with my account or subscription'},
-  {id: 3, category: 'bug', label: 'Report a bug'},
+const feedbackCategories: FeedbackCategory[] = [
+  {
+    id: 1,
+    category: 'general',
+    label: 'General product feedback',
+    placeholderText: 'Tell us how you feel about it...',
+    supportingInformation:
+      'We read all feedback submissions and take your opinion into account when designing product improvements.',
+    buttonText: 'Send feedback',
+  },
+  {
+    id: 2,
+    category: 'account',
+    label: 'Help with my account or subscription',
+    placeholderText: 'Tell us what you need help with...',
+    supportingInformation: (
+      <>
+        You can also get help by emailing{' '}
+        <a
+          href="mailto:support@egghead.io"
+          style={{textDecoration: 'underline'}}
+        >
+          support@egghead.io
+        </a>
+        . We'll get back to you as soon as we can.
+      </>
+    ),
+    buttonText: 'Send support request',
+  },
+  {
+    id: 3,
+    category: 'bug',
+    label: 'Report a bug',
+    placeholderText: 'Tell us what the problem is...',
+    supportingInformation:
+      "We'll pass the message onto our dev team. Thanks for helping us make egghead work well for everyone!",
+    buttonText: 'Send bug report',
+  },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function FeedbackSelectCategory() {
-  const [selectedCategory, setSelectedCategory] = React.useState(
-    feedbackCategories[0],
-  )
-
+function FeedbackSelectCategory({
+  selectedCategory,
+  setSelectedCategory,
+}: FeedbackSelectCategoryProps) {
   return (
     <Listbox value={selectedCategory} onChange={setSelectedCategory}>
       {({open}) => (
@@ -70,18 +118,18 @@ function FeedbackSelectCategory() {
                     }
                     value={category}
                   >
-                    {({selectedCategory, active}) => (
+                    {({active, selected}) => (
                       <>
                         <span
                           className={classNames(
-                            selectedCategory ? 'font-semibold' : 'font-normal',
+                            selected ? 'font-semibold' : 'font-normal',
                             'block truncate',
                           )}
                         >
                           {category.label}
                         </span>
 
-                        {selectedCategory ? (
+                        {selected ? (
                           <span
                             className={classNames(
                               active ? 'text-white' : 'text-blue-600',
@@ -147,6 +195,8 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
     success: false,
     errorMessage: null,
   })
+  const [selectedCategory, setSelectedCategory] =
+    React.useState<FeedbackCategory>(feedbackCategories[0])
 
   const {subscriber, cioIdentify} = useCio()
 
@@ -262,7 +312,10 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                 <h4 className="text-lg mb-4 font-semibold">
                   We'd love to hear from you.
                 </h4>
-                <FeedbackSelectCategory />
+                <FeedbackSelectCategory
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                />
                 <Formik
                   initialValues={{feedback: '', emoji: ''}}
                   enableReinitialize={true}
@@ -285,14 +338,13 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                           component="textarea"
                           name="feedback"
                           id="feedback"
-                          placeholder="I need help with..."
+                          placeholder={selectedCategory.placeholderText}
                           aria-label="Enter your feedback"
                         />
 
                         {/* Supporting text below input */}
                         <div className="text-sm text-gray-500 mt-1 mb-4">
-                          We read all feedback submissions and take your opinion
-                          into account when designing product improvements.
+                          {selectedCategory.supportingInformation}
                         </div>
 
                         {/* Emoji picker and submit button */}
@@ -364,7 +416,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                                 <span>Sending...</span>
                               </div>
                             ) : (
-                              'Send feedback'
+                              selectedCategory.buttonText
                             )}
                           </button>
                         </div>
