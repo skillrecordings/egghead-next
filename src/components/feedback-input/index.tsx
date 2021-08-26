@@ -88,6 +88,7 @@ function FeedbackSelectCategory({
             What kind of feedback would you like to leave?
           </Listbox.Label>
           <div className="mt-1 relative">
+            {/* @ts-expect-error */}
             <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
               <span className="block truncate text-black">
                 {selectedCategory.label}
@@ -99,7 +100,7 @@ function FeedbackSelectCategory({
                 />
               </span>
             </Listbox.Button>
-
+            {/* @ts-ignore */}
             <Transition
               show={open}
               as={React.Fragment}
@@ -107,8 +108,10 @@ function FeedbackSelectCategory({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
+              {/* @ts-expect-error */}
               <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                 {feedbackCategories.map((category) => (
+                  /* @ts-expect-error */
                   <Listbox.Option
                     key={category.id}
                     className={({active}) =>
