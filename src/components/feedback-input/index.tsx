@@ -223,6 +223,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
         feedback: {
           url: window.location.toString(),
           site: `egghead-next`,
+          category: selectedCategory.category,
           comment: values.feedback,
           user: user,
           emotion: slackEmojiCode,
@@ -230,6 +231,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       })
       .then(() => {
         track(`sent feedback`, {
+          category: selectedCategory.category,
           comment: values.feedback,
           emotion: slackEmojiCode,
           url: window.location.toString(),
