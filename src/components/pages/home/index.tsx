@@ -11,9 +11,8 @@ import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import axios from 'utils/configured-axios'
 import VideoCard from 'components/pages/home/video-card'
-import WhatsNew from 'pages/new'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
-
+import Jumbotron from 'components/pages/home/jumbotron'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
@@ -42,6 +41,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   )
 
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
+
   const concurrentReactTalk: any = get(
     homePageData,
     'react-concurrent-react-from-scratch',
@@ -67,7 +67,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   return (
     <>
       <div className="mt-8">
-        <WhatsNew resource={featureWhatsNew} />
+        <WhatsNewPage resource={featureWhatsNew} />
 
         <section className="mt-32">
           <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white text-center">
@@ -429,6 +429,59 @@ const EventSchedule: React.FunctionComponent = () => {
         />
       </>
     </Card>
+  )
+}
+
+const WhatsNewPage: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}) => {
+  const {primary, secondary} = resource
+  const [jumbotron, secondPrimary, thirdPrimary] = primary.resources
+  const [
+    firstSecondaryResource,
+    secondSecondaryResource,
+    thirdSecondaryResource,
+  ] = secondary.resources
+
+  return (
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
+      <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
+        What's New
+      </h2>
+      <Jumbotron resource={jumbotron} textColor="text-green-400" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <div className="h-full grid gap-4">
+          <HorizontalResourceCard
+            className="w-full"
+            resource={secondPrimary}
+            location={location}
+          />
+          <HorizontalResourceCard
+            className="w-full"
+            resource={thirdPrimary}
+            location={location}
+          />
+        </div>
+        <div className="grid gap-4">
+          <HorizontalResourceCard
+            className="h-auto flex"
+            resource={firstSecondaryResource}
+            location={location}
+          />
+          <HorizontalResourceCard
+            className="w-full flex"
+            resource={secondSecondaryResource}
+            location={location}
+          />
+          <HorizontalResourceCard
+            className="w-full flex"
+            resource={thirdSecondaryResource}
+            location={location}
+          />
+        </div>
+      </div>
+    </section>
   )
 }
 
