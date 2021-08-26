@@ -16,7 +16,6 @@ import Hearteyes from './images/Hearteyes'
 import NeutralFace from './images/NeutralFace'
 import useCio from 'hooks/use-cio'
 
-// supportingInformation is a ReactFragment so that we can wrap support@egghead.io in an anchor tag
 type FeedbackCategory = {
   id: number
   category: string
@@ -425,8 +424,8 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         <ErrorMessage
                           name="feedback"
                           render={(msg) => (
-                            <div className="mt-4 flex items-start bg-orange-100 rounded">
-                              <div className="py-4 px-6 flex items-center">
+                            <div className="mt-4 flex items-start bg-orange-100 dark:bg-gray-800 rounded">
+                              <div className="py-4 px-6 flex items-center text-black dark:text-gray-200">
                                 {msg}
                                 {state.errorMessage &&
                                   ` & ${state.errorMessage}`}
