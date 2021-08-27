@@ -124,6 +124,29 @@ export const reduxFeaturesQuery = groq`*[_type == 'resource' && slug.current == 
 }
 `
 
+export const staffPicksFeaturesQuery = groq`*[_type == 'resource' && slug.current == "staff-picks-features"][0]{
+  title,
+  subTitle,
+  path,
+  resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	},
+  related[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	}
+}
+`
+
 const featureQuery = groq`
 {
   'featureDigitalGardening': ${digitalGardeningQuery},
@@ -133,6 +156,7 @@ const featureQuery = groq`
   'javascriptFeatures': ${javascriptFeaturesQuery},
   'cssFeatures': ${cssFeaturesQuery},
   'reduxFeatures': ${reduxFeaturesQuery},
+  'staffPicksFeatures': ${staffPicksFeaturesQuery},
 }
 `
 

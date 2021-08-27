@@ -21,16 +21,12 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
 
-  const video: any = get(homePageData, 'video')
-  let featured: any = get(homePageData, 'featured.resources', {})
   const devEssentials: any = get(homePageData, 'devEssentials')
   const freeCourses: any = get(homePageData, 'freeCourses')
   const getStarted: any = get(homePageData, 'getStarted')
   const aws: any = get(homePageData, 'aws')
   const wordpressWithGraphql: any = get(homePageData, 'cms')
   const portfolioProjectOne: any = get(homePageData, 'portfolioProjectOne')
-  const typescriptFeature: any = get(homePageData, 'typescriptFeature')
-  const reactFeature: any = get(homePageData, 'reactFeature')
   const topics: any = get(homePageData, 'topics')
   const portfolioProjectTwo: any = get(homePageData, 'portfolioProjectTwo')
   const featureDigitalGardening: any = get(
@@ -42,6 +38,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
   const cssFeatures: any = get(homePageData, 'cssFeatures')
   const reduxFeatures: any = get(homePageData, 'reduxFeatures')
+  const staffPicksFeatures: any = get(homePageData, 'staffPicksFeatures')
 
   React.useEffect(() => {
     if (viewer) {
@@ -194,31 +191,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Staff Picks and Favorites
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
-            {map(featured, (resource) => {
-              return (
-                <VerticalResourceCard
-                  key={resource.path}
-                  resource={resource}
-                  location={location}
-                  className="text-center"
-                />
-              )
-            })}
-          </div>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-            <HorizontalResourceCard
-              resource={reactFeature}
-              location={location}
-            />
-            <HorizontalResourceCard
-              resource={typescriptFeature}
-              location={location}
-            />
-          </div>
+          <FeatureRow resource={staffPicksFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -393,33 +366,47 @@ const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
           {resource.subTitle}
         </h2>
 
-        <Link href={resource.path}>
-          <a
-            className="inline-flex justify-center items-center px-4 py-2 rounded-md border border-gray-500 hover:border-blue-700 text-gray-500 transition-all hover:text-white hover:bg-blue-700 ease-in-out duration-200"
-            onClick={() => {
-              track('clicked resource', {
-                resource: resource.path,
-                location,
-              })
-            }}
-          >
-            Full Catalogue →
-          </a>
-        </Link>
+        {resource.path && (
+          <Link href={resource.path}>
+            <a
+              className="inline-flex justify-center items-center px-4 py-2 rounded-md border border-gray-500 hover:border-blue-700 text-gray-500 transition-all hover:text-white hover:bg-blue-700 ease-in-out duration-200"
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  location,
+                })
+              }}
+            >
+              Full Catalogue →
+            </a>
+          </Link>
+        )}
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
-        {map(resource.resources, (resource) => {
-          return (
-            <VerticalResourceCard
-              className="col-span-3 sm:col-span-1 text-center shadow"
-              key={resource.path}
-              resource={resource}
-              location={location}
-            />
-          )
-        })}
-      </div>
+      {resource.resources && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
+          {map(resource.resources, (resource) => {
+            return (
+              <VerticalResourceCard
+                className="col-span-3 sm:col-span-1 text-center shadow-sm"
+                key={resource.path}
+                resource={resource}
+                location={location}
+              />
+            )
+          })}
+        </div>
+      )}
+
+      {resource.related && (
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+          {map(resource.related, (resource) => {
+            return (
+              <HorizontalResourceCard resource={resource} location={location} />
+            )
+          })}
+        </div>
+      )}
     </section>
   )
 }

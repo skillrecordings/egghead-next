@@ -40,60 +40,6 @@ const homepageData = {
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
-  video: {
-    id: 'video',
-    name: 'Successfully Market Your Work',
-    title: 'Marketing Tactics for Software Developers',
-    description: `Developers understand that marketing is beneficial, but can be put off by marketing tactics that seem more focused on making a sale than with sharing something they need or value. But self-promotion doesn’t have to be self-centered, and marketing content can, and should, be relevant to what software developers have created.
-      `,
-    instructor: 'Stephanie Morillo',
-    instructor_path: '/q/resources-by-stephanie-morillo',
-    image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1623277905/egghead-next-ebombs/egghead-marketing-tactics-for-software-developers/cover.png',
-    path: '/talks/egghead-marketing-tactics-for-software-developers',
-  },
-  featured: {
-    id: 'featured',
-    title: 'Featured',
-    resources: [
-      {
-        name: 'Build Accessible Forms',
-        title: 'Accessible Cross-Browser CSS Form Styling',
-        byline: 'Stephanie Eckles・1h 52m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/425/628/full/EGH_accessible-css.png',
-        path: '/courses/accessible-cross-browser-css-form-styling-7297',
-        slug: 'accessible-cross-browser-css-form-styling-7297',
-      },
-      {
-        name: 'Learn Serverless',
-        title: 'Build Apps with Serverless Functions and Hasura',
-        byline: 'Jason Lengstorf・1h 27m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/414/202/thumb/EGH_NetlifyServerlessFunction_Final.png',
-        path: '/playlists/build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
-        slug: 'build-a-corgi-up-boop-web-app-with-netlify-serverless-functions-and-hasura-553c',
-      },
-      {
-        id: 'dom-events',
-        byline: 'Alex Reardon・2h 9m・Course',
-        path: '/courses/the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
-        slug: 'the-ultimate-guide-for-understanding-dom-events-6c0c0d23',
-        title: 'Your Ultimate Guide to Understanding DOM Events',
-        name: 'Master DOM Events',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/603/full/DOM_424_2x.png',
-        instructor: {
-          name: 'Alex Reardon',
-          slug: 'alex-reardon',
-          path: '/q/resources-by-alex-reardon',
-          twitter: 'alexandereardon',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/213/square_128/profile-500.jpg',
-        },
-      },
-    ],
-  },
   getStarted: {
     id: 'getStarted',
     name: 'Build real-world applications ',
@@ -408,30 +354,6 @@ const homepageData = {
     image:
       'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
     path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-  },
-  typescriptFeature: {
-    id: 'typescriptFeature',
-    name: 'Learn New language features',
-    byline: 'Marius Schulz・1h 14m・Course',
-    description:
-      "This course will teach you these new language features TypeScript has to offer. You'll use optional chaining, handle undefined behavior with the unknown type and more!",
-    path: '/courses/advanced-typescript-fundamentals-579c174f',
-    slug: 'advanced-typescript-fundamentals-579c174f',
-    title: 'Advanced TypeScript Fundamentals',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/433/579/full/typescript.png',
-  },
-  reactFeature: {
-    id: 'reactFeature',
-    name: 'Beginners Hands-On Project',
-    byline: 'Chris Achard・14m・Course',
-    description:
-      'This course gets you up and running with react in under a minute by using codesandbox.io to skip the painful process of setting up your dev environment.',
-    path: '/courses/react-crash-course-with-hooks-ca06',
-    slug: 'react-crash-course-with-hooks-ca06',
-    title: 'React Crash Course with Hooks',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/365/616/full/react-crash-course-hooks.png',
   },
   learnWithKent: [
     {
