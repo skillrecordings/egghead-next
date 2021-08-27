@@ -241,7 +241,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_128/typescriptlang.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_64/typescriptlang.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_32/typescriptlang.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/advanced-typescript-fundamentals-579c174f?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-modern-user-interface-with-chakra-ui-fac68106?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/languages/typescript",
     "path": "/browse/languages/typescript",
     "search_url": "https://app.egghead.io/search?topic=typescript"
@@ -396,6 +396,24 @@
     "search_url": "https://app.egghead.io/search?topic=svelte"
   },
   {
+    "id": 1299,
+    "label": "Supabase",
+    "name": "supabase",
+    "description": "Supabase is an open source Firebase alternative. A service to:\n\n- Listen to database changes.\n- Query your tables, including filtering, pagination, and deeply nested relationships (like GraphQL).\n- Create, update, and delete rows.\n- Manage your users and their permissions.\n- Interact with your database using a simple UI.\n\nSupabase is not a 1-to-1 mapping of Firebase. Most notably, Supabase uses Postgres rather than a NoSQL store. ",
+    "slug": "supabase",
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/thumb/supabase-logo-icon_1.png",
+    "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/thumb/supabase-logo-icon_1.png",
+    "image_480_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_480/supabase-logo-icon_1.png",
+    "image_280_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_280/supabase-logo-icon_1.png",
+    "image_256_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_256/supabase-logo-icon_1.png",
+    "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_128/supabase-logo-icon_1.png",
+    "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_64/supabase-logo-icon_1.png",
+    "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_32/supabase-logo-icon_1.png",
+    "http_url": "https://app.egghead.io/browse/frameworks/supabase",
+    "path": "/browse/frameworks/supabase",
+    "search_url": "https://app.egghead.io/search?topic=supabase"
+  },
+  {
     "id": 1294,
     "label": "stripe",
     "name": "stripe",
@@ -465,7 +483,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/057/square_128/scsslogo.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/057/square_64/scsslogo.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/057/square_32/scsslogo.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/create-a-landing-page-with-css-grid-and-flexbox-6048?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/html-css-and-sass-b06a?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/languages/scss",
     "path": "/browse/languages/scss",
     "search_url": "https://app.egghead.io/search?topic=scss"
@@ -688,7 +706,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/square_128/redux.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/square_64/redux.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/square_32/redux.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/modernizing-a-legacy-redux-application-with-react-hooks-c528?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/modern-redux-with-redux-toolkit-rtk-and-typescript-64f243c8?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/redux",
     "path": "/browse/libraries/redux",
     "search_url": "https://app.egghead.io/search?topic=redux"
@@ -726,7 +744,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_128/recoil.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_64/recoil.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/298/square_32/recoil.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/manage-react-state-with-recoiljs-70b5?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/manage-react-state-with-recoil-fe987643?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/recoil",
     "path": "/browse/libraries/recoil",
     "search_url": "https://app.egghead.io/search?topic=recoil"
@@ -856,7 +874,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_128/react.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_64/react.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_32/react.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/manage-application-state-with-jotai-atoms-2c3a29f0?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-modern-user-interface-with-chakra-ui-fac68106?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/react",
     "path": "/browse/frameworks/react",
     "search_url": "https://app.egghead.io/search?topic=react"
@@ -995,7 +1013,7 @@
     "id": 1287,
     "label": "Prisma",
     "name": "prisma",
-    "description": "Prisma is an open-source database toolkit. It replaces traditional ORMs and makes database access easy with an auto-generated query builder for TypeScript & Node.js.",
+    "description": "Prisma is a next-generation open-source ORM For Node.js and TypeScript that helps developers build faster and make fewer errors.\n\nIt supports the following databases: PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, and more recently, MongoDB (Preview).\n\nPrisma provides a complete toolkit:\n\n- Prisma Client: Auto-generated and type-safe database client\n- Prisma Migrate: Declarative data modeling and customizable migrations\n- Prisma Studio: Modern UI to view and edit data\n",
     "slug": "prisma",
     "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/287/thumb/prismaHD.png",
     "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/287/thumb/prismaHD.png",
@@ -1005,7 +1023,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/287/square_128/prismaHD.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/287/square_64/prismaHD.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/287/square_32/prismaHD.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-full-stack-app-with-prisma-2-7c81?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-backend-with-prisma-in-a-typescript-node-project-ca6628d3?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/prisma",
     "path": "/browse/libraries/prisma",
     "search_url": "https://app.egghead.io/search?topic=prisma"
@@ -1024,7 +1042,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_128/postgres.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_64/postgres.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/053/square_32/postgres.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/advanced-sql-for-professional-developers?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/postgres",
     "path": "/browse/libraries/postgres",
     "search_url": "https://app.egghead.io/search?topic=postgres"
@@ -1313,7 +1331,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_128/nextjs.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_64/nextjs.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_32/nextjs.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/create-contextual-video-analysis-app-with-nextjs-and-symbl-ai-4efb?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-modern-user-interface-with-chakra-ui-fac68106?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/next",
     "path": "/browse/libraries/next",
     "search_url": "https://app.egghead.io/search?topic=next"
@@ -1770,7 +1788,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_128/javascriptlang.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_64/javascriptlang.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_32/javascriptlang.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/web-frameworks-in-60-seconds-964d25d0?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/javascript",
     "path": "/browse/frameworks/javascript",
     "search_url": "https://app.egghead.io/search?topic=javascript"
