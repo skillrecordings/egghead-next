@@ -160,6 +160,30 @@ export const typescriptFeaturesQuery = groq`*[_type == 'resource' && slug.curren
 }
 `
 
+export const kcdFeaturesQuery = groq`*[_type == 'resource' && slug.current == "kent-c-dodds-features"][0]{
+  title,
+  subTitle,
+  path,
+  name,
+  resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	},
+  related[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	}
+}
+`
+
 const featureQuery = groq`
 {
   'featureDigitalGardening': ${digitalGardeningQuery},
@@ -170,6 +194,7 @@ const featureQuery = groq`
   'cssFeatures': ${cssFeaturesQuery},
   'reduxFeatures': ${reduxFeaturesQuery},
   'typescriptFeatures': ${typescriptFeaturesQuery},
+  'kcdFeatures': ${kcdFeaturesQuery},
 }
 `
 

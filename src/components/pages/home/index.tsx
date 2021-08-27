@@ -36,6 +36,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const cssFeatures: any = get(homePageData, 'cssFeatures')
   const reduxFeatures: any = get(homePageData, 'reduxFeatures')
   const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
+  const kcdFeatures: any = get(homePageData, 'kcdFeatures')
 
   React.useEffect(() => {
     if (viewer) {
@@ -67,7 +68,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+          <InstructorFeatureRow resource={kcdFeatures} />
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <h2 className="text-xl font-bold mb-3 dark:text-white">
             Popular Courses & Topics
           </h2>
           <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
@@ -189,43 +194,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-20 sm:mt-24">
           <FeatureRow resource={typescriptFeatures} />
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Learn React with Kent
-          </h2>
-          <div className="grid lg:grid-cols-4 grid-cols-1 gap-4">
-            {get(homePageData, 'learnWithKent').map((i: any) => (
-              <VerticalResourceCard
-                key={i.path}
-                resource={i}
-                location={location}
-                className="text-center"
-              />
-            ))}
-            <ExternalTrackedLink
-              eventName="clicked epic react banner"
-              params={{location}}
-              href="https://epicreact.dev"
-              target="_blank"
-              rel="noopener"
-              className="block"
-            >
-              <div className="overflow-hidden flex items-center justify-center rounded-lg">
-                <Image
-                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-home_2x.jpg"
-                  // 25% off
-                  // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
-                  alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-                  width={704}
-                  height={836}
-                  quality={100}
-                  className="rounded-lg hover:scale-[102%] ease-in-out duration-500"
-                />
-              </div>
-            </ExternalTrackedLink>
-          </div>
         </section>
       </div>
     </>
@@ -369,6 +337,88 @@ const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
               />
             )
           })}
+        </div>
+      )}
+
+      {resource.related && (
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
+          {map(resource.related, (resource) => {
+            return (
+              <HorizontalResourceCard
+                resource={resource}
+                location={location}
+                className="m-0"
+              />
+            )
+          })}
+        </div>
+      )}
+    </section>
+  )
+}
+
+const InstructorFeatureRow: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}) => {
+  return (
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
+      <div className="flex mb-4 items-center">
+        <h2 className="flex-1 md:text-xl text-lg font-bold dark:text-white">
+          {resource.subTitle}
+        </h2>
+
+        {resource.path && (
+          <Link href={resource.path}>
+            <a
+              className="text-base font-medium transition ease-in-out duration-150 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 py-2 px-3 text-blue-500"
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  location,
+                })
+              }}
+            >
+              Browse more {resource.name && resource.name} →
+            </a>
+          </Link>
+        )}
+      </div>
+
+      {resource.resources && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-4">
+          {map(resource.resources, (resource) => {
+            return (
+              <VerticalResourceCard
+                className="col-span-3 sm:col-span-1 text-center shadow-sm"
+                key={resource.path}
+                resource={resource}
+                location={location}
+              />
+            )
+          })}
+
+          <ExternalTrackedLink
+            eventName="clicked epic react banner"
+            params={{location}}
+            href="https://epicreact.dev"
+            target="_blank"
+            rel="noopener"
+            className="block"
+          >
+            <div className="overflow-hidden flex items-center justify-center rounded-lg">
+              <Image
+                src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-home_2x.jpg"
+                // 25% off
+                // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
+                alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
+                width={704}
+                height={836}
+                quality={100}
+                className="rounded-lg hover:scale-[102%] ease-in-out duration-500"
+              />
+            </div>
+          </ExternalTrackedLink>
         </div>
       )}
 
