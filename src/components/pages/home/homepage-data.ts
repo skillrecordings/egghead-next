@@ -328,59 +328,6 @@ const homepageData = {
       },
     ],
   },
-  cms: {
-    id: 'cms',
-    name: 'Content Management System',
-    title: 'Build a Headless Content Management System',
-    path: '/playlists/headless-wordpress-4a14',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/410/100/full/Headless-Wordpress.png',
-    byline: 'Kevin Cunningham・59m・Course',
-  },
-  portfolioProjectOne: {
-    id: 'portfolioProjectOne',
-    name: 'Build Serverless Applications',
-    title: 'Build a Geolocation Data Engine with Cloudflare Workers',
-    path: '/courses/introduction-to-cloudflare-workers-5aa3',
-    image:
-      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/full/EGH_IntroCloudFlareWorkers_Final.png',
-    byline: 'Kristian Freeman',
-  },
-  portfolioProjectTwo: {
-    id: 'portfolioProjectTwo',
-    title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-    name: 'Accept Payments and Sell Products',
-    byline: 'Colby Fayock',
-    image:
-      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613386915/next.egghead.io/resources/create-an-ecommerce-store-with-next-js-and-stripe-checkout/course_2x.png',
-    path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-  },
-  learnWithKent: [
-    {
-      title: 'Simplify React Apps with React Hooks',
-      byline: 'Kent C. Dodds・38m・Course',
-      path: '/courses/simplify-react-apps-with-react-hooks',
-      slug: 'simplify-react-apps-with-react-hooks',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/510/full/EGH_SimplifyHooks_Final.png',
-    },
-    {
-      title: 'Use Suspense to Simplify Your Async UI',
-      byline: 'Kent C. Dodds・1h 26m・Course',
-      path: '/courses/use-suspense-to-simplify-your-async-ui',
-      slug: 'use-suspense-to-simplify-your-async-ui',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/509/full/SuspenseAsyncUI_1000.png',
-    },
-    {
-      title: "The Beginner's Guide to React",
-      byline: 'Kent C. Dodds・2h 29m・Course',
-      path: '/courses/the-beginner-s-guide-to-react',
-      slug: 'the-beginner-s-guide-to-react',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/490/full/EGH_BeginnersReact2.png',
-    },
-  ],
   topics: {
     id: 'topics',
     name: 'Popular Topics',
