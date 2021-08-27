@@ -68,6 +68,7 @@ export const reactFeaturesQuery = groq`*[_type == 'resource' && slug.current == 
   title,
   subTitle,
   path,
+  name,
   resources[]->{
     title,
     'description': summary,
@@ -91,6 +92,7 @@ export const javascriptFeaturesQuery = groq`*[_type == 'resource' && slug.curren
   title,
   subTitle,
   path,
+  name,
   resources[]->{
     title,
     'description': summary,
@@ -114,6 +116,7 @@ export const cssFeaturesQuery = groq`*[_type == 'resource' && slug.current == "c
   title,
   subTitle,
   path,
+  name,
   resources[]->{
     title,
     'description': summary,
@@ -129,6 +132,7 @@ export const reduxFeaturesQuery = groq`*[_type == 'resource' && slug.current == 
   title,
   subTitle,
   path,
+  name,
   resources[]->{
     title,
     'description': summary,
@@ -144,6 +148,7 @@ export const typescriptFeaturesQuery = groq`*[_type == 'resource' && slug.curren
   title,
   subTitle,
   path,
+  name,
   resources[]->{
     title,
     'description': summary,

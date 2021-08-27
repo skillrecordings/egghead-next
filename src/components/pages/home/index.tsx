@@ -343,7 +343,7 @@ const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
         {resource.path && (
           <Link href={resource.path}>
             <a
-              className="inline-flex justify-center items-center px-4 py-2 rounded-md border border-gray-500 hover:border-blue-700 text-gray-500 transition-all hover:text-white hover:bg-blue-700 ease-in-out duration-200"
+              className="text-base font-medium transition ease-in-out duration-150 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 py-2 px-3 text-blue-500"
               onClick={() => {
                 track('clicked resource', {
                   resource: resource.path,
@@ -351,7 +351,7 @@ const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
                 })
               }}
             >
-              Full Catalogue →
+              Browse more {resource.name && resource.name} →
             </a>
           </Link>
         )}
