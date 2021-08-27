@@ -5,7 +5,6 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import staticHomePageData from 'components/pages/home/homepage-data'
 import {digitalGardeningQuery} from './learn/digital-gardening'
-import {whatsNewQuery} from './new'
 import {developerPortfolioQuery} from './learn/developer-portfolio'
 
 const IndexPage: FunctionComponent = ({homePageData}: any) => {
@@ -31,6 +30,39 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
 }
 
 export default IndexPage
+
+export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "whats-new"][0]{
+  title,
+	'primary': resources[slug.current == 'new-page-primary-resource-collection'][0]{
+ 		resources[]->{
+      title,
+      'name': type,
+      'description': summary,
+    	path,
+      'byline': meta,
+    	image,
+      'background': images[label == 'banner-image-blank'][0].url,
+      'featureCardBackground': images[label == 'feature-card-background'][0].url,
+      'instructor': collaborators[]->[role == 'instructor'][0]{
+        title,
+        'slug': person->slug.current,
+        'name': person->name,
+        'path': person->website,
+        'twitter': person->twitter,
+        'image': person->image.url
+  		},
+    }
+  },
+	'secondary': resources[slug.current == 'new-page-secondary-resource-collection'][0]{
+    resources[]{
+      'name': type,
+      title,
+      path,
+      byline,
+      image,
+    }
+  },
+}`
 
 const featureQuery = groq`
 {
