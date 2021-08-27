@@ -1,6 +1,7 @@
 import {track} from 'utils/analytics'
 import {useRouter} from 'next/router'
 import {Form, Formik} from 'formik'
+import {isEmpty} from 'lodash'
 
 const SearchBar = () => {
   const router = useRouter()
@@ -10,11 +11,18 @@ const SearchBar = () => {
         query: '',
       }}
       onSubmit={(values) => {
-        router.push(`/q?q=${values.query?.split(' ').join('+')}`)
-        track('searched for query', {
-          query: values.query,
-          location: 'home',
-        })
+        if (isEmpty(values.query)) {
+          router.push(`/q`)
+          track('clicked search icon with no query', {
+            location: 'home',
+          })
+        } else {
+          router.push(`/q?q=${values.query?.split(' ').join('+')}`)
+          track('searched for query', {
+            query: values.query,
+            location: 'home',
+          })
+        }
       }}
     >
       {({values, handleChange}) => {
@@ -23,7 +31,6 @@ const SearchBar = () => {
             <div className="flex items-center flex-grow">
               <div className="relative w-full flex items-stretch h-9">
                 <input
-                  required={true}
                   name="query"
                   value={values.query}
                   onChange={handleChange}
