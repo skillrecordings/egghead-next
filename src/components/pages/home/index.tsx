@@ -6,14 +6,11 @@ import {map, get, isEmpty} from 'lodash'
 
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import axios from 'utils/configured-axios'
-import VideoCard from 'components/pages/home/video-card'
-import WhatsNew from 'pages/new'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
-
+import Jumbotron from 'components/pages/home/jumbotron'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
@@ -24,32 +21,22 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
 
-  const video: any = get(homePageData, 'video')
-  let featured: any = get(homePageData, 'featured.resources', {})
   const devEssentials: any = get(homePageData, 'devEssentials')
   const freeCourses: any = get(homePageData, 'freeCourses')
   const getStarted: any = get(homePageData, 'getStarted')
   const aws: any = get(homePageData, 'aws')
-  const wordpressWithGraphql: any = get(homePageData, 'cms')
-  const portfolioProjectOne: any = get(homePageData, 'portfolioProjectOne')
-  const typescriptFeature: any = get(homePageData, 'typescriptFeature')
-  const reactFeature: any = get(homePageData, 'reactFeature')
   const topics: any = get(homePageData, 'topics')
-  const portfolioProjectTwo: any = get(homePageData, 'portfolioProjectTwo')
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
   )
-
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
-  const concurrentReactTalk: any = get(
-    homePageData,
-    'react-concurrent-react-from-scratch',
-  )
-  const reactMetaphorTalk: any = get(
-    homePageData,
-    'drawing-the-invisible-react-explained-in-five-visual-metaphors',
-  )
+  const reactFeatures: any = get(homePageData, 'reactFeatures')
+  const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
+  const cssFeatures: any = get(homePageData, 'cssFeatures')
+  const reduxFeatures: any = get(homePageData, 'reduxFeatures')
+  const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
+  const kcdFeatures: any = get(homePageData, 'kcdFeatures')
 
   React.useEffect(() => {
     if (viewer) {
@@ -77,31 +64,15 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            egghead Talks and Events
-          </h2>
-          <div className="">
-            <div className="grid lg:grid-cols-8 grid-cols-1 col-span-8 gap-4">
-              <VideoCard className="lg:col-span-6" resource={video} />
-              <EventSchedule />
-            </div>
-            <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-              <HorizontalResourceCard
-                resource={concurrentReactTalk}
-                location={location}
-                className="m-0 mt-4"
-              />
-              <HorizontalResourceCard
-                resource={reactMetaphorTalk}
-                location={location}
-                className="m-0 lg:mt-4"
-              />
-            </div>
-          </div>
+          <FeatureRow resource={reactFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+          <InstructorFeatureRow resource={kcdFeatures} />
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <h2 className="text-xl font-bold mb-3 dark:text-white">
             Popular Courses & Topics
           </h2>
           <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
@@ -119,38 +90,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Staff Picks and Favorites
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
-            {map(featured, (resource) => {
-              return (
-                <VerticalResourceCard
-                  key={resource.path}
-                  resource={resource}
-                  location={location}
-                  className="text-center"
-                />
-              )
-            })}
-          </div>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-            <HorizontalResourceCard
-              resource={reactFeature}
-              location={location}
-            />
-            <HorizontalResourceCard
-              resource={typescriptFeature}
-              location={location}
-            />
-          </div>
+          <FeatureRow resource={javascriptFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
           <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="w-full xl:pr-16">
+                <div className="w-full">
                   <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                     <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
                       <Link href={featureDigitalGardening.path}>
@@ -225,63 +172,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Build a New Portfolio Project
-          </h2>
-          <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
-            <VerticalResourceCard
-              resource={portfolioProjectOne}
-              location={location}
-              className="text-center"
-            />
-            <VerticalResourceCard
-              resource={portfolioProjectTwo}
-              location={location}
-              className="text-center"
-            />
-            <VerticalResourceCard
-              resource={wordpressWithGraphql}
-              location={location}
-              className="text-center"
-            />
-          </div>
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Learn React with Kent
-          </h2>
-          <div className="grid lg:grid-cols-4 grid-cols-1 gap-4">
-            {get(homePageData, 'learnWithKent').map((i: any) => (
-              <VerticalResourceCard
-                key={i.path}
-                resource={i}
-                location={location}
-                className="text-center"
-              />
-            ))}
-            <ExternalTrackedLink
-              eventName="clicked epic react banner"
-              params={{location}}
-              href="https://epicreact.dev"
-              target="_blank"
-              rel="noopener"
-              className="block"
-            >
-              <div className="overflow-hidden flex items-center justify-center rounded-lg">
-                <Image
-                  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-home_2x.jpg"
-                  // 25% off
-                  // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
-                  alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-                  width={704}
-                  height={836}
-                  quality={100}
-                  className="rounded-lg hover:scale-[102%] ease-in-out duration-500"
-                />
-              </div>
-            </ExternalTrackedLink>
-          </div>
+          <FeatureRow resource={cssFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -295,6 +186,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
               location={location}
             />
           </div>
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <FeatureRow resource={reduxFeatures} />
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <FeatureRow resource={typescriptFeatures} />
         </section>
       </div>
     </>
@@ -351,84 +250,192 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   )
 }
 
-const EventSchedule: React.FunctionComponent = () => {
-  const [schedule, scheduleLoading] = useEggheadSchedule(3)
+const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
+  const {primary, secondary} = resource
+  const [jumbotron, secondPrimary, thirdPrimary] = primary.resources
+  const [
+    firstSecondaryResource,
+    secondSecondaryResource,
+    thirdSecondaryResource,
+  ] = secondary.resources
+
   return (
-    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white ">
-      <>
-        <h2 className="uppercase font-semibold text-xs text-blue-200">
-          Upcoming Events
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
+      <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
+        What's New
+      </h2>
+      <Jumbotron resource={jumbotron} textColor="text-green-400" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <div className="h-full grid gap-4">
+          <HorizontalResourceCard
+            className="w-full"
+            resource={secondPrimary}
+            location={location}
+          />
+          <HorizontalResourceCard
+            className="w-full"
+            resource={thirdPrimary}
+            location={location}
+          />
+        </div>
+        <div className="grid gap-4">
+          <HorizontalResourceCard
+            className="h-auto flex"
+            resource={firstSecondaryResource}
+            location={location}
+          />
+          <HorizontalResourceCard
+            className="w-full flex"
+            resource={secondSecondaryResource}
+            location={location}
+          />
+          <HorizontalResourceCard
+            className="w-full flex"
+            resource={thirdSecondaryResource}
+            location={location}
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
+  return (
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
+      <div className="flex mb-4 items-center">
+        <h2 className="flex-1 md:text-xl text-lg font-bold dark:text-white">
+          {resource.subTitle}
         </h2>
-        {!isEmpty(schedule) ? (
-          <ul className="mt-4 leading-tight space-y-3 relative z-10">
-            {map(schedule, (resource: ScheduleEvent) => (
-              <li className="w-full" key={resource.informationUrl}>
-                <div className="font-semibold">
-                  <div>
-                    {resource.informationUrl ? (
-                      <Link href={resource.informationUrl}>
-                        <a
-                          onClick={() => {
-                            track('clicked event', {
-                              event: resource.title,
-                            })
-                          }}
-                          className="hover:underline"
-                        >
-                          {resource.title}
-                        </a>
-                      </Link>
-                    ) : (
-                      resource.title
-                    )}
-                  </div>
-                </div>
-                <div className="w-full flex items-center mt-1">
-                  {resource.subtitle && (
-                    <time className="mr-1 tabular-nums text-xs">
-                      {resource.subtitle}
-                    </time>
-                  )}
-                  {resource.calendarUrl && (
-                    <Link href={resource.calendarUrl}>
-                      <a
-                        onClick={() => {
-                          track('clicked event calendar', {
-                            event: resource.title,
-                          })
-                        }}
-                        className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out"
-                      >
-                        {/* prettier-ignore */}
-                        <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor" /><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor" /></g></svg>
-                      </a>
-                    </Link>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul className="mt-4 leading-tight space-y-3 relative z-10">
-            <li className="w-full">
-              <div className="font-semibold">
-                {scheduleLoading ? `` : `Nothing is scheduled at this time!`}
-              </div>
-            </li>
-          </ul>
+
+        {resource.path && (
+          <Link href={resource.path}>
+            <a
+              className="text-base font-medium transition ease-in-out duration-150 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 py-2 px-3 text-blue-500"
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  location,
+                })
+              }}
+            >
+              Browse more {resource.name && resource.name} →
+            </a>
+          </Link>
         )}
-        <div
-          className="absolute top-0 left-0 w-full h-full sm:opacity-25 opacity-25 pointer-events-none z-0"
-          css={{
-            backgroundImage:
-              'url(https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467202/next.egghead.io/eggodex/playful-eggo_2x.png)',
-            backgroundSize: 200,
-            backgroundPosition: 'bottom 5px right -5px',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
-      </>
-    </Card>
+      </div>
+
+      {resource.resources && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
+          {map(resource.resources, (resource) => {
+            return (
+              <VerticalResourceCard
+                className="col-span-3 sm:col-span-1 text-center shadow-sm"
+                key={resource.path}
+                resource={resource}
+                location={location}
+              />
+            )
+          })}
+        </div>
+      )}
+
+      {resource.related && (
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
+          {map(resource.related, (resource) => {
+            return (
+              <HorizontalResourceCard
+                resource={resource}
+                location={location}
+                className="m-0"
+              />
+            )
+          })}
+        </div>
+      )}
+    </section>
+  )
+}
+
+const InstructorFeatureRow: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}) => {
+  return (
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
+      <div className="flex mb-4 items-center">
+        <h2 className="flex-1 md:text-xl text-lg font-bold dark:text-white">
+          {resource.subTitle}
+        </h2>
+
+        {resource.path && (
+          <Link href={resource.path}>
+            <a
+              className="text-base font-medium transition ease-in-out duration-150 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 py-2 px-3 text-blue-500"
+              onClick={() => {
+                track('clicked resource', {
+                  resource: resource.path,
+                  location,
+                })
+              }}
+            >
+              Browse more {resource.name && resource.name} →
+            </a>
+          </Link>
+        )}
+      </div>
+
+      {resource.resources && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-4">
+          {map(resource.resources, (resource) => {
+            return (
+              <VerticalResourceCard
+                className="col-span-3 sm:col-span-1 text-center shadow-sm"
+                key={resource.path}
+                resource={resource}
+                location={location}
+              />
+            )
+          })}
+
+          <ExternalTrackedLink
+            eventName="clicked epic react banner"
+            params={{location}}
+            href="https://epicreact.dev"
+            target="_blank"
+            rel="noopener"
+            className="block"
+          >
+            <div className="overflow-hidden flex items-center justify-center rounded-lg">
+              <Image
+                src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-home_2x.jpg"
+                // 25% off
+                // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625229239/epic-react/summer-sale-2021/banner-home_2x.jpg"
+                alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
+                width={704}
+                height={836}
+                quality={100}
+                className="rounded-lg hover:scale-[102%] ease-in-out duration-500"
+              />
+            </div>
+          </ExternalTrackedLink>
+        </div>
+      )}
+
+      {resource.related && (
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
+          {map(resource.related, (resource) => {
+            return (
+              <HorizontalResourceCard
+                resource={resource}
+                location={location}
+                className="m-0"
+              />
+            )
+          })}
+        </div>
+      )}
+    </section>
   )
 }
 
