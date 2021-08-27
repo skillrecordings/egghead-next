@@ -18,10 +18,6 @@ const AutoplayControl: React.FC<AutoplayControlProps> = ({
   const {getPlayerPrefs, setPlayerPrefs} = useEggheadPlayerPrefs()
   const {autoplay} = getPlayerPrefs()
 
-  const buttonPosition = autoplay ? 'translate-x-4' : 'translate-x-0'
-
-  console.log({buttonPosition, autoplay})
-
   return (
     <div className="flex px-3 items-center space-x-2">
       <span>Autoplay</span>
@@ -46,7 +42,7 @@ const AutoplayControl: React.FC<AutoplayControlProps> = ({
           autoplay ? 'bg-blue-600' : 'bg-gray-700'
         } relative inline-flex items-center h-5 rounded-full w-10`}
       >
-        <span className="sr-only">Enable notifications</span>
+        <span className="sr-only">Enable autoplay</span>
         <span
           className={`${
             autoplay ? 'translate-x-6' : 'translate-x-1'
