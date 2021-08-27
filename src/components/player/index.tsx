@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {isEmpty} from 'lodash'
+import {isEmpty, isArray} from 'lodash'
 import {
   Player,
   BigPlayButton,
@@ -28,6 +28,7 @@ import {
 } from 'components/EggheadPlayer/use-egghead-player'
 import {VideoResource} from 'types'
 import {MutableRefObject, SyntheticEvent} from 'react'
+import AddNoteControl from './add-note-control'
 
 export type VideoResourcePlayerProps = {
   videoResource: VideoResource
@@ -41,6 +42,8 @@ export type VideoResourcePlayerProps = {
   onFullscreenChange?: (isFullscreen: boolean) => void
   onEnded?: () => void
   onVolumeChange?: (event: any) => void
+  onAddNote?: () => void
+  newNotes?: any[]
   hidden?: boolean
   className?: string
   volume?: number
@@ -55,11 +58,30 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
   children,
   onFullscreenChange,
   onLoadStart,
+  newNotes,
+  onAddNote,
   ...props
 }) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
 
   const {subtitle, playbackRate, volumeRate} = getPlayerPrefs()
+
+  const noteTrack = React.useRef<HTMLTrackElement>(null)
+
+  React.useEffect(() => {
+    const track = noteTrack.current?.track
+
+    if (track && isArray(newNotes)) {
+      newNotes.forEach((note) => {
+        const cue = new VTTCue(
+          note.start_time,
+          note.end_time,
+          JSON.stringify(note),
+        )
+        track.addCue(cue)
+      })
+    }
+  }, [newNotes, noteTrack])
 
   return (
     <div
@@ -108,8 +130,9 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
         {hasNotes(videoResource) && (
           <track
             key={videoResource.slug}
+            ref={noteTrack}
             id="notes"
-            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}`}
+            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}&resource=${videoResource.slug}`}
             kind="metadata"
             label="notes"
           />
@@ -150,15 +173,21 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
               setPlayerPrefs({playbackRate})
             }}
           />
+          <AddNoteControl
+            key="add-note-control"
+            order={11}
+            lesson={videoResource}
+            onAddNote={onAddNote}
+          />
           <DownloadControl
             key="download-control"
-            order={11}
+            order={12}
             lesson={videoResource}
           />
           {videoResource.subtitles_url && (
             <ClosedCaptionButton
               key={videoResource.subtitles_url}
-              order={12}
+              order={13}
               selected={subtitle}
               onChange={(track?: TextTrack) => {
                 const updatedSubtitlePref = track
@@ -181,7 +210,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <FullscreenToggle
             key="fullscreen-toggle"
             fullscreenElement={containerRef?.current}
-            order={13}
+            order={14}
             onFullscreenChange={onFullscreenChange}
           />
         </ControlBar>

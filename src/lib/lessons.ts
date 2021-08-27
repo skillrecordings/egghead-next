@@ -177,6 +177,8 @@ export async function loadBasicLesson(slug: string) {
         path
         icon_url
         created_at
+        updated_at
+        published_at
         staff_notes_url
         collection {
           ... on Playlist {

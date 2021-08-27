@@ -142,6 +142,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         type
         created_at
         updated_at
+        published_at
         access_state
         visibility_state
         tags {
@@ -213,6 +214,9 @@ export async function loadPlaylist(slug: string, token?: string) {
             type
             duration
             thumb_url
+            created_at
+            updated_at
+            published_at
           }
           ... on File {
             slug

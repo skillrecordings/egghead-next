@@ -34,12 +34,6 @@ export async function getServerSideProps(context: any) {
     context.req.headers.cookie as string,
   )
 
-  let props = {
-    validToken: false,
-    newEmail: '',
-    currentEmail: '',
-  }
-
   try {
     const {data}: {data: emailChangeRequestData} = await axios.get(
       `${AUTH_DOMAIN}/api/v1/email_change_requests/${token}`,
@@ -53,20 +47,21 @@ export async function getServerSideProps(context: any) {
     const newEmail = data['new_email']
     const currentEmail = data['current_email']
 
-    props = {
-      ...props,
-      validToken: !isEmpty(newEmail) && !isEmpty(currentEmail),
-      newEmail,
-      currentEmail,
+    return {
+      props: {
+        validToken: !isEmpty(newEmail) && !isEmpty(currentEmail),
+        newEmail,
+        currentEmail,
+      },
     }
   } catch (e) {
-    if (e.response.status === 404) {
-      props.validToken = false
+    return {
+      props: {
+        validToken: false,
+        newEmail: '',
+        currentEmail: '',
+      },
     }
-  }
-
-  return {
-    props,
   }
 }
 
@@ -148,10 +143,8 @@ const EmailChangeRequest: React.FunctionComponent<{
                   disabled={!validToken}
                   onClick={async () => {
                     try {
-                      const {
-                        success,
-                        new_email,
-                      } = await confirmEmailChangeRequest(token)
+                      const {success, new_email} =
+                        await confirmEmailChangeRequest(token)
 
                       if (success === true) {
                         setViewerEmail(new_email)

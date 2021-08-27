@@ -15,6 +15,7 @@ import {track} from 'utils/analytics'
 import Link from 'components/link'
 import Image from 'next/image'
 import CodeBlock from 'components/code-block'
+import {useViewer} from '../../context/viewer-context'
 
 const notesCreationAvailable =
   process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
@@ -90,11 +91,13 @@ const LessonListTab: React.FC<{
 
 const NotesTab: React.FC<any> = ({onAddNote}) => {
   const {player, manager} = usePlayer()
-
+  const {viewer} = useViewer()
   const {cues} = useNotesCues()
   const actions = manager?.getActions()
   const hidden: boolean = isEmpty(cues)
   const scrollableNodeRef: any = React.createRef()
+
+  const canCreateNote = viewer?.can_comment && notesCreationAvailable
 
   return hidden ? null : (
     <div className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
@@ -111,7 +114,12 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
           >
             <div className="space-y-3">
               {cues.map((cue: VTTCue) => {
-                const note = cue.text
+                let note: {text: string; type?: string}
+                try {
+                  note = JSON.parse(cue.text)
+                } catch (e) {
+                  note = {text: cue.text}
+                }
                 const active = player.activeMetadataTrackCues.includes(cue)
                 return (
                   <div key={cue.text}>
@@ -125,7 +133,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                         },
                       )}
                     >
-                      {note && (
+                      {note.text && (
                         <ReactMarkdown
                           className="leading-normal prose-sm prose dark:prose-dark"
                           renderers={{
@@ -134,14 +142,14 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                             },
                           }}
                         >
-                          {note}
+                          {note.text}
                         </ReactMarkdown>
                       )}
                       {cue.startTime && (
                         <div
                           onClick={() => {
                             actions?.seek(cue.startTime)
-                            track('clicked cue in sidebar', {cue: cue.text})
+                            track('clicked cue in sidebar', {cue: note.text})
                           }}
                           className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
                         >
@@ -157,7 +165,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
             </div>
           </SimpleBar>
         </div>
-        {notesCreationAvailable && (
+        {canCreateNote && (
           <div className="flex-shrink-0 p-4">
             <button
               type="button"
