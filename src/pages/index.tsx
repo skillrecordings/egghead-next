@@ -79,12 +79,60 @@ export const reactFeaturesQuery = groq`*[_type == 'resource' && slug.current == 
 }
 `
 
+export const javascriptFeaturesQuery = groq`*[_type == 'resource' && slug.current == "javascript-features"][0]{
+  title,
+  subTitle,
+  path,
+  resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	}
+}
+`
+
+export const cssFeaturesQuery = groq`*[_type == 'resource' && slug.current == "css-features"][0]{
+  title,
+  subTitle,
+  path,
+  resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	}
+}
+`
+
+export const reduxFeaturesQuery = groq`*[_type == 'resource' && slug.current == "redux-features"][0]{
+  title,
+  subTitle,
+  path,
+  resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	}
+}
+`
+
 const featureQuery = groq`
 {
   'featureDigitalGardening': ${digitalGardeningQuery},
   'featureWhatsNew': ${whatsNewQuery},
   'featureDeveloperPortfolio': ${developerPortfolioQuery},
-  'reactFeatures': ${reactFeaturesQuery}
+  'reactFeatures': ${reactFeaturesQuery},
+  'javascriptFeatures': ${javascriptFeaturesQuery},
+  'cssFeatures': ${cssFeaturesQuery},
+  'reduxFeatures': ${reduxFeaturesQuery},
 }
 `
 

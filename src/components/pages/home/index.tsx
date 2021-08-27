@@ -37,10 +37,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     homePageData,
     'featureDigitalGardening',
   )
-  const reactFeatures: any = get(homePageData, 'reactFeatures')
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
-
-  console.log(reactFeatures)
+  const reactFeatures: any = get(homePageData, 'reactFeatures')
+  const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
+  const cssFeatures: any = get(homePageData, 'cssFeatures')
+  const reduxFeatures: any = get(homePageData, 'reduxFeatures')
 
   React.useEffect(() => {
     if (viewer) {
@@ -68,7 +69,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <ReactFeatures resource={reactFeatures} />
+          <FeatureRow resource={reactFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -90,38 +91,14 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Staff Picks and Favorites
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
-            {map(featured, (resource) => {
-              return (
-                <VerticalResourceCard
-                  key={resource.path}
-                  resource={resource}
-                  location={location}
-                  className="text-center"
-                />
-              )
-            })}
-          </div>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-            <HorizontalResourceCard
-              resource={reactFeature}
-              location={location}
-            />
-            <HorizontalResourceCard
-              resource={typescriptFeature}
-              location={location}
-            />
-          </div>
+          <FeatureRow resource={javascriptFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
           <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
             <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
               <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="w-full xl:pr-16">
+                <div className="w-full">
                   <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                     <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
                       <Link href={featureDigitalGardening.path}>
@@ -196,6 +173,55 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
+          <FeatureRow resource={cssFeatures} />
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
+            <VerticalResourceCollectionCard
+              resource={aws}
+              location={location}
+            />
+            <VerticalResourceCollectionCard
+              resource={freeCourses}
+              location={location}
+            />
+          </div>
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <FeatureRow resource={reduxFeatures} />
+        </section>
+
+        <section className="mt-20 sm:mt-24">
+          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+            Staff Picks and Favorites
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
+            {map(featured, (resource) => {
+              return (
+                <VerticalResourceCard
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                  className="text-center"
+                />
+              )
+            })}
+          </div>
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+            <HorizontalResourceCard
+              resource={reactFeature}
+              location={location}
+            />
+            <HorizontalResourceCard
+              resource={typescriptFeature}
+              location={location}
+            />
+          </div>
+        </section>
+
+        <section className="mt-20 sm:mt-24">
           <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
             Build a New Portfolio Project
           </h2>
@@ -252,19 +278,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
                 />
               </div>
             </ExternalTrackedLink>
-          </div>
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
-            <VerticalResourceCollectionCard
-              resource={aws}
-              location={location}
-            />
-            <VerticalResourceCollectionCard
-              resource={freeCourses}
-              location={location}
-            />
           </div>
         </section>
       </div>
@@ -372,10 +385,7 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
   )
 }
 
-const ReactFeatures: FunctionComponent<any> = ({
-  resource,
-  location = 'home',
-}) => {
+const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
