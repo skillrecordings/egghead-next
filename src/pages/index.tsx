@@ -64,11 +64,27 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
   },
 }`
 
+export const reactFeaturesQuery = groq`*[_type == 'resource' && slug.current == "react-features"][0]{
+  title,
+  subTitle,
+  path,
+  resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	}
+}
+`
+
 const featureQuery = groq`
 {
   'featureDigitalGardening': ${digitalGardeningQuery},
   'featureWhatsNew': ${whatsNewQuery},
   'featureDeveloperPortfolio': ${developerPortfolioQuery},
+  'reactFeatures': ${reactFeaturesQuery}
 }
 `
 

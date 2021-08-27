@@ -6,11 +6,9 @@ import {map, get, isEmpty} from 'lodash'
 
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
-import useEggheadSchedule, {ScheduleEvent} from 'hooks/use-egghead-schedule'
 import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import axios from 'utils/configured-axios'
-import VideoCard from 'components/pages/home/video-card'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {CardResource} from 'types'
@@ -39,16 +37,10 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     homePageData,
     'featureDigitalGardening',
   )
-
+  const reactFeatures: any = get(homePageData, 'reactFeatures')
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
-  const concurrentReactTalk: any = get(
-    homePageData,
-    'react-concurrent-react-from-scratch',
-  )
-  const reactMetaphorTalk: any = get(
-    homePageData,
-    'drawing-the-invisible-react-explained-in-five-visual-metaphors',
-  )
+
+  console.log(reactFeatures)
 
   React.useEffect(() => {
     if (viewer) {
@@ -76,27 +68,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            egghead Talks and Events
-          </h2>
-          <div className="">
-            <div className="grid lg:grid-cols-8 grid-cols-1 col-span-8 gap-4">
-              <VideoCard className="lg:col-span-6" resource={video} />
-              <EventSchedule />
-            </div>
-            <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-              <HorizontalResourceCard
-                resource={concurrentReactTalk}
-                location={location}
-                className="m-0 mt-4"
-              />
-              <HorizontalResourceCard
-                resource={reactMetaphorTalk}
-                location={location}
-                className="m-0 lg:mt-4"
-              />
-            </div>
-          </div>
+          <ReactFeatures resource={reactFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -350,87 +322,6 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
   )
 }
 
-const EventSchedule: React.FunctionComponent = () => {
-  const [schedule, scheduleLoading] = useEggheadSchedule(3)
-  return (
-    <Card className="lg:col-span-2 relative bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-600 text-white ">
-      <>
-        <h2 className="uppercase font-semibold text-xs text-blue-200">
-          Upcoming Events
-        </h2>
-        {!isEmpty(schedule) ? (
-          <ul className="mt-4 leading-tight space-y-3 relative z-10">
-            {map(schedule, (resource: ScheduleEvent) => (
-              <li className="w-full" key={resource.informationUrl}>
-                <div className="font-semibold">
-                  <div>
-                    {resource.informationUrl ? (
-                      <Link href={resource.informationUrl}>
-                        <a
-                          onClick={() => {
-                            track('clicked event', {
-                              event: resource.title,
-                            })
-                          }}
-                          className="hover:underline"
-                        >
-                          {resource.title}
-                        </a>
-                      </Link>
-                    ) : (
-                      resource.title
-                    )}
-                  </div>
-                </div>
-                <div className="w-full flex items-center mt-1">
-                  {resource.subtitle && (
-                    <time className="mr-1 tabular-nums text-xs">
-                      {resource.subtitle}
-                    </time>
-                  )}
-                  {resource.calendarUrl && (
-                    <Link href={resource.calendarUrl}>
-                      <a
-                        onClick={() => {
-                          track('clicked event calendar', {
-                            event: resource.title,
-                          })
-                        }}
-                        className="inline-flex rounded-md items-center font-semibold p-1 text-xs bg-blue-700 hover:bg-blue-800 text-white duration-150 transition-colors ease-in-out"
-                      >
-                        {/* prettier-ignore */}
-                        <svg className="inline-flex" width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M10 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 4 14h12a1 1 0 0 0 .707-1.707L16 11.586V8a6 6 0 0 0-6-6z" fill="currentColor" /><path d="M10 18a3 3 0 0 1-3-3h6a3 3 0 0 1-3 3z" fill="currentColor" /></g></svg>
-                      </a>
-                    </Link>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul className="mt-4 leading-tight space-y-3 relative z-10">
-            <li className="w-full">
-              <div className="font-semibold">
-                {scheduleLoading ? `` : `Nothing is scheduled at this time!`}
-              </div>
-            </li>
-          </ul>
-        )}
-        <div
-          className="absolute top-0 left-0 w-full h-full sm:opacity-25 opacity-25 pointer-events-none z-0"
-          css={{
-            backgroundImage:
-              'url(https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467202/next.egghead.io/eggodex/playful-eggo_2x.png)',
-            backgroundSize: 200,
-            backgroundPosition: 'bottom 5px right -5px',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
-      </>
-    </Card>
-  )
-}
-
 const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
   const {primary, secondary} = resource
   const [jumbotron, secondPrimary, thirdPrimary] = primary.resources
@@ -476,6 +367,48 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
             location={location}
           />
         </div>
+      </div>
+    </section>
+  )
+}
+
+const ReactFeatures: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}) => {
+  return (
+    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
+      <div className="flex mb-4 items-center">
+        <h2 className="flex-1 md:text-xl text-lg sm:font-semibold font-bold dark:text-white">
+          {resource.subTitle}
+        </h2>
+
+        <Link href={resource.path}>
+          <a
+            className="inline-flex justify-center items-center px-4 py-2 rounded-md border border-gray-500 hover:border-blue-700 text-gray-500 transition-all hover:text-white hover:bg-blue-700 ease-in-out duration-200"
+            onClick={() => {
+              track('clicked resource', {
+                resource: resource.path,
+                location,
+              })
+            }}
+          >
+            Full Catalogue →
+          </a>
+        </Link>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
+        {map(resource.resources, (resource) => {
+          return (
+            <VerticalResourceCard
+              className="col-span-3 sm:col-span-1 text-center shadow"
+              key={resource.path}
+              resource={resource}
+              location={location}
+            />
+          )
+        })}
       </div>
     </section>
   )
