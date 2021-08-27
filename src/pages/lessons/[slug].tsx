@@ -89,8 +89,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const {viewer} = useViewer()
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
 
-  const {defaultView} = getPlayerPrefs()
-  const autoplay = false
+  const {defaultView, autoplay} = getPlayerPrefs()
 
   const {md} = useBreakpoint()
 
