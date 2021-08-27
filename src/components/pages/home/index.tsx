@@ -25,10 +25,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const freeCourses: any = get(homePageData, 'freeCourses')
   const getStarted: any = get(homePageData, 'getStarted')
   const aws: any = get(homePageData, 'aws')
-  const wordpressWithGraphql: any = get(homePageData, 'cms')
-  const portfolioProjectOne: any = get(homePageData, 'portfolioProjectOne')
   const topics: any = get(homePageData, 'topics')
-  const portfolioProjectTwo: any = get(homePageData, 'portfolioProjectTwo')
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
@@ -38,7 +35,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
   const cssFeatures: any = get(homePageData, 'cssFeatures')
   const reduxFeatures: any = get(homePageData, 'reduxFeatures')
-  const staffPicksFeatures: any = get(homePageData, 'staffPicksFeatures')
+  const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
 
   React.useEffect(() => {
     if (viewer) {
@@ -191,30 +188,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={staffPicksFeatures} />
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-            Build a New Portfolio Project
-          </h2>
-          <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
-            <VerticalResourceCard
-              resource={portfolioProjectOne}
-              location={location}
-              className="text-center"
-            />
-            <VerticalResourceCard
-              resource={portfolioProjectTwo}
-              location={location}
-              className="text-center"
-            />
-            <VerticalResourceCard
-              resource={wordpressWithGraphql}
-              location={location}
-              className="text-center"
-            />
-          </div>
+          <FeatureRow resource={typescriptFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -362,7 +336,7 @@ const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
-        <h2 className="flex-1 md:text-xl text-lg sm:font-semibold font-bold dark:text-white">
+        <h2 className="flex-1 md:text-xl text-lg font-bold dark:text-white">
           {resource.subTitle}
         </h2>
 
@@ -399,10 +373,14 @@ const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
       )}
 
       {resource.related && (
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
           {map(resource.related, (resource) => {
             return (
-              <HorizontalResourceCard resource={resource} location={location} />
+              <HorizontalResourceCard
+                resource={resource}
+                location={location}
+                className="m-0"
+              />
             )
           })}
         </div>

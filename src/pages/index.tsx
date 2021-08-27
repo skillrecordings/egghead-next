@@ -75,6 +75,14 @@ export const reactFeaturesQuery = groq`*[_type == 'resource' && slug.current == 
     'byline': meta,
     image,
     byline
+	},
+  related[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
 	}
 }
 `
@@ -84,6 +92,14 @@ export const javascriptFeaturesQuery = groq`*[_type == 'resource' && slug.curren
   subTitle,
   path,
   resources[]->{
+    title,
+    'description': summary,
+    path,
+    'byline': meta,
+    image,
+    byline
+	},
+  related[]->{
     title,
     'description': summary,
     path,
@@ -124,19 +140,11 @@ export const reduxFeaturesQuery = groq`*[_type == 'resource' && slug.current == 
 }
 `
 
-export const staffPicksFeaturesQuery = groq`*[_type == 'resource' && slug.current == "staff-picks-features"][0]{
+export const typescriptFeaturesQuery = groq`*[_type == 'resource' && slug.current == "typescript-features"][0]{
   title,
   subTitle,
   path,
   resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	},
-  related[]->{
     title,
     'description': summary,
     path,
@@ -156,7 +164,7 @@ const featureQuery = groq`
   'javascriptFeatures': ${javascriptFeaturesQuery},
   'cssFeatures': ${cssFeaturesQuery},
   'reduxFeatures': ${reduxFeaturesQuery},
-  'staffPicksFeatures': ${staffPicksFeaturesQuery},
+  'typescriptFeatures': ${typescriptFeaturesQuery},
 }
 `
 
