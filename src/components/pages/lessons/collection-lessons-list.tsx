@@ -134,18 +134,17 @@ const Item: FunctionComponent<{
   return active ? (
     <Item />
   ) : (
-    <Link href={lesson.path}>
-      <a
-        onClick={() => {
-          track(`clicked next up lesson`, {
-            lesson: lesson.slug,
-          })
-        }}
-        className="font-semibold"
-      >
-        <Item />
-      </a>
-    </Link>
+    <a
+      href={lesson.path}
+      onClick={() => {
+        track(`clicked next up lesson`, {
+          lesson: lesson.slug,
+        })
+      }}
+      className="font-semibold"
+    >
+      <Item />
+    </a>
   )
 }
 
