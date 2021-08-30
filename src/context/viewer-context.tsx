@@ -19,12 +19,17 @@ type ViewerContextType = {
   loading: boolean
   refreshUser?: any
   setViewerEmail: (newEmail: string) => void
+  handleAccessTokenAuthentication: (
+    accessToken: string,
+    expiresInSeconds: string,
+  ) => Promise<any>
 }
 
 const defaultViewerContext: ViewerContextType = {
   authenticated: false,
   loading: true,
   setViewerEmail: (_) => {},
+  handleAccessTokenAuthentication: () => Promise.resolve(),
 }
 
 export function useViewer() {
@@ -126,12 +131,10 @@ function useAuthedViewer() {
         }
         setLoading(() => false)
       }
-      auth
-        .handleCookieBasedAccessTokenAuthentication(authToken)
-        .then((viewer: any) => {
-          setViewer(viewer)
-          setLoading(() => false)
-        })
+      auth.handleAccessTokenAuthentication(authToken).then((viewer: any) => {
+        setViewer(viewer)
+        setLoading(() => false)
+      })
     }
 
     const loadBecomeViewer = async () => {
@@ -165,6 +168,17 @@ function useAuthedViewer() {
     window.becomeUser = auth.becomeUser
   }, [])
 
+  const handleAccessTokenAuthentication = async (
+    authToken: string,
+    expiresInSeconds: string,
+  ) => {
+    const authenticatedUser = await auth.handleAccessTokenAuthentication(
+      authToken,
+      expiresInSeconds,
+    )
+    setViewer(authenticatedUser)
+  }
+
   const values = React.useMemo(
     () => ({
       viewer,
@@ -172,7 +186,8 @@ function useAuthedViewer() {
       logout: () => {
         setLoggingOut(true)
       },
-      setSession: auth.setSession,
+      setSession: auth.setSession, // TODO: This isn't exported in auth, so isn't available here.
+      handleAccessTokenAuthentication: handleAccessTokenAuthentication,
       isAuthenticated: () => auth.isAuthenticated(),
       authToken: auth.getAuthToken(),
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),

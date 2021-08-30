@@ -112,7 +112,7 @@ export const IconLink: FunctionComponent<{className?: string}> = ({
   </svg>
 )
 
-const IconTwitter: FunctionComponent<{className?: string}> = ({
+export const IconTwitter: FunctionComponent<{className?: string}> = ({
   className = '',
 }) => (
   <svg

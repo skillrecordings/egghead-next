@@ -48,6 +48,11 @@ import VideoResourcePlayer from 'components/player'
 import PlayerContainer from 'components/player/player-container'
 import PlayerSidebar from 'components/player/player-sidebar'
 import OverlayWrapper from '../../components/pages/lessons/overlay/wrapper'
+import friendlyTime from 'friendly-time'
+import {
+  PublishedAt,
+  UpdatedAt,
+} from '../../components/layouts/collection-page-layout'
 
 const tracer = getTracer('lesson-page')
 
@@ -94,6 +99,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const {sm, md} = useBreakpoint()
 
   const [isFullscreen, setIsFullscreen] = React.useState(false)
+  const [newNotes, setNewNotes] = React.useState<any>([])
 
   const playerContainer = React.useRef<any>(null)
   const actualPlayerRef = React.useRef<any>(null)
@@ -145,6 +151,8 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     transcript,
     transcript_url,
     title,
+    created_at,
+    updated_at,
     tags = [],
     description,
     collection,
@@ -440,6 +448,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   onFullscreenChange={(isFullscreen: boolean) => {
                     setIsFullscreen(isFullscreen)
                   }}
+                  newNotes={newNotes}
                   onCanPlay={(event: any) => {
                     console.debug(`player ready [autoplay:${autoplay}]`)
                     const videoElement: HTMLVideoElement =
@@ -479,6 +488,9 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   onEnded={() => {
                     console.debug(`received ended event from player`)
                     send('COMPLETE')
+                  }}
+                  onAddNote={() => {
+                    send('ADD_NOTE')
                   }}
                 />
               </PlayerContainer>
@@ -572,7 +584,16 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('addingNote') && (
                 <OverlayWrapper>
-                  <AddNoteOverlay onClose={() => send('VIEW')} />
+                  <AddNoteOverlay
+                    resourceId={lesson.slug}
+                    onClose={(newNote: any) => {
+                      if (newNote) setNewNotes([newNote])
+                      send('VIEW')
+                    }}
+                    currentTime={Math.floor(
+                      actualPlayerRef.current?.currentTime ?? 0,
+                    )}
+                  />
                 </OverlayWrapper>
               )}
             </div>
@@ -647,6 +668,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 )}
                 {!md && <Tags tags={collectionTags} lesson={lesson} />}
               </div>
+
               {md && <Tags tags={collectionTags} lesson={lesson} />}
               <div className="flex items-center space-x-8">
                 <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
@@ -661,6 +683,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   />
                 </div>
               </div>
+            </div>
+            <div className="opacity-80 mt-4 text-sm flex flex-col items-center md:items-start">
+              {created_at && (
+                <PublishedAt date={friendlyTime(new Date(created_at))} />
+              )}
+              {updated_at && (
+                <UpdatedAt date={friendlyTime(new Date(updated_at))} />
+              )}
             </div>
             {description && (
               <Markdown className="prose prose-lg dark:prose-dark max-w-none font-medium text-gray-1000 dark:text-white">
