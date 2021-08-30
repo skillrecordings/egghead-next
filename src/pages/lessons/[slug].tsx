@@ -194,6 +194,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
         'loaded',
         'viewing',
         'completed',
+        'addingNote',
       ].includes(currentPlayerState),
     )
   }, [currentPlayerState])
@@ -583,7 +584,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                 </OverlayWrapper>
               )}
               {playerState.matches('addingNote') && (
-                <OverlayWrapper>
+                <div className="absolute z-20 inset-0 bg-black/50 flex justify-center items-center">
                   <AddNoteOverlay
                     resourceId={lesson.slug}
                     onClose={(newNote: any) => {
@@ -594,7 +595,7 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
                       actualPlayerRef.current?.currentTime ?? 0,
                     )}
                   />
-                </OverlayWrapper>
+                </div>
               )}
             </div>
             <div className="lg:col-span-3 side-bar">

@@ -1,16 +1,16 @@
 import * as React from 'react'
-import {Switch} from '@headlessui/react'
+// import {Switch} from '@headlessui/react'
 import VisuallyHidden from '@reach/visually-hidden'
 import axios from 'axios'
 import readingTime from 'reading-time'
-import {track} from '../../../../utils/analytics'
+import {track} from 'utils/analytics'
 
 const AddNoteOverlay: React.FC<{
   onClose: (newNote: any) => void
   resourceId: string
   currentTime: number
 }> = ({onClose, resourceId, currentTime}) => {
-  const [enabled, setEnabled] = React.useState(false)
+  // const [enabled, setEnabled] = React.useState(false)
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   React.useEffect(() => {
     if (inputRef) {
