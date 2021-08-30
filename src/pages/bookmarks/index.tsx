@@ -101,7 +101,7 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
                       </button>
                     </div>
 
-                    <div className="text-sm text-gray-600 dark:text-gray-500">
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
                       {bookmark.duration &&
                         `${convertTimeWithTitles(bookmark.duration)} • `}
                       {bookmark.instructor.full_name}
