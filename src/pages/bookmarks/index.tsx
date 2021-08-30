@@ -54,9 +54,9 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
           Your Bookmarks
         </h1>
         {loadingBookmarks || isEmpty(bookmarks) ? (
-          <div>
+          <div className="text-gray-600 dark:text-gray-400">
             {loadingBookmarks
-              ? 'loading...'
+              ? 'Loading...'
               : `You haven't bookmarked any courses yet.`}
           </div>
         ) : (
@@ -84,7 +84,7 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
                       </Link>
                       <button
                         aria-label="remove"
-                        className="text-gray-600 hover:text-gray-900 bg-white hover:bg-gray-200 p-2 transition-colors rounded-full duration-200 ease-in-out"
+                        className="text-gray-600 hover:text-gray-900 dark:hover:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 p-2 transition-colors rounded-full duration-200 ease-in-out"
                         onClick={(e) => {
                           e.preventDefault()
                           axios.post(bookmark.toggle_favorite_url)
@@ -101,7 +101,7 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
                       </button>
                     </div>
 
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-600 dark:text-gray-500">
                       {bookmark.duration &&
                         `${convertTimeWithTitles(bookmark.duration)} • `}
                       {bookmark.instructor.full_name}
