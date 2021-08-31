@@ -557,7 +557,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       console.log('clicked')
                     }}
                   >
-                    <LockIcon className="h-4 w-4 mr-2" />
+                    <BookmarkIcon className="h-4 w-4 mr-2" />
                     Bookmark
                   </div>
                 )}
