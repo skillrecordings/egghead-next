@@ -543,18 +543,22 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       }
                     >
                       <BookmarkIcon
-                        className="w-4 h-4 mr-1"
+                        className="w-4 h-4 mr-2"
                         fill={isFavorite}
                       />{' '}
-                      {isFavorite ? 'Saved' : 'Bookmark'}
+                      {isFavorite ? 'Bookmarked' : 'Bookmark'}
                     </div>
                   </button>
                 ) : (
                   <div
                     className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
                   dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
+                    onClick={() => {
+                      console.log('clicked')
+                    }}
                   >
-                    <LockIcon className="h-4 w-4 mr-2" /> Bookmark
+                    <LockIcon className="h-4 w-4 mr-2" />
+                    Bookmark
                   </div>
                 )}
                 {download_url ? (
