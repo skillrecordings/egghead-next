@@ -72,7 +72,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     <>
       <div className="mb-32">
         <div>
-          {currentCourse && viewer && (
+          {viewer && (
             <InProgressSection
               viewer={viewer}
               progress={progress}
