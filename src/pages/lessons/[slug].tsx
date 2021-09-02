@@ -598,11 +598,9 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         </PlayerProvider>
       </div>
 
-      <div
-        className={`grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50`}
-      >
+      <div className="grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50">
         <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
-          <div className="space-y-4 sm:pb-8 pb-2 sm:pt-6 pt-0">
+          <div className="space-y-4 sm:pb-8 pb-2 pt-6">
             {title && (
               <h1 className="font-extrabold leading-tight text-xl lg:text-3xl">
                 {title}
