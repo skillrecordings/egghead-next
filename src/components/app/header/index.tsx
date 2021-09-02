@@ -335,7 +335,6 @@ const FlyoutMenu = () => {
                 aria-hidden="true"
               />
             </Popover.Button>
-            {/* @ts-expect-error */}
             <Transition
               show={open}
               as={Fragment}

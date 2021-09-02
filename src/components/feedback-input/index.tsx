@@ -8,11 +8,152 @@ import {useInterval} from 'react-use'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
 import {track} from 'utils/analytics'
+import {Listbox, Transition} from '@headlessui/react'
+import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
 
 import Sob from './images/Sob'
 import Hearteyes from './images/Hearteyes'
 import NeutralFace from './images/NeutralFace'
 import useCio from 'hooks/use-cio'
+
+type FeedbackCategory = {
+  id: number
+  category: string
+  label: string
+  placeholderText: string
+  supportingInformation: React.ReactFragment | string
+  buttonText: string
+}
+
+type FeedbackSelectCategoryProps = {
+  selectedCategory: FeedbackCategory
+  setSelectedCategory: any
+}
+
+// Feedback categories select menu
+
+const feedbackCategories: FeedbackCategory[] = [
+  {
+    id: 1,
+    category: 'general',
+    label: 'General product feedback',
+    placeholderText: 'Tell us how you feel about it...',
+    supportingInformation:
+      'We read all feedback submissions and take your opinion into account when designing product improvements.',
+    buttonText: 'Send feedback',
+  },
+  {
+    id: 2,
+    category: 'account',
+    label: 'Help with my account or subscription',
+    placeholderText: 'Tell us what you need help with...',
+    supportingInformation: (
+      <>
+        You can also get help by emailing{' '}
+        <a
+          href="mailto:support@egghead.io"
+          style={{textDecoration: 'underline'}}
+        >
+          support@egghead.io
+        </a>
+        . We'll get back to you as soon as we can.
+      </>
+    ),
+    buttonText: 'Send support request',
+  },
+  {
+    id: 3,
+    category: 'bug',
+    label: 'Report a bug',
+    placeholderText: 'Tell us what the problem is...',
+    supportingInformation:
+      "We'll pass the message onto our dev team. Thanks for helping us make egghead work well for everyone!",
+    buttonText: 'Send bug report',
+  },
+]
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
+function FeedbackSelectCategory({
+  selectedCategory,
+  setSelectedCategory,
+}: FeedbackSelectCategoryProps) {
+  return (
+    <Listbox value={selectedCategory} onChange={setSelectedCategory}>
+      {({open}) => (
+        <>
+          <Listbox.Label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+            What kind of feedback would you like to leave?
+          </Listbox.Label>
+          <div className="mt-1 relative">
+            <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <span className="block truncate text-black">
+                {selectedCategory.label}
+              </span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <SelectorIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </span>
+            </Listbox.Button>
+            {/* @ts-ignore */}
+            <Transition
+              show={open}
+              as={React.Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                {feedbackCategories.map((category) => (
+                  <Listbox.Option
+                    key={category.id}
+                    className={({active}) =>
+                      classNames(
+                        active ? 'text-white bg-blue-600' : 'text-gray-900',
+                        'cursor-default select-none relative py-2 pl-3 pr-9',
+                      )
+                    }
+                    value={category}
+                  >
+                    {({active, selected}) => (
+                      <>
+                        <span
+                          className={classNames(
+                            selected ? 'font-semibold' : 'font-normal',
+                            'block truncate',
+                          )}
+                        >
+                          {category.label}
+                        </span>
+
+                        {selected ? (
+                          <span
+                            className={classNames(
+                              active ? 'text-white' : 'text-blue-600',
+                              'absolute inset-y-0 right-0 flex items-center pr-4',
+                            )}
+                          >
+                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          </div>
+        </>
+      )}
+    </Listbox>
+  )
+}
+
+// Feedback Yup email validation
 
 const feedbackSchema = Yup.object().shape({
   emoji: Yup.string(),
@@ -20,11 +161,13 @@ const feedbackSchema = Yup.object().shape({
     is: undefined,
     then: Yup.string()
       .required(
-        `Can't stay empty. Please either pick an emoji or write some feedback. 🙏`,
+        `Oops, you forgot to leave feedback! Please pick an emoji or write us a message in the area above.`,
       )
       .min(4, `Too short. Tell us more! 😊`),
   }),
 })
+
+// Feedback emoji select menu
 
 const EMOJIS = new Map([
   [<Hearteyes />, 'heart_eyes'],
@@ -53,6 +196,8 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
     success: false,
     errorMessage: null,
   })
+  const [selectedCategory, setSelectedCategory] =
+    React.useState<FeedbackCategory>(feedbackCategories[0])
 
   const {subscriber, cioIdentify} = useCio()
 
@@ -78,6 +223,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
         feedback: {
           url: window.location.toString(),
           site: `egghead-next`,
+          category: selectedCategory.category,
           comment: values.feedback,
           user: user,
           emotion: slackEmojiCode,
@@ -85,6 +231,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       })
       .then(() => {
         track(`sent feedback`, {
+          category: selectedCategory.category,
           comment: values.feedback,
           emotion: slackEmojiCode,
           url: window.location.toString(),
@@ -165,9 +312,13 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
               </motion.div>
             ) : (
               <>
-                <h4 className="text-xl text-center mt-4 mb-3 font-semibold">
-                  Tell us how you feel about it
+                <h4 className="text-lg mb-4 font-semibold">
+                  We'd love to hear from you.
                 </h4>
+                <FeedbackSelectCategory
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                />
                 <Formik
                   initialValues={{feedback: '', emoji: ''}}
                   enableReinitialize={true}
@@ -186,17 +337,24 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         </label>
                         <Field
                           disabled={isSubmitting || state.loading}
-                          className="mt-4 form-input bg-background border border-gray-200 focus:shadow-outline-blue dark:text-gray-900 text-text w-full h-40"
+                          className="mt-2 form-input bg-background border border-gray-200 focus:shadow-outline-blue dark:text-gray-900 w-full h-36 p-3"
                           component="textarea"
                           name="feedback"
                           id="feedback"
-                          placeholder="Type your feedback here..."
+                          placeholder={selectedCategory.placeholderText}
                           aria-label="Enter your feedback"
                         />
-                        <div className="w-full flex flex-col items-center justify-between">
-                          <div className="flex items-center justify-center mb-3">
-                            <div id="emoji" className="mr-3">
-                              Pick an emoji:
+
+                        {/* Supporting text below input */}
+                        <div className="text-sm text-gray-500 dark:text-gray-300 mt-1 mb-4">
+                          {selectedCategory.supportingInformation}
+                        </div>
+
+                        {/* Emoji picker and submit button */}
+                        <div className="w-full flex flex-row  justify-between">
+                          <div className="flex items-center justify-center">
+                            <div id="emoji" className="mr-3 font-semibold">
+                              Pick an emoji
                             </div>
                             <div
                               role="group"
@@ -206,7 +364,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                               {Array.from(EMOJIS.values()).map((emoji) => {
                                 return (
                                   <label
-                                    className="flex items-center my-2"
+                                    className="flex items-center"
                                     key={emoji}
                                   >
                                     <Field
@@ -217,7 +375,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                                       className="form-radio hidden"
                                     />
                                     <div
-                                      className={`p-3 hover:scale-110 flex items-center border border-transparent justify-center cursor-pointer rounded-full  transition-all ease-in-out duration-100 ${
+                                      className={`p-2 hover:scale-110 flex items-center border border-transparent justify-center cursor-pointer rounded-full  transition-all ease-in-out duration-100 ${
                                         values.emoji === emoji
                                           ? 'bg-blue-100 dark:bg-gray-600 border border-blue-200 dark:border-gray-500'
                                           : 'hover:border-blue-200'
@@ -230,22 +388,11 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                               })}
                             </div>
                           </div>
-                          <ErrorMessage
-                            name="feedback"
-                            render={(msg) => (
-                              <div className="flex items-start">
-                                <div className="mt-3 px-3 pb-4 flex items-center">
-                                  {msg}
-                                  {state.errorMessage &&
-                                    ` & ${state.errorMessage}`}
-                                </div>
-                              </div>
-                            )}
-                          />
+
                           <button
                             className={`${
                               errors.feedback && touched.feedback
-                                ? 'cursor-not-allowed'
+                                ? 'cursor-not-allowed hover:scale-100 bg-gray-400 hover:bg-gray-400'
                                 : ''
                             } mt-3 block font-semibold px-5 py-3 text-base hover:scale-105 bg-blue-600 hover:bg-blue-700 transition-all ease-in-out duration-200 text-white rounded-md leading-6`}
                             disabled={!isValid || isSubmitting || state.loading}
@@ -272,10 +419,22 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                                 <span>Sending...</span>
                               </div>
                             ) : (
-                              'Send feedback'
+                              selectedCategory.buttonText
                             )}
                           </button>
                         </div>
+                        <ErrorMessage
+                          name="feedback"
+                          render={(msg) => (
+                            <div className="mt-4 flex items-start bg-orange-100 dark:bg-gray-800 rounded">
+                              <div className="py-4 px-6 flex items-center text-black dark:text-gray-200">
+                                {msg}
+                                {state.errorMessage &&
+                                  ` & ${state.errorMessage}`}
+                              </div>
+                            </div>
+                          )}
+                        />
                       </Form>
                     )
                   }}
