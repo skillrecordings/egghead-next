@@ -103,6 +103,7 @@ export const playerMachine = Machine<
           RATE: 'rating',
           PAUSE: 'paused',
           LOAD: 'loading',
+          LOADED: 'loaded',
           ADD_NOTE: 'addingNote',
         },
       },

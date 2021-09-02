@@ -340,18 +340,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   }, [currentPlayerState])
 
   React.useEffect(() => {
-    const handleRouteChange = () => {
-      if (!autoplay) {
-        send('LOAD')
-      }
-    }
-    router.events.on('routeChangeStart', handleRouteChange)
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-    }
-  }, [router.events, send])
-
-  React.useEffect(() => {
     async function run() {
       console.debug('loading video with auth')
       const loadedLesson = await loadLesson(initialLesson.slug)
@@ -375,6 +363,12 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         ),
       )
     }
+
+    send({
+      type: 'LOAD',
+      lesson: initialLesson,
+      viewer,
+    })
 
     run()
   }, [initialLesson.slug])
