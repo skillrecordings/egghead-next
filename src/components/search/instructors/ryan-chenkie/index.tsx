@@ -33,24 +33,6 @@ const SearchRyanChenkie = ({instructor}: {instructor: any}) => {
           />
         }
       />
-
-      {/* <section className="xl:px-0 px-5">
-        <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-          Get Good at JavaScript
-        </h2>
-        <div className="flex sm:flex-nowrap flex-wrap gap-4 mt-4">
-          {restCourses.map((course: CardResource) => {
-            return (
-              <VerticalResourceCard
-                className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
-                resource={course}
-                describe
-                location="Kyle Shevlin instructor Landing page"
-              />
-            )
-          })}
-        </div>
-      </section> */}
     </div>
   )
 }
