@@ -12,6 +12,7 @@ import {kentCDoddsQuery} from 'components/search/instructors/kent-c-dodds'
 import {KyleShevlinQuery} from 'components/search/instructors/kyle-shevlin'
 import {jamundFergusonQuery} from 'components/search/instructors/jamund-ferguson'
 import {RyanChenkieQuery} from 'components/search/instructors/ryan-chenkie'
+import {MatiasHernandezQuery} from 'components/search/instructors/matias-hernandez'
 
 import config from './config'
 
@@ -68,6 +69,7 @@ const sanityInstructorHash = {
   'kyle-shevlin': KyleShevlinQuery,
   'jamund-ferguson': jamundFergusonQuery,
   'ryan-chenkie': RyanChenkieQuery,
+  'matias-hernandez': MatiasHernandezQuery,
 }
 
 type SelectedInstructor = keyof typeof sanityInstructorHash
