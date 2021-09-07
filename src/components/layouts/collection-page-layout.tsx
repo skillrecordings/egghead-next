@@ -29,6 +29,7 @@ import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
+import Dialog from 'components/dialog'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -561,6 +562,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     Bookmark
                   </div>
                 )}
+                <Dialog title="Titled" ariaLabel="Titled" buttonText="Click Me">
+                  Hello
+                </Dialog>
                 {download_url ? (
                   <Link href={download_url}>
                     <a
