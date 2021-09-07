@@ -536,7 +536,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   >
                     <div
                       className={
-                        ' flex flex-row items-center rounded  px-4 py-2 border transition-all text-sm xs:text-base ease-in-out duration-150' +
+                        ' flex flex-row items-center rounded  px-4 py-2 border transition-all text-sm xs:text-base ease-in-out duration-150 shadow-sm ' +
                         (isFavorite
                           ? 'hover:bg-blue-500 bg-blue-600 border-blue-700 text-white'
                           : 'bg-white text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 border-gray-300  dark:bg-gray-800 dark:border-gray-600')
@@ -552,7 +552,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 ) : (
                   <div
                     className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                     onClick={() => {
                       console.log('clicked')
                     }}
@@ -572,7 +572,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div
                         className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out shadow-sm"
                       >
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
@@ -581,7 +581,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 ) : (
                   <div
                     className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
                     <LockIcon className="h-4 w-4 mr-2" /> Download
                   </div>
@@ -597,7 +597,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div
                         className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out shadow-sm"
                       >
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
@@ -614,7 +614,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   >
                     <div
                       className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                    dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90"
+                    dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                     >
                       <LockIcon className="h-4 w-4 mr-2" /> RSS
                     </div>
