@@ -588,12 +588,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-600 text-white transition-all hover:bg-gray-700 ease-in-out duration-200">
                         Sign In with Github
                       </button>
-                      <p className="text-center text-gray-600 mt-6">
-                        Don't have an egghead account?
-                        <br />
-                        <a className="underline text-bold">Sign up for free</a>
-                      </p>
                     </div>
+                    <p className="text-center text-gray-600 mt-6">
+                      Don't have an egghead account?
+                      <br />
+                      <a className="underline text-bold">Sign up for free</a>
+                    </p>
                   </div>
                 </DialogButton>
                 {download_url ? (
@@ -1226,7 +1226,7 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
   return (
     <>
       <button className={buttonStyles && buttonStyles} onClick={openDialog}>
-        {buttonText}
+        <LockIcon className="h-4 w-4 mr-2" /> {buttonText}
       </button>
       <DialogOverlay
         isOpen={showDialog}
