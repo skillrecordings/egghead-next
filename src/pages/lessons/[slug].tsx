@@ -15,10 +15,10 @@ import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
-import CreateAccountCTA from 'components/pages/lessons/create-account-cta'
-import JoinCTA from 'components/pages/lessons/join-cta'
-import NextUpOverlay from 'components/pages/lessons/overlay/next-up-overlay'
-import CoursePitchOverlay from 'components/pages/lessons/overlay/course-pitch-overlay'
+import EmailCaptureCtaOverlay from 'components/pages/lessons/overlay/create-account-cta'
+import EmailCaptureCtaOverlay from 'components/pages/lessons/overlay/join-cta'
+import WatchNextLessonCtaOverlay from 'components/pages/lessons/overlay/next-up-overlay'
+import WatchFullCourseCtaOverlay from 'components/pages/lessons/overlay/course-pitch-overlay'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import AddNoteOverlay from 'components/pages/lessons/overlay/add-note-overlay'
 import axios from 'utils/configured-axios'
@@ -494,7 +494,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
               {playerState.matches('joining') && (
                 <OverlayWrapper>
-                  <CreateAccountCTA
+                  <EmailCaptureCtaOverlay
                     lesson={get(lesson, 'slug')}
                     technology={primary_tag}
                   />
@@ -502,12 +502,12 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('subscribing') && (
                 <OverlayWrapper>
-                  <JoinCTA lesson={lesson} />
+                  <EmailCaptureCtaOverlay lesson={lesson} />
                 </OverlayWrapper>
               )}
               {playerState.matches('pitchingCourse') && (
                 <OverlayWrapper>
-                  <CoursePitchOverlay
+                  <WatchFullCourseCtaOverlay
                     lesson={lesson}
                     onClickRewatch={() => {
                       send('VIEW')
@@ -520,7 +520,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('showingNext') && (
                 <OverlayWrapper>
-                  <NextUpOverlay
+                  <WatchNextLessonCtaOverlay
                     lesson={lesson}
                     nextLesson={nextLesson}
                     onClickRewatch={() => {

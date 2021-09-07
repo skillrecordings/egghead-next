@@ -5,13 +5,17 @@ import {track} from 'utils/analytics'
 import noop from 'utils/noop'
 import {useTrackComponent} from 'hooks/use-track-component'
 
-const CoursePitchOverlay: React.FunctionComponent<{
+const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   lesson: any
+  nextLesson: any
   onClickRewatch?: () => void
-}> = ({lesson, onClickRewatch = noop}) => {
+}> = ({lesson, nextLesson, onClickRewatch = noop}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
 
-  useTrackComponent('show course pitch', {course: lesson?.collection?.slug})
+  useTrackComponent('show next up', {
+    course: lesson?.collection?.slug,
+    lesson: lesson.slug,
+  })
 
   return (
     <div className="flex flex-col items-center p-4">
@@ -24,9 +28,9 @@ const CoursePitchOverlay: React.FunctionComponent<{
           />
         </div>
       )}
-      <div className="mt-4 md:mt-4">This Lesson is Part of a Course</div>
+      <div className="mt-4 md:mt-4">Up Next</div>
       <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
-        {lesson.collection.title}
+        {nextLesson.title}
       </h3>
       <div className="flex mt-6 md:mt-8">
         <button
@@ -40,16 +44,16 @@ const CoursePitchOverlay: React.FunctionComponent<{
         >
           <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
-        <Link href={lesson?.collection?.path || '#'}>
+        <Link href={nextLesson.path || '#'}>
           <a
             onClick={() => {
-              track('clicked view course', {
+              track('clicked play next', {
                 lesson: lesson.slug,
               })
             }}
             className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
           >
-            <IconPlay className="w-6 mr-2" /> Explore the Whole Course
+            <IconPlay className="w-6 mr-2" /> Play next
           </a>
         </Link>
       </div>
@@ -57,7 +61,7 @@ const CoursePitchOverlay: React.FunctionComponent<{
   )
 }
 
-export default CoursePitchOverlay
+export default WatchNextLessonCtaOverlay
 
 const IconPlay: React.FunctionComponent<{className: string}> = ({
   className = '',
