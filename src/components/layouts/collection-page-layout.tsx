@@ -29,7 +29,8 @@ import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
-import Dialog from 'components/dialog'
+import {DialogOverlay, DialogContent} from '@reach/dialog'
+import {motion} from 'framer-motion'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -562,9 +563,39 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     Bookmark
                   </div>
                 )}
-                <Dialog title="Titled" ariaLabel="Titled" buttonText="Click Me">
-                  Hello
-                </Dialog>
+                <DialogButton
+                  buttonText="Bookmark"
+                  title="Sign in to bookmark"
+                  buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
+                >
+                  <div className="flex flex-col space-y-4">
+                    <p className="max-w-10 text-center text-gray-700">
+                      You need to be signed in to bookmark courses.
+                      <br />
+                      Sign in or create a free account to save this course.
+                    </p>
+                    <div className="flex flex-col items-center space-y-2">
+                      <input
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:shadow-outline focus:border-blue-500"
+                        type="text"
+                        placeholder="Email"
+                      />
+                      <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                        Sign In
+                      </button>
+                      <p className="text-gray-500 font-bold">OR</p>
+                      <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-600 text-white transition-all hover:bg-gray-700 ease-in-out duration-200">
+                        Sign In with Github
+                      </button>
+                      <p className="text-center text-gray-600 mt-6">
+                        Don't have an egghead account?
+                        <br />
+                        <a className="underline text-bold">Sign up for free</a>
+                      </p>
+                    </div>
+                  </div>
+                </DialogButton>
                 {download_url ? (
                   <Link href={download_url}>
                     <a
@@ -1180,6 +1211,44 @@ const transformSanityEssentialQuestions = (essentialQuestions: any) => {
 
 const transformSanityTopics = (topics: any) => {
   return topics.items
+}
+
+const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
+  const [showDialog, setShowDialog] = React.useState(false)
+
+  const openDialog = () => {
+    setShowDialog(true)
+  }
+  const closeDialog = () => {
+    setShowDialog(false)
+  }
+
+  return (
+    <>
+      <button className={buttonStyles && buttonStyles} onClick={openDialog}>
+        {buttonText}
+      </button>
+      <DialogOverlay
+        isOpen={showDialog}
+        onDismiss={closeDialog}
+        className="bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 xs:p-6 z-50"
+      >
+        <DialogContent
+          aria-label="sign in to bookmark"
+          className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm border dark:border-gray-800 relative p-3 xs:p-6 w-112"
+        >
+          <div className="w-full flex flex-col">
+            {title && (
+              <h4 className="text-lg sm:text-xl mb-4 font-semibold text-center">
+                {title}
+              </h4>
+            )}
+            {children && children}
+          </div>
+        </DialogContent>
+      </DialogOverlay>
+    </>
+  )
 }
 
 export default CollectionPageLayout

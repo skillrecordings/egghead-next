@@ -133,6 +133,10 @@ module.exports = {
         '3xl': '1920px',
         print: {raw: 'print'},
       },
+      width: {
+        112: '28rem',
+        128: '32rem',
+      },
       fontSize: {
         // Set in Major Third typescale (1.25)
         base: '1em',
