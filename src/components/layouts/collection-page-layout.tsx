@@ -552,50 +552,42 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </div>
                   </button>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
-                    onClick={() => {
-                      console.log('clicked')
-                    }}
+                  <DialogButton
+                    buttonText="Bookmark"
+                    title="Sign in to bookmark"
+                    buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    <BookmarkIcon className="h-4 w-4 mr-2" />
-                    Bookmark
-                  </div>
-                )}
-                <DialogButton
-                  buttonText="Bookmark"
-                  title="Sign in to bookmark"
-                  buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
-                >
-                  <div className="flex flex-col space-y-4">
-                    <p className="max-w-10 text-center text-gray-700">
-                      You need to be signed in to bookmark courses.
-                      <br />
-                      Sign in or create a free account to save this course.
-                    </p>
-                    <div className="flex flex-col items-center space-y-2">
-                      <input
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:shadow-outline focus:border-blue-500"
-                        type="text"
-                        placeholder="Email"
-                      />
-                      <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                        Sign In
-                      </button>
-                      <p className="text-gray-500 font-bold">OR</p>
-                      <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-600 text-white transition-all hover:bg-gray-700 ease-in-out duration-200">
-                        Sign In with Github
-                      </button>
+                    <div className="flex flex-col space-y-4">
+                      <p className="max-w-10 text-center text-gray-700">
+                        You need to be signed in to bookmark courses.
+                        <br />
+                        Sign in or create a free account to save this course.
+                      </p>
+                      <div className="flex flex-col items-center space-y-2">
+                        <input
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:shadow-outline focus:border-blue-500"
+                          type="text"
+                          placeholder="Email"
+                        />
+                        <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                          Sign In
+                        </button>
+                        <p className="text-gray-500 font-bold">OR</p>
+                        <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-600 text-white transition-all hover:bg-gray-700 ease-in-out duration-200">
+                          Sign In with Github
+                        </button>
+                      </div>
+                      <p className="text-center text-gray-600 mt-6">
+                        Don't have an egghead account?
+                        <br />
+                        <a className="underline text-bold">Sign up for free</a>
+                      </p>
                     </div>
-                    <p className="text-center text-gray-600 mt-6">
-                      Don't have an egghead account?
-                      <br />
-                      <a className="underline text-bold">Sign up for free</a>
-                    </p>
-                  </div>
-                </DialogButton>
+                  </DialogButton>
+                )}
+
+                {/* Download button */}
                 {download_url ? (
                   <Link href={download_url}>
                     <a
