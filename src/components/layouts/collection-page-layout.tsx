@@ -22,6 +22,7 @@ import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
+import {IconGithub} from 'components/pages/lessons/code-link'
 import {parse} from 'date-fns'
 import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
@@ -560,25 +561,52 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
                     <div className="flex flex-col space-y-4">
-                      <p className="max-w-10 text-center text-gray-700">
+                      <p className="max-w-10 text-center text-gray-700 mb-2">
                         You need to be signed in to bookmark courses.
                         <br />
                         Sign in or create a free account to save this course.
                       </p>
-                      <div className="flex flex-col items-center space-y-2">
-                        <input
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:shadow-outline focus:border-blue-500"
-                          type="text"
-                          placeholder="Email"
-                        />
-                        <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                      <form className="w-full flex flex-col items-center space-y-2">
+                        <label
+                          htmlFor="email"
+                          className="block leading-5 text-sm font-semibold self-start"
+                        >
+                          Email address
+                        </label>
+                        <div className="mt-1 relative rounded-md shadow-sm w-full">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg
+                              className="h-5 w-5 text-gray-400"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                          </div>
+                          <input
+                            id="email"
+                            type="email"
+                            placeholder="you@company.com"
+                            className="py-3 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
+                            required
+                          />
+                        </div>
+                        <button className="font-semibold w-full mt-2 inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
                           Sign In
                         </button>
-                        <p className="text-gray-500 font-bold">OR</p>
-                        <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-600 text-white transition-all hover:bg-gray-700 ease-in-out duration-200">
-                          Sign In with Github
+                        <p className="text-gray-500 font-bold text-sm text-center">
+                          OR
+                        </p>
+                        <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-700 text-white transition-all hover:bg-gray-900 ease-in-out duration-200">
+                          <span className="mr-2 flex items-center justify-center">
+                            <IconGithub className="fill-current" />
+                          </span>
+                          Sign in with Github
                         </button>
-                      </div>
+                      </form>
                       <p className="text-center text-gray-600 mt-6">
                         Don't have an egghead account?
                         <br />
