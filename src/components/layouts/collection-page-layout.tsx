@@ -15,6 +15,7 @@ import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
 import LockIcon from '../icons/lock'
+import CheckIcon from '../icons/check'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
@@ -24,7 +25,6 @@ import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import {IconGithub} from 'components/pages/lessons/code-link'
 import {parse} from 'date-fns'
-import CheckIcon from '../icons/check-icon'
 import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
@@ -641,7 +641,18 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
                       dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    Hello
+                    <div className="flex flex-col space-y-4">
+                      <p className="max-w-10 text-center text-gray-700 mb-2">
+                        As a Pro member you can download any of our courses and
+                        watch them offline.
+                      </p>
+                      <button className="font-semibold w-full mt-2 inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                        Become a Member
+                      </button>
+                      <a className="text-sm w-full inline-flex justify-center items-center pb-2 rounded-md text-blue-600 underline transition-all hover:text-blue-800 ease-in-out duration-200">
+                        Learn more about membership
+                      </a>
+                    </div>
                   </DialogButton>
                 )}
 
@@ -678,7 +689,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
                       dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                     >
-                      Hello
+                      <div className="flex flex-col space-y-4">
+                        <p className="max-w-10 text-center text-gray-700 mb-2">
+                          As a Pro member you can subscribe to any of our
+                          courses using an RSS feed.
+                        </p>
+                      </div>
                     </DialogButton>
                   </a>
                 )}
