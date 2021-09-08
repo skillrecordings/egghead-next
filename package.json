@@ -181,7 +181,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.28.5",
     "autoprefixer": "^10.3.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "babel-eslint": "^10.0.0",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
