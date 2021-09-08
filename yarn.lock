@@ -6509,10 +6509,10 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-ahoy.js@^0.3.9:
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/ahoy.js/-/ahoy.js-0.3.9.tgz#54aec4806deda61b62abb2d132f534e0bb570641"
-  integrity sha512-zP4xcTsFwd3PadKkcHip7BWoW+8DESlNAzNTY1JdA8JNvF2dBTPX+Z1b8LrfJKxlVqlV+/qMWUmqoBN0cIjsbw==
+ahoy.js@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/ahoy.js/-/ahoy.js-0.4.0.tgz#92c0247866b167015e1fdd0bc9cda8b3a61fadbe"
+  integrity sha512-jq4aidHv8QWvZzN7YYnkQ1JgO6RyDBNrobcimJRtlfKiIP8B9ZaeMOIP4qieVrNawgI6JXpxvYMllfRb+sWZew==
 
 airbnb-js-shims@^2.2.1:
   version "2.2.1"
