@@ -643,7 +643,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   >
                     <div className="flex flex-col space-y-4">
                       <p className="max-w-10 text-center text-gray-700">
-                        As a Pro member you can download any of our courses and
+                        As a member you can download any of our courses and
                         watch them offline. As a member you'll also get:
                       </p>
                       <PlanFeatures />
@@ -695,9 +695,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div className="flex flex-col space-y-4">
                         <p className="max-w-10 text-center text-gray-700">
-                          As a Pro member you can subscribe to any of our
-                          courses using an RSS feed. As a member you'll also
-                          get:
+                          As a member you can subscribe to any of our courses
+                          using an RSS feed. As a member you'll also get:
                         </p>
                         <PlanFeatures />
 
@@ -1321,18 +1320,15 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
   )
 }
 
-const DEFAULT_FEATURES = [
-  'Full access to all premium courses and lessons',
-  'RSS course feeds for your favorite podcast app',
-  'Offline viewing',
-  'Commenting and support',
-  'Enhanced Transcripts',
-  'Closed captions for every video',
-]
-
-const PlanFeatures: React.FunctionComponent<{
-  planFeatures: string[]
-}> = ({planFeatures = DEFAULT_FEATURES}) => {
+const PlanFeatures = () => {
+  const DEFAULT_FEATURES = [
+    'Full access to all premium courses and lessons',
+    'RSS course feeds for your favorite podcast app',
+    'Offline viewing',
+    'Commenting and support',
+    'Enhanced Transcripts',
+    'Closed captions for every video',
+  ]
   const CheckIcon = () => (
     <svg
       className="text-blue-500 inline-block flex-shrink-0 mt-1"
@@ -1350,7 +1346,7 @@ const PlanFeatures: React.FunctionComponent<{
 
   return (
     <ul className="px-4">
-      {planFeatures.map((feature: string) => {
+      {DEFAULT_FEATURES.map((feature: string) => {
         return (
           <li className="py-2 font-medium flex" key={slugify(feature)}>
             <CheckIcon />
