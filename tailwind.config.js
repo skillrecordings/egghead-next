@@ -135,7 +135,6 @@ module.exports = {
       },
       width: {
         112: '28rem',
-        128: '32rem',
       },
       fontSize: {
         // Set in Major Third typescale (1.25)

@@ -635,12 +635,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
+                  <DialogButton
+                    buttonText="Download"
+                    title="Become a Pro member to download this course"
+                    buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    <LockIcon className="h-4 w-4 mr-2" /> Download
-                  </div>
+                    Hello
+                  </DialogButton>
                 )}
 
                 {/* RSS button */}
@@ -670,12 +672,14 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       console.log('hello')
                     }}
                   >
-                    <div
-                      className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                    dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
+                    <DialogButton
+                      buttonText="RSS"
+                      title="Become a Pro member to access RSS feeds"
+                      buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                     >
-                      <LockIcon className="h-4 w-4 mr-2" /> RSS
-                    </div>
+                      Hello
+                    </DialogButton>
                   </a>
                 )}
               </div>
@@ -1262,7 +1266,7 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
         >
           <div className="w-full flex flex-col">
             {title && (
-              <h4 className="text-lg sm:text-xl mb-4 font-semibold text-center">
+              <h4 className="text-lg sm:text-xl mb-4 font-semibold text-center px-4">
                 {title}
               </h4>
             )}
