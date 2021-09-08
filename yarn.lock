@@ -9147,10 +9147,10 @@ csstype@^3.0.2, csstype@^3.0.6:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
-cueplayer-react@^0.3.21:
-  version "0.3.21"
-  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.21.tgz#c5d10d7a13128b567f2ba3ab79db62b2cf771dc9"
-  integrity sha512-x8eLnkaJFeb3KfwjsbW2xqELBZjxQzsmMHR/ul9nTVaycpN0eZMDPsGEp+k9nTC6E8NmCuJJzVJ/eLifbiRe5g==
+cueplayer-react@^0.3.22:
+  version "0.3.22"
+  resolved "https://registry.yarnpkg.com/cueplayer-react/-/cueplayer-react-0.3.22.tgz#63f8d3c98380f3eaa9ff8c1fd3e0c1fc1d54226e"
+  integrity sha512-mT8jAaTJFcLfH2GWzSq8qZOI4hZuYNhKu8Mm/3rUaGbH7CH0JMxrVxkblFZSpuFJ7rP//dGSsnW4qNH0lYFSgA==
   dependencies:
     "@babel/runtime" "^7.4.5"
     classnames "^2.2.6"
@@ -13944,6 +13944,11 @@ jotai@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.0.0.tgz#d5e7f7044d89e543a9c7429a9723e11528b2760e"
   integrity sha512-6hZGy3hqIlBlLSKppTrxDc1Vb7mi3I8eEQOIu7Kj6ceX1PSzjxdsEVC9TjAqaio8gZJEz+2ufNUf4afvbs0RXg==
+
+jotai@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.3.2.tgz#955cdeaa35b0b792ac452c90646b52362d998f98"
+  integrity sha512-if3G/ic6PhGFPc0ypVi4F6gcfkfLN76iN4K0hayK+O+7Z0IUEQOow2w8NCDeZ2ES9DHmGpNh2pkbSxxU3kv2NQ==
 
 js-cookie@^2.2.1:
   version "2.2.1"

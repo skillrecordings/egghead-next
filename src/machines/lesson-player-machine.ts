@@ -38,6 +38,7 @@ export type PlayerStateEvent =
   | {type: 'COURSE_PITCH'}
   | {type: 'RATE'}
   | {type: 'LOAD'}
+  | {type: 'LOAD'; lesson: any; viewer: any}
   | {type: 'RECOMMEND'}
   | {type: 'ADD_NOTE'}
 
@@ -57,6 +58,14 @@ export const playerMachine = Machine<
     context: {lesson: {}, viewer: {}},
     states: {
       loading: {
+        entry: [
+          assign({
+            lesson: (_, event: any) => event.lesson,
+            viewer: (_, event: any) => {
+              return event.viewer
+            },
+          }),
+        ],
         on: {
           LOADED: 'loaded',
         },
@@ -103,6 +112,7 @@ export const playerMachine = Machine<
           RATE: 'rating',
           PAUSE: 'paused',
           LOAD: 'loading',
+          LOADED: 'loaded',
           ADD_NOTE: 'addingNote',
         },
       },

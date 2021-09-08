@@ -55,14 +55,12 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </Link>
             </div>
             <div className="flex flex-col sm:items-start items-center w-full">
-              <h2
-                className={`text-xs text-purple-400 uppercase font-semibold mb-2`}
-              >
+              <h2 className={`text-xs text-white uppercase font-semibold mb-2`}>
                 {byline}
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-50 hover:text-green-300 "
+                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-50 hover:text-blue-300"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
