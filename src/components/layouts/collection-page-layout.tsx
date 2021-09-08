@@ -510,6 +510,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               {/* Start of action buttons block */}
               <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {/* Bookmark button */}
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
@@ -613,6 +614,8 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     <LockIcon className="h-4 w-4 mr-2" /> Download
                   </div>
                 )}
+
+                {/* RSS button */}
                 {rss_url ? (
                   <Link href={rss_url}>
                     <a
@@ -1236,6 +1239,18 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
               </h4>
             )}
             {children && children}
+          </div>
+          <div className="block absolute top-0 right-0 pt-3 pr-3">
+            <button
+              onClick={closeDialog}
+              type="button"
+              className={`text-gray-500 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-700 p-1 focus:shadow-outline-blue transition-all rounded-full hover:scale-110 ease-in-out duration-200`}
+              aria-label="Close"
+            >
+              <span className="sr-only">close feedback dialog</span>
+              {/* prettier-ignore */}
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
         </DialogContent>
       </DialogOverlay>
