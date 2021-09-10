@@ -621,15 +621,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     <CommunityResource type="course" />
                   </div>
                 )}
-
-                {courseIllustrator && (
-                  <div className="w-full py-6">
-                    <h4 className="font-semibold">Credits</h4>
-                    <span className="text-sm">
-                      {courseIllustrator?.name} (illustration)
-                    </span>
-                  </div>
-                )}
               </div>
               {!isEmpty(podcast) && (
                 <CoursePodcast podcast={podcast} instructorName={name} />
@@ -732,6 +723,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 />
               </div>
             )}
+            {courseIllustrator && (
+              <div className="md:block hidden text-sm opacity-80 text-center">
+                <h4 className="font-semibold">Credits</h4>
+                <span>{courseIllustrator?.name}</span>
+              </div>
+            )}
             <div className="md:block hidden space-y-6">
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
@@ -744,15 +741,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {get(course, 'access_state') === 'free' && (
                 <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                   <CommunityResource type="course" />
-                </div>
-              )}
-
-              {courseIllustrator && (
-                <div className="w-full">
-                  <h4 className="font-semibold">Credits</h4>
-                  <span className="text-sm">
-                    {courseIllustrator?.name} (illustration)
-                  </span>
                 </div>
               )}
             </div>
