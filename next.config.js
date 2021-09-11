@@ -19,9 +19,12 @@ const withMDX = require(`@next/mdx`)({
   },
 })
 
-const withTM = require('next-transpile-modules')(['unist-util-visit'], {
-  debug: true,
-})
+const withTM = require('next-transpile-modules')(
+  ['unist-util-visit', 'remark-footnotes'],
+  {
+    debug: true,
+  },
+)
 
 const searchUrlRoot = `/q`
 
