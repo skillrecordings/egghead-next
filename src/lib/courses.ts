@@ -22,11 +22,6 @@ const courseQuery = groq`
     	'name': person->name,
   	}
 	},
-	"freshness": staffReviews[0]{
-    status,
-    title,
-    "text": summary
-  },
 	"customOgImage": images[label == 'og-image'][0]{
     url
   },

@@ -72,7 +72,7 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
               </div>
               <br className="print:hidden" />
               <textarea
-                className={`form-textarea placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent ${
+                className={`form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent ${
                   invoiceInfo ? '' : 'print:hidden'
                 }`}
                 value={invoiceInfo}
