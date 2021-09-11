@@ -118,10 +118,7 @@
 /* Hide some controls in mobile */
 .cueplayer-react .cueplayer-react-control.cueplayer-react-replay-control,
 .cueplayer-react .cueplayer-react-control.cueplayer-react-forward-control,
-.cueplayer-react .cueplayer-react-control.cueplayer-react-volume-menu-button,
-.cueplayer-react .cueplayer-react-control.cueplayer-react-current-time,
-.cueplayer-react .cueplayer-react-time-divider,
-.cueplayer-react .cueplayer-react-control.cueplayer-react-duration {
+.cueplayer-react .cueplayer-react-control.cueplayer-react-volume-menu-button {
   @apply hidden sm:inline-block;
 }
 
