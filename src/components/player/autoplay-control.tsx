@@ -19,7 +19,7 @@ const AutoplayControl: React.FC<AutoplayControlProps> = ({
   const {autoplay} = getPlayerPrefs()
 
   return (
-    <div className="flex px-3 items-center space-x-2">
+    <div className="hidden md:flex px-3 items-center space-x-2">
       <span>Autoplay</span>
       <Switch
         checked={autoplay}
