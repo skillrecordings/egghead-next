@@ -157,13 +157,12 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <TimeDivider key="time-divider" order={6} />
           <DurationDisplay key="duration-display" order={7} />
           <ControlBarDivider key="divider" order={8} className="flex-grow" />
-          {/*<AutoplayControl*/}
-          {/*  enabled={true}*/}
-          {/*  onDark={true}*/}
-          {/*  player={actualPlayerRef}*/}
-          {/*  key="autoplay-control"*/}
-          {/*  order={9}*/}
-          {/*/>*/}
+          <AutoplayControl
+            enabled={true}
+            onDark={true}
+            key="autoplay-control"
+            order={9}
+          />
           <PlaybackRateMenuButton
             rates={[2, 1.75, 1.5, 1.25, 1, 0.85, 0.75]}
             key="playback-rate"

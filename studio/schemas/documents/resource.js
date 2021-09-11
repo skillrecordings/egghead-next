@@ -337,13 +337,6 @@ export default {
       ],
     },
     {
-      name: 'staffReviews',
-      title: 'Freshness Reviews',
-      description: 'Staff Reviews',
-      type: 'array',
-      of: [{type: 'staffReview'}],
-    },
-    {
       name: 'features',
       title: 'Features',
       description: 'A list of features (bullet points)',
