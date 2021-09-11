@@ -51,7 +51,7 @@ export const sortingHatReducer = (
     }
 
     return state
-  } catch (error) {
+  } catch (error: Error) {
     console.error(error.message)
     track(`survey error`, {
       survey: state.surveyTitle,
