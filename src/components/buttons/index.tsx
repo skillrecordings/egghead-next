@@ -39,10 +39,10 @@ export const SecondaryButton: React.FC<ButtonProps> = ({
     <Link href={url}>
       <a
         onClick={onClick}
-        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md text-gray-600 font-normal transition-all   hover:text-gray-800 ease-in-out duration-200 mt-12 ${
+        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md  font-normal transition-all   hover:text-gray-800 ease-in-out duration-200 mt-12 ${
           quiet
-            ? 'hover:bg-gray-100'
-            : 'hover:bg-gray-50 border border-gray-50 bg-white shadow-sm hover:shadow'
+            ? 'hover:bg-gray-100 text-gray-700'
+            : 'hover:bg-gray-50 text-gray-600 border border-gray-100 bg-white shadow-sm hover:shadow'
         }`}
       >
         {label}
