@@ -8,7 +8,6 @@ import collaborator from './documents/collaborator'
 import resource from './documents/resource'
 import person from './documents/person'
 import library from './documents/software-library'
-import staffReview from './objects/staffReview'
 import bigIdea from './documents/bigIdea'
 import essentialQuestion from './documents/essentialQuestion'
 import blockText from './objects/blockText'
@@ -49,7 +48,6 @@ export default createSchema({
     collaborator,
     person,
     library,
-    staffReview,
     essentialQuestion,
     bigIdea,
     stringList,
