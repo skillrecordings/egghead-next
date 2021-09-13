@@ -20,7 +20,7 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
     <Link href={url}>
       <a
         onClick={onClick}
-        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white font-medium transition-all hover:bg-blue-800 ease-in-out duration-200`}
+        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white font-medium transition-all hover:bg-blue-800 dark:hover:bg-blue-500 ease-in-out duration-200`}
       >
         {label}
       </a>
@@ -39,10 +39,10 @@ export const SecondaryButton: React.FC<ButtonProps> = ({
     <Link href={url}>
       <a
         onClick={onClick}
-        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md  font-normal transition-all   hover:text-gray-800 ease-in-out duration-200 mt-12 ${
+        className={`${className}  inline-flex justify-center items-center px-4 py-2 rounded-md font-normal transition-all   hover:text-gray-800 ease-in-out duration-200 ${
           quiet
-            ? 'hover:bg-gray-100 text-gray-700'
-            : 'hover:bg-gray-50 text-gray-600 border border-gray-100 bg-white shadow-sm hover:shadow'
+            ? 'hover:bg-gray-100 text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:border-gray-600'
+            : 'hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-200 border dark:border-gray-600 border-gray-100 dark:bg-gray-700 bg-white shadow-sm hover:shadow'
         }`}
       >
         {label}
