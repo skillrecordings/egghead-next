@@ -56,11 +56,69 @@ const NewHome: React.FunctionComponent = () => {
         />
       </section>
       <TechnologyRow />
-      <section className="my-12 sm:my-32">
-        <h3>
-          Obviously, you can pick up a new framework or a new language or a new
-          platform on your own.
-        </h3>
+      <section className="my-12 sm:mt-40 sm:mb-28 max-w-screen-xl mx-auto ">
+        <div className="mx-auto md:mx-2 md:max-w-screen-md">
+          <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
+            Why bother with another learning platform?
+          </p>
+          <h3 className="text-2xl leading-snug mb-6 font-medium">
+            Obviously you can pick up a new framework, language or platform on
+            your own. You’ve done it before.
+            <br />
+            You know the drill...
+          </h3>
+          <ol className="">
+            {[
+              'Cobble together hours-long videos, docs, tutorials, and forum posts',
+              'Watch long, unedited videos at 2x speed',
+              'Dig through the comments when tutorials give you more bugs than working code',
+              'Read blog post after unreliable blog post',
+              'Ask StackOverflow questions when you get stuck in holes',
+            ].map((item) => (
+              <li className="prose text-lg">{item}</li>
+            ))}
+          </ol>
+          <p className="mt-6 prose text-lg">
+            All the while, your poor computer screams under the weight of all
+            those tabs.
+          </p>
+          <p className="mt-6 prose text-lg">
+            What about books? Books are great! They're sometimes edited by
+            professionals, which is more than you can say for most tutorials you
+            find. But publishers can’t keep up with the pace of modern web
+            development. You can't keep up either, at least not with your old
+            approach.
+          </p>
+          <p className="mt-6 prose text-lg">
+            Nobody’s paying you to find the bugs in their crummy tutorials. You
+            don’t have time to dig your way out of all those rabbit holes for a
+            supposedly free education.
+          </p>
+          <p className="mt-6 prose text-lg">
+            So you’ve been procrastinating a little. Or… a lot.
+          </p>
+          <p className="mt-6 prose text-lg">
+            Your time is precious. You're a professional.
+          </p>
+        </div>
+      </section>
+
+      <section className="max-w-screen-xl mx-auto">
+        <div className="mx-auto md:mx-2 md:max-w-screen-md">
+          <div className="w-40 border border-blue-500" />
+          <h3 className="text-2xl leading-snug my-6 font-medium">
+            Don't you wish you could jack into the Matrix and inject React
+            directly to your brain?
+          </h3>
+          {[
+            "Sounds convenient, but it's not going to happen anytime soon.",
+            'But if you had the next best thing?',
+            'What if you could simply sit down and start learning? What if you could skip all the searching, the cobbling, the contradictory advice, the bugs, the forums, and the dead ends?',
+            'What if you had on-demand experts avaliable to carefully explain ',
+          ].map((item) => {
+            return <p className="mt-6 prose text-lg">{item}</p>
+          })}
+        </div>
       </section>
     </div>
   )
