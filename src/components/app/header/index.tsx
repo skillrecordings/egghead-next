@@ -48,11 +48,11 @@ const Header: FunctionComponent = () => {
   let ActiveCTA: React.FC = () => null
 
   switch (true) {
-    case !subscriber?.attributes?.online_presence:
-      ActiveCTA = () => <OnlinePresenceCTA variant="header" />
-      break
     case viewer?.is_pro && !subscriber?.attributes?.portfolio_foundations:
       ActiveCTA = () => <PortfolioFoundationsCTA variant="header" />
+      break
+    case !subscriber?.attributes?.online_presence:
+      ActiveCTA = () => <OnlinePresenceCTA variant="header" />
       break
     case !subscriber && !loadingSubscriber:
       ActiveCTA = () => <OnlinePresenceCTA variant="header" />
