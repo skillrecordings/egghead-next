@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Link from 'next/link'
 import noop from 'utils/noop'
 import {PrimaryButton} from 'components/buttons/index'
 
