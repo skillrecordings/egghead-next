@@ -10,7 +10,7 @@ const NewHome: React.FunctionComponent<LoginRequiredParams> = ({
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 leading-tighter sm:leading-tighter  text-gray-700">
             Learn the best JavaScript tools and frameworks from industry pros
           </h1>
-          <h2 className="text-xl leading-normal text-coolGray-600 w-3/4">
+          <h2 className="text-xl sm:leading-normal text-coolGray-600 w-3/4">
             egghead creates high-quality video tutorials and learning resources
             for badass web developers
           </h2>
