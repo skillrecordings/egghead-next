@@ -6,6 +6,7 @@ type ButtonProps = {
   url: string
   label: string
   className?: string
+  quiet?: boolean
   onClick?: () => void
 }
 
@@ -27,17 +28,22 @@ export const PrimaryButton: React.FC<ButtonProps> = ({
   )
 }
 
-export const Secondary: React.FC<ButtonProps> = ({
+export const SecondaryButton: React.FC<ButtonProps> = ({
   url,
   className,
   label,
+  quiet,
   onClick = noop,
 }) => {
   return (
     <Link href={url}>
       <a
         onClick={onClick}
-        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md bg-blue-600 text-white font-medium transition-all hover:bg-blue-800 ease-in-out duration-200`}
+        className={`${className} inline-flex justify-center items-center px-4 py-2 rounded-md text-gray-600 font-normal transition-all   hover:text-gray-800 ease-in-out duration-200 mt-12 ${
+          quiet
+            ? 'hover:bg-gray-100'
+            : 'hover:bg-gray-50 border border-gray-50 bg-white shadow-sm hover:shadow'
+        }`}
       >
         {label}
       </a>
