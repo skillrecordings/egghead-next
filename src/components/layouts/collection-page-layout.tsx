@@ -91,7 +91,7 @@ export const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
 
 export const PublishedAt: React.FunctionComponent<{date: string}> = ({
   date,
-}) => <div>Created {date}</div>
+}) => <div>Published {date}</div>
 
 const StarsRating: React.FunctionComponent<{
   rating: number
@@ -173,7 +173,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     topics,
     illustrator,
     dependencies,
-    freshness,
     pairWithResources = defaultPairWithResources,
     courseProject,
     quickFacts,
@@ -209,7 +208,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     customOgImage,
     prerequisites: sanityPrerequisites,
     topics: sanityTopics,
-    freshness: sanityFreshness,
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
     illustrator: sanityIllustrator,
@@ -224,8 +222,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const relatedResources = sanityPairWithResources
     ? sanityPairWithResources
     : pairWithResources
-
-  const courseFreshness = sanityFreshness ? sanityFreshness : freshness
   const courseEssentialQuestions = !isEmpty(sanityEssentialQuestions)
     ? transformSanityEssentialQuestions(sanityEssentialQuestions)
     : essentialQuestions
@@ -612,22 +608,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {description}
               </Markdown>
               <div className="pt-5 md:hidden block">
-                <Fresh freshness={courseFreshness} />
-
                 <CourseProjectCard courseProject={courseProject} />
 
                 {get(course, 'access_state') === 'free' && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
-                  </div>
-                )}
-
-                {courseIllustrator && (
-                  <div className="w-full py-6">
-                    <h4 className="font-semibold">Credits</h4>
-                    <span className="text-sm">
-                      {courseIllustrator?.name} (illustration)
-                    </span>
                   </div>
                 )}
               </div>
@@ -732,27 +717,22 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 />
               </div>
             )}
+            {courseIllustrator && (
+              <div className="md:block hidden text-sm opacity-80 text-center">
+                <h4 className="font-semibold">Credits</h4>
+                <span>{courseIllustrator?.name}</span>
+              </div>
+            )}
             <div className="md:block hidden space-y-6">
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
-
-              <Fresh freshness={courseFreshness} />
 
               <CourseProjectCard courseProject={courseProject} />
 
               {get(course, 'access_state') === 'free' && (
                 <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                   <CommunityResource type="course" />
-                </div>
-              )}
-
-              {courseIllustrator && (
-                <div className="w-full">
-                  <h4 className="font-semibold">Credits</h4>
-                  <span className="text-sm">
-                    {courseIllustrator?.name} (illustration)
-                  </span>
                 </div>
               )}
             </div>
@@ -1006,52 +986,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           </div>
         </div>
       </div>
-    </>
-  )
-}
-
-const Fresh = ({freshness}: {freshness: any}) => {
-  if (!freshness) return null
-
-  const reviewedAt = friendlyTime(
-    parse(freshness.asOf, 'yyyy-MM-dd', new Date()),
-  )
-  return (
-    <>
-      {freshness && (
-        <div
-          className={`flex flex-col space-y-1 ${
-            freshness.status === 'fresh'
-              ? 'border-green-500 border bg-green-50 dark:bg-teal-900'
-              : freshness.status === 'classic'
-              ? 'border-blue-500 border bg-blue-50 dark:bg-blueGray-800'
-              : freshness.status === 'stale'
-              ? 'border-orange-500 border bg-orange-50 dark:bg-orange-900'
-              : freshness.status === 'awesome'
-              ? 'border-indigo-500 border bg-indigo-50 dark:bg-indigo-900'
-              : 'border'
-          } border-opacity-20 p-4 my-3 rounded-md`}
-        >
-          {freshness.title && (
-            <h2 className="text-xl font-semibold">
-              {freshness.status === 'fresh' && '🌱'}
-              {freshness.status === 'awesome' && '⭐'}
-              {freshness.status === 'stale' && '⛔️'}
-              {freshness.status === 'classic' && '💎'} {freshness.title}
-            </h2>
-          )}
-          {freshness.asOf && (
-            <p>
-              <small>Staff reviewed: {reviewedAt}</small>
-            </p>
-          )}
-          {freshness.text && (
-            <Markdown className="prose dark:prose-dark w-full">
-              {freshness.text}
-            </Markdown>
-          )}
-        </div>
-      )}
     </>
   )
 }
