@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {motion} from 'framer-motion'
+import {VueBlue} from './allicons'
 
 const NewHome: React.FunctionComponent = () => {
   return (
@@ -115,7 +116,7 @@ const NewHome: React.FunctionComponent = () => {
           </h3>
           {[
             "Sounds convenient, but it's not going to happen anytime soon.",
-            'But if you had the next best thing?',
+            'But what if you had the next best thing?',
             'What if you could simply sit down and start learning? What if you could skip all the searching, the cobbling, the contradictory advice, the bugs, the forums, and the dead ends?',
             'What if you had on-demand experts avaliable to hand you the best, curated material on modern web development?',
           ].map((item) => {
@@ -235,40 +236,44 @@ function TechnologyRow() {
         {[
           {
             label: 'JavaScript',
-            image: 'https://via.placeholder.com/180x180',
+            image: <VueBlue />,
           },
           {
             label: 'React',
-            image: 'https://via.placeholder.com/180x180',
+            image: <VueBlue />,
           },
           {
             label: 'Angular',
-            image: 'https://via.placeholder.com/180x180',
+            image: <VueBlue />,
           },
           {
             label: 'Vue',
-            image: 'https://via.placeholder.com/180x180',
+            image: <VueBlue />,
           },
           {
-            label: 'Node',
-            image: 'https://via.placeholder.com/180x180',
+            label: 'Node.js',
+            image: <VueBlue />,
           },
           {
-            label: 'Gatsby',
-            image: 'https://via.placeholder.com/180x180',
+            label: 'AWS',
+            image: <VueBlue />,
+          },
+          {
+            label: 'CSS',
+            image: <VueBlue />,
           },
           {
             label: 'Next.js',
-            image: 'https://via.placeholder.com/180x180',
+            image: <VueBlue />,
           },
           {
             label: 'Redux',
-            image: 'https://via.placeholder.com/180x180',
+            image: <VueBlue />,
           },
         ].map((tech, i) => {
           return (
-            <div className="flex flex-col items-center m-4 w-20 sm:w-30 md:w-40">
-              <img src={tech.image} alt={tech.label} />
+            <div className="flex flex-col items-center m-2 sm:m-4 w-24 sm:w-32 md:w-36">
+              {tech.image}
               <p className="mt-2 text-coolGray-500 text-sm">{tech.label}</p>
             </div>
           )
