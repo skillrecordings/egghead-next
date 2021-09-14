@@ -230,8 +230,7 @@ const Search: FunctionComponent<SearchProps> = ({
                       label: 'Most Popular',
                     },
                     {value: 'reviews', label: 'Highest Rated'},
-                    {value: 'updated', label: 'Recently Updated'},
-                    {value: 'created', label: 'Recently Published'},
+                    {value: 'created', label: 'Recently Added'},
                     {value: 'completed', label: 'Most Watched'},
                   ]}
                 />
