@@ -92,8 +92,6 @@ const SearchIndex: any = ({
       setInstructor(null)
     }
 
-    console.log(searchState)
-
     const selectedTopics = topicExtractor(searchState)
 
     if (
@@ -122,7 +120,6 @@ const SearchIndex: any = ({
     }
 
     debouncedState.current = setTimeout(() => {
-      console.log('search state')
       const href: string = createUrl(searchState)
       setNoIndex(queryParamsPresent(href))
 
