@@ -3,7 +3,7 @@ import {motion} from 'framer-motion'
 
 const NewHome: React.FunctionComponent = () => {
   return (
-    <div className="mt-4 sm:mt-8 mb-28 w-full">
+    <div className="mt-4 sm:mt-8 w-full">
       <section className="my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto">
         <div className="w-full sm:w-3/5">
           <h1 className="text-4xl sm:text-6xl font-bold mb-8 leading-tighter sm:leading-tighter text-gray-700">
@@ -74,7 +74,7 @@ const NewHome: React.FunctionComponent = () => {
               'Watch long, unedited videos at 2x speed',
               'Dig through the comments when tutorials give you more bugs than working code',
               'Read blog post after unreliable blog post',
-              'Ask StackOverflow questions when you get stuck in holes',
+              'Beg for answers on StackOverflow when you hit dead ends',
             ].map((item) => (
               <li className="prose text-lg pl-2 pb-2">{item}</li>
             ))}
@@ -174,10 +174,17 @@ const NewHome: React.FunctionComponent = () => {
               <li className="prose text-lg pl-2 pb-2">{item}</li>
             ))}
           </ol>
+          <p className="mt-6 prose text-lg">
+            And unlike book publishers, we move at the speed of the web. When
+            you need the most up-to-date tutorials on React, we've got you
+            covered.
+          </p>
           {[
-            "And unlike book publishers, we move at the speed of the web. When you need the most up-to-date tutorials on React, we've got you covered.",
-            'We have over 5,000 lessons in 250+ courses, with new material released every week.',
-            "Our lessons are 3-7 minutes long – short, sweet, and to the point. They're designed to be watched both individually and as part of a course, so you can jump around and get exactly the information you need.",
+            'We have over 5,000 lessons and 250+ courses, with new material released every week.',
+            "Our lessons are 3-7 minutes long – short, sweet, and to the point. They're designed to be watched either individually or as part of a course, so you can jump around and get exactly the information you need.",
+            "Our courses will give you a comprehensive tour through a topic. They cover all the essentials from beginning to end. This includes a realistic practice project and all the code you'll need to complete it.",
+            'This means you can pick up individual skills anytime you want. New languages, frameworks, and libraries are easy to add to your professional toolkit. Learn at your desk, on the train, or in the bathroom – whenever and whereever you want. Videos, transcripts, and code examples are always avaliable – even offline.',
+            'And all of it is nop-notch quality. Your secret weapon to get ahead, shine at work, and build things you love.',
           ].map((item) => {
             return <p className="mt-6 prose text-lg">{item}</p>
           })}
@@ -187,18 +194,34 @@ const NewHome: React.FunctionComponent = () => {
       <section className="max-w-screen-xl mb-20 mx-auto">
         <div className="mx-auto md:mx-2 md:max-w-screen-md">
           <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
-            The hard numbers
+            The nuts and bolts
           </p>
           <h3 className="text-2xl leading-snug mb-6 font-medium">
             What you'll get as an egghead member
           </h3>
-          <p className="mt-6 prose text-lg">
-            We're here to help you level up. We've designed everything from the
-            courses to the tools to the community to advance your skills without
-            sacrificing your precious time.
-          </p>
+        </div>
+        <div className="grid grid-cols-5 grid-rows-2 gap-4">
+          {[
+            {text: '250+ comprehensive video courses', icon: ''},
+            {text: 'Practice projects to apply your knowledge', icon: ''},
+            {text: '5,500+ short and sweet lessons', icon: ''},
+            {text: 'Transcripts and closed captions on every video', icon: ''},
+            {text: 'Code examples for every lesson', icon: ''},
+            {text: 'Speed controls to watch at your own pace', icon: ''},
+            {text: 'Downloadable videos to view offline', icon: ''},
+            {text: 'Priority customer support', icon: ''},
+            {text: 'RSS feeds for your favourite podcasting app', icon: ''},
+            {
+              text: 'Bookmarks to create learning plans and stay organised',
+              icon: '',
+            },
+            {text: 'Watch history to see your progress over time', icon: ''},
+          ].map((item) => {
+            return <div className="h-40 w-60">{item.text}</div>
+          })}
         </div>
       </section>
+      <PricingSection />
     </div>
   )
 }
@@ -250,6 +273,74 @@ function TechnologyRow() {
             </div>
           )
         })}
+      </div>
+    </section>
+  )
+}
+
+function PricingSection() {
+  return (
+    <section className="-mx-6 bg-gray-50 py-20">
+      <div className="max-w-screen-xl mx-auto">
+        <div className="">
+          <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
+            Pricing
+          </p>
+          <h3 className="text-2xl leading-snug mb-6 font-medium">
+            Choose the plan that's right for you
+          </h3>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            {
+              label: 'Free',
+              price: '$0',
+              features: [
+                'Access to all courses',
+                'Access to all lessons',
+                'Access to all code examples',
+                'Access to all transcripts',
+                'Access to all videos',
+                'Access to all tools',
+                'Access to all support',
+              ],
+            },
+            {
+              label: 'Pro',
+              price: '$9.99',
+              features: [
+                'Access to all courses',
+                'Access to all lessons',
+                'Access to all code examples',
+                'Access to all transcripts',
+                'Access to all videos',
+                'Access to all tools',
+                'Access to all support',
+              ],
+            },
+          ].map((plan, i) => {
+            return (
+              <div className="flex flex-col items-center m-4 w-full sm:w-full md:w-full lg:w-1/3">
+                <div className="flex flex-col items-center justify-center w-full h-40">
+                  <h3 className="text-2xl leading-snug mb-6 font-medium">
+                    {plan.label}
+                  </h3>
+                  <p className="text-coolGray-500 text-sm">{plan.price}</p>
+                </div>
+                <ul className="mt-4 text-coolGray-500 text-sm">
+                  {plan.features.map((feature, i) => {
+                    return <li>{feature}</li>
+                  })}
+                </ul>
+                <div className="flex flex-row justify-center items-center mt-8">
+                  <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-full">
+                    Sign Up
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </section>
   )
