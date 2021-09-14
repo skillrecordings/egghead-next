@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import Head from 'next/head'
 import Hits from './hits'
+import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
@@ -218,11 +219,9 @@ const Search: FunctionComponent<SearchProps> = ({
             <ScrollTo scrollOn="page" />
 
             <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200 max-w-screen-xl mx-auto">
-              <div>
-                {/* COMMENT OUT FOR NOW */}
-                {/* <span className="font-bold">XX results</span> for "XXX" */}
-              </div>
-              <div>
+              <Stats searchQuery={searchState.query} />
+              <div className="flex space-x-2 items-center">
+                <div className="font-bold">Sort by:</div>
                 <SortBy
                   defaultRefinement="popular"
                   items={[
@@ -230,10 +229,10 @@ const Search: FunctionComponent<SearchProps> = ({
                       value: 'popular',
                       label: 'Most Popular',
                     },
-                    {value: 'updated', label: 'Last Updated'},
-                    {value: 'created', label: 'Last Created'},
+                    {value: 'reviews', label: 'Highest Rated'},
+                    {value: 'updated', label: 'Recently Updated'},
+                    {value: 'created', label: 'Recently Published'},
                     {value: 'completed', label: 'Most Watched'},
-                    {value: 'reviews', label: 'Highest Reviews'},
                   ]}
                 />
               </div>
