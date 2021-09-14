@@ -217,9 +217,10 @@ const Search: FunctionComponent<SearchProps> = ({
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
 
-            <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200">
+            <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200 max-w-screen-xl mx-auto">
               <div>
-                <span className="font-bold">XX results</span> for "XXX"
+                {/* COMMENT OUT FOR NOW */}
+                {/* <span className="font-bold">XX results</span> for "XXX" */}
               </div>
               <div>
                 <SortBy
