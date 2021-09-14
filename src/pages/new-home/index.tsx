@@ -1,6 +1,16 @@
 import * as React from 'react'
 import {motion} from 'framer-motion'
-import {VueBlue} from './allicons'
+import {
+  VueBlue,
+  AwsBlue,
+  CssBlue,
+  AngularBlue,
+  JsBlue,
+  NextBlue,
+  NodeBlue,
+  ReactBlue,
+  ReduxBlue,
+} from './allicons'
 
 const NewHome: React.FunctionComponent = () => {
   return (
@@ -58,7 +68,7 @@ const NewHome: React.FunctionComponent = () => {
         />
       </section>
       <TechnologyRow />
-      <section className="my-12 sm:mt-40 mb-20 max-w-screen-xl mx-auto ">
+      <section className="my-12 sm:my-20 max-w-screen-xl mx-auto ">
         <div className="mx-auto md:mx-2 md:max-w-screen-md">
           <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
             Why bother with another learning platform?
@@ -85,11 +95,11 @@ const NewHome: React.FunctionComponent = () => {
             those tabs.
           </p>
           <p className="mt-6 prose text-lg">
-            What about books? Books are great! They're sometimes edited by
-            professionals, which is more than you can say for most tutorials you
-            find. But publishers can’t keep up with the pace of modern web
-            development. You can't keep up either, at least not with your old
-            approach.
+            What about learning from books? Books are great! <br /> They're
+            sometimes edited by professionals, which is more than you can say
+            for most tutorials you find. But publishers can’t keep up with the
+            pace of modern web development. You can't keep up either, at least
+            not with your old approach.
           </p>
           <p className="mt-6 prose text-lg">
             Nobody’s paying you to find the bugs in their crummy tutorials. You
@@ -192,34 +202,60 @@ const NewHome: React.FunctionComponent = () => {
         </div>
       </section>
 
-      <section className="max-w-screen-xl mb-20 mx-auto">
-        <div className="mx-auto md:mx-2 md:max-w-screen-md">
-          <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
-            The nuts and bolts
-          </p>
-          <h3 className="text-2xl leading-snug mb-6 font-medium">
-            What you'll get as an egghead member
-          </h3>
-        </div>
-        <div className="grid grid-cols-5 grid-rows-2 gap-4">
-          {[
-            {text: '250+ comprehensive video courses', icon: ''},
-            {text: 'Practice projects to apply your knowledge', icon: ''},
-            {text: '5,500+ short and sweet lessons', icon: ''},
-            {text: 'Transcripts and closed captions on every video', icon: ''},
-            {text: 'Code examples for every lesson', icon: ''},
-            {text: 'Speed controls to watch at your own pace', icon: ''},
-            {text: 'Downloadable videos to view offline', icon: ''},
-            {text: 'Priority customer support', icon: ''},
-            {text: 'RSS feeds for your favourite podcasting app', icon: ''},
-            {
-              text: 'Bookmarks to create learning plans and stay organised',
-              icon: '',
-            },
-            {text: 'Watch history to see your progress over time', icon: ''},
-          ].map((item) => {
-            return <div className="h-40 w-60">{item.text}</div>
-          })}
+      <section className="-mx-6 bg-gray-50 py-20 border-2 border-gray-100">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="mx-auto md:mx-2 md:max-w-screen-md">
+            <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
+              The nuts and bolts
+            </p>
+            <h3 className="text-2xl leading-snug mb-6 font-medium">
+              What you'll get as an egghead member
+            </h3>
+          </div>
+          <div className="mt-10 grid grid-cols-4 grid-rows-3 gap-4">
+            {[
+              {text: '250+ comprehensive video courses', icon: <ReactBlue />},
+              {
+                text: '5500+ short and sweet lessons',
+                icon: <ReactBlue />,
+              },
+              {
+                text: 'Practice projects to apply your knowledge',
+                icon: <ReactBlue />,
+              },
+              {
+                text: 'Transcripts and closed captions on every video',
+                icon: <ReactBlue />,
+              },
+              {text: 'Code examples for every lesson', icon: <ReactBlue />},
+              {
+                text: 'Speed controls to watch at your own pace',
+                icon: <ReactBlue />,
+              },
+              {
+                text: 'Downloadable videos to view offline',
+                icon: <ReactBlue />,
+              },
+              {
+                text: 'Priority customer support and assistance',
+                icon: <ReactBlue />,
+              },
+              {text: 'RSS feeds for your favourite podcasting app', icon: ''},
+              {
+                text: 'Bookmarks to create learning plans and stay organised',
+                icon: '',
+              },
+              {text: 'Watch history to see your progress over time', icon: ''},
+            ].map((item) => {
+              return (
+                <div className="h-48 w-full bg-white border rounded-md shadow-sm border-gray-100 p-6 flex items-center">
+                  <p className="text-center leading-tight font-medium text-lg text-gray-700">
+                    {item.text}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </section>
       <PricingSection />
@@ -231,20 +267,20 @@ export default NewHome
 
 function TechnologyRow() {
   return (
-    <section className="my-12 sm:my-32">
-      <div className="flex flex-row flex-wrap items-center justify-center">
+    <section className="my-12 sm:my-28">
+      <div className="flex flex-row flex-wrap items-center justify-center content-between place-content-between">
         {[
           {
             label: 'JavaScript',
-            image: <VueBlue />,
+            image: <JsBlue />,
           },
           {
             label: 'React',
-            image: <VueBlue />,
+            image: <ReactBlue />,
           },
           {
             label: 'Angular',
-            image: <VueBlue />,
+            image: <AngularBlue />,
           },
           {
             label: 'Vue',
@@ -252,29 +288,33 @@ function TechnologyRow() {
           },
           {
             label: 'Node.js',
-            image: <VueBlue />,
+            image: <NodeBlue />,
           },
           {
             label: 'AWS',
-            image: <VueBlue />,
+            image: <AwsBlue />,
           },
           {
             label: 'CSS',
-            image: <VueBlue />,
+            image: <CssBlue />,
           },
           {
             label: 'Next.js',
-            image: <VueBlue />,
+            image: <NextBlue />,
           },
           {
             label: 'Redux',
-            image: <VueBlue />,
+            image: <ReduxBlue />,
           },
         ].map((tech, i) => {
           return (
-            <div className="flex flex-col items-center m-2 sm:m-4 w-24 sm:w-32 md:w-36">
-              {tech.image}
-              <p className="mt-2 text-coolGray-500 text-sm">{tech.label}</p>
+            <div className="flex flex-col items-center mb-6 md:mb-8">
+              <div className="w-20 h-20 md:w-32 md:h-32 px-2 mx-2 md:mx-4 flex items-center">
+                {tech.image}
+              </div>
+              <p className="pt-3 text-coolGray-400 font-semibold text-sm justify-self-end">
+                {tech.label}
+              </p>
             </div>
           )
         })}
@@ -285,7 +325,7 @@ function TechnologyRow() {
 
 function PricingSection() {
   return (
-    <section className="-mx-6 bg-gray-50 py-20">
+    <section className="mt-20">
       <div className="max-w-screen-xl mx-auto">
         <div className="">
           <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
