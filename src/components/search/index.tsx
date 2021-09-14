@@ -121,13 +121,13 @@ const Search: FunctionComponent<SearchProps> = ({
           defaultRefinement="content_production"
           items={[
             {
-              value: 'content_production',
-              label: 'Popularity',
+              value: 'popular',
+              label: 'Most Popular',
             },
-            {value: 'updated_at_desc', label: 'Last Updated'},
-            {value: 'created_at_desc', label: 'Last Created'},
-            {value: 'total_completions', label: 'Most Watched'},
-            {value: 'customer_rating', label: 'Highest Reviews'},
+            {value: 'updated', label: 'Last Updated'},
+            {value: 'created', label: 'Last Created'},
+            {value: 'completed', label: 'Most Watched'},
+            {value: 'reviews', label: 'Highest Reviews'},
           ]}
         />
         <Configure hitsPerPage={config.searchResultCount} />
