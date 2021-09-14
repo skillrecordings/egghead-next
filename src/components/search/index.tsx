@@ -118,7 +118,7 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <SortBy
-          defaultRefinement="content_production"
+          defaultRefinement="popular"
           items={[
             {
               value: 'popular',
