@@ -117,19 +117,6 @@ const Search: FunctionComponent<SearchProps> = ({
         searchState={searchState}
         {...rest}
       >
-        <SortBy
-          defaultRefinement="popular"
-          items={[
-            {
-              value: 'popular',
-              label: 'Most Popular',
-            },
-            {value: 'updated', label: 'Last Updated'},
-            {value: 'created', label: 'Last Created'},
-            {value: 'completed', label: 'Most Watched'},
-            {value: 'reviews', label: 'Highest Reviews'},
-          ]}
-        />
         <Configure hitsPerPage={config.searchResultCount} />
         <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
           <div
@@ -229,6 +216,28 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
+
+            <div className="flex justify-between items-end pb-4 mb-6 border-b border-gray-200">
+              <div>
+                <span className="font-bold">XX results</span> for "XXX"
+              </div>
+              <div>
+                <SortBy
+                  defaultRefinement="popular"
+                  items={[
+                    {
+                      value: 'popular',
+                      label: 'Most Popular',
+                    },
+                    {value: 'updated', label: 'Last Updated'},
+                    {value: 'created', label: 'Last Created'},
+                    {value: 'completed', label: 'Most Watched'},
+                    {value: 'reviews', label: 'Highest Reviews'},
+                  ]}
+                />
+              </div>
+            </div>
+
             <div className="flex mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
               <div className="flex-shrink-0">
                 {!sm && (
