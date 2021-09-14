@@ -7,7 +7,7 @@ type CreateAccountCTAProps = {
   technology: string
 }
 
-const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
+const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
   lesson,
   technology,
 }) => {
@@ -43,4 +43,4 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
   )
 }
 
-export default CreateAccountCTA
+export default EmailCaptureCtaOverlay

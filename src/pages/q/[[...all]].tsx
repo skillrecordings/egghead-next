@@ -158,8 +158,8 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
       <Header />
       <Main>
         <Page {...pageProps} />
-        <Footer />
       </Main>
+      <Footer />
     </>
   )
 }
