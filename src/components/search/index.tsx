@@ -9,6 +9,7 @@ import {
   InstantSearch,
   ClearRefinements,
   ScrollTo,
+  SortBy,
 } from 'react-instantsearch-dom'
 
 import {get, isEqual, isEmpty, first} from 'lodash'
@@ -116,6 +117,19 @@ const Search: FunctionComponent<SearchProps> = ({
         searchState={searchState}
         {...rest}
       >
+        <SortBy
+          defaultRefinement="content_production"
+          items={[
+            {
+              value: 'content_production',
+              label: 'Popularity',
+            },
+            {value: 'updated_at_desc', label: 'Last Updated'},
+            {value: 'created_at_desc', label: 'Last Created'},
+            {value: 'total_completions', label: 'Most Watched'},
+            {value: 'customer_rating', label: 'Highest Reviews'},
+          ]}
+        />
         <Configure hitsPerPage={config.searchResultCount} />
         <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
           <div
