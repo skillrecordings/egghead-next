@@ -28,7 +28,8 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
       >
         <DialogContent
           aria-labelledby={labelId}
-          className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm border dark:border-gray-800 relative p-3 xs:p-6 w-112"
+          className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm border dark:border-gray-800 relative p-3 xs:p-6"
+          style={{width: '28rem'}}
         >
           <div className="w-full flex flex-col">
             {title && (
