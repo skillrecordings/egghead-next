@@ -23,17 +23,13 @@ import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import {IconGithub} from 'components/pages/lessons/code-link'
-import {parse} from 'date-fns'
 import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
-import slugify from 'slugify'
-import {
-  MembershipDialogButton,
-  DialogButton,
-} from '../pages/courses/dialog-button'
+import DialogButton from '../pages/courses/dialog-button'
+import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 
 type CoursePageLayoutProps = {
   lessons: any
