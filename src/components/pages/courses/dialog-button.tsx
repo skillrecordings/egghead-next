@@ -1,6 +1,7 @@
 import * as React from 'react'
 import LockIcon from '../../icons/lock'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
+import {useId} from '@reach/auto-id'
 
 const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
   const [showDialog, setShowDialog] = React.useState(false)
@@ -13,6 +14,8 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
     setShowDialog(false)
   }
 
+  const labelId = `label--${useId(title)}`
+
   return (
     <>
       <button className={buttonStyles && buttonStyles} onClick={openDialog}>
@@ -24,12 +27,15 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
         className="bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 xs:px-6 xs:py-8 z-50"
       >
         <DialogContent
-          aria-label="sign in to bookmark"
+          aria-labelledby={labelId}
           className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm border dark:border-gray-800 relative p-3 xs:p-6 w-112"
         >
           <div className="w-full flex flex-col">
             {title && (
-              <h4 className="text-lg sm:text-xl mb-4 font-semibold text-center px-4 leading-tight">
+              <h4
+                id={labelId}
+                className="text-lg sm:text-xl mb-4 font-semibold text-center px-4 leading-tight"
+              >
                 {title}
               </h4>
             )}
