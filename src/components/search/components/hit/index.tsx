@@ -43,7 +43,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
             >
               <Image
                 src={image}
-                className={type === 'lesson' ? 'opacity-70' : ''}
+                className={type === 'lesson' ? 'opacity-90' : ''}
                 layout="fill"
               />
             </a>
