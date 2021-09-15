@@ -632,7 +632,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       track(`clicked disabled rss feed link`, {
                         course: course.slug,
                       })
-                      console.log('hello')
                     }}
                   >
                     <MembershipDialogButton
