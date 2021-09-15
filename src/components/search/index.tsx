@@ -104,7 +104,7 @@ const Search: FunctionComponent<SearchProps> = ({
     topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
   return (
-    <>
+    <div className="max-w-screen-xl mx-auto">
       <Head>
         <link
           rel="stylesheet"
@@ -119,12 +119,9 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
-          <div
-            className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
-            ref={refinementRef}
-          >
-            <header className="flex xl:px-0 px-5">
+        <div className="space-y-8 bg-gray-50 dark:bg-gray-900">
+          <div ref={refinementRef}>
+            <header className="flex">
               <SearchBox
                 placeholder={searchBoxPlaceholder}
                 className="w-full "
@@ -237,7 +234,7 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
             </div>
 
-            <div className="flex mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+            <div className="flex mb-10 pb-10">
               <div className="flex-shrink-0">
                 {!sm && (
                   <div className="pl-0 pt-0 p-10 flex flex-col space-y-6">
@@ -271,7 +268,7 @@ const Search: FunctionComponent<SearchProps> = ({
           {children}
         </div>
       </InstantSearch>
-    </>
+    </div>
   )
 }
 

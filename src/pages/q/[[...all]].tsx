@@ -156,7 +156,7 @@ SearchIndex.getLayout = (Page: any, pageProps: any) => {
   return (
     <>
       <Header />
-      <Main>
+      <Main className="bg-gray-50 dark:bg-gray-900">
         <Page {...pageProps} />
       </Main>
       <Footer />

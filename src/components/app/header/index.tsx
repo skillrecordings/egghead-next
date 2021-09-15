@@ -163,7 +163,7 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      <header className="h-16 px-5 py-5 sm:mb-5 mb-3 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
+      <header className="h-16 px-5 py-5 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-4">
           <div className="flex items-center">
             <Link href="/">
