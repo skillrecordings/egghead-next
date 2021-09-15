@@ -122,8 +122,8 @@ const FooterNavigation: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200">
-      <footer className="max-w-screen-xl w-full mx-auto xl:px-0 px-5">
+    <div className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200 px-5">
+      <footer className="max-w-screen-xl w-full mx-auto">
         <FooterNavigation />
         <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500 dark:text-gray-300">
           <div>©egghead.io</div>
