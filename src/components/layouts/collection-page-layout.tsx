@@ -14,7 +14,6 @@ import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
-import LockIcon from '../icons/lock'
 import CheckIcon from '../icons/check'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
@@ -30,8 +29,8 @@ import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
-import {DialogOverlay, DialogContent} from '@reach/dialog'
 import slugify from 'slugify'
+import {MembershipDialogButton, DialogButton} from '../dialog-button'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -556,59 +555,57 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
                       dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    <div className="flex flex-col space-y-4">
-                      <p className="max-w-10 text-center text-gray-700 mb-2">
-                        You need to be signed in to bookmark courses.
-                        <br />
-                        Sign in or create a free account to save this course.
-                      </p>
-                      <form className="w-full flex flex-col items-center space-y-2">
-                        <label
-                          htmlFor="email"
-                          className="block leading-5 text-sm font-semibold self-start"
-                        >
-                          Email address
-                        </label>
-                        <div className="mt-1 relative rounded-md shadow-sm w-full">
-                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg
-                              className="h-5 w-5 text-gray-400"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                            </svg>
-                          </div>
-                          <input
-                            id="email"
-                            type="email"
-                            placeholder="you@company.com"
-                            className="py-3 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
-                            required
-                          />
+                    <p className="max-w-10 text-center text-gray-700 mb-2">
+                      You need to be signed in to bookmark courses.
+                      <br />
+                      Sign in or create a free account to save this course.
+                    </p>
+                    <form className="w-full flex flex-col items-center space-y-2">
+                      <label
+                        htmlFor="email"
+                        className="block leading-5 text-sm font-semibold self-start"
+                      >
+                        Email address
+                      </label>
+                      <div className="mt-1 relative rounded-md shadow-sm w-full">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <svg
+                            className="h-5 w-5 text-gray-400"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                          </svg>
                         </div>
-                        <button className="font-semibold w-full mt-2 inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                          Sign In
-                        </button>
-                        <p className="text-gray-500 font-bold text-sm text-center">
-                          OR
-                        </p>
-                        <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-700 text-white transition-all hover:bg-gray-900 ease-in-out duration-200">
-                          <span className="mr-2 flex items-center justify-center">
-                            <IconGithub className="fill-current" />
-                          </span>
-                          Sign in with Github
-                        </button>
-                      </form>
-                      <p className="text-center text-gray-600 mt-6">
-                        Don't have an egghead account?
-                        <br />
-                        <a className="underline text-bold">Sign up for free</a>
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="you@company.com"
+                          className="py-3 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
+                          required
+                        />
+                      </div>
+                      <button className="font-semibold w-full mt-2 inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
+                        Sign In
+                      </button>
+                      <p className="text-gray-500 font-bold text-sm text-center">
+                        OR
                       </p>
-                    </div>
+                      <button className="w-full inline-flex justify-center items-center px-4 py-3 rounded-md bg-gray-700 text-white transition-all hover:bg-gray-900 ease-in-out duration-200">
+                        <span className="mr-2 flex items-center justify-center">
+                          <IconGithub className="fill-current" />
+                        </span>
+                        Sign in with Github
+                      </button>
+                    </form>
+                    <p className="text-center text-gray-600 mt-6">
+                      Don't have an egghead account?
+                      <br />
+                      <a className="underline text-bold">Sign up for free</a>
+                    </p>
                   </DialogButton>
                 )}
 
@@ -631,29 +628,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     </a>
                   </Link>
                 ) : (
-                  <DialogButton
+                  <MembershipDialogButton
                     buttonText="Download"
                     title="Become a Pro member to download this course"
-                    buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    <div className="flex flex-col space-y-4">
-                      <p className="max-w-10 text-center text-gray-700">
-                        As a member you can download any of our courses and
-                        watch them offline. As a member you'll also get:
-                      </p>
-                      <PlanFeatures />
-
-                      <button className="font-semibold w-full mt-6 inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                        Become a Member
-                      </button>
-                      <Link href="/pricing">
-                        <a className="text-sm w-full inline-flex justify-center items-center pb-2 rounded-md text-blue-600 underline transition-all hover:text-blue-800 ease-in-out duration-200">
-                          Learn more about membership
-                        </a>
-                      </Link>
-                    </div>
-                  </DialogButton>
+                    As a member you can download any of our courses and watch
+                    them offline.
+                  </MembershipDialogButton>
                 )}
 
                 {/* RSS button */}
@@ -683,29 +664,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       console.log('hello')
                     }}
                   >
-                    <DialogButton
+                    <MembershipDialogButton
                       buttonText="RSS"
                       title="Become a Pro member to access RSS feeds"
-                      buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                     >
-                      <div className="flex flex-col space-y-4">
-                        <p className="max-w-10 text-center text-gray-700">
-                          As a member you can subscribe to any of our courses
-                          using an RSS feed. As a member you'll also get:
-                        </p>
-                        <PlanFeatures />
-
-                        <button className="font-semibold w-full mt-6 inline-flex justify-center items-center px-4 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200">
-                          Become a Member
-                        </button>
-                        <Link href="/pricing">
-                          <a className="text-sm w-full inline-flex justify-center items-center pb-2 rounded-md text-blue-600 underline transition-all hover:text-blue-800 ease-in-out duration-200">
-                            Learn more about membership
-                          </a>
-                        </Link>
-                      </div>
-                    </DialogButton>
+                      As a member you can subscribe to any of our courses using
+                      an RSS feed.
+                    </MembershipDialogButton>
                   </a>
                 )}
               </div>
@@ -1202,94 +1167,6 @@ const transformSanityEssentialQuestions = (essentialQuestions: any) => {
 
 const transformSanityTopics = (topics: any) => {
   return topics.items
-}
-
-const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
-  const [showDialog, setShowDialog] = React.useState(false)
-
-  const openDialog = () => {
-    setShowDialog(true)
-  }
-  const closeDialog = () => {
-    setShowDialog(false)
-  }
-
-  return (
-    <>
-      <button className={buttonStyles && buttonStyles} onClick={openDialog}>
-        <LockIcon className="h-4 w-4 mr-2" /> {buttonText}
-      </button>
-      <DialogOverlay
-        isOpen={showDialog}
-        onDismiss={closeDialog}
-        className="bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 xs:px-6 xs:py-8 z-50"
-      >
-        <DialogContent
-          aria-label="sign in to bookmark"
-          className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm border dark:border-gray-800 relative p-3 xs:p-6 w-112"
-        >
-          <div className="w-full flex flex-col">
-            {title && (
-              <h4 className="text-lg sm:text-xl mb-4 font-semibold text-center px-4 leading-tight">
-                {title}
-              </h4>
-            )}
-            {children && children}
-          </div>
-          <div className="block absolute top-0 right-0 pt-3 pr-3">
-            <button
-              onClick={closeDialog}
-              type="button"
-              className={`text-gray-500 dark:text-gray-400 hover:bg-blue-100 hover:text-blue-600 dark:hover:text-blue-300 dark:hover:bg-gray-700 p-1 focus:shadow-outline-blue transition-all rounded-full hover:scale-110 ease-in-out duration-200`}
-              aria-label="Close"
-            >
-              <span className="sr-only">close feedback dialog</span>
-              {/* prettier-ignore */}
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-          </div>
-        </DialogContent>
-      </DialogOverlay>
-    </>
-  )
-}
-
-const PlanFeatures = () => {
-  const DEFAULT_FEATURES = [
-    'Full access to all premium courses and lessons',
-    'RSS course feeds for your favorite podcast app',
-    'Offline viewing',
-    'Commenting and support',
-    'Enhanced Transcripts',
-    'Closed captions for every video',
-  ]
-  const CheckIcon = () => (
-    <svg
-      className="text-blue-500 inline-block flex-shrink-0 mt-1"
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill="currentColor"
-        d="M6.00266104,15 C5.73789196,15 5.48398777,14.8946854 5.29679603,14.707378 L0.304822855,9.71382936 C0.0452835953,9.46307884 -0.0588050485,9.09175514 0.0325634765,8.74257683 C0.123932001,8.39339851 0.396538625,8.12070585 0.745606774,8.02930849 C1.09467492,7.93791112 1.46588147,8.04203262 1.71655287,8.30165379 L5.86288579,12.4482966 L14.1675324,0.449797837 C14.3666635,0.147033347 14.7141342,-0.0240608575 15.0754425,0.00274388845 C15.4367507,0.0295486344 15.7551884,0.250045268 15.9074918,0.578881992 C16.0597953,0.907718715 16.0220601,1.29328389 15.8088932,1.58632952 L6.82334143,14.5695561 C6.65578773,14.8145513 6.38796837,14.9722925 6.09251656,15 C6.06256472,15 6.03261288,15 6.00266104,15 Z"
-      />
-    </svg>
-  )
-
-  return (
-    <ul className="px-4">
-      {DEFAULT_FEATURES.map((feature: string) => {
-        return (
-          <li className="py-2 font-medium flex" key={slugify(feature)}>
-            <CheckIcon />
-            <span className="ml-3 leading-tight">{feature}</span>
-          </li>
-        )
-      })}
-    </ul>
-  )
 }
 
 export default CollectionPageLayout
