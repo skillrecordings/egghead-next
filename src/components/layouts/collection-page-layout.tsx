@@ -30,7 +30,10 @@ import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import slugify from 'slugify'
-import {MembershipDialogButton, DialogButton} from '../dialog-button'
+import {
+  MembershipDialogButton,
+  DialogButton,
+} from '../pages/courses/dialog-button'
 
 type CoursePageLayoutProps = {
   lessons: any
