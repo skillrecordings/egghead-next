@@ -41,7 +41,7 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
               </h4>
             )}
             <div className="flex flex-col space-y-4">
-              {children && children}
+              {children}
             </div>
           </div>
           <div className="block absolute top-0 right-0 pt-3 pr-3">
