@@ -5,91 +5,65 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import {parse} from 'date-fns'
 import friendlyTime from 'friendly-time'
-
+import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {find} from 'lodash'
+import {map, get, isEmpty} from 'lodash'
 
 const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
   <div>{date}</div>
 )
-const Blog: React.FC = (allArticles: any) => {
-  return (
-    <div className="mx-auto max-w-screen-lg lg:py-16 py-10">
-      <h1 className="md:text-4xl text-2xl text-center font-bold pb-16">
-        Articles
-      </h1>
-      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-8">
-        {allArticles.allArticles.map((article: any) => {
-          const fullSlug = `/blog/${article.slug.current}`
-          return (
-            <div key={fullSlug} className="flex flex-col">
-              {article.coverImage?.url ? (
-                <div className="md:mb-4 mb-2">
-                  <Link href={fullSlug}>
-                    <a>
-                      <Image
-                        src={article.coverImage.url}
-                        alt={article.coverImage.alt || article.title}
-                        width={1280}
-                        height={720}
-                        quality={100}
-                        className="rounded-lg"
-                      />
-                    </a>
-                  </Link>
-                </div>
-              ) : (
-                <div className="aspect-w-16 aspect-h-9 md:mb-4 mb-2">
-                  <Link href={fullSlug}>
-                    <a>
-                      <div className="absolute top-0 left-0 w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-600">
-                        <IconPlaceholder />
-                      </div>
-                    </a>
-                  </Link>
-                </div>
-              )}
-              <Link href={fullSlug}>
-                <a>
-                  <h2 className="md:text-2xl text-xl font-bold leading-tighter">
-                    {article.title}
-                  </h2>
-                </a>
-              </Link>
+const Blog: React.FC = ({allArticles}: any) => {
+  const reactFeatures: any = get(allArticles, 'reactFeatures')
+  const javascriptFeatures: any = get(allArticles, 'javascriptFeatures')
+  const staffpickFeatures: any = get(allArticles, 'staffpickFeatures')
 
-              {article.author && (
-                <div className="mt-4 flex items-start text-sm">
-                  <div className="items-center flex space-x-3">
-                    <Image
-                      src={article.author.image}
-                      alt={article.author.name}
-                      quality={100}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <div className="flex flex-col w-40">
-                      <div className="flex-none leading-tight opacity-90">
-                        {article.author.name}
-                      </div>
-                      {article.publishedAt && (
-                        <div className="place-content-end text-gray-500 leading-tight opacity-90">
-                          <UpdatedAt
-                            date={friendlyTime(new Date(article.publishedAt))}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {article.description && (
-                    <div className="opacity-70 text-sm leading-snug  pl-2">
-                      {article.description}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )
-        })}
+  return (
+    <div className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
+      <div className="mx-auto max-w-screen-xl">
+        <h1 className="py-16 mb-10 text-center lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold leading-tighter max-w-screen-lg m-auto">
+          Articles
+        </h1>
+
+        <div className={`grid grid-cols-1 md:grid-cols-4 gap-8`}>
+          {reactFeatures.map((resource: any) => {
+            return (
+              <div key={resource.path}>
+                <VerticalResourceCard
+                  className="col-span-3 sm:col-span-1 text-center shadow-sm h-full"
+                  key={resource.path}
+                  resource={resource}
+                />
+              </div>
+            )
+          })}
+        </div>
+        <div className={`grid grid-cols-1 md:grid-cols-4 gap-8`}>
+          {javascriptFeatures.map((resource: any) => {
+            return (
+              <div key={resource.path}>
+                <VerticalResourceCard
+                  className="col-span-3 sm:col-span-1 text-center shadow-sm h-full"
+                  key={resource.path}
+                  resource={resource}
+                />
+              </div>
+            )
+          })}
+        </div>
+        <div className={`grid grid-cols-1 md:grid-cols-4 gap-8`}>
+          {staffpickFeatures.map((resource: any) => {
+            return (
+              <div key={resource.path}>
+                <VerticalResourceCard
+                  className="col-span-3 sm:col-span-1 text-center shadow-sm h-full"
+                  key={resource.path}
+                  resource={resource}
+                />
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
@@ -97,40 +71,49 @@ const Blog: React.FC = (allArticles: any) => {
 
 export default Blog
 
-const IconPlaceholder = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g fill="none">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-        fill="currentColor"
-      />
-    </g>
-  </svg>
-)
-
-const allArticlesQuery = groq`
-*[_type == "post" && publishedAt < now()]|order(publishedAt desc) {
+const reactFeaturesQuery = groq`
+*[_type=="post" && references(*[_type=="software-library" && name == "react"]._id)][0...8]{
   title,
-  slug,
-  coverImage,
-  description,
+  "path": slug,
   publishedAt,
-  "author": authors[0].author-> {
-    name, 
-   'image': image.url,
-   }
+  "byline": authors[0].author -> name,
+  "image": softwareLibraries[0].library-> {"src": image.url},
+  "name": "article"
+}
+`
+
+const javascriptFeaturesQuery = groq`
+*[_type=="post" && references(*[_type=="software-library" && name == "javascript"]._id)][0...8]{
+  title,
+  "path": slug,
+  publishedAt,
+  "byline": authors[0].author -> name,
+  "image": softwareLibraries[0].library-> {"src": image.url},
+  "name": "article"
+}
+`
+
+const staffpickFeaturesQuery = groq`
+*[_type=="post" && references(*[_type=="software-library" && name != "react" && name != "javascript"]._id)]{
+  title,
+  "path": slug,
+  publishedAt,
+  "byline": authors[0].author -> name,
+  "image": softwareLibraries[0].library-> {"src": image.url},
+  "name": "article"
+}
+`
+
+const featureQuery = groq`
+{
+  'reactFeatures': ${reactFeaturesQuery},
+  'javascriptFeatures': ${javascriptFeaturesQuery},
+  'staffpickFeatures': ${staffpickFeaturesQuery},
 }
 `
 
 export async function getStaticProps() {
-  const allArticles = await sanityClient.fetch(allArticlesQuery)
+  const allArticles = await sanityClient.fetch(featureQuery)
 
   return {
     props: {
