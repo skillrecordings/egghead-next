@@ -38,7 +38,9 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                 })
               }}
               className={`flex-shrink-0 relative ${
-                type === 'lesson' ? 'w-8 h-8 opacity-70' : 'w-20 h-20'
+                type === 'lesson'
+                  ? 'w-8 h-8 opacity-70'
+                  : 'w-16 h-16 md:w-20 md:h-20'
               }`}
             >
               <Image
