@@ -14,6 +14,7 @@ import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
+import CheckIcon from '../icons/check'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
@@ -21,13 +22,16 @@ import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
-import {parse} from 'date-fns'
-import CheckIcon from '../icons/check-icon'
+import {IconGithub} from 'components/pages/lessons/code-link'
 import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
+import DialogButton from '../pages/courses/dialog-button'
+import MembershipDialogButton from '../pages/courses/membership-dialog-button'
+
+import LoginForm from 'pages/login'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -386,6 +390,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ) : null
   }
 
+  const trackEmailCapture = (email: string) => {
+    track('submitted email - disabled bookmark button', {
+      course: course.slug,
+      email,
+    })
+  }
+
   return (
     <>
       <NextSeo
@@ -503,6 +514,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               {/* Start of action buttons block */}
               <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {/* Bookmark button */}
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
@@ -530,24 +542,45 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     }}
                   >
                     <div
-                      className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      className={
+                        ' flex flex-row items-center rounded  px-4 py-2 border transition-all text-sm xs:text-base ease-in-out duration-150 shadow-sm ' +
+                        (isFavorite
+                          ? 'hover:bg-blue-500 bg-blue-600 border-blue-700 text-white'
+                          : 'bg-white text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 border-gray-300  dark:bg-gray-800 dark:border-gray-600')
+                      }
                     >
                       <BookmarkIcon
-                        className="w-4 h-4 mr-1"
+                        className="w-4 h-4 mr-2"
                         fill={isFavorite}
                       />{' '}
-                      Bookmark
+                      {isFavorite ? 'Bookmarked' : 'Bookmark'}
                     </div>
                   </button>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <DialogButton
+                    buttonText="Bookmark"
+                    title="Sign in (or up) to bookmark"
+                    buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
-                  </div>
+                    <LoginForm
+                      image={<></>}
+                      className="w-full mx-auto flex flex-col items-center justify-center"
+                      label="Your email:"
+                      formClassName="max-w-xs md:max-w-sm mx-auto w-full"
+                      button="Create account or login to view"
+                      track={trackEmailCapture}
+                    >
+                      <p className="max-w-10 text-center text-gray-700 mb-2">
+                        You need to be signed in to bookmark courses.
+                        <br />
+                        Sign in or create a free account to save this course.
+                      </p>
+                    </LoginForm>
+                  </DialogButton>
                 )}
+
+                {/* Download button */}
                 {download_url ? (
                   <Link href={download_url}>
                     <a
@@ -559,20 +592,23 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div
                         className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out shadow-sm"
                       >
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
                   </Link>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <MembershipDialogButton
+                    buttonText="Download"
+                    title="Become a Pro member to download this course"
                   >
-                    <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
-                  </div>
+                    As a member you can download any of our courses and watch
+                    them offline.
+                  </MembershipDialogButton>
                 )}
+
+                {/* RSS button */}
                 {rss_url ? (
                   <Link href={rss_url}>
                     <a
@@ -584,19 +620,28 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div
                         className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out shadow-sm"
                       >
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
                     </a>
                   </Link>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <a
+                    onClick={() => {
+                      track(`clicked disabled rss feed link`, {
+                        course: course.slug,
+                      })
+                    }}
                   >
-                    <RSSIcon className="w-4 h-4 mr-1" /> RSS
-                  </div>
+                    <MembershipDialogButton
+                      buttonText="RSS"
+                      title="Become a Pro member to access RSS feeds"
+                    >
+                      As a member you can subscribe to any of our courses using
+                      an RSS feed.
+                    </MembershipDialogButton>
+                  </a>
                 )}
               </div>
               {/* End of action buttons block */}
