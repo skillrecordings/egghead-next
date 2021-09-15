@@ -1,5 +1,5 @@
 import * as React from 'react'
-import LockIcon from './icons/lock'
+import LockIcon from '../../icons/lock'
 import {DialogOverlay, DialogContent} from '@reach/dialog'
 import Link from 'next/link'
 import slugify from 'slugify'
