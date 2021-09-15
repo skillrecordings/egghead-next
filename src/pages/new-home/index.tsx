@@ -1,32 +1,47 @@
 import * as React from 'react'
 import {motion} from 'framer-motion'
 import {
-  VueBlue,
-  AwsBlue,
-  CssBlue,
-  AngularBlue,
-  JsBlue,
-  NextBlue,
-  NodeBlue,
-  ReactBlue,
-  ReduxBlue,
+  Vueblue,
+  Awsblue,
+  Angularblue,
+  Jsblue,
+  Nextblue,
+  Nodeblue,
+  Reactblue,
+  Reduxblue,
+  Cssblue,
 } from './allicons'
 
 const NewHome: React.FunctionComponent = () => {
   return (
     <div className="mt-4 sm:mt-8 w-full">
-      <section className="my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto">
+      <section className="my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto overflow-hidden">
         <div className="w-full sm:w-3/5">
-          <h1 className="text-4xl sm:text-6xl font-bold mb-8 leading-tighter sm:leading-tighter text-gray-700">
+          <motion.h1
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.8, delay: 0.2}}
+            className="text-4xl sm:text-6xl font-bold mb-8 leading-tight sm:leading-tighter text-gray-700"
+          >
             Learn the best JavaScript tools and frameworks from industry pros
-          </h1>
-          <h2 className="text-xl sm:leading-normal text-coolGray-600 w-full sm:w-3/4">
+          </motion.h1>
+          <motion.h2
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.6, delay: 0.4}}
+            className="text-lg sm:leading-loose text-coolGray-500 w-full sm:w-3/4"
+          >
             egghead creates high-quality video tutorials and learning resources
             for badass web developers
-          </h2>
+          </motion.h2>
 
           {/* email input form */}
-          <form className="mt-8">
+          <motion.form
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.6, delay: 0.6}}
+            className="mt-8"
+          >
             <div className="flex flex-row items-center">
               <div className="mt-1 relative rounded-md shadow-sm w-72">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -56,16 +71,24 @@ const NewHome: React.FunctionComponent = () => {
                 Get started for free
               </button>
             </div>
-          </form>
-          <p className="mt-2 text-gray-400 text-sm">
+          </motion.form>
+          <motion.p
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.6, delay: 0.8}}
+            className="mt-2 text-gray-400 text-sm"
+          >
             We guarantee we're 100% spam-free. Unsubscribe at any time.
-          </p>
+          </motion.p>
         </div>
-        <img
-          className="sm:visible invisible"
-          alt="egghead course illustration"
-          src="https://via.placeholder.com/400x400"
-        />
+        <div className="">
+          <img
+            className="min-w-full"
+            width="400"
+            alt="egghead course illustration"
+            src="https://via.placeholder.com/400x400"
+          />
+        </div>
       </section>
       <TechnologyRow />
       <section className="my-12 sm:my-20 max-w-screen-xl mx-auto ">
@@ -214,31 +237,31 @@ const NewHome: React.FunctionComponent = () => {
           </div>
           <div className="mt-10 grid grid-cols-4 grid-rows-3 gap-4">
             {[
-              {text: '250+ comprehensive video courses', icon: <ReactBlue />},
+              {text: '250+ comprehensive video courses', icon: <Reactblue />},
               {
                 text: '5500+ short and sweet lessons',
-                icon: <ReactBlue />,
+                icon: <Reactblue />,
               },
               {
                 text: 'Practice projects to apply your knowledge',
-                icon: <ReactBlue />,
+                icon: <Reactblue />,
               },
               {
                 text: 'Transcripts and closed captions on every video',
-                icon: <ReactBlue />,
+                icon: <Reactblue />,
               },
-              {text: 'Code examples for every lesson', icon: <ReactBlue />},
+              {text: 'Code examples for every lesson', icon: <Reactblue />},
               {
                 text: 'Speed controls to watch at your own pace',
-                icon: <ReactBlue />,
+                icon: <Reactblue />,
               },
               {
                 text: 'Downloadable videos to view offline',
-                icon: <ReactBlue />,
+                icon: <Reactblue />,
               },
               {
                 text: 'Priority customer support and assistance',
-                icon: <ReactBlue />,
+                icon: <Reactblue />,
               },
               {text: 'RSS feeds for your favourite podcasting app', icon: ''},
               {
@@ -272,50 +295,57 @@ function TechnologyRow() {
         {[
           {
             label: 'JavaScript',
-            image: <JsBlue />,
+            image: <Jsblue />,
           },
           {
             label: 'React',
-            image: <ReactBlue />,
-          },
-          {
-            label: 'Angular',
-            image: <AngularBlue />,
-          },
-          {
-            label: 'Vue',
-            image: <VueBlue />,
-          },
-          {
-            label: 'Node.js',
-            image: <NodeBlue />,
-          },
-          {
-            label: 'AWS',
-            image: <AwsBlue />,
-          },
-          {
-            label: 'CSS',
-            image: <CssBlue />,
-          },
-          {
-            label: 'Next.js',
-            image: <NextBlue />,
+            image: <Reactblue />,
           },
           {
             label: 'Redux',
-            image: <ReduxBlue />,
+            image: <Reduxblue />,
+          },
+          {
+            label: 'Angular',
+            image: <Angularblue />,
+          },
+          {
+            label: 'Vue',
+            image: <Vueblue />,
+          },
+          {
+            label: 'Node',
+            image: <Nodeblue />,
+          },
+          {
+            label: 'CSS',
+            image: <Cssblue />,
+          },
+          {
+            label: 'Node.js',
+            image: <Nodeblue />,
+          },
+          {
+            label: 'AWS',
+            image: <Awsblue />,
+          },
+          {
+            label: 'Next.js',
+            image: <Nextblue />,
           },
         ].map((tech, i) => {
           return (
-            <div className="flex flex-col items-center mb-6 md:mb-8">
-              <div className="w-20 h-20 md:w-32 md:h-32 px-2 mx-2 md:mx-4 flex items-center">
+            <motion.div
+              className="flex flex-col items-center"
+              key={i}
+              initial={{opacity: 0, y: 40}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: i * 0.1}}
+            >
+              <div className="w-20 h-20 md:w-32 md:h-32 px-1 mx-2 flex items-center">
                 {tech.image}
               </div>
-              <p className="pt-3 text-coolGray-400 font-semibold text-sm justify-self-end">
-                {tech.label}
-              </p>
-            </div>
+            </motion.div>
           )
         })}
       </div>
@@ -329,62 +359,11 @@ function PricingSection() {
       <div className="max-w-screen-xl mx-auto">
         <div className="">
           <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
-            Pricing
+            Join egghead today
           </p>
           <h3 className="text-2xl leading-snug mb-6 font-medium">
-            Choose the plan that's right for you
+            Level up your career with an egghead membership
           </h3>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            {
-              label: 'Free',
-              price: '$0',
-              features: [
-                'Access to all courses',
-                'Access to all lessons',
-                'Access to all code examples',
-                'Access to all transcripts',
-                'Access to all videos',
-                'Access to all tools',
-                'Access to all support',
-              ],
-            },
-            {
-              label: 'Pro',
-              price: '$9.99',
-              features: [
-                'Access to all courses',
-                'Access to all lessons',
-                'Access to all code examples',
-                'Access to all transcripts',
-                'Access to all videos',
-                'Access to all tools',
-                'Access to all support',
-              ],
-            },
-          ].map((plan, i) => {
-            return (
-              <div className="flex flex-col items-center m-4 w-full sm:w-full md:w-full lg:w-1/3">
-                <div className="flex flex-col items-center justify-center w-full h-40">
-                  <h3 className="text-2xl leading-snug mb-6 font-medium">
-                    {plan.label}
-                  </h3>
-                  <p className="text-coolGray-500 text-sm">{plan.price}</p>
-                </div>
-                <ul className="mt-4 text-coolGray-500 text-sm">
-                  {plan.features.map((feature, i) => {
-                    return <li>{feature}</li>
-                  })}
-                </ul>
-                <div className="flex flex-row justify-center items-center mt-8">
-                  <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-full">
-                    Sign Up
-                  </button>
-                </div>
-              </div>
-            )
-          })}
         </div>
       </div>
     </section>
