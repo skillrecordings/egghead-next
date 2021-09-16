@@ -3,16 +3,16 @@ import * as React from 'react'
 const FeaturesList = () => (
   <ul className="mt-8 mx-4">
     {[
-      'Full access to all premium courses and lessons',
-      'RSS course feeds for your favorite podcast app',
-      'Offline viewing',
+      'Full access to all the premium courses',
+      'Download courses for offline viewing',
+      'Closed captions for every video',
       'Commenting and support',
       'Enhanced Transcripts',
-      'Closed captions for every video',
-    ].map((feature) => (
+      'RSS course feeds',
+    ].map((feature, id) => (
       <div className="flex flex-row space-x-3 mb-2">
         <CheckIcon />
-        <li className="font-medium" key={feature}>
+        <li className="font-medium" key={id}>
           {feature}
         </li>
       </div>

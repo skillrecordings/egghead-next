@@ -31,7 +31,7 @@ const DialogButton = ({title, buttonStyles, buttonText, children}: any) => {
           className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm border dark:border-gray-800 relative xs:px-6 py-6"
           style={{width: '28rem'}}
         >
-          <div className="w-full flex flex-col mt-3">
+          <div className="w-full flex flex-col mt-3 mb-3">
             {title && (
               <h4
                 id={labelId}
