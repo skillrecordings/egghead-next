@@ -10,6 +10,7 @@ const Layout: FunctionComponent = ({children}) => {
       <Header />
       <Main>{children}</Main>
       <Footer />
+      <div/>
     </>
   )
 }
