@@ -166,7 +166,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                           <ExternalTrackedLink
                             href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
                             eventName="clicked github login"
-                            className="flex justify-center mt-4 py-3 px-5 text-white bg-gray-900 hover:bg-gray-700 active:bg-gray-600 rounded-md font-medium transition-all ease-in-out duration-300"
+                            className="flex justify-center mt-4 py-3 px-5 text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md font-medium transition-all ease-in-out duration-300"
                           >
                             <div className="flex items-center dark:text-gray-100">
                               <span className="mr-2 flex items-center justify-center">
@@ -176,7 +176,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             </div>
                           </ExternalTrackedLink>
                           <a
-                            className="pt-2 block text-center hover:text-blue-600 transition-colors ease-in-out duration-150 text-gray-600"
+                            className="pt-2 block text-center hover:text-blue-600 transition-colors ease-in-out duration-150 dark:text-gray-400 text-gray-600"
                             href="/login"
                             onClick={(e) => {
                               e.preventDefault()

@@ -571,10 +571,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       button="Sign In or Create an Account"
                       track={trackEmailCapture}
                     >
-                      <p className="max-w-10 text-center text-gray-700">
-                        You need to be signed in to bookmark courses.
-                        <br />
-                        Sign in or create a free account to save this course.
+                      <p className="max-w-10 text-center text-gray-700 dark:text-gray-400 px-3">
+                        You need to be signed in to bookmark courses. Sign in or
+                        create a free account to save this course.
                       </p>
                     </LoginForm>
                   </DialogButton>
