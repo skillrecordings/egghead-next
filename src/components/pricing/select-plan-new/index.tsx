@@ -106,12 +106,12 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
 }
 
 const DEFAULT_FEATURES = [
-  'Full access to all premium courses and lessons',
-  'RSS course feeds for your favorite podcast app',
-  'Offline viewing',
+  'Full access to all the premium courses',
+  'Download courses for offline viewing',
+  'Closed captions for every video',
   'Commenting and support',
   'Enhanced Transcripts',
-  'Closed captions for every video',
+  'RSS course feeds',
 ]
 
 const PlanFeatures: React.FunctionComponent<{

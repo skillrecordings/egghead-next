@@ -24,7 +24,7 @@ const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
       <LoginForm
         image={<></>}
         className="w-full mx-auto flex flex-col items-center justify-center text-white"
-        label="Your email:"
+        label="Email address"
         formClassName="max-w-xs md:max-w-sm mx-auto w-full"
         button="Create account or login to view"
         track={trackEmailCapture}
