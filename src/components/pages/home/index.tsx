@@ -3,7 +3,6 @@ import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, isEmpty} from 'lodash'
-
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import {loadUserProgress} from 'lib/users'
@@ -21,10 +20,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
 
-  const devEssentials: any = get(homePageData, 'devEssentials')
   const freeCourses: any = get(homePageData, 'freeCourses')
-  const getStarted: any = get(homePageData, 'getStarted')
-  const aws: any = get(homePageData, 'aws')
   const topics: any = get(homePageData, 'topics')
   const featureDigitalGardening: any = get(
     homePageData,
@@ -37,6 +33,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const reduxFeatures: any = get(homePageData, 'reduxFeatures')
   const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
   const kcdFeatures: any = get(homePageData, 'kcdFeatures')
+  const awsFeatures: any = get(homePageData, 'awsFeatures')
 
   React.useEffect(() => {
     if (viewer) {
@@ -69,24 +66,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-20 sm:mt-24">
           <InstructorFeatureRow resource={kcdFeatures} />
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl font-bold mb-3 dark:text-white">
-            Popular Courses & Topics
-          </h2>
-          <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
-            <VerticalResourceCollectionCard
-              className="sm:py-8 py-6"
-              resource={getStarted}
-              location={location}
-            />
-            <VerticalResourceCollectionCard
-              resource={devEssentials}
-              location={location}
-              className="text-left"
-            />
-          </div>
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -172,21 +151,22 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={cssFeatures} />
+          <FeatureRow resource={awsFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
+          <FeatureRow resource={cssFeatures} />
+        </section>
+
+        {/* <section className="mt-20 sm:mt-24">
           <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
-            <VerticalResourceCollectionCard
-              resource={aws}
-              location={location}
-            />
+            <FeatureRow resource={awsFeatures} />
             <VerticalResourceCollectionCard
               resource={freeCourses}
               location={location}
             />
           </div>
-        </section>
+        </section> */}
 
         <section className="mt-20 sm:mt-24">
           <FeatureRow resource={reduxFeatures} />
@@ -438,5 +418,14 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
     </section>
   )
 }
+
+// const FeatureSection: FunctionComponent<any> = ({
+//   resource,
+//   location = 'home',
+// }) => {
+//   return (
+
+//   )
+// }
 
 export default Home
