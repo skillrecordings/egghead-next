@@ -12,7 +12,6 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
-import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
@@ -20,7 +19,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
 
-  const freeCourses: any = get(homePageData, 'freeCourses')
   const topics: any = get(homePageData, 'topics')
   const featureDigitalGardening: any = get(
     homePageData,
@@ -157,16 +155,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         <section className="mt-20 sm:mt-24">
           <FeatureRow resource={cssFeatures} />
         </section>
-
-        {/* <section className="mt-20 sm:mt-24">
-          <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
-            <FeatureRow resource={awsFeatures} />
-            <VerticalResourceCollectionCard
-              resource={freeCourses}
-              location={location}
-            />
-          </div>
-        </section> */}
 
         <section className="mt-20 sm:mt-24">
           <FeatureRow resource={reduxFeatures} />

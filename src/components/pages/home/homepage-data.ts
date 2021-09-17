@@ -40,68 +40,6 @@ const homepageData = {
         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/458/medium/IMG_20190627_100655_466.jpg',
     },
   },
-
-  freeCourses: {
-    id: 'freeCourses',
-    name: 'Community Resource ',
-    title: 'Learn Something New',
-    description:
-      'A Community Resource is a course that is free to access for all. The instructor of this course requested it to be open to the public. ',
-    resources: [
-      {
-        title: 'Get Started with Reason',
-        byline: 'Nik Graf・1h 13m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/163/thumb/EGH_Reason_Final.png',
-        path: '/courses/get-started-with-reason',
-      },
-      {
-        title: 'Introduction to State Machines Using XState',
-        byline: 'Kyle Shevlin・53m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/403/thumb/IntroxState_1000.png',
-        path: '/courses/introduction-to-state-machines-using-xstate',
-      },
-      {
-        title: 'Immutable JavaScript Data Structures with Immer',
-        byline: 'Michel Weststrate・59m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/312/thumb/ImmuateableImmer_Final.png',
-        path: '/courses/immutable-javascript-data-structures-with-immer',
-      },
-      {
-        title: 'Practical Git for Everyday Professional Use',
-        byline: 'Trevor Miller・1h ・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
-        path: '/courses/practical-git-for-everyday-professional-use',
-      },
-      {
-        title: 'Build an App with React Suspense',
-        byline: 'Michael Chan・1h 23m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/399/full/React_Suspense_Final.png',
-        path: '/courses/build-an-app-with-react-suspense',
-      },
-      {
-        title:
-          'Scalable Offline-Ready GraphQL Applications with AWS AppSync & React',
-        byline: 'nader dabit・64m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/211/thumb/EGH_GraphQL-AWs_Final.png',
-
-        path: '/courses/scalable-offline-ready-graphql-applications-with-aws-appsync-react',
-      },
-      {
-        title: 'GraphQL Data in React with Apollo Client',
-        byline: 'Nik Graf・23m・Course',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/231/thumb/EGH_Apollo-GraphQL-React_Final.png',
-
-        path: '/courses/graphql-data-in-react-with-apollo-client',
-      },
-    ],
-  },
   tailwind: {
     id: 'tailwind',
     name: 'Write Modern CSS',
