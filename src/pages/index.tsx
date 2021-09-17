@@ -67,7 +67,6 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
 export const homePageFeatures = groq`*[_type == 'resource' && slug.current == "home-page"][0]{
   'features': resources[]-> {
     title,
-    type,
     slug,
     subTitle,
     path,

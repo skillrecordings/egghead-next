@@ -297,7 +297,13 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
   )
 }
 
-const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
+const FeatureRow: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}: {
+  resource: CardResource
+  location: string
+}) => {
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
