@@ -26,17 +26,22 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const getStarted: any = get(homePageData, 'getStarted')
   const aws: any = get(homePageData, 'aws')
   const topics: any = get(homePageData, 'topics')
+
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
   )
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
-  const reactFeatures: any = get(homePageData, 'reactFeatures')
-  const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
-  const cssFeatures: any = get(homePageData, 'cssFeatures')
-  const reduxFeatures: any = get(homePageData, 'reduxFeatures')
-  const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
-  const kcdFeatures: any = get(homePageData, 'kcdFeatures')
+
+  const [
+    reactFeatures,
+    kcdFeatures,
+    javascriptFeatures,
+    cssFeatures,
+    reduxFeatures,
+    typescriptFeatures,
+    somethingNotHere,
+  ] = homePageData?.homePageFeatures?.features
 
   React.useEffect(() => {
     if (viewer) {
@@ -64,11 +69,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={reactFeatures} />
+          {reactFeatures && <FeatureRow resource={reactFeatures} />}
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <InstructorFeatureRow resource={kcdFeatures} />
+          {kcdFeatures && <InstructorFeatureRow resource={kcdFeatures} />}
         </section>
 
         <section className="mt-20 sm:mt-24">
