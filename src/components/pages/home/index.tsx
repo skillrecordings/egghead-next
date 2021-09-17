@@ -407,13 +407,4 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
   )
 }
 
-// const FeatureSection: FunctionComponent<any> = ({
-//   resource,
-//   location = 'home',
-// }) => {
-//   return (
-
-//   )
-// }
-
 export default Home
