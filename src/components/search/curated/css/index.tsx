@@ -28,7 +28,7 @@ const SearchCSS = () => {
         }}
         CTAComponent={CssFormStyling}
       />
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 md:grid-cols-1 sm:gap-8 ">
+      <div className="grid grid-cols-1 mt-8 gap-5 lg:grid-cols-3 md:grid-cols-1 sm:gap-8">
         {levels?.map((resource: any) => {
           return (
             <VerticalResourceCollectionCard
