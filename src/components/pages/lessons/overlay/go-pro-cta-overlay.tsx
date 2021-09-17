@@ -7,7 +7,7 @@ type JoinCTAProps = {
   lesson: LessonResource
 }
 
-const JoinCTA: FunctionComponent<JoinCTAProps> = ({lesson}) => {
+const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   return (
     <div className="flex flex-col items-center p-4">
       <h2 className="sm:text-2xl text-xl leading-tighter tracking-tight font-light text-center">
@@ -30,4 +30,4 @@ const JoinCTA: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   )
 }
 
-export default JoinCTA
+export default GoProCtaOverlay

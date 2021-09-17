@@ -7,7 +7,7 @@ import {get} from 'lodash'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {convertTimeWithTitles} from 'utils/time-utils'
-import CheckIcon from '../../icons/check-icon'
+import CheckIcon from '../../icons/check'
 
 type NextUpListProps = {
   currentLessonSlug: string

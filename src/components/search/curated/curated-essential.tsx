@@ -48,7 +48,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   const advanced: any = find(pageData, {id: 'advanced'})
 
   return (
-    <div className="sm:pb-8 pb-5 max-w-screen-xl lg:mx-auto mx-5 dark:bg-gray-900">
+    <>
       <NextSeo
         description={description}
         title={title}
@@ -90,7 +90,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         location={location}
       />
       {children}
-    </div>
+    </>
   )
 }
 

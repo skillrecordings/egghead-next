@@ -34,7 +34,7 @@ Love them or hate them, static types are here to stay, and at the very least an 
       pageData={typescriptPageData}
       CTAComponent={CourseFeatureCard}
     >
-      <div className="mb-10 pb-10 xl:px-0 max-w-screen-xl mx-2">
+      <div className="mb-6 pb-6 md:mb-10 md:pb-10">
         {/* Featured Section */}
         <section className="grid lg:grid-cols-12 grid-cols-1 items-start mt-12 ">
           <div className="md:col-span-8 mr-0 md:mr-5">

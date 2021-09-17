@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import Head from 'next/head'
 import Hits from './hits'
+import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
@@ -9,6 +10,7 @@ import {
   InstantSearch,
   ClearRefinements,
   ScrollTo,
+  SortBy,
 } from 'react-instantsearch-dom'
 
 import {get, isEqual, isEmpty, first} from 'lodash'
@@ -102,7 +104,7 @@ const Search: FunctionComponent<SearchProps> = ({
     topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
   return (
-    <>
+    <div className="max-w-screen-xl mx-auto">
       <Head>
         <link
           rel="stylesheet"
@@ -117,12 +119,9 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <div className="sm:pb-16 pb-8 space-y-8 bg-gray-50 dark:bg-gray-900 -mx-5">
-          <div
-            className="max-w-screen-xl md:-mt-5 -mt-3 pt-5 mx-auto"
-            ref={refinementRef}
-          >
-            <header className="flex xl:px-0 px-5">
+        <div className="space-y-8 bg-gray-50 dark:bg-gray-900">
+          <div ref={refinementRef}>
+            <header className="flex">
               <SearchBox
                 placeholder={searchBoxPlaceholder}
                 className="w-full "
@@ -197,7 +196,7 @@ const Search: FunctionComponent<SearchProps> = ({
             )}
           </div>
           {!isEmpty(instructor) && (
-            <div className="mb-10 pb-8 xl:px-0 px-5 mx-auto dark:bg-gray-900">
+            <div className="mb-10 pb-8">
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
                 <InstructorCuratedPage instructor={instructor} />
               )}
@@ -215,7 +214,29 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
-            <div className="flex mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+
+            <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200">
+              <Stats searchQuery={searchState.query} />
+              <div className="flex space-x-2 items-center flex-nowrap flex-shrink-0 md:ml-6">
+                <div className="font-bold whitespace-nowrap flex-shrink-0">
+                  Sort by:
+                </div>
+                <SortBy
+                  defaultRefinement="popular"
+                  items={[
+                    {
+                      value: 'popular',
+                      label: 'Most Popular',
+                    },
+                    {value: 'reviews', label: 'Highest Rated'},
+                    {value: 'created', label: 'Recently Added'},
+                    {value: 'completed', label: 'Most Watched'},
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div className="flex mb-10 pb-10">
               <div className="flex-shrink-0">
                 {!sm && (
                   <div className="pl-0 pt-0 p-10 flex flex-col space-y-6">
@@ -249,7 +270,7 @@ const Search: FunctionComponent<SearchProps> = ({
           {children}
         </div>
       </InstantSearch>
-    </>
+    </div>
   )
 }
 

@@ -79,8 +79,8 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
             children
           ) : (
             <>
-              <h2 className="text-center text-3xl leading-9 font-bold">
-                Sign in (or up) to egghead
+              <h2 className="text-center text-3xl font-bold w-2/3 mx-auto leading-10">
+                Sign in or create a free account
               </h2>
             </>
           ))}
@@ -91,7 +91,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
             }}
           />
         ) : (
-          <div className="mt-4 sm:mt-6 md:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+          <div className="mt-4 sm:mt-6 sm:mx-auto sm:w-full sm:max-w-xl">
             {!isSubmitted && !isError && (
               <Formik
                 initialValues={{email: ''}}
@@ -155,7 +155,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             <button
                               type="submit"
                               disabled={isSubmitting}
-                              className="w-full mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                              className="w-full mt-2 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium py-3 px-5 rounded-md"
                             >
                               {button}
                             </button>
@@ -166,7 +166,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                           <ExternalTrackedLink
                             href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
                             eventName="clicked github login"
-                            className="flex justify-center mt-4 py-3 px-5 text-white bg-black hover:bg-gray-800 active:bg-gray-700 rounded-md transition-all ease-in-out duration-300"
+                            className="flex justify-center mt-4 py-3 px-5 text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md font-medium transition-all ease-in-out duration-300"
                           >
                             <div className="flex items-center dark:text-gray-100">
                               <span className="mr-2 flex items-center justify-center">
@@ -176,7 +176,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             </div>
                           </ExternalTrackedLink>
                           <a
-                            className="pt-4 block text-center hover:text-blue-600 transition-colors ease-in-out duration-150"
+                            className="pt-2 block text-center hover:text-blue-600 transition-colors ease-in-out duration-150 dark:text-gray-400 text-gray-600"
                             href="/login"
                             onClick={(e) => {
                               e.preventDefault()

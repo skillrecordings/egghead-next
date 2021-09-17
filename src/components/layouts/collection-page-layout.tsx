@@ -14,6 +14,7 @@ import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
+import CheckIcon from '../icons/check'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
@@ -21,13 +22,16 @@ import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
-import {parse} from 'date-fns'
-import CheckIcon from '../icons/check-icon'
+import {IconGithub} from 'components/pages/lessons/code-link'
 import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
+import DialogButton from '../pages/courses/dialog-button'
+import MembershipDialogButton from '../pages/courses/membership-dialog-button'
+
+import LoginForm from 'pages/login'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -91,7 +95,7 @@ export const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
 
 export const PublishedAt: React.FunctionComponent<{date: string}> = ({
   date,
-}) => <div>Created {date}</div>
+}) => <div>Published {date}</div>
 
 const StarsRating: React.FunctionComponent<{
   rating: number
@@ -173,7 +177,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     topics,
     illustrator,
     dependencies,
-    freshness,
     pairWithResources = defaultPairWithResources,
     courseProject,
     quickFacts,
@@ -209,7 +212,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     customOgImage,
     prerequisites: sanityPrerequisites,
     topics: sanityTopics,
-    freshness: sanityFreshness,
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
     illustrator: sanityIllustrator,
@@ -224,8 +226,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const relatedResources = sanityPairWithResources
     ? sanityPairWithResources
     : pairWithResources
-
-  const courseFreshness = sanityFreshness ? sanityFreshness : freshness
   const courseEssentialQuestions = !isEmpty(sanityEssentialQuestions)
     ? transformSanityEssentialQuestions(sanityEssentialQuestions)
     : essentialQuestions
@@ -390,6 +390,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ) : null
   }
 
+  const trackEmailCapture = (email: string) => {
+    track('submitted email - disabled bookmark button', {
+      course: course.slug,
+      email,
+    })
+  }
+
   return (
     <>
       <NextSeo
@@ -507,6 +514,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               {/* Start of action buttons block */}
               <div className="dark:text-gray-900 flex items-center md:justify-start justify-center mt-4 space-x-2">
+                {/* Bookmark button */}
                 {toggle_favorite_url ? (
                   <button
                     onClick={() => {
@@ -534,24 +542,44 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     }}
                   >
                     <div
-                      className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      className={
+                        ' flex flex-row items-center rounded  px-4 py-2 border transition-all text-sm xs:text-base ease-in-out duration-150 shadow-sm ' +
+                        (isFavorite
+                          ? 'hover:bg-blue-500 bg-blue-600 border-blue-700 text-white'
+                          : 'bg-white text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 border-gray-300  dark:bg-gray-800 dark:border-gray-600')
+                      }
                     >
                       <BookmarkIcon
-                        className="w-4 h-4 mr-1"
+                        className="w-4 h-4 mr-2"
                         fill={isFavorite}
                       />{' '}
-                      Bookmark
+                      {isFavorite ? 'Bookmarked' : 'Bookmark'}
                     </div>
                   </button>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <DialogButton
+                    buttonText="Bookmark"
+                    title="Sign in or create a free account to bookmark"
+                    buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
-                    <BookmarkIcon className="w-4 h-4 mr-1" /> Bookmark
-                  </div>
+                    <LoginForm
+                      image={<></>}
+                      className="w-full mx-auto flex flex-col items-center justify-center"
+                      label="Email address"
+                      formClassName="max-w-xs md:max-w-sm mx-auto w-full"
+                      button="Sign In or Create an Account"
+                      track={trackEmailCapture}
+                    >
+                      <p className="max-w-10 text-center text-gray-700 dark:text-gray-400 px-3">
+                        You need to be signed in to bookmark courses. Sign in or
+                        create a free account to save this course.
+                      </p>
+                    </LoginForm>
+                  </DialogButton>
                 )}
+
+                {/* Download button */}
                 {download_url ? (
                   <Link href={download_url}>
                     <a
@@ -563,20 +591,23 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div
                         className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out shadow-sm"
                       >
                         <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
                       </div>
                     </a>
                   </Link>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <MembershipDialogButton
+                    buttonText="Download"
+                    title="Become a member to download this course"
                   >
-                    <FolderDownloadIcon className="w-4 h-4 mr-1" /> Download
-                  </div>
+                    As an egghead member you can download any of our courses and
+                    watch them offline.
+                  </MembershipDialogButton>
                 )}
+
+                {/* RSS button */}
                 {rss_url ? (
                   <Link href={rss_url}>
                     <a
@@ -588,19 +619,28 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     >
                       <div
                         className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out"
+                      dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out shadow-sm"
                       >
                         <RSSIcon className="w-4 h-4 mr-1" /> RSS
                       </div>
                     </a>
                   </Link>
                 ) : (
-                  <div
-                    className="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-200 
-                  dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-30"
+                  <a
+                    onClick={() => {
+                      track(`clicked disabled rss feed link`, {
+                        course: course.slug,
+                      })
+                    }}
                   >
-                    <RSSIcon className="w-4 h-4 mr-1" /> RSS
-                  </div>
+                    <MembershipDialogButton
+                      buttonText="RSS"
+                      title="Become a member to access RSS feeds"
+                    >
+                      As an egghead member you can subscribe to any of our
+                      courses using an RSS feed.
+                    </MembershipDialogButton>
+                  </a>
                 )}
               </div>
               {/* End of action buttons block */}
@@ -612,22 +652,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {description}
               </Markdown>
               <div className="pt-5 md:hidden block">
-                <Fresh freshness={courseFreshness} />
-
                 <CourseProjectCard courseProject={courseProject} />
 
                 {get(course, 'access_state') === 'free' && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
-                  </div>
-                )}
-
-                {courseIllustrator && (
-                  <div className="w-full py-6">
-                    <h4 className="font-semibold">Credits</h4>
-                    <span className="text-sm">
-                      {courseIllustrator?.name} (illustration)
-                    </span>
                   </div>
                 )}
               </div>
@@ -732,27 +761,22 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 />
               </div>
             )}
+            {courseIllustrator && (
+              <div className="md:block hidden text-sm opacity-80 text-center">
+                <h4 className="font-semibold">Credits</h4>
+                <span>{courseIllustrator?.name}</span>
+              </div>
+            )}
             <div className="md:block hidden space-y-6">
               <div className="w-full flex justify-center mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
-
-              <Fresh freshness={courseFreshness} />
 
               <CourseProjectCard courseProject={courseProject} />
 
               {get(course, 'access_state') === 'free' && (
                 <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                   <CommunityResource type="course" />
-                </div>
-              )}
-
-              {courseIllustrator && (
-                <div className="w-full">
-                  <h4 className="font-semibold">Credits</h4>
-                  <span className="text-sm">
-                    {courseIllustrator?.name} (illustration)
-                  </span>
                 </div>
               )}
             </div>
@@ -1006,52 +1030,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
           </div>
         </div>
       </div>
-    </>
-  )
-}
-
-const Fresh = ({freshness}: {freshness: any}) => {
-  if (!freshness) return null
-
-  const reviewedAt = friendlyTime(
-    parse(freshness.asOf, 'yyyy-MM-dd', new Date()),
-  )
-  return (
-    <>
-      {freshness && (
-        <div
-          className={`flex flex-col space-y-1 ${
-            freshness.status === 'fresh'
-              ? 'border-green-500 border bg-green-50 dark:bg-teal-900'
-              : freshness.status === 'classic'
-              ? 'border-blue-500 border bg-blue-50 dark:bg-blueGray-800'
-              : freshness.status === 'stale'
-              ? 'border-orange-500 border bg-orange-50 dark:bg-orange-900'
-              : freshness.status === 'awesome'
-              ? 'border-indigo-500 border bg-indigo-50 dark:bg-indigo-900'
-              : 'border'
-          } border-opacity-20 p-4 my-3 rounded-md`}
-        >
-          {freshness.title && (
-            <h2 className="text-xl font-semibold">
-              {freshness.status === 'fresh' && '🌱'}
-              {freshness.status === 'awesome' && '⭐'}
-              {freshness.status === 'stale' && '⛔️'}
-              {freshness.status === 'classic' && '💎'} {freshness.title}
-            </h2>
-          )}
-          {freshness.asOf && (
-            <p>
-              <small>Staff reviewed: {reviewedAt}</small>
-            </p>
-          )}
-          {freshness.text && (
-            <Markdown className="prose dark:prose-dark w-full">
-              {freshness.text}
-            </Markdown>
-          )}
-        </div>
-      )}
     </>
   )
 }

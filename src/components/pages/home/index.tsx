@@ -3,7 +3,6 @@ import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, isEmpty} from 'lodash'
-
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import {loadUserProgress} from 'lib/users'
@@ -13,7 +12,6 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
-import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
@@ -21,10 +19,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
 
-  const devEssentials: any = get(homePageData, 'devEssentials')
-  const freeCourses: any = get(homePageData, 'freeCourses')
-  const getStarted: any = get(homePageData, 'getStarted')
-  const aws: any = get(homePageData, 'aws')
   const topics: any = get(homePageData, 'topics')
 
   const featureDigitalGardening: any = get(
@@ -40,7 +34,7 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     cssFeatures,
     reduxFeatures,
     typescriptFeatures,
-    somethingNotHere,
+    awsFeatures,
   ] = homePageData?.homePageFeatures?.features
 
   React.useEffect(() => {
@@ -74,24 +68,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-20 sm:mt-24">
           {kcdFeatures && <InstructorFeatureRow resource={kcdFeatures} />}
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl font-bold mb-3 dark:text-white">
-            Popular Courses & Topics
-          </h2>
-          <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
-            <VerticalResourceCollectionCard
-              className="sm:py-8 py-6"
-              resource={getStarted}
-              location={location}
-            />
-            <VerticalResourceCollectionCard
-              resource={devEssentials}
-              location={location}
-              className="text-left"
-            />
-          </div>
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -177,20 +153,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={cssFeatures} />
+          <FeatureRow resource={awsFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
-            <VerticalResourceCollectionCard
-              resource={aws}
-              location={location}
-            />
-            <VerticalResourceCollectionCard
-              resource={freeCourses}
-              location={location}
-            />
-          </div>
+          <FeatureRow resource={cssFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">

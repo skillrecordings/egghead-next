@@ -277,23 +277,11 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
       <DialogOverlay
         isOpen={showDialog}
         onDismiss={closeDialog}
-        css={{
-          background: 'rgba(14, 24, 42, 0.5)',
-          backdropFilter: 'blur(2px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '2rem',
-          zIndex: 100,
-        }}
+        className="bg-black/50 backdrop-blur-sm flex justify-center items-center p-4 xs:p-6 z-50"
       >
         <DialogContent
           aria-label="write us feedback"
-          className={`bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm text-text border dark:border-gray-800 relative`}
-          css={{
-            width: '100%',
-            zIndex: 50,
-          }}
+          className="bg-white dark:bg-gray-900 shadow-lg rounded-lg max-w-screen-sm text-text border dark:border-gray-800 relative w-full p-3 xs:p-6"
         >
           <div className="w-full flex flex-col">
             {state.success ? (
@@ -312,7 +300,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
               </motion.div>
             ) : (
               <>
-                <h4 className="text-lg mb-4 font-semibold">
+                <h4 className="text-[1.125rem] xs:text-lg mb-4 font-semibold">
                   We'd love to hear from you.
                 </h4>
                 <FeedbackSelectCategory
@@ -351,7 +339,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
                         </div>
 
                         {/* Emoji picker and submit button */}
-                        <div className="w-full flex flex-row  justify-between">
+                        <div className="w-full flex flex-col sm:flex-row justify-between">
                           <div className="flex items-center justify-center">
                             <div id="emoji" className="mr-3 font-semibold">
                               Pick an emoji
