@@ -59,11 +59,11 @@ const EmailForm: FunctionComponent<LoginFormProps> = ({
           ) : (
             <>
               <h2 className="text-center text-3xl leading-9 font-bold">
-                Sign in (or up) to egghead
+                Sign in or create a free account
               </h2>
             </>
           ))}
-        <div className="mt-4 sm:mt-6 md:mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+        <div className="mt-4 sm:mt-6 sm:mx-auto sm:w-full sm:max-w-xl">
           {!isSubmitted && !isError && (
             <Formik
               initialValues={{email: ''}}

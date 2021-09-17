@@ -559,22 +559,21 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 ) : (
                   <DialogButton
                     buttonText="Bookmark"
-                    title="Sign in (or up) to bookmark"
+                    title="Sign in or create a free account to bookmark"
                     buttonStyles="text-gray-600 dark:text-gray-300 flex flex-row items-center rounded hover:bg-gray-100 
                       dark:hover:bg-gray-700 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 px-4 py-2 border transition-colors text-sm xs:text-base ease-in-out opacity-90 shadow-sm"
                   >
                     <LoginForm
                       image={<></>}
                       className="w-full mx-auto flex flex-col items-center justify-center"
-                      label="Your email:"
+                      label="Email address"
                       formClassName="max-w-xs md:max-w-sm mx-auto w-full"
-                      button="Create account or login to view"
+                      button="Sign In or Create an Account"
                       track={trackEmailCapture}
                     >
-                      <p className="max-w-10 text-center text-gray-700 mb-2">
-                        You need to be signed in to bookmark courses.
-                        <br />
-                        Sign in or create a free account to save this course.
+                      <p className="max-w-10 text-center text-gray-700 dark:text-gray-400 px-3">
+                        You need to be signed in to bookmark courses. Sign in or
+                        create a free account to save this course.
                       </p>
                     </LoginForm>
                   </DialogButton>
@@ -601,10 +600,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 ) : (
                   <MembershipDialogButton
                     buttonText="Download"
-                    title="Become a Pro member to download this course"
+                    title="Become a member to download this course"
                   >
-                    As a member you can download any of our courses and watch
-                    them offline.
+                    As an egghead member you can download any of our courses and
+                    watch them offline.
                   </MembershipDialogButton>
                 )}
 
@@ -636,10 +635,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   >
                     <MembershipDialogButton
                       buttonText="RSS"
-                      title="Become a Pro member to access RSS feeds"
+                      title="Become a member to access RSS feeds"
                     >
-                      As a member you can subscribe to any of our courses using
-                      an RSS feed.
+                      As an egghead member you can subscribe to any of our
+                      courses using an RSS feed.
                     </MembershipDialogButton>
                   </a>
                 )}
