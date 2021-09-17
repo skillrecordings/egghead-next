@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, isEmpty} from 'lodash'
+import {map, get, find} from 'lodash'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import {loadUserProgress} from 'lib/users'
@@ -27,15 +27,40 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   )
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
 
-  const [
-    reactFeatures,
-    kcdFeatures,
-    javascriptFeatures,
-    cssFeatures,
-    reduxFeatures,
-    typescriptFeatures,
-    awsFeatures,
-  ] = homePageData?.homePageFeatures?.features
+  const reactFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'react-features',
+  ])
+
+  const kcdFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'kent-c-dodds-features',
+  ])
+
+  const javascriptFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'javascript-features',
+  ])
+
+  const cssFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'css-features',
+  ])
+
+  const reduxFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'redux-features',
+  ])
+
+  const typescriptFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'typescript-features',
+  ])
+
+  const awsFeatures = find(homePageData?.homePageFeatures?.features, [
+    'slug.current',
+    'aws-features',
+  ])
 
   React.useEffect(() => {
     if (viewer) {
