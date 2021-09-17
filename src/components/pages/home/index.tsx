@@ -153,19 +153,19 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={awsFeatures} />
+          {awsFeatures && <FeatureRow resource={awsFeatures} />}
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={cssFeatures} />
+          {cssFeatures && <FeatureRow resource={cssFeatures} />}
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={reduxFeatures} />
+          {reduxFeatures && <FeatureRow resource={reduxFeatures} />}
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={typescriptFeatures} />
+          {typescriptFeatures && <FeatureRow resource={typescriptFeatures} />}
         </section>
       </div>
     </>
