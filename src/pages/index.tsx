@@ -68,6 +68,7 @@ export const homePageFeatures = groq`*[_type == 'resource' && slug.current == "h
   'features': resources[]-> {
     title,
     type,
+    slug,
     subTitle,
     path,
     resources[]->{
@@ -88,31 +89,6 @@ export const homePageFeatures = groq`*[_type == 'resource' && slug.current == "h
     }
   }
 }`
-
-export const awsFeaturesQuery = groq`*[_type == 'resource' && slug.current == "aws-features"][0]{
-  title,
-  subTitle,
-  description, 
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}, 
-  related[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
 
 const featureQuery = groq`
 {
