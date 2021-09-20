@@ -21,6 +21,7 @@ import {useToggle, useClickAway} from 'react-use'
 import config from 'lib/config'
 
 import InstructorsIndex from 'components/search/instructors/index'
+import NoSearchResults from 'components/search/components/no-search-results'
 
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
@@ -265,39 +266,7 @@ const Search: FunctionComponent<SearchProps> = ({
                 key="search-results"
                 className="col-span-4 sm:col-span-3 w-full"
               >
-                {/* Empty state Placeholder */}
-                <div className="px-4 w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded h-full justify-center">
-                  <div className="py-10 sm:py-20 self-center text-center flex flex-col items-center">
-                    <SearchEggo />
-                    <div className="text-gray-700 dark:text-gray-300 text-lg mt-6 mb-2">
-                      Sorry, we don't have any resources on{' '}
-                      <b>"{searchState.query}"</b>
-                    </div>
-                    <div className="text-gray-500 dark:text-gray-400">
-                      Why not try one of these topics?
-                    </div>
-                    <div className="flex flex-row flex-wrap items-center mt-4 mx-2 justify-center">
-                      {[
-                        {title: 'React', url: '/q?q=react'},
-                        {title: 'JavaScript', url: '/q?q=javascript'},
-                        {title: 'CSS', url: '/q?q=css'},
-                        {title: 'TypeScript', url: '/q?q=typescript'},
-                      ].map((topic, i) => (
-                        <Link href={topic.url} key={i}>
-                          <a>
-                            <div
-                              key={i}
-                              className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 mx-1 border border-gray-300 dark:border-gray-700 rounded-full my-1 py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100"
-                            >
-                              {topic.title}
-                            </div>
-                          </a>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {/* Search hits component */}
+                <NoSearchResults searchQuery={searchState.query} />
                 <Hits />
               </div>
             </div>

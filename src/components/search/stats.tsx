@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import React from 'react'
 import {connectStats} from 'react-instantsearch-dom'
 
 type CustomStatsProps = {
@@ -6,7 +6,7 @@ type CustomStatsProps = {
   searchQuery: string
 }
 
-const CustomStats: FunctionComponent<CustomStatsProps> = ({
+const CustomStats: React.FunctionComponent<CustomStatsProps> = ({
   nbHits,
   searchQuery,
 }) => {
