@@ -266,8 +266,8 @@ const Search: FunctionComponent<SearchProps> = ({
                 className="col-span-4 sm:col-span-3 w-full"
               >
                 {/* Empty state Placeholder */}
-                <div className="w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded h-full justify-center">
-                  <div className="py-20 self-center text-center flex flex-col items-center">
+                <div className="px-4 w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded h-full justify-center">
+                  <div className="py-10 sm:py-20 self-center text-center flex flex-col items-center">
                     <SearchEggo />
                     <div className="text-gray-700 dark:text-gray-300 text-lg mt-6 mb-1">
                       Sorry, we don't have any resources on{' '}
@@ -276,7 +276,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     <div className="text-gray-500 dark:text-gray-400">
                       Why not try one of these topics?
                     </div>
-                    <div className="flex flex-row items-center mt-6">
+                    <div className="flex flex-row flex-wrap items-center mt-6 mx-2 justify-center">
                       {[
                         {title: 'React', url: '/q?q=react'},
                         {title: 'JavaScript', url: '/q?q=javascript'},
@@ -287,7 +287,7 @@ const Search: FunctionComponent<SearchProps> = ({
                           <a>
                             <div
                               key={i}
-                              className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 mx-1 border border-gray-300 dark:border-gray-700 rounded-full py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100"
+                              className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 mx-1 border border-gray-300 dark:border-gray-700 rounded-full my-1 py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100"
                             >
                               {topic.title}
                             </div>
