@@ -5,6 +5,7 @@ import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
+import SearchEggo from './searcheggo'
 import {
   Configure,
   InstantSearch,
@@ -215,7 +216,7 @@ const Search: FunctionComponent<SearchProps> = ({
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
 
-            <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200">
+            <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200 dark:border-gray-700">
               <Stats searchQuery={searchState.query} />
               <div className="flex space-x-2 items-center flex-nowrap flex-shrink-0 md:ml-6">
                 <div className="font-bold whitespace-nowrap flex-shrink-0">
@@ -259,7 +260,36 @@ const Search: FunctionComponent<SearchProps> = ({
                   </div>
                 )}
               </div>
-              <div key="search-results" className="col-span-4 sm:col-span-3">
+              <div
+                key="search-results"
+                className="col-span-4 sm:col-span-3 w-full"
+              >
+                {/* Empty state Placeholder */}
+                <div className="w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded h-full justify-center">
+                  <div className="py-20 self-center text-center flex flex-col items-center">
+                    <SearchEggo />
+                    <div className="text-gray-700 dark:text-gray-300 text-lg mt-6 mb-1">
+                      Sorry, we don't have any resources on{' '}
+                      <b>"{searchState.query}"</b>
+                    </div>
+                    <div className="text-gray-500 dark:text-gray-400">
+                      Why not try one of these topics?
+                    </div>
+                    <div className="flex flex-row items-center mt-6">
+                      {['React', 'JavaScript', 'CSS', 'TypeScript'].map(
+                        (topic, i) => (
+                          <div
+                            key={i}
+                            className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 mx-1 border border-gray-300 dark:border-gray-700 rounded-full py-2 px-4"
+                          >
+                            {topic}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                </div>
+                {/* Search hits component */}
                 <Hits />
               </div>
             </div>
