@@ -88,11 +88,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          {reactFeatures && <FeatureRow resource={reactFeatures} />}
+          <FeatureRow resource={reactFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          {kcdFeatures && <InstructorFeatureRow resource={kcdFeatures} />}
+          <InstructorFeatureRow resource={kcdFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -178,19 +178,19 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          {awsFeatures && <FeatureRow resource={awsFeatures} />}
+          <FeatureRow resource={awsFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          {cssFeatures && <FeatureRow resource={cssFeatures} />}
+          <FeatureRow resource={cssFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          {reduxFeatures && <FeatureRow resource={reduxFeatures} />}
+          <FeatureRow resource={reduxFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          {typescriptFeatures && <FeatureRow resource={typescriptFeatures} />}
+          <FeatureRow resource={typescriptFeatures} />
         </section>
       </div>
     </>
@@ -304,6 +304,8 @@ const FeatureRow: FunctionComponent<any> = ({
   resource: CardResource
   location: string
 }) => {
+  if (!resource) return null
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
@@ -364,6 +366,8 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
   resource,
   location = 'home',
 }) => {
+  if (!resource) return null
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
