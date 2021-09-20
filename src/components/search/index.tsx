@@ -269,14 +269,14 @@ const Search: FunctionComponent<SearchProps> = ({
                 <div className="px-4 w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded h-full justify-center">
                   <div className="py-10 sm:py-20 self-center text-center flex flex-col items-center">
                     <SearchEggo />
-                    <div className="text-gray-700 dark:text-gray-300 text-lg mt-6 mb-1">
+                    <div className="text-gray-700 dark:text-gray-300 text-lg mt-6 mb-2">
                       Sorry, we don't have any resources on{' '}
                       <b>"{searchState.query}"</b>
                     </div>
                     <div className="text-gray-500 dark:text-gray-400">
                       Why not try one of these topics?
                     </div>
-                    <div className="flex flex-row flex-wrap items-center mt-6 mx-2 justify-center">
+                    <div className="flex flex-row flex-wrap items-center mt-4 mx-2 justify-center">
                       {[
                         {title: 'React', url: '/q?q=react'},
                         {title: 'JavaScript', url: '/q?q=javascript'},
