@@ -5,8 +5,6 @@ import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
-import Link from 'next/link'
-import SearchEggo from './searcheggo'
 import {
   Configure,
   InstantSearch,
