@@ -5,6 +5,7 @@ import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
 import Pagination from './pagination'
+import Link from 'next/link'
 import SearchEggo from './searcheggo'
 import {
   Configure,
@@ -276,16 +277,23 @@ const Search: FunctionComponent<SearchProps> = ({
                       Why not try one of these topics?
                     </div>
                     <div className="flex flex-row items-center mt-6">
-                      {['React', 'JavaScript', 'CSS', 'TypeScript'].map(
-                        (topic, i) => (
-                          <div
-                            key={i}
-                            className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 mx-1 border border-gray-300 dark:border-gray-700 rounded-full py-2 px-4"
-                          >
-                            {topic}
-                          </div>
-                        ),
-                      )}
+                      {[
+                        {title: 'React', url: '/q?q=react'},
+                        {title: 'JavaScript', url: '/q?q=javascript'},
+                        {title: 'CSS', url: '/q?q=css'},
+                        {title: 'TypeScript', url: '/q?q=typescript'},
+                      ].map((topic, i) => (
+                        <Link href={topic.url} key={i}>
+                          <a>
+                            <div
+                              key={i}
+                              className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 mx-1 border border-gray-300 dark:border-gray-700 rounded-full py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100"
+                            >
+                              {topic.title}
+                            </div>
+                          </a>
+                        </Link>
+                      ))}
                     </div>
                   </div>
                 </div>
