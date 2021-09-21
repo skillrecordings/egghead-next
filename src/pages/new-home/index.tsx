@@ -10,6 +10,7 @@ import {
   Reactblue,
   Reduxblue,
   Cssblue,
+  Tsblue,
 } from './allicons'
 
 const NewHome: React.FunctionComponent = () => {
@@ -226,59 +227,16 @@ const NewHome: React.FunctionComponent = () => {
       </section>
 
       <section className="-mx-6 bg-gray-50 py-20 border-2 border-gray-100">
-        <div className="max-w-screen-xl mx-auto">
+        <div className="max-w-screen-xl mb-20 mx-auto">
           <div className="mx-auto md:mx-2 md:max-w-screen-md">
             <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
-              The nuts and bolts
+              The sweet details
             </p>
             <h3 className="text-2xl leading-snug mb-6 font-medium">
               What you'll get as an egghead member
             </h3>
           </div>
-          <div className="mt-10 grid grid-cols-4 grid-rows-3 gap-4">
-            {[
-              {text: '250+ comprehensive video courses', icon: <Reactblue />},
-              {
-                text: '5500+ short and sweet lessons',
-                icon: <Reactblue />,
-              },
-              {
-                text: 'Practice projects to apply your knowledge',
-                icon: <Reactblue />,
-              },
-              {
-                text: 'Transcripts and closed captions on every video',
-                icon: <Reactblue />,
-              },
-              {text: 'Code examples for every lesson', icon: <Reactblue />},
-              {
-                text: 'Speed controls to watch at your own pace',
-                icon: <Reactblue />,
-              },
-              {
-                text: 'Downloadable videos to view offline',
-                icon: <Reactblue />,
-              },
-              {
-                text: 'Priority customer support and assistance',
-                icon: <Reactblue />,
-              },
-              {text: 'RSS feeds for your favourite podcasting app', icon: ''},
-              {
-                text: 'Bookmarks to create learning plans and stay organised',
-                icon: '',
-              },
-              {text: 'Watch history to see your progress over time', icon: ''},
-            ].map((item) => {
-              return (
-                <div className="h-48 w-full bg-white border rounded-md shadow-sm border-gray-100 p-6 flex items-center">
-                  <p className="text-center leading-tight font-medium text-lg text-gray-700">
-                    {item.text}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
+          <BenefitsSection2 />
         </div>
       </section>
       <PricingSection />
@@ -287,6 +245,105 @@ const NewHome: React.FunctionComponent = () => {
 }
 
 export default NewHome
+
+function BenefitsSection() {
+  return (
+    <div className="mt-10 grid grid-cols-4 grid-rows-3 gap-4">
+      {[
+        {text: '250+ comprehensive video courses', icon: <Reactblue />},
+        {
+          text: '5500+ short and sweet lessons',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Practice projects to apply your knowledge',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Transcripts and closed captions on every video',
+          icon: <Reactblue />,
+        },
+        {text: 'Code examples for every lesson', icon: <Reactblue />},
+        {
+          text: 'Speed controls to watch at your own pace',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Downloadable videos to view offline',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Priority customer support and assistance',
+          icon: <Reactblue />,
+        },
+        {text: 'RSS feeds for your favourite podcasting app', icon: ''},
+        {
+          text: 'Bookmarks to create learning plans and stay organised',
+          icon: '',
+        },
+        {text: 'Watch history to see your progress over time', icon: ''},
+      ].map((item) => {
+        return (
+          <div className="h-48 w-full bg-white border rounded-md shadow-sm border-gray-100 p-6 flex items-center">
+            <p className="text-center leading-tight font-medium text-lg text-gray-700">
+              {item.text}
+            </p>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function BenefitsSection2() {
+  return (
+    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto md:mx-2">
+      {[
+        {text: '250+ comprehensive video courses', icon: <Reactblue />},
+        {
+          text: '5500+ short and sweet lessons',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Practice projects to apply your knowledge',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Transcripts and closed captions on every video',
+          icon: <Reactblue />,
+        },
+        {text: 'Code examples for every lesson', icon: <Reactblue />},
+        {
+          text: 'Speed controls to watch at your own pace',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Downloadable videos to view offline',
+          icon: <Reactblue />,
+        },
+        {
+          text: 'Priority customer support and assistance',
+          icon: <Reactblue />,
+        },
+        {text: 'RSS feeds for your favourite podcasting app', icon: ''},
+        {
+          text: 'Bookmarks to create learning plans and stay organised',
+          icon: '',
+        },
+        {text: 'Watch history to see your progress over time', icon: ''},
+      ].map((item) => {
+        return (
+          <div className="w-full border-gray-100 py-2 flex items-center">
+            <img src="https://via.placeholder.com/60x60" alt="" />
+            <p className="text-center leading-tight font-medium text-lg text-gray-700 ml-6">
+              {item.text}
+            </p>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 function TechnologyRow() {
   return (
@@ -314,8 +371,8 @@ function TechnologyRow() {
             image: <Vueblue />,
           },
           {
-            label: 'Node',
-            image: <Nodeblue />,
+            label: 'TypeScript',
+            image: <Tsblue />,
           },
           {
             label: 'CSS',
@@ -342,7 +399,7 @@ function TechnologyRow() {
               animate={{opacity: 1, y: 0}}
               transition={{duration: 0.5, delay: i * 0.1}}
             >
-              <div className="w-20 h-20 md:w-32 md:h-32 px-1 mx-2 flex items-center">
+              <div className="w-24 h-24 md:w-32 md:h-32 px-1 mx-3 my-2 flex items-center">
                 {tech.image}
               </div>
             </motion.div>

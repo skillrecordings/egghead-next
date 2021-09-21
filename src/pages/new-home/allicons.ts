@@ -7,6 +7,7 @@ import Vueblue from './vueblue.js'
 import Nodeblue from './nodeblue.js'
 import Cssblue from './cssblue.js'
 import Reduxblue from './reduxblue.js'
+import Tsblue from './tsblue.js'
 
 export {
   Angularblue,
@@ -18,4 +19,5 @@ export {
   Nodeblue,
   Cssblue,
   Reduxblue,
+  Tsblue,
 }
