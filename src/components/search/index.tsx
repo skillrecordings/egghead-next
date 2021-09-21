@@ -236,7 +236,6 @@ const Search: FunctionComponent<SearchProps> = ({
                 />
               </div>
             </div>
-
             <div className="flex mb-10 pb-10">
               <div className="flex-shrink-0">
                 {!sm && (

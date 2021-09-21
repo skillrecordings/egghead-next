@@ -5,8 +5,7 @@ import Link from 'next/link'
 import MultiLine from './questions/multi-line'
 import Markdown from 'react-markdown'
 import useCio from 'hooks/use-cio'
-import {sortingHatInitialState, sortingHatReducer} from './sorting-hat-reducer'
-import {SurveyQuestion} from 'data/sorting-hat'
+import {surveyReducer, SurveyQuestion, SurveyState} from './survey-reducer'
 import {Card} from 'components/card'
 
 const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
@@ -24,14 +23,12 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
   )
 }
 
-const SortingHat: React.FunctionComponent<{
+const Survey: React.FunctionComponent<{
   className?: any
   alternative?: JSX.Element
-}> = ({className, alternative}) => {
-  const [state, dispatch] = React.useReducer(
-    sortingHatReducer,
-    sortingHatInitialState,
-  )
+  initialSurveyState: SurveyState
+}> = ({className, alternative, initialSurveyState}) => {
+  const [state, dispatch] = React.useReducer(surveyReducer, initialSurveyState)
   const {subscriber, loadingSubscriber} = useCio()
 
   React.useEffect(() => {
@@ -82,12 +79,14 @@ const SortingHat: React.FunctionComponent<{
         {state.question.type === 'cta-email' && (
           <div>
             <QuestionHeading question={state.question} />
-            <Image
-              className="rounded-full"
-              width={128}
-              height={128}
-              src={state.question.image}
-            />
+            {state.question.image && (
+              <Image
+                className="rounded-full"
+                width={128}
+                height={128}
+                src={state.question.image}
+              />
+            )}
             <button
               className="inline-block py-3 px-5 cursor-pointer text-center appearance-none transition duration-150 w-full ease-in-out bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-lg"
               onClick={() => onAnswer()}
@@ -99,15 +98,17 @@ const SortingHat: React.FunctionComponent<{
         {state.question.type === 'cta-link' && (
           <div>
             <QuestionHeading question={state.question} />
-            <Link href={state.question.url}>
-              <a
-                onClick={() => onAnswer()}
-                target="_blank"
-                className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-              >
-                {state.question.button_label}
-              </a>
-            </Link>
+            {state.question.url && (
+              <Link href={state.question.url}>
+                <a
+                  onClick={() => onAnswer()}
+                  target="_blank"
+                  className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+                >
+                  {state.question.button_label}
+                </a>
+              </Link>
+            )}
           </div>
         )}
         {state.question.type === 'opt-out' && (
@@ -136,4 +137,4 @@ const SortingHat: React.FunctionComponent<{
   )
 }
 
-export default SortingHat
+export default Survey
