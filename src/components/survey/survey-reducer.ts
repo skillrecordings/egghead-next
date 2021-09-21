@@ -20,7 +20,13 @@ export type MultipleChoiceAnswer = {
 export type SurveyQuestion = {
   heading: string
   subheading: string
-  type: string
+  type:
+    | 'opt-out'
+    | 'cta-email'
+    | 'cta-done'
+    | 'multiple-choice'
+    | 'multi-line'
+    | 'cta-link'
   first?: boolean
   random?: boolean
   other?: boolean
