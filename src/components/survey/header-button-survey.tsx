@@ -2,9 +2,8 @@ import * as React from 'react'
 import useCio from 'hooks/use-cio'
 import Link from 'next/link'
 import {Card} from 'components/card'
-import {SurveyQuestion} from 'data/sorting-hat'
 import Markdown from 'react-markdown'
-import {surveyReducer, SurveyState} from './survey-reducer'
+import {SurveyQuestion, surveyReducer, SurveyState} from './survey-reducer'
 import {HeaderButtonShapedLink} from 'components/app/header/header-button-shaped-link'
 
 const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
@@ -52,7 +51,8 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
     state.question &&
     !subscriberRequired &&
     !subscriber &&
-    !loadingSubscriber
+    !loadingSubscriber &&
+    state.question.url
   ) {
     return (
       <HeaderButtonShapedLink
@@ -66,7 +66,7 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
 
   return !state.question || state.closed ? (
     alternative || null
-  ) : variant === 'header' ? (
+  ) : variant === 'header' && state.question.url ? (
     <HeaderButtonShapedLink
       label={state.question.heading}
       url={state.question.url}
@@ -80,16 +80,18 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
         {state.question.type === 'cta-link' && (
           <div>
             <QuestionHeading question={state.question} />
-            <Link href={state.question.url}>
-              <a
-                onClick={() => {
-                  onAnswer('maybe')
-                }}
-                className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
-              >
-                {state.question.button_label}
-              </a>
-            </Link>
+            {state.question.url && (
+              <Link href={state.question.url}>
+                <a
+                  onClick={() => {
+                    onAnswer('maybe')
+                  }}
+                  className="inline-flex justify-center items-center px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+                >
+                  {state.question.button_label}
+                </a>
+              </Link>
+            )}
           </div>
         )}
 
