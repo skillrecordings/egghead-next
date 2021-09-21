@@ -17,7 +17,7 @@ const NewHome: React.FunctionComponent = () => {
   return (
     <div className="mt-4 sm:mt-8 w-full">
       <section className="my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto overflow-hidden">
-        <div className="w-full sm:w-3/5">
+        <div className="w-full md:w-3/5">
           <motion.h1
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
@@ -30,20 +30,29 @@ const NewHome: React.FunctionComponent = () => {
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.6, delay: 0.4}}
-            className="text-lg sm:leading-loose text-coolGray-500 w-full sm:w-3/4"
+            className="text-lg sm:leading-loose text-coolGray-500 w-full md:w-3/4"
           >
             egghead creates high-quality video tutorials and learning resources
             for badass web developers
           </motion.h2>
 
           {/* email input form */}
+
+          <motion.p
+            initial={{opacity: 0, x: -50}}
+            animate={{opacity: 1, x: 0}}
+            transition={{duration: 0.6, delay: 0.8}}
+            className="mt-8 mb-1 text-gray-500 text-sm"
+          >
+            Create your free account to start learning now
+          </motion.p>
           <motion.form
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.6, delay: 0.6}}
-            className="mt-8"
+            className=""
           >
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row flex-wrap items-center">
               <div className="mt-1 relative rounded-md shadow-sm w-72">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg
@@ -67,22 +76,14 @@ const NewHome: React.FunctionComponent = () => {
               </div>
               <button
                 type="submit"
-                className="transition-all duration-150 mt-1 ml-2 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:shadow-sm text-white font-semibold py-3 px-5 rounded-md"
+                className="w-full md:w-auto transition-all duration-150 mt-1 md:ml-2 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:shadow-sm text-white font-semibold py-3 px-5 rounded-md"
               >
-                Get started for free
+                Create a free account
               </button>
             </div>
           </motion.form>
-          <motion.p
-            initial={{opacity: 0, x: -50}}
-            animate={{opacity: 1, x: 0}}
-            transition={{duration: 0.6, delay: 0.8}}
-            className="mt-2 text-gray-400 text-sm"
-          >
-            We guarantee we're 100% spam-free. Unsubscribe at any time.
-          </motion.p>
         </div>
-        <div className="">
+        <div className="hidden md:block">
           <img
             className="min-w-full"
             width="400"
@@ -103,15 +104,38 @@ const NewHome: React.FunctionComponent = () => {
             <br />
             You know the drill...
           </h3>
-          <ol className="list-disc ml-6">
+          <ol className="">
             {[
-              'Cobble together hours-long videos, docs, tutorials, and forum posts',
-              'Watch long, unedited videos at 2x speed',
-              'Dig through the comments when tutorials give you more bugs than working code',
-              'Read blog post after unreliable blog post',
-              'Beg for answers on StackOverflow when you hit dead ends',
+              {
+                emoji:
+                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/disappointed-face_1f61e.png',
+                text: 'Cobble together hours-long videos, docs, tutorials, and forum posts',
+              },
+              {
+                emoji:
+                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/confounded-face_1f616.png',
+                text: 'Watch long, unedited videos at 2x speed',
+              },
+              {
+                emoji:
+                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/weary-face_1f629.png',
+                text: 'Dig through the comments when tutorials give you more bugs than working code',
+              },
+              {
+                emoji:
+                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/crying-face_1f622.png',
+                text: 'Read blog post after unreliable blog post',
+              },
+              {
+                emoji:
+                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/loudly-crying-face_1f62d.png',
+                text: 'Beg for answers on StackOverflow when you hit dead ends',
+              },
             ].map((item) => (
-              <li className="prose text-lg pl-2 pb-2">{item}</li>
+              <div className="flex flex-row pb-4 items-center align-center">
+                <img width="30" src={item.emoji} alt="crying emoji" />
+                <li className="prose text-lg pl-4">{item.text}</li>
+              </div>
             ))}
           </ol>
           <p className="mt-6 prose text-lg">
@@ -239,7 +263,6 @@ const NewHome: React.FunctionComponent = () => {
           <BenefitsSection2 />
         </div>
       </section>
-      <PricingSection />
     </div>
   )
 }
@@ -299,13 +322,14 @@ function BenefitsSection2() {
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto md:mx-2">
       {[
-        {text: '250+ comprehensive video courses', icon: <Reactblue />},
+        {text: '250+ comprehensive courses', icon: <Reactblue />},
+
         {
-          text: '5500+ short and sweet lessons',
+          text: 'Practice projects to apply your knowledge',
           icon: <Reactblue />,
         },
         {
-          text: 'Practice projects to apply your knowledge',
+          text: '5500+ bite-size video lessons',
           icon: <Reactblue />,
         },
         {
