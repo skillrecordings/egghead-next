@@ -6,7 +6,6 @@ const NoSearchResultsPlaceholder: React.FC<{
   searchQuery: string
   nbHits: number
 }> = ({searchQuery, nbHits}) => {
-  console.log('nbHits: ', nbHits)
   return nbHits ? null : (
     <div className="px-4 w-full flex bg-white border border-gray-300 border-dashed dark:border-gray-600 dark:bg-gray-900 rounded justify-center">
       <div className="py-10 sm:py-20 self-center text-center flex flex-col items-center">
