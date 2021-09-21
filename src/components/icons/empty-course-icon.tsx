@@ -3,7 +3,7 @@ import * as React from 'react'
 const EmptyCourseIcon: React.FunctionComponent<{className?: string}> = ({
   className = 'fill-current text-gray-300 dark:text-gray-600',
 }) => (
-  <svg viewBox="0 0 58.08 47.22" width="110" class={className}>
+  <svg viewBox="0 0 58.08 47.22" width="110" className={className}>
     <g id="prefix__Layer_2" data-name="Layer 2">
       <g id="prefix__Artwork">
         <path
