@@ -16,7 +16,7 @@ const NoSearchResultsPlaceholder: React.FC<{
         <div className="text-gray-500 dark:text-gray-400">
           Why not try one of these topics?
         </div>
-        <div className="flex flex-row flex-wrap items-center mt-4 mx-2 justify-center">
+        <div className="flex flex-row flex-wrap items-center mt-4 justify-center space-x-2">
           {[
             {title: 'React', url: '/q?q=react'},
             {title: 'JavaScript', url: '/q?q=javascript'},
@@ -26,7 +26,10 @@ const NoSearchResultsPlaceholder: React.FC<{
             <a
               href={topic.url}
               key={i}
-              className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 mx-1 border border-gray-300 dark:border-gray-700 rounded-full my-1 py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100"
+              tabIndex={0}
+              role="link"
+              aria-label={topic.title}
+              className="dark:bg-gray-800 text-sm font-semibold text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-full my-1 py-2 px-4 dark:hover:bg-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50"
             >
               {topic.title}
             </a>
