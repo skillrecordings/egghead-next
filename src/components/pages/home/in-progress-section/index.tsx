@@ -12,7 +12,7 @@ type InProgressSectionProps = {
   coursesInProgress: any
 }
 
-const showPlaceholder = false
+const showPlaceholder = true
 
 const showLoader = false
 
@@ -64,7 +64,7 @@ const InProgressSection: FunctionComponent<InProgressSectionProps> = ({
         </>
       )}
       {showLoader && (
-        <div className="flex items-center justify-center w-full sm:py-16 py-10 sm:h-80 h-96 bg-gray-100 rounded-lg">
+        <div className="flex items-center justify-center w-full sm:py-16 py-10 sm:h-80 h-96 bg-gray-100 dark:bg-gray-800 rounded-lg">
           <Spinner color="gray-500" />
         </div>
       )}
@@ -82,9 +82,9 @@ const InProgressSection: FunctionComponent<InProgressSectionProps> = ({
             </h2>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4 md:gap-10">
-            <div className="h-64 flex flex-col items-center justify-center w-full rounded-lg border bg-white border-gray-300 border-dashed text-center px-6">
+            <div className="h-64 flex flex-col items-center justify-center w-full rounded-lg border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 border-dashed text-center px-6">
               <EmptyCourseIcon />
-              <h3 className="text-lg mb-1 mt-4 font-medium text-gray-600">
+              <h3 className="text-lg mb-1 mt-4 font-medium text-gray-600 dark:text-gray-400">
                 No courses in progress
               </h3>
               <div className="text-sm leading-tight text-gray-500">
@@ -102,13 +102,14 @@ const InProgressSection: FunctionComponent<InProgressSectionProps> = ({
 const surveyTopics = [
   'React',
   'CSS',
-  'Javascript',
+  'JavaScript',
   'Node.js',
+  'Vue',
   'AWS',
   'Angular',
   'Next.js',
-
-  'Typescript',
+  'TypeScript',
+  'Docker',
 ]
 
 const OnboardingSurvey = () => {
@@ -118,7 +119,7 @@ const OnboardingSurvey = () => {
         <h3 className="text-lg font-medium text-grey-600 mb-1">
           What topics are you interested in learning?
         </h3>
-        <div className="text-sm text-gray-600 mb-4">
+        <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
           Select as many as you want. We'll use these to recommend learning
           material for you.
         </div>
@@ -139,8 +140,8 @@ const OnboardingSurvey = () => {
           )
         })}
       </div>
-      <div className="w-full flex justify-items-end justify-end mt-5">
-        <button className="bg-blue-600 hover:bg-blue-700 relative right-2 lg:right-6 transition-colors duration-300 px-4 py-2 text-base text-white font-medium rounded">
+      <div className="w-full flex justify-items-end justify-end mt-2">
+        <button className="bg-blue-600 hover:bg-blue-700 relative right-2 lg:right-6 transition-colors duration-300 px-4 py-2 text-base text-white rounded-md">
           Submit topics
         </button>
       </div>
