@@ -252,7 +252,8 @@ const NewHome: React.FunctionComponent = () => {
             'We have over 5,000 lessons and 250+ courses, with new material released every week.',
             "Our lessons are 3-7 minutes long – short, sweet, and to the point. They're designed to be watched either individually or as part of a course, so you can jump around and get exactly the information you need.",
             "Our courses will give you a comprehensive tour through a topic. They cover all the essentials from beginning to end. This includes a realistic practice project and all the code you'll need to complete it.",
-            'This means you can pick up individual skills anytime you want. New languages, frameworks, and libraries are easy to add to your professional toolkit. Learn at your desk, on the train, or in the bathroom – whenever and whereever you want. Videos, transcripts, and code examples are always avaliable – even offline.',
+            'This means you can pick up individual skills anytime you want. New languages, frameworks, and libraries are easy to add to your professional toolkit.',
+            'Learn at your desk, on the train, or in the bathroom – whenever and whereever you want. Videos, transcripts, and code examples are always avaliable – even offline.',
             'And all of it is nop-notch quality. Your secret weapon to get ahead, shine at work, and build things you love.',
           ].map((item) => {
             return <p className="mt-6 prose text-lg">{item}</p>
