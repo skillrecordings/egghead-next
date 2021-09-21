@@ -21,46 +21,26 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
   const topics: any = get(homePageData, 'topics')
 
+  const findFeature = (featureName: string) => {
+    return find(homePageData?.homePageFeatures?.features, [
+      'slug.current',
+      featureName,
+    ])
+  }
+
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
   )
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
 
-  const reactFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'react-features',
-  ])
-
-  const kcdFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'kent-c-dodds-features',
-  ])
-
-  const javascriptFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'javascript-features',
-  ])
-
-  const cssFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'css-features',
-  ])
-
-  const reduxFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'redux-features',
-  ])
-
-  const typescriptFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'typescript-features',
-  ])
-
-  const awsFeatures = find(homePageData?.homePageFeatures?.features, [
-    'slug.current',
-    'aws-features',
-  ])
+  const reactFeatures = findFeature('react-features')
+  const kcdFeatures = findFeature('kent-c-dodds-features')
+  const javascriptFeatures = findFeature('javascript-features')
+  const cssFeatures = findFeature('css-features')
+  const reduxFeatures = findFeature('redux-features')
+  const typescriptFeatures = findFeature('typescript-features')
+  const awsFeatures = findFeature('aws-features')
 
   React.useEffect(() => {
     if (viewer) {
