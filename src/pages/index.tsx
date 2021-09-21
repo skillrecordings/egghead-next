@@ -68,6 +68,7 @@ export const homePageFeatures = groq`*[_type == 'resource' && slug.current == "h
   'features': resources[]-> {
     title,
     slug,
+    name,
     subTitle,
     path,
     resources[]->{
