@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Hls from 'hls.js'
 
-export default class HLSSource extends Component<any> {
+class HLSSource extends Component<any> {
   hls
 
   constructor(props: any) {
@@ -29,3 +29,5 @@ export default class HLSSource extends Component<any> {
     return <source src={src} type={type || 'application/x-mpegURL'} />
   }
 }
+
+export default HLSSource

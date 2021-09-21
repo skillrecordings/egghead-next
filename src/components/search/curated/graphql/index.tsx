@@ -27,7 +27,7 @@ const SearchGraphql = () => {
   })
 
   return (
-    <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900">
+    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
       <NextSeo
         description={description}
         title={title}

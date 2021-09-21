@@ -42,7 +42,7 @@ const SearchJavaScript = () => {
   })
 
   return (
-    <div className="mb-10 pb-10 py-5 xl:px-0 px-5 max-w-screen-xl mx-auto">
+    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
       <NextSeo
         description={description}
         title={title}

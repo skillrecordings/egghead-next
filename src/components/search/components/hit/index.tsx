@@ -37,13 +37,16 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
                   [type]: slug,
                 })
               }}
-              className="flex-shrink-0"
+              className={`flex-shrink-0 relative ${
+                type === 'lesson'
+                  ? 'w-8 h-8 opacity-70'
+                  : 'w-16 h-16 md:w-20 md:h-20'
+              }`}
             >
               <Image
                 src={image}
-                className={type === 'lesson' ? 'opacity-70' : ''}
-                width={type === 'lesson' ? 28 : 96}
-                height={type === 'lesson' ? 28 : 96}
+                className={type === 'lesson' ? 'opacity-90' : ''}
+                layout="fill"
               />
             </a>
           </Link>
