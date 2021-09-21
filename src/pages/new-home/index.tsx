@@ -16,7 +16,17 @@ import {
 const NewHome: React.FunctionComponent = () => {
   return (
     <div className="mt-4 sm:mt-8 w-full">
-      <section className="my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto overflow-hidden">
+      <div className="relative w-100 z-0 hidden md:block">
+        <div className="absolute top-8 right-0 -mr-40">
+          <img
+            className="min-w-full"
+            width="800"
+            alt="egghead course illustration"
+            src="https://via.placeholder.com/800x450"
+          />
+        </div>
+      </div>
+      <section className="z-10 my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto">
         <div className="w-full md:w-3/5">
           <motion.h1
             initial={{opacity: 0, x: -50}}
@@ -83,15 +93,8 @@ const NewHome: React.FunctionComponent = () => {
             </div>
           </motion.form>
         </div>
-        <div className="hidden md:block">
-          <img
-            className="min-w-full"
-            width="400"
-            alt="egghead course illustration"
-            src="https://via.placeholder.com/400x400"
-          />
-        </div>
       </section>
+
       <TechnologyRow />
       <section className="my-12 sm:my-20 max-w-screen-xl mx-auto ">
         <div className="mx-auto md:mx-2 md:max-w-screen-md">
@@ -131,8 +134,11 @@ const NewHome: React.FunctionComponent = () => {
                   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/loudly-crying-face_1f62d.png',
                 text: 'Beg for answers on StackOverflow when you hit dead ends',
               },
-            ].map((item) => (
-              <div className="flex flex-row pb-4 items-center align-center">
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-row pb-4 items-center align-center"
+              >
                 <img width="30" src={item.emoji} alt="crying emoji" />
                 <li className="prose text-lg pl-4">{item.text}</li>
               </div>
