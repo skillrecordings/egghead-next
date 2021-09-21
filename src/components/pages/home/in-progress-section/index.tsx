@@ -127,7 +127,7 @@ const OnboardingSurvey = () => {
       <div className="grid grid-cols-3 lg:grid-cols-4">
         {surveyTopics.map((topic: string) => {
           return (
-            <div className="pr-4 py-2">
+            <div className="pr-4 py-2 text-gray-800 dark:text-gray-400">
               <label for={topic}>
                 <input
                   className="w-6 h-6 rounded mr-2 border-gray-300"
