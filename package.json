@@ -134,7 +134,7 @@
     "simplebar-react": "^2.3.5",
     "slugify": "^1.6.0",
     "stripe": "^8.170.0",
-    "swr": "^0.5.5",
+    "swr": "^1.0.1",
     "tailwindcss": "^2.2.7",
     "tailwindcss-autofill": "^0.1.0",
     "tailwindcss-text-fill": "^0.1.2",
