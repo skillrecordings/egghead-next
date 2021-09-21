@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, isEmpty} from 'lodash'
+import {map, get, find} from 'lodash'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import {loadUserProgress} from 'lib/users'
@@ -20,18 +20,27 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const [progress, setProgress] = React.useState<any>([])
 
   const topics: any = get(homePageData, 'topics')
+
+  const findFeature = (featureName: string) => {
+    return find(homePageData?.homePageFeatures?.features, [
+      'slug.current',
+      featureName,
+    ])
+  }
+
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
   )
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
-  const reactFeatures: any = get(homePageData, 'reactFeatures')
-  const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
-  const cssFeatures: any = get(homePageData, 'cssFeatures')
-  const reduxFeatures: any = get(homePageData, 'reduxFeatures')
-  const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
-  const kcdFeatures: any = get(homePageData, 'kcdFeatures')
-  const awsFeatures: any = get(homePageData, 'awsFeatures')
+
+  const reactFeatures = findFeature('react-features')
+  const kcdFeatures = findFeature('kent-c-dodds-features')
+  const javascriptFeatures = findFeature('javascript-features')
+  const cssFeatures = findFeature('css-features')
+  const reduxFeatures = findFeature('redux-features')
+  const typescriptFeatures = findFeature('typescript-features')
+  const awsFeatures = findFeature('aws-features')
 
   React.useEffect(() => {
     if (viewer) {
@@ -268,7 +277,15 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
   )
 }
 
-const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
+const FeatureRow: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}: {
+  resource: CardResource
+  location: string
+}) => {
+  if (!resource) return null
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
@@ -329,6 +346,8 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
   resource,
   location = 'home',
 }) => {
+  if (!resource) return null
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">

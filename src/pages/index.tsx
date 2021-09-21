@@ -64,163 +64,38 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
   },
 }`
 
-export const reactFeaturesQuery = groq`*[_type == 'resource' && slug.current == "react-features"][0]{
-  title,
-  subTitle,
-  path,
-  name,
-  resources[]->{
+export const homePageFeatures = groq`*[_type == 'resource' && slug.current == "home-page"][0]{
+  'features': resources[]-> {
     title,
-    'description': summary,
+    slug,
+    name,
+    subTitle,
     path,
-    'byline': meta,
-    image,
-    byline
-	},
-  related[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
-
-export const javascriptFeaturesQuery = groq`*[_type == 'resource' && slug.current == "javascript-features"][0]{
-  title,
-  subTitle,
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	},
-  related[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
-
-export const cssFeaturesQuery = groq`*[_type == 'resource' && slug.current == "css-features"][0]{
-  title,
-  subTitle,
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
-
-export const reduxFeaturesQuery = groq`*[_type == 'resource' && slug.current == "redux-features"][0]{
-  title,
-  subTitle,
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
-
-export const typescriptFeaturesQuery = groq`*[_type == 'resource' && slug.current == "typescript-features"][0]{
-  title,
-  subTitle,
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
-
-export const kcdFeaturesQuery = groq`*[_type == 'resource' && slug.current == "kent-c-dodds-features"][0]{
-  title,
-  subTitle,
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	},
-  related[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
-
-export const awsFeaturesQuery = groq`*[_type == 'resource' && slug.current == "aws-features"][0]{
-  title,
-  subTitle,
-  description, 
-  path,
-  name,
-  resources[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}, 
-  related[]->{
-    title,
-    'description': summary,
-    path,
-    'byline': meta,
-    image,
-    byline
-	}
-}
-`
+    resources[]->{
+      title,
+      'description': summary,
+      path,
+      'byline': meta,
+      image,
+      byline,
+    },
+      related[]->{
+      title,
+      'description': summary,
+      path,
+      'byline': meta,
+      image,
+      byline
+    }
+  }
+}`
 
 const featureQuery = groq`
 {
   'featureDigitalGardening': ${digitalGardeningQuery},
   'featureWhatsNew': ${whatsNewQuery},
+  'homePageFeatures': ${homePageFeatures},
   'featureDeveloperPortfolio': ${developerPortfolioQuery},
-  'reactFeatures': ${reactFeaturesQuery},
-  'javascriptFeatures': ${javascriptFeaturesQuery},
-  'cssFeatures': ${cssFeaturesQuery},
-  'reduxFeatures': ${reduxFeaturesQuery},
-  'typescriptFeatures': ${typescriptFeaturesQuery},
-  'kcdFeatures': ${kcdFeaturesQuery},
-  'awsFeatures': ${awsFeaturesQuery},
 }
 `
 
