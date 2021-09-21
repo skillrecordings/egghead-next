@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {motion} from 'framer-motion'
+import {BadgeCheckIcon} from '@heroicons/react/solid'
 import {
   Vueblue,
   Awsblue,
@@ -51,7 +52,7 @@ const NewHome: React.FunctionComponent = () => {
           <motion.p
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
-            transition={{duration: 0.6, delay: 0.8}}
+            transition={{duration: 0.6, delay: 0.6}}
             className="mt-8 mb-1 text-gray-500 text-sm"
           >
             Create your free account to start learning now
@@ -59,7 +60,7 @@ const NewHome: React.FunctionComponent = () => {
           <motion.form
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
-            transition={{duration: 0.6, delay: 0.6}}
+            transition={{duration: 0.6, delay: 0.8}}
             className=""
           >
             <div className="flex flex-row flex-wrap items-center">
@@ -228,15 +229,18 @@ const NewHome: React.FunctionComponent = () => {
           <p className="mt-6 prose text-lg">
             When you join egghead you'll get:
           </p>
-          <ol className="list-disc ml-6 mt-6">
+          <ol className="mt-6">
             {[
               'Access to hundreds of courses by world-class folks like Dan Abramov, Kent C. Dodds, Jason Lengstorf, and Laurie Barth',
               'Lessons designed to teach you exactly what you need to know, without any of the fluff or cruft',
               'Code examples (without the bugs) and projects to immediately test your knowledge',
               'Professionally produced and edited videos with high-quality sound and resolution',
               'Tools to help you plan, track, and follow through on your learning goals',
-            ].map((item) => (
-              <li className="prose text-lg pl-2 pb-2">{item}</li>
+            ].map((item, index) => (
+              <div className="flex flex-row pb-4 items-start" key={index}>
+                <BadgeCheckIcon className="w-8 h-8 text-blue-600 flex-shrink-0 relative top-1" />
+                <li className="prose text-lg pl-3">{item}</li>
+              </div>
             ))}
           </ol>
           <p className="mt-6 prose text-lg">
