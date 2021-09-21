@@ -19,6 +19,7 @@ import {useToggle, useClickAway} from 'react-use'
 import config from 'lib/config'
 
 import InstructorsIndex from 'components/search/instructors/index'
+import NoSearchResults from 'components/search/components/no-search-results'
 
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
@@ -215,7 +216,7 @@ const Search: FunctionComponent<SearchProps> = ({
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
 
-            <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200">
+            <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200 dark:border-gray-700">
               <Stats searchQuery={searchState.query} />
               <div className="flex space-x-2 items-center flex-nowrap flex-shrink-0 md:ml-6">
                 <div className="font-bold whitespace-nowrap flex-shrink-0">
@@ -258,7 +259,11 @@ const Search: FunctionComponent<SearchProps> = ({
                   </div>
                 )}
               </div>
-              <div key="search-results" className="col-span-4 sm:col-span-3">
+              <div
+                key="search-results"
+                className="col-span-4 sm:col-span-3 w-full"
+              >
+                <NoSearchResults searchQuery={searchState.query} />
                 <Hits />
               </div>
             </div>

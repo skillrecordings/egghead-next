@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import React from 'react'
 import {connectStats} from 'react-instantsearch-dom'
 
 type CustomStatsProps = {
@@ -6,14 +6,14 @@ type CustomStatsProps = {
   searchQuery: string
 }
 
-const CustomStats: FunctionComponent<CustomStatsProps> = ({
+const CustomStats: React.FunctionComponent<CustomStatsProps> = ({
   nbHits,
   searchQuery,
 }) => {
   return !searchQuery || /^\s*$/.test(searchQuery) ? (
     <div />
   ) : (
-    <div className="flex items-center flex-nowrap overflow-hidden max-w-full flex-grow mt-5 md:mt-0">
+    <div className="flex items-center flex-nowrap overflow-hidden max-w-full flex-grow mt-5 md:mt-0 text-gray-700 dark:text-gray-400">
       <div className="font-bold whitespace-nowrap">
         {nbHits.toLocaleString()} results
       </div>
