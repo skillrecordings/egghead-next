@@ -1,4 +1,4 @@
-import sortingHatData, {SurveyQuestion} from 'data/sorting-hat'
+import sortingHatData from 'data/sorting-hat'
 import {CIOSubscriber} from 'hooks/use-cio'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
@@ -7,7 +7,33 @@ import {cioIdentify} from 'utils/cio-identify'
 const DEFAULT_FIRST_QUESTION = `biggest_path`
 const DEFAULT_FINAL_QUESTION = `thanks`
 
-export type SortingHatState = {
+export type Survey = {
+  [key: string]: SurveyQuestion | string
+}
+
+export type MultipleChoiceAnswer = {
+  answer: string
+  label: string
+  always_last?: boolean
+}
+
+export type SurveyQuestion = {
+  heading: string
+  subheading: string
+  type: string
+  first?: boolean
+  random?: boolean
+  other?: boolean
+  other_label?: string
+  choices?: MultipleChoiceAnswer[]
+  next?: any
+  image?: string
+  button_label?: string
+  url?: string
+  final?: boolean
+}
+
+export type SurveyState = {
   subscriber?: CIOSubscriber
   question?: SurveyQuestion
   data: any
@@ -17,13 +43,13 @@ export type SortingHatState = {
   surveyTitle: string
 }
 
-export type SortingHatAction =
+export type SurveyAction =
   | {type: 'load'; subscriber?: CIOSubscriber; loadingSubscriber: boolean}
   | {type: 'answered'; answer: any}
   | {type: 'closed'}
   | {type: 'dismiss'}
 
-export const sortingHatInitialState: SortingHatState = {
+export const sortingHatInitialState: SurveyState = {
   currentQuestionKey: DEFAULT_FIRST_QUESTION,
   answers: {},
   closed: true,
@@ -31,10 +57,10 @@ export const sortingHatInitialState: SortingHatState = {
   surveyTitle: 'sorting hat',
 }
 
-export const sortingHatReducer = (
-  state: SortingHatState,
-  action: SortingHatAction,
-): SortingHatState => {
+export const surveyReducer = (
+  state: SurveyState,
+  action: SurveyAction,
+): SurveyState => {
   console.debug('survey reducer state + action', {state, action})
   try {
     switch (action.type) {
@@ -64,14 +90,11 @@ export const sortingHatReducer = (
   }
 }
 
-function loadSurvey(
-  action: SortingHatAction,
-  state: SortingHatState,
-): SortingHatState {
+function loadSurvey(action: SurveyAction, state: SurveyState): SurveyState {
   console.debug(`load survey`, state)
   const question: any = state.data[state.currentQuestionKey]
 
-  function getInitialSurveyState(subscriber: CIOSubscriber): SortingHatState {
+  function getInitialSurveyState(subscriber: CIOSubscriber): SurveyState {
     const surveyIncomplete = isEmpty(
       subscriber.attributes?.[
         `${state.surveyTitle.replace(' ', '_')}_finished_at`
@@ -96,7 +119,7 @@ function loadSurvey(
 }
 
 function initializeSurveyState(
-  state: SortingHatState,
+  state: SurveyState,
   subscriber: CIOSubscriber,
   question: SurveyQuestion,
 ) {
@@ -119,10 +142,7 @@ function initializeSurveyState(
   }
 }
 
-function answerSurveyQuestion(
-  action: SortingHatAction,
-  state: SortingHatState,
-) {
+function answerSurveyQuestion(action: SurveyAction, state: SurveyState) {
   console.debug(`answerSurveyQuestion`, state)
   const question: any = state.data[state.currentQuestionKey]
 
@@ -190,8 +210,8 @@ const getNextQuestionKey = (
 }
 
 function getUpdatedAttributesForAnswer(
-  state: SortingHatState,
-  action: SortingHatAction,
+  state: SurveyState,
+  action: SurveyAction,
   answers: any,
   subscriber: CIOSubscriber,
   currentQuestionKey: string,
@@ -255,7 +275,7 @@ function getUpdatedAttributesForAnswer(
 }
 
 function getStateForNextQuestion(
-  state: SortingHatState,
+  state: SurveyState,
   answers: any,
   attributes: any,
   nextQuestionKey: string,
@@ -273,7 +293,7 @@ function getStateForNextQuestion(
   }
 }
 
-function closeSurvey(action: SortingHatAction, state: SortingHatState) {
+function closeSurvey(action: SurveyAction, state: SurveyState) {
   console.debug(`closeSurvey`, state)
   const question: any = state.data[state.currentQuestionKey]
   if (state.subscriber && question.final) {
@@ -292,7 +312,7 @@ function closeSurvey(action: SortingHatAction, state: SortingHatState) {
   return {...state, closed: true}
 }
 
-function dismissSurvey(state: SortingHatState) {
+function dismissSurvey(state: SurveyState) {
   console.debug(`dismissSurvey`, state)
   if (state.subscriber) {
     cioIdentify(

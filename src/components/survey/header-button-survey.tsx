@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {Card} from 'components/card'
 import {SurveyQuestion} from 'data/sorting-hat'
 import Markdown from 'react-markdown'
-import {sortingHatReducer, SortingHatState} from './sorting-hat-reducer'
+import {surveyReducer, SurveyState} from './survey-reducer'
 import {HeaderButtonShapedLink} from 'components/app/header/header-button-shaped-link'
 
 const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
@@ -23,7 +23,7 @@ const QuestionHeading: React.FunctionComponent<{question: SurveyQuestion}> = ({
 }
 
 type HeaderButtonProps = {
-  initialState: SortingHatState
+  initialState: SurveyState
   subscriberRequired?: boolean
   className?: string
   alternative?: any
@@ -37,7 +37,7 @@ const HeaderButtonCTA: React.FC<HeaderButtonProps> = ({
   alternative,
   variant = 'header',
 }) => {
-  const [state, dispatch] = React.useReducer(sortingHatReducer, initialState)
+  const [state, dispatch] = React.useReducer(surveyReducer, initialState)
   const {subscriber, loadingSubscriber} = useCio()
 
   React.useEffect(() => {

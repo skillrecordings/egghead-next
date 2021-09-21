@@ -1,10 +1,11 @@
-import SortingHat from 'components/survey/sorting-hat'
+import Survey from 'components/survey/survey'
 import * as React from 'react'
+import {sortingHatInitialState} from '../components/survey/survey-reducer'
 
 const Ask: React.FunctionComponent = () => {
   return (
     <div>
-      <SortingHat></SortingHat>
+      <Survey initialSurveyState={sortingHatInitialState} />
     </div>
   )
 }
