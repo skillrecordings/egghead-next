@@ -22,7 +22,7 @@ const CtaCard: React.FC<{
       href={path}
     >
       <div
-        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        className="relative md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
         css={{
           [bpMinMD]: {
             minHeight: 477,
