@@ -19,7 +19,7 @@ import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
-import {loadTag, canLoadSanityTag} from 'lib/tags'
+import {loadTag} from 'lib/tags'
 import {tagCacheLoader} from 'utils/tag-cache-loader'
 import {topicExtractor} from '../../utils/search/topic-extractor'
 
@@ -100,17 +100,10 @@ const SearchIndex: any = ({
       !selectedTopics.includes('undefined')
     ) {
       const newTopic = first<string>(selectedTopics)
+
       try {
         if (newTopic) {
-          let cachedTag
-          if (canLoadSanityTag(newTopic)) {
-            cachedTag = await loadTag(newTopic)
-          } else {
-            cachedTag = tagCacheLoader(newTopic)
-          }
-
-          setTopic(cachedTag)
-
+          const cachedTag = tagCacheLoader(newTopic)
           if (cachedTag) {
             setTopic(cachedTag)
           } else {
