@@ -18,7 +18,6 @@ const SearchRyanChenkie = ({instructor}: {instructor: any}) => {
 
   const [primaryCourse, ...restCourses] = courses.resources
 
-
   return (
     <div className="max-w-screen-xl mx-auto">
       <SearchInstructorEssential

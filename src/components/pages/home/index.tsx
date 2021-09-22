@@ -2,8 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
-import {map, get, isEmpty} from 'lodash'
-
+import {map, get, find} from 'lodash'
 import Markdown from 'react-markdown'
 import {useViewer} from 'context/viewer-context'
 import {loadUserProgress} from 'lib/users'
@@ -13,7 +12,6 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from '../../card/verticle-resource-card'
-import {VerticalResourceCollectionCard} from '../../card/vertical-resource-collection-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
@@ -21,22 +19,28 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const {viewer, loading} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
 
-  const devEssentials: any = get(homePageData, 'devEssentials')
-  const freeCourses: any = get(homePageData, 'freeCourses')
-  const getStarted: any = get(homePageData, 'getStarted')
-  const aws: any = get(homePageData, 'aws')
   const topics: any = get(homePageData, 'topics')
+
+  const findFeature = (featureName: string) => {
+    return find(homePageData?.homePageFeatures?.features, [
+      'slug.current',
+      featureName,
+    ])
+  }
+
   const featureDigitalGardening: any = get(
     homePageData,
     'featureDigitalGardening',
   )
   const featureWhatsNew: any = get(homePageData, 'featureWhatsNew')
-  const reactFeatures: any = get(homePageData, 'reactFeatures')
-  const javascriptFeatures: any = get(homePageData, 'javascriptFeatures')
-  const cssFeatures: any = get(homePageData, 'cssFeatures')
-  const reduxFeatures: any = get(homePageData, 'reduxFeatures')
-  const typescriptFeatures: any = get(homePageData, 'typescriptFeatures')
-  const kcdFeatures: any = get(homePageData, 'kcdFeatures')
+
+  const reactFeatures = findFeature('react-features')
+  const kcdFeatures = findFeature('kent-c-dodds-features')
+  const javascriptFeatures = findFeature('javascript-features')
+  const cssFeatures = findFeature('css-features')
+  const reduxFeatures = findFeature('redux-features')
+  const typescriptFeatures = findFeature('typescript-features')
+  const awsFeatures = findFeature('aws-features')
 
   React.useEffect(() => {
     if (viewer) {
@@ -69,24 +73,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
 
         <section className="mt-20 sm:mt-24">
           <InstructorFeatureRow resource={kcdFeatures} />
-        </section>
-
-        <section className="mt-20 sm:mt-24">
-          <h2 className="text-xl font-bold mb-3 dark:text-white">
-            Popular Courses & Topics
-          </h2>
-          <div className="grid lg:grid-cols-2 grid-cols-1 space-y-3 lg:space-y-0 gap-4">
-            <VerticalResourceCollectionCard
-              className="sm:py-8 py-6"
-              resource={getStarted}
-              location={location}
-            />
-            <VerticalResourceCollectionCard
-              resource={devEssentials}
-              location={location}
-              className="text-left"
-            />
-          </div>
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -172,20 +158,11 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={cssFeatures} />
+          <FeatureRow resource={awsFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
-          <div className="grid lg:grid-cols-2 grid-cols 1 gap-4">
-            <VerticalResourceCollectionCard
-              resource={aws}
-              location={location}
-            />
-            <VerticalResourceCollectionCard
-              resource={freeCourses}
-              location={location}
-            />
-          </div>
+          <FeatureRow resource={cssFeatures} />
         </section>
 
         <section className="mt-20 sm:mt-24">
@@ -300,7 +277,15 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
   )
 }
 
-const FeatureRow: FunctionComponent<any> = ({resource, location = 'home'}) => {
+const FeatureRow: FunctionComponent<any> = ({
+  resource,
+  location = 'home',
+}: {
+  resource: CardResource
+  location: string
+}) => {
+  if (!resource) return null
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
@@ -361,6 +346,8 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
   resource,
   location = 'home',
 }) => {
+  if (!resource) return null
+
   return (
     <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
       <div className="flex mb-4 items-center">
