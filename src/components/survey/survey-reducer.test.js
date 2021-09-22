@@ -3,7 +3,7 @@
  */
 
 import {cioIdentify} from 'utils/cio-identify'
-import {sortingHatReducer, sortingHatInitialState} from './sorting-hat-reducer'
+import {surveyReducer, sortingHatInitialState} from './survey-reducer'
 import {track} from 'utils/analytics'
 
 jest.mock('utils/cio-identify', () => ({
@@ -19,7 +19,7 @@ const defaultFirstQuestion =
 
 describe('empty action', () => {
   test('should return the initial state', () => {
-    const initialState = sortingHatReducer(sortingHatInitialState, {})
+    const initialState = surveyReducer(sortingHatInitialState, {})
 
     expect(initialState).toStrictEqual(sortingHatInitialState)
   })
@@ -27,7 +27,7 @@ describe('empty action', () => {
 
 describe('load action', () => {
   test('load action closes survey after subscriber has finished loading and is undefined', () => {
-    const finishedLoadingState = sortingHatReducer(sortingHatInitialState, {
+    const finishedLoadingState = surveyReducer(sortingHatInitialState, {
       type: 'load',
       loadingSubscriber: 'false',
     })
@@ -42,7 +42,7 @@ describe('load action', () => {
   })
 
   test('load action adds question property to state while loading subscriber', () => {
-    const loadingSubscriberState = sortingHatReducer(sortingHatInitialState, {
+    const loadingSubscriberState = surveyReducer(sortingHatInitialState, {
       type: 'load',
       loadingSubscriber: 'true',
     })
@@ -62,7 +62,7 @@ describe('load action', () => {
       attributes: {sorting_hat_finished_at: 'today'},
     }
 
-    const surveyCompleteState = sortingHatReducer(sortingHatInitialState, {
+    const surveyCompleteState = surveyReducer(sortingHatInitialState, {
       type: 'load',
       subscriber,
       loadingSubscriber: 'false',
@@ -85,7 +85,7 @@ describe('load action', () => {
 
     const defaultFirstQuestionKey = sortingHatInitialState.currentQuestionKey
 
-    const incompleteSurveyState = sortingHatReducer(sortingHatInitialState, {
+    const incompleteSurveyState = surveyReducer(sortingHatInitialState, {
       type: 'load',
       subscriber,
       loadingSubscriber: 'false',
@@ -110,7 +110,7 @@ describe('answered action', () => {
   }
 
   // survey loaded with a subscriber who has not started the survey
-  const loadedSurveyState = sortingHatReducer(sortingHatInitialState, {
+  const loadedSurveyState = surveyReducer(sortingHatInitialState, {
     type: 'load',
     subscriber,
     loadingSubscriber: 'false',
@@ -120,7 +120,7 @@ describe('answered action', () => {
     const nextQuestionKey = 'level_up_reason'
     const nextQuestion = sortingHatInitialState.data[nextQuestionKey]
 
-    const answeredFirstQuestionState = sortingHatReducer(loadedSurveyState, {
+    const answeredFirstQuestionState = surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'leveling_up',
     })
@@ -143,7 +143,7 @@ describe('answered action', () => {
 
   test('answering first question tracks that user has "answered survey question"', () => {
     // answering first question with "leveling_up" after survey loaded
-    sortingHatReducer(loadedSurveyState, {
+    surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'leveling_up',
     })
@@ -156,7 +156,7 @@ describe('answered action', () => {
 
   test('answering first question tracks that user has "started survey"', () => {
     // answering first question with "leveling_up" after survey loaded
-    sortingHatReducer(loadedSurveyState, {
+    surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'leveling_up',
     })
@@ -171,12 +171,12 @@ describe('answered action', () => {
     }
 
     // answer first question with "optimizing_code"
-    const secondQuestionState = sortingHatReducer(loadedSurveyState, {
+    const secondQuestionState = surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'optimizing_code',
     })
     // answer second question with "best_practice"
-    const finalQuestionState = sortingHatReducer(secondQuestionState, {
+    const finalQuestionState = surveyReducer(secondQuestionState, {
       type: 'answered',
       answer: 'best_practice',
     })
@@ -186,12 +186,12 @@ describe('answered action', () => {
 
   test('can progress from first to final question, final question key is "thanks"', () => {
     // answer first question with "optimizing_code"
-    const secondQuestionState = sortingHatReducer(loadedSurveyState, {
+    const secondQuestionState = surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'optimizing_code',
     })
     // answer second question with "best_practice"
-    const finalQuestionState = sortingHatReducer(secondQuestionState, {
+    const finalQuestionState = surveyReducer(secondQuestionState, {
       type: 'answered',
       answer: 'best_practice',
     })
@@ -201,18 +201,18 @@ describe('answered action', () => {
 
   test('can progress from first to final question, final question should not change with new answered action', () => {
     // answer first question with "optimizing_code"
-    const secondQuestionState = sortingHatReducer(loadedSurveyState, {
+    const secondQuestionState = surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'optimizing_code',
     })
     // answer second question with "best_practice"
-    const finalQuestionState = sortingHatReducer(secondQuestionState, {
+    const finalQuestionState = surveyReducer(secondQuestionState, {
       type: 'answered',
       answer: 'best_practice',
     })
 
     // "answered" action sent to final question
-    const shouldNotChange = sortingHatReducer(secondQuestionState, {
+    const shouldNotChange = surveyReducer(secondQuestionState, {
       type: 'answered',
       answer: 'best_practice',
     })
@@ -229,14 +229,14 @@ describe('closed action', () => {
   }
 
   // survey loaded with a subscriber who has not started the survey
-  const loadedSurveyState = sortingHatReducer(sortingHatInitialState, {
+  const loadedSurveyState = surveyReducer(sortingHatInitialState, {
     type: 'load',
     subscriber,
     loadingSubscriber: 'false',
   })
 
   test('closed action closes survey', () => {
-    const closedActionState = sortingHatReducer(loadedSurveyState, {
+    const closedActionState = surveyReducer(loadedSurveyState, {
       type: 'closed',
     })
     const closedSurveyState = {
@@ -249,12 +249,12 @@ describe('closed action', () => {
 
   test('calls cioIdentify when closing survey on "final" question', () => {
     // answer first question with "optimizing_code"
-    const secondQuestionState = sortingHatReducer(loadedSurveyState, {
+    const secondQuestionState = surveyReducer(loadedSurveyState, {
       type: 'answered',
       answer: 'optimizing_code',
     })
     // answer second question with "best_practice"
-    const finalQuestionState = sortingHatReducer(secondQuestionState, {
+    const finalQuestionState = surveyReducer(secondQuestionState, {
       type: 'answered',
       answer: 'best_practice',
     })
@@ -262,7 +262,7 @@ describe('closed action', () => {
     const numCioIdentifyCallsBefore = cioIdentify.mock.calls.length
 
     // survey on final question is closed
-    sortingHatReducer(finalQuestionState, {
+    surveyReducer(finalQuestionState, {
       type: 'closed',
     })
 
@@ -279,14 +279,14 @@ describe('dismiss action', () => {
   }
 
   // survey loaded with a subscriber who has not started the survey
-  const loadedSurveyState = sortingHatReducer(sortingHatInitialState, {
+  const loadedSurveyState = surveyReducer(sortingHatInitialState, {
     type: 'load',
     subscriber,
     loadingSubscriber: 'false',
   })
 
   test('dismiss action closes survey', () => {
-    const dismissActionState = sortingHatReducer(loadedSurveyState, {
+    const dismissActionState = surveyReducer(loadedSurveyState, {
       type: 'dismiss',
     })
 
