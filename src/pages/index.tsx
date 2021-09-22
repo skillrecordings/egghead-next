@@ -2,12 +2,17 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Home from 'components/pages/home'
 import groq from 'groq'
+import {get} from 'lodash'
 import {sanityClient} from 'utils/sanity-client'
 import staticHomePageData from 'components/pages/home/homepage-data'
 import {digitalGardeningQuery} from './learn/digital-gardening'
 import {developerPortfolioQuery} from './learn/developer-portfolio'
 
 const IndexPage: FunctionComponent = ({homePageData}: any) => {
+  let courseOgImage = get(
+    homePageData,
+    'featureWhatsNew.primary.resources[0].mainOgImage',
+  )
   return (
     <>
       <NextSeo
@@ -15,7 +20,9 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
         openGraph={{
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1628710683/next.egghead.io/resources/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js/main-ogImage--nextjs--supabase.png',
+              url: courseOgImage
+                ? courseOgImage
+                : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
             },
           ],
         }}
@@ -43,6 +50,7 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
     	image,
       'background': images[label == 'banner-image-blank'][0].url,
       'featureCardBackground': images[label == 'feature-card-background'][0].url,
+      'mainOgImage': images[label == 'main-og-image'][0].url,
       'instructor': collaborators[]->[role == 'instructor'][0]{
         title,
         'slug': person->slug.current,
