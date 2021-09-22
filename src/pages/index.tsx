@@ -13,9 +13,6 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
     homePageData,
     'featureWhatsNew.primary.resources[0].mainOgImage',
   )
-  let ogImage = courseOgImage
-    ? courseOgImage
-    : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png'
   return (
     <>
       <NextSeo
@@ -23,7 +20,9 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
         openGraph={{
           images: [
             {
-              url: ogImage,
+              url: courseOgImage
+                ? courseOgImage
+                : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
             },
           ],
         }}
