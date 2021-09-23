@@ -12,44 +12,46 @@ export default function SearchChrisBiscardi({instructor}: {instructor: any}) {
 
   return (
     <div className="max-w-screen-xl mx-auto">
-      <SearchInstructorEssential
-        instructor={instructor}
-        CTAComponent={
-          <CtaCard
-            resource={primaryCourse}
-            trackTitle="clicked instructor landing page CTA resource"
-            location="Chris Biscardi instructor page"
-            textLight
+      <div className="py-4">
+        <SearchInstructorEssential
+          instructor={instructor}
+          CTAComponent={
+            <CtaCard
+              resource={primaryCourse}
+              trackTitle="clicked instructor landing page CTA resource"
+              location="Chris Biscardi instructor page"
+              textLight
+            />
+          }
+        />
+        <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-6 px-5 md:px-0 my-6">
+          <HorizontalResourceCard
+            resource={secondCourse}
+            location={location}
+            className="md:w-1/2"
           />
-        }
-      />
-      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0 my-3">
-        <HorizontalResourceCard
-          resource={secondCourse}
-          location={location}
-          className="md:w-1/2"
-        />
-        <HorizontalResourceCard
-          resource={thirdCourse}
-          location={location}
-          className="md:w-1/2"
-        />
-      </section>
+          <HorizontalResourceCard
+            resource={thirdCourse}
+            location={location}
+            className="md:w-1/2"
+          />
+        </section>
 
-      <section className="xl:px-0 px-5 my-12">
-        <div className="flex flex-row sm:flex-nowrap flex-wrap gap-6">
-          <VerticalResourceCollectionCard
-            resource={jamstackCollection}
-            className="w-1/2"
-            titleColor="purple-500"
-          />
-          <VerticalResourceCollectionCard
-            resource={databaseCollection}
-            className="w-1/2"
-            titleColor="orange-500"
-          />
-        </div>
-      </section>
+        <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-6 px-5 md:px-0 my-6">
+          <div className="flex flex-row sm:flex-nowrap flex-wrap gap-6">
+            <VerticalResourceCollectionCard
+              resource={jamstackCollection}
+              className="w-1/2"
+              titleColor="purple-500"
+            />
+            <VerticalResourceCollectionCard
+              resource={databaseCollection}
+              className="w-1/2"
+              titleColor="orange-500"
+            />
+          </div>
+        </section>
+      </div>
     </div>
   )
 }
