@@ -44,8 +44,8 @@ const SearchNext = ({topic}: any) => {
               <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
                 <p>
                   Learn to create your own Next.js project from start to finish!
-                  These courses will take you from initializing your app to
-                  creating your own store with an amazing user interface!
+                  These three courses will take you from initializing your app
+                  to creating your own store with an amazing user interface!
                 </p>
               </div>
             </div>
