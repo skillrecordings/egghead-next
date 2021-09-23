@@ -87,10 +87,11 @@ const CtaCard: React.FC<{
             </div>
           </div>
         </div>
-        <img
+        <Image
           className="absolute top-0 left-0 z-0 w-full h-full"
           src={background}
           alt=""
+          layout="fill"
         />
       </div>
     </ExternalTrackedLink>
