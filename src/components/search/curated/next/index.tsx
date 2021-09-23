@@ -1,10 +1,9 @@
 import React from 'react'
-import find, {get} from 'lodash'
+import {get} from 'lodash'
 import SearchCuratedEssential, {ThreeLevels} from '../curated-essential'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import groq from 'groq'
-import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
 
 const SearchNext = ({topic}: any) => {
   console.log('test: ', topic)
@@ -14,6 +13,20 @@ const SearchNext = ({topic}: any) => {
   const featuredTalksArticles = get(topic, 'featuredTalksArticles')
   const advancedConcepts = get(topic, 'advancedConcepts')
   const portfolioProjects = get(topic, 'portfolioProjects')
+
+  if (!portfolioProjects)
+    return (
+      <div>
+        <SearchCuratedEssential
+          topic={{
+            label: 'Next.js',
+            name: 'next',
+            description: `Next.js gives you the best developer experience with all the features you need for production: hybrid static & server rendering, TypeScript support, smart bundling, route pre-fetching, and more. No config needed.`,
+          }}
+          CTAComponent={EcommerceCTA}
+        />
+      </div>
+    )
 
   return (
     <div>
