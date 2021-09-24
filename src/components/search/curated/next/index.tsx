@@ -141,18 +141,13 @@ export const nextPageQuery = groq`
 	},
 	'featuredTalksArticles': resources[slug.current == 'featured-talks-articles'][0] {
     title,
-    description,
-    resources[]->{
+    resources[]{
+      'name': type,
       title,
-      'description': summary,
       path,
       byline,
       image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
-      'name': person->.name
-    },
-   }
+    }
 	},
 	'portfolioProjects': resources[slug.current == 'portfolio-projects'][0] {
     title,
