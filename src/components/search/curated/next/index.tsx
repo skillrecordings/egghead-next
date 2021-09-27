@@ -38,7 +38,7 @@ const SearchNext = ({topic}: any) => {
         }}
         CTAComponent={EcommerceCTA}
       />
-      <div className="md:col-span-4 col-span-12 flex flex-col">
+      <div>
         <ThreeLevels
           beginner={introCollection}
           intermediate={featuredTalksArticles}
@@ -51,8 +51,8 @@ const SearchNext = ({topic}: any) => {
           <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
             <div className="flex-shrink-0"></div>
             <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                Building your portfolio!
+              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight text-center">
+                Building Your Portfolio!
               </h1>
               <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
                 <p>
