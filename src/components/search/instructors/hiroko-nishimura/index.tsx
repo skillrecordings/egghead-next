@@ -24,7 +24,7 @@ export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
           <FeaturedCourse resource={primaryCourse} location={location} />
         }
       />
-      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0 -mt-10">
+      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
         <HorizontalResourceCard
           resource={primaryProject}
           location={location}
