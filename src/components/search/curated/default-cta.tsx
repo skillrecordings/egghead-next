@@ -15,7 +15,8 @@ const DefaultCTA: React.FC<{location: string}> = ({location}) => {
       <Image
         priority
         quality={100}
-        layout="fill"
+        width={417}
+        height={463}
         className="rounded-lg"
         alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
