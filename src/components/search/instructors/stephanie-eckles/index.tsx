@@ -31,7 +31,7 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
           />
         }
       />
-      <section className="grid lg:grid-cols-6 grid-cols-1 -mt-10 mb-10 pb-10 w-full gap-0 lg:gap-3">
+      <section className="grid lg:grid-cols-6 grid-cols-1 mb-10 pb-10 w-full gap-0 lg:gap-3">
         <ProjectStack
           className="col-span-2 mb-3 lg:mb-0"
           data={projects.resources}

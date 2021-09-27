@@ -6,12 +6,11 @@ import Footer from './footer'
 
 const Layout: FunctionComponent = ({children}) => {
   return (
-    <>
+    <div>
       <Header />
       <Main>{children}</Main>
       <Footer />
-      <div />
-    </>
+    </div>
   )
 }
 
