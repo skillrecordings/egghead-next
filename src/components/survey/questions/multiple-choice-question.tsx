@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Formik, Form, Field} from 'formik'
 import {shuffle, find, reject} from 'lodash'
-import {MultipleChoiceAnswer, SurveyQuestion} from 'data/sorting-hat'
+import {MultipleChoiceAnswer, SurveyQuestion} from '../survey-reducer'
 
 const MultipleChoiceQuestion: React.FunctionComponent<{
   onAnswer: (answer: string) => void
@@ -11,7 +11,7 @@ const MultipleChoiceQuestion: React.FunctionComponent<{
 
   React.useEffect(() => {
     const lastChoice = find(question.choices, {always_last: true})
-    let orderedChoices = question.choices
+    let orderedChoices = question.choices || []
 
     if (question.random) {
       if (lastChoice) {

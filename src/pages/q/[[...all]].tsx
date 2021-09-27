@@ -154,13 +154,13 @@ const SearchIndex: any = ({
 // this fixes the issue with a double footer rendering. 🥴
 SearchIndex.getLayout = (Page: any, pageProps: any) => {
   return (
-    <>
+    <div>
       <Header />
-      <Main>
+      <Main className="bg-gray-50">
         <Page {...pageProps} />
-        <Footer />
       </Main>
-    </>
+      <Footer />
+    </div>
   )
 }
 

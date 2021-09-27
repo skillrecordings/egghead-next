@@ -1,46 +1,56 @@
-import React from 'react'
-import SearchInstructorEssential from '../instructor-essential'
-import Image from 'next/image'
-import {get} from 'lodash'
-import Link from 'next/link'
 import groq from 'groq'
-import {bpMinMD} from 'utils/breakpoints'
+import Link from 'next/link'
+import Markdown from 'components/markdown'
 import {track} from 'utils/analytics'
+import SearchInstructorEssential from '../instructor-essential'
+import {CardResource} from 'types'
+import CtaCard from 'components/search/components/cta-card'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
-import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
+import Image from 'next/image'
+import {bpMinMD} from 'utils/breakpoints'
+import {get} from 'lodash'
 
-export default function SearchKristianFreeman({instructor}: {instructor: any}) {
+export default function SearchMatiasHernandez({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
-  const {courses, projects} = instructor
-  const primaryProject = projects.resources
-  const [primaryCourse, secondaryCourse] = courses.resources
-  const location = 'Kristian Freeman instructor page'
+
+  const {courses} = instructor
+  const [primaryCourse, ...restCourses] = courses.resources
 
   return (
-    <div>
+    <div className="max-w-screen-xl mx-auto">
       <SearchInstructorEssential
         instructor={combinedInstructor}
         CTAComponent={
-          <FeaturedCourse resource={primaryCourse} location={location} />
+          <FeaturedReactHooksCourse
+            resource={primaryCourse}
+            location="Matias Hernandez instructor page"
+          />
         }
       />
-      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
-        <HorizontalResourceCard
-          resource={primaryProject}
-          location={location}
-          className="md:w-2/5"
-        />
-        <HorizontalResourceCard
-          resource={secondaryCourse}
-          location={location}
-          className="md:w-3/5"
-        />
+
+      <section className="xl:px-0 px-5">
+        <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
+          JavaScript Resources
+        </h2>
+        <div className="flex sm:flex-nowrap flex-wrap gap-4 mt-4">
+          {restCourses.map((course: CardResource) => {
+            return (
+              <VerticalResourceCard
+                className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
+                resource={course}
+                describe
+                location="Matias Hernandez instructor Landing page"
+              />
+            )
+          })}
+        </div>
       </section>
     </div>
   )
 }
 
-export const kristianFreemanQuery = groq`*[_type == 'resource' && slug.current == "kristian-freeman-landing-page"][0]{
+export const MatiasHernandezQuery = groq`*[_type == 'resource' && slug.current == "matias-hernandez-landing-page"][0]{
   'courses': resources[slug.current == 'instructor-landing-page-featured-courses'][0]{
     resources[]->{
       title,
@@ -48,43 +58,25 @@ export const kristianFreemanQuery = groq`*[_type == 'resource' && slug.current =
     	path,
       byline,
     	image,
-      'background': images[label == 'feature-card-background'][0].url,
       'instructor': collaborators[]->[role == 'instructor'][0]{
       	'name': person->.name
     	},
     }
   },
-	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
-    resources[0]{
-      title,
-      'path': url,
-      path,
-      description,
-      image,
-      byline
-    }
-  }
 }`
 
-const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
+const FeaturedReactHooksCourse: React.FC<{location: string; resource: any}> = ({
   location,
   resource,
 }) => {
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink
-      eventName="clicked Kristian Freeman instructor page CTA"
+      eventName="clicked CSS page CTA"
       params={{location}}
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 bg-white border-gray-100 shadow-sm relative text-center"
       href={path}
     >
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-400 to-orange-500 w-full h-2 z-20"></div>
-      <img
-        className="absolute h-full w-full object-cover object-left-top"
-        src={background}
-        alt=""
-      />
-      <div className="absolute inset-0 bg-gray-200 mix-blend-multiply" />
       <div
         className="md:-mt-5 flex items-center justify-center text-white overflow-hidden "
         css={{
@@ -93,9 +85,10 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
           },
         }}
       >
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-blue-400 to-cyan-400 w-full h-2 z-20" />
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
-            <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 gap-10 mt-10">
+            <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 gap-10">
               <div className="flex-shrink-0">
                 <Link href={path}>
                   <a
@@ -118,12 +111,12 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-white text-opacity-80 uppercase font-semibold mb-2">
+                <h2 className="text-xs text-gray-900 dark:text-white  uppercase font-semibold mb-2">
                   {byline}
                 </h2>
                 <Link href={path}>
                   <a
-                    className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
+                    className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-cyan-400"
                     onClick={() =>
                       track('clicked jumbotron resource', {
                         resource: path,
@@ -134,11 +127,18 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                     <h1>{title}</h1>
                   </a>
                 </Link>
-                <p className="mt-4 text-white">{description}</p>
+                <p className="mt-4 text-gray-900 dark:text-white">
+                  {description}
+                </p>
               </div>
             </div>
           </div>
         </div>
+        <img
+          className="absolute top-0 left-0 z-0 w-full"
+          src={background}
+          alt=""
+        />
       </div>
     </ExternalTrackedLink>
   )

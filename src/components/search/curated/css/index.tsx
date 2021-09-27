@@ -18,7 +18,7 @@ const SearchCSS = () => {
   const animation: any = find(resources, {slug: {current: 'css-animation'}})
 
   return (
-    <main className="max-w-screen-xl px-5 mx-auto lg:px-0">
+    <>
       <SearchCuratedEssential
         verticalImage={data?.image}
         topic={{
@@ -28,7 +28,7 @@ const SearchCSS = () => {
         }}
         CTAComponent={CssFormStyling}
       />
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 md:grid-cols-1 sm:gap-8 ">
+      <div className="grid grid-cols-1 mt-8 gap-5 lg:grid-cols-3 md:grid-cols-1">
         {levels?.map((resource: any) => {
           return (
             <VerticalResourceCollectionCard
@@ -43,10 +43,10 @@ const SearchCSS = () => {
           )
         })}
       </div>
-      <div className="grid grid-cols-2 gap-5 mt-5 md:gap-8 md:mt-8">
+      <div className="grid md:grid-cols-2 gap-5 mt-5 md:gap-8 md:mt-8">
         <VerticalResourceCollectionCard resource={{...animation, name: ''}} />
       </div>
-    </main>
+    </>
   )
 }
 

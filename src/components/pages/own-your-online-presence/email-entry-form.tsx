@@ -33,7 +33,7 @@ const OnlinePresenceEmailEntryForm: React.FC = () => {
     <div className="flex flex-col items-center p-16 my-16 bg-gray-100 dark:bg-gray-800 rounded-lg">
       <EmailForm
         className="w-full mx-auto flex flex-col items-center justify-center text-white"
-        label="Your email:"
+        label="Email address"
         formClassName="max-w-xs md:max-w-sm mx-auto w-full"
         button="Show me how to zhuzh up my profile!"
         onSubmit={onSubmit}

@@ -7,7 +7,7 @@ type CreateAccountCTAProps = {
   technology: string
 }
 
-const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
+const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
   lesson,
   technology,
 }) => {
@@ -24,7 +24,7 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
       <LoginForm
         image={<></>}
         className="w-full mx-auto flex flex-col items-center justify-center text-white"
-        label="Your email:"
+        label="Email address"
         formClassName="max-w-xs md:max-w-sm mx-auto w-full"
         button="Create account or login to view"
         track={trackEmailCapture}
@@ -43,4 +43,4 @@ const CreateAccountCTA: FunctionComponent<CreateAccountCTAProps> = ({
   )
 }
 
-export default CreateAccountCTA
+export default EmailCaptureCtaOverlay
