@@ -59,21 +59,29 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
-  const initialLesson: LessonResource | undefined =
-    params && (await loadBasicLesson(params.slug as string))
+  try {
+    const initialLesson: LessonResource | undefined =
+      params && (await loadBasicLesson(params.slug as string))
 
-  if (initialLesson && initialLesson?.slug !== params?.slug) {
-    res.setHeader('Location', initialLesson.path)
-    res.statusCode = 302
+    if (initialLesson && initialLesson?.slug !== params?.slug) {
+      res.setHeader('Location', initialLesson.path)
+      res.statusCode = 302
+      res.end()
+      return {props: {}}
+    } else {
+      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      return {
+        props: {
+          initialLesson,
+        },
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    res.setHeader('Location', '/')
+    res.statusCode = 307
     res.end()
     return {props: {}}
-  } else {
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-    return {
-      props: {
-        initialLesson,
-      },
-    }
   }
 }
 

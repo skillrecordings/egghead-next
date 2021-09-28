@@ -9,7 +9,9 @@ import CollectionPageLayout from 'components/layouts/collection-page-layout'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-
+import getTracer from '../../../utils/honeycomb-tracer'
+import {setupHttpTracing} from '../../../utils/tracing-js/dist/src'
+const tracer = getTracer('course-page')
 type CourseProps = {
   course: any
 }
@@ -41,19 +43,33 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
 
 export default Course
 
-export const getServerSideProps: GetServerSideProps = async ({res, params}) => {
-  const course = params && (await loadPlaylist(params.slug as string))
-  if (course && course?.slug !== params?.slug) {
-    res.setHeader('Location', course.path)
-    res.statusCode = 302
+export const getServerSideProps: GetServerSideProps = async ({
+  res,
+  req,
+  params,
+}) => {
+  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
+
+  try {
+    const course = params && (await loadPlaylist(params.slug as string))
+    if (course && course?.slug !== params?.slug) {
+      res.setHeader('Location', course.path)
+      res.statusCode = 302
+      res.end()
+      return {props: {}}
+    } else {
+      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      return {
+        props: {
+          course,
+        },
+      }
+    }
+  } catch (e) {
+    console.error(e)
+    res.setHeader('Location', '/')
+    res.statusCode = 307
     res.end()
     return {props: {}}
-  } else {
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-    return {
-      props: {
-        course,
-      },
-    }
   }
 }
