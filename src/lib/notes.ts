@@ -1,9 +1,5 @@
 import {createClient} from '@supabase/supabase-js'
 
-if (!process.env.RESOURCE_NOTES_DATABASE_ID) {
-  throw new Error('NOTES DATABASE ID REQUIRED')
-}
-
 const SUPABASE_URL = `https://${process.env.RESOURCE_NOTES_DATABASE_ID}.supabase.co`
 const SUPABASE_KEY = process.env.SUPABASE_KEY
 const supabase = SUPABASE_KEY && createClient(SUPABASE_URL, SUPABASE_KEY)
