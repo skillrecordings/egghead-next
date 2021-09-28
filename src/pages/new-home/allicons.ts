@@ -1,13 +1,13 @@
-import Angularblue from './angularblue.js'
-import Reactblue from './reactblue.js'
-import Awsblue from './awsblue.js'
-import Jsblue from './jsblue.js'
-import Nextblue from './nextblue.js'
-import Vueblue from './vueblue.js'
-import Nodeblue from './nodeblue.js'
-import Cssblue from './cssblue.js'
-import Reduxblue from './reduxblue.js'
-import Tsblue from './tsblue.js'
+import Angularblue from './Angularblue'
+import Reactblue from './Reactblue'
+import Awsblue from './Awsblue'
+import Jsblue from './Jsblue'
+import Nextblue from './Nextblue'
+import Vueblue from './Vueblue'
+import Nodeblue from './Nodeblue'
+import Cssblue from './Cssblue'
+import Reduxblue from './Reduxblue'
+import Tsblue from './Tsblue'
 
 export {
   Angularblue,
