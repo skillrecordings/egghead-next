@@ -13,6 +13,7 @@ import {
   FastForwardIcon,
   SupportIcon,
   DocumentTextIcon,
+  XIcon,
 } from '@heroicons/react/solid'
 import {
   Vueblue,
@@ -33,8 +34,8 @@ const NewHome: React.FunctionComponent = () => {
       {/* Header image */}
 
       {/* Headline and signup input */}
-      <section className="z-10 my-8 sm:my-16 flex flex-row justify-between items-center max-w-screen-xl mx-auto">
-        <div className="w-full md:w-3/5">
+      <section className="z-10 my-8 sm:my-16 flex flex-col flex-col-reverse md:flex-row justify-between items-center max-w-screen-xl mx-auto">
+        <div className="w-full md:w-3/5 mt-12 md:mt-0">
           <motion.h1
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
@@ -100,10 +101,10 @@ const NewHome: React.FunctionComponent = () => {
             </div>
           </motion.form>
         </div>
-        <div className="w-2/5 ml-12">
+        <div className="w-full md:w-2/5 ml-0 sm:ml-4 lg:ml-16">
           <img
             className="min-w-full"
-            width="800"
+            width="600"
             alt="egghead course illustration"
             src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632907878/next.egghead.io/illustrations/jsarrays_landing_page_shrink.png"
           />
@@ -279,7 +280,7 @@ const NewHome: React.FunctionComponent = () => {
 
       {/* Benefits list section */}
       <section className="-mx-6 bg-gray-50 py-20 border-2 border-gray-100">
-        <div className="max-w-screen-xl mb-8 mx-auto">
+        <div className="max-w-screen-xl mb-8 px-6 mx-auto">
           <div className="mx-auto md:mx-2 md:max-w-screen-md">
             <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
               The sweet details
@@ -288,7 +289,7 @@ const NewHome: React.FunctionComponent = () => {
               What you'll get as an egghead member
             </h3>
           </div>
-          <BenefitsSection2 />
+          <BenefitsSection />
         </div>
       </section>
 
@@ -296,17 +297,15 @@ const NewHome: React.FunctionComponent = () => {
       <section className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 border-2 border-gray-100 px-6 md:px-0">
         <div className="max-w-screen-xl my-12 mx-auto">
           <div className="mx-auto md:mx-2">
-            <h2 className="text-white text-5xl sm:text-7xl font-bold text-center mb-8 max-w-screen-md mx-auto leading-tighter">
+            <h2 className="text-white text-5xl sm:text-7xl font-bold text-center mb-8 md:max-w-screen-md mx-auto leading-tighter">
               Level Up Your Skills and Get a Better Job as a Web Developer
             </h2>
-            <p className="text-blue-100 text-lg text-center mx-auto mb-20 px-80 leading-looser">
+            <p className="text-blue-100 text-lg text-center mx-auto mb-20 px-6 md:px-24 lg:px-80 leading-looser">
               An egghead membership will give you the skills you need to advance
               your career and build real-world, professional projects.
             </p>
-            <div className="grid grid-cols-2 max-w-screen-lg mx-auto gap-4 mb-20">
-              <div className="bg-white shadow-lg w-full rounded-md py-8 px-0">
-                <MemberPricingSection />
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 max-w-screen-lg mx-auto gap-4 mb-20">
+              <MemberPricingSection />
               <div className="w-full">
                 <p className="text-blue-200 font-medium my-4 text-center">
                   Want to try us out first?
@@ -324,7 +323,7 @@ const NewHome: React.FunctionComponent = () => {
 export default NewHome
 
 // Benefits section
-function BenefitsSection2() {
+function BenefitsSection() {
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto md:mx-2">
       {[
@@ -373,7 +372,7 @@ function BenefitsSection2() {
         return (
           <div className="w-full border-gray-100 py-2 flex items-center">
             {item.icon}
-            <p className="text-center leading-tight font-medium text-lg text-gray-700 ml-6">
+            <p className="text-left leading-tight font-medium text-lg text-gray-700 ml-6">
               {item.text}
             </p>
           </div>
@@ -386,7 +385,7 @@ function BenefitsSection2() {
 // Technologies Row
 function TechnologyRow() {
   return (
-    <section className="my-12 sm:my-28">
+    <section className="my-0 sm:my-16 md:my-28">
       <div className="flex flex-row flex-wrap items-center justify-center content-between place-content-between">
         {[
           {
@@ -451,57 +450,80 @@ function TechnologyRow() {
 
 function MemberPricingSection() {
   return (
-    <div>
-      <h3 className="text-2xl font-semibold text-center">Become a member</h3>
+    <div className="bg-white shadow-lg w-full rounded-md py-6 px-0">
+      <h3 className="text-2xl font-semibold text-center pb-6 border-b border-gray-300 ">
+        Become a member
+      </h3>
     </div>
   )
 }
 
 function FreeAccountSection() {
   return (
-    <div className="border border-blue-500 shadow-sm rounded-md p-8">
-      <h3 className="text-2xl text-white font-semibold text-center mb-6">
+    <div
+      className="border border-blue-500 shadow-sm rounded-md pb-8 pt-6
+     px-0"
+    >
+      <h3 className="text-2xl text-white font-semibold text-center pb-6 border-b border-blue-500">
         Create a free account
       </h3>
-      <ul>
-        <li className="py-2 flex text-blue-100">
-          <CheckIcon className="inline-block flex-shrink-0 w-6 h-6" />
-          <span className="ml-4 leading-tight text-lg text-blue-100">
-            Access a limited selection of lessons and courses
-          </span>
-        </li>
-      </ul>
-      <form>
-        <div className="flex flex-row flex-wrap items-center mt-8">
-          <div className="rounded-md relative shadow-sm w-full">
-            <div className="absolute inset-y-0 left-1 pl-3 flex items-center pointer-events-none">
-              <svg
-                className="h-5 w-5 text-blue-100"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-              </svg>
+      <div className="pt-8 px-8">
+        <ul className="ml-3">
+          <li className="flex text-blue-100 mb-4">
+            <CheckIcon className="inline-block flex-shrink-0 w-6 h-6" />
+            <span className="ml-4 leading-tight text-lg text-blue-100">
+              Access a limited selection of lessons and courses
+            </span>
+          </li>
+          {[
+            'Download courses for offline viewing',
+            'Closed captions for every video',
+            'Commenting and support',
+            'Enhanced transcripts',
+            'RSS course feeds',
+          ].map((item, i) => {
+            return (
+              <li className="flex text-blue-300 mb-4" key={i}>
+                <XIcon className="inline-block flex-shrink-0 w-6 h-6" />
+                <span className="ml-4 leading-tight text-lg text-blue-300">
+                  {item}
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+        <form>
+          <div className="flex flex-row flex-wrap items-center mt-8">
+            <div className="rounded-md relative shadow-sm w-full">
+              <div className="absolute inset-y-0 left-1 pl-3 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-blue-100"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+              </div>
+              <input
+                id="email"
+                type="email"
+                placeholder="Your email address"
+                className="text-white autofill:text-fill-white bg-blue-600 placeholder-blue-100 focus:ring-indigo-500 focus:border-blue-200 block w-full pl-12 border-blue-400 rounded-md py-4"
+                required
+              />
             </div>
-            <input
-              id="email"
-              type="email"
-              placeholder="Your email address"
-              className="text-white autofill:text-fill-white bg-blue-600 placeholder-blue-100 focus:ring-indigo-500 focus:border-blue-200 block w-full pl-12 border-blue-400 rounded-md py-4"
-              required
-            />
+            <button
+              className="mt-2 px-5 py-4 text-center bg-blue-50 text-blue-700 font-medium rounded-md w-full hover:bg-blue-200 transition-all duration-300 ease-in-out hover:shadow-md text-lg"
+              type="button"
+            >
+              Create a free account
+            </button>
           </div>
-          <button
-            className="mt-2 px-5 py-4 text-center bg-blue-50 text-blue-700 font-medium rounded-md w-full hover:bg-blue-200 transition-all duration-300 ease-in-out hover:shadow-md text-lg"
-            type="button"
-          >
-            Create a free account
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   )
 }
