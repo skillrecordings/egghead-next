@@ -11,7 +11,7 @@ const PlanTitle: React.FunctionComponent = ({children}) => (
   </h2>
 )
 
-const PlanPrice: React.FunctionComponent<{
+export const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
@@ -37,7 +37,7 @@ const PlanPrice: React.FunctionComponent<{
   )
 }
 
-const PlanQuantitySelect: React.FunctionComponent<{
+export const PlanQuantitySelect: React.FunctionComponent<{
   quantity: number
   onQuantityChanged: any
   plan: any
@@ -66,7 +66,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
   )
 }
 
-const PlanIntervalsSwitch: React.FunctionComponent<{
+export const PlanIntervalsSwitch: React.FunctionComponent<{
   planTypes: any[]
   disabled: boolean
   currentPlan: any
@@ -105,7 +105,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
   )
 }
 
-const DEFAULT_FEATURES = [
+export const DEFAULT_FEATURES = [
   'Full access to all the premium courses',
   'Download courses for offline viewing',
   'Closed captions for every video',
@@ -114,7 +114,7 @@ const DEFAULT_FEATURES = [
   'RSS course feeds',
 ]
 
-const PlanFeatures: React.FunctionComponent<{
+export const PlanFeatures: React.FunctionComponent<{
   planFeatures: string[]
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
@@ -146,7 +146,7 @@ const PlanFeatures: React.FunctionComponent<{
   )
 }
 
-const GetAccessButton: React.FunctionComponent<{
+export const GetAccessButton: React.FunctionComponent<{
   label: string
   handleClick: (event: any) => Promise<void>
 }> = ({label, handleClick}) => {

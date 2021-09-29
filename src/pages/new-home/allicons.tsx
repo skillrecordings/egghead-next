@@ -6,7 +6,7 @@ import Nextblue from './Nextblue'
 import Vueblue from './Vueblue'
 import Nodeblue from './Nodeblue'
 import Cssblue from './Cssblue'
-import Tsblue from './Tsblue'
+import TsBlue from './TsBlue'
 import Reduxblue from './Reduxblue'
 
 export {
@@ -19,5 +19,5 @@ export {
   Nodeblue,
   Cssblue,
   Reduxblue,
-  Tsblue,
+  TsBlue,
 }

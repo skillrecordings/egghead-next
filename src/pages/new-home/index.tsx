@@ -25,10 +25,68 @@ import {
   Reactblue,
   Reduxblue,
   Cssblue,
-  Tsblue,
+  TsBlue,
 } from './allicons'
+import {
+  PlanPrice,
+  PlanIntervalsSwitch,
+  PlanQuantitySelect,
+} from 'components/pricing/select-plan-new/index'
+import {first, get, filter} from 'lodash'
+import slugify from 'slugify'
+import {keys} from 'lodash'
+import {track} from 'utils/analytics'
+import {useViewer} from 'context/viewer-context'
+import {useRouter} from 'next/router'
+import emailIsValid from 'utils/email-is-valid'
+import {usePricing} from 'hooks/use-pricing'
+import {FunctionComponent, SyntheticEvent} from 'react'
+import {StripeAccount} from 'types'
 
 const NewHome: React.FunctionComponent = () => {
+  const {viewer, authToken} = useViewer()
+  const {prices, pricesLoading, quantity, setQuantity} = usePricing()
+  const [priceId, setPriceId] = React.useState<string>()
+  const router = useRouter()
+
+  React.useEffect(() => {
+    track('visited pricing')
+    if (router?.query?.stripe === 'cancelled') {
+      track('checkout: cancelled from stripe')
+    }
+  }, [])
+
+  const onClickCheckout = async (event: SyntheticEvent) => {
+    event.preventDefault()
+
+    if (!priceId) return
+    const account = first<StripeAccount>(get(viewer, 'accounts'))
+    await track('checkout: selected plan', {
+      priceId: priceId,
+    })
+
+    if (emailIsValid(viewer?.email)) {
+      await track('checkout: valid email present', {
+        priceId: priceId,
+      })
+      await track('checkout: redirect to stripe', {
+        priceId,
+      })
+      stripeCheckoutRedirect({
+        priceId,
+        email: viewer.email,
+        stripeCustomerId: account?.stripe_customer_id,
+        authToken,
+        quantity,
+      })
+    } else {
+      await track('checkout: get email', {
+        priceId: priceId,
+      })
+      router.push(`/pricing/email?priceId=${priceId}&quantity=${quantity}`)
+    }
+  }
+
   return (
     <div className="mt-4 sm:mt-8 w-full">
       {/* Header image */}
@@ -305,7 +363,18 @@ const NewHome: React.FunctionComponent = () => {
               your career and build real-world, professional projects.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 max-w-screen-lg mx-auto gap-4 mb-20">
-              <MemberPricingSection />
+              <MemberPricingSection
+                prices={prices}
+                pricesLoading={pricesLoading}
+                handleClickGetAccess={onClickCheckout}
+                quantityAvailable={true}
+                onQuantityChanged={(quantity: number) => {
+                  setQuantity(quantity)
+                }}
+                onPriceChanged={(priceId: string) => {
+                  setPriceId(priceId)
+                }}
+              />
               <div className="w-full">
                 <p className="text-blue-200 font-medium my-4 text-center">
                   Want to try us out first?
@@ -410,7 +479,7 @@ function TechnologyRow() {
           },
           {
             label: 'TypeScript',
-            image: <Tsblue />,
+            image: <TsBlue />,
           },
           {
             label: 'CSS',
@@ -448,12 +517,160 @@ function TechnologyRow() {
   )
 }
 
-function MemberPricingSection() {
+type MemberPricingProps = {
+  prices: any
+  pricesLoading: boolean
+  defaultInterval?: string
+  defaultQuantity?: number
+  handleClickGetAccess: (event: any) => any
+  quantityAvailable: boolean
+  onQuantityChanged: (quantity: number) => void
+  onPriceChanged: (priceId: string) => void
+}
+
+export const DEFAULT_FEATURES = [
+  'Full access to all the premium courses',
+  'Download courses for offline viewing',
+  'Closed captions for every video',
+  'Commenting and support',
+  'Enhanced Transcripts',
+  'RSS course feeds',
+]
+
+export const PlanFeatures: React.FunctionComponent<{
+  planFeatures: string[]
+}> = ({planFeatures = DEFAULT_FEATURES}) => {
   return (
-    <div className="bg-white shadow-lg w-full rounded-md py-6 px-0">
-      <h3 className="text-2xl font-semibold text-center pb-6 border-b border-gray-300 ">
+    <ul className="mt-4">
+      {planFeatures.map((feature: string) => {
+        return (
+          <li className="font-medium flex mb-4 w-full" key={slugify(feature)}>
+            <CheckIcon className="inline-block flex-shrink-0 w-6 h-6 text-blue-600" />
+            <span className="ml-4 leading-tight text-lg">{feature}</span>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+const MemberPricingSection: React.FunctionComponent<MemberPricingProps> = ({
+  quantityAvailable = true,
+  handleClickGetAccess,
+  defaultInterval = 'annual',
+  defaultQuantity = 1,
+  pricesLoading,
+  prices,
+  onQuantityChanged,
+  onPriceChanged,
+}) => {
+  const individualPlans = filter(prices, (plan: any) => true)
+
+  const annualPlan = get(prices, 'annualPrice', {
+    name: 'Pro Yearly',
+    interval: 'year',
+  })
+  const monthlyPlan = get(prices, 'monthlyPrice')
+  const quarterlyPlan = get(prices, 'quarterlyPrice')
+
+  const pricesForInterval = (interval: any) => {
+    switch (interval) {
+      case 'year':
+        return annualPlan
+      case 'month':
+        return monthlyPlan
+      case 'quarter':
+        return quarterlyPlan
+      default:
+        return annualPlan
+    }
+  }
+
+  const [currentInterval] = React.useState<string>(defaultInterval)
+  const [currentQuantity, setCurrentQuantity] =
+    React.useState<number>(defaultQuantity)
+
+  const [currentPlan, setCurrentPlan] = React.useState<any>(
+    pricesForInterval(currentInterval),
+  )
+
+  const forTeams: boolean = currentQuantity > 1
+  const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
+
+  React.useEffect(() => {
+    setCurrentPlan(annualPlan)
+    onPriceChanged(annualPlan.stripe_price_id)
+  }, [annualPlan])
+
+  return (
+    <div className="bg-white shadow-lg w-full rounded-md px-0">
+      <h3 className="text-2xl font-semibold text-center pb-6 border-b border-gray-300 mt-6">
         Become a member
       </h3>
+      <div className="flex flex-col justify-center items-center p-8">
+        <span className="w-full text-center font-semibold mx-auto text-lg">
+          {currentPlan?.name}
+        </span>
+        <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
+        {keys(prices).length > 1 && (
+          <div className={quantityAvailable ? '' : 'pb-4'}>
+            <PlanIntervalsSwitch
+              disabled={false}
+              currentPlan={currentPlan}
+              setCurrentPlan={(newPlan: any) => {
+                setCurrentPlan(newPlan)
+                onPriceChanged(newPlan.stripe_price_id)
+              }}
+              planTypes={individualPlans}
+            />
+          </div>
+        )}
+        {quantityAvailable && (
+          <div className="py-4">
+            <PlanQuantitySelect
+              quantity={currentQuantity}
+              plan={currentPlan}
+              pricesLoading={pricesLoading}
+              onQuantityChanged={(quantity: number) => {
+                setCurrentQuantity(quantity)
+                onQuantityChanged(quantity)
+              }}
+            />
+          </div>
+        )}
+        <PlanFeatures planFeatures={currentPlan?.features} />
+        <form>
+          <div className="flex flex-row flex-wrap items-center mt-6">
+            <div className="rounded-md relative shadow-sm w-full">
+              <div className="absolute inset-y-0 left-1 pl-3 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+              </div>
+              <input
+                id="email"
+                type="email"
+                placeholder="Your email address"
+                className="text-gray-800 autofill:text-fill-white bg-white placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-600 block w-full pl-12 border-gray-300 rounded-md py-4"
+                required
+              />
+            </div>
+            <button
+              className="mt-2 px-5 py-4 text-center bg-blue-600 text-white font-medium rounded-md w-full hover:bg-blue-700 transition-all duration-300 ease-in-out hover:shadow-md text-lg"
+              type="button"
+            >
+              {buttonLabel}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

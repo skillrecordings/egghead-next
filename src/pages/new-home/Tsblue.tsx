@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-export default function Tsblue() {
+export default function TsBlue() {
   return (
     <svg viewBox="0 0 200 200">
       <defs>
