@@ -26,7 +26,7 @@ import {
   Reduxblue,
   Cssblue,
   TsBlue,
-} from './allicons'
+} from './tech-icons/allicons'
 import {
   PlanPrice,
   PlanIntervalsSwitch,
@@ -40,7 +40,7 @@ import {useViewer} from 'context/viewer-context'
 import {useRouter} from 'next/router'
 import emailIsValid from 'utils/email-is-valid'
 import {usePricing} from 'hooks/use-pricing'
-import {FunctionComponent, SyntheticEvent} from 'react'
+import {SyntheticEvent} from 'react'
 import {StripeAccount} from 'types'
 
 const NewHome: React.FunctionComponent = () => {
@@ -92,7 +92,7 @@ const NewHome: React.FunctionComponent = () => {
       {/* Header image */}
 
       {/* Headline and signup input */}
-      <section className="z-10 my-8 sm:my-16 flex flex-col flex-col-reverse md:flex-row justify-between items-center max-w-screen-xl mx-auto">
+      <section className="z-10 my-8 sm:my-16 flex flex-col-reverse md:flex-row justify-between items-center max-w-screen-xl mx-auto">
         <div className="w-full md:w-3/5 mt-12 md:mt-0">
           <motion.h1
             initial={{opacity: 0, x: -50}}
@@ -159,14 +159,19 @@ const NewHome: React.FunctionComponent = () => {
             </div>
           </motion.form>
         </div>
-        <div className="w-full md:w-2/5 ml-0 sm:ml-4 lg:ml-16">
+        <motion.div
+          initial={{opacity: 0, x: 50}}
+          animate={{opacity: 1, x: 0}}
+          transition={{duration: 0.8, delay: 0.2}}
+          className="w-full md:w-2/5 ml-0 sm:ml-4 lg:ml-16"
+        >
           <img
             className="min-w-full"
             width="600"
             alt="egghead course illustration"
             src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632907878/next.egghead.io/illustrations/jsarrays_landing_page_shrink.png"
           />
-        </div>
+        </motion.div>
       </section>
 
       <TechnologyRow />
@@ -352,7 +357,12 @@ const NewHome: React.FunctionComponent = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 border-2 border-gray-100 px-6 md:px-0">
+      <motion.section
+        variants={animationVariants}
+        animate="visible"
+        initial="hidden"
+        className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 border-2 border-gray-100 px-6 md:px-0"
+      >
         <div className="max-w-screen-xl my-12 mx-auto">
           <div className="mx-auto md:mx-2">
             <h2 className="text-white text-5xl sm:text-7xl font-bold text-center mb-8 md:max-w-screen-md mx-auto leading-tighter">
@@ -384,7 +394,7 @@ const NewHome: React.FunctionComponent = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   )
 }
@@ -393,8 +403,29 @@ export default NewHome
 
 // Benefits section
 function BenefitsSection() {
+  const variants = {
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.2,
+        duration: 0.5,
+        easing: 'easeInOut',
+      },
+    },
+    hidden: {
+      opacity: 0,
+      y: 50,
+    },
+  }
+
   return (
-    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto md:mx-2">
+    <motion.div
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto md:mx-2"
+    >
       {[
         {
           text: '250+ comprehensive courses',
@@ -437,17 +468,21 @@ function BenefitsSection() {
           text: 'Bookmarks to create learning plans and stay organised',
           icon: <BookmarkIcon className="w-8 h-8 text-blue-600" />,
         },
-      ].map((item) => {
+      ].map((item, i) => {
         return (
-          <div className="w-full border-gray-100 py-2 flex items-center">
+          <motion.div
+            key={i}
+            variants={variants}
+            className="w-full border-gray-100 py-2 flex items-center"
+          >
             {item.icon}
             <p className="text-left leading-tight font-medium text-lg text-gray-700 ml-6">
               {item.text}
             </p>
-          </div>
+          </motion.div>
         )
       })}
-    </div>
+    </motion.div>
   )
 }
 
@@ -506,7 +541,7 @@ function TechnologyRow() {
               animate={{opacity: 1, y: 0}}
               transition={{duration: 0.5, delay: i * 0.1}}
             >
-              <div className="w-24 h-24 md:w-32 md:h-32 px-1 mx-3 my-2 flex items-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-32 md:h-32 px-1 mx-3 my-2 flex items-center">
                 {tech.image}
               </div>
             </motion.div>
@@ -603,7 +638,10 @@ const MemberPricingSection: React.FunctionComponent<MemberPricingProps> = ({
   }, [annualPlan])
 
   return (
-    <div className="bg-white shadow-lg w-full rounded-md px-0">
+    <motion.div
+      variants={animationVariants}
+      className="bg-white shadow-lg w-full rounded-md px-0"
+    >
       <h3 className="text-2xl font-semibold text-center pb-6 border-b border-gray-300 mt-6">
         Become a member
       </h3>
@@ -671,13 +709,14 @@ const MemberPricingSection: React.FunctionComponent<MemberPricingProps> = ({
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 function FreeAccountSection() {
   return (
-    <div
+    <motion.div
+      variants={animationVariants}
       className="border border-blue-500 shadow-sm rounded-md pb-8 pt-6
      px-0"
     >
@@ -741,6 +780,21 @@ function FreeAccountSection() {
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   )
+}
+
+const animationVariants = {
+  hidden: {
+    opacity: 0,
+    y: 50,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      staggerChildren: 0.3,
+    },
+  },
 }
