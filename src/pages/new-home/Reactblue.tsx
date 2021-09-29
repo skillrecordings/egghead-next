@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-export default function Reactblue(props) {
+export default function Reactblue() {
   return (
-    <svg viewBox="0 0 200 200" {...props}>
+    <svg viewBox="0 0 200 200">
       <defs>
         <style>{'.prefix__cls-1{fill:#3d87ff}'}</style>
       </defs>

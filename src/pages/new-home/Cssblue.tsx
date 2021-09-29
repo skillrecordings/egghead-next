@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-export default function Cssblue(props) {
+export default function Cssblue() {
   return (
-    <svg viewBox="0 0 200 200" {...props}>
+    <svg viewBox="0 0 200 200">
       <defs>
         <style>{'.prefix__cls-4{fill:#fff}.prefix__cls-5{fill:#ebebeb}'}</style>
       </defs>

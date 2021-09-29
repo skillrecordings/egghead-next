@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-export default function Tsblue(props) {
+export default function Tsblue() {
   return (
-    <svg viewBox="0 0 200 200" {...props}>
+    <svg viewBox="0 0 200 200">
       <defs>
         <style>{'.prefix__cls-3{fill:#fff}'}</style>
       </defs>

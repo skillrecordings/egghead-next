@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-export default function Vueblue(props) {
+export default function Vueblue() {
   return (
-    <svg viewBox="0 0 200 200" {...props}>
+    <svg viewBox="0 0 200 200">
       <g data-name="Layer 2">
         <g data-name="Layer 1">
           <path
