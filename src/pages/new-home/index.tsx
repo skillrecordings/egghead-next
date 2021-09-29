@@ -100,12 +100,12 @@ const NewHome: React.FunctionComponent = () => {
             </div>
           </motion.form>
         </div>
-        <div className="w-2/5 ml-16">
+        <div className="w-2/5 ml-12">
           <img
             className="min-w-full"
             width="800"
             alt="egghead course illustration"
-            src="https://via.placeholder.com/400x400"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632907878/next.egghead.io/illustrations/jsarrays_landing_page_shrink.png"
           />
         </div>
       </section>

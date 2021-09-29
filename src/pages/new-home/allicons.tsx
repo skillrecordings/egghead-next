@@ -6,8 +6,8 @@ import Nextblue from './Nextblue'
 import Vueblue from './Vueblue'
 import Nodeblue from './Nodeblue'
 import Cssblue from './Cssblue'
-import Reduxblue from './Reduxblue'
 import Tsblue from './Tsblue'
+import Reduxblue from './Reduxblue'
 
 export {
   Angularblue,
