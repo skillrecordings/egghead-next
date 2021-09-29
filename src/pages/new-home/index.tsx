@@ -26,7 +26,7 @@ import {
   Reduxblue,
   Cssblue,
   Tsblue,
-} from './AllIcons'
+} from 'components/icons/tech-logo-icons'
 import {
   PlanPrice,
   PlanIntervalsSwitch,
