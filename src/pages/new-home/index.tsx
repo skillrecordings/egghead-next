@@ -25,8 +25,8 @@ import {
   Reactblue,
   Reduxblue,
   Cssblue,
-  TsBlue,
-} from './tech-icons/allicons'
+  Tsblue,
+} from './AllIcons'
 import {
   PlanPrice,
   PlanIntervalsSwitch,
@@ -514,7 +514,7 @@ function TechnologyRow() {
           },
           {
             label: 'TypeScript',
-            image: <TsBlue />,
+            image: <Tsblue />,
           },
           {
             label: 'CSS',
