@@ -1,6 +1,19 @@
 import * as React from 'react'
 import {motion} from 'framer-motion'
-import {BadgeCheckIcon, CheckIcon} from '@heroicons/react/solid'
+import {
+  BadgeCheckIcon,
+  CheckIcon,
+  AcademicCapIcon,
+  VideoCameraIcon,
+  TerminalIcon,
+  RssIcon,
+  PuzzleIcon,
+  BookmarkIcon,
+  DownloadIcon,
+  FastForwardIcon,
+  SupportIcon,
+  DocumentTextIcon,
+} from '@heroicons/react/solid'
 import {
   Vueblue,
   Awsblue,
@@ -315,43 +328,51 @@ function BenefitsSection2() {
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto md:mx-2">
       {[
-        {text: '250+ comprehensive courses', icon: <Reactblue />},
+        {
+          text: '250+ comprehensive courses',
+          icon: <AcademicCapIcon className="w-8 h-8 text-blue-600" />,
+        },
 
         {
           text: 'Practice projects to apply your knowledge',
-          icon: <Reactblue />,
+          icon: <PuzzleIcon className="w-8 h-8 text-blue-600" />,
         },
         {
           text: '5500+ bite-size video lessons',
-          icon: <Reactblue />,
+          icon: <VideoCameraIcon className="w-8 h-8 text-blue-600" />,
         },
         {
           text: 'Transcripts and closed captions on every video',
-          icon: <Reactblue />,
+          icon: <DocumentTextIcon className="w-8 h-8 text-blue-600" />,
         },
-        {text: 'Code examples for every lesson', icon: <Reactblue />},
+        {
+          text: 'Code examples for every lesson',
+          icon: <TerminalIcon className="w-8 h-8 text-blue-600" />,
+        },
         {
           text: 'Speed controls to watch at your own pace',
-          icon: <Reactblue />,
+          icon: <FastForwardIcon className="w-8 h-8 text-blue-600" />,
         },
         {
           text: 'Downloadable videos to view offline',
-          icon: <Reactblue />,
+          icon: <DownloadIcon className="w-8 h-8 text-blue-600" />,
         },
         {
           text: 'Priority customer support and assistance',
-          icon: <Reactblue />,
+          icon: <SupportIcon className="w-8 h-8 text-blue-600" />,
         },
-        {text: 'RSS feeds for your favourite podcasting app', icon: ''},
+        {
+          text: 'RSS feeds for your favourite podcasting app',
+          icon: <RssIcon className="w-8 h-8 text-blue-600" />,
+        },
         {
           text: 'Bookmarks to create learning plans and stay organised',
-          icon: '',
+          icon: <BookmarkIcon className="w-8 h-8 text-blue-600" />,
         },
-        {text: 'Watch history to see your progress over time', icon: ''},
       ].map((item) => {
         return (
           <div className="w-full border-gray-100 py-2 flex items-center">
-            <img src="https://via.placeholder.com/60x60" alt="" />
+            {item.icon}
             <p className="text-center leading-tight font-medium text-lg text-gray-700 ml-6">
               {item.text}
             </p>
