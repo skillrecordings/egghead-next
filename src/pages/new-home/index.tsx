@@ -72,13 +72,13 @@ const NewHome: React.FunctionComponent = () => {
       await track('checkout: redirect to stripe', {
         priceId,
       })
-      stripeCheckoutRedirect({
-        priceId,
-        email: viewer.email,
-        stripeCustomerId: account?.stripe_customer_id,
-        authToken,
-        quantity,
-      })
+      // stripeCheckoutRedirect({
+      //   priceId,
+      //   email: viewer.email,
+      //   stripeCustomerId: account?.stripe_customer_id,
+      //   authToken,
+      //   quantity,
+      // })
     } else {
       await track('checkout: get email', {
         priceId: priceId,
@@ -129,7 +129,7 @@ const NewHome: React.FunctionComponent = () => {
             className=""
           >
             <div className="flex flex-row flex-wrap items-center">
-              <div className="mt-1 relative rounded-md shadow-sm w-72">
+              <div className="mt-1 relative rounded-md shadow-sm w-full lg:w-80">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg
                     className="h-5 w-5 text-gray-400"
@@ -152,7 +152,7 @@ const NewHome: React.FunctionComponent = () => {
               </div>
               <button
                 type="submit"
-                className="w-full md:w-auto transition-all duration-150 mt-1 md:ml-2 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:shadow-sm text-white font-semibold py-3 px-5 rounded-md"
+                className="w-full lg:w-auto transition-all duration-150 mt-1 lg:ml-2 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:shadow-sm text-white font-semibold py-3 px-5 rounded-md"
               >
                 Create a free account
               </button>
@@ -163,7 +163,7 @@ const NewHome: React.FunctionComponent = () => {
           initial={{opacity: 0, x: 50}}
           animate={{opacity: 1, x: 0}}
           transition={{duration: 0.8, delay: 0.2}}
-          className="w-full md:w-2/5 ml-0 sm:ml-4 lg:ml-16"
+          className="w-4/5 md:w-2/5 ml-0 sm:ml-4 lg:ml-16"
         >
           <img
             className="min-w-full"
@@ -343,7 +343,7 @@ const NewHome: React.FunctionComponent = () => {
 
       {/* Benefits list section */}
       <section className="-mx-6 bg-gray-50 py-20 border-2 border-gray-100">
-        <div className="max-w-screen-xl mb-8 px-6 mx-auto">
+        <div className="max-w-screen-xl mb-0 sm:mb-8 px-6 mx-auto">
           <div className="mx-auto md:mx-2 md:max-w-screen-md">
             <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
               The sweet details
@@ -361,18 +361,18 @@ const NewHome: React.FunctionComponent = () => {
         variants={animationVariants}
         animate="visible"
         initial="hidden"
-        className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 border-2 border-gray-100 px-6 md:px-0"
+        className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 border-2 border-gray-100 px-2 md:px-0"
       >
-        <div className="max-w-screen-xl my-12 mx-auto">
+        <div className="max-w-screen-xl my-0 sm:my-12 mx-auto">
           <div className="mx-auto md:mx-2">
-            <h2 className="text-white text-5xl sm:text-7xl font-bold text-center mb-8 md:max-w-screen-md mx-auto leading-tighter">
+            <h2 className="text-white text-4xl sm:text-7xl font-bold text-center mb-8 md:max-w-screen-md mx-auto leading-tighter">
               Level Up Your Skills and Get a Better Job as a Web Developer
             </h2>
-            <p className="text-blue-100 text-lg text-center mx-auto mb-20 px-6 md:px-24 lg:px-80 leading-looser">
+            <p className="text-blue-100 text-lg text-center mx-auto mb-12 md:mb-20 px-2 md:px-24 lg:px-80 leading-looser">
               An egghead membership will give you the skills you need to advance
               your career and build real-world, professional projects.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 max-w-screen-lg mx-auto gap-4 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 max-w-screen-lg mx-auto gap-4 mb-8 sm:mb-20">
               <MemberPricingSection
                 prices={prices}
                 pricesLoading={pricesLoading}
@@ -489,7 +489,7 @@ function BenefitsSection() {
 // Technologies Row
 function TechnologyRow() {
   return (
-    <section className="my-0 sm:my-16 md:my-28">
+    <section className="my-16 md:my-28">
       <div className="flex flex-row flex-wrap items-center justify-center content-between place-content-between">
         {[
           {
@@ -589,6 +589,22 @@ export const PlanFeatures: React.FunctionComponent<{
   )
 }
 
+function BestValueBanner() {
+  return (
+    <motion.div
+      animate={{opacity: 1}}
+      initial={{opacity: 0}}
+      exit={{opacity: 0}}
+      transition={{duration: 0.4, ease: 'easeInOut'}}
+      className="lg:relative lg:h-0 lg:w-0 lg:top-20 lg:right-6 lg:-rotate-6"
+    >
+      <div className="py-3 flex text-base lg:shadow items-center justify-center h-auto w-full lg:w-32 bg-yellow-300 lg:rounded uppercase tracking-loose font-semibold relative">
+        <span>Best Value</span>
+      </div>
+    </motion.div>
+  )
+}
+
 const MemberPricingSection: React.FunctionComponent<MemberPricingProps> = ({
   quantityAvailable = true,
   handleClickGetAccess,
@@ -645,7 +661,8 @@ const MemberPricingSection: React.FunctionComponent<MemberPricingProps> = ({
       <h3 className="text-2xl font-semibold text-center pb-6 border-b border-gray-300 mt-6">
         Become a member
       </h3>
-      <div className="flex flex-col justify-center items-center p-8">
+      {currentPlan === annualPlan && <BestValueBanner />}
+      <div className="flex flex-col justify-center items-center p-4 md:p-8">
         <span className="w-full text-center font-semibold mx-auto text-lg">
           {currentPlan?.name}
         </span>
@@ -663,6 +680,7 @@ const MemberPricingSection: React.FunctionComponent<MemberPricingProps> = ({
             />
           </div>
         )}
+
         {quantityAvailable && (
           <div className="py-4">
             <PlanQuantitySelect
@@ -717,13 +735,13 @@ function FreeAccountSection() {
   return (
     <motion.div
       variants={animationVariants}
-      className="border border-blue-500 shadow-sm rounded-md pb-8 pt-6
+      className="border border-blue-500 shadow-sm rounded-md pb-4 md:pb-8 pt-6
      px-0"
     >
       <h3 className="text-2xl text-white font-semibold text-center pb-6 border-b border-blue-500">
         Create a free account
       </h3>
-      <div className="pt-8 px-8">
+      <div className="pt-8 px-4 md:px-8">
         <ul className="ml-3">
           <li className="flex text-blue-100 mb-4">
             <CheckIcon className="inline-block flex-shrink-0 w-6 h-6" />
