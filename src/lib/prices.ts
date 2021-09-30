@@ -50,6 +50,27 @@ export const mockPrices = {
   ],
 }
 
+type PricingData = any
+
+export async function loadPricingData(
+  params: {
+    quantity: number
+    coupon?: string
+    en?: string
+    dc?: string
+  } = {quantity: 1},
+  mock: boolean = false,
+): Promise<PricingData> {
+  let {data: pricingData} = await axios.get(
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
+    {
+      params,
+    },
+  )
+
+  return pricingData
+}
+
 export async function loadPrices(
   params: {
     quantity: number
@@ -84,6 +105,18 @@ export async function loadPrices(
 
   if (!annualPrice?.stripe_price_id)
     throw new Error('no annual price to load 😭')
+
+  // TODO: update the loadPrices function to return coupon data in addition to
+  // the pricing objects.
+  //
+  // We need to be able to find out if any PPP coupons are available to the
+  // user and this is the API call where that information comes from.
+  //
+  // Can available coupons be returned alongside the pricing objects or do we
+  // need to reconfigure how the return data is structured?
+  //
+  // How does one of the @skillrecordings/products do it? Do they pass along
+  // all the data including the `appliedCoupons` object, etc.?
 
   return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
 }

@@ -169,12 +169,15 @@ const PlanFeatures: React.FunctionComponent<{
 
 const GetAccessButton: React.FunctionComponent<{
   label: string
-  handleClick: (event: any) => Promise<void>
+  handleClick: () => Promise<void>
 }> = ({label, handleClick}) => {
   return (
     <button
       className="w-full px-5 py-4 mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
-      onClick={handleClick}
+      onClick={(event) => {
+        event.preventDefault()
+        handleClick()
+      }}
       type="button"
     >
       {label}
