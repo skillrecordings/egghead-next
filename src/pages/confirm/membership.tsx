@@ -74,6 +74,11 @@ const ConfirmMembershipPage: React.FC = () => {
     },
   })
 
+  // TODO: figure out how to get the available coupon object passed to the
+  // component that needs it. The loadPrices function doesn't grab everything we need.
+  //
+  // See how the monorepo goes about getting pricing and coupons.
+
   // Memoize the function so that it doesn't re-trigger the useEffect over and
   // over.
   const handleAccessTokenAuthentication = React.useCallback(

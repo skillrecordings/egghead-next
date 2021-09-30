@@ -1,10 +1,13 @@
 import * as React from 'react'
-import {FunctionComponent, SyntheticEvent} from 'react'
+import {FunctionComponent} from 'react'
 import {useViewer} from 'context/viewer-context'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
+// TODO: Remove usePricing from here, stories, and impl
 import {usePricing} from 'hooks/use-pricing'
+import {useCommerceMachine} from 'hooks/use-commerce-machine'
+import {PricingData} from 'machines/commerce-machine'
 import {first, get} from 'lodash'
 import {StripeAccount} from 'types'
 import {useRouter} from 'next/router'
@@ -12,6 +15,19 @@ import SelectPlanNew from 'components/pricing/select-plan-new'
 import PoweredByStripe from 'components/pricing/powered-by-stripe'
 import Testimonials from 'components/pricing/testimonials'
 import testimonialsData from 'components/pricing/testimonials/data'
+import ParityCouponMessage from 'components/pricing/parity-coupon-message'
+import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
+import {Prices} from 'lib/prices'
+import pickBy from 'lodash/pickBy'
+
+// TODO:
+// - [ ] Make sure the machine isn't causing this page to over-render.
+// - [ ] Ensure that pricing is re-calculated when quantity changes.
+// - [ ] Clean up the component now that it is working.
+// - [ ] Add tests for the machine.
+// - [ ] Remove non-PPP coupon stuff from the machine.
+// - [ ] Optimistic update of the PPP checkbox
 
 type PricingProps = {
   annualPrice: {
@@ -24,11 +40,53 @@ type PricingProps = {
   redirectURL?: string
 }
 
+const extractPricesFromPricingData = (pricingData: PricingData): Prices => {
+  const annualPrice = find(pricingData.plans, {
+    interval: 'year',
+  })
+
+  const monthlyPrice = find(pricingData.plans, {
+    interval: 'month',
+    interval_count: 1,
+  })
+
+  const quarterlyPrice = find(pricingData.plans, {
+    interval: 'month',
+    interval_count: 3,
+  })
+
+  if (!annualPrice?.stripe_price_id)
+    throw new Error('no annual price to load 😭')
+
+  return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
+}
+
 const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const {viewer, authToken} = useViewer()
-  const {prices, pricesLoading, quantity, setQuantity} = usePricing()
-  const [priceId, setPriceId] = React.useState<string>()
   const router = useRouter()
+  const [state, send, service] = useCommerceMachine()
+
+  // TODO: delete this when done spiking out the machine
+  React.useEffect(() => {
+    const subscription = service.subscribe((state) => {
+      // simple state logging
+      console.log('State:', state.value)
+    })
+
+    return subscription.unsubscribe
+  }, [service])
+
+  // data dervied from the state/context of the machine
+  const pricesLoading = state.matches('loadingPrices')
+  const prices = state.matches('pricesLoaded')
+    ? extractPricesFromPricingData(state.context.pricingData)
+    : {}
+  const quantity = state.context.quantity
+  const priceId = state.context.priceId
+
+  console.log({CONTEXT: state.context})
+
+  console.log({prices})
 
   React.useEffect(() => {
     track('visited pricing')
@@ -37,9 +95,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     }
   }, [])
 
-  const onClickCheckout = async (event: SyntheticEvent) => {
-    event.preventDefault()
-
+  const onClickCheckout = async () => {
     if (!priceId) return
     const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
@@ -59,14 +115,50 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
         stripeCustomerId: account?.stripe_customer_id,
         authToken,
         quantity,
+        coupon: state.context.couponToApply?.couponCode,
       })
     } else {
       await track('checkout: get email', {
         priceId: priceId,
       })
-      router.push(`/pricing/email?priceId=${priceId}&quantity=${quantity}`)
+      router.push({
+        pathname: '/pricing/email',
+        query: {
+          priceId,
+          quantity,
+          coupon: state.context.couponToApply?.couponCode,
+        },
+      })
     }
   }
+
+  console.log('PRICES: ', {prices})
+
+  // TODO: I think a bunch of these details can move into the commerce machine
+  // so that the component doesn't have to sift through a bunch of data to
+  // figure out the PPP details.
+  const availableCoupons = state?.context?.pricingData?.available_coupons
+  console.log({availableCoupons})
+  const parityCoupon = availableCoupons?.['ppp']
+
+  const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
+  const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
+
+  const pppCouponAvailable =
+    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
+  const displayParityCouponOffer =
+    pppCouponAvailable || (quantity && quantity > 1)
+
+  const onApplyParityCoupon = () => {
+    send('APPLY_PPP_COUPON')
+  }
+
+  const onDismissParityCoupon = () => {
+    send('REMOVE_PPP_COUPON')
+  }
+
+  const pppCouponIsApplied = state.matches('pricesLoaded.withPPPCoupon')
+
   return (
     <>
       <div className="dark:bg-gray-900 bg-gray-50 dark:text-white text-gray-900 px-5">
@@ -89,16 +181,31 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
             <SelectPlanNew
               prices={prices}
               pricesLoading={pricesLoading}
-              handleClickGetAccess={onClickCheckout}
+              handleClickGetAccess={() => {
+                send({type: 'CONFIRM_PRICE', onClickCheckout})
+              }}
               quantityAvailable={true}
               onQuantityChanged={(quantity: number) => {
-                setQuantity(quantity)
+                send({type: 'CHANGE_QUANTITY', quantity})
               }}
               onPriceChanged={(priceId: string) => {
-                setPriceId(priceId)
+                send({type: 'SWITCH_PRICE', priceId})
               }}
             />
           </div>
+          {displayParityCouponOffer &&
+            quantity === 1 &&
+            !isEmpty(parityCoupon) && (
+              <div className="mt-4 pb-5 max-w-screen-sm mx-auto">
+                <ParityCouponMessage
+                  coupon={parityCoupon}
+                  countryName={countryName}
+                  onApply={onApplyParityCoupon}
+                  onDismiss={onDismissParityCoupon}
+                  isPPP={pppCouponIsApplied}
+                />
+              </div>
+            )}
           <div className="py-24 flex items-center space-x-5">
             <PoweredByStripe />
             <div className="text-sm">30 day money back guarantee</div>

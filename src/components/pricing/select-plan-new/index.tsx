@@ -15,7 +15,9 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
-  const {price, interval, interval_count} = plan
+  const {price, price_discounted, price_savings, interval, interval_count} =
+    plan
+  const priceToDisplay = price_discounted || price
   const intervalLabel = interval_count > 1 ? 'quarter' : interval
   return (
     <div className="flex flex-col items-center">
@@ -28,7 +30,7 @@ const PlanPrice: React.FunctionComponent<{
               <span className="opacity-0">––</span>
             </div>
           ) : (
-            price
+            priceToDisplay
           )}
         </span>
         <span className="text-lg font-light mb-1">/{intervalLabel}</span>
@@ -44,6 +46,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
   pricesLoading: boolean
 }> = ({quantity, onQuantityChanged, plan, pricesLoading}) => {
   const {price} = plan
+
   return (
     <div className="flex flex-col items-center space-y-2">
       <label>
@@ -148,12 +151,15 @@ const PlanFeatures: React.FunctionComponent<{
 
 const GetAccessButton: React.FunctionComponent<{
   label: string
-  handleClick: (event: any) => Promise<void>
+  handleClick: () => Promise<void>
 }> = ({label, handleClick}) => {
   return (
     <button
       className="mt-8 px-5 py-4 text-center bg-blue-600 text-white font-semibold rounded-md w-full hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105"
-      onClick={handleClick}
+      onClick={(event) => {
+        event.preventDefault()
+        handleClick()
+      }}
       type="button"
     >
       {label}
