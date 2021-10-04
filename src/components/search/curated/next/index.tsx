@@ -1,17 +1,15 @@
 import React from 'react'
 import {get} from 'lodash'
-import SearchCuratedEssential, {ThreeLevels} from '../curated-essential'
+import SearchCuratedEssential from '../curated-essential'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import VideoCard from 'components/pages/home/video-card'
 import groq from 'groq'
 
 const SearchNext = ({topic}: any) => {
-  console.log('test: ', topic)
   const location = 'next landing'
-
-  const introCollection = get(topic, 'introCourses')
-  const featuredTalksArticles = get(topic, 'featuredTalksArticles')
-  const advancedConcepts = get(topic, 'advancedConcepts')
+  const featuredArticles = get(topic, 'featuredArticles')
+  const featuredTalks = get(topic, 'featuredTalks')
   const portfolioProjects = get(topic, 'portfolioProjects')
 
   if (!portfolioProjects)
@@ -38,47 +36,42 @@ const SearchNext = ({topic}: any) => {
         }}
         CTAComponent={EcommerceCTA}
       />
-      <div>
-        <ThreeLevels
-          beginner={introCollection}
-          intermediate={featuredTalksArticles}
-          advanced={advancedConcepts}
-          location={location}
-        />
-      </div>
-      <section className="md:mt-5 mt-5 grid gap-5 md:bg-gray-100 md:dark:bg-gray-700 rounded-lg md:p-5 relative">
-        <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
-          <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-            <div className="flex-shrink-0"></div>
-            <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight text-center">
-                Building Your Portfolio!
-              </h1>
-              <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
-                <p>
-                  Learn to create your own Next.js project from start to finish!
-                  These three courses will take you from initializing your app
-                  to creating your own store with an amazing user interface!
-                </p>
-              </div>
-            </div>
-          </header>
-          <div className="flex flex-col flex-grow">
-            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
-              {portfolioProjects.resources.map((resource: any) => {
-                return (
-                  <VerticalResourceCard
-                    className="col-span-4 text-center flex flex-col items-center justify-center"
-                    key={resource.path}
-                    resource={resource}
-                    location={location}
-                  />
-                )
-              })}
-            </div>
+      <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
+        <div className="flex flex-col flex-grow">
+          <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
+            {portfolioProjects.resources.map((resource: any) => {
+              return (
+                <VerticalResourceCard
+                  className="col-span-4 text-center flex flex-col items-center justify-center"
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                />
+              )
+            })}
           </div>
         </div>
-      </section>
+      </div>
+      {featuredTalks.resources.map((resource: any) => {
+        return (
+          <VideoCard
+            className="col-span-4 text-center flex flex-col items-center justify-center md:mt-5 mt-5"
+            key={resource.path}
+            resource={resource}
+            location={location}
+          />
+        )
+      })}
+      {featuredArticles.resources.map((resource: any) => {
+        return (
+          <VideoCard
+            className="col-span-4 text-center flex flex-col items-center justify-center md:mt-5 mt-5"
+            key={resource.path}
+            resource={resource}
+            location={location}
+          />
+        )
+      })}
     </div>
   )
 }
@@ -98,12 +91,18 @@ const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
   }
   return (
     <VerticalResourceCard
-      className="md:col-span-4 text-center"
+      className="md:col-span-4 text-center md:mb-5 bg-gradient-to-t from-purple-900 to-blue-500"
       key={resource.path}
       resource={resource}
       location={location}
-    />
+    >
+      <a></a>
+    </VerticalResourceCard>
   )
+}
+
+{
+  /* <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-purple-500 to-sky-500" /> */
 }
 
 export const nextPageQuery = groq`
@@ -139,7 +138,7 @@ export const nextPageQuery = groq`
     },
    }
 	},
-	'featuredTalksArticles': resources[slug.current == 'featured-talks-articles'][0] {
+	'featuredArticles': resources[slug.current == 'featured-articles'][0] {
     title,
     resources[]{
       'name': type,
@@ -150,6 +149,21 @@ export const nextPageQuery = groq`
     }
 	},
 	'portfolioProjects': resources[slug.current == 'portfolio-projects'][0] {
+    title,
+    description,
+    resources[]->{
+      title,
+      'description': summary,
+      path,
+      byline,
+      image,
+      'background': images[label == 'feature-card-background'][0].url,
+      'instructor': collaborators[]->[role == 'instructor'][0]{
+      'name': person->.name
+    },
+   }
+	},
+	'featuredTalks': resources[slug.current == 'featured-talks'][0] {
     title,
     description,
     resources[]->{
