@@ -4,6 +4,7 @@ import SearchCuratedEssential from '../curated-essential'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import VideoCard from 'components/pages/home/video-card'
+import {HorizontalResourceCard} from '../../../card/horizontal-resource-card'
 import groq from 'groq'
 
 const SearchNext = ({topic}: any) => {
@@ -52,26 +53,32 @@ const SearchNext = ({topic}: any) => {
           </div>
         </div>
       </div>
-      {featuredTalks.resources.map((resource: any) => {
-        return (
-          <VideoCard
-            className="col-span-4 text-center flex flex-col items-center justify-center md:mt-5 mt-5"
-            key={resource.path}
-            resource={resource}
-            location={location}
-          />
-        )
-      })}
-      {featuredArticles.resources.map((resource: any) => {
-        return (
-          <VideoCard
-            className="col-span-4 text-center flex flex-col items-center justify-center md:mt-5 mt-5"
-            key={resource.path}
-            resource={resource}
-            location={location}
-          />
-        )
-      })}
+      <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
+        <div className="flex flex-col flex-grow">
+          <div className="grid lg:grid-cols-8 grid-cols-1 gap-5 md:mt-5 mt-5 flex-grow">
+            {featuredTalks.resources.map((resource: any) => {
+              return (
+                <HorizontalResourceCard
+                  className="col-span-4 text-center flex flex-col items-center justify-center"
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                />
+              )
+            })}
+            {featuredArticles.resources.map((resource: any) => {
+              return (
+                <HorizontalResourceCard
+                  className="col-span-4 text-center flex flex-col items-center justify-center"
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                />
+              )
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
