@@ -66,16 +66,6 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const router = useRouter()
   const [state, send, service] = useCommerceMachine()
 
-  // TODO: delete this when done spiking out the machine
-  React.useEffect(() => {
-    const subscription = service.subscribe((state) => {
-      // simple state logging
-      console.log('State:', state.value)
-    })
-
-    return subscription.unsubscribe
-  }, [service])
-
   // data dervied from the state/context of the machine
   const pricesLoading = state.matches('loadingPrices')
   const prices = state.matches('pricesLoaded')
@@ -83,10 +73,6 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     : {}
   const quantity = state.context.quantity
   const priceId = state.context.priceId
-
-  console.log({CONTEXT: state.context})
-
-  console.log({prices})
 
   React.useEffect(() => {
     track('visited pricing')
@@ -132,13 +118,10 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     }
   }
 
-  console.log('PRICES: ', {prices})
-
   // TODO: I think a bunch of these details can move into the commerce machine
   // so that the component doesn't have to sift through a bunch of data to
   // figure out the PPP details.
   const availableCoupons = state?.context?.pricingData?.available_coupons
-  console.log({availableCoupons})
   const parityCoupon = availableCoupons?.['ppp']
 
   const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
