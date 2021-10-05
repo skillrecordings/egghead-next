@@ -45,9 +45,7 @@ const commerceModel = createModel(
     events: {
       CHANGE_QUANTITY: (quantity: number) => ({quantity}),
       REMOVE_PPP_COUPON: () => ({}),
-      REMOVE_COUPON: () => ({}),
       APPLY_PPP_COUPON: () => ({}),
-      APPLY_COUPON: () => ({}),
       CONFIRM_PRICE: (onClickCheckout: Function) => ({onClickCheckout}),
       SWITCH_PRICE: (priceId: string) => ({priceId}),
     },
@@ -103,7 +101,6 @@ export const commerceMachine = commerceModel.createMachine(
           checkingCouponStatus: {
             always: [
               {target: 'withPPPCoupon', cond: 'pricingIncludesPPPCoupon'},
-              {target: 'withCoupon', cond: 'pricingIncludesCoupon'},
               {target: 'withoutCoupon'},
             ],
           },
@@ -115,22 +112,10 @@ export const commerceMachine = commerceModel.createMachine(
               },
             },
           },
-          withCoupon: {
-            on: {
-              REMOVE_COUPON: {
-                actions: 'removeCoupon',
-                target: '#loadingPrices',
-              },
-            },
-          },
           withoutCoupon: {
             on: {
               APPLY_PPP_COUPON: {
                 actions: 'applyPPPCoupon',
-                target: '#loadingPrices',
-              },
-              APPLY_COUPON: {
-                actions: 'applyCoupon',
                 target: '#loadingPrices',
               },
             },
@@ -151,7 +136,6 @@ export const commerceMachine = commerceModel.createMachine(
           coupon: context.couponToApply?.couponCode,
         })
       },
-      preCheckoutVerification: async (context) => {},
       checkoutSessionFetcher: async () => {},
     },
     actions: {
@@ -177,7 +161,6 @@ export const commerceMachine = commerceModel.createMachine(
       pricingIncludesPPPCoupon: (context) => {
         return context.couponToApply?.couponType === 'ppp'
       },
-      pricingIncludesCoupon: () => false,
       priceHasBeenSelected: (context) => {
         return !isEmpty(context.priceId)
       },
