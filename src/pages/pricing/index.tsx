@@ -26,8 +26,8 @@ import pickBy from 'lodash/pickBy'
 // - [ ] Ensure that pricing is re-calculated when quantity changes.
 // - [ ] Clean up the component now that it is working.
 // - [ ] Add tests for the machine.
-// - [ ] Remove non-PPP coupon stuff from the machine.
 // - [ ] Optimistic update of the PPP checkbox
+// - [ ] Add throttle to quantity change input so that you can type or use the arrows without it immediately jumping.
 
 type PricingProps = {
   annualPrice: {
