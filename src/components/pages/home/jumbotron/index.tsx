@@ -60,7 +60,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
               </h2>
               <Link href={path}>
                 <a
-                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-50 hover:text-blue-300"
+                  className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-50 hover:text-gray-400"
                   onClick={() =>
                     track('clicked jumbotron resource', {
                       resource: path,
