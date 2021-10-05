@@ -15,8 +15,7 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
-  const {price, price_discounted, price_savings, interval, interval_count} =
-    plan
+  const {price, price_discounted, interval, interval_count} = plan
   const priceToDisplay = price_discounted || price
   const intervalLabel = interval_count > 1 ? 'quarter' : interval
   return (
