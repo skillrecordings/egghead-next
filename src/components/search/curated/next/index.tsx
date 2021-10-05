@@ -91,18 +91,14 @@ const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
   }
   return (
     <VerticalResourceCard
-      className="md:col-span-4 text-center md:mb-5 bg-gradient-to-t from-purple-900 to-blue-500"
       key={resource.path}
       resource={resource}
+      className="col-span-4 text-center relative z-10 "
       location={location}
     >
-      <a></a>
+      <div className="absolute top-0 left-0 bg-gradient-to-r from-purple-500 to-sky-500 w-full h-2 z-20" />
     </VerticalResourceCard>
   )
-}
-
-{
-  /* <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-purple-500 to-sky-500" /> */
 }
 
 export const nextPageQuery = groq`
