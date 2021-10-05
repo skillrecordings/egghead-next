@@ -23,7 +23,7 @@ import pickBy from 'lodash/pickBy'
 
 // TODO:
 // - [ ] Make sure the machine isn't causing this page to over-render.
-// - [ ] Ensure that pricing is re-calculated when quantity changes.
+// - [x] Ensure that pricing is re-calculated when quantity changes.
 // - [ ] Clean up the component now that it is working.
 // - [ ] Add tests for the machine.
 // - [ ] Optimistic update of the PPP checkbox
