@@ -80,7 +80,7 @@ export const commerceMachine = commerceModel.createMachine(
         initial: 'checkingCouponStatus',
         on: {
           CHANGE_QUANTITY: {
-            target: '#loadingPrices',
+            target: '.debouncingQuantityChange',
             actions: commerceModel.assign({
               quantity: (_context, event) => event.quantity,
             }),
@@ -98,6 +98,21 @@ export const commerceMachine = commerceModel.createMachine(
           },
         },
         states: {
+          debouncingQuantityChange: {
+            on: {
+              CHANGE_QUANTITY: {
+                target: 'debouncingQuantityChange',
+                actions: commerceModel.assign({
+                  quantity: (_context, event) => event.quantity,
+                }),
+              },
+            },
+            after: {
+              500: {
+                target: '#loadingPrices',
+              },
+            },
+          },
           checkingCouponStatus: {
             always: [
               {target: 'withPPPCoupon', cond: 'pricingIncludesPPPCoupon'},

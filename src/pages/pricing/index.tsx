@@ -23,7 +23,7 @@ import isEmpty from 'lodash/isEmpty'
 // - [x] Clean up the component now that it is working.
 // - [ ] Add tests for the machine.
 // - [ ] Optimistic update of the PPP checkbox
-// - [ ] Add throttle to quantity change input so that you can type or use the arrows without it immediately jumping.
+// - [x] Add throttle to quantity change input so that you can type or use the arrows without it immediately jumping.
 // - [ ] Deal with the usePricing dependency
 
 type PricingProps = {
