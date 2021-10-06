@@ -63,9 +63,9 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
 
   const pppCouponAvailable =
     !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
-  const displayParityCouponOffer =
-    pppCouponAvailable || (quantity && quantity > 1)
+  const pppCouponEligible = quantity === 1
 
+  // handlers
   const onApplyParityCoupon = () => {
     send('APPLY_PPP_COUPON')
   }
@@ -145,19 +145,17 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
               }}
             />
           </div>
-          {displayParityCouponOffer &&
-            quantity === 1 &&
-            !isEmpty(parityCoupon) && (
-              <div className="mt-4 pb-5 max-w-screen-sm mx-auto">
-                <ParityCouponMessage
-                  coupon={parityCoupon}
-                  countryName={countryName}
-                  onApply={onApplyParityCoupon}
-                  onDismiss={onDismissParityCoupon}
-                  isPPP={pppCouponIsApplied}
-                />
-              </div>
-            )}
+          {pppCouponAvailable && pppCouponEligible && (
+            <div className="mt-4 pb-5 max-w-screen-sm mx-auto">
+              <ParityCouponMessage
+                coupon={parityCoupon}
+                countryName={countryName}
+                onApply={onApplyParityCoupon}
+                onDismiss={onDismissParityCoupon}
+                isPPP={pppCouponIsApplied}
+              />
+            </div>
+          )}
           <div className="py-24 flex items-center space-x-5">
             <PoweredByStripe />
             <div className="text-sm">30 day money back guarantee</div>
