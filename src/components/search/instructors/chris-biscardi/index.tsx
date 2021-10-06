@@ -24,7 +24,7 @@ export default function SearchChrisBiscardi({instructor}: {instructor: any}) {
             />
           }
         />
-        <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-6 px-5 md:px-0 my-6">
+        <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-4 px-4 md:px-0 ">
           <HorizontalResourceCard
             resource={secondCourse}
             location={location}
@@ -37,8 +37,8 @@ export default function SearchChrisBiscardi({instructor}: {instructor: any}) {
           />
         </section>
 
-        <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-6 px-5 md:px-0 my-6">
-          <div className="flex flex-row sm:flex-nowrap flex-wrap gap-6">
+        <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-4 px-4 md:px-0 my-4">
+          <div className="flex flex-row sm:flex-nowrap flex-wrap gap-4">
             <VerticalResourceCollectionCard
               resource={jamstackCollection}
               className="w-1/2"
