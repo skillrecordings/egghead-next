@@ -7,7 +7,6 @@ import {track} from 'utils/analytics'
 // TODO: Remove usePricing from here, stories, and impl
 import {usePricing} from 'hooks/use-pricing'
 import {useCommerceMachine} from 'hooks/use-commerce-machine'
-import {PricingData} from 'machines/commerce-machine'
 import {first, get} from 'lodash'
 import {StripeAccount} from 'types'
 import {useRouter} from 'next/router'
@@ -16,18 +15,16 @@ import PoweredByStripe from 'components/pricing/powered-by-stripe'
 import Testimonials from 'components/pricing/testimonials'
 import testimonialsData from 'components/pricing/testimonials/data'
 import ParityCouponMessage from 'components/pricing/parity-coupon-message'
-import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
-import {Prices} from 'lib/prices'
-import pickBy from 'lodash/pickBy'
 
 // TODO:
 // - [ ] Make sure the machine isn't causing this page to over-render.
 // - [x] Ensure that pricing is re-calculated when quantity changes.
-// - [ ] Clean up the component now that it is working.
+// - [x] Clean up the component now that it is working.
 // - [ ] Add tests for the machine.
 // - [ ] Optimistic update of the PPP checkbox
 // - [ ] Add throttle to quantity change input so that you can type or use the arrows without it immediately jumping.
+// - [ ] Deal with the usePricing dependency
 
 type PricingProps = {
   annualPrice: {
@@ -40,39 +37,9 @@ type PricingProps = {
   redirectURL?: string
 }
 
-const extractPricesFromPricingData = (pricingData: PricingData): Prices => {
-  const annualPrice = find(pricingData.plans, {
-    interval: 'year',
-  })
-
-  const monthlyPrice = find(pricingData.plans, {
-    interval: 'month',
-    interval_count: 1,
-  })
-
-  const quarterlyPrice = find(pricingData.plans, {
-    interval: 'month',
-    interval_count: 3,
-  })
-
-  if (!annualPrice?.stripe_price_id)
-    throw new Error('no annual price to load 😭')
-
-  return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
-}
-
 const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
   const {viewer, authToken} = useViewer()
   const router = useRouter()
-  const [state, send, service] = useCommerceMachine()
-
-  // data dervied from the state/context of the machine
-  const pricesLoading = state.matches('loadingPrices')
-  const prices = state.matches('pricesLoaded')
-    ? extractPricesFromPricingData(state.context.pricingData)
-    : {}
-  const quantity = state.context.quantity
-  const priceId = state.context.priceId
 
   React.useEffect(() => {
     track('visited pricing')
@@ -80,6 +47,32 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
       track('checkout: cancelled from stripe')
     }
   }, [])
+
+  const {state, send, priceId, quantity, prices, availableCoupons} =
+    useCommerceMachine()
+
+  // machine-derived states
+  const pricesLoading = state.matches('loadingPrices')
+  const pppCouponIsApplied = state.matches('pricesLoaded.withPPPCoupon')
+
+  // machine-derived data
+  const parityCoupon = availableCoupons?.['ppp']
+
+  const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
+  const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
+
+  const pppCouponAvailable =
+    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
+  const displayParityCouponOffer =
+    pppCouponAvailable || (quantity && quantity > 1)
+
+  const onApplyParityCoupon = () => {
+    send('APPLY_PPP_COUPON')
+  }
+
+  const onDismissParityCoupon = () => {
+    send('REMOVE_PPP_COUPON')
+  }
 
   const onClickCheckout = async () => {
     if (!priceId) return
@@ -117,30 +110,6 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
       })
     }
   }
-
-  // TODO: I think a bunch of these details can move into the commerce machine
-  // so that the component doesn't have to sift through a bunch of data to
-  // figure out the PPP details.
-  const availableCoupons = state?.context?.pricingData?.available_coupons
-  const parityCoupon = availableCoupons?.['ppp']
-
-  const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
-  const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
-
-  const pppCouponAvailable =
-    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
-  const displayParityCouponOffer =
-    pppCouponAvailable || (quantity && quantity > 1)
-
-  const onApplyParityCoupon = () => {
-    send('APPLY_PPP_COUPON')
-  }
-
-  const onDismissParityCoupon = () => {
-    send('REMOVE_PPP_COUPON')
-  }
-
-  const pppCouponIsApplied = state.matches('pricesLoaded.withPPPCoupon')
 
   return (
     <>
