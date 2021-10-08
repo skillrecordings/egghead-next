@@ -60,11 +60,24 @@ const assignPricingData = commerceModel.assign(
   'done.invoke.fetchPricingData',
 )
 
+const updateQuantity = commerceModel.assign(
+  {
+    quantity: (_, event) => event.quantity,
+  },
+  'CHANGE_QUANTITY',
+)
+
 export const commerceMachine = commerceModel.createMachine(
   {
     id: 'commerce',
     context: commerceModel.initialContext,
     initial: 'loadingPrices',
+    on: {
+      CHANGE_QUANTITY: {
+        target: '.debouncingQuantityChange',
+        actions: [updateQuantity],
+      },
+    },
     states: {
       loadingPrices: {
         id: 'loadingPrices',
@@ -80,15 +93,22 @@ export const commerceMachine = commerceModel.createMachine(
           },
         },
       },
+      debouncingQuantityChange: {
+        on: {
+          CHANGE_QUANTITY: {
+            target: 'debouncingQuantityChange',
+            actions: [updateQuantity],
+          },
+        },
+        after: {
+          500: {
+            target: '#loadingPrices',
+          },
+        },
+      },
       pricesLoaded: {
         initial: 'checkingCouponStatus',
         on: {
-          CHANGE_QUANTITY: {
-            target: '.debouncingQuantityChange',
-            actions: commerceModel.assign({
-              quantity: (_context, event) => event.quantity,
-            }),
-          },
           SWITCH_PRICE: {
             actions: commerceModel.assign({
               priceId: (_context, event) => event.priceId,
@@ -102,21 +122,6 @@ export const commerceMachine = commerceModel.createMachine(
           },
         },
         states: {
-          debouncingQuantityChange: {
-            on: {
-              CHANGE_QUANTITY: {
-                target: 'debouncingQuantityChange',
-                actions: commerceModel.assign({
-                  quantity: (_context, event) => event.quantity,
-                }),
-              },
-            },
-            after: {
-              500: {
-                target: '#loadingPrices',
-              },
-            },
-          },
           checkingCouponStatus: {
             always: [
               {target: 'withPPPCoupon', cond: 'pricingIncludesPPPCoupon'},
