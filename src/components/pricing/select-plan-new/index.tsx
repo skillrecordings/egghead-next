@@ -209,7 +209,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   const individualPlans = filter(prices, (plan: any) => true)
 
   const annualPlan = get(prices, 'annualPrice', {
-    name: 'Pro Yearly',
+    name: 'Yearly',
     interval: 'year',
   })
   const monthlyPlan = get(prices, 'monthlyPrice')
