@@ -17,6 +17,7 @@ import SearchJamundFerguson from './jamund-ferguson'
 import SearchRyanChenkie from './ryan-chenkie'
 import SearchMatiasHernandez from './matias-hernandez'
 import SearchLazarNikolov from './lazar-nikolov'
+import SearchChrisAchard from './chris-achard'
 
 const InstructorsIndex: any = {
   'dan-abramov': SearchDanAbramov,
@@ -38,6 +39,7 @@ const InstructorsIndex: any = {
   'ryan-chenkie': SearchRyanChenkie,
   'matias-hernandez': SearchMatiasHernandez,
   'lazar-nikolov': SearchLazarNikolov,
+  'chris-achard': SearchChrisAchard,
 }
 
 export default InstructorsIndex
