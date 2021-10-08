@@ -1,6 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder'
 import blog from './src/structure/blog'
-import caseStudies from './src/structure/case-studies'
+import caseStudies from './src/structure/caseStudies'
 import portfolio from './src/structure/portfolio'
 import feature from './src/structure/feature'
 

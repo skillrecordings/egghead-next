@@ -85,30 +85,6 @@ export default {
       ],
     },
     {
-      name: 'softwareLibraries',
-      description: 'Versioned Software Libraries',
-      title: 'NPM or other Dependencies',
-      type: 'array',
-      of: [
-        {
-          type: 'versioned-software-library',
-        },
-      ],
-    },
-    {
-      name: 'essentialQuestions',
-      description: 'The important questions.',
-      title: 'Essential Questions',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          title: 'Essential Question',
-          to: [{type: 'essentialQuestion'}],
-        },
-      ],
-    },
-    {
       name: 'resources',
       description:
         'Arbitrary resources, maybe this is a collection? Internal to this resource (not shared at the top level)',

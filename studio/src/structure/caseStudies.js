@@ -4,7 +4,7 @@ import {
   GoChecklist as ApprovedIcon,
   GoEye as ReviewIcon,
   GoCircleSlash as RejectedIcon,
-  GoDatabase as AllIcon,
+  GoDatabase as SuccessIcon,
 } from 'react-icons/go'
 
 import PreviewIFrame from '../../src/components/previewIFrame'
@@ -14,7 +14,7 @@ export const icons = {
   ApprovedIcon,
   ReviewIcon,
   RejectedIcon,
-  AllIcon,
+  SuccessIcon,
 }
 
 const caseStudies = S.listItem()
@@ -45,7 +45,7 @@ const caseStudies = S.listItem()
           ),
         S.documentTypeListItem('caseStudy')
           .title('All case studies')
-          .icon(AllIcon),
+          .icon(SuccessIcon),
       ]),
   )
 
