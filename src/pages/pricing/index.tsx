@@ -22,7 +22,7 @@ import isEmpty from 'lodash/isEmpty'
 // - [x] Ensure that pricing is re-calculated when quantity changes.
 // - [x] Clean up the component now that it is working.
 // - [ ] Add tests for the machine.
-// - [ ] Optimistic update of the PPP checkbox
+// - [x] Optimistic update of the PPP checkbox
 // - [x] Add throttle to quantity change input so that you can type or use the arrows without it immediately jumping.
 // - [ ] Deal with the usePricing dependency
 
@@ -53,7 +53,9 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
 
   // machine-derived states
   const pricesLoading = state.matches('loadingPrices')
-  const pppCouponIsApplied = state.matches('pricesLoaded.withPPPCoupon')
+  const pppCouponIsApplied =
+    state.matches('pricesLoaded.withPPPCoupon') ||
+    (pricesLoading && state.context?.couponToApply?.couponType === 'ppp')
 
   // machine-derived data
   const parityCoupon = availableCoupons?.['ppp']
