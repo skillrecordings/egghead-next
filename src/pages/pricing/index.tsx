@@ -52,7 +52,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     useCommerceMachine()
 
   // machine-derived states
-  const pricesLoading = state.matches('loadingPrices')
+  const pricesLoading = !state.matches('pricesLoaded')
   const pppCouponIsApplied =
     state.matches('pricesLoaded.withPPPCoupon') ||
     (pricesLoading && state.context?.couponToApply?.couponType === 'ppp')
