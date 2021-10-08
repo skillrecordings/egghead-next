@@ -82,7 +82,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
         const checked: boolean = plan === currentPlan
         const intervalLabel = interval_count > 1 ? 'quarter' : interval
         return (
-          <li key={interval}>
+          <li key={`${interval}-${interval_count}`}>
             <button
               className={`${
                 checked
