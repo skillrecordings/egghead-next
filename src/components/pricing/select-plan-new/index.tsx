@@ -150,7 +150,7 @@ const PlanFeatures: React.FunctionComponent<{
 
 const GetAccessButton: React.FunctionComponent<{
   label: string
-  handleClick: () => Promise<void>
+  handleClick: () => void
 }> = ({label, handleClick}) => {
   return (
     <button
@@ -171,7 +171,7 @@ type SelectPlanProps = {
   pricesLoading: boolean
   defaultInterval?: string
   defaultQuantity?: number
-  handleClickGetAccess: (event: any) => any
+  handleClickGetAccess: () => void
   quantityAvailable: boolean
   onQuantityChanged: (quantity: number) => void
   onPriceChanged: (priceId: string) => void
