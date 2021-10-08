@@ -242,7 +242,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   React.useEffect(() => {
     setCurrentPlan(annualPlan)
     onPriceChanged(annualPlan.stripe_price_id)
-  }, [annualPlan])
+  }, [annualPlan.price])
 
   return (
     <>
