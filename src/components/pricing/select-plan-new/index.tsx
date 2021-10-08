@@ -107,6 +107,18 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
   )
 }
 
+const LoadingPlanIntervalSwitchSkeleton: React.FunctionComponent<{}> = () => {
+  return (
+    <ul className="flex ">
+      <li>
+        <button className="dark:bg-gray-800 bg-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200 capitalize block px-3 py-2 cursor-pointer text-sm font-medium transition-all ease-in-out duration-300 rounded">
+          &nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+      </li>
+    </ul>
+  )
+}
+
 const DEFAULT_FEATURES = [
   'Full access to all the premium courses',
   'Download courses for offline viewing',
@@ -223,14 +235,14 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   React.useEffect(() => {
     setCurrentPlan(annualPlan)
     onPriceChanged(annualPlan.stripe_price_id)
-  }, [annualPlan])
+  }, [annualPlan.price])
 
   return (
     <>
       <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:px-12 sm:py-12 px-6 py-6 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-        {keys(prices).length > 1 && (
+        {keys(prices).length > 1 ? (
           <div className={quantityAvailable ? '' : 'pb-4'}>
             <PlanIntervalsSwitch
               disabled={false}
@@ -242,6 +254,8 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
               planTypes={individualPlans}
             />
           </div>
+        ) : (
+          <LoadingPlanIntervalSwitchSkeleton />
         )}
         {quantityAvailable && (
           <div className="py-4">
