@@ -3,7 +3,6 @@ import {get} from 'lodash'
 import SearchCuratedEssential from '../curated-essential'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
-import VideoCard from 'components/pages/home/video-card'
 import {HorizontalResourceCard} from '../../../card/horizontal-resource-card'
 import groq from 'groq'
 
@@ -47,6 +46,7 @@ const SearchNext = ({topic}: any) => {
                   key={resource.path}
                   resource={resource}
                   location={location}
+                  describe={true}
                 />
               )
             })}
@@ -89,7 +89,7 @@ const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
     id: 'portfolioProject',
     name: 'Portfolio Project',
     title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-    path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+    path: '/courses/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
     image:
       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/square_480/ecommerce-stripe-next.png',
     byline: 'Colby Fayock',
@@ -102,6 +102,7 @@ const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
       resource={resource}
       className="col-span-4 text-center relative z-10 "
       location={location}
+      describe={true}
     >
       <div className="absolute top-0 left-0 bg-gradient-to-r from-purple-500 to-sky-500 w-full h-2 z-20" />
     </VerticalResourceCard>
@@ -112,21 +113,6 @@ export const nextPageQuery = groq`
 *[_type == 'resource' && slug.current == 'next-js-landing-page'][0]{
   title,
   'introCourses': resources[slug.current == 'intro-to-next-js'][0] {
-    title,
-    description,
-    resources[]->{
-      title,
-      'description': summary,
-      path,
-      byline,
-      image,
-      'background': images[label == 'feature-card-background'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
-      'name': person->.name
-    },
-   }
-	},
-	'advancedConcepts': resources[slug.current == 'advanced-concepts'][0] {
     title,
     description,
     resources[]->{
@@ -171,7 +157,6 @@ export const nextPageQuery = groq`
     description,
     resources[]->{
       title,
-      'description': summary,
       path,
       byline,
       image,
