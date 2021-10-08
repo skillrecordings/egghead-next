@@ -106,17 +106,5 @@ export async function loadPrices(
   if (!annualPrice?.stripe_price_id)
     throw new Error('no annual price to load 😭')
 
-  // TODO: update the loadPrices function to return coupon data in addition to
-  // the pricing objects.
-  //
-  // We need to be able to find out if any PPP coupons are available to the
-  // user and this is the API call where that information comes from.
-  //
-  // Can available coupons be returned alongside the pricing objects or do we
-  // need to reconfigure how the return data is structured?
-  //
-  // How does one of the @skillrecordings/products do it? Do they pass along
-  // all the data including the `appliedCoupons` object, etc.?
-
   return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
 }
