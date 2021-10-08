@@ -48,8 +48,16 @@ const commerceModel = createModel(
       APPLY_PPP_COUPON: () => ({}),
       CONFIRM_PRICE: (onClickCheckout: Function) => ({onClickCheckout}),
       SWITCH_PRICE: (priceId: string) => ({priceId}),
+      'done.invoke.fetchPricingData': (data: PricingData) => ({data}),
     },
   },
+)
+
+const assignPricingData = commerceModel.assign(
+  {
+    pricingData: (_, event) => event.data,
+  },
+  'done.invoke.fetchPricingData',
 )
 
 export const commerceMachine = commerceModel.createMachine(
@@ -65,11 +73,7 @@ export const commerceMachine = commerceModel.createMachine(
           src: 'fetchPricingData',
           onDone: {
             target: 'pricesLoaded',
-            actions: [
-              commerceModel.assign({
-                pricingData: (_context, event: any) => event.data,
-              }),
-            ],
+            actions: [assignPricingData],
           },
           onError: {
             target: 'pricingFetchFailed',
