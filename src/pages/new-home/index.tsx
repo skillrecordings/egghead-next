@@ -282,7 +282,7 @@ const NewHome: React.FunctionComponent = () => {
             programming challenge, and whispering{' '}
             <i className="font-semibold">I know wtf I am doing.</i>
           </p>
-          <p className="mt-6 prose text-lg dark:text-white">
+          <p className="mt-6 prose text-lg dark:text-white ">
             <b>That</b> is what egghead can do for you.
           </p>
         </div>
