@@ -24,7 +24,7 @@ const useSelectedTopic = (initialTopic: any, searchState: any) => {
     }
   }, [newTopic])
 
-  return [isLoading, topic]
+  return {isLoading, topic}
 }
 
 export default useSelectedTopic
