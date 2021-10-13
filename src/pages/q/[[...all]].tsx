@@ -8,10 +8,10 @@ import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
-import {isEmpty, get, first, isArray} from 'lodash'
+import {isEmpty, get, first} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
-import {loadInstructor, loadSanityInstructor} from 'lib/instructors'
+import {loadInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
@@ -20,10 +20,9 @@ import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
 import {loadTag} from 'lib/tags'
-import {tagCacheLoader} from 'utils/tag-cache-loader'
 import {topicExtractor} from '../../utils/search/topic-extractor'
 
-import RouteLoadingIndicator from 'components/route-loading-indicator'
+import useSelectedTopic from 'hooks/use-selected-topic'
 
 const tracer = getTracer('search-page')
 
@@ -73,38 +72,11 @@ const SearchIndex: any = ({
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
-  const [topic, setTopic] = React.useState(initialTopic)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const [isLoading, setIsLoading] = React.useState(false)
-
-  React.useEffect(() => {
-    const selectedTopics = topicExtractor(searchState)
-
-    const fetchData = async () => {
-      setIsLoading(true)
-
-      if (
-        isArray(selectedTopics) &&
-        selectedTopics?.length === 1 &&
-        !selectedTopics.includes('undefined')
-      ) {
-        const newTopic = first<string>(selectedTopics)
-
-        if (newTopic) {
-          await loadTag(newTopic).then(setTopic)
-        } else {
-          setTopic(undefined)
-        }
-      } else {
-        setTopic(undefined)
-      }
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [searchState])
+  const [isLoading, topic] = useSelectedTopic(initialTopic, searchState)
 
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
