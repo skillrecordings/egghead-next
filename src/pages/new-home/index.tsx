@@ -344,7 +344,7 @@ const NewHome: React.FunctionComponent = () => {
       </section>
 
       {/* Benefits list section */}
-      <section className="-mx-6 bg-gray-50 dark:bg-gray-900 py-20">
+      <section className="-mx-6 bg-gray-50 dark:bg-gray-900 py-5">
         <div className="max-w-screen-xl mb-0 sm:mb-8 px-6 mx-auto">
           <div className="mx-auto md:mx-2 md:max-w-screen-md">
             <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
