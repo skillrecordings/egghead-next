@@ -76,7 +76,7 @@ const SearchIndex: any = ({
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const [isLoading, topic] = useSelectedTopic(initialTopic, searchState)
+  const {isLoading, topic} = useSelectedTopic(initialTopic, searchState)
 
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
