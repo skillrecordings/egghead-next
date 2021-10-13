@@ -8,10 +8,10 @@ import {GetServerSideProps} from 'next'
 
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
-import {isEmpty, get, first, isArray} from 'lodash'
+import {isEmpty, get, first} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
 
-import {loadInstructor, loadSanityInstructor} from 'lib/instructors'
+import {loadInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
 
 import getTracer from 'utils/honeycomb-tracer'
@@ -20,8 +20,9 @@ import Header from 'components/app/header'
 import Main from 'components/app/main'
 import Footer from 'components/app/footer'
 import {loadTag} from 'lib/tags'
-import {tagCacheLoader} from 'utils/tag-cache-loader'
 import {topicExtractor} from '../../utils/search/topic-extractor'
+
+import useSelectedTopic from 'hooks/use-selected-topic'
 
 const tracer = getTracer('search-page')
 
@@ -71,10 +72,11 @@ const SearchIndex: any = ({
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
-  const [topic, setTopic] = React.useState(initialTopic)
   const [noIndex, setNoIndex] = React.useState(noIndexInitial)
   const debouncedState = React.useRef<any>()
   const router = useRouter()
+
+  const [isLoading, topic] = useSelectedTopic(initialTopic, searchState)
 
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
@@ -90,33 +92,6 @@ const SearchIndex: any = ({
       } catch (error) {}
     } else {
       setInstructor(null)
-    }
-
-    const selectedTopics = topicExtractor(searchState)
-
-    if (
-      isArray(selectedTopics) &&
-      selectedTopics?.length === 1 &&
-      !selectedTopics.includes('undefined')
-    ) {
-      const newTopic = first<string>(selectedTopics)
-
-      try {
-        if (newTopic) {
-          const cachedTag = tagCacheLoader(newTopic)
-          if (cachedTag) {
-            setTopic(cachedTag)
-          } else {
-            loadTag(newTopic).then(setTopic)
-          }
-        } else {
-          setTopic(undefined)
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      setTopic(undefined)
     }
 
     debouncedState.current = setTimeout(() => {
@@ -146,6 +121,7 @@ const SearchIndex: any = ({
         {...customProps}
         instructor={instructor}
         topic={topic}
+        loading={isLoading}
       />
     </div>
   )
