@@ -98,7 +98,7 @@ const NewHome: React.FunctionComponent = () => {
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.8, delay: 0.2}}
-            className="text-4xl sm:text-6xl font-bold mb-8 leading-tight text-gray-700"
+            className="text-4xl sm:text-6xl font-bold mb-8 leading-tight text-gray-700 dark:text-white"
           >
             Learn the best JavaScript tools and frameworks from industry pros
           </motion.h1>
@@ -106,7 +106,7 @@ const NewHome: React.FunctionComponent = () => {
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.6, delay: 0.4}}
-            className="text-lg sm:leading-loose text-coolGray-500 w-full md:w-3/4"
+            className="text-lg sm:leading-loose text-coolGray-500 w-full md:w-3/4 dark:text-gray-300"
           >
             egghead creates high-quality video tutorials and learning resources
             for badass web developers
@@ -118,7 +118,7 @@ const NewHome: React.FunctionComponent = () => {
             initial={{opacity: 0, x: -50}}
             animate={{opacity: 1, x: 0}}
             transition={{duration: 0.6, delay: 0.6}}
-            className="mt-8 mb-1 text-gray-500 text-sm"
+            className="mt-8 mb-1 text-gray-500 text-sm dark:text-gray-300"
           >
             Create your free account to start learning now
           </motion.p>
@@ -188,7 +188,7 @@ const NewHome: React.FunctionComponent = () => {
             <br />
             You know the drill...
           </h3>
-          <ol className="">
+          <ol className="text-white">
             {[
               {
                 emoji:
@@ -221,30 +221,32 @@ const NewHome: React.FunctionComponent = () => {
                 className="flex flex-row pb-4 items-center align-center"
               >
                 <img width="30" src={item.emoji} alt="crying emoji" />
-                <li className="prose text-lg pl-4">{item.text}</li>
+                <li className="prose text-lg pl-4 dark:text-white">
+                  {item.text}
+                </li>
               </div>
             ))}
           </ol>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             All the while, your poor computer screams under the weight of all
             those tabs.
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             What about learning from books? Books are great! <br /> They're
             sometimes edited by professionals, which is more than you can say
             for most tutorials you find. But publishers can’t keep up with the
             pace of modern web development. You can't keep up either, at least
             not with your old approach.
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             Nobody’s paying you to find the bugs in their crummy tutorials. You
             don’t have time to dig your way out of all those rabbit holes for a
             supposedly free education.
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             So you’ve been procrastinating a little. Or… a lot.
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             Your time is precious. You're a professional.
           </p>
         </div>
@@ -265,14 +267,14 @@ const NewHome: React.FunctionComponent = () => {
             'What if you could simply sit down and start learning? What if you could skip all the searching, the cobbling, the contradictory advice, the bugs, the forums, and the dead ends?',
             'What if you had on-demand experts avaliable to hand you the best, curated material on modern web development?',
           ].map((item) => {
-            return <p className="mt-6 prose text-lg">{item}</p>
+            return <p className="mt-6 prose text-lg dark:text-white">{item}</p>
           })}
-          <p className="mt-6 prose text-lg font-bold">
+          <p className="mt-6 prose text-lg font-bold dark:text-white">
             Think how much easier it would be for you to <i>stay</i> on the
             bleeding edge of our industry. With just 10-30 minutes a day, you'd
             be able to power through a major topic every week.
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             With the right teacher and the right courses, this isn't a pipe
             dream.
             <br />
@@ -280,7 +282,7 @@ const NewHome: React.FunctionComponent = () => {
             programming challenge, and whispering{' '}
             <i className="font-semibold">I know wtf I am doing.</i>
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             <b>That</b> is what egghead can do for you.
           </p>
         </div>
@@ -291,22 +293,22 @@ const NewHome: React.FunctionComponent = () => {
           <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
             There <i>is</i> an easier way
           </p>
-          <h3 className="text-2xl leading-snug mb-6 font-medium">
+          <h3 className="text-2xl leading-snug mb-6 font-medium dark:text-white">
             egghead will turn you into a badass web developer.
             <br /> Learn any time, any place, at your own pace.
           </h3>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             We're here to help you level up. We've designed everything from our
             courses to our tools to our community to advance your skills without
             sacrificing your precious time.
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             egghead is <i>not</i> a sloppy video marketplace or grab-bag of
             random content.
             <br /> We're a boutique label curating{' '}
             <b>high-quality video courses for professional web developers.</b>
           </p>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             When you join egghead you'll get:
           </p>
           <ol className="mt-6">
@@ -319,11 +321,11 @@ const NewHome: React.FunctionComponent = () => {
             ].map((item, index) => (
               <div className="flex flex-row pb-4 items-start" key={index}>
                 <BadgeCheckIcon className="w-8 h-8 text-blue-600 flex-shrink-0 relative top-1" />
-                <li className="prose text-lg pl-3">{item}</li>
+                <li className="prose text-lg pl-3 dark:text-white">{item}</li>
               </div>
             ))}
           </ol>
-          <p className="mt-6 prose text-lg">
+          <p className="mt-6 prose text-lg dark:text-white">
             And unlike book publishers, we move at the speed of the web. When
             you need the most up-to-date tutorials on React, we've got you
             covered.
@@ -336,19 +338,19 @@ const NewHome: React.FunctionComponent = () => {
             'Learn at your desk, on the train, or in the bathroom – whenever and whereever you want. Videos, transcripts, and code examples are always avaliable – even offline.',
             'And all of it is nop-notch quality. Your secret weapon to get ahead, shine at work, and build things you love.',
           ].map((item) => {
-            return <p className="mt-6 prose text-lg">{item}</p>
+            return <p className="mt-6 prose text-lg dark:text-white">{item}</p>
           })}
         </div>
       </section>
 
       {/* Benefits list section */}
-      <section className="-mx-6 bg-gray-50 py-20 border-2 border-gray-100">
+      <section className="-mx-6 bg-gray-50 dark:bg-gray-900 py-20">
         <div className="max-w-screen-xl mb-0 sm:mb-8 px-6 mx-auto">
           <div className="mx-auto md:mx-2 md:max-w-screen-md">
             <p className="uppercase mb-4 text-blue-600 font-semibold text-sm tracking-wide">
               The sweet details
             </p>
-            <h3 className="text-2xl leading-snug mb-6 font-medium">
+            <h3 className="text-2xl leading-snug mb-6 font-medium dark:text-white">
               What you'll get as an egghead member
             </h3>
           </div>
@@ -361,7 +363,7 @@ const NewHome: React.FunctionComponent = () => {
         variants={animationVariants}
         animate="visible"
         initial="hidden"
-        className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 border-2 border-gray-100 px-2 md:px-0"
+        className="-mx-6 bg-gradient-to-b from-blue-600 to-blue-700 py-20 px-2 md:px-0"
       >
         <div className="max-w-screen-xl my-0 sm:my-12 mx-auto">
           <div className="mx-auto md:mx-2">
@@ -476,7 +478,7 @@ function BenefitsSection() {
             className="w-full border-gray-100 py-2 flex items-center"
           >
             {item.icon}
-            <p className="text-left leading-tight font-medium text-lg text-gray-700 ml-6">
+            <p className="text-left leading-tight font-medium text-lg text-gray-700 dark:text-white ml-6">
               {item.text}
             </p>
           </motion.div>
