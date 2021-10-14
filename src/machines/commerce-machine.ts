@@ -1,4 +1,4 @@
-import {createModel} from 'xstate/lib/model'
+import {createMachine, assign} from 'xstate'
 import {loadPricingData} from 'lib/prices'
 import isEmpty from 'lodash/isEmpty'
 
@@ -34,48 +34,41 @@ const findAvailablePPPCoupon = (pricingData: PricingData) => {
   return pricingData?.available_coupons?.ppp
 }
 
-const commerceModel = createModel(
-  {
-    pricingData: {} as PricingData,
-    priceId: undefined as string | undefined,
-    quantity: 1,
-    couponToApply: undefined as Coupon | undefined,
-  },
-  {
-    events: {
-      CHANGE_QUANTITY: (quantity: number) => ({quantity}),
-      REMOVE_PPP_COUPON: () => ({}),
-      APPLY_PPP_COUPON: () => ({}),
-      CONFIRM_PRICE: (onClickCheckout: Function) => ({onClickCheckout}),
-      SWITCH_PRICE: (priceId: string) => ({priceId}),
-      'done.invoke.fetchPricingData': (data: PricingData) => ({data}),
-    },
-  },
-)
+export interface CommerceMachineContext {
+  pricingData: PricingData
+  priceId: string | undefined
+  quantity: number
+  couponToApply: Coupon | undefined
+}
 
-const assignPricingData = commerceModel.assign(
-  {
-    pricingData: (_, event) => event.data,
-  },
-  'done.invoke.fetchPricingData',
-)
+type CommerceMachineEvent =
+  | {
+      type: 'CHANGE_QUANTITY'
+      quantity: number
+    }
+  | {type: 'REMOVE_PPP_COUPON'}
+  | {type: 'APPLY_PPP_COUPON'}
+  | {type: 'CONFIRM_PRICE'; onClickCheckout: Function}
+  | {type: 'SWITCH_PRICE'; priceId: string}
+  | {type: 'done.invoke.fetchPricingDataService'; data: PricingData}
 
-const updateQuantity = commerceModel.assign(
-  {
-    quantity: (_, event) => event.quantity,
-  },
-  'CHANGE_QUANTITY',
-)
-
-export const commerceMachine = commerceModel.createMachine(
+export const commerceMachine = createMachine<
+  CommerceMachineContext,
+  CommerceMachineEvent
+>(
   {
     id: 'commerce',
-    context: commerceModel.initialContext,
+    context: {
+      pricingData: {} as PricingData,
+      priceId: undefined as string | undefined,
+      quantity: 1,
+      couponToApply: undefined as Coupon | undefined,
+    },
     initial: 'loadingPrices',
     on: {
       CHANGE_QUANTITY: {
         target: '.debouncingQuantityChange',
-        actions: [updateQuantity],
+        actions: ['updateQuantity'],
       },
     },
     states: {
@@ -86,7 +79,7 @@ export const commerceMachine = commerceModel.createMachine(
           src: 'fetchPricingData',
           onDone: {
             target: 'pricesLoaded',
-            actions: [assignPricingData],
+            actions: ['assignPricingData'],
           },
           onError: {
             target: 'pricingFetchFailed',
@@ -97,7 +90,7 @@ export const commerceMachine = commerceModel.createMachine(
         on: {
           CHANGE_QUANTITY: {
             target: 'debouncingQuantityChange',
-            actions: [updateQuantity],
+            actions: ['updateQuantity'],
           },
         },
         after: {
@@ -110,7 +103,7 @@ export const commerceMachine = commerceModel.createMachine(
         initial: 'checkingCouponStatus',
         on: {
           SWITCH_PRICE: {
-            actions: commerceModel.assign({
+            actions: assign({
               priceId: (_context, event) => event.priceId,
             }),
           },
@@ -154,16 +147,37 @@ export const commerceMachine = commerceModel.createMachine(
   },
   {
     services: {
-      fetchPricingData: async (context) => {
+      fetchPricingData: async (context): Promise<PricingData | undefined> => {
         return await loadPricingData({
           quantity: context.quantity,
           coupon: context.couponToApply?.couponCode,
         })
       },
-      checkoutSessionFetcher: async () => {},
     },
     actions: {
-      applyPPPCoupon: commerceModel.assign({
+      assignPricingData: assign(
+        (_, event) => {
+          if (event.type !== 'done.invoke.fetchPricingDataService') return {}
+
+          return {pricingData: event.data}
+        },
+        // TODO: Move the `priceId` update from the downstream component up
+        // this machine.
+        //
+        // priceId: (context, event) => {
+        //   // look up which interval is selected and then find the stripe_price_id
+        //   // for that plan and then return it as the priceId value.
+        //   event.
+        // }
+      ),
+      updateQuantity: assign((_, event) => {
+        if (event.type !== 'CHANGE_QUANTITY') return {}
+
+        return {
+          quantity: event.quantity,
+        }
+      }),
+      applyPPPCoupon: assign({
         couponToApply: (context) => {
           const pppCoupon = findAvailablePPPCoupon(context.pricingData)
           const couponToApply = pppCoupon?.coupon_code
@@ -175,7 +189,7 @@ export const commerceMachine = commerceModel.createMachine(
           return couponToApply
         },
       }),
-      removePPPCoupon: commerceModel.assign({
+      removePPPCoupon: assign({
         couponToApply: (_context) => {
           return undefined
         },
