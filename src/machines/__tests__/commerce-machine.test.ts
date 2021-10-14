@@ -3,8 +3,6 @@ import {interpret} from 'xstate'
 
 const pricingResponseWithPPPAvailable = {
   mode: 'individual',
-  stripeKey: 'pk_test_OOTSSmhjHw8HQBJKPe51fst1',
-  subscribeUrl: '',
   quantity: 1,
   applied_coupon: null,
   coupon_code_errors: [],
@@ -26,21 +24,21 @@ const pricingResponseWithPPPAvailable = {
       price: 25,
       interval: 'month',
       interval_count: 1,
-      stripe_price_id: 'price_1IOrdj2nImeJXwdJkJ8bmJbm',
+      stripe_price_id: 'price_monthly_id',
     },
     {
       name: 'Quarterly',
       price: 70,
       interval: 'month',
       interval_count: 3,
-      stripe_price_id: 'price_1IOrcv2nImeJXwdJcA6WG6XI',
+      stripe_price_id: 'price_quarterly_id',
     },
     {
       name: 'Yearly',
       price: 250,
       interval: 'year',
       interval_count: 1,
-      stripe_price_id: 'price_1IIzGg2nImeJXwdJXW0biUQR',
+      stripe_price_id: 'price_yearly_id',
     },
   ],
 }
