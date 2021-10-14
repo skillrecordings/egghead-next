@@ -64,19 +64,19 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
     slug: 'accessible-cross-browser-css-form-styling-7297',
   }
   return (
-    <ExternalTrackedLink
-      eventName="clicked CSS page CTA"
-      params={{location}}
-      className="relative block w-full h-full overflow-hidden text-center border-0 border-gray-100 rounded-md md:col-span-4"
-      href="/courses/accessible-cross-browser-css-form-styling-7297"
+    <div
+      className="flex items-center justify-center overflow-hidden text-white bg-gray-900 rounded-t-lg rounded-b-lg shadow-sm md:-mt-5 dark:bg-gray-800 md:rounded-t-none"
+      css={{
+        [bpMinMD]: {
+          minHeight: 477,
+        },
+      }}
     >
-      <div
-        className="flex items-center justify-center overflow-hidden text-white bg-gray-900 rounded-t-lg rounded-b-lg shadow-sm md:-mt-5 dark:bg-gray-800 md:rounded-t-none"
-        css={{
-          [bpMinMD]: {
-            minHeight: 477,
-          },
-        }}
+      <ExternalTrackedLink
+        eventName="clicked CSS page CTA"
+        params={{location}}
+        className="relative block w-full h-full overflow-hidden text-center border-0 border-gray-100 rounded-md md:col-span-4"
+        href="/courses/accessible-cross-browser-css-form-styling-7297"
       >
         <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
           <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
@@ -124,14 +124,14 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
             </div>
           </div>
         </div>
-      </div>
-      <Image
-        className="absolute top-0 left-0 z-0 w-full h-full"
-        src={background}
-        alt=""
-        layout="fill"
-      />
-    </ExternalTrackedLink>
+        <Image
+          className="absolute top-0 left-0 z-0 w-full h-full"
+          src={background}
+          alt=""
+          layout="fill"
+        />
+      </ExternalTrackedLink>
+    </div>
   )
 }
 
