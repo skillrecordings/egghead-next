@@ -82,7 +82,7 @@ export const commerceMachine = commerceModel.createMachine(
       loadingPrices: {
         id: 'loadingPrices',
         invoke: {
-          id: 'fetchPricingData',
+          id: 'fetchPricingDataService',
           src: 'fetchPricingData',
           onDone: {
             target: 'pricesLoaded',
@@ -183,7 +183,7 @@ export const commerceMachine = commerceModel.createMachine(
     },
     guards: {
       pricingIncludesPPPCoupon: (context) => {
-        return context.couponToApply?.couponType === 'ppp'
+        return context?.couponToApply?.couponType === 'ppp'
       },
       priceHasBeenSelected: (context) => {
         return !isEmpty(context.priceId)
