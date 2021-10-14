@@ -4,7 +4,7 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
-  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   testPathIgnorePatterns: [
     '/node_modules/',
     '/.next/',
