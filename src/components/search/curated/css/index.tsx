@@ -53,7 +53,7 @@ const SearchCSS = () => {
 const CssFormStyling: React.FC<{location: string}> = ({location}) => {
   const {path, title, byline, name, description, image, background, slug} = {
     title: 'Accessible Cross-Browser CSS Form Styling',
-    byline: 'Stephanie Eckles',
+    byline: 'Stephanie Eckles ',
     name: 'FEATURED COURSE',
     description: `Confidently build out an accessiblility focused form design system that works in all browsers.`,
     image:
