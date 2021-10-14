@@ -61,6 +61,7 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/mixpanel-browser": "^2.35.7",
     "@types/react-scroll": "^1.8.3",
+    "@types/shortid": "^0.0.29",
     "@videojs/http-streaming": "^2.9.3",
     "@xstate/react": "^1.5.1",
     "ahoy.js": "^0.3.9",
