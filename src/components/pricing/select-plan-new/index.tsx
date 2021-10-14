@@ -15,7 +15,8 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
-  const {price, interval, interval_count} = plan
+  const {price, price_discounted, interval, interval_count} = plan
+  const priceToDisplay = price_discounted || price
   const intervalLabel = interval_count > 1 ? 'quarter' : interval
   return (
     <div className="flex flex-col items-center">
@@ -28,7 +29,7 @@ const PlanPrice: React.FunctionComponent<{
               <span className="opacity-0">––</span>
             </div>
           ) : (
-            price
+            priceToDisplay
           )}
         </span>
         <span className="text-lg font-light mb-1">/{intervalLabel}</span>
@@ -43,7 +44,9 @@ const PlanQuantitySelect: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({quantity, onQuantityChanged, plan, pricesLoading}) => {
-  const {price} = plan
+  const {price, price_discounted} = plan
+  const priceToDisplay = price_discounted || price
+
   return (
     <div className="flex flex-col items-center space-y-2">
       <label>
@@ -59,7 +62,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
       </label>
       {quantity > 1 && (
         <div className="py-2">
-          ${!pricesLoading ? price / quantity : '---'}/seat
+          ${!pricesLoading ? priceToDisplay / quantity : '---'}/seat
         </div>
       )}
     </div>
