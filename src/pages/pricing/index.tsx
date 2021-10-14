@@ -17,15 +17,6 @@ import testimonialsData from 'components/pricing/testimonials/data'
 import ParityCouponMessage from 'components/pricing/parity-coupon-message'
 import isEmpty from 'lodash/isEmpty'
 
-// TODO:
-// - [ ] Make sure the machine isn't causing this page to over-render.
-// - [x] Ensure that pricing is re-calculated when quantity changes.
-// - [x] Clean up the component now that it is working.
-// - [ ] Add tests for the machine.
-// - [x] Optimistic update of the PPP checkbox
-// - [x] Add throttle to quantity change input so that you can type or use the arrows without it immediately jumping.
-// - [ ] Deal with the usePricing dependency
-
 type PricingProps = {
   annualPrice: {
     id: string
