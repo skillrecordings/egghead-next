@@ -6,7 +6,7 @@ import ColoredBackground from 'components/pricing/select-plan-new/assets/colored
 import {keys} from 'lodash'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
-  <h2 className="text-xl font-bold dark:text-white text-gray-900">
+  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
     {children}
   </h2>
 )
@@ -20,19 +20,19 @@ const PlanPrice: React.FunctionComponent<{
   const intervalLabel = interval_count > 1 ? 'quarter' : interval
   return (
     <div className="flex flex-col items-center">
-      <div className="py-6 flex items-end leading-none">
-        <span className="mt-1 self-start">USD</span>
+      <div className="flex items-end py-6 leading-none">
+        <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
         <span className="text-4xl font-extrabold">
           {pricesLoading ? (
-            <div className="px-2 w-full h-full bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse rounded-md">
+            <div className="w-full h-full px-2 rounded-md bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse">
               <span className="opacity-0">––</span>
             </div>
           ) : (
             priceToDisplay
           )}
         </span>
-        <span className="text-lg font-light mb-1">/{intervalLabel}</span>
+        <span className="mb-1 text-lg font-light">/{intervalLabel}</span>
       </div>
     </div>
   )
@@ -52,7 +52,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
       <label>
         <span className="pr-2 text-sm">Seats</span>
         <input
-          className="form-input dark:bg-gray-800 bg-gray-100 border-none"
+          className="bg-gray-100 border-none form-input dark:bg-gray-800"
           type="number"
           value={quantity}
           max={1000}
@@ -83,7 +83,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
         const checked: boolean = plan === currentPlan
         const intervalLabel = interval_count > 1 ? 'quarter' : interval
         return (
-          <li key={interval}>
+          <li key={`${interval}-${i}`}>
             <button
               className={`${
                 checked
@@ -122,7 +122,7 @@ const PlanFeatures: React.FunctionComponent<{
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
-      className="text-blue-500 inline-block flex-shrink-0 mt-1"
+      className="flex-shrink-0 inline-block mt-1 text-blue-500"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -139,7 +139,7 @@ const PlanFeatures: React.FunctionComponent<{
     <ul>
       {planFeatures.map((feature: string) => {
         return (
-          <li className="py-2 font-medium flex" key={slugify(feature)}>
+          <li className="flex py-2 font-medium" key={slugify(feature)}>
             <CheckIcon />
             <span className="ml-2 leading-tight">{feature}</span>
           </li>
@@ -155,7 +155,7 @@ const GetAccessButton: React.FunctionComponent<{
 }> = ({label, handleClick}) => {
   return (
     <button
-      className="mt-8 px-5 py-4 text-center bg-blue-600 text-white font-semibold rounded-md w-full hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105"
+      className="w-full px-5 py-4 mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
       onClick={handleClick}
       type="button"
     >
@@ -225,7 +225,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
 
   return (
     <>
-      <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:px-12 sm:py-12 px-6 py-6 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
+      <div className="relative z-10 flex flex-col items-center max-w-sm px-6 py-6 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-12 sm:py-12">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
         {keys(prices).length > 1 && (
