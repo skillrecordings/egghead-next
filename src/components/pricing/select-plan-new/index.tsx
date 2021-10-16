@@ -28,8 +28,15 @@ const PlanPrice: React.FunctionComponent<{
             <div className="w-full h-full px-2 rounded-md bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse">
               <span className="opacity-0">––</span>
             </div>
+          ) : price_discounted ? (
+            <div className="flex items-center">
+              <div className="text-2xl line-through transform rotate-[30deg] opacity-60">
+                &nbsp;{price}&nbsp;
+              </div>
+              <span>{priceToDisplay}</span>
+            </div>
           ) : (
-            priceToDisplay
+            <span>{priceToDisplay}</span>
           )}
         </span>
         <span className="mb-1 text-lg font-light">/{intervalLabel}</span>
