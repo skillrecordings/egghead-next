@@ -56,6 +56,7 @@ const nextConfig = {
       ...searchRoutes,
       ...instructorRoutes,
       ...learnRoutes,
+      ...talkRoutes
     ]
   },
 }
@@ -363,6 +364,14 @@ const rssRoutes = [
   {
     source: `/playlists/:id/playlist_feed`,
     destination: `${appUrl}/playlists/:id/playlist_feed`,
+    permanent: true,
+  },
+]
+
+const talkRoutes = [
+  {
+    source: `/q/talks/:path*`,
+    destination: `${appUrl}/talks/:path*`,
     permanent: true,
   },
 ]
