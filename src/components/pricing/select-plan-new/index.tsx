@@ -104,7 +104,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
               onClick={() => setCurrentPlan(plan)}
               tabIndex={0}
               role="radio"
-              // aria-active={checked}
+              aria-pressed={checked}
             >
               {intervalLabel}
             </button>
