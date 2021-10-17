@@ -15,9 +15,16 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
+  // const {price, interval, interval_count} = plan
+  // const price_discounted = 79
   const {price, price_discounted, interval, interval_count} = plan
   const priceToDisplay = price_discounted || price
   const intervalLabel = interval_count > 1 ? 'quarter' : interval
+  const discount_percentage = price_discounted
+    ? Math.round(((price - price_discounted) * 100) / price)
+    : null
+
+  console.log('discount_percentage:', discount_percentage)
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-end py-6 leading-none">
@@ -30,16 +37,21 @@ const PlanPrice: React.FunctionComponent<{
             </div>
           ) : price_discounted ? (
             <div className="flex items-center">
-              <div className="text-2xl line-through transform rotate-[30deg] opacity-60">
-                &nbsp;{price}&nbsp;
-              </div>
               <span>{priceToDisplay}</span>
+              <div className="flex flex-col ml-2">
+                <div className="relative text-2xl opacity-60 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
+                  &nbsp;{price}&nbsp;
+                </div>
+                <div className="text-sm text-blue-500 uppercase">
+                  save {discount_percentage}%
+                </div>
+              </div>
             </div>
           ) : (
             <span>{priceToDisplay}</span>
           )}
         </span>
-        <span className="mb-1 text-lg font-light">/{intervalLabel}</span>
+        {/* <span className="mb-1 text-lg font-light">/{intervalLabel}</span> */}
       </div>
     </div>
   )
