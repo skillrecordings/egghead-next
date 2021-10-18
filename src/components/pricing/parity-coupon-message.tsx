@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {Coupon} from 'machines/commerce-machine'
 
 type ParityCouponMessage = {
   coupon: Coupon
@@ -6,13 +7,6 @@ type ParityCouponMessage = {
   onApply: () => void
   onDismiss: () => void
   isPPP?: boolean
-}
-type Coupon = {
-  coupon_code: string
-  coupon_discount: number
-  coupon_region_restricted_to: string
-  coupon_region_restricted_to_name: string
-  coupon_expires_at: number
 }
 
 const ParityCouponMessage = ({

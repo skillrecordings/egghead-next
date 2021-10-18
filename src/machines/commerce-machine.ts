@@ -10,14 +10,18 @@ type PricingPlan = {
   stripe_price_id: string
 }
 
+export type Coupon = {
+  coupon_code: string
+  coupon_discount: number
+  coupon_region_restricted_to: string
+  coupon_region_restricted_to_name: string
+  coupon_expires_at: number
+}
+
 export type PricingData = {
   applied_coupon: string
   available_coupons: {
-    ppp:
-      | {
-          coupon_code: string
-        }
-      | undefined
+    ppp: Coupon | undefined
   }
   coupon_code_errors: string[]
   mode: 'individual' | 'team'
@@ -25,7 +29,7 @@ export type PricingData = {
   quantity: number
 }
 
-type Coupon = {
+type CouponToApply = {
   couponCode: string
   couponType: 'ppp' | 'other'
 }
@@ -38,7 +42,7 @@ export interface CommerceMachineContext {
   pricingData: PricingData
   priceId: string | undefined
   quantity: number
-  couponToApply: Coupon | undefined
+  couponToApply: CouponToApply | undefined
 }
 
 type CommerceMachineEvent =
@@ -62,7 +66,7 @@ export const commerceMachine = createMachine<
       pricingData: {} as PricingData,
       priceId: undefined as string | undefined,
       quantity: 1,
-      couponToApply: undefined as Coupon | undefined,
+      couponToApply: undefined as CouponToApply | undefined,
     },
     initial: 'loadingPrices',
     on: {
@@ -184,7 +188,7 @@ export const commerceMachine = createMachine<
             ? ({
                 couponCode: pppCoupon?.coupon_code,
                 couponType: 'ppp',
-              } as Coupon)
+              } as CouponToApply)
             : undefined
           return couponToApply
         },

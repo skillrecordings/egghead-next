@@ -16,6 +16,7 @@ import Testimonials from 'components/pricing/testimonials'
 import testimonialsData from 'components/pricing/testimonials/data'
 import ParityCouponMessage from 'components/pricing/parity-coupon-message'
 import isEmpty from 'lodash/isEmpty'
+import {Coupon} from 'machines/commerce-machine'
 
 type PricingProps = {
   annualPrice: {
@@ -141,8 +142,8 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
           {pppCouponAvailable && pppCouponEligible && (
             <div className="mt-4 pb-5 max-w-screen-sm mx-auto">
               <ParityCouponMessage
-                coupon={parityCoupon}
-                countryName={countryName}
+                coupon={parityCoupon as Coupon}
+                countryName={countryName as string}
                 onApply={onApplyParityCoupon}
                 onDismiss={onDismissParityCoupon}
                 isPPP={pppCouponIsApplied}
