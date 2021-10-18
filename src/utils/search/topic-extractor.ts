@@ -13,7 +13,7 @@ export const topicExtractor = (searchState: SearchState) => {
     selectedTopics.push(first(terms) as string)
   }
 
-  return selectedTopics
+  return selectedTopics.filter((topic) => topic !== 'undefined')
 }
 
 export const searchQueryToArray = (searchState: SearchState) => {

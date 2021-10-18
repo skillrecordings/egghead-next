@@ -135,13 +135,13 @@ module.exports = {
       },
       fontSize: {
         // Set in Major Third typescale (1.25)
-        base: '1em',
-        lg: '1.25em',
-        xl: '1.563em',
-        '2xl': '1.953em',
-        '3xl': '2.441em',
-        '4xl': '3.052em',
-        '5xl': '3.815em',
+        base: '1rem',
+        lg: '1.25rem',
+        xl: '1.563rem',
+        '2xl': '1.953rem',
+        '3xl': '2.441rem',
+        '4xl': '3.052rem',
+        '5xl': '3.815rem',
       },
       lineHeight: {
         tighter: 1.1,

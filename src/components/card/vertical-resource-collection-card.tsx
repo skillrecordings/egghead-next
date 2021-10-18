@@ -20,7 +20,8 @@ const VerticalResourceCollectionCard: React.FC<{
   location?: string
   describe?: boolean
   className?: string
-}> = ({resource, location, className = '', ...props}) => {
+  titleColor?: string
+}> = ({resource, location, className = '', titleColor, ...props}) => {
   className = `${className} border-none flex flex-col sm:py-8 py-6`
 
   return (
@@ -68,13 +69,17 @@ const VerticalResourceCollectionCard: React.FC<{
                 }}
                 className="hover:text-blue-600 dark:hover:text-blue-300"
               >
-                <h3 className="text-xl font-bold leading-tighter">
+                <h3
+                  className={`text-xl font-bold leading-tighter text-${titleColor}`}
+                >
                   {resource.title}
                 </h3>
               </a>
             </Link>
           ) : (
-            <h3 className="text-xl font-bold leading-tighter">
+            <h3
+              className={`text-xl font-bold leading-tighter text-${titleColor}`}
+            >
               {resource.title}
             </h3>
           )}
