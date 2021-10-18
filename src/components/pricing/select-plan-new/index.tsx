@@ -4,6 +4,7 @@ import slugify from 'slugify'
 import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
+import Spinner from 'components/spinner'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -31,7 +32,38 @@ const PlanPrice: React.FunctionComponent<{
         <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
         <span className="text-4xl font-extrabold">
-          {pricesLoading ? (
+          {price_discounted ? (
+            <div className="flex items-center">
+              <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
+                {pricesLoading && (
+                  <Spinner
+                    className="absolute text-current top-[-0.75rem] right-[-0.75rem]"
+                    size={4}
+                  />
+                )}
+                {priceToDisplay}
+              </div>
+              <div className="flex flex-col ml-2">
+                <div className="relative text-2xl opacity-60 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
+                  &nbsp;{price}&nbsp;
+                </div>
+                <div className="text-sm text-blue-500 uppercase">
+                  save {discount_percentage}%
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
+              {priceToDisplay}
+              {pricesLoading && (
+                <Spinner
+                  className="absolute text-current top-[-0.75rem] right-[-0.75rem]"
+                  size={4}
+                />
+              )}
+            </div>
+          )}
+          {/* {pricesLoading ? (
             <div className="w-full h-full px-2 rounded-md bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse">
               <span className="opacity-0">––</span>
             </div>
@@ -49,7 +81,7 @@ const PlanPrice: React.FunctionComponent<{
             </div>
           ) : (
             <span>{priceToDisplay}</span>
-          )}
+          )} */}
         </span>
         {/* <span className="mb-1 text-lg font-light">/{intervalLabel}</span> */}
       </div>
