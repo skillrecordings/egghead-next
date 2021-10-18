@@ -11,7 +11,7 @@ const PlanTitle: React.FunctionComponent = ({children}) => (
   </h2>
 )
 
-const PlanPrice: React.FunctionComponent<{
+export const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
@@ -21,24 +21,26 @@ const PlanPrice: React.FunctionComponent<{
   return (
     <div className="flex flex-col items-center">
       <div className="py-6 flex items-end leading-none">
-        <span className="mt-1 self-start">USD</span>
-        <span className="text-4xl font-light">$</span>
-        <span className="text-4xl font-extrabold">
+        <span className="mt-1 self-start dark:text-black">USD</span>
+        <span className="text-4xl font-light dark:text-black">$</span>
+        <span className="text-4xl font-extrabold dark:text-black">
           {pricesLoading ? (
-            <div className="px-2 w-full h-full bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse rounded-md">
+            <div className="px-2 w-full h-full bg-gradient-to-t from-transparent  dark:to-gray-700 to-gray-300 animate-pulse rounded-md">
               <span className="opacity-0">––</span>
             </div>
           ) : (
             priceToDisplay
           )}
         </span>
-        <span className="text-lg font-light mb-1">/{intervalLabel}</span>
+        <span className="text-lg font-light mb-1 dark:text-black">
+          /{intervalLabel}
+        </span>
       </div>
     </div>
   )
 }
 
-const PlanQuantitySelect: React.FunctionComponent<{
+export const PlanQuantitySelect: React.FunctionComponent<{
   quantity: number
   onQuantityChanged: any
   plan: any
@@ -50,7 +52,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
   return (
     <div className="flex flex-col items-center space-y-2">
       <label>
-        <span className="pr-2 text-sm">Seats</span>
+        <span className="pr-2 text-sm dark:text-black">Seats</span>
         <input
           className="form-input dark:bg-gray-800 bg-gray-100 border-none"
           type="number"
@@ -69,7 +71,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
   )
 }
 
-const PlanIntervalsSwitch: React.FunctionComponent<{
+export const PlanIntervalsSwitch: React.FunctionComponent<{
   planTypes: any[]
   disabled: boolean
   currentPlan: any
@@ -108,7 +110,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
   )
 }
 
-const DEFAULT_FEATURES = [
+export const DEFAULT_FEATURES = [
   'Full access to all the premium courses',
   'Download courses for offline viewing',
   'Closed captions for every video',
@@ -117,7 +119,7 @@ const DEFAULT_FEATURES = [
   'RSS course feeds',
 ]
 
-const PlanFeatures: React.FunctionComponent<{
+export const PlanFeatures: React.FunctionComponent<{
   planFeatures: string[]
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
@@ -149,7 +151,7 @@ const PlanFeatures: React.FunctionComponent<{
   )
 }
 
-const GetAccessButton: React.FunctionComponent<{
+export const GetAccessButton: React.FunctionComponent<{
   label: string
   handleClick: (event: any) => Promise<void>
 }> = ({label, handleClick}) => {

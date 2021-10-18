@@ -145,6 +145,9 @@ module.exports = {
       },
       lineHeight: {
         tighter: 1.1,
+        tight: 1.15,
+        normal: 1.25,
+        loose: 1.35,
       },
       gridTemplateColumns: {
         flyoutmenu: 'minmax(0, 1fr) minmax(0, 1fr) 200px',
