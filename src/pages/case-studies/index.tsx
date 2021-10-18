@@ -22,8 +22,8 @@ const CaseStudies: React.FC = (allCaseStudies: any) => {
                     <Image
                       src={caseStudy.coverImage.url}
                       alt={caseStudy.coverImage.alt || caseStudy.title}
-                      width={720}
-                      height={720}
+                      width={320}
+                      height={320}
                       quality={100}
                       className="rounded-lg"
                     />

@@ -38,6 +38,7 @@ const IMAGE_HOST_DOMAINS = [
   `res.cloudinary.com`,
   `app.egghead.io`,
   `gravatar.com`,
+  `howtoegghead.com`,
 ]
 
 const nextConfig = {
