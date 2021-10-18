@@ -1,4 +1,4 @@
-import {find, get, filter} from 'lodash'
+import {get, filter} from 'lodash'
 import * as React from 'react'
 import slugify from 'slugify'
 import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
@@ -16,22 +16,17 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
-  // const {price, interval, interval_count} = plan
-  // const price_discounted = 79
-  const {price, price_discounted, interval, interval_count} = plan
+  const {price, price_discounted} = plan
   const priceToDisplay = price_discounted || price
-  const intervalLabel = interval_count > 1 ? 'quarter' : interval
   const discount_percentage = price_discounted
     ? Math.round(((price - price_discounted) * 100) / price)
     : null
-
-  console.log('discount_percentage:', discount_percentage)
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-end py-6 leading-none">
         <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
-        <span className="text-4xl font-extrabold">
+        <span className="self-stretch text-4xl font-extrabold">
           {price_discounted ? (
             <div className="flex items-center">
               <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
@@ -63,27 +58,7 @@ const PlanPrice: React.FunctionComponent<{
               )}
             </div>
           )}
-          {/* {pricesLoading ? (
-            <div className="w-full h-full px-2 rounded-md bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse">
-              <span className="opacity-0">––</span>
-            </div>
-          ) : price_discounted ? (
-            <div className="flex items-center">
-              <span>{priceToDisplay}</span>
-              <div className="flex flex-col ml-2">
-                <div className="relative text-2xl opacity-60 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
-                  &nbsp;{price}&nbsp;
-                </div>
-                <div className="text-sm text-blue-500 uppercase">
-                  save {discount_percentage}%
-                </div>
-              </div>
-            </div>
-          ) : (
-            <span>{priceToDisplay}</span>
-          )} */}
         </span>
-        {/* <span className="mb-1 text-lg font-light">/{intervalLabel}</span> */}
       </div>
     </div>
   )
@@ -94,10 +69,7 @@ const PlanQuantitySelect: React.FunctionComponent<{
   onQuantityChanged: any
   plan: any
   pricesLoading: boolean
-}> = ({quantity, onQuantityChanged, plan, pricesLoading}) => {
-  const {price, price_discounted} = plan
-  const priceToDisplay = price_discounted || price
-
+}> = ({quantity, onQuantityChanged}) => {
   return (
     <div className="flex flex-col items-center space-y-2">
       <label className="flex items-center">
@@ -111,11 +83,6 @@ const PlanQuantitySelect: React.FunctionComponent<{
           onChange={(e) => onQuantityChanged(Number(e.currentTarget.value))}
         />
       </label>
-      {quantity > 1 && (
-        <div className="py-2">
-          ${!pricesLoading ? priceToDisplay / quantity : '---'}/seat
-        </div>
-      )}
     </div>
   )
 }
@@ -128,7 +95,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
 }> = ({planTypes, currentPlan, setCurrentPlan, disabled}) => {
   const plansToRender = disabled ? [currentPlan] : planTypes
   return (
-    <ul className="flex ">
+    <ul className="flex">
       {plansToRender.map((plan: any, i: number) => {
         const {interval, interval_count} = plan
         const checked: boolean = plan === currentPlan
@@ -279,21 +246,23 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
       <div className="relative z-10 flex flex-col items-center max-w-sm px-6 py-6 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-12 sm:py-12">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-        {keys(prices).length > 1 && (
-          <div className={quantityAvailable ? '' : 'pb-4'}>
-            <PlanIntervalsSwitch
-              disabled={false}
-              currentPlan={currentPlan}
-              setCurrentPlan={(newPlan: any) => {
-                setCurrentPlan(newPlan)
-                onPriceChanged(newPlan.stripe_price_id)
-              }}
-              planTypes={individualPlans}
-            />
-          </div>
-        )}
+        <div className="h-9">
+          {keys(prices).length > 1 && (
+            <div className={quantityAvailable ? '' : 'mb-4'}>
+              <PlanIntervalsSwitch
+                disabled={false}
+                currentPlan={currentPlan}
+                setCurrentPlan={(newPlan: any) => {
+                  setCurrentPlan(newPlan)
+                  onPriceChanged(newPlan.stripe_price_id)
+                }}
+                planTypes={individualPlans}
+              />
+            </div>
+          )}
+        </div>
         {quantityAvailable && (
-          <div className="py-4">
+          <div className="my-4">
             <PlanQuantitySelect
               quantity={currentQuantity}
               plan={currentPlan}
