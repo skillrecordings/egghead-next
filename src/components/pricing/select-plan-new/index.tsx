@@ -68,10 +68,10 @@ const PlanQuantitySelect: React.FunctionComponent<{
 
   return (
     <div className="flex flex-col items-center space-y-2">
-      <label>
+      <label className="flex items-center">
         <span className="pr-2 text-sm">Seats</span>
         <input
-          className="w-full bg-gray-100 border-none form-input dark:bg-gray-800"
+          className="w-20 bg-gray-100 border-none form-input dark:bg-gray-800"
           type="number"
           value={quantity}
           max={1000}
