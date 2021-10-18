@@ -100,22 +100,25 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
         const {interval, interval_count} = plan
         const checked: boolean = plan === currentPlan
         const intervalLabel = interval_count > 1 ? 'quarter' : interval
+
+        const buttonStyles = `${
+          checked
+            ? 'dark:bg-white bg-gray-900 dark:text-gray-900 text-white dark:hover:bg-gray-200 hover:bg-gray-800'
+            : 'dark:bg-gray-800 bg-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200'
+        } ${i === 0 && 'rounded-l-md'} ${i === 2 && 'rounded-r-md'} ${
+          plansToRender.length === 2 && i === 1 && 'rounded-r-md'
+        } ${
+          plansToRender.length === 1 && 'rounded-md'
+        } capitalize block px-3 py-2 cursor-pointer text-sm font-medium transition-all ease-in-out duration-300`
+
         return (
           <li key={`${interval}-${interval_count}`}>
             <button
-              className={`${
-                checked
-                  ? 'dark:bg-white bg-gray-900 dark:text-gray-900 text-white dark:hover:bg-gray-200 hover:bg-gray-800'
-                  : 'dark:bg-gray-800 bg-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200'
-              } ${i === 0 && 'rounded-l-md'} ${i === 2 && 'rounded-r-md'} ${
-                plansToRender.length === 2 && i === 1 && 'rounded-r-md'
-              } ${
-                plansToRender.length === 1 && 'rounded-md'
-              } capitalize block px-3 py-2 cursor-pointer text-sm font-medium transition-all ease-in-out duration-300`}
+              className={buttonStyles}
               onClick={() => setCurrentPlan(plan)}
               tabIndex={0}
               role="radio"
-              aria-pressed={checked}
+              aria-checked={checked}
             >
               {intervalLabel}
             </button>
