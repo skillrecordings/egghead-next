@@ -1,12 +1,13 @@
-import {find, get, filter} from 'lodash'
+import {get, filter} from 'lodash'
 import * as React from 'react'
 import slugify from 'slugify'
 import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value-stamp'
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
+import Spinner from 'components/spinner'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
-  <h2 className="text-xl font-bold dark:text-white text-gray-900">
+  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
     {children}
   </h2>
 )
@@ -15,24 +16,49 @@ const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
-  const {price, price_discounted, interval, interval_count} = plan
+  const {price, price_discounted} = plan
   const priceToDisplay = price_discounted || price
-  const intervalLabel = interval_count > 1 ? 'quarter' : interval
+  const discount_percentage = price_discounted
+    ? Math.round(((price - price_discounted) * 100) / price)
+    : null
   return (
     <div className="flex flex-col items-center">
-      <div className="py-6 flex items-end leading-none">
-        <span className="mt-1 self-start">USD</span>
+      <div className="flex items-end py-6 leading-none">
+        <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
-        <span className="text-4xl font-extrabold">
-          {pricesLoading ? (
-            <div className="px-2 w-full h-full bg-gradient-to-t from-transparent dark:to-gray-700 to-gray-300 animate-pulse rounded-md">
-              <span className="opacity-0">––</span>
+        <span className="self-stretch text-4xl font-extrabold">
+          {price_discounted ? (
+            <div className="flex items-center">
+              <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
+                {pricesLoading && (
+                  <Spinner
+                    className="absolute text-current top-[-0.75rem] right-[-0.75rem]"
+                    size={4}
+                  />
+                )}
+                {priceToDisplay}
+              </div>
+              <div className="flex flex-col ml-2">
+                <div className="relative text-2xl opacity-60 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
+                  &nbsp;{price}&nbsp;
+                </div>
+                <div className="text-sm text-blue-500 uppercase">
+                  save {discount_percentage}%
+                </div>
+              </div>
             </div>
           ) : (
-            priceToDisplay
+            <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
+              {priceToDisplay}
+              {pricesLoading && (
+                <Spinner
+                  className="absolute text-current top-[-0.75rem] right-[-0.75rem]"
+                  size={4}
+                />
+              )}
+            </div>
           )}
         </span>
-        <span className="text-lg font-light mb-1">/{intervalLabel}</span>
       </div>
     </div>
   )
@@ -43,16 +69,13 @@ const PlanQuantitySelect: React.FunctionComponent<{
   onQuantityChanged: any
   plan: any
   pricesLoading: boolean
-}> = ({quantity, onQuantityChanged, plan, pricesLoading}) => {
-  const {price, price_discounted} = plan
-  const priceToDisplay = price_discounted || price
-
+}> = ({quantity, onQuantityChanged}) => {
   return (
     <div className="flex flex-col items-center space-y-2">
-      <label>
+      <label className="flex items-center">
         <span className="pr-2 text-sm">Seats</span>
         <input
-          className="form-input dark:bg-gray-800 bg-gray-100 border-none"
+          className="w-20 bg-gray-100 border-none form-input dark:bg-gray-800"
           type="number"
           value={quantity}
           max={1000}
@@ -60,11 +83,6 @@ const PlanQuantitySelect: React.FunctionComponent<{
           onChange={(e) => onQuantityChanged(Number(e.currentTarget.value))}
         />
       </label>
-      {quantity > 1 && (
-        <div className="py-2">
-          ${!pricesLoading ? priceToDisplay / quantity : '---'}/seat
-        </div>
-      )}
     </div>
   )
 }
@@ -77,13 +95,13 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
 }> = ({planTypes, currentPlan, setCurrentPlan, disabled}) => {
   const plansToRender = disabled ? [currentPlan] : planTypes
   return (
-    <ul className="flex ">
+    <ul className="flex">
       {plansToRender.map((plan: any, i: number) => {
         const {interval, interval_count} = plan
         const checked: boolean = plan === currentPlan
         const intervalLabel = interval_count > 1 ? 'quarter' : interval
         return (
-          <li key={interval}>
+          <li key={`${interval}-${interval_count}`}>
             <button
               className={`${
                 checked
@@ -97,7 +115,7 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
               onClick={() => setCurrentPlan(plan)}
               tabIndex={0}
               role="radio"
-              aria-active={checked}
+              aria-pressed={checked}
             >
               {intervalLabel}
             </button>
@@ -122,7 +140,7 @@ const PlanFeatures: React.FunctionComponent<{
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
-      className="text-blue-500 inline-block flex-shrink-0 mt-1"
+      className="flex-shrink-0 inline-block mt-1 text-blue-500"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -139,7 +157,7 @@ const PlanFeatures: React.FunctionComponent<{
     <ul>
       {planFeatures.map((feature: string) => {
         return (
-          <li className="py-2 font-medium flex" key={slugify(feature)}>
+          <li className="flex py-2 font-medium" key={slugify(feature)}>
             <CheckIcon />
             <span className="ml-2 leading-tight">{feature}</span>
           </li>
@@ -155,7 +173,7 @@ const GetAccessButton: React.FunctionComponent<{
 }> = ({label, handleClick}) => {
   return (
     <button
-      className="mt-8 px-5 py-4 text-center bg-blue-600 text-white font-semibold rounded-md w-full hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105"
+      className="w-full px-5 py-4 mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
       onClick={handleClick}
       type="button"
     >
@@ -225,24 +243,26 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
 
   return (
     <>
-      <div className="dark:text-white text-gray-900 dark:bg-gray-900 bg-white sm:px-12 sm:py-12 px-6 py-6 flex flex-col items-center max-w-sm relative z-10 rounded-sm">
+      <div className="relative z-10 flex flex-col items-center max-w-sm px-6 py-6 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-12 sm:py-12">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-        {keys(prices).length > 1 && (
-          <div className={quantityAvailable ? '' : 'pb-4'}>
-            <PlanIntervalsSwitch
-              disabled={false}
-              currentPlan={currentPlan}
-              setCurrentPlan={(newPlan: any) => {
-                setCurrentPlan(newPlan)
-                onPriceChanged(newPlan.stripe_price_id)
-              }}
-              planTypes={individualPlans}
-            />
-          </div>
-        )}
+        <div className="h-9">
+          {keys(prices).length > 1 && (
+            <div className={quantityAvailable ? '' : 'mb-4'}>
+              <PlanIntervalsSwitch
+                disabled={false}
+                currentPlan={currentPlan}
+                setCurrentPlan={(newPlan: any) => {
+                  setCurrentPlan(newPlan)
+                  onPriceChanged(newPlan.stripe_price_id)
+                }}
+                planTypes={individualPlans}
+              />
+            </div>
+          )}
+        </div>
         {quantityAvailable && (
-          <div className="py-4">
+          <div className="my-4">
             <PlanQuantitySelect
               quantity={currentQuantity}
               plan={currentPlan}
