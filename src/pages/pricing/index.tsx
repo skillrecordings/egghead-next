@@ -4,8 +4,6 @@ import {useViewer} from 'context/viewer-context'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
-// TODO: Remove usePricing from here, stories, and impl
-import {usePricing} from 'hooks/use-pricing'
 import {useCommerceMachine} from 'hooks/use-commerce-machine'
 import {first, get} from 'lodash'
 import {StripeAccount} from 'types'
