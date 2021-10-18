@@ -169,12 +169,15 @@ const PlanFeatures: React.FunctionComponent<{
 
 const GetAccessButton: React.FunctionComponent<{
   label: string
-  handleClick: (event: any) => Promise<void>
+  handleClick: () => void
 }> = ({label, handleClick}) => {
   return (
     <button
       className="w-full px-5 py-4 mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
-      onClick={handleClick}
+      onClick={(event) => {
+        event.preventDefault()
+        handleClick()
+      }}
       type="button"
     >
       {label}
@@ -187,7 +190,7 @@ type SelectPlanProps = {
   pricesLoading: boolean
   defaultInterval?: string
   defaultQuantity?: number
-  handleClickGetAccess: (event: any) => any
+  handleClickGetAccess: () => void
   quantityAvailable: boolean
   onQuantityChanged: (quantity: number) => void
   onPriceChanged: (priceId: string) => void
@@ -206,7 +209,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   const individualPlans = filter(prices, (plan: any) => true)
 
   const annualPlan = get(prices, 'annualPrice', {
-    name: 'Pro Yearly',
+    name: 'Yearly',
     interval: 'year',
   })
   const monthlyPlan = get(prices, 'monthlyPrice')
@@ -239,7 +242,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   React.useEffect(() => {
     setCurrentPlan(annualPlan)
     onPriceChanged(annualPlan.stripe_price_id)
-  }, [annualPlan])
+  }, [annualPlan.price])
 
   return (
     <>
