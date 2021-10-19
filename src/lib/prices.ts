@@ -1,20 +1,12 @@
 import {find} from 'lodash'
 import axios from 'utils/configured-axios'
 import {pickBy} from 'lodash'
+import {PricingData, PricingPlan} from 'machines/commerce-machine'
 
 export type Prices = {
-  monthlyPrice?: {
-    stripe_price_id: string
-    price: number
-  }
-  quarterlyPrice?: {
-    stripe_price_id: string
-    price: number
-  }
-  annualPrice?: {
-    stripe_price_id: string
-    price: number
-  }
+  monthlyPrice?: PricingPlan
+  quarterlyPrice?: PricingPlan
+  annualPrice?: PricingPlan
 }
 
 export const mockPrices = {
@@ -49,8 +41,6 @@ export const mockPrices = {
     },
   ],
 }
-
-type PricingData = any
 
 export async function loadPricingData(
   params: {

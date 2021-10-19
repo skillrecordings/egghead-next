@@ -5,6 +5,7 @@ import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
 import Spinner from 'components/spinner'
+import {PricingPlan} from 'machines/commerce-machine'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -139,7 +140,7 @@ const DEFAULT_FEATURES = [
 ]
 
 const PlanFeatures: React.FunctionComponent<{
-  planFeatures: string[]
+  planFeatures: string[] | undefined
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
@@ -197,55 +198,26 @@ type SelectPlanProps = {
   quantityAvailable: boolean
   onQuantityChanged: (quantity: number) => void
   onPriceChanged: (priceId: string) => void
+  currentPlan: PricingPlan & {features?: string[]}
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   quantityAvailable = true,
   handleClickGetAccess,
-  defaultInterval = 'annual',
   defaultQuantity = 1,
   pricesLoading,
   prices,
   onQuantityChanged,
   onPriceChanged,
+  currentPlan,
 }) => {
   const individualPlans = filter(prices, (plan: any) => true)
 
-  const annualPlan = get(prices, 'annualPrice', {
-    name: 'Yearly',
-    interval: 'year',
-  })
-  const monthlyPlan = get(prices, 'monthlyPrice')
-  const quarterlyPlan = get(prices, 'quarterlyPrice')
-
-  const pricesForInterval = (interval: any) => {
-    switch (interval) {
-      case 'year':
-        return annualPlan
-      case 'month':
-        return monthlyPlan
-      case 'quarter':
-        return quarterlyPlan
-      default:
-        return annualPlan
-    }
-  }
-
-  const [currentInterval] = React.useState<string>(defaultInterval)
   const [currentQuantity, setCurrentQuantity] =
     React.useState<number>(defaultQuantity)
 
-  const [currentPlan, setCurrentPlan] = React.useState<any>(
-    pricesForInterval(currentInterval),
-  )
-
   const forTeams: boolean = currentQuantity > 1
   const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
-
-  React.useEffect(() => {
-    setCurrentPlan(annualPlan)
-    onPriceChanged(annualPlan.stripe_price_id)
-  }, [annualPlan.price])
 
   return (
     <>
@@ -259,7 +231,6 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
                 disabled={false}
                 currentPlan={currentPlan}
                 setCurrentPlan={(newPlan: any) => {
-                  setCurrentPlan(newPlan)
                   onPriceChanged(newPlan.stripe_price_id)
                 }}
                 planTypes={individualPlans}

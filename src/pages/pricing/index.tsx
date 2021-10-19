@@ -38,8 +38,15 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     }
   }, [])
 
-  const {state, send, priceId, quantity, prices, availableCoupons} =
-    useCommerceMachine()
+  const {
+    state,
+    send,
+    priceId,
+    quantity,
+    prices,
+    availableCoupons,
+    currentPlan,
+  } = useCommerceMachine()
 
   // machine-derived states
   const pricesLoading = !state.matches('pricesLoaded')
@@ -135,6 +142,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
               onPriceChanged={(priceId: string) => {
                 send({type: 'SWITCH_PRICE', priceId})
               }}
+              currentPlan={currentPlan}
             />
           </div>
           {pppCouponAvailable && pppCouponEligible && (
