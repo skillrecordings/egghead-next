@@ -34,10 +34,14 @@ const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
         track={trackEmailCapture}
       >
         <div className="text-center">
-          {collection && (
+          {collection ? (
             <h1 className="text-xl md:text-2xl lg:text-xl xl:text-3xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
               Ready to finish{' '}
               <strong className="font-bold">{collection.title}</strong>?
+            </h1>
+          ) : (
+            <h1 className="text-xl md:text-2xl lg:text-xl xl:text-3xl leading-tighter tracking-tight font-light text-center max-w-xl mx-auto">
+              Unlock this free lesson!
             </h1>
           )}
 
