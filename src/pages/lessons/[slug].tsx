@@ -89,7 +89,7 @@ type LessonProps = {
   initialLesson: LessonResource
 }
 
-const MAX_FREE_VIEWS = 7
+const MAX_FREE_VIEWS = 4
 
 const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
@@ -287,6 +287,8 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     switch (currentPlayerState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
+
+        console.log('VIEW STUFF', watchCount, MAX_FREE_VIEWS)
 
         if (isEmpty(viewer) && free_forever) {
           if (viewLimitNotReached && mediaPresent) {
@@ -503,7 +505,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
               {playerState.matches('joining') && (
                 <OverlayWrapper>
                   <EmailCaptureCtaOverlay
-                    lesson={get(lesson, 'slug')}
+                    lesson={lesson}
                     technology={primary_tag}
                   />
                 </OverlayWrapper>
