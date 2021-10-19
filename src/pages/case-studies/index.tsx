@@ -18,7 +18,7 @@ const CaseStudies: React.FC = (allCaseStudies: any) => {
           return (
             <div
               key={fullSlug}
-              className="flex flex-col rounded-lg shadow-lg overflow-hidden bg-gray-800 hover:bg-gray-700 transition duration-500 ease-in-out hover:-translate-y-1"
+              className="flex flex-col rounded-lg shadow-md overflow-hidden  bg-white dark:bg-gray-800 transition duration-500 ease-in-out hover:-translate-y-1"
             >
               <Link href={fullSlug}>
                 <a className="">

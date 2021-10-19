@@ -62,23 +62,90 @@ const CaseStudy = (props: CaseStudyResource) => {
         }}
         canonical={canonicalUrl}
       />
-      <h1>{title}</h1>
-      {coverImage?.url && (
-        <div className="mt-4">
-          <Image
-            src={coverImage.url}
-            alt={coverImage.alt || title}
-            width={720}
-            height={720}
-            quality={100}
-            className="rounded-lg"
-          />
+
+      <div className="mx-auto max-w-screen-2xl lg:mt-24 md:mt-8 mt-3 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3">
+          <div className="col-span-2">
+            <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+              {title}
+            </h1>
+            {coverImage?.url && (
+              <div className="mt-4 lg:hidden md:block mb-4">
+                <Image
+                  src={coverImage.url}
+                  alt={coverImage.alt || title}
+                  width={820}
+                  height={820}
+                  quality={100}
+                  layout="responsive"
+                  className="rounded-lg shadow-lg object-cover object-center"
+                />
+              </div>
+            )}
+
+            {author && <Author author={author} />}
+          </div>
+
+          <div className="relative col-start-3">
+            <svg
+              className="hidden lg:block absolute top-0 right-0 -mt-20 -mr-20"
+              width={404}
+              height={384}
+              fill="none"
+              viewBox="0 0 404 384"
+              aria-hidden="true"
+            >
+              <defs>
+                <pattern
+                  id="de316486-4a29-4312-bdfc-fbce2132a2c1"
+                  x={0}
+                  y={0}
+                  width={20}
+                  height={20}
+                  patternUnits="userSpaceOnUse"
+                >
+                  <rect
+                    x={0}
+                    y={0}
+                    width={4}
+                    height={4}
+                    className="text-gray-400"
+                    fill="currentColor"
+                  />
+                </pattern>
+              </defs>
+              <rect
+                width={404}
+                height={384}
+                fill="url(#de316486-4a29-4312-bdfc-fbce2132a2c1)"
+              />
+            </svg>
+            <div className="relative text-base mx-auto max-w-prose lg:max-w-none">
+              <div className="aspect-w-12 aspect-h-7 lg:aspect-none">
+                {coverImage?.url && (
+                  <div className="mt-4">
+                    <Image
+                      src={coverImage.url}
+                      alt={coverImage.alt || title}
+                      width={820}
+                      height={820}
+                      quality={100}
+                      layout="responsive"
+                      className="rounded-lg shadow-lg object-cover object-center"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-      {author && <Author author={author} />}
-      <main>
-        <MDXRemote {...source} components={mdxComponents} />
-      </main>
+      </div>
+
+      <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-16">
+        <main>
+          <MDXRemote {...source} components={mdxComponents} />
+        </main>
+      </article>
     </>
   )
 }
