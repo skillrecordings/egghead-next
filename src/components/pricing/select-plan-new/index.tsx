@@ -140,7 +140,7 @@ const DEFAULT_FEATURES = [
 ]
 
 const PlanFeatures: React.FunctionComponent<{
-  planFeatures: string[] | undefined
+  planFeatures?: string[]
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
