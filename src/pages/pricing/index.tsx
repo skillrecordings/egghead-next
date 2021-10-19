@@ -143,6 +143,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
                 send({type: 'SWITCH_PRICE', priceId})
               }}
               currentPlan={currentPlan}
+              currentQuantity={quantity}
             />
           </div>
           {pppCouponAvailable && pppCouponEligible && (

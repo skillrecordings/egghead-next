@@ -199,22 +199,20 @@ type SelectPlanProps = {
   onQuantityChanged: (quantity: number) => void
   onPriceChanged: (priceId: string) => void
   currentPlan: PricingPlan & {features?: string[]}
+  currentQuantity: number
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   quantityAvailable = true,
   handleClickGetAccess,
-  defaultQuantity = 1,
   pricesLoading,
   prices,
   onQuantityChanged,
   onPriceChanged,
   currentPlan,
+  currentQuantity,
 }) => {
   const individualPlans = filter(prices, (plan: any) => true)
-
-  const [currentQuantity, setCurrentQuantity] =
-    React.useState<number>(defaultQuantity)
 
   const forTeams: boolean = currentQuantity > 1
   const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
@@ -245,7 +243,6 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
               plan={currentPlan}
               pricesLoading={pricesLoading}
               onQuantityChanged={(quantity: number) => {
-                setCurrentQuantity(quantity)
                 onQuantityChanged(quantity)
               }}
             />
