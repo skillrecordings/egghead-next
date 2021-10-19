@@ -18,10 +18,11 @@ const ParityCouponMessage = ({
 }: ParityCouponMessage) => {
   const percentOff = coupon && coupon.coupon_discount * 100
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
+
   return (
     <div className="max-w-screen-lg mx-auto p-7 shadow-lg rounded-lg border border-cool-gray-50 text-left">
       <h2 className="text-lg font-semibold mb-4 sm:text-left text-center">
-        We noticed that you're from{' '}
+        It looks like you're in{' '}
         <img
           loading="lazy"
           width={showFlag ? 18 : 0}
@@ -30,16 +31,26 @@ const ParityCouponMessage = ({
           className={`inline-block ${showFlag ? 'mr-1' : ''}`}
           src={`https://hardcore-golick-433858.netlify.app/image?code=${coupon.coupon_region_restricted_to}`}
         />
-        {countryName}. 👋 To help facilitate global learning, we are offering
-        purchasing power parity pricing.
+        {countryName}. 👋 To support global learning, we'd like to offer you a
+        discount of {percentOff}% to account for differences in currencies.
       </h2>
       <p className="text-base">
-        Please note that you will only be able to view content from within{' '}
-        {countryName}, and{' '}
-        <strong>no downloads/bonuses will be provided</strong>.
+        Please note the following restrictions associated with choosing to apply
+        the discount.
       </p>
+      <ul className="list-disc ml-4 mt-2">
+        <li>
+          Members-only content will only be available while browsing from{' '}
+          {countryName}.
+        </li>
+        <li>Downloads and bonuses are not included.</li>
+        <li>
+          The discount is only valid for single-user accounts and does not apply
+          to team accounts.
+        </li>
+      </ul>
       <p className="text-base inline-block mt-5">
-        If that is something that you need:
+        If that sounds good, you can apply the discount below before continuing.
       </p>
       <div className="mt-4">
         <label
