@@ -50,6 +50,31 @@ export const mockPrices = {
   ],
 }
 
+type PricingData = any
+
+export async function loadPricingData(
+  params: {
+    quantity: number
+    coupon?: string
+    en?: string
+    dc?: string
+  } = {quantity: 1},
+  mock: boolean = false,
+): Promise<PricingData> {
+  if (mock) {
+    return mockPrices
+  }
+
+  let {data: pricingData} = await axios.get(
+    `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
+    {
+      params,
+    },
+  )
+
+  return pricingData
+}
+
 export async function loadPrices(
   params: {
     quantity: number

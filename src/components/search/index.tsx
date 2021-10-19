@@ -27,6 +27,8 @@ import CuratedTopicsIndex from './curated'
 import {searchQueryToArray} from '../../utils/search/topic-extractor'
 import useBreakpoint from '../../utils/breakpoints'
 
+import Spinner from 'components/spinner'
+
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
 
@@ -35,6 +37,7 @@ type SearchProps = {
   searchState?: any
   instructor?: any
   topic?: any
+  loading?: boolean
 }
 
 const Search: FunctionComponent<SearchProps> = ({
@@ -43,6 +46,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchState,
   instructor,
   topic,
+  loading,
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
@@ -201,6 +205,12 @@ const Search: FunctionComponent<SearchProps> = ({
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
                 <InstructorCuratedPage instructor={instructor} />
               )}
+            </div>
+          )}
+
+          {loading && (
+            <div className="flex justify-center">
+              <Spinner size={12} />
             </div>
           )}
 

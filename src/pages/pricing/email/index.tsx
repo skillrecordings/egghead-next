@@ -18,13 +18,15 @@ const loginSchema = yup.object().shape({
 })
 
 type EmailFormProps = {
-  priceId: string
+  priceId: string | undefined
   quantity?: number
+  coupon: string | undefined
 }
 
 const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
   priceId,
   quantity = 1,
+  coupon,
 }) => {
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false)
   const [isError, setIsError] = React.useState<boolean | string>(false)
@@ -52,15 +54,23 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
       track('checkout: existing pro account found', {
         email,
       })
-    } else {
+    } else if (!!priceId) {
       setIsError(false)
       track('checkout: redirect to stripe', {priceId})
         .then(() =>
-          stripeCheckoutRedirect({priceId, email, stripeCustomerId, quantity}),
+          stripeCheckoutRedirect({
+            priceId,
+            email,
+            stripeCustomerId,
+            quantity,
+            coupon,
+          }),
         )
         .catch((error) => {
           setIsError(error)
         })
+    } else {
+      // priceId is not set, useEffect should push to different route
     }
   }
 
@@ -174,6 +184,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
     props: {
       ...(!!query?.priceId && {priceId: query.priceId}),
       quantity: query?.quantity || 1,
+      ...(!!query?.coupon && {coupon: query.coupon}),
     },
   }
 }

@@ -14,8 +14,16 @@ const stripeCheckoutRedirect = async (options: {
   stripeCustomerId?: string
   authToken?: string
   quantity?: number
+  coupon?: string
 }) => {
-  const {priceId, email, stripeCustomerId, authToken, quantity = 1} = options
+  const {
+    priceId,
+    email,
+    stripeCustomerId,
+    authToken,
+    coupon,
+    quantity = 1,
+  } = options
   const referralCookieToken = cookie.get('rc')
 
   const identifier = stripeCustomerId
@@ -31,6 +39,7 @@ const stripeCheckoutRedirect = async (options: {
       ...identifier,
       quantity,
       price_id: priceId,
+      coupon,
       site: 'egghead.io',
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
       success_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/confirm/membership?session_id={CHECKOUT_SESSION_ID}`,

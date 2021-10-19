@@ -15,19 +15,19 @@ const CtaCard: React.FC<{
   const {path, title, byline, description, image, background} = resource
 
   return (
-    <ExternalTrackedLink
-      eventName="clicked Instructor Landing page CTA"
-      params={{location}}
+    <div
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
-      href={path}
+      css={{
+        [bpMinMD]: {
+          minHeight: 477,
+        },
+      }}
     >
-      <div
-        className="relative md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
-        css={{
-          [bpMinMD]: {
-            minHeight: 477,
-          },
-        }}
+      <ExternalTrackedLink
+        eventName="clicked Instructor Landing page CTA"
+        params={{location}}
+        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        href={path}
       >
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
@@ -87,13 +87,14 @@ const CtaCard: React.FC<{
             </div>
           </div>
         </div>
-        <img
+        <Image
           className="absolute top-0 left-0 z-0 w-full h-full"
           src={background}
           alt=""
+          layout="fill"
         />
-      </div>
-    </ExternalTrackedLink>
+      </ExternalTrackedLink>
+    </div>
   )
 }
 export default CtaCard

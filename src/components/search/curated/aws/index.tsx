@@ -93,26 +93,36 @@ AWS provides services for data, presentation, authentication, security, video en
 }
 
 const AWSCourse: React.FC<{location: string}> = ({location}) => {
-  const resource: any = find(awsPageData, {id: 'jumbotron'})
-  const {path, image, title, byline, instructor} = resource
+  const {path, title, byline, name, description, image, background, slug} = {
+    title: 'Deploy Ghost to AWS using RDS and EC2',
+    byline: 'Sam Julien',
+    name: 'FEATURED COURSE',
+    description: `This course ties together skills like networking, SSH, and using the command line while getting a realistic full-stack platform up and running.`,
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/437/276/full/EGH_ghost-aws_1000.png',
+    background:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1634231703/egghead-next-pages/deploy-ghost-to-aws-using-rds-and-ec2/featured-card-background.png',
+    path: '/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+    slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
+  }
   return (
-    <ExternalTrackedLink
-      eventName="clicked epic react banner"
-      params={{location}}
+    <div
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
-      href="/playlists/containerize-full-stack-javascript-applications-with-docker-30a8"
+      css={{
+        [bpMinMD]: {
+          minHeight: 477,
+        },
+      }}
     >
-      <div
-        className="md:-mt-5 flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
-        css={{
-          [bpMinMD]: {
-            minHeight: 477,
-          },
-        }}
+      <ExternalTrackedLink
+        eventName="clicked AWS page CTA"
+        params={{location}}
+        className="md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm"
+        href="/courses/deploy-ghost-to-aws-using-rds-and-ec2-a3487caa"
       >
-        <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
-          <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
-            <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">
+        <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
+          <div className="flex items-center justify-center max-w-screen-xl mx-auto space-y-5">
+            <div className="flex flex-col items-center justify-center space-y-5 sm:space-x-5 sm:space-y-0">
               <div className="flex-shrink-0">
                 <Link href={path}>
                   <a
@@ -134,13 +144,13 @@ const AWSCourse: React.FC<{location: string}> = ({location}) => {
                   </a>
                 </Link>
               </div>
-              <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-orange-300 uppercase font-semibold mb-2">
+              <div className="flex flex-col items-center sm:items-start">
+                <h2 className="mb-2 text-xs font-semibold text-white uppercase">
                   {byline}
                 </h2>
                 <Link href={path}>
                   <a
-                    className="text-xl font-extrabold leading-tighter hover:text-blue-300 text-gray-800 dark:text-gray-200"
+                    className="text-xl font-extrabold leading-tighter hover:text-blue-300"
                     onClick={() =>
                       track('clicked jumbotron resource', {
                         resource: path,
@@ -151,408 +161,19 @@ const AWSCourse: React.FC<{location: string}> = ({location}) => {
                     <h1>{title}</h1>
                   </a>
                 </Link>
-                <Link href={instructor.path}>
-                  <a
-                    className="mt-4 flex items-center space-x-2 text-base group"
-                    onClick={() =>
-                      track('clicked instructor in jumbotron', {
-                        instructor: instructor.slug,
-                      })
-                    }
-                  >
-                    <Image
-                      src={instructor.image}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                      alt={instructor.name}
-                    />
-                    <span className="group-hover:text-blue-200 text-gray-900 dark:text-gray-200">
-                      {instructor.name}
-                    </span>
-                  </a>
-                </Link>
+                <p className="mt-4">{description}</p>
               </div>
             </div>
           </div>
         </div>
-        <UniqueBackground className="absolute" />
-      </div>
-    </ExternalTrackedLink>
-  )
-}
-
-const UniqueBackground = ({className}: any) => {
-  const {theme} = useTheme()
-
-  const fill = theme === 'dark' ? '#121927' : '#ffffff'
-  const stroke = theme === 'dark' ? '#C1D7EC' : '#0f131e'
-  return (
-    <svg
-      viewBox="0 0 540 1200"
-      className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clip-path="url(#clip0)">
-        <rect width="540" height="960" fill={fill} />
-        <g opacity="0.2">
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 544.593 36.5376)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-        </g>
-        <g opacity="0.2">
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.85 780.054)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-        </g>
-        <g opacity="0.2">
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 631.264)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 705.898)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 705.898)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.156 556.39)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 780.533)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 855.167)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.236 780.533)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.953 855.167)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 929.801)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.517 855.167)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.235 929.801)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-        </g>
-        <g opacity="0.2">
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.832 183.762)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 258.396)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.269 333.031)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.987 407.665)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.7041 482.299)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.831 333.031)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 407.665)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.269 482.299)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.987 556.934)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.831 482.299)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 556.934)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.269 631.568)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 542.831 631.568)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.55 706.202)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-        </g>
-        <g opacity="0.2">
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 -113.993)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 -39.3584)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 -39.3584)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 35.2759)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 109.91)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.235 35.2759)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 109.91)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 184.544)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 259.179)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 413.517 109.91)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            y="0.546839"
-            width="148.185"
-            height="148.185"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 284.709 184.818)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 154.955 259.179)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 25.6729 333.813)"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-          <rect
-            width="149.278"
-            height="149.278"
-            transform="matrix(0.866044 0.499967 -0.866044 0.499967 -103.608 408.447)"
-            fill="white"
-            fill-opacity="0.1"
-            stroke={stroke}
-            stroke-width="1.59375"
-          />
-        </g>
-        <rect width="545" height="960" fill="url(#paint0_linear)" />
-      </g>
-      <defs>
-        <linearGradient
-          id="paint0_linear"
-          x1="273"
-          y1="960"
-          x2="273"
-          y2="3.59151e-06"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stop-color={fill} />
-          <stop offset="1" stop-color={fill} stop-opacity=".5" />
-        </linearGradient>
-        <clipPath id="clip0">
-          <rect width="540" height="960" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
+        <Image
+          className="absolute top-0 left-0 z-0 w-full h-full"
+          src={background}
+          alt=""
+          layout="fill"
+        />
+      </ExternalTrackedLink>
+    </div>
   )
 }
 
