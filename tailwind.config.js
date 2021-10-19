@@ -15,7 +15,7 @@ const containerStylesPlugin = ({addComponents}) =>
       '@screen lg': {
         maxWidth: '1024px',
       },
-      '@screen lg': {
+      '@screen xl': {
         maxWidth: '1280px',
       },
     },
