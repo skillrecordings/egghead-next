@@ -1,20 +1,12 @@
 import {find} from 'lodash'
 import axios from 'utils/configured-axios'
 import {pickBy} from 'lodash'
+import {PricingData, PricingPlan} from 'machines/commerce-machine'
 
 export type Prices = {
-  monthlyPrice?: {
-    stripe_price_id: string
-    price: number
-  }
-  quarterlyPrice?: {
-    stripe_price_id: string
-    price: number
-  }
-  annualPrice?: {
-    stripe_price_id: string
-    price: number
-  }
+  monthlyPrice?: PricingPlan
+  quarterlyPrice?: PricingPlan
+  annualPrice?: PricingPlan
 }
 
 export const mockPrices = {
@@ -50,8 +42,6 @@ export const mockPrices = {
   ],
 }
 
-type PricingData = any
-
 export async function loadPricingData(
   params: {
     quantity: number
@@ -61,10 +51,6 @@ export async function loadPricingData(
   } = {quantity: 1},
   mock: boolean = false,
 ): Promise<PricingData> {
-  if (mock) {
-    return mockPrices
-  }
-
   let {data: pricingData} = await axios.get(
     `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/next/pricing`,
     {

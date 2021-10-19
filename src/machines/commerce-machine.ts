@@ -2,7 +2,7 @@ import {createMachine, assign} from 'xstate'
 import {loadPricingData} from 'lib/prices'
 import isEmpty from 'lodash/isEmpty'
 
-type PricingPlan = {
+export type PricingPlan = {
   interval: string
   interval_count: number
   name: string
