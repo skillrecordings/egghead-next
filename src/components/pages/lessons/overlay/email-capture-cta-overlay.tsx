@@ -30,7 +30,7 @@ const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
         className="w-full mx-auto flex flex-col items-center justify-center text-white"
         label="Email address"
         formClassName="max-w-xs md:max-w-sm mx-auto w-full"
-        button="FInish Watching this Course"
+        button="Finish Watching this Course"
         track={trackEmailCapture}
       >
         <div className="text-center">
