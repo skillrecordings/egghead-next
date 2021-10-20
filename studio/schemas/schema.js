@@ -20,6 +20,7 @@ import ctaPlug from './plugs/ctaPlug'
 import imageUrl from './objects/image-url'
 import stringList from './objects/string-list'
 import post from './documents/post'
+import caseStudy from './documents/caseStudy'
 import category from './documents/category'
 import authorReference from './objects/author-reference'
 import excerptPortableText from './objects/excerpt-portable-text'
@@ -52,6 +53,7 @@ export default createSchema({
     bigIdea,
     stringList,
     post,
+    caseStudy,
     category,
     authorReference,
     excerptPortableText,

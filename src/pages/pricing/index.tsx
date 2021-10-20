@@ -4,8 +4,6 @@ import {useViewer} from 'context/viewer-context'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
-// TODO: Remove usePricing from here, stories, and impl
-import {usePricing} from 'hooks/use-pricing'
 import {useCommerceMachine} from 'hooks/use-commerce-machine'
 import {first, get} from 'lodash'
 import {StripeAccount} from 'types'
@@ -40,8 +38,15 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     }
   }, [])
 
-  const {state, send, priceId, quantity, prices, availableCoupons} =
-    useCommerceMachine()
+  const {
+    state,
+    send,
+    priceId,
+    quantity,
+    prices,
+    availableCoupons,
+    currentPlan,
+  } = useCommerceMachine()
 
   // machine-derived states
   const pricesLoading = !state.matches('pricesLoaded')
@@ -137,10 +142,12 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
               onPriceChanged={(priceId: string) => {
                 send({type: 'SWITCH_PRICE', priceId})
               }}
+              currentPlan={currentPlan}
+              currentQuantity={quantity}
             />
           </div>
           {pppCouponAvailable && pppCouponEligible && (
-            <div className="mt-4 pb-5 max-w-screen-sm mx-auto">
+            <div className="mt-4 pb-5 max-w-screen-md mx-auto">
               <ParityCouponMessage
                 coupon={parityCoupon as Coupon}
                 countryName={countryName as string}

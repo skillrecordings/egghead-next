@@ -5,6 +5,7 @@ import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
 import Spinner from 'components/spinner'
+import {PricingPlan} from 'machines/commerce-machine'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -100,22 +101,25 @@ const PlanIntervalsSwitch: React.FunctionComponent<{
         const {interval, interval_count} = plan
         const checked: boolean = plan === currentPlan
         const intervalLabel = interval_count > 1 ? 'quarter' : interval
+
+        const buttonStyles = `${
+          checked
+            ? 'dark:bg-white bg-gray-900 dark:text-gray-900 text-white dark:hover:bg-gray-200 hover:bg-gray-800'
+            : 'dark:bg-gray-800 bg-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200'
+        } ${i === 0 && 'rounded-l-md'} ${i === 2 && 'rounded-r-md'} ${
+          plansToRender.length === 2 && i === 1 && 'rounded-r-md'
+        } ${
+          plansToRender.length === 1 && 'rounded-md'
+        } capitalize block px-3 py-2 cursor-pointer text-sm font-medium transition-all ease-in-out duration-300`
+
         return (
           <li key={`${interval}-${interval_count}`}>
             <button
-              className={`${
-                checked
-                  ? 'dark:bg-white bg-gray-900 dark:text-gray-900 text-white dark:hover:bg-gray-200 hover:bg-gray-800'
-                  : 'dark:bg-gray-800 bg-gray-100 dark:hover:bg-gray-700 hover:bg-gray-200'
-              } ${i === 0 && 'rounded-l-md'} ${i === 2 && 'rounded-r-md'} ${
-                plansToRender.length === 2 && i === 1 && 'rounded-r-md'
-              } ${
-                plansToRender.length === 1 && 'rounded-md'
-              } capitalize block px-3 py-2 cursor-pointer text-sm font-medium transition-all ease-in-out duration-300`}
+              className={buttonStyles}
               onClick={() => setCurrentPlan(plan)}
               tabIndex={0}
               role="radio"
-              aria-pressed={checked}
+              aria-checked={checked}
             >
               {intervalLabel}
             </button>
@@ -136,7 +140,7 @@ const DEFAULT_FEATURES = [
 ]
 
 const PlanFeatures: React.FunctionComponent<{
-  planFeatures: string[]
+  planFeatures?: string[]
 }> = ({planFeatures = DEFAULT_FEATURES}) => {
   const CheckIcon = () => (
     <svg
@@ -194,55 +198,24 @@ type SelectPlanProps = {
   quantityAvailable: boolean
   onQuantityChanged: (quantity: number) => void
   onPriceChanged: (priceId: string) => void
+  currentPlan: PricingPlan & {features?: string[]}
+  currentQuantity: number
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   quantityAvailable = true,
   handleClickGetAccess,
-  defaultInterval = 'annual',
-  defaultQuantity = 1,
   pricesLoading,
   prices,
   onQuantityChanged,
   onPriceChanged,
+  currentPlan,
+  currentQuantity,
 }) => {
   const individualPlans = filter(prices, (plan: any) => true)
 
-  const annualPlan = get(prices, 'annualPrice', {
-    name: 'Yearly',
-    interval: 'year',
-  })
-  const monthlyPlan = get(prices, 'monthlyPrice')
-  const quarterlyPlan = get(prices, 'quarterlyPrice')
-
-  const pricesForInterval = (interval: any) => {
-    switch (interval) {
-      case 'year':
-        return annualPlan
-      case 'month':
-        return monthlyPlan
-      case 'quarter':
-        return quarterlyPlan
-      default:
-        return annualPlan
-    }
-  }
-
-  const [currentInterval] = React.useState<string>(defaultInterval)
-  const [currentQuantity, setCurrentQuantity] =
-    React.useState<number>(defaultQuantity)
-
-  const [currentPlan, setCurrentPlan] = React.useState<any>(
-    pricesForInterval(currentInterval),
-  )
-
   const forTeams: boolean = currentQuantity > 1
   const buttonLabel: string = forTeams ? 'Level Up My Team' : 'Become a Member'
-
-  React.useEffect(() => {
-    setCurrentPlan(annualPlan)
-    onPriceChanged(annualPlan.stripe_price_id)
-  }, [annualPlan.price])
 
   return (
     <>
@@ -256,7 +229,6 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
                 disabled={false}
                 currentPlan={currentPlan}
                 setCurrentPlan={(newPlan: any) => {
-                  setCurrentPlan(newPlan)
                   onPriceChanged(newPlan.stripe_price_id)
                 }}
                 planTypes={individualPlans}
@@ -271,7 +243,6 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
               plan={currentPlan}
               pricesLoading={pricesLoading}
               onQuantityChanged={(quantity: number) => {
-                setCurrentQuantity(quantity)
                 onQuantityChanged(quantity)
               }}
             />

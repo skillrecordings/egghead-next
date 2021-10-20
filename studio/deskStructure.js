@@ -1,5 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder'
 import blog from './src/structure/blog'
+import caseStudies from './src/structure/caseStudies'
 import portfolio from './src/structure/portfolio'
 import feature from './src/structure/feature'
 
@@ -13,6 +14,7 @@ const hiddenDocTypes = (listItem) =>
     'siteSettings',
     'author',
     'category',
+    'caseStudy',
   ].includes(listItem.getId())
 
 export default () =>
@@ -23,4 +25,5 @@ export default () =>
       blog,
       portfolio,
       feature,
+      caseStudies,
     ])
