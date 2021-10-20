@@ -21,7 +21,7 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
   const {requestSignInEmail} = useViewer()
   return (
     <>
-      <div className="w-full">
+      <div className="w-full min-h-[110px] md:min-h-[80px]">
         {!isSubmitted && !isError && (
           <Formik
             initialValues={{email: ''}}
@@ -68,7 +68,7 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
                           onChange={handleChange}
                           onBlur={handleBlur}
                           placeholder="you@company.com"
-                          className="block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent border-gray-300 rounded-md shadow-sm autofill:text-fill-black focus:ring-indigo-500 focus:border-blue-500"
+                          className="block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent border-gray-300 rounded-md shadow-sm dark:text-white autofill:text-fill-black focus:ring-indigo-500 focus:border-blue-500"
                           required
                         />
                       </div>
@@ -87,11 +87,11 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
           </Formik>
         )}
         {isSubmitted && (
-          <div className="space-y-4 leading-tight text-center">
-            <h3 className="text-xl font-semibold leading-tighter">
+          <div className="space-y-4 leading-tight">
+            <h3 className="text-lg font-semibold leading-tighter">
               Please check your inbox for your sign in link.
             </h3>
-            <p>
+            <p className="text-sm">
               Sometimes this can land in SPAM! While we hope that isn't the case
               if it doesn't arrive in a minute or three, please check.
             </p>
