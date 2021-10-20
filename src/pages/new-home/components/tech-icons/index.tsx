@@ -61,7 +61,7 @@ const TechIcons: React.FunctionComponent = () => {
       ].map((tech, i) => {
         return (
           <motion.div
-            className="flex-shrink-0 w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32"
+            className="flex-shrink-0 w-16 sm:w-20 md:w-14 lg:w-20 xl:w-32"
             key={i}
             initial={{opacity: 0, y: 40}}
             animate={{opacity: 1, y: 0}}
