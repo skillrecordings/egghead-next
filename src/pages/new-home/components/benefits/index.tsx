@@ -72,7 +72,7 @@ const BenefitsList: React.FunctionComponent = () => {
 }
 const Benefits: React.FunctionComponent = () => {
   return (
-    <section className="px-5 py-20 -mx-5 bg-gray-50 dark:bg-gray-900">
+    <section className="px-5 py-20 -mx-5 bg-gray-50 dark:bg-gray-800">
       <div className="container">
         <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase">
           The sweet details

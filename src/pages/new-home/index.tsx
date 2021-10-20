@@ -5,6 +5,9 @@ import {BadgeCheckIcon} from '@heroicons/react/solid'
 import Hero from './components/hero'
 import TechIcons from './components/tech-icons'
 import Benefits from './components/benefits'
+import imgIntersection01 from './images/image-intersection-01.png'
+import imgIntersection02 from './images/image-intersection-02.png'
+import imgIntersection03 from './images/image-intersection-03.png'
 
 const NewHome: React.FunctionComponent = () => {
   return (
@@ -15,7 +18,7 @@ const NewHome: React.FunctionComponent = () => {
         <TechIcons />
       </section>
 
-      <div className="mt-16 space-y-20 md:mt-28">
+      <div className="mt-16 space-y-14 md:space-y-20 md:mt-28">
         <section className="mx-auto md:max-w-screen-sm lg:max-w-screen-md">
           <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase">
             Why bother with another learning platform?
@@ -79,13 +82,8 @@ const NewHome: React.FunctionComponent = () => {
           </div>
         </section>
 
-        <div className="w-full mx-auto max-w-screen-xs">
-          <Image
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632907878/next.egghead.io/illustrations/jsarrays_landing_page_shrink.png"
-            width={400}
-            height={400}
-            alt=""
-          />
+        <div className="w-full mx-auto max-w-[12rem] md:max-w-[16rem] lg:max-w-screen-xs">
+          <Image src={imgIntersection01} width={400} height={400} alt="" />
         </div>
 
         <section className="mx-auto md:max-w-screen-sm lg:max-w-screen-md">
@@ -127,13 +125,8 @@ const NewHome: React.FunctionComponent = () => {
           </div>
         </section>
 
-        <div className="w-full mx-auto max-w-screen-xs">
-          <Image
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632907878/next.egghead.io/illustrations/jsarrays_landing_page_shrink.png"
-            width={400}
-            height={400}
-            alt=""
-          />
+        <div className="w-full mx-auto max-w-[12rem] md:max-w-[16rem] lg:max-w-screen-xs">
+          <Image src={imgIntersection02} width={400} height={400} alt="" />
         </div>
 
         <section className="mx-auto md:max-w-screen-sm lg:max-w-screen-md">
@@ -210,9 +203,13 @@ const NewHome: React.FunctionComponent = () => {
             </p>
           </div>
         </section>
+
+        <div className="w-full mx-auto max-w-[12rem] md:max-w-[16rem] lg:max-w-screen-xs">
+          <Image src={imgIntersection03} width={400} height={400} alt="" />
+        </div>
       </div>
 
-      <div className="my-20">
+      <div className="mt-20">
         <Benefits />
       </div>
     </div>
