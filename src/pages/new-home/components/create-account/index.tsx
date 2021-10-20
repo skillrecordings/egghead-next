@@ -3,9 +3,9 @@ import * as React from 'react'
 const CreateAccount: React.FunctionComponent = () => {
   return (
     <div className="flex flex-col space-y-3 lg:flex-row lg:space-y-0 lg:space-x-3">
-      <div className="relative flex items-center w-full lg:w-80">
+      <div className="relative flex items-center w-full text-gray-400 lg:w-80 dark:text-white">
         <svg
-          className="absolute w-5 h-5 text-gray-400 z-[-1] left-3"
+          className="absolute w-5 h-5 left-3"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
