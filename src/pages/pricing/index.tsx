@@ -147,7 +147,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
             />
           </div>
           {pppCouponAvailable && pppCouponEligible && (
-            <div className="mt-4 pb-5 max-w-screen-sm mx-auto">
+            <div className="mt-4 pb-5 max-w-screen-md mx-auto">
               <ParityCouponMessage
                 coupon={parityCoupon as Coupon}
                 countryName={countryName as string}
