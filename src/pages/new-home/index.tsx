@@ -51,7 +51,9 @@ const NewHome: React.FunctionComponent = () => {
                 },
               ].map((item, index) => (
                 <li key={index} className="flex space-x-4">
-                  <span className="text-xl leading-normal">{item.emoji}</span>
+                  <span className="text-xl leading-normal -translate-y-1">
+                    {item.emoji}
+                  </span>
                   <span>{item.text}</span>
                 </li>
               ))}
