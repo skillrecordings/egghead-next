@@ -20,7 +20,7 @@ const NewHome: React.FunctionComponent = () => {
 
       <div className="mt-16 space-y-14 md:space-y-20 md:mt-28">
         <section className="mx-auto md:max-w-screen-sm lg:max-w-screen-md">
-          <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase">
+          <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400">
             Why bother with another learning platform?
           </h4>
           <h3 className="mb-6 text-lg font-semibold leading-tight tracking-wide md:leading-normal md:text-xl xl:text-2xl">
@@ -87,7 +87,7 @@ const NewHome: React.FunctionComponent = () => {
         </div>
 
         <section className="mx-auto md:max-w-screen-sm lg:max-w-screen-md">
-          <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase">
+          <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400">
             There <span className="underline">has</span> to be an easier way
           </h4>
           <h3 className="mb-6 text-lg font-semibold leading-tight tracking-wide md:leading-normal md:text-xl xl:text-2xl">
@@ -130,7 +130,7 @@ const NewHome: React.FunctionComponent = () => {
         </div>
 
         <section className="mx-auto md:max-w-screen-sm lg:max-w-screen-md">
-          <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase">
+          <h4 className="mb-4 text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400">
             There <i>is</i> an easier way
           </h4>
           <h3 className="mb-6 text-lg font-semibold leading-tight tracking-wide md:leading-normal md:text-xl xl:text-2xl">
@@ -160,7 +160,7 @@ const NewHome: React.FunctionComponent = () => {
               ].map((item, index) => (
                 <li key={index} className="flex space-x-4">
                   <div className="flex-shrink-0 mt-1">
-                    <BadgeCheckIcon className="w-8 h-8 text-blue-600" />
+                    <BadgeCheckIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                   </div>
                   <span>{item}</span>
                 </li>
@@ -209,7 +209,7 @@ const NewHome: React.FunctionComponent = () => {
         </div>
       </div>
 
-      <div className="mt-20">
+      <div className="mt-20 translate-y-5">
         <Benefits />
       </div>
     </div>
