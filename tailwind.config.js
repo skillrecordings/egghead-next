@@ -2,6 +2,25 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
 
+const containerStylesPlugin = ({addComponents}) =>
+  addComponents({
+    '.container': {
+      maxWidth: '100%',
+      '@screen sm': {
+        maxWidth: '640px',
+      },
+      '@screen md': {
+        maxWidth: '768px',
+      },
+      '@screen lg': {
+        maxWidth: '1024px',
+      },
+      '@screen xl': {
+        maxWidth: '1280px',
+      },
+    },
+  })
+
 module.exports = {
   mode: 'jit',
   darkMode: 'class',
@@ -17,9 +36,9 @@ module.exports = {
       ...defaultTheme.colors,
       ...colors,
       gray: {...colors.coolGray, 1000: '#0A0F19'},
-      // red: colors.red,
-      // blue: colors.blue,
-      // yellow: colors.amber,
+    },
+    container: {
+      center: true,
     },
     extend: {
       typography: (theme) => ({
@@ -152,6 +171,7 @@ module.exports = {
     },
   },
   plugins: [
+    containerStylesPlugin,
     require('@tailwindcss/typography'),
     require('@tailwindcss/ui'),
     require('@tailwindcss/forms'),

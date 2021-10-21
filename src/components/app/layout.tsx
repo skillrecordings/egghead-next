@@ -6,7 +6,7 @@ import Footer from './footer'
 
 const Layout: FunctionComponent = ({children}) => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
       <Main>{children}</Main>
       <Footer />
