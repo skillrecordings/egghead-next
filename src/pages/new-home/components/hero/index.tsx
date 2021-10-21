@@ -11,7 +11,7 @@ const Hero: React.FunctionComponent = () => {
           <h1 className="text-xl font-extrabold leading-tight lg:leading-tighter sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl">
             Learn the best Javascript tools and frameworks from industry pros
           </h1>
-          <h3 className="text-md lg:text-lg lg:w-3/4 text-coolGray-500">
+          <h3 className="text-md lg:text-lg lg:w-3/4 text-gray-600 dark:text-gray-300">
             egghead creates high-quality video tutorials and learning resources
             for badass web developers
           </h3>

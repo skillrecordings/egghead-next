@@ -79,7 +79,7 @@ const BenefitsList: React.FunctionComponent = () => {
         },
       ].map((item, i) => {
         return (
-          <div key={i} className="flex w-full space-x-6">
+          <div key={i} className="flex w-full space-x-6 items-center">
             <div className="flex-shrink-0">{item.icon}</div>
             <p className="text-lg font-medium leading-tight text-gray-700 dark:text-white">
               {item.text}
