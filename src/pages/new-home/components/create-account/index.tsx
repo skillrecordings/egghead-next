@@ -68,7 +68,7 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
                           onChange={handleChange}
                           onBlur={handleBlur}
                           placeholder="you@company.com"
-                          className="block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent border-gray-300 rounded-md shadow-sm dark:text-white autofill:text-fill-black focus:ring-indigo-500 focus:border-blue-500"
+                          className="block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent border-gray-300 rounded-md shadow-sm dark:text-white autofill:text-fill-black dark:autofill:text-fill-white focus:ring-indigo-500 focus:border-blue-500"
                           required
                         />
                       </div>
