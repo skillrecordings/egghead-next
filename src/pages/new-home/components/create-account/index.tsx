@@ -22,7 +22,7 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
   return (
     <>
       <div
-        className="w-full min-h-[110px] md:min-h-[80px]"
+        className="w-full min-h-[110px] md:min-h-[80px] flex justify-center"
         id="create-account-form"
       >
         {!isSubmitted && !isError && (
