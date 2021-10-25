@@ -3,6 +3,7 @@ import Image from 'next/image'
 import {BadgeCheckIcon} from '@heroicons/react/solid'
 
 import Hero from './components/hero'
+import CreateAccount from './components/create-account'
 import TechIcons from './components/tech-icons'
 import Benefits from './components/benefits'
 import imgIntersection01 from './images/image-intersection-01.png'
@@ -10,9 +11,17 @@ import imgIntersection02 from './images/image-intersection-02.png'
 import imgIntersection03 from './images/image-intersection-03.png'
 
 const NewHome: React.FunctionComponent = () => {
+  const targetElem = React.useRef<HTMLDivElement>(null)
+  const scrollToHandler = () => {
+    if (targetElem?.current) {
+      targetElem.current.scrollIntoView({
+        behavior: 'smooth',
+      })
+    }
+  }
   return (
     <div className="pt-4 md:pt-8 lg:pt-16">
-      <Hero />
+      <Hero scrollToHandler={scrollToHandler} />
 
       <section className="mt-16 md:mt-28">
         <TechIcons />
@@ -209,9 +218,15 @@ const NewHome: React.FunctionComponent = () => {
         </div>
       </div>
 
-      <div className="mt-20 translate-y-5">
+      <section className="mt-20">
         <Benefits />
-      </div>
+      </section>
+
+      <section className="pt-16 pb-12 md:pt-24 md:pb-16" ref={targetElem}>
+        <div className="container flex justify-center">
+          <CreateAccount />
+        </div>
+      </section>
     </div>
   )
 }

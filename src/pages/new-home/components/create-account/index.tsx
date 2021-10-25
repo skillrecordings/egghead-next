@@ -21,7 +21,10 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
   const {requestSignInEmail} = useViewer()
   return (
     <>
-      <div className="w-full min-h-[110px] md:min-h-[80px]">
+      <div
+        className="w-full min-h-[110px] md:min-h-[80px]"
+        id="create-account-form"
+      >
         {!isSubmitted && !isError && (
           <Formik
             initialValues={{email: ''}}
@@ -49,8 +52,8 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
               return (
                 <>
                   <form onSubmit={handleSubmit}>
-                    <div className="flex flex-col space-y-3 lg:flex-row lg:space-y-0 lg:space-x-3">
-                      <div className="relative flex items-center w-full text-gray-400 lg:w-80 dark:text-white">
+                    <div className="flex flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-3">
+                      <div className="relative flex items-center w-full text-gray-400 md:w-80 dark:text-white">
                         <svg
                           className="absolute w-5 h-5 left-3"
                           xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +78,7 @@ const CreateAccount: React.FunctionComponent<LoginFormProps> = ({
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full px-5 py-3 font-semibold text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md lg:w-auto hover:bg-blue-700 active:bg-blue-800 hover:shadow-sm"
+                        className="w-full px-5 py-3 font-semibold text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md md:w-auto hover:bg-blue-700 active:bg-blue-800 hover:shadow-sm"
                       >
                         {button}
                       </button>
