@@ -140,10 +140,10 @@ const Footer: FunctionComponent = () => {
 }
 
 const DarkModeToggle = () => {
-  const [mounted, setMounted] = React.useState(false)
+  const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const {subscriber, cioIdentify} = useCio()
   const {theme, setTheme} = useTheme()
-  React.useEffect(() => setMounted(true), [])
+  React.useEffect(() => setIsMounted(true), [])
   const handleClick = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
     setTheme(nextTheme)
@@ -158,7 +158,9 @@ const DarkModeToggle = () => {
   }
   return (
     <div className="flex justify-between items-center">
-      <h2 className="mr-3">{theme === 'dark' ? 'Dark' : 'Light'} Mode</h2>
+      <h2 className="mr-3">
+        {isMounted && (theme === 'dark' ? 'Dark' : 'Light')} Mode
+      </h2>
       <div
         className="w-16 h-10 bg-gray-300 dark:bg-gray-1000 rounded-full flex-shrink-0 p-1"
         onClick={handleClick}
@@ -167,10 +169,10 @@ const DarkModeToggle = () => {
       >
         <div
           className={`bg-white w-8 h-8 rounded-full shadow-md duration-300 ease-in-out flex items-center justify-center dark:bg-gray-800 ${
-            mounted && (theme === 'dark' ? 'translate-x-6' : '')
+            isMounted && (theme === 'dark' ? 'translate-x-6' : '')
           }`}
         >
-          {mounted && (
+          {isMounted && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

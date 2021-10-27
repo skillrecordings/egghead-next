@@ -23,11 +23,16 @@ import {
 } from '@heroicons/react/solid'
 
 const Header: FunctionComponent = () => {
+  const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const router = useRouter()
   const {viewer, loading} = useViewer()
   const {subscriber, loadingSubscriber} = useCio()
   const {sm} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   React.useEffect(() => {
     !sm ? setOpen(sm) : setOpen(false)
@@ -161,7 +166,7 @@ const Header: FunctionComponent = () => {
     ) : null
   }
 
-  return (
+  return isMounted ? (
     <>
       <header className="h-16 px-5 py-5 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-4">
@@ -181,7 +186,7 @@ const Header: FunctionComponent = () => {
             </div>
           )}
           {!sm && !isSearch && <SearchBar />}
-          {!sm && <Navigation></Navigation>}
+          {!sm && <Navigation />}
           {sm && !loading && (
             <button
               onClick={() => setOpen(!isOpen)}
@@ -202,7 +207,7 @@ const Header: FunctionComponent = () => {
         </>
       )}
     </>
-  )
+  ) : null
 }
 
 export default Header
