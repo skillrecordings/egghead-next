@@ -18,8 +18,8 @@ const NewHome = () => {
             <MembershipBenefits />
           </div>
         </section>
+        <Footer />
       </main>
-      <Footer />
     </>
   )
 }
