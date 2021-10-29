@@ -1,0 +1,77 @@
+import * as React from 'react'
+import {FormikProps, useFormik} from 'formik'
+import * as Yup from 'yup'
+import {useViewer} from 'context/viewer-context'
+import {track} from 'utils/analytics'
+
+type FormikValues = {
+  email: string
+}
+
+const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
+  actionLabel = (
+    <>
+      Start learning{' '}
+      <i
+        className="text-blue-50 gg-arrow-right scale-75 group-hover:translate-x-1 group-focus:translate-x-1 transition-all ease-in-out duration-200"
+        aria-hidden
+      />
+    </>
+  ),
+
+  location,
+}) => {
+  const {requestSignInEmail} = useViewer()
+
+  const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
+    initialValues: {
+      email: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email').required('Required'),
+    }),
+    onSubmit: async ({email}) => {
+      requestSignInEmail(email).then(() => {
+        track(`clicked ${actionLabel}`, {location})
+      })
+      //   .catch(() => {
+      //     setIsSubmitted(false)
+      //     setIsError(true)
+      //   })
+    },
+  })
+  return (
+    <form onSubmit={formik.handleSubmit} className="flex max-w-md w-full">
+      <div className="relative flex items-center w-full text-gray-400 lg:w-80 dark:text-white">
+        <svg
+          className="absolute w-5 h-5 left-3"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+        </svg>
+        <input
+          id={location ? `email_${location}` : 'email'}
+          name="email"
+          type="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          placeholder="you@company.com"
+          className="block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent border-r-0 border-gray-300 dark:border-gray-700 rounded-l-md shadow-sm dark:text-white autofill:text-fill-black focus:outline-none outline-none focus:ring-0 dark:focus:border-blue-500 focus:border-blue-500"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        className="bg-blue-600 dark:hover:bg-blue-500 hover:bg-blue-500 rounded-r-md px-4 text-white font-medium text-sm flex-shrink-0 flex items-center justify-center transition-all ease-in-out duration-200 group focus:outline-none outline-none focus:ring-2 focus:ring-blue-700 focus:bg-blue-500 dark:focus:ring-blue-300 relative z-10"
+      >
+        {actionLabel}
+      </button>
+    </form>
+  )
+}
+
+export default CreateAccount
