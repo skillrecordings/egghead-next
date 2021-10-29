@@ -23,7 +23,7 @@ const Confirm: React.FunctionComponent = () => {
           If you have any trouble, you can email{' '}
           <a
             href="mailto:support@egghead.io"
-            className="dark:text-blue-400 text-blue-500 underline"
+            className="dark:text-blue-400 text-blue-600 underline"
           >
             support@egghead.io
           </a>{' '}
@@ -37,6 +37,7 @@ const Confirm: React.FunctionComponent = () => {
 const NotificationIcon = () => {
   return (
     <svg
+      aria-hidden
       width="80"
       height="80"
       viewBox="0 0 180 180"
