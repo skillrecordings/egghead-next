@@ -1,4 +1,4 @@
-import {MdKitchen as icon} from 'react-icons/md'
+import {MdKitchen as icon, MdInsertLink} from 'react-icons/md'
 import React from 'react'
 import PathInput from '../components/path-input'
 
@@ -283,6 +283,14 @@ export default {
           type: 'string-list',
         },
       ],
+    },
+    {
+      type: 'url',
+      name: 'uploadedMediaUrl',
+      title: 'Uploaded Media URL',
+      description: 'Direct link to media stored on the cloud',
+      icon: MdInsertLink,
+      hidden: ({parent}) => parent?.type !== 'video',
     },
     {
       name: 'url',
