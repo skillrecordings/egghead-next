@@ -41,6 +41,10 @@ module.exports = {
       center: true,
     },
     extend: {
+      boxShadow: {
+        smooth:
+          '0 4.5px 3.6px -8px rgba(0, 0, 0, 0.01), 0 12.5px 10px -8px rgba(0, 0, 0, 0.015), 0 30.1px 24.1px -8px rgba(0, 0, 0, 0.02), 0 100px 80px -8px rgba(0, 0, 0, 0.03)',
+      },
       typography: (theme) => ({
         default: {
           css: {

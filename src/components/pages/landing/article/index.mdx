@@ -1,0 +1,221 @@
+<Byline>Your Time is precious</Byline>
+
+<H3>
+  Obviously you can pick up a new framework, language or platform on your own.
+  You’ve done it before.
+</H3>
+
+<List title={<p className="font-semibold">You know the drill...</p>}>
+  <ListItemEmoji
+    emoji={{image: DissapointedFace, alt: 'dissapointed face emoji'}}
+  >
+    Cobble together hours-long videos, docs, tutorials, and forum posts
+  </ListItemEmoji>
+  <ListItemEmoji emoji={{image: ConfoundedFace, alt: 'confounded face emoji'}}>
+    Watch long, unedited videos at 2x speed
+  </ListItemEmoji>
+  <ListItemEmoji emoji={{image: TiredFace, alt: 'tired face emoji'}}>
+    Dig through the comments when tutorials give you more bugs than working code
+  </ListItemEmoji>
+  <ListItemEmoji emoji={{image: CryingFace, alt: 'crying face emoji'}}>
+    Read blog post after unreliable blog post
+  </ListItemEmoji>
+  <ListItemEmoji
+    emoji={{image: LoudlyCryingFace, alt: 'loudly crying face emoji'}}
+  >
+    Beg for answers on StackOverflow when you hit dead ends
+  </ListItemEmoji>
+</List>
+
+<Prose>
+
+All the while, your poor computer screams under the weight of all those tabs.
+
+What about learning from books? Books are great! They're sometimes edited by professionals, which is more than you can say for most tutorials you find. But publishers can’t keep up with the pace of modern web development. You can't keep up either, at least not with your old approach.
+
+Nobody’s paying you to find the bugs in their crummy tutorials. You don’t have time to dig your way out of all those rabbit holes for a supposedly free education.
+
+So you’ve been procrastinating a little. Or… a lot.
+
+Your time is precious. You're a professional.
+
+</Prose>
+
+<Spacer />
+
+<Byline>
+  There <HighlightWord>has</HighlightWord> to be an easier way
+</Byline>
+
+<H3 className="max-w-lg">
+  Don't you wish you could jack into the Matrix and inject React directly to
+  your brain?
+</H3>
+
+<Prose>
+
+Sounds convenient, but it's not going to happen anytime soon.
+
+But what if you had the next best thing?
+
+What if you could simply sit down and start learning? What if you could skip all the searching, the cobbling, the contradictory advice, the bugs, the forums, and the dead ends?
+
+What if you had on-demand experts avaliable to hand you the best, curated material on modern web development?
+
+Think how much easier it would be for you to stay on the bleeding edge of our industry. With just 10-30 minutes a day, you'd be able to power through a major topic every week.
+
+With the right teacher and the right courses, this isn't a pipe dream.
+Picture yourself months from now, sitting down to a heady programming challenge, and whispering I know wtf I am doing.
+
+That is what egghead can do for you.
+
+</Prose>
+
+<Spacer />
+
+<Byline>
+  There <HighlightWord>is</HighlightWord> an easier way
+</Byline>
+
+<H3>
+  egghead will turn you into a badass web developer. Learn any time, any place,
+  at your own pace.
+</H3>
+
+<Prose>
+
+We're here to help you level up. We've designed everything from our courses to our tools to our community to advance your skills without sacrificing your precious time.
+
+egghead is not a sloppy video marketplace or grab-bag of random content. We're a boutique label curating high-quality video courses for professional web developers.
+
+</Prose>
+
+<Spacer />
+
+<List
+  title={
+    <strong className="block font-medium pb-3">
+      When you join egghead you'll get:
+    </strong>
+  }
+  className="sm:p-10 p-5 md:-mx-10 sm:mx-0 -mx-5 sm:rounded-md dark:bg-gray-800 bg-gray-50"
+>
+  <ListItemEmoji emoji={{image: HuggingFace, alt: 'hugging face emoji'}}>
+    Access to hundreds of courses by world-class folks like Dan Abramov, Kent C.
+    Dodds, Jason Lengstorf, and Laurie Barth
+  </ListItemEmoji>
+  <ListItemEmoji emoji={{image: WingingFace, alt: 'winging face emoji'}}>
+    Lessons designed to teach you exactly what you need to know, without any of
+    the fluff or cruft
+  </ListItemEmoji>
+  <ListItemEmoji emoji={{image: NerdFace, alt: 'nerd face emoji'}}>
+    Code examples (without the bugs) and projects to immediately test your
+    knowledge
+  </ListItemEmoji>
+  <ListItemEmoji
+    emoji={{image: SunglassesFace, alt: 'smiling face with sunglasses emoji'}}
+  >
+    Professionally produced and edited videos with high-quality sound and
+    resolution
+  </ListItemEmoji>
+  <ListItemEmoji emoji={{image: PartyingFace, alt: 'partying face emoji'}}>
+    Tools to help you plan, track, and follow through on your learning goals
+  </ListItemEmoji>
+</List>
+
+<Spacer />
+
+<Prose>
+
+And unlike book publishers, we move at the speed of the web. When you need the most up-to-date tutorials on React, we've got you covered.
+
+**We have over 5,500 lessons and 250+ courses, with new material released every week.**
+
+Our lessons are 3-7 minutes long – short, sweet, and to the point. They're designed to be watched either individually or as part of a course, so you can jump around and get exactly the information you need.
+
+Our courses will give you a comprehensive tour through a topic. They cover all the essentials from beginning to end. This includes a realistic practice project and all the code you'll need to complete it.
+
+This means you can pick up individual skills anytime you want. New languages, frameworks, and libraries are easy to add to your professional toolkit.
+
+Learn at your desk, on the train, or in the bathroom – whenever and whereever you want. Videos, transcripts, and code examples are always avaliable – even offline.
+
+And all of it is nop-notch quality. Your secret weapon to get ahead, shine at work, and build things you love.
+
+</Prose>
+
+export const List = ({children, title, className = ''}) => {
+  return (
+    <div className={`pb-8 ${className}`}>
+      {title}
+      <ul>{children}</ul>
+    </div>
+  )
+}
+
+export const ListItemEmoji = ({children, emoji}) => {
+  return (
+    <li className="flex pt-3 items-center">
+      <span className="w-6 flex items-center justify-center flex-shrink-0 mr-3">
+        <Image
+          src={emoji.image}
+          alt={emoji.alt}
+          placeholder="blur"
+          loading="eager"
+        />
+      </span>
+      {children}
+    </li>
+  )
+}
+
+export const Byline = ({children}) => {
+  return (
+    <strong className="pb-4 block uppercase text-sm dark:text-amber-400 text-blue-600 font-medium tracking-wide text-center">
+      {children}
+    </strong>
+  )
+}
+
+export const HighlightWord = ({children}) => {
+  return (
+    <strong className="dark:bg-amber-400 dark:text-black bg-blue-600 text-white px-px">
+      {children}
+    </strong>
+  )
+}
+
+export const H3 = ({children, className}) => {
+  return (
+    <h3
+      className={`text-xl leading-tight font-semibold text-center pb-10 mx-auto ${className}`}
+    >
+      {children}
+    </h3>
+  )
+}
+
+export const Prose = ({children}) => {
+  return <section className="prose dark:prose-dark">{children}</section>
+}
+
+export const Spacer = () => {
+  return <hr aria-hidden className="bg-none border-none py-8 block" />
+}
+
+import LoudlyCryingFace from './emojis/loudly_crying@2x.png'
+import DissapointedFace from './emojis/dissapointed@2x.png'
+import SunglassesFace from './emojis/sunglasses@2x.png'
+import ConfoundedFace from './emojis/confounded@2x.png'
+import PartyingFace from './emojis/partying@2x.png'
+import WingingFace from './emojis/winging@2x.png'
+import HuggingFace from './emojis/hugging@2x.png'
+import CryingFace from './emojis/crying@2x.png'
+import TiredFace from './emojis/tired@2x.png'
+import NerdFace from './emojis/nerd@2x.png'
+import Image from 'next/image'
+
+export default ({children}) => {
+  return (
+    <article className="max-w-screen-sm mx-auto w-full">{children}</article>
+  )
+}
