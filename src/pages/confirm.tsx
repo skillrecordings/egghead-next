@@ -6,7 +6,7 @@ const Confirm: React.FunctionComponent = () => {
   const email = router.query.email
 
   return (
-    <div className="flex-grow h-full w-full flex flex-col items-center justify-center text-center md:py-48 sm:py-32 py-10">
+    <main className="flex-grow h-full w-full flex flex-col items-center justify-center text-center md:py-48 sm:py-32 py-10">
       <div className="lg:max-w-screen-md max-w-md flex flex-col items-center">
         <NotificationIcon />
         <h1 className="sm:text-sm text-xs uppercase font-semibold dark:text-gray-300 text-gray-700 pt-6 pb-2 tracking-wide">
@@ -30,7 +30,7 @@ const Confirm: React.FunctionComponent = () => {
           for help at any time.
         </p>
       </div>
-    </div>
+    </main>
   )
 }
 
