@@ -58,6 +58,10 @@ export const track = (
       })
     }
 
+    if(window.gtag) {
+      window.gtag('event', event, params);
+    }
+
     mixpanel.track(event, params)
 
     if (
