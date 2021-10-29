@@ -13,7 +13,6 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/029/square_128/now.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/029/square_64/now.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/029/square_32/now.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/deploy-web-apps-with-zeit-now?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/tools/zeit-now",
     "path": "/browse/tools/zeit-now",
     "search_url": "https://app.egghead.io/search?topic=zeit-now"
@@ -409,6 +408,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_128/supabase-logo-icon_1.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_64/supabase-logo-icon_1.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/299/square_32/supabase-logo-icon_1.png",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/supabase",
     "path": "/browse/frameworks/supabase",
     "search_url": "https://app.egghead.io/search?topic=supabase"
@@ -483,7 +483,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/057/square_128/scsslogo.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/057/square_64/scsslogo.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/057/square_32/scsslogo.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/html-css-and-sass-b06a?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/learn-the-fundamentals-of-css-and-sass-to-create-modern-and-responsive-layouts-f341?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/languages/scss",
     "path": "/browse/languages/scss",
     "search_url": "https://app.egghead.io/search?topic=scss"
@@ -706,7 +706,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/square_128/redux.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/square_64/redux.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/386/square_32/redux.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/modern-redux-with-redux-toolkit-rtk-and-typescript-64f243c8?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/confidently-testing-redux-applications-with-jest-typescript-16e17d9b?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/redux",
     "path": "/browse/libraries/redux",
     "search_url": "https://app.egghead.io/search?topic=redux"
@@ -837,7 +837,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/969/square_128/reactnativelogo.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/969/square_64/reactnativelogo.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/969/square_32/reactnativelogo.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/creating-buttons-in-react-native-with-three-levels-of-customization-d657?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/building-an-customisable-animated-skeleton-loader-in-react-native-51f6231d?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/react-native",
     "path": "/browse/frameworks/react-native",
     "search_url": "https://app.egghead.io/search?topic=react-native"
@@ -1159,6 +1159,25 @@
     "search_url": "https://app.egghead.io/search?topic=openapi"
   },
   {
+    "id": 1300,
+    "label": "Nx",
+    "name": "nx",
+    "description": "Nx helps architect, test, and build at any scale:\nintegrations with modern frameworks, distributed task execution, computation caching, smart rebuilds of affected projects, powerful code generators, editor support, GitHub apps, and more.",
+    "slug": "nx",
+    "image": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/thumb/nx-logo.png",
+    "image_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/thumb/nx-logo.png",
+    "image_480_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/square_480/nx-logo.png",
+    "image_280_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/square_280/nx-logo.png",
+    "image_256_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/square_256/nx-logo.png",
+    "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/square_128/nx-logo.png",
+    "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/square_64/nx-logo.png",
+    "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/300/square_32/nx-logo.png",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/scale-react-development-with-nx-4038?load_lessons=false",
+    "http_url": "https://app.egghead.io/browse/platforms/nx",
+    "path": "/browse/platforms/nx",
+    "search_url": "https://app.egghead.io/search?topic=nx"
+  },
+  {
     "id": 1102,
     "label": "NW.js",
     "name": "nwjs",
@@ -1294,7 +1313,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/037/square_128/ngrx.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/037/square_64/ngrx.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/037/square_32/ngrx.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/ngrx-beginner-lessons-7d674a9e?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/ngrx-ultra-small-quick-start-d385c176?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/ngrx",
     "path": "/browse/libraries/ngrx",
     "search_url": "https://app.egghead.io/search?topic=ngrx"
@@ -1331,7 +1350,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_128/nextjs.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_64/nextjs.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_32/nextjs.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-modern-user-interface-with-chakra-ui-fac68106?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-static-pages-dynamically-using-next-js-and-the-notion-api-34849fc4?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/libraries/next",
     "path": "/browse/libraries/next",
     "search_url": "https://app.egghead.io/search?topic=next"
@@ -1750,7 +1769,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/940/square_128/jestlogo.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/940/square_64/jestlogo.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/940/square_32/jestlogo.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-react-app-with-the-hooks-api-3010?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/confidently-testing-redux-applications-with-jest-typescript-16e17d9b?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/jest",
     "path": "/browse/frameworks/jest",
     "search_url": "https://app.egghead.io/search?topic=jest"
@@ -1788,7 +1807,7 @@
     "image_128_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_128/javascriptlang.png",
     "image_64_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_64/javascriptlang.png",
     "image_32_url": "https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_32/javascriptlang.png",
-    "latest_course_url": "https://app.egghead.io/api/v1/playlists/build-a-real-time-data-syncing-chat-application-with-supabase-and-next-js-84e58958?load_lessons=false",
+    "latest_course_url": "https://app.egghead.io/api/v1/playlists/web-frameworks-in-60-seconds-964d25d0?load_lessons=false",
     "http_url": "https://app.egghead.io/browse/frameworks/javascript",
     "path": "/browse/frameworks/javascript",
     "search_url": "https://app.egghead.io/search?topic=javascript"
