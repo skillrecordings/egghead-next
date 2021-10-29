@@ -15,6 +15,7 @@ module.exports = {
     'react/no-unescaped-entities': 'off',
     'react/prop-types': 'off', // We will use TypeScript's types for component props instead
     'jsx-a11y/anchor-is-valid': 'off', // This rule is not compatible with Next.js's <Link /> components
+    'import/no-anonymous-default-export': ['error', {allowObject: true}],
   },
   parser: '@typescript-eslint/parser',
   settings: {react: {version: 'detect'}},
