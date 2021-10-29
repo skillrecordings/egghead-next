@@ -63,7 +63,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
             {ctaContent.headline}
           </h3>
-          {ctaContent.linksTo.map((content) => {
+          {ctaContent.linksTo.map((content: any) => {
             return (
               <Link href={content.path || '#'}>
                 <a
