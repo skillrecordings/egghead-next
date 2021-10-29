@@ -52,7 +52,7 @@ import EmailCaptureCtaOverlay from '../../components/pages/lessons/overlay/email
 
 const tracer = getTracer('lesson-page')
 
-const specialLessons = {
+const specialLessons: any = {
   'javascript-3-ways-to-update-the-content-of-an-array-of-objects-with-javascript':
     {
       headline: 'Check out these in-depth courses on JavaScript Arrays',
