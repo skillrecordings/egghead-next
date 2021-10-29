@@ -8,7 +8,10 @@ import {useTrackComponent} from 'hooks/use-track-component'
 const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   lesson: any
   nextLesson: any
-  ctaContent?: {headline: string; linksTo: {title: string; path: string; type: string;}[]}
+  ctaContent?: {
+    headline: string
+    linksTo: {title: string; path: string; type: string; imageUrl: string}[]
+  }
   onClickRewatch?: () => void
 }> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
@@ -59,22 +62,31 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
         </Link>
       </div>
       {ctaContent && (
-        <div className="flex mt-6 md:mt-8">
+        <div className="flex flex-col mt-6 md:mt-8 space-y-3">
           <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
             {ctaContent.headline}
           </h3>
           {ctaContent.linksTo.map((content) => {
             return (
-              <Link href={nextLesson.path || '#'}>
+              <Link href={content.path || '#'}>
                 <a
                   onClick={() => {
                     track('clicked cta content', {
                       from: lesson.slug,
-                      [content.type]: content.title
+                      [content.type]: content.title,
                     })
                   }}
-                  className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
+                  className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out"
                 >
+                  <div className="w-12 h-12 relative flex-shrink-0">
+                    <Image
+                      src={content.imageUrl}
+                      alt={`illustration of ${content.title} course`}
+                      width="64"
+                      height="64"
+                      layout="fill"
+                    />
+                  </div>
                   {content.title}
                 </a>
               </Link>
@@ -82,7 +94,6 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           })}
         </div>
       )}
-      
     </div>
   )
 }

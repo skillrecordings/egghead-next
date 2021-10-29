@@ -53,21 +53,26 @@ import EmailCaptureCtaOverlay from '../../components/pages/lessons/overlay/email
 const tracer = getTracer('lesson-page')
 
 const specialLessons = {
-  "javascript-3-ways-to-update-the-content-of-an-array-of-objects-with-javascript" : {
-    headline: 'Check out these in-depth courses on JavaScript Arrays.',
-    linksTo: [
-      {
-        title: 'Understand JavaScript Arrays', 
-        path: '/courses/understand-javascript-arrays', 
-        type: 'course'
-      },
-      {
-        title: 'Reduce Data with Javascript Array#reduce', 
-        path: '/courses/reduce-data-with-javascript-array-reduce', 
-        type: 'course'
-      }
-    ]
-  }
+  'javascript-3-ways-to-update-the-content-of-an-array-of-objects-with-javascript':
+    {
+      headline: 'Check out these in-depth courses on JavaScript Arrays',
+      linksTo: [
+        {
+          title: 'Understand JavaScript Arrays',
+          path: '/courses/understand-javascript-arrays',
+          type: 'course',
+          imageUrl:
+            'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/714/square_480/EGH_JSarrays.png',
+        },
+        {
+          title: 'Reduce Data with Javascript Array#reduce',
+          path: '/courses/reduce-data-with-javascript-array-reduce',
+          type: 'course',
+          imageUrl:
+            'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/557/square_480/EGH_ReduceDataJS.png',
+        },
+      ],
+    },
 }
 
 export const getServerSideProps: GetServerSideProps = async function ({
