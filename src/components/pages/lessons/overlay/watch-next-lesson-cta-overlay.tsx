@@ -73,9 +73,9 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
                       [content.type]: content.title,
                     })
                   }}
-                  className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out"
+                  className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
                 >
-                  <div className="w-12 h-12 relative flex-shrink-0">
+                  <div className="w-12 h-12 relative flex-shrink-0 ">
                     <Image
                       src={content.imageUrl}
                       alt={`illustration of ${content.title} course`}
@@ -84,7 +84,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
                       layout="fill"
                     />
                   </div>
-                  {content.title}
+                  <div className="font-bold">{content.title}</div>
                 </a>
               </Link>
             )
