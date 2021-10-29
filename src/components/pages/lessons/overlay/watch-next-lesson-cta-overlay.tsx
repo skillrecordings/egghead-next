@@ -8,10 +8,7 @@ import {useTrackComponent} from 'hooks/use-track-component'
 const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   lesson: any
   nextLesson: any
-  ctaContent?: {
-    headline: string
-    linksTo: {title: string; path: string; type: string; imageUrl: string}[]
-  }
+  ctaContent?: any
   onClickRewatch?: () => void
 }> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
