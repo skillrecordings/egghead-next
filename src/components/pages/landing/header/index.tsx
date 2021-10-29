@@ -8,22 +8,28 @@ import TechLogos from '../tech-logos'
 
 const Header = () => {
   const {resolvedTheme} = useTheme()
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <header className="-mt-5 -mx-5">
       <div className="sm:min-h-[90vh] relative w-full flex flex-col items-center justify-center sm:py-32 py-24 px-5">
-        <Image
-          src={resolvedTheme === 'dark' ? HeroBgDark : HeroBgLight}
-          alt=""
-          aria-hidden
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          className="pointer-events-none"
-          placeholder="blur"
-          loading="eager"
-          priority
-        />
+        {isMounted && (
+          <Image
+            src={resolvedTheme === 'dark' ? HeroBgDark : HeroBgLight}
+            alt=""
+            aria-hidden
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className="pointer-events-none"
+            placeholder="blur"
+            loading="eager"
+            priority
+          />
+        )}
         <div
           aria-hidden
           className="h-64 bg-gradient-to-t dark:from-gray-900 from-white to-transparent w-full absolute bottom-0 left-0"

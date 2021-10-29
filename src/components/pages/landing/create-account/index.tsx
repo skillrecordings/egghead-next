@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {FormikProps, useFormik} from 'formik'
 import * as Yup from 'yup'
 import {useViewer} from 'context/viewer-context'
-import {track} from 'utils/analytics'
+import {FormikProps, useFormik} from 'formik'
 import Spinner from 'components/spinner'
+import {track} from 'utils/analytics'
 import {useRouter} from 'next/router'
 
 type FormikValues = {
@@ -20,11 +20,11 @@ const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
       />
     </>
   ),
-
   location,
 }) => {
   const {requestSignInEmail} = useViewer()
   const router = useRouter()
+
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {
       email: '',
@@ -36,7 +36,7 @@ const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
       formik.setStatus('loading')
       requestSignInEmail(email)
         .then(() => {
-          track(`clicked ${actionLabel}`, {location})
+          track(`submitted email to create free account`, {location})
         })
         .then(() => {
           formik.setStatus('submitted')
@@ -54,7 +54,7 @@ const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
   })
   return (
     <form onSubmit={formik.handleSubmit} className="max-w-md w-full">
-      <div className="flex">
+      <div className="flex sm:flex-row flex-col">
         <div className="relative flex items-center w-full text-gray-400 lg:w-80 dark:text-white">
           <svg
             className="absolute w-5 h-5 left-3"
@@ -73,15 +73,22 @@ const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="you@company.com"
-            className="dark:autofill:text-fill-white block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent border-r-0 border-gray-300 dark:border-gray-700 rounded-l-md shadow-sm dark:text-white autofill:text-fill-black focus:outline-none outline-none focus:ring-0 dark:focus:border-blue-500 focus:border-blue-500"
+            className="dark:autofill:text-fill-white block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent sm:border-r-0 border-gray-300 dark:border-gray-700 sm:rounded-r-none rounded-md shadow-sm dark:text-white autofill:text-fill-black focus:outline-none outline-none focus:ring-0 dark:focus:border-blue-500 focus:border-blue-500"
             required
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-600 dark:hover:bg-blue-500 hover:bg-blue-500 rounded-r-md px-4 text-white font-medium text-sm flex-shrink-0 flex items-center justify-center transition-all ease-in-out duration-200 group focus:outline-none outline-none focus:ring-2 focus:ring-blue-700 focus:bg-blue-500 dark:focus:ring-blue-300 relative z-10"
+          className="sm:mt-0 mt-4 bg-blue-600 min-w-[160px] text-center dark:hover:bg-blue-500 hover:bg-blue-500 sm:rounded-l-none rounded-md px-4 sm:py-3 py-4 text-white font-medium text-sm flex-shrink-0 flex items-center justify-center transition-all ease-in-out duration-200 group focus:outline-none outline-none focus:ring-2 focus:ring-blue-700 focus:bg-blue-500 dark:focus:ring-blue-300 relative z-10"
         >
-          {formik.status === 'loading' ? <Spinner /> : actionLabel}
+          {formik.status === 'loading' ? (
+            <>
+              <Spinner />
+              <span className="sr-only">loading</span>
+            </>
+          ) : (
+            actionLabel
+          )}
         </button>
       </div>
       {formik.status === 'error' && (

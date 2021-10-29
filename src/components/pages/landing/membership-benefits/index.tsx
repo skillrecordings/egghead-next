@@ -49,7 +49,7 @@ const FeatureBox: React.FC<{
   description: string
 }> = ({title, description}) => {
   return (
-    <div className="dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 bg-white shadow-smooth dark:shadow-none p-10 rounded-md flex flex-col items-center justify-center">
+    <div className="dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 shadow-smooth lg:p-10 sm:p-8 p-5 rounded-md flex flex-col items-center justify-center">
       <div className="text-2xl font-bold">{title}</div>
       <div className="text-center leading-tight text-sm dark:text-gray-200 text-gray-800">
         {description}
@@ -67,6 +67,7 @@ const Column: React.FC<{features: any; className?: string}> = ({
       {features.map((feature: any) => {
         return (
           <FeatureBox
+            key={feature.icon || feature.title}
             title={
               feature.icon ? (
                 <Image
@@ -87,18 +88,27 @@ const Column: React.FC<{features: any; className?: string}> = ({
 
 const MembershipBenefits: React.FC = () => {
   return (
-    <section className="px-5 grid md:grid-cols-3 gap-5 max-w-screen-lg mx-auto w-full">
+    <section
+      id="benefits"
+      className="px-5 grid md:grid-cols-3 gap-5 max-w-screen-lg mx-auto w-full"
+    >
       <Column
         features={features.slice(0, 3)}
-        className="grid md:grid-rows-4 gap-5 md:translate-y-[88px]"
+        className="md:grid hidden md:grid-rows-4 gap-5 md:translate-y-[88px]"
       />
       <Column
         features={features.slice(3, 7)}
         className="grid md:grid-rows-4 md:row-start-auto row-start-1 gap-5"
       />
+      {/* ——— desktop ——— */}
       <Column
         features={features.slice(7, 10)}
-        className="grid md:grid-rows-4 gap-5 md:translate-y-[88px]"
+        className="md:grid hidden md:grid-rows-4 gap-5 md:translate-y-[88px]"
+      />
+      {/* ——— mobile ——— */}
+      <Column
+        features={[...features.slice(7, 10), ...features.slice(0, 3)]}
+        className="md:hidden grid md:grid-rows-4 grid-cols-2 gap-5 md:translate-y-[88px]"
       />
     </section>
   )

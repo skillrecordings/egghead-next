@@ -47,14 +47,14 @@ const NotificationIcon = () => {
         height="180"
         rx="90"
         className="fill-current"
-        fill-opacity="0.1"
+        fillOpacity="0.1"
       />
       <path
         d="M48 74.1429L85.1985 98.9419C88.3656 101.053 92.4915 101.053 95.6586 98.9419L132.857 74.1429M57.4286 126H123.429C128.636 126 132.857 121.779 132.857 116.571V69.4286C132.857 64.2213 128.636 60 123.429 60H57.4286C52.2213 60 48 64.2213 48 69.4286V116.571C48 121.779 52.2213 126 57.4286 126Z"
         className="stroke-current"
-        stroke-width="5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <circle opacity="0.98" cx="128" cy="65" r="25" fill="#EF4748" />
       <path

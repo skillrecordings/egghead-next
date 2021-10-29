@@ -24,7 +24,10 @@ const TechLogos = () => {
     <div className="flex flex-wrap items-center justify-center md:max-w-none sm:max-w-lg max-w-[450px]">
       {logos.map((tech) => {
         return (
-          <div className="lg:px-4 md:px-2 px-2 py-1 sm:scale-90 scale-75">
+          <div
+            key={tech}
+            className="lg:px-4 md:px-2 px-2 py-1 sm:scale-90 scale-75"
+          >
             <Image
               src={require(`./${
                 resolvedTheme === 'dark' ? 'dark' : 'light'

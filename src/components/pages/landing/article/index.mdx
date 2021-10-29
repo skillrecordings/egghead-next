@@ -6,19 +6,23 @@
 </H3>
 
 <List title={<p className="font-semibold">You know the drill...</p>}>
-  <ListItemEmoji emoji={DissapointedFace}>
+  <ListItemEmoji
+    emoji={{image: DissapointedFace, alt: 'dissapointed face emoji'}}
+  >
     Cobble together hours-long videos, docs, tutorials, and forum posts
   </ListItemEmoji>
-  <ListItemEmoji emoji={ConfoundedFace}>
+  <ListItemEmoji emoji={{image: ConfoundedFace, alt: 'confounded face emoji'}}>
     Watch long, unedited videos at 2x speed
   </ListItemEmoji>
-  <ListItemEmoji emoji={TiredFace}>
+  <ListItemEmoji emoji={{image: TiredFace, alt: 'tired face emoji'}}>
     Dig through the comments when tutorials give you more bugs than working code
   </ListItemEmoji>
-  <ListItemEmoji emoji={CryingFace}>
+  <ListItemEmoji emoji={{image: CryingFace, alt: 'crying face emoji'}}>
     Read blog post after unreliable blog post
   </ListItemEmoji>
-  <ListItemEmoji emoji={LoudlyCryingFace}>
+  <ListItemEmoji
+    emoji={{image: LoudlyCryingFace, alt: 'loudly crying face emoji'}}
+  >
     Beg for answers on StackOverflow when you hit dead ends
   </ListItemEmoji>
 </List>
@@ -96,23 +100,25 @@ egghead is not a sloppy video marketplace or grab-bag of random content. We're a
   }
   className="sm:p-10 p-5 md:-mx-10 sm:mx-0 -mx-5 sm:rounded-md dark:bg-gray-800 bg-gray-50"
 >
-  <ListItemEmoji emoji={HuggingFace}>
+  <ListItemEmoji emoji={{image: HuggingFace, alt: 'hugging face emoji'}}>
     Access to hundreds of courses by world-class folks like Dan Abramov, Kent C.
     Dodds, Jason Lengstorf, and Laurie Barth
   </ListItemEmoji>
-  <ListItemEmoji emoji={WingingFace}>
+  <ListItemEmoji emoji={{image: WingingFace, alt: 'winging face emoji'}}>
     Lessons designed to teach you exactly what you need to know, without any of
     the fluff or cruft
   </ListItemEmoji>
-  <ListItemEmoji emoji={NerdFace}>
+  <ListItemEmoji emoji={{image: NerdFace, alt: 'nerd face emoji'}}>
     Code examples (without the bugs) and projects to immediately test your
     knowledge
   </ListItemEmoji>
-  <ListItemEmoji emoji={SunglassesFace}>
+  <ListItemEmoji
+    emoji={{image: SunglassesFace, alt: 'smiling face with sunglasses emoji'}}
+  >
     Professionally produced and edited videos with high-quality sound and
     resolution
   </ListItemEmoji>
-  <ListItemEmoji emoji={PartyingFace}>
+  <ListItemEmoji emoji={{image: PartyingFace, alt: 'partying face emoji'}}>
     Tools to help you plan, track, and follow through on your learning goals
   </ListItemEmoji>
 </List>
@@ -150,7 +156,12 @@ export const ListItemEmoji = ({children, emoji}) => {
   return (
     <li className="flex pt-3 items-center">
       <span className="w-6 flex items-center justify-center flex-shrink-0 mr-3">
-        <Image src={emoji} alt="" placeholder="blur" priority />
+        <Image
+          src={emoji.image}
+          alt={emoji.alt}
+          placeholder="blur"
+          loading="eager"
+        />
       </span>
       {children}
     </li>
