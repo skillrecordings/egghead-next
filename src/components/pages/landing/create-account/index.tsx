@@ -73,7 +73,7 @@ const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="you@company.com"
-            className="dark:autofill:text-fill-white block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent sm:border-r-0 border-gray-300 dark:border-gray-700 sm:rounded-r-none rounded-md shadow-sm dark:text-white autofill:text-fill-black focus:outline-none outline-none focus:ring-0 dark:focus:border-blue-500 focus:border-blue-500"
+            className="dark:autofill:text-fill-black block w-full py-3 pl-10 text-black placeholder-gray-400 bg-transparent sm:border-r-0 border-gray-300 dark:border-gray-700 sm:rounded-r-none rounded-md shadow-sm dark:text-white autofill:text-fill-black focus:outline-none outline-none focus:ring-0 dark:focus:border-blue-500 focus:border-blue-500"
             required
           />
         </div>
