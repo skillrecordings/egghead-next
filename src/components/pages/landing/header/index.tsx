@@ -32,7 +32,7 @@ const Header = () => {
         )}
         <div
           aria-hidden
-          className="h-64 bg-gradient-to-t dark:from-gray-900 from-white to-transparent w-full absolute bottom-0 left-0"
+          className="h-64 bg-gradient-to-t dark:from-gray-900 dark:to-transparentDark from-white to-transparentLight w-full absolute bottom-0 left-0"
         />
         <div className="flex flex-col items-center justify-center max-w-screen-lg relative z-10 pb-8">
           <h1 className="font-semibold lg:text-4xl sm:text-3xl text-2xl leading-tighter text-center lg:max-w-none md:max-w-screen-md">
