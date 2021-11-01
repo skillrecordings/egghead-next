@@ -73,6 +73,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
                     track('clicked cta content', {
                       from: lesson.slug,
                       [content.type]: content.slug,
+                      location: 'video player',
                     })
                   }}
                   className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"

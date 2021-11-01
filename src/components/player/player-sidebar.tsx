@@ -74,9 +74,10 @@ const PlayerSidebar: React.FC<{
                     >
                       <a
                         onClick={() => {
-                          track('clicked sidebar cta content', {
+                          track('clicked cta content', {
                             from: videoResource.slug,
                             [content.type]: content.slug,
+                            location: 'sidebar',
                           })
                         }}
                         className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
