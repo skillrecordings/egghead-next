@@ -82,9 +82,6 @@ const PlayerSidebar: React.FC<{
                         }}
                         className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
                       >
-                        <div className="font-bold relative">
-                          {content.title}
-                        </div>
                         <div className="w-12 h-12 relative flex-shrink-0 ">
                           <Image
                             src={content.imageUrl}
@@ -93,6 +90,9 @@ const PlayerSidebar: React.FC<{
                             height="64"
                             layout="fill"
                           />
+                        </div>
+                        <div className="font-bold relative">
+                          {content.title}
                         </div>
                       </a>
                     </Link>
