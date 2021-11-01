@@ -86,7 +86,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
                       layout="fill"
                     />
                   </div>
-                  <div className="font-bold">{content.title}</div>
+                  <div className="font-bold relative">{content.title}</div>
                 </a>
               </Link>
             )
