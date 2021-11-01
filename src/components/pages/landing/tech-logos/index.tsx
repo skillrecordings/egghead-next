@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {useTheme} from 'next-themes'
 
 const TechLogos = () => {
@@ -24,17 +25,16 @@ const TechLogos = () => {
     <div className="flex flex-wrap items-center justify-center md:max-w-none sm:max-w-lg max-w-[450px]">
       {logos.map((tech) => {
         return (
-          <div
-            key={tech}
-            className="lg:px-4 md:px-2 px-2 py-1 sm:scale-90 scale-75"
-          >
-            <Image
-              src={require(`./${
-                resolvedTheme === 'dark' ? 'dark' : 'light'
-              }/${tech}.svg`)}
-              alt={tech}
-            />
-          </div>
+          <Link key={tech} href={`/q/${tech}`}>
+            <a className="px-2 py-1 scale-75 lg:px-4 md:px-2 sm:scale-90">
+              <Image
+                src={require(`./${
+                  resolvedTheme === 'dark' ? 'dark' : 'light'
+                }/${tech}.svg`)}
+                alt={tech}
+              />
+            </a>
+          </Link>
         )
       })}
     </div>
