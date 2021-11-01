@@ -40,13 +40,9 @@ const NextUpList: FunctionComponent<NextUpListProps> = ({
         <ol
           ref={scrollableNodeRef}
           id="scroll-container"
-          className="overflow-y-auto h-full"
-          css={{
-            '@media only screen and (min-width: 640px)': {
-              maxHeight: nextToVideo ? '100%' : 600,
-            },
-            maxHeight: 300,
-          }}
+          className={`overflow-y-auto h-full max-h-[300px] ${
+            nextToVideo ? 'sm:max-h-full' : 'sm:max-h-[600px]'
+          }`}
         >
           {nextUpData.list.lessons.map((lesson: LessonResource, index = 0) => {
             const completedLessons = get(

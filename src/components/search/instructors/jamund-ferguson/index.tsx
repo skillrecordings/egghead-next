@@ -50,6 +50,7 @@ export default function SearchJamundFerguson({instructor}: {instructor: any}) {
           {restCourses.map((course: CardResource) => {
             return (
               <HorizontalResourceCard
+                key={course.id}
                 className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
                 resource={course}
                 describe

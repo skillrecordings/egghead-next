@@ -17,13 +17,7 @@ const PodcastCard: FunctionComponent<PodcastCardProps> = ({
       href={path}
       className="flex flex-col h-full items-center"
     >
-      <div
-        css={{
-          height: `${IMAGE_SIZE}px`,
-          width: `${IMAGE_SIZE}px`,
-        }}
-        className="mb-0 flex-grow-0"
-      >
+      <div className="mb-0 flex-grow-0 w-[220px] h-[220px]">
         <Image
           width={IMAGE_SIZE}
           height={IMAGE_SIZE}

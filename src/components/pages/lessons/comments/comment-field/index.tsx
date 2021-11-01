@@ -41,13 +41,10 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({
                     onBlur={handleBlur}
                     placeholder="Your comment..."
                     disabled={isSubmitting}
-                    className={`form-textarea p-3 dark:text-white dark:bg-gray-800 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 dark:border-gray-700 rounded-md resize-none ${
+                    className={`min-h-[120px] form-textarea p-3 dark:text-white dark:bg-gray-800 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full border-gray-300 dark:border-gray-700 rounded-md resize-none ${
                       isSubmitting ? 'opacity-60' : ''
                     }`}
                     required
-                    css={{
-                      minHeight: '120px',
-                    }}
                   />
                   <button
                     type="submit"

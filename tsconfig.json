@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["@emotion/core", "jest", "node"],
+    "types": ["jest", "node"],
     "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

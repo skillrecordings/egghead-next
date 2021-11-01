@@ -99,7 +99,7 @@ const VerticalResourceCollectionCard: React.FC<{
             }
             const className = `flex items-center py-2`
             return (
-              <Card {...props} className={className} quiet>
+              <Card key={resource.id} {...props} className={className} quiet>
                 {resource.image && (
                   <Link href={resource.path}>
                     <a

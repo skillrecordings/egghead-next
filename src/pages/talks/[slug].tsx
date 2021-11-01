@@ -127,24 +127,24 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
       </Head>
       <div>
         <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
-          <div
-            className="w-full m-auto"
-            css={{
-              '@media (min-width: 960px)': {
-                maxWidth:
-                  height > VIDEO_MIN_HEIGHT + OFFSET_Y
+          <style jsx>
+            {`
+              @media (min-width: 960px) {
+                .player-container {
+                  max-width: ${height > VIDEO_MIN_HEIGHT + OFFSET_Y
                     ? lessonMaxWidth
-                    : VIDEO_MIN_HEIGHT * 1.6,
-              },
-              '@media (min-width: 960px) and (max-height: 560px)': {
-                minHeight: '432px',
-              },
-            }}
-          >
-            <div
-              className="w-full relative overflow-hidden bg-black text-white"
-              css={{paddingTop: '56.25%'}}
-            >
+                    : VIDEO_MIN_HEIGHT * 1.6}px;
+                }
+              }
+              @media (min-width: 960px) and (max-height: 560px) {
+                .player-container {
+                  min-height: 432px;
+                }
+              }
+            `}
+          </style>
+          <div className="player-container w-full m-auto">
+            <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white">
               <div className="absolute w-full h-full top-0 left-0">
                 <EggheadPlayer
                   ref={playerRef}

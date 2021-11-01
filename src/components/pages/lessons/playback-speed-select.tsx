@@ -36,10 +36,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
           })
         }}
       >
-        <ListboxButton
-          className="text-white text-sm rounded-md bg-gray-800 group flex items-center justify-center"
-          css={{padding: '0.5rem 0.75rem', border: 'none'}}
-        >
+        <ListboxButton className="text-white text-sm rounded-md bg-gray-800 group flex items-center justify-center px-2 py-3 border-none">
           <span className="text-xs mb-px translate-y-px text-gray-300 group-hover:text-white transition-colors ease-in-out duration-200">
             Speed
           </span>
@@ -55,17 +52,7 @@ const PlaybackSpeedSelect: FunctionComponent<{
           className="dark:bg-gray-900 dark:text-white dark:border-gray-800 p-0 rounded-md shadow-md overflow-hidden z-10"
           style={{outline: 'none'}}
         >
-          <ListboxList
-            className=""
-            css={{
-              '[data-reach-listbox-list][aria-selected="true"]': {
-                background: '#2563EB',
-                ':hover': {
-                  background: '#2563EB',
-                },
-              },
-            }}
-          >
+          <ListboxList>
             {availableSpeeds
               .filter((i) => i !== value)
               .map((speed, index) => (
@@ -73,11 +60,6 @@ const PlaybackSpeedSelect: FunctionComponent<{
                   key={index}
                   value={speed}
                   className="dark:border-gray-800 hover:bg-blue-100 transition-colors ease-in-out duration-200 hover:text-black font-medium text-sm text-right px-3 py-2 border-t border-gray-100 cursor-pointer"
-                  css={{
-                    ':first-child': {
-                      border: 'none',
-                    },
-                  }}
                 >
                   {speed}
                 </ListboxOption>
