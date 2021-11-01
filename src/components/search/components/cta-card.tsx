@@ -15,14 +15,7 @@ const CtaCard: React.FC<{
   const {path, title, byline, description, image, background} = resource
 
   return (
-    <div
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
-      css={{
-        [bpMinMD]: {
-          minHeight: 477,
-        },
-      }}
-    >
+    <div className="md:min-h-[477px] block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center">
       <ExternalTrackedLink
         eventName="clicked Instructor Landing page CTA"
         params={{location}}

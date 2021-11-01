@@ -75,14 +75,7 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
         alt=""
       />
       <div className="absolute inset-0 bg-gray-200 mix-blend-multiply" />
-      <div
-        className="md:-mt-5 flex items-center justify-center text-white overflow-hidden "
-        css={{
-          [bpMinMD]: {
-            minHeight: 477,
-          },
-        }}
-      >
+      <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center text-white overflow-hidden ">
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
             <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 gap-10 mt-10">

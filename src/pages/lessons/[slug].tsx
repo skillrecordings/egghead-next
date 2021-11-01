@@ -414,6 +414,18 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
   return (
     <>
+      <style jsx>
+        {`
+          .player-provider {
+            max-width: calc((75vh * 1.77777) + 300px);
+          }
+          .player-wrapper::before {
+            padding-bottom: ${isEmpty(lesson.staff_notes_url)
+              ? 'calc(56.25% + 3.5rem)'
+              : 'calc(56.25% + 4.5rem)'};
+          }
+        `}
+      </style>
       <NextSeo
         description={removeMarkdown(description)}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
@@ -445,23 +457,11 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
       <div className="-mx-5 -mt-3 sm:-mt-5 overflow-hidden">
         <PlayerProvider>
-          <div
-            className="relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0"
-            css={{
-              maxWidth: 'calc((75vh * 1.77777) + 300px)',
-            }}
-          >
+          <div className="player-provider relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0">
             <div
-              className={`relative before:float-left after:clear-both after:table ${
+              className={`player-wrapper relative before:float-left after:clear-both after:table ${
                 isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
               }`}
-              css={{
-                ':before': {
-                  paddingBottom: `calc(56.25% + ${
-                    isEmpty(lesson.staff_notes_url) ? '3.5rem' : '4.5rem'
-                  })`,
-                },
-              }}
             >
               <PlayerContainer ref={playerContainer}>
                 <VideoResourcePlayer
@@ -783,10 +783,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                 </TabPanel>
               )}
               <TabPanel>
-                <div
-                  className="space-y-6 sm:space-y-8"
-                  css={{wordBreak: 'break-word'}}
-                >
+                <div className="space-y-6 sm:space-y-8 break-[break-word]">
                   <Comments
                     lesson={lesson}
                     commentingAllowed={viewer?.can_comment}

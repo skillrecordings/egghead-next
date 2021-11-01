@@ -382,8 +382,8 @@ const Join: FunctionComponent = () => {
   return (
     <div className="py-24 text-center dark:bg-gray-800 bg-gray-100 text-white -mx-5 xl:px-0 px-5">
       <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
-        <div>
-          <Eggo className="w-16" />
+        <div className="w-16">
+          <Image src={Eggo} alt="" />
         </div>
         <h2 className="lg:text-2xl text-xl font-semibold leading-tighter max-w-2xl text-gray-900 dark:text-gray-100">
           Add this project to your portfolio with your egghead Pro Membership

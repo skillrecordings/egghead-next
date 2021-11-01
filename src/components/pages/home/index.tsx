@@ -330,6 +330,7 @@ const FeatureRow: FunctionComponent<any> = ({
           {map(resource.related, (resource) => {
             return (
               <HorizontalResourceCard
+                key={resource.path}
                 resource={resource}
                 location={location}
                 className="m-0"
@@ -414,6 +415,7 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
           {map(resource.related, (resource) => {
             return (
               <HorizontalResourceCard
+                key={resource.path}
                 resource={resource}
                 location={location}
                 className="m-0"

@@ -75,18 +75,9 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
   }
 
   return (
-    <div
-      className="sm:-mx-5 sm:-mt-5 -mx-5 -mt-3 sm:dark:bg-gray-1000 sm:bg-gray-100 sm:py-24 h-screen"
-      css={{
-        [bpMinSM]: {
-          backgroundImage:
-            'url(https://res.cloudinary.com/dg3gyk0gu/image/upload/v1613073056/next.egghead.io/backgrounds/grid-of-course-artworks_2x.png)',
-          backgroundSize: 'cover',
-        },
-      }}
-    >
+    <div className="sm:-mx-5 sm:-mt-5 -mx-5 -mt-3 sm:dark:bg-gray-1000 sm:bg-gray-100 sm:py-24 h-screen">
       <div className="flex flex-col items-center sm:border-2 sm:dark:border-gray-800 sm:border-gray-200 sm:rounded-lg sm:max-w-md mx-auto overflow-hidden">
-        <div className="dark:sm:bg-gray-800 dark:bg-gray-1000 sm:bg-gray-100 bg-gray-100 dark-text-white dark:text-white text-gray-900 py-6 w-full flex items-center justify-center">
+        <div className="sm:dark:bg-gray-800 dark:bg-gray-1000 sm:bg-gray-100 bg-gray-100 dark-text-white dark:text-white text-gray-900 py-6 w-full flex items-center justify-center">
           <Stepper />
         </div>
         <div className="sm:mx-auto sm:w-full dark:bg-gray-900 bg-white px-5">

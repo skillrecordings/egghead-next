@@ -64,13 +64,15 @@ const Comment: React.FunctionComponent<CommentProps> = ({
             ~ {friendlyTime(new Date(createdAt))}
           </div>
         </div>
-        <div
-          className="prose dark:prose-dark max-w-none mt-1"
-          css={{
-            '> :first-child': {marginTop: 0},
-            '> :last-child': {marginBottom: 0},
-          }}
-        >
+        <style jsx>{`
+          & > :first-child {
+            margin-top: 0;
+          }
+          & > :last-child {
+            margin-bottom: 0;
+          }
+        `}</style>
+        <div className="comment-container prose dark:prose-dark max-w-none mt-1">
           <ReactMarkdown>{comment}</ReactMarkdown>
         </div>
       </div>

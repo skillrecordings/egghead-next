@@ -140,14 +140,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
   const {image, title, background, description, name} = resource
 
   return (
-    <div
-      className="relative flex items-center justify-center bg-white text-white overflow-hidden rounded-lg shadow-sm dark:bg-gray-800 "
-      css={{
-        [bpMinMD]: {
-          minHeight: 477,
-        },
-      }}
-    >
+    <div className="md:min-h-[477px] relative flex items-center justify-center bg-white text-white overflow-hidden rounded-lg shadow-sm dark:bg-gray-800 ">
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full sm:mb-4 md:my-12 lg:m-0 mt-0 mb-15">
           <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">

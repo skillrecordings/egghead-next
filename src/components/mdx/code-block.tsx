@@ -15,9 +15,8 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
   metastring,
   children,
 }) => {
-  const {numbered, linesHighlighted, labeled, filePath} = paramsFromMetastring(
-    metastring,
-  )
+  const {numbered, linesHighlighted, labeled, filePath} =
+    paramsFromMetastring(metastring)
 
   // extract code from nodes ?
   let code = ''
@@ -81,19 +80,23 @@ const CodeBlock: FunctionComponent<CodeBlockProps> = ({
         </>
       )}
       <div>
-        <pre
-          className="sm:mx-0 -mx-5 sm:px-0 px-5 py-0"
-          css={{
-            fontSize: '85% !important',
-            lineHeight: '1.75 !important',
-            borderRadius: '0 !important',
-            margin: '0 !important',
-            padding: '0 !important',
-            '@media only screen and (max-width: 640px)': {
-              padding: '0 !important',
-            },
-          }}
-        >
+        <style jsx>
+          {`
+            pre {
+              font-size: 85% !important;
+              line-height: 1.75 !important;
+              border-radius: 0 !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+            @media only screen and (max-width: 640px) {
+              pre {
+                padding: 0 !important;
+              }
+            }
+          `}
+        </style>
+        <pre className="code-block sm:mx-0 -mx-5 sm:px-0 px-5 py-0">
           <code>
             <SimpleBar autoHide={false} style={{padding: 20}}>
               {linesNodes}

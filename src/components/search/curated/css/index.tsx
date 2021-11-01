@@ -64,14 +64,7 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
     slug: 'accessible-cross-browser-css-form-styling-7297',
   }
   return (
-    <div
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
-      css={{
-        [bpMinMD]: {
-          minHeight: 477,
-        },
-      }}
-    >
+    <div className="md:min-h-[477px] block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center">
       <ExternalTrackedLink
         eventName="clicked CSS page CTA"
         params={{location}}
