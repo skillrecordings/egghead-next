@@ -67,7 +67,6 @@ export const surveyReducer = (
   state: SurveyState,
   action: SurveyAction,
 ): SurveyState => {
-  console.debug('survey reducer state + action', {state, action})
   try {
     switch (action.type) {
       case `load`:
@@ -97,7 +96,6 @@ export const surveyReducer = (
 }
 
 function loadSurvey(action: SurveyAction, state: SurveyState): SurveyState {
-  console.debug(`load survey`, state)
   const question: any = state.data[state.currentQuestionKey]
 
   function getInitialSurveyState(subscriber: CIOSubscriber): SurveyState {
@@ -129,7 +127,6 @@ function initializeSurveyState(
   subscriber: CIOSubscriber,
   question: SurveyQuestion,
 ) {
-  console.debug(`initializeSurveyState`, state)
   const answers = {
     ...state.answers,
     ...subscriber?.attributes,
@@ -149,7 +146,6 @@ function initializeSurveyState(
 }
 
 function answerSurveyQuestion(action: SurveyAction, state: SurveyState) {
-  console.debug(`answerSurveyQuestion`, state)
   const question: any = state.data[state.currentQuestionKey]
 
   if (action.type !== 'answered') return state
@@ -160,8 +156,6 @@ function answerSurveyQuestion(action: SurveyAction, state: SurveyState) {
     ...state.answers,
     ...(!!action.answer && {[state.currentQuestionKey]: action.answer}),
   }
-
-  console.debug(subscriber, answers)
 
   if (subscriber) {
     const attributes = getUpdatedAttributesForAnswer(
@@ -222,7 +216,6 @@ function getUpdatedAttributesForAnswer(
   subscriber: CIOSubscriber,
   currentQuestionKey: string,
 ) {
-  console.debug(`getUpdatedAttributesForAnswer`, state)
   const question: any = state.data[currentQuestionKey]
   const isFinal = question.final
   const now = Math.round(Date.now() / 1000)
@@ -286,7 +279,6 @@ function getStateForNextQuestion(
   attributes: any,
   nextQuestionKey: string,
 ) {
-  console.debug(`getStateForNextQuestion`, state)
   return {
     ...state,
     answers,
@@ -300,7 +292,6 @@ function getStateForNextQuestion(
 }
 
 function closeSurvey(action: SurveyAction, state: SurveyState) {
-  console.debug(`closeSurvey`, state)
   const question: any = state.data[state.currentQuestionKey]
   if (state.subscriber && question.final) {
     cioIdentify(
@@ -319,7 +310,6 @@ function closeSurvey(action: SurveyAction, state: SurveyState) {
 }
 
 function dismissSurvey(state: SurveyState) {
-  console.debug(`dismissSurvey`, state)
   if (state.subscriber) {
     cioIdentify(
       state.subscriber.id,
