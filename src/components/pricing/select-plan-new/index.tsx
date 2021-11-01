@@ -13,7 +13,7 @@ const PlanTitle: React.FunctionComponent = ({children}) => (
   </h2>
 )
 
-const PlanPrice: React.FunctionComponent<{
+export const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
