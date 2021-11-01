@@ -24,22 +24,26 @@ const PlayerSidebar: React.FC<{
   videoResource: VideoResource
   lessonView?: any
   onAddNote?: any
-}> = ({videoResource, lessonView, onAddNote}) => {
+  relatedResources?: any
+}> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
+
+  const videoResourceHasNotes = hasNotes(videoResource)
+  const videoResourceHasCollection = !isEmpty(videoResource.collection)
+  const hasRelatedResources = !isEmpty(relatedResources)
   return (
     <div className="relative h-full">
-      {/* TODO: remove weird logic that assumes 2 tabs */}
       <Tabs
-        index={(hasNotes(videoResource) && activeSidebarTab) || 0}
+        index={(videoResourceHasNotes && activeSidebarTab) || 0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
         className="shadow-sm lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
       >
         <TabList className="relative z-[1] flex-shrink-0">
-          {!isEmpty(videoResource.collection) && (
+          {videoResourceHasCollection && (
             <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
           )}
-          {hasNotes(videoResource) && (
+          {videoResourceHasNotes && (
             <Tab onClick={(e) => console.log('e')}>Notes</Tab>
           )}
         </TabList>
@@ -54,6 +58,45 @@ const PlayerSidebar: React.FC<{
           <TabPanel className="lg:absolute inset-0">
             <NotesTab onAddNote={onAddNote} />
           </TabPanel>
+          {hasRelatedResources &&
+            !videoResourceHasCollection &&
+            !videoResourceHasNotes && (
+              <div className="flex flex-col space-y-3 w-full">
+                <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
+                  {relatedResources.headline}
+                </h3>
+                {relatedResources.linksTo.map((content: any) => {
+                  return (
+                    <Link
+                      href={
+                        content.slug ? `/${content.type}s/${content.slug}` : '#'
+                      }
+                    >
+                      <a
+                        onClick={() => {
+                          track('clicked sidebar cta content', {
+                            from: videoResource.slug,
+                            [content.type]: content.slug,
+                          })
+                        }}
+                        className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
+                      >
+                        <div className="w-12 h-12 relative flex-shrink-0 ">
+                          <Image
+                            src={content.imageUrl}
+                            alt={`illustration of ${content.title} course`}
+                            width="64"
+                            height="64"
+                            layout="fill"
+                          />
+                        </div>
+                        <div className="font-bold">{content.title}</div>
+                      </a>
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
         </TabPanels>
       </Tabs>
     </div>
