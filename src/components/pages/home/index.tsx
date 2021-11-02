@@ -46,8 +46,8 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
     if (viewer) {
       const loadProgressForUser = async (user_id: number) => {
         if (user_id) {
-          const {data} = await loadUserProgress(user_id)
-          setProgress(data)
+          const response = await loadUserProgress(user_id)
+          if (response?.data) setProgress(response.data)
         }
       }
 
