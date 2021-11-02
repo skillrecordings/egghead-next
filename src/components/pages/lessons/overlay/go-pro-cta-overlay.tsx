@@ -32,6 +32,8 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
     useCommerceMachine({initialPlan: 'monthlyPrice'})
+  
+  let primaryCtaText: string
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {
@@ -140,7 +142,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     }
   }
 
-  let primaryCtaText: string
+  
 
   switch (true) {
     case !isEmpty(lesson.collection):
