@@ -40,8 +40,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email').required('Required'),
     }),
-    onSubmit: async ({email: _email}) => {
-      console.log({email: _email})
+    onSubmit: async () => {
       track('clicked join cta on blocked lesson', {
         lesson: lesson.slug,
         cta: primaryCtaText,
