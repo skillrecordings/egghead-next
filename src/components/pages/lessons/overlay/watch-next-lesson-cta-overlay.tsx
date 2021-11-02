@@ -65,12 +65,15 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           </h3>
           {ctaContent.linksTo.map((content: any) => {
             return (
-              <Link href={content.path || '#'}>
+              <Link
+                href={content.slug ? `/${content.type}s/${content.slug}` : '#'}
+              >
                 <a
                   onClick={() => {
                     track('clicked cta content', {
                       from: lesson.slug,
-                      [content.type]: content.title,
+                      [content.type]: content.slug,
+                      location: 'video player',
                     })
                   }}
                   className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
@@ -84,7 +87,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
                       layout="fill"
                     />
                   </div>
-                  <div className="font-bold">{content.title}</div>
+                  <div className="font-bold relative">{content.title}</div>
                 </a>
               </Link>
             )
