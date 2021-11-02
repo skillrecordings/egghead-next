@@ -17,23 +17,43 @@ import axios from 'axios'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import toast from 'react-hot-toast'
 import {StripeAccount} from 'types'
+import * as Yup from 'yup'
+import {FormikProps, useFormik} from 'formik'
 
 type JoinCTAProps = {
   lesson: LessonResource
+}
+
+type FormikValues = {
+  email: string
 }
 
 const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
     useCommerceMachine({initialPlan: 'monthlyPrice'})
+  
+  let primaryCtaText: string
 
-  const [emailForCheckout, setEmailForCheckout] = React.useState<
-    string | undefined
-  >(viewer?.email ?? '')
+  const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
+    initialValues: {
+      email: viewer?.email ?? '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email').required('Required'),
+    }),
+    onSubmit: async () => {
+      track('clicked join cta on blocked lesson', {
+        lesson: lesson.slug,
+        cta: primaryCtaText,
+      })
+      send({type: 'CONFIRM_PRICE', onClickCheckout})
+    },
+  })
 
   React.useEffect(() => {
     if (!isEmpty(viewer?.email)) {
-      setEmailForCheckout(viewer.email)
+      formik.setFieldValue('email', viewer.email)
     }
   }, [viewer?.email])
 
@@ -63,7 +83,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
   const onClickCheckout = async () => {
     if (!priceId) return
-    if (!emailForCheckout) return
+    if (!formik.values.email) return
 
     const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
@@ -71,17 +91,17 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     })
 
     const emailRequiresAProCheck =
-      !isEmpty(emailForCheckout) && emailForCheckout !== viewer?.email
+      !isEmpty(formik.values.email) && formik.values.email !== viewer?.email
 
     if (emailRequiresAProCheck) {
       const {hasProAccess} = await axios
         .post(`/api/users/check-pro-status`, {
-          email: emailForCheckout,
+          email: formik.values.email,
         })
         .then(({data}) => data)
 
       if (hasProAccess) {
-        const message = `You've already got a pro account at ${emailForCheckout}. Please sign in.`
+        const message = `You've already got a pro account at ${formik.values.email}. Please sign in.`
 
         toast.error(message, {
           duration: 6000,
@@ -89,7 +109,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
         })
 
         track('cta overlay checkout: existing pro account found', {
-          email: emailForCheckout,
+          email: formik.values.email,
         })
 
         // email is already associated with a pro account, return early instead
@@ -98,7 +118,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
       }
     }
 
-    if (emailIsValid(emailForCheckout)) {
+    if (emailIsValid(formik.values.email)) {
       await track('checkout: valid email present', {
         priceId: priceId,
       })
@@ -108,7 +128,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
       stripeCheckoutRedirect({
         priceId,
-        email: emailForCheckout,
+        email: formik.values.email,
         stripeCustomerId: account?.stripe_customer_id,
         authToken,
         quantity,
@@ -117,12 +137,12 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     } else {
       // we don't have a valid email for the checkout
       await track('checkout: unable to proceed, no valid email', {
-        email: emailForCheckout,
+        email: formik.values.email,
       })
     }
   }
 
-  let primaryCtaText: string
+  
 
   switch (true) {
     case !isEmpty(lesson.collection):
@@ -136,13 +156,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     <div className="flex flex-col justify-center items-center w-full relative h-full">
       <div className="grid sm:grid-cols-2 grid-cols-1 p-4 sm:py-4 py-8 items-center max-w-screen-md sm:gap-16 gap-8">
         <form
-          onSubmit={(_event) => {
-            track('clicked join cta on blocked lesson', {
-              lesson: lesson.slug,
-              cta: primaryCtaText,
-            })
-            send({type: 'CONFIRM_PRICE', onClickCheckout})
-          }}
+          onSubmit={formik.handleSubmit}
           className="w-full h-full flex flex-col sm:items-stretch items-center"
         >
           <h2 className="text-xs uppercase leading-tighter tracking-wide font-medium text-center text-amber-400 pb-2">
@@ -170,10 +184,9 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
               <input
                 id="email"
                 type="email"
-                value={emailForCheckout}
-                onChange={(e) => {
-                  setEmailForCheckout(e.target.value)
-                }}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="you@company.com"
                 className="block w-full py-3 pl-10 placeholder-gray-400 dark:bg-black bg-opacity-20 border-gray-600 rounded-md shadow-sm dark:text-white text-black focus:ring-indigo-500 focus:border-blue-500"
                 required
