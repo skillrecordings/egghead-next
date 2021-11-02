@@ -7,6 +7,7 @@ type SmallParityCouponMessage = {
   onApply: () => void
   onDismiss: () => void
   isPPP?: boolean
+  isLoading?: boolean
 }
 
 const SmallParityCouponMessage = ({
@@ -15,13 +16,14 @@ const SmallParityCouponMessage = ({
   onApply,
   onDismiss,
   isPPP,
+  isLoading,
 }: SmallParityCouponMessage) => {
   const percentOff = coupon && coupon.coupon_discount * 100
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
   return (
-    <div className="max-w-screen-sm mx-auto p-4 m-5 shadow-lg rounded-lg text-left bg-white text-black dark:bg-gray-800">
-      <h2 className="text-base mb-4 sm:text-left text-center">
+    <div className="sm:flex text-sm p-3 items-center rounded-md text-left bg-gray-1000 dark:bg-opacity-100 bg-opacity-40">
+      <h2 className="sm:text-left text-center inline">
         It looks like you're in{' '}
         <img
           loading="lazy"
@@ -35,26 +37,23 @@ const SmallParityCouponMessage = ({
         discount of <strong>{percentOff}%</strong> to account for differences in
         currencies. If that is something that you need:
       </h2>
-      <div className="mt-4">
-        <label
-          className={`inline-flex items-center px-4 py-3 rounded-md  transition-all ease-in-out duration-150 cursor-pointer border hover:bg-gray-100 dark:hover:bg-gray-700 border-opacity-40 ${
-            isPPP ? 'border-blue-500' : ' border-gray-300'
-          }`}
-        >
-          <input
-            className="form-checkbox"
-            name="isPPPActivated"
-            type="checkbox"
-            checked={isPPP}
-            onChange={isPPP ? onDismiss : onApply}
-          />
-          <span className="ml-4 leading-4 font-semibold">
-            {isPPP
-              ? `Activated ${percentOff}% off with regional pricing`
-              : `Activate ${percentOff}% off with regional pricing`}
-          </span>
-        </label>
-      </div>
+      <label
+        className={`flex-shrink-0 inline-flex items-center p-3 rounded-md transition-all ease-in-out duration-150 cursor-pointer border hover:bg-gray-700 dark:bg-gray-900 border-opacity-40 ${
+          isPPP ? 'border-blue-500' : ' border-gray-300 dark:border-gray-800'
+        }
+        ${isLoading ? 'cursor-wait' : ''}`}
+      >
+        <input
+          className="dark:bg-gray-700 bg-gray-200 rounded-sm"
+          name="isPPPActivated"
+          type="checkbox"
+          checked={isPPP}
+          onChange={isPPP ? onDismiss : onApply}
+        />
+        <span className="ml-2 leading-3 font-medium">
+          Activate {percentOff}% off with regional pricing
+        </span>
+      </label>
     </div>
   )
 }
