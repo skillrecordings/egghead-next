@@ -1,12 +1,16 @@
 import * as React from 'react'
+import Link from 'next/link'
 import {useTheme} from 'next-themes'
+import {useViewer} from 'context/viewer-context'
 import CreateAccount from '../create-account'
+import Join from '../join'
 import HeroBgLight from './hero-bg-light.png'
 import HeroBgDark from './hero-bg-dark.png'
 import Image from 'next/image'
 import TechLogos from '../tech-logos'
 
 const Header = () => {
+  const {viewer} = useViewer()
   const {resolvedTheme} = useTheme()
   const [isMounted, setIsMounted] = React.useState(false)
   React.useEffect(() => {
@@ -14,7 +18,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="-mt-5 -mx-5">
+    <header className="-mx-5 -mt-5">
       <div className="sm:min-h-[90vh] relative w-full flex flex-col items-center justify-center sm:py-32 py-24 px-5">
         {isMounted && (
           <Image
@@ -32,22 +36,34 @@ const Header = () => {
         )}
         <div
           aria-hidden
-          className="h-64 bg-gradient-to-t dark:from-gray-900 dark:to-transparentDark from-white to-transparentLight w-full absolute bottom-0 left-0"
+          className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t dark:from-gray-900 dark:to-transparentDark from-white to-transparentLight"
         />
-        <div className="flex flex-col items-center justify-center max-w-screen-lg relative z-10 pb-8">
-          <h1 className="font-semibold lg:text-4xl sm:text-3xl text-2xl leading-tighter text-center lg:max-w-none md:max-w-screen-md">
+        <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
+          <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter lg:max-w-none md:max-w-screen-md">
             Learn the best JavaScript tools and frameworks from industry
             professionals
           </h1>
-          <h2 className="text-blue-500 dark:text-amber-400 pt-3 pb-10 sm:text-lg text-center">
+          <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 sm:text-lg">
             high-quality video tutorials and learning resources for badass web
             developers
           </h2>
-          <CreateAccount location="homepage header" />
-          <p className="sm:text-sm text-xs opacity-60 max-w-sm text-center pt-10">
-            Enter your email to create an account and start learning from more
-            than 3,000 free lessons on egghead.
-          </p>
+          {!viewer && (
+            <>
+              <CreateAccount location="homepage header" />
+              <p className="max-w-sm pt-10 text-xs text-center sm:text-sm opacity-60">
+                Enter your email to create an account and start learning from
+                more than 3,000 free lessons on egghead.
+              </p>
+            </>
+          )}
+          {viewer && !viewer?.is_pro && <Join />}
+          {viewer?.is_pro && (
+            <Link href="/learn">
+              <a className="sm:mt-0 mt-4 bg-blue-600 min-w-[160px] text-center dark:hover:bg-blue-500 hover:bg-blue-500 rounded-md px-4 sm:py-3 py-4 text-white font-medium text-sm flex-shrink-0 flex items-center justify-center transition-all ease-in-out duration-200 group focus:outline-none outline-none focus:ring-2 focus:ring-blue-700 focus:bg-blue-500 dark:focus:ring-blue-300 relative z-10">
+                Start browsing
+              </a>
+            </Link>
+          )}
         </div>
         <div className="sm:absolute bottom-10">
           <TechLogos />

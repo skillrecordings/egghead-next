@@ -20,7 +20,7 @@ const NewHome = () => {
             <MembershipBenefits />
           </div>
         </section>
-        {!viewer?.is_pro && <Footer />}
+        <Footer />
       </main>
     </>
   )
