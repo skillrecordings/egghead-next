@@ -32,10 +32,18 @@ const extractPricesFromPricingData = (pricingData: PricingData): Prices => {
   return pickBy({annualPrice, quarterlyPrice, monthlyPrice})
 }
 
-export const useCommerceMachine = () => {
+type Options = {
+  initialPlan: 'annualPrice' | 'monthlyPrice' | 'quarterlyPrice'
+}
+
+export const useCommerceMachine = (
+  options: Options = {initialPlan: 'annualPrice'},
+) => {
   const memoizedCommerceMachine = React.useMemo(() => {
     return commerceMachine
   }, [])
+
+  const {initialPlan} = options
 
   const [state, send] = useMachine(memoizedCommerceMachine)
 
@@ -54,7 +62,7 @@ export const useCommerceMachine = () => {
   const availableCoupons = state?.context?.pricingData?.available_coupons
 
   // keep track of the selected plan type (annual, quarterly, monthly)
-  const defaultPlanKey = 'annualPrice'
+  const defaultPlanKey = initialPlan
   const [planKey, setPlanKey] = React.useState<string>(defaultPlanKey)
   const currentPlan: PricingPlan = get(prices, planKey, placeholderAnnualPlan)
 

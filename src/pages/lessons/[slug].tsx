@@ -59,20 +59,44 @@ const specialLessons: any = {
       linksTo: [
         {
           title: 'Understand JavaScript Arrays',
-          path: '/courses/understand-javascript-arrays',
+          isPro: true,
+          path: 'understand-javascript-arrays',
           type: 'course',
           imageUrl:
             'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/714/square_480/EGH_JSarrays.png',
         },
         {
           title: 'Reduce Data with Javascript Array#reduce',
-          path: '/courses/reduce-data-with-javascript-array-reduce',
+          isPro: true,
+          path: 'reduce-data-with-javascript-array-reduce',
           type: 'course',
           imageUrl:
             'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/557/square_480/EGH_ReduceDataJS.png',
         },
       ],
     },
+
+  'javascript-creating-demo-apis-with-json-server': {
+    headline: 'Build better APIs with these in-depth courses',
+    linksTo: [
+      {
+        title: 'Build a Serverless API with Cloudflare Workers',
+        isPro: false,
+        slug: 'build-a-serverless-api-with-cloudflare-workers-d67ca551',
+        type: 'course',
+        imageUrl:
+          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/441/045/square_480/EGH_cloudflare-workers_424_2x.png',
+      },
+      {
+        title: 'Building an API with Express',
+        isPro: true,
+        slug: 'building-an-api-with-express-f1ea',
+        type: 'course',
+        imageUrl:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/359/square_480/expressjslogo.png',
+      },
+    ],
+  },
 }
 
 export const getServerSideProps: GetServerSideProps = async function ({
@@ -625,6 +649,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
             </div>
             <div className="lg:col-span-3 side-bar">
               <PlayerSidebar
+                relatedResources={specialLessons[lesson.slug]}
                 videoResource={lesson}
                 onAddNote={() => send('ADD_NOTE')}
               />
