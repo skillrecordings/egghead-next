@@ -35,7 +35,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {
-      email: viewer?.email || '',
+      email: viewer?.email ?? '',
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email').required('Required'),
