@@ -1,4 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server'
+import {ACCESS_TOKEN_KEY} from '../config'
 
 const PUBLIC_FILE = /\.(.*)$/
 
@@ -24,7 +25,7 @@ export function middleware(req: NextRequest) {
   // Only rewrite if we are at the root
   if (req.nextUrl.pathname === '/' && !PUBLIC_FILE.test(req.nextUrl.pathname)) {
     // if there's a cookie with a token they are logged in
-    let status = req.cookies.eh_token_2020_11_22 ? 'logged_in' : 'anon'
+    let status = req.cookies[ACCESS_TOKEN_KEY] ? 'logged_in' : 'anon'
     req.nextUrl.pathname = status === 'logged_in' ? `/` : `/signup`
     return NextResponse.rewrite(req.nextUrl)
   }
