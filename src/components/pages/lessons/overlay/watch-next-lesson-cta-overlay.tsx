@@ -8,8 +8,9 @@ import {useTrackComponent} from 'hooks/use-track-component'
 const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   lesson: any
   nextLesson: any
+  ctaContent?: any
   onClickRewatch?: () => void
-}> = ({lesson, nextLesson, onClickRewatch = noop}) => {
+}> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
 
   useTrackComponent('show next up', {
@@ -57,6 +58,42 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           </a>
         </Link>
       </div>
+      {ctaContent && (
+        <div className="flex flex-col mt-6 md:mt-8 space-y-3">
+          <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
+            {ctaContent.headline}
+          </h3>
+          {ctaContent.linksTo.map((content: any) => {
+            return (
+              <Link
+                href={content.slug ? `/${content.type}s/${content.slug}` : '#'}
+              >
+                <a
+                  onClick={() => {
+                    track('clicked cta content', {
+                      from: lesson.slug,
+                      [content.type]: content.slug,
+                      location: 'video player',
+                    })
+                  }}
+                  className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
+                >
+                  <div className="w-12 h-12 relative flex-shrink-0 ">
+                    <Image
+                      src={content.imageUrl}
+                      alt={`illustration of ${content.title} course`}
+                      width="64"
+                      height="64"
+                      layout="fill"
+                    />
+                  </div>
+                  <div className="font-bold relative">{content.title}</div>
+                </a>
+              </Link>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

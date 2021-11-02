@@ -82,14 +82,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
         }`}
       >
         <div className="items-center h-full w-full block bg-white dark:bg-gray-800">
-          <div
-            className="relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5"
-            css={{
-              [bpMinMD]: {
-                minHeight: 477,
-              },
-            }}
-          >
+          <div className="md:min-h-[477px] relative z-10 flex flex-col h-full justify-between  items-center sm:p-8 p-5">
             <div className="flex flex-col items-center">
               <Image
                 src="https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/433/579/full/typescript.png"

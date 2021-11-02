@@ -46,18 +46,7 @@ const CollectionLessonsList: FunctionComponent<NextUpListProps> = ({
           className="h-full"
           scrollableNodeProps={{ref: scrollableNodeRef}}
         >
-          <ol
-            className="h-full"
-            css={{
-              maxHeight: 300,
-              '@media (min-width: 768px)': {
-                maxHeight: 350,
-              },
-              '@media (min-width: 1024px)': {
-                maxHeight: '100%',
-              },
-            }}
-          >
+          <ol className="h-full md:max-h-[350px] lg:max-h-full max-h-[300px]">
             {lessons.map((lesson: LessonResource, index = 0) => {
               const completedLessons = get(
                 progress,

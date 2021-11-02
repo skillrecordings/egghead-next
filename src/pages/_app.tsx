@@ -28,6 +28,7 @@ declare global {
     fbq: any
     becomeUser: any
     ga: any
+    gtag: any
   }
 }
 

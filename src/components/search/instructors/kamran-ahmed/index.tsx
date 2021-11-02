@@ -51,19 +51,12 @@ const FeaturedTypescriptCourse: React.FC<{location: string; resource: any}> = ({
   const {path, title, byline, description, image, background} = resource
   return (
     <ExternalTrackedLink
-      eventName="clicked CSS page CTA"
+      eventName="clicked Kamran Ahmed instructor page CTA"
       params={{location}}
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 bg-white border-gray-100 shadow-sm relative text-center"
       href={path}
     >
-      <div
-        className="md:-mt-5 flex items-center justify-center text-white overflow-hidden "
-        css={{
-          [bpMinMD]: {
-            minHeight: 477,
-          },
-        }}
-      >
+      <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center text-white overflow-hidden ">
         <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-400 to-blue-300 w-full h-2 z-20" />
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">

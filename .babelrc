@@ -1,4 +1,4 @@
 {
-  "presets": ["next/babel", "@emotion/babel-preset-css-prop"],
-  "plugins": ["istanbul", "inline-react-svg", "@emotion/babel-plugin"]
+  "presets": ["next/babel"],
+  "plugins": ["istanbul"]
 }

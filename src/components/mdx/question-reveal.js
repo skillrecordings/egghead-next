@@ -42,11 +42,6 @@ const QuestionReveal = ({children, question, action = 'Reveal Answer'}) => {
             filter: isShown ? 'blur(0px)' : 'blur(8px)',
           }}
           transition={{duration: 2, type: 'spring'}}
-          css={{
-            'img, pre, .gif_player': {
-              display: isShown ? 'inherit' : 'none',
-            },
-          }}
           className={!isShown && `max-h-48 overflow-hidden`}
         >
           <div className="font-sans text-lg font-normal text-gray-700">

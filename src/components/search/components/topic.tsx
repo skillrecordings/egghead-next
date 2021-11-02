@@ -22,7 +22,7 @@ const Topic: FunctionComponent<TopicProps> = ({
     >
       <div
         className="overflow-hidden sm:col-span-2 col-span-2 w-full h-full"
-        css={{
+        style={{
           background: `url(${imageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: '50%',

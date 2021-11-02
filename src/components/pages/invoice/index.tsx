@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Eggo from '../../images/eggo.svg'
+import Image from 'next/image'
 import {useLocalStorage} from 'react-use'
 import {format} from 'date-fns'
 
@@ -32,7 +33,9 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
         <div className="px-10 py-16">
           <div className="grid grid-cols-3 w-full justify-between items-start">
             <div className="col-span-2 flex items-center">
-              <Eggo className="w-10 mr-2" />
+              <div className="w-10 mr-2">
+                <Image src={Eggo} alt="" />
+              </div>
               <span className="sm:inline-block hidden text-lg font-semibold">
                 egghead.io
               </span>

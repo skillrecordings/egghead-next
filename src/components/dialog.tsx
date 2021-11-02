@@ -27,8 +27,7 @@ const Dialog: FunctionComponent<DialogProps> = ({
       <DialogOverlay isOpen={showDialog} onDismiss={close}>
         <DialogContent
           aria-label={ariaLabel}
-          className="bg-white rounded-md border-gray-400"
-          css={{padding: '2rem'}}
+          className="bg-white rounded-md border-gray-400 p-8"
         >
           <div className="flex justify-center relative mb-6">
             {title && <h3 className="text-xl font-medium">{title}</h3>}

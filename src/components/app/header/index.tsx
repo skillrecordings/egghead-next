@@ -167,8 +167,8 @@ const Header: FunctionComponent = () => {
   }
 
   return isMounted ? (
-    <>
-      <header className="h-16 px-5 py-5 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
+    <nav aria-label="header">
+      <div className="h-16 px-5 py-5 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
         <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-4">
           <div className="flex items-center">
             <Link href="/">
@@ -198,7 +198,7 @@ const Header: FunctionComponent = () => {
             </button>
           )}
         </div>
-      </header>
+      </div>
       {isOpen && (
         <>
           <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-50 shadow-xl dark:text-gray-100">
@@ -206,7 +206,7 @@ const Header: FunctionComponent = () => {
           </Navigation>
         </>
       )}
-    </>
+    </nav>
   ) : null
 }
 

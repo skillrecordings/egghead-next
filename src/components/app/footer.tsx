@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../link'
+import Image from 'next/image'
 import Eggo from '../images/eggo.svg'
 import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
@@ -80,11 +81,16 @@ const FooterNavigation: FunctionComponent = () => {
     })
   }
   return (
-    <nav className="w-full md:space-y-0 space-y-6 flex md:flex-row flex-col items-center md:items-start justify-between gap-6 md:pt-14 pt-16 lg:pb-40 pb-16">
+    <nav
+      aria-label="footer"
+      className="w-full md:space-y-0 space-y-6 flex md:flex-row flex-col items-center md:items-start justify-between gap-6 md:pt-14 pt-16 lg:pb-40 pb-16"
+    >
       <div className="space-y-5 h-full flex flex-col md:items-start items-center w-72">
         <Link href="/">
           <a className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left md:space-x-2 space-y-3 md:space-y-0">
-            <Eggo className="md:w-8 w-12 flex-shrink-0" />
+            <div className="md:w-8 w-12 flex-shrink-0">
+              <Image src={Eggo} alt="egghead.io logo" />
+            </div>
             <div className="mt-1 text-lg font-semibold leading-tighter tracking-tight">
               Build your Developer Portfolio and climb the engineering career
               ladder.
@@ -122,8 +128,8 @@ const FooterNavigation: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200 px-5">
-      <footer className="max-w-screen-xl w-full mx-auto">
+    <footer className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200 px-5">
+      <div className="max-w-screen-xl w-full mx-auto">
         <FooterNavigation />
         <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500 dark:text-gray-300">
           <div>©egghead.io</div>
@@ -134,8 +140,8 @@ const Footer: FunctionComponent = () => {
           </Link>
           <DarkModeToggle />
         </small>
-      </footer>
-    </div>
+      </div>
+    </footer>
   )
 }
 

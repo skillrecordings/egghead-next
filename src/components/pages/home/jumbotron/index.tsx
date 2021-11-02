@@ -20,14 +20,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
     resource
 
   return (
-    <div
-      className="relative flex items-center justify-center bg-white text-white overflow-hidden rounded-lg shadow-sm bg-gradient-to-t dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-600"
-      css={{
-        [bpMinMD]: {
-          minHeight: 477,
-        },
-      }}
-    >
+    <div className="min-h-[477px] relative flex items-center justify-center bg-white text-white overflow-hidden rounded-lg shadow-sm bg-gradient-to-t dark:bg-gradient-to-t dark:from-gray-800 dark:to-gray-600">
       {/* <div className="absolute top-0 left-0 bg-gradient-to-r from-purple-500 to-indigo-600 w-full h-2 z-20" /> */}
       <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
         <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full sm:mb-4 md:my-12 lg:m-0 mt-0 mb-15">
