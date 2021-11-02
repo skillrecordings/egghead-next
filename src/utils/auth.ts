@@ -6,15 +6,16 @@ import cookie from './cookies'
 import * as serverCookie from 'cookie'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
 import {CIO_KEY} from '../hooks/use-cio'
+import {ACCESS_TOKEN_KEY as CONFIG_ACCESS_TOKEN} from '../config'
 
 const http = axios.create()
 
+export const ACCESS_TOKEN_KEY = CONFIG_ACCESS_TOKEN
 export const AUTH_DOMAIN = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 const AUTH_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID
 const AUTH_REDIRECT_URL = process.env.NEXT_PUBLIC_REDIRECT_URI
 
 export const USER_KEY = 'eh_user_2020_11_22'
-export const ACCESS_TOKEN_KEY = 'eh_token_2020_11_22'
 export const EXPIRES_AT_KEY = 'eh_token_expiration'
 export const VIEWING_AS_USER_KEY = 'eh_viewing_as_user_2020_11_22'
 
