@@ -13,7 +13,7 @@ const PlanTitle: React.FunctionComponent = ({children}) => (
   </h2>
 )
 
-const PlanPrice: React.FunctionComponent<{
+export const PlanPrice: React.FunctionComponent<{
   plan: any
   pricesLoading: boolean
 }> = ({plan, pricesLoading}) => {
@@ -23,27 +23,24 @@ const PlanPrice: React.FunctionComponent<{
     ? Math.round(((price - price_discounted) * 100) / price)
     : null
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex items-end py-6 leading-none">
+    <div className="flex items-center">
+      <div className="flex items-end leading-none">
         <span className="self-start mt-1">USD</span>
         <span className="text-4xl font-light">$</span>
         <span className="self-stretch text-4xl font-extrabold">
           {price_discounted ? (
-            <div className="flex items-center">
+            <div className="flex items-end">
               <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
                 {pricesLoading && (
-                  <Spinner
-                    className="absolute text-current top-[-0.75rem] right-[-0.75rem]"
-                    size={4}
-                  />
+                  <Spinner className="absolute text-current" size={6} />
                 )}
                 {priceToDisplay}
               </div>
-              <div className="flex flex-col ml-2">
-                <div className="relative text-2xl opacity-60 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
+              <div className="flex flex-col items-start ml-2">
+                <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
                   &nbsp;{price}&nbsp;
                 </div>
-                <div className="text-sm text-blue-500 uppercase">
+                <div className="text-sm font-semibold text-amber-500 dark:text-amber-400 uppercase">
                   save {discount_percentage}%
                 </div>
               </div>
@@ -52,10 +49,7 @@ const PlanPrice: React.FunctionComponent<{
             <div className={`relative ${pricesLoading ? 'opacity-60' : ''}`}>
               {priceToDisplay}
               {pricesLoading && (
-                <Spinner
-                  className="absolute text-current top-[-0.75rem] right-[-0.75rem]"
-                  size={4}
-                />
+                <Spinner className="absolute text-current " size={6} />
               )}
             </div>
           )}
@@ -221,7 +215,9 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
     <>
       <div className="relative z-10 flex flex-col items-center max-w-sm px-6 py-6 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-12 sm:py-12">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
-        <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
+        <div className="py-6">
+          <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
+        </div>
         <div className="h-9">
           {keys(prices).length > 1 && (
             <div className={quantityAvailable ? '' : 'mb-4'}>

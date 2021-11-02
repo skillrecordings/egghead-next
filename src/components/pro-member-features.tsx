@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 const FeaturesList = () => (
-  <ul className="mt-8 mx-4">
+  <ul>
     {[
       'Full access to all the premium courses',
       'Download courses for offline viewing',
