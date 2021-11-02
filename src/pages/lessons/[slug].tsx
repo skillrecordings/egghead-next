@@ -335,8 +335,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
 
-        console.log('VIEW STUFF', watchCount, MAX_FREE_VIEWS)
-
         if (isEmpty(viewer) && free_forever) {
           if (viewLimitNotReached && mediaPresent) {
             send('VIEW')

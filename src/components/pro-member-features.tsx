@@ -10,7 +10,7 @@ const FeaturesList = () => (
       'Enhanced Transcripts',
       'RSS course feeds',
     ].map((feature, id) => (
-      <div className="flex flex-row space-x-3 mb-2">
+      <div key={feature} className="flex flex-row space-x-3 mb-2">
         <CheckIcon />
         <li className="font-medium" key={id}>
           {feature}

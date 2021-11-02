@@ -29,7 +29,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
   const [emailForCheckout, setEmailForCheckout] = React.useState<
     string | undefined
-  >(viewer?.email)
+  >(viewer?.email ?? '')
 
   React.useEffect(() => {
     if (!isEmpty(viewer?.email)) {
@@ -122,6 +122,16 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     }
   }
 
+  let primaryCtaText: string
+
+  switch (true) {
+    case !isEmpty(lesson.collection):
+      primaryCtaText = `Level up with ${lesson.collection.title} right now.`
+      break
+    default:
+      primaryCtaText = 'Ready to take your career to the next level?'
+  }
+
   return (
     <div className="flex flex-col justify-center items-center w-full relative h-full">
       <div className="grid sm:grid-cols-2 grid-cols-1 p-4 sm:py-4 py-8 items-center max-w-screen-md sm:gap-16 gap-8">
@@ -129,6 +139,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
           onSubmit={(_event) => {
             track('clicked join cta on blocked lesson', {
               lesson: lesson.slug,
+              cta: primaryCtaText,
             })
             send({type: 'CONFIRM_PRICE', onClickCheckout})
           }}
@@ -138,7 +149,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
             This lesson is for members only
           </h2>
           <h1 className="sm:text-2xl text-xl leading-tighter font-medium text-center sm:max-w-[17ch]">
-            Ready to take your career to the next level?
+            {primaryCtaText}
           </h1>
           <div className="flex w-full items-end justify-center py-5">
             <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
@@ -173,7 +184,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
             className="px-10 py-4 mt-5 font-medium text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
             type="submit"
           >
-            Become a Member
+            Access this Course
           </button>
           <div className="flex justify-center">
             <Link href="/pricing" passHref>
