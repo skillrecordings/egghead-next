@@ -2,6 +2,7 @@ import * as React from 'react'
 import {useViewer} from 'context/viewer-context'
 import CreateAccount from '../create-account'
 import Join from '../join'
+import PricingWidget from 'components/pricing/pricing-widget'
 
 const FreeAccount = () => {
   return (
@@ -19,7 +20,8 @@ const FreeAccount = () => {
 }
 
 const Footer = () => {
-  const {viewer} = useViewer()
+  // const {viewer} = useViewer()
+  const viewer = {}
   return (
     <section
       className={`flex flex-col items-center w-full max-w-screen-lg py-12 mx-auto md:flex-row sm:py-24 ${
@@ -27,7 +29,7 @@ const Footer = () => {
       }`}
     >
       {viewer ? (
-        <div className="text-white">Pricing widget here</div>
+        <PricingWidget />
       ) : (
         <>
           <FreeAccount />

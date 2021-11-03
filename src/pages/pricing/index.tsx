@@ -1,20 +1,21 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import {useViewer} from 'context/viewer-context'
-import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
-import emailIsValid from 'utils/email-is-valid'
+// import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
+// import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
 import {useCommerceMachine} from 'hooks/use-commerce-machine'
-import {first, get} from 'lodash'
-import {StripeAccount} from 'types'
+// import {first, get} from 'lodash'
+// import {StripeAccount} from 'types'
 import {useRouter} from 'next/router'
-import SelectPlanNew from 'components/pricing/select-plan-new'
-import PoweredByStripe from 'components/pricing/powered-by-stripe'
+// import SelectPlanNew from 'components/pricing/select-plan-new'
+// import PoweredByStripe from 'components/pricing/powered-by-stripe'
 import Testimonials from 'components/pricing/testimonials'
 import testimonialsData from 'components/pricing/testimonials/data'
-import ParityCouponMessage from 'components/pricing/parity-coupon-message'
+// import ParityCouponMessage from 'components/pricing/parity-coupon-message'
 import isEmpty from 'lodash/isEmpty'
-import {Coupon} from 'machines/commerce-machine'
+// import {Coupon} from 'machines/commerce-machine'
+import PricingWidget from 'components/pricing/pricing-widget'
 
 type PricingProps = {
   annualPrice: {
@@ -43,92 +44,93 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     send,
     priceId,
     quantity,
-    prices,
+    // prices,
     availableCoupons,
-    currentPlan,
+    // currentPlan,
   } = useCommerceMachine()
 
   // machine-derived states
-  const pricesLoading = !state.matches('pricesLoaded')
-  const pppCouponIsApplied =
-    state.matches('pricesLoaded.withPPPCoupon') ||
-    (pricesLoading && state.context?.couponToApply?.couponType === 'ppp')
+  // const pricesLoading = !state.matches('pricesLoaded')
+  // const pppCouponIsApplied =
+  //   state.matches('pricesLoaded.withPPPCoupon') ||
+  //   (pricesLoading && state.context?.couponToApply?.couponType === 'ppp')
 
   // machine-derived data
-  const parityCoupon = availableCoupons?.['ppp']
+  // const parityCoupon = availableCoupons?.['ppp']
 
-  const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
-  const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
+  // const countryCode = get(parityCoupon, 'coupon_region_restricted_to')
+  // const countryName = get(parityCoupon, 'coupon_region_restricted_to_name')
 
-  const pppCouponAvailable =
-    !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
-  const pppCouponEligible = quantity === 1
+  // const pppCouponAvailable =
+  //   !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
+  // const pppCouponEligible = quantity === 1
 
   // handlers
-  const onApplyParityCoupon = () => {
-    send('APPLY_PPP_COUPON')
-  }
+  // const onApplyParityCoupon = () => {
+  //   send('APPLY_PPP_COUPON')
+  // }
 
-  const onDismissParityCoupon = () => {
-    send('REMOVE_PPP_COUPON')
-  }
+  // const onDismissParityCoupon = () => {
+  //   send('REMOVE_PPP_COUPON')
+  // }
 
-  const onClickCheckout = async () => {
-    if (!priceId) return
-    const account = first<StripeAccount>(get(viewer, 'accounts'))
-    await track('checkout: selected plan', {
-      priceId: priceId,
-    })
+  // const onClickCheckout = async () => {
+  //   if (!priceId) return
+  //   const account = first<StripeAccount>(get(viewer, 'accounts'))
+  //   await track('checkout: selected plan', {
+  //     priceId: priceId,
+  //   })
 
-    if (emailIsValid(viewer?.email)) {
-      await track('checkout: valid email present', {
-        priceId: priceId,
-      })
-      await track('checkout: redirect to stripe', {
-        priceId,
-      })
-      stripeCheckoutRedirect({
-        priceId,
-        email: viewer.email,
-        stripeCustomerId: account?.stripe_customer_id,
-        authToken,
-        quantity,
-        coupon: state.context.couponToApply?.couponCode,
-      })
-    } else {
-      await track('checkout: get email', {
-        priceId: priceId,
-      })
-      router.push({
-        pathname: '/pricing/email',
-        query: {
-          priceId,
-          quantity,
-          coupon: state.context.couponToApply?.couponCode,
-        },
-      })
-    }
-  }
+  //   if (emailIsValid(viewer?.email)) {
+  //     await track('checkout: valid email present', {
+  //       priceId: priceId,
+  //     })
+  //     await track('checkout: redirect to stripe', {
+  //       priceId,
+  //     })
+  //     stripeCheckoutRedirect({
+  //       priceId,
+  //       email: viewer.email,
+  //       stripeCustomerId: account?.stripe_customer_id,
+  //       authToken,
+  //       quantity,
+  //       coupon: state.context.couponToApply?.couponCode,
+  //     })
+  //   } else {
+  //     await track('checkout: get email', {
+  //       priceId: priceId,
+  //     })
+  //     router.push({
+  //       pathname: '/pricing/email',
+  //       query: {
+  //         priceId,
+  //         quantity,
+  //         coupon: state.context.couponToApply?.couponCode,
+  //       },
+  //     })
+  //   }
+  // }
 
   return (
     <>
-      <div className="dark:bg-gray-900 bg-gray-50 dark:text-white text-gray-900 px-5">
-        <header className="text-center py-16 flex flex-col items-center">
-          <h1 className="md:text-4xl text-2xl font-extrabold leading-tighter max-w-screen-md">
+      <div className="px-5 text-gray-900 dark:bg-gray-900 bg-gray-50 dark:text-white">
+        <header className="flex flex-col items-center py-16 text-center">
+          <h1 className="max-w-screen-md text-2xl font-extrabold md:text-4xl leading-tighter">
             Build your Developer Project Portfolio and{' '}
-            <span className="dark:text-yellow-300 text-yellow-500">
+            <span className="text-yellow-500 dark:text-yellow-300">
               Get a Better Job
             </span>{' '}
             as a Web Developer
           </h1>
-          <h2 className="text-lg font-light max-w-2xl pt-8 leading-tight dark:text-gray-200 text-gray-700">
+          <h2 className="max-w-2xl pt-8 text-lg font-light leading-tight text-gray-700 dark:text-gray-200">
             Learn the skills you need to advance your career and build
             real-world business focused professional projects on the job and for
             your portfolio
           </h2>
         </header>
         <main className="flex flex-col items-center">
-          <div className="p-2 relative dark:bg-gray-800 bg-gray-100 rounded-md dark:shadow-none shadow-lg">
+          <PricingWidget />
+          {/* <div className="relative p-2 bg-gray-100 rounded-md shadow-lg dark:bg-gray-800 dark:shadow-none">
             <SelectPlanNew
               prices={prices}
               pricesLoading={pricesLoading}
@@ -147,7 +149,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
             />
           </div>
           {pppCouponAvailable && pppCouponEligible && (
-            <div className="mt-4 pb-5 max-w-screen-md mx-auto">
+            <div className="max-w-screen-md pb-5 mx-auto mt-4">
               <ParityCouponMessage
                 coupon={parityCoupon as Coupon}
                 countryName={countryName as string}
@@ -157,10 +159,10 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
               />
             </div>
           )}
-          <div className="py-24 flex items-center space-x-5">
+          <div className="flex items-center py-24 space-x-5">
             <PoweredByStripe />
             <div className="text-sm">30 day money back guarantee</div>
-          </div>
+          </div> */}
           <Testimonials testimonials={testimonialsData} />
         </main>
       </div>

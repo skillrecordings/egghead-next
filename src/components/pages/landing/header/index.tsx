@@ -10,7 +10,8 @@ import Image from 'next/image'
 import TechLogos from '../tech-logos'
 
 const Header = () => {
-  const {viewer} = useViewer()
+  // const {viewer} = useViewer()
+  const viewer = {}
   const {resolvedTheme} = useTheme()
   const [isMounted, setIsMounted] = React.useState(false)
   React.useEffect(() => {
