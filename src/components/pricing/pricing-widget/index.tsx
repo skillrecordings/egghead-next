@@ -17,6 +17,7 @@ import {Coupon} from 'machines/commerce-machine'
 const PricingWidget: FunctionComponent<{}> = () => {
   const {viewer, authToken} = useViewer()
   const router = useRouter()
+  const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     track('visited pricing')
@@ -94,6 +95,7 @@ const PricingWidget: FunctionComponent<{}> = () => {
           coupon: state.context.couponToApply?.couponCode,
         },
       })
+      setLoaderOn(true)
     }
   }
 
@@ -115,6 +117,7 @@ const PricingWidget: FunctionComponent<{}> = () => {
           }}
           currentPlan={currentPlan}
           currentQuantity={quantity}
+          loaderOn={loaderOn}
         />
       </div>
       {pppCouponAvailable && pppCouponEligible && (
