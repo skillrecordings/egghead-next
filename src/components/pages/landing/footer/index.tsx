@@ -20,8 +20,7 @@ const FreeAccount = () => {
 }
 
 const Footer = () => {
-  // const {viewer} = useViewer()
-  const viewer = {}
+  const {viewer} = useViewer()
   return (
     <section
       className={`flex flex-col items-center w-full max-w-screen-lg py-12 mx-auto md:flex-row sm:py-24 ${

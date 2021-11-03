@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Link from 'next/link'
 import {useTheme} from 'next-themes'
 import {useViewer} from 'context/viewer-context'
 import CreateAccount from '../create-account'
@@ -10,8 +9,7 @@ import Image from 'next/image'
 import TechLogos from '../tech-logos'
 
 const Header = () => {
-  // const {viewer} = useViewer()
-  const viewer = {}
+  const {viewer} = useViewer()
   const {resolvedTheme} = useTheme()
   const [isMounted, setIsMounted] = React.useState(false)
   React.useEffect(() => {
