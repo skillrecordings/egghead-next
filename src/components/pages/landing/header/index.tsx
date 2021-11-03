@@ -47,7 +47,9 @@ const Header = () => {
             high-quality video tutorials and learning resources for badass web
             developers
           </h2>
-          {!viewer && (
+          {viewer ? (
+            <Join />
+          ) : (
             <>
               <CreateAccount location="homepage header" />
               <p className="max-w-sm pt-10 text-xs text-center sm:text-sm opacity-60">
@@ -55,14 +57,6 @@ const Header = () => {
                 more than 3,000 free lessons on egghead.
               </p>
             </>
-          )}
-          {viewer && !viewer?.is_pro && <Join />}
-          {viewer?.is_pro && (
-            <Link href="/learn">
-              <a className="sm:mt-0 mt-4 bg-blue-600 min-w-[160px] text-center dark:hover:bg-blue-500 hover:bg-blue-500 rounded-md px-4 sm:py-3 py-4 text-white font-medium text-sm flex-shrink-0 flex items-center justify-center transition-all ease-in-out duration-200 group focus:outline-none outline-none focus:ring-2 focus:ring-blue-700 focus:bg-blue-500 dark:focus:ring-blue-300 relative z-10">
-                Start browsing
-              </a>
-            </Link>
           )}
         </div>
         <div className="sm:absolute bottom-10">

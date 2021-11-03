@@ -21,10 +21,20 @@ const FreeAccount = () => {
 const Footer = () => {
   const {viewer} = useViewer()
   return (
-    <section className="flex flex-col items-center w-full max-w-screen-lg py-12 mx-auto md:flex-row sm:py-24">
-      <FreeAccount />
-      <hr className="md:px-16 md:my-0 my-12 w-full max-w-[60px] md:rotate-90 dark:border-gray-800 border-gray-100" />
-      <Join />
+    <section
+      className={`flex flex-col items-center w-full max-w-screen-lg py-12 mx-auto md:flex-row sm:py-24 ${
+        viewer ? 'justify-center' : ''
+      }`}
+    >
+      {viewer ? (
+        <div className="text-white">Pricing widget here</div>
+      ) : (
+        <>
+          <FreeAccount />
+          <hr className="md:px-16 md:my-0 my-12 w-full max-w-[60px] md:rotate-90 dark:border-gray-800 border-gray-100" />
+          <Join />
+        </>
+      )}
     </section>
   )
 }
