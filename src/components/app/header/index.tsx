@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import Link from '../../link'
+import Image from 'next/image'
 import Eggo from 'components/icons/eggo'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
@@ -132,10 +133,13 @@ const Header: FunctionComponent = () => {
                 }
                 className="flex items-center space-x-2 p-3 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
               >
-                <img
+                <Image
+                  width={32}
+                  height={32}
                   alt="avatar"
-                  className="w-8 rounded-full"
+                  className="rounded-full"
                   src={viewer.avatar_url}
+                  quality={100}
                 />
                 <span>
                   {viewer.name}
@@ -255,55 +259,86 @@ const FlyoutMenu = () => {
     {
       name: 'React',
       href: '/q/react',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/square_64/react.png',
     },
     {
       name: 'JavaScript',
       href: '/q/javascript',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/square_64/javascriptlang.png',
     },
-    {name: 'Angular', href: '/q/angular'},
+    {
+      name: 'Angular',
+      href: '/q/angular',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/300/square_64/angular2.png',
+    },
     {
       name: 'CSS',
       href: '/q/css',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_64/csslang.png',
     },
     {
       name: 'TypeScript',
       href: '/q/typescript',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/square_64/typescriptlang.png',
     },
     {
       name: 'AWS',
       href: '/q/aws',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/square_64/aws.png',
     },
     {
       name: 'Node.js',
       href: '/q/node',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/square_64/nodejslogo.png',
     },
     {
       name: 'Next.js',
       href: '/q/next',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/074/square_64/nextjs.png',
     },
     {
       name: 'Docker',
       href: '/q/docker',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/947/square_64/docker%282%29.png',
     },
     {
       name: 'Vue.js',
       href: '/q/vue',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/036/square_64/vue.png',
     },
     {
       name: 'ReactNative',
       href: '/q/react-native',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/969/square_64/reactnativelogo.png',
     },
     {
       name: 'Algolia',
       href: '/q/algolia',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/230/square_64/aloglia_logo_1000x1000.png',
     },
     {
       name: 'Python',
       href: '/q/python',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/138/square_64/2000px-Python-logo-notext.svg.png',
     },
     {
       name: 'Go',
       href: '/q/go',
+      image:
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/247/square_64/go_logo.png',
     },
   ]
   const contentSectionLinks = [
@@ -363,18 +398,25 @@ const FlyoutMenu = () => {
                         onClick={() =>
                           track(`clicked topic`, {resource: item.href})
                         }
-                        className="flex items-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3"
+                        className="flex items-center justify-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3"
                       >
-                        <p className="text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
+                        <Image
+                          width={24}
+                          height={24}
+                          src={item.image}
+                          alt={item.name}
+                          quality={100}
+                        />
+                        <span className="pl-2 text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
                           {item.name}
-                        </p>
+                        </span>
                       </a>
                     ))}
-                    <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3">
+                    <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:bg-gray-700 py-2 px-3">
                       <a
                         href="/topics"
                         onClick={() => track(`clicked all topics`)}
-                        className="text-blue-500"
+                        className="text-blue-500 dark:text-gray-200"
                       >
                         Browse all topics <span aria-hidden="true">&rarr;</span>
                       </a>
