@@ -106,9 +106,9 @@ export async function loadUserProgress(
     user_id,
   }
 
-  const {
-    user: {all_progress},
-  } = await graphQLClient.request(query, variables)
+  const {user} = await graphQLClient.request(query, variables)
 
-  return all_progress
+  if (user) {
+    return user.all_progress
+  }
 }
