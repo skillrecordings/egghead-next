@@ -4,8 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, find} from 'lodash'
 import Markdown from 'react-markdown'
-import {useViewer} from 'context/viewer-context'
-import {loadUserProgress} from 'lib/users'
 import {track} from 'utils/analytics'
 import axios from 'utils/configured-axios'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
@@ -16,8 +14,6 @@ import ExternalTrackedLink from 'components/external-tracked-link'
 
 const Home: FunctionComponent<any> = ({homePageData}) => {
   const location = 'home landing'
-  const {viewer, loading} = useViewer()
-  const [progress, setProgress] = React.useState<any>([])
 
   const topics: any = get(homePageData, 'topics')
 
@@ -41,19 +37,6 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const reduxFeatures = findFeature('redux-features')
   const typescriptFeatures = findFeature('typescript-features')
   const awsFeatures = findFeature('aws-features')
-
-  React.useEffect(() => {
-    if (viewer) {
-      const loadProgressForUser = async (user_id: number) => {
-        if (user_id) {
-          const response = await loadUserProgress(user_id)
-          if (response?.data) setProgress(response.data)
-        }
-      }
-
-      loadProgressForUser(viewer.id)
-    }
-  }, [viewer?.id])
 
   return (
     <>

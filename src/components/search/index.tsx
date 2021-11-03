@@ -208,7 +208,7 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          {loading && (
+          {loading && !topic && (
             <div className="flex justify-center">
               <Spinner size={12} />
             </div>
@@ -225,7 +225,6 @@ const Search: FunctionComponent<SearchProps> = ({
 
           <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
             <ScrollTo scrollOn="page" />
-
             <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200 dark:border-gray-700">
               <Stats searchQuery={searchState.query} />
               <div className="flex space-x-2 items-center flex-nowrap flex-shrink-0 md:ml-6">
