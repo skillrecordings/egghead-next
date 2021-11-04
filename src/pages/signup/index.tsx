@@ -11,8 +11,8 @@ const NewHome = () => {
       <main className="pt-16">
         <Article />
         <section className="-mx-5">
-          <div className="w-full bg-gradient-to-t dark:from-gray-1000 dark:via-gray-1000 dark:to-gray-900 from-gray-50 via-gray-50 to-white sm:pt-24 sm:pb-24 pt-16 pb-5">
-            <h2 className="text-xl leading-tight font-semibold text-center pb-14 mx-auto">
+          <div className="w-full pt-16 pb-5 bg-gradient-to-t dark:from-gray-1000 dark:via-gray-1000 dark:to-gray-900 from-gray-50 via-gray-50 to-white sm:pt-24 sm:pb-24">
+            <h2 className="mx-auto text-xl font-semibold leading-tight text-center pb-14">
               What you’ll get as an egghead member
             </h2>
             <MembershipBenefits />

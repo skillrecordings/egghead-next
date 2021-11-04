@@ -6,6 +6,7 @@ import ColoredBackground from 'components/pricing/select-plan-new/assets/colored
 import {keys} from 'lodash'
 import Spinner from 'components/spinner'
 import {PricingPlan} from 'machines/commerce-machine'
+import {LoaderIcon} from 'react-hot-toast'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -40,7 +41,7 @@ export const PlanPrice: React.FunctionComponent<{
                 <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
                   &nbsp;{price}&nbsp;
                 </div>
-                <div className="text-sm font-semibold text-amber-500 dark:text-amber-400 uppercase">
+                <div className="text-sm font-semibold uppercase text-amber-500 dark:text-amber-400">
                   save {discount_percentage}%
                 </div>
               </div>
@@ -168,17 +169,28 @@ const PlanFeatures: React.FunctionComponent<{
 const GetAccessButton: React.FunctionComponent<{
   label: string
   handleClick: () => void
-}> = ({label, handleClick}) => {
+  loaderOn: boolean
+  pricesLoading: boolean
+}> = ({label, handleClick, loaderOn, pricesLoading}) => {
   return (
     <button
-      className="w-full px-5 py-4 mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
+      disabled={pricesLoading}
+      className={`w-full px-5 py-2 h-[60px] flex justify-center items-center mt-8 font-semibold text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md ${
+        pricesLoading
+          ? 'opacity-60 cursor-default'
+          : 'hover:bg-blue-700 hover:scale-105'
+      }`}
       onClick={(event) => {
         event.preventDefault()
         handleClick()
       }}
       type="button"
     >
-      {label}
+      {loaderOn || pricesLoading ? (
+        <Spinner className="absolute text-white" size={6} />
+      ) : (
+        label
+      )}
     </button>
   )
 }
@@ -194,6 +206,7 @@ type SelectPlanProps = {
   onPriceChanged: (priceId: string) => void
   currentPlan: PricingPlan & {features?: string[]}
   currentQuantity: number
+  loaderOn: boolean
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
@@ -205,6 +218,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   onPriceChanged,
   currentPlan,
   currentQuantity,
+  loaderOn,
 }) => {
   const individualPlans = filter(prices, (plan: any) => true)
 
@@ -249,6 +263,8 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
         <GetAccessButton
           label={buttonLabel}
           handleClick={handleClickGetAccess}
+          loaderOn={loaderOn}
+          pricesLoading={pricesLoading}
         />
       </div>
       <ColoredBackground />

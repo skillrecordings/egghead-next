@@ -1,8 +1,11 @@
 import * as React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {useTheme} from 'next-themes'
+import {useViewer} from 'context/viewer-context'
 
 const TechLogos = () => {
+  const {viewer} = useViewer()
   const {resolvedTheme} = useTheme()
   const logos = [
     'react',
@@ -23,10 +26,21 @@ const TechLogos = () => {
   return (
     <div className="flex flex-wrap items-center justify-center md:max-w-none sm:max-w-lg max-w-[450px]">
       {logos.map((tech) => {
-        return (
+        return viewer ? (
+          <Link key={tech} href={`/q/${tech}`}>
+            <a className="px-2 py-1 scale-75 lg:px-4 md:px-2 sm:scale-90">
+              <Image
+                src={require(`./${
+                  resolvedTheme === 'dark' ? 'dark' : 'light'
+                }/${tech}.svg`)}
+                alt={tech}
+              />
+            </a>
+          </Link>
+        ) : (
           <div
             key={tech}
-            className="lg:px-4 md:px-2 px-2 py-1 sm:scale-90 scale-75"
+            className="px-2 py-1 scale-75 lg:px-4 md:px-2 sm:scale-90"
           >
             <Image
               src={require(`./${
