@@ -133,13 +133,12 @@ const Header: FunctionComponent = () => {
                 }
                 className="flex items-center space-x-2 p-3 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
               >
-                <Image
+                <img
                   width={32}
                   height={32}
                   alt="avatar"
                   className="rounded-full"
                   src={viewer.avatar_url}
-                  quality={100}
                 />
                 <span>
                   {viewer.name}
