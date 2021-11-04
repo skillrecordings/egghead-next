@@ -10,8 +10,7 @@ import {Coupon} from 'machines/commerce-machine'
 import {track} from 'utils/analytics'
 import emailIsValid from 'utils/email-is-valid'
 import {useViewer} from 'context/viewer-context'
-
-import SmallParityCouponMessage from 'components/pricing/small-parity-coupon-message'
+import ParityCouponMessage from 'components/pricing/parity-coupon-message'
 import {PlanPrice} from 'components/pricing/select-plan-new/index'
 import {StripeAccount} from 'types'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
@@ -25,8 +24,6 @@ const PricingCta = () => {
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
     useCommerceMachine({initialPlan: 'monthlyPrice'})
 
-  let primaryCtaText: string
-
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
     initialValues: {
       email: viewer?.email ?? '',
@@ -35,9 +32,7 @@ const PricingCta = () => {
       email: Yup.string().email('Invalid email').required('Required'),
     }),
     onSubmit: async () => {
-      track('clicked join cta on signup page', {
-        cta: primaryCtaText,
-      })
+      track('clicked join cta on signup page')
       send({type: 'CONFIRM_PRICE', onClickCheckout})
     },
   })
@@ -139,13 +134,13 @@ const PricingCta = () => {
         className="flex flex-col items-center w-full h-full"
       >
         <h1 className="sm:text-2xl text-xl leading-tighter font-medium text-center sm:max-w-[17ch]">
-          Become a member
+          Ready to take your career to the next level?
         </h1>
         <div className="flex items-end justify-center w-full py-5">
           <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
           {!pricesLoading && <span className="pl-1 sm:text-lg">/ month</span>}
         </div>
-        {isEmpty(viewer) && (
+        <div className="flex flex-col space-y-5 sm:flex-row sm:space-y-0">
           <div className="relative flex items-center w-full text-gray-400 dark:text-white">
             <svg
               className="absolute w-5 h-5 left-3"
@@ -164,17 +159,17 @@ const PricingCta = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="you@company.com"
-              className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-600 rounded-md shadow-sm dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500"
+              className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-600 rounded-md shadow-sm sm:rounded-r-none dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500 sm:border-r-0"
               required
             />
           </div>
-        )}
-        <button
-          className="px-10 py-4 mt-5 font-medium text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
-          type="submit"
-        >
-          Access this Course
-        </button>
+          <button
+            className="px-6 py-3 font-medium text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md whitespace-nowrap hover:bg-blue-700 hover:scale-105 sm:border-l-0 sm:rounded-l-none"
+            type="submit"
+          >
+            Become a Member
+          </button>
+        </div>
         <div className="flex justify-center">
           <Link href="/pricing" passHref>
             <a className="flex items-center py-1 mt-4 text-xs transition-all duration-200 ease-in-out group opacity-80 hover:opacity-100">
@@ -188,8 +183,7 @@ const PricingCta = () => {
         </div>
       </form>
       {pppCouponAvailable && pppCouponEligible && (
-        <SmallParityCouponMessage
-          isLoading={pricesLoading}
+        <ParityCouponMessage
           coupon={parityCoupon as Coupon}
           countryName={countryName as string}
           onApply={onApplyParityCoupon}
