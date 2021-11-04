@@ -22,8 +22,8 @@ const SmallParityCouponMessage = ({
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
   return (
-    <div className="sm:flex text-sm p-3 items-center rounded-md text-left bg-gray-1000 dark:bg-opacity-100 bg-opacity-40">
-      <h2 className="sm:text-left text-center inline">
+    <div className="items-center p-3 text-sm text-left rounded-md sm:flex bg-gray-1000 dark:bg-opacity-100 bg-opacity-40">
+      <h2 className="inline text-center sm:text-left">
         It looks like you're in{' '}
         <img
           loading="lazy"
@@ -44,13 +44,13 @@ const SmallParityCouponMessage = ({
         ${isLoading ? 'cursor-wait' : ''}`}
       >
         <input
-          className="dark:bg-gray-700 bg-gray-200 rounded-sm"
+          className="bg-gray-200 rounded-sm dark:bg-gray-700"
           name="isPPPActivated"
           type="checkbox"
           checked={isPPP}
           onChange={isPPP ? onDismiss : onApply}
         />
-        <span className="ml-2 leading-3 font-medium">
+        <span className="ml-2 font-medium leading-3">
           Activate {percentOff}% off with regional pricing
         </span>
       </label>
