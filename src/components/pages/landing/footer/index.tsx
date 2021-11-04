@@ -159,7 +159,7 @@ const PricingCta = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="you@company.com"
-              className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-600 rounded-md shadow-sm sm:rounded-r-none dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500 sm:border-r-0"
+              className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-300 rounded-md shadow-sm dark:border-gray-700 sm:rounded-r-none dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500 sm:border-r-0"
               required
             />
           </div>

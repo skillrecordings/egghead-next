@@ -22,7 +22,7 @@ const ParityCouponMessage = ({
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
   return (
-    <div className="max-w-screen-lg p-8 m-5 mx-auto text-left bg-white rounded-lg shadow-lg dark:bg-gray-800">
+    <div className="max-w-screen-lg p-8 m-5 mx-auto text-left bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-800">
       <h2 className="text-base text-center sm:text-left">
         It looks like you're in{' '}
         <img
