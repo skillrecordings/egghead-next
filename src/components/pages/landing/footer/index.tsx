@@ -32,7 +32,7 @@ const PricingCta = () => {
       email: Yup.string().email('Invalid email').required('Required'),
     }),
     onSubmit: async () => {
-      track('clicked join cta on signup page')
+      track('checkout: submit email on signup page', {location: 'signup page'})
       send({type: 'CONFIRM_PRICE', onClickCheckout})
     },
   })
@@ -94,8 +94,9 @@ const PricingCta = () => {
           icon: '❌',
         })
 
-        track('cta overlay checkout: existing pro account found', {
+        track('checkout: existing pro account found', {
           email: formik.values.email,
+          location: 'signup page'
         })
 
         // email is already associated with a pro account, return early instead
@@ -107,9 +108,11 @@ const PricingCta = () => {
     if (emailIsValid(formik.values.email)) {
       await track('checkout: valid email present', {
         priceId: priceId,
+        location: 'signup page'
       })
       await track('checkout: redirect to stripe', {
         priceId,
+        location: 'signup page'
       })
 
       stripeCheckoutRedirect({
@@ -124,6 +127,7 @@ const PricingCta = () => {
       // we don't have a valid email for the checkout
       await track('checkout: unable to proceed, no valid email', {
         email: formik.values.email,
+        location: 'signup page'
       })
     }
   }
