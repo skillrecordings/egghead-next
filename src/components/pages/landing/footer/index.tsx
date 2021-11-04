@@ -189,6 +189,7 @@ const PricingCta = () => {
           onApply={onApplyParityCoupon}
           onDismiss={onDismissParityCoupon}
           isPPP={pppCouponIsApplied}
+          reduced
         />
       )}
     </div>
