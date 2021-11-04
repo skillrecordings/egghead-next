@@ -16,10 +16,6 @@ import {PlanPrice} from 'components/pricing/select-plan-new/index'
 import {StripeAccount} from 'types'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 
-import Join from '../join'
-import PricingWidget from 'components/pricing/pricing-widget'
-import CreateAccount from '../create-account'
-
 type FormikValues = {
   email: string
 }
@@ -137,14 +133,11 @@ const PricingCta = () => {
     }
   }
   return (
-    <div className="grid items-center max-w-screen-md grid-cols-1 gap-8 p-4 py-8 sm:grid-cols-2 sm:py-4 sm:gap-16">
+    <div className="flex flex-col items-center w-full max-w-screen-sm">
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col items-center w-full h-full sm:items-stretch"
+        className="flex flex-col items-center w-full h-full"
       >
-        <h2 className="pb-2 text-xs font-medium tracking-wide text-center uppercase leading-tighter text-amber-400">
-          This lesson is for members only
-        </h2>
         <h1 className="sm:text-2xl text-xl leading-tighter font-medium text-center sm:max-w-[17ch]">
           Become a member
         </h1>
@@ -195,49 +188,22 @@ const PricingCta = () => {
         </div>
       </form>
       {pppCouponAvailable && pppCouponEligible && (
-        <div className="bottom-0 w-full max-w-screen-lg sm:p-5 xl:absolute">
-          <SmallParityCouponMessage
-            isLoading={pricesLoading}
-            coupon={parityCoupon as Coupon}
-            countryName={countryName as string}
-            onApply={onApplyParityCoupon}
-            onDismiss={onDismissParityCoupon}
-            isPPP={pppCouponIsApplied}
-          />
-        </div>
+        <SmallParityCouponMessage
+          isLoading={pricesLoading}
+          coupon={parityCoupon as Coupon}
+          countryName={countryName as string}
+          onApply={onApplyParityCoupon}
+          onDismiss={onDismissParityCoupon}
+          isPPP={pppCouponIsApplied}
+        />
       )}
     </div>
   )
 }
 
-const FreeAccount = () => {
-  return (
-    <div>
-      <h3 className="text-xl font-medium text-center">Create free account</h3>
-      <p className="pb-8 text-center opacity-80">
-        Start learning from hundreds of free lessons
-      </p>
-      <CreateAccount
-        actionLabel="Create free account"
-        location="homepage footer"
-      />
-    </div>
-  )
-}
-
 const Footer = () => {
-  const {viewer} = useViewer()
   return (
-    <section className="flex flex-col items-center justify-center w-full max-w-screen-lg py-12 mx-auto md:flex-row sm:py-24">
-      {/* {viewer ? (
-        <PricingWidget />
-      ) : (
-        <>
-          <FreeAccount />
-          <hr className="md:px-16 md:my-0 my-12 w-full max-w-[60px] md:rotate-90 dark:border-gray-800 border-gray-100" />
-          <Join />
-        </>
-      )} */}
+    <section className="container flex justify-center w-full py-12 sm:py-24">
       <PricingCta />
     </section>
   )
