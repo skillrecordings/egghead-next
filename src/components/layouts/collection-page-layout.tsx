@@ -390,10 +390,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ) : null
   }
 
-  const trackEmailCapture = (email: string) => {
-    track('submitted email - disabled bookmark button', {
+  const trackEmailCapture = () => {
+    track('submitted email', {
       course: course.slug,
-      email,
+      location: 'disabled bookmark button',
     })
   }
 

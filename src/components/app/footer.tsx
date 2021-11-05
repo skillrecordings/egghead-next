@@ -102,7 +102,9 @@ const FooterNavigation: FunctionComponent = () => {
         <ul>
           {filterViewerRequired(content).map((link) => (
             <Item
-              onClick={() => track(`clicked ${link.label} (footer)`)}
+              onClick={() =>
+                track(`clicked ${link.label}`, {location: 'footer'})
+              }
               path={link.path}
               key={link.path}
             >
@@ -113,7 +115,9 @@ const FooterNavigation: FunctionComponent = () => {
         <ul>
           {filterViewerRequired(about).map((link) => (
             <Item
-              onClick={() => track(`clicked ${link.label} (footer)`)}
+              onClick={() =>
+                track(`clicked ${link.label}`, {location: 'footer'})
+              }
               path={link.path}
               key={link.path}
             >
@@ -155,6 +159,7 @@ const DarkModeToggle = () => {
     setTheme(nextTheme)
     track(`toggled dark mode`, {
       mode: nextTheme,
+      location: 'footer',
     })
     if (subscriber) {
       cioIdentify(subscriber.id, {

@@ -23,9 +23,8 @@ const EmailEntryForm: React.FC = () => {
       email: subscriber?.email || viewer?.email || email,
       career_chat: 'yes',
     })
-    track('submitted email cta', {
+    track('submitted email', {
       location: 'level-up',
-      email,
     })
   }
 

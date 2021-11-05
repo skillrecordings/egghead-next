@@ -195,7 +195,10 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:scale-105 hover:shadow-xl  hover:bg-blue-700 ease-in-out duration-200"
                 title="Share on twitter"
                 onClick={() =>
-                  track(`clicked Vue 3 fundamentals challenge CTA`)
+                  track(`clicked challenge CTA`, {
+                    course: course.slug,
+                    location: 'Vue 3 fundamentals',
+                  })
                 }
                 href={course.projects.tweetCTA}
                 rel="noopener"

@@ -36,7 +36,7 @@ const CreateAccount: React.FC<{actionLabel?: string; location: string}> = ({
       formik.setStatus('loading')
       requestSignInEmail(email)
         .then(() => {
-          track(`submitted email to create free account`, {location})
+          track(`submitted email`, {location})
         })
         .then(() => {
           formik.setStatus('submitted')

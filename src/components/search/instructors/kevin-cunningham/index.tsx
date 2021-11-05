@@ -84,9 +84,10 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
                   <a
                     tabIndex={-1}
                     onClick={() =>
-                      track('clicked kevin cunningham page course CTA', {
+                      track('clicked page course CTA', {
                         resource: path,
                         linkType: 'image',
+                        location: 'kevin-cunningham',
                       })
                     }
                   >
@@ -108,9 +109,10 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
                   <a
                     className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
                     onClick={() =>
-                      track('clicked kevin cunningham page course CTA', {
+                      track('clicked page course CTA', {
                         resource: path,
                         linkType: 'text',
+                        location: 'kevin-cunningham',
                       })
                     }
                   >

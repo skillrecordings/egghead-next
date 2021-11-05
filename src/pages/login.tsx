@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import * as yup from 'yup'
 import {Formik} from 'formik'
-import {isEmpty} from 'lodash'
+import {isEmpty, isFunction} from 'lodash'
 import {useViewer} from 'context/viewer-context'
 import Image from 'next/image'
 import {IconGithub} from 'components/pages/lessons/code-link'
@@ -98,7 +98,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                 validationSchema={loginSchema}
                 onSubmit={(values) => {
                   setIsSubmitted(true)
-                  track && track(values.email)
+                  if (isFunction(track)) track(values.email)
                   requestSignInEmail(values.email)
                     .then(() => {})
                     .catch(() => {

@@ -20,9 +20,10 @@ const PricingWidget: FunctionComponent<{}> = () => {
   const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    track('visited pricing')
     if (router?.query?.stripe === 'cancelled') {
       track('checkout: cancelled from stripe')
+    } else {
+      track('visited pricing')
     }
   }, [])
 

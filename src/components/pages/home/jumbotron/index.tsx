@@ -31,7 +31,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                   tabIndex={-1}
                   onClick={() =>
                     track('clicked jumbotron resource', {
-                      resource: path,
+                      resource: resource.slug,
                       linkType: 'image',
                     })
                   }
@@ -56,7 +56,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({
                   className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-white hover:text-blue-300"
                   onClick={() =>
                     track('clicked jumbotron resource', {
-                      resource: path,
+                      resource: resource.slug,
                       linkType: 'text',
                     })
                   }

@@ -23,9 +23,8 @@ const OnlinePresenceEmailEntryForm: React.FC = () => {
       email: subscriber?.email || viewer?.email || email,
       online_presence: 'yes',
     })
-    track('submitted email cta', {
+    track('submitted email', {
       location: 'online-presence',
-      email,
     })
   }
 
