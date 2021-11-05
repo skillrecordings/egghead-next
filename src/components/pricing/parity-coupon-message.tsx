@@ -7,6 +7,7 @@ type ParityCouponMessage = {
   onApply: () => void
   onDismiss: () => void
   isPPP?: boolean
+  reduced?: boolean
 }
 
 const ParityCouponMessage = ({
@@ -15,13 +16,14 @@ const ParityCouponMessage = ({
   onApply,
   onDismiss,
   isPPP,
+  reduced,
 }: ParityCouponMessage) => {
   const percentOff = coupon && coupon.coupon_discount * 100
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
   return (
-    <div className="max-w-screen-lg mx-auto p-8 m-5 shadow-lg rounded-lg text-left bg-white dark:bg-gray-800">
-      <h2 className="text-base mb-4 sm:text-left text-center">
+    <div className="max-w-screen-lg p-8 m-5 mx-auto text-left bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-800">
+      <h2 className="text-base text-center sm:text-left">
         It looks like you're in{' '}
         <img
           loading="lazy"
@@ -35,24 +37,28 @@ const ParityCouponMessage = ({
         discount of <strong>{percentOff}%</strong> to account for differences in
         currencies.
       </h2>
-      <p className="text-base font-semibold">
-        The following restrictions apply:
-      </p>
-      <ul className="list-disc ml-4 mt-2">
-        <li>Downloads and bonuses are not included.</li>
-        <li>
-          Members-only content will only be available while browsing from{' '}
-          {countryName}.
-        </li>
-        <li>
-          The discount is only valid for single-user accounts and does not apply
-          to team accounts.
-        </li>
-      </ul>
-      <p className="text-base inline-block mt-5">
+      {!reduced && (
+        <div className="mt-4">
+          <p className="text-base font-semibold">
+            The following restrictions apply:
+          </p>
+          <ul className="mt-2 ml-4 list-disc">
+            <li>Downloads and bonuses are not included.</li>
+            <li>
+              Members-only content will only be available while browsing from{' '}
+              {countryName}.
+            </li>
+            <li>
+              The discount is only valid for single-user accounts and does not
+              apply to team accounts.
+            </li>
+          </ul>
+        </div>
+      )}
+      <p className="inline-block mt-5 text-base">
         If that sounds good, you can apply the discount below before continuing.
       </p>
-      <div className="mt-4">
+      <div className={`mt-4 ${reduced ? 'flex flex-col items-center' : ''}`}>
         <label
           className={`inline-flex items-center px-4 py-3 rounded-md  transition-all ease-in-out duration-150 cursor-pointer border hover:bg-gray-100 dark:hover:bg-gray-700 border-opacity-40 ${
             isPPP ? 'border-blue-500' : ' border-gray-300'
@@ -65,7 +71,7 @@ const ParityCouponMessage = ({
             checked={isPPP}
             onChange={isPPP ? onDismiss : onApply}
           />
-          <span className="ml-4 leading-4 font-semibold">
+          <span className="ml-4 font-semibold leading-4">
             {isPPP
               ? `Activated ${percentOff}% off with regional pricing`
               : `Activate ${percentOff}% off with regional pricing`}

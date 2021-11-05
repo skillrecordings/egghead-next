@@ -32,7 +32,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
     useCommerceMachine({initialPlan: 'monthlyPrice'})
-  
+
   let primaryCtaText: string
 
   const formik: FormikProps<FormikValues> = useFormik<FormikValues>({
@@ -142,8 +142,6 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     }
   }
 
-  
-
   switch (true) {
     case !isEmpty(lesson.collection):
       primaryCtaText = `Level up with ${lesson.collection.title} right now.`
@@ -153,19 +151,19 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-full relative h-full">
-      <div className="grid sm:grid-cols-2 grid-cols-1 p-4 sm:py-4 py-8 items-center max-w-screen-md sm:gap-16 gap-8">
+    <div className="relative flex flex-col items-center justify-center w-full h-full">
+      <div className="grid items-center max-w-screen-md grid-cols-1 gap-8 p-4 py-8 sm:grid-cols-2 sm:py-4 sm:gap-16">
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full h-full flex flex-col sm:items-stretch items-center"
+          className="flex flex-col items-center w-full h-full sm:items-stretch"
         >
-          <h2 className="text-xs uppercase leading-tighter tracking-wide font-medium text-center text-amber-400 pb-2">
+          <h2 className="pb-2 text-xs font-medium tracking-wide text-center uppercase leading-tighter text-amber-400">
             This lesson is for members only
           </h2>
           <h1 className="sm:text-2xl text-xl leading-tighter font-medium text-center sm:max-w-[17ch]">
             {primaryCtaText}
           </h1>
-          <div className="flex w-full items-end justify-center py-5">
+          <div className="flex items-end justify-center w-full py-5">
             <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
             {!pricesLoading && <span className="pl-1 sm:text-lg">/ month</span>}
           </div>
@@ -188,7 +186,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="you@company.com"
-                className="block w-full py-3 pl-10 placeholder-gray-400 dark:bg-black bg-opacity-20 border-gray-600 rounded-md shadow-sm dark:text-white text-black focus:ring-indigo-500 focus:border-blue-500"
+                className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-600 rounded-md shadow-sm dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500"
                 required
               />
             </div>
@@ -201,31 +199,31 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
           </button>
           <div className="flex justify-center">
             <Link href="/pricing" passHref>
-              <a className="text-xs flex items-center group mt-4 py-1 opacity-80 hover:opacity-100 ease-in-out duration-200 transition-all">
+              <a className="flex items-center py-1 mt-4 text-xs transition-all duration-200 ease-in-out group opacity-80 hover:opacity-100">
                 Pay yearly or quarterly{' '}
                 <i
-                  className="gg-arrow-right scale-75 group-hover:translate-x-1 transition-all ease-in-out duration-200"
+                  className="transition-all duration-200 ease-in-out scale-75 gg-arrow-right group-hover:translate-x-1"
                   aria-hidden
                 />
               </a>
             </Link>
           </div>
         </form>
-        <div className="w-full flex flex-col h-full">
+        <div className="flex flex-col w-full h-full">
           <ProMemberFeatures />
-          <figure className="mt-5 py-2">
-            <blockquote className="text-light italic opacity-80">
+          <figure className="py-2 mt-5">
+            <blockquote className="italic text-light opacity-80">
               ”Just following along with egghead tutorials, I got a new job and
               am now able to write an open source library.“
             </blockquote>
-            <figcaption className="flex items-center text-sm italic opacity-50 pt-1">
+            <figcaption className="flex items-center pt-1 text-sm italic opacity-50">
               — Zhentian Wan
             </figcaption>
           </figure>
         </div>
       </div>
       {pppCouponAvailable && pppCouponEligible && (
-        <div className="sm:p-5 xl:absolute bottom-0 max-w-screen-lg w-full">
+        <div className="bottom-0 w-full max-w-screen-lg sm:p-5 xl:absolute">
           <SmallParityCouponMessage
             isLoading={pricesLoading}
             coupon={parityCoupon as Coupon}
