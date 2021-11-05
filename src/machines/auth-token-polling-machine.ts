@@ -2,7 +2,10 @@ import {createMachine, assign} from 'xstate'
 
 type DoneEventObject = import('xstate').DoneEventObject
 
-type Event = DoneEventObject
+type Event = DoneEventObject & {
+  type: 'UPDATE_SESSION_ID'
+  stripeCheckoutSessionId: string
+}
 
 interface Context {
   stripeCheckoutSessionId?: string
@@ -22,6 +25,15 @@ export const authTokenPollingMachine = createMachine<Context, Event>(
     },
     states: {
       pending: {
+        on: {
+          UPDATE_SESSION_ID: {
+            actions: assign({
+              stripeCheckoutSessionId: (_context, event) => {
+                return event.stripeCheckoutSessionId
+              },
+            }),
+          },
+        },
         initial: 'polling',
         states: {
           polling: {
