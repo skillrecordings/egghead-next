@@ -12,15 +12,6 @@ const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
   lesson,
   technology,
 }) => {
-  const trackEmailCapture = (email: string) => {
-    const {slug} = lesson
-    track('submitted email - blocked lesson', {
-      lesson: slug,
-      technology,
-      email,
-    })
-  }
-
   const {collection} = lesson
 
   return (
@@ -31,7 +22,14 @@ const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
         label="Email address"
         formClassName="max-w-xs md:max-w-sm mx-auto w-full"
         button="Finish Watching this Course"
-        track={trackEmailCapture}
+        track={() => {
+          const {slug} = lesson
+          track('submitted email', {
+            lesson: slug,
+            technology,
+            location: 'lesson overlay',
+          })
+        }}
       >
         <div className="text-center">
           {collection ? (

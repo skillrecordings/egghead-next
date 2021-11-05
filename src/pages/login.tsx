@@ -98,10 +98,9 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                 validationSchema={loginSchema}
                 onSubmit={(values) => {
                   setIsSubmitted(true)
+                  track && track(values.email)
                   requestSignInEmail(values.email)
-                    .then(() => {
-                      track && track(values.email)
-                    })
+                    .then(() => {})
                     .catch(() => {
                       setIsSubmitted(false)
                       setIsError(true)
