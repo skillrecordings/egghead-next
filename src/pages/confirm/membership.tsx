@@ -1,20 +1,12 @@
 import * as React from 'react'
 import axios from 'axios'
 import {useViewer} from 'context/viewer-context'
-import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import ConfirmMembership from 'components/pages/confirm/membership/index'
 import {track} from 'utils/analytics'
 import {AUTH_DOMAIN} from 'utils/auth'
 import {useMachine} from '@xstate/react'
 import {authTokenPollingMachine} from 'machines/auth-token-polling-machine'
-
-// TODO: Not sure why this is here. Can it be removed?
-export const getServerSideProps: GetServerSideProps = async function ({req}) {
-  return {
-    props: {},
-  }
-}
 
 const TWENTY_FOUR_HOURS_IN_SECONDS = JSON.stringify(24 * 60 * 60)
 
