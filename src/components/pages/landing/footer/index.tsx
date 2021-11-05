@@ -96,7 +96,7 @@ const PricingCta = () => {
 
         track('checkout: existing pro account found', {
           email: formik.values.email,
-          location: 'signup page'
+          location: 'signup page',
         })
 
         // email is already associated with a pro account, return early instead
@@ -108,11 +108,11 @@ const PricingCta = () => {
     if (emailIsValid(formik.values.email)) {
       await track('checkout: valid email present', {
         priceId: priceId,
-        location: 'signup page'
+        location: 'signup page',
       })
       await track('checkout: redirect to stripe', {
         priceId,
-        location: 'signup page'
+        location: 'signup page',
       })
 
       stripeCheckoutRedirect({
@@ -127,7 +127,7 @@ const PricingCta = () => {
       // we don't have a valid email for the checkout
       await track('checkout: unable to proceed, no valid email', {
         email: formik.values.email,
-        location: 'signup page'
+        location: 'signup page',
       })
     }
   }
@@ -140,40 +140,43 @@ const PricingCta = () => {
         <h1 className="sm:text-2xl text-xl leading-tighter font-medium text-center sm:max-w-[17ch]">
           Ready to take your career to the next level?
         </h1>
-        <div className="flex items-end justify-center w-full py-5">
-          <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
-          {!pricesLoading && <span className="pl-1 sm:text-lg">/ month</span>}
-        </div>
-        <div className="flex flex-col space-y-5 sm:flex-row sm:space-y-0">
-          <div className="relative flex items-center w-full text-gray-400 dark:text-white">
-            <svg
-              className="absolute w-5 h-5 left-3"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden
-            >
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <input
-              id="email"
-              type="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="you@company.com"
-              className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-300 rounded-md shadow-sm dark:border-gray-700 sm:rounded-r-none dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500 sm:border-r-0"
-              required
-            />
+        <div className="w-full max-w-md">
+          <div className="flex items-end justify-center w-full py-5">
+            <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
+            {!pricesLoading && <span className="pl-1 sm:text-lg">/ month</span>}
           </div>
-          <button
-            className="px-6 py-3 font-medium text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md whitespace-nowrap hover:bg-blue-700 hover:scale-105 sm:border-l-0 sm:rounded-l-none"
-            type="submit"
-          >
-            Become a Member
-          </button>
+          <div className="flex flex-col space-y-5 sm:flex-row sm:space-y-0">
+            <div className="relative flex items-center w-full text-gray-400 dark:text-white">
+              <svg
+                className="absolute w-5 h-5 left-3"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden
+              >
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <input
+                id="email"
+                type="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="you@company.com"
+                className="block w-full py-3 pl-10 text-black placeholder-gray-400 border-gray-300 rounded-md shadow-sm dark:border-gray-700 sm:rounded-r-none dark:bg-black bg-opacity-20 dark:text-white focus:ring-indigo-500 focus:border-blue-500 sm:border-r-0"
+                required
+              />
+            </div>
+            <button
+              className="px-6 py-3 font-medium text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md whitespace-nowrap hover:bg-blue-700 hover:scale-105 sm:border-l-0 sm:rounded-l-none"
+              type="submit"
+            >
+              Become a Member
+            </button>
+          </div>
         </div>
+
         <div className="flex justify-center">
           <Link href="/pricing" passHref>
             <a className="flex items-center py-1 mt-4 text-xs transition-all duration-200 ease-in-out group opacity-80 hover:opacity-100">
