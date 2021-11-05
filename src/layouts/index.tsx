@@ -11,8 +11,13 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
   meta,
   noIndex = false,
 }) => {
-  const {title, description, titleAppendSiteName = false, url, ogImage} =
-    meta || {}
+  const {
+    title,
+    description,
+    titleAppendSiteName = false,
+    url,
+    ogImage,
+  } = meta || {}
   return (
     <>
       <NextSeo
@@ -28,10 +33,16 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      {title && <h1 className="text-2xl leading-tight">{title}</h1>}
-      <main className="max-w-screen-md mx-auto sm:pt-10 pt-4 sm:pb-16 pb-8">
-        {children}
-      </main>
+      <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-24">
+        {title && (
+          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+            {title}
+          </h1>
+        )}
+        <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
+          {children}
+        </main>
+      </article>
     </>
   )
 }
