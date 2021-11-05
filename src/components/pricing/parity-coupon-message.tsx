@@ -23,7 +23,7 @@ const ParityCouponMessage = ({
 
   return (
     <div className="max-w-screen-lg p-8 m-5 mx-auto text-left bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-800">
-      <h2 className="text-base text-center sm:text-left">
+      <h2 className="text-base">
         It looks like you're in{' '}
         <img
           loading="lazy"
@@ -58,7 +58,7 @@ const ParityCouponMessage = ({
       <p className="inline-block mt-5 text-base">
         If that sounds good, you can apply the discount below before continuing.
       </p>
-      <div className={`mt-4 ${reduced ? 'flex flex-col items-center' : ''}`}>
+      <div className="flex flex-col items-center mt-4">
         <label
           className={`inline-flex items-center px-4 py-3 rounded-md  transition-all ease-in-out duration-150 cursor-pointer border hover:bg-gray-100 dark:hover:bg-gray-700 border-opacity-40 ${
             isPPP ? 'border-blue-500' : ' border-gray-300'
