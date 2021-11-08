@@ -54,12 +54,6 @@ const usePurchaseAndPlay = (): [boolean, any] => {
     }
   }, [stripeCheckoutSessionId])
 
-  console.log({
-    session_id,
-    stripeCheckoutSessionId,
-    inMachine: current.context.stripeCheckoutSessionId,
-  })
-
   // Memoize the function so that it doesn't re-trigger the useEffect over and
   // over.
   const handleAccessTokenAuthentication = React.useCallback(
