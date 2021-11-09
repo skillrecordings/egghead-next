@@ -43,9 +43,10 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
       email: Yup.string().email('Invalid email').required('Required'),
     }),
     onSubmit: async () => {
-      track('clicked join cta on blocked lesson', {
+      track('checkout: membership cta on blocked lesson', {
         lesson: lesson.slug,
         cta: primaryCtaText,
+        location: 'lesson overlay',
       })
       send({type: 'CONFIRM_PRICE', onClickCheckout})
     },
@@ -74,10 +75,18 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
   // handlers
   const onApplyParityCoupon = () => {
+    track('checkout: ppp coupon applied', {
+      countryCode,
+      countryName,
+    })
     send('APPLY_PPP_COUPON')
   }
 
   const onDismissParityCoupon = () => {
+    track('checkout: ppp coupon dismissed', {
+      countryCode,
+      countryName,
+    })
     send('REMOVE_PPP_COUPON')
   }
 
@@ -87,7 +96,9 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
     const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
+      lesson: lesson.slug,
       priceId: priceId,
+      location: 'lesson overlay',
     })
 
     const emailRequiresAProCheck =
@@ -108,8 +119,10 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
           icon: '❌',
         })
 
-        track('cta overlay checkout: existing pro account found', {
+        track('checkout: existing pro account found', {
+          lesson: lesson.slug,
           email: formik.values.email,
+          location: 'lesson overlay',
         })
 
         // email is already associated with a pro account, return early instead
@@ -121,9 +134,12 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     if (emailIsValid(formik.values.email)) {
       await track('checkout: valid email present', {
         priceId: priceId,
+        location: 'lesson overlay',
       })
       await track('checkout: redirect to stripe', {
+        lesson: lesson.slug,
         priceId,
+        location: 'lesson overlay',
       })
 
       stripeCheckoutRedirect({
@@ -137,7 +153,9 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     } else {
       // we don't have a valid email for the checkout
       await track('checkout: unable to proceed, no valid email', {
+        lesson: lesson.slug,
         email: formik.values.email,
+        location: 'lesson overlay',
       })
     }
   }

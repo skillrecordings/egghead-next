@@ -40,7 +40,7 @@ const VideoCard: React.FC<{
               <a
                 onClick={() =>
                   track('clicked resource', {
-                    resource: path,
+                    resource: resource.slug,
                     linkType: 'text',
                     location: currentLocation,
                   })
@@ -82,7 +82,7 @@ const VideoCard: React.FC<{
               onClick={() => {
                 setPlayerPrefs({autoplay: true})
                 track('clicked resource', {
-                  resource: path,
+                  resource: resource.slug,
                   linkType: 'video',
                   location: currentLocation,
                 })

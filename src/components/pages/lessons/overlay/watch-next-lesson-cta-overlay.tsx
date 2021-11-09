@@ -39,6 +39,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           onClick={() => {
             track('clicked rewatch video', {
               lesson: lesson.slug,
+              location: 'lesson overlay',
             })
             onClickRewatch()
           }}
@@ -50,6 +51,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
             onClick={() => {
               track('clicked play next', {
                 lesson: lesson.slug,
+                location: 'lesson overlay',
               })
             }}
             className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
@@ -73,7 +75,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
                     track('clicked cta content', {
                       from: lesson.slug,
                       [content.type]: content.slug,
-                      location: 'video player',
+                      location: 'lesson overlay',
                     })
                   }}
                   className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"

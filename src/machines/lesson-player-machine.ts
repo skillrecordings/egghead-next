@@ -142,6 +142,14 @@ export const playerMachine = Machine<
         },
       },
       quizzing: {
+        entry: [
+          (context, _event) => {
+            track('show quiz cta', {
+              lesson: context.lesson.slug,
+              location: 'lesson overlay',
+            })
+          },
+        ],
         on: {
           NEXT: 'showingNext',
           SUBSCRIBE: 'subscribing',
@@ -151,6 +159,14 @@ export const playerMachine = Machine<
         },
       },
       rating: {
+        entry: [
+          (context, _event) => {
+            track('show rating cta', {
+              lesson: context.lesson.slug,
+              location: 'lesson overlay',
+            })
+          },
+        ],
         on: {
           NEXT: 'showingNext',
           RECOMMEND: 'recommending',
@@ -161,6 +177,14 @@ export const playerMachine = Machine<
         },
       },
       subscribing: {
+        entry: [
+          (context, _event) => {
+            track('show become member cta', {
+              lesson: context.lesson.slug,
+              location: 'lesson overlay',
+            })
+          },
+        ],
         on: {
           NEXT: 'showingNext',
           RECOMMEND: 'recommending',
@@ -171,6 +195,14 @@ export const playerMachine = Machine<
         },
       },
       joining: {
+        entry: [
+          (context, _event) => {
+            track('show email capture cta', {
+              lesson: context.lesson.slug,
+              location: 'lesson overlay',
+            })
+          },
+        ],
         on: {
           NEXT: 'showingNext',
           SUBSCRIBE: 'subscribing',
@@ -181,6 +213,14 @@ export const playerMachine = Machine<
         },
       },
       showingNext: {
+        entry: [
+          (context, _event) => {
+            track('show next up cta', {
+              lesson: context.lesson.slug,
+              location: 'lesson overlay',
+            })
+          },
+        ],
         on: {
           LOAD: 'loading',
           VIEW: 'viewing',
@@ -198,6 +238,14 @@ export const playerMachine = Machine<
         },
       },
       addingNote: {
+        entry: [
+          (context, _event) => {
+            track('show note entry', {
+              lesson: context.lesson.slug,
+              location: 'lesson overlay',
+            })
+          },
+        ],
         on: {
           PLAY: 'playing',
           VIEW: 'viewing',

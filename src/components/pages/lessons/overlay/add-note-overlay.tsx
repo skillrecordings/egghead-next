@@ -4,9 +4,10 @@ import VisuallyHidden from '@reach/visually-hidden'
 import axios from 'axios'
 import readingTime from 'reading-time'
 import {track} from 'utils/analytics'
+import {isEmpty} from 'lodash'
 
 const AddNoteOverlay: React.FC<{
-  onClose: (newNote: any) => void
+  onClose: (newNote?: any) => void
   resourceId: string
   currentTime: number
 }> = ({onClose, resourceId, currentTime}) => {
@@ -21,23 +22,27 @@ const AddNoteOverlay: React.FC<{
   const addNote = () => {
     if (inputRef.current) {
       const text = inputRef.current.value || ''
-      axios
-        .post(`/api/lessons/notes/${resourceId}`, {
-          text,
-          startTime: currentTime,
-          endTime: currentTime + readingTime(text).time / 1000,
-        })
-        .then(({data}) => {
-          track('add note', {
-            contact: data.user_id,
-            resource: data.resource_id,
-            type: data.type,
-            startTime: data.start_time,
-            endTime: data.end_time,
-            text: data.text,
+      if (!isEmpty(text)) {
+        axios
+          .post(`/api/lessons/notes/${resourceId}`, {
+            text,
+            startTime: currentTime,
+            endTime: currentTime + readingTime(text).time / 1000,
           })
-          onClose(data)
-        })
+          .then(({data}) => {
+            track('add note', {
+              contact: data.user_id,
+              resource: data.resource_id,
+              type: data.type,
+              startTime: data.start_time,
+              endTime: data.end_time,
+              text: data.text,
+            })
+            onClose(data)
+          })
+      } else {
+        onClose()
+      }
     }
   }
 

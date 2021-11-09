@@ -5,8 +5,11 @@ const Index = (props: any) => {
   const tagSlugs: string[] = props.tagSlugs
 
   return (
-    <div className="prose dark:prose-dark">
-      <div className="space-y-5">
+    <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-24">
+      <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+        Site Directory
+      </h1>
+      <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
         <p>
           This is a programmatically generated listing of all the topics and all
           of the combinations of those topics the site has to offer. All of the
@@ -27,19 +30,20 @@ const Index = (props: any) => {
           <a href="/courses">courses</a> sorted by the date they were last
           updated.
         </p>
-      </div>
-      <ul>
-        {tagSlugs.map((path) => {
-          return (
-            <li>
-              <Link href={`/site-directory/${path}`} key={path}>
-                <a>{path}</a>
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+
+        <ul>
+          {tagSlugs.map((path) => {
+            return (
+              <li key={path}>
+                <Link href={`/site-directory/${path}`}>
+                  <a>{path}</a>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </main>
+    </article>
   )
 }
 

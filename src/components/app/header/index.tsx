@@ -395,7 +395,10 @@ const FlyoutMenu = () => {
                         key={item.name}
                         href={item.href}
                         onClick={() =>
-                          track(`clicked topic`, {resource: item.href})
+                          track(`clicked topic`, {
+                            resource: item.href,
+                            location: 'header browse',
+                          })
                         }
                         className="flex items-center justify-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3"
                       >
@@ -414,7 +417,11 @@ const FlyoutMenu = () => {
                     <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:bg-gray-700 py-2 px-3">
                       <a
                         href="/topics"
-                        onClick={() => track(`clicked all topics`)}
+                        onClick={() =>
+                          track(`clicked all topics`, {
+                            location: 'header browse',
+                          })
+                        }
                         className="text-blue-500 dark:text-gray-200"
                       >
                         Browse all topics <span aria-hidden="true">&rarr;</span>
@@ -429,6 +436,7 @@ const FlyoutMenu = () => {
                           onClick={() =>
                             track(`clicked browse section`, {
                               resource: item.href,
+                              location: 'header browse',
                             })
                           }
                           className="flex items-center rounded-md text-base text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 py-3 px-3"

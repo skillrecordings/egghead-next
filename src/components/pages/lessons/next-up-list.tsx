@@ -110,6 +110,7 @@ const Item: FunctionComponent<{
         onClick={() => {
           track(`clicked next up lesson`, {
             lesson: lesson.slug,
+            location: 'sidebar',
           })
         }}
         className="font-semibold"

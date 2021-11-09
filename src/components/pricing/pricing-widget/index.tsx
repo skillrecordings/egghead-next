@@ -20,9 +20,10 @@ const PricingWidget: FunctionComponent<{}> = () => {
   const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    track('visited pricing')
     if (router?.query?.stripe === 'cancelled') {
       track('checkout: cancelled from stripe')
+    } else {
+      track('visited pricing')
     }
   }, [])
 
@@ -87,12 +88,15 @@ const PricingWidget: FunctionComponent<{}> = () => {
       await track('checkout: get email', {
         priceId: priceId,
       })
+
+      const couponCode = state.context.couponToApply?.couponCode
+
       router.push({
         pathname: '/pricing/email',
         query: {
           priceId,
           quantity,
-          coupon: state.context.couponToApply?.couponCode,
+          ...(couponCode && {coupon: couponCode}),
         },
       })
       setLoaderOn(true)

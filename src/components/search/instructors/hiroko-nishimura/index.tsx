@@ -94,9 +94,10 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                   <a
                     tabIndex={-1}
                     onClick={() =>
-                      track('clicked Hiroko Nishimura instructor page CTA', {
+                      track('clicked instructor page CTA', {
                         resource: path,
                         linkType: 'image',
+                        location: 'hiroko-nishimura',
                       })
                     }
                   >
@@ -118,9 +119,10 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                   <a
                     className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-blue-300"
                     onClick={() =>
-                      track('clicked Hiroko Nishimura instructor page CTA', {
+                      track('clicked instructor page CTA', {
                         resource: path,
                         linkType: 'text',
+                        location: 'hiroko-nishimura',
                       })
                     }
                   >
