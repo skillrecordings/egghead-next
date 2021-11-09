@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from 'react'
-import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, find} from 'lodash'
