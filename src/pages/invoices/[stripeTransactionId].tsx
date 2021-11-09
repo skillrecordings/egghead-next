@@ -41,7 +41,7 @@ const InvoicePage: React.FunctionComponent<any> = ({transactionId}) => {
   }, [])
   return (
     <LoginRequired>
-      <main className="pb-10 lg:py-3 lg:px-8">
+      <main className="container py-5 mb-16">
         {transaction && viewer && (
           <Invoice transaction={transaction} viewer={viewer}></Invoice>
         )}

@@ -14,7 +14,7 @@ const GithubConnectButton: React.FunctionComponent<{
   return (
     <a
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
-      className="text-white bg-blue-600 border-0 py-3 px-4 rounded focus:outline-none hover:bg-blue-700 inline-block"
+      className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700"
     >
       Connect your GitHub account
     </a>
@@ -74,8 +74,8 @@ const User: React.FunctionComponent<
 
   return (
     <LoginRequired>
-      <main className="pb-10 lg:py-3 lg:px-8">
-        <div className="max-w-screen-md mx-auto flex flex-col sm:space-y-16 space-y-10">
+      <main className="container py-5 mb-16">
+        <div className="flex flex-col max-w-screen-md mx-auto space-y-10 sm:space-y-16">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <RequestEmailChangeForm originalEmail={currentEmail} />
@@ -84,7 +84,7 @@ const User: React.FunctionComponent<
           {isConnectedToGithub ? (
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
               <div className="flex flex-col space-y-2">
-                <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
                   Your Account is Connected to Github
                 </h2>
                 <p>
@@ -95,7 +95,7 @@ const User: React.FunctionComponent<
           ) : (
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
               <div className="flex flex-col space-y-2">
-                <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
                   Connect to GitHub
                 </h2>
                 <p>Connect your GitHub account to log in with GitHub Oauth.</p>
@@ -113,7 +113,7 @@ const User: React.FunctionComponent<
           )}
           {!isEmpty(progress) && (
             <div className="flex flex-col space-y-2">
-              <h2 className="text-xl pb-1 border-b border-gray-200 dark:border-gray-800">
+              <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
                 Continue learning
               </h2>
               {progress.map((item: any) => {
