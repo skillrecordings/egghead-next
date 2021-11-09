@@ -11,9 +11,8 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 
 export default function SearchKristianFreeman({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
-  const {courses, projects} = instructor
-  const primaryProject = projects.resources
-  const [primaryCourse, secondaryCourse] = courses.resources
+  const {courses} = instructor
+  const [primaryCourse, secondaryCourse, tertiaryCourse] = courses.resources
   const location = 'Kristian Freeman instructor page'
 
   return (
@@ -26,12 +25,12 @@ export default function SearchKristianFreeman({instructor}: {instructor: any}) {
       />
       <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
         <HorizontalResourceCard
-          resource={primaryProject}
+          resource={secondaryCourse}
           location={location}
-          className="md:w-2/5"
+          className="md:w-3/5"
         />
         <HorizontalResourceCard
-          resource={secondaryCourse}
+          resource={tertiaryCourse}
           location={location}
           className="md:w-3/5"
         />
@@ -54,23 +53,13 @@ export const kristianFreemanQuery = groq`*[_type == 'resource' && slug.current =
     	},
     }
   },
-	'projects': resources[slug.current == 'instructor-landing-page-projects'][0]{
-    resources[0]{
-      title,
-      'path': url,
-      path,
-      description,
-      image,
-      byline
-    }
-  }
 }`
 
 const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
   location,
   resource,
 }) => {
-  const {path, title, byline, description, image, background} = resource
+  const {path, title, byline, description, image} = resource
   return (
     <ExternalTrackedLink
       eventName="clicked Kristian Freeman instructor page CTA"
@@ -78,13 +67,8 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
       className="block md:col-span-4 rounded-md w-full h-full overflow-hidden dark:bg-gray-800 border-0 bg-white border-gray-100 shadow-sm relative text-center"
       href={path}
     >
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-orange-400 to-orange-500 w-full h-2 z-20"></div>
-      <img
-        className="absolute h-full w-full object-cover object-left-top"
-        src={background}
-        alt=""
-      />
-      <div className="absolute inset-0 bg-gray-200 mix-blend-multiply" />
+      <div className="absolute top-0 left-0 bg-gradient-to-r from-green-400 to-green-500 w-full h-2 z-20"></div>
+      <div className="absolute inset-0 bg-white mix-blend-multiply" />
       <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center text-white overflow-hidden ">
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
@@ -111,12 +95,12 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-white text-opacity-80 uppercase font-semibold mb-2">
+                <h2 className="text-xs text-gray-700 dark:text-gray-300 text-opacity-80 uppercase font-semibold mb-2">
                   {byline}
                 </h2>
                 <Link href={path}>
                   <a
-                    className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
+                    className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-300"
                     onClick={() =>
                       track('clicked jumbotron resource', {
                         resource: path,
@@ -127,7 +111,9 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                     <h1>{title}</h1>
                   </a>
                 </Link>
-                <p className="mt-4 text-white">{description}</p>
+                <p className="mt-4 text-gray-700 dark:text-gray-300">
+                  {description}
+                </p>
               </div>
             </div>
           </div>
