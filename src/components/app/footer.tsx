@@ -85,7 +85,7 @@ const FooterNavigation: FunctionComponent = () => {
       aria-label="footer"
       className="flex flex-col items-center justify-between w-full gap-6 pt-16 pb-16 space-y-6 md:space-y-0 md:flex-row md:items-start md:pt-14 lg:pb-40"
     >
-      <div className="flex flex-col items-center h-full space-y-5 md:items-start w-72">
+      <div className="flex flex-col items-center h-full space-y-5 md:items-start max-w-[18rem]">
         <Link href="/">
           <a className="flex flex-col items-center space-y-3 text-center md:flex-row md:items-start md:text-left md:space-x-2 md:space-y-0">
             <div className="flex-shrink-0 w-12 md:w-8">
