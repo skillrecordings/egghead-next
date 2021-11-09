@@ -15,7 +15,7 @@ declare global {
       /**
        *  Match wheter the XState State matches the provided value.
        */
-      toMatchState(state: string): CustomMatcherResult
+      toMatchState(state: string | object): CustomMatcherResult
     }
   }
 }
