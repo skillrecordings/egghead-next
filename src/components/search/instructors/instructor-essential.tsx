@@ -29,7 +29,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
 
   const location = `${name} landing`
   return (
-    <div className="pb-4 xl:px-0 px-5 max-w-screen-xl mx-auto dark:bg-gray-900 w-full">
+    <div className="w-full pb-4 dark:bg-gray-900">
       <NextSeo
         title={`Learn web development from ${name} on egghead`}
         twitter={{
@@ -46,7 +46,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-3 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="items-start grid-cols-1 gap-3 space-y-5 md:grid md:grid-cols-12 md:space-y-0 dark:bg-gray-900">
         <div
           className={`md:col-span-8 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden rounded-md  grid md:grid-cols-8 md:gap-2 ${
             className ? className : ''
@@ -57,22 +57,22 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
               style={{
                 minHeight: '400px',
               }}
-              className="md:col-span-3 flex flex-col justify-start h-full relative"
+              className="relative flex flex-col justify-start h-full md:col-span-3"
             >
               <Image
                 quality="100"
                 layout="fill"
                 src={imageUrl}
-                className="h-full w-full shadow object-cover object-top"
+                className="object-cover object-top w-full h-full shadow"
                 alt={name}
               />
             </div>
           )}
-          <div className="md:col-span-5  flex flex-col justify-start h-full p-8">
+          <div className="flex flex-col justify-start h-full p-8 md:col-span-5">
             {company && (
-              <p className="text-xs uppercase text-gray-500">{company}</p>
+              <p className="text-xs text-gray-500 uppercase">{company}</p>
             )}
-            <h1 className="sm:text-3xl text-2xl font-extrabold">{name}</h1>
+            <h1 className="text-2xl font-extrabold sm:text-3xl">{name}</h1>
             <div className="mt-2">
               <ul className="flex space-x-5">
                 {twitterHandle && (
@@ -123,7 +123,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
             </div>
 
             {(bio || bio_short) && (
-              <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-thight text-gray-800 dark:text-gray-200 mt-2 md:mt-8">
+              <Markdown className="pt-2 mt-2 text-sm prose text-gray-800 dark:prose-dark sm:text-base leading-thight dark:text-gray-200 md:mt-8">
                 {bio || bio_short}
               </Markdown>
             )}
