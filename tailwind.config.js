@@ -41,6 +41,10 @@ module.exports = {
     },
     container: {
       center: true,
+      padding: {
+        DEFAULT: '1.25rem',
+        md: '1.5rem',
+      },
     },
     extend: {
       boxShadow: {
