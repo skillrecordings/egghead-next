@@ -89,7 +89,7 @@ export const authTokenPollingMachine = createMachine<Context, Event>(
     actions: {
       assignAuthToken: assign({
         authToken: (_, event) => {
-          return event.data.authToken
+          return event.data?.authToken
         },
       }),
       increasePollingCount: assign({
