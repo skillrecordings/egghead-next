@@ -76,7 +76,7 @@ const Podcast: FunctionComponent<PodcastProps> = ({
   },
 }) => {
   return (
-    <div className="max-w-2xl w-full mx-auto leading-6 mb-10">
+    <div className="container mb-10 leading-6">
       <div className="flex items-center justify-center">
         <div
           className="flex items-center justify-center"
@@ -90,14 +90,14 @@ const Podcast: FunctionComponent<PodcastProps> = ({
           />
         </div>
       </div>
-      <div className="prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl leading-6">
-        <div className="text-sm uppercase font-light text-center text-gray-500 dark:text-gray-400 py-4">{`Episode ${episode_number} ${
+      <div className="leading-6 prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl">
+        <div className="py-4 text-sm font-light text-center text-gray-500 uppercase dark:text-gray-400">{`Episode ${episode_number} ${
           contributors && contributors.length > 0
             ? `• ${contributors.join(' && ')}`
             : ''
         }`}</div>
         <h1 className="mb-10">{title}</h1>
-        <div className="flex flex-col sm:flex-row mb-10 sticky top-0 z-10 dark:bg-gray-900 bg-white shadow-lg">
+        <div className="sticky top-0 z-10 flex flex-col mb-10 bg-white shadow-lg sm:flex-row dark:bg-gray-900">
           <iframe
             height="52px"
             width="100%"
@@ -106,12 +106,12 @@ const Podcast: FunctionComponent<PodcastProps> = ({
             seamless
             src={`https://player.simplecast.com/${simplecast_uid}?dark=false`}
           ></iframe>
-          <div className="text-gray-900 flex ml-2 content-center justify-center">
+          <div className="flex content-center justify-center ml-2 text-gray-900">
             {LINKS.map(({link, title, image}) => (
               <a
                 key={link}
                 title={title}
-                className="transition-colors ease-in-out duration-300 mr-2 w-12 h-12 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full"
+                className="flex items-center justify-center w-12 h-12 mr-2 transition-colors duration-300 ease-in-out rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
