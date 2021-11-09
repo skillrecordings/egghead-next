@@ -63,14 +63,14 @@ const CaseStudy = (props: CaseStudyResource) => {
         canonical={canonicalUrl}
       />
 
-      <div className="mx-auto max-w-screen-2xl lg:mt-24 md:mt-8 mt-3 mb-16">
+      <div className="container mt-5 mb-16 lg:mt-28 md:mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-3">
           <div className="col-span-2">
-            <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+            <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
               {title}
             </h1>
             {coverImage?.url && (
-              <div className="mt-4 lg:hidden md:block mb-4">
+              <div className="mt-4 mb-4 lg:hidden md:block">
                 <Image
                   src={coverImage.url}
                   alt={coverImage.alt || title}
@@ -78,7 +78,7 @@ const CaseStudy = (props: CaseStudyResource) => {
                   height={820}
                   quality={100}
                   layout="responsive"
-                  className="rounded-lg shadow-lg object-cover object-center"
+                  className="object-cover object-center rounded-lg shadow-lg"
                 />
               </div>
             )}
@@ -88,7 +88,7 @@ const CaseStudy = (props: CaseStudyResource) => {
 
           <div className="relative col-start-3">
             <svg
-              className="hidden lg:block absolute top-0 right-0 -mt-20 -mr-20"
+              className="absolute top-0 right-0 hidden -mt-20 -mr-20 lg:block"
               width={404}
               height={384}
               fill="none"
@@ -120,7 +120,7 @@ const CaseStudy = (props: CaseStudyResource) => {
                 fill="url(#de316486-4a29-4312-bdfc-fbce2132a2c1)"
               />
             </svg>
-            <div className="relative text-base mx-auto max-w-prose lg:max-w-none">
+            <div className="relative mx-auto text-base max-w-prose lg:max-w-none">
               <div className="aspect-w-12 aspect-h-7 lg:aspect-none">
                 {coverImage?.url && (
                   <div className="mt-4">
@@ -131,7 +131,7 @@ const CaseStudy = (props: CaseStudyResource) => {
                       height={820}
                       quality={100}
                       layout="responsive"
-                      className="rounded-lg shadow-lg object-cover object-center"
+                      className="object-cover object-center rounded-lg shadow-lg"
                     />
                   </div>
                 )}
@@ -141,7 +141,7 @@ const CaseStudy = (props: CaseStudyResource) => {
         </div>
       </div>
 
-      <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-16">
+      <article className="max-w-screen-md mx-auto mt-3 mb-16 lg:mt-14 md:mt-8">
         <main>
           <MDXRemote {...source} components={mdxComponents} />
         </main>
