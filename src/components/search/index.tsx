@@ -109,7 +109,7 @@ const Search: FunctionComponent<SearchProps> = ({
     topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
   return (
-    <div className="max-w-screen-xl mx-auto">
+    <div className="container">
       <Head>
         <link
           rel="stylesheet"
@@ -124,7 +124,7 @@ const Search: FunctionComponent<SearchProps> = ({
         {...rest}
       >
         <Configure hitsPerPage={config.searchResultCount} />
-        <div className="space-y-8 bg-gray-50 dark:bg-gray-900">
+        <div className="pt-5 space-y-8 bg-gray-50 dark:bg-gray-900">
           <div ref={refinementRef}>
             <header className="flex">
               <SearchBox
@@ -138,9 +138,9 @@ const Search: FunctionComponent<SearchProps> = ({
                     isRefinementOn ? 'border-blue-400' : 'border-transparent'
                   } focus:border-blue-600 focus:outline-none`}
                 >
-                  <span className="sm:block hidden">Filter</span>
+                  <span className="hidden sm:block">Filter</span>
                   {numberOfRefinements > 0 ? (
-                    <div className="-mr-1 w-6 h-6 transform scale-75 flex items-center justify-center bg-blue-600 rounded-full text-white text-xs font-bold">
+                    <div className="flex items-center justify-center w-6 h-6 -mr-1 text-xs font-bold text-white transform scale-75 bg-blue-600 rounded-full">
                       {numberOfRefinements}
                     </div>
                   ) : (
@@ -171,26 +171,26 @@ const Search: FunctionComponent<SearchProps> = ({
                   } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 relative`}
                 >
                   <div>
-                    <h3 className="font-semibold mb-1">Topics</h3>
+                    <h3 className="mb-1 font-semibold">Topics</h3>
                     <RefinementList limit={6} attribute="_tags" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Instructors</h3>
+                    <h3 className="mb-1 font-semibold">Instructors</h3>
                     <RefinementList limit={6} attribute="instructor_name" />
                   </div>
                   <div>
                     <div>
-                      <h3 className="font-semibold mb-1">Content Type</h3>
+                      <h3 className="mb-1 font-semibold">Content Type</h3>
                       <RefinementList attribute="type" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Free or Pro</h3>
+                      <h3 className="mb-1 font-semibold">Free or Pro</h3>
                       <RefinementList attribute="access_state" />
                     </div>
                   </div>
                   {isRefinementOn && (
                     <button
-                      className="absolute top-0 right-0 mr-3 mt-3 text-blue-600 dark:text-blue-300"
+                      className="absolute top-0 right-0 mt-3 mr-3 text-blue-600 dark:text-blue-300"
                       onClick={setShowFilter}
                     >
                       <ClearRefinements />
@@ -201,7 +201,7 @@ const Search: FunctionComponent<SearchProps> = ({
             )}
           </div>
           {!isEmpty(instructor) && (
-            <div className="mb-10 pb-8">
+            <div className="pb-8 mb-10">
               {shouldDisplayLandingPageForInstructor(instructor.slug) && (
                 <InstructorCuratedPage instructor={instructor} />
               )}
@@ -215,7 +215,7 @@ const Search: FunctionComponent<SearchProps> = ({
           )}
 
           {!isEmpty(topic) && (
-            <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+            <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
               {CuratedTopicPage &&
                 shouldDisplayLandingPageForTopics(topic.name) && (
                   <CuratedTopicPage topic={topic} />
@@ -223,12 +223,12 @@ const Search: FunctionComponent<SearchProps> = ({
             </div>
           )}
 
-          <div className="dark:bg-gray-900 bg-gray-50  md:-mt-5">
+          <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
             <ScrollTo scrollOn="page" />
-            <div className="flex flex-col-reverse md:flex-row justify-between items-center pb-4 md:pb-2 mb-4 md:mb-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col-reverse items-center justify-between pb-4 mb-4 border-b border-gray-200 md:flex-row md:pb-2 md:mb-6 dark:border-gray-700">
               <Stats searchQuery={searchState.query} />
-              <div className="flex space-x-2 items-center flex-nowrap flex-shrink-0 md:ml-6">
-                <div className="font-bold whitespace-nowrap flex-shrink-0">
+              <div className="flex items-center flex-shrink-0 space-x-2 flex-nowrap md:ml-6">
+                <div className="flex-shrink-0 font-bold whitespace-nowrap">
                   Sort by:
                 </div>
                 <SortBy
@@ -245,24 +245,24 @@ const Search: FunctionComponent<SearchProps> = ({
                 />
               </div>
             </div>
-            <div className="flex mb-10 pb-10">
+            <div className="flex pb-10 mb-10">
               <div className="flex-shrink-0">
                 {!sm && (
-                  <div className="pl-0 pt-0 p-10 flex flex-col space-y-6">
+                  <div className="flex flex-col p-10 pt-0 pl-0 space-y-6">
                     <div>
-                      <h3 className="font-semibold mb-1">Topics</h3>
+                      <h3 className="mb-1 font-semibold">Topics</h3>
                       <RefinementList limit={6} attribute="_tags" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Instructors</h3>
+                      <h3 className="mb-1 font-semibold">Instructors</h3>
                       <RefinementList limit={6} attribute="instructor_name" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Content Type</h3>
+                      <h3 className="mb-1 font-semibold">Content Type</h3>
                       <RefinementList attribute="type" />
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-1">Free or Pro</h3>
+                      <h3 className="mb-1 font-semibold">Free or Pro</h3>
                       <RefinementList attribute="access_state" />
                     </div>
                   </div>
@@ -270,14 +270,14 @@ const Search: FunctionComponent<SearchProps> = ({
               </div>
               <div
                 key="search-results"
-                className="col-span-4 sm:col-span-3 w-full"
+                className="w-full col-span-4 sm:col-span-3"
               >
                 <NoSearchResults searchQuery={searchState.query} />
                 <Hits />
               </div>
             </div>
           </div>
-          <div className="max-w-screen-xl mx-auto w-full flex items-center justify-center mt-8 mb-4 overflow-x-auto">
+          <div className="flex items-center justify-center w-full max-w-screen-xl mx-auto mt-8 mb-4 overflow-x-auto">
             <Pagination />
           </div>
           {children}
