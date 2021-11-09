@@ -2,12 +2,6 @@ import {authTokenPollingMachine} from '../auth-token-polling-machine'
 import {interpret} from 'xstate'
 import {SimulatedClock} from 'utils/test/simulated-clock'
 
-function sleep(time: number) {
-  return new Promise((resolve) => {
-    return setTimeout(resolve, time)
-  })
-}
-
 test('it starts polling immediately', () => {
   const pollingService = interpret(
     authTokenPollingMachine.withConfig({
@@ -42,25 +36,32 @@ test('it invokes the requestAuthToken service', () => {
   expect(mockedFunc).toHaveBeenCalled()
 })
 
-test('it assigns the authToken to context when received', async () => {
+test('it assigns the authToken to context when received', (done) => {
+  const clock = new SimulatedClock()
+
   const pollingService = interpret(
     authTokenPollingMachine.withConfig({
       services: {
         requestAuthToken: () => Promise.resolve({authToken: 'auth123'}),
       },
     }),
-  )
+    {clock},
+  ).onTransition((state) => {
+    if (state.matches({pending: 'verifyRetrieval'})) {
+      clock.increment(4000)
+    }
+
+    if (state.matches('authTokenRetrieved')) {
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(state.context.authToken).toEqual('auth123')
+      done()
+    }
+  })
 
   pollingService.start()
-
-  await sleep(0)
-
-  expect(pollingService.state.context.authToken).toEqual('auth123')
-
-  expect(pollingService.state).toMatchState({pending: 'verifyRetrieval'})
 })
 
-test('it schedules the next poll if lookup failed', async () => {
+test('it schedules the next poll, then done', (done) => {
   const requestAuthToken = jest.fn().mockRejectedValueOnce(null)
 
   const pollingService = interpret(
@@ -69,16 +70,16 @@ test('it schedules the next poll if lookup failed', async () => {
         requestAuthToken,
       },
     }),
-  )
+  ).onTransition((state) => {
+    if (state.matches({pending: 'scheduleNextPoll'})) {
+      done()
+    }
+  })
 
   pollingService.start()
-
-  await sleep(0)
-
-  expect(pollingService.state).toMatchState({pending: 'scheduleNextPoll'})
 })
 
-test('polls several times for the value', async () => {
+test('polls several times for the value', (done) => {
   const clock = new SimulatedClock()
 
   // mock a couple failed requests followed by a successful request
@@ -95,28 +96,19 @@ test('polls several times for the value', async () => {
       },
     }),
     {clock},
-  )
+  ).onTransition((state) => {
+    if (state.matches({pending: 'scheduleNextPoll'})) {
+      clock.increment(2000)
+    }
+
+    if (state.matches('authTokenRetrieved')) {
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(state.context.pollingCount).toEqual(3)
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(state.context.authToken).toEqual('auth123')
+      done()
+    }
+  })
 
   pollingService.start()
-
-  // a sleep is needed to trigger the Invoked Service
-  await sleep(0)
-
-  expect(pollingService.state.context.pollingCount).toEqual(1)
-  expect(pollingService.state).toMatchState({pending: 'scheduleNextPoll'})
-
-  // both a `clock.increment` (advance the clock for the delayed transition)
-  // and a sleep (trigger Invoked Service) are needed.
-  clock.increment(2000)
-  await sleep(0)
-
-  expect(pollingService.state.context.pollingCount).toEqual(2)
-  expect(pollingService.state).toMatchState({pending: 'scheduleNextPoll'})
-
-  clock.increment(2000)
-  await sleep(0)
-
-  expect(pollingService.state.context.pollingCount).toEqual(3)
-  expect(pollingService.state).toMatchState('authTokenRetrieved')
-  expect(pollingService.state.context.authToken).toEqual('auth123')
 })
