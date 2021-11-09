@@ -1,3 +1,6 @@
+// Source: https://github.com/statelyai/xstate/blob/264679d1393095eca54209a790005b3cf48922c7/packages/core/src/SimulatedClock.ts
+// Per XState Discord: https://discord.com/channels/795785288994652170/809564635614150686/898257435750461490
+
 export interface Clock {
   setTimeout(fn: (...args: any[]) => void, timeout: number): any
   clearTimeout(id: any): void
