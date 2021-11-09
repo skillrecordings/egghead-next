@@ -12,7 +12,7 @@ export default function Custom404() {
   }, [])
 
   return (
-    <div className="flex items-center justify-center mb-60 prose">
+    <div className="container flex flex-col items-center justify-center mt-24 prose dark:prose-dark">
       <h1>404 - Page Not Found</h1>
       <p>
         The page you are looking for may now live at{' '}
