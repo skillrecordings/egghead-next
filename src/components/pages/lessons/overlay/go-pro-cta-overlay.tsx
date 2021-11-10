@@ -19,6 +19,7 @@ import toast from 'react-hot-toast'
 import {StripeAccount} from 'types'
 import * as Yup from 'yup'
 import {FormikProps, useFormik} from 'formik'
+import Spinner from 'components/spinner'
 
 type JoinCTAProps = {
   lesson: LessonResource
@@ -32,6 +33,8 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
     useCommerceMachine({initialPlan: 'monthlyPrice'})
+
+  const [loaderOn, setLoaderOn] = React.useState<boolean>(false)
 
   let primaryCtaText: string
 
@@ -94,69 +97,82 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     if (!priceId) return
     if (!formik.values.email) return
 
-    const account = first<StripeAccount>(get(viewer, 'accounts'))
-    await track('checkout: selected plan', {
-      lesson: lesson.slug,
-      priceId: priceId,
-      location: 'lesson overlay',
-    })
+    let leaveSpinningForRedirect: boolean = false
 
-    const emailRequiresAProCheck =
-      !isEmpty(formik.values.email) && formik.values.email !== viewer?.email
+    setLoaderOn(true)
 
-    if (emailRequiresAProCheck) {
-      const {hasProAccess} = await axios
-        .post(`/api/users/check-pro-status`, {
+    try {
+      const account = first<StripeAccount>(get(viewer, 'accounts'))
+      await track('checkout: selected plan', {
+        lesson: lesson.slug,
+        priceId: priceId,
+        location: 'lesson overlay',
+      })
+
+      const emailRequiresAProCheck =
+        !isEmpty(formik.values.email) && formik.values.email !== viewer?.email
+
+      if (emailRequiresAProCheck) {
+        const {hasProAccess} = await axios
+          .post(`/api/users/check-pro-status`, {
+            email: formik.values.email,
+          })
+          .then(({data}) => data)
+
+        if (hasProAccess) {
+          const message = `You've already got a pro account at ${formik.values.email}. Please sign in.`
+
+          toast.error(message, {
+            duration: 6000,
+            icon: '❌',
+          })
+
+          track('checkout: existing pro account found', {
+            lesson: lesson.slug,
+            email: formik.values.email,
+            location: 'lesson overlay',
+          })
+
+          // email is already associated with a pro account, return early instead
+          // of sending the user to a Stripe Checkout Session.
+          return
+        }
+      }
+
+      if (emailIsValid(formik.values.email)) {
+        await track('checkout: valid email present', {
+          priceId: priceId,
+          location: 'lesson overlay',
+        })
+        await track('checkout: redirect to stripe', {
+          lesson: lesson.slug,
+          priceId,
+          location: 'lesson overlay',
+        })
+
+        stripeCheckoutRedirect({
+          priceId,
           email: formik.values.email,
-        })
-        .then(({data}) => data)
-
-      if (hasProAccess) {
-        const message = `You've already got a pro account at ${formik.values.email}. Please sign in.`
-
-        toast.error(message, {
-          duration: 6000,
-          icon: '❌',
+          stripeCustomerId: account?.stripe_customer_id,
+          authToken,
+          quantity,
+          coupon: state.context.couponToApply?.couponCode,
         })
 
-        track('checkout: existing pro account found', {
+        leaveSpinningForRedirect = true
+      } else {
+        // we don't have a valid email for the checkout
+        await track('checkout: unable to proceed, no valid email', {
           lesson: lesson.slug,
           email: formik.values.email,
           location: 'lesson overlay',
         })
-
-        // email is already associated with a pro account, return early instead
-        // of sending the user to a Stripe Checkout Session.
-        return
       }
-    }
-
-    if (emailIsValid(formik.values.email)) {
-      await track('checkout: valid email present', {
-        priceId: priceId,
-        location: 'lesson overlay',
-      })
-      await track('checkout: redirect to stripe', {
-        lesson: lesson.slug,
-        priceId,
-        location: 'lesson overlay',
-      })
-
-      stripeCheckoutRedirect({
-        priceId,
-        email: formik.values.email,
-        stripeCustomerId: account?.stripe_customer_id,
-        authToken,
-        quantity,
-        coupon: state.context.couponToApply?.couponCode,
-      })
-    } else {
-      // we don't have a valid email for the checkout
-      await track('checkout: unable to proceed, no valid email', {
-        lesson: lesson.slug,
-        email: formik.values.email,
-        location: 'lesson overlay',
-      })
+    } catch (e) {
+      leaveSpinningForRedirect = false
+      throw e
+    } finally {
+      setLoaderOn(leaveSpinningForRedirect || false)
     }
   }
 
@@ -210,10 +226,18 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
             </div>
           )}
           <button
-            className="px-10 py-4 mt-5 font-medium text-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
+            className={`px-10 py-4 mt-5 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 ${
+              pricesLoading
+                ? 'opacity-60 cursor-default'
+                : 'hover:bg-blue-700 hover:scale-105'
+            }`}
             type="submit"
           >
-            Access this Course
+            {loaderOn || pricesLoading ? (
+              <Spinner className="absolute text-white" size={6} />
+            ) : (
+              'Access this Course'
+            )}
           </button>
           <div className="flex justify-center">
             <Link href="/pricing" passHref>
