@@ -4,7 +4,7 @@ import HeaderButtonCTA from './header-button-survey'
 
 const question = {
   version: '1.0.0',
-  project_club: {
+  portfolio_foundations: {
     heading: `Build Your Developer Portfolio`,
     subheading: `Your guide to building the portfolio that furthers your career.`,
     type: `cta-link`,
@@ -21,9 +21,8 @@ const PortfolioFoundationsCTA: React.FunctionComponent<{
 }> = (props) => {
   return (
     <HeaderButtonCTA
-      subscriberRequired
       initialState={{
-        currentQuestionKey: 'porfolio-foundations',
+        currentQuestionKey: 'portfolio_foundations',
         answers: {},
         closed: true,
         data: question,
