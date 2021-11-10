@@ -80,27 +80,24 @@ test('it schedules the next poll, then done', (done) => {
 })
 
 test('polls several times for the value', (done) => {
-  const clock = new SimulatedClock()
-
   // mock a couple failed requests followed by a successful request
   const requestAuthToken = jest
     .fn()
-    .mockRejectedValueOnce(null)
-    .mockRejectedValueOnce(null)
-    .mockResolvedValueOnce({authToken: 'auth123'})
+    .mockRejectedValueOnce(null) // 1st request fails
+    .mockRejectedValueOnce(null) // 2nd request fails
+    .mockResolvedValueOnce({authToken: 'auth123'}) // 3rd request succeeds!
 
   const pollingService = interpret(
     authTokenPollingMachine.withConfig({
       services: {
         requestAuthToken,
       },
+      delays: {
+        WAIT_BETWEEN_POLLS: 0,
+      },
     }),
-    {clock},
   ).onTransition((state) => {
-    if (state.matches({pending: 'scheduleNextPoll'})) {
-      clock.increment(2000)
-    }
-
+    // done when we've reached the authTokenRetrieved state
     if (state.matches('authTokenRetrieved')) {
       // eslint-disable-next-line jest/no-conditional-expect
       expect(state.context.pollingCount).toEqual(3)

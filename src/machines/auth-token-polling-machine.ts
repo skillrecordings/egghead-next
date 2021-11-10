@@ -51,7 +51,7 @@ export const authTokenPollingMachine = createMachine<Context, Event>(
           },
           scheduleNextPoll: {
             after: {
-              2000: [
+              WAIT_BETWEEN_POLLS: [
                 {target: 'polling', cond: 'pollingLimitNotExceeded'},
                 {target: '#pollingExpired'},
               ],
@@ -107,6 +107,9 @@ export const authTokenPollingMachine = createMachine<Context, Event>(
         // otherwise, return true
         return typeof context.authToken !== 'string'
       },
+    },
+    delays: {
+      WAIT_BETWEEN_POLLS: 2000,
     },
   },
 )
