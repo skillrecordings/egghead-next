@@ -36,7 +36,7 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
         }}
       />
       <div className="dark:bg-gray-900 bg-gray-50">
-        <header className="relative py-24 -mx-5 text-center">
+        <header className="relative py-24 text-center">
           <h1 className="relative z-10 pt-10 pb-16 text-2xl font-extrabold leading-tight tracking-tight lg:text-3xl">
             Courses on egghead
           </h1>
