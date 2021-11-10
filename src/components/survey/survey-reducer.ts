@@ -101,7 +101,7 @@ function loadSurvey(action: SurveyAction, state: SurveyState): SurveyState {
   function getInitialSurveyState(subscriber: CIOSubscriber): SurveyState {
     const surveyIncomplete = isEmpty(
       subscriber.attributes?.[
-        `${state.surveyTitle.replaceAll(' ', '_')}_finished_at`
+        `${state.surveyTitle.replace(' ', '_')}_finished_at`
       ],
     )
     if (surveyIncomplete) {
@@ -237,7 +237,7 @@ function getUpdatedAttributesForAnswer(
       {
         ...answers,
         last_surveyed_at: now,
-        [`${state.surveyTitle.replaceAll(' ', '_')}_finished_at`]: now,
+        [`${state.surveyTitle.replace(' ', '_')}_finished_at`]: now,
       },
       state,
     )
@@ -251,14 +251,12 @@ function getUpdatedAttributesForAnswer(
   }
 
   if (
-    isEmpty(
-      attributes?.[`${state.surveyTitle.replaceAll(' ', '_')}_started_at`],
-    )
+    isEmpty(attributes?.[`${state.surveyTitle.replace(' ', '_')}_started_at`])
   ) {
     cioIdentify(
       subscriber.id,
       {
-        [`${state.surveyTitle.replaceAll(' ', '_')}_started_at`]: now,
+        [`${state.surveyTitle.replace(' ', '_')}_started_at`]: now,
       },
       state,
     )
@@ -269,7 +267,7 @@ function getUpdatedAttributesForAnswer(
     })
     attributes = {
       ...attributes,
-      [`${state.surveyTitle.replaceAll(' ', '_')}_started_at`]: now,
+      [`${state.surveyTitle.replace(' ', '_')}_started_at`]: now,
     }
   }
   return attributes
@@ -301,7 +299,7 @@ function closeSurvey(action: SurveyAction, state: SurveyState) {
       {
         ...state.answers,
         last_surveyed_at: Math.round(Date.now() / 1000),
-        [`${state.surveyTitle.replaceAll(' ', '_')}_finished_at`]: Math.round(
+        [`${state.surveyTitle.replace(' ', '_')}_finished_at`]: Math.round(
           Date.now() / 1000,
         ),
       },
@@ -318,7 +316,7 @@ function dismissSurvey(state: SurveyState) {
       {
         ...state.answers,
         last_surveyed_at: Math.round(Date.now() / 1000),
-        [`${state.surveyTitle.replaceAll(' ', '_')}_finished_at`]: Math.round(
+        [`${state.surveyTitle.replace(' ', '_')}_finished_at`]: Math.round(
           Date.now() / 1000,
         ),
       },
