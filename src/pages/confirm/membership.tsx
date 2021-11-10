@@ -14,8 +14,9 @@ const ConfirmMembershipPage: React.FC = () => {
 
   const [session, setSession] = React.useState<any>()
 
+  const {session_id} = query
+
   React.useEffect(() => {
-    const {session_id} = query
     if (session_id) {
       axios
         .get(`/api/stripe/checkout/session?session_id=${session_id}`)
@@ -27,7 +28,7 @@ const ConfirmMembershipPage: React.FC = () => {
           if (viewer) refreshUser()
         })
     }
-  }, [])
+  }, [session_id])
 
   if (!session) return null
 
