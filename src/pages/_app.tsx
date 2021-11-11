@@ -11,7 +11,6 @@ import '@reach/dialog/styles.css'
 import '@reach/tabs/styles.css'
 import '../styles/index.css'
 import 'focus-visible'
-import {ConvertkitProvider} from 'hooks/use-convertkit'
 import {FacebookPixel} from 'components/facebook-pixel'
 import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
@@ -108,11 +107,9 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
         <ViewerProvider>
           <LogRocketProvider>
             <CioProvider>
-              <ConvertkitProvider>
-                <MDXProvider components={mdxComponents}>
-                  {getLayout(Component, pageProps)}
-                </MDXProvider>
-              </ConvertkitProvider>
+              <MDXProvider components={mdxComponents}>
+                {getLayout(Component, pageProps)}
+              </MDXProvider>
             </CioProvider>
           </LogRocketProvider>
         </ViewerProvider>
