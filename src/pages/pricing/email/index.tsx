@@ -75,17 +75,17 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
   }
 
   return (
-    <div className="sm:-mx-5 sm:-mt-5 -mx-5 -mt-3 sm:dark:bg-gray-1000 sm:bg-gray-100 sm:py-24 h-screen">
-      <div className="flex flex-col items-center sm:border-2 sm:dark:border-gray-800 sm:border-gray-200 sm:rounded-lg sm:max-w-md mx-auto overflow-hidden">
-        <div className="sm:dark:bg-gray-800 dark:bg-gray-1000 sm:bg-gray-100 bg-gray-100 dark-text-white dark:text-white text-gray-900 py-6 w-full flex items-center justify-center">
+    <div className="h-screen mt-5 sm:dark:bg-gray-1000 sm:bg-gray-100 sm:py-24">
+      <div className="flex flex-col items-center mx-auto overflow-hidden sm:border-2 sm:dark:border-gray-800 sm:border-gray-200 sm:rounded-lg sm:max-w-md">
+        <div className="flex items-center justify-center w-full py-6 text-gray-900 bg-gray-100 sm:dark:bg-gray-800 dark:bg-gray-1000 sm:bg-gray-100 dark-text-white dark:text-white">
           <Stepper />
         </div>
-        <div className="sm:mx-auto sm:w-full dark:bg-gray-900 bg-white px-5">
+        <div className="px-5 bg-white sm:mx-auto sm:w-full dark:bg-gray-900">
           <div>
-            <h2 className="py-6 text-center sm:text-2xl text-xl leading-tight font-semibold ">
+            <h2 className="py-6 text-xl font-semibold leading-tight text-center sm:text-2xl ">
               Please provide your email address to create an account.
             </h2>
-            <div className=" pb-8 px-4 sm:px-8">
+            <div className="px-4 pb-8  sm:px-8">
               {!isSubmitted && !isError && (
                 <Formik
                   initialValues={{email: ''}}
@@ -124,15 +124,15 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
                                 onBlur={handleBlur}
                                 placeholder="you@company.com"
                                 required
-                                className="bg-gray-100 dark:text-white dark:bg-gray-800 focus:ring-blue-500  border border-gray-200 dark:border-gray-700 rounded-md py-3 px-4 block w-full"
+                                className="block w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-md dark:text-white dark:bg-gray-800 focus:ring-blue-500 dark:border-gray-700"
                               />
                             </div>
                           </div>
-                          <div className="flex justify-center items-center w-full mt-6">
+                          <div className="flex items-center justify-center w-full mt-6">
                             <button
                               type="submit"
                               disabled={isSubmitting}
-                              className="w-full transition duration-150 ease-in-out  bg-blue-600 hover:bg-blue-700 hover:shadow-xl text-white font-semibold py-4 px-6 rounded-md"
+                              className="w-full px-6 py-4 font-semibold text-white transition duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:shadow-xl"
                             >
                               Proceed to Payment
                             </button>
@@ -150,7 +150,7 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
                 </div>
               )}
               {isError && (
-                <ReactMarkdown className="text-center py-16 prose dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
+                <ReactMarkdown className="py-16 prose text-center dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
                   {isError.toString()}
                 </ReactMarkdown>
               )}
