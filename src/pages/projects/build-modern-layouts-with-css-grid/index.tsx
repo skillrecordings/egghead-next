@@ -72,49 +72,49 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           ],
         }}
       />
-      <div className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
-        <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
-          <div className="mt-10 mb-16 text-center">
+      <div className="bg-gray-50 dark:bg-gray-900">
+        <div className="container pb-10 mt-5 mb-10">
+          <div className="pt-10 mb-16 text-center">
             <div className="mb-10">
               <Image priority src={course.image} height="270" width="270" />
             </div>
-            <p className="text-lg md:text-2xl leading-6 text-gray-500">
+            <p className="text-lg leading-6 text-gray-500 md:text-2xl">
               Portfolio Project
             </p>
-            <h1 className="text-2xl md:text-4xl font-bold mt-2">
+            <h1 className="mt-2 text-2xl font-bold md:text-4xl">
               {course.projects.title}
             </h1>
           </div>
-          <div className="flex flex-col justify-center items-start mx-auto max-w-screen-md mb-16 w-full px-4">
-            <main className="prose dark:prose-dark prose-lg max-w-none w-full">
+          <div className="flex flex-col items-start justify-center w-full max-w-screen-md mx-auto mb-16">
+            <main className="w-full prose prose-lg dark:prose-dark max-w-none">
               <Markdown>{introduction.text}</Markdown>
               <Markdown>{challenges.text}</Markdown>
 
-              <section className="relative dark:text-gray-200 mt-16 mb-16 ml-0 mr-0 md:-ml-20 md:-mr-20">
-                <h2 className="font-bold mb-2 text-center">
+              <section className="relative mt-16 mb-16 ml-0 mr-0 dark:text-gray-200 md:-ml-20 md:-mr-20">
+                <h2 className="mb-2 font-bold text-center">
                   Project Challenges
                 </h2>
-                <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 mb-16 gap-5">
-                  <div className="mb-8 md:mb-0 text-center relative">
+                <div className="grid grid-cols-1 gap-5 mt-16 mb-16 lg:grid-cols-2">
+                  <div className="relative mb-8 text-center md:mb-0">
                     <Image
                       src={pricingPageImageUrl}
                       height="780"
                       width="695"
-                      className="rounded-md z-0"
+                      className="z-0 rounded-md"
                     />
 
-                    <div className="bg-gray-50 dark:bg-gray-900 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-20 relative">
+                    <div className="relative z-20 p-4 ml-4 mr-4 -mt-32 text-center bg-gray-50 dark:bg-gray-900 rounded-xl md:p-8">
                       <h3
-                        className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
+                        className="m-2 mb-2 text-lg font-medium text-center sm:text-xl"
                         style={{margin: 0}}
                       >
                         Pricing Page Layout
                       </h3>
-                      <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                      <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-left text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
                         {pricingPageDescription.text}
                       </Markdown>
                       <a
-                        className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
+                        className="inline-flex items-center justify-center px-6 py-4 mt-12 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
                         title="Share on twitter"
                         href={pricingPageFigmaUrl}
                         style={{
@@ -133,20 +133,20 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                       src={crmPageImageUrl}
                       height="780"
                       width="695"
-                      className="rounded-md z-0"
+                      className="z-0 rounded-md"
                     />
-                    <div className="bg-gray-50 dark:bg-gray-900 rounded-xl ml-4 mr-4 text-center p-4 md:p-8 -mt-32 z-10 relative ">
+                    <div className="relative z-10 p-4 ml-4 mr-4 -mt-32 text-center bg-gray-50 dark:bg-gray-900 rounded-xl md:p-8 ">
                       <h3
-                        className="sm:text-xl text-lg font-medium mb-2 text-center m-2"
+                        className="m-2 mb-2 text-lg font-medium text-center sm:text-xl"
                         style={{margin: 0}}
                       >
                         Dashboard Page Layout
                       </h3>
-                      <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                      <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-left text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
                         {crmPageDescription.text}
                       </Markdown>
                       <a
-                        className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
+                        className="inline-flex items-center justify-center px-6 py-4 mt-12 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
                         title="Share on twitter"
                         href={crmPageFigmaUrl}
                         target="_blank"
@@ -163,18 +163,18 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 </div>
               </section>
               <Markdown>{outcomes.text}</Markdown>
-              <section className="relative dark:text-gray-200 mt-16 mb-16 ml-0 mr-0 md:-ml-28 md:-mr-28">
-                <div className="grid grid-cols-1 lg:grid-cols-2 mt-16 mb-16 gap-5">
-                  <div className="mb-8 md:mb-0 text-center relative">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl text-center p-4 md:p-8 z-20 relative shadow-lg">
-                      <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+              <section className="relative mt-16 mb-16 ml-0 mr-0 dark:text-gray-200 md:-ml-28 md:-mr-28">
+                <div className="grid grid-cols-1 gap-5 mt-16 mb-16 lg:grid-cols-2">
+                  <div className="relative mb-8 text-center md:mb-0">
+                    <div className="relative z-20 p-4 text-center bg-white shadow-lg dark:bg-gray-800 rounded-xl md:p-8">
+                      <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-left text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
                         {pricingPageChallenge.text}
                       </Markdown>
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl text-center p-4 md:p-8 z-10 relative shadow-lg">
-                      <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0 text-left">
+                    <div className="relative z-10 p-4 text-center bg-white shadow-lg dark:bg-gray-800 rounded-xl md:p-8">
+                      <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-left text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
                         {dashboardPageChallenge.text}
                       </Markdown>
                     </div>
@@ -187,7 +187,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               <Markdown>{challengeResource.text}</Markdown>
               <Markdown>{Submission.text}</Markdown>
               <a
-                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200"
+                className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
                 title="Share on twitter"
                 href={course.projects.tweetCTA}
                 rel="noopener"
