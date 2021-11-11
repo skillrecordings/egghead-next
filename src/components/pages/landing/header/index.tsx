@@ -39,12 +39,11 @@ const Header = () => {
         />
         <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
           <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter lg:max-w-none md:max-w-screen-md">
-            Learn the best JavaScript tools and frameworks from industry
-            professionals
+            Concise Programming Courses for Busy Web Developers
           </h1>
           <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 sm:text-lg">
-            high-quality video tutorials and learning resources for badass web
-            developers
+            high-quality video tutorials and curated learning resources without
+            any cruft
           </h2>
           {viewer ? (
             <Join />
