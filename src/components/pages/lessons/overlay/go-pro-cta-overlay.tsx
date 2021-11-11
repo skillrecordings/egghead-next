@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import ProMemberFeatures from 'components/pro-member-features'
 import {LessonResource} from 'types'
 import {track} from 'utils/analytics'
