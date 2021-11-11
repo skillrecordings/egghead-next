@@ -2,15 +2,12 @@ import * as React from 'react'
 import {useRouter} from 'next/router'
 import axios from 'axios'
 import ConfirmMembership from 'components/pages/confirm/membership/index'
-import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
 
 const ConfirmMembershipPage: React.FC = () => {
   const {query} = useRouter()
   const {viewer, refreshUser} = useViewer()
-
-  const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
 
   const [session, setSession] = React.useState<any>()
 
@@ -37,11 +34,7 @@ const ConfirmMembershipPage: React.FC = () => {
       {session.status === 'paid' && (
         <div className="-m-5 dark:bg-gray-900 bg-gray-50 min-h-screen">
           <div className="max-w-screen-sm mx-auto p-5 w-full flex flex-col items-center justify-start sm:py-16 py-8">
-            <ConfirmMembership
-              session={session}
-              alreadyAuthenticated={alreadyAuthenticated}
-              currentState={currentState}
-            />
+            <ConfirmMembership session={session} />
           </div>
         </div>
       )}

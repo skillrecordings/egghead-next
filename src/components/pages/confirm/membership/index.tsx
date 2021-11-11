@@ -6,6 +6,7 @@ import Image from 'next/image'
 import homepageData from 'components/pages/home/homepage-data'
 import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
+import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -14,8 +15,6 @@ type HeaderProps = {
 
 type ConfirmMembershipProps = {
   session: any
-  alreadyAuthenticated: boolean
-  currentState: {value: any; context: any; matches: Function}
 }
 
 const Illustration = () => (
@@ -276,9 +275,9 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
 
 export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   session,
-  alreadyAuthenticated,
-  currentState,
 }) => {
+  const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
+
   return (
     <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
       {alreadyAuthenticated ? (
