@@ -161,7 +161,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
           </div>
         </div>
         <main className="container">
-          <div className="max-w-screen-lg pt-8 mx-auto">
+          <div className="max-w-screen-lg py-8 mx-auto">
             <article>
               <header className="mb-6">
                 <h1 className="text-2xl font-bold leading-tight tracking-tight">
