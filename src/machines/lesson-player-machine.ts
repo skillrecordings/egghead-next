@@ -192,6 +192,7 @@ export const playerMachine = Machine<
           RATE: 'rating',
           QUIZ: 'quizzing',
           LOAD: 'loading',
+          VIEW: 'viewing',
         },
       },
       joining: {

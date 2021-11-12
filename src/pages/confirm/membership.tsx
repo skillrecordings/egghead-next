@@ -27,6 +27,11 @@ const ConfirmMembershipPage: React.FC = () => {
     }
   }, [session_id])
 
+  // TODO: If someone ends up on this page and for some reason we are unable to
+  // recognize their session/session_id, we should display something more
+  // useful than `null`. Assuming they legitimately landed on this page after a
+  // purchase, we should direct them to contact support because something must
+  // have gone wrong.
   if (!session) return null
 
   return (
