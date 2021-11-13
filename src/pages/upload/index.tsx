@@ -5,13 +5,14 @@ import {getAuthorizationHeader} from '../../utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
 import {find} from 'lodash'
+import {sanityClient as client} from 'utils/sanity-client'
 
 type FileUpload = {file: File; percent: number; message: string}
 
 const fileUploadReducer = (state: any, action: any) => {
   switch (action.type) {
     case 'add':
-      return {files: [...state.files, action.fileUpload]}
+      return {...state, files: [...state.files, action.fileUpload]}
     case 'progress':
       const upload = find<FileUpload>(
         state.files,
@@ -22,16 +23,52 @@ const fileUploadReducer = (state: any, action: any) => {
         upload.message = action.message
       }
 
-      return {files: [...state.files]}
+      return {...state, files: [...state.files]}
+    case 'signed':
+      return {...state, urls: [...state.urls, action.url]}
     default:
       throw new Error()
   }
 }
 
+const handleSubmit = (e: any, form: any, urls: any) => {
+  e.preventDefault()
+  console.log('FORM', form)
+  console.log('STATE', urls)
+
+  const re = /[^/\\&?]+\.\w{3,4}(?=([?&].*$|$))/
+  console.log(urls[0].match(re)[0])
+
+  const lessons = urls.map((url: any) => {
+    return {
+      _type: 'resource',
+      _key: url,
+      type: 'video',
+      title: url.match(re)[0],
+      rawMediaUrl: url,
+    }
+  })
+
+  const document = {
+    _type: 'resource',
+    title: form.collectionTitle,
+    type: 'course',
+    resources: lessons,
+  }
+
+  client.create(document)
+}
+
 const Upload: React.FC = () => {
-  const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
+  const [state, dispatch] = React.useReducer(fileUploadReducer, {
+    files: [],
+    urls: [],
+  })
   const {viewer} = useViewer()
   const uploaderRef = React.useRef(null)
+
+  const [form, setForm] = React.useState({collectionTitle: ''})
+  const {collectionTitle} = form
 
   return viewer?.s3_signing_url ? (
     <div>
@@ -74,16 +111,34 @@ const Upload: React.FC = () => {
         onError={(message) => console.log(message)}
         onFinish={(signResult, file) => {
           const fileUrl = signResult.signedUrl.split('?')[0]
-          console.log(fileUrl, signResult.publicUrl, file)
+          dispatch({type: 'signed', url: fileUrl})
+          console.log(state.urls)
         }}
       />{' '}
-      {state.files.map((file) => {
-        return (
-          <div key={file.name}>
-            {file.file.name} {file.percent} {file.message}
-          </div>
-        )
-      })}
+      <form onSubmit={(e) => handleSubmit(e, form, state.urls)}>
+        <div>
+          <label htmlFor="title">Title</label>
+          <input
+            onChange={(e) =>
+              setForm({...form, collectionTitle: e.target.value})
+            }
+            value={collectionTitle}
+            type="text"
+            name="title"
+            className="text-gray-700"
+          />
+        </div>
+        {state.files.map((file: any) => {
+          return (
+            <div key={file.name}>
+              {file.file.name} {file.percent} {file.message}
+            </div>
+          )
+        })}
+        <div>
+          <input type="submit" name="submit" />
+        </div>
+      </form>
     </div>
   ) : null
 }

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import {MdKitchen as icon} from 'react-icons/md'
 import React from 'react'
 import PathInput from '../components/path-input'
@@ -283,6 +284,12 @@ export default {
           type: 'string-list',
         },
       ],
+    },
+    {
+      name: 'rawMediaUrl',
+      description: 'URL to the resource media file',
+      title: 'Raw Media URL',
+      type: 'url',
     },
     {
       name: 'url',
