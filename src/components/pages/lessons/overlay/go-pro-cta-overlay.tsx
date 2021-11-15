@@ -21,10 +21,11 @@ import {FormikProps, useFormik} from 'formik'
 import Spinner from 'components/spinner'
 import ConfirmMembership from './confirm-membership'
 import {useRouter} from 'next/router'
+import noop from 'utils/noop'
 
 type JoinCTAProps = {
   lesson: LessonResource
-  viewLesson: Function
+  viewLesson?: Function
 }
 
 type FormikValues = {
@@ -289,7 +290,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
 const OverlayParent: FunctionComponent<JoinCTAProps> = ({
   lesson,
-  viewLesson,
+  viewLesson = noop,
 }) => {
   const {query} = useRouter()
   const {viewer, refreshUser} = useViewer()
