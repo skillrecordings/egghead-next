@@ -19,8 +19,8 @@ const Illustration = () => (
       src={
         'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1606467216/next.egghead.io/eggodex/playful-eggo_2x.png'
       }
-      width={646 / 3}
-      height={622 / 3}
+      width={646 / 4}
+      height={622 / 4}
       quality={100}
       alt="welcome to egghead"
     />
@@ -29,20 +29,20 @@ const Illustration = () => (
 
 const Heading: React.FC = ({children}) => {
   return (
-    <h1 className="sm:leading-tighter leading-tight sm:text-2xl text-xl font-bold text-center">
+    <h1 className="text-xl font-medium leading-tight text-center sm:leading-tighter sm:text-2xl">
       {children}
     </h1>
   )
 }
 
 const PrimaryMessage: React.FC = ({children}) => {
-  return <div className="dark:text-gray-200 text-gray-800">{children}</div>
+  return <div className="max-w-md">{children}</div>
 }
 
 const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
   return (
-    <header className="w-full h-full flex flex-col items-start justify-center">
-      <div className="flex flex-col justify-center items-center space-y-6">
+    <header className="flex flex-col items-center justify-center w-full h-full p-5">
+      <div className="flex flex-col items-center justify-center space-y-6">
         <Illustration />
         <Heading>{heading}</Heading>
         <PrimaryMessage>{primaryMessage}</PrimaryMessage>
@@ -55,7 +55,7 @@ const IconMail: React.FC<{className: string}> = ({className}) => {
   return (
     <div className={className}>
       <svg
-        className="animate-bounce transition-transform transform"
+        className="transition-transform transform animate-bounce"
         width="20"
         height="20"
         viewBox="0 0 20 20"
@@ -78,7 +78,7 @@ const IconMail: React.FC<{className: string}> = ({className}) => {
 
 const Callout: React.FC = ({children}) => {
   return (
-    <div className="sm:p-6 p-5 border border-gray-200 rounded-lg mb-5 inline-flex items-center space-x-3 w-full">
+    <div className="inline-flex items-center w-full p-4 mb-5 space-x-3 border border-gray-200 rounded-lg sm:p-5">
       {children}
     </div>
   )
@@ -99,12 +99,12 @@ const ExistingMemberConfirmation: React.FC<{
               <strong>${session.amount} for your egghead membership</strong> and
               sent a receipt to <strong>{session.email}</strong>.
             </p>
-            <p className="text-lg pt-5 text-center">
+            <p className="pt-5 text-lg text-center">
               You can now learn from all premium resources on egghead, including
               courses, talks, podcasts, articles, and more. Enjoy!
             </p>
             <button
-              className="px-10 py-4 mt-5 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 hover:bg-blue-700 hover:scale-105"
+              className="px-10 py-4 mt-5 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
               onClick={(_e) => viewLesson()}
             >
               Watch this Lesson
@@ -122,65 +122,62 @@ const NewMemberConfirmation: React.FC<{
   viewLesson: Function
 }> = ({session, currentState, viewLesson}) => {
   return (
-    <>
-      <Header
-        heading={<>Thank you so much for joining egghead! </>}
-        primaryMessage={
-          <>
-            {currentState.matches('pending') && (
+    <Header
+      heading={<>Thank you so much for joining egghead! </>}
+      primaryMessage={
+        <>
+          {currentState.matches('pending') && (
+            <Callout>
+              <Spinner color="white" />
+              <p className="text-lg">Setting up your account...</p>
+            </Callout>
+          )}
+          {currentState.matches('pollingExpired') && (
+            <>
               <Callout>
-                <Spinner color="gray-700" />
-                <p className="text-lg">Setting up your account...</p>
-              </Callout>
-            )}
-            {currentState.matches('pollingExpired') && (
-              <>
-                <Callout>
-                  <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
-                  <p className="text-lg">
-                    Please check your inbox ({session.email}) to{' '}
-                    <strong>confirm your email address</strong> and{' '}
-                    <strong>access your membership</strong>.
-                  </p>
-                </Callout>
+                <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
                 <p className="text-lg">
-                  We've charged your credit card{' '}
-                  <strong>${session.amount} for an egghead membership</strong>{' '}
-                  and sent an email along with a receipt to{' '}
-                  <strong>{session.email}</strong> so you can log in and access
-                  your membership.
+                  Please check your inbox ({session.email}) to{' '}
+                  <strong>confirm your email address</strong> and{' '}
+                  <strong>access your membership</strong>.
                 </p>
-              </>
-            )}
-            {currentState.matches('authTokenRetrieved') && (
-              <>
-                <Callout>
-                  <p className="text-lg w-full text-center">
-                    <span role="img" aria-label="party popper">
-                      🎉
-                    </span>{' '}
-                    Your egghead membership is ready to go!
-                  </p>
-                </Callout>
-                <p className="text-lg pb-8 border-b border-gray-100 text-center max-w-lg mx-auto">
-                  We've charged your credit card{' '}
-                  <strong>${session.amount} for an egghead membership</strong>{' '}
-                  and sent a receipt to <strong>{session.email}</strong>. Please
-                  check your inbox to{' '}
-                  <strong>confirm your email address</strong>.
+              </Callout>
+              <p className="text-lg text-center">
+                We've charged your credit card{' '}
+                <strong>${session.amount} for an egghead membership</strong> and
+                sent an email along with a receipt to{' '}
+                <strong>{session.email}</strong> so you can log in and access
+                your membership.
+              </p>
+            </>
+          )}
+          {currentState.matches('authTokenRetrieved') && (
+            <div className="flex flex-col items-center">
+              <Callout>
+                <p className="w-full text-lg text-center">
+                  <span role="img" aria-label="party popper">
+                    🎉
+                  </span>{' '}
+                  Your egghead membership is ready to go!
                 </p>
-                <button
-                  className="px-10 py-4 mt-5 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 hover:bg-blue-700 hover:scale-105"
-                  onClick={(_e) => viewLesson()}
-                >
-                  Watch this Lesson
-                </button>
-              </>
-            )}
-          </>
-        }
-      />
-    </>
+              </Callout>
+              <p className="max-w-lg mx-auto text-lg text-center">
+                We've charged your credit card{' '}
+                <strong>${session.amount} for an egghead membership</strong> and
+                sent a receipt to <strong>{session.email}</strong>. Please check
+                your inbox to <strong>confirm your email address</strong>.
+              </p>
+              <button
+                className="mt-8 px-10 py-4 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 self-center"
+                onClick={(_e) => viewLesson()}
+              >
+                Watch this Lesson
+              </button>
+            </div>
+          )}
+        </>
+      }
+    />
   )
 }
 
@@ -191,7 +188,7 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
 
   return (
-    <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
+    <div className="w-full max-w-screen-lg mx-auto space-y-16 text-white dark:text-white">
       {alreadyAuthenticated ? (
         <ExistingMemberConfirmation session={session} viewLesson={viewLesson} />
       ) : (
