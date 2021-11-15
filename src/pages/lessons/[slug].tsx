@@ -560,10 +560,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                   <GoProCtaOverlay
                     lesson={lesson}
                     viewLesson={() => {
-                      router.push({
-                        pathname: router.pathname,
-                        query: {slug: lesson.slug},
-                      })
+                      router.reload()
                     }}
                   />
                 </OverlayWrapper>
