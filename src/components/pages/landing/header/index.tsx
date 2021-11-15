@@ -38,10 +38,10 @@ const Header = () => {
           className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t dark:from-gray-900 dark:to-transparentDark from-white to-transparentLight"
         />
         <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
-          <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter lg:max-w-none md:max-w-screen-md">
+          <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter sm:max-w-[22ch]">
             Concise Programming Courses for Busy Web Developers
           </h1>
-          <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 sm:text-lg">
+          <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 lg:text-lg sm:text-base text-sm leading-tight">
             high-quality video tutorials and curated learning resources without
             any cruft
           </h2>
