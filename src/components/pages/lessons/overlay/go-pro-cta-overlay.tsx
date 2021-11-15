@@ -62,11 +62,12 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     },
   })
 
+  const viewerEmail = viewer?.email
   React.useEffect(() => {
-    if (!isEmpty(viewer?.email)) {
-      formik.setFieldValue('email', viewer.email)
+    if (!isEmpty(viewerEmail)) {
+      formik.setFieldValue('email', viewerEmail)
     }
-  }, [viewer?.email])
+  }, [viewerEmail])
 
   const pricesLoading = !state.matches('pricesLoaded')
   const pppCouponIsApplied =
@@ -293,28 +294,16 @@ const OverlayParent: FunctionComponent<JoinCTAProps> = ({
   viewLesson = noop,
 }) => {
   const {query} = useRouter()
-  const {viewer, refreshUser} = useViewer()
-
-  const [session, setSession] = React.useState<any>()
 
   const {session_id} = query
 
-  React.useEffect(() => {
-    if (session_id) {
-      axios
-        .get(`/api/stripe/checkout/session?session_id=${session_id}`)
-        .then(({data}) => {
-          setSession(data)
-          track('checkout: membership confirmed', {
-            session_id,
-          })
-          if (viewer) refreshUser()
-        })
-    }
-  }, [session_id])
-
   if (session_id) {
-    return <ConfirmMembership session={session} viewLesson={viewLesson} />
+    return (
+      <ConfirmMembership
+        sessionId={session_id as string}
+        viewLesson={viewLesson}
+      />
+    )
   } else {
     return <GoProCtaOverlay lesson={lesson} />
   }

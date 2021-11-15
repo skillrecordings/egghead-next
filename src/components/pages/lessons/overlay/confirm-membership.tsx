@@ -2,6 +2,9 @@ import * as React from 'react'
 import Image from 'next/image'
 import Spinner from 'components/spinner'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
+import axios from 'axios'
+import {track} from 'utils/analytics'
+import {useViewer} from 'context/viewer-context'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -9,7 +12,7 @@ type HeaderProps = {
 }
 
 type ConfirmMembershipProps = {
-  session: any
+  sessionId: string
   viewLesson: Function
 }
 
@@ -182,12 +185,28 @@ const NewMemberConfirmation: React.FC<{
 }
 
 export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
-  session,
+  sessionId,
   viewLesson,
 }) => {
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
+  const [session, setSession] = React.useState<any>()
+  const {viewer, refreshUser} = useViewer()
 
-  return (
+  React.useEffect(() => {
+    if (sessionId) {
+      axios
+        .get(`/api/stripe/checkout/session?session_id=${sessionId}`)
+        .then(({data}) => {
+          setSession(data)
+          track('checkout: membership confirmed', {
+            sessionId,
+          })
+          if (viewer) refreshUser()
+        })
+    }
+  }, [sessionId])
+
+  return session ? (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-white dark:text-white">
       {alreadyAuthenticated ? (
         <ExistingMemberConfirmation session={session} viewLesson={viewLesson} />
@@ -199,7 +218,7 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
         />
       )}
     </div>
-  )
+  ) : null // TODO: This should be a spinner most likely or some indicator
 }
 
 export default ConfirmMembership
