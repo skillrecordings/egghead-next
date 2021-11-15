@@ -292,7 +292,7 @@ const OverlayParent: FunctionComponent<JoinCTAProps> = ({
   lesson,
   viewLesson = noop,
 }) => {
-  const {query} = useRouter()
+  const {query, reload} = useRouter()
   const {viewer, refreshUser} = useViewer()
 
   const [session, setSession] = React.useState<any>()
@@ -314,7 +314,7 @@ const OverlayParent: FunctionComponent<JoinCTAProps> = ({
   }, [session_id])
 
   if (session_id) {
-    return <ConfirmMembership session={session} viewLesson={viewLesson} />
+    return <ConfirmMembership session={session} viewLesson={reload} />
   } else {
     return <GoProCtaOverlay lesson={lesson} />
   }
