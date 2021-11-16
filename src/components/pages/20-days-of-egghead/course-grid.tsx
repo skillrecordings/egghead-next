@@ -13,7 +13,7 @@ type CourseGridProps = {
 }
 
 const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
-  const startDate = new Date('11/12/2021')
+  const startDate = new Date('12/01/2021')
   const numberOfDays = 20
   const calendar = new Array(numberOfDays).fill({}).map((_, i) => {
     const date = add(startDate, {days: i})
@@ -35,7 +35,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
               <a className={className}>{children}</a>
             </Link>
           ) : (
-            <article className={className}>{children}</article>
+            <div className={className}>{children}</div>
           )
         const upcoming =
           !isFuture(startDate) &&
@@ -54,7 +54,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
             })}`}
           >
             <div className="grid grid-rows-7">
-              <header className="row-span-4 flex items-center justify-center">
+              <div className="row-span-4 flex items-center justify-center">
                 <div className="relative flex items-center justify-center w-full xl:max-w-[180px] sm:max-w-[150px] max-w-[90px]">
                   <Image
                     src={resource.image as string}
@@ -75,14 +75,15 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
                     </div>
                   )}
                 </div>
-              </header>
+              </div>
               {published && (
-                <main className="row-span-2 text-center px-5">
+                <div className="row-span-2 text-center px-5">
                   <h4>
                     <Textfit
+                      aria-hidden
                       mode="multi"
                       className="sm:h-[70px] h-[50px] font-medium text-center leading-tight flex items-center justify-center"
-                      max={20}
+                      max={22}
                     >
                       {resource.title}
                     </Textfit>
@@ -103,13 +104,13 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
                       </span>
                     </div>
                   )}
-                </main>
+                </div>
               )}
               {upcoming && (
-                <footer className="absolute lg:bottom-9 sm:bottom-6 bottom-5 text-center w-full flex sm:text-sm text-xs leading-tighter items-center justify-center dark:text-gray-300 text-gray-500">
+                <div className="absolute lg:bottom-9 sm:bottom-6 bottom-5 text-center w-full flex sm:text-sm text-xs leading-tighter items-center justify-center dark:text-gray-300 text-gray-500">
                   Check back tomorrow!
                   {/* {formatDistanceToNow(calendar[i].date, {addSuffix: true,})} */}
-                </footer>
+                </div>
               )}
               {!published && (
                 <div className="font-mono sm:text-xs text-[0.6rem] leading-none absolute top-2 right-2 sm:w-8 sm:h-8 w-6 h-6 dark:bg-gray-800 bg-white rounded-full flex items-center justify-center border dark:border-transparent border-gray-200">
