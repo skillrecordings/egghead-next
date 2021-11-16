@@ -560,7 +560,12 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                   <GoProCtaOverlay
                     lesson={lesson}
                     viewLesson={() => {
-                      router.reload()
+                      // noop
+                      // TODO: Ideally this would provide a state transition
+                      // that would allow the user to start watching the video.
+                      //
+                      // For now, we are faking it with a `router.reload` in
+                      // the sub-component.
                     }}
                   />
                 </OverlayWrapper>
