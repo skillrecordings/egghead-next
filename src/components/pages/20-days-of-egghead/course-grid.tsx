@@ -15,7 +15,7 @@ type CourseGridProps = {
 
 const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
   const {resolvedTheme} = useTheme()
-  const startDate = new Date('11/14/2021')
+  const startDate = new Date('12/01/2021')
   const numberOfDays = 20
   const calendar = new Array(numberOfDays).fill({}).map((_, i) => {
     const date = add(startDate, {days: i})
@@ -24,6 +24,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
       isPublished: isBefore(date, new Date()),
     }
   })
+
   return (
     <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-5 gap-3">
       {data?.resources?.map((resource, i) => {
