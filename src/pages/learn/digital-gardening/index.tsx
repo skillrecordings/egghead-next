@@ -9,12 +9,12 @@ import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 
 const DigitalGardening: React.FC<any> = ({data}) => {
   return (
-    <div className="sm:-my-5 -my-3 -mx-5 p-5 dark:bg-gray-900 bg-gray-50">
-      <div className="mx-auto max-w-screen-xl">
-        <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
-          <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
-            <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-              <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+    <div className="py-5 dark:bg-gray-900 bg-gray-50">
+      <div className="container">
+        <div className="flex items-center justify-center overflow-hidden text-gray-700 bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-50">
+          <div className="px-5 py-10 text-center sm:py-16 sm:text-left">
+            <div className="flex items-center justify-center w-full mx-auto space-y-5 lg:px-8">
+              <div className="flex flex-col items-center justify-center w-full space-y-5 lg:flex-row sm:space-x-10 sm:space-y-0 0 xl:pr-16">
                 <div className="flex-shrink-0">
                   <Link href={data.path}>
                     <a
@@ -36,24 +36,24 @@ const DigitalGardening: React.FC<any> = ({data}) => {
                     </a>
                   </Link>
                 </div>
-                <div className="flex flex-col sm:items-start items-center w-full">
-                  <h2 className="text-xs text-green-600 dark:text-green-300 uppercase font-semibold mb-2">
+                <div className="flex flex-col items-center w-full sm:items-start">
+                  <h2 className="mb-2 text-xs font-semibold text-green-600 uppercase dark:text-green-300">
                     {data.cta.description}
                   </h2>
 
-                  <h1 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                  <h1 className="max-w-screen-lg text-xl font-extrabold sm:text-2xl md:text-4xl leading-tighter">
                     {data.title}
                   </h1>
 
                   <Markdown
                     source={data.description}
                     allowDangerousHtml={true}
-                    className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
+                    className="max-w-screen-sm mt-4 text-base text-gray-700 dark:text-gray-50"
                   />
                   <Markdown
                     source={data.quote.description}
                     allowDangerousHtml={true}
-                    className="mt-4 text-gray-700 dark:text-gray-50 text-base max-w-screen-sm"
+                    className="max-w-screen-sm mt-4 text-base text-gray-700 dark:text-gray-50"
                   />
                 </div>
               </div>
@@ -62,7 +62,7 @@ const DigitalGardening: React.FC<any> = ({data}) => {
         </div>
 
         <div>
-          <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+          <div className="grid grid-cols-1 gap-5 mt-5 lg:grid-cols-12">
             {data.featured.courses.map((resource: any) => {
               return (
                 <VerticalResourceCard
@@ -75,21 +75,21 @@ const DigitalGardening: React.FC<any> = ({data}) => {
           </div>
         </div>
 
-        <div className="sm:py-16 py-10 sm:text-left text-center">
-          <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-            <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+        <div className="py-10 text-center sm:py-16 sm:text-left">
+          <div className="flex items-center justify-center w-full mx-auto space-y-5 lg:px-8">
+            <div className="flex flex-col items-center justify-center w-full space-y-5 lg:flex-row sm:space-x-10 sm:space-y-0 0 xl:pr-16">
               <div className="mx-auto">
-                <h2 className="text-xs text-yellow-600 dark:yellow-green-300 uppercase font-semibold mb-2 text-center">
+                <h2 className="mb-2 text-xs font-semibold text-center text-yellow-600 uppercase dark:yellow-green-300">
                   {data.talks.cta}
                 </h2>
 
-                <h1 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                <h1 className="max-w-screen-lg text-xl font-extrabold sm:text-2xl md:text-4xl leading-tighter">
                   {data.talks.title}
                 </h1>
               </div>
             </div>
           </div>
-          <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5">
+          <div className="grid grid-cols-1 gap-5 mt-5 lg:grid-cols-12">
             {data.talks.resources.map((resource: any) => {
               return (
                 <VerticalResourceCard

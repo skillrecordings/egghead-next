@@ -14,18 +14,18 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
 
   return (
     <>
-      <section className="mx-auto max-w-screen-xl py-8">
-        <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-4xl font-bold leading-tighter">
+      <section className="container py-8 mt-5">
+        <h1 className="max-w-screen-md text-4xl font-bold lg:text-6xl md:text-5xl sm:text-4xl leading-tighter">
           Great Developer Portfolios
         </h1>
-        <h2 className="text-lg pt-4 text-gray-700 dark:text-gray-200">
+        <h2 className="pt-4 text-lg text-gray-700 dark:text-gray-200">
           We've gathered up a bunch of portfolios we think are great examples of
           how to present your work.
         </h2>
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:gap-8 gap-5 pt-16">
+        <section className="grid grid-cols-1 gap-5 pt-16 md:grid-cols-2 lg:grid-cols-3 sm:gap-8">
           {sortBy(portfolios, 'title', 'asc').map((portfolio: any) => {
             return (
-              <article className="relative overflow-hidden rounded-md border border-gray-200 dark:border-transparent dark:bg-gray-800 shadow-sm hover:shadow-lg  text-gray-700 dark:text-gray-200 transition-all ease-in-out duration-200">
+              <article className="relative overflow-hidden text-gray-700 transition-all duration-200 ease-in-out border border-gray-200 rounded-md shadow-sm dark:border-transparent dark:bg-gray-800 hover:shadow-lg dark:text-gray-200">
                 <header>
                   {portfolio.image && (
                     <Link href={`${path}/${portfolio.slug}`}>
@@ -36,19 +36,19 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
                           width={1280}
                           height={810}
                           quality={100}
-                          className="rounded-t-md hover:scale-105 transition-transform ease-in-out duration-700"
+                          className="transition-transform duration-700 ease-in-out rounded-t-md hover:scale-105"
                         />
                       </a>
                     </Link>
                   )}
                 </header>
-                <main className="flex flex-col mt-3 pl-5 pb-5">
-                  <h2 className="max-w-screen-md lg:text-xl md:text-xl sm:text-lg text-lg w-full font-semibold leading-tighter">
+                <main className="flex flex-col pb-5 pl-5 mt-3">
+                  <h2 className="w-full max-w-screen-md text-lg font-semibold lg:text-xl md:text-xl sm:text-lg leading-tighter">
                     <Link href={`${path}/${portfolio.slug}`}>
                       <a className="hover:text-blue-500">{portfolio.title}</a>
                     </Link>
                   </h2>
-                  <p className="text-xs mt-2 text-gray-500 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400 transition">
+                  <p className="mt-2 text-xs text-gray-500 transition hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
                     <Link href={portfolio.url}>
                       <a>{prettifyUrl(portfolio.url)}</a>
                     </Link>
@@ -57,7 +57,7 @@ const Portfolio: React.FC<{portfolios: any}> = (props) => {
                     {portfolio.tags &&
                       portfolio.tags.map((tag: any) => {
                         return (
-                          <div className="pointer-events-none items-center capitalize rounded-md mt-2 font-medium py-1 px-3 mr-2 bg-blue-100 dark:bg-blueGray-700 text-blue-500 dark:text-blue-200 text-xs">
+                          <div className="items-center px-3 py-1 mt-2 mr-2 text-xs font-medium text-blue-500 capitalize bg-blue-100 rounded-md pointer-events-none dark:bg-blueGray-700 dark:text-blue-200">
                             {tag.label}
                           </div>
                         )

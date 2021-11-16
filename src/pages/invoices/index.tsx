@@ -19,7 +19,7 @@ const Invoices: React.FunctionComponent<any> = () => {
 
   return (
     <LoginRequired>
-      <main className="pb-10 lg:py-3 lg:px-8">
+      <main className="container py-5 mb-16">
         {transactionsLoading ? (
           <div></div>
         ) : (
@@ -46,7 +46,7 @@ const Invoices: React.FunctionComponent<any> = () => {
                             </div>
                             <div>
                               <a
-                                className="md:w-auto w-full px-2 py-1 text-center rounded-md bg-blue-600 text-white font-semibold shadow-lg hover:bg-indigo-600 hover:scale-105 transition-all duration-150 ease-in-out"
+                                className="w-full px-2 py-1 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md shadow-lg md:w-auto hover:bg-indigo-600 hover:scale-105"
                                 href={`/invoices/${transaction.stripe_transaction_id}`}
                               >
                                 full invoice

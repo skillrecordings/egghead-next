@@ -35,9 +35,9 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
           ],
         }}
       />
-      <div className="dark:bg-gray-900 bg-gray-50 sm:-mt-5 -mt-3 -mx-5 px-5">
-        <header className="text-center relative py-24 -mx-5">
-          <h1 className="relative z-10 lg:text-3xl text-2xl leading-tight font-extrabold tracking-tight pb-16 pt-10">
+      <div className="dark:bg-gray-900 bg-gray-50">
+        <header className="relative py-24 text-center">
+          <h1 className="relative z-10 pt-10 pb-16 text-2xl font-extrabold leading-tight tracking-tight lg:text-3xl">
             Courses on egghead
           </h1>
           <Image
@@ -46,99 +46,101 @@ const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
             priority={true}
             quality={100}
             objectFit="cover"
-            className="absolute left-0 top-0 z-0"
+            className="absolute top-0 left-0 z-0"
             alt=""
           />
-          <div className="h-40 bg-gradient-to-b from-transparent dark:to-gray-900 to-gray-50 absolute bottom-0 left-0 w-full z-10" />
+          <div className="absolute bottom-0 left-0 z-10 w-full h-40 bg-gradient-to-b from-transparent dark:to-gray-900 to-gray-50" />
         </header>
         <main>
-          <ul className="grid xl:grid-cols-3 sm:grid-cols-2 gap-5 max-w-screen-xl mx-auto -mt-5 relative z-30">
-            {courses.map((course: any) => {
-              const image = course.image_thumb_url
-              const byline = `${
-                course.instructor?.full_name &&
-                `${course.instructor.full_name}・ Course`
-              }`
-              const metadata: any = {
-                title: course.title,
-                byline,
-                ...(!!image && {image}),
-                path: course.path,
-                slug: course.slug,
-                description: course.description,
-              }
+          <div className="container -mt-5">
+            <ul className="relative z-30 grid gap-5 xl:grid-cols-3 sm:grid-cols-2">
+              {courses.map((course: any) => {
+                const image = course.image_thumb_url
+                const byline = `${
+                  course.instructor?.full_name &&
+                  `${course.instructor.full_name}・ Course`
+                }`
+                const metadata: any = {
+                  title: course.title,
+                  byline,
+                  ...(!!image && {image}),
+                  path: course.path,
+                  slug: course.slug,
+                  description: course.description,
+                }
 
-              return (
-                <li key={course.slug}>
-                  <article className="relative group dark:bg-gray-800 bg-white rounded-md max-w-max-content flex space-x-5 h-full shadow-sm">
-                    <div className="flex flex-col">
-                      <header className="flex flex-col md:flex-row md:space-x-5 space-y-4 md:space-y-0 items-center p-5 border-b border-gray-50 dark:border-gray-800">
-                        <figure className="flex flex-col flex-shrink-0">
-                          <Link href={course.path}>
-                            <a tabIndex={-1}>
-                              <Image
-                                src={course.image_thumb_url}
-                                width={96}
-                                height={96}
-                                alt={course.title}
-                              />
-                            </a>
-                          </Link>
-                        </figure>
-                        <div className="flex flex-col items-center md:items-start">
-                          <Link href={course.path}>
-                            <a>
-                              <h1 className="sm:text-lg text-lg font-bold leading-tight hover:underline text-center md:text-left">
-                                {course.title}
-                              </h1>
-                            </a>
-                          </Link>
-                          <div className="pt-2 text-sm flex items-center">
-                            {course?.instructor?.path && (
-                              <Link href={course.instructor.path}>
-                                <a className="hover:underline pr-3 font-semibold">
-                                  {course.instructor.full_name}
-                                </a>
-                              </Link>
-                            )}
-                            <span className="opacity-70 group-hover:opacity-100 transition-opacity ease-in-out duration-300">
-                              {course.watched_count}× completed
-                            </span>
-                            <span className="opacity-70 group-hover:opacity-100 transition-opacity ease-in-out duration-300">
-                              {course.average_rating_out_of_5 > 0 && (
-                                <FiveStars
-                                  rating={course.average_rating_out_of_5}
+                return (
+                  <li key={course.slug}>
+                    <article className="relative flex h-full space-x-5 bg-white rounded-md shadow-sm group dark:bg-gray-800 max-w-max-content">
+                      <div className="flex flex-col">
+                        <header className="flex flex-col items-center p-5 space-y-4 border-b md:flex-row md:space-x-5 md:space-y-0 border-gray-50 dark:border-gray-800">
+                          <figure className="flex flex-col flex-shrink-0">
+                            <Link href={course.path}>
+                              <a tabIndex={-1}>
+                                <Image
+                                  src={course.image_thumb_url}
+                                  width={96}
+                                  height={96}
+                                  alt={course.title}
                                 />
+                              </a>
+                            </Link>
+                          </figure>
+                          <div className="flex flex-col items-center md:items-start">
+                            <Link href={course.path}>
+                              <a>
+                                <h1 className="text-lg font-bold leading-tight text-center sm:text-lg hover:underline md:text-left">
+                                  {course.title}
+                                </h1>
+                              </a>
+                            </Link>
+                            <div className="flex items-center pt-2 text-sm">
+                              {course?.instructor?.path && (
+                                <Link href={course.instructor.path}>
+                                  <a className="pr-3 font-semibold hover:underline">
+                                    {course.instructor.full_name}
+                                  </a>
+                                </Link>
                               )}
-                            </span>
+                              <span className="transition-opacity duration-300 ease-in-out opacity-70 group-hover:opacity-100">
+                                {course.watched_count}× completed
+                              </span>
+                              <span className="transition-opacity duration-300 ease-in-out opacity-70 group-hover:opacity-100">
+                                {course.average_rating_out_of_5 > 0 && (
+                                  <FiveStars
+                                    rating={course.average_rating_out_of_5}
+                                  />
+                                )}
+                              </span>
+                            </div>
+                            <TagList
+                              className="flex flex-wrap items-center justify-center text-sm md:justify-start"
+                              tags={course.tags}
+                              courseSlug={course.slug}
+                            />
                           </div>
-                          <TagList
-                            className="flex justify-center md:justify-start flex-wrap items-center text-sm"
-                            tags={course.tags}
-                            courseSlug={course.slug}
+                        </header>
+                        <div className="h-full p-5 bg-white border border-white dark:bg-gray-900 dark:border-gray-800 rounded-b-md">
+                          {course.summary && (
+                            <h3 className="mb-4 text-sm font-bold">
+                              {course.summary}
+                            </h3>
+                          )}
+                          <Markdown
+                            source={course.description}
+                            className="prose-sm prose transition-opacity duration-300 ease-in-out dark:prose-dark opacity-80 group-hover:opacity-100"
                           />
                         </div>
-                      </header>
-                      <div className="p-5 dark:bg-gray-900 bg-white h-full border dark:border-gray-800 border-white rounded-b-md">
-                        {course.summary && (
-                          <h3 className="text-sm font-bold mb-4">
-                            {course.summary}
-                          </h3>
-                        )}
-                        <Markdown
-                          source={course.description}
-                          className="prose dark:prose-dark prose-sm opacity-80 group-hover:opacity-100 transition-opacity ease-in-out duration-300"
-                        />
                       </div>
-                    </div>
-                    {isDevelopment && (
-                      <CopyMetadataToClipboard metadata={metadata} />
-                    )}
-                  </article>
-                </li>
-              )
-            })}
-          </ul>
+                      {isDevelopment && (
+                        <CopyMetadataToClipboard metadata={metadata} />
+                      )}
+                    </article>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </main>
       </div>
     </>
@@ -154,7 +156,7 @@ const CopyMetadataToClipboard = (metadata: any) => {
   )
   return (
     <button
-      className="absolute dark:text-white text-gray-800 top-2 right-2 p-2 rounded-md dark:bg-gray-900 bg-gray-50 text-sm opacity-0 group-hover:opacity-80 hover:opacity-100 leading-tight transition-opacity ease-in-out duration-300"
+      className="absolute p-2 text-sm leading-tight text-gray-800 transition-opacity duration-300 ease-in-out rounded-md opacity-0 dark:text-white top-2 right-2 dark:bg-gray-900 bg-gray-50 group-hover:opacity-80 hover:opacity-100"
       onClick={setCopied}
     >
       {isCopied ? '👍' : <IconLink className="w-4 h-4" />}

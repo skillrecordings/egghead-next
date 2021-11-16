@@ -477,7 +477,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         thumbnailUrls={[lesson?.thumb_url]}
       />
 
-      <div className="-mx-5 -mt-3 sm:-mt-5 overflow-hidden">
+      <div className="overflow-hidden">
         <PlayerProvider>
           <div className="player-provider relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0">
             <div
@@ -542,7 +542,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                 />
               </PlayerContainer>
               {spinnerVisible && (
-                <div className="flex justify-center items-center absolute z-10 top-0 right-0 bottom-0 left-0 bg-black bg-opacity-80">
+                <div className="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-black bg-opacity-80">
                   <Spinner />
                 </div>
               )}
@@ -631,7 +631,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                 </OverlayWrapper>
               )}
               {playerState.matches('addingNote') && (
-                <div className="absolute z-20 inset-0 bg-black/50 flex justify-center items-center">
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50">
                   <AddNoteOverlay
                     resourceId={lesson.slug}
                     onClose={(newNote: any) => {
@@ -656,165 +656,173 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         </PlayerProvider>
       </div>
 
-      <div className="grid lg:grid-cols-1 max-w-screen-lg lg:gap-12 gap-8 grid-cols-1 mx-auto divide-y md:divide-transparent divide-gray-50">
-        <div className="md:col-span-8 md:row-start-1 row-start-1 space-y-6 md:space-y-8 lg:space-y-10">
-          <div className="space-y-4 sm:pb-8 pb-2 pt-6">
-            {title && (
-              <h1 className="font-extrabold leading-tight text-xl lg:text-3xl">
-                {title}
-              </h1>
-            )}
-            <div className="pt-4 flex lg:flex-row flex-col w-full justify-between flex-wrap lg:space-x-8 lg:space-y-0 space-y-5 lg:items-center">
-              <div className="md:w-auto w-full flex justify-between items-center space-x-5">
-                {instructor && (
-                  <div className="flex items-center flex-shrink-0">
-                    <Link href={`/instructors/${get(instructor, 'slug', '#')}`}>
-                      <a
-                        onClick={() => {
-                          track(`clicked view instructor`, {
-                            lesson: lesson.slug,
-                            location: 'avatar',
-                          })
-                        }}
-                        className="mr-2 flex itemes-center"
+      <div className="container max-w-screen-lg">
+        <div className="grid grid-cols-1 gap-8 divide-y lg:grid-cols-1 lg:gap-12 md:divide-transparent divide-gray-50">
+          <div className="row-start-1 space-y-6 md:col-span-8 md:row-start-1 md:space-y-8 lg:space-y-10">
+            <div className="pt-6 pb-2 space-y-4 sm:pb-8">
+              {title && (
+                <h1 className="text-xl font-extrabold leading-tight lg:text-3xl">
+                  {title}
+                </h1>
+              )}
+              <div className="flex flex-col flex-wrap justify-between w-full pt-4 space-y-5 lg:flex-row lg:space-x-8 lg:space-y-0 lg:items-center">
+                <div className="flex items-center justify-between w-full space-x-5 md:w-auto">
+                  {instructor && (
+                    <div className="flex items-center flex-shrink-0">
+                      <Link
+                        href={`/instructors/${get(instructor, 'slug', '#')}`}
                       >
-                        {get(instructor, 'avatar_64_url') ? (
-                          <Image
-                            width={48}
-                            height={48}
-                            src={instructor.avatar_64_url}
-                            alt={instructor.full_name}
-                            className="rounded-full m-0"
-                          />
-                        ) : (
-                          <Eggo className="w-8 rounded-full" />
-                        )}
-                      </a>
-                    </Link>
-                    <div className="flex flex-col">
-                      <span className="text-xs">Instructor</span>
-                      {get(instructor, 'full_name') && (
-                        <Link
-                          href={`/instructors/${get(instructor, 'slug', '#')}`}
+                        <a
+                          onClick={() => {
+                            track(`clicked view instructor`, {
+                              lesson: lesson.slug,
+                              location: 'avatar',
+                            })
+                          }}
+                          className="flex mr-2 itemes-center"
                         >
-                          <a
-                            onClick={() => {
-                              track(`clicked view instructor`, {
-                                lesson: lesson.slug,
-                                location: 'text link',
-                              })
-                            }}
-                            className="font-semibold leading-tighter hover:underline"
+                          {get(instructor, 'avatar_64_url') ? (
+                            <Image
+                              width={48}
+                              height={48}
+                              src={instructor.avatar_64_url}
+                              alt={instructor.full_name}
+                              className="m-0 rounded-full"
+                            />
+                          ) : (
+                            <Eggo className="w-8 rounded-full" />
+                          )}
+                        </a>
+                      </Link>
+                      <div className="flex flex-col">
+                        <span className="text-xs">Instructor</span>
+                        {get(instructor, 'full_name') && (
+                          <Link
+                            href={`/instructors/${get(
+                              instructor,
+                              'slug',
+                              '#',
+                            )}`}
                           >
-                            {instructor.full_name}
-                          </a>
-                        </Link>
-                      )}
+                            <a
+                              onClick={() => {
+                                track(`clicked view instructor`, {
+                                  lesson: lesson.slug,
+                                  location: 'text link',
+                                })
+                              }}
+                              className="font-semibold leading-tighter hover:underline"
+                            >
+                              {instructor.full_name}
+                            </a>
+                          </Link>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
-                {!md && <Tags tags={collectionTags} lesson={lesson} />}
-              </div>
+                  )}
+                  {!md && <Tags tags={collectionTags} lesson={lesson} />}
+                </div>
 
-              {md && <Tags tags={collectionTags} lesson={lesson} />}
-              <div className="flex items-center space-x-8">
-                <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
-                  <Share
-                    className="flex flex-col items-end "
-                    resource={{
-                      path: lesson.path,
-                      title: lesson.title,
-                      type: 'lesson',
-                    }}
-                    instructor={instructor}
-                  />
+                {md && <Tags tags={collectionTags} lesson={lesson} />}
+                <div className="flex items-center space-x-8">
+                  <div className="flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+                    <Share
+                      className="flex flex-col items-end "
+                      resource={{
+                        path: lesson.path,
+                        title: lesson.title,
+                        type: 'lesson',
+                      }}
+                      instructor={instructor}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="opacity-80 mt-4 text-sm flex flex-col items-center md:items-start">
-              {created_at && (
-                <PublishedAt date={friendlyTime(new Date(created_at))} />
-              )}
-              {updated_at && (
-                <UpdatedAt date={friendlyTime(new Date(updated_at))} />
-              )}
-            </div>
-            {description && (
-              <Markdown className="prose prose-lg dark:prose-dark max-w-none font-medium text-gray-1000 dark:text-white">
-                {description}
-              </Markdown>
-            )}
-            {(lesson?.code_url || lesson?.repo_url) && (
-              <div className="sm:text-base dark:text-gray-100 text-sm sm:pt-2 w-full flex sm:items-center sm:flex-row flex-col sm:space-x-6 sm:space-y-0 space-y-2">
-                {lesson?.code_url && (
-                  <CodeLink
-                    onClick={() => {
-                      track(`clicked open code`, {
-                        lesson: lesson.slug,
-                      })
-                    }}
-                    url={lesson.code_url}
-                    icon={<IconCode />}
-                  >
-                    View code for this lesson
-                  </CodeLink>
+              <div className="flex flex-col items-center mt-4 text-sm opacity-80 md:items-start">
+                {created_at && (
+                  <PublishedAt date={friendlyTime(new Date(created_at))} />
                 )}
-                {lesson?.repo_url && (
-                  <CodeLink
-                    onClick={() => {
-                      track(`clicked open github`, {
-                        lesson: lesson.slug,
-                      })
-                    }}
-                    url={lesson.repo_url}
-                    icon={<IconGithub />}
-                  >
-                    View code on GitHub
-                  </CodeLink>
+                {updated_at && (
+                  <UpdatedAt date={friendlyTime(new Date(updated_at))} />
                 )}
               </div>
-            )}
-          </div>
-          <div>
-            {md && (
-              <div className="py-4">
-                <Course course={collection} currentLessonSlug={lesson.slug} />
-              </div>
-            )}
-          </div>
-          <Tabs
-            index={defaultView === 'comments' ? 1 : 0}
-            onChange={(index) => {
-              setPlayerPrefs({
-                defaultView: index === 1 ? 'comments' : 'transcript',
-              })
-            }}
-          >
-            <TabList>
-              {transcriptAvailable && <Tab>Transcript</Tab>}
-              <Tab>
-                Comments <span className="text-sm">({numberOfComments})</span>
-              </Tab>
-            </TabList>
-            <TabPanels className="bg-gray-50 dark:bg-gray-1000 sm:p-8 p-5 sm:mx-0 -mx-5 rounded-lg rounded-tl-none">
-              {transcriptAvailable && (
+              {description && (
+                <Markdown className="font-medium prose prose-lg dark:prose-dark max-w-none text-gray-1000 dark:text-white">
+                  {description}
+                </Markdown>
+              )}
+              {(lesson?.code_url || lesson?.repo_url) && (
+                <div className="flex flex-col w-full space-y-2 text-sm sm:text-base dark:text-gray-100 sm:pt-2 sm:items-center sm:flex-row sm:space-x-6 sm:space-y-0">
+                  {lesson?.code_url && (
+                    <CodeLink
+                      onClick={() => {
+                        track(`clicked open code`, {
+                          lesson: lesson.slug,
+                        })
+                      }}
+                      url={lesson.code_url}
+                      icon={<IconCode />}
+                    >
+                      View code for this lesson
+                    </CodeLink>
+                  )}
+                  {lesson?.repo_url && (
+                    <CodeLink
+                      onClick={() => {
+                        track(`clicked open github`, {
+                          lesson: lesson.slug,
+                        })
+                      }}
+                      url={lesson.repo_url}
+                      icon={<IconGithub />}
+                    >
+                      View code on GitHub
+                    </CodeLink>
+                  )}
+                </div>
+              )}
+            </div>
+            <div>
+              {md && (
+                <div className="py-4">
+                  <Course course={collection} currentLessonSlug={lesson.slug} />
+                </div>
+              )}
+            </div>
+            <Tabs
+              index={defaultView === 'comments' ? 1 : 0}
+              onChange={(index) => {
+                setPlayerPrefs({
+                  defaultView: index === 1 ? 'comments' : 'transcript',
+                })
+              }}
+            >
+              <TabList>
+                {transcriptAvailable && <Tab>Transcript</Tab>}
+                <Tab>
+                  Comments <span className="text-sm">({numberOfComments})</span>
+                </Tab>
+              </TabList>
+              <TabPanels className="p-5 rounded-lg rounded-tl-none bg-gray-50 dark:bg-gray-1000 sm:p-8">
+                {transcriptAvailable && (
+                  <TabPanel>
+                    <Transcript
+                      initialTranscript={transcript}
+                      enhancedTranscript={enhancedTranscript}
+                    />
+                  </TabPanel>
+                )}
                 <TabPanel>
-                  <Transcript
-                    initialTranscript={transcript}
-                    enhancedTranscript={enhancedTranscript}
-                  />
+                  <div className="space-y-6 sm:space-y-8 break-[break-word]">
+                    <Comments
+                      lesson={lesson}
+                      commentingAllowed={viewer?.can_comment}
+                    />
+                  </div>
                 </TabPanel>
-              )}
-              <TabPanel>
-                <div className="space-y-6 sm:space-y-8 break-[break-word]">
-                  <Comments
-                    lesson={lesson}
-                    commentingAllowed={viewer?.can_comment}
-                  />
-                </div>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+              </TabPanels>
+            </Tabs>
+          </div>
         </div>
       </div>
     </>
@@ -843,7 +851,7 @@ const Course: React.FC<{
     <div>
       <div className="flex items-center">
         <Link href={course.path}>
-          <a className="flex-shrink-0 relative block w-12 h-12 lg:w-20 lg:h-20">
+          <a className="relative flex-shrink-0 block w-12 h-12 lg:w-20 lg:h-20">
             <Image
               src={course.square_cover_480_url}
               alt={`illustration for ${course.title}`}
@@ -852,7 +860,7 @@ const Course: React.FC<{
           </a>
         </Link>
         <div className="ml-2 lg:ml-4">
-          <h4 className="text-gray-700 dark:text-gray-100 font-semibold mb-px text-xs uppercase">
+          <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
             Course
           </h4>
           <Link href={course.path}>
@@ -879,9 +887,9 @@ const Tags: React.FC<{tags: any; lesson: any}> = ({tags, lesson}) => {
   return (
     <>
       {!isEmpty(tags) && (
-        <div className="flex space-x-4 items-center">
+        <div className="flex items-center space-x-4">
           {/* <div className="font-medium">Tech used:</div> */}
-          <ul className="grid grid-flow-col-dense gap-5 items-center text-sm">
+          <ul className="grid items-center grid-flow-col-dense gap-5 text-sm">
             {tags.map((tag: any, index: number) => (
               <li key={index} className="inline-flex items-center">
                 <Link href={`/q/${tag.name}`}>
@@ -892,7 +900,7 @@ const Tags: React.FC<{tags: any; lesson: any}> = ({tags, lesson}) => {
                         topic: tag.name,
                       })
                     }}
-                    className="inline-flex items-center  hover:underline"
+                    className="inline-flex items-center hover:underline"
                   >
                     <Image
                       src={tag.image_url}

@@ -78,11 +78,11 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <div>
-        <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3">
+      <div className="container">
+        <article className="max-w-screen-md mx-auto mt-8 lg:mt-20 md:mt-14">
           <header>
             {state && <State state={state} />}
-            <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+            <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
               {title}
             </h1>
             {author && <Author author={author} />}
@@ -100,12 +100,12 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
             )}
           </header>
 
-          <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
+          <main className="mt-5 prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none">
             <div>{children}</div>
           </main>
-          <footer className="mt-8 border-t border-gray-200 py-10 flex sm:flex-row flex-col-reverse justify-between sm:items-start items-center sm:text-left text-center">
+          <footer className="flex flex-col-reverse items-center justify-between py-10 mt-8 text-center border-t border-gray-200 sm:flex-row sm:items-start sm:text-left">
             {contributors && <Contributors contributors={contributors} />}
-            <EditLink className="sm:mb-0 mb-16" />
+            <EditLink className="mb-16 sm:mb-0" />
           </footer>
         </article>
       </div>
@@ -117,13 +117,13 @@ const State: FunctionComponent<{state: string}> = ({state}) => {
   switch (state) {
     case 'draft':
       return (
-        <div className="px-3 py-1 rounded-lg bg-yellow-100 dark:text-gray-900 inline-block mb-2 text-sm font-semibold">
+        <div className="inline-block px-3 py-1 mb-2 text-sm font-semibold bg-yellow-100 rounded-lg dark:text-gray-900">
           {state}
         </div>
       )
     case 'notes':
       return (
-        <div className="px-3 py-1 rounded-lg bg-green-100 dark:text-gray-900 inline-block mb-2 text-sm font-semibold">
+        <div className="inline-block px-3 py-1 mb-2 text-sm font-semibold bg-green-100 rounded-lg dark:text-gray-900">
           {state}
         </div>
       )

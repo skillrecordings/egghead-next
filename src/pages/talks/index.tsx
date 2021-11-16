@@ -6,58 +6,60 @@ import {sanityClient} from 'utils/sanity-client'
 
 const Talks: React.FC = ({allTalks}: any) => {
   return (
-    <div className="mx-auto max-w-screen-lg lg:py-16 py-10">
-      <h1 className="md:text-4xl text-2xl text-center font-bold pb-16">
-        egghead Talks
-      </h1>
-      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-8">
-        {allTalks.map((talk: any) => {
-          return (
-            <div key={talk.path} className="flex flex-col">
-              {talk.image ? (
-                <div className="md:mb-4 mb-2">
-                  <Link href={talk.path}>
-                    <a>
-                      <Image
-                        src={talk.image}
-                        alt={talk.title}
-                        width={1280}
-                        height={720}
-                        quality={100}
-                        className="rounded-lg"
-                      />
-                    </a>
-                  </Link>
-                </div>
-              ) : (
-                <div className="aspect-w-16 aspect-h-9 md:mb-4 mb-2">
-                  <Link href={talk.path}>
-                    <a>
-                      <div className="absolute top-0 left-0 w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-600">
-                        <IconPlaceholder />
-                      </div>
-                    </a>
-                  </Link>
-                </div>
-              )}
-              <Link href={talk.path}>
-                <a>
-                  <h2 className="md:text-2xl text-xl font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300">
-                    {talk.title}
-                  </h2>
-                </a>
-              </Link>
-              <h2 className="uppercase font-semibold text-xs mt-2 text-gray-700 dark:text-gray-300">
-                {talk.instructor.name}
-              </h2>
-              {talk.summary && (
-                <div className="prose sm:prose prose-sm dark:prose-dark mt-2 text-gray-700 dark:text-white">
-                  {talk.summary}
-                </div>
-              )}
-            </div>
-          )
-        })}
+    <div className="container">
+      <div className="max-w-screen-lg py-10 mx-auto lg:py-16">
+        <h1 className="pb-16 text-2xl font-bold text-center md:text-4xl">
+          egghead Talks
+        </h1>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
+          {allTalks.map((talk: any) => {
+            return (
+              <div key={talk.path} className="flex flex-col">
+                {talk.image ? (
+                  <div className="mb-2 md:mb-4">
+                    <Link href={talk.path}>
+                      <a>
+                        <Image
+                          src={talk.image}
+                          alt={talk.title}
+                          width={1280}
+                          height={720}
+                          quality={100}
+                          className="rounded-lg"
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="mb-2 aspect-w-16 aspect-h-9 md:mb-4">
+                    <Link href={talk.path}>
+                      <a>
+                        <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full text-gray-400 bg-gray-200 rounded-lg dark:bg-gray-800 dark:text-gray-600">
+                          <IconPlaceholder />
+                        </div>
+                      </a>
+                    </Link>
+                  </div>
+                )}
+                <Link href={talk.path}>
+                  <a>
+                    <h2 className="text-xl font-bold md:text-2xl leading-tighter hover:text-blue-600 dark:hover:text-blue-300">
+                      {talk.title}
+                    </h2>
+                  </a>
+                </Link>
+                <h2 className="mt-2 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
+                  {talk.instructor.name}
+                </h2>
+                {talk.summary && (
+                  <div className="mt-2 prose-sm prose text-gray-700 sm:prose dark:prose-dark dark:text-white">
+                    {talk.summary}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

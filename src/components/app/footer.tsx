@@ -61,11 +61,11 @@ const Item: FunctionComponent<{
   path: string
   onClick: any
 }> = ({children, path, onClick}) => (
-  <li className="py-1 md:text-sm text-base leading-relaxed">
+  <li className="py-1 text-base leading-relaxed md:text-sm">
     <Link href={path} activeClassName="underline">
       <a
         onClick={onClick}
-        className="hover:text-blue-600 transition-colors ease-in-out duration-150"
+        className="transition-colors duration-150 ease-in-out hover:text-blue-600"
       >
         {children}
       </a>
@@ -83,22 +83,22 @@ const FooterNavigation: FunctionComponent = () => {
   return (
     <nav
       aria-label="footer"
-      className="w-full md:space-y-0 space-y-6 flex md:flex-row flex-col items-center md:items-start justify-between gap-6 md:pt-14 pt-16 lg:pb-40 pb-16"
+      className="flex flex-col items-center justify-between w-full gap-6 pt-16 pb-16 space-y-6 md:space-y-0 md:flex-row md:items-start md:pt-14 lg:pb-40"
     >
-      <div className="space-y-5 h-full flex flex-col md:items-start items-center w-72">
+      <div className="flex flex-col items-center h-full space-y-5 md:items-start max-w-[18rem]">
         <Link href="/">
-          <a className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left md:space-x-2 space-y-3 md:space-y-0">
-            <div className="md:w-8 w-12 flex-shrink-0">
+          <a className="flex flex-col items-center space-y-3 text-center md:flex-row md:items-start md:text-left md:space-x-2 md:space-y-0">
+            <div className="flex-shrink-0 w-12 md:w-8">
               <Image src={Eggo} alt="egghead.io logo" />
             </div>
-            <div className="mt-1 text-lg font-semibold leading-tighter tracking-tight">
+            <div className="mt-1 text-lg font-semibold tracking-tight leading-tighter">
               Build your Developer Portfolio and climb the engineering career
               ladder.
             </div>
           </a>
         </Link>
       </div>
-      <div className="grid md:grid-cols-2 grid-cols-1 lg:pr-6 md:gap-10 md:text-left text-center md:items-start items-center md:w-auto w-full">
+      <div className="grid items-center w-full grid-cols-1 text-center md:grid-cols-2 lg:pr-6 md:gap-10 md:text-left md:items-start md:w-auto">
         <ul>
           {filterViewerRequired(content).map((link) => (
             <Item
@@ -132,10 +132,10 @@ const FooterNavigation: FunctionComponent = () => {
 
 const Footer: FunctionComponent = () => {
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200 px-5">
-      <div className="max-w-screen-xl w-full mx-auto">
+    <footer className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200">
+      <div className="container">
         <FooterNavigation />
-        <small className="space-x-6 py-6 text-xs w-full flex items-center md:justify-end justify-center text-gray-500 dark:text-gray-300">
+        <small className="flex items-center justify-center w-full py-6 space-x-6 text-xs text-gray-500 md:justify-end dark:text-gray-300">
           <div>©egghead.io</div>
           <Link href="/privacy">
             <a onClick={() => track(`clicked privacy`, {location: 'footer'})}>
@@ -168,12 +168,12 @@ const DarkModeToggle = () => {
     }
   }
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between">
       <h2 className="mr-3">
         {isMounted && (theme === 'dark' ? 'Dark' : 'Light')} Mode
       </h2>
       <div
-        className="w-16 h-10 bg-gray-300 dark:bg-gray-1000 rounded-full flex-shrink-0 p-1"
+        className="flex-shrink-0 w-16 h-10 p-1 bg-gray-300 rounded-full dark:bg-gray-1000"
         onClick={handleClick}
         aria-label="Toggle Dark Mode"
         role="button"
@@ -189,7 +189,7 @@ const DarkModeToggle = () => {
               viewBox="0 0 24 24"
               fill="currentColor"
               stroke="currentColor"
-              className="h-4 w-4 text-gray-400 dark:text-gray-200"
+              className="w-4 h-4 text-gray-400 dark:text-gray-200"
             >
               {theme === 'dark' ? (
                 <path

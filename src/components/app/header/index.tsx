@@ -85,14 +85,14 @@ const Header: FunctionComponent = () => {
     children,
   }) => {
     return !loading ? (
-      <div className="text-sm flex-shrink-0">
+      <div className="flex-shrink-0 text-sm">
         {viewer ? (
           <div className={className}>
             {children}
             <ActiveCTA />
             <Feedback
               user={viewer}
-              className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200 rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+              className="inline-flex px-3 py-2 leading-tight transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200"
             >
               Feedback
             </Feedback>
@@ -104,7 +104,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="inline-flex px-3 py-2 leading-tight transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white"
                 >
                   Bookmarks
                 </a>
@@ -118,7 +118,7 @@ const Header: FunctionComponent = () => {
                       location: 'header',
                     })
                   }
-                  className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-black rounded-md inline-flex transition-all ease-in-out duration-300 leading-tight"
+                  className="inline-flex px-3 py-2 leading-tight transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-black"
                 >
                   Team
                 </a>
@@ -131,7 +131,7 @@ const Header: FunctionComponent = () => {
                     location: 'header',
                   })
                 }
-                className="flex items-center space-x-2 p-3 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
+                className="flex items-center space-x-2 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
               >
                 <img
                   width={32}
@@ -158,7 +158,7 @@ const Header: FunctionComponent = () => {
                     location: 'header',
                   })
                 }
-                className="px-3 py-2 dark:active:text-gray-900 dark:text-gray-200 dark:border-gray-200 hover:opacity-100 hover:bg-gray-100  dark:hover:bg-gray-800  dark:active:bg-gray-700 active:bg-gray-100 rounded-md inline-flex transition-all ease-in-out duration-300"
+                className="inline-flex px-3 py-2 transition-all duration-300 ease-in-out rounded-md dark:active:text-gray-900 dark:text-gray-200 dark:border-gray-200 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 dark:active:bg-gray-700 active:bg-gray-100"
               >
                 Sign in
               </a>
@@ -171,13 +171,13 @@ const Header: FunctionComponent = () => {
 
   return isMounted ? (
     <nav aria-label="header">
-      <div className="h-16 px-5 py-5 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between print:hidden dark:text-gray-100">
-        <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto space-x-4">
+      <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-gray-100">
+        <div className="container flex items-center justify-between w-full space-x-4">
           <div className="flex items-center">
             <Link href="/">
               <a className="flex items-center">
                 <Eggo className="w-8 mr-1" />
-                <span className="sm:inline-block hidden text-lg font-semibold dark:text-gray-200">
+                <span className="hidden text-lg font-semibold sm:inline-block dark:text-gray-200">
                   egghead.io
                 </span>
               </a>
@@ -204,7 +204,7 @@ const Header: FunctionComponent = () => {
       </div>
       {isOpen && (
         <>
-          <Navigation className="flex flex-col items-start bg-white dark:bg-gray-900 p-3 w-full space-y-2 absolute top-14 z-50 shadow-xl dark:text-gray-100">
+          <Navigation className="absolute z-50 flex flex-col items-start w-full p-3 space-y-2 bg-white shadow-xl dark:bg-gray-900 top-14 dark:text-gray-100">
             {!isSearch && <SearchBar />}
           </Navigation>
         </>
@@ -386,10 +386,10 @@ const FlyoutMenu = () => {
             >
               <Popover.Panel
                 static
-                className="absolute z-20 mt-3 px-2 w-screen max-w-xl sm:px-0 min-w-max"
+                className="absolute z-20 w-screen max-w-xl px-2 mt-3 sm:px-0 min-w-max"
               >
-                <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                  <div className="relative grid grid-cols-flyoutmenu bg-white dark:bg-gray-800 px-7 py-6 gap-1">
+                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                  <div className="relative grid gap-1 py-6 bg-white grid-cols-flyoutmenu dark:bg-gray-800 px-7">
                     {browse.map((item) => (
                       <a
                         key={item.name}
@@ -400,7 +400,7 @@ const FlyoutMenu = () => {
                             location: 'header browse',
                           })
                         }
-                        className="flex items-center justify-start rounded-lg transition ease-in-out duration-150 hover:bg-gray-100 dark:hover:bg-gray-900 py-2 px-3"
+                        className="flex items-center justify-start px-3 py-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900"
                       >
                         <Image
                           width={24}
@@ -409,12 +409,12 @@ const FlyoutMenu = () => {
                           alt={item.name}
                           quality={100}
                         />
-                        <span className="pl-2 text-base font-medium text-gray-700 transition ease-in-out duration-150 dark:text-white hover:text-black">
+                        <span className="pl-2 text-base font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
                           {item.name}
                         </span>
                       </a>
                     ))}
-                    <div className="mr-6 text-base font-medium  transition ease-in-out duration-150 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:bg-gray-700 py-2 px-3">
+                    <div className="px-3 py-2 mr-6 text-base font-medium transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:bg-gray-700">
                       <a
                         href="/topics"
                         onClick={() =>
@@ -428,7 +428,7 @@ const FlyoutMenu = () => {
                       </a>
                     </div>
                   </div>
-                  <div className="relative grid grid-cols-flyoutmenu bg-gray-100 dark:bg-gray-700 px-7 py-5 gap-1">
+                  <div className="relative grid gap-1 py-5 bg-gray-100 grid-cols-flyoutmenu dark:bg-gray-700 px-7">
                     {contentSectionLinks.map((item) => (
                       <div key={item.name} className="flow-root">
                         <a
@@ -439,10 +439,10 @@ const FlyoutMenu = () => {
                               location: 'header browse',
                             })
                           }
-                          className="flex items-center rounded-md text-base text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 font-medium transition ease-in-out duration-150 py-3 px-3"
+                          className="flex items-center px-3 py-3 text-base font-medium text-gray-700 transition duration-150 ease-in-out rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900"
                         >
                           <item.icon
-                            className="flex-shrink-0 h-6 w-6 text-gray-400"
+                            className="flex-shrink-0 w-6 h-6 text-gray-400"
                             aria-hidden="true"
                           />
                           <span className="ml-3">{item.name}</span>
