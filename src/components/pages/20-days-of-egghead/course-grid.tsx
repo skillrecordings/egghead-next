@@ -24,7 +24,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
   })
 
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 xl:gap-5 sm:gap-3 gap-2 relative overflow-hidden after:w-full after:h-48 after:bg-gradient-to-t after:from-gray-900 after:to-transparent">
+    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 xl:gap-5 sm:gap-3 gap-2">
       {data?.resources?.map((resource, i) => {
         if (!resource.title) return null
 
