@@ -16,6 +16,7 @@ import {
   TimeDivider,
   usePlayer,
   VolumeMenuButton,
+  Shortcut,
 } from 'cueplayer-react'
 import HLSSource from './hls-source'
 import CueBar from './cue-bar'
@@ -213,6 +214,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             onFullscreenChange={onFullscreenChange}
           />
         </ControlBar>
+        <Shortcut key="shortcut" order={99.0} dblclickable={false} />
       </Player>
       {children}
     </div>
