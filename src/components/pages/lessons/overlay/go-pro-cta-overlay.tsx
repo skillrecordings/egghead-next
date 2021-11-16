@@ -295,7 +295,11 @@ const OverlayParent: FunctionComponent<JoinCTAProps> = ({lesson}) => {
 
   if (session_id) {
     return (
-      <ConfirmMembership sessionId={session_id as string} viewLesson={reload} />
+      <ConfirmMembership
+        lesson={{lesson}}
+        sessionId={session_id as string}
+        viewLesson={reload}
+      />
     )
   } else {
     return <GoProCtaOverlay lesson={lesson} />

@@ -5,6 +5,7 @@ import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import axios from 'axios'
 import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
+import {LessonResource} from '../../../../types'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -14,6 +15,7 @@ type HeaderProps = {
 type ConfirmMembershipProps = {
   sessionId: string
   viewLesson: Function
+  lesson: LessonResource
 }
 
 const Illustration = () => (
@@ -90,7 +92,8 @@ const Callout: React.FC = ({children}) => {
 const ExistingMemberConfirmation: React.FC<{
   session: any
   viewLesson: Function
-}> = ({session, viewLesson}) => {
+  lesson: LessonResource
+}> = ({session, viewLesson, lesson}) => {
   return (
     <>
       <Header
@@ -108,7 +111,13 @@ const ExistingMemberConfirmation: React.FC<{
             </p>
             <button
               className="px-10 py-4 mt-5 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
-              onClick={(_e) => viewLesson()}
+              onClick={(_e) => {
+                track('clicked watch lesson', {
+                  location: 'pay and play on lesson',
+                  lesson: lesson.slug,
+                })
+                viewLesson()
+              }}
             >
               Watch this Lesson
             </button>
@@ -123,7 +132,8 @@ const NewMemberConfirmation: React.FC<{
   session: any
   currentState: any
   viewLesson: Function
-}> = ({session, currentState, viewLesson}) => {
+  lesson: LessonResource
+}> = ({session, currentState, viewLesson, lesson}) => {
   return (
     <Header
       heading={<>Thank you so much for joining egghead! </>}
@@ -166,7 +176,13 @@ const NewMemberConfirmation: React.FC<{
               </p>
               <button
                 className="mt-8 px-10 py-4 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 self-center"
-                onClick={(_e) => viewLesson()}
+                onClick={(_e) => {
+                  track('clicked watch lesson', {
+                    location: 'pay and play on lesson',
+                    lesson: lesson.slug,
+                  })
+                  viewLesson()
+                }}
               >
                 Watch this Lesson
               </button>
@@ -223,6 +239,7 @@ const NoSessionFound = () => {
 }
 
 const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
+  lesson,
   sessionId,
   viewLesson,
 }) => {
@@ -239,6 +256,7 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
           setSession(data)
           track('checkout: membership confirmed', {
             sessionId,
+            lesson: lesson.slug,
           })
           if (viewer) refreshUser()
 
@@ -253,9 +271,14 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   return session ? (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-white dark:text-white">
       {alreadyAuthenticated ? (
-        <ExistingMemberConfirmation session={session} viewLesson={viewLesson} />
+        <ExistingMemberConfirmation
+          lesson={lesson}
+          session={session}
+          viewLesson={viewLesson}
+        />
       ) : (
         <NewMemberConfirmation
+          lesson={lesson}
           session={session}
           currentState={currentState}
           viewLesson={viewLesson}
