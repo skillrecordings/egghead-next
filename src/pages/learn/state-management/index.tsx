@@ -7,7 +7,6 @@ import Link from 'next/link'
 import Markdown from 'react-markdown'
 import {track} from 'utils/analytics'
 import {CardResource} from 'types'
-import {bpMinMD} from 'utils/breakpoints'
 import {get} from 'lodash'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
@@ -15,11 +14,13 @@ import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 const StateManagement: React.FC<any> = ({data}) => {
   return (
     <>
-      <div className="sm:-my-5 -my-3 -mx-5 p-5 dark:bg-gray-900 bg-gray-50">
-        <div className="mx-auto max-w-screen-xl grid gap-10">
-          <Jumbotron resource={data.jumbotron} />
-          <BigIdeasSection resource={data.theBigIdeas} />
-          <RecoilSection resource={data.recoilSection} />
+      <div className="py-5 dark:bg-gray-900 bg-gray-50">
+        <div className="container">
+          <div className="grid gap-10">
+            <Jumbotron resource={data.jumbotron} />
+            <BigIdeasSection resource={data.theBigIdeas} />
+            <RecoilSection resource={data.recoilSection} />
+          </div>
         </div>
       </div>
     </>
@@ -71,17 +72,17 @@ const RecoilSection = ({resource}: any) => {
   const {title, description, resources, path} = resource
 
   return (
-    <div className="mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg py-10 p-5">
+    <div className="p-5 py-10 mt-5 rounded-lg md:bg-gray-100 dark:bg-gray-700">
       <Link href={path}>
         <a
-          className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out"
+          className="font-bold transition ease-in-out hover:text-blue-600 dark:hover:text-blue-300"
           onClick={() => {
             track('clicked resource', {
               resource: path,
             })
           }}
         >
-          <h1 className="sm:text-2xl md:text-4xl text-xl font-extrabold leading-tighter text-center mb-4">
+          <h1 className="mb-4 text-xl font-extrabold text-center sm:text-2xl md:text-4xl leading-tighter">
             {title}
           </h1>
         </a>
@@ -90,9 +91,9 @@ const RecoilSection = ({resource}: any) => {
       <Markdown
         source={description}
         allowDangerousHtml={true}
-        className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100  mt-4 max-w-screen-md mx-auto text-center"
+        className="max-w-screen-md mx-auto mt-4 prose text-center text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100"
       />
-      <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-10">
+      <div className="grid grid-cols-1 gap-4 mt-10 lg:grid-cols-3">
         {resources.map((resource: any) => {
           return (
             <VerticalResourceCard
@@ -111,15 +112,15 @@ const BigIdeasSection = ({resource}: any) => {
 
   return (
     <div className="">
-      <div className="grid lg:grid-cols-5 grid-cols-1 gap-10 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 rounded-lg shadow-sm px-5 sm:py-16 py-10 ">
+      <div className="grid grid-cols-1 gap-10 px-5 py-10 text-gray-700 bg-gray-100 rounded-lg shadow-sm lg:grid-cols-5 dark:bg-gray-700 dark:text-gray-50 sm:py-16 ">
         <div className="col-span-2">
-          <h1 className="sm:text-2xl md:text-4xl text-xl font-extrabold leading-tighter text-center mb-4">
+          <h1 className="mb-4 text-xl font-extrabold text-center sm:text-2xl md:text-4xl leading-tighter">
             {title}
           </h1>
           <Markdown
             source={description}
             allowDangerousHtml={true}
-            className="prose dark:prose-dark md:prose-lg md:dark:prose-lg-dark text-gray-900 dark:text-gray-100  mt-4 max-w-screen-md"
+            className="max-w-screen-md mt-4 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100"
           />
         </div>
         <div className="col-span-3">
@@ -141,9 +142,9 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
 
   return (
     <div className="md:min-h-[477px] relative flex items-center justify-center bg-white text-white overflow-hidden rounded-lg shadow-sm dark:bg-gray-800 ">
-      <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
-        <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl lg:px-8 w-full sm:mb-4 md:my-12 lg:m-0 mt-0 mb-15">
-          <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+      <div className="relative z-10 px-5 py-10 text-center sm:py-16 sm:text-left">
+        <div className="flex items-center justify-center w-full max-w-screen-xl mx-auto mt-0 space-y-5 lg:px-8 sm:mb-4 md:my-12 lg:m-0 mb-15">
+          <div className="flex flex-col items-center justify-center w-full space-y-5 lg:flex-row sm:space-x-10 sm:space-y-0 0 xl:pr-16">
             <div className="flex-shrink-0">
               <Image
                 quality={100}
@@ -154,17 +155,17 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
                 alt={get(image, 'alt', `illustration for ${title}`)}
               />
             </div>
-            <div className="flex flex-col sm:items-start items-center w-full">
-              <h2 className="text-xs text-yellow-600 dark:text-yellow-300 uppercase font-semibold mb-2">
+            <div className="flex flex-col items-center w-full sm:items-start">
+              <h2 className="mb-2 text-xs font-semibold text-yellow-600 uppercase dark:text-yellow-300">
                 {name}
               </h2>
-              <h1 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter text-gray-900 dark:text-gray-50">
+              <h1 className="max-w-screen-lg text-xl font-extrabold text-gray-900 sm:text-2xl md:text-4xl leading-tighter dark:text-gray-50">
                 {title}
               </h1>
               <Markdown
                 source={description}
                 allowDangerousHtml={true}
-                className="mt-4 dark:text-gray-200 text-gray-700 text-base max-w-screen-sm opacity-80"
+                className="max-w-screen-sm mt-4 text-base text-gray-700 dark:text-gray-200 opacity-80"
               />
             </div>
           </div>
@@ -172,7 +173,7 @@ const Jumbotron: FunctionComponent<JumbotronProps> = ({resource}) => {
       </div>
 
       <Background
-        className="absolute left-0 top-0 w-full h-full z-0 object-cover"
+        className="absolute top-0 left-0 z-0 object-cover w-full h-full"
         background={background}
       />
     </div>

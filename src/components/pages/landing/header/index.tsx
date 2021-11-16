@@ -17,7 +17,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="-mx-5 -mt-5">
+    <header>
       <div className="sm:min-h-[90vh] relative w-full flex flex-col items-center justify-center sm:py-32 py-24 px-5">
         {isMounted && (
           <Image

@@ -61,24 +61,24 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
           ],
         }}
       />
-      <div className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
-        <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
+      <div className="pt-5 bg-gray-50 dark:bg-gray-900">
+        <div className="container pb-10 mb-10">
           <div className="mt-10 mb-16 text-center">
             <div className="mb-10">
               <Image priority src={image} height="270" width="270" />
             </div>
-            <p className="text-lg md:text-2xl leading-6 text-gray-500">
+            <p className="text-lg leading-6 text-gray-500 md:text-2xl">
               Portfolio Project
             </p>
-            <h1 className="text-2xl md:text-4xl font-bold mt-2">
+            <h1 className="mt-2 text-2xl font-bold md:text-4xl">
               {course.projects.title}
             </h1>
           </div>
-          <div className="flex flex-col justify-center items-start mx-auto max-w-screen-md mb-16 w-full px-4">
-            <main className="prose dark:prose-dark prose-lg max-w-none w-full">
+          <div className="flex flex-col items-start justify-center w-full max-w-screen-md mx-auto mb-16">
+            <main className="w-full prose prose-lg dark:prose-dark max-w-none">
               <Markdown>{introduction.text}</Markdown>
               <Markdown>{projectBrief.text}</Markdown>
-              <section className="flex-none sm:flex sm:justify-between sm:mt-4 w-full">
+              <section className="flex-none w-full sm:flex sm:justify-between sm:mt-4">
                 <Markdown className="col-span-1">
                   {appRequirements.text}
                 </Markdown>
@@ -88,7 +88,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
               </section>
               <Markdown>{developmentStandards.text}</Markdown>
               <section>
-                <h2 className="text-black dark:text-white text-md tracking-tight font-light max-w-xl">
+                <h2 className="max-w-xl font-light tracking-tight text-black dark:text-white text-md">
                   Steps To Get Started
                 </h2>
                 <p>
@@ -105,11 +105,11 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   When you're ready to go, you can fork the project challenge
                   GitHub repository or get started right now in CodeSandbox.
                 </p>
-                <div className="flex sm:flex-row flex-col">
-                  <div className="flex justify-center items-center w-full">
+                <div className="flex flex-col sm:flex-row">
+                  <div className="flex items-center justify-center w-full">
                     <a
                       href={course.projects.githubLink}
-                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
+                      className="px-5 py-3 mt-4 font-semibold transition-all duration-150 ease-in-out bg-gray-400 rounded-md hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl w-52"
                       title="Open Project in Codesandbox"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -138,7 +138,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                   <div className="flex items-center justify-center w-full">
                     <a
                       href={course.projects.codesandboxLink}
-                      className="mt-4 transition-all duration-150 ease-in-out bg-gray-400 hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl font-semibold py-3 px-5 rounded-md w-52"
+                      className="px-5 py-3 mt-4 font-semibold transition-all duration-150 ease-in-out bg-gray-400 rounded-md hover:bg-gray-500 active:bg-gray-600 hover:scale-105 hover:shadow-xl w-52"
                       title="Open Project in Codesandbox"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -174,25 +174,25 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
                 src={productPage.url}
                 height="826"
                 width="736"
-                className="rounded-md z-0"
+                className="z-0 rounded-md"
               />
-              <section className="flex-none sm:flex sm:justify-between sm:mt-4 w-full">
-                <Markdown className="sm:w-1/2 mr-4 w-full">
+              <section className="flex-none w-full sm:flex sm:justify-between sm:mt-4">
+                <Markdown className="w-full mr-4 sm:w-1/2">
                   {productCard.description}
                 </Markdown>
-                <span className="mt-4 flex justify-center">
+                <span className="flex justify-center mt-4">
                   <Image
                     src={productCard.url}
                     height="471"
                     width="296"
                     layout="fixed"
-                    className="rounded-md z-0"
+                    className="z-0 rounded-md"
                   />
                 </span>
               </section>
               <Markdown>{Submission.text}</Markdown>
               <a
-                className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:scale-105 hover:shadow-xl  hover:bg-blue-700 ease-in-out duration-200"
+                className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:scale-105 hover:shadow-xl hover:bg-blue-700"
                 title="Share on twitter"
                 onClick={() =>
                   track(`clicked challenge CTA`, {
@@ -219,10 +219,10 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
 
 const CtaButton = ({text, path}: any) => {
   return (
-    <div className="flex justify-center items-center w-full">
+    <div className="flex items-center justify-center w-full">
       <a
         href={path}
-        className="mt-4 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+        className="px-5 py-3 mt-4 font-semibold text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
         title="Open Project in Codesandbox"
         rel="noopener noreferrer"
         target="_blank"

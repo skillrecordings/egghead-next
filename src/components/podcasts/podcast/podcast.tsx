@@ -76,54 +76,56 @@ const Podcast: FunctionComponent<PodcastProps> = ({
   },
 }) => {
   return (
-    <div className="max-w-2xl w-full mx-auto leading-6 mb-10">
-      <div className="flex items-center justify-center">
-        <div
-          className="flex items-center justify-center"
-          style={{clipPath: 'circle(33%)'}}
-        >
-          <Image
-            className="absolute top-0 left-0"
-            src={image_url}
-            width={IMAGE_SIZE}
-            height={IMAGE_SIZE}
-          />
-        </div>
-      </div>
-      <div className="prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl leading-6">
-        <div className="text-sm uppercase font-light text-center text-gray-500 dark:text-gray-400 py-4">{`Episode ${episode_number} ${
-          contributors && contributors.length > 0
-            ? `• ${contributors.join(' && ')}`
-            : ''
-        }`}</div>
-        <h1 className="mb-10">{title}</h1>
-        <div className="flex flex-col sm:flex-row mb-10 sticky top-0 z-10 dark:bg-gray-900 bg-white shadow-lg">
-          <iframe
-            height="52px"
-            width="100%"
-            frameBorder="no"
-            scrolling="no"
-            seamless
-            src={`https://player.simplecast.com/${simplecast_uid}?dark=false`}
-          ></iframe>
-          <div className="text-gray-900 flex ml-2 content-center justify-center">
-            {LINKS.map(({link, title, image}) => (
-              <a
-                key={link}
-                title={title}
-                className="transition-colors ease-in-out duration-300 mr-2 w-12 h-12 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 rounded-full"
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {image}
-              </a>
-            ))}
+    <div className="container">
+      <div className="w-full max-w-2xl mx-auto mb-10 leading-6">
+        <div className="flex items-center justify-center">
+          <div
+            className="flex items-center justify-center"
+            style={{clipPath: 'circle(33%)'}}
+          >
+            <Image
+              className="absolute top-0 left-0"
+              src={image_url}
+              width={IMAGE_SIZE}
+              height={IMAGE_SIZE}
+            />
           </div>
         </div>
-        {description && <Markdown allowDangerousHtml>{description}</Markdown>}
-        {transcript && <h2>Transcript</h2>}
-        {transcript && <Markdown allowDangerousHtml>{transcript}</Markdown>}
+        <div className="leading-6 prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl">
+          <div className="py-4 text-sm font-light text-center text-gray-500 uppercase dark:text-gray-400">{`Episode ${episode_number} ${
+            contributors && contributors.length > 0
+              ? `• ${contributors.join(' && ')}`
+              : ''
+          }`}</div>
+          <h1 className="mb-10">{title}</h1>
+          <div className="sticky top-0 z-10 flex flex-col mb-10 bg-white shadow-lg sm:flex-row dark:bg-gray-900">
+            <iframe
+              height="52px"
+              width="100%"
+              frameBorder="no"
+              scrolling="no"
+              seamless
+              src={`https://player.simplecast.com/${simplecast_uid}?dark=false`}
+            ></iframe>
+            <div className="flex content-center justify-center ml-2 text-gray-900">
+              {LINKS.map(({link, title, image}) => (
+                <a
+                  key={link}
+                  title={title}
+                  className="flex items-center justify-center w-12 h-12 mr-2 transition-colors duration-300 ease-in-out rounded-full hover:bg-gray-200 dark:hover:bg-gray-800"
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {image}
+                </a>
+              ))}
+            </div>
+          </div>
+          {description && <Markdown allowDangerousHtml>{description}</Markdown>}
+          {transcript && <h2>Transcript</h2>}
+          {transcript && <Markdown allowDangerousHtml>{transcript}</Markdown>}
+        </div>
       </div>
     </div>
   )

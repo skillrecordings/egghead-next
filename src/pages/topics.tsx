@@ -14,7 +14,7 @@ type TagsProps = {
 
 const Tags: FunctionComponent<TagsProps> = ({tags}) => {
   return (
-    <div className="max-w-screen-xl grid sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 grid-cols-2 sm:gap-5 gap-4 mx-auto sm:pb-16 pb-8">
+    <div className="container grid grid-cols-2 gap-4 pt-5 pb-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 sm:gap-5 sm:pb-16">
       {tags.map((tag) => {
         return (
           <div className="flex justify-center" key={tag.slug}>
@@ -26,7 +26,7 @@ const Tags: FunctionComponent<TagsProps> = ({tags}) => {
                     topic: tag.slug,
                   })
                 }
-                className="space-x-2 flex flex-row items-center justify-start rounded-lg hover:shadow-sm border border-transparent hover:border-gray-200 sm:p-5 p-4 w-full transition-all ease-in-out duration-150"
+                className="flex flex-row items-center justify-start w-full p-4 space-x-2 transition-all duration-150 ease-in-out border border-transparent rounded-lg hover:shadow-sm hover:border-gray-200 sm:p-5"
               >
                 {tag.image_64_url && (
                   <Image

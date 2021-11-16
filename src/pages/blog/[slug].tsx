@@ -62,37 +62,39 @@ const Tag = (props: any) => {
         }}
         canonical={canonicalUrl}
       />
-      <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-16">
-        <header>
-          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
-            {title}
-          </h1>
-          {author && <Author author={author} />}
-          {coverImage?.url && (
-            <div className="mt-4">
-              <Image
-                src={coverImage.url}
-                alt={coverImage.alt || title}
-                width={1280}
-                height={720}
-                quality={100}
-                className="rounded-lg"
-              />
-            </div>
-          )}
-          {categories && (
-            <ul>
-              Posted in
-              {categories.map((category: any) => (
-                <li key={category}>{category}</li>
-              ))}
-            </ul>
-          )}
-        </header>
-        <main>
-          <MDXRemote {...source} components={mdxComponents} />
-        </main>
-      </article>
+      <div className="container">
+        <article className="max-w-screen-md mx-auto mt-10 mb-16 lg:mt-24 md:mt-20">
+          <header>
+            <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
+              {title}
+            </h1>
+            {author && <Author author={author} />}
+            {coverImage?.url && (
+              <div className="mt-4">
+                <Image
+                  src={coverImage.url}
+                  alt={coverImage.alt || title}
+                  width={1280}
+                  height={720}
+                  quality={100}
+                  className="rounded-lg"
+                />
+              </div>
+            )}
+            {categories && (
+              <ul>
+                Posted in
+                {categories.map((category: any) => (
+                  <li key={category}>{category}</li>
+                ))}
+              </ul>
+            )}
+          </header>
+          <main>
+            <MDXRemote {...source} components={mdxComponents} />
+          </main>
+        </article>
+      </div>
     </>
   )
 }
