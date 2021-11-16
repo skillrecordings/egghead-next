@@ -184,7 +184,37 @@ const NewMemberConfirmation: React.FC<{
   )
 }
 
-export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
+const NoSessionFound = () => {
+  return (
+    <Header
+      heading={<>Thank you so much for joining egghead! </>}
+      primaryMessage={
+        <>
+          <Callout>
+            <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
+            <p className="text-lg">
+              Please check your inbox to{' '}
+              <strong>confirm your email address</strong> and{' '}
+              <strong>access your membership</strong>.
+            </p>
+          </Callout>
+          <p className="text-lg text-center">
+            If you have any trouble, you can email{' '}
+            <a
+              href="mailto:support@egghead.io"
+              className="dark:text-blue-400 text-blue-400 underline"
+            >
+              support@egghead.io
+            </a>{' '}
+            for help at any time.
+          </p>
+        </>
+      }
+    />
+  )
+}
+
+const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   sessionId,
   viewLesson,
 }) => {
@@ -218,7 +248,9 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
         />
       )}
     </div>
-  ) : null // TODO: This should be a spinner most likely or some indicator
+  ) : (
+    <NoSessionFound />
+  )
 }
 
 export default ConfirmMembership

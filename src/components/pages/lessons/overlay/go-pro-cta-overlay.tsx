@@ -21,7 +21,6 @@ import {FormikProps, useFormik} from 'formik'
 import Spinner from 'components/spinner'
 import ConfirmMembership from './confirm-membership'
 import {useRouter} from 'next/router'
-import noop from 'utils/noop'
 
 type JoinCTAProps = {
   lesson: LessonResource
