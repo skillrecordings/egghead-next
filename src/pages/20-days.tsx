@@ -5,7 +5,7 @@ import {NextSeo} from 'next-seo'
 import {CardResource} from 'types'
 import {GetServerSideProps} from 'next'
 import {sanityClient} from 'utils/sanity-client'
-import CourseGrid from 'components/pages/eoy-sale-2021/course-grid'
+import CourseGrid from 'components/pages/20-days-of-egghead/course-grid'
 
 type EOYSale2021PageProps = {
   data: CardResource
