@@ -18,7 +18,7 @@ const SmallParityCouponMessage = ({
   isPPP,
   isLoading,
 }: SmallParityCouponMessage) => {
-  const percentOff = coupon && coupon.coupon_discount * 100
+  const percentOff = coupon && Math.round(coupon.coupon_discount * 100)
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
   return (
