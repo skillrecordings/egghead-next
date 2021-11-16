@@ -18,7 +18,7 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
     <>
       <NextSeo noindex={true} title={'20 days of egghead'} />
       <div className="dark:bg-gray-900 bg-gray-50">
-        <header className="max-w-screen-xl mx-auto flex flex-col items-center justify-center w-full relative py-40">
+        <header className="max-w-screen-xl mx-auto flex flex-col items-center justify-center w-full relative sm:py-40 py-24">
           <h3 className="md:text-4xl sm:text-3xl text-2xl font-bold tracking-tight text-center relative z-10 leading-none pb-2">
             New Course a Day
           </h3>
@@ -33,7 +33,7 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
             objectPosition="50% 50%"
             alt=""
             aria-hidden
-            className="pointer-events-none"
+            className="pointer-events-none sm:opacity-100 opacity-20"
           />
         </header>
         <div className="container px-3">
