@@ -8,12 +8,12 @@ import Markdown from 'react-markdown'
 
 const DeveloperPortfolio: React.FC<any> = ({data}) => {
   return (
-    <div className="sm:-my-5 -my-3 -mx-5 p-5 dark:bg-gray-900 bg-gray-50">
-      <div className="mx-auto max-w-screen-xl">
-        <div className="flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
-          <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
-            <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-              <div className="flex lg:flex-row flex-col items-center justify-center sm:space-x-10 sm:space-y-0 space-y-5 0 w-full xl:pr-16">
+    <div className="dark:bg-gray-900 bg-gray-50">
+      <div className="container mt-5">
+        <div className="flex items-center justify-center overflow-hidden text-gray-700 bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-50">
+          <div className="px-5 py-10 text-center sm:py-16 sm:text-left">
+            <div className="flex items-center justify-center w-full mx-auto space-y-5 lg:px-8">
+              <div className="flex flex-col items-center justify-center w-full space-y-5 lg:flex-row sm:space-x-10 sm:space-y-0 0 xl:pr-16">
                 <div className="flex-shrink-0">
                   <Link href={data.path}>
                     <a
@@ -35,18 +35,18 @@ const DeveloperPortfolio: React.FC<any> = ({data}) => {
                     </a>
                   </Link>
                 </div>
-                <div className="flex flex-col sm:items-start items-center w-full">
-                  <h2 className="text-xs text-yellow-600 dark:text-yellow-300 uppercase font-semibold mb-2">
+                <div className="flex flex-col items-center w-full sm:items-start">
+                  <h2 className="mb-2 text-xs font-semibold text-yellow-600 uppercase dark:text-yellow-300">
                     Craft a Portfolio that gets you hired
                   </h2>
 
-                  <h1 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
+                  <h1 className="max-w-screen-lg text-xl font-extrabold sm:text-2xl md:text-4xl leading-tighter">
                     {data.title}
                   </h1>
 
                   <Markdown
                     source={data.description}
-                    className="prose dark:prose-dark dark:prose-md-dark prose-md mt-4"
+                    className="mt-4 prose dark:prose-dark dark:prose-md-dark prose-md"
                   />
                 </div>
               </div>

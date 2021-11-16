@@ -37,7 +37,7 @@ const PlayerSidebar: React.FC<{
       <Tabs
         index={(videoResourceHasNotes && activeSidebarTab) || 0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
-        className="shadow-sm lg:absolute left-0 top-0 w-full h-full flex flex-col bg-gray-100 dark:bg-gray-1000 text-gray-900 dark:text-white"
+        className="top-0 left-0 flex flex-col w-full h-full text-gray-900 bg-gray-100 shadow-sm lg:absolute dark:bg-gray-1000 dark:text-white"
       >
         <TabList className="relative z-[1] flex-shrink-0">
           {videoResourceHasCollection && (
@@ -47,22 +47,22 @@ const PlayerSidebar: React.FC<{
             <Tab onClick={(e) => console.log('e')}>Notes</Tab>
           )}
         </TabList>
-        <TabPanels className="flex-grow relative">
-          <TabPanel className="lg:absolute inset-0">
+        <TabPanels className="relative flex-grow">
+          <TabPanel className="inset-0 lg:absolute">
             <LessonListTab
               videoResource={videoResource}
               lessonView={lessonView}
               onActiveTab={activeSidebarTab === 0}
             />
           </TabPanel>
-          <TabPanel className="lg:absolute inset-0">
+          <TabPanel className="inset-0 lg:absolute">
             <NotesTab onAddNote={onAddNote} />
           </TabPanel>
           {hasRelatedResources &&
             !videoResourceHasCollection &&
             !videoResourceHasNotes && (
-              <div className="flex flex-col space-y-3 w-full">
-                <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
+              <div className="flex flex-col w-full space-y-3">
+                <h3 className="mt-4 font-semibold text-center text-md md:text-lg">
                   {relatedResources.headline}
                 </h3>
                 {relatedResources.linksTo.map((content: any) => {
@@ -80,9 +80,9 @@ const PlayerSidebar: React.FC<{
                             location: 'sidebar',
                           })
                         }}
-                        className="px-3 py-2 flex items-center ml-4 transition-colors duration-200 ease-in-out space-x-2 hover:underline"
+                        className="flex items-center px-3 py-2 ml-4 space-x-2 transition-colors duration-200 ease-in-out hover:underline"
                       >
-                        <div className="w-12 h-12 relative flex-shrink-0 ">
+                        <div className="relative flex-shrink-0 w-12 h-12 ">
                           <Image
                             src={content.imageUrl}
                             alt={`illustration of ${content.title} course`}
@@ -91,7 +91,7 @@ const PlayerSidebar: React.FC<{
                             layout="fill"
                           />
                         </div>
-                        <div className="font-bold relative">
+                        <div className="relative font-bold">
                           {content.title}
                         </div>
                       </a>
@@ -114,9 +114,9 @@ const LessonListTab: React.FC<{
   const hidden: boolean = isEmpty(videoResource.collection)
 
   return hidden ? null : (
-    <div className="bg-gray-100 dark:bg-gray-1000 w-full h-full">
+    <div className="w-full h-full bg-gray-100 dark:bg-gray-1000">
       <div className="flex flex-col h-full">
-        <div className="flex-shrink-0 p-4 sm:border-b border-gray-100 dark:border-gray-800">
+        <div className="flex-shrink-0 p-4 border-gray-100 sm:border-b dark:border-gray-800">
           <CourseHeader
             course={videoResource.collection}
             currentLessonSlug={videoResource.slug}
@@ -146,7 +146,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
   const canCreateNote = viewer?.can_comment && notesCreationAvailable
 
   return hidden ? null : (
-    <div className="bg-gray-100 dark:bg-gray-1000 w-full h-96 lg:h-full">
+    <div className="w-full bg-gray-100 dark:bg-gray-1000 h-96 lg:h-full">
       <div className="flex flex-col h-full">
         <div className="flex-grow overflow-hidden">
           <SimpleBar
@@ -156,7 +156,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
               ref: scrollableNodeRef,
               id: 'notes-tab-scroll-container',
             }}
-            className="h-full overscroll-contain p-4"
+            className="h-full p-4 overscroll-contain"
           >
             <div className="space-y-3">
               {cues.map((cue: VTTCue) => {
@@ -197,9 +197,9 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                             actions?.seek(cue.startTime)
                             track('clicked cue in sidebar', {cue: note.text})
                           }}
-                          className="w-full cursor-pointer underline flex items-baseline justify-end pt-3 text-gray-900 dark:text-white"
+                          className="flex items-baseline justify-end w-full pt-3 text-gray-900 underline cursor-pointer dark:text-white"
                         >
-                          <time className="text-xs opacity-60 font-medium">
+                          <time className="text-xs font-medium opacity-60">
                             {convertTime(cue.startTime)}
                           </time>
                         </div>
@@ -225,7 +225,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
               }}
               aria-expanded={true}
               aria-controls="add-note-overlay"
-              className="uppercase bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-600 duration-100 p-3 flex justify-center items-center rounded-md w-full text-xs font-semibold"
+              className="flex items-center justify-center w-full p-3 text-xs font-semibold text-gray-500 uppercase duration-100 bg-gray-200 rounded-md hover:bg-gray-300 hover:text-gray-600"
             >
               <IconNote />
               <span className="ml-2">Add a note</span>
@@ -250,7 +250,7 @@ const CourseHeader: React.FunctionComponent<{
     <div>
       <div className="flex items-center">
         <Link href={course.path}>
-          <a className="flex-shrink-0 relative block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
+          <a className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
             <Image
               src={course.square_cover_480_url}
               alt={`illustration for ${course.title}`}
@@ -259,7 +259,7 @@ const CourseHeader: React.FunctionComponent<{
           </a>
         </Link>
         <div className="ml-2 lg:ml-4">
-          <h4 className="text-gray-700 dark:text-gray-100 font-semibold mb-px text-xs uppercase">
+          <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
             Course
           </h4>
           <Link href={course.path}>

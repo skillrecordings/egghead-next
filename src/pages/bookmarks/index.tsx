@@ -49,8 +49,8 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
 
   return (
     <LoginRequired loginRequired={loginRequired}>
-      <div className="mt-8 mb-28 max-w-screen-md w-full mx-auto">
-        <h1 className="sm:text-2xl text-xl font-bold mb-6 leading-tight">
+      <div className="container w-full max-w-screen-md mt-10 mb-24 md:mt-16">
+        <h1 className="mb-6 text-xl font-bold leading-tight sm:text-2xl">
           Your Bookmarks
         </h1>
         {loadingBookmarks || isEmpty(bookmarks) ? (
@@ -76,15 +76,15 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
                   <div className="flex flex-col">
                     <div className="flex space-x-2">
                       <Link href={bookmark.path}>
-                        <a className="group inline-flex items-center space-x-2">
-                          <div className="group-hover:underline font-medium md:text-lg text-normal leading-tight">
+                        <a className="inline-flex items-center space-x-2 group">
+                          <div className="font-medium leading-tight group-hover:underline md:text-lg text-normal">
                             {bookmark.title}
                           </div>
                         </a>
                       </Link>
                       <button
                         aria-label="remove"
-                        className="text-gray-600 hover:text-gray-900 dark:hover:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 p-2 transition-colors rounded-full duration-200 ease-in-out"
+                        className="p-2 text-gray-600 transition-colors duration-200 ease-in-out rounded-full hover:text-gray-900 dark:hover:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800"
                         onClick={(e) => {
                           e.preventDefault()
                           axios.post(bookmark.toggle_favorite_url)
@@ -97,7 +97,7 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
                           setBookmarks(lessBookmarks)
                         }}
                       >
-                        <XIcon className="h-4 w-4" aria-hidden="true" />
+                        <XIcon className="w-4 h-4" aria-hidden="true" />
                       </button>
                     </div>
 

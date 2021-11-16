@@ -43,59 +43,61 @@ const Portfolio = (props: any) => {
         }}
         canonical={url}
       />
-      <article className="mx-auto max-w-screen-lg pb-16 pt-4">
-        <header>
-          <Link href="/great-developer-portfolios">
-            <a className="text-sm text-gray-600 rounded-md border border-gray-200 dark:border-gray-700 dark:text-gray-300 inline-flex px-3 py-2 transition-all ease-in-out duration-200 hover:border-blue-400 hover:text-blue-600 items-center dark:hover:bg-gray-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>All Portfolios</span>
-            </a>
-          </Link>
-          <div className="flex sm:flex-row flex-col sm:text-left text-center sm:space-y-0 space-y-5 w-full justify-between sm:items-baseline items-center py-8">
-            <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-bold leading-tighter">
-              {title}
-            </h1>
-            <Link href={url}>
-              <a
-                target="_blank"
-                className="text-lg flex items-center space-x-1 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200 ease-in-out"
-              >
-                <span>{prettifyUrl(url)}</span>
-                <ExternalLinkIcon />
+      <div className="container mt-5">
+        <article className="max-w-screen-lg pt-4 pb-16 mx-auto">
+          <header>
+            <Link href="/great-developer-portfolios">
+              <a className="inline-flex items-center px-3 py-2 text-sm text-gray-600 transition-all duration-200 ease-in-out border border-gray-200 rounded-md dark:border-gray-700 dark:text-gray-300 hover:border-blue-400 hover:text-blue-600 dark:hover:bg-gray-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-3 h-3 mr-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>All Portfolios</span>
               </a>
             </Link>
-          </div>
-
-          {image && (
-            <div className="flex overflow-hidden sm:mx-0 -mx-5 sm:rounded-md sm:border-2 border-gray-50">
-              <Image
-                src={image}
-                alt={title}
-                width={1280}
-                height={810}
-                quality={100}
-              />
+            <div className="flex flex-col items-center justify-between w-full py-8 space-y-5 text-center sm:flex-row sm:text-left sm:space-y-0 sm:items-baseline">
+              <h1 className="max-w-screen-md text-3xl font-bold lg:text-6xl md:text-5xl sm:text-4xl leading-tighter">
+                {title}
+              </h1>
+              <Link href={url}>
+                <a
+                  target="_blank"
+                  className="flex items-center space-x-1 text-lg transition-colors duration-200 ease-in-out hover:text-blue-500 dark:hover:text-blue-300"
+                >
+                  <span>{prettifyUrl(url)}</span>
+                  <ExternalLinkIcon />
+                </a>
+              </Link>
             </div>
-          )}
-        </header>
-        <main>
-          <Markdown
-            className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-10 max-w-3xl mx-auto"
-            source={content}
-          />
-        </main>
-      </article>
+
+            {image && (
+              <div className="flex -mx-5 overflow-hidden sm:mx-0 sm:rounded-md sm:border-2 border-gray-50">
+                <Image
+                  src={image}
+                  alt={title}
+                  width={1280}
+                  height={810}
+                  quality={100}
+                />
+              </div>
+            )}
+          </header>
+          <main>
+            <Markdown
+              className="max-w-3xl mx-auto mt-10 prose dark:prose-dark sm:prose-lg lg:prose-xl"
+              source={content}
+            />
+          </main>
+        </article>
+      </div>
     </>
   )
 }
