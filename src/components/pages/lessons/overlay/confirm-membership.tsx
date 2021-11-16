@@ -129,12 +129,6 @@ const NewMemberConfirmation: React.FC<{
       heading={<>Thank you so much for joining egghead! </>}
       primaryMessage={
         <>
-          {currentState.matches('pending') && (
-            <Callout>
-              <Spinner color="white" />
-              <p className="text-lg">Setting up your account...</p>
-            </Callout>
-          )}
           {currentState.matches('pollingExpired') && (
             <>
               <Callout>
@@ -184,6 +178,20 @@ const NewMemberConfirmation: React.FC<{
   )
 }
 
+const LoadingSession: React.FC<{}> = () => {
+  return (
+    <Header
+      heading={<>Thank you so much for joining egghead! </>}
+      primaryMessage={
+        <Callout>
+          <Spinner color="white" />
+          <p className="text-lg">Setting up your account...</p>
+        </Callout>
+      }
+    />
+  )
+}
+
 const NoSessionFound = () => {
   return (
     <Header
@@ -221,6 +229,7 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
   const [session, setSession] = React.useState<any>()
   const {viewer, refreshUser} = useViewer()
+  const [loadingSession, setLoadingSession] = React.useState<boolean>(true)
 
   React.useEffect(() => {
     if (sessionId) {
@@ -232,9 +241,14 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
             sessionId,
           })
           if (viewer) refreshUser()
+
+          setLoadingSession(false)
         })
     }
   }, [sessionId])
+
+  if (loadingSession || currentState.matches('pending'))
+    return <LoadingSession />
 
   return session ? (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-white dark:text-white">
