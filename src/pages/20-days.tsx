@@ -34,7 +34,7 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
             objectPosition="50% 50%"
             alt=""
             aria-hidden
-            className="pointer-events-none opacity-20"
+            className="pointer-events-none sm:opacity-100 opacity-20"
           />
         </header>
         <div className="container px-3">
