@@ -6,6 +6,7 @@ import Image from 'next/image'
 import homepageData from 'components/pages/home/homepage-data'
 import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
+import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -14,8 +15,6 @@ type HeaderProps = {
 
 type ConfirmMembershipProps = {
   session: any
-  alreadyAuthenticated: boolean
-  currentState: {value: any; context: any; matches: Function}
 }
 
 const Illustration = () => (
@@ -175,105 +174,116 @@ const StartLearning: React.FC = () => {
   )
 }
 
-export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
+const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
+  return (
+    <>
+      <Header
+        heading={<>Thank you so much for joining egghead!</>}
+        primaryMessage={
+          <>
+            <p className="text-lg text-center">
+              We've charged your credit card{' '}
+              <strong>${session.amount} for your egghead membership</strong> and
+              sent a receipt to <strong>{session.email}</strong>.
+            </p>
+            <p className="text-lg pt-5 text-center">
+              You can now learn from all premium resources on egghead, including
+              courses, talks, podcasts, articles, and more. Enjoy!
+            </p>
+          </>
+        }
+      />
+      <div className="space-y-10">
+        <PopularTopics />
+        <LastResource />
+        <div className="flex justify-center">
+          <StartLearning />
+        </div>
+      </div>
+      <Support />
+    </>
+  )
+}
+
+const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
   session,
-  alreadyAuthenticated,
   currentState,
 }) => {
   return (
+    <>
+      <Header
+        heading={<>Thank you so much for joining egghead! </>}
+        primaryMessage={
+          <>
+            {currentState.matches('pending') && (
+              <Callout>
+                <Spinner color="gray-700" />
+                <p className="text-lg">Setting up your account...</p>
+              </Callout>
+            )}
+            {currentState.matches('pollingExpired') && (
+              <>
+                <Callout>
+                  <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
+                  <p className="text-lg">
+                    Please check your inbox ({session.email}) to{' '}
+                    <strong>confirm your email address</strong> and{' '}
+                    <strong>access your membership</strong>.
+                  </p>
+                </Callout>
+                <p className="text-lg">
+                  We've charged your credit card{' '}
+                  <strong>${session.amount} for an egghead membership</strong>{' '}
+                  and sent an email along with a receipt to{' '}
+                  <strong>{session.email}</strong> so you can log in and access
+                  your membership.
+                </p>
+              </>
+            )}
+            {currentState.matches('authTokenRetrieved') && (
+              <>
+                <Callout>
+                  <p className="text-lg w-full text-center">
+                    <span role="img" aria-label="party popper">
+                      🎉
+                    </span>{' '}
+                    Your egghead membership is ready to go!
+                  </p>
+                </Callout>
+                <p className="text-lg pb-8 border-b border-gray-100 text-center max-w-lg mx-auto">
+                  We've charged your credit card{' '}
+                  <strong>${session.amount} for an egghead membership</strong>{' '}
+                  and sent a receipt to <strong>{session.email}</strong>. Please
+                  check your inbox to{' '}
+                  <strong>confirm your email address</strong>.
+                </p>
+                <div className="pt-8">
+                  <PopularTopics />
+                </div>
+                <div className="flex justify-center pt-6">
+                  <StartLearning />
+                </div>
+              </>
+            )}
+          </>
+        }
+      />
+      <Support />
+    </>
+  )
+}
+
+export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
+  session,
+}) => {
+  const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
+
+  return (
     <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
       {alreadyAuthenticated ? (
-        <>
-          <Header
-            heading={<>Thank you so much for joining egghead!</>}
-            primaryMessage={
-              <>
-                <p className="text-lg text-center">
-                  We've charged your credit card{' '}
-                  <strong>${session.amount} for your egghead membership</strong>{' '}
-                  and sent a receipt to <strong>{session.email}</strong>.
-                </p>
-                <p className="text-lg pt-5 text-center">
-                  You can now learn from all premium resources on egghead,
-                  including courses, talks, podcasts, articles, and more. Enjoy!
-                </p>
-              </>
-            }
-          />
-          <div className="space-y-10">
-            <PopularTopics />
-            <LastResource />
-            <div className="flex justify-center">
-              <StartLearning />
-            </div>
-          </div>
-          <Support />
-        </>
+        <ExistingMemberConfirmation session={session} />
       ) : (
-        <>
-          <Header
-            heading={<>Thank you so much for joining egghead! </>}
-            primaryMessage={
-              <>
-                {currentState.matches('pending') && (
-                  <Callout>
-                    <Spinner color="gray-700" />
-                    <p className="text-lg">Setting up your account...</p>
-                  </Callout>
-                )}
-                {currentState.matches('pollingExpired') && (
-                  <>
-                    <Callout>
-                      <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
-                      <p className="text-lg">
-                        Please check your inbox ({session.email}) to{' '}
-                        <strong>confirm your email address</strong> and{' '}
-                        <strong>access your membership</strong>.
-                      </p>
-                    </Callout>
-                    <p className="text-lg">
-                      We've charged your credit card{' '}
-                      <strong>
-                        ${session.amount} for an egghead membership
-                      </strong>{' '}
-                      and sent an email along with a receipt to{' '}
-                      <strong>{session.email}</strong> so you can log in and
-                      access your membership.
-                    </p>
-                  </>
-                )}
-                {currentState.matches('authTokenRetrieved') && (
-                  <>
-                    <Callout>
-                      <p className="text-lg w-full text-center">
-                        <span role="img" aria-label="party popper">
-                          🎉
-                        </span>{' '}
-                        Your egghead membership is ready to go!
-                      </p>
-                    </Callout>
-                    <p className="text-lg pb-8 border-b border-gray-100 text-center max-w-lg mx-auto">
-                      We've charged your credit card{' '}
-                      <strong>
-                        ${session.amount} for an egghead membership
-                      </strong>{' '}
-                      and sent a receipt to <strong>{session.email}</strong>.
-                      Please check your inbox to{' '}
-                      <strong>confirm your email address</strong>.
-                    </p>
-                    <div className="pt-8">
-                      <PopularTopics />
-                    </div>
-                    <div className="flex justify-center pt-6">
-                      <StartLearning />
-                    </div>
-                  </>
-                )}
-              </>
-            }
-          />
-          <Support />
-        </>
+        <NewMemberConfirmation session={session} currentState={currentState} />
       )}
     </div>
   )

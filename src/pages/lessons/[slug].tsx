@@ -557,7 +557,12 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
               )}
               {playerState.matches('subscribing') && (
                 <OverlayWrapper>
-                  <GoProCtaOverlay lesson={lesson} />
+                  <GoProCtaOverlay
+                    lesson={lesson}
+                    viewLesson={() => {
+                      router.reload()
+                    }}
+                  />
                 </OverlayWrapper>
               )}
               {playerState.matches('pitchingCourse') && (

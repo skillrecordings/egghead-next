@@ -19,9 +19,12 @@ import {StripeAccount} from 'types'
 import * as Yup from 'yup'
 import {FormikProps, useFormik} from 'formik'
 import Spinner from 'components/spinner'
+import ConfirmMembership from './confirm-membership'
+import {useRouter} from 'next/router'
 
 type JoinCTAProps = {
   lesson: LessonResource
+  viewLesson?: Function
 }
 
 type FormikValues = {
@@ -29,6 +32,10 @@ type FormikValues = {
 }
 
 const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
+  // useRouter's `asPath` can include query params, so using
+  // `window.location.pathname` instead.
+  const cleanPath = window?.location?.pathname
+
   const {viewer, authToken} = useViewer()
   const {state, send, priceId, quantity, availableCoupons, currentPlan} =
     useCommerceMachine({initialPlan: 'monthlyPrice'})
@@ -54,11 +61,12 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     },
   })
 
+  const viewerEmail = viewer?.email
   React.useEffect(() => {
-    if (!isEmpty(viewer?.email)) {
-      formik.setFieldValue('email', viewer.email)
+    if (!isEmpty(viewerEmail)) {
+      formik.setFieldValue('email', viewerEmail)
     }
-  }, [viewer?.email])
+  }, [viewerEmail])
 
   const pricesLoading = !state.matches('pricesLoaded')
   const pppCouponIsApplied =
@@ -156,6 +164,7 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
           authToken,
           quantity,
           coupon: state.context.couponToApply?.couponCode,
+          successPath: cleanPath,
         })
 
         leaveSpinningForRedirect = true
@@ -279,4 +288,22 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   )
 }
 
-export default GoProCtaOverlay
+const OverlayParent: FunctionComponent<JoinCTAProps> = ({lesson}) => {
+  const {query, reload} = useRouter()
+
+  const {session_id} = query
+
+  if (session_id) {
+    return (
+      <ConfirmMembership
+        lesson={lesson}
+        sessionId={session_id as string}
+        viewLesson={reload}
+      />
+    )
+  } else {
+    return <GoProCtaOverlay lesson={lesson} />
+  }
+}
+
+export default OverlayParent
