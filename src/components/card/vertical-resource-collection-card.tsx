@@ -13,7 +13,7 @@ import Markdown from '../markdown'
 import {track} from 'utils/analytics'
 import {get} from 'lodash'
 import {CardResource} from 'types'
-import Textfit from 'react-textfit'
+import {Textfit} from 'react-textfit'
 
 const VerticalResourceCollectionCard: React.FC<{
   resource: CardResource
