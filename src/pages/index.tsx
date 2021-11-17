@@ -27,8 +27,8 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
           ],
         }}
       />
-      <main className="bg-gray-50 dark:bg-gray-900 sm:-my-5 -my-3 -mx-5 p-5">
-        <div className="max-w-screen-xl mx-auto">
+      <main className="pt-8 bg-gray-50 dark:bg-gray-900">
+        <div className="container">
           <Home homePageData={homePageData} />
         </div>
       </main>

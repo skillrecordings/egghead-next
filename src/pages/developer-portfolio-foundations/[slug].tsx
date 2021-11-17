@@ -9,13 +9,13 @@ import {withProse} from '../../utils/remark/with-prose'
 
 const PortfolioFoundationsArticle: React.FC<any> = ({source, title}) => {
   return (
-    <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3">
+    <article className="max-w-screen-md mx-auto mt-3 lg:mt-14 md:mt-8">
       <header>
-        <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
+        <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
           {title}
         </h1>
       </header>
-      <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
+      <main className="mt-5 prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none">
         <MDXRemote {...source} components={mdxComponents} />
       </main>
     </article>

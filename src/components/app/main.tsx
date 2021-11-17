@@ -9,7 +9,7 @@ type MainProps = {
 const Main: FunctionComponent<MainProps> = ({children, className = ''}) => {
   return (
     <div
-      className={`w-full flex flex-col flex-grow px-5 dark:bg-gray-900 dark:text-gray-100 py-5 ${className}`}
+      className={`w-full flex flex-col flex-grow dark:bg-gray-900 dark:text-gray-100 ${className}`}
     >
       {children}
     </div>

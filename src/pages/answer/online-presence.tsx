@@ -46,14 +46,16 @@ const OnlinePresenceAnswer: React.FC<AnswerProps> = ({questions}) => {
     <>
       <DevTools questions={questions} />
       <Layout noIndex meta={{title: 'Accessibility Quiz'}}>
-        <header className="bg-black -mx-5 flex items-center justify-center relative xl:pt-20 sm:pt-16 pt-14">
-          <h1 className="sr-only">
-            TestingAccessibility.com Quiz by Marcy Sutton
-          </h1>
-        </header>
-        <main className="max-w-screen-sm w-full mx-auto flex items-center justify-center xl:pt-36 md:pt-32 pt-24 sm:pb-16 pb-8">
-          {QuestionToShow()}
-        </main>
+        <div className="container">
+          <header className="relative flex items-center justify-center bg-black xl:pt-20 sm:pt-16 pt-14">
+            <h1 className="sr-only">
+              TestingAccessibility.com Quiz by Marcy Sutton
+            </h1>
+          </header>
+          <main className="flex items-center justify-center w-full max-w-screen-sm pt-24 pb-8 mx-auto xl:pt-36 md:pt-32 sm:pb-16">
+            {QuestionToShow()}
+          </main>
+        </div>
       </Layout>
     </>
   )
@@ -167,13 +169,13 @@ const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
 
   return (
     <nav
-      className="z-10 flex border border-gray-100 flex-col fixed top-5 right-5 rounded-md bg-white shadow-xl p-4 sm:visible invisible"
+      className="fixed z-10 flex flex-col invisible p-4 bg-white border border-gray-100 rounded-md shadow-xl top-5 right-5 sm:visible"
       aria-label="Quiz sections"
     >
-      <div className="w-full flex leading-tighter justify-end absolute right-2 top-2">
+      <div className="absolute flex justify-end w-full leading-tighter right-2 top-2">
         <button
           onClick={() => setHidden(true)}
-          className="text-xs text-black font-bold"
+          className="text-xs font-bold text-black"
         >
           <span className="not-sr-only" aria-hidden="true">
             ✕
@@ -181,7 +183,7 @@ const DevTools: React.FC<{questions: Questions}> = ({questions}) => {
           <span className="sr-only">close navigation</span>
         </button>
       </div>
-      <span className="text-sm font-medium pb-2 text-indigo-600">
+      <span className="pb-2 text-sm font-medium text-indigo-600">
         Questions:
       </span>
       <ol className="list-decimal list-inside" role="list">

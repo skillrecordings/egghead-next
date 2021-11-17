@@ -216,6 +216,8 @@ import Image from 'next/image'
 
 export default ({children}) => {
   return (
-    <article className="max-w-screen-sm mx-auto w-full">{children}</article>
+    <div className="container">
+      <article className="max-w-screen-sm mx-auto w-full">{children}</article>
+    </div>
   )
 }
