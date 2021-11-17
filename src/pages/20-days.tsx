@@ -22,7 +22,7 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
           <h3 className="relative z-10 pb-2 text-2xl font-bold leading-none tracking-tight md:text-4xl sm:text-3xl">
             Holiday Course <br /> Release Extravaganza
           </h3>
-          <p className="pt-2 text-sm text-blue-500 opacity-90 dark:text-pink-200 sm:text-base">
+          <p className="max-w-md pt-2 text-sm text-blue-500 opacity-90 dark:text-pink-200 sm:text-base">
             We'll be releasing 20 badass courses during the holiday season,
             that'll help you jumpstart your career in 2022
           </p>
