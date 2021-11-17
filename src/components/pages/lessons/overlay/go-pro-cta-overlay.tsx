@@ -296,7 +296,7 @@ const OverlayParent: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   if (session_id) {
     return (
       <ConfirmMembership
-        lesson={{lesson}}
+        lesson={lesson}
         sessionId={session_id as string}
         viewLesson={reload}
       />
