@@ -6,6 +6,7 @@ import axios from 'axios'
 import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource} from '../../../../types'
+import {useRouter} from 'next/router'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -243,6 +244,7 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   sessionId,
   viewLesson,
 }) => {
+  const router = useRouter()
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
   const [session, setSession] = React.useState<any>()
   const {viewer, refreshUser} = useViewer()
@@ -268,20 +270,31 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   if (loadingSession || currentState.matches('pending'))
     return <LoadingSession />
 
+  const {session_id, ...nonSessionQueryParams} = router.query
+
+  const cleanUrlAndViewLesson = () => {
+    router.replace({
+      pathname: router.pathname,
+      query: nonSessionQueryParams,
+    })
+
+    setTimeout(viewLesson, 750)
+  }
+
   return session ? (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-white dark:text-white">
       {alreadyAuthenticated ? (
         <ExistingMemberConfirmation
           lesson={lesson}
           session={session}
-          viewLesson={viewLesson}
+          viewLesson={cleanUrlAndViewLesson}
         />
       ) : (
         <NewMemberConfirmation
           lesson={lesson}
           session={session}
           currentState={currentState}
-          viewLesson={viewLesson}
+          viewLesson={cleanUrlAndViewLesson}
         />
       )}
     </div>
