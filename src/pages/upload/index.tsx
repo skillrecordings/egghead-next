@@ -33,8 +33,6 @@ const fileUploadReducer = (state: any, action: any) => {
 
 const handleSubmit = (e: any, form: any, urls: any) => {
   e.preventDefault()
-  console.log('FORM', form)
-  console.log('STATE', urls)
 
   const re = /[^/\\&?]+\.\w{3,4}(?=([?&].*$|$))/
   console.log(urls[0].match(re)[0])
@@ -53,6 +51,7 @@ const handleSubmit = (e: any, form: any, urls: any) => {
     _type: 'resource',
     title: form.collectionTitle,
     type: 'course',
+    new: true,
     resources: lessons,
   }
 
@@ -112,7 +111,6 @@ const Upload: React.FC = () => {
         onFinish={(signResult, file) => {
           const fileUrl = signResult.signedUrl.split('?')[0]
           dispatch({type: 'signed', url: fileUrl})
-          console.log(state.urls)
         }}
       />{' '}
       <form onSubmit={(e) => handleSubmit(e, form, state.urls)}>
