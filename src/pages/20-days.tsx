@@ -18,12 +18,13 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
     <>
       <NextSeo noindex={true} title={'20 days of egghead'} />
       <div className="dark:bg-gray-900 bg-gray-50">
-        <header className="max-w-screen-xl mx-auto flex flex-col items-center justify-center w-full relative sm:py-40 py-24">
-          <h3 className="md:text-4xl sm:text-3xl text-2xl font-bold tracking-tight text-center relative z-10 leading-none pb-2">
-            New Course a Day
+        <header className="relative flex flex-col items-center justify-center w-full max-w-screen-xl px-5 py-24 mx-auto text-center sm:py-40">
+          <h3 className="relative z-10 pb-2 text-2xl font-bold leading-none tracking-tight md:text-4xl sm:text-3xl">
+            Holiday Course <br /> Release Extravaganza
           </h3>
-          <p className="opacity-90 dark:text-pink-200 text-blue-500 pt-2 sm:text-base text-sm">
-            For 20 days, lorem ipsum dolor sit amet
+          <p className="pt-2 text-sm text-blue-500 opacity-90 dark:text-pink-200 sm:text-base">
+            We'll be releasing 20 badass courses during the holiday season,
+            that'll help you jumpstart your career in 2022
           </p>
           <Image
             src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637069708/egghead-next-pages/20-days-of-egghead/bg_2x.png"
@@ -33,7 +34,7 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
             objectPosition="50% 50%"
             alt=""
             aria-hidden
-            className="pointer-events-none sm:opacity-100 opacity-20"
+            className="pointer-events-none opacity-20"
           />
         </header>
         <div className="container px-3">

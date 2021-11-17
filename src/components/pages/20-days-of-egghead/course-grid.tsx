@@ -25,7 +25,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
   })
 
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 xl:gap-5 sm:gap-3 gap-2">
+    <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 md:grid-cols-3 xl:gap-5 sm:gap-3">
       {data?.resources?.map((resource, i) => {
         if (!resource.title) return null
 
@@ -55,7 +55,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
             })}`}
           >
             <div className="grid grid-rows-7">
-              <div className="row-span-4 flex items-center justify-center">
+              <div className="flex items-center justify-center row-span-4">
                 <div className="relative flex items-center justify-center w-full xl:max-w-[180px] sm:max-w-[150px] max-w-[90px]">
                   <Image
                     src={resource.image as string}
@@ -71,14 +71,14 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
                     )}`}
                   />
                   {published && (
-                    <div className="origin-center group-hover:scale-100 scale-0 font-mono text-xs leading-none absolute w-10 h-10 bg-white bg-opacity-90 shadow-smooth rounded-full flex items-center justify-center duration-300 group-hover:opacity-100 opacity-0 transition-all ease-in-out">
+                    <div className="absolute flex items-center justify-center w-10 h-10 font-mono text-xs leading-none transition-all duration-300 ease-in-out origin-center scale-0 bg-white rounded-full opacity-0 group-hover:scale-100 bg-opacity-90 shadow-smooth group-hover:opacity-100">
                       <PlayIcon className="w-3 dark:text-gray-900" />
                     </div>
                   )}
                 </div>
               </div>
               {published && (
-                <div className="row-span-2 text-center px-5">
+                <div className="row-span-2 px-5 text-center">
                   <h4>
                     <Textfit
                       aria-hidden
@@ -91,7 +91,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
                   </h4>
                   {resource.instructor && (
                     <div className="flex items-center justify-center pt-4">
-                      <div className="sm:w-7 w-5 sm:h-7 h-5 rounded-full overflow-hidden">
+                      <div className="w-5 h-5 overflow-hidden rounded-full sm:w-7 sm:h-7">
                         <Image
                           src={resource.instructor.image}
                           alt={resource.instructor.name}
@@ -108,7 +108,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
                 </div>
               )}
               {upcoming && (
-                <div className="absolute lg:bottom-9 sm:bottom-6 bottom-5 text-center w-full flex sm:text-sm text-xs leading-tighter items-center justify-center dark:text-gray-300 text-gray-500">
+                <div className="absolute flex items-center justify-center w-full text-xs text-center text-gray-500 lg:bottom-9 sm:bottom-6 bottom-5 sm:text-sm leading-tighter dark:text-gray-300">
                   Check back tomorrow!
                   {/* {formatDistanceToNow(calendar[i].date, {addSuffix: true,})} */}
                 </div>
