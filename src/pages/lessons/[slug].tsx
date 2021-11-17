@@ -325,6 +325,8 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     }
   }
 
+  const {session_id} = router.query
+
   React.useEffect(() => {
     //TODO: We are doing work here that the lesson machine should
     //be handling but we don't have enough information in the context
@@ -335,17 +337,30 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
 
-        if (isEmpty(viewer) && free_forever) {
-          if (viewLimitNotReached && mediaPresent) {
+        // TODO: Detangle this nested series of `if` statements to make the
+        // logic more immediately easy to reason about.
+
+        if (session_id) {
+          // If the URL contains the session ID, even if there is a viewer, put
+          // them in the `subscribing` state.
+          send('SUBSCRIBE')
+        } else {
+          if (isEmpty(viewer) && free_forever) {
+            if (viewLimitNotReached && mediaPresent) {
+              send('VIEW')
+            } else {
+              send('JOIN')
+            }
+          } else if (mediaPresent) {
             send('VIEW')
           } else {
-            send('JOIN')
+            // If lesson is not 'free_forever' and the media isn't present,
+            // then we deduce that the lesson is Pro-only and the user needsto
+            // subscribe before viewing it.
+            send('SUBSCRIBE')
           }
-        } else if (mediaPresent) {
-          send('VIEW')
-        } else {
-          send('SUBSCRIBE')
         }
+
         break
       case 'viewing':
         console.debug(
@@ -393,9 +408,14 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
         break
     }
-  }, [currentPlayerState])
+  }, [currentPlayerState, session_id])
 
   React.useEffect(() => {
+    // only execute the contents of this effect if the machine is in the
+    // process of loading. Any other Player Machine state change should bail
+    // early.
+    if (currentPlayerState !== 'loading') return
+
     async function run() {
       console.debug('loading video with auth')
       const loadedLesson = await loadLesson(initialLesson.slug)
@@ -427,7 +447,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     })
 
     run()
-  }, [initialLesson.slug])
+  }, [initialLesson.slug, currentPlayerState])
 
   const numberOfComments = filter(
     comments,
@@ -560,7 +580,11 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                   <GoProCtaOverlay
                     lesson={lesson}
                     viewLesson={() => {
-                      router.reload()
+                      send({
+                        type: 'LOAD',
+                        lesson: initialLesson,
+                        viewer,
+                      })
                     }}
                   />
                 </OverlayWrapper>
