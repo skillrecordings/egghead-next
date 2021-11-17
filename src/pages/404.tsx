@@ -12,12 +12,19 @@ export default function Custom404() {
   }, [])
 
   return (
-    <div className="flex items-center justify-center mb-60 prose">
+    <div className="container flex flex-col items-center justify-center my-24 prose dark:prose-dark">
       <h1>404 - Page Not Found</h1>
       <p>
         The page you are looking for may now live at{' '}
-        <code>{process.env.NEXT_PUBLIC_AUTH_DOMAIN}</code>. Try visiting{' '}
-        <a style={{color: '#1C64F2'}} href={appVersionOfPath}>
+        <code>{process.env.NEXT_PUBLIC_AUTH_DOMAIN}</code>.
+      </p>
+      <p>
+        Try visiting{' '}
+        <a
+          className="break-all"
+          style={{color: '#1C64F2'}}
+          href={appVersionOfPath}
+        >
           {appVersionOfPath}
         </a>
         .

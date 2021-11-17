@@ -260,105 +260,113 @@ In this talk, we’ll explore the challenges of ecommerce in a static world. We�
       />
       <div>
         <article className="">
-          <header className="relative -mx-5 px-5">
-            <div className="absolute left-0 top-0 sm:-mt-5 -mt-3 h-3 w-full bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-500" />
-            <div className="flex md:flex-row flex-col md:space-x-10 md:space-y-0 space-y-6 items-center md:pb-16 pb-8 md:pt-8 pt-4 max-w-screen-lg mx-auto">
-              <div className="flex-shrink-0 mt-8">
-                <Image
-                  src={course.image}
-                  alt={course.title}
-                  width={288}
-                  height={288}
-                  quality={100}
-                />
-              </div>
-              <div className="space-y-3">
-                <div className="uppercase font-medium tracking-wide text-xs md:text-left text-center text-pink-600">
-                  Portfolio Project
+          <header className="relative pt-5">
+            <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-500" />
+            <div className="container">
+              <div className="flex flex-col items-center justify-center pt-4 pb-8 space-y-6 md:flex-row md:space-x-10 md:space-y-0 md:pb-16 md:pt-8">
+                <div className="flex-shrink-0 mt-8">
+                  <Image
+                    src={course.image}
+                    alt={course.title}
+                    width={288}
+                    height={288}
+                    quality={100}
+                  />
                 </div>
-                <h1 className="md:text-3xl text-3xl md:text-left text-center font-bold tracking-tight leading-snug pb-6 max-w-screen-sm">
-                  {course.title}
-                </h1>
-                <Tags tags={course.tags} />
+                <div className="space-y-3">
+                  <div className="text-xs font-medium tracking-wide text-center text-pink-600 uppercase md:text-left">
+                    Portfolio Project
+                  </div>
+                  <h1 className="max-w-screen-sm pb-6 text-3xl font-bold leading-snug tracking-tight text-center md:text-3xl md:text-left">
+                    {course.title}
+                  </h1>
+                  <Tags tags={course.tags} />
+                </div>
               </div>
             </div>
           </header>
           <main>
-            <Markdown
-              className="prose prose-lg md:prose-xl dark:prose-dark dark:prose-lg-dark dark:md:prose-xl-dark max-w-screen-md mx-auto"
-              source={course.summary}
-            />
-            <div className="mt-20 bg-gray-50 dark:bg-gray-800 -mx-5 pt-24 xl:px-0 px-5">
-              <div className="max-w-screen-lg mx-auto">
-                <div className="mb-4 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
-                  What You’ll Build for Your Portfolio
+            <div className="container">
+              <Markdown
+                className="max-w-screen-md mx-auto prose prose-lg md:prose-xl dark:prose-dark dark:prose-lg-dark dark:md:prose-xl-dark"
+                source={course.summary}
+              />
+            </div>
+            <div className="pt-24 mt-20 bg-gray-50 dark:bg-gray-800">
+              <div className="container">
+                <div className="max-w-screen-lg mx-auto">
+                  <div className="mb-4 text-sm font-medium tracking-wide text-center text-blue-600 uppercase md:text-left">
+                    What You’ll Build for Your Portfolio
+                  </div>
+                  <h2 className="pb-12 text-3xl font-semibold text-center sm:text-2xl sm:text-left leading-tighter">
+                    How to build a start-to-finish dynamic Next.js app
+                  </h2>
+                  {course.resources.map((part, idx) => {
+                    const isLast = idx === course.resources.length - 1
+                    return (
+                      <Part
+                        key={part.title}
+                        part={part}
+                        idx={idx}
+                        isLast={isLast}
+                      />
+                    )
+                  })}
                 </div>
-                <h2 className="sm:text-2xl text-3xl sm:text-left font-semibold text-center leading-tighter pb-12">
-                  How to build a start-to-finish dynamic Next.js app
-                </h2>
-                {course.resources.map((part, idx) => {
-                  const isLast = idx === course.resources.length - 1
-                  return (
-                    <Part
-                      key={part.title}
-                      part={part}
-                      idx={idx}
-                      isLast={isLast}
-                    />
-                  )
-                })}
               </div>
             </div>
-            <div className="bg-gray-900 -mx-5 md:pt-24 pt-10 pb-40 xl:px-0 px-5 text-white ">
-              <div className="max-w-screen-lg mx-auto grid md:grid-cols-2 grid-cols-1 gap-10 md:text-left text-center">
-                <div>
-                  {/* <div className="mb-2 uppercase font-medium tracking-wide text-sm md:text-left text-center text-purple-300">
+            <div className="pt-10 pb-40 text-white bg-gray-900 md:pt-24">
+              <div className="container">
+                <div className="grid max-w-screen-lg grid-cols-1 gap-10 mx-auto text-center md:grid-cols-2 md:text-left">
+                  <div>
+                    {/* <div className="mb-2 text-sm font-medium tracking-wide text-center text-purple-300 uppercase md:text-left">
                     What You’ll Build for Your Portfolio
                   </div> */}
-                  <p className="text-xl mt-4 max-w-md md:mx-0 mx-auto">
-                    By the end of this project, you’ll have your own dynamic
-                    eCommerce store with a working checkout flow.
-                  </p>
-                  <ul className="text-blueGray-200 mt-6 leading-10 list-none list-inside text-lg font-light">
-                    {[
-                      'Manage local state with React Hooks',
-                      'Manage global state with React Context',
-                      'Purchasing flow with Stripe Checkout',
-                    ].map((i) => (
-                      <li className="space-x-4" key={i}>
-                        <span className="text-purple-300">✓</span>
-                        <span>{i}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="md:row-start-auto row-start-1">
-                  <Image
-                    className="rounded-md shadow-lg"
-                    src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png"
-                    width={1128 / 2}
-                    height={698 / 2}
-                    alt="a screenshot of space jelly shop interface"
-                  />
-                </div>
-              </div>
-              <div className="mt-16 font-light text-purple-300 grid md:grid-cols-5 grid-cols-2 lg:grid-rows-2 text-center max-w-screen-lg mx-auto md:gap-x-12 gap-x-3 md:gap-y-6 gap-y-5 tracking-wide">
-                {[
-                  'React Context API',
-                  'Data Fetching',
-                  'React useState',
-                  'Custom React Hooks',
-                  'Stripe Integration',
-                  'Manage API keys',
-                  'Pre-rendering',
-                  'Dynamic Routing',
-                  'CSS Grid',
-                  'Vercel deploys',
-                ].map((i) => (
-                  <div className="" key={i}>
-                    {i}
+                    <p className="max-w-md mx-auto mt-4 text-xl md:mx-0">
+                      By the end of this project, you’ll have your own dynamic
+                      eCommerce store with a working checkout flow.
+                    </p>
+                    <ul className="mt-6 text-lg font-light leading-10 list-none list-inside text-blueGray-200">
+                      {[
+                        'Manage local state with React Hooks',
+                        'Manage global state with React Context',
+                        'Purchasing flow with Stripe Checkout',
+                      ].map((i) => (
+                        <li className="space-x-4" key={i}>
+                          <span className="text-purple-300">✓</span>
+                          <span>{i}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                ))}
+                  <div className="row-start-1 md:row-start-auto">
+                    <Image
+                      className="rounded-md shadow-lg"
+                      src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1608034859/next.egghead.io/pages/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout/screenshot-of-space-jelly-shop-interface.png"
+                      width={1128 / 2}
+                      height={698 / 2}
+                      alt="a screenshot of space jelly shop interface"
+                    />
+                  </div>
+                </div>
+                <div className="grid max-w-screen-lg grid-cols-2 mx-auto mt-16 font-light tracking-wide text-center text-purple-300 md:grid-cols-5 lg:grid-rows-2 md:gap-x-12 gap-x-3 md:gap-y-6 gap-y-5">
+                  {[
+                    'React Context API',
+                    'Data Fetching',
+                    'React useState',
+                    'Custom React Hooks',
+                    'Stripe Integration',
+                    'Manage API keys',
+                    'Pre-rendering',
+                    'Dynamic Routing',
+                    'CSS Grid',
+                    'Vercel deploys',
+                  ].map((i) => (
+                    <div className="" key={i}>
+                      {i}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </main>
@@ -380,12 +388,12 @@ In this talk, we’ll explore the challenges of ecommerce in a static world. We�
 const Join: FunctionComponent = () => {
   const {viewer} = useViewer()
   return (
-    <div className="py-24 text-center dark:bg-gray-800 bg-gray-100 text-white -mx-5 xl:px-0 px-5">
-      <div className="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
+    <div className="py-24 text-center text-white bg-gray-100 dark:bg-gray-800">
+      <div className="container flex flex-col items-center space-y-6">
         <div className="w-16">
           <Image src={Eggo} alt="" />
         </div>
-        <h2 className="lg:text-2xl text-xl font-semibold leading-tighter max-w-2xl text-gray-900 dark:text-gray-100">
+        <h2 className="max-w-2xl text-xl font-semibold text-gray-900 lg:text-2xl leading-tighter dark:text-gray-100">
           Add this project to your portfolio with your egghead Pro Membership
         </h2>
         {viewer?.is_pro ? (
@@ -398,7 +406,7 @@ const Join: FunctionComponent = () => {
                       'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
                   })
                 }
-                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
+                className="px-6 py-4 font-semibold text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-lg hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
               >
                 Build this E-Commerce Store
               </a>
@@ -417,7 +425,7 @@ const Join: FunctionComponent = () => {
                       'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
                   })
                 }
-                className="px-6 py-4 rounded-lg font-semibold bg-blue-600 text-white transition-all ease-in-out duration-300 hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
+                className="px-6 py-4 font-semibold text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-lg hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
               >
                 Build this E-Commerce Store
               </a>
@@ -439,36 +447,38 @@ const Instructor: FunctionComponent<{
   }
 }> = ({instructor: {name, bio, path, image, slug}}) => {
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 -mx-5 py-20 xl:px-0 px-5 text-white">
-      <div className="max-w-screen-lg mx-auto">
-        <div className="flex flex-col space-y-2 text-center items-center">
-          <div className="rounded-full bg-white p-1 overflow-hidden mb-4">
-            <Image
-              className="rounded-full"
-              src={image}
-              width={160}
-              height={160}
-              alt="Colby Fayock"
-            />
+    <div className="py-20 text-white bg-gray-100 dark:bg-gray-800">
+      <div className="container">
+        <div className="max-w-screen-lg mx-auto">
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="p-1 mb-4 overflow-hidden bg-white rounded-full">
+              <Image
+                className="rounded-full"
+                src={image}
+                width={160}
+                height={160}
+                alt="Colby Fayock"
+              />
+            </div>
+            <div className="text-xs text-gray-600 uppercase dark:text-gray-400">
+              Meet Your Instructor
+            </div>
+            <Link href={path}>
+              <a
+                onClick={() => {
+                  track(`clicked instructor profile link`, {
+                    project:
+                      'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+                    instructor: slug,
+                  })
+                }}
+                className="text-lg font-semibold text-gray-900 dark:text-gray-200"
+              >
+                {name}
+              </a>
+            </Link>
+            <Markdown className="max-w-xl prose dark:prose-dark" source={bio} />
           </div>
-          <div className="text-xs uppercase text-gray-600 dark:text-gray-400">
-            Meet Your Instructor
-          </div>
-          <Link href={path}>
-            <a
-              onClick={() => {
-                track(`clicked instructor profile link`, {
-                  project:
-                    'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
-                  instructor: slug,
-                })
-              }}
-              className="text-lg font-semibold text-gray-900 dark:text-gray-200"
-            >
-              {name}
-            </a>
-          </Link>
-          <Markdown className="prose dark:prose-dark max-w-xl" source={bio} />
         </div>
       </div>
     </div>
@@ -479,9 +489,9 @@ const Tags: FunctionComponent<{
   tags: {title: string; image: React.ReactElement}[]
 }> = ({tags}) => {
   return (
-    <div className="flex space-x-6 items-center md:justify-start justify-center">
+    <div className="flex items-center justify-center space-x-6 md:justify-start">
       {tags.map((tag) => (
-        <div key={tag.title} className="flex space-x-1 items-center">
+        <div key={tag.title} className="flex items-center space-x-1">
           {tag.image}
           <span>{tag.title}</span>
         </div>
@@ -505,7 +515,7 @@ const Part: FunctionComponent<{
 
   const Thumbnail = () => {
     return image ? (
-      <div className="overflow-hidden flex">
+      <div className="flex overflow-hidden">
         <Image
           className="block"
           src={image}
@@ -518,11 +528,11 @@ const Part: FunctionComponent<{
   }
 
   return (
-    <div className="flex md:flex-row flex-col md:space-x-6 mt-4">
+    <div className="flex flex-col mt-4 md:flex-row md:space-x-6">
       <div
         className={`space-y-2 flex flex-col md:items-end items-center py-1 ${gap}`}
       >
-        {/* <div className="uppercase font-semibold text-sm text-blue-500">Part {index}</div> */}
+        {/* <div className="text-sm font-semibold text-blue-500 uppercase">Part {index}</div> */}
         {lessons ? (
           <Link href={get(first(lessons), 'path', '#')}>
             <a
@@ -541,19 +551,19 @@ const Part: FunctionComponent<{
           <Thumbnail />
         )}
       </div>
-      <div className="md:flex hidden flex-col items-center relative">
-        <div className="flex items-center justify-center text-center text-xs text-gray-400 font-semibold w-6 h-6 rounded-full border-2 border-gray-200 dark:border-gray-400 flex-shrink-0">
+      <div className="relative flex-col items-center hidden md:flex">
+        <div className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-xs font-semibold text-center text-gray-400 border-2 border-gray-200 rounded-full dark:border-gray-400">
           <small>{index}</small>
         </div>
-        <div className="border-r-2 border-gray-200 dark:border-gray-400 h-full" />
+        <div className="h-full border-r-2 border-gray-200 dark:border-gray-400" />
         {/* {isLast && (
-          <div className="flex items-center justify-center text-center text-xs bg-blue-100 text-blue-500 font-semibold w-10 h-10 transform translate-y-10 absolute bottom-0 rounded-full border-none border-gray-200 flex-shrink-0">
+          <div className="absolute bottom-0 flex items-center justify-center flex-shrink-0 w-10 h-10 text-xs font-semibold text-center text-blue-500 transform translate-y-10 bg-blue-100 border-gray-200 border-none rounded-full">
             <FlagIcon />
           </div>
         )} */}
       </div>
       <div className={`md:w-full ${gap}`}>
-        <h3 className="text-lg font-bold relative -translate-y-1 pb-1">
+        <h3 className="relative pb-1 text-lg font-bold -translate-y-1">
           {title}
         </h3>
         {body && <Markdown className="prose" source={body} />}
@@ -571,7 +581,7 @@ const Part: FunctionComponent<{
                             'create-an-ecommerce-store-with-next-js-and-stripe-checkout',
                         })
                       }}
-                      className="py-1 flex space-x-2 items-center dark:text-gray-100 text-gray-700 hover:text-blue-600 group"
+                      className="flex items-center py-1 space-x-2 text-gray-700 dark:text-gray-100 hover:text-blue-600 group"
                     >
                       {/* prettier-ignore */}
                       <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
@@ -579,7 +589,7 @@ const Part: FunctionComponent<{
                     </a>
                   </Link>
                 ) : (
-                  <div className="font-semibold py-1">{l.title}</div>
+                  <div className="py-1 font-semibold">{l.title}</div>
                 )}
               </li>
             ))}
@@ -592,56 +602,58 @@ const Part: FunctionComponent<{
 
 const Articles: React.FC<{articles: any}> = ({articles, children}) => {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 -mx-5 pt-24 pb-40 xl:px-0 px-5 text-white pb-12">
-      <div className="max-w-screen-lg mx-auto">
-        <div className="mb-4 uppercase font-medium tracking-wide text-sm md:text-left text-center text-blue-600">
-          Build Beyond this project
-        </div>
-        <h2 className="sm:text-2xl text-3xl md:text-left font-semibold text-center leading-tighter pb-4 dark:text-gray-200 text-gray-900">
-          Additional Learning Resources
-        </h2>
-
-        <div className="relative">
-          <div className="absolute inset-0">
-            <div className="h-2/3"></div>
+    <div className="pt-24 pb-40 text-white bg-gray-50 dark:bg-gray-900">
+      <div className="container">
+        <div className="max-w-screen-lg mx-auto">
+          <div className="mb-4 text-sm font-medium tracking-wide text-center text-blue-600 uppercase md:text-left">
+            Build Beyond this project
           </div>
-          <div className="relative max-w-7xl mx-auto">
-            <div className="mt-12 mx-auto grid gap-5 md:grid-cols-2 md:max-w-none">
-              {articles.map((article: any) => {
-                return (
-                  <div
-                    className="flex flex-col rounded-lg shadow-lg overflow-hidden mb-4"
-                    key={article.path}
-                  >
-                    <div className="flex-shrink-0">
-                      <img
-                        className="h-64 h-72 w-full object-cover"
-                        src={article.image}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex-1 dark:bg-gray-800 p-6 flex flex-col justify-between">
-                      <h2 className="uppercase font-semibold text-xs text-gray-700 dark:text-gray-200">
-                        {article.name}
-                      </h2>
-                      <div className="flex-1">
-                        <a href={article.path} className="block mt-2">
-                          <p className="text-xl font-semibold dark:text-white text-gray-900">
-                            {article.title}
-                          </p>
-                          <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
-                            {article.description}
-                          </Markdown>
-                        </a>
+          <h2 className="pb-4 text-3xl font-semibold text-center text-gray-900 sm:text-2xl md:text-left leading-tighter dark:text-gray-200">
+            Additional Learning Resources
+          </h2>
+
+          <div className="relative">
+            <div className="absolute inset-0">
+              <div className="h-2/3"></div>
+            </div>
+            <div className="relative mx-auto max-w-7xl">
+              <div className="grid gap-5 mx-auto mt-12 md:grid-cols-2 md:max-w-none">
+                {articles.map((article: any) => {
+                  return (
+                    <div
+                      className="flex flex-col mb-4 overflow-hidden rounded-lg shadow-lg"
+                      key={article.path}
+                    >
+                      <div className="flex-shrink-0">
+                        <img
+                          className="object-cover w-full h-64 h-72"
+                          src={article.image}
+                          alt=""
+                        />
+                      </div>
+                      <div className="flex flex-col justify-between flex-1 p-6 dark:bg-gray-800">
+                        <h2 className="text-xs font-semibold text-gray-700 uppercase dark:text-gray-200">
+                          {article.name}
+                        </h2>
+                        <div className="flex-1">
+                          <a href={article.path} className="block mt-2">
+                            <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                              {article.title}
+                            </p>
+                            <Markdown className="mt-4 prose-sm prose dark:prose-dark dark:prose-sm-dark">
+                              {article.description}
+                            </Markdown>
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
+          {children}
         </div>
-        {children}
       </div>
     </div>
   )

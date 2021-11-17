@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from 'react'
-import {Card} from 'components/card'
 import Link from 'next/link'
 import Image from 'next/image'
 import {map, get, find} from 'lodash'
@@ -39,124 +38,122 @@ const Home: FunctionComponent<any> = ({homePageData}) => {
   const awsFeatures = findFeature('aws-features')
 
   return (
-    <>
-      <div className="mt-8">
-        <WhatsNew resource={featureWhatsNew} />
+    <div className="space-y-20 sm:space-y-24">
+      <WhatsNew resource={featureWhatsNew} />
 
-        <section className="mt-32">
-          <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white text-center">
-            Browse Curated Developer Resources on the Best Tools
-          </h2>
-          <TopicsList topics={topics} />
-        </section>
+      <section>
+        <h2 className="mb-3 text-lg font-bold text-center md:text-xl sm:font-semibold dark:text-white">
+          Browse Curated Developer Resources on the Best Tools
+        </h2>
+        <TopicsList topics={topics} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={reactFeatures} />
-        </section>
+      <section>
+        <FeatureRow resource={reactFeatures} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <InstructorFeatureRow resource={kcdFeatures} />
-        </section>
+      <section>
+        <InstructorFeatureRow resource={kcdFeatures} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={javascriptFeatures} />
-        </section>
+      <section>
+        <FeatureRow resource={javascriptFeatures} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-50 overflow-hidden rounded-lg shadow-sm">
-            <div className="px-5 sm:py-16 py-10 sm:text-left text-center">
-              <div className="space-y-5 mx-auto flex items-center justify-center lg:px-8 w-full">
-                <div className="w-full">
-                  <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
-                    <div className="sm:col-span-1 flex-shrink-0 text-center mb-4">
-                      <Link href={featureDigitalGardening.path}>
-                        <a
-                          tabIndex={-1}
-                          onClick={() => {
-                            track('clicked resource', {
-                              resource: featureDigitalGardening.path,
-                              location,
-                            })
-                          }}
-                        >
-                          <Image
-                            quality={100}
-                            src={
-                              'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
-                            }
-                            width={250}
-                            height={305}
-                            alt={featureDigitalGardening.title}
-                          />
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="sm:col-span-2 flex flex-col sm:items-start items-center w-full">
-                      <h3 className="text-xs text-green-600 dark:text-green-300 uppercase font-semibold mb-2">
-                        Learn in public with a digital garden
-                      </h3>
-                      <Link href={featureDigitalGardening.path}>
-                        <a
-                          className="font-bold hover:text-blue-600 dark:hover:text-blue-300 transition ease-in-out"
-                          onClick={() => {
-                            track('clicked resource', {
-                              resource: featureDigitalGardening.path,
-                              location,
-                            })
-                          }}
-                        >
-                          <h2 className="sm:text-2xl md:text-4xl text-xl max-w-screen-lg font-extrabold leading-tighter">
-                            {featureDigitalGardening.title}
-                          </h2>
-                        </a>
-                      </Link>
-                      <div>
-                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4">
-                          {featureDigitalGardening.description}
-                        </Markdown>
-                        <Markdown className="prose dark:prose-dark dark:prose-sm-dark mt-4 font-medium">
-                          {featureDigitalGardening.quote.description}
-                        </Markdown>
-                      </div>
+      <section>
+        <div className="flex items-center justify-center overflow-hidden text-gray-700 bg-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:text-gray-50">
+          <div className="px-5 py-10 text-center sm:py-16 sm:text-left">
+            <div className="flex items-center justify-center w-full mx-auto space-y-5 lg:px-8">
+              <div className="w-full">
+                <div className="grid grid-cols-1 gap-5 mb-5 sm:grid-cols-3">
+                  <div className="flex-shrink-0 mb-4 text-center sm:col-span-1">
+                    <Link href={featureDigitalGardening.path}>
+                      <a
+                        tabIndex={-1}
+                        onClick={() => {
+                          track('clicked resource', {
+                            resource: featureDigitalGardening.path,
+                            location,
+                          })
+                        }}
+                      >
+                        <Image
+                          quality={100}
+                          src={
+                            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1617475003/egghead-next-pages/home-page/eggo-gardening.png'
+                          }
+                          width={250}
+                          height={305}
+                          alt={featureDigitalGardening.title}
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="flex flex-col items-center w-full sm:col-span-2 sm:items-start">
+                    <h3 className="mb-2 text-xs font-semibold text-green-600 uppercase dark:text-green-300">
+                      Learn in public with a digital garden
+                    </h3>
+                    <Link href={featureDigitalGardening.path}>
+                      <a
+                        className="font-bold transition ease-in-out hover:text-blue-600 dark:hover:text-blue-300"
+                        onClick={() => {
+                          track('clicked resource', {
+                            resource: featureDigitalGardening.path,
+                            location,
+                          })
+                        }}
+                      >
+                        <h2 className="max-w-screen-lg text-xl font-extrabold sm:text-2xl md:text-4xl leading-tighter">
+                          {featureDigitalGardening.title}
+                        </h2>
+                      </a>
+                    </Link>
+                    <div>
+                      <Markdown className="mt-4 prose dark:prose-dark dark:prose-sm-dark">
+                        {featureDigitalGardening.description}
+                      </Markdown>
+                      <Markdown className="mt-4 font-medium prose dark:prose-dark dark:prose-sm-dark">
+                        {featureDigitalGardening.quote.description}
+                      </Markdown>
                     </div>
                   </div>
-                  <div className="grid md:grid-cols-3 grid-cols-1 gap-5 mt-12">
-                    {featureDigitalGardening.featured.courses.map(
-                      (resource: any) => {
-                        return (
-                          <VerticalResourceCard
-                            className="col-span-3 sm:col-span-1 text-center shadow"
-                            key={resource.path}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                      },
-                    )}
-                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-5 mt-12 md:grid-cols-3">
+                  {featureDigitalGardening.featured.courses.map(
+                    (resource: any) => {
+                      return (
+                        <VerticalResourceCard
+                          className="col-span-3 text-center shadow sm:col-span-1"
+                          key={resource.path}
+                          resource={resource}
+                          location={location}
+                        />
+                      )
+                    },
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={awsFeatures} />
-        </section>
+      <section>
+        <FeatureRow resource={awsFeatures} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={cssFeatures} />
-        </section>
+      <section>
+        <FeatureRow resource={cssFeatures} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={reduxFeatures} />
-        </section>
+      <section>
+        <FeatureRow resource={reduxFeatures} />
+      </section>
 
-        <section className="mt-20 sm:mt-24">
-          <FeatureRow resource={typescriptFeatures} />
-        </section>
-      </div>
-    </>
+      <section>
+        <FeatureRow resource={typescriptFeatures} />
+      </section>
+    </div>
   )
 }
 
@@ -183,9 +180,9 @@ const TopicsList: React.FunctionComponent<{topics: CardResource}> = ({
                       amount: 1,
                     })
                   }}
-                  className="w-full scale-100 hover:scale-105 transition-all ease-in-out duration-150 rounded-md py-2 px-3 space-x-1 text-base dark:text-white tracking-tight font-bold leading-tight flex items-center hover:text-blue-600"
+                  className="flex items-center w-full px-3 py-2 space-x-1 text-base font-bold leading-tight tracking-tight transition-all duration-150 ease-in-out scale-100 rounded-md hover:scale-105 dark:text-white hover:text-blue-600"
                 >
-                  <div className="w-full flex flex-col items-center justify-center px-3 py-8 space-y-4">
+                  <div className="flex flex-col items-center justify-center w-full px-3 py-8 space-y-4">
                     {resource.image && (
                       <div className="flex items-center">
                         <Image
@@ -220,13 +217,13 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
   ] = secondary.resources
 
   return (
-    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
-      <h2 className="md:text-xl text-lg sm:font-semibold font-bold mb-3 dark:text-white">
+    <section>
+      <h2 className="mb-3 text-lg font-bold md:text-xl sm:font-semibold dark:text-white">
         What's New
       </h2>
       <Jumbotron resource={jumbotron} textColor="text-green-400" />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-        <div className="h-full grid gap-4">
+      <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
+        <div className="grid h-full gap-4">
           <HorizontalResourceCard
             className="w-full"
             resource={secondPrimary}
@@ -240,17 +237,17 @@ const WhatsNew: FunctionComponent<any> = ({resource, location = 'home'}) => {
         </div>
         <div className="grid gap-4">
           <HorizontalResourceCard
-            className="h-auto flex"
+            className="flex h-auto"
             resource={firstSecondaryResource}
             location={location}
           />
           <HorizontalResourceCard
-            className="w-full flex"
+            className="flex w-full"
             resource={secondSecondaryResource}
             location={location}
           />
           <HorizontalResourceCard
-            className="w-full flex"
+            className="flex w-full"
             resource={thirdSecondaryResource}
             location={location}
           />
@@ -270,16 +267,16 @@ const FeatureRow: FunctionComponent<any> = ({
   if (!resource) return null
 
   return (
-    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
-      <div className="flex mb-4 items-center">
-        <h2 className="flex-1 md:text-xl text-lg font-bold dark:text-white">
+    <section>
+      <div className="flex items-center mb-4">
+        <h2 className="flex-1 text-lg font-bold md:text-xl dark:text-white">
           {resource.subTitle}
         </h2>
 
         {resource.path && (
           <Link href={resource.path}>
             <a
-              className="text-base font-medium transition ease-in-out duration-150 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 py-2 px-3 text-blue-500"
+              className="px-3 py-2 text-base font-medium text-blue-500 transition duration-150 ease-in-out rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800"
               onClick={() => {
                 track('clicked resource', {
                   resource: resource.path,
@@ -294,11 +291,11 @@ const FeatureRow: FunctionComponent<any> = ({
       </div>
 
       {resource.resources && (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {map(resource.resources, (resource) => {
             return (
               <VerticalResourceCard
-                className="col-span-3 sm:col-span-1 text-center shadow-sm"
+                className="col-span-3 text-center shadow-sm sm:col-span-1"
                 key={resource.path}
                 resource={resource}
                 location={location}
@@ -309,7 +306,7 @@ const FeatureRow: FunctionComponent<any> = ({
       )}
 
       {resource.related && (
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
+        <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
           {map(resource.related, (resource) => {
             return (
               <HorizontalResourceCard
@@ -333,16 +330,16 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
   if (!resource) return null
 
   return (
-    <section className="sm:-my-5 -my-3 mx-auto max-w-screen-xl">
-      <div className="flex mb-4 items-center">
-        <h2 className="flex-1 md:text-xl text-lg font-bold dark:text-white">
+    <section>
+      <div className="flex items-center mb-4">
+        <h2 className="flex-1 text-lg font-bold md:text-xl dark:text-white">
           {resource.subTitle}
         </h2>
 
         {resource.path && (
           <Link href={resource.path}>
             <a
-              className="text-base font-medium transition ease-in-out duration-150 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 py-2 px-3 text-blue-500"
+              className="px-3 py-2 text-base font-medium text-blue-500 transition duration-150 ease-in-out rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800"
               onClick={() => {
                 track('clicked resource', {
                   resource: resource.path,
@@ -357,11 +354,11 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
       </div>
 
       {resource.resources && (
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {map(resource.resources, (resource) => {
             return (
               <VerticalResourceCard
-                className="col-span-3 sm:col-span-1 text-center shadow-sm"
+                className="col-span-3 text-center shadow-sm sm:col-span-1"
                 key={resource.path}
                 resource={resource}
                 location={location}
@@ -377,7 +374,7 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
             rel="noopener"
             className="block"
           >
-            <div className="overflow-hidden flex items-center justify-center rounded-lg">
+            <div className="flex items-center justify-center overflow-hidden rounded-lg">
               <Image
                 src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-home_2x.jpg"
                 // 25% off
@@ -394,7 +391,7 @@ const InstructorFeatureRow: FunctionComponent<any> = ({
       )}
 
       {resource.related && (
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
+        <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
           {map(resource.related, (resource) => {
             return (
               <HorizontalResourceCard

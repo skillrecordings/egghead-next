@@ -6,17 +6,19 @@ const EmailConfirmation: React.FunctionComponent<{
 }> = ({
   children,
   Background,
-  className = 'sm:py-40 py-32 px-8 max-w-screen-md mx-auto min-h-screen flex flex-col items-center justify-center',
+  className = 'flex flex-col items-center justify-center max-w-screen-md min-h-screen py-32 mx-auto sm:py-40',
 }) => (
-  <div className={className}>
-    <div className="prose dark:prose-dark relative z-10 px-5 hide-toc">
-      {children}
-    </div>
-    <div className="bg-cool-gray-50 h-screen absolute z-0 top-0 w-full">
-      <div className="relative overflow-hidden w-full min-h-screen">
-        {Background && (
-          <Background className="absolute left-0 top-0 w-screen h-screen overflow-hidden z-20" />
-        )}
+  <div className="container">
+    <div className={className}>
+      <div className="relative z-10 prose dark:prose-dark hide-toc">
+        {children}
+      </div>
+      <div className="absolute top-0 z-0 w-full h-screen bg-cool-gray-50">
+        <div className="relative w-full min-h-screen overflow-hidden">
+          {Background && (
+            <Background className="absolute top-0 left-0 z-20 w-screen h-screen overflow-hidden" />
+          )}
+        </div>
       </div>
     </div>
   </div>

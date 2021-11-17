@@ -20,8 +20,7 @@ const landingPage: FunctionComponent<LandingProps> = () => {
       {
         title: 'Use npm init gatsby to create an initial Gatsby site',
         slug: 'gatsby-use-npm-init-gatsby-to-create-an-initial-gatsby-site',
-        path:
-          '/lessons/gatsby-use-npm-init-gatsby-to-create-an-initial-gatsby-site',
+        path: '/lessons/gatsby-use-npm-init-gatsby-to-create-an-initial-gatsby-site',
       },
       {
         title: 'Add a Shared Layout Component to a Gatsby Site',
@@ -31,27 +30,22 @@ const landingPage: FunctionComponent<LandingProps> = () => {
       {
         title: 'Create an Accessible SEO Component using React Helmet',
         slug: 'gatsby-create-an-accessible-seo-component-using-react-helmet',
-        path:
-          '/lessons/gatsby-create-an-accessible-seo-component-using-react-helmet',
+        path: '/lessons/gatsby-create-an-accessible-seo-component-using-react-helmet',
       },
       {
         title: 'Use Gatsby Plugins to Source and Transform MDX Files',
         slug: 'gatsby-use-gatsby-plugins-to-source-and-transform-mdx-files',
-        path:
-          '/lessons/gatsby-use-gatsby-plugins-to-source-and-transform-mdx-files',
+        path: '/lessons/gatsby-use-gatsby-plugins-to-source-and-transform-mdx-files',
       },
       {
         title: `Use Gatsby's File System Route API to Generate Pages for Each MDX File`,
-        slug:
-          'gatsby-use-gatsby-s-file-system-route-api-to-generate-pages-for-each-mdx-file',
-        path:
-          '/lessons/gatsby-use-gatsby-s-file-system-route-api-to-generate-pages-for-each-mdx-file',
+        slug: 'gatsby-use-gatsby-s-file-system-route-api-to-generate-pages-for-each-mdx-file',
+        path: '/lessons/gatsby-use-gatsby-s-file-system-route-api-to-generate-pages-for-each-mdx-file',
       },
       {
         title: 'Use MDXRenderer to Render MDX Content in a Gatsby Site',
         slug: 'gatsby-use-mdxrenderer-to-render-mdx-content-in-a-gatsby-site',
-        path:
-          '/lessons/gatsby-use-mdxrenderer-to-render-mdx-content-in-a-gatsby-site',
+        path: '/lessons/gatsby-use-mdxrenderer-to-render-mdx-content-in-a-gatsby-site',
       },
       {
         title: 'Add a List of Posts using a GraphQL Page Query',
@@ -61,31 +55,24 @@ const landingPage: FunctionComponent<LandingProps> = () => {
       {
         title:
           'Add Theme UI to a Gatsby Site using gatsby-plugin-theme-ui and theme-ui',
-        slug:
-          'gatsby-add-theme-ui-to-a-gatsby-site-using-gatsby-plugin-theme-ui-and-theme-ui',
-        path:
-          '/lessons/gatsby-add-theme-ui-to-a-gatsby-site-using-gatsby-plugin-theme-ui-and-theme-ui',
+        slug: 'gatsby-add-theme-ui-to-a-gatsby-site-using-gatsby-plugin-theme-ui-and-theme-ui',
+        path: '/lessons/gatsby-add-theme-ui-to-a-gatsby-site-using-gatsby-plugin-theme-ui-and-theme-ui',
       },
       {
         title:
           'Add Support for Syntax Highlighting in a Gatsby Site with @theme-ui/prism',
-        slug:
-          'gatsby-add-support-for-syntax-highlighting-in-a-gatsby-site-with-theme-ui-prism',
-        path:
-          '/lessons/gatsby-add-support-for-syntax-highlighting-in-a-gatsby-site-with-theme-ui-prism',
+        slug: 'gatsby-add-support-for-syntax-highlighting-in-a-gatsby-site-with-theme-ui-prism',
+        path: '/lessons/gatsby-add-support-for-syntax-highlighting-in-a-gatsby-site-with-theme-ui-prism',
       },
       {
         title: 'Render Performant Images with the Gatsby StaticImage Component',
-        slug:
-          'gatsby-render-performant-images-with-the-gatsby-staticimage-component',
-        path:
-          '/lessons/gatsby-render-performant-images-with-the-gatsby-staticimage-component',
+        slug: 'gatsby-render-performant-images-with-the-gatsby-staticimage-component',
+        path: '/lessons/gatsby-render-performant-images-with-the-gatsby-staticimage-component',
       },
       {
         title: 'Process Images and Render them using GatsbyImage',
         slug: 'gatsby-process-images-and-render-them-using-gatsbyimage',
-        path:
-          '/lessons/gatsby-process-images-and-render-them-using-gatsbyimage',
+        path: '/lessons/gatsby-process-images-and-render-them-using-gatsbyimage',
       },
       {
         title: 'Add Image Support to SEO Component',
@@ -97,15 +84,15 @@ const landingPage: FunctionComponent<LandingProps> = () => {
 
   return (
     <>
-      <div className="mb-10 pb-10 xl:px-0 px-5 max-w-screen-xl mx-auto">
+      <div className="container pb-10 mt-5 mb-10">
         <div className="mt-10 mb-16 text-center">
           <div className="mb-10">
             <Image priority src={course.image} height="270" width="270" />
           </div>
-          <p className="text-lg md:text-2xl leading-6 text-gray-500">
+          <p className="text-lg leading-6 text-gray-500 md:text-2xl">
             Portfolio Project Challenge
           </p>
-          <h1 className="text-2xl md:text-4xl font-bold mt-2">
+          <h1 className="mt-2 text-2xl font-bold md:text-4xl">
             {course.title}
           </h1>
         </div>
@@ -116,7 +103,7 @@ const landingPage: FunctionComponent<LandingProps> = () => {
             label: 'Project Brief',
           }}
         >
-          <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+          <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
             {`As a developer, your GitHub is a huge step up from a bullet point list of buzzwords on a resume. However, your repos alone don't give much room to provide additional context around the other aspects of web development. 
 
 Your task is to use Gatsby to **build a portfolio site** that features your case studies. Make it performant and accessible out of the box, add SEO support so potential employers can find you with a quick search.
@@ -147,17 +134,17 @@ If you more ideas about what to include in your portfolio, check out [this artic
           </svg>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-16 mb-16">
-          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-2 shadow rounded-md border border-gray-100 sm:mr-0 md:mr-4">
+        <div className="grid grid-cols-1 mt-16 mb-16 md:grid-cols-3">
+          <div className="relative col-span-2 px-10 py-10 bg-white border border-gray-100 rounded-md shadow dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 sm:mr-0 md:mr-4">
             <div
-              className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+              className="absolute left-0 w-full h-3 -mt-5 rounded-t-lg rounded-b-none top-4 bg-gradient-to-r"
               style={{
                 background:
                   'linear-gradient(to right, #7b47a3 0%, #9290ff 100%)',
               }}
             />
-            <h1 className="sm:text-2xl text-xl font-bold mb-2">Performance</h1>
-            <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+            <h1 className="mb-2 text-xl font-bold sm:text-2xl">Performance</h1>
+            <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
               {`- The individual pages to the case studies need to be programmatically created from your GraphQL data using the File System Route API.
 - The index page of your portfolio site needs to include at least 3 case studies.
 
@@ -170,16 +157,16 @@ If you more ideas about what to include in your portfolio, check out [this artic
 `}
             </Markdown>
           </div>
-          <div className="relative px-10 py-10 bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-1 shadow rounded-md border border-gray-100 mt-4 md:mt-0">
+          <div className="relative col-span-1 px-10 py-10 mt-4 bg-white border border-gray-100 rounded-md shadow dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 md:mt-0">
             <div
-              className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+              className="absolute left-0 w-full h-3 -mt-5 rounded-t-lg rounded-b-none top-4 bg-gradient-to-r"
               style={{
                 background:
                   'linear-gradient(to right, #938cff 0%, #8440a8 100%)',
               }}
             />
-            <h1 className="sm:text-2xl text-xl font-bold mb-2">Standards</h1>
-            <Markdown className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0">
+            <h1 className="mb-2 text-xl font-bold sm:text-2xl">Standards</h1>
+            <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
               {`- The application uses Gatsby.
 
 - The application contains minimal bugs.
@@ -211,28 +198,28 @@ If you more ideas about what to include in your portfolio, check out [this artic
           </svg>
         </div>
 
-        <div className="relative bg-white dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 shadow rounded-md border border-gray-100 mt-16 mb-16 px-10 py-10">
+        <div className="relative px-10 py-10 mt-16 mb-16 bg-white border border-gray-100 rounded-md shadow dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200">
           <div
-            className="absolute rounded-t-lg rounded-b-none left-0 top-4 -mt-5 h-3 w-full bg-gradient-to-r"
+            className="absolute left-0 w-full h-3 -mt-5 rounded-t-lg rounded-b-none top-4 bg-gradient-to-r"
             style={{
               background: 'linear-gradient(to right, #7b47a3 0%, #9290ff 100%)',
             }}
           />
-          <h1 className="sm:text-2xl text-xl font-bold mb-2 text-center">
+          <h1 className="mb-2 text-xl font-bold text-center sm:text-2xl">
             Course Content
           </h1>
 
-          <div className="max-w-screen-sm m-auto pb-4">
+          <div className="max-w-screen-sm pb-4 m-auto">
             <ul className="mt-10">
               {course?.resources?.map((lesson: any) => {
                 return (
                   <li key={`${course.path}::${lesson.slug}`}>
-                    <div className="flex items-center leading-tight py-2">
+                    <div className="flex items-center py-2 leading-tight">
                       <Link href={lesson.path}>
-                        <a className="py-1 flex space-x-2 items-center dark:text-gray-100 text-gray-700 hover:text-blue-600 group">
+                        <a className="flex items-center py-1 space-x-2 text-gray-700 dark:text-gray-100 hover:text-blue-600 group">
                           {/* prettier-ignore */}
                           <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
-                          <Markdown className="prose dark:prose-dark md:dark:prose-lg-dark md:prose-lg text-gray-700 dark:text-gray-100 mt-0 text-base md:text-lg">
+                          <Markdown className="mt-0 text-base prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100 md:text-lg">
                             {lesson.title}
                           </Markdown>
                         </a>
@@ -264,16 +251,16 @@ If you more ideas about what to include in your portfolio, check out [this artic
           </svg>
         </div>
         <div>
-          <div className="mt-10 text-center pb-12">
-            <h1 className="text-2xl md:text-4xl font-bold pb-4">
+          <div className="pb-12 mt-10 text-center">
+            <h1 className="pb-4 text-2xl font-bold md:text-4xl">
               Did you complete the Portfolio Project Challenge?
             </h1>
-            <p className="text-lg md:text-2xl leading-6 text-gray-500">
+            <p className="text-lg leading-6 text-gray-500 md:text-2xl">
               Let us know what you built!
             </p>
 
             <a
-              className="inline-flex justify-center items-center px-6 py-4 font-semibold rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 mt-12"
+              className="inline-flex items-center justify-center px-6 py-4 mt-12 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700"
               title="Share on twitter"
               href="https://twitter.com/intent/tweet?text=I%20completed%20the%20Portfolio%20Project%20Challenge%20on%20%40eggheadio%20🙌"
               rel="noopener"
@@ -344,20 +331,20 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
           ],
         }}
       />
-      <div className="md:grid grid-cols-1 gap-5 justify-self-center space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="grid-cols-1 gap-5 space-y-5 md:grid justify-self-center md:space-y-0 dark:bg-gray-900">
         <div
           className={`bg-white grid grid-cols-8 h-full relative items-center overflow-hidden shadow rounded-md border border-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-200 col-span-8`}
         >
           <div
-            className="overflow-hidden sm:col-span-3 col-span-3 w-full h-full"
+            className="w-full h-full col-span-3 overflow-hidden sm:col-span-3"
             style={{
               background: `url(https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201104)`,
               backgroundSize: 'cover',
               backgroundPosition: '38%',
             }}
           />
-          <div className="sm:col-span-5 col-span-5 flex flex-col justify-start h-full px-12 py-12 pt-10">
-            <h1 className="sm:text-2xl text-xl font-bold mb-2">
+          <div className="flex flex-col justify-start h-full col-span-5 px-12 py-12 pt-10 sm:col-span-5">
+            <h1 className="mb-2 text-xl font-bold sm:text-2xl">
               {topic.label}
             </h1>
             {children}

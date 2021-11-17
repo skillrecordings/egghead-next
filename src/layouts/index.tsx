@@ -33,16 +33,18 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
         }}
         canonical={url}
       />
-      <article className="mx-auto max-w-screen-md lg:mt-14 md:mt-8 mt-3 mb-24">
-        {title && (
-          <h1 className="max-w-screen-md lg:text-6xl md:text-5xl sm:text-4xl text-3xl w-full font-extrabold mb-8 lg:mb-10 leading-tighter">
-            {title}
-          </h1>
-        )}
-        <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
-          {children}
-        </main>
-      </article>
+      <div className="container">
+        <article className="max-w-screen-md mx-auto mt-10 mb-16 lg:mt-24 md:mt-20">
+          {title && (
+            <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
+              {title}
+            </h1>
+          )}
+          <main className="mt-5 prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none">
+            {children}
+          </main>
+        </article>
+      </div>
     </>
   )
 }

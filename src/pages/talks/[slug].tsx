@@ -126,7 +126,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
         <script src="//cdn.bitmovin.com/player/web/8/bitmovinplayer.js" />
       </Head>
       <div>
-        <div className="bg-black -mt-3 sm:-mt-5 -mx-5">
+        <div className="bg-black">
           <style jsx>
             {`
               @media (min-width: 960px) {
@@ -143,9 +143,9 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
               }
             `}
           </style>
-          <div className="player-container w-full m-auto">
+          <div className="w-full m-auto player-container">
             <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white">
-              <div className="absolute w-full h-full top-0 left-0">
+              <div className="absolute top-0 left-0 w-full h-full">
                 <EggheadPlayer
                   ref={playerRef}
                   hls_url={hls_url}
@@ -160,45 +160,49 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
             </div>
           </div>
         </div>
-        <main className="max-w-screen-lg mx-auto pt-8">
-          <article>
-            <header className="mb-6">
-              <h1 className="text-2xl font-bold tracking-tight leading-tight">
-                {get(lesson, 'title')}
-              </h1>
-              <div className="mt-2 flex items-center">
-                <Link href={`/q/resources-by-${get(instructor, 'slug')}`}>
-                  <a className="text-base dark:text-gray-400 text-gray-800 hover:text-blue-600 transition-colors ease-in-out duration-300 flex items-center">
-                    {instructor.avatar_url && (
-                      <Image
-                        src={get(instructor, 'avatar_url')}
-                        width={32}
-                        height={32}
-                        alt={get(instructor, 'full_name')}
-                        className="rounded-full"
-                      />
-                    )}
-                    <span className="ml-1">{get(instructor, 'full_name')}</span>
-                  </a>
-                </Link>
-              </div>
-            </header>
-            <Markdown className="prose dark:prose-dark lg:dark:prose-lg-dark lg:prose-lg max-w-none text-gray-900">
-              {get(lesson, 'description')}
-            </Markdown>
-            {transcriptAvailable && (
-              <div className="sm:mt-16 mt-8">
-                <h3 className="text-lg font-bold tracking-tight leading-tight mb-4">
-                  Transcript
-                </h3>
-                <Transcript
-                  className="prose dark:prose-dark max-w-none text-gray-800"
-                  initialTranscript={transcript}
-                  enhancedTranscript={enhancedTranscript}
-                />
-              </div>
-            )}
-          </article>
+        <main className="container">
+          <div className="max-w-screen-lg py-8 mx-auto">
+            <article>
+              <header className="mb-6">
+                <h1 className="text-2xl font-bold leading-tight tracking-tight">
+                  {get(lesson, 'title')}
+                </h1>
+                <div className="flex items-center mt-2">
+                  <Link href={`/q/resources-by-${get(instructor, 'slug')}`}>
+                    <a className="flex items-center text-base text-gray-800 transition-colors duration-300 ease-in-out dark:text-gray-400 hover:text-blue-600">
+                      {instructor.avatar_url && (
+                        <Image
+                          src={get(instructor, 'avatar_url')}
+                          width={32}
+                          height={32}
+                          alt={get(instructor, 'full_name')}
+                          className="rounded-full"
+                        />
+                      )}
+                      <span className="ml-1">
+                        {get(instructor, 'full_name')}
+                      </span>
+                    </a>
+                  </Link>
+                </div>
+              </header>
+              <Markdown className="prose text-gray-900 dark:prose-dark lg:dark:prose-lg-dark lg:prose-lg max-w-none">
+                {get(lesson, 'description')}
+              </Markdown>
+              {transcriptAvailable && (
+                <div className="mt-8 sm:mt-16">
+                  <h3 className="mb-4 text-lg font-bold leading-tight tracking-tight">
+                    Transcript
+                  </h3>
+                  <Transcript
+                    className="prose text-gray-800 dark:prose-dark max-w-none"
+                    initialTranscript={transcript}
+                    enhancedTranscript={enhancedTranscript}
+                  />
+                </div>
+              )}
+            </article>
+          </div>
         </main>
       </div>
     </>

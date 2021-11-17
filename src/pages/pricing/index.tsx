@@ -29,8 +29,8 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
 
   return (
     <>
-      <div className="px-5 text-gray-900 dark:bg-gray-900 bg-gray-50 dark:text-white">
-        <header className="flex flex-col items-center py-16 text-center">
+      <div className="text-gray-900 dark:bg-gray-900 bg-gray-50 dark:text-white">
+        <header className="container flex flex-col items-center py-16 mt-5 text-center">
           <h1 className="max-w-screen-md text-2xl font-extrabold md:text-4xl leading-tighter">
             Build your Developer Project Portfolio and{' '}
             <span className="text-yellow-500 dark:text-yellow-300">
@@ -44,7 +44,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
             your portfolio
           </h2>
         </header>
-        <main className="flex flex-col items-center">
+        <main className="container flex flex-col items-center">
           <PricingWidget />
           <Testimonials testimonials={testimonialsData} />
         </main>
