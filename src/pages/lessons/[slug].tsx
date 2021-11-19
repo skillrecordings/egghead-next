@@ -414,7 +414,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     // only execute the contents of this effect if the machine is in the
     // process of loading. Any other Player Machine state change should bail
     // early.
-    if (currentPlayerState !== 'loading') return
+    // if (currentPlayerState !== 'loading') return
 
     async function run() {
       console.debug('loading video with auth')
@@ -447,7 +447,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     })
 
     run()
-  }, [initialLesson.slug, currentPlayerState])
+  }, [initialLesson.slug])
 
   const numberOfComments = filter(
     comments,
