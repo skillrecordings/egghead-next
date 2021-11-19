@@ -1,18 +1,21 @@
 import React, {FunctionComponent} from 'react'
-import {NextSeo} from 'next-seo'
-import Home from 'components/pages/home'
-import groq from 'groq'
-import {get} from 'lodash'
+import {loadHolidayCourses, holidaySaleOn} from 'lib/holiday-sale'
 import {sanityClient} from 'utils/sanity-client'
-import staticHomePageData from 'components/pages/home/homepage-data'
-import {digitalGardeningQuery} from './learn/digital-gardening'
-import {developerPortfolioQuery} from './learn/developer-portfolio'
+import Home from 'components/pages/home'
+import {NextSeo} from 'next-seo'
+import find from 'lodash/find'
+import get from 'lodash/get'
+import groq from 'groq'
 
-const IndexPage: FunctionComponent = ({homePageData}: any) => {
-  let courseOgImage = get(
-    homePageData,
-    'featureWhatsNew.primary.resources[0].mainOgImage',
+const HomePage: FunctionComponent<any> = ({data, holidayCourses}) => {
+  const location = 'home landing'
+  const jumbotron = find(data.sections, {slug: 'jumbotron'})
+  const ogImage = get(
+    jumbotron,
+    'resources[0].ogImage',
+    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png',
   )
+
   return (
     <>
       <NextSeo
@@ -20,111 +23,66 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
         openGraph={{
           images: [
             {
-              url: courseOgImage
-                ? courseOgImage
-                : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1632239045/og-image-assets/egghead-og-image.png',
+              url: ogImage,
+              alt: 'Concise Programming Courses for Busy Web Developers',
             },
           ],
         }}
       />
-      <main className="bg-gray-50 dark:bg-gray-900">
-        <div className="container">
-          <Home homePageData={homePageData} />
-        </div>
-      </main>
+      <div className="dark:bg-gray-900 bg-gray-100">
+        <Home
+          data={data}
+          holidayCourses={holidayCourses}
+          jumbotron={jumbotron}
+          location={location}
+        />
+      </div>
     </>
   )
 }
 
-export default IndexPage
+export default HomePage
 
-export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "whats-new"][0]{
-  title,
-	'primary': resources[slug.current == 'new-page-primary-resource-collection'][0]{
- 		resources[]->{
-      title,
-      'name': type,
-      'description': summary,
-    	path,
-      byline,
-    	image,
-      'background': images[label == 'banner-image-blank'][0].url,
-      'featureCardBackground': images[label == 'feature-card-background'][0].url,
-      'mainOgImage': images[label == 'main-og-image'][0].url,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
-        title,
-        'slug': person->slug.current,
-        'name': person->name,
-        'path': person->website,
-        'twitter': person->twitter,
-        'image': person->image.url
-  		},
-    }
-  },
-	'secondary': resources[slug.current == 'new-page-secondary-resource-collection'][0]{
-    resources[]{
-      title,
-      'name': type,
-      'description': summary,
-      path,
-      byline,
-      image,
-      'instructor': collaborators[]->[role == 'instructor'][0]{
-        title,
-        'slug': person->slug.current,
-        'name': person->name,
-        'path': person->website,
-        'twitter': person->twitter,
-        'image': person->image.url
-  		},
-    }
-  },
-}`
-
-export const homePageFeatures = groq`*[_type == 'resource' && slug.current == "home-page"][0]{
-  'features': resources[]-> {
+const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-home-page"][0]{
     title,
-    slug,
-    name,
-    subTitle,
-    path,
-    resources[]->{
+    'sections': resources[]{
+      'id': _id,
       title,
-      'description': summary,
-      path,
-      'byline': meta,
+      'slug': slug.current,
       image,
-      byline,
-    },
-      related[]->{
-      title,
-      'description': summary,
       path,
-      'byline': meta,
-      image,
-      byline
+      description,
+      'topics': resources[]{
+        'id': _id,
+        title,
+        path,
+        image,
+      },
+      resources[]->{
+        'id': _id,
+        title,
+        'name': type,
+        'description': summary,
+        path,
+        image,
+        images,
+        'ogImage': images[label == 'main-og-image'][0].url,
+        'instructor': collaborators[]->[role == 'instructor'][0]{
+            'name': person->name,
+            'image': person->image.url
+            },
+        }
     }
-  }
-}`
-
-const featureQuery = groq`
-{
-  'featureDigitalGardening': ${digitalGardeningQuery},
-  'featureWhatsNew': ${whatsNewQuery},
-  'homePageFeatures': ${homePageFeatures},
-  'featureDeveloperPortfolio': ${developerPortfolioQuery},
-}
-`
+  }`
 
 export async function getStaticProps() {
-  const sanityHomePageData = await sanityClient.fetch(featureQuery)
+  const data = await sanityClient.fetch(homepageQuery)
+  const holidayCourses = holidaySaleOn ? await loadHolidayCourses() : {}
 
   return {
     props: {
-      homePageData: {
-        ...staticHomePageData,
-        ...sanityHomePageData,
-      },
+      holidayCourses,
+      data,
     },
   }
 }
