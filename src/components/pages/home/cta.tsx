@@ -16,7 +16,7 @@ type HeaderProps = {
   }
 }
 
-const Header: FunctionComponent<HeaderProps> = ({
+const CTA: FunctionComponent<HeaderProps> = ({
   heading = `Craft your developer portfolio and get a better job in 2021`,
   subheading = `learn modern frameworks, libraries, and tools to build real-world projects and improve your public body of work to shine as a professional web developer`,
   primaryCta = {label: 'Create an account', url: '/login'},
@@ -65,4 +65,4 @@ const Header: FunctionComponent<HeaderProps> = ({
   )
 }
 
-export default Header
+export default CTA
