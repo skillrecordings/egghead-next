@@ -137,7 +137,7 @@ const Jumbotron: React.FC<any> = ({data}) => {
   const resource = data.resources[0]
   return (
     <ResourceLink location="jumbotron" path={resource.path} className="group">
-      <header className="md:aspect-w-16 md:aspect-h-6 relative rounded-b-lg text-white ">
+      <header className="md:aspect-w-16 md:aspect-h-6 relative h-full rounded-b-lg text-white ">
         <div className="flex items-center justify-center relative z-10 md:pb-16 pb-32 md:px-0 px-5 md:pt-0 pt-10">
           <div className="w-full max-w-screen-md flex md:flex-row flex-col items-center justify-center md:text-left text-center ">
             <div
@@ -192,6 +192,7 @@ const Jumbotron: React.FC<any> = ({data}) => {
           alt=""
           src={data.image}
           layout="fill"
+          priority={true}
           quality={100}
           className="pointer-events-none md:object-contain object-cover"
         />
