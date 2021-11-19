@@ -1,9 +1,8 @@
 import * as React from 'react'
 import useLastResource from 'hooks/use-last-resource'
-import {find, isEmpty} from 'lodash'
+import {isEmpty} from 'lodash'
 import Link from 'next/link'
 import Image from 'next/image'
-import homepageData from 'components/pages/home/homepage-data'
 import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
@@ -87,8 +86,6 @@ const Support: React.FC = () => {
 }
 
 const PopularTopics: React.FC = () => {
-  const topics: any = find(homepageData, {id: 'topics'})
-
   return (
     <div>
       <h4 className="text-lg font-semibold pb-4 text-center">
@@ -288,5 +285,64 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
     </div>
   )
 }
+
+const topics: any = [
+  {
+    title: 'React',
+    path: '/q/react',
+    slug: 'react',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/026/thumb/react.png',
+  },
+  {
+    title: 'JavaScript',
+    path: '/q/javascript',
+    slug: 'javascript',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
+  },
+  {
+    title: 'CSS',
+    path: '/q/css',
+    slug: 'css',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/175/square_480/csslang.png',
+  },
+  {
+    title: 'Angular',
+    path: '/q/angular',
+    slug: 'angular',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/300/thumb/angular2.png',
+  },
+  {
+    title: 'Node',
+    path: '/q/node',
+    slug: 'node',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/256/thumb/nodejslogo.png',
+  },
+  {
+    title: 'TypeScript',
+    path: '/q/typescript',
+    slug: 'typescript',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/377/thumb/typescriptlang.png',
+  },
+  {
+    title: 'GraphQL',
+    path: '/q/graphql',
+    slug: 'graphql',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/034/thumb/graphqllogo.png',
+  },
+  {
+    title: 'AWS',
+    path: '/q/aws',
+    slug: 'aws',
+    image:
+      'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/090/thumb/aws.png',
+  },
+]
 
 export default ConfirmMembership
