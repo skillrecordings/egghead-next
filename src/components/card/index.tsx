@@ -162,7 +162,7 @@ const CardAuthor = React.forwardRef(function CardPreview(
         </div>
       )}
       <span className="text-left pl-2 dark:text-indigo-100 text-gray-700 sm:text-sm text-[0.65rem] opacity-80 leading-none">
-        <span className="sr-only">{resource.name} by </span>
+        <span className="sr-only">{resource?.name} by </span>
         {instructor.name}
       </span>
     </Comp>
