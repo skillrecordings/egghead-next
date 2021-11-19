@@ -100,7 +100,7 @@ const ExistingMemberConfirmation: React.FC<{
       <Header
         heading={<>Thank you so much for joining egghead!</>}
         primaryMessage={
-          <>
+          <div className="flex flex-col items-center">
             <p className="text-lg text-center">
               We've charged your credit card{' '}
               <strong>${session.amount} for your egghead membership</strong> and
@@ -111,7 +111,7 @@ const ExistingMemberConfirmation: React.FC<{
               courses, talks, podcasts, articles, and more. Enjoy!
             </p>
             <button
-              className="px-10 py-4 mt-5 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105"
+              className="mt-8 px-10 py-4 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 self-center"
               onClick={(_e) => {
                 track('clicked watch lesson', {
                   location: 'pay and play on lesson',
@@ -122,7 +122,7 @@ const ExistingMemberConfirmation: React.FC<{
             >
               Watch this Lesson
             </button>
-          </>
+          </div>
         }
       />
     </>
