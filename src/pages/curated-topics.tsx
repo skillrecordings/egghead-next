@@ -21,6 +21,7 @@ import {useRouter} from 'next/router'
 import {Form, Formik} from 'formik'
 import {NextSeo} from 'next-seo'
 import ReactMarkdown from 'react-markdown'
+import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 
 const CuratedTopics: FunctionComponent<any> = ({data, holidayCourses}) => {
   const location = 'home landing'
@@ -95,15 +96,25 @@ const CuratedTopics: FunctionComponent<any> = ({data, holidayCourses}) => {
                       </div>
                     )}
                     <Grid>
-                      {section.resources.map((resource: CardResource) => {
-                        return (
-                          <VerticalResourceCard
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                      })}
+                      {section.resources.map(
+                        (resource: CardResource, i: number) => {
+                          // if there are only 3 resources, the first one will use HorizontalResourceCard
+                          return section.resources.length === 3 && i === 0 ? (
+                            <HorizontalResourceCard
+                              className="col-span-2"
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          ) : (
+                            <VerticalResourceCard
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        },
+                      )}
                     </Grid>
                     {section.path && (
                       <div className="flex justify-end mt-3">
