@@ -27,7 +27,7 @@ const IndexPage: FunctionComponent = ({homePageData}: any) => {
           ],
         }}
       />
-      <main className="pt-8 bg-gray-50 dark:bg-gray-900">
+      <main className="bg-gray-50 dark:bg-gray-900">
         <div className="container">
           <Home homePageData={homePageData} />
         </div>
@@ -46,7 +46,7 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
       'name': type,
       'description': summary,
     	path,
-      'byline': meta,
+      byline,
     	image,
       'background': images[label == 'banner-image-blank'][0].url,
       'featureCardBackground': images[label == 'feature-card-background'][0].url,
@@ -63,11 +63,20 @@ export const whatsNewQuery = groq`*[_type == 'resource' && slug.current == "what
   },
 	'secondary': resources[slug.current == 'new-page-secondary-resource-collection'][0]{
     resources[]{
-      'name': type,
       title,
+      'name': type,
+      'description': summary,
       path,
       byline,
       image,
+      'instructor': collaborators[]->[role == 'instructor'][0]{
+        title,
+        'slug': person->slug.current,
+        'name': person->name,
+        'path': person->website,
+        'twitter': person->twitter,
+        'image': person->image.url
+  		},
     }
   },
 }`

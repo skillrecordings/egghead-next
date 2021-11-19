@@ -23,12 +23,17 @@ const VerticalResourceCard: React.FC<{
   children,
   resource,
   location,
-  className = 'border-none flex flex-col items-center justify-center text-center sm:py-8 py-6',
+  className = 'bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 border-none flex flex-col items-center justify-center text-center sm:py-8 py-6',
   describe = false,
   ...props
 }) => {
   return (
-    <Card {...props} className={className}>
+    <Card
+      {...props}
+      className={
+        'bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 border-none flex flex-col items-center justify-center text-center sm:py-8 py-6'
+      }
+    >
       {resource.image && resource.path ? (
         <ResourceLink path={resource.path} location={location} linkType="image">
           <PreviewImage image={resource.image} title={resource.title} />
