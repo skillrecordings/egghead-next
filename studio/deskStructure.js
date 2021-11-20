@@ -3,6 +3,7 @@ import blog from './src/structure/blog'
 import caseStudies from './src/structure/caseStudies'
 import portfolio from './src/structure/portfolio'
 import feature from './src/structure/feature'
+import pages from './src/structure/pages'
 
 const hiddenDocTypes = (listItem) =>
   ![
@@ -26,4 +27,5 @@ export default () =>
       portfolio,
       feature,
       caseStudies,
+      pages,
     ])

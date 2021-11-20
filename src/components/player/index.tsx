@@ -107,6 +107,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           const player: HTMLVideoElement = event.target as HTMLVideoElement
           setPlayerPrefs({volumeRate: player.volume * 100})
         }}
+        rootElement={containerRef?.current}
         {...props}
       >
         <BigPlayButton position="center" />

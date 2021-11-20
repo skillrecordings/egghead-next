@@ -15,6 +15,7 @@ const stripeCheckoutRedirect = async (options: {
   authToken?: string
   quantity?: number
   coupon?: string
+  successPath?: string
 }) => {
   const {
     priceId,
@@ -23,6 +24,7 @@ const stripeCheckoutRedirect = async (options: {
     authToken,
     coupon,
     quantity = 1,
+    successPath,
   } = options
   const referralCookieToken = cookie.get('rc')
 
@@ -34,6 +36,11 @@ const stripeCheckoutRedirect = async (options: {
         email,
       }
 
+  const defaultSuccessPath = '/confirm/membership'
+  const successUrl = `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${
+    successPath || defaultSuccessPath
+  }?session_id={CHECKOUT_SESSION_ID}`
+
   return await axios
     .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/subscription`, {
       ...identifier,
@@ -42,7 +49,7 @@ const stripeCheckoutRedirect = async (options: {
       coupon,
       site: 'egghead.io',
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-      success_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/confirm/membership?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: successUrl,
       cancel_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing?stripe=cancelled`,
       metadata: {
         ...(!!referralCookieToken && {referralCookieToken}),
