@@ -79,7 +79,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
             children
           ) : (
             <>
-              <h2 className="w-2/3 mx-auto text-3xl font-bold leading-10 text-center">
+              <h2 className="w-2/3 mx-auto lg:text-3xl sm:text-2xl text-xl font-bold leading-10 text-center">
                 Sign in or create a free account
               </h2>
             </>
