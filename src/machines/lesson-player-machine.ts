@@ -41,6 +41,7 @@ export type PlayerStateEvent =
   | {type: 'LOAD'; lesson: any; viewer: any}
   | {type: 'RECOMMEND'}
   | {type: 'ADD_NOTE'}
+  | {type: 'done.invoke.fetchLessonDataService'; data: any}
 
 interface PlayerContext {
   lesson: any
@@ -66,17 +67,29 @@ export const playerMachine = Machine<
             },
           }),
         ],
-        on: {
-          LOADED: 'loaded',
+        invoke: {
+          id: 'fetchLessonDataService',
+          src: 'loadLesson',
+          onDone: {
+            target: 'loaded',
+            actions: ['assignLessonData'],
+          },
+          onError: {},
         },
       },
       loaded: {
         entry: [
-          assign({
-            lesson: (_, event: any) => event.lesson,
-            viewer: (_, event: any) => {
-              return event.viewer
-            },
+          assign((_, event: any) => {
+            const assignment: {viewer?: any; lesson?: any} = {}
+
+            if (event.lesson) {
+              assignment['lesson'] = event.lesson
+            }
+            if (event.viewer) {
+              assignment['viewer'] = event.viewer
+            }
+
+            return assignment
           }),
           'logLesson',
         ],
@@ -332,6 +345,18 @@ export const playerMachine = Machine<
         //     },
         //   },
         // })
+      },
+      assignLessonData: assign((_, event) => {
+        if (event.type !== 'done.invoke.fetchLessonDataService') return {}
+
+        return {lesson: event.data}
+      }),
+    },
+    services: {
+      loadLesson: () => {
+        throw new Error(
+          "The LessonPlayerMachine's interpreter must implement `loadLesson`.",
+        )
       },
     },
   },
