@@ -54,7 +54,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
       className={
         className
           ? className
-          : 'w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center text-gray-900 dark:text-gray-100'
+          : 'container md:py-32 py-16 flex flex-col items-center justify-center text-gray-900 dark:text-gray-100'
       }
     >
       {image}
@@ -64,12 +64,12 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
         }`}
       >
         {isSubmitted && (
-          <h2 className="text-center text-3xl leading-9 font-bold">
+          <h2 className="text-3xl font-bold leading-9 text-center">
             Email Sent
           </h2>
         )}
         {isError && (
-          <h2 className="text-center text-3xl leading-9 font-bold">
+          <h2 className="text-3xl font-bold leading-9 text-center">
             Something went wrong!
           </h2>
         )}
@@ -79,7 +79,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
             children
           ) : (
             <>
-              <h2 className="text-center text-3xl font-bold w-2/3 mx-auto leading-10">
+              <h2 className="w-2/3 mx-auto lg:text-3xl sm:text-2xl text-xl font-bold leading-10 text-center">
                 Sign in or create a free account
               </h2>
             </>
@@ -120,14 +120,14 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                       <form onSubmit={handleSubmit} className={formClassName}>
                         <label
                           htmlFor="email"
-                          className="block leading-5 text-sm font-semibold"
+                          className="block text-sm font-semibold leading-5"
                         >
                           {label}
                         </label>
-                        <div className="mt-1 relative rounded-md shadow-sm">
-                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <div className="relative mt-1 rounded-md shadow-sm">
+                          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg
-                              className="h-5 w-5 text-gray-400"
+                              className="w-5 h-5 text-gray-400"
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 20 20"
                               fill="currentColor"
@@ -144,38 +144,38 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             onChange={handleChange}
                             onBlur={handleBlur}
                             placeholder="you@company.com"
-                            className="py-3 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-blue-500 block w-full pl-10 border-gray-300 rounded-md"
+                            className="block w-full py-3 pl-10 text-gray-900 placeholder-gray-400 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-blue-500"
                             required
                           />
                         </div>
 
                         <div className="flex flex-col space-y-2">
-                          <div className="flex justify-center items-center w-full">
+                          <div className="flex items-center justify-center w-full">
                             <button
                               type="submit"
                               disabled={isSubmitting}
-                              className="w-full mt-2 transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium py-3 px-5 rounded-md"
+                              className="w-full px-5 py-3 mt-2 font-medium text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800"
                             >
                               {button}
                             </button>
                           </div>
-                          <p className="font-bold text-sm text-center uppercase text-gray-500 dark:text-gray-400">
+                          <p className="text-sm font-bold text-center text-gray-500 uppercase dark:text-gray-400">
                             or
                           </p>
                           <ExternalTrackedLink
                             href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
                             eventName="clicked github login"
-                            className="flex justify-center mt-4 py-3 px-5 text-white bg-gray-800 hover:bg-gray-700 active:bg-gray-600 rounded-md font-medium transition-all ease-in-out duration-300"
+                            className="flex justify-center px-5 py-3 mt-4 font-medium text-white transition-all duration-300 ease-in-out bg-gray-800 rounded-md hover:bg-gray-700 active:bg-gray-600"
                           >
                             <div className="flex items-center dark:text-gray-100">
-                              <span className="mr-2 flex items-center justify-center">
+                              <span className="flex items-center justify-center mr-2">
                                 <IconGithub className="fill-current" />
                               </span>
                               Sign In (or up) with GitHub
                             </div>
                           </ExternalTrackedLink>
                           <a
-                            className="pt-2 block text-center hover:text-blue-600 transition-colors ease-in-out duration-150 dark:text-gray-400 text-gray-600"
+                            className="block pt-2 text-center text-gray-600 transition-colors duration-150 ease-in-out hover:text-blue-600 dark:text-gray-400"
                             href="/login"
                             onClick={(e) => {
                               e.preventDefault()
@@ -192,8 +192,8 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
               </Formik>
             )}
             {isSubmitted && (
-              <div className="text-center leading-tight space-y-4">
-                <h3 className="text-xl leading-tighter font-semibold">
+              <div className="space-y-4 leading-tight text-center">
+                <h3 className="text-xl font-semibold leading-tighter">
                   Please check your inbox for your sign in link.
                 </h3>
                 <p>
