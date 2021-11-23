@@ -17,6 +17,16 @@ export default async function handler(
     path: '/channels',
     params: {filter_by_prefix: `private-${req.query.course}-`},
   })
+
+  // const courseChannel = await pusher.get({
+  //   path: `/channels/${req.query.course}`,
+  //   params: {info: 'subscription_count'}
+  // })
+
+  // const courseChannelData = await courseChannel.json()
+  //
+  // console.log(courseChannelData)
+
   if (channelData.status === 200) {
     const body = await channelData.json()
     const channelInfo = body.channels

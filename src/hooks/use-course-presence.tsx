@@ -22,22 +22,26 @@ export const useCoursePresence = (slug: string) => {
     if (contactId) {
       const channelName = `private-${slug}-${contactId}`
       pusher.subscribe(channelName)
-    } else {
-      setCount(1)
     }
+
+    pusher.subscribe(slug)
 
     async function checkChannels() {
       const channels = await axios.get(`/api/pusher/channels/${slug}`)
-      setCount(keys(channels.data).length)
+      let newCount = keys(channels.data).length
+      if (!contactId) newCount++
+      setCount(newCount)
     }
 
-    setTimeout(checkChannels, 750)
+    const intervalId = setInterval(checkChannels, 750)
 
     return () => {
       if (contactId) {
         const channelName = `private-${slug}-${contactId}`
         pusher.unsubscribe(channelName)
       }
+      clearInterval(intervalId)
+      pusher.unsubscribe(slug)
     }
   }, [contactId, slug])
 
