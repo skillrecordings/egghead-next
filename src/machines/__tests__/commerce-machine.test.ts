@@ -43,6 +43,67 @@ const pricingResponseWithPPPAvailable = {
   ],
 }
 
+const pricingResponseWithDefaultApplied = {
+  mode: 'individual',
+  quantity: 1,
+  applied_coupon: {
+    coupon_discount: 0.5,
+    coupon_code: 'QJVIXHB6',
+    coupon_expires_at: 1639814399,
+    default: true,
+    coupon_region_restricted: false,
+  },
+  coupon_code_errors: [],
+  available_coupons: {
+    default: {
+      coupon_discount: 0.5,
+      coupon_code: 'QJVIXHB6',
+      coupon_expires_at: 1639814399,
+      default: true,
+      coupon_region_restricted: false,
+    },
+    ppp: {
+      coupon_discount: 0.6,
+      coupon_code: 'Y48OGYPR',
+      coupon_expires_at: 1637662621,
+      default: false,
+      price_message: 'Restricted Regional Pricing (BR)',
+      coupon_region_restricted: true,
+      coupon_region_restricted_to: 'BR',
+      coupon_region_restricted_to_name: 'Brazil',
+    },
+  },
+  plans: [
+    {
+      name: 'Monthly',
+      price: 25,
+      interval: 'month',
+      interval_count: 1,
+      stripe_price_id: 'price_monthly_id',
+      price_discounted: 12,
+      price_savings: 13,
+    },
+    {
+      name: 'Quarterly',
+      price: 70,
+      interval: 'month',
+      interval_count: 3,
+      stripe_price_id: 'price_quarterly_id',
+      price_discounted: 35,
+      price_savings: 35,
+    },
+    {
+      name: 'Yearly',
+      price: 250,
+      interval: 'year',
+      interval_count: 1,
+      stripe_price_id: 'price_yearly_id',
+      price_discounted: 125,
+      price_savings: 125,
+    },
+  ],
+}
+
 test('it starts fetching pricing immediately', () => {
   const commerceService = interpret(commerceMachine)
 
@@ -140,6 +201,27 @@ test('it can apply PPP coupon when available', async () => {
   // TODO: Update the machine to set the priceId once pricing data loads. It
   // doesn't make sense for it to be undefined once it is in `pricesLoaded`.
   expect(commerceService.state.context.priceId).toEqual(undefined)
+})
+
+test('it recognizes an applied default coupon', async () => {
+  const mockedCommerceMachine = commerceMachine.withConfig({
+    services: {
+      fetchPricingData: async (_context) => {
+        return Promise.resolve(pricingResponseWithDefaultApplied)
+      },
+    },
+  })
+
+  const commerceService = interpret(mockedCommerceMachine)
+
+  commerceService.start()
+
+  await sleep(0)
+
+  // expect(commerceService.state.context.priceId).toEqual(undefined)
+  expect(commerceService.state.context.couponToApply?.couponCode).toEqual(
+    'QJVIXHB6',
+  )
 })
 
 test('it switches price without going back to loadingPrices', () => {
