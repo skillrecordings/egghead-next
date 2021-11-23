@@ -48,8 +48,8 @@ export const useCoursePresence = (slug: string) => {
     if (!slug) return
 
     async function checkChannels() {
-      const channels = await axios.get(`/api/pusher/channels/${slug}`)
-      setLearners(channels.data)
+      // const channels = await axios.get(`/api/pusher/channels/${slug}`)
+      // setLearners(channels.data)
     }
 
     const intervalId = setInterval(checkChannels, 60000)
