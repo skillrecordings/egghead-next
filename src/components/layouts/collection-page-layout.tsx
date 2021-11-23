@@ -31,9 +31,6 @@ import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 
 import LoginForm from 'pages/login'
-import {useCoursePresence} from '../../hooks/use-course-presence'
-import {useViewer} from '../../context/viewer-context'
-import ActiveLearners from '../pages/courses/active-learners'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -501,8 +498,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     )}
                   </div>
                 </div>
-
-                <ActiveLearners courseSlug={course.slug} />
 
                 <div className="flex flex-row space-x-3 text-sm opacity-80 md:items-start">
                   {created_at && (
