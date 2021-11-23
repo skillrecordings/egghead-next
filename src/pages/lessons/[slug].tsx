@@ -49,7 +49,6 @@ import GoProCtaOverlay from 'components/pages/lessons/overlay/go-pro-cta-overlay
 import WatchFullCourseCtaOverlay from '../../components/pages/lessons/overlay/watch-full-course-cta-overlay'
 import WatchNextLessonCtaOverlay from '../../components/pages/lessons/overlay/watch-next-lesson-cta-overlay'
 import EmailCaptureCtaOverlay from '../../components/pages/lessons/overlay/email-capture-cta-overlay'
-import {useCoursePresence} from '../../hooks/use-course-presence'
 
 const tracer = getTracer('lesson-page')
 

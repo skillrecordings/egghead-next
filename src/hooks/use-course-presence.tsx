@@ -30,7 +30,7 @@ export const useCoursePresence = (slug: string) => {
       setLearners(channels.data)
     }
 
-    const intervalId = setInterval(checkChannels, 20000)
+    const intervalId = setInterval(checkChannels, 60000)
 
     checkChannels()
 
