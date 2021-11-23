@@ -6,7 +6,7 @@ import axios from 'axios'
 import {keys} from 'lodash'
 
 export const useCoursePresence = (slug: string) => {
-  const [count, setCount] = React.useState<any>()
+  const [learners, setLearners] = React.useState<any[]>([])
   const {viewer} = useViewer()
 
   const contactId = viewer?.contact_id
@@ -27,12 +27,12 @@ export const useCoursePresence = (slug: string) => {
 
     async function checkChannels() {
       const channels = await axios.get(`/api/pusher/channels/${slug}`)
-      let newCount = keys(channels.data).length
-      if (!contactId) newCount++
-      setCount(newCount)
+      setLearners(channels.data)
     }
 
-    const intervalId = setInterval(checkChannels, 750)
+    const intervalId = setInterval(checkChannels, 20000)
+
+    checkChannels()
 
     return () => {
       if (contactId) {
@@ -42,5 +42,5 @@ export const useCoursePresence = (slug: string) => {
     }
   }, [contactId, slug])
 
-  return count
+  return learners
 }
