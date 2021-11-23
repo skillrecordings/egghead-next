@@ -69,6 +69,7 @@ export type Viewer = {
   id: number
   email: string
   contact_id: string
+  avatar_url: string
   name: string
   is_pro: boolean
   is_instructor: boolean

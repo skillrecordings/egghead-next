@@ -23,17 +23,12 @@ const VerticalResourceCard: React.FC<{
   children,
   resource,
   location,
-  className = 'bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 border-none flex flex-col items-center justify-center text-center sm:py-8 py-6',
+  className = 'flex flex-col items-center justify-center p-5 py-6 overflow-hidden text-center bg-white border-none rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-200 sm:py-8',
   describe = false,
   ...props
 }) => {
   return (
-    <Card
-      {...props}
-      className={
-        'bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 border-none flex flex-col items-center justify-center text-center sm:py-8 py-6'
-      }
-    >
+    <Card {...props} className={className}>
       {resource.image && resource.path ? (
         <ResourceLink path={resource.path} location={location} linkType="image">
           <PreviewImage image={resource.image} title={resource.title} />
@@ -43,20 +38,20 @@ const VerticalResourceCard: React.FC<{
       )}
       <CardContent>
         <CardHeader>
-          <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
+          <h2 className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
             {resource.name}
           </h2>
           <ResourceLink path={resource.path} location={location}>
-            <h3 className="text-lg font-bold leading-tighter py-3 dark:hover:text-blue-300 hover:text-blue-700">
+            <h3 className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700">
               {resource.title}
             </h3>
           </ResourceLink>
         </CardHeader>
-        <CardMeta className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
+        <CardMeta className="mt-1 mb-2 text-xs text-gray-600 dark:text-gray-300">
           {resource.byline}
         </CardMeta>
         {describe && (
-          <CardBody className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
+          <CardBody className="prose-sm prose dark:prose-dark dark:prose-dark-sm max-w-none">
             <Markdown>{resource.description}</Markdown>
           </CardBody>
         )}
