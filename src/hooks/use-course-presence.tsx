@@ -19,12 +19,11 @@ export const useCoursePresence = (slug: string) => {
       authEndpoint: '/api/pusher/auth',
     })
 
+    const channelName = `private-${slug}${contactId ?? `~${contactId}`}`
+
     if (contactId) {
-      const channelName = `private-${slug}-${contactId}`
       pusher.subscribe(channelName)
     }
-
-    pusher.subscribe(slug)
 
     async function checkChannels() {
       const channels = await axios.get(`/api/pusher/channels/${slug}`)
@@ -37,11 +36,9 @@ export const useCoursePresence = (slug: string) => {
 
     return () => {
       if (contactId) {
-        const channelName = `private-${slug}-${contactId}`
         pusher.unsubscribe(channelName)
       }
       clearInterval(intervalId)
-      pusher.unsubscribe(slug)
     }
   }, [contactId, slug])
 

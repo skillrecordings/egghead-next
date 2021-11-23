@@ -15,7 +15,7 @@ export default async function handler(
 ) {
   const channelData = await pusher.get({
     path: '/channels',
-    params: {filter_by_prefix: `private-${req.query.course}-`},
+    params: {filter_by_prefix: `private-${req.query.course}~`},
   })
 
   // const courseChannel = await pusher.get({
