@@ -418,11 +418,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   }, [currentPlayerState, session_id])
 
   React.useEffect(() => {
-    // only execute the contents of this effect if the machine is in the
-    // process of loading. Any other Player Machine state change should bail
-    // early.
-    // if (currentPlayerState !== 'loading') return
-
     async function run() {
       console.debug('loading video with auth')
       const loadedLesson = await loadLesson(initialLesson.slug)
@@ -455,6 +450,50 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
     run()
   }, [initialLesson.slug])
+
+  // TODO: Temporary duplication of the above useEffect to ensure the lesson is
+  // loaded when transitioning from the 'subscribing'/Thank You overlay to
+  // watching the lesson. If this loading process was moved into the machine as
+  // an Invoked Callback, then state transitions could be employed to handle
+  // what the useEffects are doing.
+  React.useEffect(() => {
+    // only execute the contents of this effect if the machine is in the
+    // process of loading. Any other Player Machine state change should bail
+    // early.
+    if (currentPlayerState !== 'loading') return
+
+    async function run() {
+      console.debug('loading video with auth')
+      const loadedLesson = await loadLesson(initialLesson.slug)
+      console.debug('authed video loaded', {video: loadedLesson})
+
+      send({
+        type: 'LOADED',
+        lesson: {...initialLesson, ...loadedLesson},
+        viewer,
+      })
+    }
+
+    if (cookieUtil.get(`egghead-watch-count`)) {
+      setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
+    } else {
+      setWatchCount(
+        Number(
+          cookieUtil.set(`egghead-watch-count`, 0, {
+            expires: 15,
+          }),
+        ),
+      )
+    }
+
+    send({
+      type: 'LOAD',
+      lesson: initialLesson,
+      viewer,
+    })
+
+    run()
+  }, [currentPlayerState])
 
   const numberOfComments = filter(
     comments,
