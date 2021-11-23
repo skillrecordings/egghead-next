@@ -11,7 +11,6 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import getTracer from '../../../utils/honeycomb-tracer'
 import {setupHttpTracing} from '../../../utils/tracing-js/dist/src'
-import {useCoursePresence} from '../../../hooks/use-course-presence'
 const tracer = getTracer('course-page')
 type CourseProps = {
   course: any
@@ -26,12 +25,6 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
 
   const {slug, lessons} = course
   const items = get(course, 'items', [])
-
-  const count = useCoursePresence(slug)
-
-  React.useEffect(() => {
-    if (count) console.log(`${count} learners watching this course right now`)
-  }, [count])
 
   const courseLessons = isEmpty(lessons)
     ? filter(items, (item) => {
