@@ -176,6 +176,7 @@
     "@types/lodash": "^4.14.172",
     "@types/mdx-js__react": "^1.5.4",
     "@types/node": "^16.6.2",
+    "@types/pluralize": "^0.0.29",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.19",
     "@types/react-instantsearch-dom": "^6.12.0",
