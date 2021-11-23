@@ -17,7 +17,7 @@ const ActiveLearners: React.FC<{courseSlug: string}> = ({courseSlug}) => {
             {take(
               filteredActiveLearners.map((learner: any) => {
                 return (
-                  <div>
+                  <div key={learner.avatar_url}>
                     <img
                       className="inline-block h-6 w-6 rounded-full "
                       src={learner.avatar_url}
