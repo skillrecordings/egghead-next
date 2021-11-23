@@ -19,7 +19,7 @@ export const useCoursePresence = (slug: string) => {
       authEndpoint: '/api/pusher/auth',
     })
 
-    const channelName = `private-${slug}${contactId ? `~${contactId}` : ''}`
+    const channelName = `private-${slug}${contactId ? `@@${contactId}` : ''}`
 
     if (contactId) {
       pusher.subscribe(channelName)
