@@ -218,12 +218,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const courseDependencies: any = getDependencies(collection?.slug)
   const {dependencies} = courseDependencies
 
-  const count = useCoursePresence(collection?.slug)
-
-  React.useEffect(() => {
-    if (count) console.log(`${count} learners watching this course right now`)
-  }, [count])
-
   const collectionTags = tags.map((tag: any) => {
     const version = get(dependencies, tag.name)
     return {

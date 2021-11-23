@@ -1,5 +1,7 @@
 import Pusher from 'pusher'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {loadContactAvatars} from 'lib/contacts'
+import {keys, last} from 'lodash'
 
 export const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID || '',
@@ -30,7 +32,14 @@ export default async function handler(
   if (channelData.status === 200) {
     const body = await channelData.json()
     const channelInfo = body.channels
-    res.json(channelInfo)
+
+    const contact_ids = keys(channelInfo).map((channel) => {
+      return last(channel.split('@@')) || ''
+    })
+
+    const users = await loadContactAvatars(contact_ids)
+    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    res.json(users)
   } else {
     res.end()
   }

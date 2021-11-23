@@ -31,7 +31,6 @@ import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 
 import LoginForm from 'pages/login'
-import {useCoursePresence} from '../../hooks/use-course-presence'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -123,12 +122,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
-
-  const count = useCoursePresence(course.slug)
-
-  React.useEffect(() => {
-    if (count) console.log(`${count} learners watching this course right now`)
-  }, [count])
 
   const defaultPairWithResources: any[] = take(
     [
@@ -504,14 +497,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       <PeopleCompleted count={watched_count} />
                     )}
                   </div>
-                </div>
-
-                <div className="flex flex-row space-x-3 text-sm opacity-80 md:items-start">
-                  {count > 1 && (
-                    <span>
-                      {count} learners are watching this course right now.
-                    </span>
-                  )}
                 </div>
 
                 <div className="flex flex-row space-x-3 text-sm opacity-80 md:items-start">
