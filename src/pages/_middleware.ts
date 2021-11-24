@@ -45,7 +45,7 @@ export async function middleware(req: NextRequest) {
       req.cookies[CIO_COOKIE_KEY] ||
       req.nextUrl.searchParams.get(CIO_COOKIE_KEY)
 
-    // if there's a cookie with a token they are logged in
+    // if there's a cookie or a token they are logged in
     let status = cioId || req.cookies[ACCESS_TOKEN_KEY] ? 'identified' : 'anon'
 
     switch (status) {
