@@ -7,6 +7,7 @@ const CIO_COOKIE_KEY = 'cio_id'
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
 const loadCio = async (cioId: string) => {
+  console.log('LOADING CIO ', cioId)
   const cioApiPath = `/customers/${cioId}/attributes`
   const headers = new Headers({
     Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
@@ -55,6 +56,9 @@ export async function middleware(req: NextRequest) {
       case 'identified':
         if (cioId) {
           const customer = await loadCio(cioId)
+
+          console.log('CIO Customer', customer)
+
           if (customer?.attributes?.pro === 'true') {
             response = NextResponse.next()
           } else if (customer?.attributes?.react_score > 1) {
