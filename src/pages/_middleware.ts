@@ -49,6 +49,8 @@ export async function middleware(req: NextRequest) {
     // if there's a cookie or a token they are logged in
     let status = cioId || req.cookies[ACCESS_TOKEN_KEY] ? 'identified' : 'anon'
 
+    console.log(req.cookies[CIO_COOKIE_KEY], req.nextUrl.searchParams)
+
     switch (status) {
       case 'anon':
         response = NextResponse.rewrite('/signup')
