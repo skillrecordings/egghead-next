@@ -15,10 +15,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const channelData = await pusher.get({
-    path: '/channels',
-    params: {filter_by_prefix: `private-${req.query.course}@@`},
-  })
+  // const channelData = await pusher.get({
+  //   path: '/channels',
+  //   params: {filter_by_prefix: `private-${req.query.course}@@`},
+  // })
 
   // const courseChannel = await pusher.get({
   //   path: `/channels/${req.query.course}`,
@@ -29,18 +29,20 @@ export default async function handler(
   //
   // console.log(courseChannelData)
 
-  if (channelData.status === 200) {
-    const body = await channelData.json()
-    const channelInfo = body.channels
+  // if (channelData.status === 200) {
+  //   const body = await channelData.json()
+  //   const channelInfo = body.channels
+  //
+  //   const contact_ids = keys(channelInfo).map((channel) => {
+  //     return last(channel.split('@@')) || ''
+  //   })
+  //
+  //   const users = await loadContactAvatars(contact_ids)
+  //   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+  //   res.json(users)
+  // } else {
+  //   res.end()
+  // }
 
-    const contact_ids = keys(channelInfo).map((channel) => {
-      return last(channel.split('@@')) || ''
-    })
-
-    const users = await loadContactAvatars(contact_ids)
-    res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-    res.json(users)
-  } else {
-    res.end()
-  }
+  res.json([])
 }
