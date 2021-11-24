@@ -7,15 +7,26 @@ const CIO_COOKIE_KEY = 'cio_id'
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
 const loadCio = async (cioId: string) => {
-  console.log('LOADING CIO ', cioId)
-  const cioApiPath = `/customers/${cioId}/attributes`
-  const headers = new Headers({
-    Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-  })
-  const request = new Request(`${CIO_BASE_URL}${cioApiPath}`, {headers})
-  const {customer} = await fetch(request).then((response) => response.json())
+  try {
+    console.log(
+      'LOADING CIO ',
+      cioId,
+      process.env.CUSTOMER_IO_APPLICATION_API_KEY,
+    )
+    const cioApiPath = `/customers/${cioId}/attributes`
+    const headers = new Headers({
+      Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+    })
+    const request = new Request(`${CIO_BASE_URL}${cioApiPath}`, {headers})
+    const {customer} = await fetch(request).then((response) => {
+      console.log('CUSTOMERIO RESPONSE', response)
+      return response.json()
+    })
 
-  return customer
+    return customer
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 /**
