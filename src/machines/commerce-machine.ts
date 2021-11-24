@@ -181,7 +181,8 @@ export const commerceMachine = createMachine<
             // check if there is a site-wide/'default' coupon being applied
             const appliedCoupon = pricingData?.applied_coupon
 
-            if (isEmpty(availableDefaultCoupon) && isEmpty(appliedCoupon)) {
+            // no applied default coupon found
+            if (isEmpty(availableDefaultCoupon) || isEmpty(appliedCoupon)) {
               return {}
             }
 
@@ -199,7 +200,7 @@ export const commerceMachine = createMachine<
               }
             }
 
-            // no applied default coupon found
+            // the applied coupon is not the site-wide/'default'
             return {}
           }
 
