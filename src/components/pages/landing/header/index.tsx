@@ -7,8 +7,9 @@ import HeroBgLight from './hero-bg-light.png'
 import HeroBgDark from './hero-bg-dark.png'
 import Image from 'next/image'
 import TechLogos from '../tech-logos'
+import title from 'title'
 
-const Header = () => {
+const Header: React.FC<{topic?: string}> = ({topic}) => {
   const {viewer} = useViewer()
   const {resolvedTheme} = useTheme()
   const [isMounted, setIsMounted] = React.useState(false)
@@ -39,7 +40,8 @@ const Header = () => {
         />
         <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
           <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter sm:max-w-[22ch]">
-            Concise Programming Courses for Busy Web Developers
+            Concise {title(topic || 'Programming')} Courses for Busy Web
+            Developers
           </h1>
           <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 lg:text-lg sm:text-base text-sm leading-tight">
             high-quality video tutorials and curated learning resources without

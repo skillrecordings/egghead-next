@@ -203,7 +203,7 @@ const PricingCta = () => {
   )
 }
 
-const Footer = () => {
+const Footer: React.FC<{topic?: string}> = ({topic}) => {
   return (
     <section className="container flex justify-center w-full py-12 sm:py-24">
       <PricingCta />
