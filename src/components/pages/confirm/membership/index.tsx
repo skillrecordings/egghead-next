@@ -92,7 +92,7 @@ const PopularTopics: React.FC = () => {
         Start with one of these popular topics
       </h4>
       <ul className="grid sm:grid-cols-4 grid-cols-2 gap-3">
-        {topics.map((topic: any) => (
+        {topics.map((topic) => (
           <li key={topic.path}>
             <Link href={topic.path}>
               <a className="px-6 pt-6 pb-5 rounded-lg dark:bg-gray-800 bg-white dark:hover:bg-gray-700 hover:shadow-lg border dark:border-transparent border-gray-200 border-opacity-50 flex flex-col items-center justify-center">
@@ -286,7 +286,14 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   )
 }
 
-const topics: any = [
+type Topic = {
+  title: string
+  path: string
+  slug: string
+  image: string
+}
+
+const topics: Topic[] = [
   {
     title: 'React',
     path: '/q/react',
