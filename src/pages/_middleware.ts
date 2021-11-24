@@ -8,20 +8,14 @@ const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
 const loadCio = async (cioId: string) => {
   try {
-    console.log('LOADING CIO ', cioId)
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
       Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
     })
-    const request = new Request(`${CIO_BASE_URL}${cioApiPath}`, {headers})
-
-    console.log('HEADERS', headers)
-    console.log('REQUEST', request)
 
     const {customer} = await fetch(`${CIO_BASE_URL}${cioApiPath}`, {
       headers,
     }).then((response) => {
-      console.log('CUSTOMERIO RESPONSE', response)
       return response.json()
     })
 
@@ -71,8 +65,6 @@ export async function middleware(req: NextRequest) {
       case 'identified':
         if (cioId) {
           const customer = await loadCio(cioId)
-
-          console.log('CIO Customer', customer)
 
           if (customer?.attributes?.pro === 'true') {
             response = NextResponse.next()
