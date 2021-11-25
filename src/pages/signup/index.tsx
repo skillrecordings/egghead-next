@@ -45,8 +45,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
     console.log(e)
   }
 
-  console.log('CUSTOMER', customer)
-
   res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
   return {
     props: {
