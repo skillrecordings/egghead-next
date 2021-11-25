@@ -20,6 +20,8 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
     setIsMounted(true)
   }, [])
 
+  console.log(customer)
+
   let Offer = () => (
     <>
       <CreateAccount location="homepage header" />
