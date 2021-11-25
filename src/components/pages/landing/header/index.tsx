@@ -20,6 +20,8 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
     setIsMounted(true)
   }, [])
 
+  console.log(customer)
+
   let Offer = () => (
     <>
       <CreateAccount location="homepage header" />
@@ -57,8 +59,8 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
         />
         <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
           <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter sm:max-w-[22ch]">
-            Concise {title(topic || 'Full Stack')} Courses for Busy Web
-            Developers
+            Concise {title(topic?.replace('_', ' ') ?? 'Full Stack')} Courses
+            for Busy Web Developers
           </h1>
           <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 lg:text-lg sm:text-base text-sm leading-tight">
             high-quality video tutorials and curated learning resources with

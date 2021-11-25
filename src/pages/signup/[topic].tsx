@@ -6,6 +6,7 @@ import Footer from 'components/pages/landing/footer'
 import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from '../../utils/tracing-js/dist/src'
 import getTracer from '../../utils/honeycomb-tracer'
+import {loadCio} from '../../lib/customer'
 
 const tracer = getTracer('signup-topic-page')
 
@@ -36,6 +37,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   req,
   res,
   params,
+  query,
 }) {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
 
@@ -44,17 +46,26 @@ export const getServerSideProps: GetServerSideProps = async function ({
   try {
     if (req.cookies.customer) {
       customer = JSON.parse(req.cookies.customer)
+    } else if (query.cio_id) {
+      customer = await loadCio(query.cio_id as string, req.cookies.customer)
     }
   } catch (e) {
     console.log(e)
   }
 
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  return {
-    props: {
-      topic: params?.topic,
-      customer,
-    },
+  if (customer) {
+    return {
+      props: {
+        topic: params?.topic,
+        customer,
+      },
+    }
+  } else {
+    return {
+      props: {
+        topic: params?.topic,
+      },
+    }
   }
 }
 

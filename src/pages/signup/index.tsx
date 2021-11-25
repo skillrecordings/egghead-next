@@ -3,16 +3,11 @@ import Header from 'components/pages/landing/header'
 import Article from 'components/pages/landing/article/index.mdx'
 import MembershipBenefits from 'components/pages/landing/membership-benefits'
 import Footer from 'components/pages/landing/footer'
-import {GetServerSideProps} from 'next'
-import {setupHttpTracing} from '../../utils/tracing-js/dist/src'
-import getTracer from '../../utils/honeycomb-tracer'
 
-const tracer = getTracer('signup-topic-page')
-
-const NewHome: React.FC<{customer?: any}> = ({customer}) => {
+const NewHome: React.FC = () => {
   return (
     <>
-      <Header customer={customer} />
+      <Header />
       <main className="pt-16">
         <Article />
         <section>
@@ -27,30 +22,6 @@ const NewHome: React.FC<{customer?: any}> = ({customer}) => {
       </main>
     </>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async function ({
-  req,
-  res,
-}) {
-  setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-
-  let customer
-
-  try {
-    if (req.cookies.customer) {
-      customer = JSON.parse(req.cookies.customer)
-    }
-  } catch (e) {
-    console.log(e)
-  }
-
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
-  return {
-    props: {
-      customer,
-    },
-  }
 }
 
 export default NewHome

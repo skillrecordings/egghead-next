@@ -1,40 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {ACCESS_TOKEN_KEY} from '../config'
+import {loadCio} from '../lib/customer'
 
 const PUBLIC_FILE = /\.(.*)$/
 
 const CIO_COOKIE_KEY = 'cio_id'
-const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
-
-const loadCio = async (cioId: string, customer?: any) => {
-  try {
-    if (customer) {
-      customer = JSON.parse(customer)
-      if (customer !== 'undefined' && customer?.id === cioId) {
-        return customer
-      }
-    }
-  } catch (error) {
-    console.log(error)
-  }
-
-  try {
-    const cioApiPath = `/customers/${cioId}/attributes`
-    const headers = new Headers({
-      Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-    })
-
-    const {customer} = await fetch(`${CIO_BASE_URL}${cioApiPath}`, {
-      headers,
-    }).then((response) => {
-      return response.json()
-    })
-
-    return customer
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 /**
  * with this approach, logged in users can be shown
@@ -86,7 +56,7 @@ export async function middleware(req: NextRequest) {
             } else if (customer.attributes?.react_score > 1) {
               response = NextResponse.rewrite('/signup/react')
             } else {
-              response = NextResponse.rewrite('/signup')
+              response = NextResponse.rewrite('/signup/full_stack')
             }
 
             if (customer) {
