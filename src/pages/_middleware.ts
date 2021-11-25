@@ -6,7 +6,15 @@ const PUBLIC_FILE = /\.(.*)$/
 const CIO_COOKIE_KEY = 'cio_id'
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
-const loadCio = async (cioId: string) => {
+const loadCio = async (cioId: string, customer?: any) => {
+  try {
+    if (customer) {
+      return JSON.parse(customer)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
   try {
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
@@ -64,7 +72,7 @@ export async function middleware(req: NextRequest) {
         break
       case 'identified':
         if (cioId) {
-          const customer = await loadCio(cioId)
+          const customer = await loadCio(cioId, req.cookies['customer'])
 
           if (customer?.attributes?.pro === 'true') {
             response = NextResponse.next()
