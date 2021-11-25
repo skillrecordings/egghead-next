@@ -1,3 +1,5 @@
+import title from 'title'
+
 <Byline>Your Time is precious</Byline>
 
 <H3>
@@ -48,7 +50,8 @@ Your time is precious. You're a professional.
 </Byline>
 
 <H3 className="max-w-lg">
-  Don't you wish you could jack into the Matrix and inject React directly to
+  Don't you wish you could jack into the Matrix and inject{' '}
+  {props.topic ? title(props.topic) : 'Full Stack Web Development'} directly to
   your brain?
 </H3>
 
@@ -60,7 +63,7 @@ But what if you had the next best thing?
 
 What if you could simply sit down and start learning? What if you could skip all the searching, the cobbling, the contradictory advice, the bugs, the forums, and the dead ends?
 
-What if you had on-demand experts avaliable to hand you the best, curated material on modern web development?
+What if you had on-demand experts available to hand you the best, curated material on modern web development?
 
 Think how much easier it would be for you to stay on the bleeding edge of our industry. With just 10-30 minutes a day, you'd be able to power through a major topic every week.
 
@@ -92,6 +95,15 @@ egghead is not a sloppy video marketplace or grab-bag of random content. We're a
 
 <Spacer />
 
+export const getListOfInstructors = (topic) => {
+  switch (topic) {
+    case 'react':
+      return `Dan Abramov, Kent C. Dodds, Jason Lengstorf, and Laurie Barth`
+    default:
+      return `Dan Abramov, Max Stoiber, and Marcy Sutton`
+  }
+}
+
 <List
   title={
     <strong className="block font-medium pb-3">
@@ -101,8 +113,8 @@ egghead is not a sloppy video marketplace or grab-bag of random content. We're a
   className="sm:p-10 p-5 md:-mx-10 sm:mx-0 -mx-5 sm:rounded-md dark:bg-gray-800 bg-gray-50"
 >
   <ListItemEmoji emoji={{image: HuggingFace, alt: 'hugging face emoji'}}>
-    Access to hundreds of courses by world-class folks like Dan Abramov, Kent C.
-    Dodds, Jason Lengstorf, and Laurie Barth
+    Access to hundreds of courses by world-class folks like{' '}
+    {getListOfInstructors(props.topic)}
   </ListItemEmoji>
   <ListItemEmoji emoji={{image: WingingFace, alt: 'winging face emoji'}}>
     Lessons designed to teach you exactly what you need to know, without any of
@@ -127,7 +139,12 @@ egghead is not a sloppy video marketplace or grab-bag of random content. We're a
 
 <Prose>
 
-And unlike book publishers, we move at the speed of the web. When you need the most up-to-date tutorials on React, we've got you covered.
+<div>
+  And unlike book publishers, we move at the speed of the web. When you need the
+  most up-to-date tutorials on{' '}
+  <span>{props.topic ? title(props.topic) : 'Full Stack Web Development'}</span>
+  , we've got you covered.
+</div>
 
 **We have over 5,500 lessons and 250+ courses, with new material released every week.**
 
@@ -137,7 +154,7 @@ Our courses will give you a comprehensive tour through a topic. They cover all t
 
 This means you can pick up individual skills anytime you want. New languages, frameworks, and libraries are easy to add to your professional toolkit.
 
-Learn at your desk, on the train, or in the bathroom – whenever and whereever you want. Videos, transcripts, and code examples are always avaliable – even offline.
+Learn at your desk, on the train, or in the bathroom – whenever and wherever you want. Videos, transcripts, and code examples are always available – even offline.
 
 And all of it is nop-notch quality. Your secret weapon to get ahead, shine at work, and build things you love.
 
