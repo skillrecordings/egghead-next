@@ -70,19 +70,28 @@ export async function middleware(req: NextRequest) {
         break
       case 'identified':
         if (cioId) {
-          const customer = await loadCio(cioId, req.cookies['customer'])
+          try {
+            const customer = await loadCio(cioId, req.cookies['customer'])
 
-          if (customer?.attributes?.pro === 'true') {
+            if (!customer) {
+              response = NextResponse.rewrite('/signup')
+            } else if (
+              customer.attributes?.pro === 'true' ||
+              customer.attributes?.instructor === 'true'
+            ) {
+              response = NextResponse.next()
+            } else if (customer.attributes?.react_score > 1) {
+              response = NextResponse.rewrite('/signup/react')
+            } else {
+              response = NextResponse.rewrite('/signup')
+            }
+
+            if (customer) {
+              response.cookie('customer', JSON.stringify(customer))
+              response.cookie(CIO_COOKIE_KEY, cioId)
+            }
+          } catch (_e) {
             response = NextResponse.next()
-          } else if (customer?.attributes?.react_score > 1) {
-            response = NextResponse.rewrite('/signup/react')
-          } else {
-            response = NextResponse.rewrite('/signup')
-          }
-
-          if (customer) {
-            response.cookie('customer', JSON.stringify(customer))
-            response.cookie(CIO_COOKIE_KEY, cioId)
           }
         }
         break
