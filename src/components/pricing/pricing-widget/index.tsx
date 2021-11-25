@@ -53,6 +53,8 @@ const PricingWidget: FunctionComponent<{}> = () => {
     !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
   const pppCouponEligible = quantity === 1
 
+  const appliedCoupon = get(state.context.pricingData, 'applied_coupon')
+
   // handlers
   const onApplyParityCoupon = () => {
     send('APPLY_PPP_COUPON')
@@ -122,6 +124,8 @@ const PricingWidget: FunctionComponent<{}> = () => {
           currentPlan={currentPlan}
           currentQuantity={quantity}
           loaderOn={loaderOn}
+          appliedCoupon={appliedCoupon}
+          isPPP={pppCouponIsApplied}
         />
       </div>
       {pppCouponAvailable && pppCouponEligible && (
@@ -135,7 +139,7 @@ const PricingWidget: FunctionComponent<{}> = () => {
           />
         </div>
       )}
-      <div className="flex items-center py-24 space-x-5">
+      <div className="flex sm:flex-row flex-col items-center py-24 sm:space-x-5 sm:space-y-0 space-y-5">
         <PoweredByStripe />
         <div className="text-sm">30 day money back guarantee</div>
       </div>
