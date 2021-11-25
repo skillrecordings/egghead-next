@@ -49,6 +49,7 @@ import GoProCtaOverlay from 'components/pages/lessons/overlay/go-pro-cta-overlay
 import WatchFullCourseCtaOverlay from '../../components/pages/lessons/overlay/watch-full-course-cta-overlay'
 import WatchNextLessonCtaOverlay from '../../components/pages/lessons/overlay/watch-next-lesson-cta-overlay'
 import EmailCaptureCtaOverlay from '../../components/pages/lessons/overlay/email-capture-cta-overlay'
+import cookies from 'utils/cookies'
 
 const tracer = getTracer('lesson-page')
 
@@ -345,7 +346,11 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
           // them in the `subscribing` state.
           send('SUBSCRIBE')
         } else {
-          if (isEmpty(viewer) && free_forever) {
+          if (
+            isEmpty(viewer) &&
+            isEmpty(cookies.get('customer')) &&
+            free_forever
+          ) {
             if (viewLimitNotReached && mediaPresent) {
               send('VIEW')
             } else {
