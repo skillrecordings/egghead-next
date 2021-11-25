@@ -9,7 +9,10 @@ const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 const loadCio = async (cioId: string, customer?: any) => {
   try {
     if (customer) {
-      return JSON.parse(customer)
+      customer = JSON.parse(customer)
+      if (customer !== 'undefined' && customer?.id === cioId) {
+        return customer
+      }
     }
   } catch (error) {
     console.log(error)
