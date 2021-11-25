@@ -73,6 +73,11 @@ export async function middleware(req: NextRequest) {
           } else {
             response = NextResponse.rewrite('/signup')
           }
+
+          if (customer) {
+            response.cookie('customer', JSON.stringify(customer))
+            response.cookie(CIO_COOKIE_KEY, cioId)
+          }
         }
         break
       default:
