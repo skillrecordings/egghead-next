@@ -6,6 +6,9 @@ import FiveStars from 'components/five-stars'
 import friendlyTime from 'friendly-time'
 import Image from 'next/image'
 import Markdown from '../../markdown'
+import queryString from 'query-string'
+import {useViewer} from 'context/viewer-context'
+import {IconTwitter} from 'components/share'
 
 const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   collection,
@@ -14,7 +17,8 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
     collection?.ratings_with_comment?.data || [],
   )
   const [loadingRatings, setLoadingRatings] = React.useState(true)
-  const {type, slug} = collection
+  const {type, slug, title, image_thumb_url} = collection
+  const {viewer} = useViewer()
 
   React.useEffect(() => {
     if (!isEmpty(ratings)) {
@@ -34,10 +38,27 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
       <ul className="space-y-5 md:space-y-0  md:grid-cols-2 grid gap-3">
         {ratings.map((rating: any) => {
           const {comment, rating_out_of_5, user, created_at} = rating
-
           const displayAdminContent =
             !rating.hidden &&
             (!isEmpty(comment.hide_url) || !isEmpty(comment.restore_url))
+
+          const userAvatar =
+            user.avatar_url.substring(0, 2) === '//'
+              ? 'https:' + user.avatar_url
+              : user.avatar_url
+
+          const reviewImageUrl = queryString.stringifyUrl({
+            url: 'https://share-learner-review.vercel.app/api/image',
+            query: {
+              review: comment.comment,
+              rating: rating_out_of_5,
+              authorName: user.full_name,
+              authorAvatar: userAvatar,
+              courseIllustration: image_thumb_url,
+              courseTitle: title,
+            },
+          })
+
           return (
             <li
               key={`rating-${rating.id}`}
@@ -70,19 +91,36 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
               <div className="prose dark:prose-dark overflow-hidden">
                 <Markdown>{comment.comment}</Markdown>
               </div>
-              {displayAdminContent && (
-                <button
-                  className="dark:text-gray-900 rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors duration-150 ease-in-out"
-                  onClick={() => {
-                    rating.hidden = true
-                    axios.post(comment.hide_url).then(() => {
-                      setLoadingRatings(true)
-                    })
-                  }}
-                >
-                  hide
-                </button>
-              )}
+              <div className="flex items-center space-x-2">
+                {displayAdminContent && (
+                  <button
+                    className="flex flex-row items-center px-2 py-1 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 "
+                    onClick={() => {
+                      rating.hidden = true
+                      axios.post(comment.hide_url).then(() => {
+                        setLoadingRatings(true)
+                      })
+                    }}
+                  >
+                    Hide
+                  </button>
+                )}
+                {(viewer?.is_instructor || displayAdminContent) && (
+                  <button
+                    onClick={() => {
+                      const tweetText =
+                        'Check out this review of my course on @eggheadio'
+                      const twitterUrl = `https://twitter.com/intent/tweet?url=${window.location}&text=${tweetText}`
+                      window.open(twitterUrl, '_blank')
+                      window.open(reviewImageUrl, '_blank')
+                    }}
+                    className="flex flex-row items-center px-2 py-1 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 "
+                  >
+                    <IconTwitter className="w-4" />
+                    <span className="pl-1">Tweet</span>
+                  </button>
+                )}
+              </div>
             </li>
           )
         })}
