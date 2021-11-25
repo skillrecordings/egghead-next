@@ -19,9 +19,7 @@ export type Coupon = {
 }
 
 export type PricingData = {
-  applied_coupon: {
-    coupon_code: string
-  }
+  applied_coupon: Coupon
   available_coupons: {
     ppp?: Coupon
     default?: Coupon

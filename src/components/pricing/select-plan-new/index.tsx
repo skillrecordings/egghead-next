@@ -5,8 +5,9 @@ import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
 import Spinner from 'components/spinner'
-import {PricingPlan} from 'machines/commerce-machine'
-import {LoaderIcon} from 'react-hot-toast'
+import {Coupon, PricingPlan} from 'machines/commerce-machine'
+import Countdown from 'components/pricing/countdown'
+import {fromUnixTime} from 'date-fns'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -41,7 +42,7 @@ export const PlanPrice: React.FunctionComponent<{
                 <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
                   &nbsp;{price}&nbsp;
                 </div>
-                <div className="text-sm font-semibold uppercase text-amber-500 dark:text-amber-400">
+                <div className="text-sm font-semibold uppercase text-blue-600 dark:text-amber-400">
                   save {discount_percentage}%
                 </div>
               </div>
@@ -207,6 +208,8 @@ type SelectPlanProps = {
   currentPlan: PricingPlan & {features?: string[]}
   currentQuantity: number
   loaderOn: boolean
+  appliedCoupon: Coupon
+  isPPP: boolean
 }
 
 const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
@@ -219,6 +222,8 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
   currentPlan,
   currentQuantity,
   loaderOn,
+  appliedCoupon,
+  isPPP,
 }) => {
   const individualPlans = filter(prices, (plan: any) => true)
 
@@ -227,8 +232,14 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
 
   return (
     <>
-      <div className="relative z-10 flex flex-col items-center max-w-sm px-6 py-6 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-12 sm:py-12">
+      <div className="relative z-10 flex flex-col items-center max-w-sm px-5 py-5 text-gray-900 bg-white rounded-sm dark:text-white dark:bg-gray-900 sm:px-8 sm:py-12">
         <PlanTitle>{currentPlan?.name}</PlanTitle>
+        {!isPPP && appliedCoupon?.coupon_expires_at && !pricesLoading && (
+          <Countdown
+            label="Holiday sale – Price goes up in:"
+            date={fromUnixTime(appliedCoupon.coupon_expires_at)}
+          />
+        )}
         <div className="py-6">
           <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
         </div>

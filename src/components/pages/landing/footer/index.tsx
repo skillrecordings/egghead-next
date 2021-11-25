@@ -14,6 +14,8 @@ import ParityCouponMessage from 'components/pricing/parity-coupon-message'
 import {PlanPrice} from 'components/pricing/select-plan-new/index'
 import {StripeAccount} from 'types'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
+import Countdown from 'components/pricing/countdown'
+import {fromUnixTime} from 'date-fns'
 
 type FormikValues = {
   email: string
@@ -57,6 +59,8 @@ const PricingCta = () => {
   const pppCouponAvailable =
     !isEmpty(countryName) && !isEmpty(countryCode) && !isEmpty(parityCoupon)
   const pppCouponEligible = quantity === 1
+
+  const appliedCoupon = get(state.context.pricingData, 'applied_coupon')
 
   // handlers
   const onApplyParityCoupon = () => {
@@ -141,6 +145,16 @@ const PricingCta = () => {
           Ready to take your career to the next level?
         </h1>
         <div className="w-full max-w-md">
+          {!pppCouponIsApplied &&
+            !pricesLoading &&
+            appliedCoupon?.coupon_expires_at && (
+              <div className="max-w-xs w-full mx-auto">
+                <Countdown
+                  label="Holiday sale – Price goes up in:"
+                  date={fromUnixTime(appliedCoupon.coupon_expires_at)}
+                />
+              </div>
+            )}
           <div className="flex items-end justify-center w-full py-5">
             <PlanPrice pricesLoading={pricesLoading} plan={currentPlan} />
             {!pricesLoading && <span className="pl-1 sm:text-lg">/ month</span>}
