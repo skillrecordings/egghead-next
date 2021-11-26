@@ -4,7 +4,7 @@ import Article from 'components/pages/landing/article/index.mdx'
 import MembershipBenefits from 'components/pages/landing/membership-benefits'
 import Footer from 'components/pages/landing/footer'
 
-const NewHome: React.FC = () => {
+const SignupPage: React.FC = () => {
   return (
     <>
       <Header />
@@ -24,4 +24,4 @@ const NewHome: React.FC = () => {
   )
 }
 
-export default NewHome
+export default SignupPage
