@@ -58,7 +58,7 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
           className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t dark:from-gray-900 dark:to-transparentDark from-white to-transparentLight"
         />
         <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
-          <h1 className="text-2xl font-semibold text-center lg:text-4xl sm:text-3xl leading-tighter sm:max-w-[22ch]">
+          <h1 className="text-2xl font-bold text-center lg:text-4xl sm:text-3xl leading-tighter sm:max-w-[22ch] tracking-tight">
             Concise {title(topic?.replace('_', ' ') ?? 'Full Stack')} Courses
             for Busy Web Developers
           </h1>

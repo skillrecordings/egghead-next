@@ -16,6 +16,7 @@ export type Coupon = {
   coupon_region_restricted_to: string
   coupon_region_restricted_to_name: string
   coupon_expires_at: number
+  default?: boolean
 }
 
 export type PricingData = {
