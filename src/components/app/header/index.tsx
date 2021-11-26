@@ -22,6 +22,8 @@ import {
   PresentationChartBarIcon,
   DocumentTextIcon,
 } from '@heroicons/react/solid'
+import {holidaySaleOn} from 'lib/holiday-sale'
+import HolidaySaleHeaderBanner from 'components/cta/holiday-sale/header-banner'
 
 const Header: FunctionComponent = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
@@ -170,46 +172,52 @@ const Header: FunctionComponent = () => {
   }
 
   return isMounted ? (
-    <nav aria-label="header">
-      <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-gray-100">
-        <div className="container flex items-center justify-between w-full space-x-4">
-          <div className="flex items-center">
-            <Link href="/">
-              <a className="flex items-center">
-                <Eggo className="w-8 mr-1" />
-                <span className="hidden text-lg font-semibold sm:inline-block dark:text-gray-200">
-                  egghead.io
-                </span>
-              </a>
-            </Link>
-          </div>
-          {!sm && !isTopics && (
-            <div className={`${isSearch ? 'flex-grow' : ''}`}>
-              <FlyoutMenu />
+    <>
+      {holidaySaleOn &&
+        viewer &&
+        !viewer?.is_pro &&
+        router.pathname !== '/pricing' && <HolidaySaleHeaderBanner />}
+      <nav aria-label="header">
+        <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-gray-100">
+          <div className="container flex items-center justify-between w-full space-x-4">
+            <div className="flex items-center">
+              <Link href="/">
+                <a className="flex items-center">
+                  <Eggo className="w-8 mr-1" />
+                  <span className="hidden text-lg font-semibold sm:inline-block dark:text-gray-200">
+                    egghead.io
+                  </span>
+                </a>
+              </Link>
             </div>
-          )}
-          {!sm && !isSearch && <SearchBar />}
-          {!sm && <Navigation />}
-          {sm && !loading && (
-            <button
-              onClick={() => setOpen(!isOpen)}
-              aria-labelledby="menubutton"
-              aria-expanded={isOpen}
-              className="p-1 -mr-2"
-            >
-              {isOpen ? <IconX /> : <IconMenu />}
-            </button>
-          )}
+            {!sm && !isTopics && (
+              <div className={`${isSearch ? 'flex-grow' : ''}`}>
+                <FlyoutMenu />
+              </div>
+            )}
+            {!sm && !isSearch && <SearchBar />}
+            {!sm && <Navigation />}
+            {sm && !loading && (
+              <button
+                onClick={() => setOpen(!isOpen)}
+                aria-labelledby="menubutton"
+                aria-expanded={isOpen}
+                className="p-1 -mr-2"
+              >
+                {isOpen ? <IconX /> : <IconMenu />}
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-      {isOpen && (
-        <>
-          <Navigation className="absolute z-50 flex flex-col items-start w-full p-3 space-y-2 bg-white shadow-xl dark:bg-gray-900 top-14 dark:text-gray-100">
-            {!isSearch && <SearchBar />}
-          </Navigation>
-        </>
-      )}
-    </nav>
+        {isOpen && (
+          <>
+            <Navigation className="absolute z-50 flex flex-col items-start w-full p-3 space-y-2 bg-white shadow-xl dark:bg-gray-900 top-14 dark:text-gray-100">
+              {!isSearch && <SearchBar />}
+            </Navigation>
+          </>
+        )}
+      </nav>
+    </>
   ) : null
 }
 
