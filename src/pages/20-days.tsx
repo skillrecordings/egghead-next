@@ -12,9 +12,26 @@ type EOYSale2021PageProps = {
 const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
   data,
 }) => {
+  const title = '20 days of egghead'
+  const description =
+    "We'll be releasing 20 badass courses during the holiday season, that will help you jumpstart your career in 2022."
+
   return (
     <>
-      <NextSeo noindex={true} title={'20 days of egghead'} />
+      <NextSeo
+        noindex={true}
+        title={title}
+        description={description}
+        openGraph={{
+          title,
+          description,
+          images: [
+            {
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637928432/next.egghead.io/cards/holiday-card_2x.png',
+            },
+          ],
+        }}
+      />
       <div className="dark:bg-gray-900 bg-gray-50">
         <div className="container px-3">
           <CourseGrid data={data} />

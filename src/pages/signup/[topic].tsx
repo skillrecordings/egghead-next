@@ -10,7 +10,7 @@ import {loadCio} from '../../lib/customer'
 
 const tracer = getTracer('signup-topic-page')
 
-const NewHome: React.FC<{topic?: string; customer?: any}> = ({
+const SignupPage: React.FC<{topic?: string; customer?: any}> = ({
   topic,
   customer,
 }) => {
@@ -69,4 +69,4 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 }
 
-export default NewHome
+export default SignupPage
