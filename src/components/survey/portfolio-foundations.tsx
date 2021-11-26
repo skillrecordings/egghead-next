@@ -5,7 +5,7 @@ import HeaderButtonCTA from './header-button-survey'
 const question = {
   version: '1.0.0',
   portfolio_foundations: {
-    heading: `Build Your Developer Portfolio`,
+    heading: `Build Your Dev Portfolio`,
     subheading: `Your guide to building the portfolio that furthers your career.`,
     type: `cta-link`,
     url: `/developer-portfolio-foundations`,
