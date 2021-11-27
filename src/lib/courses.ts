@@ -1,6 +1,6 @@
 import {sanityClient} from 'utils/sanity-client'
-import {pickBy, identity} from 'lodash'
 import groq from 'groq'
+import {loadPlaylist} from './playlists'
 
 const courseQuery = groq`
 *[_type == 'resource' && externalId == $courseId][0]{
@@ -69,11 +69,19 @@ const courseQuery = groq`
 }
 `
 
-export async function loadCourse(id: string) {
+/**
+ * loads COURSE METADATA from Sanity
+ * @param id
+ */
+export async function loadCourseMetadata(id: number) {
   const params = {
     courseId: id,
   }
   const course = await sanityClient.fetch(courseQuery, params)
 
   return course
+}
+
+export async function loadCourse(slug: string, token?: string) {
+  return loadPlaylist(slug, token)
 }

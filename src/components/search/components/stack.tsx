@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import useSWR from 'swr'
-import {loadCourse} from 'lib/courses'
+import {loadCourseMetadata} from 'lib/courses'
 import {loadLesson} from 'lib/lessons'
 import {loadPlaylist} from 'lib/playlists'
 
@@ -20,7 +20,7 @@ const StackResourceItem = ({slug, type}: StackResource) => {
       loader = loadLesson
       break
     case 'course':
-      loader = loadCourse
+      loader = loadCourseMetadata
       break
     case 'playlist':
       loader = loadPlaylist

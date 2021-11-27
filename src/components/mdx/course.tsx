@@ -1,9 +1,9 @@
 import * as React from 'react'
 import useSWR from 'swr'
-import {loadCourse} from 'lib/courses'
 import Link from 'next/link'
 import {FunctionComponent} from 'react'
-import {track} from '../../utils/analytics'
+import {track} from 'utils/analytics'
+import {loadCourse} from 'lib/courses'
 
 type CourseWidgetProps = {
   slug: string
