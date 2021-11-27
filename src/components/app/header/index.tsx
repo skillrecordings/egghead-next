@@ -401,7 +401,7 @@ const Browse: React.FC<any> = ({viewer}) => {
               className="absolute sm:left-auto left-0 z-50 lg:max-w-xl md:max-w-lg sm:max-w-md w-full px-2 sm:px-0"
             >
               <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                <div className="relative bg-white dark:bg-gray-800 backdrop-blur-lg dark:bg-opacity-95 bg-opacity-50">
+                <div className="relative bg-white dark:bg-gray-800">
                   <Link href={!viewer?.is_pro ? '/learn' : '/'}>
                     <a className="p-5 relative overflow-hidden flex items-center bg-blue-600 hover:bg-blue-500 group transition text-white">
                       <div className="relative z-10">
