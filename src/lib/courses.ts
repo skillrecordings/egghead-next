@@ -4,10 +4,13 @@ import groq from 'groq'
 
 const courseQuery = groq`
 *[_type == 'resource' && externalId == $courseId][0]{
+  "slug": slug.current,
   title,
   challengeRating,
   description,
   summary,
+  path,
+  image,
   essentialQuestions[]->{
     question
    },
@@ -66,9 +69,9 @@ const courseQuery = groq`
 }
 `
 
-export async function loadCourse(id: string) {
+export async function loadCourse(id: number) {
   const params = {
-    courseId: id,
+    courseId: Number(id),
   }
   const course = await sanityClient.fetch(courseQuery, params)
 
