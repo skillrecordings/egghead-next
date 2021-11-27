@@ -69,9 +69,9 @@ const courseQuery = groq`
 }
 `
 
-export async function loadCourse(id: number) {
+export async function loadCourse(id: string) {
   const params = {
-    courseId: Number(id),
+    courseId: id,
   }
   const course = await sanityClient.fetch(courseQuery, params)
 
