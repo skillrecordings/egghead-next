@@ -3,11 +3,13 @@ import {useTheme} from 'next-themes'
 import {useViewer} from 'context/viewer-context'
 import CreateAccount from '../create-account'
 import Join from '../join'
+import Browse from '../browse'
 import HeroBgLight from './hero-bg-light.png'
 import HeroBgDark from './hero-bg-dark.png'
 import Image from 'next/image'
 import TechLogos from '../tech-logos'
 import title from 'title'
+import {holidaySaleOn} from 'lib/holiday-sale'
 
 const Header: React.FC<{topic?: string; customer?: any}> = ({
   topic,
@@ -19,8 +21,6 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
   React.useEffect(() => {
     setIsMounted(true)
   }, [])
-
-  console.log(customer)
 
   let Offer = () => (
     <>
@@ -34,6 +34,10 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
 
   if (viewer || customer) {
     Offer = Join
+  }
+
+  if (holidaySaleOn && (viewer || customer)) {
+    Offer = Browse
   }
 
   return (

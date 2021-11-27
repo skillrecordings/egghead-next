@@ -5,18 +5,14 @@ import {track} from 'utils/analytics'
 const Join = () => {
   return (
     <div className="flex flex-col items-center justify-center">
-      {/* <h3 className="text-xl font-medium text-center">Become a member</h3>
-      <p className="pb-8 text-center opacity-80">
-        Learn the skills you need to advance your career
-      </p> */}
-      <Link href="/pricing" passHref>
+      <Link href="/learn" passHref>
         <a
           onClick={() => {
-            track('clicked pricing', {location: 'homepage'})
+            track('clicked start learning', {location: 'homepage'})
           }}
           className="flex items-center justify-center px-8 py-4 transition-all duration-200 ease-in-out dark:bg-blue-50 bg-gray-900 dark:text-black text-white rounded-md dark:hover:bg-white font-medium group"
         >
-          Become a Member{' '}
+          Browse Curated Courses
           <i
             className="transition-all duration-200 ease-in-out scale-75 gg-arrow-right group-hover:translate-x-1"
             aria-hidden
