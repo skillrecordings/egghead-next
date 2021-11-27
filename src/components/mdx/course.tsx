@@ -6,36 +6,31 @@ import {FunctionComponent} from 'react'
 import {track} from '../../utils/analytics'
 
 type CourseWidgetProps = {
-  slug: string
+  id: string
 }
 
-const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
-  const {data} = useSWR(slug, loadCourse)
-  return (
-    <div>
-      {data && (
-        <>
-          <Link href={data.path}>
-            <a
-              onClick={() => {
-                track(`clicked course widget`, {
-                  slug,
-                })
-              }}
-            >
-              <img
-                alt="illustration"
-                className="w-64"
-                src={data.square_cover_480_url}
-              />
-              {data.title}
-            </a>
-          </Link>{' '}
-          by {data.instructor.full_name}
-        </>
-      )}
-    </div>
-  )
+const CourseWidget: FunctionComponent<CourseWidgetProps> = ({id}) => {
+  const {data} = useSWR(id, loadCourse)
+
+  return data?.path ? (
+    <section>
+      <Link href={data.path}>
+        <a
+          className="flex items-center space-x-3"
+          onClick={() => {
+            track(`clicked course widget`, {
+              slug: data.slug,
+            })
+          }}
+        >
+          <img alt="illustration" className="w-32" src={data.image} />
+          <div>
+            <p className="text-lg">{data.title}</p>
+          </div>
+        </a>
+      </Link>
+    </section>
+  ) : null
 }
 
 export default CourseWidget
