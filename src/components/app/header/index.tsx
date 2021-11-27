@@ -27,6 +27,7 @@ import {
 } from '@heroicons/react/solid'
 import {holidaySaleOn} from 'lib/holiday-sale'
 import HolidaySaleHeaderBanner from 'components/cta/holiday-sale/header-banner'
+import {MazePattern} from './images'
 
 const Header: FunctionComponent = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
@@ -364,11 +365,6 @@ const Browse: React.FC<any> = ({viewer}) => {
     },
   ]
   const contentSectionLinks = [
-    {
-      name: 'Curated Courses',
-      href: !viewer?.is_pro ? '/learn' : '/',
-      icon: PlayIcon,
-    },
     {name: 'Articles', href: '/blog', icon: DocumentTextIcon},
     {
       name: 'Podcasts',
@@ -402,51 +398,82 @@ const Browse: React.FC<any> = ({viewer}) => {
           >
             <Popover.Panel
               static
-              className="absolute sm:left-auto left-0 z-50 lg:max-w-xl md:max-w-md sm:max-w-sm w-full px-2 sm:px-0"
+              className="absolute sm:left-auto left-0 z-50 lg:max-w-xl md:max-w-lg sm:max-w-md w-full px-2 sm:px-0"
             >
-              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                <div className="relative grid gap-1 bg-white sm:grid-cols-3 grid-cols-2 dark:bg-gray-800 sm:p-5 p-3">
-                  {browse.map((item) => (
+              <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="relative bg-white dark:bg-gray-800">
+                  <Link href={!viewer?.is_pro ? '/learn' : '/'}>
+                    <a className="p-5 relative overflow-hidden flex items-center bg-blue-600 hover:bg-blue-500 group transition text-white">
+                      <div className="relative z-10">
+                        <div className="uppercase text-xs tracking-wide font-medium opacity-80">
+                          start here
+                        </div>
+                        <div className="text-base font-semibold">
+                          Curated Courses{' '}
+                          <span
+                            aria-hidden="true"
+                            className="group-hover:translate-x-1 transition inline-flex"
+                          >
+                            &rarr;
+                          </span>
+                        </div>
+                      </div>
+                      <div className="absolute right-0 sm:scale-90 scale-50 origin-right group-hover:opacity-40 transition">
+                        <MazePattern />
+                      </div>
+                    </a>
+                  </Link>
+                  <div className="uppercase text-xs tracking-wide font-medium opacity-80 pt-5 px-5">
+                    Topics
+                  </div>
+                  <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 py-2">
+                    {browse.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        onClick={() =>
+                          track(`clicked topic`, {
+                            resource: item.href,
+                            location: 'header browse',
+                          })
+                        }
+                        className="rounded-sm flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        <div className="flex-shrink-0 flex items-center justify-center">
+                          <Image
+                            width={24}
+                            height={24}
+                            src={item.image}
+                            alt={item.name}
+                            quality={100}
+                            priority
+                          />
+                        </div>
+                        <span className="pl-2 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
+                          {item.name}
+                        </span>
+                      </a>
+                    ))}
                     <a
-                      key={item.name}
-                      href={item.href}
+                      href="/topics"
                       onClick={() =>
-                        track(`clicked topic`, {
-                          resource: item.href,
+                        track(`clicked all topics`, {
                           location: 'header browse',
                         })
                       }
-                      className="flex items-center justify-start px-3 py-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900"
+                      className="rounded-sm lg:col-span-2 leading-tight lg:px-5 sm:px-3 px-5 py-3 font-medium transition duration-150 ease-in-out flex group items-center w-full hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                     >
-                      <div className="flex-shrink-0">
-                        <Image
-                          width={24}
-                          height={24}
-                          src={item.image}
-                          alt={item.name}
-                          quality={100}
-                          priority
-                        />
-                      </div>
-                      <span className="pl-2 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
-                        {item.name}
+                      Browse all topics{' '}
+                      <span
+                        className="pl-1 inline-flex group-hover:translate-x-1 transition"
+                        aria-hidden="true"
+                      >
+                        &rarr;
                       </span>
                     </a>
-                  ))}
-
-                  <a
-                    href="/topics"
-                    onClick={() =>
-                      track(`clicked all topics`, {
-                        location: 'header browse',
-                      })
-                    }
-                    className="px-3 py-2 font-medium transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:bg-gray-700 text-blue-500 dark:text-gray-200 flex justify-between items-center w-full"
-                  >
-                    Browse all topics <span aria-hidden="true">&rarr;</span>
-                  </a>
+                  </div>
                 </div>
-                <div className="relative sm:flex grid grid-cols-2 items-center space-x-1 gap-1 bg-gray-100 dark:bg-gray-700 px-5 py-2">
+                <div className="relative flex items-center bg-gray-100 dark:bg-gray-700">
                   {contentSectionLinks.map((item) => {
                     return (
                       <div key={item.name} className="flow-root">
@@ -458,7 +485,7 @@ const Browse: React.FC<any> = ({viewer}) => {
                               location: 'header browse',
                             })
                           }
-                          className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900"
+                          className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 dark:hover:bg-opacity-30"
                         >
                           <item.icon
                             className="flex-shrink-0 w-6 h-6 text-gray-400"
