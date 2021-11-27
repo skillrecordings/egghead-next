@@ -6,11 +6,11 @@ import {FunctionComponent} from 'react'
 import {track} from '../../utils/analytics'
 
 type CourseWidgetProps = {
-  id: string
+  slug: string
 }
 
-const CourseWidget: FunctionComponent<CourseWidgetProps> = ({id}) => {
-  const {data} = useSWR(id, loadCourse)
+const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
+  const {data} = useSWR(slug, loadCourse)
 
   return data?.path ? (
     <section>
