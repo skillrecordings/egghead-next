@@ -235,8 +235,7 @@ const Header: FunctionComponent = () => {
         <div className="container h-full flex items-center w-full justify-between">
           <div className="flex h-full">
             <Logo />
-            {!viewer?.is_pro && <Learn />}
-            {!isTopics && <Browse />}
+            {!isTopics && <Browse viewer={viewer} />}
           </div>
           <div className="flex h-full">
             {!md && !isSearch && <SearchBar />}
@@ -277,7 +276,7 @@ const Header: FunctionComponent = () => {
 
 export default Header
 
-const Browse = () => {
+const Browse: React.FC<any> = ({viewer}) => {
   const browse = [
     {
       name: 'React',
@@ -365,17 +364,29 @@ const Browse = () => {
     },
   ]
   const contentSectionLinks = [
-    {name: 'Courses', href: '/q', icon: PlayIcon},
+    {
+      name: 'Curated Courses',
+      href: !viewer?.is_pro ? '/learn' : '/',
+      icon: PlayIcon,
+    },
     {name: 'Articles', href: '/blog', icon: DocumentTextIcon},
-    {name: 'Podcasts', href: '/q?type=podcast', icon: MicrophoneIcon},
-    {name: 'Talks', href: '/q?type=talk', icon: PresentationChartBarIcon},
+    {
+      name: 'Podcasts',
+      href: '/q?type=podcast',
+      icon: MicrophoneIcon,
+    },
+    {
+      name: 'Talks',
+      href: '/q?type=talk',
+      icon: PresentationChartBarIcon,
+    },
   ]
 
   return (
     <Popover>
       {({open}) => (
         <>
-          <Popover.Button className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2">
+          <Popover.Button className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3">
             <span>Browse</span>
             <ChevronDownIcon className="mt-px h-4" aria-hidden="true" />
           </Popover.Button>
@@ -435,27 +446,29 @@ const Browse = () => {
                     Browse all topics <span aria-hidden="true">&rarr;</span>
                   </a>
                 </div>
-                <div className="relative grid gap-1 bg-gray-100 sm:grid-cols-4 grid-cols-2 dark:bg-gray-700 px-5 py-2">
-                  {contentSectionLinks.map((item) => (
-                    <div key={item.name} className="flow-root">
-                      <a
-                        href={item.href}
-                        onClick={() =>
-                          track(`clicked browse section`, {
-                            resource: item.href,
-                            location: 'header browse',
-                          })
-                        }
-                        className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900"
-                      >
-                        <item.icon
-                          className="flex-shrink-0 w-6 h-6 text-gray-400"
-                          aria-hidden="true"
-                        />
-                        <span className="ml-3">{item.name}</span>
-                      </a>
-                    </div>
-                  ))}
+                <div className="relative sm:flex grid grid-cols-2 items-center space-x-1 gap-1 bg-gray-100 dark:bg-gray-700 px-5 py-2">
+                  {contentSectionLinks.map((item) => {
+                    return (
+                      <div key={item.name} className="flow-root">
+                        <a
+                          href={item.href}
+                          onClick={() =>
+                            track(`clicked browse section`, {
+                              resource: item.href,
+                              location: 'header browse',
+                            })
+                          }
+                          className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900"
+                        >
+                          <item.icon
+                            className="flex-shrink-0 w-6 h-6 text-gray-400"
+                            aria-hidden="true"
+                          />
+                          <span className="ml-2">{item.name}</span>
+                        </a>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </Popover.Panel>
