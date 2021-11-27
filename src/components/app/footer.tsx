@@ -152,10 +152,10 @@ const Footer: FunctionComponent = () => {
 const DarkModeToggle = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const {subscriber, cioIdentify} = useCio()
-  const {theme, setTheme} = useTheme()
+  const {resolvedTheme, setTheme} = useTheme()
   React.useEffect(() => setIsMounted(true), [])
   const handleClick = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    const nextTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
     setTheme(nextTheme)
     track(`toggled dark mode`, {
       mode: nextTheme,
@@ -170,7 +170,7 @@ const DarkModeToggle = () => {
   return (
     <div className="flex items-center justify-between">
       <h2 className="mr-3">
-        {isMounted && (theme === 'dark' ? 'Dark' : 'Light')} Mode
+        {isMounted && (resolvedTheme === 'dark' ? 'Dark' : 'Light')} Mode
       </h2>
       <div
         className="flex-shrink-0 w-16 h-10 p-1 bg-gray-300 rounded-full dark:bg-gray-1000"
@@ -180,7 +180,7 @@ const DarkModeToggle = () => {
       >
         <div
           className={`bg-white w-8 h-8 rounded-full shadow-md duration-300 ease-in-out flex items-center justify-center dark:bg-gray-800 ${
-            isMounted && (theme === 'dark' ? 'translate-x-6' : '')
+            isMounted && (resolvedTheme === 'dark' ? 'translate-x-6' : '')
           }`}
         >
           {isMounted && (
@@ -191,7 +191,7 @@ const DarkModeToggle = () => {
               stroke="currentColor"
               className="w-4 h-4 text-gray-400 dark:text-gray-200"
             >
-              {theme === 'dark' ? (
+              {resolvedTheme === 'dark' ? (
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"

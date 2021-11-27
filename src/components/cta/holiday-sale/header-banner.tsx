@@ -28,7 +28,7 @@ const HolidaySaleHeaderBanner = () => {
               {appliedCoupon.coupon_expires_at && ' for limited time only'}.
             </span>
           </div>
-          <div className="flex items-center py-px px-2 bg-white text-blue-600 flex-shrink-0">
+          <div className="flex items-center py-px px-2 bg-white dark:bg-opacity-100 bg-opacity-90 text-blue-600 flex-shrink-0">
             <span className="pr-1 font-semibold">Go Pro</span>{' '}
             <span aria-hidden>→</span>
           </div>

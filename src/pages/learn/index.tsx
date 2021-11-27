@@ -7,7 +7,7 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
 
-const HomePage: FunctionComponent<any> = ({data, holidayCourses}) => {
+const LearnPage: FunctionComponent<any> = ({data, holidayCourses}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
   const ogImage = get(
@@ -41,7 +41,7 @@ const HomePage: FunctionComponent<any> = ({data, holidayCourses}) => {
   )
 }
 
-export default HomePage
+export default LearnPage
 
 const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-home-page"][0]{
     title,
