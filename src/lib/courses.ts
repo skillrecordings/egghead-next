@@ -75,8 +75,9 @@ const courseQuery = groq`
  */
 export async function loadCourseMetadata(id: number) {
   const params = {
-    courseId: id,
+    courseId: Number(id),
   }
+
   const course = await sanityClient.fetch(courseQuery, params)
 
   return course
