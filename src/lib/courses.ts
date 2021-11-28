@@ -4,13 +4,10 @@ import {loadPlaylist} from './playlists'
 
 const courseQuery = groq`
 *[_type == 'resource' && externalId == $courseId][0]{
-  "slug": slug.current,
   title,
   challengeRating,
   description,
   summary,
-  path,
-  image,
   essentialQuestions[]->{
     question
    },

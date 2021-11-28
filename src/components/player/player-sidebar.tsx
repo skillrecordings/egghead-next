@@ -16,8 +16,6 @@ import Link from 'components/link'
 import Image from 'next/image'
 import CodeBlock from 'components/code-block'
 import {useViewer} from '../../context/viewer-context'
-import {useCoursePresence} from '../../hooks/use-course-presence'
-import ActiveLearners from '../pages/courses/active-learners'
 
 const notesCreationAvailable =
   process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
@@ -280,7 +278,6 @@ const CourseHeader: React.FunctionComponent<{
           </Link>
         </div>
       </div>
-      <ActiveLearners courseSlug={course.slug} />
     </div>
   ) : null
 }
