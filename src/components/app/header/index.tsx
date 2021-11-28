@@ -21,7 +21,6 @@ import {
   MicrophoneIcon,
   PresentationChartBarIcon,
   DocumentTextIcon,
-  PlayIcon,
   MenuIcon,
   XIcon,
 } from '@heroicons/react/solid'
@@ -261,9 +260,9 @@ const Header: FunctionComponent = () => {
                   {isOpen ? 'Close navigation' : 'Open navigation'}
                 </span>
                 {isOpen ? (
-                  <XIcon className="w-5" />
+                  <XIcon className="w-5" aria-hidden />
                 ) : (
-                  <MenuIcon className="w-5" />
+                  <MenuIcon className="w-5" aria-hidden />
                 )}
               </button>
             )}
@@ -402,27 +401,36 @@ const Browse: React.FC<any> = ({viewer}) => {
             >
               <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative bg-white dark:bg-gray-800">
-                  <Link href={!viewer?.is_pro ? '/learn' : '/'}>
-                    <a className="p-5 relative overflow-hidden flex items-center bg-blue-600 hover:bg-blue-500 group transition text-white">
-                      <div className="relative z-10">
-                        <div className="uppercase text-xs tracking-wide font-medium opacity-80">
-                          start here
+                  {!viewer?.is_pro && (
+                    <Link href={!viewer?.is_pro ? '/learn' : '/'}>
+                      <a
+                        onClick={() =>
+                          track(`clicked curated courses`, {
+                            location: 'header browse',
+                          })
+                        }
+                        className="p-5 relative overflow-hidden flex items-center bg-blue-600 hover:bg-blue-500 group transition text-white"
+                      >
+                        <div className="relative z-10">
+                          <div className="uppercase text-xs tracking-wide font-medium opacity-80">
+                            start here
+                          </div>
+                          <div className="text-base font-semibold">
+                            Curated Courses{' '}
+                            <span
+                              aria-hidden="true"
+                              className="group-hover:translate-x-1 transition inline-flex"
+                            >
+                              &rarr;
+                            </span>
+                          </div>
                         </div>
-                        <div className="text-base font-semibold">
-                          Curated Courses{' '}
-                          <span
-                            aria-hidden="true"
-                            className="group-hover:translate-x-1 transition inline-flex"
-                          >
-                            &rarr;
-                          </span>
+                        <div className="absolute right-0 sm:scale-90 scale-50 origin-right group-hover:opacity-40 transition">
+                          <MazePattern />
                         </div>
-                      </div>
-                      <div className="absolute right-0 sm:scale-90 scale-50 origin-right group-hover:opacity-40 transition">
-                        <MazePattern />
-                      </div>
-                    </a>
-                  </Link>
+                      </a>
+                    </Link>
+                  )}
                   <div className="uppercase text-xs tracking-wide font-medium opacity-80 pt-5 px-5">
                     Topics
                   </div>
@@ -431,12 +439,12 @@ const Browse: React.FC<any> = ({viewer}) => {
                       <a
                         key={item.name}
                         href={item.href}
-                        onClick={() =>
+                        onClick={() => {
                           track(`clicked topic`, {
                             resource: item.href,
                             location: 'header browse',
                           })
-                        }
+                        }}
                         className="rounded-sm flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                       >
                         <div className="flex-shrink-0 flex items-center justify-center">
