@@ -23,12 +23,17 @@ const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
             })
           }}
         >
-          <img alt="illustration" className="w-32" src={data.image} />
+          <img
+            alt="illustration"
+            className="w-32"
+            src={data.square_cover_480_url}
+          />
           <div>
             <p className="text-lg">{data.title}</p>
           </div>
         </a>
-      </Link>
+      </Link>{' '}
+      by {data.instructor.full_name}
     </section>
   ) : null
 }
