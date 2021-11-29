@@ -139,7 +139,14 @@ export const commerceMachine = createMachine<
               },
             },
           },
-          withDefaultCoupon: {},
+          withDefaultCoupon: {
+            on: {
+              APPLY_PPP_COUPON: {
+                actions: 'applyPPPCoupon',
+                target: '#loadingPrices',
+              },
+            },
+          },
           withoutCoupon: {
             on: {
               APPLY_PPP_COUPON: {
