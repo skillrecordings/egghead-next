@@ -1,6 +1,6 @@
 import * as React from 'react'
 import noop from 'utils/noop'
-import {PrimaryButton} from 'components/buttons/index'
+import Link from 'next/link'
 
 type HeaderButtonShapedLinkProps = {
   url: string
@@ -14,11 +14,15 @@ export const HeaderButtonShapedLink: React.FC<HeaderButtonShapedLinkProps> = ({
   onClick = noop,
 }) => {
   return (
-    <PrimaryButton
-      className="hidden lg:block"
-      url={url}
-      onClick={onClick}
-      label={label}
-    />
+    <div className="flex items-center pl-1">
+      <Link href={url}>
+        <a
+          className="bg-blue-600 text-white sm:px-2 sm:py-1 px-3 py-2 rounded-md tracking-tight hover:bg-blue-700 transition"
+          onClick={onClick}
+        >
+          {label}
+        </a>
+      </Link>
+    </div>
   )
 }

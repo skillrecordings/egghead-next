@@ -1,7 +1,10 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {ACCESS_TOKEN_KEY} from '../config'
+import {loadCio} from '../lib/customer'
 
 const PUBLIC_FILE = /\.(.*)$/
+
+const CIO_COOKIE_KEY = 'cio_id'
 
 /**
  * with this approach, logged in users can be shown
@@ -20,13 +23,55 @@ const PUBLIC_FILE = /\.(.*)$/
  * https://github.com/vercel/examples/edge-functions/ab-testing-simple
  *
  */
-export function middleware(req: NextRequest) {
-  // Only rewrite files that don't have a file extension (think favicon)
+export async function middleware(req: NextRequest) {
+  let response = NextResponse.next()
+  // think favicon etc
+  if (PUBLIC_FILE.test(req.nextUrl.pathname)) return response
+
   // Only rewrite if we are at the root
-  if (req.nextUrl.pathname === '/' && !PUBLIC_FILE.test(req.nextUrl.pathname)) {
-    // if there's a cookie with a token they are logged in
-    let status = req.cookies[ACCESS_TOKEN_KEY] ? 'logged_in' : 'anon'
-    req.nextUrl.pathname = status === 'logged_in' ? `/` : `/signup`
-    return NextResponse.rewrite(req.nextUrl)
+  if (req.nextUrl.pathname === '/') {
+    const cioId =
+      req.cookies[CIO_COOKIE_KEY] ||
+      req.nextUrl.searchParams.get(CIO_COOKIE_KEY)
+
+    // if there's a cookie or a token they are logged in
+    let status = cioId || req.cookies[ACCESS_TOKEN_KEY] ? 'identified' : 'anon'
+
+    switch (status) {
+      case 'anon':
+        response = NextResponse.rewrite('/signup')
+        break
+      case 'identified':
+        if (cioId) {
+          try {
+            const customer = await loadCio(cioId, req.cookies['customer'])
+
+            if (!customer) {
+              response = NextResponse.rewrite('/signup')
+            } else if (
+              customer.attributes?.pro === 'true' ||
+              customer.attributes?.instructor === 'true'
+            ) {
+              response = NextResponse.next()
+            } else if (customer.attributes?.react_score > 1) {
+              response = NextResponse.rewrite('/signup/react')
+            } else {
+              response = NextResponse.rewrite('/signup/full_stack')
+            }
+
+            if (customer) {
+              response.cookie('customer', JSON.stringify(customer))
+              response.cookie(CIO_COOKIE_KEY, cioId)
+            }
+          } catch (_e) {
+            response = NextResponse.next()
+          }
+        }
+        break
+      default:
+        response = NextResponse.next()
+    }
   }
+
+  return response
 }

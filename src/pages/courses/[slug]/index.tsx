@@ -1,16 +1,14 @@
 import * as React from 'react'
 import useSWR from 'swr'
-import {loadCourse} from 'lib/courses'
 import {loadPlaylist, loadAuthedPlaylistForUser} from 'lib/playlists'
 import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
-import fetcher from 'utils/fetcher'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-import getTracer from '../../../utils/honeycomb-tracer'
-import {setupHttpTracing} from '../../../utils/tracing-js/dist/src'
+import getTracer from 'utils/honeycomb-tracer'
+import {setupHttpTracing} from 'utils/tracing-js/dist/src'
 const tracer = getTracer('course-page')
 type CourseProps = {
   course: any

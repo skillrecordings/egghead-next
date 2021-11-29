@@ -47,9 +47,10 @@ const features = [
 const FeatureBox: React.FC<{
   title: React.ReactElement | string
   description: string
-}> = ({title, description}) => {
+  topic?: string
+}> = ({title, description, topic}) => {
   return (
-    <div className="dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 dark:bg-transparent bg-white shadow-smooth lg:p-10 sm:p-8 p-5 rounded-md flex flex-col items-center justify-center">
+    <div className="dark:bg-gray-800 dark:bg-opacity-70 bg-white shadow-smooth lg:p-10 sm:p-8 p-5 rounded-md flex flex-col items-center justify-center">
       <div className="text-2xl font-bold">{title}</div>
       <div className="text-center leading-tight text-sm dark:text-gray-200 text-gray-800">
         {description}
@@ -86,7 +87,7 @@ const Column: React.FC<{features: any; className?: string}> = ({
   )
 }
 
-const MembershipBenefits: React.FC = () => {
+const MembershipBenefits: React.FC<{topic?: string}> = ({topic}) => {
   return (
     <section
       id="benefits"

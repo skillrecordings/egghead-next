@@ -18,8 +18,9 @@ const Topics: React.FC<{data: any}> = ({data}) => {
               <a
                 className="flex flex-col items-center hover:shadow-smooth justify-center px-5 py-8 rounded-lg dark:bg-gray-800 dark:bg-opacity-60 dark:hover:bg-opacity-100 hover:bg-white ease-in-out transition-all duration-200"
                 onClick={() => {
-                  track('clicked home page topic', {
+                  track('clicked topic', {
                     topic: title,
+                    location: 'home page',
                   })
                   axios.post(`/api/topic`, {
                     topic: slug,

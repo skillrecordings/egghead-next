@@ -16,12 +16,14 @@ export type Coupon = {
   coupon_region_restricted_to: string
   coupon_region_restricted_to_name: string
   coupon_expires_at: number
+  default?: boolean
 }
 
 export type PricingData = {
-  applied_coupon: string
+  applied_coupon: Coupon
   available_coupons: {
-    ppp: Coupon | undefined
+    ppp?: Coupon
+    default?: Coupon
   }
   coupon_code_errors: string[]
   mode: 'individual' | 'team'
@@ -31,7 +33,7 @@ export type PricingData = {
 
 type CouponToApply = {
   couponCode: string
-  couponType: 'ppp' | 'other'
+  couponType: 'ppp' | 'default'
 }
 
 const findAvailablePPPCoupon = (pricingData: PricingData) => {
@@ -122,6 +124,10 @@ export const commerceMachine = createMachine<
           checkingCouponStatus: {
             always: [
               {target: 'withPPPCoupon', cond: 'pricingIncludesPPPCoupon'},
+              {
+                target: 'withDefaultCoupon',
+                cond: 'pricingIncludesDefaultCoupon',
+              },
               {target: 'withoutCoupon'},
             ],
           },
@@ -133,6 +139,7 @@ export const commerceMachine = createMachine<
               },
             },
           },
+          withDefaultCoupon: {},
           withoutCoupon: {
             on: {
               APPLY_PPP_COUPON: {
@@ -163,7 +170,43 @@ export const commerceMachine = createMachine<
         (_, event) => {
           if (event.type !== 'done.invoke.fetchPricingDataService') return {}
 
-          return {pricingData: event.data}
+          const extractAppliedDefaultCoupon = (
+            pricingData: PricingData,
+          ): {couponToApply: CouponToApply} | {} => {
+            // check if there is a site-wide/'default' coupon available
+            const availableDefaultCoupon =
+              pricingData?.available_coupons?.default
+
+            // check if there is a site-wide/'default' coupon being applied
+            const appliedCoupon = pricingData?.applied_coupon
+
+            // no applied default coupon found
+            if (isEmpty(availableDefaultCoupon) || isEmpty(appliedCoupon)) {
+              return {}
+            }
+
+            // if a site-wide/'default' coupon is being applied, set that as the
+            // `couponToApply` in the machine context. The CouponToApply is
+            // needed when transitioning to the Stripe Checkout Session.
+            if (
+              availableDefaultCoupon?.coupon_code === appliedCoupon?.coupon_code
+            ) {
+              return {
+                couponToApply: {
+                  couponCode: appliedCoupon.coupon_code,
+                  couponType: 'default',
+                },
+              }
+            }
+
+            // the applied coupon is not the site-wide/'default'
+            return {}
+          }
+
+          return {
+            pricingData: event.data,
+            ...extractAppliedDefaultCoupon(event.data),
+          }
         },
         // TODO: Move the `priceId` update from the downstream component up
         // this machine.
@@ -202,6 +245,9 @@ export const commerceMachine = createMachine<
     guards: {
       pricingIncludesPPPCoupon: (context) => {
         return context?.couponToApply?.couponType === 'ppp'
+      },
+      pricingIncludesDefaultCoupon: (context) => {
+        return context?.couponToApply?.couponType === 'default'
       },
       priceHasBeenSelected: (context) => {
         return !isEmpty(context.priceId)

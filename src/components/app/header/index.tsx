@@ -6,7 +6,7 @@ import Eggo from 'components/icons/eggo'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import {isEmpty} from 'lodash'
-import Feedback from 'components/feedback-input'
+import FeedbackInput from 'components/feedback-input'
 import useBreakpoint from 'utils/breakpoints'
 import {useRouter} from 'next/router'
 import useCio from 'hooks/use-cio'
@@ -21,14 +21,19 @@ import {
   MicrophoneIcon,
   PresentationChartBarIcon,
   DocumentTextIcon,
+  MenuIcon,
+  XIcon,
 } from '@heroicons/react/solid'
+import {holidaySaleOn} from 'lib/holiday-sale'
+import HolidaySaleHeaderBanner from 'components/cta/holiday-sale/header-banner'
+import {MazePattern} from './images'
 
 const Header: FunctionComponent = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const router = useRouter()
   const {viewer, loading} = useViewer()
   const {subscriber, loadingSubscriber} = useCio()
-  const {sm} = useBreakpoint()
+  const {sm, md} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
 
   React.useEffect(() => {
@@ -51,209 +56,227 @@ const Header: FunctionComponent = () => {
       ),
     )
 
-  let ActiveCTA: React.FC = () => null
+  const [activeCTA, setActiveCTA] = React.useState<any>(null)
+  React.useEffect(() => {
+    switch (true) {
+      case !subscriber?.attributes?.portfolio_foundations:
+        setActiveCTA(<PortfolioFoundationsCTA variant="header" />)
+        break
+      case !subscriber?.attributes?.online_presence:
+        setActiveCTA(<OnlinePresenceCTA variant="header" />)
+        break
+      case !subscriber && !loadingSubscriber:
+        setActiveCTA(<OnlinePresenceCTA variant="header" />)
+        break
+      case !viewer?.is_pro && !viewer?.is_instructor:
+        setActiveCTA(
+          <HeaderButtonShapedLink
+            url="/pricing"
+            label="Go Pro"
+            onClick={() => {
+              track('clicked go pro', {location: 'header'})
+            }}
+          />,
+        )
+        break
+      default:
+        setActiveCTA(null)
+    }
+  }, [subscriber, viewer])
 
-  switch (true) {
-    case !subscriber?.attributes?.portfolio_foundations:
-      ActiveCTA = () => <PortfolioFoundationsCTA variant="header" />
-      break
-    case !subscriber?.attributes?.online_presence:
-      ActiveCTA = () => <OnlinePresenceCTA variant="header" />
-      break
-    case !subscriber && !loadingSubscriber:
-      ActiveCTA = () => <OnlinePresenceCTA variant="header" />
-      break
-    case !viewer?.is_pro && !viewer?.is_instructor:
-      ActiveCTA = () => (
-        <HeaderButtonShapedLink
-          url="/pricing"
-          label="Go Pro"
-          onClick={() => {
-            track('clicked go pro', {location: 'header'})
-          }}
-        />
-      )
-      break
-    default:
-      ActiveCTA = () => null
+  const Logo = () => {
+    return (
+      <Link href="/">
+        <a className="flex items-center pr-2">
+          <Eggo className="sm:w-8 w-7 mr-1" />
+          <span className="sm:text-lg text-base font-semibold inline-block">
+            egghead.io
+          </span>
+        </a>
+      </Link>
+    )
   }
 
-  const Navigation: FunctionComponent<{
-    className?: string
-  }> = ({
-    className = 'flex items-center justify-center space-x-1',
-    children,
-  }) => {
-    return !loading ? (
-      <div className="flex-shrink-0 text-sm">
-        {viewer ? (
-          <div className={className}>
-            {children}
-            <ActiveCTA />
-            <Feedback
-              user={viewer}
-              className="inline-flex px-3 py-2 leading-tight transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white active:bg-gray-200"
-            >
-              Feedback
-            </Feedback>
-            {!isEmpty(viewer) && (
-              <Link href={`/bookmarks`}>
-                <a
-                  onClick={() =>
-                    track('clicked bookmarks', {
-                      location: 'header',
-                    })
-                  }
-                  className="inline-flex px-3 py-2 leading-tight transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white"
-                >
-                  Bookmarks
-                </a>
-              </Link>
-            )}
-            {showTeamNavLink && (
-              <Link href={`/team`}>
-                <a
-                  onClick={() =>
-                    track('clicked team', {
-                      location: 'header',
-                    })
-                  }
-                  className="inline-flex px-3 py-2 leading-tight transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-black"
-                >
-                  Team
-                </a>
-              </Link>
-            )}
-            <Link href="/user">
-              <a
-                onClick={() =>
-                  track('clicked account', {
-                    location: 'header',
-                  })
-                }
-                className="flex items-center space-x-2 hover:text-blue-700 dark:hover:text-blue-300 hover:underline"
-              >
-                <img
-                  width={32}
-                  height={32}
-                  alt="avatar"
-                  className="rounded-full"
-                  src={viewer.avatar_url}
-                />
-                <span>
-                  {viewer.name}
-                  {viewer.is_pro && ' ⭐️'}
-                </span>
-              </a>
-            </Link>
-          </div>
-        ) : (
-          <div className={className}>
-            <ActiveCTA />
-            {children}
-            <Link href="/login" activeClassName="bg-gray-100 dark:bg-gray-400">
-              <a
-                onClick={() =>
-                  track('clicked sign in', {
-                    location: 'header',
-                  })
-                }
-                className="inline-flex px-3 py-2 transition-all duration-300 ease-in-out rounded-md dark:active:text-gray-900 dark:text-gray-200 dark:border-gray-200 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 dark:active:bg-gray-700 active:bg-gray-100"
-              >
-                Sign in
-              </a>
-            </Link>
-          </div>
-        )}
+  const User = () => {
+    return (
+      <Link href="/user">
+        <a
+          onClick={() =>
+            track('clicked account', {
+              location: 'header',
+            })
+          }
+          className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2"
+        >
+          <img
+            width={32}
+            height={32}
+            alt="avatar"
+            className="rounded-full"
+            src={viewer.avatar_url}
+          />
+          <span className="pl-1">
+            {viewer.name}
+            {viewer.is_pro && <sup>⭐️</sup>}
+          </span>
+        </a>
+      </Link>
+    )
+  }
+
+  const Feedback = () => {
+    return (
+      <FeedbackInput
+        user={viewer}
+        className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3"
+      >
+        Feedback
+      </FeedbackInput>
+    )
+  }
+
+  const Bookmarks = () => {
+    return (
+      <Link href={`/bookmarks`}>
+        <a
+          onClick={() =>
+            track('clicked bookmarks', {
+              location: 'header',
+            })
+          }
+          className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3"
+        >
+          Bookmarks
+        </a>
+      </Link>
+    )
+  }
+
+  const Team = () => {
+    return (
+      <Link href={`/team`}>
+        <a
+          onClick={() =>
+            track('clicked team', {
+              location: 'header',
+            })
+          }
+          className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2"
+        >
+          Team
+        </a>
+      </Link>
+    )
+  }
+
+  const Login = () => {
+    return (
+      <div>
+        <Link href="/login" activeClassName="underline">
+          <a
+            onClick={() =>
+              track('clicked sign in', {
+                location: 'header',
+              })
+            }
+            className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2"
+          >
+            Sign in
+          </a>
+        </Link>
       </div>
-    ) : null
+    )
+  }
+
+  const Learn = () => {
+    return (
+      <div>
+        <Link href="/learn" activeClassName="underline">
+          <a className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2">
+            Learn
+          </a>
+        </Link>
+      </div>
+    )
+  }
+
+  const MobileNavigation = () => {
+    return (
+      <ul className="dark:bg-gray-800 bg-gray-50 shadow-smooth w-full flex flex-col px-3 pb-5 relative z-20 text-base space-y-2">
+        {[
+          SearchBar,
+          !isEmpty(viewer) && Bookmarks,
+          !isEmpty(viewer) && Feedback,
+          showTeamNavLink && Team,
+          !isEmpty(viewer) && User,
+          isEmpty(viewer) && Login,
+        ].map((Item: any, i) => {
+          return Item ? (
+            <li key={i} className="w-full h-12 flex items-stretch">
+              <Item />
+            </li>
+          ) : null
+        })}
+        <li>{activeCTA}</li>
+      </ul>
+    )
   }
 
   return isMounted ? (
-    <nav aria-label="header">
-      <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-gray-100">
-        <div className="container flex items-center justify-between w-full space-x-4">
-          <div className="flex items-center">
-            <Link href="/">
-              <a className="flex items-center">
-                <Eggo className="w-8 mr-1" />
-                <span className="hidden text-lg font-semibold sm:inline-block dark:text-gray-200">
-                  egghead.io
-                </span>
-              </a>
-            </Link>
+    <>
+      {holidaySaleOn &&
+        viewer &&
+        !viewer?.is_pro &&
+        router.pathname !== '/pricing' && <HolidaySaleHeaderBanner />}
+      <nav
+        aria-label="header"
+        className="text-sm h-12 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000 relative"
+      >
+        <div className="container h-full flex items-center w-full justify-between">
+          <div className="flex h-full">
+            <Logo />
+            {!isTopics && <Browse viewer={viewer} />}
           </div>
-          {!sm && !isTopics && (
-            <div className={`${isSearch ? 'flex-grow' : ''}`}>
-              <FlyoutMenu />
-            </div>
-          )}
-          {!sm && !isSearch && <SearchBar />}
-          {!sm && <Navigation />}
-          {sm && !loading && (
-            <button
-              onClick={() => setOpen(!isOpen)}
-              aria-labelledby="menubutton"
-              aria-expanded={isOpen}
-              className="p-1 -mr-2"
-            >
-              {isOpen ? <IconX /> : <IconMenu />}
-            </button>
-          )}
+          <div className="flex h-full">
+            {!md && !isSearch && <SearchBar />}
+            {!sm && (
+              <>
+                {!isEmpty(viewer) && <Bookmarks />}
+                {!isEmpty(viewer) && <Feedback />}
+                {showTeamNavLink && <Team />}
+                <div className="px-1 flex items-center">{activeCTA}</div>
+                {!isEmpty(viewer) && <User />}
+                {isEmpty(viewer) && <Login />}
+              </>
+            )}
+            {sm && !loading && (
+              <button
+                onClick={() => setOpen(!isOpen)}
+                aria-labelledby="menubutton"
+                aria-expanded={isOpen}
+                className="flex items-center justify-center py-2 px-3 -mr-4"
+              >
+                <span className="sr-only">
+                  {isOpen ? 'Close navigation' : 'Open navigation'}
+                </span>
+                {isOpen ? (
+                  <XIcon className="w-5" aria-hidden />
+                ) : (
+                  <MenuIcon className="w-5" aria-hidden />
+                )}
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-      {isOpen && (
-        <>
-          <Navigation className="absolute z-50 flex flex-col items-start w-full p-3 space-y-2 bg-white shadow-xl dark:bg-gray-900 top-14 dark:text-gray-100">
-            {!isSearch && <SearchBar />}
-          </Navigation>
-        </>
-      )}
-    </nav>
+        {isOpen && <MobileNavigation />}
+      </nav>
+    </>
   ) : null
 }
 
 export default Header
 
-const IconMenu = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g fill="none">
-      <path
-        d="M4 6h16M4 12h16M4 18h16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </g>
-  </svg>
-)
-
-const IconX = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g fill="none">
-      <path
-        d="M6 18L18 6M6 6l12 12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </g>
-  </svg>
-)
-
-const FlyoutMenu = () => {
+const Browse: React.FC<any> = ({viewer}) => {
   const browse = [
     {
       name: 'React',
@@ -342,94 +365,125 @@ const FlyoutMenu = () => {
   ]
   const contentSectionLinks = [
     {name: 'Articles', href: '/blog', icon: DocumentTextIcon},
-    {name: 'Podcasts', href: '/q?type=podcast', icon: MicrophoneIcon},
-    {name: 'Talks', href: '/q?type=talk', icon: PresentationChartBarIcon},
+    {
+      name: 'Podcasts',
+      href: '/q?type=podcast',
+      icon: MicrophoneIcon,
+    },
+    {
+      name: 'Talks',
+      href: '/q?type=talk',
+      icon: PresentationChartBarIcon,
+    },
   ]
 
-  function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-  }
-
   return (
-    <div>
-      <Popover className="relative">
-        {({open}) => (
-          <>
-            <Popover.Button
-              className={classNames(
-                open
-                  ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                  : 'active:bg-gray-200 dark:hover:text-white',
-                'group rounded-md inline-flex items-center text-base font-medium  focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:hover:text-white transition-all ease-in-out duration-200',
-              )}
+    <Popover>
+      {({open}) => (
+        <>
+          <Popover.Button className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3">
+            <span>Browse</span>
+            <ChevronDownIcon className="mt-px h-4" aria-hidden="true" />
+          </Popover.Button>
+          <Transition
+            show={open}
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+          >
+            <Popover.Panel
+              static
+              className="absolute sm:left-auto left-0 z-50 lg:max-w-xl md:max-w-lg sm:max-w-md w-full px-2 sm:px-0"
             >
-              <span>Browse</span>
-              <ChevronDownIcon
-                className={classNames(
-                  open
-                    ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                    : 'active:bg-gray-200 dark:hover:text-white',
-                  'ml-2 h-5 w-5',
-                )}
-                aria-hidden="true"
-              />
-            </Popover.Button>
-            <Transition
-              show={open}
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 translate-y-1"
-              enterTo="opacity-100 translate-y-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-1"
-            >
-              <Popover.Panel
-                static
-                className="absolute z-20 w-screen max-w-xl px-2 mt-3 sm:px-0 min-w-max"
-              >
-                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="relative grid gap-1 py-6 bg-white grid-cols-flyoutmenu dark:bg-gray-800 px-7">
+              <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="relative bg-white dark:bg-gray-800">
+                  {!viewer?.is_pro && (
+                    <Link href={!viewer?.is_pro ? '/learn' : '/'}>
+                      <a
+                        onClick={() =>
+                          track(`clicked curated courses`, {
+                            location: 'header browse',
+                          })
+                        }
+                        className="p-5 relative overflow-hidden flex items-center bg-blue-600 hover:bg-blue-500 group transition text-white"
+                      >
+                        <div className="relative z-10">
+                          <div className="uppercase text-xs tracking-wide font-medium opacity-80">
+                            start here
+                          </div>
+                          <div className="text-base font-semibold">
+                            Curated Courses{' '}
+                            <span
+                              aria-hidden="true"
+                              className="group-hover:translate-x-1 transition inline-flex"
+                            >
+                              &rarr;
+                            </span>
+                          </div>
+                        </div>
+                        <div className="absolute right-0 sm:scale-90 scale-50 origin-right group-hover:opacity-40 transition">
+                          <MazePattern />
+                        </div>
+                      </a>
+                    </Link>
+                  )}
+                  <div className="uppercase text-xs tracking-wide font-medium opacity-80 pt-5 px-5">
+                    Topics
+                  </div>
+                  <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 py-2">
                     {browse.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
-                        onClick={() =>
+                        onClick={() => {
                           track(`clicked topic`, {
                             resource: item.href,
                             location: 'header browse',
                           })
-                        }
-                        className="flex items-center justify-start px-3 py-2 transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900"
+                        }}
+                        className="rounded-sm flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                       >
-                        <Image
-                          width={24}
-                          height={24}
-                          src={item.image}
-                          alt={item.name}
-                          quality={100}
-                        />
-                        <span className="pl-2 text-base font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
+                        <div className="flex-shrink-0 flex items-center justify-center">
+                          <Image
+                            width={24}
+                            height={24}
+                            src={item.image}
+                            alt={item.name}
+                            quality={100}
+                            priority
+                          />
+                        </div>
+                        <span className="pl-2 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
                           {item.name}
                         </span>
                       </a>
                     ))}
-                    <div className="px-3 py-2 mr-6 text-base font-medium transition duration-150 ease-in-out rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:bg-gray-700">
-                      <a
-                        href="/topics"
-                        onClick={() =>
-                          track(`clicked all topics`, {
-                            location: 'header browse',
-                          })
-                        }
-                        className="text-blue-500 dark:text-gray-200"
+                    <a
+                      href="/topics"
+                      onClick={() =>
+                        track(`clicked all topics`, {
+                          location: 'header browse',
+                        })
+                      }
+                      className="rounded-sm lg:col-span-2 leading-tight lg:px-5 sm:px-3 px-5 py-3 font-medium transition duration-150 ease-in-out flex group items-center w-full hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                    >
+                      Browse all topics{' '}
+                      <span
+                        className="pl-1 inline-flex group-hover:translate-x-1 transition"
+                        aria-hidden="true"
                       >
-                        Browse all topics <span aria-hidden="true">&rarr;</span>
-                      </a>
-                    </div>
+                        &rarr;
+                      </span>
+                    </a>
                   </div>
-                  <div className="relative grid gap-1 py-5 bg-gray-100 grid-cols-flyoutmenu dark:bg-gray-700 px-7">
-                    {contentSectionLinks.map((item) => (
+                </div>
+                <div className="relative flex items-center bg-gray-100 dark:bg-gray-700">
+                  {contentSectionLinks.map((item) => {
+                    return (
                       <div key={item.name} className="flow-root">
                         <a
                           href={item.href}
@@ -439,23 +493,23 @@ const FlyoutMenu = () => {
                               location: 'header browse',
                             })
                           }
-                          className="flex items-center px-3 py-3 text-base font-medium text-gray-700 transition duration-150 ease-in-out rounded-md dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900"
+                          className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 dark:hover:bg-opacity-30"
                         >
                           <item.icon
                             className="flex-shrink-0 w-6 h-6 text-gray-400"
                             aria-hidden="true"
                           />
-                          <span className="ml-3">{item.name}</span>
+                          <span className="ml-2">{item.name}</span>
                         </a>
                       </div>
-                    ))}
-                  </div>
+                    )
+                  })}
                 </div>
-              </Popover.Panel>
-            </Transition>
-          </>
-        )}
-      </Popover>
-    </div>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
   )
 }

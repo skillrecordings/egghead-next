@@ -5,6 +5,8 @@ import {useRouter} from 'next/router'
 import Testimonials from 'components/pricing/testimonials'
 import testimonialsData from 'components/pricing/testimonials/data'
 import PricingWidget from 'components/pricing/pricing-widget'
+import Layout from 'components/app/layout'
+import {NextSeo} from 'next-seo'
 
 type PricingProps = {
   annualPrice: {
@@ -33,7 +35,7 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
         <header className="container flex flex-col items-center py-16 mt-5 text-center">
           <h1 className="max-w-screen-md text-2xl font-extrabold md:text-4xl leading-tighter">
             Build your Developer Project Portfolio and{' '}
-            <span className="text-yellow-500 dark:text-yellow-300">
+            <span className="text-blue-600 dark:text-yellow-300">
               Get a Better Job
             </span>{' '}
             as a Web Developer
@@ -54,7 +56,12 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
 }
 
 Pricing.getLayout = (Page: any, pageProps: any) => {
-  return <Page {...pageProps} />
+  return (
+    <Layout>
+      <NextSeo title="Pricing" />
+      <Page {...pageProps} />
+    </Layout>
+  )
 }
 
 export default Pricing
