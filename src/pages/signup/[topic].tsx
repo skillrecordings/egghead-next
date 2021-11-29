@@ -7,6 +7,7 @@ import {GetServerSideProps} from 'next'
 import {setupHttpTracing} from '../../utils/tracing-js/dist/src'
 import getTracer from '../../utils/honeycomb-tracer'
 import {loadCio} from '../../lib/customer'
+import serverCookie from 'cookie'
 
 const tracer = getTracer('signup-topic-page')
 
@@ -46,14 +47,25 @@ export const getServerSideProps: GetServerSideProps = async function ({
   try {
     if (req.cookies.customer) {
       customer = JSON.parse(req.cookies.customer)
-    } else if (query.cio_id) {
-      customer = await loadCio(query.cio_id as string, req.cookies.customer)
+    } else if (query.cio_id || req.cookies.cio_id) {
+      const cio_id = query.cio_id ?? req.cookies.cio_id
+      customer = await loadCio(cio_id as string, req.cookies.customer)
     }
   } catch (e) {
     console.log(e)
   }
 
   if (customer) {
+    const cioCookie = serverCookie.serialize(
+      'customer',
+      JSON.stringify(customer),
+      {
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 31556952,
+      },
+    )
+    res.setHeader('Set-Cookie', cioCookie)
     return {
       props: {
         topic: params?.topic,

@@ -11,6 +11,13 @@ import TechLogos from '../tech-logos'
 import title from 'title'
 import {holidaySaleOn} from 'lib/holiday-sale'
 
+function isMember(viewer: any, customer: any) {
+  return (
+    (customer && (customer.pro || customer.instructor)) ||
+    (viewer && (viewer.is_pro || viewer.is_instructor))
+  )
+}
+
 const Header: React.FC<{topic?: string; customer?: any}> = ({
   topic,
   customer,
@@ -32,11 +39,11 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
     </>
   )
 
-  if (viewer || customer) {
+  if (viewer || (customer && !isMember(viewer, customer))) {
     Offer = Join
   }
 
-  if (holidaySaleOn && (viewer || customer)) {
+  if (viewer || customer) {
     Offer = Browse
   }
 
