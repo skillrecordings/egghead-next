@@ -33,14 +33,6 @@ export const CioProvider: React.FunctionComponent = ({children}) => {
       const cioSubscriberId = get(queryParams, CIO_KEY)
       if (cioSubscriberId) delete queryParams[CIO_KEY]
 
-      console.log(
-        window.location.search,
-        queryParams,
-        cioSubscriberId,
-        queryString.stringify(queryParams),
-        window.location.pathname,
-      )
-
       const updatedParamns = queryString.stringify(queryParams)
 
       if (!isEmpty(cioSubscriberId)) {
