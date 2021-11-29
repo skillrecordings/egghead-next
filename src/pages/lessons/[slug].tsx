@@ -156,10 +156,33 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const actualPlayerRef = React.useRef<any>(null)
   const lastAutoPlayed = React.useRef()
 
+  const [watchCount, setWatchCount] = React.useState<number>(0)
+
   const [playerState, send] = useMachine(playerMachine, {
     context: {
       lesson: initialLesson,
       viewer,
+    },
+    services: {
+      loadLesson: async () => {
+        if (cookieUtil.get(`egghead-watch-count`)) {
+          setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
+        } else {
+          setWatchCount(
+            Number(
+              cookieUtil.set(`egghead-watch-count`, 0, {
+                expires: 15,
+              }),
+            ),
+          )
+        }
+
+        console.debug('loading video with auth')
+        const loadedLesson = await loadLesson(initialLesson.slug)
+        console.debug('authed video loaded', {video: loadedLesson})
+
+        return loadedLesson
+      },
     },
   })
 
@@ -168,7 +191,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
-  const [watchCount, setWatchCount] = React.useState<number>(0)
 
   const currentPlayerState = playerState.value as string
 
@@ -416,82 +438,15 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   }, [currentPlayerState, session_id])
 
   React.useEffect(() => {
-    async function run() {
-      console.debug('loading video with auth')
-      const loadedLesson = await loadLesson(initialLesson.slug)
-      console.debug('authed video loaded', {video: loadedLesson})
-
-      send({
-        type: 'LOADED',
-        lesson: {...initialLesson, ...loadedLesson},
-        viewer,
-      })
-    }
-
-    if (cookieUtil.get(`egghead-watch-count`)) {
-      setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
-    } else {
-      setWatchCount(
-        Number(
-          cookieUtil.set(`egghead-watch-count`, 0, {
-            expires: 15,
-          }),
-        ),
-      )
-    }
-
+    // when this effect is triggered, put the machine in the loading state (via
+    // `LOAD`). That state should take care of the rest with an Invoked
+    // Callback.
     send({
       type: 'LOAD',
       lesson: initialLesson,
       viewer,
     })
-
-    run()
   }, [initialLesson.slug])
-
-  // TODO: Temporary duplication of the above useEffect to ensure the lesson is
-  // loaded when transitioning from the 'subscribing'/Thank You overlay to
-  // watching the lesson. If this loading process was moved into the machine as
-  // an Invoked Callback, then state transitions could be employed to handle
-  // what the useEffects are doing.
-  React.useEffect(() => {
-    // only execute the contents of this effect if the machine is in the
-    // process of loading. Any other Player Machine state change should bail
-    // early.
-    if (currentPlayerState !== 'loading') return
-
-    async function run() {
-      console.debug('loading video with auth')
-      const loadedLesson = await loadLesson(initialLesson.slug)
-      console.debug('authed video loaded', {video: loadedLesson})
-
-      send({
-        type: 'LOADED',
-        lesson: {...initialLesson, ...loadedLesson},
-        viewer,
-      })
-    }
-
-    if (cookieUtil.get(`egghead-watch-count`)) {
-      setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
-    } else {
-      setWatchCount(
-        Number(
-          cookieUtil.set(`egghead-watch-count`, 0, {
-            expires: 15,
-          }),
-        ),
-      )
-    }
-
-    send({
-      type: 'LOAD',
-      lesson: initialLesson,
-      viewer,
-    })
-
-    run()
-  }, [currentPlayerState])
 
   const numberOfComments = filter(
     comments,

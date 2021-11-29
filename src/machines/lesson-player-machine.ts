@@ -41,6 +41,7 @@ export type PlayerStateEvent =
   | {type: 'LOAD'; lesson: any; viewer: any}
   | {type: 'RECOMMEND'}
   | {type: 'ADD_NOTE'}
+  | {type: 'done.invoke.fetchLessonDataService'; data: any}
 
 interface PlayerContext {
   lesson: any
@@ -58,28 +59,19 @@ export const playerMachine = Machine<
     context: {lesson: {}, viewer: {}},
     states: {
       loading: {
-        entry: [
-          assign({
-            lesson: (_, event: any) => event.lesson,
-            viewer: (_, event: any) => {
-              return event.viewer
-            },
-          }),
-        ],
-        on: {
-          LOADED: 'loaded',
+        entry: ['assignLessonAndViewer'],
+        invoke: {
+          id: 'fetchLessonDataService',
+          src: 'loadLesson',
+          onDone: {
+            target: 'loaded',
+            actions: ['assignLessonData'],
+          },
+          onError: {},
         },
       },
       loaded: {
-        entry: [
-          assign({
-            lesson: (_, event: any) => event.lesson,
-            viewer: (_, event: any) => {
-              return event.viewer
-            },
-          }),
-          'logLesson',
-        ],
+        entry: ['assignLessonAndViewer', 'logLesson'],
         on: {
           PLAY: 'playing',
           VIEW: 'viewing',
@@ -90,13 +82,7 @@ export const playerMachine = Machine<
         },
       },
       viewing: {
-        entry: [
-          'sendTelemetry',
-          assign({
-            lesson: (ctx, event: any) => event.lesson || ctx.lesson,
-            viewer: (ctx, event: any) => event.viewer || ctx.viewer,
-          }),
-        ],
+        entry: ['sendTelemetry', 'assignLessonAndViewer'],
         on: {
           PLAY: 'playing',
           LOAD: 'loading',
@@ -332,6 +318,37 @@ export const playerMachine = Machine<
         //     },
         //   },
         // })
+      },
+      assignLessonAndViewer: assign((context, event) => {
+        const lessonAndViewerAssignmentEvents = ['LOAD', 'LOADED', 'VIEW']
+
+        if (!lessonAndViewerAssignmentEvents.includes(event.type)) return {}
+
+        const assignment: {viewer?: any; lesson?: any} = {}
+
+        const lessonData = (event as {lesson?: any})?.lesson || context.lesson
+        const viewerData = (event as {viewer?: any})?.viewer || context.viewer
+
+        if (lessonData) {
+          assignment['lesson'] = lessonData
+        }
+        if (viewerData) {
+          assignment['viewer'] = viewerData
+        }
+
+        return assignment
+      }),
+      assignLessonData: assign((_, event) => {
+        if (event.type !== 'done.invoke.fetchLessonDataService') return {}
+
+        return {lesson: event.data}
+      }),
+    },
+    services: {
+      loadLesson: () => {
+        throw new Error(
+          "The LessonPlayerMachine's interpreter must implement `loadLesson`.",
+        )
       },
     },
   },
