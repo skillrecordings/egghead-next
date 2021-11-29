@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
+import {Topic} from 'types'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -284,13 +285,6 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
       )}
     </div>
   )
-}
-
-type Topic = {
-  title: string
-  path: string
-  slug: string
-  image: string
 }
 
 const topics: Topic[] = [
