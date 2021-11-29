@@ -21,15 +21,15 @@ const HolidaySaleHeaderBanner = () => {
         className="group"
       >
         <div className="bg-gradient-to-r text-white sm:px-2 pl-2 sm:text-sm text-xs from-blue-500 to-indigo-500 flex justify-center">
-          <div className="py-1 pr-3 font-semibold leading-tight">
+          <div className="py-1 pr-3 leading-tight">
             Holiday Sale:{' '}
-            <span className="font-medium">
+            <span>
               Save {percentOff}% on egghead membership
               {appliedCoupon.coupon_expires_at && ' for limited time only'}.
             </span>
           </div>
           <div className="flex items-center py-px px-2 bg-white dark:bg-opacity-100 bg-opacity-90 text-blue-600 flex-shrink-0">
-            <span className="pr-1 font-semibold">Go Pro</span>{' '}
+            <span className="pr-1 font-medium">Become a Member</span>{' '}
             <span aria-hidden>→</span>
           </div>
         </div>

@@ -224,10 +224,9 @@ const Header: FunctionComponent = () => {
 
   return isMounted ? (
     <>
-      {holidaySaleOn &&
-        viewer &&
-        !viewer?.is_pro &&
-        router.pathname !== '/pricing' && <HolidaySaleHeaderBanner />}
+      {holidaySaleOn && !viewer?.is_pro && router.pathname !== '/pricing' && (
+        <HolidaySaleHeaderBanner />
+      )}
       <nav
         aria-label="header"
         className="text-sm h-12 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000 relative"
