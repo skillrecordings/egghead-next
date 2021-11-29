@@ -18,6 +18,17 @@ function isMember(viewer: any, customer: any) {
   )
 }
 
+const ProvideEmail: React.FC<{topic?: string}> = ({topic}) => (
+  <>
+    <CreateAccount location="homepage header" />
+    <p className="max-w-sm pt-10 text-xs text-center sm:text-sm opacity-60">
+      Enter your email to create an account and start learning from more than
+      3,000 free {title(topic?.replace('_', ' ') ?? 'Full Stack')} lessons on
+      egghead.
+    </p>
+  </>
+)
+
 const Header: React.FC<{topic?: string; customer?: any}> = ({
   topic,
   customer,
@@ -29,22 +40,20 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
     setIsMounted(true)
   }, [])
 
-  let Offer = () => (
-    <>
-      <CreateAccount location="homepage header" />
-      <p className="max-w-sm pt-10 text-xs text-center sm:text-sm opacity-60">
-        Enter your email to create an account and start learning from more than
-        3,000 free lessons on egghead.
-      </p>
-    </>
-  )
+  const userPresent = Boolean(viewer || customer)
+  const userIsNonMember = userPresent && !isMember(viewer, customer)
 
-  if (viewer || (customer && !isMember(viewer, customer))) {
-    Offer = Join
-  }
+  let Offer
 
-  if (viewer || customer) {
-    Offer = Browse
+  switch (true) {
+    case userIsNonMember:
+      Offer = Join
+      break
+    case userPresent:
+      Offer = Browse
+      break
+    default:
+      Offer = ProvideEmail
   }
 
   return (
@@ -77,7 +86,7 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
             high-quality video tutorials and curated learning resources with
             zero cruft
           </h2>
-          <Offer />
+          <Offer topic={topic} />
         </div>
         <div className="sm:absolute bottom-10">
           <TechLogos />
