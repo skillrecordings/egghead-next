@@ -16,7 +16,6 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
-import cookieUtil from 'utils/cookies'
 
 type LessonProps = {
   initialLesson: any
@@ -37,18 +36,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     },
     services: {
       loadLesson: async () => {
-        if (cookieUtil.get(`egghead-watch-count`)) {
-          setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
-        } else {
-          setWatchCount(
-            Number(
-              cookieUtil.set(`egghead-watch-count`, 0, {
-                expires: 15,
-              }),
-            ),
-          )
-        }
-
         console.debug('loading video with auth')
         const loadedLesson = await loadLesson(initialLesson.slug)
         console.debug('authed video loaded', {video: loadedLesson})
@@ -86,6 +73,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   if (!lesson) return null
 
+  // TODO: This isn't being used. Can it be removed?
   const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
     playerState.matches,
   )
