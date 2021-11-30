@@ -299,22 +299,45 @@ test('it switches price', (done) => {
   // expect(commerceService.state.context.priceId).toEqual('priceId123')
 })
 
-xtest('it goes back to loadingPrices when quantity changes', async () => {
+test('it refetches prices when quantity changes', (done) => {
+  const mockedFunc = jest.fn()
+
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
-      fetchPricingData: async (_context) => {
+      fetchPricingData: async (context) => {
+        mockedFunc(context.quantity)
+
         return Promise.resolve(pricingResponseWithPPPAvailable)
       },
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  let sendOnce = false
 
-  commerceService.start({pricesLoaded: 'withoutCoupon'})
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        if (!sendOnce) {
+          commerceService.send({type: 'CHANGE_QUANTITY', quantity: 10})
+          sendOnce = true
+        } else {
+          // first called with 1, then called with 10
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(mockedFunc).toHaveBeenNthCalledWith(1, 1)
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(mockedFunc).toHaveBeenNthCalledWith(2, 10)
 
-  commerceService.send({type: 'CHANGE_QUANTITY', quantity: 10})
+          done()
+        }
+      }
+    },
+  )
 
-  await sleep(750)
+  commerceService.start()
 
-  expect(commerceService.state).toMatchState('loadingPrices')
+  //   commerceService.send({type: 'CHANGE_QUANTITY', quantity: 10})
+
+  //   await sleep(750)
+
+  //   expect(commerceService.state).toMatchState('loadingPrices')
 })
