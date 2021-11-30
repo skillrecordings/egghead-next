@@ -138,24 +138,36 @@ function sleep(time: number) {
   })
 }
 
-test('it transitions to pricesLoaded after fetching pricing data', async () => {
+test('it transitions to pricesLoaded after fetching pricing data', (done) => {
+  const mockedFunc = jest.fn()
+
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
-      fetchPricingData: async (_context) => {
+      fetchPricingData: async (context) => {
+        mockedFunc(context.quantity)
+
         return Promise.resolve()
       },
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches('pricesLoaded')) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(mockedFunc).toHaveBeenCalled()
+        done()
+      }
+    },
+  )
 
   commerceService.start()
 
-  expect(commerceService.state).toMatchState('loadingPrices')
+  //   expect(commerceService.state).toMatchState('loadingPrices')
 
-  await sleep(0)
+  //   await sleep(0)
 
-  expect(commerceService.state).toMatchState('pricesLoaded')
+  //   expect(commerceService.state).toMatchState('pricesLoaded')
 })
 
 test('it defaults to withoutCoupon when prices are loaded', async () => {
