@@ -203,7 +203,7 @@ test('it defaults to withoutCoupon when prices are loaded', (done) => {
   // expect(commerceService.state).toMatchState({pricesLoaded: 'withoutCoupon'})
 })
 
-test('it can apply PPP coupon when available', async () => {
+test('it can apply PPP coupon when available', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -212,15 +212,21 @@ test('it can apply PPP coupon when available', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withPPPCoupon'})) {
+        done()
+      }
+    },
+  )
 
   commerceService.start()
 
-  await sleep(0)
+  // await sleep(0)
 
   // TODO: Update the machine to set the priceId once pricing data loads. It
   // doesn't make sense for it to be undefined once it is in `pricesLoaded`.
-  expect(commerceService.state.context.priceId).toEqual(undefined)
+  // expect(commerceService.state.context.priceId).toEqual(undefined)
 })
 
 test('it recognizes an applied default coupon', async () => {
