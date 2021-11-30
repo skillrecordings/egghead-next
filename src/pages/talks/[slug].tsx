@@ -6,9 +6,7 @@ import EggheadPlayer from 'components/EggheadPlayer'
 import get from 'lodash/get'
 import Markdown from 'react-markdown'
 import Image from 'next/image'
-import useSWR from 'swr'
 import {loadLesson} from 'lib/lessons'
-import {getGraphQLClient} from 'utils/configured-graphql-client'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
 import {playerMachine} from 'machines/lesson-player-machine'
@@ -18,35 +16,7 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
-
-const lessonQuery = /* GraphQL */ `
-  query getLesson($slug: String!) {
-    lesson(slug: $slug) {
-      slug
-      title
-      http_url
-      transcript_url
-      subtitles_url
-      description
-      hls_url
-      dash_url
-      instructor {
-        full_name
-        slug
-        avatar_url
-      }
-    }
-  }
-`
-
-const lessonLoader = (slug: any, token: any) => (query: string) => {
-  const graphQLClient = getGraphQLClient(token)
-  const variables = {
-    slug: slug,
-  }
-
-  return graphQLClient.request(query, variables)
-}
+import cookieUtil from 'utils/cookies'
 
 type LessonProps = {
   initialLesson: any
@@ -58,8 +28,35 @@ const VIDEO_MIN_HEIGHT = 480
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const {authToken} = useViewer()
-  const [playerState, send] = useMachine(playerMachine)
+  const [watchCount, setWatchCount] = React.useState<number>(0)
+  const {viewer, authToken} = useViewer()
+  const [playerState, send] = useMachine(playerMachine, {
+    context: {
+      lesson: initialLesson,
+      viewer,
+    },
+    services: {
+      loadLesson: async () => {
+        if (cookieUtil.get(`egghead-watch-count`)) {
+          setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
+        } else {
+          setWatchCount(
+            Number(
+              cookieUtil.set(`egghead-watch-count`, 0, {
+                expires: 15,
+              }),
+            ),
+          )
+        }
+
+        console.debug('loading video with auth')
+        const loadedLesson = await loadLesson(initialLesson.slug)
+        console.debug('authed video loaded', {video: loadedLesson})
+
+        return loadedLesson
+      },
+    },
+  })
   const {height} = useWindowSize()
   const [lessonMaxWidth, setLessonMaxWidth] = React.useState(0)
 
@@ -67,12 +64,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
     setLessonMaxWidth(Math.round((height - OFFSET_Y) * 1.6))
   }, [height])
 
-  const {data = {}} = useSWR(
-    lessonQuery,
-    lessonLoader(initialLesson.slug, authToken),
-  )
-
-  const lesson = {...initialLesson, ...data.lesson}
+  const lesson: any = get(playerState, 'context.lesson', initialLesson)
   const {
     instructor,
     transcript,
@@ -153,6 +145,10 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   width="100%"
                   height="auto"
                   pip="true"
+                  poster={`https://og-image-react-egghead.now.sh/talk/${get(
+                    lesson,
+                    'slug',
+                  )}?v=20201027`}
                   controls
                   subtitlesUrl={get(lesson, 'subtitles_url')}
                 />
