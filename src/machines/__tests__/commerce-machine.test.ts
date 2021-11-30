@@ -170,7 +170,7 @@ test('it transitions to pricesLoaded after fetching pricing data', (done) => {
   //   expect(commerceService.state).toMatchState('pricesLoaded')
 })
 
-test('it defaults to withoutCoupon when prices are loaded', async () => {
+test('it defaults to withoutCoupon when prices are loaded', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -179,19 +179,27 @@ test('it defaults to withoutCoupon when prices are loaded', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        done()
+      }
+    },
+  )
 
-  commerceService.start('pricesLoaded')
+  commerceService.start()
 
-  expect(commerceService.state.matches('pricesLoaded')).toBe(true)
+  // commerceService.start('pricesLoaded')
+
+  // expect(commerceService.state.matches('pricesLoaded')).toBe(true)
 
   // await sleep(0)
 
   // TODO: I'd expect this to transition to `withoutCoupon`, but it gets stuck
   // in `checkingCouponStatus`.
-  expect(commerceService.state).toMatchState({
-    pricesLoaded: 'checkingCouponStatus',
-  })
+  // expect(commerceService.state).toMatchState({
+  //   pricesLoaded: 'checkingCouponStatus',
+  // })
   // expect(commerceService.state).toMatchState({pricesLoaded: 'withoutCoupon'})
 })
 
