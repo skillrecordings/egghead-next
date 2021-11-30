@@ -27,9 +27,8 @@ const VIDEO_MIN_HEIGHT = 480
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const [watchCount, setWatchCount] = React.useState<number>(0)
-  const {viewer, authToken} = useViewer()
-  const [playerState, send] = useMachine(playerMachine, {
+  const {viewer} = useViewer()
+  const [playerState] = useMachine(playerMachine, {
     context: {
       lesson: initialLesson,
       viewer,
