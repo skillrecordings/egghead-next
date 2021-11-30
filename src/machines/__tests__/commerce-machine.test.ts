@@ -163,12 +163,6 @@ test('it transitions to pricesLoaded after fetching pricing data', (done) => {
   )
 
   commerceService.start()
-
-  //   expect(commerceService.state).toMatchState('loadingPrices')
-
-  //   await sleep(0)
-
-  //   expect(commerceService.state).toMatchState('pricesLoaded')
 })
 
 test('it defaults to withoutCoupon when prices are loaded', (done) => {
@@ -189,19 +183,6 @@ test('it defaults to withoutCoupon when prices are loaded', (done) => {
   )
 
   commerceService.start()
-
-  // commerceService.start('pricesLoaded')
-
-  // expect(commerceService.state.matches('pricesLoaded')).toBe(true)
-
-  // await sleep(0)
-
-  // TODO: I'd expect this to transition to `withoutCoupon`, but it gets stuck
-  // in `checkingCouponStatus`.
-  // expect(commerceService.state).toMatchState({
-  //   pricesLoaded: 'checkingCouponStatus',
-  // })
-  // expect(commerceService.state).toMatchState({pricesLoaded: 'withoutCoupon'})
 })
 
 test('it can apply PPP coupon when available', (done) => {
@@ -289,14 +270,6 @@ test('it switches price', (done) => {
   )
 
   commerceService.start()
-
-  // const commerceService = interpret(commerceMachine)
-
-  // commerceService.start({pricesLoaded: 'withoutCoupon'})
-
-  // commerceService.send({type: 'SWITCH_PRICE', priceId: 'priceId123'})
-
-  // expect(commerceService.state.context.priceId).toEqual('priceId123')
 })
 
 test('it refetches prices when quantity changes', (done) => {
@@ -334,10 +307,4 @@ test('it refetches prices when quantity changes', (done) => {
   )
 
   commerceService.start()
-
-  //   commerceService.send({type: 'CHANGE_QUANTITY', quantity: 10})
-
-  //   await sleep(750)
-
-  //   expect(commerceService.state).toMatchState('loadingPrices')
 })
