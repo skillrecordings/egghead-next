@@ -132,7 +132,7 @@ test('it invokes the given fetchPricingData service', () => {
   expect(mockedFunc).toHaveBeenCalled()
 })
 
-function sleep(time) {
+function sleep(time: number) {
   return new Promise((resolve) => {
     return setTimeout(resolve, time)
   })
