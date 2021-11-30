@@ -84,7 +84,7 @@ const CardPreview = React.forwardRef(function CardPreview(
 
 type CardContentProps = {}
 
-const CardContent = React.forwardRef(function CardPreview(
+const CardContent = React.forwardRef(function CardContent(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
@@ -99,7 +99,7 @@ const CardContent = React.forwardRef(function CardPreview(
 
 type CardHeaderProps = {}
 
-const CardHeader = React.forwardRef(function CardPreview(
+const CardHeader = React.forwardRef(function CardHeader(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
@@ -114,7 +114,7 @@ const CardHeader = React.forwardRef(function CardPreview(
 
 type CardBodyProps = {}
 
-const CardBody = React.forwardRef(function CardPreview(
+const CardBody = React.forwardRef(function CardBody(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
@@ -129,7 +129,7 @@ const CardBody = React.forwardRef(function CardPreview(
 
 type CardAuthorProps = {}
 
-const CardAuthor = React.forwardRef(function CardPreview(
+const CardAuthor = React.forwardRef(function CardAuthor(
   {
     children,
     as: Comp = 'div',
@@ -171,7 +171,7 @@ const CardAuthor = React.forwardRef(function CardPreview(
 
 type CardMetaProps = {}
 
-const CardMeta = React.forwardRef(function CardPreview(
+const CardMeta = React.forwardRef(function CardMeta(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
@@ -186,7 +186,7 @@ const CardMeta = React.forwardRef(function CardPreview(
 
 type CardFooterProps = {}
 
-const CardFooter = React.forwardRef(function CardPreview(
+const CardFooter = React.forwardRef(function CardFooter(
   {children, as: Comp = 'div', ...props},
   forwardRef,
 ) {
