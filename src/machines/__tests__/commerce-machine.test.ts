@@ -132,6 +132,7 @@ test('it invokes the given fetchPricingData service', () => {
   expect(mockedFunc).toHaveBeenCalled()
 })
 
+// TODO: remove this once it is no longer used
 function sleep(time: number) {
   return new Promise((resolve) => {
     return setTimeout(resolve, time)
