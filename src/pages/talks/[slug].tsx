@@ -73,11 +73,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
 
   if (!lesson) return null
 
-  // TODO: This isn't being used. Can it be removed?
-  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
-    playerState.matches,
-  )
-
   return (
     <>
       <NextSeo
