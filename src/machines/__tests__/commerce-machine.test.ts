@@ -230,7 +230,7 @@ test('it can apply PPP coupon when available', (done) => {
   commerceService.start()
 })
 
-test('it recognizes an applied default coupon', async () => {
+test('it recognizes an applied default coupon', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -239,26 +239,63 @@ test('it recognizes an applied default coupon', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withDefaultCoupon'})) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(state.context.couponToApply?.couponCode).toEqual('QJVIXHB6')
+        done()
+      }
+    },
+  )
+
+  commerceService.start()
+})
+
+test('it switches price', (done) => {
+  const mockedCommerceMachine = commerceMachine.withConfig({
+    services: {
+      fetchPricingData: async (_context) => {
+        return Promise.resolve(pricingResponseWithPPPAvailable)
+      },
+    },
+  })
+
+  let sendOnce = false
+
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        if (!sendOnce) {
+          // the priceId has to be manually set, so it will start as undefined
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(state.context.priceId).toEqual(undefined)
+
+          // switch the price to monthly
+          commerceService.send({
+            type: 'SWITCH_PRICE',
+            priceId: 'price_monthly_id',
+          })
+
+          sendOnce = true
+        } else {
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(state.context.priceId).toEqual('price_monthly_id')
+          done()
+        }
+      }
+    },
+  )
 
   commerceService.start()
 
-  await sleep(0)
+  // const commerceService = interpret(commerceMachine)
 
-  // expect(commerceService.state.context.priceId).toEqual(undefined)
-  expect(commerceService.state.context.couponToApply?.couponCode).toEqual(
-    'QJVIXHB6',
-  )
-})
+  // commerceService.start({pricesLoaded: 'withoutCoupon'})
 
-test('it switches price without going back to loadingPrices', () => {
-  const commerceService = interpret(commerceMachine)
+  // commerceService.send({type: 'SWITCH_PRICE', priceId: 'priceId123'})
 
-  commerceService.start({pricesLoaded: 'withoutCoupon'})
-
-  commerceService.send({type: 'SWITCH_PRICE', priceId: 'priceId123'})
-
-  expect(commerceService.state.context.priceId).toEqual('priceId123')
+  // expect(commerceService.state.context.priceId).toEqual('priceId123')
 })
 
 xtest('it goes back to loadingPrices when quantity changes', async () => {
