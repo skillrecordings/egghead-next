@@ -212,21 +212,22 @@ test('it can apply PPP coupon when available', (done) => {
     },
   })
 
+  let sendOnce = false
+
   const commerceService = interpret(mockedCommerceMachine).onTransition(
     (state) => {
-      if (state.matches({pricesLoaded: 'withPPPCoupon'})) {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        if (!sendOnce) {
+          commerceService.send('APPLY_PPP_COUPON')
+          sendOnce = true
+        }
+      } else if (state.matches({pricesLoaded: 'withPPPCoupon'})) {
         done()
       }
     },
   )
 
   commerceService.start()
-
-  // await sleep(0)
-
-  // TODO: Update the machine to set the priceId once pricing data loads. It
-  // doesn't make sense for it to be undefined once it is in `pricesLoaded`.
-  // expect(commerceService.state.context.priceId).toEqual(undefined)
 })
 
 test('it recognizes an applied default coupon', async () => {
