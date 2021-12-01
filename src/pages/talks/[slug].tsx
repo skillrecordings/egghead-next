@@ -16,7 +16,6 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
-import cookieUtil from 'utils/cookies'
 
 type LessonProps = {
   initialLesson: any
@@ -28,27 +27,14 @@ const VIDEO_MIN_HEIGHT = 480
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
-  const [watchCount, setWatchCount] = React.useState<number>(0)
-  const {viewer, authToken} = useViewer()
-  const [playerState, send] = useMachine(playerMachine, {
+  const {viewer} = useViewer()
+  const [playerState] = useMachine(playerMachine, {
     context: {
       lesson: initialLesson,
       viewer,
     },
     services: {
       loadLesson: async () => {
-        if (cookieUtil.get(`egghead-watch-count`)) {
-          setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
-        } else {
-          setWatchCount(
-            Number(
-              cookieUtil.set(`egghead-watch-count`, 0, {
-                expires: 15,
-              }),
-            ),
-          )
-        }
-
         console.debug('loading video with auth')
         const loadedLesson = await loadLesson(initialLesson.slug)
         console.debug('authed video loaded', {video: loadedLesson})
@@ -85,10 +71,6 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }
 
   if (!lesson) return null
-
-  const playerVisible: boolean = ['playing', 'paused', 'viewing'].some(
-    playerState.matches,
-  )
 
   return (
     <>
