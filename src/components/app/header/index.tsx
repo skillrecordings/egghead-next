@@ -210,7 +210,7 @@ const Header: FunctionComponent = () => {
     )
   }
 
-  return isMounted ? (
+  return (
     <>
       {holidaySaleOn &&
         !viewer?.is_pro &&
@@ -220,46 +220,48 @@ const Header: FunctionComponent = () => {
         aria-label="header"
         className="text-sm h-12 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000 relative"
       >
-        <div className="container h-full flex items-center w-full justify-between">
-          <div className="flex h-full">
-            <Logo />
-            {!isTopics && <Browse viewer={viewer} />}
+        {isMounted && (
+          <div className="container h-full flex items-center w-full justify-between">
+            <div className="flex h-full">
+              <Logo />
+              {!isTopics && <Browse viewer={viewer} />}
+            </div>
+            <div className="flex h-full">
+              {!md && !isSearch && <SearchBar />}
+              {!sm && (
+                <>
+                  {!isEmpty(viewer) && <Bookmarks />}
+                  {!isEmpty(viewer) && <Feedback />}
+                  {showTeamNavLink && <Team />}
+                  <div className="px-1 flex items-center">{activeCTA}</div>
+                  {!isEmpty(viewer) && <User />}
+                  {isEmpty(viewer) && <Login />}
+                </>
+              )}
+              {sm && !loading && (
+                <button
+                  onClick={() => setOpen(!isOpen)}
+                  aria-labelledby="menubutton"
+                  aria-expanded={isOpen}
+                  className="flex items-center justify-center py-2 px-3 -mr-4"
+                >
+                  <span className="sr-only">
+                    {isOpen ? 'Close navigation' : 'Open navigation'}
+                  </span>
+                  {isOpen ? (
+                    <XIcon className="w-5" aria-hidden />
+                  ) : (
+                    <MenuIcon className="w-5" aria-hidden />
+                  )}
+                </button>
+              )}
+            </div>
           </div>
-          <div className="flex h-full">
-            {!md && !isSearch && <SearchBar />}
-            {!sm && (
-              <>
-                {!isEmpty(viewer) && <Bookmarks />}
-                {!isEmpty(viewer) && <Feedback />}
-                {showTeamNavLink && <Team />}
-                <div className="px-1 flex items-center">{activeCTA}</div>
-                {!isEmpty(viewer) && <User />}
-                {isEmpty(viewer) && <Login />}
-              </>
-            )}
-            {sm && !loading && (
-              <button
-                onClick={() => setOpen(!isOpen)}
-                aria-labelledby="menubutton"
-                aria-expanded={isOpen}
-                className="flex items-center justify-center py-2 px-3 -mr-4"
-              >
-                <span className="sr-only">
-                  {isOpen ? 'Close navigation' : 'Open navigation'}
-                </span>
-                {isOpen ? (
-                  <XIcon className="w-5" aria-hidden />
-                ) : (
-                  <MenuIcon className="w-5" aria-hidden />
-                )}
-              </button>
-            )}
-          </div>
-        </div>
+        )}
         {isOpen && <MobileNavigation />}
       </nav>
     </>
-  ) : null
+  )
 }
 
 export default Header
