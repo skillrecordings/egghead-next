@@ -50,7 +50,7 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
               key={resource.id}
               className={`rounded-md aspect-w-3 aspect-h-4 h-full w-full transition-all ease-in-out duration-200 relative overflow-hidden 
             ${classNames({
-              'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 ':
+              'group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50':
                 published,
               'dark:bg-gray-1000 bg-gray-50 dark:bg-opacity-50 border-2 border-dotted border-collapse dark:border-gray-800 border-gray-200':
                 !published,
@@ -66,14 +66,14 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
                       height={240}
                       quality={100}
                       loading="eager"
-                      className={`group-hover:scale-90 group-hover:opacity-90 transition-all ease-in-out duration-300 ${classNames(
+                      className={`group-hover:scale-90 group-hover:opacity-90 group-focus:scale-90 group-focus:opacity-90 transition-all ease-in-out duration-300 ${classNames(
                         {
                           'saturate-0 opacity-20': !published,
                         },
                       )}`}
                     />
                     {published && (
-                      <div className="absolute flex items-center justify-center w-10 h-10 font-mono text-xs leading-none transition-all duration-300 ease-in-out origin-center scale-0 bg-white rounded-full opacity-0 group-hover:scale-100 bg-opacity-90 shadow-smooth group-hover:opacity-100">
+                      <div className="absolute flex items-center justify-center w-10 h-10 font-mono text-xs leading-none transition-all duration-300 ease-in-out origin-center scale-0 bg-white rounded-full opacity-0 group-hover:scale-100 group-hover:opacity-100 group-focus:scale-100 group-focus:opacity-100 bg-opacity-90 shadow-smooth">
                         <PlayIcon className="w-3 dark:text-gray-900" />
                       </div>
                     )}
