@@ -45,6 +45,9 @@ const ParityCouponMessage = ({
           <ul className="mt-2 ml-4 list-disc">
             <li>Downloads and bonuses are not included.</li>
             <li>
+              The discount is not valid in conjunction with other promotions.
+            </li>
+            <li>
               Members-only content will only be available while browsing from{' '}
               {countryName}.
             </li>
@@ -85,6 +88,11 @@ const ParityCouponMessage = ({
           </div>
         )}
       </div>
+      {reduced && (
+        <p className="mt-4 text-sm text-gray-600">
+          *The discount is not valid in conjunction with other promotions.
+        </p>
+      )}
     </div>
   )
 }

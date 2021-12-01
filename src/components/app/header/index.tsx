@@ -188,18 +188,6 @@ const Header: FunctionComponent = () => {
     )
   }
 
-  const Learn = () => {
-    return (
-      <div>
-        <Link href="/learn" activeClassName="underline">
-          <a className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2">
-            Learn
-          </a>
-        </Link>
-      </div>
-    )
-  }
-
   const MobileNavigation = () => {
     return (
       <ul className="dark:bg-gray-800 bg-gray-50 shadow-smooth w-full flex flex-col px-3 pb-5 relative z-20 text-base space-y-2">
@@ -224,9 +212,10 @@ const Header: FunctionComponent = () => {
 
   return isMounted ? (
     <>
-      {holidaySaleOn && !viewer?.is_pro && router.pathname !== '/pricing' && (
-        <HolidaySaleHeaderBanner />
-      )}
+      {holidaySaleOn &&
+        !viewer?.is_pro &&
+        !viewer?.is_instructor &&
+        router.pathname !== '/pricing' && <HolidaySaleHeaderBanner />}
       <nav
         aria-label="header"
         className="text-sm h-12 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000 relative"
