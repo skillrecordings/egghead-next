@@ -27,6 +27,7 @@ import {
 import {holidaySaleOn} from 'lib/holiday-sale'
 import HolidaySaleHeaderBanner from 'components/cta/holiday-sale/header-banner'
 import {MazePattern} from './images'
+import {isMember} from 'utils/is-member'
 
 const Header: FunctionComponent = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
@@ -267,6 +268,7 @@ const Header: FunctionComponent = () => {
 export default Header
 
 const Browse: React.FC<any> = ({viewer}) => {
+  const {subscriber} = useCio()
   const browse = [
     {
       name: 'React',
@@ -391,7 +393,7 @@ const Browse: React.FC<any> = ({viewer}) => {
             >
               <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative bg-white dark:bg-gray-800">
-                  {!viewer?.is_pro && (
+                  {!isMember(viewer, subscriber?.attributes) && (
                     <Link href={!viewer?.is_pro ? '/learn' : '/'}>
                       <a
                         onClick={() =>
