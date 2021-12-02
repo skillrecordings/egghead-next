@@ -89,8 +89,8 @@ const Header: FunctionComponent = () => {
     return (
       <Link href="/">
         <a className="flex items-center pr-2">
-          <Eggo className="sm:w-8 w-7 mr-1" />
-          <span className="sm:text-lg text-base font-semibold inline-block">
+          <Eggo className="mr-1 sm:w-8 w-7" />
+          <span className="inline-block text-base font-semibold sm:text-lg">
             egghead.io
           </span>
         </a>
@@ -107,7 +107,7 @@ const Header: FunctionComponent = () => {
               location: 'header',
             })
           }
-          className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2"
+          className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
         >
           <img
             width={32}
@@ -129,7 +129,7 @@ const Header: FunctionComponent = () => {
     return (
       <FeedbackInput
         user={viewer}
-        className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3"
+        className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
       >
         Feedback
       </FeedbackInput>
@@ -145,7 +145,7 @@ const Header: FunctionComponent = () => {
               location: 'header',
             })
           }
-          className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3"
+          className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
         >
           Bookmarks
         </a>
@@ -162,7 +162,7 @@ const Header: FunctionComponent = () => {
               location: 'header',
             })
           }
-          className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2"
+          className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
         >
           Team
         </a>
@@ -180,7 +180,7 @@ const Header: FunctionComponent = () => {
                 location: 'header',
               })
             }
-            className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-2"
+            className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
           >
             Sign in
           </a>
@@ -191,7 +191,7 @@ const Header: FunctionComponent = () => {
 
   const MobileNavigation = () => {
     return (
-      <ul className="dark:bg-gray-800 bg-gray-50 shadow-smooth w-full flex flex-col px-3 pb-5 relative z-20 text-base space-y-2">
+      <ul className="relative z-20 flex flex-col w-full px-3 pb-5 space-y-2 text-base dark:bg-gray-800 bg-gray-50 shadow-smooth">
         {[
           SearchBar,
           !isEmpty(viewer) && Bookmarks,
@@ -201,7 +201,7 @@ const Header: FunctionComponent = () => {
           isEmpty(viewer) && Login,
         ].map((Item: any, i) => {
           return Item ? (
-            <li key={i} className="w-full h-12 flex items-stretch">
+            <li key={i} className="flex items-stretch w-full h-12">
               <Item />
             </li>
           ) : null
@@ -219,10 +219,10 @@ const Header: FunctionComponent = () => {
         router.pathname !== '/pricing' && <HolidaySaleHeaderBanner />}
       <nav
         aria-label="header"
-        className="text-sm h-12 border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000 relative"
+        className="relative h-12 text-sm border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
       >
         {isMounted && (
-          <div className="container h-full flex items-center w-full justify-between">
+          <div className="container flex items-center justify-between w-full h-full">
             <div className="flex h-full">
               <Logo />
               {!isTopics && <Browse viewer={viewer} />}
@@ -234,7 +234,7 @@ const Header: FunctionComponent = () => {
                   {!isEmpty(viewer) && <Bookmarks />}
                   {!isEmpty(viewer) && <Feedback />}
                   {showTeamNavLink && <Team />}
-                  <div className="px-1 flex items-center">{activeCTA}</div>
+                  <div className="flex items-center px-1">{activeCTA}</div>
                   {!isEmpty(viewer) && <User />}
                   {isEmpty(viewer) && <Login />}
                 </>
@@ -244,7 +244,7 @@ const Header: FunctionComponent = () => {
                   onClick={() => setOpen(!isOpen)}
                   aria-labelledby="menubutton"
                   aria-expanded={isOpen}
-                  className="flex items-center justify-center py-2 px-3 -mr-4"
+                  className="flex items-center justify-center px-3 py-2 -mr-4"
                 >
                   <span className="sr-only">
                     {isOpen ? 'Close navigation' : 'Open navigation'}
@@ -371,11 +371,11 @@ const Browse: React.FC<any> = ({viewer}) => {
 
   return (
     <Popover>
-      {({open}) => (
+      {({open, close}) => (
         <>
-          <Popover.Button className="flex items-center h-full dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5 px-3">
+          <Popover.Button className="flex items-center h-full px-3 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5">
             <span>Browse</span>
-            <ChevronDownIcon className="mt-px h-4" aria-hidden="true" />
+            <ChevronDownIcon className="h-4 mt-px" aria-hidden="true" />
           </Popover.Button>
           <Transition
             show={open}
@@ -389,115 +389,118 @@ const Browse: React.FC<any> = ({viewer}) => {
           >
             <Popover.Panel
               static
-              className="absolute sm:left-auto left-0 z-50 lg:max-w-xl md:max-w-lg sm:max-w-md w-full px-2 sm:px-0"
+              className="absolute left-0 z-50 w-full px-2 sm:left-auto lg:max-w-xl md:max-w-lg sm:max-w-md sm:px-0"
             >
-              <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                <div className="relative bg-white dark:bg-gray-800">
-                  {!isMember(viewer, subscriber?.attributes) && (
-                    <Link href={!viewer?.is_pro ? '/learn' : '/'}>
-                      <a
-                        onClick={() =>
-                          track(`clicked curated courses`, {
-                            location: 'header browse',
-                          })
-                        }
-                        className="p-5 relative overflow-hidden flex items-center bg-blue-600 hover:bg-blue-500 group transition text-white"
-                      >
-                        <div className="relative z-10">
-                          <div className="uppercase text-xs tracking-wide font-medium opacity-80">
-                            start here
-                          </div>
-                          <div className="text-base font-semibold">
-                            Curated Courses{' '}
-                            <span
-                              aria-hidden="true"
-                              className="group-hover:translate-x-1 transition inline-flex"
-                            >
-                              &rarr;
-                            </span>
-                          </div>
-                        </div>
-                        <div className="absolute right-0 sm:scale-90 scale-50 origin-right group-hover:opacity-40 transition">
-                          <MazePattern />
-                        </div>
-                      </a>
-                    </Link>
-                  )}
-                  <div className="uppercase text-xs tracking-wide font-medium opacity-80 pt-5 px-5">
-                    Topics
-                  </div>
-                  <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 py-2">
-                    {browse.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => {
-                          track(`clicked topic`, {
-                            resource: item.href,
-                            location: 'header browse',
-                          })
-                        }}
-                        className="rounded-sm flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                      >
-                        <div className="flex-shrink-0 flex items-center justify-center">
-                          <Image
-                            width={24}
-                            height={24}
-                            src={item.image}
-                            alt={item.name}
-                            quality={100}
-                            priority
-                          />
-                        </div>
-                        <span className="pl-2 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
-                          {item.name}
-                        </span>
-                      </a>
-                    ))}
-                    <a
-                      href="/topics"
-                      onClick={() =>
-                        track(`clicked all topics`, {
-                          location: 'header browse',
-                        })
-                      }
-                      className="rounded-sm lg:col-span-2 leading-tight lg:px-5 sm:px-3 px-5 py-3 font-medium transition duration-150 ease-in-out flex group items-center w-full hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
-                    >
-                      Browse all topics{' '}
-                      <span
-                        className="pl-1 inline-flex group-hover:translate-x-1 transition"
-                        aria-hidden="true"
-                      >
-                        &rarr;
-                      </span>
-                    </a>
-                  </div>
-                </div>
-                <div className="relative flex items-center bg-gray-100 dark:bg-gray-700">
-                  {contentSectionLinks.map((item) => {
-                    return (
-                      <div key={item.name} className="flow-root">
+              {({close}) => (
+                <div className="overflow-hidden rounded-b-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                  <div className="relative bg-white dark:bg-gray-800">
+                    {!isMember(viewer, subscriber?.attributes) && (
+                      <Link href={!viewer?.is_pro ? '/learn' : '/'}>
                         <a
+                          onClick={() => {
+                            track(`clicked curated courses`, {
+                              location: 'header browse',
+                            })
+                            close()
+                          }}
+                          className="relative flex items-center p-5 overflow-hidden text-white transition bg-blue-600 hover:bg-blue-500 group"
+                        >
+                          <div className="relative z-10">
+                            <div className="text-xs font-medium tracking-wide uppercase opacity-80">
+                              start here
+                            </div>
+                            <div className="text-base font-semibold">
+                              Curated Courses{' '}
+                              <span
+                                aria-hidden="true"
+                                className="inline-flex transition group-hover:translate-x-1"
+                              >
+                                &rarr;
+                              </span>
+                            </div>
+                          </div>
+                          <div className="absolute right-0 transition origin-right scale-50 sm:scale-90 group-hover:opacity-40">
+                            <MazePattern />
+                          </div>
+                        </a>
+                      </Link>
+                    )}
+                    <div className="px-5 pt-5 text-xs font-medium tracking-wide uppercase opacity-80">
+                      Topics
+                    </div>
+                    <div className="grid grid-cols-2 py-2 lg:grid-cols-4 sm:grid-cols-3">
+                      {browse.map((item) => (
+                        <a
+                          key={item.name}
                           href={item.href}
-                          onClick={() =>
-                            track(`clicked browse section`, {
+                          onClick={() => {
+                            track(`clicked topic`, {
                               resource: item.href,
                               location: 'header browse',
                             })
-                          }
-                          className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 dark:hover:bg-opacity-30"
+                          }}
+                          className="flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
-                          <item.icon
-                            className="flex-shrink-0 w-6 h-6 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          <span className="ml-2">{item.name}</span>
+                          <div className="flex items-center justify-center flex-shrink-0">
+                            <Image
+                              width={24}
+                              height={24}
+                              src={item.image}
+                              alt={item.name}
+                              quality={100}
+                              priority
+                            />
+                          </div>
+                          <span className="pl-2 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:text-black">
+                            {item.name}
+                          </span>
                         </a>
-                      </div>
-                    )
-                  })}
+                      ))}
+                      <a
+                        href="/topics"
+                        onClick={() =>
+                          track(`clicked all topics`, {
+                            location: 'header browse',
+                          })
+                        }
+                        className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
+                      >
+                        Browse all topics{' '}
+                        <span
+                          className="inline-flex pl-1 transition group-hover:translate-x-1"
+                          aria-hidden="true"
+                        >
+                          &rarr;
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="relative flex items-center bg-gray-100 dark:bg-gray-700">
+                    {contentSectionLinks.map((item) => {
+                      return (
+                        <div key={item.name} className="flow-root">
+                          <a
+                            href={item.href}
+                            onClick={() =>
+                              track(`clicked browse section`, {
+                                resource: item.href,
+                                location: 'header browse',
+                              })
+                            }
+                            className="flex items-center px-3 py-3 font-medium text-gray-700 transition duration-150 ease-in-out dark:text-white hover:bg-gray-200 dark:hover:bg-gray-900 dark:hover:bg-opacity-30"
+                          >
+                            <item.icon
+                              className="flex-shrink-0 w-6 h-6 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            <span className="ml-2">{item.name}</span>
+                          </a>
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </Popover.Panel>
           </Transition>
         </>
