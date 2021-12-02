@@ -48,6 +48,7 @@ export async function loadLesson(slug: string, token?: string) {
         icon_url
         download_url
         created_at
+        staff_notes_url
         collection {
           ... on Playlist {
             title
