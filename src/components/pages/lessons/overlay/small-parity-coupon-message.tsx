@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Coupon} from 'machines/commerce-machine'
+import {Coupon} from 'types'
 
 type SmallParityCouponMessage = {
   coupon: Coupon

@@ -6,13 +6,12 @@ import emailIsValid from 'utils/email-is-valid'
 import {track} from 'utils/analytics'
 import {useCommerceMachine} from 'hooks/use-commerce-machine'
 import {first, get} from 'lodash'
-import {StripeAccount} from 'types'
+import {Coupon, StripeAccount} from 'types'
 import {useRouter} from 'next/router'
 import SelectPlanNew from 'components/pricing/select-plan-new'
 import PoweredByStripe from 'components/pricing/powered-by-stripe'
 import ParityCouponMessage from 'components/pricing/parity-coupon-message'
 import isEmpty from 'lodash/isEmpty'
-import {Coupon} from 'machines/commerce-machine'
 
 const PricingWidget: FunctionComponent<{}> = () => {
   const {viewer, authToken} = useViewer()
