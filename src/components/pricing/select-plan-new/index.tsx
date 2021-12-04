@@ -5,9 +5,9 @@ import BestValueStamp from 'components/pricing/select-plan-new/assets/best-value
 import ColoredBackground from 'components/pricing/select-plan-new/assets/colored-background'
 import {keys} from 'lodash'
 import Spinner from 'components/spinner'
-import {Coupon, PricingPlan} from 'machines/commerce-machine'
 import Countdown from 'components/pricing/countdown'
 import {fromUnixTime} from 'date-fns'
+import {Coupon, PricingPlan} from 'types'
 
 const PlanTitle: React.FunctionComponent = ({children}) => (
   <h2 className="text-xl font-bold text-gray-900 dark:text-white">

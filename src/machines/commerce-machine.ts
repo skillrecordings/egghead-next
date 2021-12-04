@@ -1,35 +1,7 @@
 import {createMachine, assign} from 'xstate'
 import {loadPricingData} from 'lib/prices'
 import isEmpty from 'lodash/isEmpty'
-
-export type PricingPlan = {
-  interval: string
-  interval_count: number
-  name: string
-  price: number
-  stripe_price_id: string
-}
-
-export type Coupon = {
-  coupon_code: string
-  coupon_discount: number
-  coupon_region_restricted_to: string
-  coupon_region_restricted_to_name: string
-  coupon_expires_at: number
-  default?: boolean
-}
-
-export type PricingData = {
-  applied_coupon: Coupon
-  available_coupons: {
-    ppp?: Coupon
-    default?: Coupon
-  }
-  coupon_code_errors: string[]
-  mode: 'individual' | 'team'
-  plans: PricingPlan[]
-  quantity: number
-}
+import {PricingData} from 'types'
 
 type CouponToApply = {
   couponCode: string

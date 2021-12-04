@@ -1,13 +1,7 @@
 import {find} from 'lodash'
 import axios from 'utils/configured-axios'
 import {pickBy} from 'lodash'
-import {PricingData, PricingPlan} from 'machines/commerce-machine'
-
-export type Prices = {
-  monthlyPrice?: PricingPlan
-  quarterlyPrice?: PricingPlan
-  annualPrice?: PricingPlan
-}
+import {Prices, PricingData} from 'types'
 
 export const mockPrices = {
   mode: 'individual',
