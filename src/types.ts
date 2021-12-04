@@ -94,3 +94,10 @@ export type Question = {
 export type Questions = {
   [key: string]: Question
 }
+
+export type Topic = {
+  title: string
+  path: string
+  slug: string
+  image: string
+}

@@ -9,14 +9,7 @@ import HeroBgDark from './hero-bg-dark.png'
 import Image from 'next/image'
 import TechLogos from '../tech-logos'
 import title from 'title'
-import {holidaySaleOn} from 'lib/holiday-sale'
-
-function isMember(viewer: any, customer: any) {
-  return (
-    (customer && (customer.pro || customer.instructor)) ||
-    (viewer && (viewer.is_pro || viewer.is_instructor))
-  )
-}
+import {isMember} from 'utils/is-member'
 
 const ProvideEmail: React.FC<{topic?: string}> = ({topic}) => (
   <>
