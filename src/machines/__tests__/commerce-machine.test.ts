@@ -132,33 +132,33 @@ test('it invokes the given fetchPricingData service', () => {
   expect(mockedFunc).toHaveBeenCalled()
 })
 
-function sleep(time) {
-  return new Promise((resolve) => {
-    return setTimeout(resolve, time)
-  })
-}
+test('it transitions to pricesLoaded after fetching pricing data', (done) => {
+  const mockedFunc = jest.fn()
 
-test('it transitions to pricesLoaded after fetching pricing data', async () => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
-      fetchPricingData: async (_context) => {
+      fetchPricingData: async (context) => {
+        mockedFunc(context.quantity)
+
         return Promise.resolve()
       },
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches('pricesLoaded')) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(mockedFunc).toHaveBeenCalled()
+        done()
+      }
+    },
+  )
 
   commerceService.start()
-
-  expect(commerceService.state).toMatchState('loadingPrices')
-
-  await sleep(0)
-
-  expect(commerceService.state).toMatchState('pricesLoaded')
 })
 
-test('it defaults to withoutCoupon when prices are loaded', async () => {
+test('it defaults to withoutCoupon when prices are loaded', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -167,23 +167,18 @@ test('it defaults to withoutCoupon when prices are loaded', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        done()
+      }
+    },
+  )
 
-  commerceService.start('pricesLoaded')
-
-  expect(commerceService.state.matches('pricesLoaded')).toBe(true)
-
-  // await sleep(0)
-
-  // TODO: I'd expect this to transition to `withoutCoupon`, but it gets stuck
-  // in `checkingCouponStatus`.
-  expect(commerceService.state).toMatchState({
-    pricesLoaded: 'checkingCouponStatus',
-  })
-  // expect(commerceService.state).toMatchState({pricesLoaded: 'withoutCoupon'})
+  commerceService.start()
 })
 
-test('it can apply PPP coupon when available', async () => {
+test('it can apply PPP coupon when available', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -192,18 +187,25 @@ test('it can apply PPP coupon when available', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  let sendOnce = false
+
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        if (!sendOnce) {
+          commerceService.send('APPLY_PPP_COUPON')
+          sendOnce = true
+        }
+      } else if (state.matches({pricesLoaded: 'withPPPCoupon'})) {
+        done()
+      }
+    },
+  )
 
   commerceService.start()
-
-  await sleep(0)
-
-  // TODO: Update the machine to set the priceId once pricing data loads. It
-  // doesn't make sense for it to be undefined once it is in `pricesLoaded`.
-  expect(commerceService.state.context.priceId).toEqual(undefined)
 })
 
-test('it recognizes an applied default coupon', async () => {
+test('it recognizes an applied default coupon', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -212,29 +214,20 @@ test('it recognizes an applied default coupon', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withDefaultCoupon'})) {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(state.context.couponToApply?.couponCode).toEqual('QJVIXHB6')
+        done()
+      }
+    },
+  )
 
   commerceService.start()
-
-  await sleep(0)
-
-  // expect(commerceService.state.context.priceId).toEqual(undefined)
-  expect(commerceService.state.context.couponToApply?.couponCode).toEqual(
-    'QJVIXHB6',
-  )
 })
 
-test('it switches price without going back to loadingPrices', () => {
-  const commerceService = interpret(commerceMachine)
-
-  commerceService.start({pricesLoaded: 'withoutCoupon'})
-
-  commerceService.send({type: 'SWITCH_PRICE', priceId: 'priceId123'})
-
-  expect(commerceService.state.context.priceId).toEqual('priceId123')
-})
-
-xtest('it goes back to loadingPrices when quantity changes', async () => {
+test('it switches price', (done) => {
   const mockedCommerceMachine = commerceMachine.withConfig({
     services: {
       fetchPricingData: async (_context) => {
@@ -243,13 +236,68 @@ xtest('it goes back to loadingPrices when quantity changes', async () => {
     },
   })
 
-  const commerceService = interpret(mockedCommerceMachine)
+  let sendOnce = false
 
-  commerceService.start({pricesLoaded: 'withoutCoupon'})
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        if (!sendOnce) {
+          // the priceId has to be manually set, so it will start as undefined
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(state.context.priceId).toEqual(undefined)
 
-  commerceService.send({type: 'CHANGE_QUANTITY', quantity: 10})
+          // switch the price to monthly
+          commerceService.send({
+            type: 'SWITCH_PRICE',
+            priceId: 'price_monthly_id',
+          })
 
-  await sleep(750)
+          sendOnce = true
+        } else {
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(state.context.priceId).toEqual('price_monthly_id')
+          done()
+        }
+      }
+    },
+  )
 
-  expect(commerceService.state).toMatchState('loadingPrices')
+  commerceService.start()
+})
+
+test('it refetches prices when quantity changes', (done) => {
+  const mockedFunc = jest.fn()
+
+  const mockedCommerceMachine = commerceMachine.withConfig({
+    services: {
+      fetchPricingData: async (context) => {
+        mockedFunc(context.quantity)
+
+        return Promise.resolve(pricingResponseWithPPPAvailable)
+      },
+    },
+  })
+
+  let sendOnce = false
+
+  const commerceService = interpret(mockedCommerceMachine).onTransition(
+    (state) => {
+      if (state.matches({pricesLoaded: 'withoutCoupon'})) {
+        if (!sendOnce) {
+          commerceService.send({type: 'CHANGE_QUANTITY', quantity: 10})
+          sendOnce = true
+        } else {
+          // first called with 1, then called with 10
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(mockedFunc).toHaveBeenNthCalledWith(1, 1)
+          // eslint-disable-next-line jest/no-conditional-expect
+          expect(mockedFunc).toHaveBeenNthCalledWith(2, 10)
+
+          done()
+        }
+      }
+    },
+  )
+
+  commerceService.start()
 })
