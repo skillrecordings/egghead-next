@@ -365,6 +365,11 @@ const rssRoutes = [
     destination: `${appUrl}/playlists/:id/playlist_feed`,
     permanent: true,
   },
+  {
+    source: `/playlists/:id`,
+    destination: `/courses/:id`,
+    permanent: true,
+  },
 ]
 
 module.exports = withPlugins(
