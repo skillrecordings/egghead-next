@@ -1,17 +1,5 @@
 import * as React from 'react'
-import {Coupon} from 'types'
-
-type ParityCouponMessage = {
-  coupon: Coupon
-  countryName: string
-  onApply: () => void
-  onDismiss: () => void
-  isPPP?: boolean
-  reduced?: boolean
-}
-
-// TODO: Is ParityCouponMessage defined in a couple different places?
-// Also, SmallParityCouponMessage
+import {ParityCouponMessageProps} from 'interfaces/parity_coupon_message'
 
 const ParityCouponMessage = ({
   coupon,
@@ -20,7 +8,7 @@ const ParityCouponMessage = ({
   onDismiss,
   isPPP,
   reduced,
-}: ParityCouponMessage) => {
+}: ParityCouponMessageProps & {reduced?: boolean}) => {
   const percentOff = coupon && Math.round(coupon.coupon_discount * 100)
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
