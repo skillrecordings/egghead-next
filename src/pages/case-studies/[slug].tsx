@@ -25,6 +25,41 @@ type CaseStudyResource = {
   source: any
 }
 
+const PortraitWithPattern: React.FC<{
+  coverImage: any
+  title: string
+}> = ({coverImage, title}) => {
+  return coverImage?.url ? (
+    <div className="relative">
+      <svg
+        className="absolute top-0 right-0 w-full pl-8 sm:pl-12 md:pl-16"
+        fill="none"
+        viewBox="0 0 404 384"
+        aria-hidden="true"
+      >
+        <rect
+          width={404}
+          height={384}
+          fill="url(#de316486-4a29-4312-bdfc-fbce2132a2c1)"
+        />
+      </svg>
+      {coverImage?.url && (
+        <div className="relative pt-8 pr-8 sm:pt-12 sm:pr-12 md:pt-16 md:pr-16">
+          <Image
+            src={coverImage.url}
+            alt={coverImage.alt || title}
+            width={720}
+            height={720}
+            quality={100}
+            layout="responsive"
+            className="object-cover object-center rounded-lg shadow-lg"
+          />
+        </div>
+      )}
+    </div>
+  ) : null
+}
+
 const CaseStudy = (props: CaseStudyResource) => {
   const {
     title = 'Missing title',
@@ -64,88 +99,53 @@ const CaseStudy = (props: CaseStudyResource) => {
       />
 
       <div className="container mt-5 mb-16 lg:mt-28 md:mt-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3">
-          <div className="col-span-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div className="col-span-8">
             <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
               {title}
             </h1>
             {coverImage?.url && (
               <div className="mt-4 mb-4 lg:hidden md:block">
-                <Image
-                  src={coverImage.url}
-                  alt={coverImage.alt || title}
-                  width={820}
-                  height={820}
-                  quality={100}
-                  layout="responsive"
-                  className="object-cover object-center rounded-lg shadow-lg"
-                />
+                <div className="max-w-md mx-auto">
+                  <PortraitWithPattern coverImage={coverImage} title={title} />
+                </div>
               </div>
             )}
 
             {author && <Author author={author} />}
           </div>
 
-          <div className="relative col-start-3">
-            <svg
-              className="absolute top-0 right-0 hidden -mt-20 -mr-20 lg:block"
-              width={404}
-              height={384}
-              fill="none"
-              viewBox="0 0 404 384"
-              aria-hidden="true"
-            >
-              <defs>
-                <pattern
-                  id="de316486-4a29-4312-bdfc-fbce2132a2c1"
-                  x={0}
-                  y={0}
-                  width={20}
-                  height={20}
-                  patternUnits="userSpaceOnUse"
-                >
-                  <rect
-                    x={0}
-                    y={0}
-                    width={4}
-                    height={4}
-                    className="text-gray-400"
-                    fill="currentColor"
-                  />
-                </pattern>
-              </defs>
-              <rect
-                width={404}
-                height={384}
-                fill="url(#de316486-4a29-4312-bdfc-fbce2132a2c1)"
-              />
-            </svg>
-            <div className="relative mx-auto text-base max-w-prose lg:max-w-none">
-              <div className="aspect-w-12 aspect-h-7 lg:aspect-none">
-                {coverImage?.url && (
-                  <div className="mt-4">
-                    <Image
-                      src={coverImage.url}
-                      alt={coverImage.alt || title}
-                      width={820}
-                      height={820}
-                      quality={100}
-                      layout="responsive"
-                      className="object-cover object-center rounded-lg shadow-lg"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="hidden col-span-4 -translate-y-16 lg:block">
+            <PortraitWithPattern coverImage={coverImage} title={title} />
           </div>
         </div>
+        <article className="max-w-screen-md mx-auto mt-3 mb-16 lg:mt-14 md:mt-8">
+          <main>
+            <MDXRemote {...source} components={mdxComponents} />
+          </main>
+        </article>
       </div>
-
-      <article className="max-w-screen-md mx-auto mt-3 mb-16 lg:mt-14 md:mt-8">
-        <main>
-          <MDXRemote {...source} components={mdxComponents} />
-        </main>
-      </article>
+      <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <pattern
+            id="de316486-4a29-4312-bdfc-fbce2132a2c1"
+            x={0}
+            y={0}
+            width={20}
+            height={20}
+            patternUnits="userSpaceOnUse"
+          >
+            <rect
+              x={0}
+              y={0}
+              width={4}
+              height={4}
+              className="text-gray-400"
+              fill="currentColor"
+            />
+          </pattern>
+        </defs>
+      </svg>
     </>
   )
 }
