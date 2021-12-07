@@ -181,7 +181,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         const loadedLesson = await loadLesson(initialLesson.slug)
         console.debug('authed video loaded', {video: loadedLesson})
 
-        return loadedLesson
+        return {...initialLesson, ...loadedLesson}
       },
     },
   })

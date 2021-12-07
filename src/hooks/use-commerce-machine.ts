@@ -1,15 +1,11 @@
 import * as React from 'react'
-import {
-  commerceMachine,
-  PricingData,
-  PricingPlan,
-} from 'machines/commerce-machine'
-import {Prices} from 'lib/prices'
+import {commerceMachine} from 'machines/commerce-machine'
 import {useMachine} from '@xstate/react'
 import pickBy from 'lodash/pickBy'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import {Prices, PricingData, PricingPlan} from 'types'
 
 const extractPricesFromPricingData = (pricingData: PricingData): Prices => {
   const annualPrice = find(pricingData.plans, {

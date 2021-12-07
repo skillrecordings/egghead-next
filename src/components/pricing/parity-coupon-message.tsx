@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Coupon} from 'machines/commerce-machine'
+import {Coupon} from 'types'
 
 type ParityCouponMessage = {
   coupon: Coupon
@@ -9,6 +9,9 @@ type ParityCouponMessage = {
   isPPP?: boolean
   reduced?: boolean
 }
+
+// TODO: Is ParityCouponMessage defined in a couple different places?
+// Also, SmallParityCouponMessage
 
 const ParityCouponMessage = ({
   coupon,
