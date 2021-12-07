@@ -37,10 +37,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
     }
   }, [loadingRatings, type, slug, ratings])
 
-  const {reviewImageUrl, handleCopyReviewUrlToClipboard} = useShareCourseReview(
-    ratings,
-    collection,
-  )
+  const {reviewImageUrl} = useShareCourseReview(ratings, collection)
 
   return isEmpty(ratings) ? null : (
     <>
@@ -65,6 +62,9 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
               (!isEmpty(comment.hide_url) || !isEmpty(comment.restore_url))
 
             const shareUrl = shareUrlBuilder(rating.id, router.asPath)
+            const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+              shareUrl,
+            )}`
 
             return (
               <li
@@ -117,14 +117,14 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
                     </button>
                   )}
                   {(viewer?.is_instructor || displayAdminContent) && (
-                    <button
-                      onClick={() => {
-                        handleCopyReviewUrlToClipboard(shareUrl)
-                      }}
+                    <a
+                      href={twitterShareUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex flex-row items-center px-2 py-1 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 "
                     >
-                      Share
-                    </button>
+                      Tweet this review
+                    </a>
                   )}
                 </div>
               </li>
