@@ -7,28 +7,30 @@ async function fetchCustomer(cioId: string) {
       Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
     })
 
+    let timedOut = false
+
     // if CIO isn't responding in 4s we want to fallback and show the page
-    const TIMEOUT = 4000
+    const TIMEOUT = 1250
 
     const id = setTimeout(() => {
+      timedOut = true
       reject(`timeout loading customer [${cioId}]`)
     }, TIMEOUT)
 
     const url = `${CIO_BASE_URL}${cioApiPath}`
 
-    const {customer} = await fetch(url, {
+    await fetch(url, {
       headers,
     })
       .then((response) => {
-        return response.json()
+        if(!timedOut) resolve(response.json())
       })
       .catch((error) => {
-        reject(error)
+        if(!timedOut) reject(error)
       })
       .finally(() => {
         clearTimeout(id)
       })
-    resolve(customer)
   })
 }
 
