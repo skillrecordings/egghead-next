@@ -9,7 +9,10 @@ async function fetchCustomer(cioId: string) {
 
     let timedOut = false
 
-    // if CIO isn't responding in 4s we want to fallback and show the page
+    // if CIO isn't responding in 1.25s we want to fallback and show the page
+    // this is because of Vercel edge function limits that require a response
+    // to be returned in >=1.5s
+    // @see https://vercel.com/docs/concepts/functions/edge-functions#maximum-execution-duration
     const TIMEOUT = 1250
 
     const id = setTimeout(() => {
