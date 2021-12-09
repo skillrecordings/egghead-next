@@ -34,7 +34,7 @@ Love them or hate them, static types are here to stay, and at the very least an 
       pageData={typescriptPageData}
       CTAComponent={CourseFeatureCard}
     >
-      <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+      <div>
         {/* Featured Section */}
         <section className="grid lg:grid-cols-12 grid-cols-1 items-start mt-12 ">
           <div className="md:col-span-8 mr-0 md:mr-5">
@@ -77,7 +77,7 @@ const CourseFeatureCard = ({resource, className}: any) => {
   return (
     <Link href="/courses/advanced-typescript-fundamentals-579c174f">
       <a
-        className={`block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center ${
+        className={`block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center ${
           className ? className : ''
         }`}
       >

@@ -1,104 +1,42 @@
 import React, {FunctionComponent} from 'react'
-import Link from 'next/link'
-import {convertTimeWithTitles} from 'utils/time-utils'
-import capitalize from 'lodash/capitalize'
-import {track} from 'utils/analytics'
-import config from 'lib/config'
-import {CREATOR_DELINIATOR} from 'lib/search-url-builder'
-import Image from 'next/image'
+import {SearchHitResourceCard} from 'components/card/search-hit-resource-card'
 
 type HitComponentProps = {
   hit: any
 }
 
 const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
-  const {
-    path,
-    image,
-    title,
-    slug,
-    duration,
-    type,
-    instructor_url,
-    instructor_name,
-    instructor,
-  } = hit
+  const {image, type, instructor_url, instructor_name, instructor} = hit
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
 
-  return (
-    <div className="flex items-center py-3 space-x-2 w-100">
-      {hasImage && (
-        <div className="items-center flex justify-center">
-          <Link href={path}>
-            <a
-              onClick={() => {
-                track(`clicked search result image`, {
-                  [type]: slug,
-                })
-              }}
-              className={`flex-shrink-0 relative ${
-                type === 'lesson'
-                  ? 'w-8 h-8 opacity-70'
-                  : 'w-16 h-16 md:w-20 md:h-20'
-              }`}
-            >
-              <Image
-                src={image}
-                className={type === 'lesson' ? 'opacity-90' : ''}
-                layout="fill"
-              />
-            </a>
-          </Link>
-        </div>
-      )}
-      <div
-        className={`${
-          hasImage ? 'pl-4' : ''
-        } flex sm:flex-row flex-col sm:items-center items-start w-full `}
-      >
-        <div className="flex flex-col justify-start items-start  w-full">
-          <Link href={path}>
-            <a
-              onClick={() =>
-                track(`clicked search result title`, {
-                  [type]: slug,
-                })
-              }
-              className="self-start"
-            >
-              <h2 className="sm:text-lg text-base dark:text-gray-200 font-semibold leading-tight hover:underline">
-                {title}
-              </h2>
-            </a>
-          </Link>
-          <div className="sm:text-sm text-sm font-light text-gray-600 dark:text-gray-400">
-            {instructor_name && !instructor_url && <>{instructor_name}・</>}
-            {instructor_name && instructor?.slug && (
-              <>
-                <a
-                  href={`${config.searchUrlRoot}/${CREATOR_DELINIATOR}-${instructor.slug}`}
-                  onClick={() =>
-                    track(`clicked search result creator`, {
-                      instructor: instructor_name,
-                    })
-                  }
-                  className="hover:underline"
-                >
-                  {instructor_name}
-                </a>
-                ・
-              </>
-            )}
+  const getInstructorImageUrl = (id: string) => {
+    switch (id.length) {
+      case 1:
+        return `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/00${id}/square_128/${instructor.avatar_file_name}`
+      case 2:
+        return `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/0${id}/square_128/${instructor.avatar_file_name}`
+      default:
+        return `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/${id}/square_128/${instructor.avatar_file_name}`
+    }
+  }
 
-            {duration && convertTimeWithTitles(duration) !== '' && (
-              <>{convertTimeWithTitles(duration)}・</>
-            )}
-            {type.toLowerCase() === 'playlist' ? 'Course' : capitalize(type)}
-          </div>
-        </div>
-      </div>
-    </div>
+  return (
+    <SearchHitResourceCard
+      describe={false}
+      location="search"
+      resource={{
+        ...hit,
+        name: type === 'playlist' ? 'course' : type,
+        instructor: {
+          name: instructor_name,
+          url: instructor_url,
+          image: instructor
+            ? getInstructorImageUrl(instructor.id.toString())
+            : null,
+        },
+      }}
+    />
   )
 }
 

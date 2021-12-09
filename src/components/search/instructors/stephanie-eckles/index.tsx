@@ -144,7 +144,7 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
     <ExternalTrackedLink
       eventName="clicked Stephanie Eckles instructor page CTA"
       params={{location}}
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
       href={path}
     >
       <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm">

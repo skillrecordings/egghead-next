@@ -7,7 +7,7 @@ const DefaultCTA: React.FC<{location: string}> = ({location}) => {
     <ExternalTrackedLink
       eventName="clicked epic react banner"
       params={{location}}
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
       href="https://epicreact.dev"
       target="_blank"
       rel="noopener"
@@ -17,7 +17,6 @@ const DefaultCTA: React.FC<{location: string}> = ({location}) => {
         quality={100}
         width={417}
         height={463}
-        className="rounded-lg"
         alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
         // 25% off

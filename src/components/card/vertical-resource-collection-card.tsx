@@ -22,7 +22,7 @@ const VerticalResourceCollectionCard: React.FC<{
   className?: string
   titleColor?: string
 }> = ({resource, location, className = '', titleColor, ...props}) => {
-  className = `${className} border-none flex flex-col sm:py-8 py-6`
+  className = `${className} border-none flex flex-col py-5`
 
   return (
     <Card {...props} className={className}>

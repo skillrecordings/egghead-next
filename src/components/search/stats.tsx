@@ -13,11 +13,11 @@ const CustomStats: React.FunctionComponent<CustomStatsProps> = ({
   return !searchQuery || /^\s*$/.test(searchQuery) ? (
     <div />
   ) : (
-    <div className="flex items-center flex-nowrap overflow-hidden max-w-full flex-grow mt-5 md:mt-0 text-gray-700 dark:text-gray-400">
-      <div className="font-bold whitespace-nowrap">
-        {nbHits.toLocaleString()} results
+    <div className="sm:text-lg flex items-baseline flex-nowrap overflow-hidden max-w-full flex-grow pt-5 px-3">
+      <div className="font-semibold whitespace-nowrap">
+        {nbHits.toLocaleString()} results{}
       </div>
-      <div className="ml-1 whitespace-nowrap flex overflow-hidden">
+      <div className="ml-2 whitespace-nowrap flex overflow-hidden">
         found for "<div className="truncate">{searchQuery}</div>"
       </div>
     </div>

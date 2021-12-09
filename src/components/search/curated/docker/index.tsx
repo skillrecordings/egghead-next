@@ -30,7 +30,7 @@ const DockerCourse: React.FC<{location: string}> = ({location}) => {
     <ExternalTrackedLink
       eventName="clicked epic react banner"
       params={{location}}
-      className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
       href="/playlists/containerize-full-stack-javascript-applications-with-docker-30a8"
     >
       <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center bg-gray-900 dark:bg-gray-800 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm">
