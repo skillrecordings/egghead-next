@@ -8,8 +8,9 @@ import reactPageData from './react-page-data'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import {ThreeLevels} from '../curated-essential'
+import Grid from 'components/grid'
 
 const SearchReact = ({topic}: any) => {
   const location = 'react landing'
@@ -38,7 +39,7 @@ const SearchReact = ({topic}: any) => {
 
   const recoilCollection = get(topic?.reactStateManagement, 'recoilCollection')
   return (
-    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+    <div>
       <NextSeo
         description={description}
         title={title}
@@ -58,7 +59,7 @@ const SearchReact = ({topic}: any) => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 dark:bg-gray-900 -mx-5">
         <Topic
           className="col-span-8"
           title="React"
@@ -76,12 +77,12 @@ You can find courses below curated just for you whether you're looking for a par
         <ExternalTrackedLink
           eventName="clicked epic react banner"
           params={{location}}
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+          className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
           href="https://epicreact.dev"
           target="_blank"
           rel="noopener"
         >
-          <div className="overflow-hidden flex items-center justify-center rounded-lg">
+          <div className="overflow-hidden flex items-center justify-center">
             <Image
               priority
               quality={100}
@@ -90,8 +91,6 @@ You can find courses below curated just for you whether you're looking for a par
               alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
               className="hover:scale-[102%] ease-in-out duration-500"
               src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
-              // 25% off
-              // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
             />
           </div>
         </ExternalTrackedLink>
@@ -103,62 +102,61 @@ You can find courses below curated just for you whether you're looking for a par
         location={location}
       />
 
-      <section className="md:mt-20 mt-5 grid lg:grid-cols-12 grid-cols-1 gap-5 md:bg-gray-100 md:dark:bg-gray-700 rounded-lg md:p-5 relative">
-        <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
-          <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
-            <div className="flex-shrink-0">
-              <Image
-                src={
-                  'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png'
-                }
-                alt="illustration for state management in react"
-                width={200}
-                height={200}
-                quality={100}
-              />
-            </div>
-            <div className="max-w-screen-sm space-y-3">
-              <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
-                State Management in React
-              </h1>
-              <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
-                <p>
-                  When it comes down to it, nearly every UI problem is a state
-                  management problem. Orchestrating a whole symphony of menus,
-                  forms, and data requests is hard enough before you even begin
-                  debating which of the 99 React state management libraries you
-                  should pick.
-                </p>
-                <p>
-                  We've spoken to top experts in the field of state management
-                  to hear their thoughts on why the best ideas in state
-                  management aren't always the newest, why principles are often
-                  universal where implementations are not, and how state
-                  management concepts carry across frameworks and tools.
-                </p>
-              </div>
-            </div>
-          </header>
-          <div className="flex flex-col flex-grow">
-            <VideoCard
-              resource={stateManagementVideo}
-              className="flex md:flex-row flex-col"
-              location={location}
+      <section className="space-y-5 flex flex-col">
+        <header className="py-5 md:px-8 px-5 rounded-md flex md:flex-row flex-col md:text-left text-center md:space-y-0 space-y-3 md:items-start items-center justify-center md:space-x-5 space-x-0">
+          <div className="flex-shrink-0">
+            <Image
+              src={
+                'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/408/538/full/state_management_2x.png'
+              }
+              alt="illustration for state management in react"
+              width={200}
+              height={200}
+              quality={100}
             />
-            <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
-              {stateManagementFeatured.resources.map((resource: any) => {
-                return (
-                  <VerticalResourceCard
-                    className="col-span-4 text-center flex flex-col items-center justify-center"
-                    key={resource.path}
-                    resource={resource}
-                    location={location}
-                  />
-                )
-              })}
+          </div>
+          <div className="max-w-screen-sm space-y-3">
+            <h1 className="md:text-3xl text-2xl dark:text-gray-200 font-bold leading-tight">
+              State Management in React
+            </h1>
+            <div className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3">
+              <p>
+                When it comes down to it, nearly every UI problem is a state
+                management problem. Orchestrating a whole symphony of menus,
+                forms, and data requests is hard enough before you even begin
+                debating which of the 99 React state management libraries you
+                should pick.
+              </p>
+              <p>
+                We've spoken to top experts in the field of state management to
+                hear their thoughts on why the best ideas in state management
+                aren't always the newest, why principles are often universal
+                where implementations are not, and how state management concepts
+                carry across frameworks and tools.
+              </p>
             </div>
           </div>
+        </header>
+        <div className="flex flex-col flex-grow">
+          <VideoCard
+            resource={stateManagementVideo}
+            className="flex md:flex-row flex-col"
+            location={location}
+          />
+
+          <Grid>
+            {stateManagementFeatured.resources.map((resource: any) => {
+              return (
+                <VerticalResourceCard
+                  key={resource.path}
+                  resource={resource}
+                  location={location}
+                />
+              )
+            })}
+          </Grid>
         </div>
+
         <div className="md:col-span-4 col-span-12 flex flex-col">
           <VerticalResourceCollectionCard
             resource={stateManagementCollection}
@@ -174,7 +172,7 @@ You can find courses below curated just for you whether you're looking for a par
         </div>
       </section>
 
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start sm:mt-5 mt-3">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start">
         <VerticalResourceCollectionCard resource={style} location={location} />
         <VerticalResourceCollectionCard
           className="h-full md:col-span-2"
@@ -183,7 +181,7 @@ You can find courses below curated just for you whether you're looking for a par
         />
       </div>
 
-      <section className="mt-20 grid md:grid-cols-3 grid-cols-1 gap-5">
+      <section className="grid md:grid-cols-3 grid-cols-1 gap-5">
         <VerticalResourceCollectionCard
           resource={reactArticles}
           location={location}

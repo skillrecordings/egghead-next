@@ -27,7 +27,7 @@ const SearchGraphql = () => {
   })
 
   return (
-    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+    <div>
       <NextSeo
         description={description}
         title={title}
@@ -47,7 +47,7 @@ const SearchGraphql = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 dark:bg-gray-900 -mx-5">
         <Topic
           className="col-span-8"
           title="GraphQL"
@@ -67,7 +67,7 @@ These curated courses will teach you GraphQL from the ground up, all the way to 
         <ExternalTrackedLink
           eventName="clicked graphql workshop banner"
           params={{location}}
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+          className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
           href="https://graphqlworkshop.com/"
         >
           <Image

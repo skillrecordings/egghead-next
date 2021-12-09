@@ -1,10 +1,13 @@
 import React from 'react'
 import {Pagination as AlgoliaPagination} from 'react-instantsearch-dom'
+import useBreakpoint from 'utils/breakpoints'
 
 const Pagination = () => {
+  const {sm} = useBreakpoint()
+
   return (
     <AlgoliaPagination
-      padding={3}
+      padding={sm ? 1 : 3}
       showLast
       translations={{
         first:

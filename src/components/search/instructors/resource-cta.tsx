@@ -16,7 +16,7 @@ const SimpleScriptsCTA = ({instructorData}: any) => {
             resource: path,
           })
         }
-        className="relative dark:bg-gray-800 bg-white group block md:col-span-4 rounded-md w-full h-full overflow-hidden text-center shadow-sm dark:text-white"
+        className="relative dark:bg-gray-800 bg-white group block md:col-span-4 w-full h-full overflow-hidden text-center shadow-sm dark:text-white"
       >
         <div className="flex flex-col items-center h-full">
           <div className="relative z-10 flex flex-col h-full justify-between p-8 items-center">

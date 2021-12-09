@@ -40,7 +40,7 @@ const SearchAngular = () => {
   })
 
   return (
-    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+    <div>
       <NextSeo
         description={description}
         title={title}
@@ -60,7 +60,7 @@ const SearchAngular = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 dark:bg-gray-900 -mx-5">
         <Topic
           className="col-span-8"
           title="Angular"
@@ -91,7 +91,7 @@ It’s worth an hour or so of your time to see what’s up!`}
         location={location}
       />
 
-      <div className="mt-5 md:bg-gray-100 dark:bg-gray-700 rounded-lg px-0 md:px-5 py-5">
+      <div className="pb-12 pt-5">
         <h1 className="md:text-3xl text-2xl dark:text-gray-100 font-bold leading-tight text-center mb-4">
           State Management in Angular
         </h1>

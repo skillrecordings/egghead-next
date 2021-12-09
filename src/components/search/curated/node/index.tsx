@@ -30,7 +30,7 @@ const SearchNode = () => {
   })
 
   return (
-    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+    <div>
       <NextSeo
         description={description}
         title={title}
@@ -50,7 +50,7 @@ const SearchNode = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 -mx-5">
         <Topic
           className="col-span-8"
           title="Node"
@@ -67,7 +67,7 @@ Node.js uses an event-driven, non-blocking I/O model that makes it lightweight a
         </Topic>
         <VerticalResourceCard
           resource={featureCourse}
-          className="col-span-4 text-center relative z-10"
+          className="col-span-4 text-center relative z-10 p-5"
           location={location}
           describe={true}
         >

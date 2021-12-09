@@ -133,7 +133,7 @@ const CardAuthor = React.forwardRef(function CardAuthor(
   {
     children,
     as: Comp = 'div',
-    className = 'flex items-center justify-center pt-4',
+    className = 'flex items-center justify-center pt-2',
     ...props
   },
   forwardRef,
@@ -150,7 +150,7 @@ const CardAuthor = React.forwardRef(function CardAuthor(
       data-egghead-card-author=""
     >
       {instructor.image && (
-        <div className="w-5 h-5 overflow-hidden rounded-full sm:w-7 sm:h-7">
+        <div className="w-5 h-5 overflow-hidden flex-shrink-0 rounded-full lg:w-7 lg:h-7">
           <Image
             aria-hidden
             src={instructor.image}
@@ -161,7 +161,7 @@ const CardAuthor = React.forwardRef(function CardAuthor(
           />
         </div>
       )}
-      <span className="text-left pl-2 dark:text-indigo-100 text-gray-700 sm:text-sm text-[0.65rem] opacity-80 leading-none">
+      <span className="text-left pl-2 dark:text-indigo-100 text-gray-700 lg:text-sm text-[0.65rem] opacity-80 leading-none">
         <span className="sr-only">{resource?.name} by </span>
         {instructor.name}
       </span>

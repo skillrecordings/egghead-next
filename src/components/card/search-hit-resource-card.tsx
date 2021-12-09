@@ -15,24 +15,28 @@ import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
-import cx from 'classnames'
 
-const HorizontalResourceCard: React.FC<{
+const SearchHitResourceCard: React.FC<{
   resource: CardResource
   location?: string
   describe?: boolean
   className?: string
+  small?: boolean
 }> = ({
   children,
   resource,
   location,
   className = '',
   describe = true,
+  small = false,
   ...props
 }) => {
   if (isEmpty(resource)) return null
   const defaultClassName =
-    'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
+    'rounded-md sm:aspect-w-4 sm:aspect-h-2 aspect-w-3 aspect-h-1 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
+
+  small = get(resource.image, 'src', resource.image)?.includes('/tags') ?? true
+
   return (
     <ResourceLink
       path={resource.path}
@@ -40,15 +44,20 @@ const HorizontalResourceCard: React.FC<{
       className={className}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
-        <CardContent className="grid grid-cols-8 gap-5 items-center px-5 py-2">
-          <CardHeader className="col-span-3 flex items-center justify-center">
-            <PreviewImage
-              name={resource.name}
-              image={resource.image}
-              title={resource.title}
-            />
-          </CardHeader>
-          <CardBody className="col-span-5">
+        <CardContent className="flex items-center sm:space-x-5 space-x-3 sm:px-5 px-3 py-2 w-full">
+          {resource.image && (
+            <CardHeader
+              className={`flex items-center justify-center flex-shrink-0`}
+            >
+              <PreviewImage
+                small={small}
+                name={resource.name}
+                image={resource.image}
+                title={resource.title}
+              />
+            </CardHeader>
+          )}
+          <CardBody className={``}>
             {resource.name && (
               <p
                 aria-hidden
@@ -59,8 +68,8 @@ const HorizontalResourceCard: React.FC<{
             )}
             <Textfit
               mode="multi"
-              className="lg:h-[65px] md:h-[50px] sm:h-[50px] h-[46px] font-medium leading-tight flex items-center"
-              max={22}
+              className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
+              max={18}
             >
               <h3>{resource.title}</h3>
             </Textfit>
@@ -70,7 +79,7 @@ const HorizontalResourceCard: React.FC<{
               </ReactMarkdown>
             )}
             <CardFooter>
-              <CardAuthor className="flex items-center md:pt-0 pt-2" />
+              <CardAuthor className="flex items-center pt-2" />
             </CardFooter>
           </CardBody>
         </CardContent>
@@ -102,39 +111,27 @@ export const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
-  image,
-  name,
-}) => {
+const PreviewImage: React.FC<{
+  title: string
+  image: any
+  name: string
+  small: boolean
+}> = ({image, name, small}) => {
   if (!image) return null
 
-  const getSize = (name: string) => {
-    switch (name) {
-      case 'lesson':
-        return 40
-      case 'talk':
-        return 80
-      default:
-        return 200
-    }
-  }
+  const size = small ? 40 : 85
+
   return (
-    <CardPreview
-      className={`relative flex items-center justify-center w-full ${cx({
-        'max-w-[40px]': name === 'lesson',
-        'max-w-[80px]': name === 'talk',
-        'xl:max-w-[200px] sm:max-w-[150px] max-w-[100px]': name === 'course',
-      })}`}
-    >
+    <CardPreview className="relative flex items-center justify-center sm:w-full w-16 ">
       <Image
         aria-hidden
         src={get(image, 'src', image)}
-        width={getSize(name)}
-        height={getSize(name)}
+        width={size}
+        height={size}
         quality={100}
         alt=""
       />
     </CardPreview>
   )
 }
-export {HorizontalResourceCard}
+export {SearchHitResourceCard}

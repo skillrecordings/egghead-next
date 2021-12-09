@@ -103,23 +103,45 @@ pre > code {
   display: none;
 }
 
-/* ——— Algolia Pagination ——— */
+/* ——— Algolia UI ——— */
+
+/* ––– Pagination ––– */
+.ais-Pagination-list {
+  @apply space-x-[2px] !important;
+}
+
+.ais-Pagination-item {
+  @apply m-0 !important;
+}
 
 .ais-Pagination-link {
-  @apply text-gray-700 border-gray-200 bg-gray-200 transition-all ease-out duration-150 !important;
+  @apply dark:bg-gray-700 border dark:bg-opacity-60  dark:text-white  text-gray-700 border-none rounded-sm bg-white hover:bg-gray-100 transition-all ease-out duration-150 !important;
 }
 .ais-Pagination-link:hover {
-  @apply bg-gray-300 text-gray-800 !important;
+  @apply dark:bg-gray-300 bg-gray-700 dark:text-gray-800 text-white !important;
 }
 
 .ais-Pagination-link--selected {
-  @apply bg-blue-600 border-blue-600 text-white !important;
+  @apply dark:bg-white dark:text-gray-900 bg-gray-900 text-white !important;
 }
 .ais-Pagination-link--selected:hover {
-  @apply bg-blue-700 text-white !important;
+  @apply dark:bg-gray-100 dark:text-gray-900 bg-gray-800 text-white !important;
 }
+
+.ais-Pagination-item--disabled {
+  @apply opacity-50 cursor-not-allowed !important;
+}
+
+/* ——— Sort ——— */
+
+.ais-SortBy-select {
+  @apply sm:pr-8 sm:pl-4 pr-6 pl-2 py-3 sm:text-sm text-xs border-transparent dark:text-white text-gray-900 transition rounded-none bg-transparent dark:hover:bg-gray-800 hover:bg-gray-50;
+}
+
+/* ——— Clear Refinements ——— */
+
 .ais-ClearRefinements-button {
-  @apply bg-transparent text-blue-600 text-sm !important;
+  @apply bg-transparent dark:text-white text-black !important;
 }
 
 /* ——— Reach UI Tabs ——— */

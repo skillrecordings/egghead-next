@@ -36,7 +36,7 @@ const ScriptKitCTA = ({instructorData}: any) => {
       }}
       href={instructorData.ctaLink}
       eventName="clicked script kit banner"
-      className="group block md:col-span-4 rounded-md w-full h-full overflow-hidden bg-yellow-300 transition-all ease-in-out duration-300 text-center shadow-sm"
+      className="group block md:col-span-4 w-full h-full overflow-hidden bg-yellow-300 transition-all ease-in-out duration-300 text-center shadow-sm"
     >
       <div className="flex flex-col items-center text-black h-full">
         <div className="flex flex-col h-full justify-between p-8 items-center">
