@@ -6,20 +6,22 @@ import useBreakpoint from 'utils/breakpoints'
 type CustomSearchBoxProps = {
   currentRefinement: any
   refine: any
-  className?: any
   placeholder?: string | undefined
 }
 
 const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   currentRefinement,
   refine,
-  className,
   placeholder = 'What do you want to learn today?',
 }) => {
   const [timerId, setTimerId] = React.useState<any>()
   const [trackTimerId, setTrackTimerId] = React.useState<any>()
   const [value, setValue] = React.useState<any>(currentRefinement)
   const {sm} = useBreakpoint()
+  const [mounted, setMounted] = React.useState<boolean>(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const onChangeDebounced = (event: any) => {
     const value = event.currentTarget.value
@@ -47,7 +49,6 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
       noValidate
       action=""
       role="search"
-      // className={`${className ? className : ''}`}
       onSubmit={(e) => e.preventDefault()}
       className="w-full relative "
     >
@@ -60,7 +61,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
           type="search"
           value={value}
           onChange={onChangeDebounced}
-          placeholder={!sm ? placeholder : 'Search'}
+          placeholder={mounted ? (sm ? 'Search' : placeholder) : 'Search'}
           className="pl-10 dark:hover:bg-gray-800 hover:bg-opacity-60 transition text-black dark:text-white dark:bg-gray-900 bg-white border-transparent px-5 py-3 sm:text-sm text-xs w-full focus:ring-1 ring-blue-400 placeholder-gray-600 dark:placeholder-gray-300"
         />
       </div>
