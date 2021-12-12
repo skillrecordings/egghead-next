@@ -641,7 +641,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="flex items-center justify-center w-full mt-5 md:hidden">
                 <PlayButton lesson={nextLesson} />
               </div>
-              <Markdown className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 mt-14">
+              <Markdown
+                allowDangerousHtml
+                className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 mt-14"
+              >
                 {description}
               </Markdown>
               <div className="block pt-5 md:hidden">
