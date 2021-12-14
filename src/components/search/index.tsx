@@ -4,17 +4,17 @@ import Hits from './hits'
 import Stats from './stats'
 import SearchBox from './search-box'
 import RefinementList from './refinement-list'
+import uniq from 'lodash/uniq'
 import Pagination from './pagination'
 import {
   Configure,
   InstantSearch,
   ClearRefinements,
-  ScrollTo,
   SortBy,
 } from 'react-instantsearch-dom'
 
-import {get, isEqual, isEmpty, first} from 'lodash'
-import {useToggle, useClickAway} from 'react-use'
+import {get, isEmpty} from 'lodash'
+import {useToggle} from 'react-use'
 
 import config from 'lib/config'
 
@@ -25,9 +25,10 @@ import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
 import CuratedTopicsIndex from './curated'
 import {searchQueryToArray} from '../../utils/search/topic-extractor'
-import useBreakpoint from '../../utils/breakpoints'
-
 import Spinner from 'components/spinner'
+import {Element as ScrollElement, scroller} from 'react-scroll'
+import SimpleBar from 'simplebar-react'
+import cx from 'classnames'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -51,8 +52,6 @@ const Search: FunctionComponent<SearchProps> = ({
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
 
-  const {sm} = useBreakpoint()
-
   const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
   }
@@ -75,9 +74,6 @@ const Search: FunctionComponent<SearchProps> = ({
     get(searchState, 'refinementList._tags', []).length +
     get(searchState, 'refinementList.access_state', []).length +
     get(searchState, 'refinementList.type', []).length
-
-  const refinementRef = React.useRef(null)
-  useClickAway(refinementRef, () => setShowFilter(false))
 
   const searchBoxPlaceholder = !isEmpty(instructor)
     ? `Search resources by ${instructor.full_name}`
@@ -105,185 +101,186 @@ const Search: FunctionComponent<SearchProps> = ({
   const InstructorCuratedPage =
     instructor &&
     (InstructorsIndex[instructor.slug] || SearchInstructorEssential)
+
   const CuratedTopicPage =
     topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
+  // This is responsible for scrolling to either hits or top of the page depending
+  // on the filters applied and whether or not there is curated content present
+  React.useEffect(() => {
+    const refinements = {
+      ...get(searchState, 'refinementList', []),
+      sortBy: get(searchState, 'sortBy', []),
+    }
+    const refinementsArr = uniq(
+      Object.keys(refinements).reduce((r: any, k: any) => {
+        return r.concat(refinements[k])
+      }, []),
+    ).filter((r) => r !== '')
+
+    if (refinementsArr.length > 1) {
+      scroller.scrollTo('hits', {
+        offset: -47,
+      })
+    } else {
+      scroller.scrollTo('page', {})
+    }
+  }, [searchState])
+
+  const FilterToggle = () => {
+    return (
+      <button
+        onClick={setShowFilter}
+        className={`z-40 fixed bottom-3 right-3 bg-blue-500 text-white rounded-full sm:hidden flex items-center px-4 text-sm font-medium py-2`}
+      >
+        <span className="pr-1">Filter</span>
+        {numberOfRefinements > 0 ? (
+          <div className="flex items-center justify-center w-6 h-6 -mr-1 text-xs font-bold text-white transform scale-75 bg-blue-600 rounded-full">
+            {numberOfRefinements}
+          </div>
+        ) : (
+          <>
+            {isFilterShown ? (
+              // prettier-ignore
+              <svg className="sm:ml-1" width="14" height="14" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 0 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
+            ) : (
+              // prettier-ignore
+              <svg className="sm:ml-1" xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12"><g fill="none" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" transform="translate(1 1)"><line x1="3.5" x2="3.5" y1="5"/><line x1=".5" x2="3.5" y1="2.5" y2="2.5"/><line x1="5.5" x2="11.5" y1="2.5" y2="2.5"/><line x1="8.5" x2="8.5" y1="10" y2="5"/><line x1="11.5" x2="8.5" y1="7.5" y2="7.5"/><line x1="6.5" x2=".5" y1="7.5" y2="7.5"/></g></svg>
+            )}
+          </>
+        )}
+      </button>
+    )
+  }
+
+  const RefinementsDesktop = () => {
+    return (
+      <aside className="col-span-2 md:block hidden relative flex-shrink-0 dark:bg-gray-1000 bg-gray-100 pl-4">
+        <SimpleBar className="sticky top-0 space-y-4 max-h-screen overflow-y-auto pb-8 pt-3">
+          <div className="space-y-4">
+            <RefinementList limit={8} attribute="_tags" />
+            <RefinementList limit={6} attribute="instructor_name" />
+            <RefinementList attribute="access_state" />
+            <RefinementList attribute="type" />
+          </div>
+        </SimpleBar>
+      </aside>
+    )
+  }
+
+  const RefinementsMobile = () => {
+    return (
+      <div
+        className={`rounded-t-md overflow-hidden fixed bottom-0 left-0 z-30 dark:bg-gray-800 bg-gray-100 drop-shadow-2xl transition-all ease-in-out duration-150 w-full max-h-[350px] ${cx(
+          {
+            'md:hidden block visible opacity-100 translate-y-0': isFilterShown,
+            'md:hidden hidden invisible opacity-0 translate-y-5':
+              !isFilterShown,
+          },
+        )}`}
+      >
+        <div className="w-full flex items-center justify-between dark:bg-gray-700 bg-white dark:bg-opacity-60 text-sm">
+          <div className="p-1">{isRefinementOn && <ClearRefinements />}</div>
+          <button className="px-3 py-2 rounded-md" onClick={setShowFilter}>
+            Done
+          </button>
+        </div>
+        <SimpleBar className="max-h-[300px] px-1 py-2">
+          <div className="grid grid-cols-2 gap-5 w-full">
+            <div className="flex-shrink-0">
+              <RefinementList limit={6} attribute="_tags" />
+            </div>
+            <div className="flex-shrink-0">
+              <RefinementList limit={6} attribute="instructor_name" />
+            </div>
+            <div className="flex-shrink-0">
+              <RefinementList attribute="access_state" />
+            </div>
+            <div className="flex-shrink-0">
+              <RefinementList attribute="type" />
+            </div>
+          </div>
+        </SimpleBar>
+      </div>
+    )
+  }
+
   return (
-    <div className="container">
+    <>
       <Head>
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
         />
       </Head>
-
-      <InstantSearch
-        indexName={ALGOLIA_INDEX_NAME}
-        searchClient={searchClient}
-        searchState={searchState}
-        {...rest}
-      >
-        <Configure hitsPerPage={config.searchResultCount} />
-        <div className="pt-5 space-y-8 bg-gray-50 dark:bg-gray-900">
-          <div ref={refinementRef}>
-            <header className="flex">
-              <SearchBox
-                placeholder={searchBoxPlaceholder}
-                className="w-full "
-              />
-              {sm && (
-                <button
-                  onClick={setShowFilter}
-                  className={`ml-2 flex items-center sm:px-5 px-3 py-2 rounded-md border-2 ${
-                    isRefinementOn ? 'border-blue-400' : 'border-transparent'
-                  } focus:border-blue-600 focus:outline-none`}
-                >
-                  <span className="hidden sm:block">Filter</span>
-                  {numberOfRefinements > 0 ? (
-                    <div className="flex items-center justify-center w-6 h-6 -mr-1 text-xs font-bold text-white transform scale-75 bg-blue-600 rounded-full">
-                      {numberOfRefinements}
+      <div className="dark:bg-gray-1000 bg-gray-100 relative">
+        <InstantSearch
+          indexName={ALGOLIA_INDEX_NAME}
+          searchClient={searchClient}
+          searchState={searchState}
+          {...rest}
+        >
+          <Configure hitsPerPage={config.searchResultCount} />
+          <ScrollElement name="page" />
+          {!isFilterShown && <FilterToggle />}
+          <div className="max-w-screen-xl mx-auto w-full">
+            <div>
+              <div className="md:grid flex grid-cols-12 relative gap-3">
+                {RefinementsDesktop()}
+                {RefinementsMobile()}
+                <main className="col-span-10 w-full relative dark:bg-gray-900 bg-gray-50">
+                  <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
+                    <SearchBox placeholder={searchBoxPlaceholder} />
+                    <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap">
+                      <SortBy
+                        defaultRefinement="popular"
+                        items={[
+                          {
+                            value: 'popular',
+                            label: 'Most Popular',
+                          },
+                          {value: 'reviews', label: 'Highest Rated'},
+                          {value: 'created', label: 'Recently Added'},
+                          {value: 'completed', label: 'Most Watched'},
+                        ]}
+                      />
                     </div>
-                  ) : (
-                    <>
-                      {isFilterShown ? (
-                        // prettier-ignore
-                        <svg className="sm:ml-1" width="14" height="14" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M4.293 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 0 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z" fill="currentColor"/></g></svg>
-                      ) : (
-                        // prettier-ignore
-                        <svg className="sm:ml-1" xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12"><g fill="none" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" transform="translate(1 1)"><line x1="3.5" x2="3.5" y1="5"/><line x1=".5" x2="3.5" y1="2.5" y2="2.5"/><line x1="5.5" x2="11.5" y1="2.5" y2="2.5"/><line x1="8.5" x2="8.5" y1="10" y2="5"/><line x1="11.5" x2="8.5" y1="7.5" y2="7.5"/><line x1="6.5" x2=".5" y1="7.5" y2="7.5"/></g></svg>
-                      )}
-                    </>
+                  </div>
+                  <NoSearchResults searchQuery={searchState.query} />
+                  {loading && shouldDisplayLandingPageForTopics(topic.name) && (
+                    <div className="flex py-8 justify-center">
+                      <Spinner
+                        size={8}
+                        className="dark:text-gray-300 text-gray-600"
+                      />
+                    </div>
                   )}
-                </button>
-              )}
-            </header>
-            {sm && (
-              <div
-                className={`overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-transparent shadow-lg ${
-                  isFilterShown
-                    ? 'h-auto border-gray-200 dark:border-gray-700 my-2'
-                    : 'h-0 border-none my-0'
-                }`}
-              >
-                <div
-                  className={`${
-                    isFilterShown ? 'top-full ' : 'top-0'
-                  } sm:p-8 p-5 grid sm:grid-cols-3 grid-cols-1 sm:gap-8 gap-5 relative`}
-                >
-                  <div>
-                    <h3 className="mb-1 font-semibold">Topics</h3>
-                    <RefinementList limit={6} attribute="_tags" />
+                  {!isEmpty(topic) &&
+                    CuratedTopicPage &&
+                    shouldDisplayLandingPageForTopics(topic.name) && (
+                      <div className="px-5">
+                        <CuratedTopicPage topic={topic} />
+                      </div>
+                    )}
+                  {!isEmpty(instructor) &&
+                    shouldDisplayLandingPageForInstructor(instructor.slug) && (
+                      <div className="pb-8 px-5">
+                        <InstructorCuratedPage instructor={instructor} />
+                      </div>
+                    )}
+                  <ScrollElement name="hits" />
+                  <Stats searchQuery={searchState.query} />
+                  <Hits />
+                  <div className="pb-16 pt-10 bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
+                    <Pagination />
                   </div>
-                  <div>
-                    <h3 className="mb-1 font-semibold">Instructors</h3>
-                    <RefinementList limit={6} attribute="instructor_name" />
-                  </div>
-                  <div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Content Type</h3>
-                      <RefinementList attribute="type" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Free or Pro</h3>
-                      <RefinementList attribute="access_state" />
-                    </div>
-                  </div>
-                  {isRefinementOn && (
-                    <button
-                      className="absolute top-0 right-0 mt-3 mr-3 text-blue-600 dark:text-blue-300"
-                      onClick={setShowFilter}
-                    >
-                      <ClearRefinements />
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-          {!isEmpty(instructor) && (
-            <div className="pb-8 mb-10">
-              {shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                <InstructorCuratedPage instructor={instructor} />
-              )}
-            </div>
-          )}
-
-          {loading && !topic && (
-            <div className="flex justify-center">
-              <Spinner size={12} />
-            </div>
-          )}
-
-          {!isEmpty(topic) && (
-            <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
-              {CuratedTopicPage &&
-                shouldDisplayLandingPageForTopics(topic.name) && (
-                  <CuratedTopicPage topic={topic} />
-                )}
-            </div>
-          )}
-
-          <div className="dark:bg-gray-900 bg-gray-50 md:-mt-5">
-            <ScrollTo scrollOn="page" />
-            <div className="flex flex-col-reverse items-center justify-between pb-4 mb-4 border-b border-gray-200 md:flex-row md:pb-2 md:mb-6 dark:border-gray-700">
-              <Stats searchQuery={searchState.query} />
-              <div className="flex items-center flex-shrink-0 space-x-2 flex-nowrap md:ml-6">
-                <div className="flex-shrink-0 font-bold whitespace-nowrap">
-                  Sort by:
-                </div>
-                <SortBy
-                  defaultRefinement="popular"
-                  items={[
-                    {
-                      value: 'popular',
-                      label: 'Most Popular',
-                    },
-                    {value: 'reviews', label: 'Highest Rated'},
-                    {value: 'created', label: 'Recently Added'},
-                    {value: 'completed', label: 'Most Watched'},
-                  ]}
-                />
-              </div>
-            </div>
-            <div className="flex pb-10 mb-10">
-              <div className="flex-shrink-0">
-                {!sm && (
-                  <div className="flex flex-col p-10 pt-0 pl-0 space-y-6">
-                    <div>
-                      <h3 className="mb-1 font-semibold">Topics</h3>
-                      <RefinementList limit={6} attribute="_tags" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Instructors</h3>
-                      <RefinementList limit={6} attribute="instructor_name" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Content Type</h3>
-                      <RefinementList attribute="type" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Free or Pro</h3>
-                      <RefinementList attribute="access_state" />
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div
-                key="search-results"
-                className="w-full col-span-4 sm:col-span-3"
-              >
-                <NoSearchResults searchQuery={searchState.query} />
-                <Hits />
+                </main>
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center w-full max-w-screen-xl mx-auto mt-8 mb-4 overflow-x-auto">
-            <Pagination />
-          </div>
-          {children}
-        </div>
-      </InstantSearch>
-    </div>
+        </InstantSearch>
+      </div>
+    </>
   )
 }
 

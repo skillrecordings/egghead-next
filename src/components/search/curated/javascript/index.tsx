@@ -42,7 +42,7 @@ const SearchJavaScript = () => {
   })
 
   return (
-    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+    <div>
       <NextSeo
         description={description}
         title={title}
@@ -62,7 +62,7 @@ const SearchJavaScript = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 -mx-5">
         <Topic
           className="col-span-8"
           title="JavaScript"
@@ -83,15 +83,18 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
         <ExternalTrackedLink
           eventName="clicked testing javascript banner"
           params={{location}}
-          className="block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+          className="block md:col-span-4 w-full h-full overflow-hidden bg-white relative text-center"
           href="https://testingjavascript.com"
         >
           <Image
             priority
             quality={100}
-            width={417}
-            height={463}
-            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611679406/next.egghead.io/javascript/testingjs.png"
+            // width={417}
+            // height={463}
+            objectFit="contain"
+            objectPosition="bottom"
+            layout="fill"
+            src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1639043693/next.egghead.io/javascript/testingjs-banner_2x.png"
             alt="Testing javascript by Kent C. Dodds"
           />
         </ExternalTrackedLink>
@@ -106,7 +109,7 @@ When someone comes to you and asks "Hey! Can you build this?", you'll be able to
       />
 
       {/* Feature Section */}
-      <section className="grid lg:grid-cols-12 grid-cols-1 items-start sm:mt-12 mt-4">
+      <section className="grid lg:grid-cols-12 grid-cols-1 items-start">
         <div className="col-span-4 mr-0 lg:mr-5">
           <VerticalResourceCard resource={domEvents} />
           <VerticalResourceCollectionCard

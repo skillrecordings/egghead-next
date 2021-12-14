@@ -13,7 +13,7 @@ type CourseGridProps = {
 }
 
 const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
-  const startDate = new Date('11/29/2021')
+  const startDate = new Date('11/28/2021')
   const numberOfDays = 20
   const today = new Date()
   const calendar = new Array(numberOfDays).fill({}).map((_, i) => {

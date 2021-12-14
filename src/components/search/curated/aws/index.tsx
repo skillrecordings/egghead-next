@@ -33,7 +33,7 @@ const SearchAWS = () => {
   })
 
   return (
-    <div className="mb-6 pb-6 md:mb-10 md:pb-10">
+    <div>
       <NextSeo
         description={description}
         title={title}
@@ -53,7 +53,7 @@ const SearchAWS = () => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 dark:bg-gray-900 -mx-5">
         <Topic
           className="col-span-8"
           title="AWS"
@@ -106,7 +106,7 @@ const AWSCourse: React.FC<{location: string}> = ({location}) => {
     slug: 'deploy-ghost-to-aws-using-rds-and-ec2-a3487caa',
   }
   return (
-    <div className="md:min-h-[477px] block md:col-span-4 rounded-md w-full h-full overflow-hidden border-0 border-gray-100 relative text-center">
+    <div className="md:min-h-[477px] block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center">
       <ExternalTrackedLink
         eventName="clicked AWS page CTA"
         params={{location}}

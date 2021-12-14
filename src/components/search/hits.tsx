@@ -7,7 +7,7 @@ type CustomHitsProps = {
 }
 
 const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => (
-  <div className="grid grid-col-1 lg:grid-cols-2 auto-rows-max lg:gap-8 gap-5">
+  <div className="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-max gap-3 p-3">
     {hits.map((hit) => (
       <HitComponent key={hit.objectID} hit={hit} />
     ))}
