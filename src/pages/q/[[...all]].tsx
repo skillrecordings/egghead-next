@@ -5,15 +5,12 @@ import algoliasearchLite from 'algoliasearch/lite'
 import Search from 'components/search'
 import {NextSeo} from 'next-seo'
 import {GetServerSideProps} from 'next'
-
 import qs from 'qs'
 import {createUrl, parseUrl, titleFromPath} from 'lib/search-url-builder'
 import {isEmpty, get, first} from 'lodash'
 import queryParamsPresent from 'utils/query-params-present'
-
 import {loadInstructor} from 'lib/instructors'
 import nameToSlug from 'lib/name-to-slug'
-
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import Header from 'components/app/header'
@@ -21,7 +18,6 @@ import Main from 'components/app/main'
 import Footer from 'components/app/footer'
 import {loadTag} from 'lib/tags'
 import {topicExtractor} from '../../utils/search/topic-extractor'
-
 import useSelectedTopic from 'hooks/use-selected-topic'
 
 const tracer = getTracer('search-page')

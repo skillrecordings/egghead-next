@@ -70,7 +70,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 gap-5 items-start space-y-5 md:space-y-0 dark:bg-gray-900">
+      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 dark:bg-gray-900 -mx-5">
         <Topic
           className="col-span-8"
           title={topic.label}
@@ -105,7 +105,7 @@ export const ThreeLevels: React.FC<{
   return (
     <>
       {beginner && intermediate && advanced && (
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start mt-5">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-5 items-start">
           <VerticalResourceCollectionCard
             resource={beginner}
             location={location}

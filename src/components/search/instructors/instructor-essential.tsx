@@ -46,9 +46,9 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
           ],
         }}
       />
-      <div className="items-start grid-cols-1 gap-3 space-y-5 md:grid md:grid-cols-12 md:space-y-0 dark:bg-gray-900">
+      <div className="items-start grid-cols-1 space-y-5 md:grid md:grid-cols-12 md:space-y-0 dark:bg-gray-900">
         <div
-          className={`md:col-span-8 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden rounded-md  grid md:grid-cols-8 md:gap-2 ${
+          className={`md:col-span-8 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden grid md:grid-cols-8 md:gap-2 ${
             className ? className : ''
           }`}
         >
