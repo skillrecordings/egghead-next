@@ -1,14 +1,5 @@
 import * as React from 'react'
-import {Coupon} from 'types'
-
-type SmallParityCouponMessage = {
-  coupon: Coupon
-  countryName: string
-  onApply: () => void
-  onDismiss: () => void
-  isPPP?: boolean
-  isLoading?: boolean
-}
+import {ParityCouponMessageProps} from 'interfaces/parity_coupon_message'
 
 const SmallParityCouponMessage = ({
   coupon,
@@ -17,7 +8,7 @@ const SmallParityCouponMessage = ({
   onDismiss,
   isPPP,
   isLoading,
-}: SmallParityCouponMessage) => {
+}: ParityCouponMessageProps) => {
   const percentOff = coupon && Math.round(coupon.coupon_discount * 100)
   const [showFlag, setShowFlag] = React.useState<boolean>(false)
 
