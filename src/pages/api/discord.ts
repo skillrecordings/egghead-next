@@ -1,6 +1,6 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {Client, GuildMember, User, Guild} from 'discord.js'
-import {Viewer} from 'interfaces/viewer'
+import {Viewer} from 'types'
 import got from 'got'
 import {getTokenFromCookieHeaders} from 'utils/auth'
 

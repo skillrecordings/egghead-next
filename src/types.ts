@@ -139,3 +139,12 @@ export type PricingData = {
   plans: PricingPlan[]
   quantity: number
 }
+
+export type ParityCouponMessageProps = {
+  coupon: Coupon
+  countryName: string
+  onApply: () => void
+  onDismiss: () => void
+  isPPP?: boolean
+  isLoading?: boolean
+}

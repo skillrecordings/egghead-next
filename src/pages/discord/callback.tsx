@@ -5,7 +5,7 @@ import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import isEmpty from 'lodash/isEmpty'
 import axios from 'axios'
 import {useRouter} from 'next/router'
-import {Viewer} from 'interfaces/viewer'
+import {Viewer} from 'types'
 
 type CombinedEggheadDiscordUserData = {
   eggheadUser?: Viewer
@@ -21,9 +21,8 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
   loginRequired,
 }) => {
   const [syncingAccount, setSyncingAccount] = React.useState(true)
-  const [userData, setUserData] = React.useState<
-    CombinedEggheadDiscordUserData
-  >({})
+  const [userData, setUserData] =
+    React.useState<CombinedEggheadDiscordUserData>({})
   const router = useRouter()
 
   React.useEffect(() => {
