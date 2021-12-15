@@ -19,6 +19,8 @@ import Footer from 'components/app/footer'
 import {loadTag} from 'lib/tags'
 import {topicExtractor} from '../../utils/search/topic-extractor'
 import useSelectedTopic from 'hooks/use-selected-topic'
+import useLoadTopicData, {topicQuery} from 'hooks/use-load-topic-data'
+import {sanityClient} from 'utils/sanity-client'
 
 const tracer = getTracer('search-page')
 
@@ -56,6 +58,7 @@ type SearchIndexProps = {
   noIndexInitial: boolean
   initialInstructor: any
   initialTopic: any
+  initialTopicData: any
 }
 
 const SearchIndex: any = ({
@@ -65,6 +68,7 @@ const SearchIndex: any = ({
   noIndexInitial,
   initialInstructor,
   initialTopic,
+  initialTopicData,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
@@ -72,7 +76,14 @@ const SearchIndex: any = ({
   const debouncedState = React.useRef<any>()
   const router = useRouter()
 
-  const {isLoading, topic} = useSelectedTopic(initialTopic, searchState)
+  const {isLoading: isLoadingTopic, topic} = useSelectedTopic(
+    initialTopic,
+    searchState,
+  )
+  const {isLoading: isLoadingTopicData, topicData} = useLoadTopicData(
+    topic?.slug,
+    initialTopicData,
+  )
 
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
@@ -117,7 +128,8 @@ const SearchIndex: any = ({
         {...customProps}
         instructor={instructor}
         topic={topic}
-        loading={isLoading}
+        topicData={topicData}
+        loading={isLoadingTopic || isLoadingTopicData}
       />
     </div>
   )
@@ -156,6 +168,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   let initialInstructor = null
   let initialTopic = null
+  let initialTopicData = null
 
   const {rawResults, state} = resultsState
 
@@ -175,6 +188,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
     try {
       if (topic) {
         initialTopic = await loadTag(topic)
+        initialTopicData = await sanityClient.fetch(topicQuery, {
+          slug: topic,
+        })
       }
     } catch (error) {
       console.error(error)
@@ -199,6 +215,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
       noIndexInitial,
       initialInstructor,
       ...(!!initialTopic && {initialTopic}),
+      ...(!!initialTopicData && {initialTopicData}),
     },
   }
 }

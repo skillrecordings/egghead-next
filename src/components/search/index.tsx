@@ -12,15 +12,11 @@ import {
   ClearRefinements,
   SortBy,
 } from 'react-instantsearch-dom'
-
 import {get, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
-
 import config from 'lib/config'
-
 import InstructorsIndex from 'components/search/instructors/index'
 import NoSearchResults from 'components/search/components/no-search-results'
-
 import SearchCuratedEssential from './curated/curated-essential'
 import SearchInstructorEssential from './instructors/instructor-essential'
 import CuratedTopicsIndex from './curated'
@@ -29,6 +25,7 @@ import Spinner from 'components/spinner'
 import {Element as ScrollElement, scroller} from 'react-scroll'
 import SimpleBar from 'simplebar-react'
 import cx from 'classnames'
+import NewCuratedTopicPage from './curated/[slug]'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -38,6 +35,7 @@ type SearchProps = {
   searchState?: any
   instructor?: any
   topic?: any
+  topicData?: any
   loading?: boolean
 }
 
@@ -47,6 +45,7 @@ const Search: FunctionComponent<SearchProps> = ({
   searchState,
   instructor,
   topic,
+  topicData,
   loading,
   ...rest
 }) => {
@@ -105,20 +104,20 @@ const Search: FunctionComponent<SearchProps> = ({
   const CuratedTopicPage =
     topic && (CuratedTopicsIndex[topic.name] || SearchCuratedEssential)
 
+  const [mounted, setMounted] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // This is responsible for scrolling to either hits or top of the page depending
   // on the filters applied and whether or not there is curated content present
   React.useEffect(() => {
-    const refinements = {
-      ...get(searchState, 'refinementList', []),
-      sortBy: get(searchState, 'sortBy', []),
-    }
-    const refinementsArr = uniq(
-      Object.keys(refinements).reduce((r: any, k: any) => {
-        return r.concat(refinements[k])
-      }, []),
-    ).filter((r) => r !== '')
-
-    if (refinementsArr.length > 1) {
+    if (
+      mounted &&
+      (get(searchState, 'refinementList._tags', []).length === 1 ||
+        get(searchState, 'refinementList.instructor_name', []).length === 1)
+    ) {
       scroller.scrollTo('hits', {
         offset: -47,
       })
@@ -255,13 +254,28 @@ const Search: FunctionComponent<SearchProps> = ({
                       />
                     </div>
                   )}
-                  {!isEmpty(topic) &&
-                    CuratedTopicPage &&
+                  {!loading &&
+                    !isEmpty(topic) &&
                     shouldDisplayLandingPageForTopics(topic.name) && (
-                      <div className="px-5">
-                        <CuratedTopicPage topic={topic} />
-                      </div>
+                      <>
+                        {isEmpty(topicData) ? (
+                          CuratedTopicPage && (
+                            // TODO: create more topic pages in Sanity and deprecate
+                            // following component in favor of approach below
+                            <div className="px-5">
+                              <CuratedTopicPage topic={topic} />
+                            </div>
+                          )
+                        ) : (
+                          // dynamic topic from page resource in Sanity
+                          <NewCuratedTopicPage
+                            topicData={topicData}
+                            topic={topic}
+                          />
+                        )}
+                      </>
                     )}
+
                   {!isEmpty(instructor) &&
                     shouldDisplayLandingPageForInstructor(instructor.slug) && (
                       <div className="pb-8 px-5">

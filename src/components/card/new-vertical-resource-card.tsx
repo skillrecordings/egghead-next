@@ -34,8 +34,20 @@ const VerticalResourceCard: React.FC<{
   if (isEmpty(resource)) return null
 
   return (
-    <ResourceLink path={resource.path} location={location}>
+    <ResourceLink
+      path={(resource.path || resource.url) as string}
+      location={location}
+    >
       <Card {...props} resource={resource} className={className}>
+        {resource.background && (
+          <Image
+            src={resource.background}
+            layout="fill"
+            objectFit="cover"
+            alt=""
+            aria-hidden="true"
+          />
+        )}
         <CardContent className="grid grid-rows-6 xl:p-5 p-2 pt-5">
           <CardHeader className={`row-span-3 relative `}>
             <PreviewImage
@@ -57,21 +69,22 @@ const VerticalResourceCard: React.FC<{
             )}
             <Textfit
               mode="multi"
-              className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center`}
+              className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
               max={22}
             >
               <h3>{resource.title}</h3>
             </Textfit>
+            {describe && (
+              <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 leading-tight">
+                <Markdown>{resource.description}</Markdown>
+              </CardBody>
+            )}
             <CardFooter>
               <CardAuthor />
             </CardFooter>
           </CardMeta>
-          {describe && (
-            <CardBody className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
-              <Markdown>{resource.description}</Markdown>
-            </CardBody>
-          )}
         </CardContent>
+
         {children}
       </Card>
     </ResourceLink>
