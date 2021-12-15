@@ -18,6 +18,7 @@ export type CardResource = Resource & {
   related?: CardResource[]
   instructor?: any
   background?: string
+  url?: string
 }
 
 export type LessonResource = Resource & {
