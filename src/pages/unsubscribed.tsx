@@ -24,23 +24,25 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
 const Unsubscribed: React.FunctionComponent<{from: string}> = ({from}) => {
   const {subscriber, cioIdentify} = useCio()
+  const subscriberId = subscriber?.id
 
   React.useEffect(() => {
-    if (subscriber) {
+    if (subscriberId) {
       switch (from) {
         case 'all':
-          cioIdentify(subscriber.id, {
+          cioIdentify(subscriberId, {
             unsubscribed: true,
           })
           break
         default:
-          cioIdentify(subscriber.id, {
+          cioIdentify(subscriberId, {
             [`unsubscribed_from_${from.toLowerCase()}`]: true,
           })
           break
       }
     }
-  }, [subscriber])
+  }, [subscriberId, from])
+
   return (
     <EmailConfirmation>
       <h1>You've been unsubscribed from {from} emails.</h1>
@@ -50,6 +52,11 @@ const Unsubscribed: React.FunctionComponent<{from: string}> = ({from}) => {
           <a>click here</a>
         </Link>
         .
+      </p>
+      <p>
+        If you need additional support, please email{' '}
+        <a href="mailto:support@egghead.io">support@egghead.io</a> and we will
+        do everything we can to get it sorted.
       </p>
     </EmailConfirmation>
   )

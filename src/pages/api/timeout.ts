@@ -1,8 +1,5 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
+import {sleep} from '../../utils/sleep'
 
 const visits = async (req: NextApiRequest, res: NextApiResponse) => {
   await sleep(20000)
