@@ -32,7 +32,10 @@ const addNote = async (req: NextApiRequest, res: NextApiResponse) => {
         throw new Error('Unable to add note.')
       }
 
-      const {data = [], error} = await supabase.from('resource_notes').insert([
+      const tableName =
+        process.env.RESOURCE_NOTES_TABLE_NAME || 'resource_notes'
+
+      const {data = [], error} = await supabase.from(tableName).insert([
         {
           user_id: contact_id,
           resource_id: req.query.slug,
