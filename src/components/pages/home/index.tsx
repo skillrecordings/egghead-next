@@ -1,30 +1,25 @@
 import * as React from 'react'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
-import Jumbotron from 'components/pages/home/jumbotron'
 import Search from 'components/pages/home/search'
 import Topics from 'components/pages/home/topics'
-import {CourseGrid} from 'lib/holiday-sale'
 import ReactMarkdown from 'react-markdown'
-import isEmpty from 'lodash/isEmpty'
 import {CardResource} from 'types'
 import Grid from 'components/grid'
 import Image from 'next/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
+import Jumbotron from 'components/pages/home/jumbotron'
+import {Jumbotron as HolidayReleaseJumbotron} from 'components/pages/20-days-of-egghead/course-grid'
 
-const Home: React.FC<any> = ({data, jumbotron, holidayCourses, location}) => {
+const Home: React.FC<any> = ({data, jumbotron, location}) => {
   return (
     <>
-      {!isEmpty(holidayCourses) ? (
-        <div className="container">
-          <CourseGrid data={holidayCourses} />
-        </div>
-      ) : (
-        <div className="md:container">
-          <Jumbotron data={jumbotron} />
-        </div>
-      )}
+      <div className="md:container">
+        {/* TODO: Switch back after holidays */}
+        {/* <Jumbotron data={jumbotron} /> */}
+        <HolidayReleaseJumbotron />
+      </div>
       <div className="container">
         <main className="sm:pt-16 pt-8">
           {data.sections
