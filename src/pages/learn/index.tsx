@@ -10,13 +10,11 @@ import groq from 'groq'
 const LearnPage: FunctionComponent<any> = ({data, holidayCourses}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
-  const ogImage = holidaySaleOn
-    ? 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1638208537/egghead-next-pages/20-days-of-egghead/holiday-card_2x.png'
-    : get(
-        jumbotron,
-        'resources[0].ogImage',
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png',
-      )
+  const ogImage = get(
+    jumbotron,
+    'resources[0].ogImage',
+    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png',
+  )
 
   return (
     <>

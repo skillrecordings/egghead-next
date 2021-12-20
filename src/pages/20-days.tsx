@@ -27,7 +27,7 @@ const EOYSale2021Page: React.FC<EOYSale2021PageProps> & {getLayout?: any} = ({
           description,
           images: [
             {
-              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1638208537/egghead-next-pages/20-days-of-egghead/holiday-card_2x.png',
+              url: 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1639991214/egghead-next-pages/20-days-of-egghead/default-card_2x.png',
             },
           ],
         }}

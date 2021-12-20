@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from 'react'
-import {loadHolidayCourses, holidaySaleOn} from 'lib/holiday-sale'
 import {sanityClient} from 'utils/sanity-client'
 import Home from 'components/pages/home'
 import {NextSeo} from 'next-seo'
@@ -7,16 +6,14 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
 
-const HomePage: FunctionComponent<any> = ({data, holidayCourses}) => {
+const HomePage: FunctionComponent<any> = ({data}) => {
   const location = 'curated home landing'
   const jumbotron = find(data.sections, {slug: 'jumbotron'})
-  const ogImage = holidaySaleOn
-    ? 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1638208537/egghead-next-pages/20-days-of-egghead/holiday-card_2x.png'
-    : get(
-        jumbotron,
-        'resources[0].ogImage',
-        'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png',
-      )
+  const ogImage = get(
+    jumbotron,
+    'resources[0].ogImage',
+    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png',
+  )
 
   return (
     <>
@@ -32,12 +29,7 @@ const HomePage: FunctionComponent<any> = ({data, holidayCourses}) => {
         }}
       />
       <div className="dark:bg-gray-900 bg-gray-100">
-        <Home
-          data={data}
-          holidayCourses={holidayCourses}
-          jumbotron={jumbotron}
-          location={location}
-        />
+        <Home data={data} jumbotron={jumbotron} location={location} />
       </div>
     </>
   )
@@ -79,11 +71,9 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
-  const holidayCourses = holidaySaleOn ? await loadHolidayCourses() : {}
 
   return {
     props: {
-      holidayCourses,
       data,
     },
   }

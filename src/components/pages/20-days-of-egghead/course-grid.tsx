@@ -131,13 +131,13 @@ const CourseGrid: React.FC<CourseGridProps> = ({data}) => {
 
 const Header = () => {
   return (
-    <header className="relative flex flex-col items-center justify-center w-full max-w-screen-xl px-5 py-24 mx-auto text-center sm:py-40">
+    <header className="relative flex flex-col items-center justify-center w-full max-w-screen-xl px-5 py-24 mx-auto text-center sm:py-52">
       <h3 className="relative z-10 pb-2 text-2xl font-bold leading-none tracking-tight md:text-4xl sm:text-3xl">
         Holiday Course <br /> Release Extravaganza
       </h3>
-      <p className="max-w-md pt-2 text-sm text-blue-500 opacity-90 dark:text-pink-200 sm:text-base">
-        We'll be releasing 20 badass courses during the holiday season, that'll
-        help you jumpstart your career in 2022
+      <p className="relative z-10 max-w-md pt-2 text-sm text-blue-500 opacity-90 dark:text-pink-200 sm:text-base">
+        We've released 20 badass courses during the holiday season, that'll help
+        you jumpstart your career in 2022
       </p>
       <Image
         src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637069708/egghead-next-pages/20-days-of-egghead/bg_2x.png"
@@ -147,7 +147,36 @@ const Header = () => {
         objectPosition="50% 50%"
         alt=""
         aria-hidden
-        className="pointer-events-none sm:opacity-100 opacity-20"
+        className="pointer-events-none sm:opacity-100 opacity-20 z-0"
+      />
+    </header>
+  )
+}
+
+export const Jumbotron = () => {
+  return (
+    <header className="relative flex flex-col items-center justify-center w-full max-w-screen-xl px-5 py-24 mx-auto text-center sm:py-40">
+      <h3 className="relative z-10 pb-2 text-2xl font-bold leading-none tracking-tight md:text-4xl sm:text-3xl">
+        Holiday Course <br /> Release Extravaganza
+      </h3>
+      <p className="relative z-10 max-w-md pt-2 text-sm text-blue-500 opacity-90 dark:text-pink-200 sm:text-base">
+        We've released 20 badass courses during the holiday season, that'll help
+        you jumpstart your career in 2022
+      </p>
+      <Link href="/20-days">
+        <a className="relative z-10 mt-8 px-10 py-4 rounded-md bg-gradient-to-tr from-blue-700 to-blue-500 text-white font-medium text-center hover:from-blue-800 hover:to-blue-600">
+          Explore New Courses
+        </a>
+      </Link>
+      <Image
+        src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637069708/egghead-next-pages/20-days-of-egghead/bg_2x.png"
+        quality={100}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="50% 50%"
+        alt=""
+        aria-hidden
+        className="pointer-events-none sm:opacity-100 opacity-20 z-0"
       />
     </header>
   )
