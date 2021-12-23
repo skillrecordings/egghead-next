@@ -80,7 +80,7 @@ const FooterNavigation: FunctionComponent = () => {
     return reject(items, (item) => {
       return (
         (item.viewerRequired && !viewer) ||
-        (item.nonMemberRequired && viewer.is_pro)
+        (item.nonMemberRequired && viewer?.is_pro)
       )
     })
   }
