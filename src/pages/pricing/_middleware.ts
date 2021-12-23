@@ -29,14 +29,14 @@ export async function middleware(req: NextRequest) {
             customer?.attributes?.instructor,
           ].includes('true')
 
-          const loggedInMember = isMember && eggheadAccessToken
+          const loggedInMember = Boolean(isMember && eggheadAccessToken)
 
           switch (true) {
             case loggedInMember:
-              response = NextResponse.rewrite('user')
+              response = NextResponse.rewrite('/user')
               break
             case isMember:
-              response = NextResponse.rewrite('login')
+              response = NextResponse.rewrite('/login')
               break
             default:
               response = NextResponse.next()
