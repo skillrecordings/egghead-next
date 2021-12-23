@@ -10,8 +10,10 @@ export async function middleware(req: NextRequest) {
   const cioId =
     req.cookies[CIO_COOKIE_KEY] || req.nextUrl.searchParams.get(CIO_COOKIE_KEY)
 
+  const eggheadAccessToken = req.cookies[ACCESS_TOKEN_KEY]
+
   // if there's a cookie or a token they are logged in
-  let status = cioId || req.cookies[ACCESS_TOKEN_KEY] ? 'identified' : 'anon'
+  let status = cioId || eggheadAccessToken ? 'identified' : 'anon'
 
   switch (status) {
     case 'anon':
@@ -27,9 +29,14 @@ export async function middleware(req: NextRequest) {
             customer?.attributes?.instructor,
           ].includes('true')
 
+          const loggedInMember = isMember && eggheadAccessToken
+
           switch (true) {
-            case isMember:
+            case loggedInMember:
               response = NextResponse.rewrite('user')
+              break
+            case isMember:
+              response = NextResponse.rewrite('login')
               break
             default:
               response = NextResponse.next()
