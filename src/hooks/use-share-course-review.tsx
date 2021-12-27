@@ -31,6 +31,8 @@ export function useShareCourseReview(ratings: any, collection: any): any {
         authorAvatar: userAvatar,
         courseIllustration: collection.image_thumb_url,
         courseTitle: collection.title,
+        instructorAvatar: collection.instructor.avatar_url,
+        instructorName: collection.instructor.full_name,
       },
     })
 
