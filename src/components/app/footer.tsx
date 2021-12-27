@@ -40,6 +40,7 @@ const about = [
   {
     path: '/pricing',
     label: 'Pricing',
+    nonMemberRequired: true,
   },
   {
     path: 'https://store.egghead.io/',
@@ -77,7 +78,10 @@ const FooterNavigation: FunctionComponent = () => {
   const {viewer} = useViewer()
   const filterViewerRequired = (items: any[]) => {
     return reject(items, (item) => {
-      return item.viewerRequired && !viewer
+      return (
+        (item.viewerRequired && !viewer) ||
+        (item.nonMemberRequired && viewer?.is_pro)
+      )
     })
   }
   return (
