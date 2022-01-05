@@ -16,9 +16,7 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
   return (
     <>
       <div className="md:container">
-        {/* TODO: Switch back after holidays */}
-        {/* <Jumbotron data={jumbotron} /> */}
-        <HolidayReleaseJumbotron />
+        <Jumbotron data={jumbotron} />
       </div>
       <div className="container">
         <main className="sm:pt-16 pt-8">
@@ -66,21 +64,61 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                   <Grid>
                     {section.resources.map(
                       (resource: CardResource, i: number) => {
-                        // if there are only 3 resources, the first one will use HorizontalResourceCard
-                        return section.resources.length === 3 && i === 0 ? (
-                          <HorizontalResourceCard
-                            className="col-span-2"
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        ) : (
-                          <VerticalResourceCard
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
+                        switch (section.resources.length) {
+                          case 3:
+                            return i === 0 ? (
+                              <HorizontalResourceCard
+                                className="col-span-2"
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            ) : (
+                              <VerticalResourceCard
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            )
+                          case 6:
+                            return i === 0 || i === 1 ? (
+                              <HorizontalResourceCard
+                                className="col-span-2"
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            ) : (
+                              <VerticalResourceCard
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            )
+                          case 7:
+                            return i === 0 ? (
+                              <HorizontalResourceCard
+                                className="col-span-2"
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            ) : (
+                              <VerticalResourceCard
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            )
+                          default:
+                            return (
+                              <VerticalResourceCard
+                                key={resource.id}
+                                resource={resource}
+                                location={location}
+                              />
+                            )
+                        }
                       },
                     )}
                   </Grid>
@@ -109,6 +147,9 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                 </section>
               )
             })}
+          <div className="md:container mb-16 rounded-lg dark:bg-gray-800 bg-white dark:bg-opacity-60 bg-opacity-100">
+            <HolidayReleaseJumbotron />
+          </div>
           <Search />
         </main>
       </div>
