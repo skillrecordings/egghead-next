@@ -13,6 +13,7 @@ import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
+import PostPurchase from '../components/survey/post-purchase'
 //!
 
 type LoginFormProps = {
@@ -236,6 +237,7 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
               your inbox to <strong>confirm your email address</strong>.
             </p>
 
+            <PostPurchase />
             <PostPurchaseSurvey />
             <div className="pt-8">
               <PopularTopics />
