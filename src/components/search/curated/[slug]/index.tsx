@@ -165,22 +165,70 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                 )}
                 <Grid className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3 gap-2">
                   {section.resources.map((resource: any, i: number) => {
-                    // if there are only 3 resources, the first one will use HorizontalResourceCard
-                    return section.resources.length === 3 && i === 0 ? (
-                      <HorizontalResourceCard
-                        className="col-span-2"
-                        key={resource.id}
-                        resource={resource}
-                        location={location}
-                      />
-                    ) : (
-                      <VerticalResourceCard
-                        small
-                        key={resource.id}
-                        resource={resource}
-                        location={location}
-                      />
-                    )
+                    switch (section.resources.length) {
+                      case 2:
+                        return (
+                          <HorizontalResourceCard
+                            className="col-span-2"
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                      case 3:
+                        return i === 0 ? (
+                          <HorizontalResourceCard
+                            className="col-span-2"
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        ) : (
+                          <VerticalResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                      case 6:
+                        return i === 0 || i === 1 ? (
+                          <HorizontalResourceCard
+                            className="col-span-2"
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        ) : (
+                          <VerticalResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                      case 7:
+                        return i === 0 ? (
+                          <HorizontalResourceCard
+                            className="col-span-2"
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        ) : (
+                          <VerticalResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                      default:
+                        return (
+                          <VerticalResourceCard
+                            key={resource.id}
+                            resource={resource}
+                            location={location}
+                          />
+                        )
+                    }
                   })}
                 </Grid>
               </section>

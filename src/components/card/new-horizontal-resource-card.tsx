@@ -16,6 +16,7 @@ import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
+import truncate from 'lodash/truncate'
 
 const HorizontalResourceCard: React.FC<{
   resource: CardResource
@@ -35,7 +36,7 @@ const HorizontalResourceCard: React.FC<{
     'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
   return (
     <ResourceLink
-      path={resource.path}
+      path={(resource.path || resource.url) as string}
       location={location}
       className={className}
     >
@@ -66,7 +67,7 @@ const HorizontalResourceCard: React.FC<{
             </Textfit>
             {resource.description && describe && (
               <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700 sm:block hidden">
-                {resource.description}
+                {truncate(resource.description, {length: 120})}
               </ReactMarkdown>
             )}
             <CardFooter>
