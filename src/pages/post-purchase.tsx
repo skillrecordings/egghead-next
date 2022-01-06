@@ -1,7 +1,5 @@
 import React, {FunctionComponent} from 'react'
 import {Formik} from 'formik'
-
-import {supabase} from 'utils/supabase'
 import {useViewer} from 'context/viewer-context'
 
 //! delete these
@@ -13,7 +11,7 @@ import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
-import PostPurchase from '../components/survey/post-purchase'
+import PostPurchase from '../components/survey/tally/post-purchase'
 //!
 
 type LoginFormProps = {
@@ -33,11 +31,11 @@ const PostPurchaseSurvey: FunctionComponent<any> = ({
   let onSubmit = async (values: any) => {
     const {response} = values
 
-    await supabase.from('responses').insert({
-      email: viewer?.email,
-      question: question,
-      response: response,
-    })
+    // await supabase.from('responses').insert({
+    //   email: viewer?.email,
+    //   question: question,
+    //   response: response,
+    // })
   }
   return (
     <div className="flex flex-col items-center p-16 my-16 bg-gray-100 rounded-lg dark:bg-gray-800">
@@ -237,7 +235,7 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
               your inbox to <strong>confirm your email address</strong>.
             </p>
 
-            <PostPurchase />
+            <PostPurchase email={session?.email} />
             <PostPurchaseSurvey />
             <div className="pt-8">
               <PopularTopics />
