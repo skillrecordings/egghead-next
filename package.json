@@ -145,6 +145,7 @@
     "title": "^3.4.3",
     "ts-toolbelt": "^9.6.0",
     "unist-util-visit": "^2.0.3",
+    "use-fit-text": "^2.4.0",
     "vfile": "^4.2.1",
     "video.js": "^7.14.3",
     "xstate": "^4.23.1",
