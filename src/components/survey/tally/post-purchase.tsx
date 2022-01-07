@@ -1,15 +1,16 @@
-const PostPurchase = ({email}: any) => {
-  console.log(email)
+const PostPurchase = ({email}: {email: string}) => {
   return (
-    <iframe
-      src={`https://tally.so/embed/3XQYew?alignLeft=1&hideTitle=1&transparentBackground=0&email=${email}&form_id=post-purchase&question=What brings you here today?`}
-      width="100%"
-      height="250"
-      frameBorder={1}
-      marginHeight={1}
-      marginWidth={1}
-      title="Post Purchase Question"
-    ></iframe>
+    <div className="p-5 mt-4 text-gray-800 rounded-lg dark:bg-gray-800 dark:text-gray-200">
+      <iframe
+        src={`https://survey.zacjones.dev/post-purchase?alignLeft=1&hideTitle=1&transparentBackground=1&embed=1&email=${email}&form_id=post-purchase&question=What brings you here today?`}
+        width="100%"
+        height="250px"
+        frameBorder={1}
+        marginHeight={1}
+        marginWidth={1}
+        title="Post Purchase Question"
+      ></iframe>
+    </div>
   )
 }
 

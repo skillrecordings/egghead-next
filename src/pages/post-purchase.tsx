@@ -1,7 +1,5 @@
-import React, {FunctionComponent} from 'react'
-import {Formik} from 'formik'
-import {useViewer} from 'context/viewer-context'
-
+import React, {FunctionComponent, useEffect} from 'react'
+import {useTheme} from 'next-themes'
 //! delete these
 import useLastResource from 'hooks/use-last-resource'
 import {isEmpty} from 'lodash'
@@ -12,186 +10,6 @@ import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
 import PostPurchase from '../components/survey/tally/post-purchase'
-//!
-
-type LoginFormProps = {
-  HeaderImageComponent?: React.FC
-  className?: string
-  button?: string
-  label?: string
-  formClassName?: string
-  onSubmit: (value: any, setIsError: any) => void
-}
-
-const PostPurchaseSurvey: FunctionComponent<any> = ({
-  question = 'What was the last thing that held you back from purchasing?',
-}) => {
-  const {viewer} = useViewer()
-
-  let onSubmit = async (values: any) => {
-    const {response} = values
-
-    // await supabase.from('responses').insert({
-    //   email: viewer?.email,
-    //   question: question,
-    //   response: response,
-    // })
-  }
-  return (
-    <div className="flex flex-col items-center p-16 my-16 bg-gray-100 rounded-lg dark:bg-gray-800">
-      <Form
-        className="flex flex-col items-center justify-center w-full mx-auto text-white"
-        label="Feedback:"
-        formClassName="max-w-xs md:max-w-sm mx-auto w-full"
-        button="Submit Feedback"
-        onSubmit={onSubmit}
-      >
-        <div className="text-center">
-          <p className="mt-4 text-base font-normal text-black dark:text-white sm:text-lg">
-            {question}
-          </p>
-        </div>
-      </Form>
-    </div>
-  )
-}
-
-const Form: React.FunctionComponent<LoginFormProps> = ({
-  HeaderImageComponent,
-  className,
-  children,
-  button = 'Submit Feedback',
-  label = 'Enter Feedback',
-  formClassName = '',
-  onSubmit = () => {},
-}) => {
-  const [isSubmitted, setIsSubmitted] = React.useState(false) // false
-  const [isError, setIsError] = React.useState(false)
-
-  return (
-    <div
-      className={
-        className
-          ? className
-          : 'w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center text-gray-900 dark:text-gray-100'
-      }
-    >
-      {HeaderImageComponent && <HeaderImageComponent />}
-      <div
-        className={`sm:mx-auto rounded-lg ${
-          !HeaderImageComponent ? 'mt-0' : 'mt-5'
-        }`}
-      >
-        {isSubmitted && (
-          <h1 className="text-xl font-bold leading-9 text-center text-gray-900 dark:text-gray-100">
-            Thank you so much!
-          </h1>
-        )}
-        {isError && (
-          <h2 className="text-3xl font-bold leading-9 text-center text-gray-900 dark:text-gray-100">
-            Something went wrong!
-          </h2>
-        )}
-        {!isSubmitted &&
-          !isError &&
-          (children ? (
-            children
-          ) : (
-            <>
-              <h2 className="text-3xl font-bold leading-9 text-center">
-                What was the last thing that held you back from purchasing?
-              </h2>
-            </>
-          ))}
-        <div className="mt-4 sm:mt-6 sm:mx-auto sm:w-full sm:max-w-xl">
-          {!isSubmitted && !isError && (
-            <Formik
-              initialValues={{response: ''}}
-              onSubmit={(values) => {
-                setIsSubmitted(true)
-                onSubmit(values, setIsError)
-              }}
-            >
-              {(props) => {
-                const {
-                  values,
-                  isSubmitting,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                } = props
-                return (
-                  <>
-                    <form onSubmit={handleSubmit} className={formClassName}>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm leading-5 text-gray-800 dark:text-gray-200"
-                      >
-                        {label}
-                      </label>
-                      <div className="relative mt-1 rounded-md shadow-sm">
-                        <textarea
-                          id="response"
-                          rows={8}
-                          value={values.response}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          placeholder="Add you thoughts here..."
-                          className="block w-full text-black placeholder-gray-400 border-gray-300 rounded-md shadow-sm autofill:text-fill-black focus:ring-indigo-500 focus:border-blue-500 "
-                          required
-                        />
-                      </div>
-                      <div className="flex items-center justify-center w-full">
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="px-5 py-3 mt-4 font-semibold text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                        >
-                          {button}
-                        </button>
-                      </div>
-                    </form>
-                  </>
-                )
-              }}
-            </Formik>
-          )}
-          {isSubmitted && (
-            <div className="space-y-2 leading-tight text-center">
-              <h3 className="text-lg font-semibold text-gray-900 leading-tighter dark:text-gray-100">
-                We've got it.
-              </h3>
-              <p className="mt-2 text-gray-900 dark:text-gray-100">
-                We use this feedback to make egghead a better learning
-                experience for everyone.
-              </p>
-            </div>
-          )}
-          {isError && (
-            <div>
-              <p>
-                Something Went Wrong{' '}
-                <span role="img" aria-label="sweating">
-                  😅
-                </span>
-              </p>
-              <p className="pt-3">
-                Are you using an aggressive ad blocker such as Privacy Badger?
-                Please disable it for this site and reload the page to try
-                again.
-              </p>
-              <p className="pt-3">
-                If you <strong>aren't</strong> running aggressive adblocking
-                please check the console for errors and email support@egghead.io
-                with any info and we will help you ASAP.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
 
 //! delete
 
@@ -214,6 +32,12 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
   session,
   currentState,
 }) => {
+  const {_, setTheme} = useTheme()
+
+  useEffect(() => {
+    setTheme('dark')
+  }, [])
+
   return (
     <>
       <Header
@@ -236,7 +60,7 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
             </p>
 
             <PostPurchase email={session?.email} />
-            <PostPurchaseSurvey />
+
             <div className="pt-8">
               <PopularTopics />
             </div>
