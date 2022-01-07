@@ -57,7 +57,7 @@ const SearchHitResourceCard: React.FC<{
               />
             </CardHeader>
           )}
-          <CardBody className={``}>
+          <CardBody>
             {resource.name && (
               <p
                 aria-hidden
@@ -70,6 +70,8 @@ const SearchHitResourceCard: React.FC<{
               mode="multi"
               className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
               max={18}
+              min={10}
+              throttle={100}
             >
               <h3>{resource.title}</h3>
             </Textfit>
