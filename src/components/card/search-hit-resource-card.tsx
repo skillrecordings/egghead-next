@@ -31,6 +31,11 @@ const SearchHitResourceCard: React.FC<{
   small = false,
   ...props
 }) => {
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   if (isEmpty(resource)) return null
   const defaultClassName =
     'rounded-md sm:aspect-w-4 sm:aspect-h-2 aspect-w-3 aspect-h-1 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
@@ -66,15 +71,17 @@ const SearchHitResourceCard: React.FC<{
                 {resource.name}
               </p>
             )}
-            <Textfit
-              mode="multi"
-              className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
-              max={18}
-              min={10}
-              throttle={1000}
-            >
-              <h3>{resource.title}</h3>
-            </Textfit>
+            {mounted && (
+              <Textfit
+                mode="multi"
+                className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
+                max={18}
+                min={10}
+                throttle={1000}
+              >
+                <h3>{resource.title}</h3>
+              </Textfit>
+            )}
             {resource.description && describe && (
               <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700">
                 {resource.description}
