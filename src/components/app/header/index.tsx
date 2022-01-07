@@ -244,7 +244,7 @@ const Header: FunctionComponent = () => {
                   onClick={() => setOpen(!isOpen)}
                   aria-labelledby="menubutton"
                   aria-expanded={isOpen}
-                  className="flex items-center justify-center px-3 py-2 -mr-4"
+                  className="flex items-center justify-center px-3 py-2 -mr-2"
                 >
                   <span className="sr-only">
                     {isOpen ? 'Close navigation' : 'Open navigation'}
