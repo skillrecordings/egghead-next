@@ -71,7 +71,7 @@ const SearchHitResourceCard: React.FC<{
               className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
               max={18}
               min={10}
-              throttle={100}
+              throttle={1000}
             >
               <h3>{resource.title}</h3>
             </Textfit>
