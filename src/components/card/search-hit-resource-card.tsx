@@ -62,16 +62,16 @@ const SearchHitResourceCard: React.FC<{
               />
             </CardHeader>
           )}
-          <CardBody>
-            {resource.name && (
-              <p
-                aria-hidden
-                className="uppercase font-medium sm:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
-              >
-                {resource.name}
-              </p>
-            )}
-            {mounted && (
+          {mounted && (
+            <CardBody>
+              {resource.name && (
+                <p
+                  aria-hidden
+                  className="uppercase font-medium sm:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
+                >
+                  {resource.name}
+                </p>
+              )}
               <Textfit
                 mode="multi"
                 className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
@@ -81,16 +81,16 @@ const SearchHitResourceCard: React.FC<{
               >
                 <h3>{resource.title}</h3>
               </Textfit>
-            )}
-            {resource.description && describe && (
-              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700">
-                {resource.description}
-              </ReactMarkdown>
-            )}
-            <CardFooter>
-              <CardAuthor className="flex items-center pt-2" />
-            </CardFooter>
-          </CardBody>
+              {resource.description && describe && (
+                <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700">
+                  {resource.description}
+                </ReactMarkdown>
+              )}
+              <CardFooter>
+                <CardAuthor className="flex items-center pt-2" />
+              </CardFooter>
+            </CardBody>
+          )}
         </CardContent>
         {children}
       </Card>
