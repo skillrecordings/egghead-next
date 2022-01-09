@@ -37,6 +37,7 @@ const VerticalResourceCard: React.FC<{
     <ResourceLink
       path={(resource.path || resource.url) as string}
       location={location}
+      target={resource.url ? '_blank' : undefined}
     >
       <Card {...props} resource={resource} className={className}>
         {resource.background && (
@@ -96,7 +97,8 @@ export const ResourceLink: React.FC<{
   location?: string
   className?: string
   linkType?: string
-}> = ({children, path, location, linkType = 'text', ...props}) => (
+  target?: '_blank' | '_self'
+}> = ({children, path, location, linkType = 'text', target, ...props}) => (
   <Link href={path}>
     <a
       onClick={() => {
@@ -106,6 +108,7 @@ export const ResourceLink: React.FC<{
           location,
         })
       }}
+      target={target || '_self'}
       {...props}
     >
       {children}
