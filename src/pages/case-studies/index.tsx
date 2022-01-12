@@ -4,6 +4,8 @@ import {sanityClient} from 'utils/sanity-client'
 import Link from 'next/link'
 import Image from 'next/image'
 
+export const HIDDEN_CASE_STUDIES = ['cloudflare'] // these exist on their own respective routes (not under /case-studies)
+
 const CaseStudies: React.FC = (allCaseStudies: any) => {
   return (
     <div className="container py-10 lg:py-16">
@@ -13,7 +15,7 @@ const CaseStudies: React.FC = (allCaseStudies: any) => {
 
       <div className="grid max-w-lg gap-5 mx-auto mt-12 lg:grid-cols-3 lg:max-w-none">
         {allCaseStudies.allCaseStudies.map((caseStudy: any) => {
-          const fullSlug = `/case-studies/${caseStudy.slug.current}`
+          const fullSlug = `/case-studies/${caseStudy.slug}`
 
           return (
             <div
@@ -64,9 +66,9 @@ const CaseStudies: React.FC = (allCaseStudies: any) => {
 export default CaseStudies
 
 const allCaseStudiesQuery = groq`
-*[_type == "caseStudy" && publishedAt < now()]|order(publishedAt desc) {
+*[_type == "caseStudy" && publishedAt < now() && !(slug.current match $hiddenCaseStudies)]|order(publishedAt desc) {
   title,
-  slug,
+  'slug': slug.current,
   coverImage,
   description,
   publishedAt,
@@ -74,11 +76,13 @@ const allCaseStudiesQuery = groq`
 `
 
 export async function getStaticProps() {
-  const allCaseStudies = await sanityClient.fetch(allCaseStudiesQuery)
+  const allCaseStudies = await sanityClient.fetch(allCaseStudiesQuery, {
+    hiddenCaseStudies: HIDDEN_CASE_STUDIES,
+  })
 
   return {
     props: {
-      allCaseStudies,
+      allCaseStudies: allCaseStudies,
     },
   }
 }
