@@ -8,6 +8,9 @@ import {getTokenFromCookieHeaders} from '../../utils/parse-server-cookie'
 import fetchEggheadUser from '../../api/egghead/users/from-token'
 import {loadUserNotesForResource} from '../../lib/notes'
 
+export const eggheadLogo =
+  'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/033/thumb/eggheadlogo.png'
+
 const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET' && req.query.url) {
     const text = await loadNotesFromUrl(req.query.url as string)
@@ -18,7 +21,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
       req.headers.cookie as string,
     )
 
-    const {contact_id} = await fetchEggheadUser(eggheadToken, true)
+    const {contact_id, avatar_url} = await fetchEggheadUser(eggheadToken, true)
 
     const {data} = await loadUserNotesForResource(
       contact_id,
@@ -32,6 +35,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
             end: note.end_time,
             text: note.text,
             type: note.type ?? 'learner',
+            image: avatar_url,
           }
         })
       : []
@@ -109,6 +113,7 @@ export function parseMdxNotesFile(text: string) {
       return {
         text: contents.trim(),
         type: 'staff',
+        image: eggheadLogo,
         ...attributes,
       }
     })
