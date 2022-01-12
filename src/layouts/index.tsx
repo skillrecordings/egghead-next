@@ -40,7 +40,7 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({
               {title}
             </h1>
           )}
-          <main className="mt-5 prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none">
+          <main className="mt-5 prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:prose-lg lg:prose-xl max-w-none">
             {children}
           </main>
         </article>

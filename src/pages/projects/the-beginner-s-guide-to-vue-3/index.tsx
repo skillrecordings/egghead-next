@@ -75,7 +75,7 @@ const landingPage: FunctionComponent<LandingProps> = (props) => {
             </h1>
           </div>
           <div className="flex flex-col items-start justify-center w-full max-w-screen-md mx-auto mb-16">
-            <main className="w-full prose prose-lg dark:prose-dark max-w-none">
+            <main className="w-full prose prose-lg dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none">
               <Markdown>{introduction.text}</Markdown>
               <Markdown>{projectBrief.text}</Markdown>
               <section className="flex-none w-full sm:flex sm:justify-between sm:mt-4">

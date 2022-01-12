@@ -83,7 +83,7 @@ const landingPage: FunctionComponent<LandingProps> = () => {
             label: 'Project Brief',
           }}
         >
-          <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
+          <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:text-base dark:text-gray-200">
             {`You are a developer for a national concert promoter.
 
 Music fans from all over the world visit your site to see when and where the next show is going to be. To save them time when they visit the page, we want to show them upcoming events at a venue close to their location.
@@ -122,7 +122,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               }}
             />
             <h1 className="mb-2 text-xl font-bold sm:text-2xl">Performance</h1>
-            <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
+            <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:text-base dark:text-gray-200">
               {`- No styling or third party npm modules are prescribed. Instead, the focus is on the big takeaways that the Cloudflare network has many locations, and a Worker project supports JS.
 
 - In the course, Kristian deploys a worker that makes use of Cloudflare's **IncomingRequestCfProperties** ([see docs](https://developers.cloudflare.com/workers/runtime-apis/request#incomingrequestcfproperties)) to retrieve the user's country. There are additional data available here that could be used in fulfilling this project brief.
@@ -139,7 +139,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
               }}
             />
             <h1 className="mb-2 text-xl font-bold sm:text-2xl">Standards</h1>
-            <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark sm:text-base dark:text-gray-200">
+            <Markdown className="pt-2 mt-0 text-sm leading-normal prose text-gray-800 dark:prose-dark  dark:prose-a:text-blue-300 prose-a:text-blue-500sm:text-base dark:text-gray-200">
               {`- The application uses Cloudflare Workers.
 
 - The application is deployed to the web and is useable for its intended purpose.
@@ -192,7 +192,7 @@ Your task is to create and deploy a Cloudflare Worker that will examine the requ
                         <a className="flex items-center py-1 space-x-2 text-gray-700 dark:text-gray-100 hover:text-blue-600 group">
                           {/* prettier-ignore */}
                           <div className="flex-shrink-0"><svg className="text-gray-400 dark:text-gray-400 group-hover:text-blue-600" width={18} height={18} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g fill="none" ><path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9.555 7.168A1 1 0 0 0 8 8v4a1 1 0 0 0 1.555.832l3-2a1 1 0 0 0 0-1.664l-3-2z" fill="currentColor"/></g></svg></div>
-                          <Markdown className="mt-0 text-base prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100 md:text-lg">
+                          <Markdown className="mt-0 text-base prose text-gray-700 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 md:dark:prose-lg-dark md:prose-lg dark:text-gray-100 md:text-lg">
                             {lesson.title}
                           </Markdown>
                         </a>

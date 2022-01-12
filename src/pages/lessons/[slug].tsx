@@ -775,7 +775,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                 )}
               </div>
               {description && (
-                <Markdown className="font-medium prose prose-lg dark:prose-dark max-w-none text-gray-1000 dark:text-white">
+                <Markdown className="font-medium prose prose-lg dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none text-gray-1000 dark:text-white">
                   {description}
                 </Markdown>
               )}

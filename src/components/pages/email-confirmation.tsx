@@ -10,7 +10,7 @@ const EmailConfirmation: React.FunctionComponent<{
 }) => (
   <div className="container">
     <div className={className}>
-      <div className="relative z-10 prose dark:prose-dark hide-toc">
+      <div className="relative z-10 prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 hide-toc">
         {children}
       </div>
       <div className="absolute top-0 z-0 w-full h-screen bg-cool-gray-50">

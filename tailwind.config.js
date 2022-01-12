@@ -1,6 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
-const {spacing, fontFamily} = require('tailwindcss/defaultTheme')
+const {spacing} = require('tailwindcss/defaultTheme')
 
 const containerStylesPlugin = ({addComponents}) =>
   addComponents({
@@ -10,23 +9,9 @@ const containerStylesPlugin = ({addComponents}) =>
   })
 
 module.exports = {
-  mode: 'jit',
   darkMode: 'class',
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.js', './src/**/*.mdx', './src/**/*.tsx'],
-    options: {
-      safelist: ['dark'], //specific classes
-    },
-  },
+  content: ['./src/**/*.{js,ts,tsx,mdx}'],
   theme: {
-    colors: {
-      ...defaultTheme.colors,
-      ...colors,
-      transparentLight: 'rgba(255, 255, 255, 0)', // safari fix
-      transparentDark: 'rgba(17, 24, 39, 0)', // safari fix
-      gray: {...colors.coolGray, 1000: '#0A0F19'},
-    },
     container: {
       center: true,
       padding: {
@@ -35,6 +20,11 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        transparentLight: 'rgba(255, 255, 255, 0)', // safari fix
+        transparentDark: 'rgba(17, 24, 39, 0)', // safari fix
+        gray: {...defaultTheme.colors.gray, 1000: '#0A0F19'},
+      },
       boxShadow: {
         smooth:
           '0 4.5px 3.6px -8px rgba(0, 0, 0, 0.01), 0 12.5px 10px -8px rgba(0, 0, 0, 0.015), 0 30.1px 24.1px -8px rgba(0, 0, 0, 0.02), 0 100px 80px -8px rgba(0, 0, 0, 0.03)',
@@ -43,19 +33,6 @@ module.exports = {
         default: {
           css: {
             color: theme('colors.black'),
-            a: {
-              color: theme('colors.blue.600'),
-              '&:hover': {
-                color: theme('colors.blue.700'),
-              },
-              '*': {
-                color: theme('colors.blue.600'),
-              },
-              code: {color: theme('colors.blue.600')},
-            },
-            'strong > a, a > strong': {
-              color: theme('colors.blue.600'),
-            },
             code: {
               padding: '3px 5px',
               borderRadius: 5,
@@ -87,22 +64,6 @@ module.exports = {
         dark: {
           css: {
             color: theme('colors.white'),
-            a: {
-              color: theme('colors.blue.400'),
-              '&:hover': {
-                color: theme('colors.blue.300'),
-              },
-              code: {color: theme('colors.blue.400')},
-              '*': {
-                color: theme('colors.blue.400'),
-                '&:hover': {
-                  color: theme('colors.blue.300'),
-                },
-              },
-            },
-            'strong > a, a > strong': {
-              color: theme('colors.blue.400'),
-            },
             blockquote: {
               borderLeftColor: theme('colors.gray.700'),
               color: theme('colors.gray.100'),
@@ -163,18 +124,13 @@ module.exports = {
       lineHeight: {
         tighter: 1.1,
       },
-      gridTemplateColumns: {
-        flyoutmenu: 'minmax(0, 1fr) minmax(0, 1fr) 200px',
-      },
     },
   },
   plugins: [
     containerStylesPlugin,
     require('@tailwindcss/typography'),
-    require('@tailwindcss/ui'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/custom-forms'),
     require('@tailwindcss/line-clamp'),
     require('tailwindcss-autofill'),
     require('tailwindcss-text-fill'),

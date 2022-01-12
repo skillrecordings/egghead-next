@@ -26,7 +26,7 @@ const Card: FunctionComponent<CardProps> = ({
       <h3 className="sm:text-xl text-lg font-semibold">{title}</h3>
       {byline && <div className="text-sm text-gray-600">{byline}</div>}
       {description && (
-        <Markdown className="prose dark:prose-dark mt-1 sm:text-base text-sm">
+        <Markdown className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 mt-1 sm:text-base text-sm">
           {description}
         </Markdown>
       )}

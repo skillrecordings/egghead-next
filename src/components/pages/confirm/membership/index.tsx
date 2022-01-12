@@ -62,7 +62,7 @@ const Support: React.FC = () => {
     <div className="border-t dark:border-gray-800 border-gray-100 pt-16 sm:grid grid-cols-2 gap-5">
       <div className="">
         <h4 className="text-lg font-bold pb-3">Support</h4>
-        <p className="prose dark:prose-dark max-w-none">
+        <p className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none">
           If you have any issues, please email support{' '}
           <strong>
             <a href="mailto:support@egghead.io">support@egghead.io</a>

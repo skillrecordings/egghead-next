@@ -92,7 +92,7 @@ const Portfolio = (props: any) => {
           </header>
           <main>
             <Markdown
-              className="max-w-3xl mx-auto mt-10 prose dark:prose-dark sm:prose-lg lg:prose-xl"
+              className="max-w-3xl mx-auto mt-10 prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:prose-lg lg:prose-xl"
               source={content}
             />
           </main>

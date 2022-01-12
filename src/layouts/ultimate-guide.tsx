@@ -100,7 +100,7 @@ const UltimateGuideLayout: FunctionComponent<LayoutProps> = ({
             )}
           </header>
 
-          <main className="mt-5 prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none">
+          <main className="mt-5 prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:prose-lg lg:prose-xl max-w-none">
             <div>{children}</div>
           </main>
           <footer className="flex flex-col-reverse items-center justify-between py-10 mt-8 text-center border-t border-gray-200 sm:flex-row sm:items-start sm:text-left">

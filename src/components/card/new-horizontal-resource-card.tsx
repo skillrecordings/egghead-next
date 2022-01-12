@@ -66,7 +66,7 @@ const HorizontalResourceCard: React.FC<{
               <h3>{resource.title}</h3>
             </Textfit>
             {resource.description && describe && (
-              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700 sm:block hidden">
+              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700 dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:block hidden">
                 {truncate(resource.description, {length: 120})}
               </ReactMarkdown>
             )}

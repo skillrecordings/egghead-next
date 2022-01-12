@@ -71,7 +71,7 @@ const VideoCard: React.FC<{
                 </Link>
               )}
             </div>
-            <Markdown className="prose dark:prose-dark dark:prose-sm-dark prose-sm mt-4">
+            <Markdown className="prose dark:prose-dark dark:prose-sm-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 prose-sm mt-4">
               {description}
             </Markdown>
           </div>

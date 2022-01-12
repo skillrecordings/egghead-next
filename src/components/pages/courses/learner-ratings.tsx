@@ -77,7 +77,7 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
                 <div className="text-sm text-gray-600 dark:text-blue-100 opacity-80">
                   {comment.prompt}
                 </div>
-                <div className="prose dark:prose-dark overflow-hidden">
+                <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 overflow-hidden">
                   <Markdown>{comment.comment}</Markdown>
                 </div>
                 <div className=" flex items-center space-x-2">

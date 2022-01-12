@@ -10,7 +10,7 @@ const Index = (props: any) => {
         <h1 className="w-full max-w-screen-md mb-8 text-3xl font-extrabold lg:text-6xl md:text-5xl sm:text-4xl lg:mb-10 leading-tighter">
           Site Directory
         </h1>
-        <main className="mt-5 prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none">
+        <main className="mt-5 prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:prose-lg lg:prose-xl max-w-none">
           <p>
             This is a programmatically generated listing of all the topics and
             all of the combinations of those topics the site has to offer. All
