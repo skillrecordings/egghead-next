@@ -214,7 +214,7 @@
     "normalize.css": "^8.0.1",
     "nyc": "^15.1.0",
     "pad-number": "^0.0.4",
-    "parse-link-header": "^1.0.1",
+    "parse-link-header": "^2.0.0",
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^6.7.0",
