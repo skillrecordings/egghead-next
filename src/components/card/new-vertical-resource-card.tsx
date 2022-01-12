@@ -76,7 +76,7 @@ const VerticalResourceCard: React.FC<{
               <h3>{resource.title}</h3>
             </Textfit>
             {describe && (
-              <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 leading-tight">
+              <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
                 <Markdown>{resource.description}</Markdown>
               </CardBody>
             )}

@@ -54,7 +54,7 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                           {section.title}
                         </h2>
                         {section.description && (
-                          <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700">
+                          <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700 dark:prose-a:text-blue-300 prose-a:text-blue-500">
                             {section.description}
                           </ReactMarkdown>
                         )}

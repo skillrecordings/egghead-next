@@ -91,7 +91,7 @@ const Podcast: FunctionComponent<PodcastProps> = ({
             />
           </div>
         </div>
-        <div className="leading-6 prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl">
+        <div className="leading-6 prose dark:prose-dark md:dark:prose-xl-dark md:prose-xl dark:prose-a:text-blue-300 prose-a:text-blue-500">
           <div className="py-4 text-sm font-light text-center text-gray-500 uppercase dark:text-gray-400">{`Episode ${episode_number} ${
             contributors && contributors.length > 0
               ? `• ${contributors.join(' && ')}`

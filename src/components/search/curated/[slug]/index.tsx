@@ -60,7 +60,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                 />
                 <span>{title}</span>
               </h1>
-              <ReactMarkdown className="prose dark:prose-dark sm:prose sm:dark:prose-dark dark:prose-sm prose-sm max-w-md sm:pt-8 pt-5 opacity-80">
+              <ReactMarkdown className="prose dark:prose-dark sm:prose sm:dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-sm prose-sm max-w-md sm:pt-8 pt-5 opacity-80">
                 {description}
               </ReactMarkdown>
             </div>

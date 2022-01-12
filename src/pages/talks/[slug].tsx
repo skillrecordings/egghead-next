@@ -164,7 +164,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   </Link>
                 </div>
               </header>
-              <Markdown className="prose text-gray-900 dark:prose-dark lg:dark:prose-lg-dark lg:prose-lg max-w-none">
+              <Markdown className="prose text-gray-900 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 lg:dark:prose-lg-dark lg:prose-lg max-w-none">
                 {get(lesson, 'description')}
               </Markdown>
               {transcriptAvailable && (
@@ -173,7 +173,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                     Transcript
                   </h3>
                   <Transcript
-                    className="prose text-gray-800 dark:prose-dark max-w-none"
+                    className="prose text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none"
                     initialTranscript={transcript}
                     enhancedTranscript={enhancedTranscript}
                   />

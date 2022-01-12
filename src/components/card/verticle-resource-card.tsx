@@ -51,7 +51,7 @@ const VerticalResourceCard: React.FC<{
           {resource.byline}
         </CardMeta>
         {describe && (
-          <CardBody className="prose-sm prose dark:prose-dark dark:prose-dark-sm max-w-none">
+          <CardBody className="prose-sm prose dark:prose-dark dark:prose-dark-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none">
             <Markdown>{resource.description}</Markdown>
           </CardBody>
         )}

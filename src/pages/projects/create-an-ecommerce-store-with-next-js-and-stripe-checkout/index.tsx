@@ -288,7 +288,7 @@ In this talk, weâ€™ll explore the challenges of ecommerce in a static world. Weâ
           <main>
             <div className="container">
               <Markdown
-                className="max-w-screen-md mx-auto prose prose-lg md:prose-xl dark:prose-dark dark:prose-lg-dark dark:md:prose-xl-dark"
+                className="max-w-screen-md mx-auto prose prose-lg md:prose-xl dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-lg-dark dark:md:prose-xl-dark"
                 source={course.summary}
               />
             </div>
@@ -477,7 +477,10 @@ const Instructor: FunctionComponent<{
                 {name}
               </a>
             </Link>
-            <Markdown className="max-w-xl prose dark:prose-dark" source={bio} />
+            <Markdown
+              className="max-w-xl prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500"
+              source={bio}
+            />
           </div>
         </div>
       </div>
@@ -626,7 +629,7 @@ const Articles: React.FC<{articles: any}> = ({articles, children}) => {
                     >
                       <div className="flex-shrink-0">
                         <img
-                          className="object-cover w-full h-64 h-72"
+                          className="object-cover w-full h-72"
                           src={article.image}
                           alt=""
                         />
@@ -640,7 +643,7 @@ const Articles: React.FC<{articles: any}> = ({articles, children}) => {
                             <p className="text-xl font-semibold text-gray-900 dark:text-white">
                               {article.title}
                             </p>
-                            <Markdown className="mt-4 prose-sm prose dark:prose-dark dark:prose-sm-dark">
+                            <Markdown className="mt-4 prose-sm prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-sm-dark">
                               {article.description}
                             </Markdown>
                           </a>

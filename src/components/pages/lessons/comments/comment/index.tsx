@@ -72,7 +72,7 @@ const Comment: React.FunctionComponent<CommentProps> = ({
             margin-bottom: 0;
           }
         `}</style>
-        <div className="comment-container prose dark:prose-dark max-w-none mt-1">
+        <div className="comment-container prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none mt-1">
           <ReactMarkdown>{comment}</ReactMarkdown>
         </div>
       </div>

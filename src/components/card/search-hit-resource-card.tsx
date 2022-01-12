@@ -84,7 +84,7 @@ const SearchHitResourceCard: React.FC<{
             </h3>
             {/* </Textfit> */}
             {resource.description && describe && (
-              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700">
+              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 dark:prose-a:text-blue-300 prose-a:text-blue-500 text-gray-700">
                 {resource.description}
               </ReactMarkdown>
             )}
