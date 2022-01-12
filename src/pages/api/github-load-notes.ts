@@ -18,7 +18,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
       req.headers.cookie as string,
     )
 
-    const {contact_id} = await fetchEggheadUser(eggheadToken, true)
+    const {contact_id, avatar_url} = await fetchEggheadUser(eggheadToken, true)
 
     const {data} = await loadUserNotesForResource(
       contact_id,
@@ -32,6 +32,7 @@ const loadGithubNotes = async (req: NextApiRequest, res: NextApiResponse) => {
             end: note.end_time,
             text: note.text,
             type: note.type ?? 'learner',
+            image: avatar_url,
           }
         })
       : []
@@ -106,9 +107,13 @@ export function parseMdxNotesFile(text: string) {
         .map((node: any) => toMarkdown(node))
         .join(' ')
 
+      const eggheadLogo =
+        'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/033/thumb/eggheadlogo.png'
+
       return {
         text: contents.trim(),
         type: 'staff',
+        image: eggheadLogo,
         ...attributes,
       }
     })
