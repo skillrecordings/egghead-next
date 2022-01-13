@@ -175,6 +175,12 @@ const StartLearning: React.FC = () => {
 }
 
 const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
+  const {_, setTheme} = useTheme()
+
+  React.useEffect(() => {
+    setTheme('dark')
+  }, [setTheme])
+
   return (
     <>
       <Header
@@ -193,6 +199,9 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
           </>
         }
       />
+
+      <PostPurchase email={session?.email} />
+
       <div className="space-y-10">
         <PopularTopics />
         <LastResource />
