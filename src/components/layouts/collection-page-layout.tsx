@@ -643,7 +643,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               </div>
               <Markdown
                 allowDangerousHtml
-                className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 mt-14"
+                className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
               >
                 {description}
               </Markdown>
@@ -665,7 +665,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="mb-3 text-lg font-semibold">
                     What you'll learn:
                   </h2>
-                  <div className="prose dark:prose-dark">
+                  <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
                     <ul className="grid grid-cols-1 md:gap-x-5">
                       {courseTopics?.map((topic: string) => (
                         <li
@@ -682,7 +682,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {coursePrerequisites && (
                 <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
                   <h2 className="mb-3 text-lg font-semibold">Prerequisites:</h2>
-                  <div className="prose dark:prose-dark">
+                  <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
                     <Prereqs prerequisites={coursePrerequisites} />
                   </div>
                 </div>
@@ -690,7 +690,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {quickFacts && (
                 <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
                   <h2 className="mb-3 text-lg font-semibold">Quick Facts:</h2>
-                  <div className="prose dark:prose-dark">
+                  <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
                     <ul className="grid grid-cols-1 md:gap-x-5">
                       {quickFacts?.map((quickFact: string) => (
                         <li
@@ -709,7 +709,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <h2 className="mb-3 text-lg font-semibold">
                     Questions to Think About:
                   </h2>
-                  <div className="prose dark:prose-dark">
+                  <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
                     <ul className="grid grid-cols-1 md:gap-x-5">
                       {courseEssentialQuestions?.map(
                         (essentialQuestion: string) => (

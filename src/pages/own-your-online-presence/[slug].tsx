@@ -15,7 +15,7 @@ const OnlinePresenceArticle: React.FC<any> = ({source, title}) => {
           {title}
         </h1>
       </header>
-      <main className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none">
+      <main className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:prose-lg lg:prose-xl mt-5 max-w-none">
         <MDXRemote {...source} components={mdxComponents} />
       </main>
     </article>

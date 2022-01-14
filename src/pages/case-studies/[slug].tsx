@@ -9,6 +9,7 @@ import mdxComponents from 'components/mdx'
 import {sanityClient} from 'utils/sanity-client'
 import {serialize} from 'next-mdx-remote/serialize'
 import {withProse} from 'utils/remark/with-prose'
+import {HIDDEN_CASE_STUDIES} from './index'
 
 type AuthorResource = {
   name: string
@@ -17,12 +18,15 @@ type AuthorResource = {
   website?: string
 }
 
-type CaseStudyResource = {
+export type CaseStudyResource = {
   title: string
+  subTitle: string
   author: AuthorResource
   seo: any
   coverImage: any
   source: any
+  publishedAt: string
+  resources?: any[]
 }
 
 const PortraitWithPattern: React.FC<{
@@ -226,14 +230,15 @@ export async function getStaticProps(context: any) {
 }
 
 const allCaseStudiesQuery = groq`
-  *[_type == "caseStudy" && publishedAt < now()]{
+  *[_type == "caseStudy" && publishedAt < now() && !(slug.current match $hiddenCaseStudies)]{
     "slug": slug.current
   }
 `
 
 export async function getStaticPaths() {
-  const allCaseStudies = await sanityClient.fetch(allCaseStudiesQuery)
-
+  const allCaseStudies = await sanityClient.fetch(allCaseStudiesQuery, {
+    hiddenCaseStudies: HIDDEN_CASE_STUDIES,
+  })
   const paths = allCaseStudies.map((caseStudy: {slug: string}) => {
     return {
       params: {

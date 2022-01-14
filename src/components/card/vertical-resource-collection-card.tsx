@@ -88,7 +88,7 @@ const VerticalResourceCollectionCard: React.FC<{
           {resource.byline}
         </CardMeta>
         {resource.description && (
-          <CardBody className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
+          <CardBody className="prose dark:prose-dark dark:prose-dark-sm prose-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none">
             <Markdown>{resource.description}</Markdown>
           </CardBody>
         )}

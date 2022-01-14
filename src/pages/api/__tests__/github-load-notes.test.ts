@@ -1,4 +1,4 @@
-import {parseMdxNotesFile} from '../github-load-notes'
+import {parseMdxNotesFile, eggheadLogo} from '../github-load-notes'
 
 // this had to use an async/await because the mdx compiler
 // is set up to be async and return a promise
@@ -12,7 +12,13 @@ This is a **note**.
   const parsedNotes = parseMdxNotesFile(markdownNotes)
 
   await expect(parsedNotes).resolves.toEqual([
-    {end: 50, start: 44, text: 'This is a **note**.', type: 'staff'},
+    {
+      end: 50,
+      start: 44,
+      text: 'This is a **note**.',
+      type: 'staff',
+      image: eggheadLogo,
+    },
   ])
 })
 
@@ -39,6 +45,7 @@ This is a code block!
 This is a code block!
 \`\`\``,
       type: 'staff',
+      image: eggheadLogo,
     },
   ])
 })

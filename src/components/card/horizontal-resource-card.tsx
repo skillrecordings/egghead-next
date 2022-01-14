@@ -74,7 +74,7 @@ const HorizontalResourceCard: React.FC<any> = ({
         <CardMeta className="text-xs text-gray-600 dark:text-gray-300 pb-2 pt-1">
           {resource.byline}
         </CardMeta>
-        <CardBody className="prose dark:prose-dark dark:prose-dark-sm prose-sm max-w-none">
+        <CardBody className="prose dark:prose-dark dark:prose-dark-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 prose-sm max-w-none">
           <Markdown>{resource.description}</Markdown>
         </CardBody>
       </CardContent>

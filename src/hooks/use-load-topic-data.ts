@@ -39,6 +39,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
         "slug": slug.current,
         title,
         'path': url,
+        url,
         image,
         description,
         'background': images[label == 'background'][0].url,

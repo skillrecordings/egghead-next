@@ -52,7 +52,7 @@ const GenericTopic: FunctionComponent<TopicProps> = ({
           {description && (
             <Markdown
               source={description}
-              className="prose dark:prose-dark pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
+              className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 pt-2 sm:text-base text-sm leading-normal text-gray-800 dark:text-gray-200 mt-0"
             />
           )}
         </div>

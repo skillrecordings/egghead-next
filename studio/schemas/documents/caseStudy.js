@@ -13,6 +13,16 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'subTitle',
+      description: 'Short punchy bit of text.',
+      title: 'Sub-Title',
+      type: 'string',
+      validation: (Rule) => Rule.max(120),
+      options: {
+        maxLength: 120,
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'datetime',
       title: 'Published at',

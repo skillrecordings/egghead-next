@@ -15,6 +15,7 @@ import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
+import useFitText from 'use-fit-text'
 
 const SearchHitResourceCard: React.FC<{
   resource: CardResource
@@ -31,12 +32,12 @@ const SearchHitResourceCard: React.FC<{
   small = false,
   ...props
 }) => {
+  const {fontSize, ref} = useFitText()
   if (isEmpty(resource)) return null
   const defaultClassName =
     'rounded-md sm:aspect-w-4 sm:aspect-h-2 aspect-w-3 aspect-h-1 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
 
   small = get(resource.image, 'src', resource.image)?.includes('/tags') ?? true
-
   return (
     <ResourceLink
       path={resource.path}
@@ -57,7 +58,8 @@ const SearchHitResourceCard: React.FC<{
               />
             </CardHeader>
           )}
-          <CardBody className={``}>
+
+          <CardBody>
             {resource.name && (
               <p
                 aria-hidden
@@ -66,15 +68,23 @@ const SearchHitResourceCard: React.FC<{
                 {resource.name}
               </p>
             )}
-            <Textfit
-              mode="multi"
+            {/* <Textfit
+                mode="multi"
+                className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
+                max={18}
+                min={10}
+                throttle={1000}
+              > */}
+            <h3
               className="lg:h-[60px] md:h-[55px] sm:h-[50px] h-[36px] font-medium leading-tight flex items-center"
-              max={18}
+              style={{fontSize}}
+              ref={ref}
             >
-              <h3>{resource.title}</h3>
-            </Textfit>
+              {resource.title}
+            </h3>
+            {/* </Textfit> */}
             {resource.description && describe && (
-              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 text-gray-700">
+              <ReactMarkdown className="py-2 prose dark:prose-dark prose-sm dark:text-gray-300 dark:prose-a:text-blue-300 prose-a:text-blue-500 text-gray-700">
                 {resource.description}
               </ReactMarkdown>
             )}

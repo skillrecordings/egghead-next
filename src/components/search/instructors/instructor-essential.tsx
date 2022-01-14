@@ -123,7 +123,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
             </div>
 
             {(bio || bio_short) && (
-              <Markdown className="pt-2 mt-2 text-sm prose text-gray-800 dark:prose-dark sm:text-base leading-thight dark:text-gray-200 md:mt-8">
+              <Markdown className="pt-2 mt-2 text-sm prose text-gray-800 dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 sm:text-base leading-thight dark:text-gray-200 md:mt-8">
                 {bio || bio_short}
               </Markdown>
             )}
