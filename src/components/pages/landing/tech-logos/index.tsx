@@ -27,8 +27,8 @@ const TechLogos = () => {
     'gatsby',
     'vue',
     'redux',
-    'js',
-    'ts',
+    'javascript',
+    'typescript',
     'angular',
     'a11y',
     'graphql',
@@ -41,7 +41,7 @@ const TechLogos = () => {
     <div className="flex flex-wrap items-center justify-center md:max-w-none sm:max-w-lg max-w-[450px]">
       {logos.map((tech) => {
         return viewer || customer ? (
-          <Link key={tech} href={`/q/${tech}`}>
+          <Link key={tech} href={`/q?q=${tech}`}>
             <a
               className="px-2 py-1 scale-75 lg:px-4 md:px-2 sm:scale-90"
               onClick={() => {
