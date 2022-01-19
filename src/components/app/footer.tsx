@@ -38,6 +38,11 @@ const content = [
 
 const about = [
   {
+    path: '/pricing',
+    label: 'Pricing',
+    nonMemberRequired: true,
+  },
+  {
     path: 'https://store.egghead.io/',
     label: 'Store',
   },
