@@ -175,7 +175,7 @@ const StartLearning: React.FC = () => {
 }
 
 const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
-  const {_, setTheme} = useTheme()
+  const {theme, setTheme} = useTheme()
 
   React.useEffect(() => {
     setTheme('dark')
@@ -218,7 +218,7 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
   session,
   currentState,
 }) => {
-  const {_, setTheme} = useTheme()
+  const {theme, setTheme} = useTheme()
 
   React.useEffect(() => {
     setTheme('dark')
