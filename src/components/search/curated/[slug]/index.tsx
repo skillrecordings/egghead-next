@@ -46,11 +46,11 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
           ],
         }}
       />
-      <header className="dark:bg-gray-1000 dark:bg-opacity-50 bg-white bg-opacity-100">
+      <header className="bg-white bg-opacity-100 dark:bg-gray-1000 dark:bg-opacity-50">
         <div className="relative">
-          <div className="flex sm:flex-row flex-col items-center justify-between sm:py-10 py-5 sm:px-12 px-5 gap-5">
-            <div className="h-full flex flex-col justify-center">
-              <h1 className="md:text-7xl sm:text-6xl text-4xl font-bold tracking-tight flex items-center flex-wrap space-x-2">
+          <div className="flex flex-col items-center justify-between gap-5 px-5 py-5 sm:flex-row sm:py-10 sm:px-12">
+            <div className="flex flex-col justify-center h-full">
+              <h1 className="flex flex-wrap items-center space-x-2 text-4xl font-bold tracking-tight md:text-7xl sm:text-6xl">
                 <Image
                   src={image}
                   alt={`${title} logo`}
@@ -60,12 +60,12 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                 />
                 <span>{title}</span>
               </h1>
-              <ReactMarkdown className="prose dark:prose-dark sm:prose sm:dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-sm prose-sm max-w-md sm:pt-8 pt-5 opacity-80">
+              <ReactMarkdown className="max-w-md pt-5 prose-sm prose dark:prose-dark sm:prose sm:dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 dark:prose-sm sm:pt-8 opacity-80">
                 {description}
               </ReactMarkdown>
             </div>
             {jumbotron.resource ? (
-              <div className="max-w-xs w-full">
+              <div className="w-full max-w-xs">
                 <VerticalResourceCard
                   describe={true}
                   resource={jumbotron.resource}
@@ -88,11 +88,11 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
       </header>
       <div>
         {!isEmpty(levels) && (
-          <div className="relative sm:pt-16 pt-8 sm:pb-28 pb-10">
-            <h2 className="sm:text-sm text-xs font-mono text-medium tracking-wide uppercase opacity-80 sm:pl-12 sm:text-left text-center sm:pb-0 pb-8">
+          <div className="relative pt-8 pb-10 sm:pt-16 sm:pb-28">
+            <h2 className="pb-8 font-mono text-xs tracking-wide text-center uppercase sm:text-sm text-medium opacity-80 sm:pl-12 sm:text-left sm:pb-0">
               {levels.subTitle}
             </h2>
-            <div className="sm:grid sm:space-y-0 space-y-5 lg:grid-cols-3 grid-cols-2 xl:gap-8 sm:gap-5 gap-3 sm:px-5 px-3">
+            <div className="grid-cols-2 gap-3 px-3 space-y-5 sm:grid sm:space-y-0 lg:grid-cols-3 xl:gap-8 sm:gap-5 sm:px-5">
               {levels.resources.map((section: any, i: number) => {
                 return (
                   <section
@@ -103,12 +103,12 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                     key={section.id}
                   >
                     <div className="flex flex-col w-full pb-6">
-                      <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+                      <h2 className="text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
                         {section.title}
                       </h2>
                       <h3 className="opacity-80">{section.subTitle}</h3>
                     </div>
-                    <div className="grid xl:gap-5 gap-3">
+                    <div className="grid gap-3 xl:gap-5">
                       {section.resources.map((resource: any) => {
                         return (
                           <HorizontalResourceCard
@@ -125,20 +125,20 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
             </div>
           </div>
         )}
-        <div className="sm:px-5 px-3">
+        <div className="px-3 sm:px-5">
           {sections.map((section: any) => {
             return (
               <section className="pb-16" key={section.id}>
                 {!section.image && !section.description ? (
                   // simple section
-                  <div className="flex w-full pb-6 items-center justify-between">
-                    <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+                  <div className="flex items-center justify-between w-full pb-6">
+                    <h2 className="text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
                       {section.title}
                     </h2>
                   </div>
                 ) : (
                   // section with image and description
-                  <div className="flex md:flex-row flex-col md:items-start items-center justify-center w-full mb-5 pb-8 md:space-x-10">
+                  <div className="flex flex-col items-center justify-center w-full pb-8 mb-5 md:flex-row md:items-start md:space-x-10">
                     {section.image && (
                       <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
                         <Image
@@ -152,18 +152,18 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                       </div>
                     )}
                     <div>
-                      <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
+                      <h2 className="w-full pb-4 text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
                         {section.title}
                       </h2>
                       {section.description && (
-                        <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700">
+                        <ReactMarkdown className="prose-sm prose text-gray-700 sm:prose dark:prose-dark dark:text-gray-300">
                           {section.description}
                         </ReactMarkdown>
                       )}
                     </div>
                   </div>
                 )}
-                <Grid className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3 gap-2">
+                <Grid className="grid grid-cols-2 gap-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3">
                   {section.resources.map((resource: any, i: number) => {
                     switch (section.resources.length) {
                       case 2:

@@ -26,6 +26,7 @@ import {Element as ScrollElement, scroller} from 'react-scroll'
 import SimpleBar from 'simplebar-react'
 import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
+import ContentTypePage from './curated/content-types'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -36,6 +37,8 @@ type SearchProps = {
   instructor?: any
   topic?: any
   topicData?: any
+  type?: any
+  typeData?: any
   loading?: boolean
 }
 
@@ -46,6 +49,8 @@ const Search: FunctionComponent<SearchProps> = ({
   instructor,
   topic,
   topicData,
+  type,
+  typeData,
   loading,
   ...rest
 }) => {
@@ -94,6 +99,15 @@ const Search: FunctionComponent<SearchProps> = ({
       isEmpty(searchState.query) &&
       isEmpty(searchState.page) &&
       noTopicsSelected(searchState)
+    )
+  }
+
+  const shouldDisplayLandingPageForTypes = (slug: string) => {
+    return (
+      isEmpty(searchState.query) &&
+      isEmpty(searchState.page) &&
+      noTopicsSelected(searchState) &&
+      noInstructorsSelected(searchState)
     )
   }
 
@@ -154,8 +168,8 @@ const Search: FunctionComponent<SearchProps> = ({
 
   const RefinementsDesktop = () => {
     return (
-      <aside className="col-span-2 md:block hidden relative flex-shrink-0 dark:bg-gray-1000 bg-gray-100 pl-4">
-        <SimpleBar className="sticky top-0 space-y-4 max-h-screen overflow-y-auto pb-8 pt-3">
+      <aside className="relative flex-shrink-0 hidden col-span-2 pl-4 bg-gray-100 md:block dark:bg-gray-1000">
+        <SimpleBar className="sticky top-0 max-h-screen pt-3 pb-8 space-y-4 overflow-y-auto">
           <div className="space-y-4">
             <RefinementList limit={8} attribute="_tags" />
             <RefinementList limit={6} attribute="instructor_name" />
@@ -178,14 +192,14 @@ const Search: FunctionComponent<SearchProps> = ({
           },
         )}`}
       >
-        <div className="w-full flex items-center justify-between dark:bg-gray-700 bg-white dark:bg-opacity-60 text-sm">
+        <div className="flex items-center justify-between w-full text-sm bg-white dark:bg-gray-700 dark:bg-opacity-60">
           <div className="p-1">{isRefinementOn && <ClearRefinements />}</div>
           <button className="px-3 py-2 rounded-md" onClick={setShowFilter}>
             Done
           </button>
         </div>
         <SimpleBar className="max-h-[300px] px-1 py-2">
-          <div className="grid grid-cols-2 gap-5 w-full">
+          <div className="grid w-full grid-cols-2 gap-5">
             <div className="flex-shrink-0">
               <RefinementList limit={6} attribute="_tags" />
             </div>
@@ -212,7 +226,7 @@ const Search: FunctionComponent<SearchProps> = ({
           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/algolia-min.css"
         />
       </Head>
-      <div className="dark:bg-gray-1000 bg-gray-100 relative">
+      <div className="relative bg-gray-100 dark:bg-gray-1000">
         <InstantSearch
           indexName={ALGOLIA_INDEX_NAME}
           searchClient={searchClient}
@@ -222,15 +236,15 @@ const Search: FunctionComponent<SearchProps> = ({
           <Configure hitsPerPage={config.searchResultCount} />
           <ScrollElement name="page" />
           {!isFilterShown && <FilterToggle />}
-          <div className="max-w-screen-xl mx-auto w-full">
+          <div className="w-full max-w-screen-xl mx-auto">
             <div>
-              <div className="md:grid flex grid-cols-12 relative gap-3">
+              <div className="relative flex grid-cols-12 gap-3 md:grid">
                 {RefinementsDesktop()}
                 {RefinementsMobile()}
-                <main className="col-span-10 w-full relative dark:bg-gray-900 bg-gray-50">
-                  <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
+                <main className="relative w-full col-span-10 dark:bg-gray-900 bg-gray-50">
+                  <div className="sticky top-0 z-40 flex items-center w-full bg-white border-b border-gray-900 dark:bg-gray-900 shadow-smooth dark:border-white dark:border-opacity-5 border-opacity-5">
                     <SearchBox placeholder={searchBoxPlaceholder} />
-                    <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap">
+                    <div className="flex items-center flex-shrink-0 space-x-2 border-l border-gray-100 dark:border-gray-800 flex-nowrap">
                       <SortBy
                         defaultRefinement="popular"
                         items={[
@@ -247,12 +261,17 @@ const Search: FunctionComponent<SearchProps> = ({
                   </div>
                   <NoSearchResults searchQuery={searchState.query} />
                   {loading && shouldDisplayLandingPageForTopics(topic.name) && (
-                    <div className="flex py-8 justify-center">
+                    <div className="flex justify-center py-8">
                       <Spinner
                         size={8}
-                        className="dark:text-gray-300 text-gray-600"
+                        className="text-gray-600 dark:text-gray-300"
                       />
                     </div>
+                  )}
+                  {!loading && type && shouldDisplayLandingPageForTypes(type) && (
+                    <>
+                      <ContentTypePage typeData={typeData} type={type} />
+                    </>
                   )}
                   {!loading &&
                     !isEmpty(topic) &&
@@ -278,14 +297,14 @@ const Search: FunctionComponent<SearchProps> = ({
 
                   {!isEmpty(instructor) &&
                     shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                      <div className="pb-8 px-5">
+                      <div className="px-5 pb-8">
                         <InstructorCuratedPage instructor={instructor} />
                       </div>
                     )}
                   <ScrollElement name="hits" />
                   <Stats searchQuery={searchState.query} />
                   <Hits />
-                  <div className="pb-16 pt-10 bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
+                  <div className="pt-10 pb-16 bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
                     <Pagination />
                   </div>
                 </main>

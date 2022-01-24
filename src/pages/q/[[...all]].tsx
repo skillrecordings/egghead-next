@@ -21,7 +21,8 @@ import {topicExtractor} from '../../utils/search/topic-extractor'
 import useSelectedTopic from 'hooks/use-selected-topic'
 import useLoadTopicData, {topicQuery} from 'hooks/use-load-topic-data'
 import {sanityClient} from 'utils/sanity-client'
-
+import useSelectedType from 'hooks/use-selected-type'
+import useLoadTypeData, {typeQuery} from 'hooks/use-load-type-data'
 const tracer = getTracer('search-page')
 
 const createURL = (state: any) => `?${qs.stringify(state)}`
@@ -47,6 +48,10 @@ const getInstructorsFromSearchState = (searchState: any) => {
   return get(searchState, 'refinementList.instructor_name', []) as string[]
 }
 
+const getTypeFromSearchState = (searchState: any) => {
+  return get(searchState, 'refinementList.type', []) as string[]
+}
+
 const getInstructorSlugFromInstructorList = (instructors: string[]) => {
   return nameToSlug(first(instructors) as string).toLowerCase()
 }
@@ -59,6 +64,7 @@ type SearchIndexProps = {
   initialInstructor: any
   initialTopic: any
   initialTopicData: any
+  initalPodcastData: any
 }
 
 const SearchIndex: any = ({
@@ -69,6 +75,7 @@ const SearchIndex: any = ({
   initialInstructor,
   initialTopic,
   initialTopicData,
+  initalPodcastData,
 }: SearchIndexProps) => {
   const [searchState, setSearchState] = React.useState(initialSearchState)
   const [instructor, setInstructor] = React.useState(initialInstructor)
@@ -84,6 +91,16 @@ const SearchIndex: any = ({
     topic?.slug,
     initialTopicData,
   )
+
+  const {isLoading: isLoadingType, type} = useSelectedType(
+    initalPodcastData,
+    searchState,
+  )
+  const {isLoading: isLoadingTypeData, typeData} = useLoadTypeData(
+    type,
+    initalPodcastData,
+  )
+  console.log({type})
 
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
@@ -129,7 +146,9 @@ const SearchIndex: any = ({
         instructor={instructor}
         topic={topic}
         topicData={topicData}
-        loading={isLoadingTopic || isLoadingTopicData}
+        type={type}
+        typeData={typeData}
+        loading={isLoadingTopic || isLoadingTopicData || isLoadingTypeData}
       />
     </div>
   )
@@ -169,6 +188,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
   let initialInstructor = null
   let initialTopic = null
   let initialTopicData = null
+  let initalPodcastData = null
 
   const {rawResults, state} = resultsState
 
@@ -207,6 +227,23 @@ export const getServerSideProps: GetServerSideProps = async function ({
     }
   }
 
+  const selectedTypes = getTypeFromSearchState(initialSearchState)
+  console.log({selectedTypes})
+
+  if (selectedTypes?.length === 1 && !selectedTypes.includes('undefined')) {
+    const type = first<string>(selectedTypes)
+
+    try {
+      if (type) {
+        initalPodcastData = await sanityClient.fetch(typeQuery, {
+          slug: type,
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     props: {
       resultsState: JSON.parse(JSON.stringify(resultsState)),
@@ -216,6 +253,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
       initialInstructor,
       ...(!!initialTopic && {initialTopic}),
       ...(!!initialTopicData && {initialTopicData}),
+      ...initalPodcastData,
     },
   }
 }
