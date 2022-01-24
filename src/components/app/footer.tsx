@@ -146,6 +146,11 @@ const Footer: FunctionComponent = () => {
               Terms & Conditions
             </a>
           </Link>
+          <Link href="/faq">
+            <a onClick={() => track(`clicked faq`, {location: 'footer'})}>
+              FAQ
+            </a>
+          </Link>
           <DarkModeToggle />
         </small>
       </div>
@@ -173,7 +178,7 @@ const DarkModeToggle = () => {
   }
   return (
     <div className="flex items-center justify-between">
-      <h2 className="mr-3">
+      <h2 className="hidden mr-3 sm:block">
         {isMounted && (resolvedTheme === 'dark' ? 'Dark' : 'Light')} Mode
       </h2>
       <div
