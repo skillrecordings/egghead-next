@@ -100,7 +100,6 @@ const SearchIndex: any = ({
     type,
     initalPodcastData,
   )
-  console.log({type})
 
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
@@ -228,7 +227,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   }
 
   const selectedTypes = getTypeFromSearchState(initialSearchState)
-  console.log({selectedTypes})
 
   if (selectedTypes?.length === 1 && !selectedTypes.includes('undefined')) {
     const type = first<string>(selectedTypes)

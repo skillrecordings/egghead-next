@@ -7,7 +7,6 @@ const useSelectedType = (initialTopic: any, searchState: any) => {
   const [type, setType] = React.useState(initialTopic)
 
   const selectedTypes: any = typeExtractor(searchState)
-  console.log({selectedTypes})
   const newType =
     selectedTypes.length === 1 ? first<string>(selectedTypes) : false
 
@@ -15,10 +14,6 @@ const useSelectedType = (initialTopic: any, searchState: any) => {
     if (newType) {
       setIsLoading(true)
       setType(newType)
-      // loadTag(newType).then((type) => {
-      //   setType(type)
-      //   setIsLoading(false)
-      // })
     } else {
       setType(newType)
     }
