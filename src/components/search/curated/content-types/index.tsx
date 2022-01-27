@@ -24,6 +24,10 @@ type FeaturedSeasonResource = {
   summary: string
   description: string
   resources: FeaturedSeasonEpisodeResource[]
+  host: {
+    image: string
+    name: string
+  }
 }
 
 type FeaturedEpisodeResource = {
@@ -37,16 +41,23 @@ type FeaturedEpisodeResource = {
 const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
   resource,
 }) => {
-  const {image, title, summary, description, resources, byline} = resource
+  const {image, title, summary, description, resources, host} = resource
   return (
     <div className="flex flex-col h-full overflow-hidden bg-white border border-gray-100 rounded-md lg:flex-row shadow-smooth">
-      <div className="flex flex-col p-3 space-x-3 md:flex-row flex-nowrap grow">
-        <div className="shrink-0">
-          <Image src={image} alt={title} width={100} height={100} />
+      <div className="flex p-3 space-x-3 md:flex-row flex-nowrap grow">
+        <div className="relative w-24 shrink-0">
+          <Image src={image} alt={title} layout="fill" objectFit="cover" />
         </div>
         <div className="space-y-2 text-sm">
           <h3 className="text-base font-semibold">{title}</h3>
-          <p className="italic opacity-70">{summary}</p>
+          <p className="flex items-center space-x-2 font-mono text-xs">
+            <span>interviewed by</span>
+            <div className="flex overflow-hidden rounded-full shrink-0">
+              <Image src={host.image} alt={host.name} width={30} height={30} />
+            </div>
+            <span>{host.name}</span>
+          </p>
+          <p className="italic font-semibold opacity-70">"{summary}"</p>
           <p>{description}</p>
         </div>
       </div>
