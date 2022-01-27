@@ -59,7 +59,7 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
                   <li key={i}>
                     <Link href={episode.path}>
                       <a className="flex items-center px-3 py-2 space-x-2 duration-100 hover:bg-gray-100">
-                        <span>{i + 1}.</span>
+                        <span className="shrink-0">{i + 1}.</span>
                         <div className="flex overflow-hidden rounded-full shrink-0">
                           <Image
                             src={episode.instructor.image}
@@ -68,7 +68,16 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
                             alt={episode.instructor.name}
                           />
                         </div>
-                        <span>{episode.title}</span>
+                        <div className="space-y-1 text-xs">
+                          <div>{episode.title}</div>
+                          <div className="flex items-center space-x-2">
+                            <span className="opacity-60">
+                              {episode.instructor.name}
+                            </span>
+                            <span>&#183;</span>
+                            <span className="opacity-60">1hr 23mins</span>
+                          </div>
+                        </div>
                       </a>
                     </Link>
                   </li>
