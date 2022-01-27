@@ -8,9 +8,9 @@ const head = `
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">`.trim()
 const tail = `\n</urlset>`
 const domain = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
-const changefreq = 'daily'
+const changefreq = 'Monthly'
 const lastmod = new Date().toISOString()
-const priority = `0.5`
+const priority = `0.4`
 
 //10000 lines is ~20 MB file
 const lineMax = 49999
