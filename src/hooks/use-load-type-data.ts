@@ -38,6 +38,10 @@ export const typeQuery = groq`*[_type == 'resource' && type == 'landing-page' &&
       description,
       summary,
       image,
+      'host': collaborators[]->[0]{
+        'name': person->name,
+        'image': person->image.url
+      },
       resources [] {
         title,
         description,
