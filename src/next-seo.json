@@ -7,7 +7,7 @@
       "rel": "search",
       "type": "application/opensearchdescription+xml",
       "href": "/opensearch.xml",
-      "title": "Egghead"
+      "title": "egghead"
     }
   ],
   "additionalMetaTags": [
