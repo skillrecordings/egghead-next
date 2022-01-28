@@ -41,61 +41,69 @@ type FeaturedEpisodeResource = {
 const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
   resource,
 }) => {
-  const {image, title, summary, description, resources, host} = resource
+  const {image, title, description, resources, host} = resource
   return (
-    <div className="flex flex-col h-full overflow-hidden bg-white border border-gray-100 rounded-md lg:flex-row shadow-smooth">
-      <div className="flex p-3 space-x-3 md:flex-row flex-nowrap grow">
-        <div className="relative w-24 shrink-0">
+    <div className="flex flex-col h-full overflow-hidden bg-white border border-gray-200 rounded-md dark:border-gray-800 lg:flex-row shadow-smooth dark:bg-gray-1000 bg-opacity-80 dark:bg-opacity-100">
+      <div className="flex py-3 space-x-3 md:flex-row flex-nowrap grow lg:py-0">
+        <div className="relative w-32 shrink-0">
           <Image src={image} alt={title} layout="fill" objectFit="cover" />
         </div>
-        <div className="space-y-2 text-sm">
+        <div className="py-4 pr-4 space-y-2 text-sm min-h-[14rem]">
           <h3 className="text-base font-semibold">{title}</h3>
-          <p className="flex items-center space-x-2 font-mono text-xs">
-            <span>interviewed by</span>
+          <p className="flex items-center space-x-2 text-xs">
+            <span className="text-gray-600 dark:text-gray-400">
+              interviewed by
+            </span>
             <div className="flex overflow-hidden rounded-full shrink-0">
-              <Image src={host.image} alt={host.name} width={30} height={30} />
+              <Image src={host.image} alt={host.name} width={24} height={24} />
             </div>
-            <span>{host.name}</span>
+            <span className="font-semibold">{host.name}</span>
           </p>
-          <p className="italic font-semibold opacity-70">"{summary}"</p>
           <p>{description}</p>
         </div>
       </div>
-      <div className="relative w-full lg:w-96 shrink-0">
-        <div className="inset-0 lg:absolute">
-          <ul className="w-full h-full overflow-y-scroll text-sm border-t border-gray-300 divide-y lg:border-t-0 lg:border-l overscroll-contain max-h-56 lg:max-h-full lg:min-h-[14rem]">
-            {resources.map(
-              (episode: FeaturedSeasonEpisodeResource, i: number) => {
-                return (
-                  <li key={i}>
-                    <Link href={episode.path}>
-                      <a className="flex items-center px-3 py-2 space-x-2 duration-100 hover:bg-gray-100">
-                        <span className="shrink-0">{i + 1}.</span>
-                        <div className="flex overflow-hidden rounded-full shrink-0">
-                          <Image
-                            src={episode.instructor.image}
-                            width={40}
-                            height={40}
-                            alt={episode.instructor.name}
-                          />
-                        </div>
-                        <div className="space-y-1 text-xs">
-                          <div>{episode.title}</div>
-                          <div className="flex items-center space-x-2">
-                            <span className="opacity-60">
-                              {episode.instructor.name}
-                            </span>
-                            <span>&#183;</span>
-                            <span className="opacity-60">1hr 23mins</span>
+      <div className="relative flex flex-col w-full border-t border-gray-200 dark:border-gray-800 lg:w-96 shrink-0 lg:border-t-0 lg:border-l">
+        <div className="px-3.5 pt-5 pb-2 flex items-center text-xs justify-between shrink-0">
+          <span className="font-medium text-gray-500 uppercase dark:text-gray-400">
+            {resources.length} episode{resources.length > 1 && 's'}
+          </span>
+        </div>
+        <div className="relative grow">
+          <div className="inset-0 lg:absolute">
+            <ul className="w-full h-full overflow-y-scroll text-sm divide-y divide-gray-200 dark:divide-gray-800 overscroll-contain max-h-56 lg:max-h-full lg:min-h-[14rem]">
+              {resources.map(
+                (episode: FeaturedSeasonEpisodeResource, i: number) => {
+                  return (
+                    <li key={i}>
+                      <Link href={episode.path}>
+                        <a className="flex items-center p-2 duration-100 dark:hover:bg-gray-900 hover:bg-gray-200 leading-tighter group">
+                          <PlayIcon />
+                          <div className="flex ml-0.5 mr-2 overflow-hidden rounded-full shrink-0">
+                            <Image
+                              src={episode.instructor.image}
+                              width={32}
+                              height={32}
+                              alt={episode.instructor.name}
+                            />
                           </div>
-                        </div>
-                      </a>
-                    </Link>
-                  </li>
-                )
-              },
-            )}
-          </ul>
+                          <div className="space-y-1">
+                            <div>{episode.title}</div>
+                            <div className="flex items-center space-x-2">
+                              <span className="opacity-60">
+                                {episode.instructor.name}
+                              </span>
+                              <span>&#183;</span>
+                              <span className="opacity-60">1hr 23mins</span>
+                            </div>
+                          </div>
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                },
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -159,3 +167,20 @@ const ContentTypePage = ({typeData, type}: any) => {
 }
 
 export default ContentTypePage
+
+const PlayIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 20 20"
+    className="p-1.5 dark:group-hover:text-orange-300 group-hover:text-orange-500 text-gray-500 transition flex-shrink-0"
+    aria-hidden="true"
+  >
+    <path
+      fill="currentColor"
+      d="M4 3.323A1.25 1.25 0 015.939 2.28l10.32 6.813a1.25 1.25 0 010 2.086L5.94 17.992A1.25 1.25 0 014 16.949V3.323z"
+    />
+  </svg>
+)
