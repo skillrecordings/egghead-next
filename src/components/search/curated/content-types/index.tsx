@@ -43,7 +43,7 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
 }) => {
   const {image, title, description, resources, host} = resource
   return (
-    <div className="flex flex-col h-full overflow-hidden bg-white border border-gray-200 rounded-md dark:border-gray-800 lg:flex-row shadow-smooth dark:bg-gray-1000 bg-opacity-80 dark:bg-opacity-100">
+    <div className="flex flex-col h-full overflow-hidden bg-white border border-gray-200 rounded-md dark:border-gray-800 lg:flex-row shadow-smooth dark:bg-gray-1000 dark:bg-opacity-100">
       <div className="flex py-3 space-x-3 md:flex-row flex-nowrap grow lg:py-0">
         <div className="relative w-32 shrink-0">
           <Image src={image} alt={title} layout="fill" objectFit="cover" />
@@ -115,7 +115,7 @@ const FeaturedEpisodeCard: React.FC<{resource: FeaturedEpisodeResource}> = ({
 }) => {
   const {byline, description, quote, summary, title} = resource
   return (
-    <div className="flex p-3 bg-white border border-gray-100 rounded-md shadow-smooth">
+    <div className="flex p-3 bg-white border border-gray-200 rounded-md shadow-smooth dark:border-gray-800 dark:bg-gray-1000 dark:bg-opacity-100">
       123
     </div>
   )
@@ -134,11 +134,7 @@ const ContentTypePage = ({typeData, type}: any) => {
           <div className="mt-4 space-y-3">
             {typeData.featuredCollections.resources.map(
               (resource: FeaturedSeasonResource, i: number) => {
-                return (
-                  <div key={i}>
-                    <FeaturedSeasonCard resource={resource} />
-                  </div>
-                )
+                return <FeaturedSeasonCard resource={resource} key={i} />
               },
             )}
           </div>
@@ -149,14 +145,10 @@ const ContentTypePage = ({typeData, type}: any) => {
           <h2 className="w-full text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
             Featured Episode
           </h2>
-          <div className="mt-4 space-y-3">
+          <div className="grid grid-cols-2 gap-3 mt-4">
             {typeData.featuredResources.resources.map(
               (resource: FeaturedEpisodeResource, i: number) => {
-                return (
-                  <div key={i}>
-                    <FeaturedEpisodeCard resource={resource} />
-                  </div>
-                )
+                return <FeaturedEpisodeCard resource={resource} key={i} />
               },
             )}
           </div>
