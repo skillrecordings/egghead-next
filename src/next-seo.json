@@ -2,6 +2,14 @@
   "title": "Build the portfolio you need to be a badass web developer.",
   "titleTemplate": "%s | egghead.io",
   "description": "egghead is your source for the Badass Portfolio Projects you need to climb the career ladder as a modern web developer.",
+  "additionalLinkTags": [
+    {
+      "rel": "search",
+      "type": "application/opensearchdescription+xml",
+      "href": "/opensearch.xml",
+      "title": "egghead"
+    }
+  ],
   "additionalMetaTags": [
     {"property": "author", "content": "eggheadio"},
     {
