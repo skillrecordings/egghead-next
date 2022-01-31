@@ -51,7 +51,7 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
         <div className="grow py-4 pr-4 space-y-2 text-sm lg:min-h-[14rem]">
           <h3 className="text-base font-semibold">{title}</h3>
           <p className="flex items-center space-x-2 text-xs">
-            <span className="text-gray-600 dark:text-gray-400">
+            <span className="text-gray-500 dark:text-gray-400">
               interviewed by
             </span>
             <div className="flex overflow-hidden rounded-full shrink-0">
@@ -115,8 +115,36 @@ const FeaturedEpisodeCard: React.FC<{resource: FeaturedEpisodeResource}> = ({
 }) => {
   const {byline, description, quote, summary, title} = resource
   return (
-    <div className="flex p-3 bg-white border border-gray-200 rounded-md shadow-smooth dark:border-gray-800 dark:bg-gray-1000 dark:bg-opacity-100">
-      123
+    <div className="p-4 space-y-3 bg-white border border-gray-200 rounded-md shadow-smooth dark:border-gray-800 dark:bg-gray-1000 dark:bg-opacity-100">
+      <div className="flex space-x-3">
+        <div className="w-20 shrink-0">
+          <Image
+            src="/images/eggo.svg"
+            width={33}
+            height={34}
+            layout="responsive"
+          />
+        </div>
+        <div className="space-y-2 text-sm grow">
+          <h3 className="text-base font-semibold">{title}</h3>
+          <p className="text-gray-500 dark:text-gray-400">{summary}</p>
+          {/* <p className="flex items-center space-x-2 text-xs">
+            <span className="text-gray-600 dark:text-gray-400">
+              interviewed by
+            </span>
+            <div className="flex overflow-hidden rounded-full shrink-0">
+              <Image src={host.image} alt={host.name} width={24} height={24} />
+            </div>
+            <span className="font-semibold">{host.name}</span>
+          </p> */}
+          {/* <p>{quote}</p>
+          <p>{byline}</p> */}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <p className="text-sm">{description}</p>
+        <p className="text-xs font-semibold text-center">{byline}</p>
+      </div>
     </div>
   )
 }
@@ -145,7 +173,12 @@ const ContentTypePage = ({typeData, type}: any) => {
           <h2 className="w-full text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
             Featured Episode
           </h2>
-          <div className="grid grid-cols-2 gap-3 mt-4">
+          <div className="grid gap-3 mt-4 md:grid-cols-2">
+            {typeData.featuredResources.resources.map(
+              (resource: FeaturedEpisodeResource, i: number) => {
+                return <FeaturedEpisodeCard resource={resource} key={i} />
+              },
+            )}
             {typeData.featuredResources.resources.map(
               (resource: FeaturedEpisodeResource, i: number) => {
                 return <FeaturedEpisodeCard resource={resource} key={i} />
