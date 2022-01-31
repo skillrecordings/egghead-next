@@ -62,6 +62,7 @@ module.exports = {
       'https://egghead.io/tags-sitemap-12.xml',
       'https://egghead.io/tags-sitemap-13.xml',
       'https://egghead.io/tags-sitemap-14.xml',
+      'https://egghead.io/tags-sitemap-15.xml',
     ],
   },
 }

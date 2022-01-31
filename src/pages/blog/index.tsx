@@ -1,12 +1,9 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
-import {parse} from 'date-fns'
 import friendlyTime from 'friendly-time'
-
-import {find} from 'lodash'
+import {allArticlesQuery} from 'lib/articles'
 
 const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
   <div>{date}</div>
@@ -116,20 +113,6 @@ const IconPlaceholder = () => (
     </g>
   </svg>
 )
-
-const allArticlesQuery = groq`
-*[_type == "post" && publishedAt < now()]|order(publishedAt desc) {
-  title,
-  slug,
-  coverImage,
-  description,
-  publishedAt,
-  "author": authors[0].author-> {
-    name, 
-   'image': image.url,
-   }
-}
-`
 
 export async function getStaticProps() {
   const allArticles = await sanityClient.fetch(allArticlesQuery)
