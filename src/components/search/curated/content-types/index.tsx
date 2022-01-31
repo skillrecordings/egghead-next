@@ -36,6 +36,14 @@ type FeaturedEpisodeResource = {
   quote: string
   summary: string
   title: string
+  host: {
+    image: string
+    name: string
+  }
+  interviewee: {
+    image: string
+    name: string
+  }
 }
 
 const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
@@ -88,7 +96,7 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
                           </div>
                           <div className="space-y-1">
                             <div>{episode.title}</div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 text-xs">
                               <span className="opacity-60">
                                 {episode.instructor.name}
                               </span>
@@ -113,13 +121,14 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
 const FeaturedEpisodeCard: React.FC<{resource: FeaturedEpisodeResource}> = ({
   resource,
 }) => {
-  const {byline, description, quote, summary, title} = resource
+  const {byline, description, quote, summary, title, host, interviewee} =
+    resource
   return (
     <div className="p-4 space-y-3 bg-white border border-gray-200 rounded-md shadow-smooth dark:border-gray-800 dark:bg-gray-1000 dark:bg-opacity-100">
       <div className="flex space-x-3">
-        <div className="w-20 shrink-0">
+        <div className="w-24 overflow-hidden rounded-full shrink-0">
           <Image
-            src="/images/eggo.svg"
+            src={interviewee?.image || '/images/eggo.svg'}
             width={33}
             height={34}
             layout="responsive"
@@ -127,23 +136,24 @@ const FeaturedEpisodeCard: React.FC<{resource: FeaturedEpisodeResource}> = ({
         </div>
         <div className="space-y-2 text-sm grow">
           <h3 className="text-base font-semibold">{title}</h3>
-          <p className="text-gray-500 dark:text-gray-400">{summary}</p>
-          {/* <p className="flex items-center space-x-2 text-xs">
-            <span className="text-gray-600 dark:text-gray-400">
-              interviewed by
-            </span>
-            <div className="flex overflow-hidden rounded-full shrink-0">
-              <Image src={host.image} alt={host.name} width={24} height={24} />
-            </div>
-            <span className="font-semibold">{host.name}</span>
-          </p> */}
-          {/* <p>{quote}</p>
-          <p>{byline}</p> */}
+          <div className="flex items-center space-x-1 text-xs">
+            <span className="text-gray-500 dark:text-gray-400">with</span>
+            <span className="font-semibold">{interviewee.name}</span>
+          </div>
+          <p className="italic text-gray-500 dark:text-gray-400">"{summary}"</p>
         </div>
       </div>
       <div className="space-y-2">
         <p className="text-sm">{description}</p>
-        <p className="text-xs font-semibold text-center">{byline}</p>
+        <p className="flex items-center justify-end space-x-2 text-xs">
+          <span className="text-gray-500 dark:text-gray-400">
+            interviewed by
+          </span>
+          <div className="flex overflow-hidden rounded-full shrink-0">
+            <Image src={host.image} alt={host.name} width={24} height={24} />
+          </div>
+          <span className="font-semibold">{host.name}</span>
+        </p>
       </div>
     </div>
   )
