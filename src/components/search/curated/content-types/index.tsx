@@ -48,7 +48,7 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
         <div className="relative w-32 shrink-0">
           <Image src={image} alt={title} layout="fill" objectFit="cover" />
         </div>
-        <div className="py-4 pr-4 space-y-2 text-sm min-h-[14rem]">
+        <div className="grow py-4 pr-4 space-y-2 text-sm lg:min-h-[14rem]">
           <h3 className="text-base font-semibold">{title}</h3>
           <p className="flex items-center space-x-2 text-xs">
             <span className="text-gray-600 dark:text-gray-400">
@@ -70,7 +70,7 @@ const FeaturedSeasonCard: React.FC<{resource: FeaturedSeasonResource}> = ({
         </div>
         <div className="relative grow">
           <div className="inset-0 lg:absolute">
-            <ul className="w-full h-full overflow-y-scroll text-sm divide-y divide-gray-200 dark:divide-gray-800 overscroll-contain max-h-56 lg:max-h-full lg:min-h-[14rem]">
+            <ul className="w-full h-full overflow-y-scroll text-sm divide-y divide-gray-200 dark:divide-gray-800 overscroll-contain max-h-48 lg:max-h-full">
               {resources.map(
                 (episode: FeaturedSeasonEpisodeResource, i: number) => {
                   return (
