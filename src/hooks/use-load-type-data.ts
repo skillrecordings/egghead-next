@@ -38,7 +38,7 @@ export const typeQuery = groq`*[_type == 'resource' && type == 'landing-page' &&
       description,
       summary,
       image,
-      'host': collaborators[]->[0]{
+      'host': collaborators[]->[role == 'host'][0]{
         'name': person->name,
         'image': person->image.url
       },
@@ -60,6 +60,10 @@ export const typeQuery = groq`*[_type == 'resource' && type == 'landing-page' &&
         title,
         byline,
         description,
+        'host': collaborators[]->[role == 'host'][0]{
+        'name': person->name,
+        'image': person->image.url
+      	},
         summary,
         image,
         "quote": content[label == "quote"][0].text
