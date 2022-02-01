@@ -41,7 +41,7 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
 
   const validateEmail = async (email: string) => {
     setIsSubmitted(true)
-    const {hasProAccess, stripeCustomerId} = await axios
+    const {hasProAccess} = await axios
       .post(`/api/users/check-pro-status`, {
         email,
       })
@@ -61,7 +61,6 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
           stripeCheckoutRedirect({
             priceId,
             email,
-            stripeCustomerId,
             quantity,
             coupon,
           }),
