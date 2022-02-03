@@ -68,7 +68,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                             </div>
                             {subscriptionData?.subscription
                               ?.cancel_at_period_end && (
-                              <div className="flex items-center justify-center px-2 py-1 text-xs bg-gray-100 rounded text-gray-1000">
+                              <div className="flex items-center justify-center px-2 py-1 text-xs bg-gray-100 rounded text-gray-1000 mt-2">
                                 cancelled
                               </div>
                             )}
