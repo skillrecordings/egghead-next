@@ -4,13 +4,21 @@ import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
 import {useTrackComponent} from 'hooks/use-track-component'
+import {useRouter} from 'next/router'
 
 const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   lesson: any
   nextLesson: any
   ctaContent?: any
   onClickRewatch?: () => void
-}> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
+  onClickNext?: () => void
+}> = ({
+  lesson,
+  nextLesson,
+  onClickRewatch = noop,
+  onClickNext = noop,
+  ctaContent,
+}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
 
   useTrackComponent('show next up', {
@@ -18,8 +26,10 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
     lesson: lesson.slug,
   })
 
+  const router = useRouter()
+
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center justify-center p-4">
       {courseImage && (
         <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
           <Image
@@ -46,19 +56,20 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
         >
           <IconRefresh className="w-6 mr-2" /> Watch again
         </button>
-        <Link href={nextLesson.path || '#'}>
-          <a
-            onClick={() => {
-              track('clicked play next', {
-                lesson: lesson.slug,
-                location: 'lesson overlay',
-              })
-            }}
-            className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
-          >
-            <IconPlay className="w-6 mr-2" /> Play next
-          </a>
-        </Link>
+        <button
+          onClick={() => {
+            router.push(nextLesson.path || '#').then(() => {
+              onClickNext()
+            })
+            track('clicked play next', {
+              lesson: lesson.slug,
+              location: 'lesson overlay',
+            })
+          }}
+          className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
+        >
+          <IconPlay className="w-6 mr-2" /> Play next
+        </button>
       </div>
       {ctaContent && (
         <div className="flex flex-col mt-6 md:mt-8 space-y-3">

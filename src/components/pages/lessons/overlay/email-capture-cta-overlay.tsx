@@ -15,7 +15,7 @@ const EmailCaptureCtaOverlay: FunctionComponent<CreateAccountCTAProps> = ({
   const {collection} = lesson
 
   return (
-    <section className="flex flex-col items-center p-4">
+    <section className="flex flex-col items-center justify-center p-4">
       <LoginForm
         image={<></>}
         className="w-full mx-auto flex flex-col items-center justify-center text-white"

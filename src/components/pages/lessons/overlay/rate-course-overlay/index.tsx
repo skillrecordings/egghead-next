@@ -25,7 +25,7 @@ const RateCourseOverlay: React.FunctionComponent<{
   useTrackComponent('show rate course', {course: slug})
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center justify-center p-4">
       <div className="flex flex-col items-center">
         <img
           src={square_cover_480_url}

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
-import {filter, first, get, isEmpty, isFunction} from 'lodash'
+import {filter, first, get, isEmpty} from 'lodash'
 import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import {playerMachine} from 'machines/lesson-player-machine'
+import {lessonMachine} from 'machines/lesson-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
-import {useEggheadPlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
+import {savePlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import Transcript from 'components/pages/lessons/transcript'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -37,10 +37,6 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
-import Spinner from 'components/spinner'
-import {PlayerProvider} from 'cueplayer-react'
-import VideoResourcePlayer from 'components/player'
-import PlayerContainer from 'components/player/player-container'
 import PlayerSidebar from 'components/player/player-sidebar'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 import friendlyTime from 'friendly-time'
@@ -50,6 +46,30 @@ import WatchFullCourseCtaOverlay from '../../components/pages/lessons/overlay/wa
 import WatchNextLessonCtaOverlay from '../../components/pages/lessons/overlay/watch-next-lesson-cta-overlay'
 import EmailCaptureCtaOverlay from '../../components/pages/lessons/overlay/email-capture-cta-overlay'
 import cookies from 'utils/cookies'
+import AutoplayControl from '../../components/player/autoplay-control'
+import {
+  Player,
+  VideoProvider,
+  HLSSource,
+  useVideo,
+  selectWithSidePanel,
+  getPlayerPrefs,
+  selectMetadataTracks,
+  selectIsPaused,
+  selectVideo,
+  selectIsWaiting,
+  selectHasEnded,
+  selectIsFullscreen,
+  selectViewer,
+} from '@skillrecordings/player'
+import cx from 'classnames'
+import {
+  VideoEvent,
+  VideoStateContext,
+} from '@skillrecordings/player/dist/machines/video-machine'
+import {useSelector} from '@xstate/react'
+import addCueNote from '../../lib/add-cue-note'
+import deleteCueNote from '../../lib/delete-cue-note'
 
 const tracer = getTracer('lesson-page')
 
@@ -142,23 +162,24 @@ const MAX_FREE_VIEWS = 4
 const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
-  const {viewer} = useViewer()
-  const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
+
+  const videoService = useVideo()
+  const video = useSelector(videoService, selectVideo)
+  const lesson: any = get(videoService, 'context.resource', initialLesson)
+  const withSidePanel = useSelector(videoService, selectWithSidePanel)
+  const metadataTracks = useSelector(videoService, selectMetadataTracks)
+  const isWaiting = useSelector(videoService, selectIsWaiting)
+  const hasEnded = useSelector(videoService, selectHasEnded)
+  const isPaused = useSelector(videoService, selectIsPaused)
+  const isFullscreen = useSelector(videoService, selectIsFullscreen)
+  const viewer: any = useSelector(videoService, selectViewer)
 
   const {defaultView, autoplay} = getPlayerPrefs()
 
   const {md} = useBreakpoint()
-
-  const [isFullscreen, setIsFullscreen] = React.useState(false)
-  const [newNotes, setNewNotes] = React.useState<any>([])
-
-  const playerContainer = React.useRef<any>(null)
-  const actualPlayerRef = React.useRef<any>(null)
-  const lastAutoPlayed = React.useRef()
-
   const [watchCount, setWatchCount] = React.useState<number>(0)
 
-  const [playerState, send] = useMachine(playerMachine, {
+  const [lessonState, send] = useMachine(lessonMachine, {
     context: {
       lesson: initialLesson,
       viewer,
@@ -176,23 +197,19 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
             ),
           )
         }
-
-        console.debug('loading video with auth')
-        const loadedLesson = await loadLesson(initialLesson.slug)
-        console.debug('authed video loaded', {video: loadedLesson})
-
-        return {...initialLesson, ...loadedLesson}
+        // We omit the loading state here by returning lesson
+        // object that has already been loaded by videoService.
+        // TODO: Refactor/simplify the lesson machine to avoid this step entirely.
+        return lesson
       },
     },
   })
-
-  const lesson: any = get(playerState, 'context.lesson', initialLesson)
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
   const [lessonView, setLessonView] = React.useState<any>()
 
-  const currentPlayerState = playerState.value as string
+  const currentLessonState = lessonState.value as string
 
   const [isIncomingAnonViewer, setIsIncomingAnonViewer] =
     React.useState<boolean>(false)
@@ -239,7 +256,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const transcriptAvailable = transcript || enhancedTranscript
   const courseDependencies: any = getDependencies(collection?.slug)
   const {dependencies} = courseDependencies
-
+  const {session_id} = router.query
   const collectionTags = tags.map((tag: any) => {
     const version = get(dependencies, tag.name)
     return {
@@ -256,8 +273,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  const spinnerVisible = ['loading', 'completed'].includes(currentPlayerState)
-
   React.useEffect(() => {
     setPlayerVisible(
       [
@@ -268,43 +283,23 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         'viewing',
         'completed',
         'addingNote',
-      ].includes(currentPlayerState),
+      ].includes(currentLessonState),
     )
-  }, [currentPlayerState])
+  }, [currentLessonState])
 
   const checkAutoPlay = async () => {
     if (nextLesson) {
       updateResource(nextLesson)
     }
-
     console.debug(`checking autoplay: ${autoplay} [${nextLesson.slug}]`)
-
     if (autoplay && nextLesson) {
       console.debug('autoplaying next lesson', {nextLesson})
       track('autoplaying next video', {
         video: nextLesson.slug,
       })
-
-      if (isFullscreen) {
-        const loadedLesson = await loadLesson(nextLesson.slug)
-
-        console.debug('full screen authed video loaded', {video: loadedLesson})
-
-        router
-          .push(nextLesson.path, undefined, {
-            shallow: true,
-          })
-          .then(() => {
-            send({
-              type: 'LOADED',
-              lesson: loadedLesson,
-              viewer,
-            })
-          })
-      } else {
-        router.push(nextLesson.path)
-      }
+      router.push(nextLesson.slug)
     } else if (lesson.collection && isIncomingAnonViewer) {
+      console.debug(`Showing Course Pitch Overlay`)
       send(`COURSE_PITCH`)
     } else if (nextLesson) {
       console.debug(`Showing Next Lesson Overlay`)
@@ -324,7 +319,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
       if (!hasNextLesson && isFullscreen) {
         window.document.exitFullscreen()
-        setIsFullscreen(false)
+        videoService.send({type: 'EXIT_FULLSCREEN'})
       }
 
       if (!hasNextLesson && progress?.rate_url) {
@@ -332,6 +327,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
           lessonView,
           video: lesson,
         })
+        console.debug('RATE')
         send('RATE')
       } else {
         checkAutoPlay()
@@ -348,15 +344,18 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     }
   }
 
-  const {session_id} = router.query
+  const numberOfComments = filter(
+    comments,
+    (comment) => comment.state !== 'hidden',
+  ).length
 
   React.useEffect(() => {
     //TODO: We are doing work here that the lesson machine should
     //be handling but we don't have enough information in the context
-    console.debug(`current state of player:`, currentPlayerState)
-    const lesson = get(playerState, 'context.lesson')
+    console.debug(`current state of lesson:`, currentLessonState)
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
-    switch (currentPlayerState) {
+
+    switch (currentLessonState) {
       case 'loaded':
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
 
@@ -366,6 +365,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         if (session_id) {
           // If the URL contains the session ID, even if there is a viewer, put
           // them in the `subscribing` state.
+          console.debug('SUBSCRIBE')
           send('SUBSCRIBE')
         } else {
           if (
@@ -374,30 +374,39 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
             free_forever
           ) {
             if (viewLimitNotReached && mediaPresent) {
+              console.debug('VIEW')
               send('VIEW')
             } else {
+              console.debug('JOIN')
               send('JOIN')
             }
           } else if (mediaPresent) {
+            console.debug('VIEW')
             send('VIEW')
           } else {
             // If lesson is not 'free_forever' and the media isn't present,
             // then we deduce that the lesson is Pro-only and the user needsto
             // subscribe before viewing it.
+            console.debug('SUBSCRIBE')
             send('SUBSCRIBE')
           }
         }
-
         break
+
       case 'viewing':
         console.debug(
           `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
         )
         if (!mediaPresent && !isFullscreen) {
           console.debug(`sending load event from viewing`)
-          send('LOAD')
+          console.debug('LOAD')
+          videoService.send({
+            type: 'LOAD_RESOURCE',
+            resource: initialLesson as any,
+          })
         }
         break
+
       case 'completed':
         console.debug('handling a change to completed', {
           lesson,
@@ -410,6 +419,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
               setLessonView(lessonView)
               completeVideo(lessonView)
             } else if (lesson.collection && isIncomingAnonViewer) {
+              console.debug('COURSE_PITCH')
               send(`COURSE_PITCH`)
             } else if (nextLesson) {
               console.debug(`Showing Next Lesson Overlay`)
@@ -423,6 +433,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
             if (lessonView) {
               completeVideo(lessonView)
             } else if (lesson.collection && isIncomingAnonViewer) {
+              console.debug('COURSE_PITCH')
               send(`COURSE_PITCH`)
             } else if (nextLesson) {
               console.debug(`Showing Next Lesson Overlay`)
@@ -432,41 +443,68 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
               send(`RECOMMEND`)
             }
           })
-
         break
     }
-  }, [currentPlayerState, session_id])
+  }, [currentLessonState, session_id])
 
   React.useEffect(() => {
-    // when this effect is triggered, put the machine in the loading state (via
-    // `LOAD`). That state should take care of the rest with an Invoked
-    // Callback.
-    send({
-      type: 'LOAD',
-      lesson: initialLesson,
-      viewer,
+    // Keep lesson machine state in sync with
+    // videoService to control overlays and stuff
+    if (!isWaiting) {
+      hasEnded && send('COMPLETE')
+      isPaused ? send('PAUSE') : send('PLAY')
+    }
+  }, [hasEnded, isPaused, isWaiting])
+
+  React.useEffect(() => {
+    // Load the video resource
+    send('LOAD')
+    videoService.send({
+      type: 'LOAD_RESOURCE',
+      resource: initialLesson as any,
     })
   }, [initialLesson.slug])
 
-  const numberOfComments = filter(
-    comments,
-    (comment) => comment.state !== 'hidden',
-  ).length
+  const play = () => {
+    const playPromise = video?.play()
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          video?.play()
+          videoService.send({type: 'PLAY'})
+        })
+        .catch((e: any) => console.log(`PLAY failed: ${e}`))
+    }
+  }
+
+  React.useEffect(() => {
+    // Autoplay
+    if (autoplay && !isWaiting) {
+      play()
+    }
+  }, [isWaiting, video])
+
+  const fullscreenWrapperRef = React.useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    if (fullscreenWrapperRef) {
+      setMounted(true)
+    }
+  }, [fullscreenWrapperRef])
+
+  // TODO: To be implemented
+  // onProgress({playedSeconds: currentTime}, lesson).then((lessonView: any) => {
+  //   if (lessonView) {
+  //     console.debug('progress recorded', {
+  //       progress: lessonView,
+  //     })
+  //     setLessonView(lessonView)
+  //   }
+  // })
 
   return (
     <>
-      <style jsx>
-        {`
-          .player-provider {
-            max-width: calc((75vh * 1.77777) + 300px);
-          }
-          .player-wrapper::before {
-            padding-bottom: ${isEmpty(lesson.staff_notes_url)
-              ? 'calc(56.25% + 3.5rem)'
-              : 'calc(56.25% + 4.5rem)'};
-          }
-        `}
-      </style>
       <NextSeo
         description={removeMarkdown(description)}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${lesson.path}`}
@@ -495,195 +533,153 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         uploadDate={lesson?.created_at}
         thumbnailUrls={[lesson?.thumb_url]}
       />
+      <div
+        className="bg-black relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
+        ref={fullscreenWrapperRef}
+      >
+        <div
+          className={cx(
+            'relative before:float-left after:clear-both after:table',
+            {
+              'col-span-9': withSidePanel,
+              'col-span-12': !withSidePanel,
+            },
+          )}
+        >
+          {mounted && (
+            <div className={cx({hidden: !playerVisible})}>
+              <Player
+                className="font-sans"
+                container={fullscreenWrapperRef.current || undefined}
+              >
+                <HLSSource src={lesson.hls_url} />
+                {lesson.subtitles_url && (
+                  <track
+                    key={`${lesson.slug}-subtitles`}
+                    src={lesson?.subtitles_url}
+                    kind="subtitles"
+                    srcLang="en"
+                    label="English"
+                  />
+                )}
+                {metadataTracks && (
+                  <track
+                    key={`${lesson.slug}-metadata`}
+                    id="notes"
+                    src={`/api/lessons-new/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}&contact_id=${viewer?.contact_id}`}
+                    kind="metadata"
+                    label="notes"
+                  />
+                )}
+              </Player>
+            </div>
+          )}
+          {lessonState.matches('joining') && (
+            <OverlayWrapper>
+              <EmailCaptureCtaOverlay
+                lesson={lesson}
+                technology={primary_tag}
+              />
+            </OverlayWrapper>
+          )}
+          {lessonState.matches('subscribing') && (
+            <OverlayWrapper>
+              <GoProCtaOverlay
+                lesson={lesson}
+                viewLesson={() => {
+                  send({
+                    type: 'LOAD',
+                    lesson: initialLesson,
+                    viewer,
+                  })
+                  // TODO: Make sure this is working as expected
+                  videoService.send({
+                    type: 'LOAD_RESOURCE',
+                    resource: initialLesson as any,
+                  })
+                }}
+              />
+            </OverlayWrapper>
+          )}
+          {lessonState.matches('pitchingCourse') && (
+            <OverlayWrapper>
+              <WatchFullCourseCtaOverlay
+                lesson={lesson}
+                onClickRewatch={() => {
+                  send('VIEW')
+                  videoService.send({type: 'PLAY'})
+                }}
+              />
+            </OverlayWrapper>
+          )}
+          {lessonState.matches('showingNext') && (
+            <OverlayWrapper>
+              <WatchNextLessonCtaOverlay
+                lesson={lesson}
+                nextLesson={nextLesson}
+                ctaContent={specialLessons[lesson.slug]}
+                onClickRewatch={() => {
+                  send('VIEW')
+                  videoService.send({type: 'PLAY'})
+                }}
+                onClickNext={() => {
+                  play()
+                }}
+              />
+            </OverlayWrapper>
+          )}
+          {lessonState.matches('rating') && (
+            <OverlayWrapper>
+              <RateCourseOverlay
+                course={lesson.collection}
+                onRated={(review) => {
+                  axios
+                    .post(lessonView.collection_progress.rate_url, review)
+                    .then(() => {
+                      const comment = get(review, 'comment.comment')
+                      const prompt = get(review, 'comment.context.prompt')
 
-      <div className="overflow-hidden">
-        <PlayerProvider>
-          <div className="player-provider relative grid grid-cols-1 lg:grid-cols-12 font-sans text-base w-full mx-auto lg:min-w-[1024px] gap-6 lg:gap-0">
-            <div
-              className={`player-wrapper relative before:float-left after:clear-both after:table ${
-                isFullscreen ? 'lg:col-span-12' : 'lg:col-span-9'
-              }`}
-            >
-              <PlayerContainer ref={playerContainer}>
-                <VideoResourcePlayer
-                  key={lesson.slug}
-                  containerRef={playerContainer}
-                  actualPlayerRef={actualPlayerRef.current}
-                  videoResource={lesson}
-                  hidden={!playerVisible}
-                  onFullscreenChange={(isFullscreen: boolean) => {
-                    setIsFullscreen(isFullscreen)
-                  }}
-                  newNotes={newNotes}
-                  onCanPlay={(event: any) => {
-                    console.debug(`player ready [autoplay:${autoplay}]`)
-                    const videoElement: HTMLVideoElement =
-                      event.target as HTMLVideoElement
-
-                    actualPlayerRef.current = videoElement
-
-                    const isDifferent =
-                      lastAutoPlayed.current !== lesson?.hls_url
-                    if (
-                      autoplay &&
-                      isDifferent &&
-                      isFunction(videoElement.play)
-                    ) {
-                      console.debug(`autoplaying`)
-                      lastAutoPlayed.current = lesson?.hls_url
-                      videoElement.play()
-                    }
-                  }}
-                  onPause={() => {
-                    send('PAUSE')
-                  }}
-                  onPlay={() => send('PLAY')}
-                  onTimeUpdate={(event: any) => {
-                    onProgress(
-                      {playedSeconds: event.target.currentTime},
-                      lesson,
-                    ).then((lessonView: any) => {
-                      if (lessonView) {
-                        console.debug('progress recorded', {
-                          progress: lessonView,
+                      if (review) {
+                        track('rated course', {
+                          course: slug,
+                          rating: review.rating,
+                          ...(comment && {comment}),
+                          ...(!!prompt && {prompt}),
                         })
-                        setLessonView(lessonView)
+                        if (subscriber) {
+                          const currentScore =
+                            Number(subscriber.attributes?.learner_score) || 0
+                          cioIdentify(subscriber.id, {
+                            learner_score: currentScore + 20,
+                          })
+                        }
                       }
                     })
-                  }}
-                  onEnded={() => {
-                    console.debug(`received ended event from player`)
-                    send('COMPLETE')
-                  }}
-                  onAddNote={() => {
-                    send('ADD_NOTE')
-                  }}
-                />
-              </PlayerContainer>
-              {spinnerVisible && (
-                <div className="absolute top-0 bottom-0 left-0 right-0 z-10 flex items-center justify-center bg-black bg-opacity-80">
-                  <Spinner />
-                </div>
-              )}
-
-              {playerState.matches('joining') && (
-                <OverlayWrapper>
-                  <EmailCaptureCtaOverlay
-                    lesson={lesson}
-                    technology={primary_tag}
-                  />
-                </OverlayWrapper>
-              )}
-              {playerState.matches('subscribing') && (
-                <OverlayWrapper>
-                  <GoProCtaOverlay
-                    lesson={lesson}
-                    viewLesson={() => {
-                      send({
-                        type: 'LOAD',
-                        lesson: initialLesson,
-                        viewer,
-                      })
-                    }}
-                  />
-                </OverlayWrapper>
-              )}
-              {playerState.matches('pitchingCourse') && (
-                <OverlayWrapper>
-                  <WatchFullCourseCtaOverlay
-                    lesson={lesson}
-                    onClickRewatch={() => {
-                      send('VIEW')
-                      if (actualPlayerRef.current) {
-                        actualPlayerRef.current.play()
-                      }
-                    }}
-                  />
-                </OverlayWrapper>
-              )}
-              {playerState.matches('showingNext') && (
-                <OverlayWrapper>
-                  <WatchNextLessonCtaOverlay
-                    lesson={lesson}
-                    nextLesson={nextLesson}
-                    ctaContent={specialLessons[lesson.slug]}
-                    onClickRewatch={() => {
-                      send('VIEW')
-                      if (actualPlayerRef.current) {
-                        actualPlayerRef.current.play()
-                      }
-                    }}
-                  />
-                </OverlayWrapper>
-              )}
-              {playerState.matches('rating') && (
-                <OverlayWrapper>
-                  <RateCourseOverlay
-                    course={lesson.collection}
-                    onRated={(review) => {
-                      axios
-                        .post(lessonView.collection_progress.rate_url, review)
-                        .then(() => {
-                          const comment = get(review, 'comment.comment')
-                          const prompt = get(review, 'comment.context.prompt')
-
-                          if (review) {
-                            track('rated course', {
-                              course: slug,
-                              rating: review.rating,
-                              ...(comment && {comment}),
-                              ...(!!prompt && {prompt}),
-                            })
-                            if (subscriber) {
-                              const currentScore =
-                                Number(subscriber.attributes?.learner_score) ||
-                                0
-                              cioIdentify(subscriber.id, {
-                                learner_score: currentScore + 20,
-                              })
-                            }
-                          }
-                        })
-                        .finally(() => {
-                          setTimeout(() => {
-                            send('RECOMMEND')
-                          }, 1500)
-                        })
-                    }}
-                  />
-                </OverlayWrapper>
-              )}
-              {playerState.matches('recommending') && (
-                <OverlayWrapper>
-                  <RecommendNextStepOverlay lesson={lesson} />
-                </OverlayWrapper>
-              )}
-              {playerState.matches('addingNote') && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50">
-                  <AddNoteOverlay
-                    resourceId={lesson.slug}
-                    onClose={(newNote: any) => {
-                      if (newNote) setNewNotes([newNote])
-                      send('VIEW')
-                    }}
-                    currentTime={Math.floor(
-                      actualPlayerRef.current?.currentTime ?? 0,
-                    )}
-                  />
-                </div>
-              )}
-            </div>
-            <div className="lg:col-span-3 side-bar">
-              <PlayerSidebar
-                relatedResources={specialLessons[lesson.slug]}
-                videoResource={lesson}
-                onAddNote={() => send('ADD_NOTE')}
+                    .finally(() => {
+                      setTimeout(() => {
+                        send('RECOMMEND')
+                      }, 1500)
+                    })
+                }}
               />
-            </div>
+            </OverlayWrapper>
+          )}
+          {lessonState.matches('recommending') && (
+            <OverlayWrapper>
+              <RecommendNextStepOverlay lesson={lesson} />
+            </OverlayWrapper>
+          )}
+        </div>
+        {withSidePanel && (
+          <div className="col-span-3 flex flex-col dark:bg-gray-800 bg-gray-50">
+            <PlayerSidebar
+              relatedResources={specialLessons[lesson.slug]}
+              videoResource={lesson}
+            />
+            <AutoplayControl />
           </div>
-        </PlayerProvider>
+        )}
       </div>
-
       <div className="container max-w-screen-lg py-8 md:py-12 lg:py-16">
         <div className="grid grid-cols-1 gap-8 divide-y lg:grid-cols-1 lg:gap-12 md:divide-transparent divide-gray-50">
           <div className="row-start-1 space-y-6 md:col-span-8 md:row-start-1 md:space-y-8 lg:space-y-10">
@@ -820,7 +816,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
             <Tabs
               index={defaultView === 'comments' ? 1 : 0}
               onChange={(index) => {
-                setPlayerPrefs({
+                savePlayerPrefs({
                   defaultView: index === 1 ? 'comments' : 'transcript',
                 })
               }}
@@ -844,7 +840,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                   <div className="space-y-6 sm:space-y-8 break-[break-word]">
                     <Comments
                       lesson={lesson}
-                      commentingAllowed={viewer?.can_comment}
+                      commentingAllowed={viewer?.can_comment as any}
                     />
                   </div>
                 </TabPanel>
@@ -861,7 +857,33 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
   initialLesson,
   ...props
 }) => {
-  return <Lesson initialLesson={initialLesson} {...props} />
+  const {viewer} = useViewer()
+
+  return (
+    <VideoProvider
+      services={{
+        addCueNote,
+        deleteCueNote,
+        loadViewer:
+          (_context: VideoStateContext, _event: VideoEvent) => async () => {
+            return await viewer
+          },
+        loadResource:
+          (_context: VideoStateContext, _event: VideoEvent) => async () => {
+            console.debug('loading video with auth')
+            const loadedLesson = await loadLesson(initialLesson.slug)
+            console.debug('authed video loaded', {video: loadedLesson})
+
+            return {
+              ...initialLesson,
+              ...loadedLesson,
+            }
+          },
+      }}
+    >
+      <Lesson initialLesson={initialLesson} {...props} />
+    </VideoProvider>
+  )
 }
 
 export default LessonPage
