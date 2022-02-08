@@ -5,9 +5,14 @@ import {getAuthorizationHeader} from '../../utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
 import {find} from 'lodash'
+import {Formik, useFormik} from 'formik'
+
+// Currently, onFinish callback in the Upload component is creating a clojure with formik.values.lessons.
+// So when that state is updated, it's spreading an empty array with each update. Causing only the latest upload to be saved
 
 type FileUpload = {file: File; percent: number; message: string}
 
+// THEORY reducer?
 const fileUploadReducer = (state: any, action: any) => {
   switch (action.type) {
     case 'add':
@@ -28,10 +33,28 @@ const fileUploadReducer = (state: any, action: any) => {
   }
 }
 
+type UploadedFile = {
+  fileName: string
+  signedUrl: string
+}
+
+type LessonMetadata = {
+  title: string
+  fileMetadata: UploadedFile
+}
+
 const Upload: React.FC = () => {
   const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
   const {viewer} = useViewer()
   const uploaderRef = React.useRef(null)
+  // const [fileUrls, setFileUrls] = React.useState<UploadedFile[]>([])
+
+  const initialValues: {lessons: LessonMetadata[]} = {lessons: []}
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    onSubmit: (values, actions) => {},
+  })
 
   return viewer?.s3_signing_url ? (
     <div>
@@ -74,16 +97,22 @@ const Upload: React.FC = () => {
         onError={(message) => console.log(message)}
         onFinish={(signResult, file) => {
           const fileUrl = signResult.signedUrl.split('?')[0]
-          console.log(fileUrl, signResult.publicUrl, file)
+          // setFileUrls([...fileUrls, {fileName: file.name, signedUrl: fileUrl}])
+          console.log('WITHIN onFinish', formik.values.lessons)
+          formik.setFieldValue('lessons', [
+            ...formik.values.lessons,
+            {
+              title: file.name,
+              fileMetadata: {fileName: file.name, signedUrl: fileUrl},
+            },
+          ])
         }}
       />{' '}
-      {state.files.map((file) => {
-        return (
-          <div key={file.name}>
-            {file.file.name} {file.percent} {file.message}
-          </div>
-        )
-      })}
+      {formik.values.lessons.map((lesson) => (
+        <div>
+          {lesson.title} - {lesson.fileMetadata.signedUrl}
+        </div>
+      ))}
     </div>
   ) : null
 }
