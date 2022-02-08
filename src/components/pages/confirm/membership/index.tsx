@@ -7,6 +7,8 @@ import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
+import {useTheme} from 'next-themes'
+import PostPurchase from 'components/survey/tally/post-purchase'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -33,22 +35,22 @@ const Illustration = () => (
 
 const Heading: React.FC = ({children}) => {
   return (
-    <h1 className="sm:leading-tighter leading-tight sm:text-2xl text-xl font-bold text-center">
+    <h1 className="text-xl font-bold leading-tight text-center sm:leading-tighter sm:text-2xl">
       {children}
     </h1>
   )
 }
 
 const PrimaryMessage: React.FC = ({children}) => {
-  return <div className="dark:text-gray-200 text-gray-800">{children}</div>
+  return <div className="text-gray-800 dark:text-gray-200">{children}</div>
 }
 
 const tweet = `https://twitter.com/intent/tweet/?text=Just joined @eggheadio to level up my development skills.`
 
 const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
   return (
-    <header className="w-full h-full flex flex-col items-start justify-center">
-      <div className="flex flex-col justify-center items-center space-y-6">
+    <header className="flex flex-col items-start justify-center w-full h-full">
+      <div className="flex flex-col items-center justify-center space-y-6">
         <Illustration />
         <Heading>{heading}</Heading>
         <PrimaryMessage>{primaryMessage}</PrimaryMessage>
@@ -59,10 +61,10 @@ const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
 
 const Support: React.FC = () => {
   return (
-    <div className="border-t dark:border-gray-800 border-gray-100 pt-16 sm:grid grid-cols-2 gap-5">
+    <div className="grid-cols-2 gap-5 pt-16 border-t border-gray-100 dark:border-gray-800 sm:grid">
       <div className="">
-        <h4 className="text-lg font-bold pb-3">Support</h4>
-        <p className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500 max-w-none">
+        <h4 className="pb-3 text-lg font-bold">Support</h4>
+        <p className="prose dark:prose-dark max-w-none">
           If you have any issues, please email support{' '}
           <strong>
             <a href="mailto:support@egghead.io">support@egghead.io</a>
@@ -71,12 +73,12 @@ const Support: React.FC = () => {
         </p>
       </div>
       <div className="">
-        <h4 className="text-lg font-bold pb-3">Share</h4>
+        <h4 className="pb-3 text-lg font-bold">Share</h4>
         <a
           href={tweet}
           rel="noopener noreferrer"
           target="_blank"
-          className="mt-1 text-white rounded-md text-sm inline-flex items-center px-3 py-2 bg-blue-500 hover:bg-blue-600"
+          className="inline-flex items-center px-3 py-2 mt-1 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
           <IconTwitter className="w-5" />{' '}
           <span className="pl-2">Share with your friends!</span>
@@ -89,14 +91,14 @@ const Support: React.FC = () => {
 const PopularTopics: React.FC = () => {
   return (
     <div>
-      <h4 className="text-lg font-semibold pb-4 text-center">
+      <h4 className="pb-4 text-lg font-semibold text-center">
         Start with one of these popular topics
       </h4>
-      <ul className="grid sm:grid-cols-4 grid-cols-2 gap-3">
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {topics.map((topic) => (
           <li key={topic.path}>
             <Link href={topic.path}>
-              <a className="px-6 pt-6 pb-5 rounded-lg dark:bg-gray-800 bg-white dark:hover:bg-gray-700 hover:shadow-lg border dark:border-transparent border-gray-200 border-opacity-50 flex flex-col items-center justify-center">
+              <a className="flex flex-col items-center justify-center px-6 pt-6 pb-5 bg-white border border-gray-200 border-opacity-50 rounded-lg dark:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-lg dark:border-transparent">
                 <Image
                   src={topic.image}
                   alt={topic.title}
@@ -117,7 +119,7 @@ const IconMail: React.FC<{className: string}> = ({className}) => {
   return (
     <div className={className}>
       <svg
-        className="animate-bounce transition-transform transform"
+        className="transition-transform transform animate-bounce"
         width="20"
         height="20"
         viewBox="0 0 20 20"
@@ -143,9 +145,9 @@ const LastResource = () => {
 
   return !isEmpty(lastResource) ? (
     <div>
-      <h4 className="text-lg font-bold pb-2">Continue where you left off</h4>
+      <h4 className="pb-2 text-lg font-bold">Continue where you left off</h4>
       <Link href={lastResource.path}>
-        <a className="inline-flex items-center space-x-3 font-semibold sm:p-8 p-5 rounded-lg dark:bg-gray-800 bg-white dark:hover:bg-gray-700 border dark:border-transparent border-gray-200 border-opacity-50 hover:shadow-lg">
+        <a className="inline-flex items-center p-5 space-x-3 font-semibold bg-white border border-gray-200 border-opacity-50 rounded-lg sm:p-8 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-transparent hover:shadow-lg">
           <Image src={lastResource.image_url} width={32} height={32} alt="" />
           <span>{lastResource.title}</span>
         </a>
@@ -156,7 +158,7 @@ const LastResource = () => {
 
 const Callout: React.FC = ({children}) => {
   return (
-    <div className="sm:p-6 p-5 border border-gray-200 rounded-lg mb-5 inline-flex items-center space-x-3 w-full">
+    <div className="inline-flex items-center w-full p-5 mb-5 space-x-3 border border-gray-200 rounded-lg sm:p-6">
       {children}
     </div>
   )
@@ -165,7 +167,7 @@ const Callout: React.FC = ({children}) => {
 const StartLearning: React.FC = () => {
   return (
     <Link href="/q">
-      <a className="text-white bg-blue-500 border-0 py-3 px-5 rounded-md hover:bg-blue-600">
+      <a className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600">
         Browse Catalog
       </a>
     </Link>
@@ -173,6 +175,12 @@ const StartLearning: React.FC = () => {
 }
 
 const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
+  const {theme, setTheme} = useTheme()
+
+  React.useEffect(() => {
+    setTheme('dark')
+  }, [setTheme])
+
   return (
     <>
       <Header
@@ -184,13 +192,16 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
               <strong>${session.amount} for your egghead membership</strong> and
               sent a receipt to <strong>{session.email}</strong>.
             </p>
-            <p className="text-lg pt-5 text-center">
+            <p className="pt-5 text-lg text-center">
               You can now learn from all premium resources on egghead, including
               courses, talks, podcasts, articles, and more. Enjoy!
             </p>
           </>
         }
       />
+
+      <PostPurchase email={session?.email} />
+
       <div className="space-y-10">
         <PopularTopics />
         <LastResource />
@@ -207,6 +218,12 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
   session,
   currentState,
 }) => {
+  const {theme, setTheme} = useTheme()
+
+  React.useEffect(() => {
+    setTheme('dark')
+  }, [setTheme])
+
   return (
     <>
       <Header
@@ -241,20 +258,23 @@ const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
             {currentState.matches('authTokenRetrieved') && (
               <>
                 <Callout>
-                  <p className="text-lg w-full text-center">
+                  <p className="w-full text-lg text-center">
                     <span role="img" aria-label="party popper">
                       🎉
                     </span>{' '}
                     Your egghead membership is ready to go!
                   </p>
                 </Callout>
-                <p className="text-lg pb-8 border-b border-gray-100 text-center max-w-lg mx-auto">
+                <p className="max-w-lg pb-8 mx-auto text-lg text-center border-b border-gray-100">
                   We've charged your credit card{' '}
                   <strong>${session.amount} for an egghead membership</strong>{' '}
                   and sent a receipt to <strong>{session.email}</strong>. Please
                   check your inbox to{' '}
                   <strong>confirm your email address</strong>.
                 </p>
+
+                <PostPurchase email={session?.email} />
+
                 <div className="pt-8">
                   <PopularTopics />
                 </div>
@@ -277,7 +297,7 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
 
   return (
-    <div className="max-w-screen-lg mx-auto dark:text-white text-gray-900 w-full space-y-16">
+    <div className="w-full max-w-screen-lg mx-auto space-y-16 text-gray-900 dark:text-white">
       {alreadyAuthenticated ? (
         <ExistingMemberConfirmation session={session} />
       ) : (

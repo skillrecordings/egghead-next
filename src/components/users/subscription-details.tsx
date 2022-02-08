@@ -43,11 +43,11 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         {!loading && subscriptionData && (
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <section className="mb-32">
-              <div className="p-4 w-full">
-                <div className="border border-accents-1	w-full p rounded-md m-auto my-8 max-w-max-content">
+              <div className="w-full p-4">
+                <div className="w-full m-auto my-8 border rounded-md border-accents-1 p max-w-max-content">
                   {subscriptionName ? (
                     <div className="px-5 py-4">
-                      <h3 className="text-2xl mb-1 font-medium">
+                      <h3 className="mb-1 text-2xl font-medium">
                         ⭐️ You're an <strong>egghead Member!</strong>
                       </h3>
                       <p className="text-accents-5">
@@ -58,7 +58,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                         {!subscriptionData?.portalUrl ? (
                           <div className="h-12 mb-6">loading</div>
                         ) : subscriptionPrice ? (
-                          <div className="flex flex-col space-x-2 items-center">
+                          <div className="flex flex-col items-center space-x-2">
                             <div>
                               You are currently paying{' '}
                               {`${subscriptionPrice}/${recur(
@@ -68,7 +68,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                             </div>
                             {subscriptionData?.subscription
                               ?.cancel_at_period_end && (
-                              <div className="rounded text-xs px-2 py-1 flex justify-center items-center bg-gray-100">
+                              <div className="flex items-center justify-center px-2 py-1 text-xs bg-gray-100 rounded text-gray-1000 mt-2">
                                 cancelled
                               </div>
                             )}
@@ -90,7 +90,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     </div>
                   ) : (
                     <div className="px-5 py-4">
-                      <h3 className="text-2xl mb-1 font-medium">
+                      <h3 className="mb-1 text-2xl font-medium">
                         No paid subscription found.
                       </h3>
                       {(viewer.is_pro || viewer.is_instructor) && (
@@ -98,7 +98,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                           You still have access to a Pro Membership. If you feel
                           this is in error please email{' '}
                           <a
-                            className="text-blue-600 hover:text-blue-700 underline"
+                            className="text-blue-600 underline hover:text-blue-700"
                             href="mailto:support@egghead.io"
                           >
                             support@egghead.io
@@ -112,8 +112,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     </div>
                   )}
                   {subscriptionData && (
-                    <div className="border-t border-accents-1 bg-primary-2 p-4 text-accents-3 rounded-b-md">
-                      <div className="flex flex-col items-start justify-between  sm:items-center">
+                    <div className="p-4 border-t border-accents-1 bg-primary-2 text-accents-3 rounded-b-md">
+                      <div className="flex flex-col items-start justify-between sm:items-center">
                         {subscriptionData?.subscription
                           ?.cancel_at_period_end && (
                           <p className="pb-4 sm:pb-0">
@@ -128,7 +128,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                               onClick={() => {
                                 track(`clicked manage membership`)
                               }}
-                              className="w-full mt-4 text-center transition-all duration-150 ease-in-out bg-blue-600 hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl text-white font-semibold py-3 px-5 rounded-md"
+                              className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
                             >
                               Manage Your Membership
                             </a>
