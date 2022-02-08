@@ -1,11 +1,11 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {createClient} from '@supabase/supabase-js'
 import {first} from 'lodash'
-import mdx from '@mdx-js/mdx'
 import VFile from 'vfile'
 import visit from 'unist-util-visit'
 import fetch from 'isomorphic-fetch'
 import toMarkdown from 'mdast-util-to-markdown'
+import mdx from '@mdx-js/mdx'
 
 export const eggheadLogo =
   'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/033/thumb/eggheadlogo.png'
@@ -159,6 +159,7 @@ const parseMdxNotesFile = async (text: string) => {
     }
   }
 
+  // @ts-ignore
   const mdxCompiler = mdx.createCompiler({
     remarkPlugins: [extractNotes],
   })
