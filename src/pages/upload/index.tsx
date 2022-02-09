@@ -5,14 +5,11 @@ import {getAuthorizationHeader} from '../../utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
 import {find} from 'lodash'
-import {Formik, useFormik} from 'formik'
-
-// Currently, onFinish callback in the Upload component is creating a clojure with formik.values.lessons.
-// So when that state is updated, it's spreading an empty array with each update. Causing only the latest upload to be saved
+import {Formik, Form, Field, FormikProps, useFormik} from 'formik'
+import axios from 'axios'
 
 type FileUpload = {file: File; percent: number; message: string}
 
-// THEORY reducer?
 const fileUploadReducer = (state: any, action: any) => {
   switch (action.type) {
     case 'add':
@@ -43,27 +40,59 @@ type LessonMetadata = {
   fileMetadata: UploadedFile
 }
 
-const Upload: React.FC = () => {
-  const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
+type FormProps = {
+  lessons: LessonMetadata[]
+}
+
+const UploadWrapper = () => {
   const {viewer} = useViewer()
+  const initialValues: FormProps = {lessons: []}
+
+  if (!viewer?.s3_signing_url) return null
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={async (values, actions) => {
+        // Notes:
+        // - how do send multiple 'records' to Sanity, batch create?
+        // - does this need to live in an `api` directory file, or can we safely call it here?
+        //    we could add an `api/create-lessons` route that submit hits
+        // - restricting access to the `api` route to authorized instructors
+
+        const response = await axios.post('api/sanity/lessons/create', {
+          lessons: values.lessons,
+        })
+
+        console.log({response})
+      }}
+    >
+      {(props) => {
+        console.log({props})
+        return <Upload {...props} />
+      }}
+    </Formik>
+  )
+}
+
+const Upload: React.FC<FormikProps<FormProps>> = (formikProps) => {
+  const {values, setFieldValue, handleSubmit, handleChange} = formikProps
+
+  console.log({values})
+
+  const {viewer} = useViewer()
+  const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
   const uploaderRef = React.useRef(null)
   // const [fileUrls, setFileUrls] = React.useState<UploadedFile[]>([])
   const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
     [],
   )
 
-  const initialValues: {lessons: LessonMetadata[]} = {lessons: []}
-
-  const formik = useFormik({
-    initialValues: initialValues,
-    onSubmit: (values, actions) => {},
-  })
-
   React.useEffect(() => {
-    formik.setFieldValue('lessons', lessonMetadata)
+    setFieldValue('lessons', lessonMetadata)
   }, [lessonMetadata])
 
-  return viewer?.s3_signing_url ? (
+  return (
     <div>
       <ReactS3Uploader
         ref={uploaderRef}
@@ -122,13 +151,18 @@ const Upload: React.FC = () => {
           )
         }
       })}
-      {formik.values.lessons.map((lesson) => (
-        <div>
-          {lesson.title} - {lesson.fileMetadata.signedUrl} -
-        </div>
-      ))}
+      <Form>
+        {values.lessons.map((lesson, i) => (
+          <div>
+            <Field name={`lessons.${i}.title`} />
+            <label htmlFor="URL">URL</label>
+            <p>{lesson.fileMetadata.signedUrl}</p>
+          </div>
+        ))}
+        <button type="submit">Save Lessons</button>
+      </Form>
     </div>
-  ) : null
+  )
 }
 
-export default Upload
+export default UploadWrapper
