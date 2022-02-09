@@ -55,7 +55,7 @@ export const lessonMachine = Machine<
 >(
   {
     id: 'lesson',
-    initial: 'viewing',
+    initial: 'loading',
     context: {lesson: {}, viewer: {}},
     states: {
       loading: {
