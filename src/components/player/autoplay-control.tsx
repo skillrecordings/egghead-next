@@ -1,7 +1,6 @@
 import React from 'react'
 import {getPlayerPrefs, savePlayerPrefs} from '@skillrecordings/player'
 import classNames from 'classnames'
-// import Tippy from '@tippyjs/react'
 
 const AutoplayControl = () => {
   const [isAutoPlayActive, setIsAutoPlayActive] = React.useState<boolean>(false)
@@ -13,16 +12,6 @@ const AutoplayControl = () => {
 
   return (
     <div className="bg-player-bg bg-opacity-80">
-      {/* <Tippy
-        interactive={true}
-        content={
-          <div className="text-xs bg-gray-600 px-2 py-1 rounded-sm bg-opacity-50">
-            Autoplay is {autoplay ? 'on' : 'off'}
-          </div>
-        }
-        hideOnClick={false}
-        trigger="mouseenter focus"
-      > */}
       <button
         onClick={() => {
           savePlayerPrefs({autoplay: !autoplay})
@@ -61,7 +50,6 @@ const AutoplayControl = () => {
           </span>
         </div>
       </button>
-      {/* </Tippy> */}
     </div>
   )
 }
