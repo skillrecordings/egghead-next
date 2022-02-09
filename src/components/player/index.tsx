@@ -134,7 +134,7 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
             key={videoResource.slug}
             ref={noteTrack}
             id="notes"
-            src={`/api/github-load-notes?url=${videoResource.staff_notes_url}&resource=${videoResource.slug}`}
+            src={`/api/lessons/notes/${videoResource.slug}?staff_notes_url=${videoResource.staff_notes_url}`}
             kind="metadata"
             label="notes"
           />
