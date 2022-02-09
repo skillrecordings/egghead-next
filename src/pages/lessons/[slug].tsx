@@ -16,7 +16,6 @@ import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
-import AddNoteOverlay from 'components/pages/lessons/overlay/add-note-overlay'
 import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
@@ -492,15 +491,26 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     }
   }, [fullscreenWrapperRef])
 
-  // TODO: To be implemented
-  // onProgress({playedSeconds: currentTime}, lesson).then((lessonView: any) => {
-  //   if (lessonView) {
-  //     console.debug('progress recorded', {
-  //       progress: lessonView,
-  //     })
-  //     setLessonView(lessonView)
-  //   }
-  // })
+  React.useEffect(() => {
+    // Record progress
+    const recordProgress = (e: any) => {
+      const {currentTime} = e.srcElement
+      onProgress({playedSeconds: currentTime}, lesson).then(
+        (lessonView: any) => {
+          if (lessonView) {
+            console.debug('progress recorded', {
+              progress: lessonView,
+            })
+            setLessonView(lessonView)
+          }
+        },
+      )
+    }
+    video?.addEventListener('timeupdate', recordProgress)
+    return () => {
+      video?.removeEventListener('timeupdate', recordProgress)
+    }
+  }, [video])
 
   return (
     <>
