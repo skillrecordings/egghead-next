@@ -1,13 +1,21 @@
 import {Viewer} from 'types'
 import {loadContactAvatars} from 'lib/contacts'
 import {createClient} from '@supabase/supabase-js'
+import {LessonResource} from 'types'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import isEmpty from 'lodash/isEmpty'
+import last from 'lodash/last'
 import VFile from 'vfile'
 import visit from 'unist-util-visit'
 import toMarkdown from 'mdast-util-to-markdown'
 import mdx from '@mdx-js/mdx'
 import fetch from 'isomorphic-fetch'
+import axios from 'axios'
+import {
+  VideoEvent,
+  VideoStateContext,
+} from '@skillrecordings/player/dist/machines/video-machine'
+import readingTime from 'reading-time'
 
 export const eggheadLogo =
   'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/033/thumb/eggheadlogo.png'
@@ -15,6 +23,63 @@ export const eggheadLogo =
 const SUPABASE_URL = `https://${process.env.RESOURCE_NOTES_DATABASE_ID}.supabase.co`
 const SUPABASE_KEY = process.env.SUPABASE_KEY
 const supabase = SUPABASE_KEY && createClient(SUPABASE_URL, SUPABASE_KEY)
+
+export const addCueNote =
+  (context: VideoStateContext, _event: VideoEvent) => async (send: any) => {
+    const noteFromCue = {
+      text: context?.cueFormElemRef?.current?.input.value,
+      startTime: context.currentTime,
+      endTime: context.currentTime,
+    } as VTTCue
+
+    const {lesson: resource}: any = context.resource as LessonResource
+
+    await axios
+      .post(`/api/lessons/notes/${resource.slug}`, {
+        text: noteFromCue.text,
+        startTime: context.currentTime,
+        endTime:
+          context.currentTime + readingTime(noteFromCue.text).time / 1000,
+        state: context.writingCueNoteVisibility,
+        contact_id: context.viewer.contact_id,
+        image: context.viewer.avatar_url,
+      })
+      .catch(() => {
+        send('FAIL')
+      })
+      .then(({data}: any) => {
+        // pass cue text with props to get an id right away
+        // from response and avoid making another request
+        const {start_time: startTime, end_time: endTime, ...noteData} = data
+        const cueNoteText = JSON.stringify({startTime, endTime, ...noteData})
+        const cue = new VTTCue(
+          noteFromCue.startTime,
+          noteFromCue.endTime,
+          cueNoteText,
+        )
+        send({type: 'DONE_SUBMITTING_NOTE', cue: cue})
+
+        // reset form
+        context.cueFormElemRef?.current?.input.blur()
+        context.cueFormElemRef?.current?.reset()
+      })
+  }
+
+export const deleteCueNote =
+  (context: VideoStateContext, _event: VideoEvent) => async (send: any) => {
+    const activeCues = context.activeCues
+    const currentCue: any = last(activeCues)
+    const cueId = JSON.parse(currentCue.text).id
+
+    await axios
+      .delete(`/api/lessons/notes/${context.resource.slug}?id=${cueId}`)
+      .catch((e) => {
+        console.log(`Failed to delete cue note: ${e.message}`)
+      })
+      .then(() => {
+        send({type: 'CLEAR_CUES'})
+      })
+  }
 
 export const loadStaffNotesForResource = async (staffNotesUrl: any) => {
   const data = await (await fetch(staffNotesUrl)).text()

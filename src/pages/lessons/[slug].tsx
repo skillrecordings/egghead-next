@@ -68,8 +68,7 @@ import {
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {useSelector} from '@xstate/react'
-import addCueNote from '../../lib/add-cue-note'
-import deleteCueNote from '../../lib/delete-cue-note'
+import {addCueNote, deleteCueNote} from '../../lib/notes'
 
 const tracer = getTracer('lesson-page')
 
