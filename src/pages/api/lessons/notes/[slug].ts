@@ -11,6 +11,7 @@ import toMarkdown from 'mdast-util-to-markdown'
 import mdx from '@mdx-js/mdx'
 import {loadContactAvatars} from 'lib/contacts'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
+import {Viewer} from 'types'
 
 export const eggheadLogo =
   'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/033/thumb/eggheadlogo.png'
@@ -74,11 +75,11 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
       req.headers.cookie as string,
     )
     // TODO: Cache the egghead user so we aren't hammering?
-    const {contact_id} = await fetchEggheadUser(eggheadToken, true)
+    const viewer = await fetchEggheadUser(eggheadToken, true)
 
     const {data: userNotes} = await loadUserNotesForResource(
       req.query.slug as string,
-      contact_id as string,
+      viewer,
     )
     const staffNotes = await loadStaffNotesForResource(
       req.query.staff_notes_url as string,
@@ -116,8 +117,9 @@ export const loadStaffNotesForResource = async (staffNotesUrl: any) => {
 
 export const loadUserNotesForResource = async (
   lessonSlug: string,
-  contactId?: string,
+  viewer: Viewer,
 ) => {
+  const {contact_id, avatar_url} = viewer
   // all notes for the specific user
   // all public notes
   if (supabase) {
@@ -125,23 +127,26 @@ export const loadUserNotesForResource = async (
       .from(process.env.RESOURCE_NOTES_TABLE_NAME || 'resource_notes')
       .select()
       .eq('resource_id', lessonSlug)
-      .or(`state.eq.published${contactId ? `,user_id.eq.${contactId}` : ``}`)
+      .or(`state.eq.published${contact_id ? `,user_id.eq.${contact_id}` : ``}`)
 
     // load and add user avatars to display along with notes
     const token = getAccessTokenFromCookie()
     const userIds = data?.map((note) => note.user_id)
     // TODO: fix the GraphQL query in loadContactAvatars as it's not working
     const avatars = userIds && (await loadContactAvatars(userIds, token))
-    const notesWithAvatars = !isEmpty(avatars)
+    const notes = !isEmpty(avatars)
       ? data?.map((note, i) => {
           return {
             ...note,
             image: avatars[i].avatar_url,
           }
         })
-      : data
+      : data?.map((note) => {
+          note.user_id === contact_id && (note.image = avatar_url)
+          return note
+        })
 
-    return {data: notesWithAvatars, error}
+    return {data: notes, error}
   } else {
     return {data: [], error: 'no supabase'}
   }
