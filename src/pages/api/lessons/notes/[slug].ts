@@ -1,11 +1,16 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {createClient} from '@supabase/supabase-js'
+import {getTokenFromCookieHeaders} from 'utils/parse-server-cookie'
+import fetchEggheadUser from 'api/egghead/users/from-token'
+import isEmpty from 'lodash/isEmpty'
 import {first} from 'lodash'
 import VFile from 'vfile'
 import visit from 'unist-util-visit'
 import fetch from 'isomorphic-fetch'
 import toMarkdown from 'mdast-util-to-markdown'
 import mdx from '@mdx-js/mdx'
+import {loadContactAvatars} from 'lib/contacts'
+import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 
 export const eggheadLogo =
   'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/033/thumb/eggheadlogo.png'
@@ -20,18 +25,28 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
   // add note
   if (req.method === 'POST') {
     try {
-      if (!supabase) {
+      const {eggheadToken} = getTokenFromCookieHeaders(
+        req.headers.cookie as string,
+      )
+
+      // TODO: Cache the egghead user so we aren't hammering?
+      const {can_comment, contact_id} = await fetchEggheadUser(
+        eggheadToken,
+        true,
+      )
+
+      if (!can_comment || !supabase) {
         throw new Error('Unable to add note.')
       }
 
       const {data = [], error} = await supabase.from(tableName).insert([
         {
-          user_id: req.body.contact_id,
+          user_id: contact_id,
           resource_id: req.query.slug,
           resource_type: 'Lesson',
           text: req.body.text,
           state: req.body.state,
-          image: req.body.image,
+          // image: req.body.image, // We fetch the user's avatar from the contacts API instead
           start_time: Math.floor(req.body.startTime),
           type: 'learner',
           end_time: req.body.endTime
@@ -55,8 +70,12 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   // get notes
   else if (req.method === 'GET') {
+    const {eggheadToken} = getTokenFromCookieHeaders(
+      req.headers.cookie as string,
+    )
     // TODO: Cache the egghead user so we aren't hammering?
-    const contact_id = req.query.contact_id
+    const {contact_id} = await fetchEggheadUser(eggheadToken, true)
+
     const {data: userNotes} = await loadUserNotesForResource(
       req.query.slug as string,
       contact_id as string,
@@ -107,7 +126,22 @@ export const loadUserNotesForResource = async (
       .select()
       .eq('resource_id', lessonSlug)
       .or(`state.eq.published${contactId ? `,user_id.eq.${contactId}` : ``}`)
-    return {data, error}
+
+    // load and add user avatars to display along with notes
+    const token = getAccessTokenFromCookie()
+    const userIds = data?.map((note) => note.user_id)
+    // TODO: fix the GraphQL query in loadContactAvatars as it's not working
+    const avatars = userIds && (await loadContactAvatars(userIds, token))
+    const notesWithAvatars = !isEmpty(avatars)
+      ? data?.map((note, i) => {
+          return {
+            ...note,
+            image: avatars[i].avatar_url,
+          }
+        })
+      : data
+
+    return {data: notesWithAvatars, error}
   } else {
     return {data: [], error: 'no supabase'}
   }
@@ -116,6 +150,7 @@ export const loadUserNotesForResource = async (
 export const convertNotes = async (userNotes: any, staffNotes?: any) => {
   const default_avatar_url =
     'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'
+
   const toNotes = userNotes
     ? userNotes.map((note: any) => {
         return {

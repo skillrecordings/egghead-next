@@ -566,7 +566,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                   <track
                     key={`${lesson.slug}-metadata`}
                     id="notes"
-                    src={`/api/lessons-new/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}&contact_id=${viewer?.contact_id}`}
+                    src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}&contact_id=${viewer?.contact_id}`}
                     kind="metadata"
                     label="notes"
                   />

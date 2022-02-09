@@ -4,6 +4,7 @@ import {
   VideoStateContext,
 } from '@skillrecordings/player/dist/machines/video-machine'
 import readingTime from 'reading-time'
+import {LessonResource} from 'types'
 
 const addCueNote =
   (context: VideoStateContext, _event: VideoEvent) => async (send: any) => {
@@ -13,7 +14,7 @@ const addCueNote =
       endTime: context.currentTime,
     } as VTTCue
 
-    const resource = context.resource as any // TODO: as LessonResource
+    const {lesson: resource}: any = context.resource as LessonResource
 
     await axios
       .post(`/api/lessons/notes/${resource.slug}`, {
