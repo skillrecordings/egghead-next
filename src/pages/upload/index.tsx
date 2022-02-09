@@ -48,6 +48,9 @@ const Upload: React.FC = () => {
   const {viewer} = useViewer()
   const uploaderRef = React.useRef(null)
   // const [fileUrls, setFileUrls] = React.useState<UploadedFile[]>([])
+  const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
+    [],
+  )
 
   const initialValues: {lessons: LessonMetadata[]} = {lessons: []}
 
@@ -55,6 +58,10 @@ const Upload: React.FC = () => {
     initialValues: initialValues,
     onSubmit: (values, actions) => {},
   })
+
+  React.useEffect(() => {
+    formik.setFieldValue('lessons', lessonMetadata)
+  }, [lessonMetadata])
 
   return viewer?.s3_signing_url ? (
     <div>
@@ -97,10 +104,8 @@ const Upload: React.FC = () => {
         onError={(message) => console.log(message)}
         onFinish={(signResult, file) => {
           const fileUrl = signResult.signedUrl.split('?')[0]
-          // setFileUrls([...fileUrls, {fileName: file.name, signedUrl: fileUrl}])
-          console.log('WITHIN onFinish', formik.values.lessons)
-          formik.setFieldValue('lessons', [
-            ...formik.values.lessons,
+          setLessonMetadata((prevState) => [
+            ...prevState,
             {
               title: file.name,
               fileMetadata: {fileName: file.name, signedUrl: fileUrl},
@@ -108,9 +113,18 @@ const Upload: React.FC = () => {
           ])
         }}
       />{' '}
+      {state.files.map((file) => {
+        if (file.percent < 100) {
+          return (
+            <div>
+              {file.file.name} - {file.message} - {file.percent}
+            </div>
+          )
+        }
+      })}
       {formik.values.lessons.map((lesson) => (
         <div>
-          {lesson.title} - {lesson.fileMetadata.signedUrl}
+          {lesson.title} - {lesson.fileMetadata.signedUrl} -
         </div>
       ))}
     </div>
