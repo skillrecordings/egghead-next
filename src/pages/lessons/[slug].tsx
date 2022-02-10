@@ -542,152 +542,160 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         uploadDate={lesson?.created_at}
         thumbnailUrls={[lesson?.thumb_url]}
       />
-      <div
-        className="bg-black relative w-full space-y-6 lg:grid lg:grid-cols-12 lg:space-y-0"
-        ref={fullscreenWrapperRef}
-      >
+      <div className={cx({'h-screen': isFullscreen})}>
         <div
           className={cx(
-            'relative before:float-left after:clear-both after:table',
+            'bg-black w-full lg:grid lg:grid-cols-12 lg:space-y-0',
             {
-              'col-span-9': withSidePanel,
-              'col-span-12': !withSidePanel,
+              'absolute top-0': isFullscreen,
+              relative: !isFullscreen,
             },
           )}
+          ref={fullscreenWrapperRef}
         >
-          {mounted && (
-            <div className={cx({hidden: !playerVisible})}>
-              <Player
-                className="font-sans"
-                container={fullscreenWrapperRef.current || undefined}
-              >
-                <HLSSource src={lesson.hls_url} />
-                {lesson.subtitles_url && (
-                  <track
-                    key={`${lesson.slug}-subtitles`}
-                    src={lesson?.subtitles_url}
-                    kind="subtitles"
-                    srcLang="en"
-                    label="English"
-                  />
-                )}
-                {metadataTracks && (
-                  <track
-                    key={`${lesson.slug}-metadata`}
-                    id="notes"
-                    src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
-                    kind="metadata"
-                    label="notes"
-                  />
-                )}
-              </Player>
+          <div
+            className={cx(
+              'relative before:float-left after:clear-both after:table',
+              {
+                'col-span-9': withSidePanel,
+                'col-span-12': !withSidePanel,
+              },
+            )}
+          >
+            {mounted && (
+              <div className={cx({hidden: !playerVisible})}>
+                <Player
+                  className="font-sans"
+                  container={fullscreenWrapperRef.current || undefined}
+                >
+                  <HLSSource src={lesson.hls_url} />
+                  {lesson.subtitles_url && (
+                    <track
+                      key={`${lesson.slug}-subtitles`}
+                      src={lesson?.subtitles_url}
+                      kind="subtitles"
+                      srcLang="en"
+                      label="English"
+                    />
+                  )}
+                  {metadataTracks && (
+                    <track
+                      key={`${lesson.slug}-metadata`}
+                      id="notes"
+                      src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
+                      kind="metadata"
+                      label="notes"
+                    />
+                  )}
+                </Player>
+              </div>
+            )}
+            {lessonState.matches('joining') && (
+              <OverlayWrapper>
+                <EmailCaptureCtaOverlay
+                  lesson={lesson}
+                  technology={primary_tag}
+                />
+              </OverlayWrapper>
+            )}
+            {lessonState.matches('subscribing') && (
+              <OverlayWrapper>
+                <GoProCtaOverlay
+                  lesson={lesson}
+                  viewLesson={() => {
+                    send({
+                      type: 'LOAD',
+                      lesson: initialLesson,
+                      viewer,
+                    })
+                    // TODO: Make sure this is working as expected
+                    videoService.send({
+                      type: 'LOAD_RESOURCE',
+                      resource: initialLesson as any,
+                    })
+                  }}
+                />
+              </OverlayWrapper>
+            )}
+            {lessonState.matches('pitchingCourse') && (
+              <OverlayWrapper>
+                <WatchFullCourseCtaOverlay
+                  lesson={lesson}
+                  onClickRewatch={() => {
+                    send('VIEW')
+                    videoService.send({type: 'PLAY'})
+                  }}
+                />
+              </OverlayWrapper>
+            )}
+            {lessonState.matches('showingNext') && (
+              <OverlayWrapper>
+                <WatchNextLessonCtaOverlay
+                  lesson={lesson}
+                  nextLesson={nextLesson}
+                  ctaContent={specialLessons[lesson.slug]}
+                  onClickRewatch={() => {
+                    send('VIEW')
+                    videoService.send({type: 'PLAY'})
+                  }}
+                  onClickNext={() => {
+                    play()
+                  }}
+                />
+              </OverlayWrapper>
+            )}
+            {lessonState.matches('rating') && (
+              <OverlayWrapper>
+                <RateCourseOverlay
+                  course={lesson.collection}
+                  onRated={(review) => {
+                    axios
+                      .post(lessonView.collection_progress.rate_url, review)
+                      .then(() => {
+                        const comment = get(review, 'comment.comment')
+                        const prompt = get(review, 'comment.context.prompt')
+
+                        if (review) {
+                          track('rated course', {
+                            course: slug,
+                            rating: review.rating,
+                            ...(comment && {comment}),
+                            ...(!!prompt && {prompt}),
+                          })
+                          if (subscriber) {
+                            const currentScore =
+                              Number(subscriber.attributes?.learner_score) || 0
+                            cioIdentify(subscriber.id, {
+                              learner_score: currentScore + 20,
+                            })
+                          }
+                        }
+                      })
+                      .finally(() => {
+                        setTimeout(() => {
+                          send('RECOMMEND')
+                        }, 1500)
+                      })
+                  }}
+                />
+              </OverlayWrapper>
+            )}
+            {lessonState.matches('recommending') && (
+              <OverlayWrapper>
+                <RecommendNextStepOverlay lesson={lesson} />
+              </OverlayWrapper>
+            )}
+          </div>
+          {withSidePanel && (
+            <div className="col-span-3 flex flex-col dark:bg-gray-800 bg-gray-50">
+              <PlayerSidebar
+                relatedResources={specialLessons[lesson.slug]}
+                videoResource={lesson}
+              />
+              <AutoplayControl />
             </div>
           )}
-          {lessonState.matches('joining') && (
-            <OverlayWrapper>
-              <EmailCaptureCtaOverlay
-                lesson={lesson}
-                technology={primary_tag}
-              />
-            </OverlayWrapper>
-          )}
-          {lessonState.matches('subscribing') && (
-            <OverlayWrapper>
-              <GoProCtaOverlay
-                lesson={lesson}
-                viewLesson={() => {
-                  send({
-                    type: 'LOAD',
-                    lesson: initialLesson,
-                    viewer,
-                  })
-                  // TODO: Make sure this is working as expected
-                  videoService.send({
-                    type: 'LOAD_RESOURCE',
-                    resource: initialLesson as any,
-                  })
-                }}
-              />
-            </OverlayWrapper>
-          )}
-          {lessonState.matches('pitchingCourse') && (
-            <OverlayWrapper>
-              <WatchFullCourseCtaOverlay
-                lesson={lesson}
-                onClickRewatch={() => {
-                  send('VIEW')
-                  videoService.send({type: 'PLAY'})
-                }}
-              />
-            </OverlayWrapper>
-          )}
-          {lessonState.matches('showingNext') && (
-            <OverlayWrapper>
-              <WatchNextLessonCtaOverlay
-                lesson={lesson}
-                nextLesson={nextLesson}
-                ctaContent={specialLessons[lesson.slug]}
-                onClickRewatch={() => {
-                  send('VIEW')
-                  videoService.send({type: 'PLAY'})
-                }}
-                onClickNext={() => {
-                  play()
-                }}
-              />
-            </OverlayWrapper>
-          )}
-          {lessonState.matches('rating') && (
-            <OverlayWrapper>
-              <RateCourseOverlay
-                course={lesson.collection}
-                onRated={(review) => {
-                  axios
-                    .post(lessonView.collection_progress.rate_url, review)
-                    .then(() => {
-                      const comment = get(review, 'comment.comment')
-                      const prompt = get(review, 'comment.context.prompt')
-
-                      if (review) {
-                        track('rated course', {
-                          course: slug,
-                          rating: review.rating,
-                          ...(comment && {comment}),
-                          ...(!!prompt && {prompt}),
-                        })
-                        if (subscriber) {
-                          const currentScore =
-                            Number(subscriber.attributes?.learner_score) || 0
-                          cioIdentify(subscriber.id, {
-                            learner_score: currentScore + 20,
-                          })
-                        }
-                      }
-                    })
-                    .finally(() => {
-                      setTimeout(() => {
-                        send('RECOMMEND')
-                      }, 1500)
-                    })
-                }}
-              />
-            </OverlayWrapper>
-          )}
-          {lessonState.matches('recommending') && (
-            <OverlayWrapper>
-              <RecommendNextStepOverlay lesson={lesson} />
-            </OverlayWrapper>
-          )}
         </div>
-        {withSidePanel && (
-          <div className="col-span-3 flex flex-col dark:bg-gray-800 bg-gray-50">
-            <PlayerSidebar
-              relatedResources={specialLessons[lesson.slug]}
-              videoResource={lesson}
-            />
-            <AutoplayControl />
-          </div>
-        )}
       </div>
       <div className="container max-w-screen-lg py-8 md:py-12 lg:py-16">
         <div className="grid grid-cols-1 gap-8 divide-y lg:grid-cols-1 lg:gap-12 md:divide-transparent divide-gray-50">
