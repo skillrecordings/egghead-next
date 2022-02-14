@@ -59,6 +59,7 @@ export const lessonMachine = Machine<
     context: {lesson: {}, viewer: {}},
     states: {
       loading: {
+        on: {LOAD: 'loading'},
         entry: ['assignLessonAndViewer'],
         invoke: {
           id: 'fetchLessonDataService',
@@ -245,7 +246,7 @@ export const lessonMachine = Machine<
     actions: {
       logLesson: async (context, event) => {
         const logResource = (lesson: LessonResource) => {
-          if (typeof window !== 'undefined') {
+          if (typeof window !== 'undefined' && lesson) {
             const {
               title,
               duration,

@@ -11,14 +11,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   nextLesson: any
   ctaContent?: any
   onClickRewatch?: () => void
-  onClickNext?: () => void
-}> = ({
-  lesson,
-  nextLesson,
-  onClickRewatch = noop,
-  onClickNext = noop,
-  ctaContent,
-}) => {
+}> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
 
   useTrackComponent('show next up', {
@@ -58,9 +51,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
         </button>
         <button
           onClick={() => {
-            router.push(nextLesson.path || '#').then(() => {
-              onClickNext()
-            })
+            router.push(nextLesson.path || '#')
             track('clicked play next', {
               lesson: lesson.slug,
               location: 'lesson overlay',

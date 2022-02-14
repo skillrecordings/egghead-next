@@ -60,6 +60,7 @@ import {
   selectHasEnded,
   selectIsFullscreen,
   selectViewer,
+  selectResource,
 } from '@skillrecordings/player'
 import cx from 'classnames'
 import {
@@ -152,18 +153,30 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }
 
 type LessonProps = {
+  state: any
   initialLesson: LessonResource
+  watchCount: number
+  setWatchCount: (value: number) => void
 }
 
 const MAX_FREE_VIEWS = 4
 
-const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
+const Lesson: React.FC<LessonProps> = ({
+  initialLesson,
+  state,
+  watchCount,
+  setWatchCount,
+}) => {
   const router = useRouter()
   const {subscriber, cioIdentify} = useCio()
 
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
-  const lesson: any = get(videoService, 'context.resource', initialLesson)
+  const lesson: any = get(
+    useSelector(videoService, selectResource),
+    'lesson',
+    initialLesson,
+  )
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const metadataTracks = useSelector(videoService, selectMetadataTracks)
   const isWaiting = useSelector(videoService, selectIsWaiting)
@@ -175,33 +188,8 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
   const {defaultView, autoplay} = getPlayerPrefs()
 
   const {md} = useBreakpoint()
-  const [watchCount, setWatchCount] = React.useState<number>(0)
 
-  const [lessonState, send] = useMachine(lessonMachine, {
-    context: {
-      lesson: initialLesson,
-      viewer,
-    },
-    services: {
-      loadLesson: async () => {
-        if (cookieUtil.get(`egghead-watch-count`)) {
-          setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
-        } else {
-          setWatchCount(
-            Number(
-              cookieUtil.set(`egghead-watch-count`, 0, {
-                expires: 15,
-              }),
-            ),
-          )
-        }
-        // We omit the loading state here by returning lesson
-        // object that has already been loaded by videoService.
-        // TODO: Refactor/simplify the lesson machine to avoid this step entirely.
-        return lesson
-      },
-    },
-  })
+  const [lessonState, send] = state
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
@@ -351,12 +339,16 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
     //TODO: We are doing work here that the lesson machine should
     //be handling but we don't have enough information in the context
     console.debug(`current state of lesson:`, currentLessonState)
+    const lesson = get(lessonState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
 
     switch (currentLessonState) {
       case 'loaded':
+        videoService.send({
+          type: 'LOAD_RESOURCE',
+          resource: lesson,
+        })
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
-
         // TODO: Detangle this nested series of `if` statements to make the
         // logic more immediately easy to reason about.
 
@@ -398,6 +390,7 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
         if (!mediaPresent && !isFullscreen) {
           console.debug(`sending load event from viewing`)
           console.debug('LOAD')
+          send('LOAD')
           videoService.send({
             type: 'LOAD_RESOURCE',
             resource: initialLesson as any,
@@ -456,10 +449,10 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
 
   React.useEffect(() => {
     // Load the video resource
-    send('LOAD')
+    send({type: 'LOAD', lesson: initialLesson})
     videoService.send({
       type: 'LOAD_RESOURCE',
-      resource: initialLesson as any,
+      resource: initialLesson,
     })
   }, [initialLesson.slug])
 
@@ -637,9 +630,6 @@ const Lesson: React.FC<LessonProps> = ({initialLesson}) => {
                   onClickRewatch={() => {
                     send('VIEW')
                     videoService.send({type: 'PLAY'})
-                  }}
-                  onClickNext={() => {
-                    play()
                   }}
                 />
               </OverlayWrapper>
@@ -875,7 +865,37 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
   ...props
 }) => {
   const {viewer} = useViewer()
+  const [watchCount, setWatchCount] = React.useState<number>(0)
+  const [lessonState, send] = useMachine(lessonMachine, {
+    context: {
+      lesson: initialLesson,
+      viewer,
+    },
+    services: {
+      loadLesson: async () => {
+        if (cookieUtil.get(`egghead-watch-count`)) {
+          setWatchCount(Number(cookieUtil.get(`egghead-watch-count`)))
+        } else {
+          setWatchCount(
+            Number(
+              cookieUtil.set(`egghead-watch-count`, 0, {
+                expires: 15,
+              }),
+            ),
+          )
+        }
 
+        console.debug('loading video with auth')
+        const loadedLesson = await loadLesson(initialLesson.slug)
+        console.debug('authed video loaded', {video: loadedLesson})
+
+        return {
+          ...initialLesson,
+          ...loadedLesson,
+        }
+      },
+    },
+  })
   return (
     <VideoProvider
       services={{
@@ -886,11 +906,8 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
             return await viewer
           },
         loadResource:
-          (_context: VideoStateContext, _event: VideoEvent) => async () => {
-            console.debug('loading video with auth')
-            const loadedLesson = await loadLesson(initialLesson.slug)
-            console.debug('authed video loaded', {video: loadedLesson})
-
+          (_context: VideoStateContext, event: VideoEvent) => async () => {
+            const loadedLesson = get(event, 'resource')
             return {
               ...initialLesson,
               ...loadedLesson,
@@ -898,7 +915,13 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
           },
       }}
     >
-      <Lesson initialLesson={initialLesson} {...props} />
+      <Lesson
+        state={[lessonState, send]}
+        initialLesson={initialLesson}
+        watchCount={watchCount}
+        setWatchCount={setWatchCount}
+        {...props}
+      />
     </VideoProvider>
   )
 }
