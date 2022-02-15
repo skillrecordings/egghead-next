@@ -36,6 +36,7 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
+import Spinner from 'components/spinner'
 import PlayerSidebar from 'components/player/player-sidebar'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 import friendlyTime from 'friendly-time'
@@ -560,33 +561,41 @@ const Lesson: React.FC<LessonProps> = ({
             )}
           >
             <div className={cx({hidden: !playerVisible})}>
-              <Player
-                className="font-sans"
-                container={fullscreenWrapperRef.current || undefined}
-              >
-                {lesson.hls_url && (
-                  <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
-                )}
-                {lesson.subtitles_url && lesson.hls_url && (
-                  <track
-                    key={lesson.subtitles_url}
-                    src={lesson.subtitles_url}
-                    kind="subtitles"
-                    srcLang="en"
-                    label="English"
-                    default={subtitle?.language === 'en'}
-                  />
-                )}
-                {metadataTracks && (
-                  <track
-                    key={lesson.slug}
-                    id="notes"
-                    src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
-                    kind="metadata"
-                    label="notes"
-                  />
-                )}
-              </Player>
+              {mounted ? (
+                <Player
+                  className="font-sans"
+                  container={fullscreenWrapperRef.current || undefined}
+                >
+                  {lesson.hls_url && (
+                    <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
+                  )}
+                  {lesson.subtitles_url && lesson.hls_url && (
+                    <track
+                      key={lesson.subtitles_url}
+                      src={lesson.subtitles_url}
+                      kind="subtitles"
+                      srcLang="en"
+                      label="English"
+                      default={subtitle?.language === 'en'}
+                    />
+                  )}
+                  {metadataTracks && (
+                    <track
+                      key={lesson.slug}
+                      id="notes"
+                      src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
+                      kind="metadata"
+                      label="notes"
+                    />
+                  )}
+                </Player>
+              ) : (
+                <div className="aspect-w-16 aspect-h-9">
+                  <div className="flex items-center justify-center w-full h-full">
+                    <Spinner />
+                  </div>
+                </div>
+              )}
             </div>
             {lessonState.matches('joining') && (
               <OverlayWrapper>
