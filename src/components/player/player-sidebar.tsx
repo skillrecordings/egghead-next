@@ -31,10 +31,10 @@ const PlayerSidebar: React.FC<{
   onAddNote?: any
   relatedResources?: any
 }> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
+  const {viewer} = useViewer()
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
-
-  const videoResourceHasNotes = hasNotes(videoResource)
+  const videoResourceHasNotes = viewer?.can_comment ?? hasNotes(videoResource)
   const videoResourceHasCollection = !isEmpty(videoResource.collection)
   const hasRelatedResources = !isEmpty(relatedResources)
   return (
@@ -61,7 +61,7 @@ const PlayerSidebar: React.FC<{
             />
           </TabPanel>
           <TabPanel className="inset-0 lg:absolute">
-            <NotesTab />
+            <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
           </TabPanel>
           {hasRelatedResources &&
             !videoResourceHasCollection &&
@@ -140,10 +140,9 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({onAddNote}) => {
-  const {viewer} = useViewer()
+const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
   const cues = useMetadataCues()
-  const hidden: boolean = isEmpty(cues)
+  const hidden: boolean = !videoResourceHasNotes
   const scrollableNodeRef: any = React.createRef()
 
   const videoService = useVideo()
@@ -159,7 +158,6 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
   }
   const activeCues = useSelector(videoService, selectActiveCues)
 
-  const canCreateNote = viewer?.can_comment && notesCreationAvailable
   return hidden ? null : (
     <div className="w-full bg-gray-100 dark:bg-gray-1000 h-96 lg:h-full">
       <div className="flex flex-col h-full">
@@ -182,6 +180,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                   note = {text: cue.text}
                 }
                 const active = activeCues.includes(cue)
+                const cueStartTime = convertTime(Math.round(cue.startTime))
                 return (
                   <div key={cue.text}>
                     {active && <Element name="active-note" />}
@@ -206,7 +205,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                           {note.text}
                         </ReactMarkdown>
                       )}
-                      {cue.startTime && (
+                      {cueStartTime && (
                         <div
                           onClick={() => {
                             clickOpen(cue)
@@ -215,7 +214,7 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                           className="flex items-baseline justify-end w-full pt-3 text-gray-900 underline cursor-pointer dark:text-white"
                         >
                           <time className="text-xs font-medium opacity-60">
-                            {convertTime(cue.startTime)}
+                            {cueStartTime}
                           </time>
                         </div>
                       )}

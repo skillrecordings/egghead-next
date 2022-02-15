@@ -77,9 +77,10 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
       req.query.slug as string,
       viewer,
     )
-    const staffNotes = await loadStaffNotesForResource(
-      req.query.staff_notes_url as string,
-    )
+    const staff_notes_url = req.query.staff_notes_url
+    const staffNotes = staff_notes_url
+      ? await loadStaffNotesForResource(staff_notes_url as string)
+      : []
 
     const notes = await convertNotes(userNotes, staffNotes)
 

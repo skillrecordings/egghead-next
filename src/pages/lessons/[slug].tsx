@@ -2,6 +2,7 @@ import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
 import {filter, first, get, isEmpty} from 'lodash'
+import queryString from 'query-string'
 import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {lessonMachine} from 'machines/lesson-machine'
@@ -563,6 +564,7 @@ const Lesson: React.FC<LessonProps> = ({
             {mounted ? (
               <div className={cx({hidden: !playerVisible})}>
                 <Player
+                  canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
                   className="font-sans"
                   container={fullscreenWrapperRef.current || undefined}
                 >
@@ -583,7 +585,12 @@ const Lesson: React.FC<LessonProps> = ({
                     <track
                       key={lesson.slug}
                       id="notes"
-                      src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
+                      src={queryString.stringifyUrl({
+                        url: `/api/lessons/notes/${lesson?.slug}`,
+                        query: {
+                          staff_notes_url: lesson?.staff_notes_url || undefined,
+                        },
+                      })}
                       kind="metadata"
                       label="notes"
                     />
