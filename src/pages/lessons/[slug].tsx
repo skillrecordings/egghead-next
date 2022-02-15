@@ -185,7 +185,7 @@ const Lesson: React.FC<LessonProps> = ({
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
   const viewer: any = useSelector(videoService, selectViewer)
 
-  const {defaultView, autoplay} = getPlayerPrefs()
+  const {subtitle, defaultView, autoplay} = getPlayerPrefs()
 
   const {md} = useBreakpoint()
 
@@ -258,6 +258,8 @@ const Lesson: React.FC<LessonProps> = ({
       return lessonView.collection_progress
     }
   }
+
+  const spinnerVisible = ['loading', 'completed'].includes(currentLessonState)
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -454,6 +456,8 @@ const Lesson: React.FC<LessonProps> = ({
       type: 'LOAD_RESOURCE',
       resource: initialLesson,
     })
+    // Focus the video element to allow keyboard shortcuts to work right away
+    videoService.send('ACTIVITY')
   }, [initialLesson.slug])
 
   const play = () => {
@@ -555,34 +559,35 @@ const Lesson: React.FC<LessonProps> = ({
               },
             )}
           >
-            {mounted && (
-              <div className={cx({hidden: !playerVisible})}>
-                <Player
-                  className="font-sans"
-                  container={fullscreenWrapperRef.current || undefined}
-                >
-                  <HLSSource src={lesson.hls_url} />
-                  {lesson.subtitles_url && (
-                    <track
-                      key={`${lesson.slug}-subtitles`}
-                      src={lesson?.subtitles_url}
-                      kind="subtitles"
-                      srcLang="en"
-                      label="English"
-                    />
-                  )}
-                  {metadataTracks && (
-                    <track
-                      key={`${lesson.slug}-metadata`}
-                      id="notes"
-                      src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
-                      kind="metadata"
-                      label="notes"
-                    />
-                  )}
-                </Player>
-              </div>
-            )}
+            <div className={cx({hidden: !playerVisible})}>
+              <Player
+                className="font-sans"
+                container={fullscreenWrapperRef.current || undefined}
+              >
+                {lesson.hls_url && (
+                  <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
+                )}
+                {lesson.subtitles_url && lesson.hls_url && (
+                  <track
+                    key={lesson.subtitles_url}
+                    src={lesson.subtitles_url}
+                    kind="subtitles"
+                    srcLang="en"
+                    label="English"
+                    default={subtitle?.language === 'en'}
+                  />
+                )}
+                {metadataTracks && (
+                  <track
+                    key={lesson.slug}
+                    id="notes"
+                    src={`/api/lessons/notes/${lesson.slug}?staff_notes_url=${lesson.staff_notes_url}`}
+                    kind="metadata"
+                    label="notes"
+                  />
+                )}
+              </Player>
+            </div>
             {lessonState.matches('joining') && (
               <OverlayWrapper>
                 <EmailCaptureCtaOverlay
