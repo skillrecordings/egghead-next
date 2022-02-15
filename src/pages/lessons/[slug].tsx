@@ -37,7 +37,6 @@ import CodeLink, {
 import getDependencies from 'data/courseDependencies'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
-import Spinner from 'components/spinner'
 import PlayerSidebar from 'components/player/player-sidebar'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 import friendlyTime from 'friendly-time'
@@ -508,8 +507,6 @@ const Lesson: React.FC<LessonProps> = ({
       video?.removeEventListener('timeupdate', recordProgress)
     }
   }, [video])
-
-  console.log({currentLessonState})
 
   return (
     <>
