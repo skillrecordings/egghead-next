@@ -1,8 +1,18 @@
 import {useMemo, useState} from 'react'
 import {createAutocomplete} from '@algolia/autocomplete-core'
 
-export function useAutocomplete(props) {
-  const [state, setState] = useState(() => ({
+type SearchState = {
+  collections: any[]
+  completion: any
+  context: any
+  isOpen: boolean
+  query: string
+  activeItemId: any
+  status: string
+}
+
+export function useAutocomplete(props: any) {
+  const [state, setState] = useState<SearchState>(() => ({
     collections: [],
     completion: null,
     context: {},
@@ -16,7 +26,7 @@ export function useAutocomplete(props) {
     () =>
       createAutocomplete({
         ...props,
-        onStateChange(params) {
+        onStateChange(params: any) {
           props.onStateChange?.(params)
           setState(params.state)
         },
