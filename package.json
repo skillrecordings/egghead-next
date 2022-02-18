@@ -29,6 +29,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@algolia/autocomplete-core": "^1.5.2",
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
     "@babel/plugin-transform-react-pure-annotations": "^7.14.5",
     "@headlessui/react": "^1.4.0",
