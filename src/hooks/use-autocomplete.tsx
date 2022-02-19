@@ -22,7 +22,7 @@ export function useAutocomplete(props: any) {
     status: 'idle',
   }))
 
-  console.log({props})
+  console.log('&&&&&', {props})
 
   const autocomplete = useMemo(
     () =>

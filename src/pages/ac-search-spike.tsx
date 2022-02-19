@@ -6,6 +6,29 @@ import {
   RequesterDescription,
 } from '@algolia/autocomplete-preset-algolia'
 import {searchClient} from '../utils/search-client'
+import {GetServerSideProps} from 'next'
+import {findResultsState} from 'react-instantsearch-dom/server'
+import Search from '../components/search'
+import {createElement, Fragment} from 'react'
+
+const ALGOLIA_INDEX_NAME =
+  process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
+
+const defaultProps = {
+  searchClient,
+}
+
+export const getServerSideProps: GetServerSideProps = async function ({
+  res,
+  req,
+  params,
+}) {
+  return {
+    props: {
+      data: {courses: []},
+    },
+  }
+}
 
 type AutoCompleteSearchItem = {
   slug?: {
@@ -15,6 +38,7 @@ type AutoCompleteSearchItem = {
   description?: string
   url: string
   icon?: () => JSX.Element
+  title?: string
 }
 
 type AutocompleteSearchSource = {
@@ -57,6 +81,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
     ...autocompleteProps
   } = props
 
+  const inputRef = React.useRef(null)
+  const formRef = React.useRef(null)
+  const panelRef = React.useRef(null)
+
   const {autocomplete, state} = useAutocomplete({
     ...autocompleteProps,
     getSources(params: any) {
@@ -70,7 +98,94 @@ const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
 
   const {query, collections, status} = state
 
-  return <div>Hello?</div>
+  const hasNoResults = !collections.filter(({items}) => items.length).length
+  const isQueryEmpty = !query.length
+
+  console.log({hasNoResults, isQueryEmpty, collections, status})
+
+  return (
+    <div
+      onClick={(event) => event.stopPropagation()}
+      className="aa-Autocomplete"
+      {...autocomplete.getRootProps({})}
+    >
+      {' '}
+      <form {...autocomplete.getFormProps({inputElement: inputRef.current})}>
+        {' '}
+        <div>
+          <label className="aa-Label" {...autocomplete.getLabelProps({})}>
+            {/*{status === 'stalled' ? (*/}
+            {/*  <SpinnerIcon className="aa-SpinnerIcon" />*/}
+            {/*) : (*/}
+            {/*  <SearchIcon />*/}
+            {/*)}*/}
+            <span className="visually-hidden">Search</span>
+          </label>
+        </div>
+        <div>
+          <input
+            ref={inputRef}
+            {...autocomplete.getInputProps({
+              inputElement: inputRef.current,
+            })}
+          />
+        </div>
+      </form>
+      <div
+        ref={panelRef}
+        className={['aa-Panel', status === 'stalled' && 'aa-Panel--stalled']
+          .filter(Boolean)
+          .join(' ')}
+        {...autocomplete.getPanelProps({})}
+      >
+        {!hasNoResults && (
+          <div>
+            {collections.map((collection, index) => {
+              const {source, items} = collection
+
+              return (
+                <div
+                  key={`source-${index}`}
+                  id={`autocomplete-${source.sourceId}`}
+                >
+                  {source.templates.header?.({
+                    state,
+                    source,
+                    items,
+                    createElement,
+                    Fragment,
+                  })}
+                  {items.length > 0 && (
+                    <ul {...autocomplete.getListProps()}>
+                      {items.map(
+                        (item: AutoCompleteSearchItem, index: number) => (
+                          <li
+                            key={index}
+                            {...autocomplete.getItemProps({
+                              item,
+                              source,
+                            })}
+                          >
+                            {source.templates.item({
+                              item,
+                              state,
+                              createElement,
+                              Fragment,
+                            })}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+        {hasNoResults && !isQueryEmpty && <NoResults {...state} />}
+      </div>
+    </div>
+  )
 }
 
 const AcSearchSpikePage: React.FC<any> = ({
@@ -126,7 +241,7 @@ const AcSearchSpikePage: React.FC<any> = ({
       ]}
       sources={() => [
         {
-          sourceId: 'episodes',
+          sourceId: 'courses',
           getItemUrl({item}) {
             return item.url
           },
@@ -135,8 +250,7 @@ const AcSearchSpikePage: React.FC<any> = ({
               searchClient,
               queries: [
                 {
-                  indexName:
-                    'netlify_c55763f8-efc8-4ed9-841a-186a011ed84b_main_all',
+                  indexName: 'content_production',
                   query,
                   params: {
                     hitsPerPage: 12,
@@ -146,7 +260,10 @@ const AcSearchSpikePage: React.FC<any> = ({
             })
           },
           templates: {
-            item: ({item}) => <div>COURSE ITEM</div>,
+            item: ({item}) => {
+              console.log(item)
+              return <div>{item.title}</div>
+            },
           },
         },
       ]}
