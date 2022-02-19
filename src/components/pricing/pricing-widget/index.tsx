@@ -67,7 +67,6 @@ const PricingWidget: FunctionComponent<{}> = () => {
 
   const onClickCheckout = async () => {
     if (!priceId) return
-    const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
       priceId: priceId,
     })
@@ -102,7 +101,6 @@ const PricingWidget: FunctionComponent<{}> = () => {
       stripeCheckoutRedirect({
         priceId,
         email: viewer.email,
-        stripeCustomerId: account?.stripe_customer_id,
         authToken,
         quantity,
         coupon: state.context.couponToApply?.couponCode,

@@ -109,7 +109,6 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     setLoaderOn(true)
 
     try {
-      const account = first<StripeAccount>(get(viewer, 'accounts'))
       await track('checkout: selected plan', {
         lesson: lesson.slug,
         priceId: priceId,
@@ -160,7 +159,6 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
         stripeCheckoutRedirect({
           priceId,
           email: formik.values.email,
-          stripeCustomerId: account?.stripe_customer_id,
           authToken,
           quantity,
           coupon: state.context.couponToApply?.couponCode,
