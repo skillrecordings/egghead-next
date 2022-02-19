@@ -22,6 +22,8 @@ export function useAutocomplete(props: any) {
     status: 'idle',
   }))
 
+  console.log({props})
+
   const autocomplete = useMemo(
     () =>
       createAutocomplete({
