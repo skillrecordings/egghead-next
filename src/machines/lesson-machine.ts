@@ -4,7 +4,7 @@ import axios from 'axios'
 import {LessonResource} from '../types'
 import {convertTimeWithTitles} from '../utils/time-utils'
 
-interface PlayerStateSchema {
+interface LessonStateSchema {
   states: {
     loading: {}
     loaded: {}
@@ -23,7 +23,7 @@ interface PlayerStateSchema {
   }
 }
 
-export type PlayerStateEvent =
+export type LessonStateEvent =
   | {type: 'VIEW'}
   | {type: 'VIEW'; lesson: any; viewer: any}
   | {type: 'PLAY'}
@@ -43,22 +43,23 @@ export type PlayerStateEvent =
   | {type: 'ADD_NOTE'}
   | {type: 'done.invoke.fetchLessonDataService'; data: any}
 
-interface PlayerContext {
+interface LessonContext {
   lesson: any
   viewer: any
 }
 
-export const playerMachine = Machine<
-  PlayerContext,
-  PlayerStateSchema,
-  PlayerStateEvent
+export const lessonMachine = Machine<
+  LessonContext,
+  LessonStateSchema,
+  LessonStateEvent
 >(
   {
-    id: 'player',
+    id: 'lesson',
     initial: 'loading',
     context: {lesson: {}, viewer: {}},
     states: {
       loading: {
+        on: {LOAD: 'loading'},
         entry: ['assignLessonAndViewer'],
         invoke: {
           id: 'fetchLessonDataService',
@@ -245,7 +246,7 @@ export const playerMachine = Machine<
     actions: {
       logLesson: async (context, event) => {
         const logResource = (lesson: LessonResource) => {
-          if (typeof window !== 'undefined') {
+          if (typeof window !== 'undefined' && lesson) {
             const {
               title,
               duration,
