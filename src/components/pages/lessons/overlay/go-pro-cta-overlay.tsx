@@ -193,8 +193,8 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center w-full h-full">
-      <div className="grid items-center max-w-screen-md grid-cols-1 gap-8 p-4 py-8 sm:grid-cols-2 sm:py-4 sm:gap-16">
+    <div className="flex flex-col items-center justify-center w-full h-full sm:py-24 py-8">
+      <div className="relative grid items-center max-w-screen-md grid-cols-1 gap-8 p-4 py-8 sm:grid-cols-2 sm:py-4 sm:gap-16">
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col items-center w-full h-full sm:items-stretch"

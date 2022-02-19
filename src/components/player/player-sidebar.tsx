@@ -1,11 +1,10 @@
 import * as React from 'react'
 import {useEggheadPlayerPrefs} from '../EggheadPlayer/use-egghead-player'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import {isEmpty, isFunction} from 'lodash'
+import {isEmpty} from 'lodash'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import {hasNotes, useNotesCues} from './index'
+import {hasNotes} from './index'
 import {VideoResource} from 'types'
-import {usePlayer} from 'cueplayer-react'
 import SimpleBar from 'simplebar-react'
 import {Element} from 'react-scroll'
 import classNames from 'classnames'
@@ -16,6 +15,12 @@ import Link from 'components/link'
 import Image from 'next/image'
 import CodeBlock from 'components/code-block'
 import {useViewer} from '../../context/viewer-context'
+import {
+  useVideo,
+  useMetadataCues,
+  selectActiveCues,
+} from '@skillrecordings/player'
+import {useSelector} from '@xstate/react'
 
 const notesCreationAvailable =
   process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
@@ -26,10 +31,10 @@ const PlayerSidebar: React.FC<{
   onAddNote?: any
   relatedResources?: any
 }> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
+  const {viewer} = useViewer()
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
-
-  const videoResourceHasNotes = hasNotes(videoResource)
+  const videoResourceHasNotes = viewer?.can_comment ?? hasNotes(videoResource)
   const videoResourceHasCollection = !isEmpty(videoResource.collection)
   const hasRelatedResources = !isEmpty(relatedResources)
   return (
@@ -56,7 +61,7 @@ const PlayerSidebar: React.FC<{
             />
           </TabPanel>
           <TabPanel className="inset-0 lg:absolute">
-            <NotesTab onAddNote={onAddNote} />
+            <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
           </TabPanel>
           {hasRelatedResources &&
             !videoResourceHasCollection &&
@@ -135,15 +140,23 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({onAddNote}) => {
-  const {player, manager} = usePlayer()
-  const {viewer} = useViewer()
-  const {cues} = useNotesCues()
-  const actions = manager?.getActions()
-  const hidden: boolean = isEmpty(cues)
+const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
+  const cues = useMetadataCues()
+  const hidden: boolean = !videoResourceHasNotes
   const scrollableNodeRef: any = React.createRef()
 
-  const canCreateNote = viewer?.can_comment && notesCreationAvailable
+  const videoService = useVideo()
+  const clickOpen = (cue: any) => {
+    videoService.send({
+      type: 'SEEKING',
+      seekingTime: Number(cue.startTime),
+      source: 'cue',
+    })
+    videoService.send('END_SEEKING')
+
+    track('opened cue', {cue: cue.text})
+  }
+  const activeCues = useSelector(videoService, selectActiveCues)
 
   return hidden ? null : (
     <div className="w-full bg-gray-100 dark:bg-gray-1000 h-96 lg:h-full">
@@ -166,7 +179,8 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                 } catch (e) {
                   note = {text: cue.text}
                 }
-                const active = player.activeMetadataTrackCues.includes(cue)
+                const active = activeCues.includes(cue)
+                const cueStartTime = convertTime(Math.round(cue.startTime))
                 return (
                   <div key={cue.text}>
                     {active && <Element name="active-note" />}
@@ -191,16 +205,16 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                           {note.text}
                         </ReactMarkdown>
                       )}
-                      {cue.startTime && (
+                      {cueStartTime && (
                         <div
                           onClick={() => {
-                            actions?.seek(cue.startTime)
+                            clickOpen(cue)
                             track('clicked cue in sidebar', {cue: note.text})
                           }}
                           className="flex items-baseline justify-end w-full pt-3 text-gray-900 underline cursor-pointer dark:text-white"
                         >
                           <time className="text-xs font-medium opacity-60">
-                            {convertTime(cue.startTime)}
+                            {cueStartTime}
                           </time>
                         </div>
                       )}
@@ -211,27 +225,6 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
             </div>
           </SimpleBar>
         </div>
-        {canCreateNote && (
-          <div className="flex-shrink-0 p-4">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                if (isFunction(onAddNote)) {
-                  onAddNote()
-                  actions.pause()
-                  track(`clicked add note`)
-                }
-              }}
-              aria-expanded={true}
-              aria-controls="add-note-overlay"
-              className="flex items-center justify-center w-full p-3 text-xs font-semibold text-gray-500 uppercase duration-100 bg-gray-200 rounded-md hover:bg-gray-300 hover:text-gray-600"
-            >
-              <IconNote />
-              <span className="ml-2">Add a note</span>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   )
@@ -283,18 +276,3 @@ const CourseHeader: React.FunctionComponent<{
 }
 
 export default PlayerSidebar
-
-const IconNote: React.FC<any> = ({className}) => (
-  <svg
-    viewBox="0 0 23 22"
-    xmlns="http://www.w3.org/2000/svg"
-    className={`w-4 h-4 ${className ?? ''}`}
-  >
-    <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M23 14.667V2.933C23 1.313 21.713 0 20.125 0H2.875C1.287 0 0 1.313 0 2.933v11.734c0 1.62 1.287 2.933 2.875 2.933h4.313L11.5 22l4.313-4.4h4.312c1.588 0 2.875-1.313 2.875-2.933zm-18.688-8.8c0-.81.644-1.467 1.438-1.467h11.5c.794 0 1.438.657 1.438 1.467s-.644 1.466-1.438 1.466H5.75c-.794 0-1.438-.656-1.438-1.466zm1.438 4.4c-.794 0-1.438.656-1.438 1.466 0 .81.644 1.467 1.438 1.467h4.313c.793 0 1.437-.657 1.437-1.467s-.644-1.466-1.438-1.466H5.75z"
-      clipRule="evenodd"
-    />
-  </svg>
-)

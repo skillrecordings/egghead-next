@@ -16,7 +16,7 @@ const RecommendNextStepOverlay: React.FunctionComponent<{
   })
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center justify-center p-4">
       {courseImage && (
         <div className="w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 relative">
           <Image

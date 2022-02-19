@@ -9,7 +9,7 @@ import Image from 'next/image'
 import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {GetServerSideProps} from 'next'
-import {playerMachine} from 'machines/lesson-player-machine'
+import {lessonMachine} from 'machines/lesson-machine'
 import {useWindowSize} from 'react-use'
 import Transcript from 'components/pages/lessons/transcript'
 import {NextSeo} from 'next-seo'
@@ -28,7 +28,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   const router = useRouter()
   const playerRef = React.useRef(null)
   const {viewer} = useViewer()
-  const [playerState] = useMachine(playerMachine, {
+  const [playerState] = useMachine(lessonMachine, {
     context: {
       lesson: initialLesson,
       viewer,

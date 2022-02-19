@@ -1,4 +1,4 @@
-import {parseMdxNotesFile, eggheadLogo} from '../github-load-notes'
+import {parseMdxNotesFile, eggheadLogo} from '../notes'
 
 // this had to use an async/await because the mdx compiler
 // is set up to be async and return a promise
