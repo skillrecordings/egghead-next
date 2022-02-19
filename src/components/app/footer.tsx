@@ -135,10 +135,12 @@ const FooterNavigation: FunctionComponent = () => {
 }
 
 const Footer: FunctionComponent = () => {
+  const [isMounted, setIsMounted] = React.useState<boolean>(false)
+  React.useEffect(() => setIsMounted(true), [])
   return (
     <footer className="bg-gray-50 dark:bg-gray-900 print:hidden dark:text-gray-200">
       <div className="container">
-        <FooterNavigation />
+        {isMounted && <FooterNavigation />}
         <small className="flex items-center justify-center w-full py-6 space-x-6 text-xs text-gray-500 md:justify-end dark:text-gray-300">
           <div>©egghead.io</div>
           <Link href="/privacy">
@@ -151,7 +153,7 @@ const Footer: FunctionComponent = () => {
               FAQ
             </a>
           </Link>
-          <DarkModeToggle />
+          {isMounted && <DarkModeToggle />}
         </small>
       </div>
     </footer>
@@ -159,10 +161,8 @@ const Footer: FunctionComponent = () => {
 }
 
 const DarkModeToggle = () => {
-  const [isMounted, setIsMounted] = React.useState<boolean>(false)
   const {subscriber, cioIdentify} = useCio()
   const {resolvedTheme, setTheme} = useTheme()
-  React.useEffect(() => setIsMounted(true), [])
   const handleClick = () => {
     const nextTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
     setTheme(nextTheme)
@@ -179,7 +179,7 @@ const DarkModeToggle = () => {
   return (
     <div className="flex items-center justify-between">
       <h2 className="hidden mr-3 sm:block">
-        {isMounted && (resolvedTheme === 'dark' ? 'Dark' : 'Light')} Mode
+        {resolvedTheme === 'dark' ? 'Dark' : 'Light'} Mode
       </h2>
       <div
         className="flex-shrink-0 w-16 h-10 p-1 bg-gray-300 rounded-full dark:bg-gray-1000"
@@ -189,34 +189,32 @@ const DarkModeToggle = () => {
       >
         <div
           className={`bg-white w-8 h-8 rounded-full shadow-md duration-300 ease-in-out flex items-center justify-center dark:bg-gray-800 ${
-            isMounted && (resolvedTheme === 'dark' ? 'translate-x-6' : '')
+            resolvedTheme === 'dark' ? 'translate-x-6' : ''
           }`}
         >
-          {isMounted && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              stroke="currentColor"
-              className="w-4 h-4 text-gray-400 dark:text-gray-200"
-            >
-              {resolvedTheme === 'dark' ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-              )}
-            </svg>
-          )}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            stroke="currentColor"
+            className="w-4 h-4 text-gray-400 dark:text-gray-200"
+          >
+            {resolvedTheme === 'dark' ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            )}
+          </svg>
         </div>
       </div>
     </div>
