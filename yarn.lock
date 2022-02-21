@@ -3942,10 +3942,10 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/cookies/-/cookies-0.0.1.tgz#e8a82597e9d7a988293e9e20f94c6c5a70d3b12b"
   integrity sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==
 
-"@skillrecordings/player@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-0.1.4.tgz#ad7a9372e2089e1e6297a31def6cae82dceab2e6"
-  integrity sha512-jMZMcjE4a0I/u5T6jzWa0JHKXL1v5pfJkzn+DJwLSJjhTprIBkIbUOBSq8nNBbTmdafVJvylZGWivkhDtlcnIA==
+"@skillrecordings/player@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-0.1.5.tgz#fe1042ede10c0c27e3454490c364b09e3989d1e5"
+  integrity sha512-yEVODB/Sn9OZq7h4iLy7K7xCJgMfn30wXBpzOHCXNv+F6zWKVgsQDQc9rQLmA+/ezMhSITLAzsHTq3XvbhT0gg==
   dependencies:
     "@babel/core" "^7.16.5"
     "@emotion/react" "^11.4.1"
