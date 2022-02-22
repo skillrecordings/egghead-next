@@ -7,7 +7,6 @@ import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {lessonMachine} from 'machines/lesson-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
-import {savePlayerPrefs} from 'components/EggheadPlayer/use-egghead-player'
 import Transcript from 'components/pages/lessons/transcript'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -49,11 +48,11 @@ import cookies from 'utils/cookies'
 import AutoplayControl from '../../components/player/autoplay-control'
 import {
   Player,
+  usePlayerPrefs,
   VideoProvider,
   HLSSource,
   useVideo,
   selectWithSidePanel,
-  getPlayerPrefs,
   selectMetadataTracks,
   selectIsPaused,
   selectVideo,
@@ -178,6 +177,7 @@ const Lesson: React.FC<LessonProps> = ({
     'lesson',
     initialLesson,
   )
+  const {setPlayerPrefs, defaultView, subtitle, autoplay} = usePlayerPrefs()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const metadataTracks = useSelector(videoService, selectMetadataTracks)
   const isWaiting = useSelector(videoService, selectIsWaiting)
@@ -185,8 +185,6 @@ const Lesson: React.FC<LessonProps> = ({
   const isPaused = useSelector(videoService, selectIsPaused)
   const isFullscreen = useSelector(videoService, selectIsFullscreen)
   const viewer: any = useSelector(videoService, selectViewer)
-
-  const {subtitle, defaultView, autoplay} = getPlayerPrefs()
 
   const {md} = useBreakpoint()
 
@@ -841,7 +839,7 @@ const Lesson: React.FC<LessonProps> = ({
             <Tabs
               index={defaultView === 'comments' ? 1 : 0}
               onChange={(index) => {
-                savePlayerPrefs({
+                setPlayerPrefs({
                   defaultView: index === 1 ? 'comments' : 'transcript',
                 })
               }}
