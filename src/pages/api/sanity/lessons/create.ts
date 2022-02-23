@@ -1,38 +1,60 @@
-import axios from 'axios'
-
 import {NextApiRequest, NextApiResponse} from 'next'
-import {isEmpty} from 'lodash'
 import {sanityClient} from 'utils/sanity-client'
 import {getTokenFromCookieHeaders} from 'utils/auth'
 import fetchEggheadUser from 'api/egghead/users/from-token'
+import {nanoid} from 'nanoid'
 
-function formatLessonAsSanityData(lesson: LessonData): SanityLesson {
-  // do the data munging
-  return {
-    // leave ID blank
-    _type: 'lesson',
-    title: lesson.title,
-    awsFilename: lesson.fileMetadata.signedUrl,
+type LessonData = {
+  title: string
+  fileMetadata: {
+    fileName: string
+    signedUrl: string
   }
 }
 
-function formatSanityMutationForLessons(lessons: LessonData[]) {
-  const sanityLessons = lessons.map(formatLessonAsSanityData)
+type SanityVideoResource = {
+  _type: string
+  _id: string
+  filename: string
+  originalUrl: string
+}
 
-  return {
-    mutations: sanityLessons.map((lesson) => {
-      return {
-        create: {
-          ...lesson,
-        },
-      }
-    }),
+type SanityLesson = {
+  _type: string
+  title: string
+  resource: {
+    _type: string
+    _ref: string
   }
 }
 
-// if (!process.env.EGGHEAD_SUPPORT_BOT_TOKEN) {
-//   throw new Error('no egghead support+bot token found')
-// }
+async function formatSanityMutationForLessons(lessons: LessonData[]) {
+  let sanityLessons: SanityLesson[] = []
+  let sanityResources: SanityVideoResource[] = []
+
+  lessons.forEach(async (lesson) => {
+    const videoId = await nanoid()
+
+    sanityResources.push({
+      _type: 'videoResource',
+      _id: videoId,
+      filename: lesson.fileMetadata.fileName,
+      originalUrl: lesson.fileMetadata.signedUrl,
+    })
+
+    sanityLessons.push({
+      _type: 'lesson',
+      title: lesson.title,
+      resource: {
+        _type: 'reference',
+        _ref: videoId,
+      },
+    })
+  })
+
+  return {sanityLessons, sanityResources}
+}
+
 const createSanityLessons = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -48,46 +70,28 @@ const createSanityLessons = async (
     if (!is_publisher && !is_instructor) {
       res.status(403).end()
     } else {
-      // create the lessons
-      //
-      const mutationQuery = formatSanityMutationForLessons(req.body.lessons)
-      const sanityResponse = sanityClient
-        .create(mutationQuery)
-        .then(() => {
-          console.log({sanityResponse})
+      let transaction = sanityClient.transaction()
 
-          res.status(200).json({sanityResponse})
+      const {sanityLessons, sanityResources} =
+        await formatSanityMutationForLessons(req.body.lessons)
+
+      sanityResources.forEach((lesson) => {
+        transaction.create(lesson)
+      })
+
+      sanityLessons.forEach((lesson) => {
+        transaction.create(lesson)
+      })
+
+      transaction
+        .commit()
+        .then((sanityRes) => {
+          console.log('Transaction', sanityRes)
+
+          res.status(200).end()
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        .catch((err) => console.log('ERROR', err))
     }
-
-    // const {lessons} = req.body
-    // if (!emailIsValid(email)) {
-    //   res.status(400).end()
-    // } else {
-    //   const userUrl = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/${email}?by_email=true`
-
-    //   const eggheadUser = await axios
-    //     .get(userUrl, {
-    //       headers: {
-    //         Authorization: `Bearer ${process.env.EGGHEAD_SUPPORT_BOT_TOKEN}`,
-    //       },
-    //     })
-    //     .then(({data}) => data)
-
-    //   const hasProAccess =
-    //     !isEmpty(eggheadUser) &&
-    //     (eggheadUser.is_pro || eggheadUser.is_instructor)
-
-    //   const stripeCustomerId = !isEmpty(eggheadUser) &&
-    //     eggheadUser.subscription && {
-    //       stripeCustomerId: eggheadUser.subscription.stripe_customer_id,
-    //     }
-
-    //   res.status(200).json({hasProAccess, ...stripeCustomerId})
-    // }
   } else {
     res.statusCode = 404
     res.end()
