@@ -74,6 +74,7 @@ export type Viewer = {
   name: string
   is_pro: boolean
   is_instructor: boolean
+  is_publisher: boolean
   can_comment: boolean
   created_at: number
   discord_id: string
