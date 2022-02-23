@@ -5,7 +5,7 @@ version = 1
 
 [merge]
 require_automerge_label = false
-blacklist_labels = ["NO MERGE"] # default: []
-method = "squash" # default: "merge", options: "merge", "squash", "rebase"
+blacklist_labels = ["NO MERGE", "RFC", 'rfc', 'needs tests', 'WIP', 'wip', 'rfc'] # default: []
+method = "rebase" # default: "merge", options: "merge", "squash", "rebase"
 delete_branch_on_merge = true # default: false
 
