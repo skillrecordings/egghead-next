@@ -33,6 +33,7 @@ import CodeLink, {
   IconCode,
   IconGithub,
 } from 'components/pages/lessons/code-link'
+import DownloadControl from 'components/player/download-control'
 import getDependencies from 'data/courseDependencies'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
@@ -562,6 +563,7 @@ const Lesson: React.FC<LessonProps> = ({
                   canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
                   className="font-sans"
                   container={fullscreenWrapperRef.current || undefined}
+                  controls={<DownloadControl lesson={lesson} />}
                 >
                   {lesson.hls_url && (
                     <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
