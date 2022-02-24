@@ -19,6 +19,9 @@ import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
+import {QueryClient, QueryClientProvider} from 'react-query'
+
+const queryClient = new QueryClient()
 
 declare global {
   interface Window {
@@ -104,15 +107,17 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
       />
       <Toaster position="bottom-center" />
       <ThemeProvider attribute="class">
-        <ViewerProvider>
-          <LogRocketProvider>
-            <CioProvider>
-              <MDXProvider components={mdxComponents}>
-                {getLayout(Component, pageProps)}
-              </MDXProvider>
-            </CioProvider>
-          </LogRocketProvider>
-        </ViewerProvider>
+        <QueryClientProvider client={queryClient}>
+          <ViewerProvider>
+            <LogRocketProvider>
+              <CioProvider>
+                <MDXProvider components={mdxComponents}>
+                  {getLayout(Component, pageProps)}
+                </MDXProvider>
+              </CioProvider>
+            </LogRocketProvider>
+          </ViewerProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   )

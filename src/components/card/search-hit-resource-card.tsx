@@ -16,6 +16,8 @@ import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import useFitText from 'use-fit-text'
+import {useQuery} from 'react-query'
+import axios from '../../utils/configured-axios'
 
 const SearchHitResourceCard: React.FC<{
   resource: CardResource
@@ -33,11 +35,32 @@ const SearchHitResourceCard: React.FC<{
   ...props
 }) => {
   const {fontSize, ref} = useFitText()
+  const progressQuery = useQuery(
+    `progress:${resource?.path}`,
+    async (path) => {
+      const result = resource
+        ? await axios.get(
+            `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${resource.path}/progress`.replace(
+              'courses',
+              'playlists',
+            ),
+          )
+        : {data: false}
+      return result.data?.progress
+    },
+    {
+      retry: false,
+    },
+  )
+
   if (isEmpty(resource)) return null
   const defaultClassName =
     'rounded-md sm:aspect-w-4 sm:aspect-h-2 aspect-w-3 aspect-h-1 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
 
   small = get(resource.image, 'src', resource.image)?.includes('/tags') ?? true
+
+  console.log({progressQuery})
+
   return (
     <ResourceLink
       path={resource.path}
@@ -90,6 +113,11 @@ const SearchHitResourceCard: React.FC<{
             )}
             <CardFooter>
               <CardAuthor className="flex items-center pt-2" />
+              {progressQuery.data
+                ? progressQuery.data.completed
+                  ? 'completed'
+                  : 'not completed'
+                : ''}
             </CardFooter>
           </CardBody>
         </CardContent>
