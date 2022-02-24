@@ -178,7 +178,15 @@ const Lesson: React.FC<LessonProps> = ({
     'lesson',
     initialLesson,
   )
-  const {setPlayerPrefs, defaultView, subtitle, autoplay} = usePlayerPrefs()
+
+  // see all state changes
+  // @ts-ignore
+  // videoService.onTransition((state) => {
+  //   console.debug(state.value)
+  // })
+
+  const {setPlayerPrefs, getPlayerPrefs} = usePlayerPrefs()
+  const {autoplay, defaultView, subtitle} = getPlayerPrefs()
   const withSidePanel = useSelector(videoService, selectWithSidePanel)
   const metadataTracks = useSelector(videoService, selectMetadataTracks)
   const isWaiting = useSelector(videoService, selectIsWaiting)
