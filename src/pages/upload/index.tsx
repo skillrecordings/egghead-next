@@ -5,7 +5,7 @@ import {getAuthorizationHeader} from '../../utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
 import {find} from 'lodash'
-import {Formik, Form, Field, FormikProps, useFormik} from 'formik'
+import {Formik, Form, Field, FormikProps} from 'formik'
 import axios from 'axios'
 
 type FileUpload = {file: File; percent: number; message: string}
@@ -54,12 +54,6 @@ const UploadWrapper = () => {
     <Formik
       initialValues={initialValues}
       onSubmit={async (values, actions) => {
-        // Notes:
-        // - how do send multiple 'records' to Sanity, batch create?
-        // - does this need to live in an `api` directory file, or can we safely call it here?
-        //    we could add an `api/create-lessons` route that submit hits
-        // - restricting access to the `api` route to authorized instructors
-
         const response = await axios.post('api/sanity/lessons/create', {
           lessons: values.lessons,
         })
@@ -67,30 +61,24 @@ const UploadWrapper = () => {
         console.log({response})
       }}
     >
-      {(props) => {
-        console.log({props})
-        return <Upload {...props} />
-      }}
+      {(props) => <Upload {...props} />}
     </Formik>
   )
 }
 
 const Upload: React.FC<FormikProps<FormProps>> = (formikProps) => {
-  const {values, setFieldValue, handleSubmit, handleChange} = formikProps
-
-  console.log({values})
+  const {values, setFieldValue} = formikProps
 
   const {viewer} = useViewer()
   const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
   const uploaderRef = React.useRef(null)
-  // const [fileUrls, setFileUrls] = React.useState<UploadedFile[]>([])
   const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
     [],
   )
 
   React.useEffect(() => {
     setFieldValue('lessons', lessonMetadata)
-  }, [lessonMetadata])
+  }, [lessonMetadata, setFieldValue])
 
   return (
     <div>
@@ -149,6 +137,8 @@ const Upload: React.FC<FormikProps<FormProps>> = (formikProps) => {
               {file.file.name} - {file.message} - {file.percent}
             </div>
           )
+        } else {
+          return null
         }
       })}
       <Form>
