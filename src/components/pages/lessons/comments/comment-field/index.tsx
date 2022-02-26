@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {Formik} from 'formik'
 import Spinner from 'components/spinner'
+import {useVideo} from '@skillrecordings/player'
 
 type CommentFieldProps = {
   onSubmit?: any
@@ -11,6 +12,13 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({
 }) => {
   const [isSubmitted, setIsSubmitted] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
+  const videoService = useVideo()
+  const toggleShortcutsEnabled = () => {
+    videoService.send({
+      type: 'TOGGLE_SHORTCUTS_ENABLED',
+      source: 'CommentField',
+    })
+  }
 
   return (
     <div className="dark:text-white">
@@ -33,7 +41,12 @@ const CommentField: FunctionComponent<CommentFieldProps> = ({
             } = props
             return (
               <div className="max-w-2xl">
-                <form onSubmit={handleSubmit} className="w-full space-y-2">
+                <form
+                  onSubmit={handleSubmit}
+                  className="w-full space-y-2"
+                  onFocusCapture={toggleShortcutsEnabled}
+                  onBlur={toggleShortcutsEnabled}
+                >
                   <textarea
                     id="newCommentText"
                     value={values.newCommentText}
