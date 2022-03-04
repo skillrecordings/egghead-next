@@ -54,7 +54,7 @@ const SearchNode = () => {
         <Topic
           className="col-span-8"
           title="Node"
-          imageUrl="https://og-image-react-egghead.now.sh/topic/node?orientation=portrait&v=20201104"
+          imageUrl="https://og-image-react-egghead.now.sh/topic/node?orientation=portrait&v=20201105"
         >
           {`
 Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. 
