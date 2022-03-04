@@ -14,7 +14,6 @@ export const track = (
   const auth = new Auth()
 
   return new Promise(async (resolve) => {
-    const ahoy = window.ahoy
     let wasCalled = false
 
     const viewer: Viewer = auth.getLocalUser()
@@ -43,10 +42,6 @@ export const track = (
 
     console.error = store
 
-    if (ahoy && isFunction(ahoy.track)) {
-      ahoy.track(event, params)
-    }
-
     if (window.fbq) {
       window.fbq('trackCustom', event, params)
     }
@@ -58,8 +53,8 @@ export const track = (
       })
     }
 
-    if(window.gtag) {
-      window.gtag('event', event, params);
+    if (window.gtag) {
+      window.gtag('event', event, params)
     }
 
     mixpanel.track(event, params)
