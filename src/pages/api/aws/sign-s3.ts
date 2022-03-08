@@ -26,7 +26,7 @@ const signedUrl = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const params = {
       Bucket: options.bucket,
-      Key: `rip/${filename}`,
+      Key: `${process.env.NODE_ENV}/${filename}`,
       Expires: 60,
       ContentType: contentType,
       ACL: options.ACL,
