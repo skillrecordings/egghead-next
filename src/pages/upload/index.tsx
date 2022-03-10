@@ -41,7 +41,7 @@ const Upload: React.FC = () => {
         //if we set this to `false` we can list all the files and
         //call `uploaderRef.current.uploadFile()` when we are ready
         autoUpload={true}
-        signingUrl={viewer.s3_signing_url}
+        signingUrl={`/api/aws/sign-s3`}
         // @ts-ignore
         signingUrlHeaders={getAuthorizationHeader()}
         accept="video/*"

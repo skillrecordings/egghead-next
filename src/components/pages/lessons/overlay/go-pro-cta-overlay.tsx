@@ -109,7 +109,6 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
     setLoaderOn(true)
 
     try {
-      const account = first<StripeAccount>(get(viewer, 'accounts'))
       await track('checkout: selected plan', {
         lesson: lesson.slug,
         priceId: priceId,
@@ -160,7 +159,6 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
         stripeCheckoutRedirect({
           priceId,
           email: formik.values.email,
-          stripeCustomerId: account?.stripe_customer_id,
           authToken,
           quantity,
           coupon: state.context.couponToApply?.couponCode,
@@ -193,8 +191,8 @@ const GoProCtaOverlay: FunctionComponent<JoinCTAProps> = ({lesson}) => {
   }
 
   return (
-    <div className="relative flex flex-col items-center justify-center w-full h-full">
-      <div className="grid items-center max-w-screen-md grid-cols-1 gap-8 p-4 py-8 sm:grid-cols-2 sm:py-4 sm:gap-16">
+    <div className="flex flex-col items-center justify-center w-full h-full sm:py-24 py-8">
+      <div className="relative grid items-center max-w-screen-md grid-cols-1 gap-8 p-4 py-8 sm:grid-cols-2 sm:py-4 sm:gap-16">
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col items-center w-full h-full sm:items-stretch"

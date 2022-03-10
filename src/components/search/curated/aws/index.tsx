@@ -57,7 +57,7 @@ const SearchAWS = () => {
         <Topic
           className="col-span-8"
           title="AWS"
-          imageUrl="https://og-image-react-egghead.now.sh/topic/aws?orientation=portrait&v=20201104"
+          imageUrl="https://og-image-react-egghead.now.sh/topic/aws?orientation=portrait&v=20201105"
         >
           {`
 Amazon Web Services (AWS) is a powerful expansive cloud infrastructure platform for building modern web applications.

@@ -74,7 +74,6 @@ const PricingCta = () => {
     if (!priceId) return
     if (!formik.values.email) return
 
-    const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
       priceId: priceId,
     })
@@ -121,7 +120,6 @@ const PricingCta = () => {
       stripeCheckoutRedirect({
         priceId,
         email: formik.values.email,
-        stripeCustomerId: account?.stripe_customer_id,
         authToken,
         quantity,
         coupon: state.context.couponToApply?.couponCode,
