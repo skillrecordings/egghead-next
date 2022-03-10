@@ -1,10 +1,9 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import AWS from 'aws-sdk'
 import {v4 as uuidv4} from 'uuid'
-import {loadCurrentUser} from '../../../lib/users'
-import {accessControl, allRoles} from '../../../server/accesscontrol'
-import {ACCESS_TOKEN_KEY} from '../../../utils/auth'
-import {intersection, union} from 'lodash'
+import {loadCurrentUser} from 'lib/users'
+import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import defineAbilityFor from 'server/ability'
 
 const options = {
   bucket: process.env.AWS_VIDEO_UPLOAD_BUCKET,
@@ -26,11 +25,9 @@ const signedUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     const user = await loadCurrentUser(req.cookies[ACCESS_TOKEN_KEY])
 
-    const roles = intersection(user.roles, allRoles)
+    const ability = defineAbilityFor(user)
 
-    const permission = accessControl.can(roles).createOwn('video')
-
-    if (permission.granted) {
+    if (ability.can('upload', 'Video')) {
       const {objectName, contentType} = req.query
 
       const filename = `${uuidv4()}/${objectName}`

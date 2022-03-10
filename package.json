@@ -31,6 +31,7 @@
   "dependencies": {
     "@asbjorn/eslint-plugin-groq": "^1.0.0",
     "@babel/plugin-transform-react-pure-annotations": "^7.14.5",
+    "@casl/ability": "^5.4.3",
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.4",
     "@mdx-js/mdx": "^2.0.0-next.9",
@@ -60,7 +61,6 @@
     "@types/shortid": "^0.0.29",
     "@videojs/http-streaming": "^2.9.3",
     "@xstate/react": "^1.5.1",
-    "accesscontrol": "^2.2.1",
     "airtable": "^0.11.1",
     "algoliasearch": "^4.10.3",
     "aws-sdk": "^2.1089.0",
