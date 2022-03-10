@@ -11,6 +11,7 @@ export async function getAbilityFromToken(token: string) {
 }
 
 function defineAbilityFor(user: any) {
+  // AbilityBuilder https://casl.js.org/v5/en/guide/define-rules#ability-builder-class
   const {can, build} = new AbilityBuilder<AppAbility>(Ability)
 
   if (user.roles?.includes('admin')) {
