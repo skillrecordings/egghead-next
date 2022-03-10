@@ -14,7 +14,7 @@ const WatchFullCourseCtaOverlay: React.FunctionComponent<{
   useTrackComponent('show course pitch', {course: lesson?.collection?.slug})
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center justify-center p-4">
       {courseImage && (
         <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
           <Image

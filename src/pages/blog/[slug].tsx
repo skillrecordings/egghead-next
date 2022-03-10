@@ -11,6 +11,8 @@ import Link from 'next/link'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import {withProse} from 'utils/remark/with-prose'
+import CourseWidget from 'components/mdx/course-widget'
+import find from 'lodash/find'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -24,6 +26,7 @@ const Tag = (props: any) => {
     seo = {},
     coverImage,
     source,
+    resources,
   } = props
 
   const router = useRouter()
@@ -91,7 +94,20 @@ const Tag = (props: any) => {
             )}
           </header>
           <main>
-            <MDXRemote {...source} components={mdxComponents} />
+            <MDXRemote
+              {...source}
+              components={{
+                ...mdxComponents,
+                CourseWidget: ({course: courseSlug, ...props}: any) => {
+                  const course = find(resources, {slug: courseSlug})
+                  return course ? (
+                    <div className="not-prose my-8">
+                      <CourseWidget course={course} {...props} />
+                    </div>
+                  ) : null
+                },
+              }}
+            />
           </main>
         </article>
       </div>
@@ -145,7 +161,20 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   "categories": categories[]->title,
   seo,
   coverImage,
-  body
+  body,
+  "resources": resources[]-> {
+    title,
+    'instructor': collaborators[]->[role == 'instructor'][0]{
+       'full_name': person->.name
+     },
+     path,
+     "slug": slug.current,
+    "image_thumb_url": image,
+    "lessons": resources[] {
+        title,
+        path
+    }
+  }
 }`
 
 export async function getStaticProps(context: any) {

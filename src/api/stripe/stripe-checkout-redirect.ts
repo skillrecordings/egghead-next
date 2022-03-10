@@ -17,24 +17,8 @@ const stripeCheckoutRedirect = async (options: {
   coupon?: string
   successPath?: string
 }) => {
-  const {
-    priceId,
-    email,
-    stripeCustomerId,
-    authToken,
-    coupon,
-    quantity = 1,
-    successPath,
-  } = options
+  const {priceId, email, authToken, coupon, quantity = 1, successPath} = options
   const referralCookieToken = cookie.get('rc')
-
-  const identifier = stripeCustomerId
-    ? {
-        stripe_customer_id: stripeCustomerId,
-      }
-    : {
-        email,
-      }
 
   const defaultSuccessPath = '/confirm/membership'
   const successUrl = `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${
@@ -43,7 +27,7 @@ const stripeCheckoutRedirect = async (options: {
 
   return await axios
     .post(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/stripe/subscription`, {
-      ...identifier,
+      email,
       quantity,
       price_id: priceId,
       coupon,

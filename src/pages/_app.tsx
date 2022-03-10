@@ -12,7 +12,6 @@ import '@reach/tabs/styles.css'
 import '../styles/index.css'
 import 'focus-visible'
 import {FacebookPixel} from 'components/facebook-pixel'
-import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
 import {LogRocketProvider} from 'hooks/use-logrocket'
 import RouteLoadingIndicator from 'components/route-loading-indicator'
@@ -22,7 +21,6 @@ import {Toaster} from 'react-hot-toast'
 
 declare global {
   interface Window {
-    ahoy: any
     _cio: any
     fbq: any
     becomeUser: any
@@ -93,7 +91,6 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
   return (
     <>
       <RouteLoadingIndicator isRouteChanging={state.isRouteChanging} />
-      <Ahoy />
       <FacebookPixel />
       <DefaultSeo {...defaultSeoConfig} />
       <SocialProfileJsonLd

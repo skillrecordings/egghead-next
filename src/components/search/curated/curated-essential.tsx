@@ -65,7 +65,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
             {
               url:
                 ogImage ||
-                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201104`,
+                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201105`,
             },
           ],
         }}
@@ -76,7 +76,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
           title={topic.label}
           imageUrl={
             verticalImage ||
-            `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201104`
+            `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201105`
           }
         >
           {topic.description}

@@ -299,7 +299,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
             {
               url:
                 ogImage ||
-                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201104`,
+                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201105`,
             },
           ],
         }}
@@ -311,7 +311,7 @@ const ProjectBrief: React.FC<ProjectBriefProps> = ({
           <div
             className="w-full h-full col-span-3 overflow-hidden sm:col-span-3"
             style={{
-              background: `url(https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201104)`,
+              background: `url(https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=portrait&v=20201105)`,
               backgroundSize: 'cover',
               backgroundPosition: '38%',
             }}

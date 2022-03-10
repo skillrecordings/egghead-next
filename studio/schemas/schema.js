@@ -22,6 +22,8 @@ import stringList from './objects/string-list'
 import videoResource from './documents/videoResource'
 import post from './documents/post'
 import lesson from './documents/lesson'
+import podcastEpisode from './documents/podcastEpisode'
+import podcastSeason from './documents/podcastSeason'
 import caseStudy from './documents/caseStudy'
 import category from './documents/category'
 import authorReference from './objects/author-reference'
@@ -57,6 +59,8 @@ export default createSchema({
     videoResource,
     post,
     lesson,
+    podcastEpisode,
+    podcastSeason,
     caseStudy,
     category,
     authorReference,
