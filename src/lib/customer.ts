@@ -64,12 +64,11 @@ export const loadCio = async (cioId: string, customer?: any) => {
       }
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 
   try {
     const customer: any = await fetchCustomer(cioId)
-    console.log(customer)
     return customer?.customer ? customer.customer : customer
   } catch (error) {
     console.error(error)

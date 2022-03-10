@@ -2,13 +2,26 @@ import axios from 'axios'
 import gql from 'graphql-tag'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
+import serverCookie from 'cookie'
+import {ACCESS_TOKEN_KEY} from '../utils/auth'
+
+const eggAxios = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+})
 
 export async function loadCurrentUser(
   token: string,
-  loadFullUser: boolean = true,
+  loadMinimalUser: boolean = true,
 ) {
-  const user = await axios
-    .get(`/api/users/current?minimal=${loadFullUser}`)
+  const authorizationHeader = token && {
+    authorization: `Bearer ${token}`,
+  }
+  const user = await eggAxios
+    .get(`/api/v1/users/current?minimal=${loadMinimalUser}`, {
+      headers: {
+        ...authorizationHeader,
+      },
+    })
     .then(({data}) => data)
 
   return user

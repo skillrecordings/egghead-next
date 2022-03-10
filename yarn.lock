@@ -6723,6 +6723,13 @@ accepts@~1.3.5, accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
+accesscontrol@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/accesscontrol/-/accesscontrol-2.2.1.tgz#c942c48e330841c619682309a8c3aeec6bec66eb"
+  integrity sha512-52EvFk/J9EF+w4mYQoKnOTkEMj01R1U5n2fc1dai6x1xkgOks3DGkx01qQL2cKFxGmE4Tn1krAU3jJA9L1NMkg==
+  dependencies:
+    notation "^1.3.6"
+
 acorn-globals@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/acorn-globals/-/acorn-globals-6.0.0.tgz#46cdd39f0f8ff08a876619b55f5ac8a6dc770b45"
@@ -16425,6 +16432,11 @@ normalize.css@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
+
+notation@^1.3.6:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/notation/-/notation-1.3.6.tgz#bc87b88d1f1159e2931e7f9317a3020313790321"
+  integrity sha512-DIuJmrP/Gg1DcXKaApsqcjsJD6jEccqKSfmU3BUx/f1GHsMiTJh70cERwYc64tOmTRTARCeMwkqNNzjh3AHhiw==
 
 npm-run-path@^2.0.0:
   version "2.0.2"

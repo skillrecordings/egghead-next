@@ -65,7 +65,6 @@ const Upload: React.FC = () => {
             },
           })
 
-          console.log('preprocess', file)
           next(file)
         }}
         onProgress={(percent, message, file) => {
@@ -74,7 +73,7 @@ const Upload: React.FC = () => {
         onError={(message) => console.log(message)}
         onFinish={(signResult, file) => {
           const fileUrl = signResult.signedUrl.split('?')[0]
-          console.log(fileUrl, signResult.publicUrl, file)
+          console.debug(fileUrl, signResult.publicUrl, file)
         }}
       />{' '}
       {state.files.map((file) => {
