@@ -1,8 +1,15 @@
-import {defineAbility} from '@casl/ability'
+import {AbilityBuilder, Ability} from '@casl/ability'
 
-export default (user: any) =>
-  defineAbility((can) => {
-    if (user.roles.includes('admin', 'editor', 'publisher')) {
-      can('upload', 'Video')
-    }
-  })
+export default function defineAbilityFor(user: any) {
+  const {can, build} = new AbilityBuilder(Ability)
+
+  if (user.roles?.includes('admin')) {
+    can('manage', 'all') // read-write access to everything
+  }
+
+  if (user.roles?.includes('admin', 'editor', 'publisher')) {
+    can('upload', 'Video')
+  }
+
+  return build()
+}
