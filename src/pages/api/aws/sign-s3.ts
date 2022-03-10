@@ -1,9 +1,8 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import AWS from 'aws-sdk'
 import {v4 as uuidv4} from 'uuid'
-import {loadCurrentUser} from 'lib/users'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
-import defineAbilityFor from 'server/ability'
+import {getAbilityFromToken} from 'server/ability'
 
 const options = {
   bucket: process.env.AWS_VIDEO_UPLOAD_BUCKET,
@@ -23,9 +22,7 @@ const s3 = new AWS.S3(options)
 
 const signedUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    const user = await loadCurrentUser(req.cookies[ACCESS_TOKEN_KEY])
-
-    const ability = defineAbilityFor(user)
+    const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
 
     if (ability.can('upload', 'Video')) {
       const {objectName, contentType} = req.query
