@@ -58,8 +58,6 @@ const PostPurchaseSurvey: React.FunctionComponent<{
 
   className = className || `border p-6 mb-16`
 
-  console.log(state)
-
   return !state.question || state.closed ? (
     alternative || null
   ) : (

@@ -74,7 +74,7 @@ export const deleteCueNote =
     await axios
       .delete(`/api/lessons/notes/${context.resource.slug}?id=${cueId}`)
       .catch((e) => {
-        console.log(`Failed to delete cue note: ${e.message}`)
+        console.error(`Failed to delete cue note: ${e.message}`)
       })
       .then(() => {
         send({type: 'CLEAR_CUES'})

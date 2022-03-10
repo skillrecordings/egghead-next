@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
       customer = await loadCio(cio_id as string, req.cookies.customer)
     }
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 
   if (customer) {

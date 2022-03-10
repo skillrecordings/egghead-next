@@ -52,7 +52,7 @@ const notes = async (req: NextApiRequest, res: NextApiResponse) => {
       ])
 
       if (error) {
-        console.log(error)
+        console.error(error)
         throw new Error('Data not loaded')
       }
 

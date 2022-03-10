@@ -476,7 +476,7 @@ const Lesson: React.FC<LessonProps> = ({
           video?.play()
           videoService.send({type: 'PLAY'})
         })
-        .catch((e: any) => console.log(`PLAY failed: ${e}`))
+        .catch((e: any) => console.error(`PLAY failed: ${e}`))
     }
   }
 
