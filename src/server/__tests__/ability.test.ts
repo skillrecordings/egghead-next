@@ -1,19 +1,19 @@
-import {hasRoles} from '../ability'
+import {includesRoles, Roles} from '../ability'
 
 test('returns true for a single matching role', () => {
-  const user = {roles: ['publisher']}
+  const roles = ['publisher'] as Roles[]
 
-  expect(hasRoles(user, 'publisher')).toBe(true)
+  expect(includesRoles(roles, 'publisher')).toBe(true)
 })
 
 test('returns true if at least one role matches', () => {
-  const user = {roles: ['publisher']}
+  const roles = ['publisher'] as Roles[]
 
-  expect(hasRoles(user, ['editor', 'publisher'])).toBe(true)
+  expect(includesRoles(roles, ['editor', 'publisher'])).toBe(true)
 })
 
 test('returns false if no role matches', () => {
-  const user = {roles: ['publisher', 'editor']}
+  const roles = ['publisher', 'editor'] as Roles[]
 
-  expect(hasRoles(user, 'admin')).toBe(false)
+  expect(includesRoles(roles, 'admin')).toBe(false)
 })
