@@ -155,7 +155,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
 type LessonProps = {
   state: any
-  initialLesson: LessonResource
+  initialLesson: VideoResource
   watchCount: number
   setWatchCount: (value: number) => void
 }
@@ -351,13 +351,12 @@ const Lesson: React.FC<LessonProps> = ({
     console.debug(`current state of lesson:`, currentLessonState)
     const lesson = get(lessonState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
+    const initialMediaPresent = Boolean(
+      initialLesson?.hls_url || initialLesson?.dash_url,
+    )
 
     switch (currentLessonState) {
       case 'loaded':
-        videoService.send({
-          type: 'LOAD_RESOURCE',
-          resource: lesson,
-        })
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
         // TODO: Detangle this nested series of `if` statements to make the
         // logic more immediately easy to reason about.
@@ -397,14 +396,16 @@ const Lesson: React.FC<LessonProps> = ({
         console.debug(
           `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
         )
+        if (!initialMediaPresent && mediaPresent) {
+          videoService.send({
+            type: 'LOAD_RESOURCE',
+            resource: lesson,
+          })
+        }
         if (!mediaPresent && !isFullscreen) {
           console.debug(`sending load event from viewing`)
           console.debug('LOAD')
           send('LOAD')
-          videoService.send({
-            type: 'LOAD_RESOURCE',
-            resource: initialLesson as any,
-          })
         }
         break
 
@@ -567,11 +568,11 @@ const Lesson: React.FC<LessonProps> = ({
           >
             <div className={cx({hidden: !playerVisible})}>
               <Player
-                poster={lesson.thumb_url}
                 canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
                 className="font-sans"
                 container={fullscreenWrapperRef.current || undefined}
                 controls={<DownloadControl lesson={lesson} />}
+                // poster={lesson.thumb_url}
               >
                 {lesson.hls_url && (
                   <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
