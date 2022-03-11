@@ -1,42 +1,42 @@
 import {AbilityBuilder, Ability} from '@casl/ability'
-import {loadCurrentUser} from 'lib/users'
 import {intersection, isString} from 'lodash'
+import {loadCurrentViewerRoles} from '../lib/viewer'
 
 type Actions = 'manage' | 'upload'
 type Subjects = 'Video' | 'all'
+export type Roles = 'admin' | 'editor' | 'publisher'
 type AppAbility = Ability<[Actions, Subjects]>
 
 export async function getAbilityFromToken(token: string) {
-  const user = await loadCurrentUser(token)
-  return defineAbilityFor(user)
+  const viewerRoles = await loadCurrentViewerRoles(token)
+  return defineAbilityFor(viewerRoles)
 }
 
-function defineAbilityFor(user: any) {
-  // AbilityBuilder https://casl.js.org/v5/en/guide/define-rules#ability-builder-class
+/**
+ * @see {@link https://casl.js.org/v5/en/guide/define-rules#ability-builder-class|AbilityBuilder}
+ * @param viewerRoles an array of roles for the current viewer
+ */
+function defineAbilityFor(viewerRoles: Roles[]) {
   const {can, build} = new AbilityBuilder<AppAbility>(Ability)
 
-  if (hasRoles(user, 'admin')) {
+  if (includesRoles(viewerRoles, 'admin')) {
     can('manage', 'all') // read-write access to everything
   }
 
-  if (hasRoles(user, ['editor', 'publisher'])) {
+  if (includesRoles(viewerRoles, ['editor', 'publisher'])) {
     can('upload', 'Video')
   }
 
   return build()
 }
 
-export function hasRoles(user: any, rolesToCheck: string | string[]) {
-  // ensure rolesToCheck is an array
-  let rolesToCheckArray: string[]
+export function includesRoles(
+  roles: Roles[] = [],
+  rolesToCheck: Roles | Roles[] = [],
+) {
   if (isString(rolesToCheck)) {
-    rolesToCheckArray = [rolesToCheck]
-  } else {
-    rolesToCheckArray = rolesToCheck
+    rolesToCheck = [rolesToCheck]
   }
-
-  const userRoles = user?.roles || []
-
   // check if at least one role overlaps
-  return intersection(userRoles, rolesToCheckArray).length > 0
+  return intersection(roles, rolesToCheck).length > 0
 }
