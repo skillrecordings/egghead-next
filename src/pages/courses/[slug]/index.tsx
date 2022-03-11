@@ -9,8 +9,6 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src'
-import {getAbilityFromToken} from '../../../server/ability'
-import {ACCESS_TOKEN_KEY} from '../../../utils/auth'
 const tracer = getTracer('course-page')
 type CourseProps = {
   course: any
@@ -47,8 +45,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   setupHttpTracing({name: getServerSideProps.name, tracer, req, res})
-
-  await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
 
   try {
     const course = params && (await loadPlaylist(params.slug as string))
