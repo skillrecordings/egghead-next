@@ -26,7 +26,7 @@ function defineAbilityFor(user: any) {
   return build()
 }
 
-function hasRoles(user: any, rolesToCheck: string | string[]) {
+export function hasRoles(user: any, rolesToCheck: string | string[]) {
   // ensure rolesToCheck is an array
   let rolesToCheckArray: string[]
   if (isString(rolesToCheck)) {
