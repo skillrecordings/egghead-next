@@ -563,6 +563,7 @@ const Lesson: React.FC<LessonProps> = ({
           >
             <div className={cx({hidden: !playerVisible})}>
               <Player
+                poster={lesson.thumb_url}
                 canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
                 className="font-sans"
                 container={fullscreenWrapperRef.current || undefined}
