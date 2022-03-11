@@ -354,6 +354,10 @@ const Lesson: React.FC<LessonProps> = ({
 
     switch (currentLessonState) {
       case 'loaded':
+        videoService.send({
+          type: 'LOAD_RESOURCE',
+          resource: lesson,
+        })
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
         // TODO: Detangle this nested series of `if` statements to make the
         // logic more immediately easy to reason about.
