@@ -205,7 +205,7 @@ function useAuthedViewer() {
       setSession: auth.setSession, // TODO: This isn't exported in auth, so isn't available here.
       handleAccessTokenAuthentication: handleAccessTokenAuthentication,
       isAuthenticated: () => auth.isAuthenticated(),
-      authToken: authToken,
+      authToken,
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),
       loading,
       refreshUser: auth.refreshUser,
