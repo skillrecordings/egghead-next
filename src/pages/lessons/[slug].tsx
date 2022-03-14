@@ -155,7 +155,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
 type LessonProps = {
   state: any
-  initialLesson: LessonResource
+  initialLesson: VideoResource
   watchCount: number
   setWatchCount: (value: number) => void
 }
@@ -351,13 +351,12 @@ const Lesson: React.FC<LessonProps> = ({
     console.debug(`current state of lesson:`, currentLessonState)
     const lesson = get(lessonState, 'context.lesson')
     const mediaPresent = Boolean(lesson?.hls_url || lesson?.dash_url)
+    const initialMediaPresent = Boolean(
+      initialLesson?.hls_url || initialLesson?.dash_url,
+    )
 
     switch (currentLessonState) {
       case 'loaded':
-        videoService.send({
-          type: 'LOAD_RESOURCE',
-          resource: lesson,
-        })
         const viewLimitNotReached = watchCount < MAX_FREE_VIEWS
         // TODO: Detangle this nested series of `if` statements to make the
         // logic more immediately easy to reason about.
@@ -397,14 +396,16 @@ const Lesson: React.FC<LessonProps> = ({
         console.debug(
           `changed to viewing isFullscreen: ${isFullscreen} mediaPresent: ${mediaPresent}`,
         )
+        if (!initialMediaPresent && mediaPresent) {
+          videoService.send({
+            type: 'LOAD_RESOURCE',
+            resource: lesson,
+          })
+        }
         if (!mediaPresent && !isFullscreen) {
           console.debug(`sending load event from viewing`)
           console.debug('LOAD')
           send('LOAD')
-          videoService.send({
-            type: 'LOAD_RESOURCE',
-            resource: initialLesson as any,
-          })
         }
         break
 
@@ -565,50 +566,48 @@ const Lesson: React.FC<LessonProps> = ({
               },
             )}
           >
-            {mounted ? (
-              <div className={cx({hidden: !playerVisible})}>
-                <Player
-                  canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
-                  className="font-sans"
-                  container={fullscreenWrapperRef.current || undefined}
-                  controls={<DownloadControl lesson={lesson} />}
-                >
-                  {lesson.hls_url && (
-                    <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
-                  )}
-                  {lesson.subtitles_url && lesson.hls_url && (
-                    <track
-                      key={lesson.subtitles_url}
-                      src={lesson.subtitles_url}
-                      kind="subtitles"
-                      srcLang="en"
-                      label="English"
-                      default={subtitle?.language === 'en'}
-                    />
-                  )}
-                  {metadataTracks && (
-                    <track
-                      key={lesson.slug}
-                      id="notes"
-                      src={queryString.stringifyUrl({
-                        url: `/api/lessons/notes/${lesson?.slug}`,
-                        query: {
-                          staff_notes_url: lesson?.staff_notes_url || undefined,
-                        },
-                      })}
-                      kind="metadata"
-                      label="notes"
-                    />
-                  )}
-                </Player>
-              </div>
-            ) : (
-              <div
-                className={cx('aspect-w-16 aspect-h-9', {
-                  hidden: mounted,
-                })}
-              />
-            )}
+            <div className={cx({hidden: !playerVisible})}>
+              <Player
+                canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
+                className="font-sans"
+                container={fullscreenWrapperRef.current || undefined}
+                controls={<DownloadControl lesson={lesson} />}
+                // poster={lesson.thumb_url}
+              >
+                {lesson.hls_url && (
+                  <HLSSource key={lesson.hls_url} src={lesson.hls_url} />
+                )}
+                {lesson.subtitles_url && lesson.hls_url && (
+                  <track
+                    key={lesson.subtitles_url}
+                    src={lesson.subtitles_url}
+                    kind="subtitles"
+                    srcLang="en"
+                    label="English"
+                    default={subtitle?.language === 'en'}
+                  />
+                )}
+                {metadataTracks && (
+                  <track
+                    key={lesson.slug}
+                    id="notes"
+                    src={queryString.stringifyUrl({
+                      url: `/api/lessons/notes/${lesson?.slug}`,
+                      query: {
+                        staff_notes_url: lesson?.staff_notes_url || undefined,
+                      },
+                    })}
+                    kind="metadata"
+                    label="notes"
+                  />
+                )}
+              </Player>
+            </div>
+            <div
+              className={cx('aspect-w-16 aspect-h-9', {
+                hidden: mounted,
+              })}
+            />
             {lessonState.matches('joining') && (
               <OverlayWrapper>
                 <EmailCaptureCtaOverlay
