@@ -19,8 +19,6 @@ const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
 
   const course = {...initialCourse, ...data}
 
-  console.debug(`course loaded`, course)
-
   const {slug, lessons} = course
   const items = get(course, 'items', [])
 
