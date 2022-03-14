@@ -1,4 +1,4 @@
-import {AbilityBuilder, Ability} from '@casl/ability'
+import {AbilityBuilder, Ability, defineAbility} from '@casl/ability'
 import {intersection, isString} from 'lodash'
 import {loadCurrentViewerRoles} from '../lib/viewer'
 
@@ -40,3 +40,8 @@ export function includesRoles(
   // check if at least one role overlaps
   return intersection(roles, rolesToCheck).length > 0
 }
+
+// this can be used as a default/initial ability object while waiting for
+// viewer roles to be loaded. It's an `ability` with no permissions. Sort of
+// like the Null Object pattern.
+export const canDoNothingAbility = defineAbility(() => {})

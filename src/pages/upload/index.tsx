@@ -30,10 +30,10 @@ const fileUploadReducer = (state: any, action: any) => {
 
 const Upload: React.FC = () => {
   const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
-  const {viewer} = useViewer()
+  const {ability} = useViewer()
   const uploaderRef = React.useRef(null)
 
-  return viewer?.s3_signing_url ? (
+  return ability.can('upload', 'Video') ? (
     <div>
       <ReactS3Uploader
         ref={uploaderRef}

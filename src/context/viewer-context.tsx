@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import useTokenSigner from '../hooks/use-token-signer'
 import useAffiliateAssigner from '../hooks/use-affiliate-assigner'
+import {getAbilityFromToken, canDoNothingAbility} from 'server/ability'
 
 export const auth = new Auth()
 
@@ -23,6 +24,7 @@ type ViewerContextType = {
     accessToken: string,
     expiresInSeconds: string,
   ) => Promise<any>
+  ability: any
 }
 
 const defaultViewerContext: ViewerContextType = {
@@ -30,6 +32,7 @@ const defaultViewerContext: ViewerContextType = {
   loading: true,
   setViewerEmail: (_) => {},
   handleAccessTokenAuthentication: () => Promise.resolve(),
+  ability: canDoNothingAbility,
 }
 
 export function useViewer() {
@@ -44,6 +47,7 @@ function useAuthedViewer() {
   const [loading, setLoading] = React.useState(true)
   const [loggingOut, setLoggingOut] = React.useState(false)
   const previousViewer = React.useRef(viewer)
+  const authToken = auth.getAuthToken()
 
   const setViewerEmail = (newEmail: string) => {
     setViewer((prevViewer: any) => {
@@ -179,6 +183,18 @@ function useAuthedViewer() {
     setViewer(authenticatedUser)
   }
 
+  const [ability, setAbility] = React.useState(canDoNothingAbility)
+  React.useEffect(() => {
+    const fetchAbility = async (authToken: string) => {
+      const ability = await getAbilityFromToken(authToken)
+      setAbility(ability)
+    }
+
+    if (authToken) {
+      fetchAbility(authToken)
+    }
+  }, [authToken])
+
   const values = React.useMemo(
     () => ({
       viewer,
@@ -189,10 +205,11 @@ function useAuthedViewer() {
       setSession: auth.setSession, // TODO: This isn't exported in auth, so isn't available here.
       handleAccessTokenAuthentication: handleAccessTokenAuthentication,
       isAuthenticated: () => auth.isAuthenticated(),
-      authToken: auth.getAuthToken(),
+      authToken: authToken,
       requestSignInEmail: (email: any) => auth.requestSignInEmail(email),
       loading,
       refreshUser: auth.refreshUser,
+      ability,
     }),
     [viewer, loading],
   )
