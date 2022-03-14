@@ -211,7 +211,7 @@ function useAuthedViewer() {
       refreshUser: auth.refreshUser,
       ability,
     }),
-    [viewer, loading],
+    [viewer, loading, authToken],
   )
 
   return values
