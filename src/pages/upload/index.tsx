@@ -1,12 +1,32 @@
 import * as React from 'react'
 import ReactS3Uploader from 'react-s3-uploader'
-import {useViewer} from '../../context/viewer-context'
-import {getAuthorizationHeader} from '../../utils/auth'
+import {ACCESS_TOKEN_KEY, getAuthorizationHeader} from 'utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
 import {find} from 'lodash'
+import {GetServerSideProps} from 'next'
+import {getAbilityFromToken} from 'server/ability'
+
+const SIGNING_URL = `/api/aws/sign-s3`
 
 type FileUpload = {file: File; percent: number; message: string}
+
+export const getServerSideProps: GetServerSideProps = async function ({req}) {
+  const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
+
+  if (ability.can('upload', 'Video')) {
+    return {
+      props: {},
+    }
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+}
 
 const fileUploadReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -30,10 +50,9 @@ const fileUploadReducer = (state: any, action: any) => {
 
 const Upload: React.FC = () => {
   const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
-  const {ability} = useViewer()
   const uploaderRef = React.useRef(null)
 
-  return ability.can('upload', 'Video') ? (
+  return (
     <div>
       <ReactS3Uploader
         ref={uploaderRef}
@@ -41,7 +60,7 @@ const Upload: React.FC = () => {
         //if we set this to `false` we can list all the files and
         //call `uploaderRef.current.uploadFile()` when we are ready
         autoUpload={true}
-        signingUrl={`/api/aws/sign-s3`}
+        signingUrl={SIGNING_URL}
         // @ts-ignore
         signingUrlHeaders={getAuthorizationHeader()}
         accept="video/*"
@@ -84,7 +103,7 @@ const Upload: React.FC = () => {
         )
       })}
     </div>
-  ) : null
+  )
 }
 
 export default Upload
