@@ -28,6 +28,8 @@ export async function middleware(req: NextRequest) {
   // think favicon etc
   if (PUBLIC_FILE.test(req.nextUrl.pathname)) return response
 
+  const url = req.nextUrl.clone()
+
   // Only rewrite if we are at the root
   if (req.nextUrl.pathname === '/') {
     const cioId =
@@ -39,7 +41,8 @@ export async function middleware(req: NextRequest) {
 
     switch (status) {
       case 'anon':
-        response = NextResponse.rewrite('/signup')
+        url.pathname = '/signup'
+        response = NextResponse.rewrite(url)
         break
       case 'identified':
         if (cioId) {
@@ -53,16 +56,19 @@ export async function middleware(req: NextRequest) {
 
             switch (true) {
               case !customer:
-                response = NextResponse.rewrite('/signup')
+                url.pathname = '/signup'
+                response = NextResponse.rewrite(url)
                 break
               case isMember:
                 response = NextResponse.next()
                 break
               case customer.attributes?.react_score > 1:
-                response = NextResponse.rewrite('/signup/react')
+                url.pathname = '/signup/react'
+                response = NextResponse.rewrite(url)
                 break
               default:
-                response = NextResponse.rewrite('/signup/full_stack')
+                url.pathname = '/signup/full_stack'
+                response = NextResponse.rewrite(url)
             }
 
             if (customer) {
