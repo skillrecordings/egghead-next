@@ -3,7 +3,7 @@ import {intersection, isString} from 'lodash'
 import {loadCurrentViewerRoles} from '../lib/viewer'
 
 type Actions = 'manage' | 'upload'
-type Subjects = 'Video' | 'all'
+type Subjects = 'Video' | 'Video.WithInstructor' | 'all'
 export type Roles = 'admin' | 'editor' | 'publisher'
 type AppAbility = Ability<[Actions, Subjects]>
 
@@ -25,6 +25,9 @@ function defineAbilityFor(viewerRoles: Roles[]) {
 
   if (includesRoles(viewerRoles, ['editor', 'publisher'])) {
     can('upload', 'Video')
+    // note: an instructor wouldn't have this ability, so they'd only get the
+    // choice to upload as themselves.
+    can('upload', 'Video.WithInstructor')
   }
 
   return build()
