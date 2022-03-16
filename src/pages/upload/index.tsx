@@ -6,17 +6,42 @@ import fileExtension from 'file-extension'
 import {find} from 'lodash'
 import {GetServerSideProps} from 'next'
 import {getAbilityFromToken} from 'server/ability'
+import groq from 'groq'
+import {sanityClient} from 'utils/sanity-client'
 
 const SIGNING_URL = `/api/aws/sign-s3`
 
 type FileUpload = {file: File; percent: number; message: string}
 
+type Instructor = {
+  externalId: string
+  person: {
+    _id: string
+    name: string
+    image: string
+  }
+}
+
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
   const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
 
   if (ability.can('upload', 'Video')) {
+    const instructorQuery = groq`
+      *[_type == 'collaborator' && role == 'instructor'][]{
+        'person': person-> {
+            _id,
+            name,
+            'image': image.url,
+          },
+        externalId,
+      }`
+
+    const instructors: Instructor[] = await sanityClient.fetch(instructorQuery)
+
     return {
-      props: {},
+      props: {
+        instructors,
+      },
     }
   } else {
     return {
@@ -48,7 +73,7 @@ const fileUploadReducer = (state: any, action: any) => {
   }
 }
 
-const Upload: React.FC = () => {
+const Upload: React.FC<{instructors: Instructor[]}> = ({instructors}) => {
   const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
   const uploaderRef = React.useRef(null)
 
@@ -102,6 +127,21 @@ const Upload: React.FC = () => {
           </div>
         )
       })}
+      <h2>Insructor</h2>
+      {/* we can use a more featureful select component here that allows for search and displaying an image thumbnail. This is a proof of concept. */}
+      <select>
+        {instructors.map(
+          ({
+            externalId,
+            person,
+          }: {
+            externalId: string
+            person: {name: string}
+          }) => {
+            return <option value={externalId}>{person['name']}</option>
+          },
+        )}
+      </select>
     </div>
   )
 }
