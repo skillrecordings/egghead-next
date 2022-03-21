@@ -3,8 +3,8 @@ import {intersection, isString} from 'lodash'
 import {loadCurrentViewerRoles} from '../lib/viewer'
 
 type Actions = 'manage' | 'upload'
-type Subjects = 'Video' | 'Video.WithInstructor' | 'all'
-export type Roles = 'admin' | 'editor' | 'publisher'
+type Subjects = 'Video' | 'all'
+export type Roles = 'admin' | 'editor' | 'publisher' | 'instructor'
 type AppAbility = Ability<[Actions, Subjects]>
 
 export async function getAbilityFromToken(token: string) {
@@ -23,11 +23,15 @@ function defineAbilityFor(viewerRoles: Roles[]) {
     can('manage', 'all') // read-write access to everything
   }
 
+  // Not ready for this yet, but once the uploader is opened up to Instructors,
+  // this is roughly what permissions will look like.
+  // if (includesRoles(viewerRoles, ['instructor'])) {
+  //   can('upload', 'Video')
+  //   cannot('upload', 'Video', ['instructor_id'])
+  // }
+
   if (includesRoles(viewerRoles, ['editor', 'publisher'])) {
-    can('upload', 'Video')
-    // note: an instructor wouldn't have this ability, so they'd only get the
-    // choice to upload as themselves.
-    can('upload', 'Video.WithInstructor')
+    can('upload', 'Video', ['instructor_id'])
   }
 
   return build()
