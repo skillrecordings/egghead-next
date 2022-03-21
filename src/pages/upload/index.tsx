@@ -15,7 +15,7 @@ const SIGNING_URL = `/api/aws/sign-s3`
 type FileUpload = {file: File; percent: number; message: string}
 
 type Instructor = {
-  externalId: string
+  eggheadInstructorId: string
   person: {
     _id: string
     name: string
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
             name,
             'image': image.url,
           },
-        externalId,
+        eggheadInstructorId,
       }`
 
     const instructors: Instructor[] = await sanityClient.fetch(instructorQuery)
@@ -75,9 +75,14 @@ const fileUploadReducer = (state: any, action: any) => {
 }
 
 const Upload: React.FC<{instructors: Instructor[]}> = ({instructors}) => {
+  // TODO: rename this reducer variables
   const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
   const uploaderRef = React.useRef(null)
-  const {ability} = useViewer()
+  const {viewer} = useViewer()
+
+  const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
+    viewer?.instructor_id || instructors[0]?.eggheadInstructorId,
+  )
 
   return (
     <div>
@@ -129,25 +134,26 @@ const Upload: React.FC<{instructors: Instructor[]}> = ({instructors}) => {
           </div>
         )
       })}
-      {ability.can('upload', 'Video.WithInstructor') ? (
-        <>
-          <h2>Insructor</h2>
-          {/* we can use a more featureful select component here that allows for search and displaying an image thumbnail. This is a proof of concept. */}
-          <select>
-            {instructors.map(
-              ({
-                externalId,
-                person,
-              }: {
-                externalId: string
-                person: {name: string}
-              }) => {
-                return <option value={externalId}>{person['name']}</option>
-              },
-            )}
-          </select>
-        </>
-      ) : null}
+      <h2>Insructor</h2>
+      {/* we can use a more featureful select component here that allows for search and displaying an image thumbnail. This is a proof of concept. */}
+      <select
+        value={courseInstructorId}
+        onChange={(e) => {
+          setCourseInstructorId(e.target.value)
+        }}
+      >
+        {instructors.map(
+          ({
+            eggheadInstructorId,
+            person,
+          }: {
+            eggheadInstructorId: string
+            person: {name: string}
+          }) => {
+            return <option value={eggheadInstructorId}>{person['name']}</option>
+          },
+        )}
+      </select>
     </div>
   )
 }
