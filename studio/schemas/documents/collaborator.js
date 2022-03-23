@@ -37,6 +37,7 @@ export default {
       name: 'eggheadInstructorId',
       title: 'egghead Instructor ID',
       type: 'string',
+      hidden: ({parent}) => parent?.role !== 'instructor',
     },
   ],
   preview: {
