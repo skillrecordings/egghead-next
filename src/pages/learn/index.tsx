@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react'
-import {loadHolidayCourses, holidaySaleOn} from 'lib/holiday-sale'
+import {loadHolidayCourses, saleOn} from 'lib/sale'
 import {sanityClient} from 'utils/sanity-client'
 import Home from 'components/pages/home'
 import {NextSeo} from 'next-seo'
@@ -77,7 +77,7 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
-  const holidayCourses = holidaySaleOn ? await loadHolidayCourses() : {}
+  const holidayCourses = saleOn ? await loadHolidayCourses() : {}
 
   return {
     props: {
