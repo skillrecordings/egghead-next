@@ -28,11 +28,15 @@ export default {
       type: 'reference',
       to: [{type: 'person'}],
     },
-
     {
       name: 'externalId',
-      title: 'External ID (egghead contact id)',
+      title: 'External ID (egghead contact id/CIO id)',
       type: 'number',
+    },
+    {
+      name: 'eggheadInstructorId',
+      title: 'egghead Instructor ID',
+      type: 'string',
     },
   ],
   preview: {

@@ -3,7 +3,7 @@ import {sanityClient} from 'utils/sanity-client'
 import {CardResource} from 'types'
 import groq from 'groq'
 
-const holidaySaleOn = process.env.NEXT_PUBLIC_EOY_SALE
+const saleOn = process.env.NEXT_PUBLIC_FLASH_SALE
 
 export type HolidaySaleProps = {
   data: CardResource
@@ -37,4 +37,4 @@ async function loadHolidayCourses() {
   return data
 }
 
-export {holidaySaleOn, loadHolidayCourses, CourseGrid}
+export {saleOn, loadHolidayCourses, CourseGrid}

@@ -24,8 +24,7 @@ import {
   MenuIcon,
   XIcon,
 } from '@heroicons/react/solid'
-import {holidaySaleOn} from 'lib/holiday-sale'
-import HolidaySaleHeaderBanner from 'components/cta/holiday-sale/header-banner'
+import SaleHeaderBanner from 'components/cta/sale/header-banner'
 import {MazePattern} from './images'
 import {isMember} from 'utils/is-member'
 
@@ -213,10 +212,9 @@ const Header: FunctionComponent = () => {
 
   return (
     <>
-      {holidaySaleOn &&
-        !viewer?.is_pro &&
+      {!viewer?.is_pro &&
         !viewer?.is_instructor &&
-        router.pathname !== '/pricing' && <HolidaySaleHeaderBanner />}
+        router.pathname !== '/pricing' && <SaleHeaderBanner />}
       <nav
         aria-label="header"
         className="relative h-12 text-sm border-b border-gray-100 dark:bg-gray-900 dark:border-gray-800 print:hidden dark:text-white text-gray-1000"
