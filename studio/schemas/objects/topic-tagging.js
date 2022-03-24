@@ -1,27 +1,27 @@
 import React from 'react'
 
 export default {
-  name: 'versioned-software-library',
-  title: 'Versioned Software Library (Dependency)',
+  name: 'topic-tagging',
+  title: 'Topic Tagging',
   type: 'object',
   fields: [
     {
       name: 'version',
-      title: 'Version',
+      title: 'Version (if applicable)',
       type: 'string',
     },
     {
-      name: 'library',
-      title: 'Software Library (Dependency)',
+      name: 'topic',
+      title: 'Topic (Libraries/Frameworks/Languages/Etc.)',
       type: 'reference',
-      to: [{type: 'software-library'}],
+      to: [{type: 'topic'}],
     },
   ],
   preview: {
     select: {
       version: 'version',
-      name: 'library.name',
-      media: 'library.image.url',
+      name: 'topic.name',
+      media: 'topic.image.url',
     },
     prepare(selection) {
       const {version, name, media} = selection

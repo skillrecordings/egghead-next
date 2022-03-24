@@ -2,8 +2,8 @@ import {MdLibraryBooks as icon} from 'react-icons/md'
 import React from 'react'
 
 export default {
-  name: 'software-library',
-  title: 'software library (dependency)',
+  name: 'topic',
+  title: 'Topic (Libraries/Frameworks/Languages/Etc.)',
   type: 'document',
   icon,
   fields: [
@@ -36,7 +36,7 @@ export default {
       type: 'string',
     },
     {
-      title: 'Link to library',
+      title: 'Link to canonical resource',
       name: 'url',
       type: 'url',
     },

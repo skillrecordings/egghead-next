@@ -34,9 +34,9 @@ const courseQuery = groq`
     'avatar_url': person->image.url,
     'slug': person->slug.current
   },
-	'dependencies': softwareLibraries[]{
+	'dependencies': topicTaggings[]{
     version,
-    ...library->{
+    ...topic->{
       description,
       "slug": slug.current,
       path,

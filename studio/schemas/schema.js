@@ -7,14 +7,14 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import collaborator from './documents/collaborator'
 import resource from './documents/resource'
 import person from './documents/person'
-import library from './documents/software-library'
+import topic from './documents/topic'
 import bigIdea from './documents/bigIdea'
 import essentialQuestion from './documents/essentialQuestion'
 import blockText from './objects/blockText'
 import blockContent from './objects/blockContent'
 import markdownText from './objects/markdownText'
 import link from './objects/link'
-import versionedLibrary from './objects/versioned-software-library'
+import topicTagging from './objects/topic-tagging'
 import cta from './objects/cta'
 import ctaPlug from './plugs/ctaPlug'
 import imageUrl from './objects/image-url'
@@ -38,7 +38,7 @@ export default createSchema({
   // Then proceed to concatenate our document type
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
-    versionedLibrary,
+    topicTagging,
     markdownText,
     blockContent,
     blockText,
@@ -51,7 +51,7 @@ export default createSchema({
     imageUrl,
     collaborator,
     person,
-    library,
+    topic,
     essentialQuestion,
     bigIdea,
     stringList,

@@ -42,13 +42,13 @@ export default {
         'This can be used to provide a short description of the lesson.',
     },
     {
-      name: 'softwareLibraries',
-      description: 'Versioned Software Libraries',
-      title: 'NPM or other Dependencies',
+      name: 'topicTaggings',
+      description: '(Libraries/Frameworks/Languages/Etc.)',
+      title: 'Topics',
       type: 'array',
       of: [
         {
-          type: 'versioned-software-library',
+          type: 'topic-tagging',
         },
       ],
     },
