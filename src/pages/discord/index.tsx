@@ -9,8 +9,6 @@ import Eggo from 'components/icons/eggo'
 import Image from 'next/image'
 import {Viewer} from 'types'
 
-const discordBlue = '#5865F2'
-
 const DiscordPage: React.FC<LoginRequiredParams> = ({loginRequired}) => {
   const {viewer} = useViewer()
   const name = get(viewer, 'name', '')
@@ -42,7 +40,7 @@ const DiscordPage: React.FC<LoginRequiredParams> = ({loginRequired}) => {
 
           <Link href={process.env.NEXT_PUBLIC_DISCORD_AUTHORIZE}>
             <a
-              className={`flex gap-5 rounded-md text-white items-center bg-[${discordBlue}] justify-center pl-5 leading-3 overflow-hidden font-medium hover:bg-opacity-90 transition`}
+              className={`flex gap-5 rounded-md text-white items-center bg-[#5865F2] justify-center pl-5 leading-3 overflow-hidden font-medium hover:bg-opacity-90 transition`}
             >
               <span className="py-1">Join egghead on Discord</span>
               <span className="bg-black bg-opacity-10 px-5 py-5" aria-hidden>
@@ -76,7 +74,7 @@ const HeaderImage: React.FC<{viewer: Viewer}> = ({viewer}) => {
         </div>
       )}
       <div
-        className={`absolute -bottom-1 -right-1 aspect-1 p-2 flex items-center justify-center rounded-full bg-[${discordBlue}] drop-shadow-xl`}
+        className={`absolute -bottom-1 -right-1 aspect-1 p-2 flex items-center justify-center rounded-full bg-[#5865F2] drop-shadow-xl`}
       >
         <DiscordLogo className="w-4 text-white" />
       </div>
