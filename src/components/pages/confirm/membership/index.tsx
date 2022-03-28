@@ -67,7 +67,12 @@ const Support: React.FC = () => {
         <p className="prose dark:prose-dark max-w-none">
           If you have any issues, please email support{' '}
           <strong>
-            <a href="mailto:support@egghead.io">support@egghead.io</a>
+            <a
+              className="prose dark:prose-dark"
+              href="mailto:support@egghead.io"
+            >
+              support@egghead.io
+            </a>
           </strong>{' '}
           and we will help you as soon as possible.
         </p>
