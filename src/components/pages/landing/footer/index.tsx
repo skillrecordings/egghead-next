@@ -145,9 +145,9 @@ const PricingCta = () => {
           {!pppCouponIsApplied &&
             !pricesLoading &&
             appliedCoupon?.coupon_expires_at && (
-              <div className="max-w-xs w-full mx-auto">
+              <div className="w-full max-w-xs mx-auto">
                 <Countdown
-                  label="Flash sale – Price goes up in:"
+                  label="Spring sale – Price goes up in:"
                   date={fromUnixTime(appliedCoupon.coupon_expires_at)}
                 />
               </div>
