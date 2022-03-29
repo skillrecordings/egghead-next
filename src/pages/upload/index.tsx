@@ -9,6 +9,8 @@ import {getAbilityFromToken} from 'server/ability'
 import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import {useViewer} from 'context/viewer-context'
+import {Formik, Form, Field, FormikProps} from 'formik'
+import axios from 'axios'
 
 const SIGNING_URL = `/api/aws/sign-s3`
 
@@ -21,6 +23,20 @@ type Instructor = {
     name: string
     image: string
   }
+}
+
+type UploadedFile = {
+  fileName: string
+  signedUrl: string
+}
+
+type LessonMetadata = {
+  title: string
+  fileMetadata: UploadedFile
+}
+
+type FormProps = {
+  lessons: LessonMetadata[]
 }
 
 export const getServerSideProps: GetServerSideProps = async function ({req}) {
@@ -74,88 +90,253 @@ const fileUploadReducer = (state: any, action: any) => {
   }
 }
 
-const Upload: React.FC<{instructors: Instructor[]}> = ({instructors}) => {
-  // TODO: rename this reducer variables
-  const [state, dispatch] = React.useReducer(fileUploadReducer, {files: []})
+const UploadWrapper = ({instructors}: {instructors: Instructor[]}) => {
+  const {viewer} = useViewer()
+  const initialValues: FormProps = {lessons: []}
+
+  if (!viewer?.s3_signing_url) return null
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={async (values, actions) => {
+        const response = await axios.post('api/sanity/lessons/create', {
+          lessons: values.lessons,
+        })
+
+        console.log({response})
+      }}
+    >
+      {(props) => <Upload {...props} instructors={instructors} />}
+    </Formik>
+  )
+}
+
+const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
+  props,
+) => {
+  const {instructors, ...formikProps} = props
+
+  const {values, setFieldValue} = formikProps
+  const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
+    files: [],
+  })
   const uploaderRef = React.useRef(null)
+  const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
+    [],
+  )
   const {viewer} = useViewer()
 
   const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
     viewer?.instructor_id || instructors[0]?.eggheadInstructorId,
   )
 
-  return (
-    <div>
-      <ReactS3Uploader
-        ref={uploaderRef}
-        multiple
-        //if we set this to `false` we can list all the files and
-        //call `uploaderRef.current.uploadFile()` when we are ready
-        autoUpload={true}
-        signingUrl={SIGNING_URL}
-        // @ts-ignore
-        signingUrlHeaders={getAuthorizationHeader()}
-        accept="video/*"
-        scrubFilename={(fullFilename) => {
-          //filename with no extension
-          const filename = fullFilename.replace(/\.[^/.]+$/, '')
-          //remove stuff s3 hates
-          const scrubbed = `${filename}-${uuid.generate()}`
-            .replace(/[^\w\d_\-.]+/gi, '')
-            .toLowerCase()
-          //rebuild it as a fresh new thing
-          return `${scrubbed}.${fileExtension(fullFilename)}`
-        }}
-        preprocess={(file, next) => {
-          dispatch({
-            type: 'add',
-            fileUpload: {
-              file,
-              percent: 0,
-              message: 'waiting to upload',
-            },
-          })
+  React.useEffect(() => {
+    setFieldValue('lessons', lessonMetadata)
+  }, [lessonMetadata, setFieldValue])
 
-          next(file)
-        }}
-        onProgress={(percent, message, file) => {
-          dispatch({type: 'progress', file, percent, message})
-        }}
-        onError={(message) => console.log(message)}
-        onFinish={(signResult, file) => {
-          const fileUrl = signResult.signedUrl.split('?')[0]
-          console.debug(fileUrl, signResult.publicUrl, file)
-        }}
-      />{' '}
-      {state.files.map((file) => {
-        return (
-          <div key={file.name}>
-            {file.file.name} {file.percent} {file.message}
+  return (
+    <div className="min-h-full flex">
+      <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            egghead Course Builder
+          </h2>
+          <p className="mt-2 text-center text-sm">
+            Start by dropping in a bunch of videos
+          </p>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{' '}
+            <a
+              href="#"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              create course lessons with other types of media
+            </a>
+          </p>
+        </div>
+        <Form className="mt-8 space-y-6">
+          <div>
+            <label
+              htmlFor="course-name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Course Name
+            </label>
+            <div className="mt-1">
+              <input
+                id="course-name"
+                name="course-name"
+                type="text"
+                required
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
           </div>
-        )
-      })}
-      <h2>Insructor</h2>
-      {/* we can use a more featureful select component here that allows for search and displaying an image thumbnail. This is a proof of concept. */}
-      <select
-        value={courseInstructorId}
-        onChange={(e) => {
-          setCourseInstructorId(e.target.value)
-        }}
-      >
-        {instructors.map(
-          ({
-            eggheadInstructorId,
-            person,
-          }: {
-            eggheadInstructorId: string
-            person: {name: string}
-          }) => {
-            return <option value={eggheadInstructorId}>{person['name']}</option>
-          },
-        )}
-      </select>
+          <div className="space-y-1">
+            <label
+              htmlFor="topic"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Topic
+            </label>
+            <p className="mt-2 text-center text-sm text-gray-600 border border-gray-300 rounded-md p-2">
+              coming soon...
+            </p>
+          </div>
+          <div className="space-y-1">
+            <label
+              htmlFor="instructorId"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Instructor
+            </label>
+            <select
+              id="instructorId"
+              name="instructorId"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              value={courseInstructorId}
+              onChange={(e) => {
+                setCourseInstructorId(e.target.value)
+              }}
+            >
+              {instructors.map(
+                ({
+                  eggheadInstructorId,
+                  person,
+                }: {
+                  eggheadInstructorId: string
+                  person: {name: string}
+                }) => {
+                  return (
+                    <option value={eggheadInstructorId}>
+                      {person['name']}
+                    </option>
+                  )
+                },
+              )}
+            </select>
+          </div>
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-700">
+              Video Files
+            </label>
+            <div className="max-w-xl">
+              <label className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+                <span className="flex items-center space-x-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <span className="font-medium text-gray-600">
+                    Drop video files, or{' '}
+                    <span className="text-blue-600 underline">browse</span>
+                  </span>
+                </span>
+                <ReactS3Uploader
+                  class="hidden"
+                  ref={uploaderRef}
+                  multiple
+                  //if we set this to `false` we can list all the files and
+                  //call `uploaderRef.current.uploadFile()` when we are ready
+                  autoUpload={true}
+                  signingUrl={SIGNING_URL}
+                  // @ts-ignore
+                  signingUrlHeaders={getAuthorizationHeader()}
+                  accept="video/*"
+                  scrubFilename={(fullFilename) => {
+                    // filename with no extension
+                    const filename = fullFilename.replace(/\.[^/.]+$/, '')
+                    // remove stuff s3 hates
+                    const scrubbed = `${filename}-${uuid.generate()}`
+                      .replace(/[^\w\d_\-.]+/gi, '')
+                      .toLowerCase()
+                    // rebuild it as a fresh new thing
+                    return `${scrubbed}.${fileExtension(fullFilename)}`
+                  }}
+                  preprocess={(file, next) => {
+                    dispatch({
+                      type: 'add',
+                      fileUpload: {
+                        file,
+                        percent: 0,
+                        message: 'waiting to upload',
+                      },
+                    })
+
+                    next(file)
+                  }}
+                  onProgress={(percent, message, file) => {
+                    dispatch({type: 'progress', file, percent, message})
+                  }}
+                  onError={(message) => console.log(message)}
+                  onFinish={(signResult, file) => {
+                    const fileUrl = signResult.signedUrl.split('?')[0]
+                    setLessonMetadata((prevState) => [
+                      ...prevState,
+                      {
+                        title: file.name,
+                        fileMetadata: {fileName: file.name, signedUrl: fileUrl},
+                      },
+                    ])
+                  }}
+                />
+              </label>
+            </div>
+          </div>
+          {fileUploadState.files.map((file) => {
+            if (file.percent < 100) {
+              return (
+                <div>
+                  {file.file.name} - {file.message} - {file.percent}%
+                </div>
+              )
+            } else {
+              return null
+            }
+          })}
+          {values.lessons.map((lesson, i) => (
+            <div className="space-y-1">
+              <p className="block text-xs font-medium text-gray-600 uppercase">
+                Lesson ({i + 1}/{values.lessons.length})
+              </p>
+              <label
+                htmlFor={`lessons.${i}.title`}
+                className="block text-sm font-medium text-gray-700"
+              >
+                Title
+              </label>
+              <Field
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                name={`lessons.${i}.title`}
+              />
+              <p className="mt-2 text-center text-sm text-gray-600">
+                {lesson.fileMetadata.signedUrl}
+              </p>
+            </div>
+          ))}
+          <div>
+            <button
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              type="submit"
+            >
+              Save Lessons
+            </button>
+          </div>
+        </Form>
+      </div>
     </div>
   )
 }
 
-export default Upload
+export default UploadWrapper
