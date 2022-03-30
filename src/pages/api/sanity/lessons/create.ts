@@ -1,8 +1,8 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import {sanityClient} from 'utils/sanity-client'
-import {getTokenFromCookieHeaders} from 'utils/auth'
-import fetchEggheadUser from 'api/egghead/users/from-token'
 import {nanoid} from 'nanoid'
+import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {getAbilityFromToken} from 'server/ability'
 
 type LessonData = {
   title: string
@@ -59,15 +59,10 @@ const createSanityLessons = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
-
   if (req.method === 'POST') {
-    const eggheadViewer = await fetchEggheadUser(eggheadToken, false)
+    const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
 
-    // permissions check for creating lessons in Sanity
-    const {is_publisher, is_instructor} = eggheadViewer
-
-    if (!is_publisher && !is_instructor) {
+    if (ability.cannot('upload', 'Video')) {
       res.status(403).end()
     } else {
       let transaction = sanityClient.transaction()
