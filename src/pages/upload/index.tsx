@@ -87,10 +87,7 @@ const fileUploadReducer = (state: any, action: any) => {
 }
 
 const UploadWrapper = ({instructors}: {instructors: Instructor[]}) => {
-  const {viewer} = useViewer()
   const initialValues: FormProps = {lessons: []}
-
-  if (!viewer?.s3_signing_url) return null
 
   return (
     <Formik
