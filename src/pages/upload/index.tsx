@@ -1,8 +1,5 @@
 import * as React from 'react'
-import ReactS3Uploader from 'react-s3-uploader'
-import {ACCESS_TOKEN_KEY, getAuthorizationHeader} from 'utils/auth'
-import uuid from 'shortid'
-import fileExtension from 'file-extension'
+import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {find} from 'lodash'
 import {GetServerSideProps} from 'next'
 import {getAbilityFromToken} from 'server/ability'
@@ -11,8 +8,7 @@ import {sanityClient} from 'utils/sanity-client'
 import {useViewer} from 'context/viewer-context'
 import {Formik, Form, Field, FormikProps} from 'formik'
 import axios from 'axios'
-
-const SIGNING_URL = `/api/aws/sign-s3`
+import VideoUploader from 'components/upload/video-uploader'
 
 type FileUpload = {file: File; percent: number; message: string}
 
@@ -121,7 +117,6 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
   const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
     files: [],
   })
-  const uploaderRef = React.useRef(null)
   const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
     [],
   )
@@ -244,53 +239,9 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
                     <span className="text-blue-600 underline">browse</span>
                   </span>
                 </span>
-                <ReactS3Uploader
-                  class="hidden"
-                  ref={uploaderRef}
-                  multiple
-                  //if we set this to `false` we can list all the files and
-                  //call `uploaderRef.current.uploadFile()` when we are ready
-                  autoUpload={true}
-                  signingUrl={SIGNING_URL}
-                  // @ts-ignore
-                  signingUrlHeaders={getAuthorizationHeader()}
-                  accept="video/*"
-                  scrubFilename={(fullFilename) => {
-                    // filename with no extension
-                    const filename = fullFilename.replace(/\.[^/.]+$/, '')
-                    // remove stuff s3 hates
-                    const scrubbed = `${filename}-${uuid.generate()}`
-                      .replace(/[^\w\d_\-.]+/gi, '')
-                      .toLowerCase()
-                    // rebuild it as a fresh new thing
-                    return `${scrubbed}.${fileExtension(fullFilename)}`
-                  }}
-                  preprocess={(file, next) => {
-                    dispatch({
-                      type: 'add',
-                      fileUpload: {
-                        file,
-                        percent: 0,
-                        message: 'waiting to upload',
-                      },
-                    })
-
-                    next(file)
-                  }}
-                  onProgress={(percent, message, file) => {
-                    dispatch({type: 'progress', file, percent, message})
-                  }}
-                  onError={(message) => console.log(message)}
-                  onFinish={(signResult, file) => {
-                    const fileUrl = signResult.signedUrl.split('?')[0]
-                    setLessonMetadata((prevState) => [
-                      ...prevState,
-                      {
-                        title: file.name,
-                        fileMetadata: {fileName: file.name, signedUrl: fileUrl},
-                      },
-                    ])
-                  }}
+                <VideoUploader
+                  dispatch={dispatch}
+                  setLessonMetadata={setLessonMetadata}
                 />
               </label>
             </div>
