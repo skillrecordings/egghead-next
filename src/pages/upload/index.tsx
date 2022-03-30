@@ -221,6 +221,7 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
             <label className="block text-sm font-medium text-gray-700">
               Video Files
             </label>
+            {/* Drop zone UI adapted from https://larainfo.com/blogs/tailwind-css-drag-and-drop-file-upload-ui */}
             <div className="max-w-xl">
               <label className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
                 <span className="flex items-center space-x-2">
