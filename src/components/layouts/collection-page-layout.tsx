@@ -214,10 +214,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
     illustrator: sanityIllustrator,
-    dependencies: sanityDependencies,
+    dependencies: sanityTags,
     state,
     path,
-    tags = [],
   } = course
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
@@ -243,18 +242,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   )
 
   logCollectionResource(course)
-
-  const courseTags = tags.map((tag: any) => {
-    const ogVersion = get(dependencies, tag.name)
-    const sanityTag = find(sanityDependencies, {name: tag.name})?.version
-
-    const version = !isEmpty(sanityTag) ? sanityTag : ogVersion
-
-    return {
-      ...tag,
-      ...(!!version && {version}),
-    }
-  })
 
   React.useEffect(() => {
     setIsFavorite(favorited)
@@ -478,7 +465,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
 
                 <div className="flex flex-col flex-wrap items-center pt-2 md:flex-row">
-                  <TagList tags={courseTags} courseSlug={course.slug} />
+                  <TagList tags={sanityTags} courseSlug={course.slug} />
                   <div className="flex items-center justify-center md:justify-start md:mr-4">
                     {duration && (
                       <div className="mt-2 mr-4 md:mt-0">
