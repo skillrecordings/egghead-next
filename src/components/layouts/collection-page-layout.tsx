@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take, find} from 'lodash'
+import {get, first, filter, isEmpty, take} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -175,7 +175,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const {
     topics,
     illustrator,
-    dependencies,
+
     pairWithResources = defaultPairWithResources,
     courseProject,
     quickFacts,
@@ -205,7 +205,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
-    published_at,
     created_at,
     access_state,
     customOgImage,
@@ -515,7 +514,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         setTimeout(() => {
                           setIsClickable(true)
                         }, 1000)
-                        axios.post(toggle_favorite_url).then((resp) => {
+                        axios.post(toggle_favorite_url).then(() => {
                           setIsFavorite(!isFavorite)
                           toast(
                             `Course ${
