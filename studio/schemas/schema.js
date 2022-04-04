@@ -20,6 +20,7 @@ import ctaPlug from './plugs/ctaPlug'
 import imageUrl from './objects/image-url'
 import stringList from './objects/string-list'
 import post from './documents/post'
+import course from './documents/course'
 import lesson from './documents/lesson'
 import podcastEpisode from './documents/podcastEpisode'
 import podcastSeason from './documents/podcastSeason'
@@ -56,6 +57,7 @@ export default createSchema({
     bigIdea,
     stringList,
     post,
+    course,
     lesson,
     podcastEpisode,
     podcastSeason,
