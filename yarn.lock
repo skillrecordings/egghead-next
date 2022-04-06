@@ -3992,10 +3992,10 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/cookies/-/cookies-0.0.1.tgz#e8a82597e9d7a988293e9e20f94c6c5a70d3b12b"
   integrity sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==
 
-"@skillrecordings/player@^0.11.19":
-  version "0.11.19"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-0.11.19.tgz#74bfb6f4a1b92767e6630755321fd157a8418a38"
-  integrity sha512-eFvRkjCd8ANs/8z8a/3KwT3TykgG7XamNmKLLOewQ5WZPRuMVdfakkallEB+AWzeHHX2ob9agH6JBJUM41ApVg==
+"@skillrecordings/player@^0.11.21":
+  version "0.11.21"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-0.11.21.tgz#ca2e78cb4ed634ec049cec2ffd9d948cf9680cf7"
+  integrity sha512-zvbdGZWo2Hqeq1rpU6Gu6HzTQYaPYCbeue6QPES+2k6VeHsiTmI9ct1HUTtWDa/qTGOGMgW4ezynts7JiaEdKw==
   dependencies:
     "@babel/core" "^7.16.5"
     "@emotion/react" "^11.4.1"
@@ -4003,6 +4003,7 @@
     "@reach/slider" "^0.16.0"
     "@reach/tabs" "^0.16.4"
     "@skillrecordings/react" "workspace:*"
+    "@skillrecordings/time" "workspace:*"
     "@tippyjs/react" "^4.2.5"
     "@xstate/react" "^1.5.1"
     classnames "^2.3.1"
@@ -4042,6 +4043,11 @@
     react-dom "17.0.2"
     xstate "^4.23.1"
     yup "^0.32.9"
+
+"@skillrecordings/time@workspace:*":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/time/-/time-0.0.11.tgz#b8ef030c1b63cbc9d8c4550c1768973e8e068fac"
+  integrity sha512-t51Pm75VKchB3HzbL7PSFIKHh1CtJhb86zANX7EIzpDLBnqdLqJI5EbFmjHvEvpt3XXH0O8IYI5YCTGAVvElqg==
 
 "@skillrecordings/viewer@0.0.1":
   version "0.0.1"

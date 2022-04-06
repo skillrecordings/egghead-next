@@ -45,7 +45,7 @@
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^2.15.0",
     "@sanity/image-url": "^0.140.22",
-    "@skillrecordings/player": "^0.11.19",
+    "@skillrecordings/player": "^0.11.21",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.17.1",
     "@supabase/supabase-js": "^1.21.0",
