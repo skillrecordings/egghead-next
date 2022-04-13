@@ -3682,6 +3682,18 @@
     "@reach/utils" "0.16.0"
     prop-types "^15.7.2"
 
+"@reach/listbox@^0.16.2":
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/@reach/listbox/-/listbox-0.16.2.tgz#2ed4b30ebdf9ce0addffb0207f843b8232a7db1c"
+  integrity sha512-UBotBw7X8e2ajHn6tg1M9ArinisvSvwtu/aP3edEQKCvobd95nAa+dqnfAdihPAQFH2AQ2NFfa/73yawWV3LOQ==
+  dependencies:
+    "@reach/auto-id" "0.16.0"
+    "@reach/descendants" "0.16.1"
+    "@reach/machine" "0.16.0"
+    "@reach/popover" "0.16.2"
+    "@reach/utils" "0.16.0"
+    prop-types "^15.7.2"
+
 "@reach/machine@0.16.0":
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/@reach/machine/-/machine-0.16.0.tgz#0504ba47ac09ed495bd341bf5fdd6625bcade0e3"
@@ -3714,6 +3726,17 @@
   integrity sha512-xmgiSyQwfshMkMNu6URbGrjjDTD3dnAITojvgEqfEtV1chDYqktKdDbIPrq+UGI54ey/IxbRpVzKcIjXiKoMmA==
   dependencies:
     "@reach/portal" "0.16.0"
+    "@reach/rect" "0.16.0"
+    "@reach/utils" "0.16.0"
+    tabbable "^4.0.0"
+    tslib "^2.3.0"
+
+"@reach/popover@0.16.2":
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/@reach/popover/-/popover-0.16.2.tgz#71d7af3002ca49d791476b22dee1840dd1719c19"
+  integrity sha512-IwkRrHM7Vt33BEkSXneovymJv7oIToOfTDwRKpuYEB/BWYMAuNfbsRL7KVe6MjkgchDeQzAk24cYY1ztQj5HQQ==
+  dependencies:
+    "@reach/portal" "0.16.2"
     "@reach/rect" "0.16.0"
     "@reach/utils" "0.16.0"
     tabbable "^4.0.0"
@@ -3756,6 +3779,17 @@
     invariant "^2.2.3"
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
+
+"@reach/slider@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@reach/slider/-/slider-0.16.0.tgz#1887f9a0f399de4c16394260d56efbfeedbef715"
+  integrity sha512-RdJTndvn5TMJXrt9ut5xpFTXTaIllE9H+zyFT5awmNqC+0r6/kt7fFxMPAy4UI0CTFMcQXRfj6qA/TVe/vf5Tw==
+  dependencies:
+    "@reach/auto-id" "0.16.0"
+    "@reach/utils" "0.16.0"
+    prop-types "^15.7.2"
+    tiny-warning "^1.0.3"
+    tslib "^2.3.0"
 
 "@reach/tabs@^0.16.1":
   version "0.16.1"
@@ -3982,15 +4016,18 @@
   resolved "https://registry.yarnpkg.com/@skillrecordings/cookies/-/cookies-0.0.1.tgz#e8a82597e9d7a988293e9e20f94c6c5a70d3b12b"
   integrity sha512-gSJujtLx4v8kC94IzBM36Npp/xpqTmgt/Z0ZbwiSJ95oOeqSGxP+MJIe8R/PFLt8e0q8Gkxx8dhJXrQoXA6wlw==
 
-"@skillrecordings/player@^0.11.16":
-  version "0.11.16"
-  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-0.11.16.tgz#4e720c8e80864dcd9fd78e31a3d9b6396dec7da2"
-  integrity sha512-yEHmdKFtG8v6Aux23Y/7NHOsrRTfG3piqWNp2C5dUInBq3l3gf7qhJpC06TovyAujLdcQ8/RL0l07p+YRTbOKQ==
+"@skillrecordings/player@^0.11.21":
+  version "0.11.21"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/player/-/player-0.11.21.tgz#ca2e78cb4ed634ec049cec2ffd9d948cf9680cf7"
+  integrity sha512-zvbdGZWo2Hqeq1rpU6Gu6HzTQYaPYCbeue6QPES+2k6VeHsiTmI9ct1HUTtWDa/qTGOGMgW4ezynts7JiaEdKw==
   dependencies:
     "@babel/core" "^7.16.5"
     "@emotion/react" "^11.4.1"
+    "@reach/listbox" "^0.16.2"
+    "@reach/slider" "^0.16.0"
     "@reach/tabs" "^0.16.4"
     "@skillrecordings/react" "workspace:*"
+    "@skillrecordings/time" "workspace:*"
     "@tippyjs/react" "^4.2.5"
     "@xstate/react" "^1.5.1"
     classnames "^2.3.1"
@@ -4030,6 +4067,11 @@
     react-dom "17.0.2"
     xstate "^4.23.1"
     yup "^0.32.9"
+
+"@skillrecordings/time@workspace:*":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@skillrecordings/time/-/time-0.0.11.tgz#b8ef030c1b63cbc9d8c4550c1768973e8e068fac"
+  integrity sha512-t51Pm75VKchB3HzbL7PSFIKHh1CtJhb86zANX7EIzpDLBnqdLqJI5EbFmjHvEvpt3XXH0O8IYI5YCTGAVvElqg==
 
 "@skillrecordings/viewer@0.0.1":
   version "0.0.1"

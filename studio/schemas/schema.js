@@ -19,6 +19,7 @@ import cta from './objects/cta'
 import ctaPlug from './plugs/ctaPlug'
 import imageUrl from './objects/image-url'
 import stringList from './objects/string-list'
+import videoResource from './documents/videoResource'
 import post from './documents/post'
 import lesson from './documents/lesson'
 import podcastEpisode from './documents/podcastEpisode'
@@ -55,6 +56,7 @@ export default createSchema({
     essentialQuestion,
     bigIdea,
     stringList,
+    videoResource,
     post,
     lesson,
     podcastEpisode,
