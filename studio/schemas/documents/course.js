@@ -25,8 +25,19 @@ export default {
       name: 'description',
       type: 'markdown',
       title: 'Description',
-      description:
-        'This can be used to provide a short description of the lesson.',
+      description: 'A full description of the course.',
+    },
+    {
+      name: 'publishedAt',
+      description: 'The date this course was published',
+      title: 'Published At',
+      type: 'date',
+    },
+    {
+      name: 'updatedAt',
+      description: 'The last time this resource was meaningfully updated',
+      title: 'Updated At',
+      type: 'date',
     },
     {
       name: 'image',
@@ -59,6 +70,13 @@ export default {
       ],
     },
     {
+      name: 'imageIllustrator',
+      description: 'Human that illustrated the course cover image',
+      title: 'Image Illustrator',
+      type: 'reference',
+      to: [{type: 'collaborator'}],
+    },
+    {
       name: 'lessons',
       description: 'the individual lessons that make up this course',
       title: 'Lessons',
@@ -69,6 +87,26 @@ export default {
           to: [{type: 'lesson'}],
         },
       ],
+    },
+    {
+      title: 'Access Level',
+      description:
+        'Does this course require Pro access or is it a community resource?',
+      name: 'accessLevel',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Free', value: 'free'},
+          {title: 'Pro', value: 'pro'},
+        ],
+        layout: 'radio',
+      },
+    },
+    {
+      title: 'Duration (minutes)',
+      description: 'How many minutes does the course take to complete?',
+      name: 'durationInMinutes',
+      type: 'number',
     },
   ],
 }
