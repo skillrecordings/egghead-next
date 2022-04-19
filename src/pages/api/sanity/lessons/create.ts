@@ -1,8 +1,9 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {sanityClient} from 'utils/sanity-client'
 import {nanoid} from 'nanoid'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {getAbilityFromToken} from 'server/ability'
+
+import client from '@sanity/client'
 
 type LessonData = {
   title: string
@@ -27,6 +28,13 @@ type SanityLesson = {
     _ref: string
   }
 }
+
+const sanityClient = client({
+  projectId: 'sb1i5dlc',
+  dataset: 'production',
+  useCdn: true,
+  token: process.env.SANITY_EDITOR_TOKEN,
+})
 
 async function formatSanityMutationForLessons(lessons: LessonData[]) {
   let sanityLessons: SanityLesson[] = []
