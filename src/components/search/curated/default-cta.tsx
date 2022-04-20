@@ -7,7 +7,7 @@ const DefaultCTA: React.FC<{location: string}> = ({location}) => {
     <ExternalTrackedLink
       eventName="clicked epic react banner"
       params={{location}}
-      className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100  relative text-center w-50 lg:min-w-fit"
+      className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
       href="https://epicreact.dev"
       target="_blank"
       rel="noopener"
