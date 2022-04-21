@@ -29,7 +29,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
 
   const location = `${name} landing`
   return (
-    <div className="w-full lg:pb-4 dark:bg-gray-900">
+    <div className="w-full lg:pb-4">
       <NextSeo
         title={`Learn web development from ${name} on egghead`}
         twitter={{
@@ -48,7 +48,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
       />
       <div className="items-center flex flex-col grid-cols-1 space-y-12 lg:grid lg:grid-cols-12 lg:space-y-0 dark:bg-gray-900">
         <div
-          className={`w-full lg:col-span-8 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden grid lg:grid-cols-8 lg:gap-2 ${
+          className={`w-full lg:col-span-8 dark:text-gray-200 h-full relative items-start overflow-hidden grid lg:grid-cols-8 lg:gap-2 ${
             className ? className : ''
           }`}
         >
