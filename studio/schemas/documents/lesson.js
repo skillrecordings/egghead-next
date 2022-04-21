@@ -35,6 +35,19 @@ export default {
       type: 'url',
     },
     {
+      name: 'resource',
+      description:
+        'Attach a resource to this lesson (Video, Audio, Text, etc.)',
+      title: 'Resource',
+      type: 'reference',
+      to: [
+        {
+          type: 'videoResource',
+          title: 'Video',
+        },
+      ],
+    },
+    {
       name: 'description',
       type: 'markdown',
       title: 'Description',

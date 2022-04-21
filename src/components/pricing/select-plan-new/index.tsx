@@ -42,7 +42,7 @@ export const PlanPrice: React.FunctionComponent<{
                 <div className="relative text-xl opacity-90 before:h-[2px] before:rotate-[-19deg] before:absolute before:bg-current before:w-full flex justify-center items-center text-center">
                   &nbsp;{price}&nbsp;
                 </div>
-                <div className="text-sm font-semibold uppercase text-blue-600 dark:text-amber-400">
+                <div className="text-sm font-semibold text-blue-600 uppercase dark:text-amber-400">
                   save {discount_percentage}%
                 </div>
               </div>
@@ -236,7 +236,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         {!isPPP && appliedCoupon?.coupon_expires_at && !pricesLoading && (
           <Countdown
-            label="Flash sale – Price goes up in:"
+            label="Spring sale – Price goes up in:"
             date={fromUnixTime(appliedCoupon.coupon_expires_at)}
           />
         )}

@@ -15,12 +15,19 @@ import Link from 'components/link'
 import Image from 'next/image'
 import CodeBlock from 'components/code-block'
 import {useViewer} from '../../context/viewer-context'
+import Tippy from '@tippyjs/react'
 import {
   useVideo,
   useMetadataCues,
   selectActiveCues,
 } from '@skillrecordings/player'
 import {useSelector} from '@xstate/react'
+import {
+  AlertDialog,
+  AlertDialogLabel,
+  AlertDialogDescription,
+  AlertDialogContent,
+} from '@reach/alert-dialog'
 
 const notesCreationAvailable =
   process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
@@ -173,20 +180,21 @@ const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
           >
             <div className="space-y-3">
               {cues.map((cue: VTTCue) => {
-                let note: {text: string; type?: string}
+                let note: {text: string; type?: string; id?: string}
                 try {
                   note = JSON.parse(cue.text)
                 } catch (e) {
-                  note = {text: cue.text}
+                  note = {text: cue.text, id: cue.id}
                 }
                 const active = activeCues.includes(cue)
                 const cueStartTime = convertTime(Math.round(cue.startTime))
+
                 return (
                   <div key={cue.text}>
                     {active && <Element name="active-note" />}
                     <div
                       className={classNames(
-                        'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
+                        'group text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent relative',
                         {
                           'border-indigo-500': active,
                           '': !active,
@@ -205,19 +213,23 @@ const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
                           {note.text}
                         </ReactMarkdown>
                       )}
-                      {cueStartTime && (
-                        <div
-                          onClick={() => {
-                            clickOpen(cue)
-                            track('clicked cue in sidebar', {cue: note.text})
-                          }}
-                          className="flex items-baseline justify-end w-full pt-3 text-gray-900 underline cursor-pointer dark:text-white"
-                        >
-                          <time className="text-xs font-medium opacity-60">
-                            {cueStartTime}
-                          </time>
-                        </div>
-                      )}
+                      <div className="flex items-center justify-between relative pt-3">
+                        {cueStartTime && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              clickOpen(cue)
+                              track('clicked cue in sidebar', {cue: note.text})
+                            }}
+                            className="text-xs opacity-80 hover:opacity-100 transition flex items-baseline text-gray-900 hover:underline cursor-pointer dark:text-white"
+                          >
+                            <span className="sr-only">Go to</span>{' '}
+                            <time>{cueStartTime}</time>
+                          </button>
+                        )}
+                        {/* only user's own notes have an id */}
+                        {note.id && <DeleteCue cue={cue} />}
+                      </div>
                     </div>
                   </div>
                 )
@@ -227,6 +239,79 @@ const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
         </div>
       </div>
     </div>
+  )
+}
+
+const DeleteCue: React.FC<{cue: VTTCue}> = ({cue}) => {
+  const videoService = useVideo()
+  const [showDialog, setShowDialog] = React.useState(false)
+  const cancelRef: any = React.useRef()
+  const open = () => setShowDialog(true)
+  const close = () => setShowDialog(false)
+  const deleteCue = () => {
+    videoService.send({
+      type: 'ACTIVATE_CUE',
+      cue: cue,
+    })
+    videoService.send({
+      type: 'DELETE_CUE',
+      cue: cue,
+    })
+  }
+  return (
+    <>
+      <Tippy
+        placement="top"
+        offset={[0, 5]}
+        delay={0}
+        duration={10}
+        content={
+          <div className="dark:bg-black bg-gray-100 rounded-md px-2 py-1 text-sm">
+            delete note
+          </div>
+        }
+      >
+        <button
+          type="button"
+          className="absolute -right-1 dark:text-white opacity-80 hover:opacity-100 transition p-1"
+          onClick={open}
+        >
+          <span className="sr-only">delete note</span>
+          <i aria-hidden className="gg-trash-empty scale-75" />
+        </button>
+      </Tippy>
+      {showDialog && (
+        <AlertDialog
+          onDismiss={close}
+          leastDestructiveRef={cancelRef}
+          className="dark:bg-gray-900 dark:text-white shadow-xl rounded-lg max-w-md text-center w-full"
+        >
+          <AlertDialogLabel className="opacity-80 pb-4 md:text-base text-sm">
+            Please confirm
+          </AlertDialogLabel>
+          <AlertDialogDescription className="md:text-lg">
+            Are you sure you want to delete this note?
+          </AlertDialogDescription>
+          <AlertDialogContent className="bg-transparent m-0 p-0 pt-8 w-auto flex items-center gap-3 justify-center">
+            <button
+              type="button"
+              className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-3 rounded-md transition"
+              onClick={deleteCue}
+            >
+              Yes, delete
+            </button>{' '}
+            <button
+              type="button"
+              className="dark:bg-gray-700 dark:text-white text-black bg-gray-200 px-4 py-3 rounded-md dark:hover:bg-gray-600 hover:bg-gray-300 transition"
+              ref={cancelRef}
+              onClick={close}
+            >
+              Nevermind, don't delete.
+            </button>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+    </>
   )
 }
 
