@@ -29,7 +29,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
 
   const location = `${name} landing`
   return (
-    <div className="w-full lg:pb-4">
+    <div className="lg:pb-4 -mx-5">
       <NextSeo
         title={`Learn web development from ${name} on egghead`}
         twitter={{

@@ -278,7 +278,7 @@ const Search: FunctionComponent<SearchProps> = ({
 
                   {!isEmpty(instructor) &&
                     shouldDisplayLandingPageForInstructor(instructor.slug) && (
-                      <div className="pb-8">
+                      <div className="pb-8 px-5">
                         <InstructorCuratedPage instructor={instructor} />
                       </div>
                     )}
