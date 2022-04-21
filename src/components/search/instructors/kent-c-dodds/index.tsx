@@ -33,7 +33,7 @@ const SearchKentCDodds = ({instructor}: any) => {
           />
         }
       />
-      <section className="mb-10 flex sm:flex-nowrap flex-wrap flex-shrink justify-between gap-4 xl:px-0 px-5">
+      <section className="mt-4 mb-10 flex sm:flex-nowrap flex-wrap flex-shrink justify-between gap-4 xl:px-0 px-5">
         <ExternalTrackedLink
           eventName="clicked testing javascript banner"
           location="Kent C. Dodds instructor page"
