@@ -12,30 +12,16 @@ const DefaultCTA: React.FC<{location: string}> = ({location}) => {
       target="_blank"
       rel="noopener"
     >
-      <div className="block lg:hidden">
-        <Image
-          priority
-          quality={100}
-          width={417}
-          height={463}
-          alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
-          // 25% off
-          // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
-        />
-      </div>
-      <div className="hidden lg:block">
-        <Image
-          priority
-          quality={100}
-          layout="fill"
-          objectFit="cover"
-          alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-          src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
-          // 25% off
-          // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
-        />
-      </div>
+      <Image
+        priority
+        quality={100}
+        width={417}
+        height={463}
+        alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
+        src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
+        // 25% off
+        // src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1625226676/epic-react/summer-sale-2021/banner-react-page_2x.jpg"
+      />
     </ExternalTrackedLink>
   )
 }
