@@ -9,10 +9,13 @@ import {useViewer} from 'context/viewer-context'
 import {Formik, Form, Field, FormikProps} from 'formik'
 import axios from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
+import _find from 'lodash/find'
+import {CourseData} from 'sanity-types'
 
 type FileUpload = {file: File; percent: number; message: string}
 
 type Instructor = {
+  _id: string
   eggheadInstructorId: string
   person: {
     _id: string
@@ -32,6 +35,7 @@ type LessonMetadata = {
 }
 
 type FormProps = {
+  course: CourseData
   lessons: LessonMetadata[]
 }
 
@@ -47,6 +51,7 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
             'image': image.url,
           },
         eggheadInstructorId,
+        _id
       }`
 
     const instructors: Instructor[] = await sanityClient.fetch(instructorQuery)
@@ -87,13 +92,17 @@ const fileUploadReducer = (state: any, action: any) => {
 }
 
 const UploadWrapper = ({instructors}: {instructors: Instructor[]}) => {
-  const initialValues: FormProps = {lessons: []}
+  const initialValues: FormProps = {
+    course: {title: '', collaboratorId: undefined},
+    lessons: [],
+  }
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={async (values, actions) => {
         const response = await axios.post('api/sanity/lessons/create', {
+          course: values.course,
           lessons: values.lessons,
         })
 
@@ -122,10 +131,21 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
   const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
     viewer?.instructor_id || instructors[0]?.eggheadInstructorId,
   )
+  const sanityCollaboratorId: string | undefined = _find(instructors, [
+    'eggheadInstructorId',
+    courseInstructorId,
+  ])?._id
+
+  React.useEffect(() => {
+    setFieldValue('course.collaboratorId', sanityCollaboratorId)
+  }, [sanityCollaboratorId, setFieldValue])
 
   React.useEffect(() => {
     setFieldValue('lessons', lessonMetadata)
   }, [lessonMetadata, setFieldValue])
+
+  console.log({instructors})
+  console.log({values})
 
   return (
     <div className="min-h-full flex">
@@ -156,9 +176,8 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
               Course Name
             </label>
             <div className="mt-1">
-              <input
-                id="course-name"
-                name="course-name"
+              <Field
+                name="course.title"
                 type="text"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
