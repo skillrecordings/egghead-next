@@ -104,8 +104,8 @@ export default {
       },
     },
     {
-      title: 'egghead-rails lesson id',
-      name: 'egghead_rails_id',
+      title: 'The lessons internal ID on egghead-rails',
+      name: 'eggheadRailsLessonId',
       type: 'number',
       hidden: true,
     },
