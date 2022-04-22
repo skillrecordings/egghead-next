@@ -29,7 +29,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
 
   const location = `${name} landing`
   return (
-    <div className="w-full pb-4 dark:bg-gray-900">
+    <div className="lg:pb-4 -mx-5">
       <NextSeo
         title={`Learn web development from ${name} on egghead`}
         twitter={{
@@ -46,19 +46,14 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
           ],
         }}
       />
-      <div className="items-start grid-cols-1 space-y-5 md:grid md:grid-cols-12 md:space-y-0 dark:bg-gray-900">
+      <div className="items-center flex flex-col grid-cols-1 space-y-12 lg:grid lg:grid-cols-12 lg:space-y-0 dark:bg-gray-900">
         <div
-          className={`md:col-span-8 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm h-full relative items-start overflow-hidden grid md:grid-cols-8 md:gap-2 ${
+          className={`w-full lg:col-span-8 dark:text-gray-200 h-full relative items-start overflow-hidden grid lg:grid-cols-8 lg:gap-2 ${
             className ? className : ''
           }`}
         >
           {imageUrl && (
-            <div
-              style={{
-                minHeight: '400px',
-              }}
-              className="relative flex flex-col justify-start h-full md:col-span-3"
-            >
+            <div className="relative flex flex-col justify-start h-full lg:col-span-3 lg:min-h-[350px] xl:min-h-[400px]">
               <Image
                 quality="100"
                 layout="fill"
@@ -68,7 +63,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
               />
             </div>
           )}
-          <div className="flex flex-col justify-start h-full p-8 md:col-span-5">
+          <div className="flex flex-col justify-start h-full p-8 lg:col-span-5">
             {company && (
               <p className="text-xs text-gray-500 uppercase">{company}</p>
             )}

@@ -160,6 +160,25 @@ pre > code {
   This will hide the focus indicator if the element receives focus via the mouse,
   but it will still show up on keyboard focus.
 */
-.js-focus-visible :focus:not(.focus-visible) {
+[data-js-focus-visible] :focus:not([data-focus-visible-added]) {
   outline: none;
+}
+
+.cueplayer-react .cueplayer-react-progress-bar {
+  .cueplayer-react-progress-slider-active {
+    [data-reach-slider-handle] {
+      opacity: 1;
+      &:focus {
+        outline: 2px solid rgba(59, 130, 246);
+      }
+    }
+  }
+
+  [data-reach-slider-range] {
+    @apply bg-blue-500;
+  }
+}
+
+.cueplayer-react .cueplayer-react-cue-form-submit-button {
+  @apply bg-blue-600;
 }
