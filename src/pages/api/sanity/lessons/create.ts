@@ -78,8 +78,8 @@ const createSanityLessons = async (
       const {sanityLessons, sanityResources} =
         await formatSanityMutationForLessons(req.body.lessons)
 
-      sanityResources.forEach((lesson) => {
-        transaction.create(lesson)
+      sanityResources.forEach((resource) => {
+        transaction.create(resource)
       })
 
       sanityLessons.forEach((lesson) => {
