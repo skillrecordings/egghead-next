@@ -201,7 +201,10 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
                   person: {name: string}
                 }) => {
                   return (
-                    <option value={eggheadInstructorId}>
+                    <option
+                      key={eggheadInstructorId}
+                      value={eggheadInstructorId}
+                    >
                       {person['name']}
                     </option>
                   )
