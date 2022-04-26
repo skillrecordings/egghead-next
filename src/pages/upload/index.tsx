@@ -10,7 +10,7 @@ import {Formik, Form, Field, FormikProps} from 'formik'
 import axios from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
 import _find from 'lodash/find'
-import {CourseData} from 'sanity-types'
+import {CourseData} from 'types'
 
 type FileUpload = {file: File; percent: number; message: string}
 

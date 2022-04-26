@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {nanoid} from 'nanoid'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {getAbilityFromToken} from 'server/ability'
-import {CourseData} from 'sanity-types'
+import {CourseData} from 'types'
 
 import client from '@sanity/client'
 
