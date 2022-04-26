@@ -144,9 +144,6 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
     setFieldValue('lessons', lessonMetadata)
   }, [lessonMetadata, setFieldValue])
 
-  console.log({instructors})
-  console.log({values})
-
   return (
     <div className="min-h-full flex">
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
