@@ -14,16 +14,11 @@ type LessonData = {
   }
 }
 
-type SanityReference<SanityType> = {
-  _type: SanityType
+type SanityReferenceArray = Array<{
+  _key: string
+  _type: 'reference'
   _ref: string
-}
-
-type SanityReferenceArray<SanityType> = Array<
-  {
-    _key: string
-  } & SanityReference<'reference'>
->
+}>
 
 type SanityVideoResource = {
   _type: 'videoResource'
@@ -45,8 +40,8 @@ type SanityLesson = {
 type SanityCourse = {
   _type: 'course'
   title: string
-  collaborators: SanityReferenceArray<'collaborator'>
-  lessons: SanityReferenceArray<'lesson'>
+  collaborators: SanityReferenceArray
+  lessons: SanityReferenceArray
 }
 
 const sanityClient = client({
