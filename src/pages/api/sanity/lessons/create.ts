@@ -56,6 +56,13 @@ const sanityClient = client({
   token: process.env.SANITY_EDITOR_TOKEN,
 })
 
+const sanityIdForDocumentType = async (
+  documentType: string,
+): Promise<string> => {
+  const id = await nanoid()
+  return `${documentType}-${id}`
+}
+
 async function formatSanityMutationForLessons(
   course: CourseData,
   lessons: LessonData[],
@@ -90,7 +97,7 @@ async function formatSanityMutationForLessons(
 
   await Promise.all(
     lessons.map(async (lesson) => {
-      const videoId = await nanoid()
+      const videoId = await sanityIdForDocumentType('videoResource')
 
       sanityResources.push({
         _type: 'videoResource',
@@ -99,7 +106,7 @@ async function formatSanityMutationForLessons(
         originalVideoUrl: lesson.fileMetadata.signedUrl,
       })
 
-      const lessonId = await nanoid()
+      const lessonId = await sanityIdForDocumentType('lesson')
 
       sanityLessons.push({
         _id: lessonId,
