@@ -103,5 +103,11 @@ export default {
         layout: 'radio',
       },
     },
+    {
+      title: 'The lessons internal ID on egghead-rails',
+      name: 'eggheadRailsLessonId',
+      type: 'number',
+      hidden: true,
+    },
   ],
 }

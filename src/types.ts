@@ -148,3 +148,8 @@ export type ParityCouponMessageProps = {
   isPPP?: boolean
   isLoading?: boolean
 }
+
+export type CourseData = {
+  title: string
+  collaboratorId?: string
+}

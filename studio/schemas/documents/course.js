@@ -28,6 +28,28 @@ export default {
       description: 'A full description of the course.',
     },
     {
+      name: 'summary',
+      description: 'Short description, like for a tweet',
+      title: 'Summary',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.max(180),
+      options: {
+        maxLength: 180,
+      },
+    },
+    {
+      name: 'byline',
+      description:
+        'Metadata to display on cards (e.g. "Kent C. Dodds • 2h 29m • Course")',
+      title: 'Byline',
+      type: 'string',
+      validation: (Rule) => Rule.max(90),
+      options: {
+        maxLength: 90,
+      },
+    },
+    {
       name: 'publishedAt',
       description: 'The date this course was published',
       title: 'Published At',
