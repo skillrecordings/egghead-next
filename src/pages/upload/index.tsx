@@ -34,6 +34,11 @@ type LessonMetadata = {
   fileMetadata: UploadedFile
 }
 
+type Topic = {
+  name: string
+  id: string
+}
+
 type FormProps = {
   course: CourseData
   lessons: LessonMetadata[]
@@ -54,11 +59,20 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
         _id
       }`
 
+    const topicQuery = groq`
+      *[_type == 'software-library'][]{
+        'id': _id,
+        name
+      }
+    `
+
     const instructors: Instructor[] = await sanityClient.fetch(instructorQuery)
+    const topics: Topic[] = await sanityClient.fetch(topicQuery)
 
     return {
       props: {
         instructors,
+        topics,
       },
     }
   } else {
@@ -91,9 +105,19 @@ const fileUploadReducer = (state: any, action: any) => {
   }
 }
 
-const UploadWrapper = ({instructors}: {instructors: Instructor[]}) => {
+const UploadWrapper = ({
+  instructors,
+  topics,
+}: {
+  instructors: Instructor[]
+  topics: Topic[]
+}) => {
   const initialValues: FormProps = {
-    course: {title: '', collaboratorId: undefined},
+    course: {
+      title: '',
+      collaboratorId: undefined,
+      topicIds: [],
+    },
     lessons: [],
   }
 
@@ -109,15 +133,17 @@ const UploadWrapper = ({instructors}: {instructors: Instructor[]}) => {
         console.log({response})
       }}
     >
-      {(props) => <Upload {...props} instructors={instructors} />}
+      {(props) => (
+        <Upload {...props} instructors={instructors} topics={topics} />
+      )}
     </Formik>
   )
 }
 
-const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
-  props,
-) => {
-  const {instructors, ...formikProps} = props
+const Upload: React.FC<
+  FormikProps<FormProps> & {instructors: Instructor[]; topics: Topic[]}
+> = (props) => {
+  const {instructors, topics, ...formikProps} = props
 
   const {values, setFieldValue} = formikProps
   const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
@@ -131,10 +157,17 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
   const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
     viewer?.instructor_id || instructors[0]?.eggheadInstructorId,
   )
+
+  const [topicId, setTopicId] = React.useState<string>('')
+
   const sanityCollaboratorId: string | undefined = _find(instructors, [
     'eggheadInstructorId',
     courseInstructorId,
   ])?._id
+
+  React.useEffect(() => {
+    setFieldValue('course.topicIds', [topicId])
+  }, [topicId, setFieldValue])
 
   React.useEffect(() => {
     setFieldValue('course.collaboratorId', sanityCollaboratorId)
@@ -183,14 +216,28 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
           </div>
           <div className="space-y-1">
             <label
-              htmlFor="topic"
+              htmlFor="topicIds"
               className="block text-sm font-medium text-gray-700"
             >
               Topic
             </label>
-            <p className="mt-2 text-center text-sm text-gray-600 border border-gray-300 rounded-md p-2">
-              coming soon...
-            </p>
+            <select
+              id="topicIds"
+              name="topicIds"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              value={topicId}
+              onChange={(e) => {
+                setTopicId(e.target.value)
+              }}
+            >
+              {topics.map(({name, id}: Topic) => {
+                return (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                )
+              })}
+            </select>
           </div>
           <div className="space-y-1">
             <label
