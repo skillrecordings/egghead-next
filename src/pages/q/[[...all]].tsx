@@ -85,6 +85,11 @@ const SearchIndex: any = ({
     initialTopicData,
   )
 
+  // HIDE_DUPLICATES: the `loadInstructor` call here is only pulling in
+  // instructor metadata. So, if we have duplicate instructors living in
+  // egghead-rails and we are only pulling in one of them (based on slug), then
+  // as long as we are relying on the metadata for both duplicate instructors
+  // being the same, this won't be an issue.
   const onSearchStateChange = async (searchState: any) => {
     clearTimeout(debouncedState.current)
 

@@ -276,6 +276,7 @@ const Search: FunctionComponent<SearchProps> = ({
                       </>
                     )}
 
+                  {/* HIDE_DUPLICATES: this is where the instructor slug is used to look up and display specialized instructor landing pages, so it is important to make sure we are working with the primary instructor record and ignoring the duplicate one. */}
                   {!isEmpty(instructor) &&
                     shouldDisplayLandingPageForInstructor(instructor.slug) && (
                       <div className="pb-8 px-5">
@@ -284,6 +285,7 @@ const Search: FunctionComponent<SearchProps> = ({
                     )}
                   <ScrollElement name="hits" />
                   <Stats searchQuery={searchState.query} />
+                  {/* HIDE_DUPLICATES: the Hits component renders the Algolia Hits component which connects to an Algolia store that is tied in to any changes in the results that come from altering the search and/or facets of the search. So, the results that we show on the search page are deeply tied in to what Algolia returns. Because Instructors are one of the facets that Algolia searches against, we are going to have to let Algolia in on the action. */}
                   <Hits />
                   <div className="pb-16 pt-10 bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
                     <Pagination />

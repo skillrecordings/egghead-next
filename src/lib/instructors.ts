@@ -25,6 +25,8 @@ export type Instructor = {
   avatar_64_url: string
 }
 
+// HIDE_DUPLICATES: there doesn't appear to be anywhere in the app that imports
+// this.
 export async function loadInstructors(page = 1) {
   const query = `query getInstructors($page: Int!){
     instructors(per_page: 24, page:$page){

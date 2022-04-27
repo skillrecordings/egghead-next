@@ -268,6 +268,8 @@ const RefinementList: FunctionComponent<RefinementListProps> = ({
   )
 }
 
+// Docs on how `connectRefinementList` works
+// https://www.algolia.com/doc/api-reference/widgets/refinement-list/react/#connector
 const CustomRefinementList = connectRefinementList(RefinementList)
 
 export default CustomRefinementList

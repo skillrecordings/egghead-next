@@ -114,6 +114,9 @@ const SearchKentCDodds = ({instructor}: any) => {
 }
 export default SearchKentCDodds
 
+// HIDE_DUPLICATES: nothing to do here, this is looking up resources for the
+// KCD landing page, not looking things up based on a specific
+// instructor/collaborator.
 export const kentCDoddsQuery = groq`
 *[_type == 'resource' && slug.current == 'kent-c-dodds-landing-page'][0]{
   title,
