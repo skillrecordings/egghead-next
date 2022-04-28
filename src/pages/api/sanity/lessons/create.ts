@@ -51,6 +51,7 @@ type SanitySoftwareLibrary = {
 type SanityCourse = {
   _type: 'course'
   title: string
+  slug: {current: string}
   collaborators: SanityReferenceArray
   lessons: SanityReferenceArray
   softwareLibraries: SanitySoftwareLibrary[]
@@ -83,9 +84,12 @@ async function formatSanityMutationForLessons(
 
   const {title, collaboratorId, topicIds} = course
 
+  const courseSlug = slugify(title.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
+
   let sanityCourse: SanityCourse = {
     _type: 'course',
     title,
+    slug: {current: courseSlug},
     lessons: [],
     collaborators: [],
     softwareLibraries: [],
