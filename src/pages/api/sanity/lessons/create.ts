@@ -16,6 +16,10 @@ type LessonData = {
   }
 }
 
+type SanitySlug = {
+  current: string
+}
+
 type SanityReference = {
   _type: 'reference'
   _ref: string
@@ -38,7 +42,7 @@ type SanityLesson = {
   _type: 'lesson'
   _id: string
   title: string
-  slug: {current: string}
+  slug: SanitySlug
   resource: SanityReference
 }
 
@@ -51,7 +55,7 @@ type SanitySoftwareLibrary = {
 type SanityCourse = {
   _type: 'course'
   title: string
-  slug: {current: string}
+  slug: SanitySlug
   collaborators: SanityReferenceArray
   lessons: SanityReferenceArray
   softwareLibraries: SanitySoftwareLibrary[]
