@@ -9,10 +9,13 @@ import {useViewer} from 'context/viewer-context'
 import {Formik, Form, Field, FormikProps} from 'formik'
 import axios from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
+import _find from 'lodash/find'
+import {CourseData} from 'types'
 
 type FileUpload = {file: File; percent: number; message: string}
 
 type Instructor = {
+  _id: string
   eggheadInstructorId: string
   person: {
     _id: string
@@ -31,7 +34,13 @@ type LessonMetadata = {
   fileMetadata: UploadedFile
 }
 
+type Topic = {
+  name: string
+  id: string
+}
+
 type FormProps = {
+  course: CourseData
   lessons: LessonMetadata[]
 }
 
@@ -47,13 +56,23 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
             'image': image.url,
           },
         eggheadInstructorId,
+        _id
       }`
 
+    const topicQuery = groq`
+      *[_type == 'software-library'][]{
+        'id': _id,
+        name
+      }
+    `
+
     const instructors: Instructor[] = await sanityClient.fetch(instructorQuery)
+    const topics: Topic[] = await sanityClient.fetch(topicQuery)
 
     return {
       props: {
         instructors,
+        topics,
       },
     }
   } else {
@@ -86,29 +105,45 @@ const fileUploadReducer = (state: any, action: any) => {
   }
 }
 
-const UploadWrapper = ({instructors}: {instructors: Instructor[]}) => {
-  const initialValues: FormProps = {lessons: []}
+const UploadWrapper = ({
+  instructors,
+  topics,
+}: {
+  instructors: Instructor[]
+  topics: Topic[]
+}) => {
+  const initialValues: FormProps = {
+    course: {
+      title: '',
+      collaboratorId: undefined,
+      topicIds: [],
+    },
+    lessons: [],
+  }
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={async (values, actions) => {
         const response = await axios.post('api/sanity/lessons/create', {
+          course: values.course,
           lessons: values.lessons,
         })
 
         console.log({response})
       }}
     >
-      {(props) => <Upload {...props} instructors={instructors} />}
+      {(props) => (
+        <Upload {...props} instructors={instructors} topics={topics} />
+      )}
     </Formik>
   )
 }
 
-const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
-  props,
-) => {
-  const {instructors, ...formikProps} = props
+const Upload: React.FC<
+  FormikProps<FormProps> & {instructors: Instructor[]; topics: Topic[]}
+> = (props) => {
+  const {instructors, topics, ...formikProps} = props
 
   const {values, setFieldValue} = formikProps
   const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
@@ -122,6 +157,21 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
   const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
     viewer?.instructor_id || instructors[0]?.eggheadInstructorId,
   )
+
+  const [topicId, setTopicId] = React.useState<string>('')
+
+  const sanityCollaboratorId: string | undefined = _find(instructors, [
+    'eggheadInstructorId',
+    courseInstructorId,
+  ])?._id
+
+  React.useEffect(() => {
+    setFieldValue('course.topicIds', [topicId])
+  }, [topicId, setFieldValue])
+
+  React.useEffect(() => {
+    setFieldValue('course.collaboratorId', sanityCollaboratorId)
+  }, [sanityCollaboratorId, setFieldValue])
 
   React.useEffect(() => {
     setFieldValue('lessons', lessonMetadata)
@@ -156,9 +206,8 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
               Course Name
             </label>
             <div className="mt-1">
-              <input
-                id="course-name"
-                name="course-name"
+              <Field
+                name="course.title"
                 type="text"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -167,14 +216,28 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
           </div>
           <div className="space-y-1">
             <label
-              htmlFor="topic"
+              htmlFor="topicIds"
               className="block text-sm font-medium text-gray-700"
             >
               Topic
             </label>
-            <p className="mt-2 text-center text-sm text-gray-600 border border-gray-300 rounded-md p-2">
-              coming soon...
-            </p>
+            <select
+              id="topicIds"
+              name="topicIds"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              value={topicId}
+              onChange={(e) => {
+                setTopicId(e.target.value)
+              }}
+            >
+              {topics.map(({name, id}: Topic) => {
+                return (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                )
+              })}
+            </select>
           </div>
           <div className="space-y-1">
             <label
@@ -201,7 +264,10 @@ const Upload: React.FC<FormikProps<FormProps> & {instructors: Instructor[]}> = (
                   person: {name: string}
                 }) => {
                   return (
-                    <option value={eggheadInstructorId}>
+                    <option
+                      key={eggheadInstructorId}
+                      value={eggheadInstructorId}
+                    >
                       {person['name']}
                     </option>
                   )
