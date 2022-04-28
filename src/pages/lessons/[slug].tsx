@@ -571,7 +571,11 @@ const Lesson: React.FC<LessonProps> = ({
                 canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
                 className="font-sans"
                 container={fullscreenWrapperRef.current || undefined}
-                controls={<DownloadControl lesson={lesson} />}
+                controls={
+                  <DownloadControl
+                    lesson={get(lessonState.context, 'lesson')}
+                  />
+                }
                 // poster={lesson.thumb_url}
               >
                 {lesson.hls_url && (
