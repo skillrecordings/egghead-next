@@ -2,6 +2,8 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {nanoid} from 'nanoid'
 import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {getAbilityFromToken} from 'server/ability'
+import _get from 'lodash/get'
+import slugify from 'slugify'
 import {CourseData} from 'types'
 
 import client from '@sanity/client'
@@ -31,6 +33,7 @@ type SanityLesson = {
   _type: 'lesson'
   _id: string
   title: string
+  slug: {current: string}
   resource: {
     _type: string
     _ref: string
@@ -102,11 +105,17 @@ async function formatSanityMutationForLessons(
       })
 
       const lessonId = await sanityIdForDocumentType('lesson')
+      const topics = _get(lesson, 'topics', ['egghead'])
+      const lessonSlug = slugify(
+        `${topics[0] || ''} ${lesson.title}`.toLowerCase(),
+        {remove: /[*+~.()'"!:@]/g},
+      )
 
       sanityLessons.push({
         _id: lessonId,
         _type: 'lesson',
         title: lesson.title,
+        slug: {current: lessonSlug},
         resource: {
           _type: 'reference',
           _ref: videoId,
