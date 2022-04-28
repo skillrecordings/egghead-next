@@ -152,4 +152,5 @@ export type ParityCouponMessageProps = {
 export type CourseData = {
   title: string
   collaboratorId?: string
+  topicIds: string[]
 }
