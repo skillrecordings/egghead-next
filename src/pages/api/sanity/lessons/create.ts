@@ -21,11 +21,11 @@ type SanityReference = {
   _ref: string
 }
 
-type SanityReferenceArray = Array<{
-  _key: string
-  _type: 'reference'
-  _ref: string
-}>
+type SanityReferenceArray = Array<
+  {
+    _key: string
+  } & SanityReference
+>
 
 type SanityVideoResource = {
   _type: 'videoResource'
