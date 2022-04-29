@@ -390,6 +390,10 @@ const Lesson: React.FC<LessonProps> = ({
             send('SUBSCRIBE')
           }
         }
+        videoService.send({
+          type: 'LOAD_RESOURCE',
+          resource: lessonState.context.lesson,
+        })
         break
 
       case 'viewing':
