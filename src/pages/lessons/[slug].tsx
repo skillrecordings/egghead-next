@@ -173,11 +173,6 @@ const Lesson: React.FC<LessonProps> = ({
 
   const videoService = useVideo()
   const video = useSelector(videoService, selectVideo)
-  const lesson: any = get(
-    useSelector(videoService, selectResource),
-    'lesson',
-    initialLesson,
-  )
 
   // see all state changes
   // @ts-ignore
@@ -198,6 +193,8 @@ const Lesson: React.FC<LessonProps> = ({
   const {md} = useBreakpoint()
 
   const [lessonState, send] = state
+
+  const lesson: LessonResource = lessonState.context.lesson || initialLesson
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
@@ -390,10 +387,10 @@ const Lesson: React.FC<LessonProps> = ({
             send('SUBSCRIBE')
           }
         }
-//         videoService.send({
-//           type: 'LOAD_RESOURCE',
-//           resource: lessonState.context.lesson,
-//         })
+        //         videoService.send({
+        //           type: 'LOAD_RESOURCE',
+        //           resource: lessonState.context.lesson,
+        //         })
         break
 
       case 'viewing':
@@ -575,7 +572,13 @@ const Lesson: React.FC<LessonProps> = ({
                 canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
                 className="font-sans"
                 container={fullscreenWrapperRef.current || undefined}
-                controls={<DownloadControl lesson={lesson} />}
+                controls={
+                  <DownloadControl
+                    key={lesson.download_url}
+                    download_url={lesson.download_url}
+                    slug={lesson.slug}
+                  />
+                }
                 // poster={lesson.thumb_url}
               >
                 {lesson.hls_url && (

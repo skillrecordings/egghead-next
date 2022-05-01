@@ -6,27 +6,32 @@ import Tippy from '@tippyjs/react'
 import Link from 'next/link'
 
 type DownloadButtonProps = {
-  lesson: any
+  slug: string
+  download_url: string
 }
 
 type DownloadControlProps = {
-  lesson: any
+  slug: string
+  download_url: string
   key?: string
   order?: number
 }
 
-const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
-  return lesson?.download_url ? (
+const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
+  slug,
+  download_url,
+}) => {
+  return download_url ? (
     <button
       onClick={(e) => {
         e.preventDefault()
-        if (lesson?.download_url) {
-          axios.get(lesson.download_url).then(({data}) => {
+        if (download_url) {
+          axios.get(download_url).then(({data}) => {
             window.location.href = data
           })
         }
         track(`clicked download lesson`, {
-          lesson: lesson.slug,
+          lesson: slug,
         })
       }}
       aria-label="download video"
@@ -47,20 +52,23 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
   )
 }
 
-const DownloadControl: FunctionComponent<DownloadControlProps> = ({lesson}) => {
+const DownloadControl: FunctionComponent<DownloadControlProps> = ({
+  slug,
+  download_url,
+}) => {
   return (
     <Tippy
       offset={[0, -2]}
       content={
         <div className="text-sm bg-gray-900 px-2 py-1 rounded-sm">
-          {lesson?.download_url
+          {download_url
             ? 'Download video'
             : 'Become a member to download this lesson'}
         </div>
       }
     >
       <div>
-        <DownloadButton lesson={lesson} />
+        <DownloadButton slug={slug} download_url={download_url} />
       </div>
     </Tippy>
   )
