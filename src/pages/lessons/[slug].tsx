@@ -194,7 +194,7 @@ const Lesson: React.FC<LessonProps> = ({
 
   const [lessonState, send] = state
 
-  const lesson: LessonResource = lessonState.context.lesson || initialLesson
+  const lesson: any = lessonState.context.lesson
 
   const {onProgress, onEnded} = useEggheadPlayer(lesson)
   const [playerVisible, setPlayerVisible] = React.useState<boolean>(false)
@@ -387,10 +387,6 @@ const Lesson: React.FC<LessonProps> = ({
             send('SUBSCRIBE')
           }
         }
-        //         videoService.send({
-        //           type: 'LOAD_RESOURCE',
-        //           resource: lessonState.context.lesson,
-        //         })
         break
 
       case 'viewing':
