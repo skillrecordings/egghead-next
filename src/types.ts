@@ -33,6 +33,7 @@ export type LessonResource = Resource & {
   instructor: any
   collection: Resource
   staff_notes_url?: string
+  download_url?: string
 }
 
 export type VideoResource = LessonResource & {
