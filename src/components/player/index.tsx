@@ -183,7 +183,8 @@ const VideoResourcePlayer: React.FC<VideoResourcePlayerProps> = ({
           <DownloadControl
             key="download-control"
             order={12}
-            lesson={videoResource}
+            download_url={videoResource.download_url}
+            slug={videoResource.slug}
           />
           {videoResource.subtitles_url && (
             <ClosedCaptionButton

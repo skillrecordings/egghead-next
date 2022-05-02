@@ -7,12 +7,12 @@ import Link from 'next/link'
 
 type DownloadButtonProps = {
   slug: string
-  download_url: string
+  download_url?: string
 }
 
 type DownloadControlProps = {
   slug: string
-  download_url: string
+  download_url?: string
   key?: string
   order?: number
 }
