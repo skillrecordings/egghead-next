@@ -112,7 +112,9 @@ const Item: FunctionComponent<{
         <div className="w-full leading-tight">{lesson.title} </div>
         <div>
           <span
-            className={`${active ? 'text-gray-200' : 'text-gray-500'} text-xs`}
+            className={`${
+              active ? 'text-gray-200' : 'text-gray-700 dark:text-gray-400'
+            } text-xs`}
           >
             {convertTimeWithTitles(lesson.duration, {showSeconds: true})}
           </span>
