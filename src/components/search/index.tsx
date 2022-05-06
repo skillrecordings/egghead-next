@@ -285,7 +285,7 @@ const Search: FunctionComponent<SearchProps> = ({
                   <ScrollElement name="hits" />
                   <Stats searchQuery={searchState.query} />
                   <Hits />
-                  <div className="pb-16 pt-10 bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
+                  <div className="pb-16 pt-10 flex-grow bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
                     <Pagination />
                   </div>
                 </main>
