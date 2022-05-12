@@ -7,6 +7,7 @@ import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {lessonMachine} from 'machines/lesson-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
+import Tags from 'components/pages/lessons/tags'
 import Transcript from 'components/pages/lessons/transcript'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
@@ -34,7 +35,6 @@ import CodeLink, {
   IconGithub,
 } from 'components/pages/lessons/code-link'
 import DownloadControl from 'components/player/download-control'
-import getDependencies from 'data/courseDependencies'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
 import PlayerSidebar from 'components/player/player-sidebar'
@@ -245,16 +245,7 @@ const Lesson: React.FC<LessonProps> = ({
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
-  const courseDependencies: any = getDependencies(collection?.slug)
-  const {dependencies} = courseDependencies
   const {session_id} = router.query
-  const collectionTags = tags.map((tag: any) => {
-    const version = get(dependencies, tag.name)
-    return {
-      ...tag,
-      ...(!!version && {version}),
-    }
-  })
 
   const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
 
@@ -779,10 +770,22 @@ const Lesson: React.FC<LessonProps> = ({
                       </div>
                     </div>
                   )}
-                  {!md && <Tags tags={collectionTags} lesson={lesson} />}
+                  {!md && (
+                    <Tags
+                      tags={tags}
+                      lessonSlug={lesson.slug}
+                      collectionSlug={collection?.slug}
+                    />
+                  )}
                 </div>
 
-                {md && <Tags tags={collectionTags} lesson={lesson} />}
+                {md && (
+                  <Tags
+                    tags={tags}
+                    lessonSlug={lesson.slug}
+                    collectionSlug={collection?.slug}
+                  />
+                )}
                 <div className="flex items-center space-x-8">
                   <div className="flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                     <Share
@@ -999,47 +1002,4 @@ const Course: React.FC<{
       </div>
     </div>
   ) : null
-}
-
-const Tags: React.FC<{tags: any; lesson: any}> = ({tags, lesson}) => {
-  return (
-    <>
-      {!isEmpty(tags) && (
-        <div className="flex items-center space-x-4">
-          {/* <div className="font-medium">Tech used:</div> */}
-          <ul className="grid items-center grid-flow-col-dense gap-5 text-sm">
-            {tags.map((tag: any, index: number) => (
-              <li key={index} className="inline-flex items-center">
-                <Link href={`/q/${tag.name}`}>
-                  <a
-                    onClick={() => {
-                      track(`clicked view topic`, {
-                        lesson: lesson.slug,
-                        topic: tag.name,
-                      })
-                    }}
-                    className="inline-flex items-center hover:underline"
-                  >
-                    <Image
-                      src={tag.image_url}
-                      alt={tag.name}
-                      width={20}
-                      height={20}
-                      className="flex-shrink-0"
-                    />
-                    <span className="ml-1">{tag.label}</span>
-                    {tag.version && (
-                      <span className="ml-2">
-                        <code>{tag.version}</code>
-                      </span>
-                    )}
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </>
-  )
 }
