@@ -27,8 +27,7 @@ const AutoplayControl = () => {
         <div
           className={`${classNames({
             'bg-blue-600': autoplay,
-            'bg-gray-200 dark:bg-gray-600 group-hover:bg-blue-400 group-hover:bg-opacity-60 bg-opacity-100 transition':
-              !autoplay,
+            'bg-gray-500 dark:bg-gray-600 transition': !autoplay,
           })} scale-90 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
         >
           <span
@@ -41,7 +40,7 @@ const AutoplayControl = () => {
             {autoplay ? (
               <>on</>
             ) : (
-              <span className="group-hover:opacity-40 text-black opacity-0 transition">
+              <span className="group-hover:opacity-100 text-gray-500 opacity-0 transition">
                 off
               </span>
             )}
