@@ -23,6 +23,17 @@ export default {
       },
     },
     {
+      name: 'email',
+      title: 'Email',
+      type: 'string',
+      description: 'Required for creating instructor in accounting system',
+      validation: (Rule) =>
+        Rule.regex(/.+@.+/, {
+          name: 'email', // Error message is "Does not match email-pattern"
+          invert: false, // Boolean to allow any value that does NOT match pattern
+        }),
+    },
+    {
       name: 'image',
       title: 'Image URL',
       type: 'image-url',
