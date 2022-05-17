@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model roles {
+  id            Int           @id @default(autoincrement())
+  name          String?       @db.VarChar(255)
+  resource_id   Int?
+  resource_type String?       @db.VarChar(255)
+  created_at    DateTime?     @db.Timestamp(6)
+  updated_at    DateTime?     @db.Timestamp(6)
+  users_roles   users_roles[] @ignore
+
+  @@index([name], map: "index_roles_on_name")
+  @@index([name, resource_type, resource_id], map: "index_roles_on_name_and_resource_type_and_resource_id")
+}
+
+model users {
+  id                                                                                                     Int                                      @id @default(autoincrement())
+  email                                                                                                  String                                   @unique(map: "index_users_on_email") @default("") @db.VarChar(255)
+  created_at                                                                                             DateTime?                                @db.Timestamp(6)
+  updated_at                                                                                             DateTime?                                @db.Timestamp(6)
+  first_name                                                                                             String?                                  @db.VarChar(255)
+  last_name                                                                                              String?                                  @db.VarChar(255)
+  users_roles                                                                                            users_roles[]                            @ignore
+
+  @@index([id], map: "index_users_on_lower_email_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model users_roles {
+  user_id Int
+  role_id Int
+  roles   roles @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_eb7b4658f8")
+  users   users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_4a41696df6")
+
+  @@index([role_id], map: "index_users_roles_on_role_id")
+  @@index([user_id], map: "index_users_roles_on_user_id")
+  @@index([user_id, role_id], map: "index_users_roles_on_user_id_and_role_id")
+  @@ignore
+}
