@@ -1,13 +1,15 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
-import {filter, first, get, isEmpty} from 'lodash'
+import {filter, get, isEmpty} from 'lodash'
 import queryString from 'query-string'
 import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import {lessonMachine} from 'machines/lesson-machine'
 import {useEggheadPlayer} from 'components/EggheadPlayer'
 import Course from 'components/pages/lessons/course'
+import Overlays from 'components/pages/lessons/overlays'
+import specialLessons from 'components/pages/lessons/special-lessons'
 import Tags from 'components/pages/lessons/tags'
 import Transcript from 'components/pages/lessons/transcript'
 import {loadBasicLesson, loadLesson} from 'lib/lessons'
@@ -17,11 +19,8 @@ import {NextSeo, VideoJsonLd} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
-import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
-import axios from 'utils/configured-axios'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
 import useLastResource from 'hooks/use-last-resource'
-import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
@@ -39,13 +38,8 @@ import DownloadControl from 'components/player/download-control'
 import useCio from 'hooks/use-cio'
 import Comments from 'components/pages/lessons/comments/comments'
 import PlayerSidebar from 'components/player/player-sidebar'
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 import friendlyTime from 'friendly-time'
 import {PublishedAt, UpdatedAt} from 'components/layouts/collection-page-layout'
-import GoProCtaOverlay from 'components/pages/lessons/overlay/go-pro-cta-overlay'
-import WatchFullCourseCtaOverlay from '../../components/pages/lessons/overlay/watch-full-course-cta-overlay'
-import WatchNextLessonCtaOverlay from '../../components/pages/lessons/overlay/watch-next-lesson-cta-overlay'
-import EmailCaptureCtaOverlay from '../../components/pages/lessons/overlay/email-capture-cta-overlay'
 import cookies from 'utils/cookies'
 import AutoplayControl from '../../components/player/autoplay-control'
 import {
@@ -73,53 +67,6 @@ import {useSelector} from '@xstate/react'
 import {addCueNote, deleteCueNote} from '../../lib/notes'
 
 const tracer = getTracer('lesson-page')
-
-const specialLessons: any = {
-  'javascript-3-ways-to-update-the-content-of-an-array-of-objects-with-javascript':
-    {
-      headline: 'Check out these in-depth courses on JavaScript Arrays',
-      linksTo: [
-        {
-          title: 'Understand JavaScript Arrays',
-          isPro: true,
-          path: 'understand-javascript-arrays',
-          type: 'course',
-          imageUrl:
-            'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/714/square_480/EGH_JSarrays.png',
-        },
-        {
-          title: 'Reduce Data with Javascript Array#reduce',
-          isPro: true,
-          path: 'reduce-data-with-javascript-array-reduce',
-          type: 'course',
-          imageUrl:
-            'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/557/square_480/EGH_ReduceDataJS.png',
-        },
-      ],
-    },
-
-  'javascript-creating-demo-apis-with-json-server': {
-    headline: 'Build better APIs with these in-depth courses',
-    linksTo: [
-      {
-        title: 'Build a Serverless API with Cloudflare Workers',
-        isPro: false,
-        slug: 'build-a-serverless-api-with-cloudflare-workers-d67ca551',
-        type: 'course',
-        imageUrl:
-          'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/441/045/square_480/EGH_cloudflare-workers_424_2x.png',
-      },
-      {
-        title: 'Building an API with Express',
-        isPro: true,
-        slug: 'building-an-api-with-express-f1ea',
-        type: 'course',
-        imageUrl:
-          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/359/square_480/expressjslogo.png',
-      },
-    ],
-  },
-}
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
@@ -876,127 +823,3 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
 }
 
 export default LessonPage
-
-type OverlaysProps = {
-  lessonSend: Function
-  lessonState: {matches: Function}
-  lesson: VideoResource
-  nextLesson: any
-  viewer: object
-  videoService: {send: Function}
-  lessonView: {collection_progress: {rate_url: string}}
-  subscriber: {id: string; attributes?: {learner_score: string}}
-  cioIdentify: Function
-}
-
-const Overlays: React.FC<OverlaysProps> = ({
-  lessonSend,
-  lessonState,
-  lesson,
-  nextLesson,
-  viewer,
-  videoService,
-  lessonView,
-  subscriber,
-  cioIdentify,
-}) => {
-  const {slug, tags = []} = lesson
-  const primaryTag = get(first(tags), 'name', 'javascript')
-
-  return (
-    <>
-      {lessonState.matches('joining') && (
-        <OverlayWrapper>
-          <EmailCaptureCtaOverlay lesson={lesson} technology={primaryTag} />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('subscribing') && (
-        <OverlayWrapper>
-          <GoProCtaOverlay
-            lesson={lesson}
-            viewLesson={() => {
-              lessonSend({
-                type: 'LOAD',
-                lesson: lesson,
-                viewer,
-              })
-              // TODO: Make sure this is working as expected
-              videoService.send({
-                type: 'LOAD_RESOURCE',
-                resource: lesson,
-              })
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('pitchingCourse') && (
-        <OverlayWrapper>
-          <WatchFullCourseCtaOverlay
-            lesson={lesson}
-            onClickRewatch={() => {
-              lessonSend('VIEW')
-              videoService.send({type: 'PLAY'})
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('showingNext') && (
-        <OverlayWrapper>
-          <WatchNextLessonCtaOverlay
-            lesson={lesson}
-            nextLesson={nextLesson}
-            ctaContent={specialLessons[lesson.slug]}
-            onClickRewatch={() => {
-              lessonSend('VIEW')
-              videoService.send({type: 'PLAY'})
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('rating') && (
-        <OverlayWrapper>
-          <RateCourseOverlay
-            course={lesson.collection}
-            onRated={(review) => {
-              axios
-                .post(lessonView.collection_progress.rate_url, review)
-                .then(() => {
-                  const comment = get(review, 'comment.comment')
-                  const prompt = get(review, 'comment.context.prompt')
-
-                  if (review) {
-                    // TODO: the `course: slug` is referencing the lesson slug.
-                    // Is that an error or is the naming just a little
-                    // confusing?
-                    track('rated course', {
-                      course: slug,
-                      rating: review.rating,
-                      ...(comment && {comment}),
-                      ...(!!prompt && {prompt}),
-                    })
-                    if (subscriber) {
-                      const currentScore =
-                        Number(subscriber.attributes?.learner_score) || 0
-                      cioIdentify(subscriber.id, {
-                        learner_score: currentScore + 20,
-                      })
-                    }
-                  }
-                })
-                .finally(() => {
-                  setTimeout(() => {
-                    lessonSend('RECOMMEND')
-                  }, 1500)
-                })
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('recommending') && (
-        <OverlayWrapper>
-          <RecommendNextStepOverlay lesson={lesson} />
-        </OverlayWrapper>
-      )}
-    </>
-  )
-}
