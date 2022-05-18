@@ -618,13 +618,13 @@ const Lesson: React.FC<LessonProps> = ({
                   viewLesson={() => {
                     send({
                       type: 'LOAD',
-                      lesson: initialLesson,
+                      lesson: lesson,
                       viewer,
                     })
                     // TODO: Make sure this is working as expected
                     videoService.send({
                       type: 'LOAD_RESOURCE',
-                      resource: initialLesson as any,
+                      resource: lesson,
                     })
                   }}
                 />
