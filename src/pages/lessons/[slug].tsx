@@ -248,8 +248,6 @@ const Lesson: React.FC<LessonProps> = ({
   const transcriptAvailable = transcript || enhancedTranscript
   const {session_id} = router.query
 
-  const primary_tag = get(first(get(lesson, 'tags')), 'name', 'javascript')
-
   const getProgress = (lessonView: any) => {
     if (lessonView?.collection_progress) {
       return lessonView.collection_progress
@@ -603,98 +601,17 @@ const Lesson: React.FC<LessonProps> = ({
                 hidden: mounted,
               })}
             />
-            {lessonState.matches('joining') && (
-              <OverlayWrapper>
-                <EmailCaptureCtaOverlay
-                  lesson={lesson}
-                  technology={primary_tag}
-                />
-              </OverlayWrapper>
-            )}
-            {lessonState.matches('subscribing') && (
-              <OverlayWrapper>
-                <GoProCtaOverlay
-                  lesson={lesson}
-                  viewLesson={() => {
-                    send({
-                      type: 'LOAD',
-                      lesson: lesson,
-                      viewer,
-                    })
-                    // TODO: Make sure this is working as expected
-                    videoService.send({
-                      type: 'LOAD_RESOURCE',
-                      resource: lesson,
-                    })
-                  }}
-                />
-              </OverlayWrapper>
-            )}
-            {lessonState.matches('pitchingCourse') && (
-              <OverlayWrapper>
-                <WatchFullCourseCtaOverlay
-                  lesson={lesson}
-                  onClickRewatch={() => {
-                    send('VIEW')
-                    videoService.send({type: 'PLAY'})
-                  }}
-                />
-              </OverlayWrapper>
-            )}
-            {lessonState.matches('showingNext') && (
-              <OverlayWrapper>
-                <WatchNextLessonCtaOverlay
-                  lesson={lesson}
-                  nextLesson={nextLesson}
-                  ctaContent={specialLessons[lesson.slug]}
-                  onClickRewatch={() => {
-                    send('VIEW')
-                    videoService.send({type: 'PLAY'})
-                  }}
-                />
-              </OverlayWrapper>
-            )}
-            {lessonState.matches('rating') && (
-              <OverlayWrapper>
-                <RateCourseOverlay
-                  course={lesson.collection}
-                  onRated={(review) => {
-                    axios
-                      .post(lessonView.collection_progress.rate_url, review)
-                      .then(() => {
-                        const comment = get(review, 'comment.comment')
-                        const prompt = get(review, 'comment.context.prompt')
-
-                        if (review) {
-                          track('rated course', {
-                            course: slug,
-                            rating: review.rating,
-                            ...(comment && {comment}),
-                            ...(!!prompt && {prompt}),
-                          })
-                          if (subscriber) {
-                            const currentScore =
-                              Number(subscriber.attributes?.learner_score) || 0
-                            cioIdentify(subscriber.id, {
-                              learner_score: currentScore + 20,
-                            })
-                          }
-                        }
-                      })
-                      .finally(() => {
-                        setTimeout(() => {
-                          send('RECOMMEND')
-                        }, 1500)
-                      })
-                  }}
-                />
-              </OverlayWrapper>
-            )}
-            {lessonState.matches('recommending') && (
-              <OverlayWrapper>
-                <RecommendNextStepOverlay lesson={lesson} />
-              </OverlayWrapper>
-            )}
+            <Overlays
+              lessonSend={send}
+              lessonState={lessonState}
+              lesson={lesson}
+              nextLesson={nextLesson}
+              viewer={viewer}
+              videoService={videoService}
+              lessonView={lessonView}
+              subscriber={subscriber}
+              cioIdentify={cioIdentify}
+            />
           </div>
           {withSidePanel && (
             <div className="col-span-3 flex flex-col dark:bg-gray-800 bg-gray-50">
@@ -959,3 +876,127 @@ const LessonPage: React.FC<{initialLesson: VideoResource}> = ({
 }
 
 export default LessonPage
+
+type OverlaysProps = {
+  lessonSend: Function
+  lessonState: {matches: Function}
+  lesson: VideoResource
+  nextLesson: any
+  viewer: object
+  videoService: {send: Function}
+  lessonView: {collection_progress: {rate_url: string}}
+  subscriber: {id: string; attributes?: {learner_score: string}}
+  cioIdentify: Function
+}
+
+const Overlays: React.FC<OverlaysProps> = ({
+  lessonSend,
+  lessonState,
+  lesson,
+  nextLesson,
+  viewer,
+  videoService,
+  lessonView,
+  subscriber,
+  cioIdentify,
+}) => {
+  const {slug, tags = []} = lesson
+  const primaryTag = get(first(tags), 'name', 'javascript')
+
+  return (
+    <>
+      {lessonState.matches('joining') && (
+        <OverlayWrapper>
+          <EmailCaptureCtaOverlay lesson={lesson} technology={primaryTag} />
+        </OverlayWrapper>
+      )}
+      {lessonState.matches('subscribing') && (
+        <OverlayWrapper>
+          <GoProCtaOverlay
+            lesson={lesson}
+            viewLesson={() => {
+              lessonSend({
+                type: 'LOAD',
+                lesson: lesson,
+                viewer,
+              })
+              // TODO: Make sure this is working as expected
+              videoService.send({
+                type: 'LOAD_RESOURCE',
+                resource: lesson,
+              })
+            }}
+          />
+        </OverlayWrapper>
+      )}
+      {lessonState.matches('pitchingCourse') && (
+        <OverlayWrapper>
+          <WatchFullCourseCtaOverlay
+            lesson={lesson}
+            onClickRewatch={() => {
+              lessonSend('VIEW')
+              videoService.send({type: 'PLAY'})
+            }}
+          />
+        </OverlayWrapper>
+      )}
+      {lessonState.matches('showingNext') && (
+        <OverlayWrapper>
+          <WatchNextLessonCtaOverlay
+            lesson={lesson}
+            nextLesson={nextLesson}
+            ctaContent={specialLessons[lesson.slug]}
+            onClickRewatch={() => {
+              lessonSend('VIEW')
+              videoService.send({type: 'PLAY'})
+            }}
+          />
+        </OverlayWrapper>
+      )}
+      {lessonState.matches('rating') && (
+        <OverlayWrapper>
+          <RateCourseOverlay
+            course={lesson.collection}
+            onRated={(review) => {
+              axios
+                .post(lessonView.collection_progress.rate_url, review)
+                .then(() => {
+                  const comment = get(review, 'comment.comment')
+                  const prompt = get(review, 'comment.context.prompt')
+
+                  if (review) {
+                    // TODO: the `course: slug` is referencing the lesson slug.
+                    // Is that an error or is the naming just a little
+                    // confusing?
+                    track('rated course', {
+                      course: slug,
+                      rating: review.rating,
+                      ...(comment && {comment}),
+                      ...(!!prompt && {prompt}),
+                    })
+                    if (subscriber) {
+                      const currentScore =
+                        Number(subscriber.attributes?.learner_score) || 0
+                      cioIdentify(subscriber.id, {
+                        learner_score: currentScore + 20,
+                      })
+                    }
+                  }
+                })
+                .finally(() => {
+                  setTimeout(() => {
+                    lessonSend('RECOMMEND')
+                  }, 1500)
+                })
+            }}
+          />
+        </OverlayWrapper>
+      )}
+      {lessonState.matches('recommending') && (
+        <OverlayWrapper>
+          <RecommendNextStepOverlay lesson={lesson} />
+        </OverlayWrapper>
+      )}
+    </>
+  )
+}
