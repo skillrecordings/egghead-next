@@ -40,100 +40,99 @@ const Overlays: React.FC<OverlaysProps> = ({
   const {slug, tags = []} = lesson
   const primaryTag = get(first(tags), 'name', 'javascript')
 
+  let overlayToRender = null
+
+  if (lessonState.matches('joining')) {
+    overlayToRender = (
+      <EmailCaptureCtaOverlay lesson={lesson} technology={primaryTag} />
+    )
+  } else if (lessonState.matches('subscribing')) {
+    overlayToRender = (
+      <GoProCtaOverlay
+        lesson={lesson}
+        viewLesson={() => {
+          lessonSend({
+            type: 'LOAD',
+            lesson: lesson,
+            viewer,
+          })
+          // TODO: Make sure this is working as expected
+          videoService.send({
+            type: 'LOAD_RESOURCE',
+            resource: lesson,
+          })
+        }}
+      />
+    )
+  } else if (lessonState.matches('pitchingCourse')) {
+    overlayToRender = (
+      <WatchFullCourseCtaOverlay
+        lesson={lesson}
+        onClickRewatch={() => {
+          lessonSend('VIEW')
+          videoService.send({type: 'PLAY'})
+        }}
+      />
+    )
+  } else if (lessonState.matches('showingNext')) {
+    overlayToRender = (
+      <WatchNextLessonCtaOverlay
+        lesson={lesson}
+        nextLesson={nextLesson}
+        ctaContent={specialLessons[lesson.slug]}
+        onClickRewatch={() => {
+          lessonSend('VIEW')
+          videoService.send({type: 'PLAY'})
+        }}
+      />
+    )
+  } else if (lessonState.matches('rating')) {
+    overlayToRender = (
+      <RateCourseOverlay
+        course={lesson.collection}
+        onRated={(review) => {
+          axios
+            .post(lessonView.collection_progress.rate_url, review)
+            .then(() => {
+              const comment = get(review, 'comment.comment')
+              const prompt = get(review, 'comment.context.prompt')
+
+              if (review) {
+                // TODO: the `course: slug` is referencing the lesson slug.
+                // Is that an error or is the naming just a little
+                // confusing?
+                track('rated course', {
+                  course: slug,
+                  rating: review.rating,
+                  ...(comment && {comment}),
+                  ...(!!prompt && {prompt}),
+                })
+                if (subscriber) {
+                  const currentScore =
+                    Number(subscriber.attributes?.learner_score) || 0
+                  cioIdentify(subscriber.id, {
+                    learner_score: currentScore + 20,
+                  })
+                }
+              }
+            })
+            .finally(() => {
+              setTimeout(() => {
+                lessonSend('RECOMMEND')
+              }, 1500)
+            })
+        }}
+      />
+    )
+  } else if (lessonState.matches('recommending')) {
+    overlayToRender = <RecommendNextStepOverlay lesson={lesson} />
+  }
+
   return (
     <>
-      {lessonState.matches('joining') && (
-        <OverlayWrapper>
-          <EmailCaptureCtaOverlay lesson={lesson} technology={primaryTag} />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('subscribing') && (
-        <OverlayWrapper>
-          <GoProCtaOverlay
-            lesson={lesson}
-            viewLesson={() => {
-              lessonSend({
-                type: 'LOAD',
-                lesson: lesson,
-                viewer,
-              })
-              // TODO: Make sure this is working as expected
-              videoService.send({
-                type: 'LOAD_RESOURCE',
-                resource: lesson,
-              })
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('pitchingCourse') && (
-        <OverlayWrapper>
-          <WatchFullCourseCtaOverlay
-            lesson={lesson}
-            onClickRewatch={() => {
-              lessonSend('VIEW')
-              videoService.send({type: 'PLAY'})
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('showingNext') && (
-        <OverlayWrapper>
-          <WatchNextLessonCtaOverlay
-            lesson={lesson}
-            nextLesson={nextLesson}
-            ctaContent={specialLessons[lesson.slug]}
-            onClickRewatch={() => {
-              lessonSend('VIEW')
-              videoService.send({type: 'PLAY'})
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('rating') && (
-        <OverlayWrapper>
-          <RateCourseOverlay
-            course={lesson.collection}
-            onRated={(review) => {
-              axios
-                .post(lessonView.collection_progress.rate_url, review)
-                .then(() => {
-                  const comment = get(review, 'comment.comment')
-                  const prompt = get(review, 'comment.context.prompt')
-
-                  if (review) {
-                    // TODO: the `course: slug` is referencing the lesson slug.
-                    // Is that an error or is the naming just a little
-                    // confusing?
-                    track('rated course', {
-                      course: slug,
-                      rating: review.rating,
-                      ...(comment && {comment}),
-                      ...(!!prompt && {prompt}),
-                    })
-                    if (subscriber) {
-                      const currentScore =
-                        Number(subscriber.attributes?.learner_score) || 0
-                      cioIdentify(subscriber.id, {
-                        learner_score: currentScore + 20,
-                      })
-                    }
-                  }
-                })
-                .finally(() => {
-                  setTimeout(() => {
-                    lessonSend('RECOMMEND')
-                  }, 1500)
-                })
-            }}
-          />
-        </OverlayWrapper>
-      )}
-      {lessonState.matches('recommending') && (
-        <OverlayWrapper>
-          <RecommendNextStepOverlay lesson={lesson} />
-        </OverlayWrapper>
-      )}
+      {overlayToRender ? (
+        <OverlayWrapper>{overlayToRender}</OverlayWrapper>
+      ) : null}
     </>
   )
 }
