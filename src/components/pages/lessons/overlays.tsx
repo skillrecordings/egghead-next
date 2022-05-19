@@ -4,6 +4,7 @@ import {first, get} from 'lodash'
 import axios from 'utils/configured-axios'
 import {track} from 'utils/analytics'
 import specialLessons from './special-lessons'
+import {CIOSubscriber} from 'hooks/use-cio'
 
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
@@ -22,7 +23,7 @@ type OverlaysProps = {
   viewer: object
   videoService: {send: Function}
   lessonView: {collection_progress: {rate_url: string}}
-  subscriber: {id: string; attributes?: {learner_score: string}}
+  subscriber?: CIOSubscriber
   cioIdentify: Function
 }
 
