@@ -25,6 +25,9 @@ const courseQuery = groq`
 	"customOgImage": images[label == 'og-image'][0]{
     url
   },
+  "illustration": images[label == 'illustration'][0]{
+    url
+  },
 	'illustrator': collaborators[]->[role == 'illustrator'][0]{
     'name': person->name,
     'image': person->image.url
