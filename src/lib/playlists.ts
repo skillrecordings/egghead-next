@@ -290,5 +290,18 @@ export async function loadPlaylist(slug: string, token?: string) {
   const {playlist} = await graphQLClient.request(query, variables)
   const courseMeta = await loadCourseMetadata(playlist.id)
 
+  console.log(courseMeta)
+
+  // This is a temporary hack in order to get an illustration up
+  // for Kent's course: https://egghead.io/courses/up-and-running-with-remix-b82b6bb6
+  // While image uploads are down
+  if (courseMeta?.illustration) {
+    return {
+      ...playlist,
+      ...courseMeta,
+      square_cover_480_url: courseMeta?.illustration.url,
+    }
+  }
+
   return {...playlist, ...courseMeta}
 }
