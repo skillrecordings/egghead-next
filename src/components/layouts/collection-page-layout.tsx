@@ -572,7 +572,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
 
                 {/* Download button */}
-                {download_url ? (
+                {/* {download_url ? (
                   <Link href={download_url}>
                     <a
                       onClick={() => {
@@ -594,7 +594,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     As an egghead member you can download any of our courses and
                     watch them offline.
                   </MembershipDialogButton>
-                )}
+                )} */}
 
                 {/* RSS button */}
                 {rss_url ? (
