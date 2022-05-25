@@ -31,8 +31,11 @@ const SearchRemix = ({topic}: any) => {
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 -mx-5">
-        <Image layout="fill" src={topic.image} />
+      <div className="space-y-5 md:space-y-0 -mx-5">
+        <div className="mt-10 mb-20 mx-auto w-fit">
+          <Image width={850} height={290} src={topic.image} />
+        </div>
+        <h2 className="text-3xl">Get Started</h2>
       </div>
     </div>
   )
