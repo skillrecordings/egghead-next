@@ -47,7 +47,7 @@ const HorizontalResourceCard: React.FC<{
     'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group shadow-smooth'
   return (
     <Card {...props} resource={resource} className={defaultClassName}>
-      <CardContent className="grid grid-cols-8 gap-5 items-center px-5 py-2">
+      <CardContent className="grid grid-cols-8 gap-5 items-center px-8 py-2">
         {left && (
           <CardHeader className="col-span-3 flex items-center justify-center">
             <div className="flex flex-col items-center">
