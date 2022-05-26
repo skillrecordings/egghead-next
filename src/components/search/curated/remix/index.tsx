@@ -9,7 +9,6 @@ const SearchRemix = ({topic}: any) => {
   const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Remix resources.`
   const title = `In-Depth Remix Resources for ${new Date().getFullYear()}`
 
-  console.log(topic.courses)
 
   return (
     <div>
