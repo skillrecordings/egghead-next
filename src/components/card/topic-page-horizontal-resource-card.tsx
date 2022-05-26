@@ -18,21 +18,30 @@ import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
 
-const Button = ({path, cta}: any) => {
+const Button: React.FC<{
+  path: string
+  cta?: string
+}> = ({path, cta}) => {
   return (
     <Link href={path}>
-      <a className="inline-flex text-center justify-center items-center mt-4 px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 sm:block hidden">
+      <a className="text-center justify-center items-center mt-4 px-5 py-3 rounded-md bg-blue-600 text-white transition-all hover:bg-blue-700 ease-in-out duration-200 sm:block hidden">
         {cta}
       </a>
     </Link>
   )
 }
 
+type CardPageCardResource = CardResource & {
+  cta?: string
+  meta?: string
+}
+
 const HorizontalResourceCard: React.FC<{
-  resource: CardResource
+  resource: CardPageCardResource
   location?: string
   describe?: boolean
   className?: string
+  left?: boolean
 }> = ({
   children,
   resource,
