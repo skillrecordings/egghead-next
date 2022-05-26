@@ -117,12 +117,18 @@ const HorizontalResourceCard: React.FC<{
         {!left && (
           <CardHeader className="col-span-3 flex items-center justify-center">
             <div className="flex flex-col items-center">
-              <PreviewImage
-                name={resource.byline}
-                image={resource.image}
-                title={resource.title}
-              />
-              <Button cta={resource.cta} path={resource.path} />
+              <ResourceLink
+                path={(resource.path || resource.url) as string}
+                location={location}
+                className={className}
+              >
+                <PreviewImage
+                  name={resource.byline}
+                  image={resource.image}
+                  title={resource.title}
+                />
+                <Button cta={resource.cta} path={resource.path} />
+              </ResourceLink>
             </div>
           </CardHeader>
         )}
