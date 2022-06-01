@@ -12,7 +12,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
-import {CardResource} from 'types'
+import {TopicPageCourse} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
@@ -31,13 +31,8 @@ const Button: React.FC<{
   )
 }
 
-type CardPageCardResource = CardResource & {
-  cta?: string
-  meta?: string
-}
-
 const HorizontalResourceCard: React.FC<{
-  resource: CardPageCardResource
+  resource: TopicPageCourse
   location?: string
   describe?: boolean
   className?: string

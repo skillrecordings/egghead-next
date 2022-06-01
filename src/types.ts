@@ -21,6 +21,16 @@ export type CardResource = Resource & {
   url?: string
 }
 
+export type TopicPageCourse = {
+  byline: string
+  description: string
+  cta: string
+  meta: string
+  title: string
+  image: string
+  path: string
+}
+
 export type LessonResource = Resource & {
   media_url: string
   thumb_url: string
