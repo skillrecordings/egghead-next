@@ -2,7 +2,7 @@ import React from 'react'
 import {NextSeo} from 'next-seo'
 import Image from 'next/image'
 import groq from 'groq'
-import {TopicPageCourse} from 'types'
+import {CardResource} from 'types'
 import {HorizontalResourceCard} from 'components/card/topic-page-horizontal-resource-card'
 
 type TopicPage = {
@@ -21,8 +21,13 @@ enum ResourceOrder {
 }
 
 type TopicPageCourses = {
-  [ResourceOrder.primary]: TopicPageCourse
-  [ResourceOrder.second]: TopicPageCourse
+  [ResourceOrder.primary]: CardPageCardResource
+  [ResourceOrder.second]: CardPageCardResource
+}
+
+type CardPageCardResource = CardResource & {
+  cta?: string
+  meta?: string
 }
 
 const SearchRemix = ({topic}: TopicPage) => {
