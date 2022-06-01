@@ -12,11 +12,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
-import {TopicPageCourse} from 'types'
+import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
+
+type CardPageCardResource = CardResource & {
+  cta?: string
+  meta?: string
+}
 
 const Button: React.FC<{
   path: string
@@ -32,7 +37,7 @@ const Button: React.FC<{
 }
 
 const HorizontalResourceCard: React.FC<{
-  resource: TopicPageCourse
+  resource: CardPageCardResource
   location?: string
   describe?: boolean
   className?: string
