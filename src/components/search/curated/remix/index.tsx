@@ -2,13 +2,36 @@ import React from 'react'
 import {NextSeo} from 'next-seo'
 import Image from 'next/image'
 import groq from 'groq'
+import {TopicPageCourse} from 'types'
 import {HorizontalResourceCard} from 'components/card/topic-page-horizontal-resource-card'
 
-const SearchRemix = ({topic}: any) => {
+type TopicPage = {
+  topic: {
+    title: string
+    description: string
+    ogImage?: string
+    image: string
+    courses: TopicPageCourses
+  }
+}
+
+enum ResourceOrder {
+  primary = 'primary',
+  second = 'second',
+}
+
+type TopicPageCourses = {
+  [ResourceOrder.primary]: TopicPageCourse
+  [ResourceOrder.second]: TopicPageCourse
+}
+
+const SearchRemix = ({topic}: TopicPage) => {
   const location = 'Remix Topic Page'
   const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Remix resources.`
   const title = `In-Depth Remix Resources for ${new Date().getFullYear()}`
-
+  const ogImage = topic.ogImage
+    ? topic.ogImage
+    : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1654105781/egghead-next-pages/remix/og-image-remix-page.png'
 
   return (
     <div>
@@ -26,7 +49,7 @@ const SearchRemix = ({topic}: any) => {
           site_name: 'egghead',
           images: [
             {
-              url: `https://og-image-react-egghead.vercel.app/topic/remix`,
+              url: ogImage,
             },
           ],
         }}
@@ -53,6 +76,7 @@ export const remixPageQuery = groq`
 *[_type == 'resource' && slug.current == "remix-landing-page"][0]{
   title,
   description,
+  "ogImage": images[label == 'og-image'][0].url,
   "image": images[label == "remix-glowing-logo"][0].url,
   "courses": resources[slug.current == "featured-courses"][0]{
     "primary": resources[slug.current == "primary-course"][0]{
