@@ -145,7 +145,7 @@ const Upload: React.FC<
 > = (props) => {
   const {instructors, topics, ...formikProps} = props
 
-  const {values, setFieldValue} = formikProps
+  const {values, setFieldValue, isSubmitting} = formikProps
   const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
     files: [],
   })
@@ -176,6 +176,16 @@ const Upload: React.FC<
   React.useEffect(() => {
     setFieldValue('lessons', lessonMetadata)
   }, [lessonMetadata, setFieldValue])
+
+  const noAttachedFiles = fileUploadState.files.length === 0
+  // incomplete if video uploads are still being processed
+  const anyFilesCurrentlyUploading = fileUploadState.files.some(
+    (file) => file.percent < 100,
+  )
+  const isIncomplete =
+    noAttachedFiles || anyFilesCurrentlyUploading || values.course.title === ''
+
+  const submitDisabled = isIncomplete || isSubmitting
 
   return (
     <div className="min-h-full flex">
@@ -342,8 +352,13 @@ const Upload: React.FC<
           ))}
           <div>
             <button
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                submitDisabled
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:bg-indigo-700'
+              }`}
               type="submit"
+              disabled={submitDisabled}
             >
               Save Lessons
             </button>
