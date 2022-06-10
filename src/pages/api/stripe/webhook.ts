@@ -2,8 +2,12 @@ import axios from 'axios'
 import {buffer} from 'micro'
 import Mixpanel from 'mixpanel'
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {track} from 'utils/analytics'
 import {stripe} from '../../../utils/stripe'
+
+function stripeToMixpanelDataConverter(stripeDate: number) {
+  const date = new Date(stripeDate * 1000)
+  return date.toISOString()
+}
 
 // const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 const CIO_BASE_URL = 'https://api.customer.io/v1/'
@@ -33,16 +37,24 @@ const stripeWebhookHandler = async (
       // - 'customer.subscription.updated'
       // - 'customer.subscription.deleted'
       if (event.type === 'customer.subscription.created') {
-        let stripeCustomerId = event.data.object.customer
+        // this types it as a Stripe.Subscription instead of any
+        const stripeSubscription = await stripe.subscriptions.retrieve(
+          event.data.object.id,
+        )
+        const stripeCustomer = await stripe.customers.retrieve(
+          event.data.object.customer,
+        )
 
-        let stripeCustomer = await stripe.customers.retrieve(stripeCustomerId)
+        if (!('email' in stripeCustomer)) {
+          // solves a typescript error 🤡
+          throw new Error('No email found for customer')
+        }
 
-        // TODO: not sure how to address this type error with Stripe's Customer
-        // type
-        let stripeEmail = stripeCustomer.email
+        const stripeEmail = stripeCustomer.email
 
         // we want to get the `co_************` id from CustomerIO which we can
         // cross-reference with MixPanel to uniquely identify the user.
+        // This correlates to the contact_id of the user in egghead.io
         let cioCustomer = await cioAxios
           .get(`/customers`, {
             params: {email: stripeEmail},
@@ -58,13 +70,27 @@ const stripeWebhookHandler = async (
 
         // if running sale we would want to check for that but the regular case it's pro or PPP
         // TODO: need to differentiate between other types of discounts (e.g. sales)
-        let subscriptionType = !event.data.object.discount ? 'pro' : 'PPP'
-        let interval = event.data.object.plan.interval
+        let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+
+        // stripe puts the plan at the top level of the subscription object
+        // but it isn't on the type so had to do this
+        let subscriptionInterval =
+          stripeSubscription.items.data[0].plan.interval
+
+        mixpanel.track('Subscription Created', {
+          distinct_id: cioCustomer.id,
+          subscriptionType,
+          subscriptionInterval,
+          currentPeriodStart: stripeToMixpanelDataConverter(
+            event.data.object.current_period_start,
+          ),
+          currentPeriodEnd: stripeToMixpanelDataConverter(
+            event.data.object.current_period_end,
+          ),
+        })
 
         mixpanel.people.set(cioCustomer.id, {
-          pro: true,
-          type: subscriptionType,
-          interval,
+          subscriptionStatus: stripeSubscription.status,
         })
 
         res.status(200).send(`This works!`)

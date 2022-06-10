@@ -139,7 +139,7 @@
     "shortid": "^2.2.16",
     "simplebar-react": "^2.3.5",
     "slugify": "^1.6.0",
-    "stripe": "^8.170.0",
+    "stripe": "^9.8.0",
     "swr": "^0.5.5",
     "tailwindcss": "^3.0.13",
     "tailwindcss-autofill": "^0.1.0",
