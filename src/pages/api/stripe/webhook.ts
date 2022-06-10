@@ -1,17 +1,20 @@
 import axios from 'axios'
 import {buffer} from 'micro'
-import mixpanel from 'mixpanel-browser'
+import Mixpanel from 'mixpanel'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {track} from 'utils/analytics'
 import {stripe} from '../../../utils/stripe'
 
-const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
+// const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
+const CIO_BASE_URL = 'https://api.customer.io/v1/'
 
 const cioAxios = axios.create({
   baseURL: CIO_BASE_URL,
 })
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
+
+const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
 
 const stripeWebhookHandler = async (
   req: NextApiRequest,
@@ -26,34 +29,42 @@ const stripeWebhookHandler = async (
     try {
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
-      let stripeCustomerId = event.data.object.customer
-
-      let stripeCustomer = await stripe.customers.retrieve(stripeCustomerId)
-
-      // if(typeof stripeCustomer === Customer)
-      let stripeEmail = stripeCustomer
-
-      await cioAxios
-        .get(`/customers/${stripeEmail}`, {
-          headers: {
-            Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-          },
-        })
-        .then(({data}: {data: any}) => data.customer)
-        .catch((error: any) => {
-          console.error(error)
-        })
-
+      // Also handle:
+      // - 'customer.subscription.updated'
+      // - 'customer.subscription.deleted'
       if (event.type === 'customer.subscription.created') {
+        let stripeCustomerId = event.data.object.customer
+
+        let stripeCustomer = await stripe.customers.retrieve(stripeCustomerId)
+
+        // TODO: not sure how to address this type error with Stripe's Customer
+        // type
+        let stripeEmail = stripeCustomer.email
+
+        // we want to get the `co_************` id from CustomerIO which we can
+        // cross-reference with MixPanel to uniquely identify the user.
+        let cioCustomer = await cioAxios
+          .get(`/customers`, {
+            params: {email: stripeEmail},
+            headers: {
+              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+            },
+          })
+          .then(({data}: {data: any}) => data.results[0])
+          .catch((error: any) => {
+            console.error(error)
+            return {}
+          })
+
         // if running sale we would want to check for that but the regular case it's pro or PPP
-        let type = !event.data.object.discount ? 'pro' : 'PPP'
+        // TODO: need to differentiate between other types of discounts (e.g. sales)
+        let subscriptionType = !event.data.object.discount ? 'pro' : 'PPP'
+        let interval = event.data.object.plan.interval
 
-        // how should we grab the current user? is there a pattern for this
-        let mixpanelCustomer = mixpanel.identify()
-
-        mixpanel.people.set({
-          type: type,
-          interval: event.data.object.plan.interval,
+        mixpanel.people.set(cioCustomer.id, {
+          pro: true,
+          type: subscriptionType,
+          interval,
         })
 
         res.status(200).send(`This works!`)
