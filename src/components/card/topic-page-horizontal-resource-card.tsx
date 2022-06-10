@@ -18,6 +18,11 @@ import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
 
+type CardPageCardResource = CardResource & {
+  cta?: string
+  meta?: string
+}
+
 const Button: React.FC<{
   path: string
   cta?: string
@@ -29,11 +34,6 @@ const Button: React.FC<{
       </a>
     </Link>
   )
-}
-
-type CardPageCardResource = CardResource & {
-  cta?: string
-  meta?: string
 }
 
 const HorizontalResourceCard: React.FC<{
