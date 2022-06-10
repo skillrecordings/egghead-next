@@ -9,6 +9,30 @@ function stripeToMixpanelDataConverter(stripeDate: number) {
   return date.toISOString()
 }
 
+async function getCIO(email: string) {
+  return await cioAxios
+    .get(`/customers`, {
+      params: {email},
+      headers: {
+        Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
+      },
+    })
+    .then(({data}: {data: any}) => data.results[0])
+    .catch((error: any) => {
+      console.error(error)
+      return {}
+    })
+}
+
+function getCustomerEmail(stripeCustomer: any) {
+  if (!('email' in stripeCustomer) || !stripeCustomer.email) {
+    // solves a typescript error 🤡
+    throw new Error('No email found for customer')
+  }
+
+  return stripeCustomer.email
+}
+
 // const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 const CIO_BASE_URL = 'https://api.customer.io/v1/'
 
@@ -36,7 +60,50 @@ const stripeWebhookHandler = async (
       // Also handle:
       // - 'customer.subscription.updated'
       // - 'customer.subscription.deleted'
-      if (event.type === 'customer.subscription.created') {
+      if (event.type === 'customer.subscription.updated') {
+        const stripeSubscription = await stripe.subscriptions.retrieve(
+          event.data.object.id,
+        )
+        const stripeCustomer = await stripe.customers.retrieve(
+          event.data.object.customer,
+        )
+        const previousSubscription = event.data.previous_attributes
+        const newPlanAmount = stripeSubscription.items.data[0].plan.amount || 0
+
+        const state =
+          previousSubscription.plan.amount < newPlanAmount
+            ? 'upgrade'
+            : 'downgrade'
+
+        let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+
+        let subscriptionInterval =
+          stripeSubscription.items.data[0].plan.interval
+
+        let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
+
+        const mixpanelEventData = {
+          distinct_id: cioCustomer.id,
+          subscriptionType,
+          subscriptionInterval,
+          currentPeriodStart: stripeToMixpanelDataConverter(
+            event.data.object.current_period_start,
+          ),
+          currentPeriodEnd: stripeToMixpanelDataConverter(
+            event.data.object.current_period_end,
+          ),
+        }
+
+        if (state === 'upgrade') {
+          mixpanel.track('Subscription Upgrade', mixpanelEventData)
+        } else {
+          mixpanel.track('Subscription Downgrade', mixpanelEventData)
+        }
+
+        mixpanel.people.set(cioCustomer.id, {
+          subscriptionStatus: stripeSubscription.status,
+        })
+      } else if (event.type === 'customer.subscription.created') {
         // this types it as a Stripe.Subscription instead of any
         const stripeSubscription = await stripe.subscriptions.retrieve(
           event.data.object.id,
@@ -45,28 +112,10 @@ const stripeWebhookHandler = async (
           event.data.object.customer,
         )
 
-        if (!('email' in stripeCustomer)) {
-          // solves a typescript error 🤡
-          throw new Error('No email found for customer')
-        }
-
-        const stripeEmail = stripeCustomer.email
-
         // we want to get the `co_************` id from CustomerIO which we can
         // cross-reference with MixPanel to uniquely identify the user.
         // This correlates to the contact_id of the user in egghead.io
-        let cioCustomer = await cioAxios
-          .get(`/customers`, {
-            params: {email: stripeEmail},
-            headers: {
-              Authorization: `Bearer ${process.env.CUSTOMER_IO_APPLICATION_API_KEY}`,
-            },
-          })
-          .then(({data}: {data: any}) => data.results[0])
-          .catch((error: any) => {
-            console.error(error)
-            return {}
-          })
+        let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
         // if running sale we would want to check for that but the regular case it's pro or PPP
         // TODO: need to differentiate between other types of discounts (e.g. sales)
