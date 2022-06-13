@@ -12,7 +12,12 @@ import VideoUploader from 'components/upload/video-uploader'
 import _find from 'lodash/find'
 import {CourseData} from 'types'
 
-type FileUpload = {file: File; percent: number; message: string}
+type FileUpload = {
+  file: File
+  percent: number
+  message: string
+  signedUrl: string | undefined
+}
 
 type Instructor = {
   _id: string
@@ -86,17 +91,31 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
 }
 
 const fileUploadReducer = (state: any, action: any) => {
+  let upload = undefined
+
   switch (action.type) {
     case 'add':
       return {files: [...state.files, action.fileUpload]}
     case 'progress':
-      const upload = find<FileUpload>(
+      upload = find<FileUpload>(
         state.files,
         (fileUpload) => fileUpload.file === action.file,
       )
       if (upload) {
         upload.percent = action.percent
         upload.message = action.message
+        upload.file = action.file
+      }
+
+      return {files: [...state.files]}
+    case 'finalize':
+      upload = find<FileUpload>(
+        state.files,
+        (fileUpload) => fileUpload.file === action.file,
+      )
+
+      if (upload) {
+        upload.signedUrl = action.fileUrl
       }
 
       return {files: [...state.files]}
@@ -149,9 +168,6 @@ const Upload: React.FC<
   const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
     files: [],
   })
-  const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
-    [],
-  )
   const {viewer} = useViewer()
 
   const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
@@ -174,8 +190,33 @@ const Upload: React.FC<
   }, [sanityCollaboratorId, setFieldValue])
 
   React.useEffect(() => {
-    setFieldValue('lessons', lessonMetadata)
-  }, [lessonMetadata, setFieldValue])
+    // TODO: Update this to lookup lessons by nanoid instead of filename to
+    // make comparisons more reliable.
+    const updatedLessons = fileUploadState.files.map((file) => {
+      const existingLesson = values.lessons.find(
+        (lesson) => lesson.fileMetadata.fileName === file.file.name,
+      )
+
+      if (existingLesson) {
+        return {
+          title: existingLesson.title,
+          fileMetadata: {
+            ...existingLesson.fileMetadata,
+            signedUrl: existingLesson.fileMetadata.signedUrl || file.signedUrl,
+          },
+        }
+      } else {
+        return {
+          title: file.file.name,
+          fileMetadata: {
+            fileName: file.file.name,
+            signedUrl: file.signedUrl,
+          },
+        }
+      }
+    })
+    setFieldValue('lessons', updatedLessons)
+  }, [fileUploadState.files, setFieldValue])
 
   const noAttachedFiles = fileUploadState.files.length === 0
   // incomplete if video uploads are still being processed
@@ -312,10 +353,7 @@ const Upload: React.FC<
                     <span className="text-blue-600 underline">browse</span>
                   </span>
                 </span>
-                <VideoUploader
-                  dispatch={dispatch}
-                  setLessonMetadata={setLessonMetadata}
-                />
+                <VideoUploader dispatch={dispatch} />
               </label>
             </div>
           </div>
