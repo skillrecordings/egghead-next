@@ -322,37 +322,33 @@ const Upload: React.FC<
               </label>
             </div>
           </div>
-          {fileUploadState.files.map((file) => {
-            if (file.percent < 100) {
-              return (
-                <div>
-                  {file.file.name} - {file.message} - {file.percent}%
-                </div>
-              )
-            } else {
-              return null
-            }
+          {values.lessons.map((lesson, i) => {
+            const uploadState = find(
+              fileUploadState.files,
+              (file) => file.file.name === lesson.fileMetadata.fileName,
+            )
+            return (
+              <div className="space-y-1">
+                <p className="block text-xs font-medium text-gray-600 uppercase">
+                  Lesson ({i + 1}/{values.lessons.length})
+                  {uploadState?.percent && ` - ${uploadState?.percent}%`}
+                </p>
+                <label
+                  htmlFor={`lessons.${i}.title`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Title
+                </label>
+                <Field
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name={`lessons.${i}.title`}
+                />
+                <p className="mt-2 text-center text-sm text-gray-600">
+                  Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}
+                </p>
+              </div>
+            )
           })}
-          {values.lessons.map((lesson, i) => (
-            <div className="space-y-1">
-              <p className="block text-xs font-medium text-gray-600 uppercase">
-                Lesson ({i + 1}/{values.lessons.length})
-              </p>
-              <label
-                htmlFor={`lessons.${i}.title`}
-                className="block text-sm font-medium text-gray-700"
-              >
-                Title
-              </label>
-              <Field
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                name={`lessons.${i}.title`}
-              />
-              <p className="mt-2 text-center text-sm text-gray-600">
-                {lesson.fileMetadata.signedUrl}
-              </p>
-            </div>
-          ))}
           <div>
             <button
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
