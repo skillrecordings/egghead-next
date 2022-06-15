@@ -55,6 +55,7 @@
     "@tailwindcss/line-clamp": "^0.3.0",
     "@tailwindcss/typography": "^0.5.0",
     "@tanem/react-nprogress": "^3.0.77",
+    "@testing-library/react-hooks": "^8.0.0",
     "@tippyjs/react": "^4.2.5",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/mixpanel-browser": "^2.35.7",
