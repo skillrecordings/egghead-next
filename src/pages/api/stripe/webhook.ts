@@ -68,41 +68,44 @@ const stripeWebhookHandler = async (
           event.data.object.customer,
         )
         const previousSubscription = event.data.previous_attributes
-        const newPlanAmount = stripeSubscription.items.data[0].plan.amount || 0
+        // if the previous attributes have a plan it's an upgrade/downgrade
+        if (previousSubscription.plan) {
+          const newPlanAmount =
+            stripeSubscription.items.data[0].plan?.amount || 0
+          const previousPlanAmount = previousSubscription.plan?.amount || 0
 
-        const state =
-          previousSubscription.plan.amount < newPlanAmount
-            ? 'upgrade'
-            : 'downgrade'
+          const state =
+            previousPlanAmount < newPlanAmount ? 'upgrade' : 'downgrade'
 
-        let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
+          let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
 
-        let subscriptionInterval =
-          stripeSubscription.items.data[0].plan.interval
+          let subscriptionInterval =
+            stripeSubscription.items.data[0].plan?.interval
 
-        let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
+          let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
-        const mixpanelEventData = {
-          distinct_id: cioCustomer.id,
-          subscriptionType,
-          subscriptionInterval,
-          currentPeriodStart: stripeToMixpanelDataConverter(
-            event.data.object.current_period_start,
-          ),
-          currentPeriodEnd: stripeToMixpanelDataConverter(
-            event.data.object.current_period_end,
-          ),
+          const mixpanelEventData = {
+            distinct_id: cioCustomer.id,
+            subscriptionType,
+            subscriptionInterval,
+            currentPeriodStart: stripeToMixpanelDataConverter(
+              event.data.object.current_period_start,
+            ),
+            currentPeriodEnd: stripeToMixpanelDataConverter(
+              event.data.object.current_period_end,
+            ),
+          }
+
+          if (state === 'upgrade') {
+            mixpanel.track('Subscription Upgrade', mixpanelEventData)
+          } else {
+            mixpanel.track('Subscription Downgrade', mixpanelEventData)
+          }
+
+          mixpanel.people.set(cioCustomer.id, {
+            subscriptionStatus: stripeSubscription.status,
+          })
         }
-
-        if (state === 'upgrade') {
-          mixpanel.track('Subscription Upgrade', mixpanelEventData)
-        } else {
-          mixpanel.track('Subscription Downgrade', mixpanelEventData)
-        }
-
-        mixpanel.people.set(cioCustomer.id, {
-          subscriptionStatus: stripeSubscription.status,
-        })
       } else if (event.type === 'customer.subscription.deleted') {
         const stripeCustomer = await stripe.customers.retrieve(
           event.data.object.customer,
