@@ -4,7 +4,7 @@ import useFileUploadReducer from '../use-file-upload-reducer'
 test('it initializes with no files]', () => {
   const {result} = renderHook(() => useFileUploadReducer([]))
 
-  const [state, dispatch] = result.current
+  const [state, _dispatch] = result.current
 
   expect(state).toEqual({files: []})
 })
@@ -12,9 +12,8 @@ test('it initializes with no files]', () => {
 test('it can add a file upload', () => {
   const {result} = renderHook(() => useFileUploadReducer([]))
 
-  let [state, dispatch] = result.current
-
-  expect(state).toEqual({files: []})
+  const initialState = result.current[0]
+  expect(initialState).toEqual({files: []})
 
   const file: File = {name: 'fake-file.txt'} as File
 
@@ -25,10 +24,11 @@ test('it can add a file upload', () => {
   }
 
   act(() => {
+    const dispatch = result.current[1]
     dispatch({type: 'add', fileUpload})
   })
 
-  let stateWithFile = result.current[0]
+  const stateWithFile = result.current[0]
 
   expect(stateWithFile).toEqual({files: [fileUpload]})
 })
@@ -36,9 +36,8 @@ test('it can add a file upload', () => {
 test('it can update progress of a file upload', () => {
   const {result} = renderHook(() => useFileUploadReducer([]))
 
-  let [state, dispatch] = result.current
-
-  expect(state).toEqual({files: []})
+  const initialState = result.current[0]
+  expect(initialState).toEqual({files: []})
 
   const file: File = {name: 'fake-file.txt'} as File
 
@@ -49,6 +48,7 @@ test('it can update progress of a file upload', () => {
   }
 
   act(() => {
+    const dispatch = result.current[1]
     dispatch({type: 'add', fileUpload})
   })
 
@@ -67,14 +67,14 @@ test('it can update progress of a file upload', () => {
 test('it ignores progress for an unknown file', () => {
   const {result} = renderHook(() => useFileUploadReducer([]))
 
-  const [state, dispatch] = result.current
-
-  expect(state).toEqual({files: []})
+  const initialState = result.current[0]
+  expect(initialState).toEqual({files: []})
 
   const unknownFile: File = {name: 'unknown-file.txt'} as File
 
   // calling progress with an unknown file does nothing
   act(() => {
+    const dispatch = result.current[1]
     dispatch({
       type: 'progress',
       file: unknownFile,
@@ -91,9 +91,8 @@ test('it ignores progress for an unknown file', () => {
 test('it can add the signedUrl when finalizing', () => {
   const {result} = renderHook(() => useFileUploadReducer([]))
 
-  let [state, dispatch] = result.current
-
-  expect(state).toEqual({files: []})
+  const initialState = result.current[0]
+  expect(initialState).toEqual({files: []})
 
   const file: File = {name: 'fake-file.txt'} as File
 
@@ -104,6 +103,7 @@ test('it can add the signedUrl when finalizing', () => {
   }
 
   act(() => {
+    const dispatch = result.current[1]
     dispatch({type: 'add', fileUpload})
   })
 
