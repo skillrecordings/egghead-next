@@ -106,6 +106,8 @@ const stripeWebhookHandler = async (
             subscriptionStatus: stripeSubscription.status,
           })
         }
+
+        res.status(200).send(`This works!`)
       } else if (event.type === 'customer.subscription.deleted') {
         const stripeCustomer = await stripe.customers.retrieve(
           event.data.object.customer,
@@ -119,6 +121,8 @@ const stripeWebhookHandler = async (
         mixpanel.people.set(cioCustomer.id, {
           subscriptionStatus: 'canceled',
         })
+
+        res.status(200).send(`This works!`)
       } else if (event.type === 'customer.subscription.created') {
         // this types it as a Stripe.Subscription instead of any
         const stripeSubscription = await stripe.subscriptions.retrieve(
