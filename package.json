@@ -81,7 +81,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "friendly-time": "^1.1.1",
-    "got": "^11.8.2",
+    "got": "^11.8.5",
     "graphql": "^15.5.1",
     "graphql-request": "^3.5.0",
     "graphql-tag": "^2.12.5",
