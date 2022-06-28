@@ -227,11 +227,6 @@ const legacyRoutes = [
     destination: `${appUrl}/admin/:all*`,
     permanent: true,
   },
-  {
-    source: `/gifts/:all*`,
-    destination: `${appUrl}/gifts/:all*`,
-    permanent: true,
-  },
 ]
 
 const contentIndexRoutes = [
