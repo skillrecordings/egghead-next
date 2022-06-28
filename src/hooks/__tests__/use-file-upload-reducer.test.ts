@@ -1,7 +1,7 @@
 import {renderHook, act} from '@testing-library/react-hooks'
 import useFileUploadReducer from '../use-file-upload-reducer'
 
-test('it initializes with no files]', () => {
+test('it initializes with no files', () => {
   const {result} = renderHook(() => useFileUploadReducer([]))
 
   const [state, _dispatch] = result.current
