@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server'
 import {ACCESS_TOKEN_KEY, EGGHEAD_USER_COOKIE_KEY} from './config'
 import {loadCio} from './lib/customer'
-import {loadUser} from './lib/users'
+import {loadUser} from './lib/current-user'
 
 const PUBLIC_FILE = /\.(.*)$/
 

@@ -1,7 +1,7 @@
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import gql from 'graphql-tag'
 
-export async function loadCurrentViewerRoles(token: string) {
+export async function loadCurrentViewerRoles(token?: string) {
   const query = gql`
     query viewer {
       viewer {
