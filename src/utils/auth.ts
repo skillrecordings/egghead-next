@@ -6,7 +6,10 @@ import cookie from './cookies'
 import * as serverCookie from 'cookie'
 import getAccessTokenFromCookie from './get-access-token-from-cookie'
 import {CIO_KEY} from '../hooks/use-cio'
-import {ACCESS_TOKEN_KEY as CONFIG_ACCESS_TOKEN} from '../config'
+import {
+  ACCESS_TOKEN_KEY as CONFIG_ACCESS_TOKEN,
+  EGGHEAD_USER_COOKIE_KEY,
+} from '../config'
 
 const http = axios.create()
 
@@ -199,6 +202,10 @@ export default class Auth {
           domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
         })
 
+        cookie.remove(EGGHEAD_USER_COOKIE_KEY, {
+          domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+        })
+
         if (typeof localStorage !== 'undefined') {
           localStorage.removeItem(ACCESS_TOKEN_KEY)
           localStorage.removeItem(EXPIRES_AT_KEY)
@@ -243,6 +250,9 @@ export default class Auth {
             cookie.set(CIO_KEY, data.contact_id)
           }
           localStorage.setItem(USER_KEY, JSON.stringify(data))
+          cookie.set(EGGHEAD_USER_COOKIE_KEY, JSON.stringify(data), {
+            domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+          })
           resolve(data)
         })
         .catch((error) => {
