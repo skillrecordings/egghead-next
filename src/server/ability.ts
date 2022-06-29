@@ -7,7 +7,7 @@ type Subjects = 'Video' | 'all'
 export type Roles = 'admin' | 'editor' | 'publisher' | 'instructor'
 type AppAbility = Ability<[Actions, Subjects]>
 
-export async function getAbilityFromToken(token: string) {
+export async function getAbilityFromToken(token?: string) {
   const viewerRoles = await loadCurrentViewerRoles(token)
   return defineAbilityFor(viewerRoles)
 }
