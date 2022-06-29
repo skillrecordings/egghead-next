@@ -1,6 +1,6 @@
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
-async function fetchCustomer(cioId: string) {
+async function fetchCustomer(cioId: string, timeout: number = 600) {
   return new Promise(async (resolve, reject) => {
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
@@ -9,15 +9,14 @@ async function fetchCustomer(cioId: string) {
 
     let timedOut = false
 
-    // if CIO isn't responding in 1.25s we want to fallback and show the page
+    // if CIO isn't responding in {timeout}s we want to fallback and show the page
     // this is because of Vercel edge function limits that require a response
     // to be returned in >=1.5s
-    const TIMEOUT = 1250
 
     const id = setTimeout(() => {
       timedOut = true
       reject(`timeout loading customer [${cioId}]`)
-    }, TIMEOUT)
+    }, timeout)
 
     const url = `${CIO_BASE_URL}${cioApiPath}`
 
