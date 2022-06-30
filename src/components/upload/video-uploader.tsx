@@ -3,16 +3,11 @@ import ReactS3Uploader from 'react-s3-uploader'
 import {getAuthorizationHeader} from 'utils/auth'
 import uuid from 'shortid'
 import fileExtension from 'file-extension'
+import {DispatchFunction} from 'hooks/use-file-upload-reducer'
 
 const SIGNING_URL = `/api/aws/sign-s3`
 
-const VideoUploader = ({
-  dispatch,
-  setLessonMetadata,
-}: {
-  dispatch: Function
-  setLessonMetadata: Function
-}) => {
+const VideoUploader = ({dispatch}: {dispatch: DispatchFunction}) => {
   const uploaderRef = React.useRef(null)
 
   return (
@@ -55,13 +50,7 @@ const VideoUploader = ({
       onError={(message) => console.log(message)}
       onFinish={(signResult, file) => {
         const fileUrl = signResult.signedUrl.split('?')[0]
-        setLessonMetadata((prevState: Array<object>) => [
-          ...prevState,
-          {
-            title: file.name,
-            fileMetadata: {fileName: file.name, signedUrl: fileUrl},
-          },
-        ])
+        dispatch({type: 'finalize', file, fileUrl})
       }}
     />
   )

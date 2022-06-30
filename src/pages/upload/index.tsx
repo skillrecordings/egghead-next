@@ -11,8 +11,14 @@ import axios from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
 import _find from 'lodash/find'
 import {CourseData} from 'types'
+import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 
-type FileUpload = {file: File; percent: number; message: string}
+type FileUpload = {
+  file: File
+  percent: number
+  message: string
+  signedUrl: string | undefined
+}
 
 type Instructor = {
   _id: string
@@ -85,26 +91,6 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
   }
 }
 
-const fileUploadReducer = (state: any, action: any) => {
-  switch (action.type) {
-    case 'add':
-      return {files: [...state.files, action.fileUpload]}
-    case 'progress':
-      const upload = find<FileUpload>(
-        state.files,
-        (fileUpload) => fileUpload.file === action.file,
-      )
-      if (upload) {
-        upload.percent = action.percent
-        upload.message = action.message
-      }
-
-      return {files: [...state.files]}
-    default:
-      throw new Error()
-  }
-}
-
 const UploadWrapper = ({
   instructors,
   topics,
@@ -146,12 +132,7 @@ const Upload: React.FC<
   const {instructors, topics, ...formikProps} = props
 
   const {values, setFieldValue, isSubmitting} = formikProps
-  const [fileUploadState, dispatch] = React.useReducer(fileUploadReducer, {
-    files: [],
-  })
-  const [lessonMetadata, setLessonMetadata] = React.useState<LessonMetadata[]>(
-    [],
-  )
+  const [fileUploadState, dispatch] = useFileUploadReducer([])
   const {viewer} = useViewer()
 
   const [courseInstructorId, setCourseInstructorId] = React.useState<string>(
@@ -174,8 +155,33 @@ const Upload: React.FC<
   }, [sanityCollaboratorId, setFieldValue])
 
   React.useEffect(() => {
-    setFieldValue('lessons', lessonMetadata)
-  }, [lessonMetadata, setFieldValue])
+    // TODO: Update this to lookup lessons by nanoid instead of filename to
+    // make comparisons more reliable.
+    const updatedLessons = fileUploadState.files.map((file) => {
+      const existingLesson = values.lessons.find(
+        (lesson) => lesson.fileMetadata.fileName === file.file.name,
+      )
+
+      if (existingLesson) {
+        return {
+          title: existingLesson.title,
+          fileMetadata: {
+            ...existingLesson.fileMetadata,
+            signedUrl: existingLesson.fileMetadata.signedUrl || file.signedUrl,
+          },
+        }
+      } else {
+        return {
+          title: file.file.name,
+          fileMetadata: {
+            fileName: file.file.name,
+            signedUrl: file.signedUrl,
+          },
+        }
+      }
+    })
+    setFieldValue('lessons', updatedLessons)
+  }, [fileUploadState.files, setFieldValue])
 
   const noAttachedFiles = fileUploadState.files.length === 0
   // incomplete if video uploads are still being processed
@@ -312,44 +318,40 @@ const Upload: React.FC<
                     <span className="text-blue-600 underline">browse</span>
                   </span>
                 </span>
-                <VideoUploader
-                  dispatch={dispatch}
-                  setLessonMetadata={setLessonMetadata}
-                />
+                <VideoUploader dispatch={dispatch} />
               </label>
             </div>
           </div>
-          {fileUploadState.files.map((file) => {
-            if (file.percent < 100) {
-              return (
-                <div>
-                  {file.file.name} - {file.message} - {file.percent}%
-                </div>
-              )
-            } else {
-              return null
-            }
+          {values.lessons.map((lesson, i) => {
+            const uploadState = find(
+              fileUploadState.files,
+              (file) => file.file.name === lesson.fileMetadata.fileName,
+            )
+            return (
+              <div className="space-y-1">
+                <p className="block text-xs font-medium text-gray-600 uppercase">
+                  Lesson ({i + 1}/{values.lessons.length})
+                  {uploadState?.percent && ` - ${uploadState?.percent}%`}
+                </p>
+                <label
+                  htmlFor={`lessons.${i}.title`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Title{' '}
+                  <span className="text-gray-400">
+                    ({lesson.fileMetadata.fileName})
+                  </span>
+                </label>
+                <Field
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name={`lessons.${i}.title`}
+                />
+                <p className="mt-2 text-center text-sm text-gray-600">
+                  Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}
+                </p>
+              </div>
+            )
           })}
-          {values.lessons.map((lesson, i) => (
-            <div className="space-y-1">
-              <p className="block text-xs font-medium text-gray-600 uppercase">
-                Lesson ({i + 1}/{values.lessons.length})
-              </p>
-              <label
-                htmlFor={`lessons.${i}.title`}
-                className="block text-sm font-medium text-gray-700"
-              >
-                Title
-              </label>
-              <Field
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                name={`lessons.${i}.title`}
-              />
-              <p className="mt-2 text-center text-sm text-gray-600">
-                {lesson.fileMetadata.signedUrl}
-              </p>
-            </div>
-          ))}
           <div>
             <button
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
