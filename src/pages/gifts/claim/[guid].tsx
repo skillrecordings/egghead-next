@@ -107,7 +107,9 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
               </p>
             )}
             <PrimaryButton
-              url={'#'}
+              url={`/?message=${encodeURIComponent(
+                'You have claimed the membership',
+              )}`}
               label={`Claim Your Membership for ${viewer?.email}`}
               onClick={handleClaimGift}
               className="no-underline mt-6"
