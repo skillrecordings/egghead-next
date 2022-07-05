@@ -21,7 +21,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
   if (!eggheadToken) {
     return {
       props: {
-        error: 'You must be logged in to claim a membership token',
+        error: {
+          type: 'login',
+          message: 'You must be logged in to claim a membership token',
+        },
       },
     }
   }
@@ -29,7 +32,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
   if (gift.claimed) {
     return {
       props: {
-        error: 'This membership token has already been claimed',
+        error: {
+          type: 'claimed',
+          message: 'This membership token has already been claimed',
+        },
       },
     }
   }
@@ -40,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async function ({
 }
 
 type Gift = {claim_url: string; claimed: boolean; duration_months: number}
-type GiftClaimProps = {error?: string; gift?: Gift}
+type GiftClaimProps = {error?: {type: string; message: string}; gift?: Gift}
 
 const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
   const router = useRouter()
@@ -50,8 +56,7 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
     if (!gift) {
       return
     }
-    const {claim_url} = gift
-
+    let {claim_url} = gift
     await axios.post(claim_url)
 
     refreshUser()
@@ -61,21 +66,23 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
 
   return (
     <div className="container flex justify-center">
-      <div className="prose dark:prose-dark prose-sm mt-8 md:mt-20 pb-10 text-center">
+      <div className="pb-10 mt-8 prose-sm prose text-center dark:prose-dark md:mt-20">
         {error ? (
           <>
-            <h1>{error}</h1>
-            <p>
-              <Link href="/login">
-                <a>Click here</a>
-              </Link>{' '}
-              to sign in. Once you are signed in you will need to click your
-              gift claim link again.
-            </p>
+            <h1>{error.message}</h1>
+            {error.message === 'login' ? (
+              <p>
+                <Link href="/login">
+                  <a>Click here</a>
+                </Link>{' '}
+                to sign in. Once you are signed in you will need to click your
+                gift claim link again.
+              </p>
+            ) : null}
           </>
         ) : (
           <>
-            <div className="w-28 md:w-40 mx-auto">
+            <div className="mx-auto w-28 md:w-40">
               <Image
                 src="/images/eggo-membership.png"
                 width={480}
@@ -107,12 +114,12 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
               </p>
             )}
             <PrimaryButton
-              url={`/?message=${encodeURIComponent(
+              url={`/learn/?message=${encodeURIComponent(
                 'You have claimed the membership',
               )}`}
               label={`Claim Your Membership for ${viewer?.email}`}
               onClick={handleClaimGift}
-              className="no-underline mt-6"
+              className="mt-6 no-underline"
             />
           </>
         )}
