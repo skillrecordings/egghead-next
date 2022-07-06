@@ -59,9 +59,7 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
     let {claim_url} = gift
     await axios.post(claim_url)
 
-    refreshUser()
-
-    router.push('/')
+    await refreshUser()
   }
 
   return (
@@ -114,9 +112,13 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
               </p>
             )}
             <PrimaryButton
-              url={`/learn/?message=${encodeURIComponent(
-                'You have claimed the membership',
-              )}`}
+              url={{
+                pathname: '/learn/',
+                query: {
+                  message: 'You have claimed the membership coupon.',
+                  type: 'claimed',
+                },
+              }}
               label={`Claim Your Membership for ${viewer?.email}`}
               onClick={handleClaimGift}
               className="mt-6 no-underline"
