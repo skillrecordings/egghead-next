@@ -10,8 +10,6 @@ import Image from 'next/image'
 import TechLogos from '../tech-logos'
 import title from 'title'
 import {isMember} from 'utils/is-member'
-import {useRouter} from 'next/router'
-import toast, {Toaster} from 'react-hot-toast'
 
 const ProvideEmail: React.FC<{topic?: string}> = ({topic}) => (
   <>
@@ -28,7 +26,6 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
   topic,
   customer,
 }) => {
-  const router = useRouter()
   const {viewer} = useViewer()
   const {resolvedTheme} = useTheme()
   const [isMounted, setIsMounted] = React.useState(false)
@@ -51,15 +48,6 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
     default:
       Offer = ProvideEmail
   }
-
-  React.useEffect(() => {
-    const {query} = router
-    if (query.message) {
-      toast(query.message as string, {
-        icon: '✅',
-      })
-    }
-  }, [router])
 
   return (
     <header>
