@@ -68,7 +68,7 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
         {error ? (
           <>
             <h1>{error.message}</h1>
-            {error.message === 'login' ? (
+            {error.type === 'login' ? (
               <p>
                 <Link href="/login">
                   <a>Click here</a>
