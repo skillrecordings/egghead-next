@@ -1,6 +1,6 @@
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
-async function fetchCustomer(cioId: string) {
+async function fetchCustomer(cioId: string, timeout: number = 400) {
   return new Promise(async (resolve, reject) => {
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
@@ -9,15 +9,14 @@ async function fetchCustomer(cioId: string) {
 
     let timedOut = false
 
-    // if CIO isn't responding in 1.25s we want to fallback and show the page
+    // if CIO isn't responding in {timeout}s we want to fallback and show the page
     // this is because of Vercel edge function limits that require a response
     // to be returned in >=1.5s
-    const TIMEOUT = 1250
 
     const id = setTimeout(() => {
       timedOut = true
       reject(`timeout loading customer [${cioId}]`)
-    }, TIMEOUT)
+    }, timeout)
 
     const url = `${CIO_BASE_URL}${cioApiPath}`
 
@@ -25,12 +24,14 @@ async function fetchCustomer(cioId: string) {
       headers,
     })
       .then((response) => {
-        response.json().then(({customer}) => {
+        return response.json().then(({customer}) => {
           if (!timedOut) resolve(customer)
         })
       })
       .catch((error) => {
+        console.log('error fetching customer', {error})
         if (!timedOut) reject(error)
+        throw error
       })
       .finally(() => {
         clearTimeout(id)
@@ -58,19 +59,24 @@ async function fetchCustomer(cioId: string) {
 export const loadCio = async (cioId: string, customer?: any) => {
   try {
     if (customer) {
+      console.log('parsing the user from the cookie', customer)
       customer = JSON.parse(customer)
+      console.log('parsed customer from cookie', customer)
       if (customer !== 'undefined' && customer?.id === cioId) {
         return customer
       }
     }
   } catch (error) {
-    console.error(error)
+    console.error('parse cookie stored customer failed', error, customer)
   }
 
   try {
-    const customer: any = await fetchCustomer(cioId)
+    const customer: any = await fetchCustomer(cioId).catch((error) => {
+      console.error('fetch customer failed', error, cioId)
+      throw error
+    })
     return customer?.customer ? customer.customer : customer
   } catch (error) {
-    console.error(error)
+    console.error('fetch user failed', error, customer)
   }
 }
