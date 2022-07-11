@@ -29,8 +29,9 @@ async function fetchEggheadUser(token: string, timeout: number = 400) {
         })
       })
       .catch((error) => {
-        console.log({error})
+        console.log('error fetching user', {error})
         if (!timedOut) reject(error)
+        throw error
       })
       .finally(() => {
         clearTimeout(id)
@@ -51,7 +52,10 @@ export const loadUser = async (token: string, user?: any) => {
   }
 
   try {
-    const user: any = await fetchEggheadUser(token)
+    const user: any = await fetchEggheadUser(token).catch((error) => {
+      console.error('fetch user failed', error)
+      throw error
+    })
     return user
   } catch (error) {
     console.error('fetch user failed', error, user)

@@ -29,7 +29,9 @@ async function fetchCustomer(cioId: string, timeout: number = 400) {
         })
       })
       .catch((error) => {
+        console.log('error fetching customer', {error})
         if (!timedOut) reject(error)
+        throw error
       })
       .finally(() => {
         clearTimeout(id)
@@ -67,7 +69,10 @@ export const loadCio = async (cioId: string, customer?: any) => {
   }
 
   try {
-    const customer: any = await fetchCustomer(cioId)
+    const customer: any = await fetchCustomer(cioId).catch((error) => {
+      console.error('fetch customer failed', error, cioId)
+      throw error
+    })
     return customer?.customer ? customer.customer : customer
   } catch (error) {
     console.error('fetch user failed', error, customer)
