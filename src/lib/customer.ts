@@ -24,7 +24,7 @@ async function fetchCustomer(cioId: string, timeout: number = 400) {
       headers,
     })
       .then((response) => {
-        response.json().then(({customer}) => {
+        return response.json().then(({customer}) => {
           if (!timedOut) resolve(customer)
         })
       })
@@ -59,7 +59,9 @@ async function fetchCustomer(cioId: string, timeout: number = 400) {
 export const loadCio = async (cioId: string, customer?: any) => {
   try {
     if (customer) {
+      console.log('parsing the user from the cookie', customer)
       customer = JSON.parse(customer)
+      console.log('parsed customer from cookie', customer)
       if (customer !== 'undefined' && customer?.id === cioId) {
         return customer
       }

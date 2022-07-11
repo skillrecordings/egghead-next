@@ -24,7 +24,7 @@ async function fetchEggheadUser(token: string, timeout: number = 400) {
       headers,
     })
       .then((response) => {
-        response.json().then((user) => {
+        return response.json().then((user) => {
           if (!timedOut) resolve(user)
         })
       })
@@ -42,7 +42,9 @@ async function fetchEggheadUser(token: string, timeout: number = 400) {
 export const loadUser = async (token: string, user?: any) => {
   try {
     if (user) {
+      console.log('parsing the user from the cookie', user)
       user = JSON.parse(user)
+      console.log('user parsed from cookie', user)
       if (user !== 'undefined') {
         return user
       }
