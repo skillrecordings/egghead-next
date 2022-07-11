@@ -63,13 +63,13 @@ export const loadCio = async (cioId: string, customer?: any) => {
       }
     }
   } catch (error) {
-    console.error(error)
+    console.error('parse cookie stored customer failed', error, customer)
   }
 
   try {
     const customer: any = await fetchCustomer(cioId)
     return customer?.customer ? customer.customer : customer
   } catch (error) {
-    console.error(error)
+    console.error('fetch user failed', error, customer)
   }
 }

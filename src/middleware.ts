@@ -135,6 +135,7 @@ export async function middleware(req: NextRequest) {
             }
 
             if (customer) {
+              console.log('writing customer to cookie')
               response.cookies.set('customer', JSON.stringify(customer))
             }
 
