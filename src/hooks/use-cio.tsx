@@ -3,8 +3,7 @@ import axios from 'axios'
 import queryString from 'query-string'
 import {get, isEmpty} from 'lodash'
 import cookie from 'utils/cookies'
-
-export const CIO_KEY = 'cio_id'
+import {CIO_IDENTIFIER_KEY} from 'config'
 
 export const cioIdentify = async (id: string, options?: any) => {
   if (id) {
@@ -30,13 +29,13 @@ export const CioProvider: React.FunctionComponent = ({children}) => {
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search)
-      const cioSubscriberId = get(queryParams, CIO_KEY)
-      if (cioSubscriberId) delete queryParams[CIO_KEY]
+      const cioSubscriberId = get(queryParams, CIO_IDENTIFIER_KEY)
+      if (cioSubscriberId) delete queryParams[CIO_IDENTIFIER_KEY]
 
       const updatedParamns = queryString.stringify(queryParams)
 
       if (!isEmpty(cioSubscriberId)) {
-        cookie.set(CIO_KEY, cioSubscriberId)
+        cookie.set(CIO_IDENTIFIER_KEY, cioSubscriberId)
         setTimeout(() => {
           window.history.replaceState(
             null,

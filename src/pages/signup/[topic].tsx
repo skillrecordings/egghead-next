@@ -8,6 +8,7 @@ import {setupHttpTracing} from '../../utils/tracing-js/dist/src'
 import getTracer from '../../utils/honeycomb-tracer'
 import {loadCio} from '../../lib/customer'
 import serverCookie from 'cookie'
+import {CIO_IDENTIFIER_KEY} from 'config'
 
 const tracer = getTracer('signup-topic-page')
 
@@ -47,8 +48,9 @@ export const getServerSideProps: GetServerSideProps = async function ({
   try {
     if (req.cookies.customer) {
       customer = JSON.parse(req.cookies.customer)
-    } else if (query.cio_id || req.cookies.cio_id) {
-      const cio_id = query.cio_id ?? req.cookies.cio_id
+    } else if (query[CIO_IDENTIFIER_KEY] || req.cookies[CIO_IDENTIFIER_KEY]) {
+      const cio_id =
+        query[CIO_IDENTIFIER_KEY] ?? req.cookies[CIO_IDENTIFIER_KEY]
       customer = await loadCio(cio_id as string, req.cookies.customer)
     }
   } catch (e) {
