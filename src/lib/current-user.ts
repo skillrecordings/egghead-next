@@ -5,7 +5,7 @@
  *                short because this is used in the middleware which has a 1.5s
  *                total execution time.
  */
-async function fetchEggheadUser(token: string, timeout: number = 400) {
+async function fetchEggheadUser(token: string, timeout: number = 600) {
   return new Promise(async (resolve, reject) => {
     const headers = new Headers({
       Authorization: `Bearer ${token}`,
@@ -42,9 +42,7 @@ async function fetchEggheadUser(token: string, timeout: number = 400) {
 export const loadUser = async (token: string, user?: any) => {
   try {
     if (user) {
-      console.log('parsing the user from the cookie', user)
       user = JSON.parse(user)
-      console.log('user parsed from cookie', user)
       if (user !== 'undefined') {
         return user
       }
