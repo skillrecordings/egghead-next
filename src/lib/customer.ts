@@ -1,6 +1,15 @@
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
-async function fetchCustomer(cioId: string, timeout: number = 400) {
+type CIOCustomer = {
+  attributes: {
+    react_score: number
+  }
+}
+
+async function fetchCustomer(
+  cioId: string,
+  timeout: number = 400,
+): Promise<CIOCustomer | null> {
   return new Promise(async (resolve, reject) => {
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
@@ -15,7 +24,7 @@ async function fetchCustomer(cioId: string, timeout: number = 400) {
 
     const id = setTimeout(() => {
       timedOut = true
-      reject(`timeout loading customer [${cioId}]`)
+      resolve(null)
     }, timeout)
 
     const url = `${CIO_BASE_URL}${cioApiPath}`
@@ -24,13 +33,17 @@ async function fetchCustomer(cioId: string, timeout: number = 400) {
       headers,
     })
       .then((response) => {
-        return response.json().then(({customer}) => {
-          if (!timedOut) resolve(customer)
-        })
+        try {
+          return response.json().then((customer: CIOCustomer) => {
+            if (!timedOut) resolve(customer)
+          })
+        } catch (error) {
+          if (!timedOut) resolve(null)
+        }
       })
       .catch((error) => {
         console.log('error fetching customer', {error})
-        if (!timedOut) reject(error)
+        if (!timedOut) resolve(null)
         throw error
       })
       .finally(() => {
@@ -56,10 +69,13 @@ async function fetchCustomer(cioId: string, timeout: number = 400) {
  * @param customer optional customer object likely loaded from cookies
  * @returns customer
  */
-export const loadCio = async (cioId: string, customer?: any) => {
+export const loadCio = async (
+  cioId: string,
+  customer?: any,
+): Promise<CIOCustomer | null> => {
   try {
     if (customer) {
-      customer = JSON.parse(customer)
+      customer = JSON.parse(customer) as CIOCustomer
       if (customer !== 'undefined' && customer?.id === cioId) {
         return customer
       }
@@ -69,12 +85,13 @@ export const loadCio = async (cioId: string, customer?: any) => {
   }
 
   try {
-    const customer: any = await fetchCustomer(cioId).catch((error) => {
+    return await fetchCustomer(cioId).catch((error) => {
       console.error('fetch customer failed', error, cioId)
       throw error
     })
-    return customer?.customer ? customer.customer : customer
   } catch (error) {
     console.error('fetch user failed', error, customer)
   }
+
+  return null
 }
