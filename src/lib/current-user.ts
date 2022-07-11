@@ -47,13 +47,13 @@ export const loadUser = async (token: string, user?: any) => {
       }
     }
   } catch (error) {
-    console.error(error)
+    console.error('parse cookie stored user failed', error, user)
   }
 
   try {
     const user: any = await fetchEggheadUser(token)
     return user
   } catch (error) {
-    console.error(error)
+    console.error('fetch user failed', error, user)
   }
 }
