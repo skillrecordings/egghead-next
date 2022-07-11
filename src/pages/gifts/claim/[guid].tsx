@@ -16,8 +16,6 @@ export const getServerSideProps: GetServerSideProps = async function ({
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   const {guid} = query
 
-  const gift = await getGift(guid as string, eggheadToken)
-
   if (!eggheadToken) {
     return {
       props: {
@@ -28,6 +26,8 @@ export const getServerSideProps: GetServerSideProps = async function ({
       },
     }
   }
+
+  const gift = await getGift(guid as string, eggheadToken)
 
   if (gift.claimed) {
     return {
