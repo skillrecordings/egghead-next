@@ -1,7 +1,7 @@
 import {NextApiRequest, NextApiResponse} from 'next'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src'
-import {CIO_KEY} from 'hooks/use-cio'
+import {CIO_IDENTIFIER_KEY} from 'config'
 import {sleep} from '../../../../utils/sleep'
 
 const serverCookie = require('cookie')
@@ -37,7 +37,7 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
         {headers},
       )
 
-      const cioCookie = serverCookie.serialize(CIO_KEY, id, {
+      const cioCookie = serverCookie.serialize(CIO_IDENTIFIER_KEY, id, {
         secure: process.env.NODE_ENV === 'production',
         path: '/',
         maxAge: 31556952,
