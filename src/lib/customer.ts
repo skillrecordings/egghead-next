@@ -34,8 +34,13 @@ async function fetchCustomer(
     })
       .then((response) => {
         try {
-          return response.json().then((customer: CIOCustomer) => {
-            if (!timedOut) resolve(customer)
+          return response.json().then((customer: any) => {
+            if (!timedOut)
+              resolve(
+                customer?.customer
+                  ? customer.customer
+                  : (customer as CIOCustomer),
+              )
           })
         } catch (error) {
           if (!timedOut) resolve(null)

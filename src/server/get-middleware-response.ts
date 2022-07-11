@@ -24,17 +24,18 @@ export async function getMiddlewareResponse(req: NextRequest) {
   const {user, customer, isMember, isLoggedInMember} =
     await getCookiesForRequest(req)
 
-  // Only rewrite if we are at the root
-  if (req.nextUrl.pathname === SITE_ROOT_PATH && customer) {
+  const reactFan = customer && customer.attributes?.react_score > 1
+
+  if (req.nextUrl.pathname === SITE_ROOT_PATH) {
     switch (true) {
       case isMember:
         response = rewriteToPath('learn', req)
         break
-      case customer.attributes.react_score > 1:
+      case reactFan:
         response = rewriteToPath('/signup/react', req)
         break
       default:
-        response = rewriteToPath('/signup/full_stack', req)
+        response = rewriteToPath('/signup', req)
     }
   }
 
