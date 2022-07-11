@@ -150,12 +150,16 @@ export async function middleware(req: NextRequest) {
   }
 
   if (user) {
-    const cookieOptions = {domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN}
-    response.cookies.set(
-      EGGHEAD_USER_COOKIE_KEY,
-      JSON.stringify(user),
-      cookieOptions,
-    )
+    try {
+      const cookieOptions = {domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN}
+      response.cookies.set(
+        EGGHEAD_USER_COOKIE_KEY,
+        JSON.stringify(user),
+        cookieOptions,
+      )
+    } catch (e) {
+      console.error('error setting user cookie', e)
+    }
   }
 
   return response

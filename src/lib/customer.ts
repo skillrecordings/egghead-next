@@ -1,6 +1,6 @@
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
-async function fetchCustomer(cioId: string, timeout: number = 600) {
+async function fetchCustomer(cioId: string, timeout: number = 400) {
   return new Promise(async (resolve, reject) => {
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
