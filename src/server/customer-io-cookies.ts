@@ -4,22 +4,33 @@ export const CIO_COOKIE_KEY = 'cio_id'
 export const CIO_CUSTOMER_OBJECT_KEY = 'cio_customer'
 
 export function clearCustomerCookie(res: NextResponse) {
-  res.cookies.delete(CIO_COOKIE_KEY)
-  res.cookies.delete(CIO_CUSTOMER_OBJECT_KEY)
+  res.cookies.delete(CIO_COOKIE_KEY, {
+    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+  })
+  res.cookies.delete(CIO_CUSTOMER_OBJECT_KEY, {
+    domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+  })
 }
 
 export function setCustomerCookie(res: NextResponse, customer: any) {
-  res.cookies.set(CIO_COOKIE_KEY, customer.id, {
-    maxAge: 1000 * 60 * 60 * 24 * 365,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-  })
+  if (customer?.id) {
+    res.cookies.set(CIO_COOKIE_KEY, customer.id, {
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+    })
+  }
 
-  res.cookies.set(CIO_CUSTOMER_OBJECT_KEY, JSON.stringify(customer), {
-    maxAge: 1000 * 60 * 60 * 24 * 2,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-  })
+  if (customer) {
+    const {id, attributes} = customer
+    res.cookies.set(CIO_CUSTOMER_OBJECT_KEY, JSON.stringify({id, attributes}), {
+      maxAge: 1000 * 60 * 60 * 24 * 2,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
+    })
+  }
 }
 
 export function cioCustomerIsMember(customer: any, user: any) {
