@@ -16,7 +16,7 @@ export function setUserCookie(res: NextResponse, user: any) {
         is_instructor,
       }),
       {
-        maxAge: 1000 * 60 * 60 * 24 * 2,
+        maxAge: 1000 * 60 * 60 * 24 * 2, // 2 days in milliseconds
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
