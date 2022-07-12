@@ -15,7 +15,7 @@ export function clearCustomerCookie(res: NextResponse) {
 export function setCustomerCookie(res: NextResponse, customer: any) {
   if (customer?.id) {
     res.cookies.set(CIO_COOKIE_KEY, customer.id, {
-      maxAge: 1000 * 60 * 60 * 24 * 365,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year in milliseconds
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       domain: process.env.NEXT_PUBLIC_AUTH_COOKIE_DOMAIN,
