@@ -7,6 +7,7 @@ import {HorizontalResourceCard} from '../../../card/horizontal-resource-card'
 import groq from 'groq'
 
 const SearchNext = ({topic}: any) => {
+  console.log(topic)
   const location = 'next landing'
   const featuredArticles = get(topic, 'featuredArticles')
   const featuredTalks = get(topic, 'featuredTalks')
@@ -36,13 +37,13 @@ const SearchNext = ({topic}: any) => {
         }}
         CTAComponent={EcommerceCTA}
       />
-      <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
+      <div className="flex flex-col col-span-12 space-y-5 lg:col-span-8">
         <div className="flex flex-col flex-grow">
-          <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
+          <div className="grid flex-grow grid-cols-1 gap-5 mt-5 lg:grid-cols-12">
             {portfolioProjects.resources.map((resource: any) => {
               return (
                 <VerticalResourceCard
-                  className="col-span-4 text-center flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center col-span-4 text-center"
                   key={resource.path}
                   resource={resource}
                   location={location}
@@ -53,13 +54,13 @@ const SearchNext = ({topic}: any) => {
           </div>
         </div>
       </div>
-      <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
+      <div className="flex flex-col col-span-12 space-y-5 lg:col-span-8">
         <div className="flex flex-col flex-grow">
-          <div className="grid lg:grid-cols-8 grid-cols-1 gap-5 md:mt-5 mt-5 flex-grow">
+          <div className="grid flex-grow grid-cols-1 gap-5 mt-5 lg:grid-cols-8 md:mt-5">
             {featuredTalks.resources.map((resource: any) => {
               return (
                 <HorizontalResourceCard
-                  className="col-span-4 text-center flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center col-span-4 text-center"
                   key={resource.path}
                   resource={resource}
                   location={location}
@@ -69,7 +70,7 @@ const SearchNext = ({topic}: any) => {
             {featuredArticles.resources.map((resource: any) => {
               return (
                 <HorizontalResourceCard
-                  className="col-span-4 text-center flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center col-span-4 text-center"
                   key={resource.path}
                   resource={resource}
                   location={location}
@@ -100,11 +101,11 @@ const EcommerceCTA: React.FC<{location: string}> = ({location}) => {
     <VerticalResourceCard
       key={resource.path}
       resource={resource}
-      className="col-span-4 text-center relative z-10 "
+      className="relative z-10 col-span-4 text-center "
       location={location}
       describe={true}
     >
-      <div className="absolute top-0 left-0 bg-gradient-to-r from-purple-500 to-sky-500 w-full h-2 z-20" />
+      <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-purple-500 to-sky-500" />
     </VerticalResourceCard>
   )
 }

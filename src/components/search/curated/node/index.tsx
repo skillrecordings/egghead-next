@@ -1,38 +1,27 @@
 import React from 'react'
 import {NextSeo} from 'next-seo'
 import Topic from '../../components/topic'
-import nodePageData from './node-page-data'
-import {find} from 'lodash'
+import {find, get} from 'lodash'
 import {ThreeLevels} from '../curated-essential'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import groq from 'groq'
 
-const SearchNode = () => {
+const SearchNode = ({topic}: any) => {
+  console.log(topic)
   const location = 'Node Topic Page'
-  const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Node resources.`
   const title = `In-Depth Node Resources for ${new Date().getFullYear()}`
 
-  const beginner: any = find(nodePageData, {id: 'beginner'})
-  const intermediate: any = find(nodePageData, {
-    id: 'intermediate',
-  })
-  const advanced: any = find(nodePageData, {
-    id: 'advanced',
-  })
-  const performanceArticle: any = find(nodePageData, {
-    id: 'performance-article',
-  })
-  const featureCourse: any = find(nodePageData, {
-    id: 'feature-course',
-  })
-  const secondaryFeatureCourse: any = find(nodePageData, {
-    id: 'secondary-feature-course',
-  })
+  const beginner: any = get(topic, 'beginner')
+  const intermediate: any = get(topic, 'intermediate')
+  const advanced: any = get(topic, 'advanced')
+  const featureCourse: any = get(topic, 'featureCourse')
+  const apiAndPerformance: any = get(topic, 'apiAndPerformance')
 
   return (
     <div>
       <NextSeo
-        description={description}
+        description={topic.summary}
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
@@ -41,20 +30,20 @@ const SearchNode = () => {
         }}
         openGraph={{
           title,
-          description: description,
+          description: topic.summary,
           site_name: 'egghead',
           images: [
             {
-              url: `https://og-image-react-egghead.vercel.app/topic/node`,
+              url: `${topic.ogImage}`,
             },
           ],
         }}
       />
-      <div className="md:grid md:grid-cols-12 grid-cols-1 items-start space-y-5 md:space-y-0 -mx-5">
+      <div className="items-start grid-cols-1 -mx-5 space-y-5 md:grid md:grid-cols-12 md:space-y-0">
         <Topic
           className="col-span-8"
           title="Node"
-          imageUrl="https://og-image-react-egghead.now.sh/topic/node?orientation=portrait&v=20201105"
+          imageUrl={`${topic.topicImage}`}
         >
           {`
 Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. 
@@ -67,11 +56,11 @@ Node.js uses an event-driven, non-blocking I/O model that makes it lightweight a
         </Topic>
         <VerticalResourceCard
           resource={featureCourse}
-          className="col-span-4 text-center relative z-10 p-5"
+          className="relative z-10 col-span-4 p-5 text-center"
           location={location}
           describe={true}
         >
-          <div className="absolute top-0 left-0 bg-gradient-to-r from-green-300 to-green-400 w-full h-2 z-20" />
+          <div className="absolute top-0 left-0 z-20 w-full h-2 bg-gradient-to-r from-green-300 to-green-400" />
         </VerticalResourceCard>
       </div>
 
@@ -82,15 +71,15 @@ Node.js uses an event-driven, non-blocking I/O model that makes it lightweight a
         location={location}
       />
 
-      <div className="grid md:grid-cols-3 grid-cols-1 mt-8 gap-4">
+      <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-3">
         <HorizontalResourceCard
-          resource={performanceArticle}
-          className="flex md:flex-row flex-col col-span-2"
+          resource={apiAndPerformance.article}
+          className="flex flex-col col-span-2 md:flex-row"
           location={location}
         />
         <VerticalResourceCard
-          resource={secondaryFeatureCourse}
-          className="text-center relative z-10"
+          resource={apiAndPerformance.course}
+          className="relative z-10 text-center"
           location={location}
           describe={true}
         />
@@ -98,5 +87,71 @@ Node.js uses an event-driven, non-blocking I/O model that makes it lightweight a
     </div>
   )
 }
+
+export const nodePageQuery = groq`
+*[_type == 'resource' && slug.current == "node-js-landing-page"][0]{
+  title,
+  description,
+  summary,
+  "ogImage": images[label == "og-image"][0].url,
+  "topicImage": images[label == "topic-image"][0].url,
+  "beginner": resources[slug.current == 'beginner'][0] {
+    title,
+    "name": meta,
+    resources[]-> {
+      byline,
+      title,
+      path,
+      slug,
+      image
+    }
+  },
+  "intermediate": resources[slug.current == 'intermediate'][0]{
+    title,
+    "name": meta,
+    resources[]-> {
+      byline,
+      title,
+      path,
+      slug,
+      image
+    }
+  },
+  "advanced": resources[slug.current == 'advanced'][0]{
+    title,
+    "name": meta,
+    resources[]-> {
+      byline,
+      title,
+      path,
+      slug,
+      image
+    }
+  },
+  "featureCourse": resources[slug.current == 'feature-course'][0] {
+    "title": resources[0]-> title,
+    "byline": resources[0]-> byline,
+    "path": resources[0]-> path,
+    "slug": resources[0]-> slug,
+    "image": resources[0]->image 
+  },
+  "apiAndPerformance": resources[slug.current == 'api-and-performance'][0] {
+    "course": resources[0]->{
+      byline,
+      title,
+      path,
+      "slug": slug.current,
+      image
+    },
+    "article": resources[1]{
+      byline,
+      title,
+      path,
+      "slug": slug.current,
+      image
+    }
+  }
+}
+`
 
 export default SearchNode

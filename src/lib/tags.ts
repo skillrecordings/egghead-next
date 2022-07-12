@@ -4,6 +4,7 @@ import {getGraphQLClient} from '../utils/configured-graphql-client'
 import {reactPageQuery} from 'components/search/curated/react'
 import {nextPageQuery} from 'components/search/curated/next'
 import {remixPageQuery} from 'components/search/curated/remix'
+import {nodePageQuery} from 'components/search/curated/node'
 
 async function readTags() {
   const endpoint = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/tags?size=40`
@@ -58,6 +59,7 @@ const sanityTagPageHash = {
   react: reactPageQuery,
   next: nextPageQuery,
   remix: remixPageQuery,
+  node: nodePageQuery,
 }
 
 type SelectedTag = keyof typeof sanityTagPageHash
