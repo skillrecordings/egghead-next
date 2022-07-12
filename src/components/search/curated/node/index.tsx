@@ -8,7 +8,6 @@ import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import groq from 'groq'
 
 const SearchNode = ({topic}: any) => {
-  console.log(topic)
   const location = 'Node Topic Page'
   const title = `In-Depth Node Resources for ${new Date().getFullYear()}`
 

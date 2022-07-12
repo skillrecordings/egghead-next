@@ -7,7 +7,6 @@ import {HorizontalResourceCard} from '../../../card/horizontal-resource-card'
 import groq from 'groq'
 
 const SearchNext = ({topic}: any) => {
-  console.log(topic)
   const location = 'next landing'
   const featuredArticles = get(topic, 'featuredArticles')
   const featuredTalks = get(topic, 'featuredTalks')

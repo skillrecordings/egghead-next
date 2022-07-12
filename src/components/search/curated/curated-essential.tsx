@@ -102,7 +102,6 @@ export const ThreeLevels: React.FC<{
   advanced: CardResource
   location?: string
 }> = ({beginner, intermediate, advanced, location}) => {
-  console.log({beginner, intermediate, advanced, location})
   return (
     <>
       {beginner && intermediate && advanced && (
