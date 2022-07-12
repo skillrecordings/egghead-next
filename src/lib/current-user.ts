@@ -15,7 +15,7 @@ async function fetchEggheadUser(token: string, timeout: number = 600) {
 
     const id = setTimeout(() => {
       timedOut = true
-      reject(`timeout loading user [${token}]`)
+      resolve(false)
     }, timeout)
 
     const url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/users/current?minimal=true`
@@ -24,13 +24,17 @@ async function fetchEggheadUser(token: string, timeout: number = 600) {
       headers,
     })
       .then((response) => {
-        return response.json().then((user) => {
-          if (!timedOut) resolve(user)
-        })
+        try {
+          return response.json().then((user) => {
+            if (!timedOut) resolve(user)
+          })
+        } catch (error) {
+          if (!timedOut) resolve(false)
+        }
       })
       .catch((error) => {
         console.log('error fetching user', {error})
-        if (!timedOut) reject(error)
+        if (!timedOut) resolve(false)
         throw error
       })
       .finally(() => {
