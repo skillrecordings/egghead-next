@@ -64,7 +64,7 @@ type SanityCourse = {
 const sanityClient = client({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  useCdn: true,
+  useCdn: false,
   token: process.env.SANITY_EDITOR_TOKEN,
 })
 
