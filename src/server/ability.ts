@@ -30,6 +30,11 @@ function defineAbilityFor(viewerRoles: Roles[]) {
   //   cannot('upload', 'Video', ['instructor_id'])
   // }
 
+  // This is for scope the /instructor/dashboard route for instructors only
+  if (includesRoles(viewerRoles, ['instructor'])) {
+    can('upload', 'Video')
+  }
+
   if (includesRoles(viewerRoles, ['editor', 'publisher'])) {
     can('upload', 'Video', ['instructor_id'])
   }
