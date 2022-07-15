@@ -1,7 +1,6 @@
 import * as React from 'react'
 import useSWR from 'swr'
 import {loadPlaylist, loadAuthedPlaylistForUser} from 'lib/playlists'
-import {FunctionComponent} from 'react'
 import {GetServerSideProps} from 'next'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
 import filter from 'lodash/filter'
@@ -10,14 +9,15 @@ import get from 'lodash/get'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src'
 const tracer = getTracer('course-page')
+
 type CourseProps = {
   course: any
 }
 
-const Course: FunctionComponent<CourseProps> = ({course: initialCourse}) => {
-  const {data} = useSWR(`${initialCourse.slug}`, loadAuthedPlaylistForUser)
+const Course: React.FC<CourseProps> = (props) => {
+  const {data} = useSWR(`${props.course.slug}`, loadAuthedPlaylistForUser)
 
-  const course = {...initialCourse, ...data}
+  const course = {...props.course, ...data}
 
   const {slug, lessons} = course
   const items = get(course, 'items', [])
@@ -48,11 +48,14 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   try {
     const course = params && (await loadPlaylist(params.slug as string))
+
     if (course && course?.slug !== params?.slug) {
-      res.setHeader('Location', course.path)
-      res.statusCode = 302
-      res.end()
-      return {props: {}}
+      return {
+        redirect: {
+          destination: course.path,
+          permanent: true,
+        },
+      }
     } else {
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
@@ -62,10 +65,11 @@ export const getServerSideProps: GetServerSideProps = async ({
       }
     }
   } catch (e) {
-    console.error(e)
-    res.setHeader('Location', '/')
-    res.statusCode = 307
-    res.end()
-    return {props: {}}
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 }
