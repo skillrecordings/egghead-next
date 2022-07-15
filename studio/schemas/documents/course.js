@@ -44,7 +44,7 @@ export default {
             value: 'contentReview',
           },
           {
-            title: 'pre-release',
+            title: 'pre release',
             value: 'preRelease',
           },
           {
