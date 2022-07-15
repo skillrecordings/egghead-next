@@ -31,26 +31,28 @@ export async function loadLesson(slug: string, token?: string) {
       lesson(slug: $slug) {
         slug
         title
-        duration
-        transcript_url
-        transcript
-        subtitles_url
-        next_up_url
         description
+        duration
+        next_up_url
+        free_forever
+        path
+        transcript
+        transcript_url
+        subtitles_url
         hls_url
         dash_url
-        free_forever
         http_url
         media_url
         lesson_view_url
         thumb_url
-        path
         icon_url
         download_url
+        staff_notes_url
+        repo_url
+        code_url
         created_at
         updated_at
         published_at
-        staff_notes_url
         collection {
           ... on Playlist {
             title
@@ -104,8 +106,6 @@ export async function loadLesson(slug: string, token?: string) {
           slug
           twitter
         }
-        repo_url
-        code_url
         comments {
           comment
           commentable_id
