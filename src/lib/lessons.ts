@@ -48,6 +48,8 @@ export async function loadLesson(slug: string, token?: string) {
         icon_url
         download_url
         created_at
+        updated_at
+        published_at
         staff_notes_url
         collection {
           ... on Playlist {
@@ -64,6 +66,7 @@ export async function loadLesson(slug: string, token?: string) {
               completed
               duration
               thumb_url
+              media_url
             }
           }
           ... on Course {
@@ -80,6 +83,7 @@ export async function loadLesson(slug: string, token?: string) {
               completed
               duration
               thumb_url
+              media_url
             }
           }
         }
