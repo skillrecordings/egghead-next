@@ -126,38 +126,10 @@ export default {
       },
     },
     {
-      name: 'state',
-      title: 'State',
-      type: 'string',
+      name: 'productionProcessState',
+      title: 'Production Process State',
+      type: 'productionProcessState',
       hidden: ({document}) => document.type !== 'course',
-      options: {
-        list: [
-          {
-            title: 'new',
-            value: 'new',
-          },
-          {
-            title: 'drafting',
-            value: 'drafting',
-          },
-          {
-            title: 'published',
-            value: 'published',
-          },
-          {
-            title: 'content review',
-            value: 'contentReview',
-          },
-          {
-            title: 'pre-release',
-            value: 'preRelease',
-          },
-          {
-            title: 'retired',
-            value: 'retired',
-          },
-        ],
-      },
     },
     {
       name: 'challengeRating',
