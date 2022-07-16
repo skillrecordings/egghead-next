@@ -22,37 +22,9 @@ export default {
       },
     },
     {
-      name: 'state',
-      title: 'State',
-      type: 'string',
-      options: {
-        list: [
-          {
-            title: 'new',
-            value: 'new',
-          },
-          {
-            title: 'drafting',
-            value: 'drafting',
-          },
-          {
-            title: 'published',
-            value: 'published',
-          },
-          {
-            title: 'content review',
-            value: 'contentReview',
-          },
-          {
-            title: 'pre release',
-            value: 'preRelease',
-          },
-          {
-            title: 'retired',
-            value: 'retired',
-          },
-        ],
-      },
+      name: 'productionProcessState',
+      title: 'Production Process State',
+      type: 'productionProcessState',
     },
     {
       name: 'description',
