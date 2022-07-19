@@ -12,8 +12,6 @@ type CourseWidgetProps = {
 const CourseWidget: FunctionComponent<CourseWidgetProps> = ({slug}) => {
   const {data} = useSWR(slug, loadCourse)
 
-  console.log(data)
-
   return data?.path ? (
     <section className="bg-gray-100 dark:bg-gray-800 bg-opacity-60 rounded p-8 mt-4">
       <Link href={data.path}>
