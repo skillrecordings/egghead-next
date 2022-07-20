@@ -31,24 +31,28 @@ export async function loadLesson(slug: string, token?: string) {
       lesson(slug: $slug) {
         slug
         title
-        duration
-        transcript_url
-        transcript
-        subtitles_url
-        next_up_url
         description
+        duration
+        next_up_url
+        free_forever
+        path
+        transcript
+        transcript_url
+        subtitles_url
         hls_url
         dash_url
-        free_forever
         http_url
         media_url
         lesson_view_url
         thumb_url
-        path
         icon_url
         download_url
-        created_at
         staff_notes_url
+        repo_url
+        code_url
+        created_at
+        updated_at
+        published_at
         collection {
           ... on Playlist {
             title
@@ -64,6 +68,7 @@ export async function loadLesson(slug: string, token?: string) {
               completed
               duration
               thumb_url
+              media_url
             }
           }
           ... on Course {
@@ -80,6 +85,7 @@ export async function loadLesson(slug: string, token?: string) {
               completed
               duration
               thumb_url
+              media_url
             }
           }
         }
@@ -100,8 +106,6 @@ export async function loadLesson(slug: string, token?: string) {
           slug
           twitter
         }
-        repo_url
-        code_url
         comments {
           comment
           commentable_id
@@ -157,101 +161,6 @@ export async function loadLessonForUser(slug: string) {
     slug: slug,
   }
 
-  const {lesson} = await graphQLClient.request(query, variables)
-
-  return lesson as LessonResource
-}
-
-export async function loadBasicLesson(slug: string) {
-  const query = /* GraphQL */ `
-    query getLesson($slug: String!) {
-      lesson(slug: $slug) {
-        slug
-        title
-        transcript
-        description
-        free_forever
-        media_url
-        hls_url
-        thumb_url
-        subtitles_url
-        path
-        icon_url
-        created_at
-        updated_at
-        published_at
-        staff_notes_url
-        collection {
-          ... on Playlist {
-            title
-            slug
-            type
-            square_cover_480_url
-            path
-            lessons {
-              slug
-              type
-              path
-              title
-              completed
-              media_url
-              duration
-            }
-          }
-          ... on Course {
-            title
-            slug
-            type
-            square_cover_480_url
-            path
-            lessons {
-              slug
-              type
-              path
-              title
-              completed
-              media_url
-              duration
-            }
-          }
-        }
-        tags {
-          name
-          label
-          http_url
-          image_url
-        }
-        instructor {
-          full_name
-          avatar_64_url
-          slug
-          twitter
-        }
-        comments {
-          comment
-          commentable_id
-          commentable_type
-          created_at
-          id
-          is_commentable_owner
-          state
-          user {
-            avatar_url
-            full_name
-            instructor {
-              first_name
-            }
-          }
-        }
-      }
-    }
-  `
-
-  const variables = {
-    slug: slug,
-  }
-
-  const graphQLClient = getGraphQLClient()
   const {lesson} = await graphQLClient.request(query, variables)
 
   return lesson as LessonResource

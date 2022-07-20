@@ -126,6 +126,12 @@ export default {
       },
     },
     {
+      name: 'productionProcessState',
+      title: 'Production Process State',
+      type: 'productionProcessState',
+      hidden: ({document}) => document.type !== 'course',
+    },
+    {
       name: 'challengeRating',
       description: 'How difficult is this?',
       title: 'Challenge Rating',
