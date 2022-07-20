@@ -32,6 +32,7 @@ import excerptPortableText from './objects/excerpt-portable-text'
 import bodyPortableText from './objects/body-portable-text'
 import mainImage from './objects/main-image'
 import seo from './objects/seo'
+import productionProcessState from './objects/production-process-state'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -47,6 +48,7 @@ export default createSchema({
     link,
     cta,
     ctaPlug,
+    productionProcessState,
     // The following are document types which will appear
     // in the studio.
     resource,
