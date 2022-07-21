@@ -26,6 +26,7 @@ const CourseLessonSelector = React.forwardRef((props, ref) => {
     onBlur,
     onChange,
     onFocus,
+    readOnly,
     presence,
     type,
     value,
@@ -58,7 +59,16 @@ const CourseLessonSelector = React.forwardRef((props, ref) => {
   }, [fetchDocumentLessons])
 
   const onChangeHandler = (event) => {
-    return event.target.value
+    const {value} = event.target
+    const filteredLessons = documentLessons.filter((lesson) => {
+      return lesson.title.toLowerCase().includes(value.toLowerCase())
+    })
+
+    if (value.length > 0) {
+      setResults(filteredLessons)
+    } else {
+      setResults(null)
+    }
   }
 
   return (
@@ -68,12 +78,18 @@ const CourseLessonSelector = React.forwardRef((props, ref) => {
       __unstable_presence={presence}
       __unstable_markers={markers}
     >
-      <TextInput />
+      <TextInput
+        value={value}
+        readOnly={readOnly}
+        onChange={onChangeHandler}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
       {results && (
         <Box>
           {results.map((result) => {
             return (
-              <Card>
+              <Card border>
                 <Text>{result.title}</Text>
               </Card>
             )
