@@ -114,31 +114,3 @@ export async function loadLesson(slug: string, token?: string) {
 
   return lesson as LessonResource
 }
-
-export async function loadLessonForUser(slug: string) {
-  const query = /* GraphQL */ `
-    query getLesson($slug: String!) {
-      lesson(slug: $slug) {
-        slug
-        hls_url
-        dash_url
-        transcript_url
-        toggle_favorite_url
-        download_url
-        favorited
-        completed
-      }
-    }
-  `
-
-  const token = getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
-
-  const variables = {
-    slug: slug,
-  }
-
-  const {lesson} = await graphQLClient.request(query, variables)
-
-  return lesson as LessonResource
-}
