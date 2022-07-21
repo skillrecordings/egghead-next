@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+
+# Updates the `sanity.json` file with environment-specific settings.
+#
+# To switch to the `staging` environment for the studio, run:
+#
+# ```
+# $ SANITY_ENV=staging ./set_sanity_env
+# ```
+#
+# To switch to the `production` environment for the studio, run:
+#
+# ```
+# $ SANITY_ENV=production ./set_sanity_env
+# ```
+#
+# based on https://www.stuartellis.name/articles/erb/
+
+require 'erb'
+
+sanity_env = ENV['SANITY_ENV']
+
+unless ['production', 'staging'].include?(sanity_env)
+  puts "SANITY_ENV must be set to either `production` or `staging`."
+  puts "e.g. `$ SANITY_ENV=staging ./set_sanity_env`"
+  exit 1
+end
+
+# generate sanity.json file based on specified environment
+class SanityJson
+  include ERB::Util
+  attr_accessor :project_name, :project_id, :dataset
+
+  SANITY_ENV_VALUES = {
+    staging: {
+      project_name: "egghead-next-test",
+      project_id: "junsargs",
+      dataset: "production"
+    },
+    production: {
+      project_name: "egghead-next",
+      project_id: "sb1i5dlc",
+      dataset: "production"
+    }
+  }
+
+  def initialize(environment)
+    template_values = SANITY_ENV_VALUES[environment.to_sym]
+
+    @project_name = template_values[:project_name]
+    @project_id = template_values[:project_id]
+    @dataset = template_values[:dataset]
+    @environment = environment
+
+    unless @project_name && @project_id && @dataset
+      raise StandardError, "One of the template values wasn't set."
+    end
+  end
+
+  def render()
+    ERB.new(template).result(binding)
+  end
+
+  def save(file)
+    File.open(file, "w+") do |f|
+      f.write(render)
+    end
+  end
+
+  private
+
+  def template
+    File.read('./sanity.json.erb')
+  end
+end
+
+sanity_json = SanityJson.new(sanity_env)
+sanity_json.save('./sanity.json')
