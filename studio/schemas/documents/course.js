@@ -1,3 +1,6 @@
+import client from '@sanity/client'
+import CourseLessonSelector from '../../components/CourseLessonSelector'
+
 export default {
   name: 'course',
   type: 'document',
@@ -115,6 +118,50 @@ export default {
         },
       ],
     },
+    {
+      name: 'lessonSelector',
+      title: 'Lesson Selector',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'lesson'}],
+        },
+      ],
+      inputComponent: CourseLessonSelector,
+    },
+    // {
+    //   name: 'sections',
+    //   title: 'Custom Sections',
+    //   description: 'Sections of content that can be added to the course',
+    //   type: 'array',
+    //   of: [
+    //     {
+    //       name: 'lessons',
+    //       title: 'Lessons',
+    //       type: 'reference',
+    //       to: [{type: 'lesson'}],
+    //       options: {
+    //         filter: async ({document}) => {
+    //           // Get the author name from the related post reference
+    //
+    //           const {lessonIds} = await client.fetch(
+    //             `groq*[_id == $id]{lessons[]{_id}}`,
+    //             {id: document._id},
+    //           )
+    //           // Filter the results with only authors that don't
+    //           // have the same name as the one in the related post
+    //           return {
+    //             filter: `groq*[_type == 'lesson' && _id == $id]`,
+    //             params: {
+    //               lessonIds
+    //             }
+    //           }
+    //         },
+    //       },
+    //     },
+    //   ],
+    // },
     {
       title: 'Access Level',
       description:
