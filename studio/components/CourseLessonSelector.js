@@ -1,6 +1,7 @@
 import React from 'react'
 import {FormField} from '@sanity/base/components'
-import {TextInput} from '@sanity/ui'
+import {TextInput, Box, Flex, Card, Text} from '@sanity/ui'
+import sanityClient from '@sanity/client'
 
 import {withDocument} from 'part:@sanity/form-builder'
 import {FormBuilderInput} from '@sanity/form-builder/lib/FormBuilderInput'
@@ -10,6 +11,12 @@ import Fieldset from 'part:@sanity/components/fieldsets/default'
 // Array helper methods from Sanity?
 // use the withDocument hook to get the document and the lessons
 // maybe use a textInput and dropdown instead of a select.
+
+const client = sanityClient({
+  projectId: 'sb1i5dlc',
+  dataset: 'production',
+  apiVersion: '2022-07-21',
+})
 
 const CourseLessonSelector = React.forwardRef((props, ref) => {
   const {
@@ -22,53 +29,58 @@ const CourseLessonSelector = React.forwardRef((props, ref) => {
     presence,
     type,
     value,
-    level,
+    document,
   } = props
 
-  console.log('TEST', type)
+  const [sectionLessons, setSectionLessons] = React.useState()
+  const [documentLessons, setDocumentLessons] = React.useState()
+  const [results, setResults] = React.useState()
 
-  const fieldNames = type.of[0].fields.map((f) => f.name)
+  const fetchDocumentLessons = client.fetch(
+    `*[_id == $id][0] {
+        lessons[]->{_id, title}
+      }`,
+    {id: document._id},
+  )
 
-  const childPresence =
-    presence.length === 0
-      ? presence
-      : presence.filter((item) => fieldNames.includes(item.path[0]))
+  React.useEffect(() => {
+    const getLessons = async () => {
+      return Promise.resolve(fetchDocumentLessons)
+    }
 
-  // If Markers exist, get the markers as an array for the children of this field
-  const childMarkers =
-    markers.length === 0
-      ? markers
-      : markers.filter((item) => fieldNames.includes(item.path[0]))
+    getLessons()
+      .then((lessons) => {
+        setDocumentLessons(lessons.lessons)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [fetchDocumentLessons])
+
+  const onChangeHandler = (event) => {
+    return event.target.value
+  }
 
   return (
-    <Fieldset
-      legend={type.title} // schema title
-      description={type.description} // schema description
-      markers={childMarkers} // markers built above
-      presence={childPresence} // presence built above
+    <FormField
+      description={type.description}
+      title={type.title}
+      __unstable_presence={presence}
+      __unstable_markers={markers}
     >
-      {type.of[0].fields.map((field, i) => {
-        return (
-          // Delegate to the generic FormBuilderInput. It will resolve and insert the actual input component
-          // for the given field type
-          <FormBuilderInput
-            level={level + 1}
-            ref={i === 0 ? ref : null}
-            key={field.name}
-            type={field.type}
-            value={value && value[field.name]}
-            path={[field.name]}
-            markers={markers}
-            focusPath={focusPath}
-            readOnly={field.type.readOnly}
-            presence={presence}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            compareValue={compareValue}
-          />
-        )
-      })}
-    </Fieldset>
+      <TextInput />
+      {results && (
+        <Box>
+          {results.map((result) => {
+            return (
+              <Card>
+                <Text>{result.title}</Text>
+              </Card>
+            )
+          })}
+        </Box>
+      )}
+    </FormField>
   )
 })
 
