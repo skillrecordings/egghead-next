@@ -1,29 +1,6 @@
 import {LessonResource} from 'types'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
-import config from './config'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
-
-export async function loadLessons(): Promise<LessonResource[]> {
-  const query = /* GraphQL */ `
-    query getLessons {
-      lessons(per_page: 25) {
-        title
-        slug
-        icon_url
-        instructor {
-          full_name
-          avatar_64_url
-        }
-      }
-    }
-  `
-
-  const graphQLClient = getGraphQLClient()
-
-  const {lessons} = await graphQLClient.request(config.graphQLEndpoint, query)
-
-  return lessons
-}
 
 export async function loadLesson(slug: string, token?: string) {
   const query = /* GraphQL */ `
