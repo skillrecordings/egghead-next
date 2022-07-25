@@ -12,7 +12,7 @@ import Overlays from 'components/pages/lessons/overlays'
 import specialLessons from 'components/pages/lessons/special-lessons'
 import Tags from 'components/pages/lessons/tags'
 import Transcript from 'components/pages/lessons/transcript'
-import {loadBasicLesson, loadLesson} from 'lib/lessons'
+import {loadLesson} from 'lib/lessons'
 import {useViewer} from 'context/viewer-context'
 import {LessonResource, VideoResource} from 'types'
 import {NextSeo, VideoJsonLd} from 'next-seo'
@@ -77,13 +77,15 @@ export const getServerSideProps: GetServerSideProps = async function ({
 
   try {
     const initialLesson: LessonResource | undefined =
-      params && (await loadBasicLesson(params.slug as string))
+      params && (await loadLesson(params.slug as string))
 
     if (initialLesson && initialLesson?.slug !== params?.slug) {
-      res.setHeader('Location', initialLesson.path)
-      res.statusCode = 302
-      res.end()
-      return {props: {}}
+      return {
+        redirect: {
+          destination: initialLesson.path,
+          permanent: true,
+        },
+      }
     } else {
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
@@ -94,10 +96,12 @@ export const getServerSideProps: GetServerSideProps = async function ({
     }
   } catch (e) {
     console.error(e)
-    res.setHeader('Location', '/')
-    res.statusCode = 307
-    res.end()
-    return {props: {}}
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
 }
 
