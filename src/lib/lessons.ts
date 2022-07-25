@@ -2,7 +2,10 @@ import {LessonResource} from 'types'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
-export async function loadLesson(slug: string, token?: string) {
+export async function loadLesson(
+  slug: string,
+  token?: string,
+): Promise<LessonResource> {
   token = token || getAccessTokenFromCookie()
   const graphQLClient = getGraphQLClient(token)
 
