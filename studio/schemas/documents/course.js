@@ -22,6 +22,11 @@ export default {
       },
     },
     {
+      name: 'productionProcessState',
+      title: 'Production Process State',
+      type: 'productionProcessState',
+    },
+    {
       name: 'description',
       type: 'markdown',
       title: 'Description',
