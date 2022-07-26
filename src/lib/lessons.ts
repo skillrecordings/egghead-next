@@ -84,11 +84,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
           }
         }
       }
-      course {
-        title
-        square_cover_480_url
-        slug
-      }
       tags {
         name
         label
