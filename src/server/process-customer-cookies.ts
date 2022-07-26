@@ -2,12 +2,12 @@ import {NextRequest, NextResponse} from 'next/server'
 import {ACCESS_TOKEN_KEY, EGGHEAD_USER_COOKIE_KEY} from '../config'
 import {loadUser} from '../lib/current-user'
 import {
-  CIO_COOKIE_KEY,
   CIO_CUSTOMER_OBJECT_KEY,
   cioCustomerIsMember,
   clearCustomerCookie,
   setCustomerCookie,
 } from './customer-io-cookies'
+import {CIO_IDENTIFIER_KEY as CIO_COOKIE_KEY} from '../config'
 import {loadCio} from '../lib/customer'
 import {clearUserCookie, setUserCookie} from './egghead-user-cookies'
 
