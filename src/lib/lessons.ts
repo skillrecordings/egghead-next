@@ -2,6 +2,29 @@ import {LessonResource} from 'types'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadLessonComments} from './lesson-comments'
+import {sanityClient} from 'utils/sanity-client'
+import groq from 'groq'
+
+const lessonQuery = groq`
+*[_type == 'lesson' && slug == $slug][0]{
+  title,
+  slug,
+  description
+}`
+
+/**
+ * loads LESSON METADATA from Sanity
+ * @param slug
+ */
+async function loadLessonMetadataFromSanity(slug: string) {
+  const params = {
+    slug,
+  }
+
+  const lesson = await sanityClient.fetch(lessonQuery, params)
+
+  return lesson
+}
 
 export async function loadLesson(
   slug: string,
@@ -19,11 +42,15 @@ export async function loadLesson(
     variables,
   )
 
+  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
+
+  const lessonMetadata = {...lesson, ...lessonMetadataFromSanity}
+
   // comments are user-generated content that must come from the egghead-rails
   // backend, so load those separately from the rest of lesson metadata.
   const comments = await loadLessonComments(slug, token)
 
-  return {...lesson, comments} as LessonResource
+  return {...lessonMetadata, comments} as LessonResource
 }
 
 const loadLessonGraphQLQuery = /* GraphQL */ `
