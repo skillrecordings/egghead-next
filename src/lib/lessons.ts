@@ -1,6 +1,7 @@
 import {LessonResource} from 'types'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
+import {loadLessonComments} from './lesson-comments'
 
 export async function loadLesson(
   slug: string,
@@ -119,61 +120,3 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
     }
   }
 `
-
-type Comment = {
-  comment: string
-  commentable_id: number
-  commentable_type: string
-  created_at: string
-  id: number
-  is_commentable_owner: boolean
-  state: string
-  user: {
-    avatar_url: string
-    full_name: string
-    instructor: {
-      first_name: string
-    }
-  }
-}
-
-export async function loadLessonComments(
-  slug: string,
-  token?: string,
-): Promise<Comment[]> {
-  token = token || getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
-
-  const variables = {
-    slug: slug,
-  }
-
-  const query = /* GraphQL */ `
-    query getLesson($slug: String!) {
-      lesson(slug: $slug) {
-        comments {
-          comment
-          commentable_id
-          commentable_type
-          created_at
-          id
-          is_commentable_owner
-          state
-          user {
-            avatar_url
-            full_name
-            instructor {
-              first_name
-            }
-          }
-        }
-      }
-    }
-  `
-
-  const {
-    lesson: {comments},
-  } = await graphQLClient.request(query, variables)
-
-  return comments
-}
