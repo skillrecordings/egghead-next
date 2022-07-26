@@ -18,7 +18,11 @@ export async function loadLesson(
     variables,
   )
 
-  return lesson as LessonResource
+  // comments are user-generated content that must come from the egghead-rails
+  // backend, so load those separately from the rest of lesson metadata.
+  const comments = await loadLessonComments(slug, token)
+
+  return {...lesson, comments} as LessonResource
 }
 
 const loadLessonGraphQLQuery = /* GraphQL */ `
@@ -115,3 +119,61 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
     }
   }
 `
+
+type Comment = {
+  comment: string
+  commentable_id: number
+  commentable_type: string
+  created_at: string
+  id: number
+  is_commentable_owner: boolean
+  state: string
+  user: {
+    avatar_url: string
+    full_name: string
+    instructor: {
+      first_name: string
+    }
+  }
+}
+
+export async function loadLessonComments(
+  slug: string,
+  token?: string,
+): Promise<Comment[]> {
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+
+  const variables = {
+    slug: slug,
+  }
+
+  const query = /* GraphQL */ `
+    query getLesson($slug: String!) {
+      lesson(slug: $slug) {
+        comments {
+          comment
+          commentable_id
+          commentable_type
+          created_at
+          id
+          is_commentable_owner
+          state
+          user {
+            avatar_url
+            full_name
+            instructor {
+              first_name
+            }
+          }
+        }
+      }
+    }
+  `
+
+  const {
+    lesson: {comments},
+  } = await graphQLClient.request(query, variables)
+
+  return comments
+}
