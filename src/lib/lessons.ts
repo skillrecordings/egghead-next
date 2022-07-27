@@ -21,6 +21,22 @@ const lessonQuery = groq`
     'label': library->slug.current,
     'http_url': library->url,
     'image_url': library->image.url
+  },
+  'collection': *[_type=='course' && references(^._id)][0]{
+    title,
+    'slug': slug.current,
+    'type': 'playlist',
+    'square_cover_480_url': image,
+    'path': '/courses/' + slug.current,
+    'lessons': lessons[]-> {
+      'slug': slug.current,
+      'type': 'lesson',
+      'path': '/lessons/' + slug.current,
+      'title': title,
+      'duration': 0,
+      'thumb_url': null,
+      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hslUrl
+    }
   }
 }`
 
