@@ -1,3 +1,5 @@
+import isEmpty from 'lodash/isEmpty'
+
 export default {
   name: 'videoResource',
   title: 'Video Resource',
@@ -13,12 +15,27 @@ export default {
       name: 'originalVideoUrl',
       title: 'Original Video URL',
       type: 'url',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.custom((originalVideoUrl, context) => {
+          if (isEmpty(originalVideoUrl) && isEmpty(context.document.hslUrl)) {
+            return 'Either "Original Video URL" or "HSL URL" must be set.'
+          }
+
+          return true
+        }),
     },
     {
       name: 'hslUrl',
       title: 'HSL URL',
       type: 'url',
+      validation: (Rule) =>
+        Rule.custom((hslUrl, context) => {
+          if (isEmpty(hslUrl) && isEmpty(context.document.originalVideoUrl)) {
+            return 'Either "HSL URL" or "Original Video URL" must be set.'
+          }
+
+          return true
+        }),
     },
   ],
   preview: {

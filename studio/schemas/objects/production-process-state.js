@@ -2,6 +2,8 @@ export default {
   name: 'productionProcessState',
   title: 'Production Process State',
   type: 'string',
+  initialValue: 'new',
+  validation: (Rule) => Rule.required(),
   options: {
     list: [
       {
