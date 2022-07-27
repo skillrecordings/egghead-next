@@ -9,7 +9,19 @@ const lessonQuery = groq`
 *[_type == 'lesson' && slug == $slug][0]{
   title,
   slug,
-  description
+  description,
+  'instructor': collaborators[0]-> {
+    'full_name': person->name,
+    'slug': person->slug.current,
+    'avatar_64_url': person->image.url,
+    'twitter_url': person->twitter
+  },
+  'tags': softwareLibraries[] {
+    'name': library->name,
+    'label': library->slug.current,
+    'http_url': library->url,
+    'image_url': library->image.url
+  }
 }`
 
 /**
