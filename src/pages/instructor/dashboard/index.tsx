@@ -155,7 +155,7 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
   const {eggheadToken} = getTokenFromCookieHeaders(req.headers.cookie as string)
   const user = await fetchEggheadUser(eggheadToken, true)
 
-  const sanityCollaborator = transformNameToSanityCollaborator(user.name)
+  const sanityCollaborator = transformNameToSanityCollaborator(user.full_name)
   console.log({sanityCollaborator})
 
   const ability = await getAbilityFromToken(req.cookies[ACCESS_TOKEN_KEY])
