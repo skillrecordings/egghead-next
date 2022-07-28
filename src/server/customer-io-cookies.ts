@@ -1,7 +1,8 @@
 import {NextResponse} from 'next/server'
-
-export const CIO_COOKIE_KEY = 'cio_id'
-export const CIO_CUSTOMER_OBJECT_KEY = 'cio_customer'
+import {
+  CIO_IDENTIFIER_KEY as CIO_COOKIE_KEY,
+  CIO_CUSTOMER_OBJECT_KEY,
+} from '../config'
 
 export function clearCustomerCookie(res: NextResponse) {
   res.cookies.delete(CIO_COOKIE_KEY, {
