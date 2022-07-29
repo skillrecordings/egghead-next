@@ -47,6 +47,18 @@ export default {
       title: 'Transcript URL',
       type: 'url',
     },
+    {
+      name: 'subtitlesUrl',
+      title: 'Subtitles URL',
+      type: 'url',
+    },
+    {
+      name: 'duration',
+      title: 'Duration',
+      description: 'Duration in seconds',
+      type: 'number',
+      validation: (Rule) => Rule.required(),
+    },
   ],
   preview: {
     select: {
