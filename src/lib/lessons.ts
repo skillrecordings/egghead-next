@@ -11,16 +11,20 @@ const lessonQuery = groq`
   slug,
   description,
   'instructor': collaborators[0]-> {
-    'full_name': person->name,
-    'slug': person->slug.current,
-    'avatar_64_url': person->image.url,
-    'twitter_url': person->twitter
+    ...(person[]-> {
+      'full_name': name,
+      'slug': slug.current,
+      'avatar_64_url': image.url,
+      'twitter_url': twitter
+    }),
   },
   'tags': softwareLibraries[] {
-    'name': library->name,
-    'label': library->slug.current,
-    'http_url': library->url,
-    'image_url': library->image.url
+    ...(library[]-> {
+       name,
+      'label': slug.current,
+      'http_url': url,
+      'image_url': image.url
+    }),
   },
   'collection': *[_type=='course' && references(^._id)][0]{
     title,
@@ -35,7 +39,9 @@ const lessonQuery = groq`
       'title': title,
       'duration': 0,
       'thumb_url': null,
-      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hlsUrl
+      resource->_type == 'videoResource' => {
+        'media_url': resource->hslUrl
+      }
     }
   }
 }`
