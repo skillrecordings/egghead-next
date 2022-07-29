@@ -109,6 +109,44 @@ export default {
       type: 'boolean',
     },
     {
+      name: 'thumbnailUrl',
+      title: 'Thumbnail URL',
+      type: 'url',
+    },
+    {
+      name: 'iconUrl',
+      title: 'Icon URL',
+      type: 'url',
+    },
+    {
+      name: 'repoUrl',
+      title: 'Repo URL',
+      type: 'url',
+    },
+    {
+      name: 'codeUrl',
+      title: 'Code URL',
+      type: 'url',
+    },
+    {
+      name: 'eggheadRailsCreatedAt',
+      title: 'egghead Rails Created At',
+      description: 'Date this lesson resource was created on egghead.io',
+      type: 'datetime',
+    },
+    {
+      name: 'eggheadRailsUpdatedAt',
+      title: 'egghead Rails Updated At',
+      description: 'Date this lesson resource last updated on egghead.io',
+      type: 'datetime',
+    },
+    {
+      name: 'eggheadRailsPublishedAt',
+      title: 'egghead Rails Published At',
+      description: 'Date this lesson resource was published on egghead.io',
+      type: 'datetime',
+    },
+    {
       title: 'The lessons internal ID on egghead-rails',
       name: 'eggheadRailsLessonId',
       type: 'number',
