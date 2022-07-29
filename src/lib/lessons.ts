@@ -8,10 +8,11 @@ import groq from 'groq'
 // next_up_url can be derived on the front-end from collection and
 // staff_notes_url seems to be null for all lessons
 // code_url is only used in a select few Kent C. Dodds lessons
+// this is causing errors we may need to do more than shallow merge these objects.
 const lessonQuery = groq`
 *[_type == 'lesson' && slug.current == $slug][0]{
   title,
-  slug,
+  'slug': slug.current,
   description,
   resource->_type == 'videoResource' => {
     ...(resource[]-> {
