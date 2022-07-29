@@ -71,6 +71,13 @@ async function loadLessonMetadataFromSanity(slug: string) {
   return await sanityClient.fetch(lessonQuery, params)
 }
 
+// TODO: Derive the next_up_url from the collection and lesson slug
+const derivedData = (result: any) => {
+  const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${result.path}`
+
+  return {http_url}
+}
+
 export async function loadLesson(
   slug: string,
   token?: string,
@@ -87,7 +94,9 @@ export async function loadLesson(
     variables,
   )
 
-  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
+  const queryResult = await loadLessonMetadataFromSanity(slug)
+  const derivedDataFromQuery = derivedData(queryResult)
+  const lessonMetadataFromSanity = {...queryResult, ...derivedDataFromQuery}
 
   const lessonMetadata = {...lesson, ...lessonMetadataFromSanity}
 
