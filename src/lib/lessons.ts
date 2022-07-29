@@ -68,9 +68,7 @@ async function loadLessonMetadataFromSanity(slug: string) {
     slug,
   }
 
-  const lesson = await sanityClient.fetch(lessonQuery, params)
-
-  return lesson
+  return await sanityClient.fetch(lessonQuery, params)
 }
 
 export async function loadLesson(
