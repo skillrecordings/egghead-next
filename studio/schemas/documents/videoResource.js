@@ -37,6 +37,16 @@ export default {
           return true
         }),
     },
+    {
+      name: 'transcriptBody',
+      title: 'Transcript Body',
+      type: 'text',
+    },
+    {
+      name: 'transcriptUrl',
+      title: 'Transcript URL',
+      type: 'url',
+    },
   ],
   preview: {
     select: {
