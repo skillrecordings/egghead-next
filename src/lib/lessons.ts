@@ -5,11 +5,24 @@ import {loadLessonComments} from './lesson-comments'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
+// next_up_url can be derived on the front-end from collection and
+// http_url can be built on the frontend from the path
 const lessonQuery = groq`
 *[_type == 'lesson' && slug == $slug][0]{
   title,
   slug,
   description,
+  resource->_type == 'videoResource' => {
+    ...(resource[]-> {
+      'media_url': hslUrl,
+      'transcript': transcriptBody,
+      'transcript_url': transcriptUrl
+      duration,
+      'subtitles_url': subtitlesUrl,
+    })
+  },
+  'free_forever': isCommunityResource,
+  'path': '/lessons/' + slug.current,
   'instructor': collaborators[0]-> {
     ...(person[]-> {
       'full_name': name,
@@ -36,11 +49,11 @@ const lessonQuery = groq`
       'slug': slug.current,
       'type': 'lesson',
       'path': '/lessons/' + slug.current,
-      'title': title,
-      'duration': 0,
+      title,
       'thumb_url': null,
       resource->_type == 'videoResource' => {
-        'media_url': resource->hslUrl
+        'media_url': resource->hslUrl,
+        duration,
       }
     }
   }
