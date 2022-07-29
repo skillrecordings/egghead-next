@@ -6,7 +6,8 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 
 // next_up_url can be derived on the front-end from collection and
-// http_url can be built on the frontend from the path
+// staff_notes_url seems to be null for all lessons
+// code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
 *[_type == 'lesson' && slug.current == $slug][0]{
   title,
@@ -23,6 +24,12 @@ const lessonQuery = groq`
   },
   'free_forever': isCommunityResource,
   'path': '/lessons/' + slug.current,
+  'thumb_url': thumbnailUrl,
+  'repo_url': repoUrl,
+  'code_url': codeUrl,
+  'createdAt': eggheadRailsCreatedAt,
+  'updatedAt': eggheadRailsUpdatedAt,
+  'publishedAt': eggheadRailsPublishedAt,
   'instructor': collaborators[0]-> {
     ...(person[]-> {
       'full_name': name,
@@ -74,8 +81,10 @@ async function loadLessonMetadataFromSanity(slug: string) {
 // TODO: Derive the next_up_url from the collection and lesson slug
 const derivedData = (result: any) => {
   const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${result.path}`
+  const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/views`
+  const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/signed_download`
 
-  return {http_url}
+  return {http_url, lesson_view_url, download_url}
 }
 
 export async function loadLesson(
