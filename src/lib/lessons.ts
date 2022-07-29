@@ -8,7 +8,7 @@ import groq from 'groq'
 // next_up_url can be derived on the front-end from collection and
 // http_url can be built on the frontend from the path
 const lessonQuery = groq`
-*[_type == 'lesson' && slug == $slug][0]{
+*[_type == 'lesson' && slug.current == $slug][0]{
   title,
   slug,
   description,
