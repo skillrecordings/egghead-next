@@ -104,6 +104,11 @@ export default {
       },
     },
     {
+      name: 'isCommunityResource',
+      title: 'Community Resource?',
+      type: 'boolean',
+    },
+    {
       title: 'The lessons internal ID on egghead-rails',
       name: 'eggheadRailsLessonId',
       type: 'number',
