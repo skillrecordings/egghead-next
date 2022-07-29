@@ -184,7 +184,7 @@ const Lesson: React.FC<LessonProps> = ({
     transcript,
     transcript_url,
     title,
-    created_at,
+    published_at,
     updated_at,
     tags = [],
     description,
@@ -481,7 +481,7 @@ const Lesson: React.FC<LessonProps> = ({
       <VideoJsonLd
         name={title}
         description={removeMarkdown(description)}
-        uploadDate={lesson?.created_at}
+        uploadDate={lesson?.published_at}
         thumbnailUrls={[lesson?.thumb_url]}
       />
       <div className={cx({'h-screen': isFullscreen})}>
@@ -670,8 +670,8 @@ const Lesson: React.FC<LessonProps> = ({
                 </div>
               </div>
               <div className="flex flex-col items-center mt-4 text-sm opacity-80 md:items-start">
-                {created_at && (
-                  <PublishedAt date={friendlyTime(new Date(created_at))} />
+                {published_at && (
+                  <PublishedAt date={friendlyTime(new Date(published_at))} />
                 )}
                 {updated_at && (
                   <UpdatedAt date={friendlyTime(new Date(updated_at))} />
