@@ -17,7 +17,7 @@ const lessonQuery = groq`
     ...(resource[]-> {
       'media_url': hslUrl,
       'transcript': transcriptBody,
-      'transcript_url': transcriptUrl
+      'transcript_url': transcriptUrl,
       duration,
       'subtitles_url': subtitlesUrl,
     })
