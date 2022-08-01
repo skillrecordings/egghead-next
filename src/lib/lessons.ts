@@ -57,7 +57,7 @@ const lessonQuery = groq`
       'type': 'lesson',
       'path': '/lessons/' + slug.current,
       title,
-      'thumb_url': null,
+      'thumb_url': thumbnailUrl,
       resource->_type == 'videoResource' => {
         'media_url': resource->hslUrl,
         duration,
