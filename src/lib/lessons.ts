@@ -11,7 +11,7 @@ import groq from 'groq'
 const lessonQuery = groq`
 *[_type == 'lesson' && slug.current == $slug][0]{
   title,
-  slug,
+  'slug': slug.current,
   description,
   resource->_type == 'videoResource' => {
     ...(resource[]-> {
