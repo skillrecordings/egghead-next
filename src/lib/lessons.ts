@@ -40,7 +40,7 @@ const lessonQuery = groq`
     }),
   },
   'tags': softwareLibraries[] {
-    ...(library[]-> {
+    ...(library-> {
        name,
       'label': slug.current,
       'http_url': url,
