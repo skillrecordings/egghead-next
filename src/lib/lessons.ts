@@ -76,11 +76,18 @@ async function loadLessonMetadataFromSanity(slug: string) {
     slug,
   }
 
-  const baseValues = await sanityClient.fetch(lessonQuery, params)
+  try {
+    const baseValues = await sanityClient.fetch(lessonQuery, params)
 
-  const derivedValues = deriveDataFromBaseValues(baseValues)
+    const derivedValues = deriveDataFromBaseValues(baseValues)
 
-  return {...baseValues, ...derivedValues}
+    return {...baseValues, ...derivedValues}
+  } catch (e) {
+    // Likely a 404 Not Found error
+    console.log('Error fetching from Sanity: ', e)
+
+    return {}
+  }
 }
 
 // TODO: Derive the next_up_url from the collection and lesson slug
@@ -92,19 +99,36 @@ const deriveDataFromBaseValues = (result: any) => {
   return {http_url, lesson_view_url, download_url}
 }
 
+async function loadLessonMetadataFromGraphQL(slug: string, token?: string) {
+  const graphQLClient = getGraphQLClient(token)
+
+  try {
+    const {lesson: lessonMetadataFromGraphQL} = await graphQLClient.request(
+      loadLessonGraphQLQuery,
+      {slug},
+    )
+
+    return lessonMetadataFromGraphQL
+  } catch (e) {
+    // Likely a 404 Not Found error
+    console.log('Error fetching from GraphQL: ', e)
+
+    return {}
+  }
+}
+
 export async function loadLesson(
   slug: string,
   token?: string,
 ): Promise<LessonResource> {
   token = token || getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
 
   /******************************************
    * Primary Lesson Metadata GraphQL Request
    * ****************************************/
-  const {lesson: lessonMetadataFromGraphQL} = await graphQLClient.request(
-    loadLessonGraphQLQuery,
-    {slug},
+  const lessonMetadataFromGraphQL = await loadLessonMetadataFromGraphQL(
+    slug,
+    token,
   )
 
   /**********************************************
