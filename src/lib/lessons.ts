@@ -15,7 +15,7 @@ const lessonQuery = groq`
   'slug': slug.current,
   description,
   resource->_type == 'videoResource' => {
-    ...(resource[]-> {
+    ...(resource-> {
       'media_url': hslUrl,
       'transcript': transcriptBody,
       'transcript_url': transcriptUrl,
@@ -32,7 +32,7 @@ const lessonQuery = groq`
   'updatedAt': eggheadRailsUpdatedAt,
   'publishedAt': eggheadRailsPublishedAt,
   'instructor': collaborators[0]-> {
-    ...(person[]-> {
+    ...(person-> {
       'full_name': name,
       'slug': slug.current,
       'avatar_64_url': image.url,
