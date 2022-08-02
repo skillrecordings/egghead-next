@@ -75,11 +75,15 @@ async function loadLessonMetadataFromSanity(slug: string) {
     slug,
   }
 
-  return await sanityClient.fetch(lessonQuery, params)
+  const baseValues = await sanityClient.fetch(lessonQuery, params)
+
+  const derivedValues = deriveDataFromBaseValues(baseValues)
+
+  return {...baseValues, ...derivedValues}
 }
 
 // TODO: Derive the next_up_url from the collection and lesson slug
-const derivedData = (result: any) => {
+const deriveDataFromBaseValues = (result: any) => {
   const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${result.path}`
   const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/views`
   const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/signed_download`
@@ -94,24 +98,35 @@ export async function loadLesson(
   token = token || getAccessTokenFromCookie()
   const graphQLClient = getGraphQLClient(token)
 
-  const variables = {
-    slug: slug,
-  }
-
-  const {lesson} = await graphQLClient.request(
+  /******************************************
+   * Primary Lesson Metadata GraphQL Request
+   * ****************************************/
+  const {lesson: lessonMetadataFromGraphQL} = await graphQLClient.request(
     loadLessonGraphQLQuery,
-    variables,
+    {slug},
   )
 
-  const queryResult = await loadLessonMetadataFromSanity(slug)
-  const derivedDataFromQuery = derivedData(queryResult)
-  const lessonMetadataFromSanity = {...queryResult, ...derivedDataFromQuery}
-
-  const lessonMetadata = {...lesson, ...lessonMetadataFromSanity}
-
+  /**********************************************
+   * Load comments from separate GraphQL Request
+   * ********************************************/
   // comments are user-generated content that must come from the egghead-rails
   // backend, so load those separately from the rest of lesson metadata.
   const comments = await loadLessonComments(slug, token)
+
+  /*************************************
+   * Sanity Request for Lesson Metadata
+   * ***********************************/
+  // this will be used to override values from graphql
+  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
+
+  /*************************************
+   * Merge All Lesson Metadata Together
+   * ***********************************/
+  // with preference for data coming from Sanity
+  const lessonMetadata = {
+    ...lessonMetadataFromGraphQL,
+    ...lessonMetadataFromSanity,
+  }
 
   return {...lessonMetadata, comments} as LessonResource
 }
