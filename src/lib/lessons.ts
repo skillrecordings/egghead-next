@@ -211,12 +211,9 @@ const mergeLessonMetadata = (
   return {collection, instructor, tags, ...rest}
 }
 
-const collectionIsPresent = ({
-  lessons,
-  ...collectionMetadata
-}: {
-  lessons: any[]
-}) => {
+const collectionIsPresent = (collection: {lessons: any[] | undefined}) => {
+  const {lessons, ...collectionMetadata} = collection || {}
+
   // if there are lessons and some collectionMetadata is present, then the
   // collection is considered present.
   return some(lessons) && some(collectionMetadata)
