@@ -66,7 +66,13 @@ export async function loadLessonComments(
     }
   `
 
-  const {lesson_comments} = await graphQLClient.request(query, variables)
+  try {
+    const {lesson_comments} = await graphQLClient.request(query, variables)
 
-  return lesson_comments
+    return lesson_comments
+  } catch (e) {
+    console.log('Error fetching lesson comments: ', e)
+
+    return []
+  }
 }

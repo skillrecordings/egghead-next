@@ -5,6 +5,7 @@ import {loadLessonComments} from './lesson-comments'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import some from 'lodash/some'
+import isEmpty from 'lodash/isEmpty'
 
 // next_up_url can be derived on the front-end from collection and
 // staff_notes_url seems to be null for all lessons
@@ -152,6 +153,12 @@ export async function loadLesson(
     lessonMetadataFromGraphQL,
     lessonMetadataFromSanity,
   )
+
+  // if we aren't able to find Lesson metadata at either source, throw an
+  // error.
+  if (isEmpty(lessonMetadata.slug)) {
+    throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
+  }
 
   return {...lessonMetadata, comments} as LessonResource
 }
