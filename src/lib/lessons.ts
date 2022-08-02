@@ -155,22 +155,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
         slug
         twitter
       }
-      comments {
-        comment
-        commentable_id
-        commentable_type
-        created_at
-        id
-        is_commentable_owner
-        state
-        user {
-          avatar_url
-          full_name
-          instructor {
-            first_name
-          }
-        }
-      }
     }
   }
 `
