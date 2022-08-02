@@ -4,6 +4,7 @@ import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadLessonComments} from './lesson-comments'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
+import some from 'lodash/some'
 
 // next_up_url can be derived on the front-end from collection and
 // staff_notes_url seems to be null for all lessons
@@ -123,12 +124,78 @@ export async function loadLesson(
    * Merge All Lesson Metadata Together
    * ***********************************/
   // with preference for data coming from Sanity
-  const lessonMetadata = {
-    ...lessonMetadataFromGraphQL,
-    ...lessonMetadataFromSanity,
-  }
+  const lessonMetadata = mergeLessonMetadata(
+    lessonMetadataFromGraphQL,
+    lessonMetadataFromSanity,
+  )
 
   return {...lessonMetadata, comments} as LessonResource
+}
+
+const mergeLessonMetadata = (
+  lessonMetadataFromGraphQL: LessonResource,
+  lessonMetadataFromSanity: LessonResource,
+): LessonResource => {
+  // we can merge most of it together as is, but there are a few nested pieces
+  // that need to be handled either manually.
+  //
+  // e.g. if tags haven't been set yet on Sanity, they will appear as an empty
+  // array. With a standard spread, they empty tags from Sanity would override
+  // an actual list of tags from graphql. We can instead handle this manually
+  // by checking for `_.some()` and falling back to graphql if there aren't
+  // any.
+
+  // Nested fields:
+  // - `tags`
+  // - `instructor`
+  // - `collection`
+  //   - `lessons`
+
+  /*
+   * Extract primary and secondary fields
+   */
+  const {
+    tags: secondaryTags,
+    instructor: secondaryInstructor,
+    collection: secondaryCollection,
+    ...secondaryRest
+  } = lessonMetadataFromGraphQL
+
+  const {
+    tags: primaryTags,
+    instructor: primaryInstructor,
+    collection: primaryCollection,
+    ...primaryRest
+  } = lessonMetadataFromSanity
+
+  /*
+   * Determine which value to take for each complex type (`collection`, `tags`,
+   * and `instructor`).
+   */
+  const collection = collectionIsPresent(primaryCollection)
+    ? primaryCollection
+    : secondaryCollection
+
+  const tags = some(primaryTags) ? primaryTags : secondaryTags
+
+  const instructor = some(primaryInstructor)
+    ? primaryInstructor
+    : secondaryInstructor
+
+  const rest = {...secondaryRest, ...primaryRest}
+
+  return {collection, instructor, tags, ...rest}
+}
+
+const collectionIsPresent = ({
+  lessons,
+  ...collectionMetadata
+}: {
+  lessons: any[]
+}) => {
+  // if there are lessons and some collectionMetadata is present, then the
+  // collection is considered present.
+  return some(lessons) && some(collectionMetadata)
 }
 
 const loadLessonGraphQLQuery = /* GraphQL */ `
