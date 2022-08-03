@@ -91,7 +91,6 @@ async function loadLessonMetadataFromSanity(slug: string) {
   }
 }
 
-// TODO: Derive the next_up_url from the collection and lesson slug
 const deriveDataFromBaseValues = (result: any) => {
   const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${result.path}`
   const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/views`
