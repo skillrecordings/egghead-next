@@ -165,7 +165,7 @@ const mergeLessonMetadata = (
   lessonMetadataFromSanity: LessonResource,
 ): LessonResource => {
   // we can merge most of it together as is, but there are a few nested pieces
-  // that need to be handled either manually.
+  // that need to be handled manually.
   //
   // e.g. if tags haven't been set yet on Sanity, they will appear as an empty
   // array. With a standard spread, they empty tags from Sanity would override
