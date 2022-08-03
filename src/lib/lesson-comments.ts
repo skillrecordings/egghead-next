@@ -48,7 +48,6 @@ export async function loadLessonComments(
   const query = /* GraphQL */ `
     query getLessonComments($slug: String!) {
       lesson_comments(slug: $slug) {
-        title
         comment
         commentable_id
         commentable_type
