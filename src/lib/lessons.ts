@@ -7,7 +7,6 @@ import groq from 'groq'
 import some from 'lodash/some'
 import isEmpty from 'lodash/isEmpty'
 
-// staff_notes_url seems to be null for all lessons
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
 *[_type == 'lesson' && slug.current == $slug][0]{
