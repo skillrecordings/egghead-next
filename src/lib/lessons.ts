@@ -88,7 +88,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       title
       description
       duration
-      next_up_url
       free_forever
       path
       transcript
