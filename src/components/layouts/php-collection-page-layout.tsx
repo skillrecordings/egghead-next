@@ -109,16 +109,14 @@ const ModulesList = ({modules, render}: {modules: any; render: any}) => {
   return modules.map((module: any) => {
     return (
       <div key={module.id}>
-        <h3>{module.title}</h3>
+        <h2 className="text-xl font-bold mt-4 mb-2">{module.title}</h2>
         {(() => {
           switch (true) {
             case module.lessons.length < 5:
               return (
                 <div className={'grid grid-cols-2'}>
-                  <ul className="grid grid-rows-5 grid-flow-col gap-4">
-                    {render(module.lessons)}
-                  </ul>
-                  <p>
+                  <ul className="grid gap-4">{render(module.lessons)}</ul>
+                  <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -132,9 +130,21 @@ const ModulesList = ({modules, render}: {modules: any; render: any}) => {
               )
             case module.lessons.length > 5 && module.lessons.length <= 10:
               return (
-                <ul className="grid grid-rows-5 grid-flow-col gap-4">
-                  {render(module.lessons)}
-                </ul>
+                <div>
+                  <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                  </p>
+                  <ul className="grid grid-rows-5 grid-flow-col gap-4">
+                    {render(module.lessons)}
+                  </ul>
+                </div>
               )
             default:
               return (
@@ -896,9 +906,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                       </Link>
                     </div>
                   )}
-                  <h2 className="text-xl font-bold">
-                    {multiModuleCourse ? 'Modules' : 'Course Content'}
-                  </h2>
                 </div>
                 {multiModuleCourse ? (
                   <ul className="relative">
