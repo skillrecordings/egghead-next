@@ -51,6 +51,102 @@ type CollectionResource = {
   description: string
 }
 
+const LessonsList = ({
+  lessons,
+  completedLessonSlugs,
+}: {
+  lessons: any
+  completedLessonSlugs: any
+}) => {
+  return lessons.map((lesson: any, index: number) => {
+    const isComplete = completedLessonSlugs.includes(lesson.slug)
+    return (
+      <li key={lesson.slug}>
+        <div className="flex py-2 font-semibold leading-tight h-20">
+          <div className="flex items-center mr-2 space-x-2">
+            <div
+              className={`${
+                isComplete
+                  ? 'text-blue-600 dark:text-green-400'
+                  : 'text-gray-500 dark:text-gray-400'
+              } pt-px font-xs scale-75 font-normal w-4`}
+            >
+              {isComplete ? (
+                <CheckIcon className="w-6 h-6 -translate-x-2" />
+              ) : (
+                index + 1
+              )}
+            </div>
+            {lesson.icon_url && (
+              <div className="flex items-center flex-shrink-0 w-8">
+                <Image src={lesson.icon_url} width={24} height={24} />
+              </div>
+            )}
+          </div>
+          {lesson.path && (
+            <div className="flex flex-col ">
+              <div>
+                <Link href={lesson.path}>
+                  <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
+                    {lesson.title}
+                  </a>
+                </Link>
+              </div>
+              <div className="text-xs text-gray-700 dark:text-gray-500">
+                {convertTimeWithTitles(lesson.duration, {
+                  showSeconds: true,
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </li>
+    )
+  })
+}
+
+const ModulesList = ({modules, render}: {modules: any; render: any}) => {
+  return modules.map((module: any) => {
+    return (
+      <div key={module.id}>
+        <h3>{module.title}</h3>
+        {(() => {
+          switch (true) {
+            case module.lessons.length < 5:
+              return (
+                <div className={'grid grid-cols-2'}>
+                  <ul className="grid grid-rows-5 grid-flow-col gap-4">
+                    {render(module.lessons)}
+                  </ul>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                  </p>
+                </div>
+              )
+            case module.lessons.length > 5 && module.lessons.length <= 10:
+              return (
+                <ul className="grid grid-rows-5 grid-flow-col gap-4">
+                  {render(module.lessons)}
+                </ul>
+              )
+            default:
+              return (
+                <ul className="grid grid-cols-1">{render(module.lessons)}</ul>
+              )
+          }
+        })()}
+      </div>
+    )
+  })
+}
+
 const logCollectionResource = (collection: CollectionResource) => {
   if (typeof window !== 'undefined') {
     const {
@@ -933,72 +1029,15 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
               </section>
               {/*Start of lessons block*/}
               <div>
-                <ul>
-                  {lessonModules.map((module: any) => {
-                    return module.lessons.map((lesson: any, index: number) => {
-                      const isComplete = completedLessonSlugs.includes(
-                        lesson.slug,
-                      )
-                      return (
-                        <li key={lesson.slug}>
-                          <div className="flex py-2 font-semibold leading-tight">
-                            <div className="flex items-center mr-2 space-x-2">
-                              <div
-                                className={`${
-                                  isComplete
-                                    ? 'text-blue-600 dark:text-green-400'
-                                    : 'text-gray-500 dark:text-gray-400'
-                                } pt-px font-xs scale-75 font-normal w-4`}
-                              >
-                                {isComplete ? (
-                                  <CheckIcon className="w-6 h-6 -translate-x-2" />
-                                ) : (
-                                  index + 1
-                                )}
-                              </div>
-                              {lesson.icon_url && (
-                                <div className="flex items-center flex-shrink-0 w-8">
-                                  <Image
-                                    src={lesson.icon_url}
-                                    width={24}
-                                    height={24}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                            {lesson.path && (
-                              <div className="flex flex-col ">
-                                <div>
-                                  <Link href={lesson.path}>
-                                    <a
-                                      onClick={() => {
-                                        track(
-                                          `clicked video link on course page`,
-                                          {
-                                            course: course.slug,
-                                            video: lesson.slug,
-                                          },
-                                        )
-                                      }}
-                                      className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
-                                    >
-                                      {lesson.title}
-                                    </a>
-                                  </Link>
-                                </div>
-                                <div className="text-xs text-gray-700 dark:text-gray-500">
-                                  {convertTimeWithTitles(lesson.duration, {
-                                    showSeconds: true,
-                                  })}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </li>
-                      )
-                    })
-                  })}
-                </ul>
+                <ModulesList
+                  modules={lessonModules}
+                  render={(lessonList) => (
+                    <LessonsList
+                      lessons={lessonList}
+                      completedLessonSlugs={completedLessonSlugs}
+                    />
+                  )}
+                />
               </div>
               {/*End of lessons block*/}
             </div>
