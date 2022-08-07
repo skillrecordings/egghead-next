@@ -51,109 +51,129 @@ type CollectionResource = {
   description: string
 }
 
-const LessonsList = ({
-  lessons,
+const LessonCollection = ({
+  lesson,
   completedLessonSlugs,
+  index,
 }: {
-  lessons: any
+  lesson: any
   completedLessonSlugs: any
+  index: number
 }) => {
-  return lessons.map((lesson: any, index: number) => {
-    const isComplete = completedLessonSlugs.includes(lesson.slug)
-    return (
-      <li key={lesson.slug}>
-        <div className="flex py-2 font-semibold leading-tight h-20">
-          <div className="flex items-center mr-2 space-x-2">
-            <div
-              className={`${
-                isComplete
-                  ? 'text-blue-600 dark:text-green-400'
-                  : 'text-gray-500 dark:text-gray-400'
-              } pt-px font-xs scale-75 font-normal w-4`}
-            >
-              {isComplete ? (
-                <CheckIcon className="w-6 h-6 -translate-x-2" />
-              ) : (
-                index + 1
-              )}
-            </div>
-            {lesson.icon_url && (
-              <div className="flex items-center flex-shrink-0 w-8">
-                <Image src={lesson.icon_url} width={24} height={24} />
-              </div>
+  const isComplete = completedLessonSlugs.includes(lesson.slug)
+  return (
+    <li key={lesson.slug}>
+      <div className="flex py-2 font-semibold leading-tight h-20">
+        <div className="flex items-center mr-2 space-x-2">
+          <div
+            className={`${
+              isComplete
+                ? 'text-blue-600 dark:text-green-400'
+                : 'text-gray-500 dark:text-gray-400'
+            } pt-px font-xs scale-75 font-normal w-4`}
+          >
+            {isComplete ? (
+              <CheckIcon className="w-6 h-6 -translate-x-2" />
+            ) : (
+              index + 1
             )}
           </div>
-          {lesson.path && (
-            <div className="flex flex-col ">
-              <div>
-                <Link href={lesson.path}>
-                  <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
-                    {lesson.title}
-                  </a>
-                </Link>
-              </div>
-              <div className="text-xs text-gray-700 dark:text-gray-500">
-                {convertTimeWithTitles(lesson.duration, {
-                  showSeconds: true,
-                })}
-              </div>
+          {lesson.icon_url && (
+            <div className="flex items-center flex-shrink-0 w-8">
+              <Image src={lesson.icon_url} width={24} height={24} />
             </div>
           )}
         </div>
-      </li>
-    )
-  })
+        {lesson.path && (
+          <div className="flex flex-col ">
+            <div>
+              <Link href={lesson.path}>
+                <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
+                  {lesson.title}
+                </a>
+              </Link>
+            </div>
+            <div className="text-xs text-gray-700 dark:text-gray-500">
+              {convertTimeWithTitles(lesson.duration, {
+                showSeconds: true,
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </li>
+  )
 }
 
-const ModulesList = ({modules, render}: {modules: any; render: any}) => {
-  return modules.map((module: any) => {
-    return (
-      <div key={module.id}>
-        <h2 className="text-xl font-bold mt-4 mb-2">{module.title}</h2>
-        {(() => {
-          switch (true) {
-            case module.lessons.length < 5:
-              return (
-                <div className={'grid grid-cols-2'}>
-                  <ul className="grid gap-4">{render(module.lessons)}</ul>
-                  <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                  </p>
-                </div>
-              )
-            case module.lessons.length > 5 && module.lessons.length <= 10:
-              return (
-                <div>
-                  <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                  </p>
-                  <ul className="grid grid-rows-5 grid-flow-col gap-4">
-                    {render(module.lessons)}
-                  </ul>
-                </div>
-              )
-            default:
-              return (
-                <ul className="grid grid-cols-1">{render(module.lessons)}</ul>
-              )
-          }
-        })()}
-      </div>
-    )
+const ModuleCollection = ({module, children}: {module: any; children: any}) => {
+  return (
+    <div key={module.id}>
+      <h2 className="text-xl font-bold mt-4 mb-2">{module.title}</h2>
+      {(() => {
+        switch (true) {
+          case module.contentList.length < 5:
+            return (
+              <div className={'grid grid-cols-2'}>
+                <ul className="grid gap-4">{children}</ul>
+                <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+              </div>
+            )
+          case module.contentList.length > 5 && module.contentList.length <= 10:
+            return (
+              <div>
+                <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+                <ul className="grid grid-rows-5 grid-flow-col gap-4">
+                  {children}
+                </ul>
+              </div>
+            )
+          default:
+            return <ul className="grid grid-cols-1">{children}</ul>
+        }
+      })()}
+    </div>
+  )
+}
+
+const CollectionContent = (props: any) => {
+  console.log(props.contentList)
+  return props.contentList.map((content: any, index: number) => {
+    switch (content.type) {
+      case 'module':
+        return (
+          <ModuleCollection module={content}>
+            <CollectionContent {...props} contentList={content.contentList} />
+          </ModuleCollection>
+        )
+      case 'lesson':
+        return (
+          <LessonCollection
+            lesson={content}
+            index={index}
+            completedLessonSlugs={props.completedLessonSlugs}
+          />
+        )
+      default:
+        return null
+    }
   })
 }
 
@@ -276,17 +296,31 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     )
 
     // Manually slicing lessons into modules
-    const lessonModules = [
-      {title: 'Project Setup', lessons: lessons.slice(0, 3)},
-      {title: 'Tags', lessons: lessons.slice(3, 7)},
-      {title: 'Variables and Constants', lessons: lessons.slice(7, 15)},
-      {title: 'Conditionals', lessons: lessons.slice(15, 21)},
-      {title: 'Arrays and Loops', lessons: lessons.slice(21, 29)},
-      {title: 'Functions', lessons: lessons.slice(29, 37)},
-      {title: 'Classes', lessons: lessons.slice(37, 46)},
+    const contentCollection = [
+      {
+        type: 'module',
+        title: 'Project Setup',
+        contentList: lessons.slice(0, 3),
+      },
+      {type: 'module', title: 'Tags', contentList: lessons.slice(3, 7)},
+      {
+        type: 'module',
+        title: 'Variables and Constants',
+        contentList: lessons.slice(7, 15),
+      },
+      {
+        type: 'module',
+        title: 'Conditionals',
+        contentList: lessons.slice(15, 21),
+      },
+      {
+        type: 'module',
+        title: 'Arrays and Loops',
+        contentList: lessons.slice(21, 29),
+      },
+      {type: 'module', title: 'Functions', contentList: lessons.slice(29, 37)},
+      {type: 'module', title: 'Classes', contentList: lessons.slice(37, 46)},
     ]
-
-    console.log(lessonModules)
 
     const {
       topics,
@@ -1036,14 +1070,9 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
               </section>
               {/*Start of lessons block*/}
               <div>
-                <ModulesList
-                  modules={lessonModules}
-                  render={(lessonList) => (
-                    <LessonsList
-                      lessons={lessonList}
-                      completedLessonSlugs={completedLessonSlugs}
-                    />
-                  )}
+                <CollectionContent
+                  contentList={contentCollection}
+                  completedLessonSlugs={completedLessonSlugs}
                 />
               </div>
               {/*End of lessons block*/}
