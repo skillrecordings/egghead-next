@@ -154,7 +154,6 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
 }
 
 const CollectionContent = (props: any) => {
-  console.log(props.contentList)
   return props.contentList.map((content: any, index: number) => {
     switch (content.type) {
       case 'module':
