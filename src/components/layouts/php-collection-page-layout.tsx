@@ -51,7 +51,7 @@ type CollectionResource = {
   description: string
 }
 
-const LessonCollection = ({
+const LessonLinkResource = ({
   lesson,
   completedLessonSlugs,
   index,
@@ -165,7 +165,7 @@ const CollectionContent = (props: any) => {
         )
       case 'lesson':
         return (
-          <LessonCollection
+          <LessonLinkResource
             lesson={content}
             index={index}
             completedLessonSlugs={props.completedLessonSlugs}
