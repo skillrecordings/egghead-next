@@ -886,20 +886,14 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                     })}
                   </ul>
                 </div>
-
-                <section className="max-w-4xl mx-auto my-8">
+              </section>
+              {/*Start of lessons block*/}
+              <div className="mx-auto ">
+                <section className="my-8">
                   <h2 className="text-xl font-bold mb-2 sm:mx-0 mx-auto w-fit">
                     Meet the Instructor
                   </h2>
-                  <div className="md:justify-center flex md:flex-row flex-col items-center shrink-0 mt-4 mb-2 space-y-4 md:space-x-8">
-                    <Image
-                      className="rounded-full mr-4"
-                      src={avatar_url}
-                      layout="fixed"
-                      width="175"
-                      height="175"
-                      alt={`${name}'s avatar`}
-                    />
+                  <div className="flex md:flex-row flex-col items-center shrink-0 mt-4 mb-2 space-y-4 md:space-x-8">
                     <div>
                       <h3 className="font-semibold text-lg pb-4 sm:mx-0 mx-auto w-fit">
                         Hi, I'm Mark Shust
@@ -917,11 +911,16 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                         course on PHP, and I hope you enjoy it!
                       </p>
                     </div>
+                    <Image
+                      className="rounded-full mr-4 float-right"
+                      src={avatar_url}
+                      layout="fixed"
+                      width="175"
+                      height="175"
+                      alt={`${name}'s avatar`}
+                    />
                   </div>
                 </section>
-              </section>
-              {/*Start of lessons block*/}
-              <div className="max-w-4xl mx-auto ">
                 <CollectionContent
                   contentList={contentCollection}
                   completedLessonSlugs={completedLessonSlugs}
