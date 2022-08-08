@@ -887,8 +887,8 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                   </ul>
                 </div>
               </section>
-              {/*Start of lessons block*/}
               <div className="mx-auto ">
+                {/*start of instructor block*/}
                 <section className="my-8">
                   <h2 className="text-xl font-bold mb-2 sm:mx-0 mx-auto w-fit">
                     Meet the Instructor
@@ -912,7 +912,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                       </p>
                     </div>
                     <Image
-                      className="rounded-full mr-4 float-right"
+                      className="rounded-full mr-4"
                       src={avatar_url}
                       layout="fixed"
                       width="175"
@@ -921,12 +921,14 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                     />
                   </div>
                 </section>
+                {/*end of instructor block*/}
+                {/*Start of lessons block*/}
                 <CollectionContent
                   contentList={contentCollection}
                   completedLessonSlugs={completedLessonSlugs}
                 />
+                {/*End of lessons block*/}
               </div>
-              {/*End of lessons block*/}
             </div>
           </div>
         </div>
