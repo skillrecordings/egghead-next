@@ -113,8 +113,19 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
         switch (true) {
           case module.contentList.length < 5:
             return (
-              <div className={'grid grid-cols-2'}>
+              <div className="">
+                <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
                 <ul className="grid gap-4">{children}</ul>
+              </div>
+            )
+          case module.contentList.length == 6:
+            return (
+              <div>
                 <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -125,6 +136,27 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum.
                 </p>
+                <ul className="grid grid-rows-3 grid-flow-col gap-4">
+                  {children}
+                </ul>
+              </div>
+            )
+          case module.contentList.length == 8:
+            return (
+              <div>
+                <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+                <ul className="grid grid-rows-4 grid-flow-col gap-4">
+                  {children}
+                </ul>
               </div>
             )
           case module.contentList.length > 5 && module.contentList.length <= 10:
@@ -145,6 +177,7 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
                 </ul>
               </div>
             )
+
           default:
             return <ul className="grid grid-cols-1">{children}</ul>
         }
@@ -609,121 +642,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                     {title} HELLO TEST
                   </h1>
 
-                  <div className="flex items-center justify-center w-full mt-5 md:hidden">
-                    <PlayButton lesson={nextLesson} />
-                  </div>
-                  <Markdown
-                    allowDangerousHtml
-                    className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
-                  >
-                    {description}
-                  </Markdown>
-                  <div className="block pt-5 md:hidden">
-                    <CourseProjectCard courseProject={courseProject} />
-
-                    {get(course, 'access_state') === 'free' && (
-                      <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                        <CommunityResource type="course" />
-                      </div>
-                    )}
-                  </div>
-                  {!isEmpty(podcast) && (
-                    <CoursePodcast podcast={podcast} instructorName={name} />
-                  )}
-
-                  {courseTopics && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        What you'll learn:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <ul className="grid grid-cols-1 md:gap-x-5">
-                          {courseTopics?.map((topic: string) => (
-                            <li
-                              key={topic}
-                              className="leading-6 text-gray-900 dark:text-gray-100"
-                            >
-                              {topic}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                  {coursePrerequisites && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        Prerequisites:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <Prereqs prerequisites={coursePrerequisites} />
-                      </div>
-                    </div>
-                  )}
-                  {quickFacts && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        Quick Facts:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <ul className="grid grid-cols-1 md:gap-x-5">
-                          {quickFacts?.map((quickFact: string) => (
-                            <li
-                              key={quickFact}
-                              className="leading-6 text-gray-900 dark:text-gray-100"
-                            >
-                              {quickFact}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                  {courseEssentialQuestions && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        Questions to Think About:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <ul className="grid grid-cols-1 md:gap-x-5">
-                          {courseEssentialQuestions?.map(
-                            (essentialQuestion: string) => (
-                              <li
-                                key={essentialQuestion}
-                                className="leading-6 text-gray-900 dark:text-gray-100"
-                              >
-                                {essentialQuestion}
-                              </li>
-                            ),
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                  <LearnerRatings collection={course} />
-                </header>
-              </div>
-              <div className="flex flex-col items-center justify-start mb-4 md:col-span-2 md:mb-0">
-                {image_url && (
-                  <div className="hidden md:block">
-                    <CourseArtwork
-                      path={nextLesson.path}
-                      size={imageIsTag ? 200 : 420}
-                      trackText="clicked course image"
-                    />
-                  </div>
-                )}
-                {courseIllustrator && (
-                  <div className="hidden text-sm text-center md:block opacity-80">
-                    <h4 className="font-semibold">Credits</h4>
-                    <span>{courseIllustrator?.name}</span>
-                  </div>
-                )}
-                <div className="hidden space-y-6 md:block">
-                  <div className="flex justify-center w-full mt-10 mb-4">
-                    <PlayButton lesson={nextLesson} />
-                  </div>
-
                   {/* Start of metadata block */}
                   <div className="flex flex-col items-center my-6 space-y-2 md:items-start">
                     {instructor && (
@@ -735,7 +653,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                         twitter={twitter}
                       />
                     )}
-
                     <div className="flex flex-col flex-wrap items-center pt-2 md:flex-row">
                       <TagList
                         tags={sanityTagsPresent() ? sanityTags : railsTags}
@@ -908,6 +825,121 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                   </div>
                   {/* End of action buttons block */}
 
+                  <div className="flex items-center justify-center w-full mt-5 md:hidden">
+                    <PlayButton lesson={nextLesson} />
+                  </div>
+                  <Markdown
+                    allowDangerousHtml
+                    className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
+                  >
+                    {description}
+                  </Markdown>
+                  <div className="block pt-5 md:hidden">
+                    <CourseProjectCard courseProject={courseProject} />
+
+                    {get(course, 'access_state') === 'free' && (
+                      <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
+                        <CommunityResource type="course" />
+                      </div>
+                    )}
+                  </div>
+                  {!isEmpty(podcast) && (
+                    <CoursePodcast podcast={podcast} instructorName={name} />
+                  )}
+
+                  {courseTopics && (
+                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
+                      <h2 className="mb-3 text-lg font-semibold">
+                        What you'll learn:
+                      </h2>
+                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
+                        <ul className="grid grid-cols-1 md:gap-x-5">
+                          {courseTopics?.map((topic: string) => (
+                            <li
+                              key={topic}
+                              className="leading-6 text-gray-900 dark:text-gray-100"
+                            >
+                              {topic}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                  {coursePrerequisites && (
+                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
+                      <h2 className="mb-3 text-lg font-semibold">
+                        Prerequisites:
+                      </h2>
+                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
+                        <Prereqs prerequisites={coursePrerequisites} />
+                      </div>
+                    </div>
+                  )}
+                  {quickFacts && (
+                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
+                      <h2 className="mb-3 text-lg font-semibold">
+                        Quick Facts:
+                      </h2>
+                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
+                        <ul className="grid grid-cols-1 md:gap-x-5">
+                          {quickFacts?.map((quickFact: string) => (
+                            <li
+                              key={quickFact}
+                              className="leading-6 text-gray-900 dark:text-gray-100"
+                            >
+                              {quickFact}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                  {courseEssentialQuestions && (
+                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
+                      <h2 className="mb-3 text-lg font-semibold">
+                        Questions to Think About:
+                      </h2>
+                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
+                        <ul className="grid grid-cols-1 md:gap-x-5">
+                          {courseEssentialQuestions?.map(
+                            (essentialQuestion: string) => (
+                              <li
+                                key={essentialQuestion}
+                                className="leading-6 text-gray-900 dark:text-gray-100"
+                              >
+                                {essentialQuestion}
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                  <LearnerRatings collection={course} />
+                </header>
+              </div>
+              <div className="flex flex-col items-center justify-start mb-4 md:col-span-2 md:mb-0">
+                {image_url && (
+                  <div className="hidden md:block">
+                    <CourseArtwork
+                      path={nextLesson.path}
+                      size={imageIsTag ? 200 : 420}
+                      trackText="clicked course image"
+                    />
+                  </div>
+                )}
+                {courseIllustrator && (
+                  <div className="hidden text-sm text-center md:block opacity-80">
+                    <h4 className="font-semibold">Credits</h4>
+                    <span>{courseIllustrator?.name}</span>
+                  </div>
+                )}
+                <div className="hidden space-y-6 md:block">
+                  <div className="flex justify-center w-full mt-10 mb-4">
+                    <PlayButton lesson={nextLesson} />
+                  </div>
+
                   <CourseProjectCard courseProject={courseProject} />
 
                   {get(course, 'access_state') === 'free' && (
@@ -920,155 +952,121 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
             </div>
             <div className={'flex flex-row grid grid-rows-1'}>
               <section className="mt-8">
-                <div className="flex flex-col mb-2 space-y-4 ">
-                  {moduleResource && (
-                    <div className="p-4 my-4 border border-gray-100 rounded-md dark:text-gray-400 bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                      Part{' '}
-                      {moduleLabel && (
-                        <span className="font-semibold dark:text-gray-100">
-                          {moduleLabel}
-                        </span>
-                      )}{' '}
-                      of {totalCourseModules && totalCourseModules} in the{' '}
-                      <Link href={multiModuleSlug}>
-                        <a>
-                          <span className="font-semibold hover:underline dark:text-gray-100">
-                            {multiModuletitle && multiModuletitle}
-                          </span>
-                        </a>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-                {multiModuleCourse ? (
-                  <ul className="relative">
-                    <div
-                      className={`bg-gray-200 dark:bg-gray-700 absolute left-[79px] w-[1px] top-[8%] z-0 ${
-                        multiModuleLineheight
-                          ? `height-[${multiModuleLineheight}]`
-                          : ''
-                      }`}
-                    ></div>
-                    {playlists.map((course: any) => {
+                <div className="flex flex-col mb-2 space-y-4 "></div>
+                <div>
+                  <ul>
+                    {playlists.map((playlist: any) => {
                       return (
-                        <ul key={course.slug}>
-                          <div className="flex items-center py-10 space-x-10 max-w-max-content">
-                            <Link href={course.path}>
-                              <a>
-                                <div className="flex flex-shrink-0">
-                                  <Image
-                                    src={course.square_cover_url}
-                                    width={160}
-                                    height={160}
-                                    layout="fixed"
-                                    quality={100}
-                                  />
-                                </div>
-                              </a>
-                            </Link>
-                            <div className="flex flex-col">
-                              <Link href={course.path}>
-                                <a>
-                                  <h2 className="text-lg font-semibold leading-tight">
-                                    {course.title}
-                                  </h2>
+                        <li key={playlist.slug}>
+                          <div className="flex items-center py-2 font-semibold leading-tight">
+                            {playlist.path && (
+                              <Link href={playlist.path}>
+                                <a
+                                  onClick={() => {
+                                    track(
+                                      `clicked collection link on course page`,
+                                      {
+                                        course: course.slug,
+                                        collection: playlist.slug,
+                                      },
+                                    )
+                                  }}
+                                  className="flex items-center w-full font-semibold hover:underline"
+                                >
+                                  <Markdown className="mt-0 prose text-gray-900 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
+                                    {playlist.title}
+                                  </Markdown>
                                 </a>
                               </Link>
-                              <div className="mt-1 text-xs font-semibold text-gray-700 dark:text-gray-500">
-                                {course.duration &&
-                                  `${convertTimeWithTitles(
-                                    course.duration,
-                                  )} • `}
-                                {course.lessons.length} lessons
-                              </div>
-                            </div>
+                            )}
                           </div>
-                        </ul>
+                          <div>
+                            <ul className="ml-8">
+                              {playlist?.lessons?.map(
+                                (lesson: LessonResource, index: number) => {
+                                  const isComplete =
+                                    completedLessonSlugs.includes(lesson.slug)
+                                  return (
+                                    <li
+                                      key={`${playlist.slug}::${lesson.slug}`}
+                                    >
+                                      <div className="flex items-center py-2 leading-tight">
+                                        <div className="flex items-center flex-grow mr-2">
+                                          <small className="w-4 pt-px font-normal text-gray-500 scale-75 dark:text-gray-600 font-xs">
+                                            {isComplete ? `✔️` : index + 1}
+                                          </small>
+                                          <PlayIcon className="mx-1 text-gray-500 dark:text-gray-100" />
+                                        </div>
+                                        {lesson.path && (
+                                          <Link href={lesson.path}>
+                                            <a
+                                              onClick={() => {
+                                                track(
+                                                  `clicked collection video link on course page`,
+                                                  {
+                                                    course: course.slug,
+                                                    video: lesson.slug,
+                                                    collection: playlist.slug,
+                                                  },
+                                                )
+                                              }}
+                                              className="flex items-center w-full hover:underline"
+                                            >
+                                              <Markdown className="mt-0 prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
+                                                {lesson.title}
+                                              </Markdown>
+                                            </a>
+                                          </Link>
+                                        )}
+                                      </div>
+                                    </li>
+                                  )
+                                },
+                              )}
+                            </ul>
+                          </div>
+                        </li>
                       )
                     })}
                   </ul>
-                ) : (
-                  <div>
-                    <ul>
-                      {playlists.map((playlist: any) => {
-                        return (
-                          <li key={playlist.slug}>
-                            <div className="flex items-center py-2 font-semibold leading-tight">
-                              {playlist.path && (
-                                <Link href={playlist.path}>
-                                  <a
-                                    onClick={() => {
-                                      track(
-                                        `clicked collection link on course page`,
-                                        {
-                                          course: course.slug,
-                                          collection: playlist.slug,
-                                        },
-                                      )
-                                    }}
-                                    className="flex items-center w-full font-semibold hover:underline"
-                                  >
-                                    <Markdown className="mt-0 prose text-gray-900 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                      {playlist.title}
-                                    </Markdown>
-                                  </a>
-                                </Link>
-                              )}
-                            </div>
-                            <div>
-                              <ul className="ml-8">
-                                {playlist?.lessons?.map(
-                                  (lesson: LessonResource, index: number) => {
-                                    const isComplete =
-                                      completedLessonSlugs.includes(lesson.slug)
-                                    return (
-                                      <li
-                                        key={`${playlist.slug}::${lesson.slug}`}
-                                      >
-                                        <div className="flex items-center py-2 leading-tight">
-                                          <div className="flex items-center flex-grow mr-2">
-                                            <small className="w-4 pt-px font-normal text-gray-500 scale-75 dark:text-gray-600 font-xs">
-                                              {isComplete ? `✔️` : index + 1}
-                                            </small>
-                                            <PlayIcon className="mx-1 text-gray-500 dark:text-gray-100" />
-                                          </div>
-                                          {lesson.path && (
-                                            <Link href={lesson.path}>
-                                              <a
-                                                onClick={() => {
-                                                  track(
-                                                    `clicked collection video link on course page`,
-                                                    {
-                                                      course: course.slug,
-                                                      video: lesson.slug,
-                                                      collection: playlist.slug,
-                                                    },
-                                                  )
-                                                }}
-                                                className="flex items-center w-full hover:underline"
-                                              >
-                                                <Markdown className="mt-0 prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                                  {lesson.title}
-                                                </Markdown>
-                                              </a>
-                                            </Link>
-                                          )}
-                                        </div>
-                                      </li>
-                                    )
-                                  },
-                                )}
-                              </ul>
-                            </div>
-                          </li>
-                        )
-                      })}
-                    </ul>
+                </div>
+
+                <section className="max-w-4xl mx-auto my-8">
+                  <h2 className="text-xl font-bold mb-2">
+                    Meet the Instructor
+                  </h2>
+                  <div className="justify-center flex md:flex-row flex-col items-center shrink-0  mt-4 mb-2 space-y-4 space-x-8">
+                    <Image
+                      className="rounded-full mr-4"
+                      src={avatar_url}
+                      layout="fixed"
+                      width="175"
+                      height="175"
+                      alt={`${name}'s avatar`}
+                    />
+                    <div>
+                      <h3 className="font-semibold text-lg pb-4">
+                        {' '}
+                        Hi, I'm Mark Shust{' '}
+                      </h3>
+                      <p className="mb-2 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                        I have over 20 years of web development experience, and
+                        has been working with PHP for about as long. Soon after
+                        starting development, I became extremely interested and
+                        involved in open source programming, diving into various
+                        PHP frameworks over the years including OSCommerce,
+                        Drupal, and Laravel.
+                      </p>
+                      <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
+                        I'm excited to bring you a comprehensive introduction
+                        course on PHP, and I hope you enjoy it!
+                      </p>
+                    </div>
                   </div>
-                )}
+                </section>
               </section>
               {/*Start of lessons block*/}
-              <div>
+              <div className="max-w-4xl mx-auto ">
                 <CollectionContent
                   contentList={contentCollection}
                   completedLessonSlugs={completedLessonSlugs}
