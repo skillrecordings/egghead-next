@@ -108,7 +108,9 @@ const LessonLinkResource = ({
 const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   return (
     <div key={module.id}>
-      <h2 className="text-xl font-bold mt-4 mb-2">{module.title}</h2>
+      <h2 className="text-xl font-bold mt-4 mb-2 sm:mx-0 mx-auto w-fit">
+        {module.title}
+      </h2>
       {(() => {
         switch (true) {
           case module.contentList.length < 5:
@@ -136,7 +138,7 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum.
                 </p>
-                <ul className="grid grid-rows-3 grid-flow-col gap-4">
+                <ul className="grid sm:grid-rows-3 sm:grid-flow-col gap-4">
                   {children}
                 </ul>
               </div>
@@ -154,7 +156,7 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum.
                 </p>
-                <ul className="grid grid-rows-4 grid-flow-col gap-4">
+                <ul className="grid sm:grid-rows-4 sm:grid-flow-col gap-4">
                   {children}
                 </ul>
               </div>
@@ -172,7 +174,7 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum.
                 </p>
-                <ul className="grid grid-rows-5 grid-flow-col gap-4">
+                <ul className="grid sm:grid-rows-5 sm:grid-flow-col gap-4">
                   {children}
                 </ul>
               </div>
@@ -570,7 +572,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                     </div>
                   )}
                   <h1 className="mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
-                    {title} HELLO TEST
+                    {title}
                   </h1>
 
                   {/* Start of metadata block */}
@@ -886,10 +888,10 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                 </div>
 
                 <section className="max-w-4xl mx-auto my-8">
-                  <h2 className="text-xl font-bold mb-2">
+                  <h2 className="text-xl font-bold mb-2 sm:mx-0 mx-auto w-fit">
                     Meet the Instructor
                   </h2>
-                  <div className="justify-center flex md:flex-row flex-col items-center shrink-0  mt-4 mb-2 space-y-4 space-x-8">
+                  <div className="md:justify-center flex md:flex-row flex-col items-center shrink-0 mt-4 mb-2 space-y-4 md:space-x-8">
                     <Image
                       className="rounded-full mr-4"
                       src={avatar_url}
@@ -899,9 +901,8 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                       alt={`${name}'s avatar`}
                     />
                     <div>
-                      <h3 className="font-semibold text-lg pb-4">
-                        {' '}
-                        Hi, I'm Mark Shust{' '}
+                      <h3 className="font-semibold text-lg pb-4 sm:mx-0 mx-auto w-fit">
+                        Hi, I'm Mark Shust
                       </h3>
                       <p className="mb-2 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
                         I have over 20 years of web development experience, and
