@@ -890,14 +890,24 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
               <div className="mx-auto ">
                 {/*start of instructor block*/}
                 <section className="my-8">
-                  <h2 className="text-xl font-bold mb-2 sm:mx-0 mx-auto w-fit">
+                  <h2 className="text-xl font-bold mb-4 sm:mx-0 mx-auto w-fit">
                     Meet the Instructor
                   </h2>
-                  <div className="flex md:flex-row flex-col items-center shrink-0 mt-4 mb-2 space-y-4 md:space-x-8">
+                  <div className="flex flex-row justify-between">
                     <div>
-                      <h3 className="font-semibold text-lg pb-4 sm:mx-0 mx-auto w-fit">
+                      <div className="flex justify-center md:hidden mb-4">
+                        <Image
+                          className="rounded-full ml-4 justify-center"
+                          src={avatar_url}
+                          layout="fixed"
+                          width="200"
+                          height="200"
+                          alt={`${name}'s avatar`}
+                        />
+                      </div>
+                      <h2 className="font-semibold text-lg pb-4 sm:mx-0 mx-auto w-fit">
                         Hi, I'm Mark Shust
-                      </h3>
+                      </h2>
                       <p className="mb-2 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
                         I have over 20 years of web development experience, and
                         has been working with PHP for about as long. Soon after
@@ -911,14 +921,16 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                         course on PHP, and I hope you enjoy it!
                       </p>
                     </div>
-                    <Image
-                      className="rounded-full mr-4"
-                      src={avatar_url}
-                      layout="fixed"
-                      width="175"
-                      height="175"
-                      alt={`${name}'s avatar`}
-                    />
+                    <div className="flex lg:scale-100 md:scale-75 justify-center items-center hidden md:block xl:pr-12">
+                      <Image
+                        className="rounded-full ml-4 justify-center"
+                        src={avatar_url}
+                        layout="fixed"
+                        width="300"
+                        height="300"
+                        alt={`${name}'s avatar`}
+                      />
+                    </div>
                   </div>
                 </section>
                 {/*end of instructor block*/}
