@@ -359,7 +359,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
       illustrator,
       pairWithResources = defaultPairWithResources,
       courseProject,
-      quickFacts,
       prerequisites,
       essentialQuestions,
     } = courseDependencies
@@ -382,10 +381,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
       created_at,
       access_state,
       customOgImage,
-      prerequisites: sanityPrerequisites,
-      topics: sanityTopics,
-      pairWithResources: sanityPairWithResources,
-      essentialQuestions: sanityEssentialQuestions,
       illustrator: sanityIllustrator,
       dependencies: sanityTags = [],
       state,
@@ -399,25 +394,9 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
 
     const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
-    const relatedResources = sanityPairWithResources
-      ? sanityPairWithResources
-      : pairWithResources
-    const courseEssentialQuestions = !isEmpty(sanityEssentialQuestions)
-      ? transformSanityEssentialQuestions(sanityEssentialQuestions)
-      : essentialQuestions
-    const courseTopics = !isEmpty(sanityTopics)
-      ? transformSanityTopics(sanityTopics)
-      : topics
-    const coursePrerequisites = !isEmpty(sanityPrerequisites)
-      ? sanityPrerequisites
-      : prerequisites
     const courseIllustrator = !isEmpty(sanityIllustrator)
       ? sanityIllustrator
       : illustrator
-
-    const podcast = first(
-      course?.items?.filter((item: any) => item.type === 'podcast'),
-    )
 
     logCollectionResource(course)
 
@@ -526,34 +505,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
           quality={100}
         />
       )
-    }
-
-    const EpicReactBanner = ({
-      image = 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-course-page_2x.jpg',
-      width = 1416,
-      height = 508,
-    }) => {
-      return get(course, 'owner.id') === 15369 ? (
-        <ExternalTrackedLink
-          eventName="clicked epic react banner"
-          params={{location: course.path}}
-          href="https://epicreact.dev"
-          target="_blank"
-          rel="noopener"
-          className="block"
-        >
-          <div className="flex items-center justify-center overflow-hidden rounded-lg">
-            <Image
-              src={image}
-              alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-              width={width}
-              height={height}
-              quality={100}
-              className="hover:scale-[102%] ease-in-out duration-500"
-            />
-          </div>
-        </ExternalTrackedLink>
-      ) : null
     }
 
     const trackEmailCapture = () => {
@@ -815,87 +766,12 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                     {description}
                   </Markdown>
                   <div className="block pt-5 md:hidden">
-                    <CourseProjectCard courseProject={courseProject} />
-
                     {get(course, 'access_state') === 'free' && (
                       <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                         <CommunityResource type="course" />
                       </div>
                     )}
                   </div>
-                  {!isEmpty(podcast) && (
-                    <CoursePodcast podcast={podcast} instructorName={name} />
-                  )}
-
-                  {courseTopics && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        What you'll learn:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <ul className="grid grid-cols-1 md:gap-x-5">
-                          {courseTopics?.map((topic: string) => (
-                            <li
-                              key={topic}
-                              className="leading-6 text-gray-900 dark:text-gray-100"
-                            >
-                              {topic}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                  {coursePrerequisites && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        Prerequisites:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <Prereqs prerequisites={coursePrerequisites} />
-                      </div>
-                    </div>
-                  )}
-                  {quickFacts && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        Quick Facts:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <ul className="grid grid-cols-1 md:gap-x-5">
-                          {quickFacts?.map((quickFact: string) => (
-                            <li
-                              key={quickFact}
-                              className="leading-6 text-gray-900 dark:text-gray-100"
-                            >
-                              {quickFact}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                  {courseEssentialQuestions && (
-                    <div className="p-5 mt-8 border border-gray-100 rounded-md dark:border-gray-700">
-                      <h2 className="mb-3 text-lg font-semibold">
-                        Questions to Think About:
-                      </h2>
-                      <div className="prose dark:prose-dark dark:prose-a:text-blue-300 prose-a:text-blue-500">
-                        <ul className="grid grid-cols-1 md:gap-x-5">
-                          {courseEssentialQuestions?.map(
-                            (essentialQuestion: string) => (
-                              <li
-                                key={essentialQuestion}
-                                className="leading-6 text-gray-900 dark:text-gray-100"
-                              >
-                                {essentialQuestion}
-                              </li>
-                            ),
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
                   <LearnerRatings collection={course} />
                 </header>
               </div>
@@ -919,8 +795,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                   <div className="flex justify-center w-full mt-10 mb-4">
                     <PlayButton lesson={nextLesson} />
                   </div>
-
-                  <CourseProjectCard courseProject={courseProject} />
 
                   {get(course, 'access_state') === 'free' && (
                     <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
@@ -1059,109 +933,5 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
       </>
     )
   }
-
-const CourseProjectCard = ({courseProject}: {courseProject: any}) => {
-  return (
-    <>
-      {courseProject && (
-        <div className="p-4 my-8 bg-indigo-100 border border-indigo-500 rounded-md hover:border-indigo-700 dark:hover:border-indigo-400 dark:bg-indigo-900 border-opacity-20">
-          {courseProject && (
-            <Link href={courseProject.url}>
-              <a>
-                {courseProject.label && (
-                  <h2 className="mb-4 text-xl font-semibold">
-                    ⚔️ {courseProject.label}
-                  </h2>
-                )}
-                {courseProject.text && (
-                  <Markdown className="w-full prose dark:prose-dark">
-                    {courseProject.text}
-                  </Markdown>
-                )}
-              </a>
-            </Link>
-          )}
-        </div>
-      )}
-    </>
-  )
-}
-
-const CoursePodcast = ({
-  podcast: {transcript, simplecast_uid: id},
-  instructorName,
-}: any) => {
-  const [isOpen, setOpen] = React.useState(false)
-  const {theme} = useTheme()
-
-  if (isEmpty(id)) {
-    return null
-  } else {
-    return (
-      <div className="w-full pt-2 pb-3">
-        <h3 className="my-2 text-xl font-semibold">
-          {`Listen to ${instructorName} tell you about this course:`}{' '}
-          {transcript && (
-            <span>
-              <button onClick={() => setOpen(!isOpen)}>
-                {isOpen ? 'Hide Transcript' : 'Show Transcript'}
-              </button>
-            </span>
-          )}
-        </h3>
-        <iframe
-          height="52px"
-          width="100%"
-          frameBorder="no"
-          scrolling="no"
-          title="Podcast Player"
-          seamless
-          src={`https://player.simplecast.com/${id}?dark=${
-            theme === 'dark'
-          }&color=${theme === 'dark' && '111827'}`}
-        />
-        {isOpen && transcript && (
-          <Markdown className="bb b--black-10 pb3 lh-copy">
-            {transcript}
-          </Markdown>
-        )}
-      </div>
-    )
-  }
-}
-
-const Prereqs = ({prerequisites}: any) => {
-  return (
-    <ul className="grid grid-cols-1 md:gap-x-5">
-      {prerequisites?.map((prerequisite: any) =>
-        prerequisite.path ? (
-          <li
-            key={prerequisite.id}
-            className="leading-6 text-gray-900 dark:text-gray-100"
-          >
-            <Link href={prerequisite.path}>
-              <a>{prerequisite.title}</a>
-            </Link>
-          </li>
-        ) : (
-          <li
-            key={prerequisite.id}
-            className="leading-6 text-gray-900 dark:text-gray-100"
-          >
-            {prerequisite.title}
-          </li>
-        ),
-      )}
-    </ul>
-  )
-}
-
-const transformSanityEssentialQuestions = (essentialQuestions: any) => {
-  return essentialQuestions.map((question: any) => question.question)
-}
-
-const transformSanityTopics = (topics: any) => {
-  return topics.items
-}
 
 export default PhpCollectionPageLayout
