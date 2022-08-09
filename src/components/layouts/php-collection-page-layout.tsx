@@ -125,21 +125,21 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
 }
 
 const ResourceCollection = (props: any) => {
-  return props.resourceList.map((content: any, index: number) => {
-    switch (content.type) {
+  return props.resourceList.map((resource: any, index: number) => {
+    switch (resource.type) {
       case 'module':
         return (
-          <ModuleCollection module={content}>
+          <ModuleCollection module={resource}>
             <ResourceCollection
               {...props}
-              resourceList={content.resourceList}
+              resourceList={resource.resourceList}
             />
           </ModuleCollection>
         )
       case 'lesson':
         return (
           <LessonLinkResource
-            lesson={content}
+            lesson={resource}
             index={index}
             completedLessonSlugs={props.completedLessonSlugs}
           />
@@ -157,7 +157,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     const [clickable, setIsClickable] = React.useState(true)
 
     // Manually slicing lessons into modules
-    const contentCollection = [
+    const resourceCollection = [
       {
         type: 'module',
         title: 'Project Setup',
@@ -674,7 +674,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                 {/*end of instructor block*/}
                 {/*Start of lessons block*/}
                 <ResourceCollection
-                  resourceList={contentCollection}
+                  resourceList={resourceCollection}
                   completedLessonSlugs={completedLessonSlugs}
                 />
                 {/*End of lessons block*/}
