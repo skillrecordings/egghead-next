@@ -23,10 +23,7 @@ import LearnerRatings from '../pages/courses/learner-ratings'
 import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import TagList from './tag-list'
-import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
-import {HorizontalResourceCard} from '../card/horizontal-resource-card'
-import ExternalTrackedLink from 'components/external-tracked-link'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 
@@ -302,15 +299,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     ]
 
     const {
-      topics,
-      illustrator,
-      pairWithResources = defaultPairWithResources,
-      courseProject,
-      prerequisites,
-      essentialQuestions,
-    } = courseDependencies
-
-    const {
       title,
       image_thumb_url,
       square_cover_480_url,
@@ -343,7 +331,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
 
     const courseIllustrator = !isEmpty(sanityIllustrator)
       ? sanityIllustrator
-      : illustrator
+      : courseDependencies.illustrator
 
     logCollectionResource(course)
 
