@@ -18,6 +18,7 @@ const withMDX = require(`@next/mdx`)({
     ],
   },
 })
+const compact = require('lodash/compact')
 
 const withTM = require('next-transpile-modules')(['unist-util-visit'], {
   debug: true,
@@ -31,14 +32,15 @@ checkEnv({
 
 const appUrl = process.env.NEXT_PUBLIC_AUTH_DOMAIN
 
-const IMAGE_HOST_DOMAINS = [
+const IMAGE_HOST_DOMAINS = compact([
   `d2eip9sf3oo6c2.cloudfront.net`,
   `dcv19h61vib2d.cloudfront.net`,
   `image.simplecastcdn.com`,
   `res.cloudinary.com`,
   `app.egghead.io`,
   `gravatar.com`,
-]
+  process.env.NODE_ENV !== 'production' && 'via.placeholder.com',
+])
 
 const nextConfig = {
   reactStrictMode: true,
