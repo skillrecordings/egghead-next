@@ -114,7 +114,7 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
         </p>
         <ul
           className={`grid sm:grid-rows-${Math.ceil(
-            module.contentList.length / 2,
+            module.resourceList.length / 2,
           )} sm:grid-flow-col gap-4`}
         >
           {children}
@@ -124,13 +124,16 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   )
 }
 
-const CollectionContent = (props: any) => {
-  return props.contentList.map((content: any, index: number) => {
+const ResourceCollection = (props: any) => {
+  return props.resourceList.map((content: any, index: number) => {
     switch (content.type) {
       case 'module':
         return (
           <ModuleCollection module={content}>
-            <CollectionContent {...props} contentList={content.contentList} />
+            <ResourceCollection
+              {...props}
+              resourceList={content.resourceList}
+            />
           </ModuleCollection>
         )
       case 'lesson':
@@ -158,26 +161,26 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
       {
         type: 'module',
         title: 'Project Setup',
-        contentList: lessons.slice(0, 3),
+        resourceList: lessons.slice(0, 3),
       },
-      {type: 'module', title: 'Tags', contentList: lessons.slice(3, 7)},
+      {type: 'module', title: 'Tags', resourceList: lessons.slice(3, 7)},
       {
         type: 'module',
         title: 'Variables and Constants',
-        contentList: lessons.slice(7, 15),
+        resourceList: lessons.slice(7, 15),
       },
       {
         type: 'module',
         title: 'Conditionals',
-        contentList: lessons.slice(15, 21),
+        resourceList: lessons.slice(15, 21),
       },
       {
         type: 'module',
         title: 'Arrays and Loops',
-        contentList: lessons.slice(21, 29),
+        resourceList: lessons.slice(21, 29),
       },
-      {type: 'module', title: 'Functions', contentList: lessons.slice(29, 37)},
-      {type: 'module', title: 'Classes', contentList: lessons.slice(37, 46)},
+      {type: 'module', title: 'Functions', resourceList: lessons.slice(29, 37)},
+      {type: 'module', title: 'Classes', resourceList: lessons.slice(37, 46)},
     ]
 
     const {
@@ -670,8 +673,8 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                 </section>
                 {/*end of instructor block*/}
                 {/*Start of lessons block*/}
-                <CollectionContent
-                  contentList={contentCollection}
+                <ResourceCollection
+                  resourceList={contentCollection}
                   completedLessonSlugs={completedLessonSlugs}
                 />
                 {/*End of lessons block*/}
