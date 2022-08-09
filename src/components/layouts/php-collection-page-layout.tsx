@@ -24,7 +24,6 @@ import TagList from './tag-list'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 
-// imports from collection-page-layout.tsx
 import {
   logCollectionResource,
   Duration,
