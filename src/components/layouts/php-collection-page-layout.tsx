@@ -6,26 +6,33 @@ import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take} from 'lodash'
+import {get, first, filter, isEmpty} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
-import ClockIcon from '../icons/clock'
 import CheckIcon from '../icons/check'
 import {LessonResource} from 'types'
 import BookmarkIcon from '../icons/bookmark'
 import axios from 'utils/configured-axios'
 import friendlyTime from 'friendly-time'
 import LearnerRatings from '../pages/courses/learner-ratings'
-import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import TagList from './tag-list'
-import ClosedCaptionIcon from '../icons/closed-captioning'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
+
+// imports from collection-page-layout.tsx
+import {
+  logCollectionResource,
+  Duration,
+  PeopleCompleted,
+  StarsRating,
+  PublishedAt,
+  UpdatedAt,
+} from './collection-page-layout'
 
 import LoginForm from 'pages/login'
 
@@ -33,19 +40,6 @@ type CoursePageLayoutProps = {
   lessons: any
   course: any
   ogImageUrl: string
-}
-
-type CollectionResource = {
-  title: string
-  duration: number
-  instructor: {
-    full_name: string
-  }
-  square_cover_url: string
-  image_url: string
-  path: string
-  slug: string
-  description: string
 }
 
 const LessonLinkResource = ({
@@ -153,123 +147,11 @@ const CollectionContent = (props: any) => {
   })
 }
 
-const logCollectionResource = (collection: CollectionResource) => {
-  if (typeof window !== 'undefined') {
-    const {
-      title,
-      duration,
-      instructor,
-      square_cover_url,
-      image_url,
-      path,
-      slug,
-      description,
-    } = collection
-    const image = square_cover_url || image_url
-    const formattedDuration = convertTimeWithTitles(duration)
-    const byline = `${
-      instructor?.full_name && `${instructor.full_name}・`
-    }${formattedDuration}・Course`
-
-    console.debug('collection resource', {
-      title,
-      byline,
-      ...(!!image && {image}),
-      path,
-      slug,
-      description,
-    })
-  }
-}
-
-const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
-  <div className="flex flex-row items-center">
-    <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
-    <span>{duration}</span>{' '}
-    <ClosedCaptionIcon className="inline-block w-4 h-4 ml-2" />
-  </div>
-)
-
-export const UpdatedAt: React.FunctionComponent<{date: string}> = ({date}) => (
-  <div>Updated {date}</div>
-)
-
-export const PublishedAt: React.FunctionComponent<{date: string}> = ({
-  date,
-}) => <div>Published {date}</div>
-
-const StarsRating: React.FunctionComponent<{
-  rating: number
-}> = ({rating}) => (
-  <div className="flex items-center">
-    <FiveStars rating={rating} />
-    <span className="ml-1 font-semibold leading-tight">
-      {rating.toFixed(1)}
-    </span>
-  </div>
-)
-
-const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
-  <div className="flex items-center flex-nowrap">
-    <div className="mr-1 font-semibold">{count}</div>
-    <div className="whitespace-nowrap">people completed</div>
-  </div>
-)
-
 const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
   ({lessons = [], course, ogImageUrl}) => {
     const courseDependencies: any = getDependencies(course.slug)
     const [isFavorite, setIsFavorite] = React.useState(false)
     const [clickable, setIsClickable] = React.useState(true)
-
-    const defaultPairWithResources: any[] = take(
-      [
-        {
-          title: 'Introduction to Cloudflare Workers',
-          byline: 'Kristian Freeman・36m・Course',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/418/892/thumb/EGH_IntroCloudFlareWorkers_Final.png',
-          path: '/playlists/introduction-to-cloudflare-workers-5aa3',
-          slug: 'introduction-to-cloudflare-workers-5aa3',
-          description:
-            "Become familiar with the Workers CLI `wrangler` that we will use to bootstrap our Worker project. From there you'll understand how a Worker receives and returns requests/Responses. We will also build this serverless function locally for development and deploy it to a custom domain.",
-        },
-        {
-          title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-          byline: 'Colby Fayock・1h 4m・Course',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/thumb/ecommerce-stripe-next.png',
-          path: '/playlists/create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-          slug: 'create-an-ecommerce-store-with-next-js-and-stripe-checkout-562c',
-          description: `This is a practical project based look at building a working e-commerce store
-        using modern tools and APIs. Excellent for a weekend side-project for your [developer project portfolio](https://joelhooks.com/developer-portfolio)`,
-        },
-        {
-          title: 'Practical Git for Everyday Professional Use',
-          byline: 'Trevor Miller・1h・Course',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/050/thumb/egghead-practical-git-course.png',
-          path: '/courses/practical-git-for-everyday-professional-use',
-          slug: 'practical-git-for-everyday-professional-use',
-          description: `[git](/q/git) is a critical component in the modern web developers tool box. This course
-         is a solid introduction and goes beyond the basics with some more advanced git commands
-         you are sure to find useful.`,
-        },
-        {
-          title: 'Build an App with the AWS Cloud Development Kit',
-          byline: 'Tomasz Łakomy・1h 4m・Course',
-          image:
-            'https://d2eip9sf3oo6c2.cloudfront.net/series/square_covers/000/000/450/thumb/EGH_AWS-TS.png',
-          path: '/courses/build-an-app-with-the-aws-cloud-development-kit',
-          slug: 'build-an-app-with-the-aws-cloud-development-kit',
-          description:
-            "Tomasz Łakomy will guide you through using TypeScript to complete the lifecycle of an application powered by AWS CDK. You'll see how to start a project, develop it locally, deploy it globally, then tear it all down when you're done. Excellent kick start for your next side project or your developer portfolio.",
-        },
-      ].filter((resource) => {
-        return resource.slug !== course.slug
-      }),
-      3,
-    )
 
     // Manually slicing lessons into modules
     const contentCollection = [

@@ -51,7 +51,7 @@ type CollectionResource = {
   description: string
 }
 
-const logCollectionResource = (collection: CollectionResource) => {
+export const logCollectionResource = (collection: CollectionResource) => {
   if (typeof window !== 'undefined') {
     const {
       title,
@@ -80,7 +80,9 @@ const logCollectionResource = (collection: CollectionResource) => {
   }
 }
 
-const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
+export const Duration: React.FunctionComponent<{duration: string}> = ({
+  duration,
+}) => (
   <div className="flex flex-row items-center">
     <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
     <span>{duration}</span>{' '}
@@ -96,7 +98,7 @@ export const PublishedAt: React.FunctionComponent<{date: string}> = ({
   date,
 }) => <div>Published {date}</div>
 
-const StarsRating: React.FunctionComponent<{
+export const StarsRating: React.FunctionComponent<{
   rating: number
 }> = ({rating}) => (
   <div className="flex items-center">
@@ -107,7 +109,9 @@ const StarsRating: React.FunctionComponent<{
   </div>
 )
 
-const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
+export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
+  count,
+}) => (
   <div className="flex items-center flex-nowrap">
     <div className="mr-1 font-semibold">{count}</div>
     <div className="whitespace-nowrap">people completed</div>
