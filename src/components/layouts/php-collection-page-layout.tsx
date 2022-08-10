@@ -103,13 +103,7 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
       </h2>
       <div>
         <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {module.description}
         </p>
         <ul
           className={`grid sm:grid-rows-${Math.ceil(
@@ -161,25 +155,50 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
         type: 'module',
         title: 'Project Setup',
         resourceList: lessons.slice(0, 3),
+        description:
+          'Before you can get started with PHP, you will need to install it, set up an IDE, and get your server running.',
       },
-      {type: 'module', title: 'Tags', resourceList: lessons.slice(3, 7)},
+      {
+        type: 'module',
+        title: 'Tags',
+        resourceList: lessons.slice(3, 7),
+        description:
+          'Tags are a fundamental syntax in PHP. In this module you\'ll learn how to open and close them, the importance of ending your statements with a semicolon, and even a short-hand for the commonly used "echo" tag.',
+      },
       {
         type: 'module',
         title: 'Variables and Constants',
         resourceList: lessons.slice(7, 15),
+        // Learn how to create variables in PHP, and the different naming conventions to use when naming variables.
+        //
+        description:
+          "Here, you will be learning how to create variables and constants, as well as learning the basics of PHP's type system. Like JavaScript, PHP features type coercion, which can be frustrating for new-to-PHP developers. But, we will exploring this so you can learn how to avoid some common mistakes",
       },
       {
         type: 'module',
         title: 'Conditionals',
         resourceList: lessons.slice(15, 21),
+        description:
+          "In this module, you will learn how to use conditionals to control the flow of your code. We will be covering a couple of ways to use if/else, switch statements, and PHP's match statement",
       },
       {
         type: 'module',
         title: 'Arrays and Loops',
         resourceList: lessons.slice(21, 29),
+        description: '',
       },
-      {type: 'module', title: 'Functions', resourceList: lessons.slice(29, 37)},
-      {type: 'module', title: 'Classes', resourceList: lessons.slice(37, 46)},
+      {
+        type: 'module',
+        title: 'Functions',
+        resourceList: lessons.slice(29, 37),
+        description: '',
+      },
+      {
+        type: 'module',
+        title: 'Classes',
+        resourceList: lessons.slice(37, 46),
+        description: '',
+      },
     ]
 
     const {
