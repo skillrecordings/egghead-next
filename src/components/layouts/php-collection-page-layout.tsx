@@ -185,19 +185,22 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
         type: 'module',
         title: 'Arrays and Loops',
         resourceList: lessons.slice(21, 29),
-        description: '',
+        description:
+          "In this module, we will be exploring PHP's control flow even further with loops. We will also be exploring array features and iteration.",
       },
       {
         type: 'module',
         title: 'Functions',
         resourceList: lessons.slice(29, 37),
-        description: '',
+        description:
+          'Grouping your code into functions is a great way to keep your code organized and reusable. In this module, you will learn how to create and use functions, how the type system applies here, how scope works, and how to use functions in other files with include/require',
       },
       {
         type: 'module',
         title: 'Classes',
         resourceList: lessons.slice(37, 46),
-        description: '',
+        description:
+          'Classes are the core of object-oriented programming in PHP. In this module, you will learn how to create classes, refactor functions into classes, and even replace all of your require statements with the Composer class autoloader.',
       },
     ]
 
