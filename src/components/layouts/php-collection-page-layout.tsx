@@ -106,9 +106,12 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
           {module.description}
         </p>
         <ul
-          className={`grid sm:grid-rows-${Math.ceil(
-            module.resourceList.length / 2,
-          )} sm:grid-flow-col gap-4`}
+          className="grid sm:grid-flow-col gap-4"
+          style={{
+            gridTemplateRows: `repeat(${Math.ceil(
+              module.resourceList.length / 2,
+            )}, minmax(0, 1fr))`,
+          }}
         >
           {children}
         </ul>
