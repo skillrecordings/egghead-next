@@ -34,7 +34,7 @@ const Course: React.FC<CourseProps> = (props) => {
       {/*  Not setting a pattern. This hard coded ternary is just an experiment for */}
       {/* displaying modules on courses */}
 
-      {slug === 'beginner-s-guide-to-php-33d9d04c' ? (
+      {slug === 'a-complete-introduction-to-php-33d9d04c' ? (
         <PhpCollectionPageLayout
           lessons={courseLessons}
           course={course}
