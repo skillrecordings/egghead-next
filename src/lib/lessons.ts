@@ -35,7 +35,7 @@ const lessonQuery = groq`
       'title': title,
       'duration': 0,
       'thumb_url': null,
-      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hslUrl
+      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hlsUrl
     }
   }
 }`

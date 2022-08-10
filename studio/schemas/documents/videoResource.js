@@ -17,21 +17,21 @@ export default {
       type: 'url',
       validation: (Rule) =>
         Rule.custom((originalVideoUrl, context) => {
-          if (isEmpty(originalVideoUrl) && isEmpty(context.document.hslUrl)) {
-            return 'Either "Original Video URL" or "HSL URL" must be set.'
+          if (isEmpty(originalVideoUrl) && isEmpty(context.document.hlsUrl)) {
+            return 'Either "Original Video URL" or "HLS URL" must be set.'
           }
 
           return true
         }),
     },
     {
-      name: 'hslUrl',
-      title: 'HSL URL',
+      name: 'hlsUrl',
+      title: 'HLS URL',
       type: 'url',
       validation: (Rule) =>
-        Rule.custom((hslUrl, context) => {
-          if (isEmpty(hslUrl) && isEmpty(context.document.originalVideoUrl)) {
-            return 'Either "HSL URL" or "Original Video URL" must be set.'
+        Rule.custom((hlsUrl, context) => {
+          if (isEmpty(hlsUrl) && isEmpty(context.document.originalVideoUrl)) {
+            return 'Either "HLS URL" or "Original Video URL" must be set.'
           }
 
           return true
