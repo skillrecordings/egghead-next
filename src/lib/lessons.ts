@@ -35,7 +35,7 @@ const lessonQuery = groq`
       'title': title,
       'duration': 0,
       'thumb_url': null,
-      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hslUrl
+      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hlsUrl
     }
   }
 }`
@@ -88,7 +88,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       title
       description
       duration
-      next_up_url
       free_forever
       path
       transcript
@@ -155,22 +154,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
         avatar_64_url
         slug
         twitter
-      }
-      comments {
-        comment
-        commentable_id
-        commentable_type
-        created_at
-        id
-        is_commentable_owner
-        state
-        user {
-          avatar_url
-          full_name
-          instructor {
-            first_name
-          }
-        }
       }
     }
   }
