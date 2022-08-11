@@ -173,8 +173,6 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
         type: 'module',
         title: 'Variables and Constants',
         resourceList: lessons.slice(7, 15),
-        // Learn how to create variables in PHP, and the different naming conventions to use when naming variables.
-        //
         description:
           "Here, you will be learning how to create variables and constants, as well as learning the basics of PHP's type system. Like JavaScript, PHP features type coercion, which can be frustrating for new-to-PHP developers. But, we will exploring this so you can learn how to avoid some common mistakes",
       },
