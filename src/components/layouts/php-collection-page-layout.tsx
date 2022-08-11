@@ -120,38 +120,50 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   )
 }
 
+type NestedResource = {
+  type: 'module'
+  resourceList: ResourceList
+  title: string
+  description: string
+}
+type ResourceList = Array<NestedResource | LessonResource>
+
 const ResourceCollection = ({
   resourceList,
   completedLessonSlugs,
 }: {
-  resourceList: any[]
+  resourceList: ResourceList
   completedLessonSlugs: string[]
 }) => {
-  return resourceList.map((resource: any, index: number) => {
-    switch (resource.type) {
-      case 'module':
-        const nestedModuleResourceList = resource.resourceList
-        return (
-          <ModuleCollection key={`module-${index}`} module={resource}>
-            <ResourceCollection
-              resourceList={nestedModuleResourceList}
-              completedLessonSlugs={completedLessonSlugs}
-            />
-          </ModuleCollection>
-        )
-      case 'lesson':
-        return (
-          <LessonLinkResource
-            key={`lesson-${index}`}
-            lesson={resource}
-            index={index}
-            completedLessonSlugs={completedLessonSlugs}
-          />
-        )
-      default:
-        return null
-    }
-  })
+  return (
+    <>
+      {resourceList.map((resource: any, index: number) => {
+        switch (resource.type) {
+          case 'module':
+            const nestedModuleResourceList = resource.resourceLIst
+            return (
+              <ModuleCollection key={`module-${index}`} module={resource}>
+                <ResourceCollection
+                  resourceList={nestedModuleResourceList}
+                  completedLessonSlugs={completedLessonSlugs}
+                />
+              </ModuleCollection>
+            )
+          case 'lesson':
+            return (
+              <LessonLinkResource
+                key={`lesson-${index}`}
+                lesson={resource}
+                index={index}
+                completedLessonSlugs={completedLessonSlugs}
+              />
+            )
+          default:
+            return null
+        }
+      })}
+    </>
+  )
 }
 
 const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
@@ -161,7 +173,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     const [clickable, setIsClickable] = React.useState(true)
 
     // Manually slicing lessons into modules
-    const resourceCollection = [
+    const resourceCollection: NestedResource[] = [
       {
         type: 'module',
         title: 'Project Setup',
