@@ -160,6 +160,12 @@ export async function loadLesson(
   return {...lessonMetadata, comments} as LessonResource
 }
 
+// values in the graphql that are being skipped/ignored by Sanity
+//
+// - dash_url - not used
+// - staff_notes_url - not used
+// - icon_url - this is being used by the lesson page
+
 const loadLessonGraphQLQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
     lesson(slug: $slug) {
