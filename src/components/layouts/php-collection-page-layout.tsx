@@ -124,11 +124,12 @@ const ResourceCollection = (props: any) => {
   return props.resourceList.map((resource: any, index: number) => {
     switch (resource.type) {
       case 'module':
+        const nestedModuleResourceList = resource.resourceLIst
         return (
           <ModuleCollection key={`module-${index}`} module={resource}>
             <ResourceCollection
               {...props}
-              resourceList={resource.resourceList}
+              resourceList={nestedModuleResourceList}
             />
           </ModuleCollection>
         )
