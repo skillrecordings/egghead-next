@@ -120,16 +120,22 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   )
 }
 
-const ResourceCollection = (props: any) => {
-  return props.resourceList.map((resource: any, index: number) => {
+const ResourceCollection = ({
+  resourceList,
+  completedLessonSlugs,
+}: {
+  resourceList: any[]
+  completedLessonSlugs: string[]
+}) => {
+  return resourceList.map((resource: any, index: number) => {
     switch (resource.type) {
       case 'module':
         const nestedModuleResourceList = resource.resourceList
         return (
           <ModuleCollection key={`module-${index}`} module={resource}>
             <ResourceCollection
-              {...props}
               resourceList={nestedModuleResourceList}
+              completedLessonSlugs={completedLessonSlugs}
             />
           </ModuleCollection>
         )
@@ -139,7 +145,7 @@ const ResourceCollection = (props: any) => {
             key={`lesson-${index}`}
             lesson={resource}
             index={index}
-            completedLessonSlugs={props.completedLessonSlugs}
+            completedLessonSlugs={completedLessonSlugs}
           />
         )
       default:
