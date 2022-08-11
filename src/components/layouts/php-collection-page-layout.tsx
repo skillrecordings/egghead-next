@@ -48,7 +48,9 @@ type ModuleResource = {
   description: string
 }
 
-type ResourceList = Array<ModuleResource | LessonResource>
+type NestedResource = ModuleResource | LessonResource
+
+type ResourceList = Array<NestedResource>
 
 const LessonLinkResource = ({
   lesson,
@@ -144,7 +146,7 @@ const ResourceCollection = ({
 }) => {
   return (
     <>
-      {resourceList.map((resource: any, index: number) => {
+      {resourceList.map((resource: NestedResource, index: number) => {
         switch (resource.type) {
           case 'module':
             const nestedModuleResourceList = resource.resourceList
