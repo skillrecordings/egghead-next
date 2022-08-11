@@ -52,7 +52,7 @@ const LessonLinkResource = ({
 }) => {
   const isComplete = completedLessonSlugs.includes(lesson.slug)
   return (
-    <li key={lesson.slug}>
+    <li>
       <div className="flex py-2 font-semibold leading-tight h-20">
         <div className="flex items-center mr-2 space-x-2">
           <div
@@ -97,7 +97,7 @@ const LessonLinkResource = ({
 
 const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   return (
-    <div key={module.id}>
+    <div>
       <h2 className="text-xl font-bold mt-4 mb-2 sm:mx-0 mx-auto w-fit">
         {module.title}
       </h2>
@@ -125,7 +125,7 @@ const ResourceCollection = (props: any) => {
     switch (resource.type) {
       case 'module':
         return (
-          <ModuleCollection module={resource}>
+          <ModuleCollection key={`module-${index}`} module={resource}>
             <ResourceCollection
               {...props}
               resourceList={resource.resourceList}
@@ -135,6 +135,7 @@ const ResourceCollection = (props: any) => {
       case 'lesson':
         return (
           <LessonLinkResource
+            key={`lesson-${index}`}
             lesson={resource}
             index={index}
             completedLessonSlugs={props.completedLessonSlugs}
