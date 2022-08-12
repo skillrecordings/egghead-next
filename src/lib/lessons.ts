@@ -6,6 +6,8 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import isEmpty from 'lodash/isEmpty'
 import {mergeLessonMetadata} from 'utils/lesson-metadata'
+import invariant from 'tiny-invariant'
+import compactedMerge from 'utils/compacted-merge'
 
 // code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
@@ -80,7 +82,7 @@ async function loadLessonMetadataFromSanity(slug: string) {
 
     const derivedValues = deriveDataFromBaseValues(baseValues)
 
-    return {...baseValues, ...derivedValues}
+    return compactedMerge(baseValues, derivedValues)
   } catch (e) {
     // Likely a 404 Not Found error
     console.log('Error fetching from Sanity: ', e)
@@ -89,12 +91,22 @@ async function loadLessonMetadataFromSanity(slug: string) {
   }
 }
 
-const deriveDataFromBaseValues = (result: any) => {
-  const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${result.path}`
-  const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/views`
-  const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/signed_download`
+// TODO: Move this into `src/utils/lesson-metadata.ts` and add tests.
+const deriveDataFromBaseValues = ({path}: {path: string}) => {
+  if (!isEmpty(path)) {
+    invariant(
+      path.startsWith('/'),
+      'Path value must begin with a forward slash (`/`).',
+    )
 
-  return {http_url, lesson_view_url, download_url}
+    const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${path}`
+    const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${path}/views`
+    const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${path}/signed_download`
+
+    return {http_url, lesson_view_url, download_url}
+  } else {
+    return {}
+  }
 }
 
 async function loadLessonMetadataFromGraphQL(slug: string, token?: string) {
