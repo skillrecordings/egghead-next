@@ -224,7 +224,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
 
     const InstructorSection = () => {
       return (
-        <section className="bg-gray-800 lg:p-10 p-5 rounded-md">
+        <section className="dark:bg-gray-800 bg-gray-100 lg:p-10 p-5 rounded-md">
           <div className="flex flex-col justify-between">
             <div className="flex lg:flex-row flex-col items-center gap-5">
               <Image
