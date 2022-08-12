@@ -25,6 +25,7 @@ export default {
       name: 'productionProcessState',
       title: 'Production Process State',
       type: 'productionProcessState',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'description',

@@ -4,23 +4,47 @@ import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 import {loadLessonComments} from './lesson-comments'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
+import isEmpty from 'lodash/isEmpty'
+import {mergeLessonMetadata} from 'utils/lesson-metadata'
 
+// code_url is only used in a select few Kent C. Dodds lessons
 const lessonQuery = groq`
-*[_type == 'lesson' && slug == $slug][0]{
+*[_type == 'lesson' && slug.current == $slug][0]{
   title,
-  slug,
+  'slug': slug.current,
   description,
+  resource->_type == 'videoResource' => {
+    ...(resource-> {
+      'media_url': hslUrl,
+      'transcript': transcriptBody,
+      'transcript_url': transcriptUrl,
+      duration,
+      'subtitles_url': subtitlesUrl,
+    })
+  },
+  'free_forever': isCommunityResource,
+  'path': '/lessons/' + slug.current,
+  'thumb_url': thumbnailUrl,
+  'repo_url': repoUrl,
+  'code_url': codeUrl,
+  'created_at': eggheadRailsCreatedAt,
+  'updated_at': eggheadRailsUpdatedAt,
+  'published_at': eggheadRailsPublishedAt,
   'instructor': collaborators[0]-> {
-    'full_name': person->name,
-    'slug': person->slug.current,
-    'avatar_64_url': person->image.url,
-    'twitter_url': person->twitter
+    ...(person-> {
+      'full_name': name,
+      'slug': slug.current,
+      'avatar_64_url': image.url,
+      'twitter_url': twitter
+    }),
   },
   'tags': softwareLibraries[] {
-    'name': library->name,
-    'label': library->slug.current,
-    'http_url': library->url,
-    'image_url': library->image.url
+    ...(library-> {
+       name,
+      'label': slug.current,
+      'http_url': url,
+      'image_url': image.url
+    }),
   },
   'collection': *[_type=='course' && references(^._id)][0]{
     title,
@@ -32,10 +56,12 @@ const lessonQuery = groq`
       'slug': slug.current,
       'type': 'lesson',
       'path': '/lessons/' + slug.current,
-      'title': title,
-      'duration': 0,
-      'thumb_url': null,
-      'media_url': *[_type=='videoResource' && _id == ^.resource->_id][0].hlsUrl
+      title,
+      'thumb_url': thumbnailUrl,
+      resource->_type == 'videoResource' => {
+        'media_url': resource->hslUrl,
+        duration,
+      }
     }
   }
 }`
@@ -49,9 +75,44 @@ async function loadLessonMetadataFromSanity(slug: string) {
     slug,
   }
 
-  const lesson = await sanityClient.fetch(lessonQuery, params)
+  try {
+    const baseValues = await sanityClient.fetch(lessonQuery, params)
 
-  return lesson
+    const derivedValues = deriveDataFromBaseValues(baseValues)
+
+    return {...baseValues, ...derivedValues}
+  } catch (e) {
+    // Likely a 404 Not Found error
+    console.log('Error fetching from Sanity: ', e)
+
+    return {}
+  }
+}
+
+const deriveDataFromBaseValues = (result: any) => {
+  const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${result.path}`
+  const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/views`
+  const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${result.path}/signed_download`
+
+  return {http_url, lesson_view_url, download_url}
+}
+
+async function loadLessonMetadataFromGraphQL(slug: string, token?: string) {
+  const graphQLClient = getGraphQLClient(token)
+
+  try {
+    const {lesson: lessonMetadataFromGraphQL} = await graphQLClient.request(
+      loadLessonGraphQLQuery,
+      {slug},
+    )
+
+    return lessonMetadataFromGraphQL
+  } catch (e) {
+    // Likely a 404 Not Found error
+    console.log('Error fetching from GraphQL: ', e)
+
+    return {}
+  }
 }
 
 export async function loadLesson(
@@ -59,27 +120,51 @@ export async function loadLesson(
   token?: string,
 ): Promise<LessonResource> {
   token = token || getAccessTokenFromCookie()
-  const graphQLClient = getGraphQLClient(token)
 
-  const variables = {
-    slug: slug,
-  }
-
-  const {lesson} = await graphQLClient.request(
-    loadLessonGraphQLQuery,
-    variables,
+  /******************************************
+   * Primary Lesson Metadata GraphQL Request
+   * ****************************************/
+  const lessonMetadataFromGraphQL = await loadLessonMetadataFromGraphQL(
+    slug,
+    token,
   )
 
-  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
-
-  const lessonMetadata = {...lesson, ...lessonMetadataFromSanity}
-
+  /**********************************************
+   * Load comments from separate GraphQL Request
+   * ********************************************/
   // comments are user-generated content that must come from the egghead-rails
   // backend, so load those separately from the rest of lesson metadata.
   const comments = await loadLessonComments(slug, token)
 
+  /*************************************
+   * Sanity Request for Lesson Metadata
+   * ***********************************/
+  // this will be used to override values from graphql
+  const lessonMetadataFromSanity = await loadLessonMetadataFromSanity(slug)
+
+  /*************************************
+   * Merge All Lesson Metadata Together
+   * ***********************************/
+  // with preference for data coming from Sanity
+  const lessonMetadata = mergeLessonMetadata(
+    lessonMetadataFromGraphQL,
+    lessonMetadataFromSanity,
+  )
+
+  // if we aren't able to find Lesson metadata at either source, throw an
+  // error.
+  if (isEmpty(lessonMetadata.slug)) {
+    throw new Error(`Unable to lookup lesson metadata (slug: ${slug})`)
+  }
+
   return {...lessonMetadata, comments} as LessonResource
 }
+
+// values in the graphql that are being skipped/ignored by Sanity
+//
+// - dash_url - not used
+// - staff_notes_url - not used
+// - icon_url - this is being used by the lesson page
 
 const loadLessonGraphQLQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
