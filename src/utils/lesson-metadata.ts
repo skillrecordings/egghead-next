@@ -1,5 +1,6 @@
 import {LessonResource} from 'types'
 import some from 'lodash/some'
+import compactedMerge from 'utils/compacted-merge'
 
 export const mergeLessonMetadata = (
   lessonMetadataFromGraphQL: LessonResource,
@@ -51,7 +52,7 @@ export const mergeLessonMetadata = (
     ? primaryInstructor
     : secondaryInstructor
 
-  const rest = {...secondaryRest, ...primaryRest}
+  const rest = compactedMerge(secondaryRest, primaryRest)
 
   return {collection, instructor, tags, ...rest}
 }
