@@ -5,8 +5,10 @@ import {loadLessonComments} from './lesson-comments'
 import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import isEmpty from 'lodash/isEmpty'
-import {mergeLessonMetadata} from 'utils/lesson-metadata'
-import invariant from 'tiny-invariant'
+import {
+  mergeLessonMetadata,
+  deriveDataFromBaseValues,
+} from 'utils/lesson-metadata'
 import compactedMerge from 'utils/compacted-merge'
 
 // code_url is only used in a select few Kent C. Dodds lessons
@@ -88,24 +90,6 @@ async function loadLessonMetadataFromSanity(slug: string) {
     // Likely a 404 Not Found error
     console.log('Error fetching from Sanity: ', e)
 
-    return {}
-  }
-}
-
-// TODO: Move this into `src/utils/lesson-metadata.ts` and add tests.
-const deriveDataFromBaseValues = ({path}: {path: string}) => {
-  if (!isEmpty(path)) {
-    invariant(
-      path.startsWith('/'),
-      'Path value must begin with a forward slash (`/`).',
-    )
-
-    const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${path}`
-    const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${path}/views`
-    const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${path}/signed_download`
-
-    return {http_url, lesson_view_url, download_url}
-  } else {
     return {}
   }
 }

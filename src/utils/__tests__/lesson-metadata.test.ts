@@ -1,5 +1,5 @@
 import {LessonResource} from 'types'
-import {mergeLessonMetadata} from '../lesson-metadata'
+import {mergeLessonMetadata, deriveDataFromBaseValues} from '../lesson-metadata'
 
 describe('mergeLessonMetadata()', () => {
   test('top-level data from Sanity overrides graphql', () => {
@@ -133,5 +133,35 @@ describe('mergeLessonMetadata()', () => {
     const result = mergeLessonMetadata(graphqlMetadata, sanityMetadata)
 
     expect(result).toEqual(expectedResult)
+  })
+})
+
+describe('deriveDataFromBaseValues()', () => {
+  test('it returns an empty object if path is blank', () => {
+    expect(deriveDataFromBaseValues({path: undefined})).toEqual({})
+  })
+
+  test('it returns URLs when path is set', () => {
+    const expectedResult = {
+      http_url: expect.stringContaining('/lessons/some-slug'),
+      lesson_view_url: expect.stringContaining(
+        '/api/v1/lessons/some-slug/views',
+      ),
+      download_url: expect.stringContaining(
+        '/api/v1/lessons/some-slug/signed_download',
+      ),
+    }
+
+    const result = deriveDataFromBaseValues({path: '/lessons/some-slug'})
+
+    expect(result).toMatchObject(expectedResult)
+  })
+
+  test('it throws an error when there is no leading slash', () => {
+    expect(() => {
+      deriveDataFromBaseValues({path: 'lessons/some-slug'})
+    }).toThrow(
+      'Invariant failed: Path value must begin with a forward slash (`/`).',
+    )
   })
 })

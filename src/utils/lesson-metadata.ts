@@ -1,6 +1,8 @@
 import {LessonResource} from 'types'
 import some from 'lodash/some'
+import isEmpty from 'lodash/isEmpty'
 import compactedMerge from 'utils/compacted-merge'
+import invariant from 'tiny-invariant'
 
 export const mergeLessonMetadata = (
   lessonMetadataFromGraphQL: LessonResource,
@@ -63,4 +65,21 @@ const collectionIsPresent = (collection: {lessons: any[] | undefined}) => {
   // if there are lessons and some collectionMetadata is present, then the
   // collection is considered present.
   return some(lessons) && some(collectionMetadata)
+}
+
+export const deriveDataFromBaseValues = ({path}: {path?: string}) => {
+  if (!isEmpty(path)) {
+    invariant(
+      path.startsWith('/'),
+      'Path value must begin with a forward slash (`/`).',
+    )
+
+    const http_url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${path}`
+    const lesson_view_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${path}/views`
+    const download_url = `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1${path}/signed_download`
+
+    return {http_url, lesson_view_url, download_url}
+  } else {
+    return {}
+  }
 }
