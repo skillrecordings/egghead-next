@@ -70,7 +70,7 @@ const collectionIsPresent = (collection: {lessons: any[] | undefined}) => {
 export const deriveDataFromBaseValues = ({path}: {path?: string}) => {
   if (!isEmpty(path)) {
     invariant(
-      path.startsWith('/'),
+      path?.startsWith('/'),
       'Path value must begin with a forward slash (`/`).',
     )
 
