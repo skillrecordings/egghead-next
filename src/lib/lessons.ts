@@ -31,8 +31,8 @@ const lessonQuery = groq`
   'repo_url': repoUrl,
   'code_url': codeUrl,
   'created_at': eggheadRailsCreatedAt,
-  'updated_at': eggheadRailsUpdatedAt,
-  'published_at': eggheadRailsPublishedAt,
+  'updated_at': displayedUpdatedAt,
+  'published_at': publishedAt,
   'instructor': collaborators[0]-> {
     ...(person-> {
       'full_name': name,
