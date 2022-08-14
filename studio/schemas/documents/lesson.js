@@ -129,21 +129,21 @@ export default {
       type: 'url',
     },
     {
+      name: 'displayedUpdatedAt',
+      description: 'The last time this lesson was meaningfully updated',
+      title: 'Displayed Updated At',
+      type: 'date',
+    },
+    {
+      name: 'publishedAt',
+      description: 'The date this lesson was published',
+      title: 'Published At',
+      type: 'date',
+    },
+    {
       name: 'eggheadRailsCreatedAt',
       title: 'egghead Rails Created At',
       description: 'Date this lesson resource was created on egghead.io',
-      type: 'datetime',
-    },
-    {
-      name: 'eggheadRailsUpdatedAt',
-      title: 'egghead Rails Updated At',
-      description: 'Date this lesson resource last updated on egghead.io',
-      type: 'datetime',
-    },
-    {
-      name: 'eggheadRailsPublishedAt',
-      title: 'egghead Rails Published At',
-      description: 'Date this lesson resource was published on egghead.io',
       type: 'datetime',
     },
     {
