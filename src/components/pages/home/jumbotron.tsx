@@ -31,7 +31,7 @@ const Jumbotron: React.FC<any> = ({data}) => {
                 <PlayIcon className="w-4 text-black" />
               </div>
             </div>
-            <div className="md:pl-10">
+            <div className="md:pl-10 text-black">
               <p className="uppercase font-mono text-xs pb-1 opacity-80">
                 Fresh Course
               </p>
