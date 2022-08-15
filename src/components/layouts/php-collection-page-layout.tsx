@@ -41,22 +41,13 @@ type CoursePageLayoutProps = {
   ogImageUrl: string
 }
 
-type ModuleResource = {
-  type: 'module'
-  resourceList: ResourceList
-  title: string
-  description: string
-}
-
-type ResourceList = Array<ModuleResource | LessonResource>
-
 const LessonLinkResource = ({
   lesson,
   completedLessonSlugs,
   index,
 }: {
-  lesson: LessonResource
-  completedLessonSlugs: string[]
+  lesson: any
+  completedLessonSlugs: any
   index: number
 }) => {
   const isComplete = completedLessonSlugs.includes(lesson.slug)
@@ -104,13 +95,7 @@ const LessonLinkResource = ({
   )
 }
 
-const ModuleCollection = ({
-  module,
-  children,
-}: {
-  module: ModuleResource
-  children: any
-}) => {
+const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   return (
     <div>
       <h2 className="text-xl font-bold mt-4 mb-2 sm:mx-0 mx-auto w-fit">
@@ -134,6 +119,14 @@ const ModuleCollection = ({
     </div>
   )
 }
+
+type NestedResource = {
+  type: 'module'
+  resourceList: ResourceList
+  title: string
+  description: string
+}
+type ResourceList = Array<NestedResource | LessonResource>
 
 const ResourceCollection = ({
   resourceList,
@@ -180,7 +173,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     const [clickable, setIsClickable] = React.useState(true)
 
     // Manually slicing lessons into modules
-    const resourceCollection: ModuleResource[] = [
+    const resourceCollection: NestedResource[] = [
       {
         type: 'module',
         title: 'Project Setup',
