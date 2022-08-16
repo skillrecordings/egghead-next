@@ -160,8 +160,6 @@ describe('deriveDataFromBaseValues()', () => {
   test('it throws an error when there is no leading slash', () => {
     expect(() => {
       deriveDataFromBaseValues({path: 'lessons/some-slug'})
-    }).toThrow(
-      'Invariant failed: Path value must begin with a forward slash (`/`).',
-    )
+    }).toThrow(/Invariant failed/)
   })
 })
