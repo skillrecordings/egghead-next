@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {GetServerSideProps} from 'next'
 import {useRouter} from 'next/router'
-import {filter, get, isEmpty} from 'lodash'
+import {filter, get, isEmpty, compact} from 'lodash'
 import queryString from 'query-string'
 import {useMachine} from '@xstate/react'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
@@ -482,7 +482,7 @@ const Lesson: React.FC<LessonProps> = ({
         name={title}
         description={removeMarkdown(description)}
         uploadDate={lesson?.created_at}
-        thumbnailUrls={[lesson?.thumb_url]}
+        thumbnailUrls={compact([lesson?.thumb_url])}
       />
       <div className={cx({'h-screen': isFullscreen})}>
         <div
