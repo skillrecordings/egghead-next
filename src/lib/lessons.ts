@@ -27,6 +27,7 @@ const lessonQuery = groq`
   'free_forever': isCommunityResource,
   'path': '/lessons/' + slug.current,
   'thumb_url': thumbnailUrl,
+  'icon_url': 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg',
   'repo_url': repoUrl,
   'code_url': codeUrl,
   'created_at': eggheadRailsCreatedAt,
