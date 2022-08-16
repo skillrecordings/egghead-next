@@ -1,78 +1,54 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env node
 
-# Updates the `sanity.json` file with environment-specific settings.
-#
-# To switch to the `staging` environment for the studio, run:
-#
-# ```
-# $ SANITY_ENV=staging ./set_sanity_env
-# ```
-#
-# To switch to the `production` environment for the studio, run:
-#
-# ```
-# $ SANITY_ENV=production ./set_sanity_env
-# ```
-#
-# based on https://www.stuartellis.name/articles/erb/
+const fs = require('fs')
+const path = require('path')
+const handlebars = require('handlebars')
 
-require 'erb'
+/*
+ * Determine env-specific data
+ */
 
-sanity_env = ENV['SANITY_ENV']
+const sanityEnvironment = process.env.SANITY_ENV
 
-unless ['production', 'staging'].include?(sanity_env)
-  puts "SANITY_ENV must be set to either `production` or `staging`."
-  puts "e.g. `$ SANITY_ENV=staging ./set_sanity_env`"
-  exit 1
-end
+if (!['production', 'staging'].includes(sanityEnvironment)) {
+  const message = `
+SANITY_ENV must be set to either 'production' or 'staging'.
+e.g. \`$ SANITY_ENV=staging ./set_sanity_env\``
 
-# generate sanity.json file based on specified environment
-class SanityJson
-  include ERB::Util
-  attr_accessor :project_name, :project_id, :dataset
+  console.log(message)
+  process.exit(1)
+}
 
-  SANITY_ENV_VALUES = {
-    staging: {
-      project_name: "egghead-next-test",
-      project_id: "junsargs",
-      dataset: "production"
-    },
-    production: {
-      project_name: "egghead-next",
-      project_id: "sb1i5dlc",
-      dataset: "production"
-    }
-  }
+const SANITY_ENV_VALUES = {
+  staging: {
+    project_name: 'egghead-next-test',
+    project_id: 'junsargs',
+    dataset: 'production',
+  },
+  production: {
+    project_name: 'egghead-next',
+    project_id: 'sb1i5dlc',
+    dataset: 'production',
+  },
+}
 
-  def initialize(environment)
-    template_values = SANITY_ENV_VALUES[environment.to_sym]
+const envSpecificData = SANITY_ENV_VALUES[sanityEnvironment]
 
-    @project_name = template_values[:project_name]
-    @project_id = template_values[:project_id]
-    @dataset = template_values[:dataset]
-    @environment = environment
+/*
+ * Read in and apply the template
+ */
 
-    unless @project_name && @project_id && @dataset
-      raise StandardError, "One of the template values wasn't set."
-    end
-  end
+const templateFilename = path.join(__dirname, 'sanity.json.template')
 
-  def render()
-    ERB.new(template).result(binding)
-  end
+const template = fs.readFileSync(templateFilename, 'utf8')
 
-  def save(file)
-    File.open(file, "w+") do |f|
-      f.write(render)
-    end
-  end
+const templateFunc = handlebars.compile(template)
+const templateObject = templateFunc(envSpecificData)
 
-  private
+const destinationFilename = path.join(__dirname, 'sanity.json')
 
-  def template
-    File.read('./sanity.json.erb')
-  end
-end
+fs.writeFileSync(destinationFilename, templateObject)
 
-sanity_json = SanityJson.new(sanity_env)
-sanity_json.save('./sanity.json')
+const successMessage = `
+The \`sanity.json\` file has been switched to the ${sanityEnvironment} environment.`
+console.log(successMessage)
