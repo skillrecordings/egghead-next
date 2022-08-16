@@ -1,11 +1,11 @@
 {
   "root": true,
   "project": {
-    "name": "<%= @project_name %>"
+    "name": "{{project_name}}"
   },
   "api": {
-    "projectId": "<%= @project_id %>",
-    "dataset": "<%= @dataset %>"
+    "projectId": "{{project_id}}",
+    "dataset": "{{dataset}}"
   },
   "plugins": [
     "@sanity/base",
