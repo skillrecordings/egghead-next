@@ -177,7 +177,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     const [clickable, setIsClickable] = React.useState(true)
 
     // Manually slicing lessons into modules
-    const resourceCollection: NestedResource[] = [
+    const resourceCollection: ModuleResource[] = [
       {
         type: 'module',
         title: 'Project Setup',
