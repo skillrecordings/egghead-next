@@ -36,14 +36,14 @@ import {
 import LoginForm from 'pages/login'
 
 type CoursePageLayoutProps = {
-  lessons: any
+  lessons: LessonResource[]
   course: any
   ogImageUrl: string
 }
 
 type ModuleResource = {
   type: 'module'
-  resourceList: ResourceList
+  resourceList: Resource[]
   title: string
   description: string
 }
@@ -61,45 +61,43 @@ const LessonLinkResource = ({
 }) => {
   const isComplete = completedLessonSlugs.includes(lesson.slug)
   return (
-    <li>
-      <div className="flex py-2 font-semibold leading-tight h-20">
-        <div className="flex items-center mr-2 space-x-2">
-          <div
-            className={`${
-              isComplete
-                ? 'text-blue-600 dark:text-green-400'
-                : 'text-gray-500 dark:text-gray-400'
-            } pt-px font-xs scale-75 font-normal w-4`}
-          >
-            {isComplete ? (
-              <CheckIcon className="w-6 h-6 -translate-x-2" />
-            ) : (
-              index + 1
-            )}
-          </div>
-          {lesson.icon_url && (
-            <div className="flex items-center flex-shrink-0 w-8">
-              <Image src={lesson.icon_url} width={24} height={24} />
-            </div>
+    <li className="flex items-center py-2">
+      <div className="flex items-center mr-2 space-x-2">
+        <div
+          className={`${
+            isComplete
+              ? 'text-blue-600 dark:text-green-400'
+              : 'text-gray-500 dark:text-gray-400'
+          } pt-px font-xs scale-75 font-normal w-4`}
+        >
+          {isComplete ? (
+            <CheckIcon className="w-6 h-6 -translate-x-2" />
+          ) : (
+            index + 1
           )}
         </div>
-        {lesson.path && (
-          <div className="flex flex-col ">
-            <div>
-              <Link href={lesson.path}>
-                <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
-                  {lesson.title}
-                </a>
-              </Link>
-            </div>
-            <div className="text-xs text-gray-700 dark:text-gray-500">
-              {convertTimeWithTitles(lesson.duration, {
-                showSeconds: true,
-              })}
-            </div>
+        {lesson.icon_url && (
+          <div className="flex items-center flex-shrink-0 w-8">
+            <Image src={lesson.icon_url} width={24} height={24} />
           </div>
         )}
       </div>
+      {lesson.path && (
+        <div className="flex flex-col ">
+          <div>
+            <Link href={lesson.path}>
+              <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
+                {lesson.title}
+              </a>
+            </Link>
+          </div>
+          <div className="text-xs text-gray-700 dark:text-gray-500">
+            {convertTimeWithTitles(lesson.duration, {
+              showSeconds: true,
+            })}
+          </div>
+        </div>
+      )}
     </li>
   )
 }
@@ -113,15 +111,12 @@ const ModuleCollection = ({
 }) => {
   return (
     <div>
-      <h2 className="text-xl font-bold mt-4 mb-2 sm:mx-0 mx-auto w-fit">
-        {module.title}
-      </h2>
+      <h2 className="text-xl font-bold mt-4 mb-2">{module.title}</h2>
       <div>
         <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
           {module.description}
         </p>
         <ul
-          className="grid sm:grid-flow-col gap-4"
           style={{
             gridTemplateRows: `repeat(${Math.ceil(
               module.resourceList.length / 2,
@@ -148,6 +143,7 @@ const ResourceCollection = ({
         switch (resource.type) {
           case 'module':
             const nestedModuleResourceList = resource.resourceList
+
             return (
               <ModuleCollection key={`module-${index}`} module={resource}>
                 <ResourceCollection
@@ -156,7 +152,7 @@ const ResourceCollection = ({
                 />
               </ModuleCollection>
             )
-          case 'lesson':
+          case 'lesson': {
             return (
               <LessonLinkResource
                 key={`lesson-${index}`}
@@ -165,6 +161,7 @@ const ResourceCollection = ({
                 completedLessonSlugs={completedLessonSlugs}
               />
             )
+          }
           default:
             return null
         }
@@ -180,7 +177,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     const [clickable, setIsClickable] = React.useState(true)
 
     // Manually slicing lessons into modules
-    const resourceCollection: ModuleResource[] = [
+    const resourceCollection: NestedResource[] = [
       {
         type: 'module',
         title: 'Project Setup',
@@ -231,6 +228,45 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
           'Classes are the core of object-oriented programming in PHP. In this module, you will learn how to create classes, refactor functions into classes, and even replace all of your require statements with the Composer class autoloader.',
       },
     ]
+
+    const InstructorSection = () => {
+      return (
+        <section className="dark:bg-gray-800 bg-gray-100 lg:p-10 p-5 rounded-md">
+          <div className="flex flex-col justify-between">
+            <div className="flex lg:flex-row flex-col items-center gap-5">
+              <Image
+                className="rounded-full"
+                src={avatar_url}
+                width={150}
+                height={150}
+                alt={`${name}'s avatar`}
+              />
+              <div className="lg:text-left text-center">
+                <h2 className="text-lg dark:text-gray-300 text-gray-700">
+                  Meet the Instructor
+                </h2>
+                <h3 className="font-semibold sm:text-2xl text-lg">
+                  Hi, I'm Mark Shust
+                </h3>
+              </div>
+            </div>
+            <div className="prose dark:prose-dark md:prose-lg pt-8">
+              <p>
+                I have over 20 years of web development experience, and has been
+                working with PHP for about as long. Soon after starting
+                development, I became extremely interested and involved in open
+                source programming, diving into various PHP frameworks over the
+                years including OSCommerce, Drupal, and Laravel.
+              </p>
+              <p>
+                I'm excited to bring you a comprehensive introduction course on
+                PHP, and I hope you enjoy it!
+              </p>
+            </div>
+          </div>
+        </section>
+      )
+    }
 
     const {
       title,
@@ -415,7 +451,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
             </div>
           )}
           <div className="grid w-full grid-rows-1">
-            <div className="flex flex-row left-0 grid w-full grid-cols-1 gap-5 mt-10 mb-4 rounded-md md:grid-cols-5 md:gap-16">
+            <div className="flex-row left-0 grid w-full grid-cols-1 gap-5 mt-10 sm:mb-4 rounded-md md:grid-cols-5 md:gap-16">
               <div className="flex flex-col w-full h-full mx-auto md:col-span-3 md:row-start-auto max-w-screen-2xl">
                 <header>
                   {image_url && (
@@ -673,61 +709,15 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                 </div>
               </div>
             </div>
-            <div className={'flex flex-row grid grid-rows-1'}>
-              <div className="mx-auto ">
-                {/*start of instructor block*/}
-                <section className="my-8">
-                  <h2 className="text-xl font-bold mb-4 sm:mx-0 mx-auto w-fit">
-                    Meet the Instructor
-                  </h2>
-                  <div className="flex flex-row justify-between">
-                    <div>
-                      <div className="flex justify-center md:hidden mb-4">
-                        <Image
-                          className="rounded-full ml-4 justify-center"
-                          src={avatar_url}
-                          layout="fixed"
-                          width="200"
-                          height="200"
-                          alt={`${name}'s avatar`}
-                        />
-                      </div>
-                      <h2 className="font-semibold text-lg pb-4 sm:mx-0 mx-auto w-fit">
-                        Hi, I'm Mark Shust
-                      </h2>
-                      <p className="mb-2 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
-                        I have over 20 years of web development experience, and
-                        has been working with PHP for about as long. Soon after
-                        starting development, I became extremely interested and
-                        involved in open source programming, diving into various
-                        PHP frameworks over the years including OSCommerce,
-                        Drupal, and Laravel.
-                      </p>
-                      <p className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 ">
-                        I'm excited to bring you a comprehensive introduction
-                        course on PHP, and I hope you enjoy it!
-                      </p>
-                    </div>
-                    <div className="flex lg:scale-100 md:scale-75 justify-center items-center hidden md:block xl:pr-12">
-                      <Image
-                        className="rounded-full ml-4 justify-center"
-                        src={avatar_url}
-                        layout="fixed"
-                        width="300"
-                        height="300"
-                        alt={`${name}'s avatar`}
-                      />
-                    </div>
-                  </div>
-                </section>
-                {/*end of instructor block*/}
-                {/*Start of lessons block*/}
-                <ResourceCollection
-                  resourceList={resourceCollection}
-                  completedLessonSlugs={completedLessonSlugs}
-                />
-                {/*End of lessons block*/}
-              </div>
+            <div className="grid md:grid-cols-2 xl:gap-16 lg:gap-10 sm:gap-5 gap-5 sm:pt-8">
+              <InstructorSection />
+              <ResourceCollection
+                resourceList={resourceCollection}
+                completedLessonSlugs={completedLessonSlugs}
+              />
+            </div>
+            <div className="flex items-center justify-center pt-10">
+              <PlayButton lesson={nextLesson} />
             </div>
           </div>
         </div>
