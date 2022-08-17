@@ -19,7 +19,7 @@ const lessonQuery = groq`
   description,
   resource->_type == 'videoResource' => {
     ...(resource-> {
-      'media_url': hslUrl,
+      'media_url': hlsUrl,
       'transcript': transcriptBody,
       'transcript_url': transcriptUrl,
       duration,
@@ -33,8 +33,8 @@ const lessonQuery = groq`
   'repo_url': repoUrl,
   'code_url': codeUrl,
   'created_at': eggheadRailsCreatedAt,
-  'updated_at': eggheadRailsUpdatedAt,
-  'published_at': eggheadRailsPublishedAt,
+  'updated_at': displayedUpdatedAt,
+  'published_at': publishedAt,
   'instructor': collaborators[0]-> {
     ...(person-> {
       'full_name': name,
@@ -64,7 +64,7 @@ const lessonQuery = groq`
       title,
       'thumb_url': thumbnailUrl,
       resource->_type == 'videoResource' => {
-        'media_url': resource->hslUrl,
+        'media_url': resource->hlsUrl,
         duration,
       }
     }
