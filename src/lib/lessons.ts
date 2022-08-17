@@ -64,8 +64,10 @@ const lessonQuery = groq`
       title,
       'thumb_url': thumbnailUrl,
       resource->_type == 'videoResource' => {
-        'media_url': resource->hlsUrl,
-        'duration': resource->duration,
+        ...(resource-> {
+          'media_url': hlsUrl,
+          duration
+        })
       }
     }
   }
