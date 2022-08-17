@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+const fs = require('fs')
+const path = require('path')
+const handlebars = require('handlebars')
+
+/*
+ * Determine env-specific data
+ */
+
+const sanityEnvironment = process.env.SANITY_ENV
+
+if (!['production', 'staging'].includes(sanityEnvironment)) {
+  const message = `
+SANITY_ENV must be set to either 'production' or 'staging'.
+e.g. \`$ SANITY_ENV=staging ./set_sanity_env\``
+
+  console.log(message)
+  process.exit(1)
+}
+
+const SANITY_ENV_VALUES = {
+  staging: {
+    project_name: 'egghead-next-test',
+    project_id: 'junsargs',
+    dataset: 'production',
+  },
+  production: {
+    project_name: 'egghead-next',
+    project_id: 'sb1i5dlc',
+    dataset: 'production',
+  },
+}
+
+const envSpecificData = SANITY_ENV_VALUES[sanityEnvironment]
+
+/*
+ * Read in and apply the template
+ */
+
+const templateFilename = path.join(__dirname, 'sanity.json.template')
+
+const template = fs.readFileSync(templateFilename, 'utf8')
+
+const templateFunc = handlebars.compile(template)
+const templateObject = templateFunc(envSpecificData)
+
+const destinationFilename = path.join(__dirname, 'sanity.json')
+
+fs.writeFileSync(destinationFilename, templateObject)
+
+const successMessage = `
+The \`sanity.json\` file has been switched to the ${sanityEnvironment} environment.`
+console.log(successMessage)
