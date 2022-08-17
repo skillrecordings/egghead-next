@@ -46,31 +46,33 @@ export async function loadLessonComments(
   }
 
   const query = /* GraphQL */ `
-    query getLesson($slug: String!) {
-      lesson(slug: $slug) {
-        comments {
-          comment
-          commentable_id
-          commentable_type
-          created_at
-          id
-          is_commentable_owner
-          state
-          user {
-            avatar_url
-            full_name
-            instructor {
-              first_name
-            }
+    query getLessonComments($slug: String!) {
+      lesson_comments(slug: $slug) {
+        comment
+        commentable_id
+        commentable_type
+        created_at
+        id
+        is_commentable_owner
+        state
+        user {
+          avatar_url
+          full_name
+          instructor {
+            first_name
           }
         }
       }
     }
   `
 
-  const {
-    lesson: {comments},
-  } = await graphQLClient.request(query, variables)
+  try {
+    const {lesson_comments} = await graphQLClient.request(query, variables)
 
-  return comments
+    return lesson_comments
+  } catch (e) {
+    console.log('Error fetching lesson comments: ', e)
+
+    return []
+  }
 }

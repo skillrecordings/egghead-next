@@ -104,6 +104,49 @@ export default {
       },
     },
     {
+      name: 'isCommunityResource',
+      title: 'Community Resource?',
+      type: 'boolean',
+    },
+    {
+      name: 'thumbnailUrl',
+      title: 'Thumbnail URL',
+      type: 'url',
+    },
+    {
+      name: 'iconUrl',
+      title: 'Icon URL',
+      type: 'url',
+    },
+    {
+      name: 'repoUrl',
+      title: 'Repo URL',
+      type: 'url',
+    },
+    {
+      name: 'codeUrl',
+      title: 'Code URL',
+      type: 'url',
+    },
+    {
+      name: 'displayedUpdatedAt',
+      description: 'The last time this lesson was meaningfully updated',
+      title: 'Displayed Updated At',
+      type: 'date',
+    },
+    {
+      name: 'publishedAt',
+      description: 'The date this lesson was published',
+      title: 'Published At',
+      type: 'date',
+    },
+    {
+      name: 'eggheadRailsCreatedAt',
+      title: 'egghead Rails Created At',
+      description: 'Date this lesson resource was created on egghead.io',
+      type: 'datetime',
+    },
+    {
       title: 'The lessons internal ID on egghead-rails',
       name: 'eggheadRailsLessonId',
       type: 'number',
