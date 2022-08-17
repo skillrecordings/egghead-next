@@ -1,4 +1,5 @@
-import pickBy from 'lodash/pickBy'
+import omitBy from 'lodash/omitBy'
+import isNil from 'lodash/isNil'
 
 // A typical ES6 destructuring merge ({ ...obj1, ...obj2 }) will allow values
 // of `null` and `undefined` to override actual values. This compactedMerge
@@ -9,7 +10,11 @@ import pickBy from 'lodash/pickBy'
 // `lesson_view_url: '/some/url'` that it doesn't get overridden by the second
 // object having `lesson_view_url: undefined`.
 const compactedMerge = (obj1: any, obj2: any): any => {
-  return {...pickBy(obj1), ...pickBy(obj2)}
+  return {...removeNilValues(obj1), ...removeNilValues(obj2)}
+}
+
+const removeNilValues = (obj: any): any => {
+  return omitBy(obj, isNil)
 }
 
 export default compactedMerge

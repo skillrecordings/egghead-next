@@ -4,17 +4,21 @@ test('it can merge two objects together', () => {
   const secondaryObject = {
     title: 'Ignored Title',
     lesson_view_url: '/some/url',
+    thumb_url: '',
   }
 
   const primaryObject = {
     title: 'Actual Title',
     duration: 123,
+    count: 0,
   }
 
   const expectedResult = {
     title: 'Actual Title',
     lesson_view_url: '/some/url',
     duration: 123,
+    thumb_url: '',
+    count: 0,
   }
 
   const result = compactedMerge(secondaryObject, primaryObject)

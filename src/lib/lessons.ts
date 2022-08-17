@@ -17,7 +17,7 @@ const lessonQuery = groq`
   description,
   resource->_type == 'videoResource' => {
     ...(resource-> {
-      'media_url': hslUrl,
+      'media_url': hlsUrl,
       'transcript': transcriptBody,
       'transcript_url': transcriptUrl,
       duration,
@@ -27,6 +27,7 @@ const lessonQuery = groq`
   'free_forever': isCommunityResource,
   'path': '/lessons/' + slug.current,
   'thumb_url': thumbnailUrl,
+  'icon_url': coalesce(softwareLibraries[0].library->image.url, 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1567198446/og-image-assets/eggo.svg'),
   'repo_url': repoUrl,
   'code_url': codeUrl,
   'created_at': eggheadRailsCreatedAt,
@@ -61,7 +62,7 @@ const lessonQuery = groq`
       title,
       'thumb_url': thumbnailUrl,
       resource->_type == 'videoResource' => {
-        'media_url': resource->hslUrl,
+        'media_url': resource->hlsUrl,
         duration,
       }
     }
@@ -176,7 +177,6 @@ export async function loadLesson(
 //
 // - dash_url - not used
 // - staff_notes_url - not used
-// - icon_url - this is being used by the lesson page
 
 const loadLessonGraphQLQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
