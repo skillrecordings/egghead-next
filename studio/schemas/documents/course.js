@@ -69,8 +69,8 @@ export default {
     },
     {
       name: 'image',
-      description: 'Links to a full-sized primary image',
-      title: 'Image Url',
+      description: 'Links to a full-sized primary image/illustration',
+      title: 'Image/Illustration Url',
       type: 'url',
     },
     {
@@ -126,9 +126,31 @@ export default {
         list: [
           {title: 'Free', value: 'free'},
           {title: 'Pro', value: 'pro'},
+          {
+            title: 'Community Resource',
+            value: 'community-resource',
+            description: 'Free Forever',
+          },
         ],
         layout: 'radio',
       },
+      initialValue: 'pro',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      title: 'Search Indexing State',
+      description: 'Is this course ready to be indexed for search?',
+      name: 'searchIndexingState',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Hidden', value: 'hidden'},
+          {title: 'Indexed', value: 'indexed'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'hidden',
+      validation: (Rule) => Rule.required(),
     },
     {
       title: 'Duration (minutes)',
