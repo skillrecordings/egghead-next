@@ -33,16 +33,16 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
     <>
       <div className="text-gray-900 dark:bg-gray-900 bg-gray-50 dark:text-white">
         <header className="container flex flex-col items-center py-16 mt-5 text-center">
-          <h1 className="max-w-screen-md text-2xl font-extrabold md:text-4xl leading-tighter">
+          <h1 className="max-w-screen-lg text-2xl font-extrabold md:text-4xl leading-tighter">
             Stay Current with{' '}
             <span className="text-blue-600 dark:text-yellow-300">
-              Modern Full-Stack Video Tutorials
+              Modern Full-Stack Courses
             </span>{' '}
-             for Professinal Web Developers
+            for Professional Web Developers
           </h1>
           <h2 className="max-w-2xl pt-8 text-lg font-light leading-tight text-gray-700 dark:text-gray-200">
-            Learn the skills you and your team need to build
-            real-world business focused professional web applications.
+            Learn the skills you and your team need to build real-world business
+            focused professional web applications.
           </h2>
         </header>
         <main className="container flex flex-col items-center">
