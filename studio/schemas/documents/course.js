@@ -1,3 +1,5 @@
+import {nanoid} from 'nanoid'
+
 export default {
   name: 'course',
   type: 'document',
@@ -20,6 +22,13 @@ export default {
         source: 'title',
         maxLength: 96,
       },
+    },
+    {
+      name: 'sharedId',
+      type: 'string',
+      title: 'Shared ID',
+      validation: (Rule) => Rule.required(),
+      initialValue: () => nanoid(),
     },
     {
       name: 'productionProcessState',
