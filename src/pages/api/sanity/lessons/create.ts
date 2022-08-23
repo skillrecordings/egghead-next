@@ -72,7 +72,7 @@ const courseSchema = z.object({
   collaboratorId: z.string().optional(),
   topicIds: z.string().array(),
 })
-type CourseData = z.infer<typeof courseSchema>
+export type CourseData = z.infer<typeof courseSchema>
 
 const lessonSchema = z.object({
   title: z.string(),
