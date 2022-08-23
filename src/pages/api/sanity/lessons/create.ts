@@ -4,17 +4,18 @@ import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {getAbilityFromToken} from 'server/ability'
 import _get from 'lodash/get'
 import slugify from 'slugify'
-import {CourseData} from 'types'
+// import {CourseData} from 'types'
+import {z} from 'zod'
 
 import client from '@sanity/client'
 
-type LessonData = {
-  title: string
-  fileMetadata: {
-    fileName: string
-    signedUrl: string
-  }
-}
+// type LessonData = {
+//   title: string
+//   fileMetadata: {
+//     fileName: string
+//     signedUrl: string
+//   }
+// }
 
 type SanitySlug = {
   current: string
@@ -75,9 +76,28 @@ const sanityIdForDocumentType = async (
   return `${documentType}-${id}`
 }
 
+// parse the course and lessons here
+const courseSchema = z.object({
+  title: z.string(),
+  collaboratorId: z.string().optional(),
+  topicIds: z.string().array(),
+})
+type CourseData = z.infer<typeof courseSchema>
+
+const lessonsSchema = z
+  .object({
+    title: z.string(),
+    fileMetadata: z.object({
+      fileName: z.string(),
+      signedUrl: z.string(),
+    }),
+  })
+  .array()
+type LessonsData = z.infer<typeof lessonsSchema>
+
 async function formatSanityMutationForLessons(
   course: CourseData,
-  lessons: LessonData[],
+  lessons: LessonsData,
 ): Promise<{
   sanityCourse: SanityCourse
   sanityLessons: SanityLesson[]
@@ -101,7 +121,7 @@ async function formatSanityMutationForLessons(
 
   const collaboratorKey = await nanoid()
 
-  if (typeof collaboratorId === 'string') {
+  if (collaboratorId) {
     sanityCourse.collaborators = [
       {
         _key: collaboratorKey,
@@ -180,7 +200,8 @@ const createSanityLessons = async (
     } else {
       let transaction = sanityClient.transaction()
 
-      const {course, lessons} = req.body
+      const course = courseSchema.parse(req.body.course)
+      const lessons = lessonsSchema.parse(req.body.lessons)
 
       const {sanityCourse, sanityLessons, sanityResources} =
         await formatSanityMutationForLessons(course, lessons)
