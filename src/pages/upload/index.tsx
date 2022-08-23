@@ -288,6 +288,7 @@ const Upload: React.FC<
             <label className="block text-sm font-medium text-gray-700">
               Video Files
             </label>
+            <VideoUploadAlert />
             {/* Drop zone UI adapted from https://larainfo.com/blogs/tailwind-css-drag-and-drop-file-upload-ui */}
             <div className="max-w-xl">
               <label className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
@@ -359,6 +360,49 @@ const Upload: React.FC<
             </button>
           </div>
         </Form>
+      </div>
+    </div>
+  )
+}
+
+const VideoUploadAlert = () => {
+  return (
+    <div className="rounded-md bg-yellow-50 p-4">
+      <div className="flex">
+        <div className="flex-shrink-0">
+          <svg
+            className="h-5 w-5 text-yellow-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <h3 className="text-sm font-medium text-yellow-800">
+            Read this before uploading any videos
+          </h3>
+          <div className="mt-2 text-sm text-yellow-700">
+            <ul role="list" className="list-disc pl-5 space-y-1">
+              <li>
+                Drag-and-drop doesn't work (yet). Click 'Browse' and select your
+                files that way.
+              </li>
+              <li>
+                The underlying upload library can only handle up to 5 videos at
+                a time. Start by selecting your first 5. Edit the lesson details
+                while they upload. Once all 5 have reached 100%, you can click
+                'Browse' again and select the next 5. Etc.
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   )
