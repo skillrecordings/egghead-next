@@ -7,7 +7,7 @@ import groq from 'groq'
 import {sanityClient} from 'utils/sanity-client'
 import {useViewer} from 'context/viewer-context'
 import {Formik, Form, Field, FormikProps} from 'formik'
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
 import _find from 'lodash/find'
 import {CourseData} from 'types'
@@ -84,6 +84,8 @@ export const getServerSideProps: GetServerSideProps = async function ({req}) {
   }
 }
 
+type SubmitResponse = AxiosResponse | undefined
+
 const UploadWrapper = ({
   instructors,
   topics,
@@ -100,6 +102,8 @@ const UploadWrapper = ({
     lessons: [],
   }
 
+  const [submitResponse, setSubmitResponse] = React.useState<SubmitResponse>()
+
   return (
     <Formik
       initialValues={initialValues}
@@ -109,20 +113,31 @@ const UploadWrapper = ({
           lessons: values.lessons,
         })
 
+        setSubmitResponse(response)
+
         console.log({response})
       }}
     >
       {(props) => (
-        <Upload {...props} instructors={instructors} topics={topics} />
+        <Upload
+          {...props}
+          instructors={instructors}
+          topics={topics}
+          submitResponse={submitResponse}
+        />
       )}
     </Formik>
   )
 }
 
 const Upload: React.FC<
-  FormikProps<FormProps> & {instructors: Instructor[]; topics: Topic[]}
+  FormikProps<FormProps> & {
+    instructors: Instructor[]
+    topics: Topic[]
+    submitResponse: SubmitResponse
+  }
 > = (props) => {
-  const {instructors, topics, ...formikProps} = props
+  const {instructors, topics, submitResponse, ...formikProps} = props
 
   const {values, setFieldValue, isSubmitting} = formikProps
   const [fileUploadState, dispatch] = useFileUploadReducer([])
@@ -184,7 +199,9 @@ const Upload: React.FC<
   const isIncomplete =
     noAttachedFiles || anyFilesCurrentlyUploading || values.course.title === ''
 
-  const submitDisabled = isIncomplete || isSubmitting
+  const submitWasSuccessful = submitResponse?.status === 200
+
+  const submitDisabled = isIncomplete || isSubmitting || submitWasSuccessful
 
   return (
     <div className="min-h-full flex">
@@ -346,6 +363,7 @@ const Upload: React.FC<
               </div>
             )
           })}
+          <SubmitStatus submitResponse={submitResponse} />
           <div>
             <button
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
@@ -360,6 +378,93 @@ const Upload: React.FC<
             </button>
           </div>
         </Form>
+      </div>
+    </div>
+  )
+}
+
+const SubmitStatus = ({submitResponse}: {submitResponse: SubmitResponse}) => {
+  if (!submitResponse) return null
+
+  if (submitResponse.status === 200) {
+    const studioUrl =
+      process.env.NODE_ENV === 'production'
+        ? 'https://egghead-next.sanity.studio/desk'
+        : 'https://egghead-next-test.sanity.studio/desk'
+
+    return (
+      <div className="rounded-md bg-green-50 p-4">
+        <div className="flex">
+          <div className="flex-shrink-0">
+            <svg
+              className="h-5 w-5 text-green-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div className="ml-3">
+            <h3 className="text-sm font-medium text-green-800">
+              Course Submitted
+            </h3>
+            <div className="mt-2 text-sm text-green-700">
+              <p>
+                The Course and Lesson metadata has been successfully submitted
+                to Sanity Studio
+              </p>
+            </div>
+            <div className="mt-4">
+              <div className="-mx-2 -my-1.5 flex">
+                <a
+                  href={studioUrl}
+                  className="bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600"
+                >
+                  View Studio
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // something went wrong with the Sanity POST
+  return (
+    <div className="rounded-md bg-red-50 p-4">
+      <div className="flex">
+        <div className="flex-shrink-0">
+          <svg
+            className="h-5 w-5 text-red-400"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <h3 className="text-sm font-medium text-red-800">
+            Course Submission Failed
+          </h3>
+          <div className="mt-2 text-sm text-red-700">
+            <p>Something went wrong with the upload to Sanity</p>
+            <p>Status: {submitResponse.status}</p>
+            <p>Error: {submitResponse.statusText}</p>
+          </div>
+        </div>
       </div>
     </div>
   )
