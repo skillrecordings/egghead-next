@@ -56,6 +56,7 @@ type SanityCourse = {
   _type: 'course'
   title: string
   slug: SanitySlug
+  sharedId: string
   collaborators: SanityReferenceArray
   lessons: SanityReferenceArray
   softwareLibraries: SanitySoftwareLibrary[]
@@ -94,6 +95,7 @@ async function formatSanityMutationForLessons(
     _type: 'course',
     title,
     slug: {current: courseSlug},
+    sharedId: nanoid(),
     lessons: [],
     collaborators: [],
     softwareLibraries: [],
