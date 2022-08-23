@@ -84,20 +84,18 @@ const courseSchema = z.object({
 })
 type CourseData = z.infer<typeof courseSchema>
 
-const lessonsSchema = z
-  .object({
-    title: z.string(),
-    fileMetadata: z.object({
-      fileName: z.string(),
-      signedUrl: z.string(),
-    }),
-  })
-  .array()
-type LessonsData = z.infer<typeof lessonsSchema>
+const lessonSchema = z.object({
+  title: z.string(),
+  fileMetadata: z.object({
+    fileName: z.string(),
+    signedUrl: z.string(),
+  }),
+})
+type LessonData = z.infer<typeof lessonSchema>
 
 async function formatSanityMutationForLessons(
   course: CourseData,
-  lessons: LessonsData,
+  lessons: LessonData[],
 ): Promise<{
   sanityCourse: SanityCourse
   sanityLessons: SanityLesson[]
@@ -201,7 +199,7 @@ const createSanityLessons = async (
       let transaction = sanityClient.transaction()
 
       const course = courseSchema.parse(req.body.course)
-      const lessons = lessonsSchema.parse(req.body.lessons)
+      const lessons = z.array(lessonSchema).parse(req.body.lessons)
 
       const {sanityCourse, sanityLessons, sanityResources} =
         await formatSanityMutationForLessons(course, lessons)
