@@ -13,13 +13,6 @@ import _find from 'lodash/find'
 import {CourseData} from 'types'
 import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 
-type FileUpload = {
-  file: File
-  percent: number
-  message: string
-  signedUrl: string | undefined
-}
-
 type Instructor = {
   _id: string
   eggheadInstructorId: string
