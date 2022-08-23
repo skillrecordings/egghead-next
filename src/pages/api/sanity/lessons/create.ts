@@ -204,7 +204,10 @@ const createSanityLessons = async (
 
           res.status(200).end()
         })
-        .catch((err) => console.log('ERROR', err))
+        .catch((err) => {
+          console.log('ERROR', err)
+          res.status(400).end()
+        })
     }
   } else {
     res.statusCode = 404
