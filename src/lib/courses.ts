@@ -80,6 +80,10 @@ export async function loadCourseMetadata(id: number) {
 
   const course = await sanityClient.fetch(courseQuery, params)
 
+  if (course?.illustration?.url) {
+    course['square_cover_480_url'] = course.illustration.url
+  }
+
   return course
 }
 
