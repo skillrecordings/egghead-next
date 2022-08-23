@@ -4,18 +4,9 @@ import {ACCESS_TOKEN_KEY} from 'utils/auth'
 import {getAbilityFromToken} from 'server/ability'
 import _get from 'lodash/get'
 import slugify from 'slugify'
-// import {CourseData} from 'types'
 import {z} from 'zod'
 
 import client from '@sanity/client'
-
-// type LessonData = {
-//   title: string
-//   fileMetadata: {
-//     fileName: string
-//     signedUrl: string
-//   }
-// }
 
 type SanitySlug = {
   current: string
@@ -76,7 +67,6 @@ const sanityIdForDocumentType = async (
   return `${documentType}-${id}`
 }
 
-// parse the course and lessons here
 const courseSchema = z.object({
   title: z.string(),
   collaboratorId: z.string().optional(),
