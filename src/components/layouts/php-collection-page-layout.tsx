@@ -36,18 +36,27 @@ import {
 import LoginForm from 'pages/login'
 
 type CoursePageLayoutProps = {
-  lessons: any
+  lessons: LessonResource[]
   course: any
   ogImageUrl: string
 }
+
+type ModuleResource = {
+  type: 'module'
+  resourceList: Resource[]
+  title: string
+  description: string
+}
+
+type Resource = ModuleResource | LessonResource
 
 const LessonLinkResource = ({
   lesson,
   completedLessonSlugs,
   index,
 }: {
-  lesson: any
-  completedLessonSlugs: any
+  lesson: LessonResource
+  completedLessonSlugs: string[]
   index: number
 }) => {
   const isComplete = completedLessonSlugs.includes(lesson.slug)
@@ -93,7 +102,13 @@ const LessonLinkResource = ({
   )
 }
 
-const ModuleCollection = ({module, children}: {module: any; children: any}) => {
+const ModuleCollection = ({
+  module,
+  children,
+}: {
+  module: ModuleResource
+  children: any
+}) => {
   return (
     <div>
       <h2 className="text-xl font-bold mt-4 mb-2">{module.title}</h2>
@@ -115,19 +130,11 @@ const ModuleCollection = ({module, children}: {module: any; children: any}) => {
   )
 }
 
-type NestedResource = {
-  type: 'module'
-  resourceList: ResourceList
-  title: string
-  description: string
-}
-type ResourceList = Array<NestedResource | LessonResource>
-
 const ResourceCollection = ({
   resourceList,
   completedLessonSlugs,
 }: {
-  resourceList: ResourceList
+  resourceList: Resource[]
   completedLessonSlugs: string[]
 }) => {
   return (
@@ -170,7 +177,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
     const [clickable, setIsClickable] = React.useState(true)
 
     // Manually slicing lessons into modules
-    const resourceCollection: NestedResource[] = [
+    const resourceCollection: ModuleResource[] = [
       {
         type: 'module',
         title: 'Project Setup',
