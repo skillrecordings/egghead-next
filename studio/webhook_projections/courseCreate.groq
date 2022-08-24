@@ -1,0 +1,31 @@
+{
+  'data': {
+    title,
+    slug,
+    _type,
+    _id,
+    sharedId,
+    'collaborators': collaborators[]-> {
+      role,
+      _id,
+      eggheadInstructorId,
+      'person': person-> {
+        _id,
+        name,
+        'image': image.url
+       }
+    },
+    "lessons": lessons[]-> {
+      _id,
+      _type,
+      title,
+      "resource": resource-> {
+        _id,
+        _type,
+        filename,
+        originalVideoUrl
+      }
+    }
+  },
+  'operation': delta::operation()
+}
