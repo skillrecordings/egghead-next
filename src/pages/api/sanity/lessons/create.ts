@@ -44,6 +44,8 @@ type SanityLesson = {
   _type: 'lesson'
   _id: string
   title: string
+  description?: string
+  repoUrl?: string
   slug: SanitySlug
   resource: SanityReference
 }
@@ -57,8 +59,6 @@ type SanitySoftwareLibrary = {
 type SanityCourse = {
   _type: 'course'
   title: string
-  description?: string
-  repoUrl?: string
   slug: SanitySlug
   sharedId: string
   collaborators: SanityReferenceArray
@@ -104,8 +104,6 @@ async function formatSanityMutationForLessons(
   let sanityCourse: SanityCourse = {
     _type: 'course',
     title,
-    repoUrl,
-    description,
     slug: {current: courseSlug},
     sharedId: nanoid(),
     lessons: [],
@@ -159,11 +157,14 @@ async function formatSanityMutationForLessons(
         `${topics[0] || ''} ${lesson.title}`.toLowerCase(),
         {remove: /[*+~.()'"!:@]/g},
       )
+      const {description = '', repoUrl = ''} = lesson
 
       sanityLessons.push({
         _id: lessonId,
         _type: 'lesson',
         title: lesson.title,
+        description,
+        repoUrl,
         slug: {current: lessonSlug},
         resource: {
           _type: 'reference',

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   name: 'lesson',
   type: 'document',
@@ -53,6 +54,13 @@ export default {
       title: 'Description',
       description:
         'This can be used to provide a short description of the lesson.',
+    },
+    {
+      name: 'repoUrl',
+      type: 'url',
+      title: 'Github Repository Url',
+      description:
+        "A link to the Github repository where the lesson's code is hosted",
     },
     {
       name: 'softwareLibraries',
