@@ -91,13 +91,7 @@ async function formatSanityMutationForLessons(
   let sanityLessons: SanityLesson[] = []
   let sanityResources: SanityVideoResource[] = []
 
-  const {
-    title,
-    description = '',
-    repoUrl = '',
-    collaboratorId,
-    topicIds,
-  } = course
+  const {title, collaboratorId, topicIds} = course
 
   const courseSlug = slugify(title.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
 
