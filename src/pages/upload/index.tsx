@@ -30,8 +30,8 @@ type UploadedFile = {
 
 type LessonMetadata = {
   title: string
-  description: string
-  repoUrl: string
+  description?: string
+  repoUrl?: string
   fileMetadata: UploadedFile
 }
 
@@ -185,6 +185,7 @@ const Upload: React.FC<
       } else {
         return {
           title: file.file.name,
+
           fileMetadata: {
             fileName: file.file.name,
             signedUrl: file.signedUrl,
