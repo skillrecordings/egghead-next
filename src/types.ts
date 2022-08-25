@@ -154,4 +154,6 @@ export type CourseData = {
   title: string
   collaboratorId?: string
   topicIds: string[]
+  description?: string
+  repoUrl?: string
 }
