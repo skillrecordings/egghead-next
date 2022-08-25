@@ -235,7 +235,7 @@ const Upload: React.FC<
               htmlFor="course-name"
               className="block text-sm font-medium text-gray-700"
             >
-              Course Name*
+              Course Name
             </label>
             <div className="mt-1">
               <Field
