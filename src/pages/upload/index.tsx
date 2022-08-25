@@ -175,7 +175,7 @@ const Upload: React.FC<
       if (existingLesson) {
         return {
           title: existingLesson.title,
-          description: existingLesson.title,
+          description: existingLesson.description,
           repoUrl: existingLesson.repoUrl,
           fileMetadata: {
             ...existingLesson.fileMetadata,
