@@ -127,11 +127,6 @@ export default {
       type: 'url',
     },
     {
-      name: 'repoUrl',
-      title: 'Repo URL',
-      type: 'url',
-    },
-    {
       name: 'codeUrl',
       title: 'Code URL',
       type: 'url',
