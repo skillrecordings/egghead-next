@@ -2,7 +2,7 @@ import {sanityClient} from 'utils/sanity-client'
 import groq from 'groq'
 import {loadPlaylist} from './playlists'
 
-const courseQuery = groq`
+const courseResourceQuery = groq`
 *[_type == 'resource' && externalId == $courseId][0]{
   title,
   challengeRating,
@@ -69,22 +69,83 @@ const courseQuery = groq`
 }
 `
 
+// TODO: go through the minimum Course page requirements, find the overlap with
+// what this Course document supports, and then lineup the naming.
+const courseQuery = groq`
+*[_type == 'course' && slug.current == $slug][0]{
+  title,
+  slug,
+  sharedId,
+  productionProcessState,
+  accessLevel,
+  searchIndexingState,
+  description,
+  summary,
+  byline,
+  duration,
+  publishedAt,
+  updatedAt,
+  image,
+  'tags': softwareLibraries[] {
+    ...(library-> {
+       name,
+      'label': slug.current,
+      'http_url': url,
+      'image_url': image.url
+    }),
+  },
+  'instructor': collaborators[0]-> {
+    ...(person-> {
+      'full_name': name,
+      'slug': slug.current,
+      'avatar_64_url': image.url,
+      'twitter_url': twitter
+    }),
+  },
+  'illustrator': imageIllustrator-> {
+    ...(person-> {
+      'full_name': name,
+      'slug': slug.current,
+      'avatar_64_url': image.url,
+      'twitter_url': twitter
+    }),
+  },
+  'lessons': lessons[]-> {
+    'slug': slug.current,
+    'type': 'lesson',
+    'path': '/lessons/' + slug.current,
+    title,
+    'thumb_url': thumbnailUrl,
+    resource->_type == 'videoResource' => {
+      ...(resource-> {
+        'media_url': hlsUrl,
+        duration
+      })
+    }
+  }
+}
+`
+
 /**
  * loads COURSE METADATA from Sanity
  * @param id
  */
-export async function loadCourseMetadata(id: number) {
+export async function loadCourseMetadata(slug: string, id: number) {
   const params = {
     courseId: Number(id),
   }
 
-  const course = await sanityClient.fetch(courseQuery, params)
+  // Try loading the course from `Course` document, if it is there, use it.
+  // Otherwise fallback to loading it from the `Resource` document.
+  const course = await sanityClient.fetch(courseQuery, {slug})
 
-  if (course?.illustration?.url) {
-    course['square_cover_480_url'] = course.illustration.url
+  if (course) {
+    return course
+  } else {
+    const courseResource = await sanityClient.fetch(courseResourceQuery, params)
+
+    return courseResource
   }
-
-  return course
 }
 
 export async function loadCourse(slug: string, token?: string) {
