@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import {nanoid} from 'nanoid'
 
 export default {
@@ -80,6 +81,13 @@ export default {
       name: 'image',
       description: 'Links to a full-sized primary image/illustration',
       title: 'Image/Illustration Url',
+      type: 'url',
+    },
+    {
+      name: 'repoUrl',
+      description:
+        'A link to the Github repository where the course project is located',
+      title: 'Repo URL',
       type: 'url',
     },
     {
