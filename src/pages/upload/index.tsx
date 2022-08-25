@@ -354,8 +354,29 @@ const Upload: React.FC<
                   </span>
                 </label>
                 <Field
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   name={`lessons.${i}.title`}
+                />
+                <label
+                  htmlFor={`lessons.${i}.description`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description
+                </label>
+                <Field
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name={`lessons.${i}.description`}
+                  as="textarea"
+                />
+                <label
+                  htmlFor={`lessons.${i}.repoUrl`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Github Repository Link
+                </label>
+                <Field
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name={`lessons.${i}.repoUrl`}
                 />
                 <p className="mt-2 text-center text-sm text-gray-600">
                   Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}
