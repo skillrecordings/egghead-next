@@ -10,7 +10,7 @@ import {Formik, Form, Field, FormikProps} from 'formik'
 import axios, {AxiosResponse} from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
 import _find from 'lodash/find'
-import {CourseData} from 'types'
+import {CourseData} from 'pages/api/sanity/lessons/create'
 import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 
 type Instructor = {
