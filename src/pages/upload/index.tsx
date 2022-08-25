@@ -10,7 +10,7 @@ import {Formik, Form, Field, FormikProps} from 'formik'
 import axios, {AxiosResponse} from 'axios'
 import VideoUploader from 'components/upload/video-uploader'
 import _find from 'lodash/find'
-import {CourseData} from 'types'
+import {CourseData} from 'pages/api/sanity/lessons/create'
 import useFileUploadReducer from 'hooks/use-file-upload-reducer'
 
 type Instructor = {
@@ -30,6 +30,8 @@ type UploadedFile = {
 
 type LessonMetadata = {
   title: string
+  description?: string
+  repoUrl?: string
   fileMetadata: UploadedFile
 }
 
@@ -173,6 +175,8 @@ const Upload: React.FC<
       if (existingLesson) {
         return {
           title: existingLesson.title,
+          description: existingLesson.description,
+          repoUrl: existingLesson.repoUrl,
           fileMetadata: {
             ...existingLesson.fileMetadata,
             signedUrl: existingLesson.fileMetadata.signedUrl || file.signedUrl,
@@ -181,6 +185,8 @@ const Upload: React.FC<
       } else {
         return {
           title: file.file.name,
+          description: '',
+          repoUrl: '',
           fileMetadata: {
             fileName: file.file.name,
             signedUrl: file.signedUrl,
@@ -229,7 +235,7 @@ const Upload: React.FC<
               htmlFor="course-name"
               className="block text-sm font-medium text-gray-700"
             >
-              Course Name
+              Course Name*
             </label>
             <div className="mt-1">
               <Field
@@ -354,8 +360,29 @@ const Upload: React.FC<
                   </span>
                 </label>
                 <Field
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   name={`lessons.${i}.title`}
+                />
+                <label
+                  htmlFor={`lessons.${i}.description`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description
+                </label>
+                <Field
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name={`lessons.${i}.description`}
+                  as="textarea"
+                />
+                <label
+                  htmlFor={`lessons.${i}.repoUrl`}
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Repo URL
+                </label>
+                <Field
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  name={`lessons.${i}.repoUrl`}
                 />
                 <p className="mt-2 text-center text-sm text-gray-600">
                   Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}
