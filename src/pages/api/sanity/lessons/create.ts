@@ -34,6 +34,8 @@ type SanityLesson = {
   _type: 'lesson'
   _id: string
   title: string
+  description?: string
+  repoUrl?: string
   slug: SanitySlug
   resource: SanityReference
 }
@@ -48,6 +50,7 @@ type SanityCourse = {
   _type: 'course'
   title: string
   slug: SanitySlug
+  sharedId: string
   collaborators: SanityReferenceArray
   lessons: SanityReferenceArray
   softwareLibraries: SanitySoftwareLibrary[]
@@ -102,6 +105,7 @@ async function formatSanityMutationForLessons(
     _type: 'course',
     title,
     slug: {current: courseSlug},
+    sharedId: nanoid(),
     lessons: [],
     collaborators: [],
     softwareLibraries: [],
@@ -153,11 +157,14 @@ async function formatSanityMutationForLessons(
         `${topics[0] || ''} ${lesson.title}`.toLowerCase(),
         {remove: /[*+~.()'"!:@]/g},
       )
+      const {description = '', repoUrl = ''} = lesson
 
       sanityLessons.push({
         _id: lessonId,
         _type: 'lesson',
         title: lesson.title,
+        description,
+        repoUrl,
         slug: {current: lessonSlug},
         resource: {
           _type: 'reference',
@@ -211,7 +218,10 @@ const createSanityLessons = async (
 
           res.status(200).end()
         })
-        .catch((err) => console.log('ERROR', err))
+        .catch((err) => {
+          console.log('ERROR', err)
+          res.status(400).end()
+        })
     }
   } else {
     res.statusCode = 404

@@ -194,6 +194,8 @@ const Lesson: React.FC<LessonProps> = ({
     comments,
   } = lesson
 
+  const instructorPagePath = `/q/resources-by-${get(instructor, 'slug', '#')}`
+
   const nextLesson = useNextForCollection(collection, lesson.slug)
   const enhancedTranscript = useEnhancedTranscript(transcript_url)
   const transcriptAvailable = transcript || enhancedTranscript
@@ -588,9 +590,7 @@ const Lesson: React.FC<LessonProps> = ({
                 <div className="flex items-center justify-between w-full space-x-5 md:w-auto">
                   {instructor && (
                     <div className="flex items-center flex-shrink-0">
-                      <Link
-                        href={`/instructors/${get(instructor, 'slug', '#')}`}
-                      >
+                      <Link href={instructorPagePath}>
                         <a
                           onClick={() => {
                             track(`clicked view instructor`, {
@@ -616,13 +616,7 @@ const Lesson: React.FC<LessonProps> = ({
                       <div className="flex flex-col">
                         <span className="text-xs">Instructor</span>
                         {get(instructor, 'full_name') && (
-                          <Link
-                            href={`/instructors/${get(
-                              instructor,
-                              'slug',
-                              '#',
-                            )}`}
-                          >
+                          <Link href={instructorPagePath}>
                             <a
                               onClick={() => {
                                 track(`clicked view instructor`, {
