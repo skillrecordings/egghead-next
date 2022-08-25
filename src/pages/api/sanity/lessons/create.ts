@@ -79,6 +79,8 @@ export type CourseData = z.infer<typeof courseSchema>
 
 const lessonSchema = z.object({
   title: z.string(),
+  description: z.string().optional(),
+  repoUrl: z.string().optional(),
   fileMetadata: z.object({
     fileName: z.string(),
     signedUrl: z.string(),
