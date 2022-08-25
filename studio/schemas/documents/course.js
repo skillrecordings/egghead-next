@@ -84,13 +84,6 @@ export default {
       type: 'url',
     },
     {
-      name: 'repoUrl',
-      description:
-        'A link to the Github repository where the course project is located',
-      title: 'Repo URL',
-      type: 'url',
-    },
-    {
       name: 'softwareLibraries',
       description: 'Versioned Software Libraries',
       title: 'NPM or other Dependencies',
