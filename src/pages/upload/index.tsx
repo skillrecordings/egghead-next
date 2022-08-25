@@ -30,8 +30,6 @@ type UploadedFile = {
 
 type LessonMetadata = {
   title: string
-  description?: string
-  repoUrl?: string
   fileMetadata: UploadedFile
 }
 
@@ -98,6 +96,8 @@ const UploadWrapper = ({
   const initialValues: FormProps = {
     course: {
       title: '',
+      description: '',
+      repoUrl: '',
       collaboratorId: undefined,
       topicIds: [],
     },
@@ -175,8 +175,6 @@ const Upload: React.FC<
       if (existingLesson) {
         return {
           title: existingLesson.title,
-          description: existingLesson.description,
-          repoUrl: existingLesson.repoUrl,
           fileMetadata: {
             ...existingLesson.fileMetadata,
             signedUrl: existingLesson.fileMetadata.signedUrl || file.signedUrl,
@@ -185,7 +183,6 @@ const Upload: React.FC<
       } else {
         return {
           title: file.file.name,
-
           fileMetadata: {
             fileName: file.file.name,
             signedUrl: file.signedUrl,
@@ -194,7 +191,7 @@ const Upload: React.FC<
       }
     })
     setFieldValue('lessons', updatedLessons)
-  }, [fileUploadState.files, setFieldValue, values.lessons])
+  }, [fileUploadState.files, setFieldValue])
 
   const noAttachedFiles = fileUploadState.files.length === 0
   // incomplete if video uploads are still being processed
@@ -234,13 +231,28 @@ const Upload: React.FC<
               htmlFor="course-name"
               className="block text-sm font-medium text-gray-700"
             >
-              Course Name
+              Course Name*
             </label>
             <div className="mt-1">
               <Field
                 name="course.title"
                 type="text"
                 required
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description
+            </label>
+            <div className="mt-1">
+              <Field
+                name="course.description"
+                as="textarea"
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -306,6 +318,21 @@ const Upload: React.FC<
               )}
             </select>
           </div>
+          <div>
+            <label
+              htmlFor="course-name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Github Link
+            </label>
+            <div className="mt-1">
+              <Field
+                name="course.repoUrl"
+                type="text"
+                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+          </div>
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-700">
               Video Files
@@ -361,27 +388,6 @@ const Upload: React.FC<
                 <Field
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   name={`lessons.${i}.title`}
-                />
-                <label
-                  htmlFor={`lessons.${i}.description`}
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Description
-                </label>
-                <Field
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  name={`lessons.${i}.description`}
-                  as="textarea"
-                />
-                <label
-                  htmlFor={`lessons.${i}.repoUrl`}
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Github Repository Link
-                </label>
-                <Field
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  name={`lessons.${i}.repoUrl`}
                 />
                 <p className="mt-2 text-center text-sm text-gray-600">
                   Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}

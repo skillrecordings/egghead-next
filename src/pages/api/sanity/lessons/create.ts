@@ -10,6 +10,8 @@ import client from '@sanity/client'
 
 type LessonData = {
   title: string
+  description?: string
+  repoUrl?: string
   fileMetadata: {
     fileName: string
     signedUrl: string
@@ -55,6 +57,8 @@ type SanitySoftwareLibrary = {
 type SanityCourse = {
   _type: 'course'
   title: string
+  description?: string
+  repoUrl?: string
   slug: SanitySlug
   sharedId: string
   collaborators: SanityReferenceArray
@@ -87,13 +91,21 @@ async function formatSanityMutationForLessons(
   let sanityLessons: SanityLesson[] = []
   let sanityResources: SanityVideoResource[] = []
 
-  const {title, collaboratorId, topicIds} = course
+  const {
+    title,
+    description = '',
+    repoUrl = '',
+    collaboratorId,
+    topicIds,
+  } = course
 
   const courseSlug = slugify(title.toLowerCase(), {remove: /[*+~.()'"!:@]/g})
 
   let sanityCourse: SanityCourse = {
     _type: 'course',
     title,
+    repoUrl,
+    description,
     slug: {current: courseSlug},
     sharedId: nanoid(),
     lessons: [],
