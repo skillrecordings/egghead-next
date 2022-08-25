@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import {nanoid} from 'nanoid'
 
 export default {
