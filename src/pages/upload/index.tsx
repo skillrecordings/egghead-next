@@ -30,6 +30,8 @@ type UploadedFile = {
 
 type LessonMetadata = {
   title: string
+  description: string
+  repoUrl: string
   fileMetadata: UploadedFile
 }
 
@@ -173,6 +175,8 @@ const Upload: React.FC<
       if (existingLesson) {
         return {
           title: existingLesson.title,
+          description: existingLesson.description,
+          repoUrl: existingLesson.repoUrl,
           fileMetadata: {
             ...existingLesson.fileMetadata,
             signedUrl: existingLesson.fileMetadata.signedUrl || file.signedUrl,
@@ -189,7 +193,7 @@ const Upload: React.FC<
       }
     })
     setFieldValue('lessons', updatedLessons)
-  }, [fileUploadState.files, setFieldValue])
+  }, [fileUploadState.files, setFieldValue, values.lessons])
 
   const noAttachedFiles = fileUploadState.files.length === 0
   // incomplete if video uploads are still being processed
