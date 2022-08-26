@@ -71,21 +71,30 @@ const courseResourceQuery = groq`
 
 // TODO: go through the minimum Course page requirements, find the overlap with
 // what this Course document supports, and then lineup the naming.
+//
+// - `image_thumb_url`: can this also get the value of image or does it need to be a scaled down version?
+// - `url` is not used, this can probably be removed from the playlist graphql query
+// - `type` doesn't appear to be used by the course page either, assumed to be 'course` anyway
+// - `primary_tag` isn't being used, it can be removed
 const courseQuery = groq`
 *[_type == 'course' && slug.current == $slug][0]{
-  title,
-  slug,
+  _id,
   sharedId,
-  productionProcessState,
-  accessLevel,
-  searchIndexingState,
+  slug,
+  title,
   description,
   summary,
   byline,
+  'square_cover_480_url': image,
+  'image_thumb_url': image,
+  'path': '/courses/' + slug,
   duration,
-  publishedAt,
-  updatedAt,
-  image,
+  'created_at': coalesce(eggheadRailsCreatedAt, _createdAt),
+  'updated_at': displayedUpdatedAt,
+  'published_at': publishedAt,
+  'access_state': accessLevel,
+  'state': productionProcessState,
+  'visibility_state': searchIndexingState,
   'tags': softwareLibraries[] {
     ...(library-> {
        name,

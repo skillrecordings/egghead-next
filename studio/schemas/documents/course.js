@@ -72,10 +72,16 @@ export default {
       type: 'date',
     },
     {
-      name: 'updatedAt',
-      description: 'The last time this resource was meaningfully updated',
-      title: 'Updated At',
+      name: 'displayedUpdatedAt',
+      description: 'The last time this course was meaningfully updated',
+      title: 'Displayed Updated At',
       type: 'date',
+    },
+    {
+      name: 'eggheadRailsCreatedAt',
+      title: 'egghead Rails Created At',
+      description: 'Date this lesson resource was created on egghead.io',
+      type: 'datetime',
     },
     {
       name: 'image',
