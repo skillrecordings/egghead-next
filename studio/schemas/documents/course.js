@@ -163,5 +163,18 @@ export default {
       name: 'durationInMinutes',
       type: 'number',
     },
+    {
+      name: 'related',
+      description: 'Stuff that pairs well with this course. Watch next?',
+      title: 'Related Courses',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          title: 'Course/Resource Refs',
+          to: [{type: 'resource'}, {type: 'course'}],
+        },
+      ],
+    },
   ],
 }
