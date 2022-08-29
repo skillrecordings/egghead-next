@@ -222,6 +222,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     tags: railsTags = [],
   } = course
 
+  const communityResource = ['free', 'community-resource'].includes(
+    access_state,
+  )
+
   const sanityTagsPresent = () => {
     return sanityTags.length > 0
   }
@@ -436,7 +440,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {access_state && (
                 <div
                   className={`${
-                    access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
+                    communityResource ? 'bg-orange-500' : 'bg-blue-500'
                   } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold my-2 text-xs mx-auto md:m-0 md:mb-2`}
                 >
                   {access_state}
@@ -647,7 +651,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="block pt-5 md:hidden">
                 <CourseProjectCard courseProject={courseProject} />
 
-                {get(course, 'access_state') === 'free' && (
+                {communityResource && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                     <CommunityResource type="course" />
                   </div>
@@ -767,7 +771,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
 
               <CourseProjectCard courseProject={courseProject} />
 
-              {get(course, 'access_state') === 'free' && (
+              {communityResource && (
                 <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
                   <CommunityResource type="course" />
                 </div>
