@@ -3,6 +3,8 @@ import {buffer} from 'micro'
 import Mixpanel from 'mixpanel'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {stripe} from '../../../utils/stripe'
+import Stripe from 'stripe'
+import {z} from 'zod'
 
 function stripeToMixpanelDataConverter(stripeDate: number) {
   const date = new Date(stripeDate * 1000)
@@ -24,13 +26,17 @@ async function getCIO(email: string) {
     })
 }
 
-function getCustomerEmail(stripeCustomer: any) {
-  if (!('email' in stripeCustomer) || !stripeCustomer.email) {
-    // solves a typescript error 🤡
-    throw new Error('No email found for customer')
+function getCustomerEmail(
+  stripeCustomer: Stripe.Response<Stripe.Customer | Stripe.DeletedCustomer>,
+) {
+  // use Zod for type-safe extraction of email from Stripe Customer object
+  const result = z.object({email: z.string().email()}).safeParse(stripeCustomer)
+
+  if (result.success) {
+    return result.data.email
   }
 
-  return stripeCustomer.email
+  throw new Error('No email found for customer')
 }
 
 // const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
