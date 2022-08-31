@@ -136,11 +136,6 @@ export default {
         list: [
           {title: 'Free', value: 'free'},
           {title: 'Pro', value: 'pro'},
-          {
-            title: 'Community Resource',
-            value: 'community-resource',
-            description: 'Free Forever',
-          },
         ],
         layout: 'radio',
       },
