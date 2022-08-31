@@ -112,11 +112,6 @@ export default {
       },
     },
     {
-      name: 'isCommunityResource',
-      title: 'Community Resource?',
-      type: 'boolean',
-    },
-    {
       name: 'thumbnailUrl',
       title: 'Thumbnail URL',
       type: 'url',

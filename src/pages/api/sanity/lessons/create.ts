@@ -36,6 +36,7 @@ type SanityLesson = {
   title: string
   description?: string
   repoUrl?: string
+  softwareLibraries: SanitySoftwareLibrary[]
   slug: SanitySlug
   resource: SanityReference
 }
@@ -163,6 +164,8 @@ async function formatSanityMutationForLessons(
       )
       const {description = '', repoUrl = ''} = lesson
 
+      const topicKey = await nanoid()
+
       sanityLessons.push({
         _id: lessonId,
         _type: 'lesson',
@@ -174,6 +177,16 @@ async function formatSanityMutationForLessons(
           _type: 'reference',
           _ref: videoId,
         },
+        softwareLibraries: [
+          {
+            _type: 'versioned-software-library',
+            _key: topicKey,
+            library: {
+              _type: 'reference',
+              _ref: topicIds[0],
+            },
+          },
+        ],
       })
 
       sanityCourse.lessons.push({
