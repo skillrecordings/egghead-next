@@ -165,8 +165,9 @@ export default {
     },
     {
       name: 'related',
-      description: 'Stuff that pairs well with this course. Watch next?',
-      title: 'Related Courses',
+      description:
+        'Any content that pairs well with this course (for now just Courses and Resources, but could be Articles, Podcasts, etc.).',
+      title: 'Related Content',
       type: 'array',
       of: [
         {
