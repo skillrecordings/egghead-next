@@ -167,7 +167,7 @@ export default {
       name: 'related',
       description:
         'Any content that pairs well with this course (for now just Courses and Resources, but could be Articles, Podcasts, etc.).',
-      title: 'Related Content',
+      title: 'Related Resources',
       type: 'array',
       of: [
         {
