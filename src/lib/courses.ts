@@ -88,7 +88,7 @@ const courseQuery = groq`
   'square_cover_480_url': image,
   'image_thumb_url': image,
   'path': '/courses/' + slug.current,
-  duration,
+  'duration': durationInMinutes * 60,
   'created_at': coalesce(eggheadRailsCreatedAt, _createdAt),
   'updated_at': displayedUpdatedAt,
   'published_at': publishedAt,
