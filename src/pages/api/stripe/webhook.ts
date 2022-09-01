@@ -11,6 +11,22 @@ function stripeToMixpanelDataConverter(stripeDate: number) {
   return date.toISOString()
 }
 
+function checkForUpgrade(
+  previousPlanInterval: string,
+  newPlanInterval: string,
+) {
+  if (previousPlanInterval === 'month') return true
+  if (previousPlanInterval === 'year') return false
+  if (previousPlanInterval === 'quarter') {
+    if (newPlanInterval === 'year') {
+      return true
+    } else {
+      return false
+    }
+  }
+  return false
+}
+
 async function getCIO(email: string) {
   return await cioAxios
     .get(`/customers`, {
@@ -76,12 +92,13 @@ const stripeWebhookHandler = async (
         const previousSubscription = event.data.previous_attributes
         // if the previous attributes have a plan it's an upgrade/downgrade
         if (previousSubscription.plan) {
-          const newPlanAmount =
-            stripeSubscription.items.data[0].plan?.amount || 0
-          const previousPlanAmount = previousSubscription.plan?.amount || 0
+          const previousPlanInterval = previousSubscription.plan?.interval || ''
+          const newPlanInterval =
+            stripeSubscription.items.data[0].plan?.interval || ''
 
-          const state =
-            previousPlanAmount < newPlanAmount ? 'upgrade' : 'downgrade'
+          const state = checkForUpgrade(previousPlanInterval, newPlanInterval)
+            ? 'upgrade'
+            : 'downgrade'
 
           let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
 
