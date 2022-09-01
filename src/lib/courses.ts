@@ -107,7 +107,7 @@ const courseQuery = groq`
     ...(person-> {
       'full_name': name,
       'slug': slug.current,
-      'avatar_64_url': image.url,
+      'avatar_url': image.url,
       'twitter_url': twitter
     }),
   },
@@ -115,7 +115,7 @@ const courseQuery = groq`
     ...(person-> {
       'full_name': name,
       'slug': slug.current,
-      'avatar_64_url': image.url,
+      'avatar_url': image.url,
       'twitter_url': twitter
     }),
   },
