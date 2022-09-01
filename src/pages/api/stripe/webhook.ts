@@ -11,20 +11,19 @@ function stripeToMixpanelDataConverter(stripeDate: number) {
   return date.toISOString()
 }
 
+type PlanInterval = 'month' | 'year' | 'quarter'
+
 function checkForUpgrade(
-  previousPlanInterval: string,
-  newPlanInterval: string,
+  previousPlanInterval: PlanInterval,
+  newPlanInterval: PlanInterval,
 ) {
-  if (previousPlanInterval === 'month') return true
-  if (previousPlanInterval === 'year') return false
-  if (previousPlanInterval === 'quarter') {
-    if (newPlanInterval === 'year') {
-      return true
-    } else {
-      return false
-    }
+  const previousPlanIntervalUpgrades = {
+    month: true,
+    year: false,
+    quarter: newPlanInterval === 'year',
   }
-  return false
+
+  return previousPlanIntervalUpgrades[previousPlanInterval] ?? false
 }
 
 async function getCIO(email: string) {
