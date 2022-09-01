@@ -113,7 +113,7 @@ const courseQuery = groq`
   },
   'illustrator': imageIllustrator-> {
     ...(person-> {
-      'full_name': name,
+      'name': name,
       'slug': slug.current,
       'avatar_url': image.url,
       'twitter_url': twitter
