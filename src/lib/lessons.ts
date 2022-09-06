@@ -19,7 +19,7 @@ const lessonQuery = groq`
   description,
   resource->_type == 'videoResource' => {
     ...(resource-> {
-      'media_url': hlsUrl,
+      'hls_url': hlsUrl,
       'transcript': transcriptBody,
       'transcript_url': transcriptUrl,
       duration,
