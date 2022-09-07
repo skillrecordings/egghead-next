@@ -1,10 +1,17 @@
 import * as React from 'react'
+import cx from 'classnames'
 
 const OverlayWrapper: React.FC<{
   children: React.ReactNode
-}> = ({children}) => {
+  className?: string
+}> = ({children, className}) => {
   return (
-    <div className="sm:py-16 py-8 flex items-center justify-center h-full bg-black text-white bg-opacity-80 w-full absolute top-0 z-10">
+    <div
+      className={cx(
+        'sm:py-16 py-8 flex items-center justify-center h-full bg-black text-white bg-opacity-80 w-full',
+        className,
+      )}
+    >
       {children}
     </div>
   )
