@@ -1,7 +1,7 @@
 {
   "title": "Build the portfolio you need to be a badass web developer.",
   "titleTemplate": "%s | egghead.io",
-  "description": "egghead is your source for the Badass Portfolio Projects you need to climb the career ladder as a modern web developer.",
+  "description": "egghead delivers screencast courses for web developers and teams to skilled and informed.",
   "additionalLinkTags": [
     {
       "rel": "search",
@@ -25,7 +25,7 @@
   "openGraph": {
     "type": "website",
     "title": "Build the portfolio you need to be a badass web developer.",
-    "description": "egghead is your source for the Badass Portfolio Projects you need to climb the career ladder as a modern web developer.",
+    "description": "egghead delivers screencast courses for web developers and teams to skilled and informed.",
     "site_name": "egghead",
     "profile": {
       "firstName": "egghead"
