@@ -219,6 +219,7 @@ const Lesson: React.FC<LessonProps> = ({
         'viewing',
         'completed',
         'addingNote',
+        'showingNext',
       ].includes(currentLessonState),
     )
   }, [currentLessonState])
@@ -549,11 +550,11 @@ const Lesson: React.FC<LessonProps> = ({
                 )}
               </Player>
             </div>
-            <div
+            {/* <div
               className={cx('aspect-w-16 aspect-h-9', {
                 hidden: mounted,
               })}
-            />
+            /> */}
             <Overlays
               lessonSend={send}
               lessonState={lessonState}

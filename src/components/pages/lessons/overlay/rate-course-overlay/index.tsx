@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {Field, Form, Formik} from 'formik'
 import {useTrackComponent} from 'hooks/use-track-component'
+import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
 const rangeArr = [1, 2, 3, 4, 5, 6, 7]
 
@@ -25,36 +26,38 @@ const RateCourseOverlay: React.FunctionComponent<{
   useTrackComponent('show rate course', {course: slug})
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <div className="flex flex-col items-center">
-        <img
-          src={square_cover_480_url}
-          alt={`illustration of ${title} course`}
-          className="w-16 md:w-24"
-        />
-        <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center white">
-          {title}
-        </h3>
+    <OverlayWrapper>
+      <div className="flex flex-col items-center justify-center p-4">
+        <div className="flex flex-col items-center">
+          <img
+            src={square_cover_480_url}
+            alt={`illustration of ${title} course`}
+            className="w-16 md:w-24"
+          />
+          <h3 className="text-md md:text-lg lg:text-xl font-semibold mt-4 text-center white">
+            {title}
+          </h3>
+        </div>
+        {!rating && (
+          <NumericRating
+            course={course}
+            onRated={(rating: any) => {
+              setRating(rating)
+            }}
+          />
+        )}
+        {rating && !complete && (
+          <TextComment
+            rating={rating}
+            onAnswer={(comment: any) => {
+              onRated({rating, comment})
+              setComplete(true)
+            }}
+          />
+        )}
+        {complete && <div>Thank you!</div>}
       </div>
-      {!rating && (
-        <NumericRating
-          course={course}
-          onRated={(rating: any) => {
-            setRating(rating)
-          }}
-        />
-      )}
-      {rating && !complete && (
-        <TextComment
-          rating={rating}
-          onAnswer={(comment: any) => {
-            onRated({rating, comment})
-            setComplete(true)
-          }}
-        />
-      )}
-      {complete && <div>Thank you!</div>}
-    </div>
+    </OverlayWrapper>
   )
 }
 

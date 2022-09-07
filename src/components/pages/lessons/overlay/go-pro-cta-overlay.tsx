@@ -21,6 +21,7 @@ import Spinner from 'components/spinner'
 import ConfirmMembership from './confirm-membership'
 import {useRouter} from 'next/router'
 import noop from 'utils/noop'
+import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
 type JoinCTAProps = {
   lesson: LessonResource
@@ -294,17 +295,19 @@ const OverlayParent: FunctionComponent<JoinCTAProps> = ({
 
   const {session_id} = query
 
-  if (session_id) {
-    return (
-      <ConfirmMembership
-        lesson={lesson}
-        sessionId={session_id as string}
-        viewLesson={viewLesson}
-      />
-    )
-  } else {
-    return <GoProCtaOverlay lesson={lesson} />
-  }
+  return (
+    <OverlayWrapper>
+      {session_id ? (
+        <ConfirmMembership
+          lesson={lesson}
+          sessionId={session_id as string}
+          viewLesson={viewLesson}
+        />
+      ) : (
+        <GoProCtaOverlay lesson={lesson} />
+      )}
+    </OverlayWrapper>
+  )
 }
 
 export default OverlayParent
