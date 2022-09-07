@@ -11,19 +11,29 @@ function stripeToMixpanelDataConverter(stripeDate: number) {
   return date.toISOString()
 }
 
-type PlanInterval = 'month' | 'year' | 'quarter'
+const UPGRADE = 'Upgrade'
+const DOWNGRADE = 'Downgrade'
+
+const intervalOptions = z.union([
+  z.literal('month'),
+  z.literal('quarter'),
+  z.literal('year'),
+])
+
+type Interval = z.infer<typeof intervalOptions>
+type IntervalChange = typeof UPGRADE | typeof DOWNGRADE
 
 function checkForUpgrade(
-  previousPlanInterval: PlanInterval,
-  newPlanInterval: PlanInterval,
-) {
-  const previousPlanIntervalUpgrades = {
+  previousPlanInterval: Interval,
+  newPlanInterval: Interval,
+): IntervalChange {
+  const isAnUpgrade = {
     month: true,
     year: false,
     quarter: newPlanInterval === 'year',
-  }
+  }[previousPlanInterval]
 
-  return previousPlanIntervalUpgrades[previousPlanInterval] ?? false
+  return isAnUpgrade ? UPGRADE : DOWNGRADE
 }
 
 async function getCIO(email: string) {
@@ -78,31 +88,50 @@ const stripeWebhookHandler = async (
     try {
       event = stripe.webhooks.constructEvent(buf, sig as string, webhookSecret)
 
+      const stripeSubscription = await stripe.subscriptions.retrieve(
+        event.data.object.id,
+      )
+      const stripeCustomer = await stripe.customers.retrieve(
+        event.data.object.customer,
+      )
+
+      const subscriptionInterval =
+        stripeSubscription.items.data[0].plan?.interval || ''
+
       // Also handle:
       // - 'customer.subscription.updated'
       // - 'customer.subscription.deleted'
       if (event.type === 'customer.subscription.updated') {
-        const stripeSubscription = await stripe.subscriptions.retrieve(
-          event.data.object.id,
-        )
-        const stripeCustomer = await stripe.customers.retrieve(
-          event.data.object.customer,
-        )
         const previousSubscription = event.data.previous_attributes
         // if the previous attributes have a plan it's an upgrade/downgrade
         if (previousSubscription.plan) {
           const previousPlanInterval = previousSubscription.plan?.interval || ''
-          const newPlanInterval =
-            stripeSubscription.items.data[0].plan?.interval || ''
 
-          const state = checkForUpgrade(previousPlanInterval, newPlanInterval)
-            ? 'upgrade'
-            : 'downgrade'
+          const intervalTuple = z.tuple([intervalOptions, intervalOptions])
+          const result = intervalTuple.safeParse([
+            previousPlanInterval,
+            subscriptionInterval,
+          ])
+
+          if (!result.success) {
+            const errorMessage = `
+            Invalid interval types ahead of checkForUpgrade
+            - previousPlanInterval: ${previousPlanInterval}
+            - newSubscriptionInterval: ${subscriptionInterval}
+          
+            Detailed ZodError: ${result.error}
+            `
+
+            // OR, if we don't want to throw an error, we could send the message to something
+            // like Honeybadger and then early return from the webhook handler.
+            throw new Error(errorMessage)
+          }
+
+          // because of the `intervalTupe.safeParse(...)` above, we know we are passing in
+          // valid inputs to the checkForUpgrade
+          const stripeUpgradeState = checkForUpgrade(...result.data)
 
           let subscriptionType = !stripeSubscription.discount ? 'pro' : 'ppp'
-
-          let subscriptionInterval =
-            stripeSubscription.items.data[0].plan?.interval
 
           let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
@@ -118,7 +147,7 @@ const stripeWebhookHandler = async (
             ),
           }
 
-          if (state === 'upgrade') {
+          if (stripeUpgradeState === UPGRADE) {
             mixpanel.track('Subscription Upgrade', mixpanelEventData)
           } else {
             mixpanel.track('Subscription Downgrade', mixpanelEventData)
