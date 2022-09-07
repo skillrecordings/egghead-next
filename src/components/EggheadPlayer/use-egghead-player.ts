@@ -114,13 +114,12 @@ const onProgress = async (
   }
 }
 
-let emailCaptureCookie: any = {
-  watchCount: 0,
-}
+let emailCaptureCookie: number = 0
 
-const setEmailCaptureCookie = (captureCookie = {}) => {
-  cookies.set('egghead-email', captureCookie)
-  emailCaptureCookie = cookies.get('egghead-email')
+const setEmailCaptureCookie = (captureCookie = 0) => {
+  console.log(captureCookie)
+  cookies.set('egghead-watch-count', captureCookie)
+  emailCaptureCookie = cookies.get('egghead-watch-count')
 }
 
 const getOrCreateLessonView = async (
@@ -191,10 +190,7 @@ const onEnded = async (lesson: {
   slug: any
   tags: any[]
 }) => {
-  setEmailCaptureCookie({
-    ...emailCaptureCookie,
-    watchCount: emailCaptureCookie.watchCount + 1,
-  })
+  setEmailCaptureCookie(emailCaptureCookie + 1)
 
   if (lesson.lesson_view_url) {
     return await onComplete(lesson)
