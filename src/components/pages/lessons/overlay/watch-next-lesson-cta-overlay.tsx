@@ -36,7 +36,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
     </div>
   ) : (
     <OverlayWrapper>
-      <div className="flex flex-col items-center justify-center p-4 relative">
+      <div className="flex flex-col items-center justify-center p-4">
         <button
           className="absolute bg-red-500 text-white p-2 top-6 right-6"
           onClick={() => setCollapsed(true)}
