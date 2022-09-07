@@ -24,24 +24,24 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   const router = useRouter()
 
   return collapsed ? (
-    <div className="absolute top-6 right-6">
+    <div className="absolute top-3 right-3">
       <div>
         <button
-          className="bg-red-500 text-white p-2"
+          className="rounded bg-black/50 text-white p-2"
           onClick={() => setCollapsed(false)}
         >
-          Expand
+          Next Lesson
         </button>
       </div>
     </div>
   ) : (
-    <OverlayWrapper>
+    <OverlayWrapper className="absolute top-0 z-10">
       <div className="flex flex-col items-center justify-center p-4">
         <button
-          className="absolute bg-red-500 text-white p-2 top-6 right-6"
+          className="rounded bg-black/50 absolute text-white p-2 top-3 right-3"
           onClick={() => setCollapsed(true)}
         >
-          Collapse
+          Back to the video
         </button>
         {courseImage && (
           <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
