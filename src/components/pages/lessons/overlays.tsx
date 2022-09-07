@@ -6,8 +6,6 @@ import {track} from 'utils/analytics'
 import specialLessons from './special-lessons'
 import {CIOSubscriber} from 'hooks/use-cio'
 
-import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
-
 import RateCourseOverlay from 'components/pages/lessons/overlay/rate-course-overlay'
 import RecommendNextStepOverlay from 'components/pages/lessons/overlay/recommend-next-step-overlay'
 import GoProCtaOverlay from 'components/pages/lessons/overlay/go-pro-cta-overlay'
@@ -129,13 +127,7 @@ const Overlays: React.FC<OverlaysProps> = ({
     overlayToRender = <RecommendNextStepOverlay lesson={lesson} />
   }
 
-  return (
-    <>
-      {overlayToRender ? (
-        <OverlayWrapper>{overlayToRender}</OverlayWrapper>
-      ) : null}
-    </>
-  )
+  return <>{overlayToRender ? overlayToRender : null}</>
 }
 
 export default Overlays

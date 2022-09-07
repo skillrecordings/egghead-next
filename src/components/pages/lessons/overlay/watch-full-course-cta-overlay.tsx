@@ -4,6 +4,7 @@ import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
 import {useTrackComponent} from 'hooks/use-track-component'
+import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
 const WatchFullCourseCtaOverlay: React.FunctionComponent<{
   lesson: any
@@ -14,48 +15,50 @@ const WatchFullCourseCtaOverlay: React.FunctionComponent<{
   useTrackComponent('show course pitch', {course: lesson?.collection?.slug})
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      {courseImage && (
-        <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
-          <Image
-            src={courseImage}
-            alt={`illustration of ${lesson.collection.title} course`}
-            layout="fill"
-          />
-        </div>
-      )}
-      <div className="mt-4 md:mt-4">This Lesson is Part of a Course</div>
-      <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
-        {lesson.collection.title}
-      </h3>
-      <div className="flex mt-6 md:mt-8">
-        <button
-          className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
-          onClick={() => {
-            track('clicked rewatch video', {
-              lesson: lesson.slug,
-              location: 'lesson overlay',
-            })
-            onClickRewatch()
-          }}
-        >
-          <IconRefresh className="w-6 mr-2" /> Watch again
-        </button>
-        <Link href={lesson?.collection?.path || '#'}>
-          <a
+    <OverlayWrapper>
+      <div className="flex flex-col items-center justify-center p-4">
+        {courseImage && (
+          <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
+            <Image
+              src={courseImage}
+              alt={`illustration of ${lesson.collection.title} course`}
+              layout="fill"
+            />
+          </div>
+        )}
+        <div className="mt-4 md:mt-4">This Lesson is Part of a Course</div>
+        <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
+          {lesson.collection.title}
+        </h3>
+        <div className="flex mt-6 md:mt-8">
+          <button
+            className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
             onClick={() => {
-              track('clicked view course', {
+              track('clicked rewatch video', {
                 lesson: lesson.slug,
                 location: 'lesson overlay',
               })
+              onClickRewatch()
             }}
-            className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
           >
-            <IconPlay className="w-6 mr-2" /> Explore the Whole Course
-          </a>
-        </Link>
+            <IconRefresh className="w-6 mr-2" /> Watch again
+          </button>
+          <Link href={lesson?.collection?.path || '#'}>
+            <a
+              onClick={() => {
+                track('clicked view course', {
+                  lesson: lesson.slug,
+                  location: 'lesson overlay',
+                })
+              }}
+              className="bg-blue-600 rounded px-3 py-2 flex items-center ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
+            >
+              <IconPlay className="w-6 mr-2" /> Explore the Whole Course
+            </a>
+          </Link>
+        </div>
       </div>
-    </div>
+    </OverlayWrapper>
   )
 }
 
