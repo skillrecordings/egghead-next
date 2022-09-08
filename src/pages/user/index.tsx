@@ -7,6 +7,7 @@ import {get, isEmpty, find, first} from 'lodash'
 import SubscriptionDetails from 'components/users/subscription-details'
 import {loadUserProgress} from 'lib/users'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
+import {convertMintoHours} from 'utils/time-utils'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -45,6 +46,7 @@ const User: React.FunctionComponent<
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {viewer, authToken} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
+  const [completions, setCompletions] = React.useState<any>({})
   const {email: currentEmail, accounts, providers} = viewer || {}
   const {slug} = getAccountWithSubscription(accounts)
   const isConnectedToGithub = providers?.includes('github')
@@ -53,8 +55,12 @@ const User: React.FunctionComponent<
   React.useEffect(() => {
     const loadProgressForUser = async (viewerId: number) => {
       if (viewerId) {
-        const {data} = await loadUserProgress(viewerId)
+        const {
+          progress: {data},
+          completionStats,
+        } = await loadUserProgress(viewerId)
         setProgress(data)
+        setCompletions(completionStats)
       }
     }
 
@@ -78,7 +84,17 @@ const User: React.FunctionComponent<
         <div className="flex flex-col max-w-screen-md mx-auto space-y-10 sm:space-y-16">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
-            <RequestEmailChangeForm originalEmail={currentEmail} />
+            <div className="flex gap-4 justify-between">
+              <RequestEmailChangeForm originalEmail={currentEmail} />
+              <div className="flex flex-col space-y-2">
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+                  Learner Stats
+                </h2>
+                <p>{convertMintoHours(completions.minutesWatched)} watched</p>
+                <p>{completions.completedCourseCount} courses completed</p>
+                <p>{completions.completedLessonCount} lessons completed</p>
+              </div>
+            </div>
           </div>
           {/* Connect to GitHub */}
           {isConnectedToGithub ? (

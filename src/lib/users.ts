@@ -34,6 +34,9 @@ export async function loadUserProgress(
   const query = gql`
     query AllProgress($user_id: Int!, $page: Int!, $per_page: Int!) {
       user(id: $user_id) {
+        courses_completed
+        lessons_completed
+        minutes_watched
         email
         all_progress(page: $page, per_page: $per_page) {
           count
@@ -120,6 +123,13 @@ export async function loadUserProgress(
   const {user} = await graphQLClient.request(query, variables)
 
   if (user) {
-    return user.all_progress
+    return {
+      completionStats: {
+        minutesWatched: user.minutes_watched,
+        completedCourseCount: user.courses_completed,
+        completedLessonCount: user.lessons_completed,
+      },
+      progress: user.all_progress,
+    }
   }
 }
