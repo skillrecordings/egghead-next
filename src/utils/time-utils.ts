@@ -6,8 +6,8 @@ function pad(s: string | any[]) {
 }
 
 export function convertMintoHours(minutes: number) {
-  const mins = ~~(minutes / 60)
-  return `${pad(mins.toString())}h`
+  const hours = ~~(minutes / 60)
+  return `${pad(hours.toString())}h`
 }
 
 export function convertTimeToMins(seconds: number) {
