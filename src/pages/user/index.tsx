@@ -84,9 +84,9 @@ const User: React.FunctionComponent<
         <div className="flex flex-col max-w-screen-md mx-auto space-y-10 sm:space-y-16">
           {/* Account details */}
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
-            <div className="flex gap-4 justify-between">
+            <div className="flex gap-4 sm:justify-between flex-wrap">
               <RequestEmailChangeForm originalEmail={currentEmail} />
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 sm:grow-0 grow">
                 <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
                   Learner Stats
                 </h2>
