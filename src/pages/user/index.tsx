@@ -5,9 +5,12 @@ import {useViewer} from 'context/viewer-context'
 import RequestEmailChangeForm from 'components/users/request-email-change-form'
 import {get, isEmpty, find, first} from 'lodash'
 import SubscriptionDetails from 'components/users/subscription-details'
-import {loadUserProgress} from 'lib/users'
+import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
 import {convertMintoHours} from 'utils/time-utils'
+import {CardResource} from 'types'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {BadgeCheckIcon} from '@heroicons/react/solid'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -46,7 +49,8 @@ const User: React.FunctionComponent<
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {viewer, authToken} = useViewer()
   const [progress, setProgress] = React.useState<any>([])
-  const [completions, setCompletions] = React.useState<any>({})
+  const [completionStats, setCompletionStats] = React.useState<any>({})
+  const [courseCompletions, setCourseCompletions] = React.useState<any>([])
   const {email: currentEmail, accounts, providers} = viewer || {}
   const {slug} = getAccountWithSubscription(accounts)
   const isConnectedToGithub = providers?.includes('github')
@@ -59,8 +63,11 @@ const User: React.FunctionComponent<
           progress: {data},
           completionStats,
         } = await loadUserProgress(viewerId)
-        setProgress(data)
-        setCompletions(completionStats)
+        setProgress(data.filter((p: any) => !p.is_complete))
+        setCompletionStats(completionStats)
+
+        const {completeCourses} = await loadUserCompletedCourses()
+        setCourseCompletions(completeCourses)
       }
     }
 
@@ -86,14 +93,7 @@ const User: React.FunctionComponent<
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <div className="flex gap-4 sm:justify-between flex-wrap">
               <RequestEmailChangeForm originalEmail={currentEmail} />
-              <div className="flex flex-col space-y-2 sm:grow-0 grow">
-                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-                  Learner Stats
-                </h2>
-                <p>{convertMintoHours(completions.minutesWatched)} watched</p>
-                <p>{completions.completedCourseCount} courses completed</p>
-                <p>{completions.completedLessonCount} lessons completed</p>
-              </div>
+              <LearnerStats completionStats={completionStats} />
             </div>
           </div>
           {/* Connect to GitHub */}
@@ -118,6 +118,31 @@ const User: React.FunctionComponent<
                 <div className="pt-2">
                   <GithubConnectButton authToken={authToken} />
                 </div>
+              </div>
+            </div>
+          )}
+          {!isEmpty(courseCompletions) && (
+            <div>
+              <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+                Completed Courses
+              </h2>
+              <div className="flex flex-wrap gap-4 justify-evenly">
+                {courseCompletions.map(
+                  ({collection}: {collection: CardResource}) => {
+                    return (
+                      <div className="relative mt-4">
+                        <span className="absolute z-10 left-40">
+                          {<BadgeCheckIcon color="green" width="1.5em" />}
+                        </span>
+                        <VerticalResourceCard
+                          resource={collection}
+                          location="user profile"
+                          className="text-center w-44 flex flex-col items-center justify-center"
+                        />
+                      </div>
+                    )
+                  },
+                )}
               </div>
             </div>
           )}
@@ -147,5 +172,16 @@ const User: React.FunctionComponent<
     </LoginRequired>
   )
 }
+
+const LearnerStats = ({completionStats}: any) => (
+  <div className="flex flex-col space-y-2 sm:grow-0 grow">
+    <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+      Learner Stats
+    </h2>
+    <p>{convertMintoHours(completionStats.minutesWatched)} watched</p>
+    <p>{completionStats.completedCourseCount} courses completed</p>
+    <p>{completionStats.completedLessonCount} lessons completed</p>
+  </div>
+)
 
 export default User

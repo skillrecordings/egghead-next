@@ -133,3 +133,35 @@ export async function loadUserProgress(
     }
   }
 }
+
+export async function loadUserCompletedCourses(token?: string): Promise<any> {
+  const query = gql`
+    query completedCourses {
+      user_progress {
+        completed_at
+        lesson_count
+        is_complete
+        collection {
+          ... on Playlist {
+            slug
+            title
+            image: image_thumb_url
+            path
+          }
+        }
+      }
+    }
+  `
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+
+  const {user_progress} = await graphQLClient.request(query)
+
+  let completeCourses = user_progress.filter((p: any) => p.is_complete)
+
+  if (user_progress) {
+    return {
+      completeCourses,
+    }
+  }
+}
