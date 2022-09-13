@@ -12,6 +12,7 @@ import {CardResource} from 'types'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {BadgeCheckIcon} from '@heroicons/react/solid'
 import {useQuery} from '@tanstack/react-query'
+import {format} from 'date-fns'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -159,19 +160,31 @@ const User: React.FunctionComponent<
                 <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
                   Completed Courses
                 </h2>
-                <div className="flex flex-wrap gap-4 justify-evenly">
+                <div className="flex flex-wrap gap-4 justify-evenly mt-4">
                   {completeCourseData.map(
-                    ({collection}: {collection: CardResource}) => {
+                    ({
+                      collection,
+                      completed_at,
+                    }: {
+                      collection: CardResource
+                      completed_at: string
+                    }) => {
                       return (
-                        <div className="relative mt-4">
-                          <span className="absolute z-10 left-40">
-                            {<BadgeCheckIcon color="green" width="1.5em" />}
-                          </span>
+                        <div className="flex flex-col justify-between">
                           <VerticalResourceCard
                             resource={collection}
                             location="user profile"
-                            className="text-center w-44 flex flex-col items-center justify-center"
+                            className="text-center w-44 flex flex-col items-center justify-center self-center"
                           />
+                          <span className="z-10 flex flex-row">
+                            <span>
+                              <BadgeCheckIcon color="green" width="1.5em" />
+                            </span>
+                            <span className="ml-1 h-fit my-auto text-xs text-gray-600 italic font-bold">
+                              Completed on{' '}
+                              {format(new Date(completed_at), 'yyyy/MM/dd')}
+                            </span>
+                          </span>
                         </div>
                       )
                     },
