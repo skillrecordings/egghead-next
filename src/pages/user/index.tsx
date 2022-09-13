@@ -3,7 +3,7 @@ import {loadAccount} from 'lib/accounts'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {useViewer} from 'context/viewer-context'
 import RequestEmailChangeForm from 'components/users/request-email-change-form'
-import {get, isEmpty, find, first} from 'lodash'
+import {find, first} from 'lodash'
 import SubscriptionDetails from 'components/users/subscription-details'
 import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
@@ -11,6 +11,7 @@ import {convertMintoHours} from 'utils/time-utils'
 import {CardResource} from 'types'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {BadgeCheckIcon} from '@heroicons/react/solid'
+import {useQuery} from '@tanstack/react-query'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -43,36 +44,51 @@ function getAccountWithSubscription(accounts: ViewerAccount[]) {
   )
 }
 
+function useProgressForUser(viewerId: number) {
+  return useQuery(['progress'], async () => {
+    if (viewerId) {
+      const {
+        progress: {data},
+        completionStats,
+      } = await loadUserProgress(viewerId)
+
+      return {
+        progress: data.filter((p: any) => !p.is_complete),
+        completionStats,
+      }
+    }
+  })
+}
+
+function useUserCompletedCourses(viewerId: number) {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+
+      return completeCourses
+    }
+  })
+}
+
 const User: React.FunctionComponent<
   LoginRequiredParams & {account: ViewerAccount}
 > = () => {
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {viewer, authToken} = useViewer()
-  const [progress, setProgress] = React.useState<any>([])
-  const [completionStats, setCompletionStats] = React.useState<any>({})
-  const [courseCompletions, setCourseCompletions] = React.useState<any>([])
   const {email: currentEmail, accounts, providers} = viewer || {}
   const {slug} = getAccountWithSubscription(accounts)
   const isConnectedToGithub = providers?.includes('github')
   const viewerId = viewer?.id
-
-  React.useEffect(() => {
-    const loadProgressForUser = async (viewerId: number) => {
-      if (viewerId) {
-        const {
-          progress: {data},
-          completionStats,
-        } = await loadUserProgress(viewerId)
-        setProgress(data.filter((p: any) => !p.is_complete))
-        setCompletionStats(completionStats)
-
-        const {completeCourses} = await loadUserCompletedCourses()
-        setCourseCompletions(completeCourses)
-      }
-    }
-
-    loadProgressForUser(viewerId)
-  }, [viewerId])
+  const {
+    status: progressStatus,
+    data: progressData,
+    error,
+  } = useProgressForUser(viewerId)
+  const {
+    status: completeCourseStatus,
+    data: completeCourseData,
+    error: completeCourseError,
+  } = useUserCompletedCourses(viewerId)
 
   React.useEffect(() => {
     const loadAccountForSlug = async (slug: string) => {
@@ -93,7 +109,19 @@ const User: React.FunctionComponent<
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <div className="flex gap-4 sm:justify-between flex-wrap">
               <RequestEmailChangeForm originalEmail={currentEmail} />
-              <LearnerStats completionStats={completionStats} />
+              <div>
+                {progressStatus === 'loading' ? (
+                  'Loading...'
+                ) : progressStatus === 'error' ? (
+                  <span>There was an error fetching stats</span>
+                ) : (
+                  <>
+                    <LearnerStats
+                      completionStats={progressData?.completionStats}
+                    />
+                  </>
+                )}
+              </div>
             </div>
           </div>
           {/* Connect to GitHub */}
@@ -121,30 +149,36 @@ const User: React.FunctionComponent<
               </div>
             </div>
           )}
-          {!isEmpty(courseCompletions) && (
-            <div>
-              <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-                Completed Courses
-              </h2>
-              <div className="flex flex-wrap gap-4 justify-evenly">
-                {courseCompletions.map(
-                  ({collection}: {collection: CardResource}) => {
-                    return (
-                      <div className="relative mt-4">
-                        <span className="absolute z-10 left-40">
-                          {<BadgeCheckIcon color="green" width="1.5em" />}
-                        </span>
-                        <VerticalResourceCard
-                          resource={collection}
-                          location="user profile"
-                          className="text-center w-44 flex flex-col items-center justify-center"
-                        />
-                      </div>
-                    )
-                  },
-                )}
+          {completeCourseStatus === 'loading' ? (
+            'Loading...'
+          ) : completeCourseStatus === 'error' ? (
+            <span>There was an error fetching completed courses.</span>
+          ) : (
+            <>
+              <div>
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+                  Completed Courses
+                </h2>
+                <div className="flex flex-wrap gap-4 justify-evenly">
+                  {completeCourseData.map(
+                    ({collection}: {collection: CardResource}) => {
+                      return (
+                        <div className="relative mt-4">
+                          <span className="absolute z-10 left-40">
+                            {<BadgeCheckIcon color="green" width="1.5em" />}
+                          </span>
+                          <VerticalResourceCard
+                            resource={collection}
+                            location="user profile"
+                            className="text-center w-44 flex flex-col items-center justify-center"
+                          />
+                        </div>
+                      )
+                    },
+                  )}
+                </div>
               </div>
-            </div>
+            </>
           )}
           {account && (
             <SubscriptionDetails
@@ -152,20 +186,26 @@ const User: React.FunctionComponent<
               slug={slug}
             />
           )}
-          {!isEmpty(progress) && (
-            <div className="flex flex-col space-y-2">
-              <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-                Continue learning
-              </h2>
-              {progress.map((item: any) => {
-                return (
-                  <InProgressResource
-                    key={item.slug}
-                    resource={item.collection}
-                  />
-                )
-              })}
-            </div>
+          {progressStatus === 'loading' ? (
+            'Loading...'
+          ) : progressStatus === 'error' ? (
+            <span>There was an error fetching courses in progress.</span>
+          ) : (
+            <>
+              <div className="flex flex-col space-y-2">
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+                  Continue learning
+                </h2>
+                {progressData?.progress.map((item: any) => {
+                  return (
+                    <InProgressResource
+                      key={item.slug}
+                      resource={item.collection}
+                    />
+                  )
+                })}
+              </div>
+            </>
           )}
         </div>
       </main>

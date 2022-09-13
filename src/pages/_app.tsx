@@ -18,6 +18,8 @@ import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 
 declare global {
   interface Window {
@@ -28,6 +30,8 @@ declare global {
     gtag: any
   }
 }
+
+const queryClient = new QueryClient()
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)
@@ -104,9 +108,12 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
         <ViewerProvider>
           <LogRocketProvider>
             <CioProvider>
-              <MDXProvider components={mdxComponents}>
-                {getLayout(Component, pageProps)}
-              </MDXProvider>
+              <QueryClientProvider client={queryClient}>
+                <MDXProvider components={mdxComponents}>
+                  {getLayout(Component, pageProps)}
+                </MDXProvider>
+                <ReactQueryDevtools />
+              </QueryClientProvider>
             </CioProvider>
           </LogRocketProvider>
         </ViewerProvider>
