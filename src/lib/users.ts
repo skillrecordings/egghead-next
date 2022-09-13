@@ -155,18 +155,13 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
   token = token || getAccessTokenFromCookie()
   const graphQLClient = getGraphQLClient(token)
 
-  try {
-    const {user_progress} = await graphQLClient.request(query)
+  const {user_progress} = await graphQLClient.request(query)
 
-    let completeCourses = user_progress.filter((p: any) => p.is_complete)
+  let completeCourses = user_progress.filter((p: any) => p.is_complete)
 
-    if (user_progress) {
-      return {
-        completeCourses,
-      }
+  if (user_progress) {
+    return {
+      completeCourses,
     }
-  } catch (e) {
-    console.log(e)
-    return e
   }
 }
