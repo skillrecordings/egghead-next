@@ -110,7 +110,7 @@ const User: React.FunctionComponent<
               <RequestEmailChangeForm originalEmail={currentEmail} />
               <div>
                 {progressStatus === 'loading' ? (
-                  'Loading...'
+                  <p className="text-center mt-6">Loading...</p>
                 ) : progressStatus === 'error' ? (
                   <span>There was an error fetching stats</span>
                 ) : (
@@ -124,14 +124,14 @@ const User: React.FunctionComponent<
             </div>
           </div>
           {completeCourseStatus === 'loading' ? (
-            'Loading...'
+            <p className="text-center mt-6">Loading...</p>
           ) : completeCourseStatus === 'error' ? (
             <span>There was an error fetching completed courses.</span>
           ) : (
             <CompletedCourses completeCourseData={completeCourseData} />
           )}
           {progressStatus === 'loading' ? (
-            'Loading...'
+            <p className="text-center mt-6">Loading...</p>
           ) : progressStatus === 'error' ? (
             <span>There was an error fetching courses in progress.</span>
           ) : (
