@@ -194,9 +194,15 @@ const LearnerStats = ({completionStats}: any) => (
     <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
       Learner Stats
     </h2>
-    <p>{convertMintoHours(completionStats.minutesWatched)} watched</p>
-    <p>{completionStats.completedCourseCount} courses completed</p>
-    <p>{completionStats.completedLessonCount} lessons completed</p>
+    <p>
+      <b>{convertMintoHours(completionStats.minutesWatched)}</b> watched
+    </p>
+    <p>
+      <b>{completionStats.completedCourseCount} courses</b> completed
+    </p>
+    <p>
+      <b>{completionStats.completedLessonCount} lessons</b> completed
+    </p>
   </div>
 )
 
