@@ -73,7 +73,7 @@ const CompletedCourses: React.FC<any> = ({completeCourseData}) => {
                   </Link>
                   <div className="grow">
                     <Link href={collection.path}>
-                      <a className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700">
+                      <a className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700 duration-100">
                         <h3 className="text-base font-bold leading-snug md:leading-tighter">
                           {collection.title}
                         </h3>
