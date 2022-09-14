@@ -94,7 +94,7 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
                   <Link href={collection.path}>
                     <a className="blok shrink-0 w-8 h-8 relative">
                       <Image
-                        src={collection.image as string}
+                        src={collection.image}
                         alt=""
                         objectFit="contain"
                         layout="fill"
