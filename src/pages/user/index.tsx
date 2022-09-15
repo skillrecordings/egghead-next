@@ -63,7 +63,7 @@ function useUserCompletedCourses(viewerId: number) {
   return useQuery(['completeCourses'], async () => {
     if (viewerId) {
       const {completeCourses} = await loadUserCompletedCourses()
-      console.log({completeCourses})
+
       return completeCourses
     }
   })

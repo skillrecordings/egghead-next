@@ -28,20 +28,6 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
   completeCourseData,
 }) => {
   const [filter, setFilter] = React.useState<string>('byDate')
-
-  if (completeCourseData.length === 0) {
-    return (
-      <div>
-        <div className="flex justify-between items-center pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-          <h2>Completed Courses</h2>
-        </div>
-        <p className="text-center mt-6">
-          You haven't finished any courses yet, pick up where you left off 👇
-        </p>
-      </div>
-    )
-  }
-
   return (
     <div>
       <div className="flex justify-between items-center pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
@@ -94,7 +80,7 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
                   <Link href={collection.path}>
                     <a className="blok shrink-0 w-8 h-8 relative">
                       <Image
-                        src={collection.image as string}
+                        src={collection.image}
                         alt=""
                         objectFit="contain"
                         layout="fill"
