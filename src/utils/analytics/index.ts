@@ -6,6 +6,13 @@ import {
   activityCtaClick,
   engagementSearchedWithQuery,
   engagementWatchedTalk,
+  engagementStartCourse,
+  engagementCourseProgress,
+  engagementCompletedCourse,
+  engagementCompletedLesson,
+  engagementClickedWatchedLessonAgain,
+  engagementListenPodcast,
+  engagementReadArticle,
 } from './events'
 import {
   purchaseSubscriptionUpgraded,
@@ -29,6 +36,13 @@ const events = {
   activityCtaClick,
   engagementSearchedWithQuery,
   engagementWatchedTalk,
+  engagementStartCourse,
+  engagementCourseProgress,
+  engagementCompletedCourse,
+  engagementCompletedLesson,
+  engagementClickedWatchedLessonAgain,
+  engagementListenPodcast,
+  engagementReadArticle,
 }
 
 const analytics = {
