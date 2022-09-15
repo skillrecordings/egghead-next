@@ -7,6 +7,21 @@ import {
   engagementSearchedWithQuery,
   engagementWatchedTalk,
 } from './events'
+import {
+  purchaseSubscriptionUpgraded,
+  purchaseSubscriptionDowngraded,
+  purchaseSetSubscriptionStatus,
+  purchaseSubscriptionCanceled,
+  purchaseSubscriptionCreated,
+} from './server-side-events'
+
+const serverSideEvents = {
+  purchaseSubscriptionUpgraded,
+  purchaseSubscriptionDowngraded,
+  purchaseSetSubscriptionStatus,
+  purchaseSubscriptionCanceled,
+  purchaseSubscriptionCreated,
+}
 
 const events = {
   activityInternalLinkClick,
@@ -20,6 +35,7 @@ const analytics = {
   track,
   identify,
   events,
+  serverSideEvents,
 }
 
 export default analytics
