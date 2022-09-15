@@ -160,7 +160,7 @@ const InProgressResource: FunctionComponent<InProgressResourceProps> = ({
                 {allLessons.map((lesson: any) => {
                   const isComplete = completedLessonSlugs.includes(lesson.slug)
                   return (
-                    <Link href={lesson.path} key={lesson.slug}>
+                    <Link href={lesson.path}>
                       <a
                         key={lesson.slug}
                         style={{width: `${100 / allLessons.length}%`}}
