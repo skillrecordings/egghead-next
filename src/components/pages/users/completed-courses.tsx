@@ -19,11 +19,13 @@ type CourseData = {
   lesson_count: number
 }
 
-const byDate = (a: CourseData, b: CourseData) =>
-  a.completed_at > b.completed_at ? -1 : 1
+const byDate = (a: CourseData, b: CourseData) => {
+  return a.completed_at > b.completed_at ? -1 : 1
+}
 
-const byTitle = (a: CourseData, b: CourseData) =>
-  a.collection.title.localeCompare(b.collection.title)
+const byTitle = (a: CourseData, b: CourseData) => {
+  return a.collection.title > b.collection.title ? 1 : -1
+}
 
 const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
   completeCourseData,
