@@ -1,6 +1,67 @@
 import {track} from './track'
 
 //! ENGAGEMENT EVENT GROUP
+// start course
+/* When a course get started by a user  */
+/* This will show courses that get started but the don't get finished  */
+
+export const engagementStartCourse = (slug: string) =>
+  track('start course', {
+    slug,
+  })
+
+// course progress
+/* Keep track of the progress in the course  */
+/* This will show how engaged our learners are with material. This event could get triggered by 10%, 25%, 50%, and 75% */
+
+export const engagementCourseProgress = (
+  slug: string,
+  percent_complete: number,
+) =>
+  track('course progress', {
+    slug,
+    percent_complete,
+  })
+
+// completed course
+/* A user watches the absolute 100% of the course material  */
+/* This will show how engaged our learners are with material. For individual journey's this can give us insight into when to pitch learners on subscriptions or upgrades. This event represents the absolute 100% of the material in a course */
+
+export const engagementCompletedCourse = (slug: string) =>
+  track('completed course', {
+    slug,
+  })
+
+// completed lesson
+/* A user watches the absolute 100% of a lesson */
+/* Individual user finishes a lesson */
+
+export const engagementCompletedLesson = (slug: string) =>
+  track('start course', {
+    slug,
+  })
+
+// clicked watch lesson again
+/* user click the CTA watch lesson again */
+/* At the end of a lesson, a user could decide to rewatch the lesson. This will give us an insight or what topics are harder or need to be watched more than once to fully understand  */
+
+export const engagementClickedWatchedLessonAgain = (slug: string) =>
+  track('start course', {
+    slug,
+  })
+
+// clicked listen podcast
+/* A user is listening to a podcast */
+/* This will show how engaged our learners are with material. This event could get triggered by 10%, 25%, 50%, 75%, 100%  */
+
+export const engagementListenPodcast = (
+  slug: string,
+  percent_complete: number,
+) =>
+  track('start course', {
+    slug,
+    percent_complete,
+  })
 
 // User is listening to a talk
 /*
