@@ -2,6 +2,10 @@ import {track} from './track'
 
 //! ENGAGEMENT EVENT GROUP
 
+// User is listening to a talk
+/*
+This will show how engaged our learners are with material. This event could get trigered by 10%, 25%, 50%, and 75%, 100%
+*/
 export const engagementWatchedTalk = (slug: string, percentComplete: string) =>
   track('read article', {
     eventGroup: 'engagement',
