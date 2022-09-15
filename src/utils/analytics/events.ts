@@ -1,4 +1,4 @@
-import {track} from './track'
+import {track} from 'utils/analytics'
 
 //! ENGAGEMENT EVENT GROUP
 // start course
