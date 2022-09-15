@@ -1,32 +1,16 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import {CardResource} from 'types'
 import {format} from 'date-fns'
 import cx from 'classnames'
 
-type Collection = {
-  image: string
-  path: string
-  slug: string
-  title: string
-}
+const byDate = (a: any, b: any) => (a.completed_at > b.completed_at ? -1 : 1)
 
-type CourseData = {
-  collection: Collection
-  completed_at: string
-  is_complete: boolean
-  lesson_count: number
-}
-
-const byDate = (a: CourseData, b: CourseData) =>
-  a.completed_at > b.completed_at ? -1 : 1
-
-const byTitle = (a: CourseData, b: CourseData) =>
+const byTitle = (a: any, b: any) =>
   a.collection.title.localeCompare(b.collection.title)
 
-const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
-  completeCourseData,
-}) => {
+const CompletedCourses: React.FC<any> = ({completeCourseData}) => {
   const [filter, setFilter] = React.useState<string>('byDate')
   return (
     <div>
@@ -69,7 +53,7 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
               collection,
               completed_at,
             }: {
-              collection: Collection
+              collection: CardResource
               completed_at: string
             }) => {
               return (
