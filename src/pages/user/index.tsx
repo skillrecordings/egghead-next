@@ -1,18 +1,16 @@
 import * as React from 'react'
-import {loadAccount} from 'lib/accounts'
-import LoginRequired, {LoginRequiredParams} from 'components/login-required'
-import {useViewer} from 'context/viewer-context'
-import RequestEmailChangeForm from 'components/users/request-email-change-form'
-import {find, first, isEmpty} from 'lodash'
-import SubscriptionDetails from 'components/users/subscription-details'
-import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
-import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
-import {convertMintoHours} from 'utils/time-utils'
-import {CardResource} from 'types'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
-import {BadgeCheckIcon} from '@heroicons/react/solid'
+import {find, first} from 'lodash'
 import {useQuery} from '@tanstack/react-query'
-import {format} from 'date-fns'
+
+import {useViewer} from 'context/viewer-context'
+import {loadAccount} from 'lib/accounts'
+import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
+import {convertMintoHours} from 'utils/time-utils'
+import LoginRequired, {LoginRequiredParams} from 'components/login-required'
+import RequestEmailChangeForm from 'components/users/request-email-change-form'
+import SubscriptionDetails from 'components/users/subscription-details'
+import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
+import CompletedCourses from 'components/pages/users/completed-courses'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -65,7 +63,7 @@ function useUserCompletedCourses(viewerId: number) {
   return useQuery(['completeCourses'], async () => {
     if (viewerId) {
       const {completeCourses} = await loadUserCompletedCourses()
-
+      console.log({completeCourses})
       return completeCourses
     }
   })
@@ -112,7 +110,7 @@ const User: React.FunctionComponent<
               <RequestEmailChangeForm originalEmail={currentEmail} />
               <div>
                 {progressStatus === 'loading' ? (
-                  'Loading...'
+                  <p className="text-center mt-6">Loading...</p>
                 ) : progressStatus === 'error' ? (
                   <span>There was an error fetching stats</span>
                 ) : (
@@ -125,6 +123,34 @@ const User: React.FunctionComponent<
               </div>
             </div>
           </div>
+          {progressStatus === 'loading' ? (
+            <p className="text-center mt-6">Loading courses in progress...</p>
+          ) : progressStatus === 'error' ? (
+            <span>There was an error fetching courses in progress.</span>
+          ) : (
+            <>
+              <div className="flex flex-col space-y-2">
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+                  Continue learning
+                </h2>
+                {progressData?.progress.map((item: any) => {
+                  return (
+                    <InProgressResource
+                      key={item.collection.title}
+                      resource={item.collection}
+                    />
+                  )
+                })}
+              </div>
+            </>
+          )}
+          {completeCourseStatus === 'loading' ? (
+            <p className="text-center mt-6">Loading completed courses...</p>
+          ) : completeCourseStatus === 'error' ? (
+            <span>There was an error fetching completed courses.</span>
+          ) : (
+            <CompletedCourses completeCourseData={completeCourseData} />
+          )}
           {/* Connect to GitHub */}
           {isConnectedToGithub ? (
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
@@ -150,76 +176,11 @@ const User: React.FunctionComponent<
               </div>
             </div>
           )}
-
           {account && (
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
               slug={slug}
             />
-          )}
-          {progressStatus === 'loading' ? (
-            'Loading...'
-          ) : progressStatus === 'error' ? (
-            <span>There was an error fetching courses in progress.</span>
-          ) : (
-            <>
-              <div className="flex flex-col space-y-2">
-                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-                  Continue learning
-                </h2>
-                {progressData?.progress.map((item: any) => {
-                  return (
-                    <InProgressResource
-                      key={item.slug}
-                      resource={item.collection}
-                    />
-                  )
-                })}
-              </div>
-            </>
-          )}
-          {completeCourseStatus === 'loading' ? (
-            'Loading...'
-          ) : completeCourseStatus === 'error' ? (
-            <span>There was an error fetching completed courses.</span>
-          ) : (
-            <>
-              <div>
-                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-                  Completed Courses
-                </h2>
-                <div className="flex flex-wrap sm:gap-10 gap-5 justify-evenly mt-4">
-                  {completeCourseData.map(
-                    ({
-                      collection,
-                      completed_at,
-                    }: {
-                      collection: CardResource
-                      completed_at: string
-                    }) => {
-                      return !isEmpty(collection) ? (
-                        <div className="flex flex-col justify-between">
-                          <VerticalResourceCard
-                            resource={collection}
-                            location="user profile"
-                            className="text-center w-44 flex flex-col items-center justify-center self-center"
-                          />
-                          <span className="z-10 flex flex-row">
-                            <span>
-                              <BadgeCheckIcon color="green" width="1.5em" />
-                            </span>
-                            <span className="ml-1 h-fit my-auto text-xs text-gray-600 dark:text-gray-300">
-                              Completed on{' '}
-                              {format(new Date(completed_at), 'yyyy/MM/dd')}
-                            </span>
-                          </span>
-                        </div>
-                      ) : null
-                    },
-                  )}
-                </div>
-              </div>
-            </>
           )}
         </div>
       </main>
@@ -232,9 +193,15 @@ const LearnerStats = ({completionStats}: any) => (
     <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
       Learner Stats
     </h2>
-    <p>{convertMintoHours(completionStats.minutesWatched)} watched</p>
-    <p>{completionStats.completedCourseCount} courses completed</p>
-    <p>{completionStats.completedLessonCount} lessons completed</p>
+    <p>
+      <b>{convertMintoHours(completionStats.minutesWatched)}</b> watched
+    </p>
+    <p>
+      <b>{completionStats.completedCourseCount} courses</b> completed
+    </p>
+    <p>
+      <b>{completionStats.completedLessonCount} lessons</b> completed
+    </p>
   </div>
 )
 
