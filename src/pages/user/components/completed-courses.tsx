@@ -38,7 +38,7 @@ const CompletedCourses: React.FC<any> = ({completeCourseData}) => {
           </button>
         </div>
       </div>
-      <div className="mt-2 max-h-[570px] overscroll-contain overflow-y-auto">
+      <div className="mt-2">
         {[...completeCourseData]
           .sort(filter === 'byDate' ? byDate : byTitle)
           .map(
