@@ -1,16 +1,20 @@
 import * as React from 'react'
-import {find, first} from 'lodash'
-import {useQuery} from '@tanstack/react-query'
-
-import {useViewer} from 'context/viewer-context'
+import Link from 'next/link'
+import Image from 'next/image'
 import {loadAccount} from 'lib/accounts'
-import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
-import {convertMintoHours} from 'utils/time-utils'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
+import {useViewer} from 'context/viewer-context'
 import RequestEmailChangeForm from 'components/users/request-email-change-form'
+import {find, first} from 'lodash'
 import SubscriptionDetails from 'components/users/subscription-details'
+import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
-import CompletedCourses from './components/completed-courses'
+import {convertMintoHours} from 'utils/time-utils'
+import {CardResource} from 'types'
+import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {BadgeCheckIcon} from '@heroicons/react/solid'
+import {useQuery} from '@tanstack/react-query'
+import {format} from 'date-fns'
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
@@ -67,6 +71,93 @@ function useUserCompletedCourses(viewerId: number) {
       return completeCourses
     }
   })
+}
+
+const CompletedCourses: React.FC<any> = ({completeCourseData}) => {
+  return (
+    <div>
+      {/* <div>
+        <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+          Completed Courses
+        </h2>
+        <div className="flex flex-wrap gap-4 justify-evenly mt-4">
+          {completeCourseData.map(
+            ({
+              collection,
+              completed_at,
+            }: {
+              collection: CardResource
+              completed_at: string
+            }) => {
+              return (
+                <div className="flex flex-col justify-between">
+                  <VerticalResourceCard
+                    resource={collection}
+                    location="user profile"
+                    className="text-center w-44 flex flex-col items-center justify-center self-center"
+                  />
+                  <span className="z-10 flex flex-row">
+                    <span>
+                      <BadgeCheckIcon color="green" width="1.5em" />
+                    </span>
+                    <span className="ml-1 h-fit my-auto text-xs text-gray-600 italic font-bold">
+                      Completed on{' '}
+                      {format(new Date(completed_at), 'yyyy/MM/dd')}
+                    </span>
+                  </span>
+                </div>
+              )
+            },
+          )}
+        </div>
+      </div> */}
+      <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+        Completed Courses
+      </h2>
+      <div className="mt-2">
+        {completeCourseData.map(
+          ({
+            collection,
+            completed_at,
+          }: {
+            collection: CardResource
+            completed_at: string
+          }) => {
+            console.log('collection:', collection)
+            return (
+              <div
+                key={collection.slug}
+                className="flex border-b border-gray-200 py-3 items-center space-x-2"
+              >
+                <Link href={collection.path}>
+                  <a className="blok shrink-0 w-8 h-8 relative">
+                    <Image
+                      src={collection.image}
+                      alt=""
+                      objectFit="contain"
+                      layout="fill"
+                    />
+                  </a>
+                </Link>
+                <div className="grow">
+                  <Link href={collection.path}>
+                    <a className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700">
+                      <h3 className="text-base font-bold leading-tighter">
+                        {collection.title}
+                      </h3>
+                    </a>
+                  </Link>
+                </div>
+                <div className="my-auto text-xs text-gray-600 font-bold">
+                  Completed on {format(new Date(completed_at), 'yyyy/MM/dd')}
+                </div>
+              </div>
+            )
+          },
+        )}
+      </div>
+    </div>
+  )
 }
 
 const User: React.FunctionComponent<
@@ -151,7 +242,6 @@ const User: React.FunctionComponent<
               </div>
             </>
           )}
-
           {/* Connect to GitHub */}
           {isConnectedToGithub ? (
             <div className="sm:px-6 lg:px-0 lg:col-span-9">
