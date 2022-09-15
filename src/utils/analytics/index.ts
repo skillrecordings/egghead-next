@@ -1,9 +1,15 @@
 import {track} from './track'
 import {identify} from './identify'
-import {trackInternalLinkClick} from './events'
+import {
+  activityInternalLinkClick,
+  activityExternalLinkClick,
+  activityCtaClick,
+} from './events'
 
 const events = {
-  trackInternalLinkClick,
+  activityInternalLinkClick,
+  activityExternalLinkClick,
+  activityCtaClick,
 }
 
 const analytics = {
