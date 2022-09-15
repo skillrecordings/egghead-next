@@ -5,6 +5,7 @@ import {
   activityExternalLinkClick,
   activityCtaClick,
   engagementSearchedWithQuery,
+  engagementWatchedTalk,
 } from './events'
 
 const events = {
@@ -12,6 +13,7 @@ const events = {
   activityExternalLinkClick,
   activityCtaClick,
   engagementSearchedWithQuery,
+  engagementWatchedTalk,
 }
 
 const analytics = {
