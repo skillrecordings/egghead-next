@@ -3,7 +3,7 @@ import {loadAccount} from 'lib/accounts'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {useViewer} from 'context/viewer-context'
 import RequestEmailChangeForm from 'components/users/request-email-change-form'
-import {find, first} from 'lodash'
+import {find, first, isEmpty} from 'lodash'
 import SubscriptionDetails from 'components/users/subscription-details'
 import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
@@ -150,49 +150,7 @@ const User: React.FunctionComponent<
               </div>
             </div>
           )}
-          {completeCourseStatus === 'loading' ? (
-            'Loading...'
-          ) : completeCourseStatus === 'error' ? (
-            <span>There was an error fetching completed courses.</span>
-          ) : (
-            <>
-              <div>
-                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
-                  Completed Courses
-                </h2>
-                <div className="flex flex-wrap gap-4 justify-evenly mt-4">
-                  {completeCourseData.map(
-                    ({
-                      collection,
-                      completed_at,
-                    }: {
-                      collection: CardResource
-                      completed_at: string
-                    }) => {
-                      return (
-                        <div className="flex flex-col justify-between">
-                          <VerticalResourceCard
-                            resource={collection}
-                            location="user profile"
-                            className="text-center w-44 flex flex-col items-center justify-center self-center"
-                          />
-                          <span className="z-10 flex flex-row">
-                            <span>
-                              <BadgeCheckIcon color="green" width="1.5em" />
-                            </span>
-                            <span className="ml-1 h-fit my-auto text-xs text-gray-600 italic font-bold">
-                              Completed on{' '}
-                              {format(new Date(completed_at), 'yyyy/MM/dd')}
-                            </span>
-                          </span>
-                        </div>
-                      )
-                    },
-                  )}
-                </div>
-              </div>
-            </>
-          )}
+
           {account && (
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
@@ -217,6 +175,49 @@ const User: React.FunctionComponent<
                     />
                   )
                 })}
+              </div>
+            </>
+          )}
+          {completeCourseStatus === 'loading' ? (
+            'Loading...'
+          ) : completeCourseStatus === 'error' ? (
+            <span>There was an error fetching completed courses.</span>
+          ) : (
+            <>
+              <div>
+                <h2 className="pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
+                  Completed Courses
+                </h2>
+                <div className="flex flex-wrap sm:gap-10 gap-5 justify-evenly mt-4">
+                  {completeCourseData.map(
+                    ({
+                      collection,
+                      completed_at,
+                    }: {
+                      collection: CardResource
+                      completed_at: string
+                    }) => {
+                      return !isEmpty(collection) ? (
+                        <div className="flex flex-col justify-between">
+                          <VerticalResourceCard
+                            resource={collection}
+                            location="user profile"
+                            className="text-center w-44 flex flex-col items-center justify-center self-center"
+                          />
+                          <span className="z-10 flex flex-row">
+                            <span>
+                              <BadgeCheckIcon color="green" width="1.5em" />
+                            </span>
+                            <span className="ml-1 h-fit my-auto text-xs text-gray-600 dark:text-gray-300">
+                              Completed on{' '}
+                              {format(new Date(completed_at), 'yyyy/MM/dd')}
+                            </span>
+                          </span>
+                        </div>
+                      ) : null
+                    },
+                  )}
+                </div>
               </div>
             </>
           )}
