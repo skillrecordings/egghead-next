@@ -2,6 +2,7 @@ import {isFunction, isUndefined} from 'lodash'
 import {Viewer} from 'types'
 import Auth from '../auth'
 import mixpanel from 'mixpanel-browser'
+import {identify} from './identify'
 const DEBUG_ANALYTICS = false
 
 mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
