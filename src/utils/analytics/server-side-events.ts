@@ -1,8 +1,5 @@
-import Mixpanel from 'mixpanel'
-
-const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
-
 type MixpanelData = {
+  mixpanel: any
   distinct_id: string
   subscriptionType: string
   subscriptionInterval: string
@@ -16,6 +13,7 @@ When a user subscribes to pro en egghead, with any interval
 It captures when someone subscribes and pay a pro membership for the first time
 */
 export const purchaseSubscriptionCreated = ({
+  mixpanel,
   distinct_id,
   subscriptionType,
   subscriptionInterval,
@@ -35,7 +33,10 @@ Recieve stripe event that the subscription has been canceled
 
 The user no longer finds our service of value at the current time
 */
-export const purchaseSubscriptionCanceled = (distinct_id: string) =>
+export const purchaseSubscriptionCanceled = (
+  mixpanel: any,
+  distinct_id: string,
+) =>
   mixpanel.track('Subscription Canceled', {
     distinct_id,
   })
@@ -49,6 +50,7 @@ When people change their plans. There are three possible downgrades:
 - from quarter to monthly 
 */
 export const purchaseSubscriptionDowngraded = ({
+  mixpanel,
   distinct_id,
   subscriptionType,
   subscriptionInterval,
@@ -72,6 +74,7 @@ Recieve stripe event and plan amount is more than before
 - from quarter to year "
 */
 export const purchaseSubscriptionUpgraded = ({
+  mixpanel,
   distinct_id,
   subscriptionType,
   subscriptionInterval,
@@ -90,6 +93,7 @@ export const purchaseSubscriptionUpgraded = ({
 Set's a property on the mixpanel user that reflects their current subscription status
 */
 export const purchaseSetSubscriptionStatus = (
+  mixpanel: any,
   distinct_id: string,
   subscriptionStatus: string,
 ) =>
