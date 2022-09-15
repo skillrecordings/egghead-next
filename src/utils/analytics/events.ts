@@ -2,6 +2,38 @@ import {track} from './track'
 
 //! ENGAGEMENT EVENT GROUP
 
+export const engagementWatchedTalk = (slug: string, percentComplete: string) =>
+  track('read article', {
+    eventGroup: 'engagement',
+    slug,
+    percentComplete,
+  })
+
+// When a user is visiting an article page
+/*
+Represents the percentage of the article page a visitor has seen. It'll give us an indicator that the articles are being read. 
+*/
+export const engagementReadArticle = (slug: string, percentComplete: string) =>
+  track('read article', {
+    eventGroup: 'engagement',
+    slug,
+    percentComplete,
+  })
+
+// User searched for a topic in egghead
+/* 
+We want to track the different queries that are being sent and what learners are searching for. This will feed into the learners engagnement metric but we will also be able to parse what queries are sent for content pitches
+*/
+export const engagementSearchedWithQuery = (
+  currentLocation: string,
+  queryString: string,
+) =>
+  track('searched with query', {
+    eventGroup: 'engagement',
+    currentLocation: currentLocation,
+    queryString: queryString,
+  })
+
 //! ACTIVITY EVENT GROUP
 type Activity = {
   instructor?: string

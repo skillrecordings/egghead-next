@@ -4,12 +4,14 @@ import {
   activityInternalLinkClick,
   activityExternalLinkClick,
   activityCtaClick,
+  engagementSearchedWithQuery,
 } from './events'
 
 const events = {
   activityInternalLinkClick,
   activityExternalLinkClick,
   activityCtaClick,
+  engagementSearchedWithQuery,
 }
 
 const analytics = {
