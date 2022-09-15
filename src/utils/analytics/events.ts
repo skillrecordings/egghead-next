@@ -7,6 +7,7 @@ import {track} from 'utils/analytics'
 
 export const engagementStartCourse = (slug: string) =>
   track('start course', {
+    eventGroup: 'engagement',
     slug,
   })
 
@@ -15,6 +16,7 @@ export const engagementStartCourse = (slug: string) =>
 /* This will show how engaged our learners are with material. This event could get triggered by 10%, 25%, 50%, and 75% */
 
 export const engagementCourseProgress = (
+  eventGroup: 'engagement',
   slug: string,
   percent_complete: number,
 ) =>
@@ -29,6 +31,7 @@ export const engagementCourseProgress = (
 
 export const engagementCompletedCourse = (slug: string) =>
   track('completed course', {
+    eventGroup: 'engagement',
     slug,
   })
 
@@ -38,6 +41,7 @@ export const engagementCompletedCourse = (slug: string) =>
 
 export const engagementCompletedLesson = (slug: string) =>
   track('start course', {
+    eventGroup: 'engagement',
     slug,
   })
 
@@ -47,6 +51,7 @@ export const engagementCompletedLesson = (slug: string) =>
 
 export const engagementClickedWatchedLessonAgain = (slug: string) =>
   track('start course', {
+    eventGroup: 'engagement',
     slug,
   })
 
@@ -59,6 +64,7 @@ export const engagementListenPodcast = (
   percent_complete: number,
 ) =>
   track('start course', {
+    eventGroup: 'engagement',
     slug,
     percent_complete,
   })
@@ -90,6 +96,7 @@ export const engagementReadArticle = (slug: string, percentComplete: string) =>
 We want to track the different queries that are being sent and what learners are searching for. This will feed into the learners engagnement metric but we will also be able to parse what queries are sent for content pitches
 */
 export const engagementSearchedWithQuery = (
+  eventGroup: 'engagement',
   currentLocation: string,
   queryString: string,
 ) =>
