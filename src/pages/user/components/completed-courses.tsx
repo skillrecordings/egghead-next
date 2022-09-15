@@ -29,10 +29,6 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
 }) => {
   const [filter, setFilter] = React.useState<string>('byDate')
 
-  if (!completeCourseData) {
-    return null
-  }
-
   if (completeCourseData.length === 0) {
     return (
       <div>
