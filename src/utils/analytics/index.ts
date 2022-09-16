@@ -20,7 +20,7 @@ import {
   purchaseSetSubscriptionStatus,
   purchaseSubscriptionCanceled,
   purchaseSubscriptionCreated,
-} from './server-side-events'
+} from './events.server'
 
 const serverSideEvents = {
   purchaseSubscriptionUpgraded,

@@ -2,12 +2,9 @@ import axios from 'axios'
 import {buffer} from 'micro'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {stripe} from '../../../utils/stripe'
-import Mixpanel from 'mixpanel'
 import Stripe from 'stripe'
 import {z} from 'zod'
 import analytics from 'utils/analytics'
-
-const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
 
 function stripeToMixpanelDataConverter(stripeDate: number) {
   const date = new Date(stripeDate * 1000)
@@ -137,7 +134,6 @@ const stripeWebhookHandler = async (
           let cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
           const mixpanelEventData = {
-            mixpanel,
             distinct_id: cioCustomer.id,
             subscriptionType,
             subscriptionInterval,
@@ -160,7 +156,6 @@ const stripeWebhookHandler = async (
           }
 
           analytics.serverSideEvents.purchaseSetSubscriptionStatus(
-            mixpanel,
             cioCustomer.id,
             stripeSubscription.status,
           )
@@ -173,12 +168,8 @@ const stripeWebhookHandler = async (
         )
         const cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
-        analytics.serverSideEvents.purchaseSubscriptionCanceled(
-          mixpanel,
-          cioCustomer.id,
-        )
+        analytics.serverSideEvents.purchaseSubscriptionCanceled(cioCustomer.id)
         analytics.serverSideEvents.purchaseSetSubscriptionStatus(
-          mixpanel,
           cioCustomer.id,
           'canceled',
         )
@@ -208,7 +199,6 @@ const stripeWebhookHandler = async (
           stripeSubscription.items.data[0].plan.interval
 
         analytics.serverSideEvents.purchaseSubscriptionCreated({
-          mixpanel,
           distinct_id: cioCustomer.id,
           subscriptionType,
           subscriptionInterval,
@@ -221,7 +211,6 @@ const stripeWebhookHandler = async (
         })
 
         analytics.serverSideEvents.purchaseSetSubscriptionStatus(
-          mixpanel,
           cioCustomer.id,
           stripeSubscription.status,
         )
