@@ -5,6 +5,8 @@ import {format} from 'date-fns'
 import cx from 'classnames'
 import {isEmpty} from 'lodash'
 
+import Eggo from 'components/icons/eggo'
+
 type Collection = {
   image: string
   path: string
@@ -108,22 +110,28 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
                 key={collection.slug}
                 className="flex border-b border-gray-200 dark:border-gray-800 py-3 items-center space-x-2 pr-3"
               >
-                <Link href={collection.path}>
+                <Link href={collection?.path || '/'}>
                   <a className="blok shrink-0 w-8 h-8 relative">
-                    <Image
-                      src={collection.image}
-                      alt=""
-                      objectFit="contain"
-                      layout="fill"
-                    />
+                    {collection?.image ? (
+                      <Image
+                        src={collection.image}
+                        alt=""
+                        objectFit="contain"
+                        layout="fill"
+                      />
+                    ) : (
+                      <Eggo className="w-8" />
+                    )}
                   </a>
                 </Link>
                 <div className="grow">
-                  <Link href={collection.path}>
+                  <Link href={collection?.path || '/'}>
                     <a className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700 duration-100">
-                      <h3 className="text-base font-bold leading-snug md:leading-tighter">
-                        {collection.title}
-                      </h3>
+                      {collection?.title && (
+                        <h3 className="text-base font-bold leading-snug md:leading-tighter">
+                          {collection.title}
+                        </h3>
+                      )}
                     </a>
                   </Link>
                 </div>
