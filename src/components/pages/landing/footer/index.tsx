@@ -147,7 +147,7 @@ const PricingCta = () => {
             appliedCoupon?.coupon_expires_at && (
               <div className="w-full max-w-xs mx-auto">
                 <Countdown
-                  label="Spring sale – Price goes up in:"
+                  label="Fall Sale – Price goes up in:"
                   date={fromUnixTime(appliedCoupon.coupon_expires_at)}
                 />
               </div>

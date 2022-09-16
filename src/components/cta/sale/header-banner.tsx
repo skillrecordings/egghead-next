@@ -25,7 +25,7 @@ const SaleHeaderBanner = () => {
             <span role="img" aria-hidden="true">
               🌟
             </span>{' '}
-            Spring Sale:{' '}
+            Fall Sale:{' '}
             <span>
               Save <strong>{percentOff}%</strong> on egghead membership
               {appliedCoupon.coupon_expires_at &&
