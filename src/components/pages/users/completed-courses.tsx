@@ -53,7 +53,7 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
     <div>
       <div className="flex justify-between items-center pb-1 text-xl border-b border-gray-200 dark:border-gray-800">
         <h2>Completed Courses</h2>
-        <div className="flex space-x-2 text-sm items-center">
+        {/* <div className="flex space-x-2 text-sm items-center">
           <span className="font-bold hidden dark:text-white md:block">
             Sort by:
           </span>
@@ -80,7 +80,7 @@ const CompletedCourses: React.FC<{completeCourseData: CourseData[]}> = ({
           >
             title
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="mt-3 max-h-[400px] md:max-h-[570px] overscroll-contain overflow-y-auto">
         {[...completeCourseData]
