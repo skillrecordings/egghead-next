@@ -25,14 +25,10 @@ const SaleHeaderBanner = () => {
             <span role="img" aria-hidden="true">
               🌟
             </span>{' '}
-            Spring Sale:{' '}
+            Fall Sale:{' '}
             <span>
-              Save <strong>{percentOff}%</strong> on egghead membership
-              {appliedCoupon.coupon_expires_at &&
-                ' for limited time only'}.{' '}
-              <span role="img" aria-hidden="true">
-                💫
-              </span>
+              Save <strong>{percentOff}%</strong> on yearly memberships
+              {appliedCoupon.coupon_expires_at && ' for limited time'}.{' '}
             </span>
           </div>
           <div className="flex items-center flex-shrink-0 px-2 py-px text-white bg-black dark:bg-white dark:bg-opacity-100 bg-opacity-20 dark:text-blue-600">
