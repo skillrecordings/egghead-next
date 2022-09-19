@@ -12,7 +12,7 @@ const HomePage: FunctionComponent<any> = ({data}) => {
   const ogImage = get(
     jumbotron,
     'resources[0].ogImage',
-    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1637345011/egghead-next-pages/home-page/root-og_2x.png',
+    'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1663623951/egghead-next-pages/home-page/fall-sale-root_2x.png',
   )
 
   return (
