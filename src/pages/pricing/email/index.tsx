@@ -79,13 +79,13 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
         <div className="flex items-center justify-center w-full py-6 text-gray-900 bg-gray-100 sm:dark:bg-gray-800 dark:bg-gray-1000 sm:bg-gray-100 dark-text-white dark:text-white">
           <Stepper />
         </div>
-        <div className="px-5 bg-white sm:mx-auto sm:w-full dark:bg-gray-900">
+        <div className="px-6 pb-6 sm:px-7 sm:pb-7 md:px-10 md:pb-10 bg-white sm:mx-auto sm:w-full dark:bg-gray-900">
           <div>
-            <h2 className="py-6 text-xl font-semibold leading-tight text-center sm:text-2xl ">
+            <h2 className="py-6 text-lg font-semibold leading-tight text-center sm:text-xl dark:text-white">
               Please provide your email address to create an account.
             </h2>
-            <div className="px-4 pb-8  sm:px-8">
-              {!isSubmitted && !isError && (
+            {!isSubmitted && !isError && (
+              <div>
                 <Formik
                   initialValues={{email: ''}}
                   validationSchema={loginSchema}
@@ -141,19 +141,19 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
                     )
                   }}
                 </Formik>
-              )}
-              {isSubmitted && !isError && (
-                <div className="flex items-center justify-center py-16">
-                  <Spinner className="mr-2" />
-                  <p>Redirecting to Stripe payments</p>
-                </div>
-              )}
-              {isError && (
-                <ReactMarkdown className="py-16 prose text-center dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
-                  {isError.toString()}
-                </ReactMarkdown>
-              )}
-            </div>
+              </div>
+            )}
+            {isSubmitted && !isError && (
+              <div className="flex items-center justify-center py-16">
+                <Spinner className="mr-2" />
+                <p>Redirecting to Stripe payments</p>
+              </div>
+            )}
+            {isError && (
+              <ReactMarkdown className="py-16 prose text-center dark:prose-dark sm:dark:prose-xl-dark sm:prose-xl">
+                {isError.toString()}
+              </ReactMarkdown>
+            )}
           </div>
         </div>
       </div>
