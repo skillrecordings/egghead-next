@@ -5,6 +5,8 @@ import {useViewer} from 'context/viewer-context'
 import {loadAccount} from 'lib/accounts'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 
+import {ActivityTabContent, AccountInfoTabContent} from 'components/pages/user'
+
 type ViewerAccount = {
   stripe_customer_id: string
   slug: string
@@ -115,26 +117,10 @@ const User: React.FunctionComponent<
 
 export default User
 
-const Component1 = () => {
-  return (
-    <div>
-      <div>Component 1</div>
-    </div>
-  )
-}
-
 const Component2 = () => {
   return (
     <div>
-      <div>Component 2</div>
-    </div>
-  )
-}
-
-const Component3 = () => {
-  return (
-    <div>
-      <div>Component 3</div>
+      <div>Membership</div>
     </div>
   )
 }
@@ -142,14 +128,14 @@ const Component3 = () => {
 const Component4 = () => {
   return (
     <div>
-      <div>Component 4</div>
+      <div>Payment</div>
     </div>
   )
 }
 
 const tabs = [
-  {label: 'Activity', component: <Component1 />},
+  {label: 'Activity', component: <ActivityTabContent />},
   {label: 'Membership', component: <Component2 />},
-  {label: 'Account Info', component: <Component3 />},
+  {label: 'Account Info', component: <AccountInfoTabContent />},
   {label: 'Payment', component: <Component4 />},
 ]
