@@ -24,15 +24,10 @@ const useProgressForUser = (viewerId: number) => {
 const ActivityTabContent: React.FC<any> = () => {
   const {viewer, authToken} = useViewer()
   const viewerId = viewer?.id
-  const {
-    status: progressStatus,
-    data: progressData,
-    error,
-  } = useProgressForUser(viewerId)
-  console.log('progressStatus:', progressStatus)
-  console.log('error:', error)
+  const {status: progressStatus, data: progressData} =
+    useProgressForUser(viewerId)
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       <LearnerStats
         completionStats={progressData?.completionStats}
         progressStatus={progressStatus}
