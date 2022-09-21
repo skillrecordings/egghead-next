@@ -110,8 +110,10 @@ export type PricingPlan = {
   interval: string
   interval_count: number
   name: string
-  price: number
   stripe_price_id: string
+  price: number
+  price_discounted?: number
+  price_savings?: number
 }
 
 export type Prices = {
