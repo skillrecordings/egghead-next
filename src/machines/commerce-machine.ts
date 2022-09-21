@@ -146,7 +146,7 @@ export const commerceMachine = createMachine<
     },
     actions: {
       assignPricingData: assign(
-        (_, event) => {
+        (context, event) => {
           if (event.type !== 'done.invoke.fetchPricingDataService') return {}
 
           const extractAppliedDefaultCoupon = (
@@ -182,9 +182,22 @@ export const commerceMachine = createMachine<
             return {}
           }
 
+          // Coupons with a minimum can be applicable on a per-plan basis. If
+          // there is no price_discounted/price_savings for a specific plan
+          // (`priceId`), then we should NOT include the `couponToApply`.
+          const currentPlan = context.pricingData.plans.find(
+            (plan) => plan.stripe_price_id === context.priceId,
+          )
+          const noCouponToApply = isEmpty(currentPlan?.price_discounted)
+
+          const couponData: {} | {couponToApply: undefined | object} =
+            noCouponToApply
+              ? {couponToApply: undefined}
+              : extractAppliedDefaultCoupon(event.data)
+
           return {
             pricingData: event.data,
-            ...extractAppliedDefaultCoupon(event.data),
+            ...couponData,
           }
         },
         // TODO: Move the `priceId` update from the downstream component up
