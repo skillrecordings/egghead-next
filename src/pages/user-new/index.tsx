@@ -68,7 +68,7 @@ const User: React.FunctionComponent<
                     <select
                       id="selected-tab"
                       name="selected-tab"
-                      className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 sm:text-sm"
+                      className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                       defaultValue={
                         tabs.find((tab) => tab.label === currentTab)?.label
                       }
@@ -89,7 +89,7 @@ const User: React.FunctionComponent<
                             key={tab.label}
                             className={classNames(
                               tab.label === currentTab
-                                ? 'border-purple-500 text-purple-600'
+                                ? 'border-blue-500 text-blue-600'
                                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                             )}
