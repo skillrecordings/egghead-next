@@ -1,3 +1,5 @@
+import {z} from 'zod'
+
 export type Resource = {
   title: string
   slug: string
@@ -106,15 +108,17 @@ export type Topic = {
 
 // Commerce Types
 
-export type PricingPlan = {
-  interval: string
-  interval_count: number
-  name: string
-  stripe_price_id: string
-  price: number
-  price_discounted?: number
-  price_savings?: number
-}
+export const pricingPlanSchema = z.object({
+  interval: z.string(),
+  interval_count: z.number(),
+  name: z.string(),
+  stripe_price_id: z.string(),
+  price: z.number(),
+  price_discounted: z.number().optional(),
+  price_savings: z.number().optional(),
+})
+
+export type PricingPlan = z.infer<typeof pricingPlanSchema>
 
 export type Prices = {
   monthlyPrice?: PricingPlan

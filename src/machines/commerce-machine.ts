@@ -1,7 +1,8 @@
 import {createMachine, assign} from 'xstate'
 import {loadPricingData} from 'lib/prices'
 import isEmpty from 'lodash/isEmpty'
-import {PricingData} from 'types'
+import {pricingPlanSchema, PricingData} from 'types'
+import {z} from 'zod'
 
 type CouponToApply = {
   couponCode: string
@@ -13,7 +14,7 @@ const findAvailablePPPCoupon = (pricingData: PricingData) => {
 }
 
 export interface CommerceMachineContext {
-  pricingData: PricingData
+  pricingData: PricingData | {}
   priceId: string | undefined
   quantity: number
   couponToApply: CouponToApply | undefined
@@ -37,7 +38,7 @@ export const commerceMachine = createMachine<
   {
     id: 'commerce',
     context: {
-      pricingData: {} as PricingData,
+      pricingData: {},
       priceId: undefined as string | undefined,
       quantity: 1,
       couponToApply: undefined as CouponToApply | undefined,
@@ -182,10 +183,15 @@ export const commerceMachine = createMachine<
             return {}
           }
 
+          const result = z
+            .object({plans: z.array(pricingPlanSchema)})
+            .safeParse(context.pricingData)
+          if (!result.success) return {pricingData: event.data}
+
           // Coupons with a minimum can be applicable on a per-plan basis. If
           // there is no price_discounted/price_savings for a specific plan
           // (`priceId`), then we should NOT include the `couponToApply`.
-          const currentPlan = context.pricingData.plans.find(
+          const currentPlan = result.data.plans.find(
             (plan) => plan.stripe_price_id === context.priceId,
           )
           const noCouponToApply = isEmpty(currentPlan?.price_discounted)
