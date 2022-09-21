@@ -224,14 +224,22 @@ export const commerceMachine = createMachine<
       }),
       applyPPPCoupon: assign({
         couponToApply: (context) => {
-          const pppCoupon = findAvailablePPPCoupon(context.pricingData)
-          const couponToApply = pppCoupon?.coupon_code
-            ? ({
-                couponCode: pppCoupon?.coupon_code,
-                couponType: 'ppp',
-              } as CouponToApply)
-            : undefined
-          return couponToApply
+          const pppCouponSchema = z
+            .object({
+              available_coupons: z.object({
+                ppp: z.object({coupon_code: z.string()}),
+              }),
+            })
+            .transform((validPricingData) => {
+              return {
+                couponCode: validPricingData.available_coupons.ppp.coupon_code,
+                couponType: 'ppp' as const,
+              }
+            })
+
+          const result = pppCouponSchema.safeParse(context.pricingData)
+
+          return result.success ? result.data : undefined
         },
       }),
       removePPPCoupon: assign({
