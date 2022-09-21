@@ -5,30 +5,30 @@ import WidgetWrapper from 'components/pages/user/components/widget-wrapper'
 import Spinner from 'components/spinner'
 
 const LearnerStats: React.FC<any> = ({
-  completionStats,
-  progressStatus,
+  learnerStatsData,
+  learnerStatsStatus,
 }: any) => {
   return (
     <WidgetWrapper title="Learner Stats">
-      {progressStatus === 'loading' ? (
+      {learnerStatsStatus === 'loading' ? (
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
         </div>
       ) : (
         <div>
-          {progressStatus === 'error' ? (
+          {learnerStatsStatus === 'error' ? (
             <span>There was an error fetching stats</span>
           ) : (
             <>
               <p>
-                <b>{convertMintoHours(completionStats.minutesWatched)}</b>{' '}
+                <b>{convertMintoHours(learnerStatsData.minutesWatched)}</b>{' '}
                 watched
               </p>
               <p>
-                <b>{completionStats.completedCourseCount} courses</b> completed
+                <b>{learnerStatsData.completedCourseCount} courses</b> completed
               </p>
               <p>
-                <b>{completionStats.completedLessonCount} lessons</b> completed
+                <b>{learnerStatsData.completedLessonCount} lessons</b> completed
               </p>
             </>
           )}
