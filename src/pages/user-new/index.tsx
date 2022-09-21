@@ -46,7 +46,7 @@ const User: React.FunctionComponent<
     return classes.filter(Boolean).join(' ')
   }
 
-  const [currentTab, setCurrentTab] = React.useState<string>('Activity')
+  const [currentTab, setCurrentTab] = React.useState<string>('Membership')
 
   return (
     <LoginRequired>

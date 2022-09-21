@@ -21,19 +21,36 @@ const useProgressForUser = (viewerId: number) => {
   })
 }
 
+const useUserCompletedCourses = (viewerId: number) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      return completeCourses
+    }
+  })
+}
+
 const ActivityTabContent: React.FC<any> = () => {
   const {viewer, authToken} = useViewer()
   const viewerId = viewer?.id
-  const {status: progressStatus, data: progressData} =
+  const {status: learnerStatsStatus, data: learnerStatsData} =
     useProgressForUser(viewerId)
+  const {
+    status: completedCourseStatus,
+    data: completeCourseData,
+    error: completeCourseError,
+  } = useUserCompletedCourses(viewerId)
   return (
     <div className="space-y-10">
       <LearnerStats
-        completionStats={progressData?.completionStats}
-        progressStatus={progressStatus}
+        learnerStatsData={learnerStatsData?.completionStats}
+        learnerStatsStatus={learnerStatsStatus}
       />
-      <CompletedCourses />
       <ContinueLearning />
+      <CompletedCourses
+        completeCourseData={completeCourseData}
+        completedCourseStatus={completedCourseStatus}
+      />
     </div>
   )
 }
