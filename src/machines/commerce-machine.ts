@@ -12,6 +12,36 @@ const findAvailablePPPCoupon = (pricingData: PricingData) => {
   return pricingData?.available_coupons?.ppp
 }
 
+const extractAppliedDefaultCoupon = (
+  pricingData: PricingData,
+): {couponToApply: CouponToApply} | {} => {
+  // check if there is a site-wide/'default' coupon available
+  const availableDefaultCoupon = pricingData?.available_coupons?.default
+
+  // check if there is a site-wide/'default' coupon being applied
+  const appliedCoupon = pricingData?.applied_coupon
+
+  // no applied default coupon found
+  if (isEmpty(availableDefaultCoupon) || isEmpty(appliedCoupon)) {
+    return {}
+  }
+
+  // if a site-wide/'default' coupon is being applied, set that as the
+  // `couponToApply` in the machine context. The CouponToApply is
+  // needed when transitioning to the Stripe Checkout Session.
+  if (availableDefaultCoupon?.coupon_code === appliedCoupon?.coupon_code) {
+    return {
+      couponToApply: {
+        couponCode: appliedCoupon.coupon_code,
+        couponType: 'default',
+      },
+    }
+  }
+
+  // the applied coupon is not the site-wide/'default'
+  return {}
+}
+
 export interface CommerceMachineContext {
   pricingData: PricingData
   priceId: string | undefined
@@ -81,9 +111,7 @@ export const commerceMachine = createMachine<
         initial: 'checkingCouponStatus',
         on: {
           SWITCH_PRICE: {
-            actions: assign({
-              priceId: (_context, event) => event.priceId,
-            }),
+            actions: ['switchPriceIdAndAssociatedData'],
           },
           CONFIRM_PRICE: {
             actions: async (_context, event) => {
@@ -145,42 +173,25 @@ export const commerceMachine = createMachine<
       },
     },
     actions: {
+      switchPriceIdAndAssociatedData: assign((context, event) => {
+        if (event.type !== 'SWITCH_PRICE') return {}
+
+        const currentPlan = context.pricingData.plans.find(
+          (plan) => plan.stripe_price_id === event.priceId,
+        )
+        const noCouponToApply = !currentPlan?.price_discounted
+        const couponData = noCouponToApply
+          ? {couponToApply: undefined}
+          : extractAppliedDefaultCoupon(context.pricingData)
+
+        return {
+          priceId: event.priceId,
+          ...couponData,
+        }
+      }),
       assignPricingData: assign(
         (_, event) => {
           if (event.type !== 'done.invoke.fetchPricingDataService') return {}
-
-          const extractAppliedDefaultCoupon = (
-            pricingData: PricingData,
-          ): {couponToApply: CouponToApply} | {} => {
-            // check if there is a site-wide/'default' coupon available
-            const availableDefaultCoupon =
-              pricingData?.available_coupons?.default
-
-            // check if there is a site-wide/'default' coupon being applied
-            const appliedCoupon = pricingData?.applied_coupon
-
-            // no applied default coupon found
-            if (isEmpty(availableDefaultCoupon) || isEmpty(appliedCoupon)) {
-              return {}
-            }
-
-            // if a site-wide/'default' coupon is being applied, set that as the
-            // `couponToApply` in the machine context. The CouponToApply is
-            // needed when transitioning to the Stripe Checkout Session.
-            if (
-              availableDefaultCoupon?.coupon_code === appliedCoupon?.coupon_code
-            ) {
-              return {
-                couponToApply: {
-                  couponCode: appliedCoupon.coupon_code,
-                  couponType: 'default',
-                },
-              }
-            }
-
-            // the applied coupon is not the site-wide/'default'
-            return {}
-          }
 
           return {
             pricingData: event.data,
