@@ -10,15 +10,17 @@ const LoginRequired: FunctionComponent<LoginRequiredParams> = ({
   children,
   loginRequired = false,
 }) => {
+  const [mounted, setMounted] = React.useState<boolean>(false)
   const token = getAccessTokenFromCookie()
   loginRequired = loginRequired || !token
   const router = useRouter()
   React.useEffect(() => {
+    setMounted(true)
     if (loginRequired) {
       router.push('/login')
     }
   }, [loginRequired])
-  return <>{!loginRequired && children}</>
+  return <>{!loginRequired && mounted && children}</>
 }
 
 export default LoginRequired
