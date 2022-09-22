@@ -26,7 +26,6 @@ const CompletedCourses: React.FC<{
   completeCourseData: CourseData[]
   completedCourseStatus: 'loading' | 'success' | 'error'
 }> = ({completeCourseData = [], completedCourseStatus}) => {
-  console.log('completeCourseData:', completeCourseData.length)
   return (
     <WidgetWrapper title="Completed Courses">
       {completedCourseStatus === 'loading' ? (
