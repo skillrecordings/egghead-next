@@ -33,20 +33,24 @@ const useUserCompletedCourses = (viewerId: number) => {
 const ActivityTabContent: React.FC<any> = () => {
   const {viewer, authToken} = useViewer()
   const viewerId = viewer?.id
-  const {status: learnerStatsStatus, data: learnerStatsData} =
+  const {status: progressStatus, data: progressData} =
     useProgressForUser(viewerId)
   const {
     status: completedCourseStatus,
     data: completeCourseData,
     error: completeCourseError,
   } = useUserCompletedCourses(viewerId)
+  console.log('progressData:', progressData)
   return (
     <div className="space-y-10">
       <LearnerStats
-        learnerStatsData={learnerStatsData?.completionStats}
-        learnerStatsStatus={learnerStatsStatus}
+        learnerStatsData={progressData?.completionStats}
+        learnerStatsStatus={progressStatus}
       />
-      <ContinueLearning />
+      <ContinueLearning
+        continueLearningData={progressData}
+        continueLearningStatus={progressStatus}
+      />
       <CompletedCourses
         completeCourseData={completeCourseData}
         completedCourseStatus={completedCourseStatus}

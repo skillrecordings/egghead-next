@@ -4,10 +4,16 @@ import {convertMintoHours} from 'utils/time-utils'
 import WidgetWrapper from 'components/pages/user/components/widget-wrapper'
 import Spinner from 'components/spinner'
 
-const LearnerStats: React.FC<any> = ({
-  learnerStatsData,
-  learnerStatsStatus,
-}: any) => {
+type LearnerStatsData = {
+  completedCourseCount: number
+  completedLessonCount: number
+  minutesWatched: number
+}
+
+const LearnerStats: React.FC<{
+  learnerStatsData: LearnerStatsData
+  learnerStatsStatus: 'loading' | 'success' | 'error'
+}> = ({learnerStatsData, learnerStatsStatus}) => {
   return (
     <WidgetWrapper title="Learner Stats">
       {learnerStatsStatus === 'loading' ? (
@@ -19,18 +25,32 @@ const LearnerStats: React.FC<any> = ({
           {learnerStatsStatus === 'error' ? (
             <span>There was an error fetching stats</span>
           ) : (
-            <>
-              <p>
-                <b>{convertMintoHours(learnerStatsData.minutesWatched)}</b>{' '}
-                watched
-              </p>
-              <p>
-                <b>{learnerStatsData.completedCourseCount} courses</b> completed
-              </p>
-              <p>
-                <b>{learnerStatsData.completedLessonCount} lessons</b> completed
-              </p>
-            </>
+            <dl className="bg-white sm:grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+              <div className="flex flex-col p-4 text-center">
+                <dt className="order-2 mt-1 lg:mt-2 text-base lg:text-lg leading-6 text-gray-600">
+                  Watched
+                </dt>
+                <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600">
+                  {convertMintoHours(learnerStatsData.minutesWatched)}
+                </dd>
+              </div>
+              <div className="flex flex-col p-4 text-center">
+                <dt className="order-2 mt-1 lg:mt-2 text-base lg:text-lg leading-6 text-gray-600">
+                  Courses completed
+                </dt>
+                <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600">
+                  {learnerStatsData.completedCourseCount}
+                </dd>
+              </div>
+              <div className="flex flex-col p-4 text-center">
+                <dt className="order-2 mt-1 lg:mt-2 text-base lg:text-lg leading-6 text-gray-600">
+                  Lessons completed
+                </dt>
+                <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600">
+                  {learnerStatsData.completedLessonCount}
+                </dd>
+              </div>
+            </dl>
           )}
         </div>
       )}
