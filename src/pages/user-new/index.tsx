@@ -61,7 +61,7 @@ const User: React.FunctionComponent<
               </div>
               <div className="px-4 sm:px-6 md:px-0">
                 <div className="py-6">
-                  <div className="lg:hidden">
+                  <div className="md:hidden">
                     <label htmlFor="selected-tab" className="sr-only">
                       Select a tab
                     </label>
@@ -81,7 +81,7 @@ const User: React.FunctionComponent<
                       ))}
                     </select>
                   </div>
-                  <div className="hidden lg:block">
+                  <div className="hidden md:block">
                     <div className="border-b border-gray-200">
                       <nav className="-mb-px flex space-x-8">
                         {tabs.map((tab) => (

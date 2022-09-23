@@ -5,11 +5,11 @@ const WidgetWrapper: React.FC<{title: string; children: React.ReactNode}> = ({
   children,
 }) => {
   return (
-    <div className="p-4 border border-gray-200">
-      <h2 className="pb-2 text-lg font-medium md:text-xl leading-none border-b border-gray-200 dark:border-gray-800">
+    <div className="py-4 border border-gray-200">
+      <h2 className="pb-3 md:pb-4 px-4 text-lg font-medium md:font-normal md:text-xl leading-none border-b border-gray-200 dark:border-gray-800">
         {title}
       </h2>
-      <div className="mt-4">{children}</div>
+      <div className="mt-4 px-4">{children}</div>
     </div>
   )
 }
