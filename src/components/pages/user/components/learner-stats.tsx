@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import {convertMintoHours} from 'utils/time-utils'
-import WidgetWrapper from 'components/pages/user/components/widget-wrapper'
 import Spinner from 'components/spinner'
 
 type LearnerStatsData = {
@@ -15,7 +14,7 @@ const LearnerStats: React.FC<{
   learnerStatsStatus: 'loading' | 'success' | 'error'
 }> = ({learnerStatsData, learnerStatsStatus}) => {
   return (
-    <WidgetWrapper title="Learner Stats">
+    <>
       {learnerStatsStatus === 'loading' ? (
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
@@ -54,7 +53,7 @@ const LearnerStats: React.FC<{
           )}
         </div>
       )}
-    </WidgetWrapper>
+    </>
   )
 }
 

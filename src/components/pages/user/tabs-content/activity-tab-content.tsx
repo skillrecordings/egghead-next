@@ -3,7 +3,12 @@ import {useQuery} from '@tanstack/react-query'
 
 import {useViewer} from 'context/viewer-context'
 import {loadUserProgress, loadUserCompletedCourses} from 'lib/users'
-import {CompletedCourses, ContinueLearning, LearnerStats} from '../components'
+import {
+  CompletedCourses,
+  ContinueLearning,
+  LearnerStats,
+} from 'components/pages/user/components'
+import WidgetWrapper from 'components/pages/user/components/widget-wrapper'
 
 const useProgressForUser = (viewerId: number) => {
   return useQuery(['progress'], async () => {
@@ -42,18 +47,24 @@ const ActivityTabContent: React.FC<any> = () => {
   } = useUserCompletedCourses(viewerId)
   return (
     <div className="space-y-10">
-      <LearnerStats
-        learnerStatsData={progressData?.completionStats}
-        learnerStatsStatus={progressStatus}
-      />
-      <ContinueLearning
-        continueLearningData={progressData?.progress}
-        continueLearningStatus={progressStatus}
-      />
-      <CompletedCourses
-        completeCourseData={completeCourseData}
-        completedCourseStatus={completedCourseStatus}
-      />
+      <WidgetWrapper title="Learner Stats">
+        <LearnerStats
+          learnerStatsData={progressData?.completionStats}
+          learnerStatsStatus={progressStatus}
+        />
+      </WidgetWrapper>
+      <WidgetWrapper title="Continue Learning">
+        <ContinueLearning
+          continueLearningData={progressData?.progress}
+          continueLearningStatus={progressStatus}
+        />
+      </WidgetWrapper>
+      <WidgetWrapper title="Completed Courses">
+        <CompletedCourses
+          completeCourseData={completeCourseData}
+          completedCourseStatus={completedCourseStatus}
+        />
+      </WidgetWrapper>
     </div>
   )
 }

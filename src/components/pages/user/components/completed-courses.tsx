@@ -5,7 +5,6 @@ import {format} from 'date-fns'
 import {isEmpty} from 'lodash'
 
 import Eggo from 'components/icons/eggo'
-import WidgetWrapper from 'components/pages/user/components/widget-wrapper'
 import Spinner from 'components/spinner'
 
 type Collection = {
@@ -27,7 +26,7 @@ const CompletedCourses: React.FC<{
   completedCourseStatus: 'loading' | 'success' | 'error'
 }> = ({completeCourseData = [], completedCourseStatus}) => {
   return (
-    <WidgetWrapper title="Completed Courses">
+    <>
       {completedCourseStatus === 'loading' ? (
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
@@ -89,7 +88,7 @@ const CompletedCourses: React.FC<{
           )}
         </div>
       )}
-    </WidgetWrapper>
+    </>
   )
 }
 
