@@ -4,7 +4,7 @@ import {isEmpty} from 'lodash'
 import InProgressResource from 'components/pages/users/dashboard/activity/in-progress-resource'
 import Spinner from 'components/spinner'
 
-const ContinueLearning: React.FC<{
+const ConnectionToGithub: React.FC<{
   continueLearningData: any
   continueLearningStatus: 'loading' | 'success' | 'error'
 }> = ({continueLearningData = [], continueLearningStatus}) => {
@@ -32,4 +32,4 @@ const ContinueLearning: React.FC<{
   )
 }
 
-export default ContinueLearning
+export default ConnectionToGithub
