@@ -28,9 +28,8 @@ const User: React.FunctionComponent<
 > = () => {
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {viewer, authToken} = useViewer()
-  const {email: currentEmail, accounts, providers} = viewer || {}
+  const {accounts} = viewer || {}
   const {slug} = getAccountWithSubscription(accounts)
-  const viewerId = viewer?.id
 
   React.useEffect(() => {
     const loadAccountForSlug = async (slug: string) => {
@@ -46,7 +45,7 @@ const User: React.FunctionComponent<
     return classes.filter(Boolean).join(' ')
   }
 
-  const [currentTab, setCurrentTab] = React.useState<string>('Membership')
+  const [currentTab, setCurrentTab] = React.useState<string>('Activity')
 
   return (
     <LoginRequired>
@@ -117,25 +116,27 @@ const User: React.FunctionComponent<
 
 export default User
 
-const Component2 = () => {
-  return (
-    <div>
-      <div>Membership</div>
-    </div>
-  )
-}
-
-const Component4 = () => {
-  return (
-    <div>
-      <div>Payment</div>
-    </div>
-  )
-}
-
 const tabs = [
   {label: 'Activity', component: <ActivityTabContent />},
-  {label: 'Membership', component: <Component2 />},
+  // {
+  //   label: 'Membership',
+  //   component: () => {
+  //     return (
+  //       <div>
+  //         <div>Membership</div>
+  //       </div>
+  //     )
+  //   },
+  // },
   {label: 'Account Info', component: <AccountInfoTabContent />},
-  {label: 'Payment', component: <Component4 />},
+  // {
+  //   label: 'Payment',
+  //   component: () => {
+  //     return (
+  //       <div>
+  //         <div>Payment</div>
+  //       </div>
+  //     )
+  //   },
+  // },
 ]

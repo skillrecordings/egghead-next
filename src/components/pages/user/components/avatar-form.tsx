@@ -13,7 +13,8 @@ const AvatarForm: React.FC<{avatarUrl: string}> = ({avatarUrl}) => {
             loading="eager"
           />
         </div>
-        <label
+        {/* Need server functionality implemented */}
+        {/* <label
           htmlFor="file-upload"
           className="rounded-md border border-gray-200 bg-white py-2 px-3 leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mt-6 cursor-pointer duration-150"
         >
@@ -24,7 +25,7 @@ const AvatarForm: React.FC<{avatarUrl: string}> = ({avatarUrl}) => {
             type="file"
             className="sr-only"
           />
-        </label>
+        </label> */}
       </div>
     </div>
   )
