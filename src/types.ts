@@ -112,6 +112,8 @@ export type PricingPlan = {
   name: string
   price: number
   stripe_price_id: string
+  price_discounted?: string
+  price_savings?: string
 }
 
 export type Prices = {
