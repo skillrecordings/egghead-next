@@ -40,7 +40,6 @@ const ActivityTabContent: React.FC<any> = () => {
     data: completeCourseData,
     error: completeCourseError,
   } = useUserCompletedCourses(viewerId)
-  console.log('progressData:', progressData)
   return (
     <div className="space-y-10">
       <LearnerStats
@@ -48,7 +47,7 @@ const ActivityTabContent: React.FC<any> = () => {
         learnerStatsStatus={progressStatus}
       />
       <ContinueLearning
-        continueLearningData={progressData}
+        continueLearningData={progressData?.progress}
         continueLearningStatus={progressStatus}
       />
       <CompletedCourses
