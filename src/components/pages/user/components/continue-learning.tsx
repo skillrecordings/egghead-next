@@ -9,6 +9,7 @@ const ContinueLearning: React.FC<{
   continueLearningData: any
   continueLearningStatus: 'loading' | 'success' | 'error'
 }> = ({continueLearningData = [], continueLearningStatus}) => {
+  console.log('continueLearningData:', continueLearningData)
   return (
     <WidgetWrapper title="Continue Learning">
       {continueLearningStatus === 'loading' ? (
@@ -18,9 +19,9 @@ const ContinueLearning: React.FC<{
       ) : continueLearningStatus === 'error' ? (
         <span>There was an error fetching stats</span>
       ) : isEmpty(continueLearningData) ? (
-        <span>You haven't finished any courses yet</span>
+        <span>You haven't any progress yet</span>
       ) : (
-        continueLearningData?.progress.map((item: any) => {
+        continueLearningData.map((item: any) => {
           return (
             <InProgressResource
               key={item.collection.title}
