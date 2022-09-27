@@ -136,7 +136,7 @@ const trackPercentComplete = (lessonView: {series: any}) => {
           Math.ceil(series.published_lesson_count * percent) ===
           series.progress.completed_lesson_count,
         percentCompleted = Math.floor(percent * 100)
-      if (trackPercent) {
+      if (trackPercent && percentCompleted <= 75) {
         analytics.events.engagementCourseProgress(series.slug, percentCompleted)
       }
       if (trackPercent && percentCompleted === 100) {

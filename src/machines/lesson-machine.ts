@@ -3,6 +3,7 @@ import {Machine, assign} from 'xstate'
 import axios from 'axios'
 import {LessonResource} from '../types'
 import {convertTimeWithTitles} from '../utils/time-utils'
+import analytics from 'utils/analytics'
 
 interface LessonStateSchema {
   states: {
@@ -293,10 +294,6 @@ export const lessonMachine = Machine<
 
         if (!verb) return
 
-        track(`${verb} video`, {
-          lesson: context.lesson.slug,
-        })
-
         if (verb === 'completed') {
           context.lesson?.tags?.forEach((tag: any) => {
             axios.post('/api/topic', {
@@ -304,6 +301,7 @@ export const lessonMachine = Machine<
               topic: tag.name,
             })
           })
+          analytics.events.engagementCompletedLesson(context.lesson.slug)
         }
 
         // Axios.post(`/api/progress`, {
