@@ -3,7 +3,6 @@ import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import noop from 'utils/noop'
-import {useTrackComponent} from 'hooks/use-track-component'
 import {useRouter} from 'next/router'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
@@ -15,11 +14,6 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
 }> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const [collapsed, setCollapsed] = React.useState<boolean>(false)
   const courseImage = lesson?.collection?.square_cover_480_url
-
-  useTrackComponent('show next up', {
-    course: lesson?.collection?.slug,
-    lesson: lesson.slug,
-  })
 
   const router = useRouter()
 

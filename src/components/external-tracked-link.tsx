@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {isFunction} from 'formik'
-import {track} from 'utils/analytics'
+import {track} from 'utils/analytics/track'
 
 const isModifiedEvent = (event: any) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
@@ -32,6 +32,7 @@ const ExternalTrackedLink: React.FunctionComponent<any> = ({
       event.stopPropagation()
 
       if (eventName) {
+        // need to refactor to new tracking format
         track(eventName, params).then(() => {
           if (isFunction(onClick)) {
             onClick()

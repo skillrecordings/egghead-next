@@ -1,10 +1,107 @@
 import axios from 'axios'
 import {buffer} from 'micro'
-import Mixpanel from 'mixpanel'
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {stripe} from '../../../utils/stripe'
 import Stripe from 'stripe'
 import {z} from 'zod'
+import Mixpanel from 'mixpanel'
+
+const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
+
+type MixpanelData = {
+  distinct_id: string
+  subscriptionType: string
+  subscriptionInterval: string
+  currentPeriodStart: string
+  currentPeriodEnd: string
+}
+
+/*
+When a user subscribes to pro en egghead, with any interval 
+
+It captures when someone subscribes and pay a pro membership for the first time
+*/
+export const purchaseSubscriptionCreated = ({
+  distinct_id,
+  subscriptionType,
+  subscriptionInterval,
+  currentPeriodStart,
+  currentPeriodEnd,
+}: MixpanelData) =>
+  mixpanel.track('Subscription Created', {
+    distinct_id,
+    subscriptionType,
+    subscriptionInterval,
+    currentPeriodStart,
+    currentPeriodEnd,
+  })
+
+/*
+Recieve stripe event that the subscription has been canceled 
+
+The user no longer finds our service of value at the current time
+*/
+export const purchaseSubscriptionCanceled = (distinct_id: string) =>
+  mixpanel.track('Subscription Canceled', {
+    distinct_id,
+  })
+
+/*
+Recieve stripe event and plan amount is more than before
+
+When people change their plans. There are three possible downgrades: 
+- from yearly to quarter
+- from yearly to monthly 
+- from quarter to monthly 
+*/
+export const purchaseSubscriptionDowngraded = ({
+  distinct_id,
+  subscriptionType,
+  subscriptionInterval,
+  currentPeriodStart,
+  currentPeriodEnd,
+}: MixpanelData) =>
+  mixpanel.track('Subscription Downgrade', {
+    distinct_id,
+    subscriptionType,
+    subscriptionInterval,
+    currentPeriodStart,
+    currentPeriodEnd,
+  })
+
+/*
+Recieve stripe event and plan amount is more than before
+
+"When people change their plans. There are three possible upgrades: 
+- from montly to quarter 
+- from month to year 
+- from quarter to year "
+*/
+export const purchaseSubscriptionUpgraded = ({
+  distinct_id,
+  subscriptionType,
+  subscriptionInterval,
+  currentPeriodStart,
+  currentPeriodEnd,
+}: any) =>
+  mixpanel.track('Subscription Upgrade', {
+    distinct_id,
+    subscriptionType,
+    subscriptionInterval,
+    currentPeriodStart,
+    currentPeriodEnd,
+  })
+
+/*
+Set's a property on the mixpanel user that reflects their current subscription status
+*/
+export const purchaseSetSubscriptionStatus = (
+  distinct_id: string,
+  subscriptionStatus: string,
+) =>
+  mixpanel.people.set(distinct_id, {
+    subscriptionStatus,
+  })
 
 function stripeToMixpanelDataConverter(stripeDate: number) {
   const date = new Date(stripeDate * 1000)
@@ -72,8 +169,6 @@ const cioAxios = axios.create({
 })
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
-
-const mixpanel = Mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || '')
 
 const stripeWebhookHandler = async (
   req: NextApiRequest,
@@ -148,14 +243,15 @@ const stripeWebhookHandler = async (
           }
 
           if (stripeUpgradeState === UPGRADE) {
-            mixpanel.track('Subscription Upgrade', mixpanelEventData)
+            purchaseSubscriptionUpgraded(mixpanelEventData)
           } else {
-            mixpanel.track('Subscription Downgrade', mixpanelEventData)
+            purchaseSubscriptionDowngraded(mixpanelEventData)
           }
 
-          mixpanel.people.set(cioCustomer.id, {
-            subscriptionStatus: stripeSubscription.status,
-          })
+          purchaseSetSubscriptionStatus(
+            cioCustomer.id,
+            stripeSubscription.status,
+          )
         }
 
         res.status(200).send(`This works!`)
@@ -165,13 +261,8 @@ const stripeWebhookHandler = async (
         )
         const cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
-        mixpanel.track('Subscription Canceled', {
-          distinct_id: cioCustomer.id,
-        })
-
-        mixpanel.people.set(cioCustomer.id, {
-          subscriptionStatus: 'canceled',
-        })
+        purchaseSubscriptionCanceled(cioCustomer.id)
+        purchaseSetSubscriptionStatus(cioCustomer.id, 'canceled')
 
         res.status(200).send(`This works!`)
       } else if (event.type === 'customer.subscription.created') {
@@ -197,7 +288,7 @@ const stripeWebhookHandler = async (
         let subscriptionInterval =
           stripeSubscription.items.data[0].plan.interval
 
-        mixpanel.track('Subscription Created', {
+        purchaseSubscriptionCreated({
           distinct_id: cioCustomer.id,
           subscriptionType,
           subscriptionInterval,
@@ -209,9 +300,7 @@ const stripeWebhookHandler = async (
           ),
         })
 
-        mixpanel.people.set(cioCustomer.id, {
-          subscriptionStatus: stripeSubscription.status,
-        })
+        purchaseSetSubscriptionStatus(cioCustomer.id, stripeSubscription.status)
 
         res.status(200).send(`This works!`)
       } else {

@@ -3,18 +3,12 @@ import Image from 'next/image'
 import * as React from 'react'
 import {track} from 'utils/analytics'
 import Share from 'components/share'
-import {useTrackComponent} from 'hooks/use-track-component'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
 const RecommendNextStepOverlay: React.FunctionComponent<{
   lesson: any
 }> = ({lesson}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
-
-  useTrackComponent('show recommendations', {
-    course: lesson?.collection?.slug,
-    lesson: lesson?.slug,
-  })
 
   return (
     <OverlayWrapper>
