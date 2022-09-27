@@ -1,5 +1,5 @@
 import OAuthClient from 'client-oauth2'
-import {track, identify} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import axios from 'axios'
 import get from 'lodash/get'
 import cookie from './cookies'
@@ -120,12 +120,10 @@ export default class Auth {
 
   login() {
     window.open(this.eggheadAuth.token.getUri())
-    track('logged in')
   }
 
   logout() {
     return new Promise((resolve) => {
-      track('logged out')
       resolve(this.clearLocalStorage())
     })
   }
@@ -155,7 +153,7 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       this.setSession(accessToken, expiresInSeconds).then(
         (user: any) => {
-          identify(user)
+          analytics.identify(user)
           resolve(user)
         },
         (error) => {
@@ -245,7 +243,7 @@ export default class Auth {
           if (!this.isAuthenticated()) {
             return reject('not authenticated')
           }
-          if (data) identify(data)
+          if (data) analytics.identify(data)
           if (data.contact_id) {
             cookie.set(CIO_IDENTIFIER_KEY, data.contact_id)
           }

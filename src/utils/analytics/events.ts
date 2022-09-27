@@ -118,6 +118,12 @@ type InternalActivity = Activity & {
   resourceType?: string
 }
 
+export const activityLogIn = (type: string = 'email') =>
+  track('clicked internal link', {
+    eventGroup: 'activity',
+    type,
+  })
+
 // User clicks a link that redirects to an internal page
 /* 
 Throughout our content we include links to complement the user's learning. 

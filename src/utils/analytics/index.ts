@@ -1,6 +1,7 @@
 import noop from 'utils/noop'
 import {identify} from './identify'
 import {
+  activityLogIn,
   activityInternalLinkClick,
   activityExternalLinkClick,
   activityCtaClick,
@@ -16,6 +17,7 @@ import {
 } from './events'
 
 const events = {
+  activityLogIn,
   activityInternalLinkClick,
   activityExternalLinkClick,
   activityCtaClick,
