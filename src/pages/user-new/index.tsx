@@ -5,7 +5,11 @@ import {useViewer} from 'context/viewer-context'
 import {loadAccount} from 'lib/accounts'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 
-import {ActivityTabContent, AccountInfoTabContent} from 'components/pages/user'
+import {
+  ActivityTabContent,
+  AccountInfoTabContent,
+  BookmarksTabContent,
+} from 'components/pages/user'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -128,6 +132,7 @@ const tabs = [
   //     )
   //   },
   // },
+  {label: 'Bookmarks', component: <BookmarksTabContent />},
   {label: 'Account Info', component: <AccountInfoTabContent />},
   // {
   //   label: 'Payment',
