@@ -129,7 +129,7 @@ const getOrCreateLessonView = async (
 
 const trackPercentComplete = (lessonView: {series: any}) => {
   const series = lessonView.series
-  const percents = [0.1, 0.25, 0.5, 0.75]
+  const percents = [0.1, 0.25, 0.5, 0.75, 1]
   if (series && series.progress && series.published_lesson_count) {
     percents.forEach((percent) => {
       const trackPercent =
@@ -138,6 +138,9 @@ const trackPercentComplete = (lessonView: {series: any}) => {
         percentCompleted = Math.floor(percent * 100)
       if (trackPercent) {
         analytics.events.engagementCourseProgress(series.slug, percentCompleted)
+      }
+      if (trackPercent && percentCompleted === 100) {
+        analytics.events.engagementCompletedCourse(series.slug)
       }
     })
   }
@@ -154,6 +157,7 @@ const trackStartingCourse = (lessonView: {
   if (progress && progress.completed_lesson_count === 0) {
     analytics.events.engagementStartCourse(lessonView.series.slug)
   }
+
   return lessonView
 }
 
