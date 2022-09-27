@@ -96,14 +96,13 @@ export const engagementReadArticle = (slug: string, percentComplete: string) =>
 We want to track the different queries that are being sent and what learners are searching for. This will feed into the learners engagnement metric but we will also be able to parse what queries are sent for content pitches
 */
 export const engagementSearchedWithQuery = (
-  eventGroup: 'engagement',
   currentLocation: string,
   queryString: string,
 ) =>
   track('searched with query', {
     eventGroup: 'engagement',
-    currentLocation: currentLocation,
-    queryString: queryString,
+    currentLocation,
+    queryString,
   })
 
 //! ACTIVITY EVENT GROUP
