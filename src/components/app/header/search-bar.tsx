@@ -2,6 +2,7 @@ import {track} from 'utils/analytics'
 import {useRouter} from 'next/router'
 import {Form, Formik} from 'formik'
 import {isEmpty} from 'lodash'
+import analytics from 'utils/analytics'
 
 const SearchBar = () => {
   const router = useRouter()
@@ -18,10 +19,10 @@ const SearchBar = () => {
           })
         } else {
           router.push(`/q?q=${values.query?.split(' ').join('+')}`)
-          track('searched for query', {
-            query: values.query,
-            location: 'home',
-          })
+          analytics.events.engagementSearchedWithQuery(
+            values.query,
+            'home page',
+          )
         }
       }}
     >

@@ -2,6 +2,7 @@ import React, {FunctionComponent} from 'react'
 import {connectSearchBox} from 'react-instantsearch-dom'
 import {track} from 'utils/analytics'
 import useBreakpoint from 'utils/breakpoints'
+import analytics from 'utils/analytics'
 
 type CustomSearchBoxProps = {
   currentRefinement: any
@@ -36,9 +37,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
 
     setTrackTimerId(
       setTimeout(() => {
-        track('searched for query', {
-          query: value,
-        })
+        analytics.events.engagementSearchedWithQuery(value, 'search page')
       }, 1500),
     )
 
