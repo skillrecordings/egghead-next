@@ -36,7 +36,7 @@ const CompletedCourses: React.FC<{
       ) : completeCourseData.length === 0 ? (
         <span>You haven't finished any courses yet</span>
       ) : (
-        <div className="max-h-[400px] md:max-h-[570px] overscroll-contain overflow-y-auto">
+        <ul className="max-h-[400px] md:max-h-[570px] overscroll-contain overflow-y-auto">
           {completeCourseData.map(
             ({
               collection,
@@ -49,24 +49,28 @@ const CompletedCourses: React.FC<{
                 return null
               }
               return (
-                <div
+                <li
                   key={collection.slug}
                   className="flex border-b border-gray-200 dark:border-gray-800 py-3 items-center space-x-2 pr-3 first:pt-0 last:pb-0 last:border-0"
                 >
-                  <Link href={collection?.path || '/'}>
-                    <a className="blok shrink-0 w-8 h-8 relative">
-                      {collection?.image ? (
-                        <Image
-                          src={collection.image}
-                          alt=""
-                          objectFit="contain"
-                          layout="fill"
-                        />
-                      ) : (
-                        <Eggo className="w-8" />
-                      )}
-                    </a>
-                  </Link>
+                  {collection?.path ? (
+                    <Link href={collection.path}>
+                      <a className="blok shrink-0 w-8 h-8 relative">
+                        {collection?.image ? (
+                          <Image
+                            src={collection.image}
+                            alt=""
+                            objectFit="contain"
+                            layout="fill"
+                          />
+                        ) : (
+                          <Eggo className="w-8" />
+                        )}
+                      </a>
+                    </Link>
+                  ) : (
+                    <Eggo className="w-8 shrink-0" />
+                  )}
                   <div className="grow">
                     <Link href={collection?.path || '/'}>
                       <a className="blok shrink-0 w-8 h-8 relative dark:hover:text-blue-300 hover:text-blue-700 duration-100">
@@ -82,11 +86,11 @@ const CompletedCourses: React.FC<{
                     <span className="hidden sm:inline">Completed on</span>{' '}
                     {format(new Date(completed_at), 'yyyy/MM/dd')}
                   </div>
-                </div>
+                </li>
               )
             },
           )}
-        </div>
+        </ul>
       )}
     </>
   )
