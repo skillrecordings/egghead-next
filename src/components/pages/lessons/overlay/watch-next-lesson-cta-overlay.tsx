@@ -5,6 +5,7 @@ import {track} from 'utils/analytics'
 import noop from 'utils/noop'
 import {useRouter} from 'next/router'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
+import analytics from 'utils/analytics'
 
 const WatchNextLessonCtaOverlay: React.FunctionComponent<{
   lesson: any
@@ -54,10 +55,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           <button
             className="border border-blue-600 rounded px-3 py-2 flex items-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
             onClick={() => {
-              track('clicked rewatch video', {
-                lesson: lesson.slug,
-                location: 'lesson overlay',
-              })
+              analytics.events.engagementClickedWatchedLessonAgain(lesson.slug)
               onClickRewatch()
             }}
           >
