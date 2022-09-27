@@ -16,11 +16,11 @@ export const engagementStartCourse = (slug: string) =>
 /* This will show how engaged our learners are with material. This event could get triggered by 10%, 25%, 50%, and 75% */
 
 export const engagementCourseProgress = (
-  eventGroup: 'engagement',
   slug: string,
   percent_complete: number,
 ) =>
   track('course progress', {
+    eventGroup: 'engagement',
     slug,
     percent_complete,
   })
@@ -40,7 +40,7 @@ export const engagementCompletedCourse = (slug: string) =>
 /* Individual user finishes a lesson */
 
 export const engagementCompletedLesson = (slug: string) =>
-  track('start course', {
+  track('completed lesson', {
     eventGroup: 'engagement',
     slug,
   })
@@ -50,7 +50,7 @@ export const engagementCompletedLesson = (slug: string) =>
 /* At the end of a lesson, a user could decide to rewatch the lesson. This will give us an insight or what topics are harder or need to be watched more than once to fully understand  */
 
 export const engagementClickedWatchedLessonAgain = (slug: string) =>
-  track('start course', {
+  track('clicked watched lesson again', {
     eventGroup: 'engagement',
     slug,
   })
@@ -63,7 +63,7 @@ export const engagementListenPodcast = (
   slug: string,
   percent_complete: number,
 ) =>
-  track('start course', {
+  track('listen podcast', {
     eventGroup: 'engagement',
     slug,
     percent_complete,
