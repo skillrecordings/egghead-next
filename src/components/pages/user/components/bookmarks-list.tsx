@@ -1,13 +1,16 @@
 import * as React from 'react'
-import {useViewer} from 'context/viewer-context'
-import axios from 'utils/configured-axios'
 import Link from 'next/link'
 import Image from 'next/image'
 import {reject, isEmpty} from 'lodash'
+import {XIcon} from '@heroicons/react/solid'
+
+import axios from 'utils/configured-axios'
 import {track} from 'utils/analytics'
 import {convertTimeWithTitles} from 'utils/time-utils'
+import {useViewer} from 'context/viewer-context'
 import {LoginRequiredParams} from 'components/login-required'
-import {XIcon} from '@heroicons/react/solid'
+import Eggo from 'components/icons/eggo'
+import Spinner from 'components/spinner'
 
 const BookmarksList: React.FunctionComponent<LoginRequiredParams> = () => {
   const {viewer} = useViewer()
@@ -31,26 +34,42 @@ const BookmarksList: React.FunctionComponent<LoginRequiredParams> = () => {
     <>
       {loadingBookmarks || isEmpty(bookmarks) ? (
         <div className="text-gray-600 dark:text-gray-400">
-          {loadingBookmarks
-            ? 'Loading...'
-            : `You haven't bookmarked any courses yet.`}
+          {loadingBookmarks ? (
+            <div className="relative flex justify-center">
+              <Spinner className="w-6 h-6 text-gray-600" />
+            </div>
+          ) : (
+            "You haven't bookmarked any courses yet."
+          )}
         </div>
       ) : (
-        <ul className="space-y-6">
+        <ul>
           {bookmarks.map((bookmark: any) => {
             return (
-              <li className="flex items-center space-x-5" key={bookmark.slug}>
-                {bookmark.square_cover_128_url && (
-                  <div className="flex items-center flex-shrink-0">
-                    <Image
-                      width={48}
-                      height={48}
-                      src={bookmark.square_cover_128_url}
-                    />
-                  </div>
+              <li
+                key={bookmark.slug}
+                className="flex border-b border-gray-200 dark:border-gray-800 py-3 items-center space-x-2 pr-3 first:pt-0 last:pb-0 last:border-0"
+              >
+                {bookmark?.path ? (
+                  <Link href={bookmark.path}>
+                    <a className="blok shrink-0 w-8 h-8 relative">
+                      {bookmark?.square_cover_128_url ? (
+                        <Image
+                          src={bookmark.square_cover_128_url}
+                          alt=""
+                          objectFit="contain"
+                          layout="fill"
+                        />
+                      ) : (
+                        <Eggo className="w-8" />
+                      )}
+                    </a>
+                  </Link>
+                ) : (
+                  <Eggo className="w-8 shrink-0" />
                 )}
-                <div className="flex flex-col">
-                  <div className="flex space-x-2">
+                <div className="grow">
+                  <div className="flex space-x-2 w-full justify-between">
                     <Link href={bookmark.path}>
                       <a className="inline-flex items-center space-x-2 group">
                         <div className="font-medium leading-tight group-hover:underline md:text-lg text-normal">
