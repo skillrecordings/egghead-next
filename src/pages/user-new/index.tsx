@@ -63,7 +63,7 @@ const User: React.FunctionComponent<
                 </h1>
               </div>
               <div className="px-4 sm:px-6 md:px-0">
-                <div className="py-6">
+                <div className="mt-6">
                   <div className="md:hidden">
                     <label htmlFor="selected-tab" className="sr-only">
                       Select a tab
