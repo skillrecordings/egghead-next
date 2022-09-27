@@ -4,6 +4,7 @@ import LearnerStats from './learner-stats'
 import AvatarForm from './avatar-form'
 import RequestEmailChangeForm from './request-email-change-form'
 import RequestNameChangeForm from './request-name-change-form'
+import BookmarksList from './bookmarks-list'
 
 export {
   CompletedCourses,
@@ -12,4 +13,5 @@ export {
   AvatarForm,
   RequestEmailChangeForm,
   RequestNameChangeForm,
+  BookmarksList,
 }
