@@ -1,6 +1,6 @@
 import * as React from 'react'
 import cookies from 'utils/cookies'
-import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import axios from 'axios'
 import {get, identity, isEmpty, pickBy} from 'lodash'
@@ -97,13 +97,6 @@ const onProgress = async (
 
   lessonProgress[lesson.slug] = roundedProgress
   if (lesson.lesson_view_url) {
-    if (roundedProgress === 30) {
-      track('started lesson', {
-        lesson: lesson.slug,
-        tags: lesson.tags.map((tag: {slug: any}) => tag.slug),
-      })
-    }
-
     return await storeProgress(roundedProgress, lesson)
   } else {
     const segments = lessonProgress[lesson.slug] / 30
@@ -144,10 +137,7 @@ const trackPercentComplete = (lessonView: {series: any}) => {
           series.progress.completed_lesson_count,
         percentCompleted = Math.floor(percent * 100)
       if (trackPercent) {
-        track('progress in course', {
-          course: series.slug,
-          percent_completed: percentCompleted,
-        })
+        analytics.events.engagementCourseProgress(series.slug, percentCompleted)
       }
     })
   }
@@ -162,11 +152,7 @@ const trackStartingCourse = (lessonView: {
   const progress = series && lessonView.series.progress
 
   if (progress && progress.completed_lesson_count === 0) {
-    track('started course', {
-      first_lesson: lessonView.lesson_slug,
-      lesson_count: series.published_lesson_count,
-      course: lessonView.series.slug,
-    })
+    analytics.events.engagementStartCourse(lessonView.series.slug)
   }
   return lessonView
 }
