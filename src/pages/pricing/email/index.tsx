@@ -56,18 +56,14 @@ const Email: React.FunctionComponent<EmailFormProps> & {getLayout: any} = ({
       })
     } else if (!!priceId) {
       setIsError(false)
-      track('checkout: redirect to stripe', {priceId})
-        .then(() =>
-          stripeCheckoutRedirect({
-            priceId,
-            email,
-            quantity,
-            coupon,
-          }),
-        )
-        .catch((error) => {
-          setIsError(error)
-        })
+      stripeCheckoutRedirect({
+        priceId,
+        email,
+        quantity,
+        coupon,
+      }).catch((error) => {
+        setIsError(error)
+      })
     } else {
       // priceId is not set, useEffect should push to different route
     }

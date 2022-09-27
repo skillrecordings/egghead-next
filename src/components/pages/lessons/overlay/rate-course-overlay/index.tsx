@@ -1,6 +1,5 @@
 import * as React from 'react'
 import {Field, Form, Formik} from 'formik'
-import {useTrackComponent} from 'hooks/use-track-component'
 import OverlayWrapper from 'components/pages/lessons/overlay/wrapper'
 
 const rangeArr = [1, 2, 3, 4, 5, 6, 7]
@@ -22,8 +21,6 @@ const RateCourseOverlay: React.FunctionComponent<{
   const [rating, setRating] = React.useState(false)
   const [complete, setComplete] = React.useState(false)
   const {title, square_cover_480_url, slug} = course
-
-  useTrackComponent('show rate course', {course: slug})
 
   return (
     <OverlayWrapper>
