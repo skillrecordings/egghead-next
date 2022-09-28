@@ -16,6 +16,7 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
+import analytics from 'utils/analytics'
 
 type LessonProps = {
   initialLesson: any
@@ -51,6 +52,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
   }, [height])
 
   const lesson: any = get(playerState, 'context.lesson', initialLesson)
+
   const {
     instructor,
     transcript,
@@ -133,6 +135,9 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   )}?v=20201027`}
                   controls
                   subtitlesUrl={get(lesson, 'subtitles_url')}
+                  onClick={() => {
+                    analytics.events.engagementStartedTalk(lesson.slug)
+                  }}
                 />
               </div>
             </div>

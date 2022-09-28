@@ -14,6 +14,7 @@ import {
   engagementClickedWatchedLessonAgain,
   engagementListenPodcast,
   engagementReadArticle,
+  engagementStartedTalk,
 } from './events'
 
 const events = {
@@ -30,6 +31,7 @@ const events = {
   engagementClickedWatchedLessonAgain,
   engagementListenPodcast,
   engagementReadArticle,
+  engagementStartedTalk,
 }
 
 export const track = (event: string, paramsOrCallback?: any, callback?: any) =>

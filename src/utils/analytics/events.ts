@@ -73,11 +73,18 @@ export const engagementListenPodcast = (
 /*
 This will show how engaged our learners are with material. This event could get trigered by 10%, 25%, 50%, and 75%, 100%
 */
-export const engagementWatchedTalk = (slug: string, percentComplete: string) =>
-  track('read article', {
+
+export const engagementStartedTalk = (slug: string) =>
+  track('started talk', {
     eventGroup: 'engagement',
     slug,
-    percentComplete,
+  })
+
+export const engagementWatchedTalk = (slug: string, percent_complete: number) =>
+  track('watched talk', {
+    eventGroup: 'engagement',
+    slug,
+    percent_complete,
   })
 
 // When a user is visiting an article page
