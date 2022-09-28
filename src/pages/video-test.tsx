@@ -3,7 +3,7 @@ import {GetServerSideProps} from 'next'
 import VideoResourcePlayer from 'components/player'
 import {PlayerProvider} from 'cueplayer-react'
 import {VideoResource} from 'types'
-import {loadBasicLesson} from 'lib/lessons'
+import {loadLesson} from 'lib/lessons'
 import PlayerSidebar from 'components/player/player-sidebar'
 import PlayerContainer from 'components/player/player-container'
 
@@ -39,10 +39,10 @@ export const getServerSideProps: GetServerSideProps = async function ({
   params,
   query,
 }) {
-  const lesson =
+  const lessonSlug =
     (query?.lesson as string) || 'react-a-beginners-guide-to-react-introduction'
-  const videoResource: VideoResource = (await loadBasicLesson(
-    lesson,
+  const videoResource: VideoResource = (await loadLesson(
+    lessonSlug,
   )) as VideoResource
 
   return {

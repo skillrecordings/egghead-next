@@ -3,48 +3,72 @@ import {FunctionComponent} from 'react'
 import axios from 'utils/configured-axios'
 import {track} from 'utils/analytics'
 import Tippy from '@tippyjs/react'
+import Link from 'next/link'
 
 type DownloadButtonProps = {
-  lesson: any
+  slug: string
+  download_url?: string
 }
 
 type DownloadControlProps = {
-  lesson: any
-  key: string
-  order: number
+  slug: string
+  download_url?: string
+  key?: string
+  order?: number
 }
 
-const DownloadButton: FunctionComponent<DownloadButtonProps> = ({lesson}) => {
-  return (
+const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
+  slug,
+  download_url,
+}) => {
+  return download_url ? (
     <button
       onClick={(e) => {
         e.preventDefault()
-        if (lesson?.download_url) {
-          axios.get(lesson.download_url).then(({data}) => {
+        if (download_url) {
+          axios.get(download_url).then(({data}) => {
             window.location.href = data
           })
         }
         track(`clicked download lesson`, {
-          lesson: lesson.slug,
+          lesson: slug,
         })
       }}
       aria-label="download video"
-      className={`w-10 h-10 flex items-center justify-center border-none text-white ${
-        !lesson?.download_url ? 'opacity-50 cursor-default' : ''
-      }`}
+      className="w-10 h-10 flex items-center justify-center border-none text-white"
+      type="button"
     >
       <IconDownload className="w-6" />
     </button>
+  ) : (
+    <Link href="/pricing" passHref>
+      <a
+        aria-label="become a member to download this lesson"
+        className="w-10 h-10 flex items-center justify-center opacity-50"
+      >
+        <IconDownload className="w-6" />
+      </a>
+    </Link>
   )
 }
 
-const DownloadControl: FunctionComponent<DownloadControlProps> = ({lesson}) => {
-  return lesson?.download_url ? (
-    <DownloadButton lesson={lesson} />
-  ) : (
-    <Tippy content="Download feature is for members only">
+const DownloadControl: FunctionComponent<DownloadControlProps> = ({
+  slug,
+  download_url,
+}) => {
+  return (
+    <Tippy
+      offset={[0, -2]}
+      content={
+        <div className="text-sm bg-gray-900 px-2 py-1 rounded-sm">
+          {download_url
+            ? 'Download video'
+            : 'Become a member to download this lesson'}
+        </div>
+      }
+    >
       <div>
-        <DownloadButton lesson={lesson} />
+        <DownloadButton slug={slug} download_url={download_url} />
       </div>
     </Tippy>
   )
@@ -54,6 +78,7 @@ const IconDownload: FunctionComponent<{className?: string}> = ({
   className = '',
 }) => (
   <svg
+    aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
     viewBox="0 0 32 32"

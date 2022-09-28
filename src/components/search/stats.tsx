@@ -13,7 +13,7 @@ const CustomStats: React.FunctionComponent<CustomStatsProps> = ({
   return !searchQuery || /^\s*$/.test(searchQuery) ? (
     <div />
   ) : (
-    <div className="sm:text-lg flex items-baseline flex-nowrap overflow-hidden max-w-full flex-grow pt-5 px-3">
+    <div className="sm:text-lg flex items-baseline flex-nowrap overflow-hidden max-w-full  pt-5 px-3">
       <div className="font-semibold whitespace-nowrap">
         {nbHits.toLocaleString()} results
       </div>

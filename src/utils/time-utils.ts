@@ -5,6 +5,11 @@ function pad(s: string | any[]) {
   return s.length > 10 ? s : s.length == 0 ? '00' : s
 }
 
+export function convertMintoHours(minutes: number) {
+  const hours = ~~(minutes / 60)
+  return `${pad(hours.toString())}h`
+}
+
 export function convertTimeToMins(seconds: number) {
   const mins = ~~(seconds / 60)
   return `${pad(mins.toString())}m`

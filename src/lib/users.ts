@@ -3,12 +3,23 @@ import gql from 'graphql-tag'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 
+const eggAxios = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+})
+
 export async function loadCurrentUser(
   token: string,
-  loadFullUser: boolean = true,
+  loadMinimalUser: boolean = true,
 ) {
-  const user = await axios
-    .get(`/api/users/current?minimal=${loadFullUser}`)
+  const authorizationHeader = token && {
+    authorization: `Bearer ${token}`,
+  }
+  const user = await eggAxios
+    .get(`/api/v1/users/current?minimal=${loadMinimalUser}`, {
+      headers: {
+        ...authorizationHeader,
+      },
+    })
     .then(({data}) => data)
 
   return user
@@ -23,6 +34,9 @@ export async function loadUserProgress(
   const query = gql`
     query AllProgress($user_id: Int!, $page: Int!, $per_page: Int!) {
       user(id: $user_id) {
+        courses_completed
+        lessons_completed
+        minutes_watched
         email
         all_progress(page: $page, per_page: $per_page) {
           count
@@ -109,6 +123,45 @@ export async function loadUserProgress(
   const {user} = await graphQLClient.request(query, variables)
 
   if (user) {
-    return user.all_progress
+    return {
+      completionStats: {
+        minutesWatched: user.minutes_watched,
+        completedCourseCount: user.courses_completed,
+        completedLessonCount: user.lessons_completed,
+      },
+      progress: user.all_progress,
+    }
+  }
+}
+
+export async function loadUserCompletedCourses(token?: string): Promise<any> {
+  const query = gql`
+    query completedCourses {
+      user_progress {
+        completed_at
+        lesson_count
+        is_complete
+        collection {
+          ... on Playlist {
+            slug
+            title
+            image: image_thumb_url
+            path
+          }
+        }
+      }
+    }
+  `
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+
+  const {user_progress} = await graphQLClient.request(query)
+
+  let completeCourses = user_progress.filter((p: any) => p.is_complete)
+
+  if (user_progress) {
+    return {
+      completeCourses,
+    }
   }
 }

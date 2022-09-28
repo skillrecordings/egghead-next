@@ -40,7 +40,7 @@ const SearchHitResourceCard: React.FC<{
   small = get(resource.image, 'src', resource.image)?.includes('/tags') ?? true
   return (
     <ResourceLink
-      path={resource.path}
+      path={resource.path.replace(/playlists/, 'courses')}
       location={location}
       className={className}
     >

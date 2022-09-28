@@ -31,8 +31,9 @@ export type LessonResource = Resource & {
   completed: boolean
   duration: number
   instructor: any
-  collection: Resource
+  collection: Resource & {lessons: any[]}
   staff_notes_url?: string
+  download_url?: string
 }
 
 export type VideoResource = LessonResource & {
@@ -111,6 +112,8 @@ export type PricingPlan = {
   name: string
   price: number
   stripe_price_id: string
+  price_discounted?: string
+  price_savings?: string
 }
 
 export type Prices = {

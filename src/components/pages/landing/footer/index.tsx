@@ -74,7 +74,6 @@ const PricingCta = () => {
     if (!priceId) return
     if (!formik.values.email) return
 
-    const account = first<StripeAccount>(get(viewer, 'accounts'))
     await track('checkout: selected plan', {
       priceId: priceId,
     })
@@ -121,7 +120,6 @@ const PricingCta = () => {
       stripeCheckoutRedirect({
         priceId,
         email: formik.values.email,
-        stripeCustomerId: account?.stripe_customer_id,
         authToken,
         quantity,
         coupon: state.context.couponToApply?.couponCode,
@@ -147,9 +145,9 @@ const PricingCta = () => {
           {!pppCouponIsApplied &&
             !pricesLoading &&
             appliedCoupon?.coupon_expires_at && (
-              <div className="max-w-xs w-full mx-auto">
+              <div className="w-full max-w-xs mx-auto">
                 <Countdown
-                  label="Holiday sale – Price goes up in:"
+                  label="Save 40% on Yearly Memberships Price goes up in:"
                   date={fromUnixTime(appliedCoupon.coupon_expires_at)}
                 />
               </div>

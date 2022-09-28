@@ -90,7 +90,7 @@ const Item: FunctionComponent<{
     <div
       className={`group flex p-3 ${
         active
-          ? 'font-semibold bg-blue-600 text-white'
+          ? 'font-semibold bg-blue-600 text-gray-100'
           : 'hover:text-blue-600 hover:bg-blue-50 dark:hover:text-white dark:hover:bg-gray-800 active:bg-blue-100'
       } transition-colors ease-in-out duration-150`}
       {...props}
@@ -112,7 +112,9 @@ const Item: FunctionComponent<{
         <div className="w-full leading-tight">{lesson.title} </div>
         <div>
           <span
-            className={`${active ? 'text-gray-200' : 'text-gray-500'} text-xs`}
+            className={`${
+              active ? 'text-gray-200' : 'text-gray-700 dark:text-gray-400'
+            } text-xs`}
           >
             {convertTimeWithTitles(lesson.duration, {showSeconds: true})}
           </span>

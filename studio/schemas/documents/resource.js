@@ -126,6 +126,19 @@ export default {
       },
     },
     {
+      name: 'productionProcessState',
+      title: 'Production Process State',
+      type: 'productionProcessState',
+      hidden: ({document}) => document.type !== 'course',
+      validation: (Rule) =>
+        Rule.custom((value, {document}) => {
+          if (document.type === 'course' && value === undefined) {
+            return 'You must select a production process state'
+          }
+          return true
+        }).warning(),
+    },
+    {
       name: 'challengeRating',
       description: 'How difficult is this?',
       title: 'Challenge Rating',

@@ -1,21 +1,14 @@
 import {NextApiRequest, NextApiResponse} from 'next'
-import {ACCESS_TOKEN_KEY} from 'utils/auth'
+import {getTokenFromCookieHeaders} from 'utils/parse-server-cookie'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src/index'
-import {CIO_KEY} from '../../hooks/use-cio'
+import {CIO_IDENTIFIER_KEY} from 'config'
 
 const serverCookie = require('cookie')
 const axios = require('axios')
 const {first} = require('lodash')
 
 const tracer = getTracer('subscriber-api')
-
-function getTokenFromCookieHeaders(serverCookies: string) {
-  const parsedCookie = serverCookie.parse(serverCookies)
-  const eggheadToken = parsedCookie[ACCESS_TOKEN_KEY] || ''
-  const cioId = parsedCookie['_cioid'] || parsedCookie['cio_id'] || ''
-  return {cioId, eggheadToken, loginRequired: eggheadToken.length <= 0}
-}
 
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
@@ -102,11 +95,15 @@ const cioSubscriber = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       if (subscriber) {
-        const cioCookie = serverCookie.serialize(CIO_KEY, subscriber.id, {
-          secure: process.env.NODE_ENV === 'production',
-          path: '/',
-          maxAge: 31556952,
-        })
+        const cioCookie = serverCookie.serialize(
+          CIO_IDENTIFIER_KEY,
+          subscriber.id,
+          {
+            secure: process.env.NODE_ENV === 'production',
+            path: '/',
+            maxAge: 31556952,
+          },
+        )
 
         res.setHeader('Set-Cookie', cioCookie)
         // res.setHeader('Cache-Control', 'max-age=1, stale-while-revalidate')

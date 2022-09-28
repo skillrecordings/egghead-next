@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take, find} from 'lodash'
+import {get, first, filter, isEmpty, take} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -51,7 +51,7 @@ type CollectionResource = {
   description: string
 }
 
-const logCollectionResource = (collection: CollectionResource) => {
+export const logCollectionResource = (collection: CollectionResource) => {
   if (typeof window !== 'undefined') {
     const {
       title,
@@ -80,7 +80,9 @@ const logCollectionResource = (collection: CollectionResource) => {
   }
 }
 
-const Duration: React.FunctionComponent<{duration: string}> = ({duration}) => (
+export const Duration: React.FunctionComponent<{duration: string}> = ({
+  duration,
+}) => (
   <div className="flex flex-row items-center">
     <ClockIcon className="w-4 h-4 mr-1 opacity-60" />
     <span>{duration}</span>{' '}
@@ -96,7 +98,7 @@ export const PublishedAt: React.FunctionComponent<{date: string}> = ({
   date,
 }) => <div>Published {date}</div>
 
-const StarsRating: React.FunctionComponent<{
+export const StarsRating: React.FunctionComponent<{
   rating: number
 }> = ({rating}) => (
   <div className="flex items-center">
@@ -107,7 +109,9 @@ const StarsRating: React.FunctionComponent<{
   </div>
 )
 
-const PeopleCompleted: React.FunctionComponent<{count: number}> = ({count}) => (
+export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
+  count,
+}) => (
   <div className="flex items-center flex-nowrap">
     <div className="mr-1 font-semibold">{count}</div>
     <div className="whitespace-nowrap">people completed</div>
@@ -175,7 +179,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const {
     topics,
     illustrator,
-    dependencies,
     pairWithResources = defaultPairWithResources,
     courseProject,
     quickFacts,
@@ -205,7 +208,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     collection_progress,
     favorited,
     updated_at,
-    published_at,
     created_at,
     access_state,
     customOgImage,
@@ -214,11 +216,15 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     pairWithResources: sanityPairWithResources,
     essentialQuestions: sanityEssentialQuestions,
     illustrator: sanityIllustrator,
-    dependencies: sanityDependencies,
+    dependencies: sanityTags = [],
     state,
     path,
-    tags = [],
+    tags: railsTags = [],
   } = course
+
+  const sanityTagsPresent = () => {
+    return sanityTags.length > 0
+  }
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
@@ -243,18 +249,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   )
 
   logCollectionResource(course)
-
-  const courseTags = tags.map((tag: any) => {
-    const ogVersion = get(dependencies, tag.name)
-    const sanityTag = find(sanityDependencies, {name: tag.name})?.version
-
-    const version = !isEmpty(sanityTag) ? sanityTag : ogVersion
-
-    return {
-      ...tag,
-      ...(!!version && {version}),
-    }
-  })
 
   React.useEffect(() => {
     setIsFavorite(favorited)
@@ -478,7 +472,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
 
                 <div className="flex flex-col flex-wrap items-center pt-2 md:flex-row">
-                  <TagList tags={courseTags} courseSlug={course.slug} />
+                  <TagList
+                    tags={sanityTagsPresent() ? sanityTags : railsTags}
+                    courseSlug={course.slug}
+                  />
                   <div className="flex items-center justify-center md:justify-start md:mr-4">
                     {duration && (
                       <div className="mt-2 mr-4 md:mt-0">
@@ -528,7 +525,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                         setTimeout(() => {
                           setIsClickable(true)
                         }, 1000)
-                        axios.post(toggle_favorite_url).then((resp) => {
+                        axios.post(toggle_favorite_url).then(() => {
                           setIsFavorite(!isFavorite)
                           toast(
                             `Course ${

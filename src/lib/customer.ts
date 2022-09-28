@@ -1,6 +1,15 @@
 const CIO_BASE_URL = `https://beta-api.customer.io/v1/api/`
 
-async function fetchCustomer(cioId: string) {
+type CIOCustomer = {
+  attributes: {
+    react_score: number
+  }
+}
+
+async function fetchCustomer(
+  cioId: string,
+  timeout: number = 400,
+): Promise<CIOCustomer | null> {
   return new Promise(async (resolve, reject) => {
     const cioApiPath = `/customers/${cioId}/attributes`
     const headers = new Headers({
@@ -9,15 +18,14 @@ async function fetchCustomer(cioId: string) {
 
     let timedOut = false
 
-    // if CIO isn't responding in 1.25s we want to fallback and show the page
+    // if CIO isn't responding in {timeout}s we want to fallback and show the page
     // this is because of Vercel edge function limits that require a response
     // to be returned in >=1.5s
-    const TIMEOUT = 1250
 
     const id = setTimeout(() => {
       timedOut = true
-      reject(`timeout loading customer [${cioId}]`)
-    }, TIMEOUT)
+      resolve(null)
+    }, timeout)
 
     const url = `${CIO_BASE_URL}${cioApiPath}`
 
@@ -25,12 +33,23 @@ async function fetchCustomer(cioId: string) {
       headers,
     })
       .then((response) => {
-        response.json().then(({customer}) => {
-          if (!timedOut) resolve(customer)
-        })
+        try {
+          return response.json().then((customer: any) => {
+            if (!timedOut)
+              resolve(
+                (customer?.customer
+                  ? customer.customer
+                  : customer) as CIOCustomer,
+              )
+          })
+        } catch (error) {
+          if (!timedOut) resolve(null)
+        }
       })
       .catch((error) => {
-        if (!timedOut) reject(error)
+        console.log('error fetching customer', {error})
+        if (!timedOut) resolve(null)
+        throw error
       })
       .finally(() => {
         clearTimeout(id)
@@ -55,23 +74,29 @@ async function fetchCustomer(cioId: string) {
  * @param customer optional customer object likely loaded from cookies
  * @returns customer
  */
-export const loadCio = async (cioId: string, customer?: any) => {
+export const loadCio = async (
+  cioId: string,
+  customer?: any,
+): Promise<CIOCustomer | null> => {
   try {
     if (customer) {
-      customer = JSON.parse(customer)
+      customer = JSON.parse(customer) as CIOCustomer
       if (customer !== 'undefined' && customer?.id === cioId) {
         return customer
       }
     }
   } catch (error) {
-    console.log(error)
+    console.error('parse cookie stored customer failed', error, customer)
   }
 
   try {
-    const customer: any = await fetchCustomer(cioId)
-    console.log(customer)
-    return customer?.customer ? customer.customer : customer
+    return await fetchCustomer(cioId).catch((error) => {
+      console.error('fetch customer failed', error, cioId)
+      throw error
+    })
   } catch (error) {
-    console.error(error)
+    console.error('fetch user failed', error, customer)
   }
+
+  return null
 }

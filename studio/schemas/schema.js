@@ -19,7 +19,12 @@ import cta from './objects/cta'
 import ctaPlug from './plugs/ctaPlug'
 import imageUrl from './objects/image-url'
 import stringList from './objects/string-list'
+import videoResource from './documents/videoResource'
 import post from './documents/post'
+import course from './documents/course'
+import lesson from './documents/lesson'
+import podcastEpisode from './documents/podcastEpisode'
+import podcastSeason from './documents/podcastSeason'
 import caseStudy from './documents/caseStudy'
 import category from './documents/category'
 import authorReference from './objects/author-reference'
@@ -27,6 +32,7 @@ import excerptPortableText from './objects/excerpt-portable-text'
 import bodyPortableText from './objects/body-portable-text'
 import mainImage from './objects/main-image'
 import seo from './objects/seo'
+import productionProcessState from './objects/production-process-state'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -42,6 +48,7 @@ export default createSchema({
     link,
     cta,
     ctaPlug,
+    productionProcessState,
     // The following are document types which will appear
     // in the studio.
     resource,
@@ -52,7 +59,12 @@ export default createSchema({
     essentialQuestion,
     bigIdea,
     stringList,
+    videoResource,
     post,
+    course,
+    lesson,
+    podcastEpisode,
+    podcastSeason,
     caseStudy,
     category,
     authorReference,

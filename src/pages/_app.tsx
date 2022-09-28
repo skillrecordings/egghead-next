@@ -12,17 +12,17 @@ import '@reach/tabs/styles.css'
 import '../styles/index.css'
 import 'focus-visible'
 import {FacebookPixel} from 'components/facebook-pixel'
-import {Ahoy} from 'components/ahoy'
 import {CioProvider} from 'hooks/use-cio'
 import {LogRocketProvider} from 'hooks/use-logrocket'
 import RouteLoadingIndicator from 'components/route-loading-indicator'
 import {useRouter} from 'next/router'
 import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 
 declare global {
   interface Window {
-    ahoy: any
     _cio: any
     fbq: any
     becomeUser: any
@@ -30,6 +30,8 @@ declare global {
     gtag: any
   }
 }
+
+const queryClient = new QueryClient()
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {
   console.debug(`web vitals`, metric)
@@ -93,7 +95,6 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
   return (
     <>
       <RouteLoadingIndicator isRouteChanging={state.isRouteChanging} />
-      <Ahoy />
       <FacebookPixel />
       <DefaultSeo {...defaultSeoConfig} />
       <SocialProfileJsonLd
@@ -107,9 +108,12 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
         <ViewerProvider>
           <LogRocketProvider>
             <CioProvider>
-              <MDXProvider components={mdxComponents}>
-                {getLayout(Component, pageProps)}
-              </MDXProvider>
+              <QueryClientProvider client={queryClient}>
+                <MDXProvider components={mdxComponents}>
+                  {getLayout(Component, pageProps)}
+                </MDXProvider>
+                <ReactQueryDevtools />
+              </QueryClientProvider>
             </CioProvider>
           </LogRocketProvider>
         </ViewerProvider>

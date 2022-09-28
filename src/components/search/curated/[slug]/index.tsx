@@ -41,7 +41,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
             {
               url:
                 ogImage ||
-                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201104`,
+                `https://og-image-react-egghead.now.sh/topic/${topic.name}?orientation=landscape&v=20201105`,
             },
           ],
         }}

@@ -1,11 +1,10 @@
 import * as React from 'react'
 import {useEggheadPlayerPrefs} from '../EggheadPlayer/use-egghead-player'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import {isEmpty, isFunction} from 'lodash'
+import {isEmpty} from 'lodash'
 import CollectionLessonsList from 'components/pages/lessons/collection-lessons-list'
-import {hasNotes, useNotesCues} from './index'
+import {hasNotes} from './index'
 import {VideoResource} from 'types'
-import {usePlayer} from 'cueplayer-react'
 import SimpleBar from 'simplebar-react'
 import {Element} from 'react-scroll'
 import classNames from 'classnames'
@@ -16,6 +15,19 @@ import Link from 'components/link'
 import Image from 'next/image'
 import CodeBlock from 'components/code-block'
 import {useViewer} from '../../context/viewer-context'
+import Tippy from '@tippyjs/react'
+import {
+  useVideo,
+  useMetadataCues,
+  selectActiveCues,
+} from '@skillrecordings/player'
+import {useSelector} from '@xstate/react'
+import {
+  AlertDialog,
+  AlertDialogLabel,
+  AlertDialogDescription,
+  AlertDialogContent,
+} from '@reach/alert-dialog'
 
 const notesCreationAvailable =
   process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
@@ -26,10 +38,10 @@ const PlayerSidebar: React.FC<{
   onAddNote?: any
   relatedResources?: any
 }> = ({videoResource, lessonView, onAddNote, relatedResources}) => {
+  const {viewer} = useViewer()
   const {setPlayerPrefs, getPlayerPrefs} = useEggheadPlayerPrefs()
   const {activeSidebarTab} = getPlayerPrefs()
-
-  const videoResourceHasNotes = hasNotes(videoResource)
+  const videoResourceHasNotes = viewer?.can_comment ?? hasNotes(videoResource)
   const videoResourceHasCollection = !isEmpty(videoResource.collection)
   const hasRelatedResources = !isEmpty(relatedResources)
   return (
@@ -56,7 +68,7 @@ const PlayerSidebar: React.FC<{
             />
           </TabPanel>
           <TabPanel className="inset-0 lg:absolute">
-            <NotesTab onAddNote={onAddNote} />
+            <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
           </TabPanel>
           {hasRelatedResources &&
             !videoResourceHasCollection &&
@@ -135,15 +147,23 @@ const LessonListTab: React.FC<{
   )
 }
 
-const NotesTab: React.FC<any> = ({onAddNote}) => {
-  const {player, manager} = usePlayer()
-  const {viewer} = useViewer()
-  const {cues} = useNotesCues()
-  const actions = manager?.getActions()
-  const hidden: boolean = isEmpty(cues)
+const NotesTab: React.FC<any> = ({videoResourceHasNotes}) => {
+  const cues = useMetadataCues()
+  const hidden: boolean = !videoResourceHasNotes
   const scrollableNodeRef: any = React.createRef()
 
-  const canCreateNote = viewer?.can_comment && notesCreationAvailable
+  const videoService = useVideo()
+  const clickOpen = (cue: any) => {
+    videoService.send({
+      type: 'SEEKING',
+      seekingTime: Number(cue.startTime),
+      source: 'cue',
+    })
+    videoService.send('END_SEEKING')
+
+    track('opened cue', {cue: cue.text})
+  }
+  const activeCues = useSelector(videoService, selectActiveCues)
 
   return hidden ? null : (
     <div className="w-full bg-gray-100 dark:bg-gray-1000 h-96 lg:h-full">
@@ -160,19 +180,21 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
           >
             <div className="space-y-3">
               {cues.map((cue: VTTCue) => {
-                let note: {text: string; type?: string}
+                let note: {text: string; type?: string; id?: string}
                 try {
                   note = JSON.parse(cue.text)
                 } catch (e) {
-                  note = {text: cue.text}
+                  note = {text: cue.text, id: cue.id}
                 }
-                const active = player.activeMetadataTrackCues.includes(cue)
+                const active = activeCues.includes(cue)
+                const cueStartTime = convertTime(Math.round(cue.startTime))
+
                 return (
                   <div key={cue.text}>
                     {active && <Element name="active-note" />}
                     <div
                       className={classNames(
-                        'text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent',
+                        'group text-sm p-4 bg-white dark:bg-gray-900 rounded-md shadow-sm border-2 border-transparent relative',
                         {
                           'border-indigo-500': active,
                           '': !active,
@@ -191,19 +213,23 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
                           {note.text}
                         </ReactMarkdown>
                       )}
-                      {cue.startTime && (
-                        <div
-                          onClick={() => {
-                            actions?.seek(cue.startTime)
-                            track('clicked cue in sidebar', {cue: note.text})
-                          }}
-                          className="flex items-baseline justify-end w-full pt-3 text-gray-900 underline cursor-pointer dark:text-white"
-                        >
-                          <time className="text-xs font-medium opacity-60">
-                            {convertTime(cue.startTime)}
-                          </time>
-                        </div>
-                      )}
+                      <div className="flex items-center justify-between relative pt-3">
+                        {cueStartTime && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              clickOpen(cue)
+                              track('clicked cue in sidebar', {cue: note.text})
+                            }}
+                            className="text-xs opacity-80 hover:opacity-100 transition flex items-baseline text-gray-900 hover:underline cursor-pointer dark:text-white"
+                          >
+                            <span className="sr-only">Go to</span>{' '}
+                            <time>{cueStartTime}</time>
+                          </button>
+                        )}
+                        {/* only user's own notes have an id */}
+                        {note.id && <DeleteCue cue={cue} />}
+                      </div>
                     </div>
                   </div>
                 )
@@ -211,29 +237,81 @@ const NotesTab: React.FC<any> = ({onAddNote}) => {
             </div>
           </SimpleBar>
         </div>
-        {canCreateNote && (
-          <div className="flex-shrink-0 p-4">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                if (isFunction(onAddNote)) {
-                  onAddNote()
-                  actions.pause()
-                  track(`clicked add note`)
-                }
-              }}
-              aria-expanded={true}
-              aria-controls="add-note-overlay"
-              className="flex items-center justify-center w-full p-3 text-xs font-semibold text-gray-500 uppercase duration-100 bg-gray-200 rounded-md hover:bg-gray-300 hover:text-gray-600"
-            >
-              <IconNote />
-              <span className="ml-2">Add a note</span>
-            </button>
-          </div>
-        )}
       </div>
     </div>
+  )
+}
+
+const DeleteCue: React.FC<{cue: VTTCue}> = ({cue}) => {
+  const videoService = useVideo()
+  const [showDialog, setShowDialog] = React.useState(false)
+  const cancelRef: any = React.useRef()
+  const open = () => setShowDialog(true)
+  const close = () => setShowDialog(false)
+  const deleteCue = () => {
+    videoService.send({
+      type: 'ACTIVATE_CUE',
+      cue: cue,
+    })
+    videoService.send({
+      type: 'DELETE_CUE',
+      cue: cue,
+    })
+  }
+  return (
+    <>
+      <Tippy
+        placement="top"
+        offset={[0, 5]}
+        delay={0}
+        duration={10}
+        content={
+          <div className="dark:bg-black bg-gray-100 rounded-md px-2 py-1 text-sm">
+            delete note
+          </div>
+        }
+      >
+        <button
+          type="button"
+          className="absolute -right-1 dark:text-white opacity-80 hover:opacity-100 transition p-1"
+          onClick={open}
+        >
+          <span className="sr-only">delete note</span>
+          <i aria-hidden className="gg-trash-empty scale-75" />
+        </button>
+      </Tippy>
+      {showDialog && (
+        <AlertDialog
+          onDismiss={close}
+          leastDestructiveRef={cancelRef}
+          className="dark:bg-gray-900 dark:text-white shadow-xl rounded-lg max-w-md text-center w-full"
+        >
+          <AlertDialogLabel className="opacity-80 pb-4 md:text-base text-sm">
+            Please confirm
+          </AlertDialogLabel>
+          <AlertDialogDescription className="md:text-lg">
+            Are you sure you want to delete this note?
+          </AlertDialogDescription>
+          <AlertDialogContent className="bg-transparent m-0 p-0 pt-8 w-auto flex items-center gap-3 justify-center">
+            <button
+              type="button"
+              className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-3 rounded-md transition"
+              onClick={deleteCue}
+            >
+              Yes, delete
+            </button>{' '}
+            <button
+              type="button"
+              className="dark:bg-gray-700 dark:text-white text-black bg-gray-200 px-4 py-3 rounded-md dark:hover:bg-gray-600 hover:bg-gray-300 transition"
+              ref={cancelRef}
+              onClick={close}
+            >
+              Nevermind, don't delete.
+            </button>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+    </>
   )
 }
 
@@ -247,54 +325,35 @@ const CourseHeader: React.FunctionComponent<{
   currentLessonSlug: string
 }> = ({course, currentLessonSlug}) => {
   return course ? (
-    <div>
-      <div className="flex items-center">
+    <div className="flex items-center">
+      <div className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
+        <Image
+          src={course.square_cover_480_url}
+          alt={`illustration for ${course.title}`}
+          layout="fill"
+        />
+      </div>
+      <div className="ml-2 lg:ml-4">
+        <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
+          Course
+        </h4>
         <Link href={course.path}>
-          <a className="relative flex-shrink-0 block w-12 h-12 lg:w-16 lg:h-16 xl:w-20 xl:h-20">
-            <Image
-              src={course.square_cover_480_url}
-              alt={`illustration for ${course.title}`}
-              layout="fill"
-            />
+          <a
+            onClick={() => {
+              track(`clicked open course`, {
+                lesson: currentLessonSlug,
+              })
+            }}
+            className="hover:underline"
+          >
+            <h3 className="font-bold leading-tighter 2xl:text-lg">
+              {course.title}
+            </h3>
           </a>
         </Link>
-        <div className="ml-2 lg:ml-4">
-          <h4 className="mb-px text-xs font-semibold text-gray-700 uppercase dark:text-gray-100">
-            Course
-          </h4>
-          <Link href={course.path}>
-            <a
-              onClick={() => {
-                track(`clicked open course`, {
-                  lesson: currentLessonSlug,
-                })
-              }}
-              className="hover:underline"
-            >
-              <h3 className="font-bold leading-tighter 2xl:text-lg">
-                {course.title}
-              </h3>
-            </a>
-          </Link>
-        </div>
       </div>
     </div>
   ) : null
 }
 
 export default PlayerSidebar
-
-const IconNote: React.FC<any> = ({className}) => (
-  <svg
-    viewBox="0 0 23 22"
-    xmlns="http://www.w3.org/2000/svg"
-    className={`w-4 h-4 ${className ?? ''}`}
-  >
-    <path
-      fill="currentColor"
-      fillRule="evenodd"
-      d="M23 14.667V2.933C23 1.313 21.713 0 20.125 0H2.875C1.287 0 0 1.313 0 2.933v11.734c0 1.62 1.287 2.933 2.875 2.933h4.313L11.5 22l4.313-4.4h4.312c1.588 0 2.875-1.313 2.875-2.933zm-18.688-8.8c0-.81.644-1.467 1.438-1.467h11.5c.794 0 1.438.657 1.438 1.467s-.644 1.466-1.438 1.466H5.75c-.794 0-1.438-.656-1.438-1.466zm1.438 4.4c-.794 0-1.438.656-1.438 1.466 0 .81.644 1.467 1.438 1.467h4.313c.793 0 1.437-.657 1.437-1.467s-.644-1.466-1.438-1.466H5.75z"
-      clipRule="evenodd"
-    />
-  </svg>
-)

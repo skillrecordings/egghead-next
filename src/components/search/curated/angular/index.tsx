@@ -64,7 +64,7 @@ const SearchAngular = () => {
         <Topic
           className="col-span-8"
           title="Angular"
-          imageUrl="https://og-image-react-egghead.now.sh/topic/angular?orientation=portrait&v=20201104"
+          imageUrl="https://og-image-react-egghead.now.sh/topic/angular?orientation=portrait&v=20201105"
         >
           {`Angular is a TypeScript-based open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.
           

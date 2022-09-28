@@ -25,6 +25,9 @@ const courseQuery = groq`
 	"customOgImage": images[label == 'og-image'][0]{
     url
   },
+  "illustration": images[label == 'illustration'][0]{
+    url
+  },
 	'illustrator': collaborators[]->[role == 'illustrator'][0]{
     'name': person->name,
     'image': person->image.url
@@ -76,6 +79,10 @@ export async function loadCourseMetadata(id: number) {
   }
 
   const course = await sanityClient.fetch(courseQuery, params)
+
+  if (course?.illustration?.url) {
+    course['square_cover_480_url'] = course.illustration.url
+  }
 
   return course
 }

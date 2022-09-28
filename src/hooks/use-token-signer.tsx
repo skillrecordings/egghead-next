@@ -94,8 +94,13 @@ function useTokenSigner() {
   const removeQueryFromUrl = React.useCallback(
     (paramName: string) => {
       const {[paramName]: _paramToRemove, ...updatedQuery} = router.query
+      // This used to be a shallow render (`shallow: true`), but we noticed that
+      // even though the URL was getting rewritten, the underlying router state
+      // was not being affect. This meant that `af` and `rc`, though stripped out
+      // of the URL, were continuing to appear in the `router.query` object and
+      // cause an infinite loop with the useEffect.
       router.push({pathname: router.pathname, query: updatedQuery}, undefined, {
-        shallow: true,
+        shallow: false,
       })
     },
     [router],

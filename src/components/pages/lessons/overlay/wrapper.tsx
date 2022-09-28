@@ -1,10 +1,17 @@
-import React, {FunctionComponent} from 'react'
+import * as React from 'react'
+import cx from 'classnames'
 
-const OverlayWrapper: FunctionComponent<{
+const OverlayWrapper: React.FC<{
   children: React.ReactNode
-}> = ({children}) => {
+  className?: string
+}> = ({children, className}) => {
   return (
-    <div className="flex items-center justify-center bg-gray-800 text-white bg-opacity-90 w-full h-full">
+    <div
+      className={cx(
+        'sm:py-16 py-8 flex items-center justify-center h-full bg-black text-white bg-opacity-80 w-full',
+        className,
+      )}
+    >
       {children}
     </div>
   )

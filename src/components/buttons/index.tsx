@@ -3,7 +3,12 @@ import Link from 'next/link'
 import noop from 'utils/noop'
 
 type ButtonProps = {
-  url: string
+  url:
+    | string
+    | {
+        pathname: string
+        query?: any
+      }
   label: string
   className?: string
   quiet?: boolean
