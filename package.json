@@ -125,6 +125,7 @@
     "react-markdown": "^5.0.3",
     "react-s3-uploader": "^5.0.0",
     "react-scroll": "^1.8.3",
+    "react-scroll-tracker": "^1.7.0",
     "react-textfit": "^1.1.1",
     "react-twitter-embed": "^3.0.3",
     "react-use": "^17.2.4",

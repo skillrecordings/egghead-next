@@ -13,6 +13,8 @@ import {useRouter} from 'next/router'
 import {withProse} from 'utils/remark/with-prose'
 import CourseWidget from 'components/mdx/course-widget'
 import find from 'lodash/find'
+import {useScrollTracker} from 'react-scroll-tracker'
+import analytics from 'utils/analytics'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -41,6 +43,12 @@ const Tag = (props: any) => {
     : undefined
 
   const ogImage = seo.ogImage ? seo.ogImage : defaultOgImage
+
+  const {scrollY} = useScrollTracker([10, 25, 50, 75, 100])
+
+  if (scrollY > 0) {
+    analytics.events.engagementReadArticle(router.asPath, scrollY)
+  }
 
   return (
     <>
