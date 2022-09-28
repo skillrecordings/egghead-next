@@ -362,7 +362,7 @@ const Browse: React.FC<any> = ({viewer}) => {
     },
     {
       name: 'Talks',
-      href: '/q?type=talk',
+      href: '/talks',
       icon: PresentationChartBarIcon,
     },
   ]
