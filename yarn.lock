@@ -18643,6 +18643,11 @@ react-s3-uploader@^5.0.0:
   optionalDependencies:
     aws-sdk "2.x"
 
+react-scroll-tracker@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/react-scroll-tracker/-/react-scroll-tracker-1.7.0.tgz#2178680b8dadffd1844d8a8af03d57586a4b5eea"
+  integrity sha512-h7pAjLu9iB9hD2yDJfZp2KnQdMHIc7a5/hHTWbH5OLir96H4qmpg8uvHqIjKKm3w0Gthhvmnm+DHWQI6XWt0RQ==
+
 react-scroll@^1.8.3:
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.8.3.tgz#0aff41567808f548b1b4d893ce6bd551ba1b16ef"

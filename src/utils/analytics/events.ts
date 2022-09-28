@@ -91,7 +91,7 @@ export const engagementWatchedTalk = (slug: string, percent_complete: number) =>
 /*
 Represents the percentage of the article page a visitor has seen. It'll give us an indicator that the articles are being read. 
 */
-export const engagementReadArticle = (slug: string, percentComplete: string) =>
+export const engagementReadArticle = (slug: string, percentComplete: number) =>
   track('read article', {
     eventGroup: 'engagement',
     slug,
