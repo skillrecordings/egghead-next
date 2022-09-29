@@ -6,7 +6,7 @@ import {track} from './track'
 /* This will show courses that get started but the don't get finished  */
 
 export const engagementStartCourse = (slug: string) =>
-  track('start course', {
+  track('started a course', {
     eventGroup: 'engagement',
     slug,
   })
