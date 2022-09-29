@@ -20,8 +20,8 @@ const SearchBar = () => {
         } else {
           router.push(`/q?q=${values.query?.split(' ').join('+')}`)
           analytics.events.engagementSearchedWithQuery(
-            values.query,
             'home page',
+            values.query,
           )
         }
       }}
