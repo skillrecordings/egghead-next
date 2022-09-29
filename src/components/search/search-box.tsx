@@ -37,7 +37,7 @@ const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
 
     setTrackTimerId(
       setTimeout(() => {
-        analytics.events.engagementSearchedWithQuery(value, 'search page')
+        analytics.events.engagementSearchedWithQuery('search page', value)
       }, 1500),
     )
 
