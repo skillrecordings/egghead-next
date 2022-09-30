@@ -30,7 +30,7 @@ export const engagementCourseProgress = (
 /* This will show how engaged our learners are with material. For individual journey's this can give us insight into when to pitch learners on subscriptions or upgrades. This event represents the absolute 100% of the material in a course */
 
 export const engagementCompletedCourse = (slug: string) =>
-  track('completed course', {
+  track('completed a course', {
     eventGroup: 'engagement',
     slug,
   })
@@ -40,7 +40,7 @@ export const engagementCompletedCourse = (slug: string) =>
 /* Individual user finishes a lesson */
 
 export const engagementCompletedLesson = (slug: string) =>
-  track('completed lesson', {
+  track('completed a lesson', {
     eventGroup: 'engagement',
     slug,
   })
@@ -81,7 +81,7 @@ export const engagementStartedTalk = (slug: string) =>
   })
 
 export const engagementWatchedTalk = (slug: string, percent_complete: number) =>
-  track('watched talk', {
+  track('watched a talk', {
     eventGroup: 'engagement',
     slug,
     percent_complete,
@@ -92,7 +92,7 @@ export const engagementWatchedTalk = (slug: string, percent_complete: number) =>
 Represents the percentage of the article page a visitor has seen. It'll give us an indicator that the articles are being read. 
 */
 export const engagementReadArticle = (slug: string, percentComplete: number) =>
-  track('read article', {
+  track('read an article', {
     eventGroup: 'engagement',
     slug,
     percentComplete,
