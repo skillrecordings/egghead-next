@@ -46,9 +46,11 @@ const Tag = (props: any) => {
 
   const {scrollY} = useScrollTracker([10, 25, 50, 75, 100])
 
-  if (scrollY > 0) {
-    analytics.events.engagementReadArticle(router.asPath, scrollY)
-  }
+  React.useEffect(() => {
+    if (scrollY > 0) {
+      analytics.events.engagementReadArticle(router.asPath, scrollY)
+    }
+  }, [scrollY])
 
   return (
     <>
