@@ -135,9 +135,8 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
                   )}?v=20201027`}
                   controls
                   subtitlesUrl={get(lesson, 'subtitles_url')}
-                  onClick={() => {
-                    analytics.events.engagementStartedTalk(lesson.slug)
-                  }}
+                  lessonSlug={lesson.slug}
+                  trackCompletion={analytics.events.engagementWatchedTalk}
                 />
               </div>
             </div>

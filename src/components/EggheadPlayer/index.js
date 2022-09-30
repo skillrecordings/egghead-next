@@ -79,6 +79,11 @@ export default class EggheadPlayer extends Component {
       if (progress.loaded || progress.played) {
         this.props.onProgress(progress)
       }
+
+      if (progress.played === 1) {
+        this.props.trackCompletion(this.props.lessonSlug, progress.played)
+      }
+
       this.prevLoaded = loaded
       this.prevPlayed = played
     }
@@ -138,8 +143,9 @@ export default class EggheadPlayer extends Component {
       })
     }
 
+    let {lessonSlug, trackCompletion, ...restOtherProps} = otherProps
     return (
-      <div style={{...style, width, height}} {...otherProps}>
+      <div style={{...style, width, height}} {...restOtherProps}>
         <Bitmovin
           key={Bitmovin.displayName}
           {...props}
