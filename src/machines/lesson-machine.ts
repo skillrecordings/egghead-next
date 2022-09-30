@@ -3,6 +3,7 @@ import {Machine, assign} from 'xstate'
 import axios from 'axios'
 import {LessonResource} from '../types'
 import {convertTimeWithTitles} from '../utils/time-utils'
+import analytics from 'utils/analytics'
 
 interface LessonStateSchema {
   states: {
@@ -290,7 +291,6 @@ export const lessonMachine = Machine<
           }
         }
         const verb = verbForEvent(event.type)
-
         if (!verb) return
 
         track(`${verb} video`, {
@@ -304,6 +304,11 @@ export const lessonMachine = Machine<
               topic: tag.name,
             })
           })
+          if (context.lesson?.talk) {
+            analytics.events.engagementWatchedTalk(context.lesson.slug, '1')
+          } else {
+            analytics.events.engagementCompletedLesson(context.lesson.slug)
+          }
         }
 
         // Axios.post(`/api/progress`, {

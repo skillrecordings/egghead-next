@@ -16,12 +16,13 @@ import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import removeMarkdown from 'remove-markdown'
 import {useEnhancedTranscript} from 'hooks/use-enhanced-transcript'
+import Lesson from 'components/lessons/Lesson'
 
 type LessonProps = {
   initialLesson: any
 }
 
-const OFFSET_Y = 80
+const OFFSET_Y = 0
 const VIDEO_MIN_HEIGHT = 480
 
 const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
@@ -112,7 +113,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
               }
               @media (min-width: 960px) and (max-height: 560px) {
                 .player-container {
-                  min-height: 432px;
+                  min-height: 516px;
                 }
               }
             `}
@@ -120,20 +121,7 @@ const Talk: FunctionComponent<LessonProps> = ({initialLesson}) => {
           <div className="w-full m-auto player-container">
             <div className="pt-[56.25%] w-full relative overflow-hidden bg-black text-white">
               <div className="absolute top-0 left-0 w-full h-full">
-                <EggheadPlayer
-                  ref={playerRef}
-                  hls_url={hls_url}
-                  dash_url={dash_url}
-                  width="100%"
-                  height="auto"
-                  pip="true"
-                  poster={`https://og-image-react-egghead.now.sh/talk/${get(
-                    lesson,
-                    'slug',
-                  )}?v=20201027`}
-                  controls
-                  subtitlesUrl={get(lesson, 'subtitles_url')}
-                />
+                <Lesson initialLesson={{talk: true, ...initialLesson}} />
               </div>
             </div>
           </div>
