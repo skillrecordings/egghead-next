@@ -92,9 +92,9 @@ const User: React.FunctionComponent<
                             key={tab.label}
                             className={classNames(
                               tab.label === currentTab
-                                ? 'border-blue-600 text-blue-600'
-                                : 'border-transparent text-gray-500 dark:text-white/70 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white duration-150',
-                              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                                ? 'border-blue-600 text-blue-600  cursor-default'
+                                : 'border-transparent text-gray-500 dark:text-white/70 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white',
+                              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm duration-150',
                             )}
                             onClick={() => setCurrentTab(tab.label)}
                           >
