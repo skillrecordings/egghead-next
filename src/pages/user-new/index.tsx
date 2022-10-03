@@ -85,7 +85,7 @@ const User: React.FunctionComponent<
                     </select>
                   </div>
                   <div className="hidden md:block">
-                    <div className="border-b border-gray-200">
+                    <div className="border-b border-gray-200 dark:border-gray-700">
                       <nav className="-mb-px flex space-x-8">
                         {tabs.map((tab) => (
                           <button
