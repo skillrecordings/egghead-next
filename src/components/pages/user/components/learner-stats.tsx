@@ -24,9 +24,9 @@ const LearnerStats: React.FC<{
           {learnerStatsStatus === 'error' ? (
             <span>There was an error fetching stats</span>
           ) : (
-            <dl className="bg-white sm:grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200 -mx-4">
+            <dl className="sm:grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200 dark:divide-gray-700 -mx-4">
               <div className="flex flex-col text-center pb-5 sm:py-4">
-                <dt className="order-2 mt-2 lg:mt-3 text-sm lg:text-base font-medium text-gray-600 leading-none uppercase">
+                <dt className="order-2 mt-2 lg:mt-3 text-sm lg:text-base font-medium text-gray-600 dark:text-white leading-none uppercase">
                   Watched
                 </dt>
                 <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600 leading-none">
@@ -34,7 +34,7 @@ const LearnerStats: React.FC<{
                 </dd>
               </div>
               <div className="flex flex-col text-center py-5 sm:py-4">
-                <dt className="order-2 mt-2 lg:mt-3 text-sm lg:text-base font-medium text-gray-600 leading-none uppercase">
+                <dt className="order-2 mt-2 lg:mt-3 text-sm lg:text-base font-medium text-gray-600 dark:text-white leading-none uppercase">
                   Courses completed
                 </dt>
                 <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600 leading-none">
@@ -42,7 +42,7 @@ const LearnerStats: React.FC<{
                 </dd>
               </div>
               <div className="flex flex-col text-center pt-5 sm:py-4">
-                <dt className="order-2 mt-2 lg:mt-3 text-sm lg:text-base font-medium text-gray-600 leading-none uppercase">
+                <dt className="order-2 mt-2 lg:mt-3 text-sm lg:text-base font-medium text-gray-600 dark:text-white leading-none uppercase">
                   Lessons completed
                 </dt>
                 <dd className="order-1 text-4xl lg:text-5xl font-bold tracking-tight text-blue-600 leading-none">

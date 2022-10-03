@@ -14,7 +14,7 @@ const AccountInfoTabContent: React.FC<any> = () => {
   const {email: currentEmail, accounts, providers} = viewer || {}
   const isConnectedToGithub = providers?.includes('github')
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 md:space-y-14 xl:space-y-16">
       <ItemWrapper title="Email address">
         <RequestEmailChangeForm originalEmail={currentEmail} />
       </ItemWrapper>
