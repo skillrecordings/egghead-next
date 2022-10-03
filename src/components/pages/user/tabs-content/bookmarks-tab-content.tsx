@@ -5,7 +5,7 @@ import {BookmarksList} from 'components/pages/user/components'
 
 const BookmarksTabContent: React.FC<any> = () => {
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 md:space-y-14 xl:space-y-16">
       <WidgetWrapper title="Bookmarks">
         <BookmarksList />
       </WidgetWrapper>

@@ -46,7 +46,7 @@ const ActivityTabContent: React.FC<any> = () => {
     error: completeCourseError,
   } = useUserCompletedCourses(viewerId)
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 md:space-y-14 xl:space-y-16">
       <WidgetWrapper title="Learner Stats">
         <LearnerStats
           learnerStatsData={progressData?.completionStats}
