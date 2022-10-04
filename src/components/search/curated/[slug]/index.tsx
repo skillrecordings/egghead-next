@@ -70,6 +70,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                   describe={true}
                   resource={jumbotron.resource}
                   location={location}
+                  headingLevel="h2"
                 />
               </div>
             ) : jumbotron.image ? (
@@ -89,9 +90,9 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
       <div>
         {!isEmpty(levels) && (
           <div className="relative sm:pt-16 pt-8 sm:pb-28 pb-10">
-            <h2 className="sm:text-sm text-xs font-mono text-medium tracking-wide uppercase opacity-80 sm:pl-12 sm:text-left text-center sm:pb-0 pb-8">
+            <p className="sm:text-sm text-xs font-mono text-medium tracking-wide uppercase opacity-80 sm:pl-12 sm:text-left text-center sm:pb-0 pb-8">
               {levels.subTitle}
-            </h2>
+            </p>
             <div className="sm:grid sm:space-y-0 space-y-5 lg:grid-cols-3 grid-cols-2 xl:gap-8 sm:gap-5 gap-3 sm:px-5 px-3">
               {levels.resources.map((section: any, i: number) => {
                 return (
