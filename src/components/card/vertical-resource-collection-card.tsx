@@ -54,9 +54,9 @@ const VerticalResourceCollectionCard: React.FC<{
       )}
       <CardContent>
         <CardHeader>
-          <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
+          <p className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
             {resource.name}
-          </h2>
+          </p>
           {resource.path ? (
             <Link href={resource.path}>
               <a
@@ -69,19 +69,19 @@ const VerticalResourceCollectionCard: React.FC<{
                 }}
                 className="hover:text-blue-600 dark:hover:text-blue-300"
               >
-                <h3
+                <h2
                   className={`text-xl font-bold leading-tighter text-${titleColor}`}
                 >
                   {resource.title}
-                </h3>
+                </h2>
               </a>
             </Link>
           ) : (
-            <h3
+            <h2
               className={`text-xl font-bold leading-tighter text-${titleColor}`}
             >
               {resource.title}
-            </h3>
+            </h2>
           )}
         </CardHeader>
         <CardMeta className="text-xs text-gray-600 dark:text-gray-300 mb-2 mt-1">
@@ -143,11 +143,11 @@ const VerticalResourceCollectionCard: React.FC<{
                         }}
                         className="hover:text-blue-600 dark:hover:text-blue-300"
                       >
-                        <h4 className="text-lg font-semibold leading-tight">
-                          <Textfit mode="multi" min={14} max={17}>
+                        <h3 className="text-lg font-semibold leading-tight">
+                          <Textfit mode="multi" min={13} max={17}>
                             {resource.title}
                           </Textfit>
-                        </h4>
+                        </h3>
                       </a>
                     </Link>
                   </CardHeader>
