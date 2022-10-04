@@ -42,9 +42,9 @@ const ScriptKitCTA = ({instructorData}: any) => {
         <div className="flex flex-col h-full justify-between p-8 items-center">
           <div className="flex flex-col items-center">
             <ScriptKitBadge className="text-white" />
-            <h1 className="sm:text-2xl text-2xl font-bold min-w-full mt-10 mb-2 leading-tighter">
+            <h2 className="sm:text-2xl text-2xl font-bold min-w-full mt-10 mb-2 leading-tighter">
               Script Kit
-            </h1>
+            </h2>
             <p className="text-gray-800 px-4 mx-auto">
               Making scripts easy to run, write, and share
             </p>

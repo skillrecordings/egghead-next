@@ -47,13 +47,13 @@ const CtaCard: React.FC<{
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2
+                <p
                   className={`text-xs uppercase font-semibold my-2 ${
                     textLight ? 'text-gray-300' : 'text-gray-700'
                   }`}
                 >
                   {byline}
-                </h2>
+                </p>
                 <Link href={path}>
                   <a
                     className={`text-xl font-extrabold leading-tighter   hover:text-blue-300 ${
@@ -66,7 +66,7 @@ const CtaCard: React.FC<{
                       })
                     }
                   >
-                    <h1>{title}</h1>
+                    <h2>{title}</h2>
                   </a>
                 </Link>
                 <p

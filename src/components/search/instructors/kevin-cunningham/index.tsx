@@ -25,17 +25,22 @@ export default function SearchKevinCunningham({instructor}: {instructor: any}) {
           />
         }
       />
-      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-4 px-5 md:px-0">
-        <HorizontalResourceCard
-          resource={secondaryCourse}
-          location="Kevin Cunningham instructor page"
-          className="md:w-1/2"
-        />
-        <HorizontalResourceCard
-          resource={thirdCourse}
-          location="Kevin Cunningham instructor page"
-          className="md:w-1/2"
-        />
+      <section>
+        <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          Featured Resources
+        </h2>
+        <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-4 px-5 md:px-0">
+          <HorizontalResourceCard
+            resource={secondaryCourse}
+            location="Kevin Cunningham instructor page"
+            className="md:w-1/2"
+          />
+          <HorizontalResourceCard
+            resource={thirdCourse}
+            location="Kevin Cunningham instructor page"
+            className="md:w-1/2"
+          />
+        </div>
       </section>
     </div>
   )
@@ -102,9 +107,9 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-white text-opacity-80 uppercase font-semibold mb-2">
+                <p className="text-xs text-white text-opacity-80 uppercase font-semibold mb-2">
                   {byline}
-                </h2>
+                </p>
                 <Link href={path}>
                   <a
                     className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
@@ -116,7 +121,7 @@ const FeaturedVue3Course: React.FC<{location: string; resource: any}> = ({
                       })
                     }
                   >
-                    <h1>{title}</h1>
+                    <h2>{title}</h2>
                   </a>
                 </Link>
                 <p className="mt-4 text-white">{description}</p>
