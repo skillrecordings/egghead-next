@@ -27,6 +27,7 @@ import {
 import SaleHeaderBanner from 'components/cta/sale/header-banner'
 import {MazePattern} from './images'
 import {isMember} from 'utils/is-member'
+import analytics from 'utils/analytics'
 
 const Header: FunctionComponent = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
@@ -396,9 +397,6 @@ const Browse: React.FC<any> = ({viewer}) => {
                       <Link href={!viewer?.is_pro ? '/learn' : '/'}>
                         <a
                           onClick={() => {
-                            track(`clicked curated courses`, {
-                              location: 'header browse',
-                            })
                             close()
                           }}
                           className="relative flex items-center p-5 overflow-hidden text-white transition bg-blue-600 hover:bg-blue-500 group"
@@ -432,10 +430,12 @@ const Browse: React.FC<any> = ({viewer}) => {
                           key={item.name}
                           href={item.href}
                           onClick={() => {
-                            track(`clicked topic`, {
-                              resource: item.href,
-                              location: 'header browse',
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'curated topic page',
+                              'header browse',
+                              item.name,
+                              item.href,
+                            )
                           }}
                           className="flex items-center justify-start px-5 py-3 transition-all duration-150 ease-in-out rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                         >
@@ -456,11 +456,14 @@ const Browse: React.FC<any> = ({viewer}) => {
                       ))}
                       <a
                         href="/topics"
-                        onClick={() =>
-                          track(`clicked all topics`, {
-                            location: 'header browse',
-                          })
-                        }
+                        onClick={() => {
+                          analytics.events.activityInternalLinkClick(
+                            'search all topics',
+                            'header browse',
+                            'all topics',
+                            '/topics',
+                          )
+                        }}
                         className="flex items-center w-full px-5 py-3 font-medium leading-tight transition duration-150 ease-in-out rounded-sm lg:col-span-2 lg:px-5 sm:px-3 group hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:bg-opacity-40 hover:shadow-smooth"
                       >
                         Browse all topics{' '}

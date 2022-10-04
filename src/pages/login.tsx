@@ -168,7 +168,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                           </p>
                           <ExternalTrackedLink
                             href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
-                            // eventName="clicked github login"
                             className="flex justify-center px-5 py-3 mt-4 font-medium text-white transition-all duration-300 ease-in-out bg-gray-800 rounded-md hover:bg-gray-700 active:bg-gray-600"
                             onClick={() => {
                               analytics.events.activityLogIn('GitHub LogIn')
@@ -187,7 +186,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                             onClick={(e) => {
                               e.preventDefault()
                               setAuthMode(SSO_AUTH_MODE)
-                              analytics.events.activityLogIn('GitHub LogIn')
                             }}
                           >
                             Enterprise Login (SSO)

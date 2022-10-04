@@ -125,7 +125,7 @@ type InternalActivity = Activity & {
 }
 
 export const activityLogIn = (type: string = 'email') =>
-  track('clicked internal link', {
+  track('clicked login button', {
     eventGroup: 'activity',
     type,
   })
@@ -137,10 +137,10 @@ This event refers to those CTAs that redirect the learner to an internal page in
 */
 export const activityInternalLinkClick = (
   resourceType: string,
-  instructor: string,
   currentLocation: string,
   topic: string,
   redirectTo: string,
+  instructor?: string,
 ) =>
   track('clicked internal link', {
     eventGroup: 'activity',
