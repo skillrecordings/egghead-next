@@ -13,6 +13,7 @@ import {track} from 'utils/analytics'
 import Jumbotron from 'components/pages/home/jumbotron'
 import {Jumbotron as HolidayReleaseJumbotron} from 'components/pages/20-days-of-egghead/course-grid'
 import toast, {Toaster} from 'react-hot-toast'
+import analytics from 'utils/analytics'
 
 const Home: React.FC<any> = ({data, jumbotron, location}) => {
   const router = useRouter()
