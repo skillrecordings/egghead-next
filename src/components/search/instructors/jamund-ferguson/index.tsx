@@ -118,9 +118,11 @@ const FeatureSection = ({resource, location}: FeatureSectionType) => {
                   )}
                 </div>
                 <div className="sm:col-span-2 flex flex-col sm:items-start items-center w-full">
-                  <h3 className="text-xs text-gray-700 dark:text-gray-300 uppercase font-semibold mb-2">
-                    {resource.byline ? resource.byline : ''}
-                  </h3>
+                  {resource.byline && (
+                    <h3 className="text-xs text-gray-700 dark:text-gray-300 uppercase font-semibold mb-2">
+                      {resource.byline}
+                    </h3>
+                  )}
                   {resource.path ? (
                     <Link href={resource.path}>
                       <a

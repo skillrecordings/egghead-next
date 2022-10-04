@@ -36,6 +36,9 @@ const SearchChrisAchard = ({instructor}: {instructor: any}) => {
       />
       <div className="lg:col-span-8 col-span-12 space-y-5 flex flex-col">
         <div className="flex flex-col flex-grow">
+          <h2 className="sm:px-5 px-3 mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+            Featured Courses
+          </h2>
           <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-5 flex-grow">
             {courses.resources.map((resource: any) => {
               return (

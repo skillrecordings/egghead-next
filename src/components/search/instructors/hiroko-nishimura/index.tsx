@@ -24,17 +24,23 @@ export default function SearchHirokoNishimura({instructor}: {instructor: any}) {
           <FeaturedCourse resource={primaryCourse} location={location} />
         }
       />
-      <section className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
-        <HorizontalResourceCard
-          resource={primaryProject}
-          location={location}
-          className="md:w-2/5"
-        />
-        <HorizontalResourceCard
-          resource={secondaryCourse}
-          location={location}
-          className="md:w-3/5"
-        />
+
+      <section>
+        <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          Featured Resources
+        </h2>
+        <div className="flex md:flex-row flex-col max-w-screen-xl mx-auto gap-3 px-5 md:px-0">
+          <HorizontalResourceCard
+            resource={primaryProject}
+            location={location}
+            className="md:w-2/5"
+          />
+          <HorizontalResourceCard
+            resource={secondaryCourse}
+            location={location}
+            className="md:w-3/5"
+          />
+        </div>
       </section>
     </div>
   )
@@ -112,9 +118,9 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-gray-900 dark:text-white text-opacity-80 uppercase font-semibold mb-2">
+                <p className="text-xs text-gray-900 dark:text-white text-opacity-80 uppercase font-semibold mb-2">
                   {byline}
-                </h2>
+                </p>
                 <Link href={path}>
                   <a
                     className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-blue-300"
@@ -126,7 +132,7 @@ const FeaturedCourse: React.FC<{location: string; resource: any}> = ({
                       })
                     }
                   >
-                    <h1>{title}</h1>
+                    <h2>{title}</h2>
                   </a>
                 </Link>
                 <p className="mt-4 text-gray-900 dark:text-white">

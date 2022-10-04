@@ -31,21 +31,29 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
           />
         }
       />
-      <section className="grid lg:grid-cols-6 grid-cols-1 mb-10 pb-10 w-full gap-0 lg:gap-3">
-        <ProjectStack
-          className="col-span-2 mb-3 lg:mb-0"
-          data={projects.resources}
-        />
-        <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
-          <HorizontalResourceCard
-            className="col-span-2"
-            resource={secondCourse}
+      <section>
+        <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          Featured Resources
+        </h2>
+        <div className="grid lg:grid-cols-6 grid-cols-1 mb-10 pb-10 w-full gap-0 lg:gap-3">
+          <ProjectStack
+            className="col-span-2 mb-3 lg:mb-0"
+            data={projects.resources}
           />
-          <VerticalResourceCard className="col-span-1" resource={thirdCourse} />
-          <VerticalResourceCard
-            className="col-span-1"
-            resource={fourthCourse}
-          />
+          <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
+            <HorizontalResourceCard
+              className="col-span-2"
+              resource={secondCourse}
+            />
+            <VerticalResourceCard
+              className="col-span-1"
+              resource={thirdCourse}
+            />
+            <VerticalResourceCard
+              className="col-span-1"
+              resource={fourthCourse}
+            />
+          </div>
         </div>
       </section>
     </div>
@@ -80,9 +88,9 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
   return (
     <Card className={className}>
       <>
-        <h2 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
+        <h3 className="uppercase font-semibold text-xs mb-1 text-gray-700 dark:text-gray-300">
           Stephanie's Projects
-        </h2>
+        </h3>
         <hr />
         <div className="h-full">
           <ul className="flex flex-col h-full justify-evenly">
@@ -114,9 +122,9 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
                             )}
                           </div>
                           <div>
-                            <h2 className="text-lg font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300 mb-1">
+                            <h3 className="text-lg font-bold leading-tighter hover:text-blue-600 dark:hover:text-blue-300 mb-1">
                               {title}
-                            </h2>
+                            </h3>
                             <p className=" text-sm leading-tight max-w-none">
                               {description}
                             </p>
@@ -174,9 +182,9 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <h2 className="text-xs text-gray-900 dark:text-white  uppercase font-semibold mb-2">
+                <p className="text-xs text-gray-900 dark:text-white  uppercase font-semibold mb-2">
                   {byline}
-                </h2>
+                </p>
                 <Link href={path}>
                   <a
                     className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-blue-300"
@@ -187,7 +195,7 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
                       })
                     }
                   >
-                    <h1>{title}</h1>
+                    <h2>{title}</h2>
                   </a>
                 </Link>
                 <p className="mt-4 text-gray-900 dark:text-white">
