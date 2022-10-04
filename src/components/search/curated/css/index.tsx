@@ -96,9 +96,9 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
                 </Link>
               </div>
               <div className="flex flex-col items-center sm:items-start">
-                <h2 className="mb-2 text-xs font-semibold text-white uppercase">
+                <p className="mb-2 text-xs font-semibold text-white uppercase">
                   {byline}
-                </h2>
+                </p>
                 <Link href={path}>
                   <a
                     className="text-xl font-extrabold leading-tighter hover:text-blue-300"
@@ -109,7 +109,7 @@ const CssFormStyling: React.FC<{location: string}> = ({location}) => {
                       })
                     }
                   >
-                    <h1>{title}</h1>
+                    <h2>{title}</h2>
                   </a>
                 </Link>
                 <p className="mt-4">{description}</p>

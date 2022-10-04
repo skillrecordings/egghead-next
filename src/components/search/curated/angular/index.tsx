@@ -76,9 +76,10 @@ It’s worth an hour or so of your time to see what’s up!`}
         </Topic>
         <VerticalResourceCard
           resource={featureCourse}
-          className="col-span-4 text-center relative z-10"
+          className="col-span-4 text-center relative z-10 p-6"
           location={location}
           describe={true}
+          headingLevel="h2"
         >
           <div className="absolute top-0 left-0 bg-gradient-to-r from-red-600 to-red-400 w-full h-2 z-20" />
         </VerticalResourceCard>
@@ -92,9 +93,9 @@ It’s worth an hour or so of your time to see what’s up!`}
       />
 
       <div className="pb-12 pt-5">
-        <h1 className="md:text-3xl text-2xl dark:text-gray-100 font-bold leading-tight text-center mb-4">
+        <h2 className="md:text-3xl text-2xl dark:text-gray-100 font-bold leading-tight text-center mb-4">
           State Management in Angular
-        </h1>
+        </h2>
         <p className="leading-relaxed text-gray-700 dark:text-gray-50 space-y-3 w-full max-w-screen-sm mx-auto text-center">
           Managing state in a UI is challenging. It's genuinely difficult and
           the solutions require a depth of knowledge and experience to
