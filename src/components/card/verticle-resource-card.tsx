@@ -14,19 +14,30 @@ import {track} from 'utils/analytics'
 import {get} from 'lodash'
 import {CardResource} from 'types'
 
+const setSafeHeadingLevel = (h: string) => {
+  const validHeadingLevels = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+  const safeHeading = h ? h.toLowerCase() : ''
+
+  return validHeadingLevels.includes(safeHeading) ? safeHeading : 'p'
+}
+
 const VerticalResourceCard: React.FC<{
   resource: CardResource
   location?: string
   describe?: boolean
   className?: string
+  headingLevel?: string
 }> = ({
   children,
   resource,
   location,
   className = 'flex flex-col items-center justify-center p-5 py-6 overflow-hidden text-center bg-white border-none rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-200 sm:py-8',
   describe = false,
+  headingLevel = 'h3',
   ...props
 }) => {
+  const Title = setSafeHeadingLevel(headingLevel)
+
   return (
     <Card {...props} className={className}>
       {resource.image && resource.path ? (
@@ -38,13 +49,13 @@ const VerticalResourceCard: React.FC<{
       )}
       <CardContent>
         <CardHeader>
-          <h2 className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
+          <p className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
             {resource.name}
-          </h2>
+          </p>
           <ResourceLink path={resource.path} location={location}>
-            <h3 className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700">
+            <Title className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700">
               {resource.title}
-            </h3>
+            </Title>
           </ResourceLink>
         </CardHeader>
         <CardMeta className="mt-1 mb-2 text-xs text-gray-600 dark:text-gray-300">
