@@ -13,13 +13,7 @@ import Markdown from '../markdown'
 import {track} from 'utils/analytics'
 import {get} from 'lodash'
 import {CardResource} from 'types'
-
-const setSafeHeadingLevel = (h: string) => {
-  const validHeadingLevels = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-  const safeHeading = h ? h.toLowerCase() : ''
-
-  return validHeadingLevels.includes(safeHeading) ? safeHeading : 'p'
-}
+import SafeTitle from './safe-title'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -36,8 +30,6 @@ const VerticalResourceCard: React.FC<{
   headingLevel = 'h3',
   ...props
 }) => {
-  const Title = setSafeHeadingLevel(headingLevel)
-
   return (
     <Card {...props} className={className}>
       {resource.image && resource.path ? (
@@ -53,9 +45,12 @@ const VerticalResourceCard: React.FC<{
             {resource.name}
           </p>
           <ResourceLink path={resource.path} location={location}>
-            <Title className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700">
+            <SafeTitle
+              className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700"
+              headingLevel={headingLevel}
+            >
               {resource.title}
-            </Title>
+            </SafeTitle>
           </ResourceLink>
         </CardHeader>
         <CardMeta className="mt-1 mb-2 text-xs text-gray-600 dark:text-gray-300">

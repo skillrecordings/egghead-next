@@ -15,13 +15,7 @@ import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
-
-const setSafeHeadingLevel = (h: string) => {
-  const validHeadingLevels = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-  const safeHeading = h ? h.toLowerCase() : ''
-
-  return validHeadingLevels.includes(safeHeading) ? safeHeading : 'p'
-}
+import SafeTitle from './safe-title'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -42,7 +36,6 @@ const VerticalResourceCard: React.FC<{
 }) => {
   if (isEmpty(resource)) return null
 
-  const Title = setSafeHeadingLevel(headingLevel)
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}
@@ -83,7 +76,9 @@ const VerticalResourceCard: React.FC<{
               className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
               max={22}
             >
-              <Title>{resource.title}</Title>
+              <SafeTitle headingLevel={headingLevel}>
+                {resource.title}
+              </SafeTitle>
             </Textfit>
             {describe && (
               <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
