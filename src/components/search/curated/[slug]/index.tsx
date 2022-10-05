@@ -70,7 +70,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                   describe={true}
                   resource={jumbotron.resource}
                   location={location}
-                  headingLevel="h2"
+                  as="h2"
                 />
               </div>
             ) : jumbotron.image ? (
