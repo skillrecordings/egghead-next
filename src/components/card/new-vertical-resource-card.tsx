@@ -88,7 +88,7 @@ const VerticalResourceCard: React.FC<{
                 className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
                 max={22}
               >
-                <h3>{resource.title}</h3>
+                <Heading as={as}>{resource.title}</Heading>
               </Textfit>
               {describe && (
                 <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
@@ -100,18 +100,6 @@ const VerticalResourceCard: React.FC<{
               </CardFooter>
             </CardMeta>
           </CardContent>
-              <Heading as={as}>{resource.title}</Heading>
-            </Textfit>
-            {describe && (
-              <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
-                <Markdown>{resource.description}</Markdown>
-              </CardBody>
-            )}
-            <CardFooter>
-              <CardAuthor />
-            </CardFooter>
-          </CardMeta>
-        </CardContent>
           {children}
         </Card>
       </ResourceLink>
