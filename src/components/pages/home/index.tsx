@@ -149,9 +149,12 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                       <Link href={section.path} passHref>
                         <a
                           onClick={() => {
-                            track('clicked browse all', {
-                              section: section.title,
-                            })
+                            analytics.events.activityInternalLinkClick(
+                              'curated topic page',
+                              'home page-curated section',
+                              section.title,
+                              section.path,
+                            )
                           }}
                           className="flex items-center px-4 py-3 text-sm transition-all duration-200 ease-in-out bg-transparent border-b-2 border-gray-200 dark:border-gray-800 border-opacity-70 dark:hover:bg-gray-800 dark:hover:bg-opacity-50 opacity-80 hover:opacity-100 group"
                         >

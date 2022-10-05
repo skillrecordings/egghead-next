@@ -17,6 +17,7 @@ import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
+import analytics from 'utils/analytics'
 
 const HorizontalResourceCard: React.FC<{
   resource: CardResource
@@ -37,8 +38,10 @@ const HorizontalResourceCard: React.FC<{
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}
-      location={location}
+      location={location as string}
       className={className}
+      resource_type={resource.name}
+      instructor={resource.instructor.name}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
         <CardContent className="grid grid-cols-8 gap-5 items-center px-5 py-2">
@@ -83,18 +86,31 @@ const HorizontalResourceCard: React.FC<{
 
 export const ResourceLink: React.FC<{
   path: string
-  location?: string
+  resource_type: string
+  location: string
+  instructor?: string
   className?: string
   linkType?: string
-}> = ({children, path, location, linkType = 'text', ...props}) => (
+}> = ({
+  children,
+  path,
+  resource_type,
+  instructor,
+  location,
+  linkType = 'text',
+  ...props
+}) => (
   <Link href={path}>
     <a
       onClick={() => {
-        track('clicked resource', {
-          resource: path,
-          linkType,
+        console.log(instructor)
+        analytics.events.activityInternalLinkClick(
+          resource_type,
           location,
-        })
+          'topic',
+          path,
+          instructor,
+        )
       }}
       {...props}
     >

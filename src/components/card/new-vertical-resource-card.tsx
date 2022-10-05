@@ -15,6 +15,7 @@ import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
+import analytics from 'utils/analytics'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -34,61 +35,74 @@ const VerticalResourceCard: React.FC<{
   if (isEmpty(resource)) return null
 
   return (
-    <ResourceLink
-      path={(resource.path || resource.url) as string}
-      location={location}
-      target={resource.url ? '_blank' : undefined}
+    <div
+      onClick={() => {
+        analytics.events.activityInternalLinkClick(
+          resource.name,
+          'home page - whats new',
+          'topic',
+          resource.path,
+          resource.instructor.name,
+        )
+        console.log(resource)
+      }}
     >
-      <Card {...props} resource={resource} className={className}>
-        {resource.background && (
-          <Image
-            src={resource.background}
-            layout="fill"
-            objectFit="cover"
-            alt=""
-            aria-hidden="true"
-          />
-        )}
-        <CardContent className="grid grid-rows-6 xl:p-5 p-2 pt-5">
-          <CardHeader className={`row-span-3 relative `}>
-            <PreviewImage
-              small={small}
-              image={resource.image}
-              title={resource.title}
+      <ResourceLink
+        path={(resource.path || resource.url) as string}
+        location={location}
+        target={resource.url ? '_blank' : undefined}
+      >
+        <Card {...props} resource={resource} className={className}>
+          {resource.background && (
+            <Image
+              src={resource.background}
+              layout="fill"
+              objectFit="cover"
+              alt=""
+              aria-hidden="true"
             />
-          </CardHeader>
-          <CardMeta
-            className={`row-span-3 text-center flex flex-col items-center justify-center `}
-          >
-            {resource.name && (
-              <p
-                aria-hidden
-                className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
-              >
-                {resource.name}
-              </p>
-            )}
-            <Textfit
-              mode="multi"
-              className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
-              max={22}
+          )}
+          <CardContent className="grid grid-rows-6 xl:p-5 p-2 pt-5">
+            <CardHeader className={`row-span-3 relative `}>
+              <PreviewImage
+                small={small}
+                image={resource.image}
+                title={resource.title}
+              />
+            </CardHeader>
+            <CardMeta
+              className={`row-span-3 text-center flex flex-col items-center justify-center `}
             >
-              <h3>{resource.title}</h3>
-            </Textfit>
-            {describe && (
-              <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
-                <Markdown>{resource.description}</Markdown>
-              </CardBody>
-            )}
-            <CardFooter>
-              <CardAuthor />
-            </CardFooter>
-          </CardMeta>
-        </CardContent>
+              {resource.name && (
+                <p
+                  aria-hidden
+                  className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
+                >
+                  {resource.name}
+                </p>
+              )}
+              <Textfit
+                mode="multi"
+                className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
+                max={22}
+              >
+                <h3>{resource.title}</h3>
+              </Textfit>
+              {describe && (
+                <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
+                  <Markdown>{resource.description}</Markdown>
+                </CardBody>
+              )}
+              <CardFooter>
+                <CardAuthor />
+              </CardFooter>
+            </CardMeta>
+          </CardContent>
 
-        {children}
-      </Card>
-    </ResourceLink>
+          {children}
+        </Card>
+      </ResourceLink>
+    </div>
   )
 }
 
