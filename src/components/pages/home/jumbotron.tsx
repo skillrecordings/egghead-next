@@ -7,100 +7,93 @@ import analytics from 'utils/analytics'
 const Jumbotron: React.FC<any> = ({data}) => {
   const resource = data.resources[0]
   return (
-    <ResourceLink location="jumbotron" path={resource.path} className="group">
-      <div
-        onClick={() => {
-          analytics.events.activityInternalLinkClick(
-            resource.name,
-            'home page - jumbotron',
-            'topic',
-            resource.path,
-            resource.instructor.name,
-          )
-        }}
-      >
-        <header className="md:aspect-w-16 md:aspect-h-6 relative h-full rounded-b-lg text-white ">
-          <div className="flex items-center justify-center relative z-10 md:pb-16 pb-32 md:px-0 px-5 md:pt-0 pt-10">
-            <div className="w-full lg:max-w-screen-lg md:max-w-screen-sm flex md:flex-row flex-col items-center justify-center md:text-left text-center lg:pt-0 md:pt-10">
+    <ResourceLink
+      location="jumbotron"
+      path={resource.path}
+      resource_type={resource.name}
+      instructor={resource.instructor.name}
+    >
+      <header className="md:aspect-w-16 md:aspect-h-6 relative h-full rounded-b-lg text-white ">
+        <div className="flex items-center justify-center relative z-10 md:pb-16 pb-32 md:px-0 px-5 md:pt-0 pt-10">
+          <div className="w-full lg:max-w-screen-lg md:max-w-screen-sm flex md:flex-row flex-col items-center justify-center md:text-left text-center lg:pt-0 md:pt-10">
+            <div
+              aria-hidden
+              className="hidden flex-shrink-0 relative lg:flex items-center justify-center p-5"
+            >
+              <Image
+                src={resource.image}
+                alt={resource.title}
+                width={360}
+                height={360}
+                quality={100}
+                loading="eager"
+                priority
+                className="group-hover:scale-95 group-hover:opacity-90 transition-all ease-in-out duration-300"
+              />
               <div
                 aria-hidden
-                className="hidden flex-shrink-0 relative lg:flex items-center justify-center p-5"
+                className="absolute flex items-center justify-center group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0 transition-all ease-in-out duration-300 w-10 h-10 rounded-full bg-white bg-opacity-80 shadow-smooth"
               >
-                <Image
-                  src={resource.image}
-                  alt={resource.title}
-                  width={360}
-                  height={360}
-                  quality={100}
-                  loading="eager"
-                  priority
-                  className="group-hover:scale-95 group-hover:opacity-90 transition-all ease-in-out duration-300"
-                />
-                <div
-                  aria-hidden
-                  className="absolute flex items-center justify-center group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0 transition-all ease-in-out duration-300 w-10 h-10 rounded-full bg-white bg-opacity-80 shadow-smooth"
-                >
-                  <PlayIcon className="w-4 text-black" />
-                </div>
-              </div>
-              <div
-                aria-hidden
-                className="lg:hidden flex flex-shrink-0 relative items-center justify-center p-5"
-              >
-                <Image
-                  src={resource.image}
-                  alt={resource.title}
-                  width={240}
-                  height={240}
-                  quality={100}
-                  loading="eager"
-                  priority
-                  className="group-hover:scale-95 group-hover:opacity-90 transition-all ease-in-out duration-300"
-                />
-                <div
-                  aria-hidden
-                  className="absolute flex items-center justify-center group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0 transition-all ease-in-out duration-300 w-10 h-10 rounded-full bg-white bg-opacity-80 shadow-smooth"
-                >
-                  <PlayIcon className="w-4 text-black" />
-                </div>
-              </div>
-              <div className="md:pt-10">
-                <p className="uppercase font-mono text-xs pb-1 opacity-80">
-                  Fresh Course
-                </p>
-                <h1 className="md:pt-0 pt-2 leading-tighter lg:text-3xl sm:text-2xl text-xl tracking-tight font-bold">
-                  {resource.title}
-                </h1>
-                <div className="flex items-center md:justify-start justify-center py-4">
-                  <div className="flex items-center justify-center rounded-full overflow-hidden">
-                    <Image
-                      aria-hidden
-                      alt={resource.instructor.name}
-                      src={resource.instructor.image}
-                      width={32}
-                      height={32}
-                    />
-                  </div>
-                  <p className="pl-2 text-sm opacity-80 leading-none">
-                    <span className="sr-only">{resource.type} by </span>
-                    {resource.instructor.name}
-                  </p>
-                </div>
-                <p className="opacity-80 text-sm">{resource.description}</p>
+                <PlayIcon className="w-4 text-black" />
               </div>
             </div>
+            <div
+              aria-hidden
+              className="lg:hidden flex flex-shrink-0 relative items-center justify-center p-5"
+            >
+              <Image
+                src={resource.image}
+                alt={resource.title}
+                width={240}
+                height={240}
+                quality={100}
+                loading="eager"
+                priority
+                className="group-hover:scale-95 group-hover:opacity-90 transition-all ease-in-out duration-300"
+              />
+              <div
+                aria-hidden
+                className="absolute flex items-center justify-center group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0 transition-all ease-in-out duration-300 w-10 h-10 rounded-full bg-white bg-opacity-80 shadow-smooth"
+              >
+                <PlayIcon className="w-4 text-black" />
+              </div>
+            </div>
+            <div className="md:pt-10">
+              <p className="uppercase font-mono text-xs pb-1 opacity-80">
+                Fresh Course
+              </p>
+              <h1 className="md:pt-0 pt-2 leading-tighter lg:text-3xl sm:text-2xl text-xl tracking-tight font-bold">
+                {resource.title}
+              </h1>
+              <div className="flex items-center md:justify-start justify-center py-4">
+                <div className="flex items-center justify-center rounded-full overflow-hidden">
+                  <Image
+                    aria-hidden
+                    alt={resource.instructor.name}
+                    src={resource.instructor.image}
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <p className="pl-2 text-sm opacity-80 leading-none">
+                  <span className="sr-only">{resource.type} by </span>
+                  {resource.instructor.name}
+                </p>
+              </div>
+              <p className="opacity-80 text-sm">{resource.description}</p>
+            </div>
           </div>
-          <Image
-            aria-hidden
-            alt=""
-            src={data.image}
-            layout="fill"
-            priority={true}
-            quality={100}
-            className="pointer-events-none md:object-contain object-cover"
-          />
-        </header>
-      </div>
+        </div>
+        <Image
+          aria-hidden
+          alt=""
+          src={data.image}
+          layout="fill"
+          priority={true}
+          quality={100}
+          className="pointer-events-none md:object-contain object-cover"
+        />
+      </header>
     </ResourceLink>
   )
 }
