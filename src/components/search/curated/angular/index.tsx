@@ -79,7 +79,7 @@ It’s worth an hour or so of your time to see what’s up!`}
           className="col-span-4 text-center relative z-10 p-6"
           location={location}
           describe={true}
-          headingLevel="h2"
+          as="h2"
         >
           <div className="absolute top-0 left-0 bg-gradient-to-r from-red-600 to-red-400 w-full h-2 z-20" />
         </VerticalResourceCard>

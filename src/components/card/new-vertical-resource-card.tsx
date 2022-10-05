@@ -15,7 +15,7 @@ import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
-import SafeTitle from './safe-title'
+import Heading from './heading'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -23,7 +23,7 @@ const VerticalResourceCard: React.FC<{
   describe?: boolean
   className?: string
   small?: boolean
-  headingLevel?: string
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
 }> = ({
   children,
   resource,
@@ -31,7 +31,7 @@ const VerticalResourceCard: React.FC<{
   className = 'rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50',
   describe = false,
   small = false,
-  headingLevel = 'h3',
+  as,
   ...props
 }) => {
   if (isEmpty(resource)) return null
@@ -76,9 +76,7 @@ const VerticalResourceCard: React.FC<{
               className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
               max={22}
             >
-              <SafeTitle headingLevel={headingLevel}>
-                {resource.title}
-              </SafeTitle>
+              <Heading as={as}>{resource.title}</Heading>
             </Textfit>
             {describe && (
               <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">

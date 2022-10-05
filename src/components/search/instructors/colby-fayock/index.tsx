@@ -31,7 +31,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
         key={resource.path}
         resource={resource}
         location={instructorData.location}
-        headingLevel="h2"
+        as="h2"
       />
     )
   }
