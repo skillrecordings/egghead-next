@@ -38,7 +38,7 @@ export const titleFromPath = (all: string[] = []) => {
   const year = new Date().getFullYear()
 
   if (all.length === 0) {
-    return `Resources for Web Developers in ${year}`
+    return `Courses for Front-End Web Developers`
   }
 
   const path = all[0] as string
@@ -52,7 +52,7 @@ export const titleFromPath = (all: string[] = []) => {
   )
 
   if (hasInstructor && instructor) {
-    return `${humanizedTags} Resources from ${humanizedInstructors} in ${year}`
+    return `${humanizedTags} Courses from ${humanizedInstructors}`
   }
 
   //TODO: I think we need more tests around tags and years here...
