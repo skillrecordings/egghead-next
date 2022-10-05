@@ -101,6 +101,7 @@ export const ResourceLink: React.FC<{
   path: string
   resource_type: string
   location: string
+  className?: string
   instructor?: string
   linkType?: string
   target?: '_blank' | '_self'
@@ -110,6 +111,7 @@ export const ResourceLink: React.FC<{
   resource_type,
   instructor,
   location,
+  className,
   linkType = 'text',
   target,
   ...props
