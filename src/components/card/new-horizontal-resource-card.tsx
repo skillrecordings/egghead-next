@@ -103,7 +103,6 @@ export const ResourceLink: React.FC<{
   <Link href={path}>
     <a
       onClick={() => {
-        console.log(instructor)
         analytics.events.activityInternalLinkClick(
           resource_type,
           location,

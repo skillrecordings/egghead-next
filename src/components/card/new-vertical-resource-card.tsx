@@ -38,90 +38,92 @@ const VerticalResourceCard: React.FC<{
   if (isEmpty(resource)) return null
 
   return (
-    <div
-      onClick={() => {
-        analytics.events.activityInternalLinkClick(
-          resource.name,
-          'home page - whats new',
-          'topic',
-          resource.path,
-          resource.instructor.name,
-        )
-      }}
+    <ResourceLink
+      path={(resource.path || resource.url) as string}
+      location={location as string}
+      target={resource.url ? '_blank' : undefined}
+      resource_type={resource.name}
+      instructor={resource.instructor.name}
     >
-      <ResourceLink
-        path={(resource.path || resource.url) as string}
-        location={location}
-        target={resource.url ? '_blank' : undefined}
-      >
-        <Card {...props} resource={resource} className={className}>
-          {resource.background && (
-            <Image
-              src={resource.background}
-              layout="fill"
-              objectFit="cover"
-              alt=""
-              aria-hidden="true"
+      <Card {...props} resource={resource} className={className}>
+        {resource.background && (
+          <Image
+            src={resource.background}
+            layout="fill"
+            objectFit="cover"
+            alt=""
+            aria-hidden="true"
+          />
+        )}
+        <CardContent className="grid grid-rows-6 xl:p-5 p-2 pt-5">
+          <CardHeader className={`row-span-3 relative `}>
+            <PreviewImage
+              small={small}
+              image={resource.image}
+              title={resource.title}
             />
-          )}
-          <CardContent className="grid grid-rows-6 xl:p-5 p-2 pt-5">
-            <CardHeader className={`row-span-3 relative `}>
-              <PreviewImage
-                small={small}
-                image={resource.image}
-                title={resource.title}
-              />
-            </CardHeader>
-            <CardMeta
-              className={`row-span-3 text-center flex flex-col items-center justify-center `}
-            >
-              {resource.name && (
-                <p
-                  aria-hidden
-                  className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
-                >
-                  {resource.name}
-                </p>
-              )}
-              <Textfit
-                mode="multi"
-                className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
-                max={22}
+          </CardHeader>
+          <CardMeta
+            className={`row-span-3 text-center flex flex-col items-center justify-center `}
+          >
+            {resource.name && (
+              <p
+                aria-hidden
+                className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
               >
-                <Heading as={as}>{resource.title}</Heading>
-              </Textfit>
-              {describe && (
-                <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
-                  <Markdown>{resource.description}</Markdown>
-                </CardBody>
-              )}
-              <CardFooter>
-                <CardAuthor />
-              </CardFooter>
-            </CardMeta>
-          </CardContent>
-          {children}
-        </Card>
-      </ResourceLink>
-    </div>
+                {resource.name}
+              </p>
+            )}
+            <Textfit
+              mode="multi"
+              className={`lg:h-[70px] h-[45px] font-medium text-center leading-tight flex items-center justify-center w-full`}
+              max={22}
+            >
+              <Heading as={as}>{resource.title}</Heading>
+            </Textfit>
+            {describe && (
+              <CardBody className="prose dark:prose-dark max-w-none pb-4 text-center opacity-80 dark:prose-a:text-blue-300 prose-a:text-blue-500 leading-tight">
+                <Markdown>{resource.description}</Markdown>
+              </CardBody>
+            )}
+            <CardFooter>
+              <CardAuthor />
+            </CardFooter>
+          </CardMeta>
+        </CardContent>
+        {children}
+      </Card>
+    </ResourceLink>
   )
 }
 
 export const ResourceLink: React.FC<{
   path: string
-  location?: string
-  className?: string
+  resource_type: string
+  location: string
+  instructor?: string
   linkType?: string
   target?: '_blank' | '_self'
-}> = ({children, path, location, linkType = 'text', target, ...props}) => (
+}> = ({
+  children,
+  path,
+  resource_type,
+  instructor,
+  location,
+  linkType = 'text',
+  target,
+  ...props
+}) => (
   <Link href={path}>
     <a
       onClick={() => {
-        track('clicked resource', {
-          resource: path,
-          linkType,
+        analytics.events.activityInternalLinkClick(
+          resource_type,
           location,
-        })
+          'topic',
+          path,
+          instructor,
+        )
       }}
       target={target || '_self'}
       {...props}
