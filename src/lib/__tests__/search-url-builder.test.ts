@@ -16,9 +16,7 @@ test('Builds a Title Based on single Tag', () => {
 test('Builds a Title Based on single Tag and Instructor', () => {
   const title = titleFromPath([`react-${CREATOR_DELINIATOR}-kent-c-dodds`])
 
-  expect(title).toBe(
-    `React Resources from Kent C. Dodds in ${new Date().getFullYear()}`,
-  )
+  expect(title).toBe(`React Courses from Kent C. Dodds`)
 })
 
 test('creates a url from an empty search state', () => {

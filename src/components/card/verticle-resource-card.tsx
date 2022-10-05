@@ -13,18 +13,21 @@ import Markdown from '../markdown'
 import {track} from 'utils/analytics'
 import {get} from 'lodash'
 import {CardResource} from 'types'
+import Heading from './heading'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
   location?: string
   describe?: boolean
   className?: string
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
 }> = ({
   children,
   resource,
   location,
   className = 'flex flex-col items-center justify-center p-5 py-6 overflow-hidden text-center bg-white border-none rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-200 sm:py-8',
   describe = false,
+  as,
   ...props
 }) => {
   return (
@@ -38,13 +41,16 @@ const VerticalResourceCard: React.FC<{
       )}
       <CardContent>
         <CardHeader>
-          <h2 className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
+          <p className="mb-1 text-xs font-semibold text-gray-700 uppercase dark:text-gray-300">
             {resource.name}
-          </h2>
+          </p>
           <ResourceLink path={resource.path} location={location}>
-            <h3 className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700">
+            <Heading
+              className="py-3 text-lg font-bold leading-tighter dark:hover:text-blue-300 hover:text-blue-700"
+              as={as}
+            >
               {resource.title}
-            </h3>
+            </Heading>
           </ResourceLink>
         </CardHeader>
         <CardMeta className="mt-1 mb-2 text-xs text-gray-600 dark:text-gray-300">

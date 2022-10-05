@@ -39,18 +39,23 @@ export default function SearchDanAbramov({instructor}: {instructor: any}) {
       instructor={combinedInstructor}
       CTAComponent={<JustJavaScriptCTA />}
     >
-      <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
-        {featureCourses.resources.map((resource: any) => {
-          return (
-            <VerticalResourceCard
-              className="col-span-6 text-center"
-              key={resource.path}
-              resource={resource}
-              location={instructorData.location}
-            />
-          )
-        })}
-      </div>
+      <section>
+        <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          Featured Courses
+        </h2>
+        <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
+          {featureCourses.resources.map((resource: any) => {
+            return (
+              <VerticalResourceCard
+                className="col-span-6 text-center"
+                key={resource.path}
+                resource={resource}
+                location={instructorData.location}
+              />
+            )
+          })}
+        </div>
+      </section>
     </SearchInstructorEssential>
   )
 }

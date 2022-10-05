@@ -18,8 +18,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
       id: 'portfolioProject',
       name: 'Portfolio Project',
       title: 'Create an eCommerce Store with Next.js and Stripe Checkout',
-      path:
-        '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
+      path: '/projects/create-an-ecommerce-store-with-next-js-and-stripe-checkout',
       image:
         'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/412/781/square_480/ecommerce-stripe-next.png',
       byline: 'Colby Fayock',
@@ -32,6 +31,7 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
         key={resource.path}
         resource={resource}
         location={instructorData.location}
+        as="h2"
       />
     )
   }
@@ -41,18 +41,23 @@ export default function SearchColbyFayock({instructor}: {instructor: any}) {
       instructor={combinedInstructor}
       CTAComponent={<EcommerceCTA />}
     >
-      <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
-        {featureCourses.resources.map((resource: any) => {
-          return (
-            <VerticalResourceCard
-              className="col-span-6 text-center"
-              key={resource.path}
-              resource={resource}
-              location={instructorData.location}
-            />
-          )
-        })}
-      </div>
+      <section>
+        <h2 className="sm:px-5 px-3 mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          Featured Coures
+        </h2>
+        <div className="grid lg:grid-cols-12 grid-cols-1 gap-5 mt-8">
+          {featureCourses.resources.map((resource: any) => {
+            return (
+              <VerticalResourceCard
+                className="col-span-6 text-center"
+                key={resource.path}
+                resource={resource}
+                location={instructorData.location}
+              />
+            )
+          })}
+        </div>
+      </section>
     </SearchInstructorEssential>
   )
 }
@@ -95,10 +100,8 @@ const pageData = [
         byline: 'Colby Fayock・16m・Course',
         image:
           'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/276/thumb/github_logo.png',
-        path:
-          '/playlists/create-a-new-github-action-to-automate-code-tasks-with-javascript-f1e9',
-        slug:
-          'create-a-new-github-action-to-automate-code-tasks-with-javascript-f1e9',
+        path: '/playlists/create-a-new-github-action-to-automate-code-tasks-with-javascript-f1e9',
+        slug: 'create-a-new-github-action-to-automate-code-tasks-with-javascript-f1e9',
         description:
           'Github Actions are an awesome tool from Github that allows us to automate tasks using code-based workflow configuration files. ',
       },

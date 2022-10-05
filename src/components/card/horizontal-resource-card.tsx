@@ -51,9 +51,9 @@ const HorizontalResourceCard: React.FC<any> = ({
       )}
       <CardContent className="flex flex-col justify-center sm:items-start items-center">
         <CardHeader>
-          <h2 className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
+          <p className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
             {resource.name}
-          </h2>
+          </p>
           <Link href={resource.path}>
             <a
               onClick={() => {

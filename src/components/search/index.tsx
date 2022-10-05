@@ -228,6 +228,9 @@ const Search: FunctionComponent<SearchProps> = ({
                 {RefinementsDesktop()}
                 {RefinementsMobile()}
                 <main className="col-span-10 flex flex-col w-full relative dark:bg-gray-900 bg-gray-50">
+                  {!loading && isEmpty(instructor) && isEmpty(topic) && (
+                    <h1 className="hidden">Search</h1>
+                  )}
                   <div className="dark:bg-gray-900 bg-white sticky top-0 z-40 shadow-smooth flex items-center w-full border-b dark:border-white border-gray-900 dark:border-opacity-5 border-opacity-5">
                     <SearchBox placeholder={searchBoxPlaceholder} />
                     <div className="border-l dark:border-gray-800 border-gray-100 flex items-center flex-shrink-0 space-x-2 flex-nowrap">
@@ -284,6 +287,9 @@ const Search: FunctionComponent<SearchProps> = ({
                     )}
                   <ScrollElement name="hits" />
                   <Stats searchQuery={searchState.query} />
+                  <h2 className="sm:px-5 px-3 mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+                    Search Results
+                  </h2>
                   <Hits />
                   <div className="pb-16 pt-10 flex-grow bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
                     <Pagination />

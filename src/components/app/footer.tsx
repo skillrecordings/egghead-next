@@ -96,8 +96,7 @@ const FooterNavigation: FunctionComponent = () => {
               <Image src={Eggo} alt="egghead.io logo" />
             </div>
             <div className="mt-1 text-lg font-semibold tracking-tight leading-tighter">
-              Build your Developer Portfolio and climb the engineering career
-              ladder.
+              Expert led courses for professional front-end web developers.
             </div>
           </a>
         </Link>
