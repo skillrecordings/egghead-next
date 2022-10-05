@@ -44,7 +44,6 @@ const VerticalResourceCard: React.FC<{
           resource.path,
           resource.instructor.name,
         )
-        console.log(resource)
       }}
     >
       <ResourceLink
