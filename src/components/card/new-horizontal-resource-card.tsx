@@ -42,6 +42,7 @@ const HorizontalResourceCard: React.FC<{
       className={className}
       resource_type={resource.name}
       instructor={resource.instructor.name}
+      tag={resource.tag}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
         <CardContent className="grid grid-cols-8 gap-5 items-center px-5 py-2">
@@ -88,12 +89,14 @@ export const ResourceLink: React.FC<{
   path: string
   resource_type: string
   location: string
+  tag?: any
   instructor?: string
   className?: string
   linkType?: string
 }> = ({
   children,
   path,
+  tag,
   resource_type,
   instructor,
   location,
@@ -106,7 +109,7 @@ export const ResourceLink: React.FC<{
         analytics.events.activityInternalLinkClick(
           resource_type,
           location,
-          'topic',
+          tag,
           path,
           instructor,
         )

@@ -44,6 +44,7 @@ const VerticalResourceCard: React.FC<{
       target={resource.url ? '_blank' : undefined}
       resource_type={resource.name}
       instructor={resource.instructor.name}
+      tag={resource.tag}
     >
       <Card {...props} resource={resource} className={className}>
         {resource.background && (
@@ -101,6 +102,7 @@ export const ResourceLink: React.FC<{
   path: string
   resource_type: string
   location: string
+  tag?: any
   className?: string
   instructor?: string
   linkType?: string
@@ -108,6 +110,7 @@ export const ResourceLink: React.FC<{
 }> = ({
   children,
   path,
+  tag,
   resource_type,
   instructor,
   location,
@@ -119,10 +122,11 @@ export const ResourceLink: React.FC<{
   <Link href={path}>
     <a
       onClick={() => {
+        console.log(tag)
         analytics.events.activityInternalLinkClick(
           resource_type,
           location,
-          'topic',
+          tag,
           path,
           instructor,
         )
