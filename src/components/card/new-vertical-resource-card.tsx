@@ -43,7 +43,7 @@ const VerticalResourceCard: React.FC<{
       location={location as string}
       target={resource.url ? '_blank' : undefined}
       resource_type={resource.name}
-      instructor={resource.instructor.name}
+      instructor={resource?.instructor?.name}
       tag={resource.tag}
     >
       <Card {...props} resource={resource} className={className}>

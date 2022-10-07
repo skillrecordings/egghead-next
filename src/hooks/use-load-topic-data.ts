@@ -98,6 +98,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
           url,
           image,
           'name': type,
+          'description': summary,
           'instructor': collaborators[]->[role == 'instructor'][0]{
               'name': person->name,
               'image': person->image.url

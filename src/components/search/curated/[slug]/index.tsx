@@ -64,7 +64,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                 {description}
               </ReactMarkdown>
             </div>
-            {jumbotron.resource ? (
+            {jumbotron?.resource ? (
               <div className="max-w-xs w-full">
                 <VerticalResourceCard
                   describe={true}
@@ -73,7 +73,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                   as="h2"
                 />
               </div>
-            ) : jumbotron.image ? (
+            ) : jumbotron?.image ? (
               <Image
                 src={jumbotron.image}
                 width={460}
@@ -127,114 +127,115 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
           </div>
         )}
         <div className="sm:px-5 px-3">
-          {sections.map((section: any) => {
-            return (
-              <section className="pb-16" key={section.id}>
-                {!section.image && !section.description ? (
-                  // simple section
-                  <div className="flex w-full pb-6 items-center justify-between">
-                    <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
-                      {section.title}
-                    </h2>
-                  </div>
-                ) : (
-                  // section with image and description
-                  <div className="flex md:flex-row flex-col md:items-start items-center justify-center w-full mb-5 pb-8 md:space-x-10">
-                    {section.image && (
-                      <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
-                        <Image
-                          aria-hidden
-                          src={section.image}
-                          quality={100}
-                          width={240}
-                          height={240}
-                          alt=""
-                        />
-                      </div>
-                    )}
-                    <div>
-                      <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
+          {!isEmpty(sections) &&
+            sections.map((section: any) => {
+              return (
+                <section className="pb-16" key={section.id}>
+                  {!section.image && !section.description ? (
+                    // simple section
+                    <div className="flex w-full pb-6 items-center justify-between">
+                      <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
                         {section.title}
                       </h2>
-                      {section.description && (
-                        <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700">
-                          {section.description}
-                        </ReactMarkdown>
-                      )}
                     </div>
-                  </div>
-                )}
-                <Grid className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3 gap-2">
-                  {section.resources.map((resource: any, i: number) => {
-                    switch (section.resources.length) {
-                      case 2:
-                        return (
-                          <HorizontalResourceCard
-                            className="col-span-2"
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
+                  ) : (
+                    // section with image and description
+                    <div className="flex md:flex-row flex-col md:items-start items-center justify-center w-full mb-5 pb-8 md:space-x-10">
+                      {section.image && (
+                        <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
+                          <Image
+                            aria-hidden
+                            src={section.image}
+                            quality={100}
+                            width={240}
+                            height={240}
+                            alt=""
                           />
-                        )
-                      case 3:
-                        return i === 0 ? (
-                          <HorizontalResourceCard
-                            className="col-span-2"
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        ) : (
-                          <VerticalResourceCard
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                      case 6:
-                        return i === 0 || i === 1 ? (
-                          <HorizontalResourceCard
-                            className="col-span-2"
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        ) : (
-                          <VerticalResourceCard
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                      case 7:
-                        return i === 0 ? (
-                          <HorizontalResourceCard
-                            className="col-span-2"
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        ) : (
-                          <VerticalResourceCard
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                      default:
-                        return (
-                          <VerticalResourceCard
-                            key={resource.id}
-                            resource={resource}
-                            location={location}
-                          />
-                        )
-                    }
-                  })}
-                </Grid>
-              </section>
-            )
-          })}
+                        </div>
+                      )}
+                      <div>
+                        <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
+                          {section.title}
+                        </h2>
+                        {section.description && (
+                          <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700">
+                            {section.description}
+                          </ReactMarkdown>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  <Grid className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3 gap-2">
+                    {section.resources.map((resource: any, i: number) => {
+                      switch (section.resources.length) {
+                        case 2:
+                          return (
+                            <HorizontalResourceCard
+                              className="col-span-2"
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        case 3:
+                          return i === 0 ? (
+                            <HorizontalResourceCard
+                              className="col-span-2"
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          ) : (
+                            <VerticalResourceCard
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        case 6:
+                          return i === 0 || i === 1 ? (
+                            <HorizontalResourceCard
+                              className="col-span-2"
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          ) : (
+                            <VerticalResourceCard
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        case 7:
+                          return i === 0 ? (
+                            <HorizontalResourceCard
+                              className="col-span-2"
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          ) : (
+                            <VerticalResourceCard
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                        default:
+                          return (
+                            <VerticalResourceCard
+                              key={resource.id}
+                              resource={resource}
+                              location={location}
+                            />
+                          )
+                      }
+                    })}
+                  </Grid>
+                </section>
+              )
+            })}
         </div>
       </div>
     </>
