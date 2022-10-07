@@ -15,6 +15,7 @@ import {track} from 'utils/analytics'
 import {get, isEmpty} from 'lodash'
 import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
+import analytics from 'utils/analytics'
 import Heading from './heading'
 
 const VerticalResourceCard: React.FC<{
@@ -39,8 +40,11 @@ const VerticalResourceCard: React.FC<{
   return (
     <ResourceLink
       path={(resource.path || resource.url) as string}
-      location={location}
+      location={location as string}
       target={resource.url ? '_blank' : undefined}
+      resource_type={resource.name}
+      instructor={resource.instructor.name}
+      tag={resource.tag}
     >
       <Card {...props} resource={resource} className={className}>
         {resource.background && (
@@ -88,7 +92,6 @@ const VerticalResourceCard: React.FC<{
             </CardFooter>
           </CardMeta>
         </CardContent>
-
         {children}
       </Card>
     </ResourceLink>
@@ -97,19 +100,35 @@ const VerticalResourceCard: React.FC<{
 
 export const ResourceLink: React.FC<{
   path: string
-  location?: string
+  resource_type: string
+  location: string
+  tag?: any
   className?: string
+  instructor?: string
   linkType?: string
   target?: '_blank' | '_self'
-}> = ({children, path, location, linkType = 'text', target, ...props}) => (
+}> = ({
+  children,
+  path,
+  tag,
+  resource_type,
+  instructor,
+  location,
+  className,
+  linkType = 'text',
+  target,
+  ...props
+}) => (
   <Link href={path}>
     <a
       onClick={() => {
-        track('clicked resource', {
-          resource: path,
-          linkType,
+        analytics.events.activityInternalLinkClick(
+          resource_type,
           location,
-        })
+          tag,
+          path,
+          instructor,
+        )
       }}
       target={target || '_self'}
       {...props}

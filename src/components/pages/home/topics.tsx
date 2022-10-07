@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
 import axios from 'utils/configured-axios'
 import Image from 'next/image'
+import analytics from 'utils/analytics'
 
 const Topics: React.FC<{data: any}> = ({data}) => {
   const {topics} = data
@@ -18,10 +18,12 @@ const Topics: React.FC<{data: any}> = ({data}) => {
               <a
                 className="flex flex-col items-center hover:shadow-smooth justify-center px-5 py-8 rounded-lg dark:bg-gray-800 dark:bg-opacity-60 dark:hover:bg-opacity-100 hover:bg-white ease-in-out transition-all duration-200"
                 onClick={() => {
-                  track('clicked topic', {
-                    topic: title,
-                    location: 'home page',
-                  })
+                  analytics.events.activityInternalLinkClick(
+                    'curated topic page',
+                    'home page',
+                    title,
+                    path,
+                  )
                   axios.post(`/api/topic`, {
                     topic: slug,
                     amount: 1,

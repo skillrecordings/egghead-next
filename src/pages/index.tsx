@@ -55,6 +55,9 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
       resources[]->{
         'id': _id,
         title,
+        'tags': softwareLibraries[] {
+          'name': library->name,
+         },
         'name': type,
         'description': summary,
         path,
@@ -65,9 +68,9 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
             'name': person->name,
             'image': person->image.url
             },
-        }
-    }
-  }`
+       }, 
+      }
+    }`
 
 export async function getStaticProps() {
   const data = await sanityClient.fetch(homepageQuery)
