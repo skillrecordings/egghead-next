@@ -41,9 +41,13 @@ Recieve stripe event that the subscription has been canceled
 
 The user no longer finds our service of value at the current time
 */
-export const purchaseSubscriptionCanceled = (distinct_id: string) =>
+export const purchaseSubscriptionCanceled = (
+  distinct_id: string,
+  subscriptionInterval: string,
+) =>
   mixpanel.track('Subscription Canceled', {
     distinct_id,
+    subscriptionInterval,
   })
 
 /*
@@ -261,7 +265,7 @@ const stripeWebhookHandler = async (
         )
         const cioCustomer = await getCIO(getCustomerEmail(stripeCustomer))
 
-        purchaseSubscriptionCanceled(cioCustomer.id)
+        purchaseSubscriptionCanceled(cioCustomer.id, subscriptionInterval)
         purchaseSetSubscriptionStatus(cioCustomer.id, 'canceled')
 
         res.status(200).send(`This works!`)
