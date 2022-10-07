@@ -12,6 +12,7 @@ export type CardResource = Resource & {
   id?: string
   image: string | {src: string; alt: string}
   name: string
+  tag?: any
   subTitle?: string
   byline: string
   resources?: CardResource[]

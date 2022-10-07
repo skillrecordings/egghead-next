@@ -66,6 +66,9 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
         path,
         image,
         images,
+        'tag': softwareLibraries[][0] {
+          'name': library->name,
+         },
         'ogImage': images[label == 'main-og-image'][0].url,
         'instructor': collaborators[]->[role == 'instructor'][0]{
             'name': person->name,
