@@ -51,12 +51,12 @@ export default function SearchFilipHric({
           <div className="my-4">
             <div className="flex flex-wrap sm:flex-nowrap gap-3 justify-center sm:h-[424px]">
               <VerticalResourceCard
-                className="col-span-1 flex flex-col h-full justify-center text-center w-64 bg-white p-4 rounded dark:bg-gray-800 dark:text-gray-200 shadow-sm"
+                className="col-span-1 flex flex-col h-full justify-center text-center sm:w-64 bg-white p-4 rounded dark:bg-gray-800 dark:text-gray-200 shadow-sm"
                 resource={primaryCourse}
                 as="h3"
               />
               <VerticalResourceCard
-                className="col-span-1 flex flex-col justify-center text-center w-64 bg-white p-4 rounded dark:bg-gray-800 dark:text-gray-200 shadow-sm"
+                className="col-span-1 flex flex-col justify-center text-center sm:w-64 bg-white p-4 rounded dark:bg-gray-800 dark:text-gray-200 shadow-sm"
                 resource={secondCourse}
                 as="h3"
               />
