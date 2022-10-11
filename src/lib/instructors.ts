@@ -17,6 +17,7 @@ import {ChrisBiscardiQuery} from 'components/search/instructors/chris-biscardi'
 import {LazarNikolovQuery} from 'components/search/instructors/lazar-nikolov'
 import {ChrisAchardQuery} from 'components/search/instructors/chris-achard'
 import {KadiKramanQuery} from 'components/search/instructors/kadi-kraman'
+import {filipHricQuery} from 'components/search/instructors/filip-hric'
 
 import config from './config'
 
@@ -56,6 +57,7 @@ export async function loadInstructor(slug: string) {
 
   if (canLoadSanityInstructor(slug)) {
     sanityInstructor = await loadSanityInstructor(slug)
+    console.log({sanityInstructor, slug})
   }
 
   return {...instructor, ...sanityInstructor}
@@ -78,6 +80,7 @@ const sanityInstructorHash = {
   'lazar-nikolov': LazarNikolovQuery,
   'chris-achard': ChrisAchardQuery,
   'kadi-kraman': KadiKramanQuery,
+  'filip-hric': filipHricQuery,
 }
 
 type SelectedInstructor = keyof typeof sanityInstructorHash
@@ -95,6 +98,6 @@ export const loadSanityInstructor = async (selectedInstructor: string) => {
 
   const query = sanityInstructorHash[selectedInstructor]
   if (!query) return
-
+  console.log(await sanityClient.fetch(query))
   return await sanityClient.fetch(query)
 }

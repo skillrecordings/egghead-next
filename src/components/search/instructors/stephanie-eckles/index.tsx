@@ -157,7 +157,7 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
     >
       <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center bg-white dark:bg-gray-900 text-white overflow-hidden rounded-b-lg md:rounded-t-none rounded-t-lg shadow-sm">
         {/* <div className="absolute top-0 left-0 bg-gradient-to-r from-yellow-500 to-sky-500 w-full h-2 z-20" /> */}
-        <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
+        <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center h-full">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
             <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5">
               <div className="flex-shrink-0">
@@ -182,12 +182,12 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
                 </Link>
               </div>
               <div className="flex flex-col sm:items-start items-center">
-                <p className="text-xs text-gray-900 dark:text-white  uppercase font-semibold mb-2">
+                <p className="text-xs text-white  uppercase font-semibold mb-2">
                   {byline}
                 </p>
                 <Link href={path}>
                   <a
-                    className="text-xl font-extrabold leading-tighter text-gray-900 dark:text-white hover:text-blue-300"
+                    className="text-xl font-extrabold leading-tighter text-white hover:text-blue-300"
                     onClick={() =>
                       track('clicked jumbotron resource', {
                         resource: path,
@@ -198,15 +198,13 @@ const CssFormStyling: React.FC<{location: string; resource: any}> = ({
                     <h2>{title}</h2>
                   </a>
                 </Link>
-                <p className="mt-4 text-gray-900 dark:text-white">
-                  {description}
-                </p>
+                <p className="mt-4text-white">{description}</p>
               </div>
             </div>
           </div>
         </div>
         <img
-          className="absolute top-0 left-0 z-0 w-full"
+          className="absolute top-0 left-0 z-0 h-full w-full"
           src={background}
           alt=""
         />
