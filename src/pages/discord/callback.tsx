@@ -68,7 +68,8 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
                   Your Discord account{' '}
                   {userData.discordUser &&
                     `(${userData.discordUser.username}#${userData.discordUser.discriminator} - ${userData.discordUser.email})`}{' '}
-                  has been updated.
+                  has been updated. Here is a link to
+                  [discord](https://discord.com/channels/@me)
                 </h1>
                 {userData.discordMember.guildId ===
                   process.env.NEXT_PUBLIC_DISCORD_GUILD_ID && (
