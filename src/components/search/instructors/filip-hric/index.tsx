@@ -168,7 +168,8 @@ const NewExternalTrackedLink: React.FunctionComponent<any> = ({
       event.stopPropagation()
 
       analytics.events
-        .activityExternalLinkClick(
+        .activityCtaClick(
+          'workshop',
           instructor,
           currentLocation,
           topic,
