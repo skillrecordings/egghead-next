@@ -1,6 +1,9 @@
 import * as React from 'react'
 
+import {find, first} from 'lodash'
+import {loadAccount} from 'lib/accounts'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
+import SubscriptionDetails from 'components/pages/user/components/subscription-details'
 
 import {useViewer} from 'context/viewer-context'
 import {
@@ -9,10 +12,38 @@ import {
   // RequestNameChangeForm,
 } from '../components'
 
+type ViewerAccount = {
+  stripe_customer_id: string
+  slug: string
+  subscriptions: any[]
+}
+
+function getAccountWithSubscription(accounts: ViewerAccount[]) {
+  return (
+    find<ViewerAccount>(
+      accounts,
+      (account: ViewerAccount) => account.subscriptions?.length > 0,
+    ) ||
+    first<ViewerAccount>(accounts) || {slug: ''}
+  )
+}
+
 const AccountInfoTabContent: React.FC<any> = () => {
   const {viewer, authToken, loading} = useViewer()
   const {email: currentEmail, accounts, providers} = viewer || {}
   const isConnectedToGithub = providers?.includes('github')
+  const [account, setAccount] = React.useState<ViewerAccount>()
+  const {slug} = getAccountWithSubscription(accounts)
+  React.useEffect(() => {
+    const loadAccountForSlug = async (slug: string) => {
+      if (slug) {
+        const account: any = await loadAccount(slug, authToken)
+        setAccount(account)
+      }
+    }
+    loadAccountForSlug(slug)
+  }, [slug, authToken])
+
   return (
     <div className="space-y-10 md:space-y-14 xl:space-y-16">
       <ItemWrapper title="Email address">
@@ -42,6 +73,14 @@ const AccountInfoTabContent: React.FC<any> = () => {
           </>
         )}
       </ItemWrapper>
+      <ItemWrapper title="Subscription">
+        {account && (
+          <SubscriptionDetails
+            stripeCustomerId={account.stripe_customer_id}
+            slug={slug}
+          />
+        )}
+      </ItemWrapper>
     </div>
   )
 }
@@ -60,3 +99,29 @@ const GithubConnectButton: React.FunctionComponent<{
     </a>
   )
 }
+
+// import {loadAccount} from 'lib/accounts'
+// function getAccountWithSubscription(accounts: ViewerAccount[]) {
+//   return (
+//     find<ViewerAccount>(
+//       accounts,
+//       (account: ViewerAccount) => account.subscriptions?.length > 0,
+//     ) ||
+//     first<ViewerAccount>(accounts) || {slug: ''}
+//   )
+// }
+
+// const [account, setAccount] = React.useState<ViewerAccount>()
+// const {authToken} = useViewer()
+// const {accounts} = viewer || {}
+// const {slug} = getAccountWithSubscription(accounts)
+
+// React.useEffect(() => {
+//   const loadAccountForSlug = async (slug: string) => {
+//     if (slug) {
+//       const account: any = await loadAccount(slug, authToken)
+//       setAccount(account)
+//     }
+//   }
+//   loadAccountForSlug(slug)
+// }, [slug, authToken])
