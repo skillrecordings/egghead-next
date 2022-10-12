@@ -87,12 +87,12 @@ const CallbackPage: FunctionComponent<LoginRequiredParams> = ({
                   <div>We added you to the egghead Discord!</div>
                 )}
                 {userData.eggheadUser && (
-                  <div>
+                  <p className="text-center">
                     We found your egghead account!{' '}
                     {userData.eggheadUser.is_pro
                       ? 'You have a pro membership 🎉'
                       : `You are not a pro member on ${userData.eggheadUser.email}`}
-                  </div>
+                  </p>
                 )}
               </div>
             )}
