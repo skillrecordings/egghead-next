@@ -73,14 +73,14 @@ const AccountInfoTabContent: React.FC<any> = () => {
           </>
         )}
       </ItemWrapper>
-      <ItemWrapper title="Subscription">
-        {account && (
+      {account && (
+        <ItemWrapper title="Subscription">
           <SubscriptionDetails
             stripeCustomerId={account.stripe_customer_id}
             slug={slug}
           />
-        )}
-      </ItemWrapper>
+        </ItemWrapper>
+      )}
     </div>
   )
 }
