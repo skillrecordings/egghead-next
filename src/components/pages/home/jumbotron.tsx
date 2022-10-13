@@ -17,7 +17,7 @@ const Jumbotron: React.FC<any> = ({data}) => {
         resource_type={resource.name}
         instructor={resource.instructor.name}
         className="group"
-        tag={resource.tag}
+        tag={resource.tag.name}
       >
         <header className="md:aspect-w-16 md:aspect-h-6 relative h-full rounded-b-lg text-white ">
           <div className="flex items-center justify-center relative z-10 md:pb-16 pb-32 md:px-0 px-5 md:pt-0 pt-10">
