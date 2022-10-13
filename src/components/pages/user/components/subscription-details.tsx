@@ -17,7 +17,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
       stripeCustomerId,
     })
 
-    const subscriptionName = subscriptionData && subscriptionData.product?.name
+    const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
       subscriptionData,
       'latestInvoice.amount_due',
