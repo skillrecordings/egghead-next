@@ -42,7 +42,7 @@ const HorizontalResourceCard: React.FC<{
       className={className}
       resource_type={resource.name}
       instructor={resource.instructor.name}
-      tag={resource.tag}
+      tag={resource.tag.name}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
         <CardContent className="grid grid-cols-8 gap-5 items-center px-5 py-2">
