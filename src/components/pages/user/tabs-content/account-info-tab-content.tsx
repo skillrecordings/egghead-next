@@ -99,29 +99,3 @@ const GithubConnectButton: React.FunctionComponent<{
     </a>
   )
 }
-
-// import {loadAccount} from 'lib/accounts'
-// function getAccountWithSubscription(accounts: ViewerAccount[]) {
-//   return (
-//     find<ViewerAccount>(
-//       accounts,
-//       (account: ViewerAccount) => account.subscriptions?.length > 0,
-//     ) ||
-//     first<ViewerAccount>(accounts) || {slug: ''}
-//   )
-// }
-
-// const [account, setAccount] = React.useState<ViewerAccount>()
-// const {authToken} = useViewer()
-// const {accounts} = viewer || {}
-// const {slug} = getAccountWithSubscription(accounts)
-
-// React.useEffect(() => {
-//   const loadAccountForSlug = async (slug: string) => {
-//     if (slug) {
-//       const account: any = await loadAccount(slug, authToken)
-//       setAccount(account)
-//     }
-//   }
-//   loadAccountForSlug(slug)
-// }, [slug, authToken])
