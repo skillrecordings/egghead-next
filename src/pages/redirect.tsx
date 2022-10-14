@@ -11,14 +11,13 @@ const Redirect = () => {
   React.useEffect(() => {
     if (wasCalled) return
     const lastResource = cookieUtil.get(LAST_RESOURCE_COOKIE_NAME)
+    let redirectRoute = '/'
     if (!isEmpty(lastResource)) {
       console.debug(`redirecting to last resource: ${lastResource}`)
       setWasCalled(true)
-      router.replace(lastResource.path)
-    } else {
-      setWasCalled(true)
-      router.replace('/')
+      redirectRoute = lastResource.path
     }
+    router.replace(redirectRoute)
   }, [router, wasCalled])
   return null
 }

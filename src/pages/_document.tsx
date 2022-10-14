@@ -34,6 +34,7 @@ export default class MyDocument extends Document {
                       });
 
                       var _cio = _cio || [];
+                      try {
                       (function() {
                         var a,b,c;a=function(f){return function(){_cio.push([f].
                         concat(Array.prototype.slice.call(arguments,0)))}};b=["load","identify",
@@ -46,6 +47,8 @@ export default class MyDocument extends Document {
                         t.src = 'https://assets.customer.io/assets/track.js';
                         s.parentNode.insertBefore(t, s);
                       })();
+                      } catch(e) { console.error('customer.io error', e); }
+                      
                         `,
             }}
           ></script>

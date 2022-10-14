@@ -16,12 +16,13 @@ export const track = (
 
   return new Promise(async (resolve) => {
     try {
+      DEBUG_ANALYTICS && console.debug(`TRACKING: ${event}`)
+
       let wasCalled = false
 
       const viewer: Viewer = auth.getLocalUser()
 
       function politelyExit() {
-        DEBUG_ANALYTICS && console.debug(`TRACKED: ${event}`)
         if (isFunction(callback) && !wasCalled) {
           wasCalled = true
           callback.apply(null, [event, wasCalled])
