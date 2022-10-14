@@ -12,6 +12,7 @@ const Redirect = () => {
     if (wasCalled) return
     const lastResource = cookieUtil.get(LAST_RESOURCE_COOKIE_NAME)
     if (!isEmpty(lastResource)) {
+      console.debug(`redirecting to last resource: ${lastResource}`)
       setWasCalled(true)
       router.replace(lastResource.path)
     } else {
