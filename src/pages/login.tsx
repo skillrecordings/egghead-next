@@ -156,9 +156,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                               type="submit"
                               disabled={isSubmitting}
                               className="w-full px-5 py-3 mt-2 font-medium text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800"
-                              onClick={() => {
-                                analytics.events.activityLogIn('Email LogIn')
-                              }}
                             >
                               {button}
                             </button>
@@ -169,9 +166,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
                           <ExternalTrackedLink
                             href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`}
                             className="flex justify-center px-5 py-3 mt-4 font-medium text-white transition-all duration-300 ease-in-out bg-gray-800 rounded-md hover:bg-gray-700 active:bg-gray-600"
-                            onClick={() => {
-                              analytics.events.activityLogIn('GitHub LogIn')
-                            }}
                           >
                             <div className="flex items-center dark:text-gray-100">
                               <span className="flex items-center justify-center mr-2">
