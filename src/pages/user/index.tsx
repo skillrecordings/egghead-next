@@ -1,8 +1,7 @@
 import * as React from 'react'
-import {find, first} from 'lodash'
+import cx from 'classnames'
 
 import {useViewer} from 'context/viewer-context'
-import {loadAccount} from 'lib/accounts'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 
 import {
@@ -17,38 +16,10 @@ type ViewerAccount = {
   subscriptions: any[]
 }
 
-function getAccountWithSubscription(accounts: ViewerAccount[]) {
-  return (
-    find<ViewerAccount>(
-      accounts,
-      (account: ViewerAccount) => account.subscriptions?.length > 0,
-    ) ||
-    first<ViewerAccount>(accounts) || {slug: ''}
-  )
-}
-
 const User: React.FunctionComponent<
   LoginRequiredParams & {account: ViewerAccount}
 > = () => {
-  const [account, setAccount] = React.useState<ViewerAccount>()
-  const {viewer, authToken} = useViewer()
-  const {accounts} = viewer || {}
-  const {slug} = getAccountWithSubscription(accounts)
-
-  React.useEffect(() => {
-    const loadAccountForSlug = async (slug: string) => {
-      if (slug) {
-        const account: any = await loadAccount(slug, authToken)
-        setAccount(account)
-      }
-    }
-    loadAccountForSlug(slug)
-  }, [slug, authToken])
-
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-  }
-
+  const {viewer} = useViewer()
   const [currentTab, setCurrentTab] = React.useState<string>('Activity')
 
   return (
@@ -71,7 +42,7 @@ const User: React.FunctionComponent<
                     <select
                       id="selected-tab"
                       name="selected-tab"
-                      className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-600 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                      className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-600 dark:focus:border-blue-400 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-300 sm:text-sm"
                       defaultValue={
                         tabs.find((tab) => tab.label === currentTab)?.label
                       }
@@ -90,9 +61,9 @@ const User: React.FunctionComponent<
                         {tabs.map((tab) => (
                           <button
                             key={tab.label}
-                            className={classNames(
+                            className={cx(
                               tab.label === currentTab
-                                ? 'border-blue-600 text-blue-600  cursor-default'
+                                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400  cursor-default'
                                 : 'border-transparent text-gray-500 dark:text-white/70 hover:border-gray-300 hover:text-gray-700 dark:hover:text-white',
                               'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm duration-150',
                             )}
