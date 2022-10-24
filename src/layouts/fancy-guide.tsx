@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Contributors from '../components/contributors'
+import {useRouter} from 'next/router'
 
 type LayoutProps = {
   meta?: {
@@ -17,14 +18,20 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
   children,
   meta = {},
 }) => {
+  const router = useRouter()
+  const url = process.env.NEXT_PUBLIC_DEPLOYMENT_URL + router.asPath
+
   const {
     title,
     description,
     titleAppendSiteName = false,
-    url,
+    url: urlFromProps,
     ogImage,
     contributors,
   } = meta
+
+  const canonicalUrl = urlFromProps ? urlFromProps : url
+
   return (
     <>
       <NextSeo
@@ -37,10 +44,10 @@ const FancyGuideLayout: FunctionComponent<LayoutProps> = ({
         openGraph={{
           title,
           description,
-          url,
+          url: canonicalUrl,
           images: ogImage ? [ogImage] : undefined,
         }}
-        canonical={url}
+        canonical={canonicalUrl}
       />
       <div className="container">
         <article className="max-w-screen-md mx-auto mt-5 mb-16">
