@@ -11,6 +11,7 @@ import type {CaseStudyResource} from './case-studies/[slug]'
 import {NextSeo} from 'next-seo'
 import Head from 'next/head'
 import {convertTimeToMins} from 'utils/time-utils'
+import {useRouter} from 'next/router'
 
 const CASE_STUDY_SLUG = 'cloudflare'
 
@@ -19,12 +20,16 @@ const CloudflarePage: React.FC<{caseStudy: CaseStudyResource; source: any}> = ({
   source,
 }) => {
   const {title, subTitle, publishedAt, resources, seo} = caseStudy
+  const router = useRouter()
+
   return (
     <>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         title={seo.title}
         description={seo.description}
         openGraph={{
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           title: seo.ogTitle || title,
           description: seo.ogDescription,
           images: [

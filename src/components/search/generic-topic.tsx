@@ -2,6 +2,7 @@ import React, {FunctionComponent} from 'react'
 import Markdown from 'react-markdown'
 import Image from 'next/image'
 import {NextSeo} from 'next-seo'
+import {useRouter} from 'next/router'
 
 type TopicProps = {
   title: string
@@ -18,10 +19,12 @@ const GenericTopic: FunctionComponent<TopicProps> = ({
   imageUrl,
   description,
 }) => {
+  const router = useRouter()
   return (
     <>
       <NextSeo
         description={description}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         title={title}
         titleTemplate={'Learn %s | egghead.io'}
         twitter={{
@@ -30,6 +33,7 @@ const GenericTopic: FunctionComponent<TopicProps> = ({
         }}
         openGraph={{
           title,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           description: description,
           site_name: 'egghead',
           images: [
