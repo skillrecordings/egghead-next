@@ -10,7 +10,7 @@ import {useRouter} from 'next/router'
 
 const SearchNode = () => {
   const location = 'Node Topic Page'
-  const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Node resources.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn Node using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title = `In-Depth Node Resources for ${new Date().getFullYear()}`
 
   const beginner: any = find(nodePageData, {id: 'beginner'})

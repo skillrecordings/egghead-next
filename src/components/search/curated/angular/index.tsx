@@ -10,7 +10,8 @@ import {useRouter} from 'next/router'
 
 const SearchAngular = () => {
   const location = 'Angular Topic Page'
-  const description = ``
+  const description =
+    'Life is too short for long boring videos. Learn Angular using the best screencast tutorial videos online led by working professionals that learn in public'
   const title = `In-Depth Angular Resources for ${new Date().getFullYear()}`
 
   const beginner: any = find(angularPageData, {id: 'beginner'})

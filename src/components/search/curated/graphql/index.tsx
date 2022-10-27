@@ -12,7 +12,7 @@ import {useRouter} from 'next/router'
 
 const SearchGraphql = () => {
   const location = 'graphQL landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn GraphQL using the best screencast tutorial videos online.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn GraphQL using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title = `In-Depth Up-to-Date GraphQL Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(graphqlPageData, {id: 'get-started'})

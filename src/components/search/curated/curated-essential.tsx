@@ -38,7 +38,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
   const location = `${topic.name} landing`
-  const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
+  const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title =
     topic.title ||
     `In-Depth ${topic.label} Tutorials for ${new Date().getFullYear()}`

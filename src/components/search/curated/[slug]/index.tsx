@@ -19,7 +19,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
   const {title, description, image, ogImage, sections, levels, jumbotron} =
     topicData
   const location = `${topic.name} landing`
-  const pageDescription = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
+  const pageDescription = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online led by working professionals that learn in public.`
   const pageTitle = `In-Depth ${
     topic.label
   } Tutorials for ${new Date().getFullYear()}`

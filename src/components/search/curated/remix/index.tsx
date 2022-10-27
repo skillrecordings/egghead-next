@@ -33,7 +33,7 @@ type CardPageCardResource = CardResource & {
 
 const SearchRemix = ({topic}: TopicPage) => {
   const location = 'Remix Topic Page'
-  const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Remix resources.`
+  const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Remix resources led by working professionals that learn in public.`
   const title = `In-Depth Remix Resources for ${new Date().getFullYear()}`
   const ogImage = topic.ogImage
     ? topic.ogImage
