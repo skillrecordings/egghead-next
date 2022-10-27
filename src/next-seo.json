@@ -1,7 +1,7 @@
 {
   "title": "Expert led courses for front-end web developers.",
   "titleTemplate": "%s | egghead.io",
-  "description": "expert led courses for front-end web developers and teams that want to level up.",
+  "description": "expert led courses for front-end web developers and teams that want to level up through straightforward and concise lessons on the most useful tools available.",
   "additionalLinkTags": [
     {
       "rel": "search",
@@ -25,7 +25,7 @@
   "openGraph": {
     "type": "website",
     "title": "Expert led courses for front-end web developers.",
-    "description": "expert led courses for front-end web developers and teams that want to level up.",
+    "description": "expert led courses for front-end web developers and teams that want to level up through straightforward and concise lessons on the most useful tools available.",
     "site_name": "egghead",
     "profile": {
       "firstName": "egghead"
