@@ -6,6 +6,7 @@ import {find} from 'lodash'
 import {ThreeLevels} from '../curated-essential'
 import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {useRouter} from 'next/router'
 
 const SearchNode = () => {
   const location = 'Node Topic Page'
@@ -28,10 +29,12 @@ const SearchNode = () => {
   const secondaryFeatureCourse: any = find(nodePageData, {
     id: 'secondary-feature-course',
   })
+  const router = useRouter()
 
   return (
     <div>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         description={description}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -43,6 +46,7 @@ const SearchNode = () => {
           title,
           description: description,
           site_name: 'egghead',
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           images: [
             {
               url: `https://og-image-react-egghead.vercel.app/topic/node`,

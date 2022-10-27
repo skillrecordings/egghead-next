@@ -12,6 +12,7 @@ import {useTheme} from 'next-themes'
 import {ThreeLevels} from '../curated-essential'
 import VideoCard from '../../../pages/home/video-card'
 import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
+import {useRouter} from 'next/router'
 
 const SearchAWS = () => {
   const location = 'AWS landing'
@@ -32,9 +33,12 @@ const SearchAWS = () => {
     id: 'aws-sam',
   })
 
+  const router = useRouter()
+
   return (
     <div>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         description={description}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -44,6 +48,7 @@ const SearchAWS = () => {
         }}
         openGraph={{
           title,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           description: description,
           site_name: 'egghead',
           images: [
