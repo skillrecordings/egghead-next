@@ -16,7 +16,7 @@ import {useRouter} from 'next/router'
 
 const SearchAWS = () => {
   const location = 'AWS landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn AWS using the best screencast tutorial videos online.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn AWS using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title = `In-Depth Up-to-Date AWS Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(awsPageData, {id: 'beginner'})
