@@ -11,6 +11,8 @@ import LoginRequired, {LoginRequiredParams} from 'components/login-required'
 import {GetServerSideProps} from 'next'
 import {getTokenFromCookieHeaders} from '../../utils/auth'
 import {XIcon} from '@heroicons/react/solid'
+import {NextSeo} from 'next-seo'
+import {useRouter} from 'next/router'
 
 export const getServerSideProps: GetServerSideProps = async function ({
   req,
@@ -47,73 +49,87 @@ const Bookmarks: React.FunctionComponent<LoginRequiredParams> = ({
     }
   }, [watchLaterUrl])
 
-  return (
-    <LoginRequired loginRequired={loginRequired}>
-      <div className="container w-full max-w-screen-md mt-10 mb-24 md:mt-16">
-        <h1 className="mb-6 text-xl font-bold leading-tight sm:text-2xl">
-          Your Bookmarks
-        </h1>
-        {loadingBookmarks || isEmpty(bookmarks) ? (
-          <div className="text-gray-600 dark:text-gray-400">
-            {loadingBookmarks
-              ? 'Loading...'
-              : `You haven't bookmarked any courses yet.`}
-          </div>
-        ) : (
-          <ul className="space-y-6">
-            {bookmarks.map((bookmark: any) => {
-              return (
-                <li className="flex items-center space-x-5" key={bookmark.slug}>
-                  {bookmark.square_cover_128_url && (
-                    <div className="flex items-center flex-shrink-0">
-                      <Image
-                        width={48}
-                        height={48}
-                        src={bookmark.square_cover_128_url}
-                      />
-                    </div>
-                  )}
-                  <div className="flex flex-col">
-                    <div className="flex space-x-2">
-                      <Link href={bookmark.path}>
-                        <a className="inline-flex items-center space-x-2 group">
-                          <div className="font-medium leading-tight group-hover:underline md:text-lg text-normal">
-                            {bookmark.title}
-                          </div>
-                        </a>
-                      </Link>
-                      <button
-                        aria-label="remove"
-                        className="p-2 text-gray-600 transition-colors duration-200 ease-in-out rounded-full hover:text-gray-900 dark:hover:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          axios.post(bookmark.toggle_favorite_url)
-                          const lessBookmarks = reject(bookmarks, {
-                            slug: bookmark.slug,
-                          }) as []
-                          track('removed bookmark', {
-                            resource: bookmark.slug,
-                          })
-                          setBookmarks(lessBookmarks)
-                        }}
-                      >
-                        <XIcon className="w-4 h-4" aria-hidden="true" />
-                      </button>
-                    </div>
+  const router = useRouter()
 
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
-                      {bookmark.duration &&
-                        `${convertTimeWithTitles(bookmark.duration)} • `}
-                      {bookmark.instructor.full_name}
+  return (
+    <>
+      <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
+          site_name: 'egghead',
+        }}
+      />
+      <LoginRequired loginRequired={loginRequired}>
+        <div className="container w-full max-w-screen-md mt-10 mb-24 md:mt-16">
+          <h1 className="mb-6 text-xl font-bold leading-tight sm:text-2xl">
+            Your Bookmarks
+          </h1>
+          {loadingBookmarks || isEmpty(bookmarks) ? (
+            <div className="text-gray-600 dark:text-gray-400">
+              {loadingBookmarks
+                ? 'Loading...'
+                : `You haven't bookmarked any courses yet.`}
+            </div>
+          ) : (
+            <ul className="space-y-6">
+              {bookmarks.map((bookmark: any) => {
+                return (
+                  <li
+                    className="flex items-center space-x-5"
+                    key={bookmark.slug}
+                  >
+                    {bookmark.square_cover_128_url && (
+                      <div className="flex items-center flex-shrink-0">
+                        <Image
+                          width={48}
+                          height={48}
+                          src={bookmark.square_cover_128_url}
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-col">
+                      <div className="flex space-x-2">
+                        <Link href={bookmark.path}>
+                          <a className="inline-flex items-center space-x-2 group">
+                            <div className="font-medium leading-tight group-hover:underline md:text-lg text-normal">
+                              {bookmark.title}
+                            </div>
+                          </a>
+                        </Link>
+                        <button
+                          aria-label="remove"
+                          className="p-2 text-gray-600 transition-colors duration-200 ease-in-out rounded-full hover:text-gray-900 dark:hover:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            axios.post(bookmark.toggle_favorite_url)
+                            const lessBookmarks = reject(bookmarks, {
+                              slug: bookmark.slug,
+                            }) as []
+                            track('removed bookmark', {
+                              resource: bookmark.slug,
+                            })
+                            setBookmarks(lessBookmarks)
+                          }}
+                        >
+                          <XIcon className="w-4 h-4" aria-hidden="true" />
+                        </button>
+                      </div>
+
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                        {bookmark.duration &&
+                          `${convertTimeWithTitles(bookmark.duration)} • `}
+                        {bookmark.instructor.full_name}
+                      </div>
                     </div>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div>
-    </LoginRequired>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
+      </LoginRequired>
+    </>
   )
 }
 

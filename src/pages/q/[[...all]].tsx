@@ -122,7 +122,15 @@ const SearchIndex: any = ({
 
   return (
     <div className="flex-grow">
-      <NextSeo noindex={noIndex} title={pageTitle} />
+      <NextSeo
+        noindex={noIndex}
+        title={pageTitle}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
+          site_name: 'egghead',
+        }}
+      />
       <Search
         {...defaultProps}
         {...customProps}
