@@ -57,7 +57,15 @@ const Pricing: FunctionComponent<PricingProps> & {getLayout: any} = () => {
 Pricing.getLayout = (Page: any, pageProps: any) => {
   return (
     <Layout>
-      <NextSeo title="Pricing" />
+      <NextSeo
+        title="Pricing"
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/pricing`,
+          site_name: 'egghead',
+        }}
+      />
+
       <Page {...pageProps} />
     </Layout>
   )
