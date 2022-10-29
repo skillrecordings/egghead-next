@@ -60,7 +60,6 @@ const TempControls: React.FC<{
       })
     }
   }
-  console.log('subscriptionState:', subscriptionState)
   return (
     <div className="mb-8 space-y-3 flex flex-col items-start bg-yellow-100 px-3 border-4 border-dashed border-gray-300 py-2">
       <label
@@ -99,7 +98,7 @@ const TempControls: React.FC<{
                 }
                 disabled={subscriptionState === undefined}
               />
-              <span>Active</span>
+              <span>active</span>
             </label>
             <label
               htmlFor="subscription-state-pending-cancelation"
@@ -118,7 +117,7 @@ const TempControls: React.FC<{
                 }
                 disabled={subscriptionState === undefined}
               />
-              <span>Pending Cancelation</span>
+              <span>pending_cancelation</span>
             </label>
             <label
               htmlFor="subscription-state-canceled"
@@ -136,7 +135,7 @@ const TempControls: React.FC<{
                 }
                 disabled={subscriptionState === undefined}
               />
-              <span>Canceled</span>
+              <span>canceled</span>
             </label>
           </div>
         </div>
@@ -159,7 +158,7 @@ const TempControls: React.FC<{
                 }
                 disabled={subscriptionState === undefined}
               />
-              <span>Individual</span>
+              <span>individual</span>
             </label>
             <label
               htmlFor="subscription-type-managed-owner"
@@ -177,7 +176,7 @@ const TempControls: React.FC<{
                 }
                 disabled={subscriptionState === undefined}
               />
-              <span>Managed Owner</span>
+              <span>managed_owner</span>
             </label>
             <label
               htmlFor="subscription-type-managed-member"
@@ -195,7 +194,7 @@ const TempControls: React.FC<{
                 }
                 disabled={subscriptionState === undefined}
               />
-              <span>Managed Member</span>
+              <span>managed_member</span>
             </label>
           </div>
         </div>
@@ -217,7 +216,18 @@ const MissingSubscription = () => {
   )
 }
 
-const SubscriptionDetailsWidget = () => {
+const SubscriptionDetailsWidget: React.FC<{data: SubscriptionData}> = ({
+  data,
+}) => {
+  const {
+    subscription_state,
+    subscription_type,
+    subscription_interval,
+    current_period_end_date,
+    auto_renew,
+    managed_members_list,
+    stripe_portal_link,
+  } = data
   return (
     <div>
       <div>SubscriptionDetailsWidget</div>
@@ -230,6 +240,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     const [subscriptionState, setSubscriptionState] = React.useState<
       SubscriptionData | undefined
     >(undefined)
+    console.log('subscriptionState:', subscriptionState)
     return (
       <>
         <TempControls
@@ -237,7 +248,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
           setSubscriptionState={setSubscriptionState}
         />
         {subscriptionState ? (
-          <SubscriptionDetailsWidget />
+          <SubscriptionDetailsWidget data={subscriptionState} />
         ) : (
           <MissingSubscription />
         )}
