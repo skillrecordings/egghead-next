@@ -6,10 +6,12 @@ import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/verticle-resource-card'
 import {NextSeo} from 'next-seo'
 import Topic from '../../components/topic'
+import {useRouter} from 'next/router'
 
 const SearchAngular = () => {
   const location = 'Angular Topic Page'
-  const description = ``
+  const description =
+    'Life is too short for long boring videos. Learn Angular using the best screencast tutorial videos online led by working professionals that learn in public'
   const title = `In-Depth Angular Resources for ${new Date().getFullYear()}`
 
   const beginner: any = find(angularPageData, {id: 'beginner'})
@@ -38,10 +40,12 @@ const SearchAngular = () => {
   const stateManagementCourseThree: any = find(angularPageData, {
     id: 'state-management-course-three',
   })
+  const router = useRouter()
 
   return (
     <div>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         description={description}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -50,6 +54,7 @@ const SearchAngular = () => {
           cardType: 'summary_large_image',
         }}
         openGraph={{
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           title,
           description: description,
           site_name: 'egghead',

@@ -8,10 +8,11 @@ import ExternalTrackedLink from '../../../external-tracked-link'
 import VideoCard from 'components/pages/home/video-card'
 import {VerticalResourceCard} from '../../../card/verticle-resource-card'
 import {VerticalResourceCollectionCard} from '../../../card/vertical-resource-collection-card'
+import {useRouter} from 'next/router'
 
 const SearchGraphql = () => {
   const location = 'graphQL landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn GraphQL using the best screencast tutorial videos online.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn GraphQL using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title = `In-Depth Up-to-Date GraphQL Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(graphqlPageData, {id: 'get-started'})
@@ -26,10 +27,13 @@ const SearchGraphql = () => {
     id: 'graphql-video',
   })
 
+  const router = useRouter()
+
   return (
     <div>
       <NextSeo
         description={description}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         title={title}
         titleTemplate={'%s | egghead.io'}
         twitter={{
@@ -38,6 +42,7 @@ const SearchGraphql = () => {
         }}
         openGraph={{
           title,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           description: description,
           site_name: 'egghead',
           images: [

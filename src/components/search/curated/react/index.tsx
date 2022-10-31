@@ -14,7 +14,7 @@ import Grid from 'components/grid'
 
 const SearchReact = ({topic}: any) => {
   const location = 'react landing'
-  const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online.`
+  const description = `Life is too short for lonnnnnng boring videos. Learn React using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title = `In-Depth Up-to-Date React Tutorials for ${new Date().getFullYear()}`
 
   const beginner: any = find(reactPageData, {id: 'beginner'})

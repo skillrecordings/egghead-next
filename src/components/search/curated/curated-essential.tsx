@@ -2,10 +2,10 @@ import React from 'react'
 import {NextSeo} from 'next-seo'
 import Topic from '../components/topic'
 import {find} from 'lodash'
-
 import DefaultCTA from './default-cta'
 import {VerticalResourceCollectionCard} from 'components/card/vertical-resource-collection-card'
 import {CardResource} from '../../../types'
+import {useRouter} from 'next/router'
 
 export enum CARD_TYPES {
   SUMMARY = 'summary',
@@ -38,7 +38,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   cardType = CARD_TYPES.SUMMARY_LARGE_IMAGE,
 }) => {
   const location = `${topic.name} landing`
-  const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
+  const description = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online led by working professionals that learn in public.`
   const title =
     topic.title ||
     `In-Depth ${topic.label} Tutorials for ${new Date().getFullYear()}`
@@ -46,10 +46,12 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
   const beginner: any = find(pageData, {id: 'beginner'})
   const intermediate: any = find(pageData, {id: 'intermediate'})
   const advanced: any = find(pageData, {id: 'advanced'})
+  const router = useRouter()
 
   return (
     <>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         description={description}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -59,6 +61,7 @@ const SearchCuratedEssential: React.FC<CuratedEssentialProps> = ({
         }}
         openGraph={{
           title,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           description: description,
           site_name: 'egghead',
           images: [

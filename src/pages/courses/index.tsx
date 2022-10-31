@@ -8,6 +8,7 @@ import useClipboard from 'react-use-clipboard'
 import {IconLink} from 'components/share'
 import {NextSeo} from 'next-seo'
 import FiveStars from '../../components/five-stars'
+import {useRouter} from 'next/router'
 
 export async function getStaticProps() {
   const courses = await loadAllPlaylistsByPage()
@@ -18,16 +19,19 @@ export async function getStaticProps() {
 
 const CourseIndex: React.FC<{courses: any}> = ({courses = []}) => {
   const isDevelopment: boolean = process.env.NODE_ENV === 'development'
+  const router = useRouter()
 
   return (
     <>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         title={`Learn from ${courses.length} web development courses on egghead`}
         twitter={{
           cardType: 'summary_large_image',
         }}
         openGraph={{
           title: `Learn from ${courses.length} web development courses on egghead`,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           images: [
             {
               url: `https://res.cloudinary.com/dg3gyk0gu/image/upload/v1611999983/next.egghead.io/cards/courses_2x.png`,

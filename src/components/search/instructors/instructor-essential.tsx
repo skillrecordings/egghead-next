@@ -4,6 +4,7 @@ import Image from 'next/image'
 import {NextSeo} from 'next-seo'
 import DefaultCTA from '../curated/default-cta'
 import analytics from 'utils/analytics'
+import {useRouter} from 'next/router'
 
 type InstructorProps = {
   className?: string
@@ -33,9 +34,12 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
   console.log({socials, slug})
 
   const location = `${name} landing`
+  const router = useRouter()
+
   return (
     <div className="lg:pb-4 -mx-5">
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         title={`Learn web development from ${name} on egghead`}
         twitter={{
           handle: twitterHandle,
@@ -44,6 +48,7 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
         }}
         openGraph={{
           title: `Learn web development from ${name} on egghead`,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           images: [
             {
               url: `http://og-image-react-egghead.now.sh/instructor/${slug}?v=20201103`,

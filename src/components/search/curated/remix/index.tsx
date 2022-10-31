@@ -4,6 +4,7 @@ import Image from 'next/image'
 import groq from 'groq'
 import {CardResource} from 'types'
 import {HorizontalResourceCard} from 'components/card/topic-page-horizontal-resource-card'
+import {useRouter} from 'next/router'
 
 type TopicPage = {
   topic: {
@@ -32,15 +33,17 @@ type CardPageCardResource = CardResource & {
 
 const SearchRemix = ({topic}: TopicPage) => {
   const location = 'Remix Topic Page'
-  const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Remix resources.`
+  const description = `Build your Developer Portfolio and climb the engineering career ladder with in-depth Remix resources led by working professionals that learn in public.`
   const title = `In-Depth Remix Resources for ${new Date().getFullYear()}`
   const ogImage = topic.ogImage
     ? topic.ogImage
     : 'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1654105781/egghead-next-pages/remix/og-image-remix-page.png'
+  const router = useRouter()
 
   return (
     <div>
       <NextSeo
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         description={description}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -51,6 +54,7 @@ const SearchRemix = ({topic}: TopicPage) => {
         openGraph={{
           title,
           description: description,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           site_name: 'egghead',
           images: [
             {

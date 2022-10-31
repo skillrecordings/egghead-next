@@ -8,6 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 import cx from 'classnames'
 import {NextSeo} from 'next-seo'
 import {CARD_TYPES} from 'components/search/curated/curated-essential'
+import {useRouter} from 'next/router'
 
 type CuratedTopicProps = {
   topicData: any
@@ -18,15 +19,17 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
   const {title, description, image, ogImage, sections, levels, jumbotron} =
     topicData
   const location = `${topic.name} landing`
-  const pageDescription = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online.`
+  const pageDescription = `Life is too short for long boring videos. Learn ${topic.label} using the best screencast tutorial videos online led by working professionals that learn in public.`
   const pageTitle = `In-Depth ${
     topic.label
   } Tutorials for ${new Date().getFullYear()}`
+  const router = useRouter()
 
   return (
     <>
       <NextSeo
         title={pageTitle}
+        canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`}
         description={pageDescription}
         titleTemplate={'%s | egghead.io'}
         twitter={{
@@ -35,6 +38,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
         }}
         openGraph={{
           title,
+          url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${router.asPath}`,
           description: pageDescription,
           site_name: 'egghead',
           images: [
