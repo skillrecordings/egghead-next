@@ -37,8 +37,12 @@ const TEMP_DEFAULT_SUBSCRIPTION_DATA: SubscriptionData = {
   auto_renew: true,
   managed_members_list: [
     {
-      full_name: 'Full Name',
-      email: 'full.name@gmail.com',
+      full_name: 'Dmitri Mendeleev',
+      email: 'dmitri.mendeleev@periodic.table.com',
+    },
+    {
+      full_name: 'Viktor Pelevin',
+      email: 'vik.tor@pelevin.com',
     },
   ],
   stripe_portal_link: 'www.stripeportallink.com',
@@ -93,9 +97,7 @@ const TempControls: React.FC<{
                 name="subscription-state"
                 id="subscription-state-active"
                 onChange={() => onChangeHandler('subscription_state', 'active')}
-                defaultChecked={
-                  subscriptionState?.subscription_state === 'active'
-                }
+                checked={subscriptionState?.subscription_state === 'active'}
                 disabled={subscriptionState === undefined}
               />
               <span>active</span>
@@ -111,7 +113,7 @@ const TempControls: React.FC<{
                 onChange={() =>
                   onChangeHandler('subscription_state', 'pending_cancelation')
                 }
-                defaultChecked={
+                checked={
                   subscriptionState?.subscription_state ===
                   'pending_cancelation'
                 }
@@ -130,9 +132,7 @@ const TempControls: React.FC<{
                 onChange={() =>
                   onChangeHandler('subscription_state', 'canceled')
                 }
-                defaultChecked={
-                  subscriptionState?.subscription_state === 'canceled'
-                }
+                checked={subscriptionState?.subscription_state === 'canceled'}
                 disabled={subscriptionState === undefined}
               />
               <span>canceled</span>
@@ -153,9 +153,7 @@ const TempControls: React.FC<{
                 onChange={() =>
                   onChangeHandler('subscription_type', 'individual')
                 }
-                defaultChecked={
-                  subscriptionState?.subscription_type === 'individual'
-                }
+                checked={subscriptionState?.subscription_type === 'individual'}
                 disabled={subscriptionState === undefined}
               />
               <span>individual</span>
@@ -171,7 +169,7 @@ const TempControls: React.FC<{
                 onChange={() =>
                   onChangeHandler('subscription_type', 'managed_owner')
                 }
-                defaultChecked={
+                checked={
                   subscriptionState?.subscription_type === 'managed_owner'
                 }
                 disabled={subscriptionState === undefined}
@@ -189,12 +187,67 @@ const TempControls: React.FC<{
                 onChange={() =>
                   onChangeHandler('subscription_type', 'managed_member')
                 }
-                defaultChecked={
+                checked={
                   subscriptionState?.subscription_type === 'managed_member'
                 }
                 disabled={subscriptionState === undefined}
               />
               <span>managed_member</span>
+            </label>
+          </div>
+        </div>
+        <div className="flex space-x-3 items-center">
+          <h3 className="text-lg font-semibold">subscription_interval:</h3>
+          <div className="flex space-x-3 items-center">
+            <label
+              htmlFor="subscription-interval-monthly"
+              className="space-x-1 flex items-center cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="subscription-interval"
+                id="subscription-interval-monthly"
+                onChange={() =>
+                  onChangeHandler('subscription_interval', 'monthly')
+                }
+                checked={subscriptionState?.subscription_interval === 'monthly'}
+                disabled={subscriptionState === undefined}
+              />
+              <span>monthly</span>
+            </label>
+            <label
+              htmlFor="subscription-interval-quaterly"
+              className="space-x-1 flex items-center cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="subscription-interval"
+                id="subscription-interval-quaterly"
+                onChange={() =>
+                  onChangeHandler('subscription_interval', 'quaterly')
+                }
+                checked={
+                  subscriptionState?.subscription_interval === 'quaterly'
+                }
+                disabled={subscriptionState === undefined}
+              />
+              <span>quaterly</span>
+            </label>
+            <label
+              htmlFor="subscription-interval-yearly"
+              className="space-x-1 flex items-center cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="subscription-interval"
+                id="subscription-interval-yearly"
+                onChange={() =>
+                  onChangeHandler('subscription_interval', 'yearly')
+                }
+                checked={subscriptionState?.subscription_interval === 'yearly'}
+                disabled={subscriptionState === undefined}
+              />
+              <span>yearly</span>
             </label>
           </div>
         </div>
@@ -229,8 +282,78 @@ const SubscriptionDetailsWidget: React.FC<{data: SubscriptionData}> = ({
     stripe_portal_link,
   } = data
   return (
-    <div>
-      <div>SubscriptionDetailsWidget</div>
+    <div className="divide-y divide-gray-200 px-4 py-1 border border-gray-200">
+      {/* Greeting */}
+      <div className="py-3">
+        <p>
+          ⭐️ You're an <strong>egghead Member!</strong>
+        </p>
+        <p>
+          You have a PRO access via <b>{subscription_type}</b> subscription.
+        </p>
+        {subscription_type !== 'managed_member' && (
+          <p>
+            You can update your plan and payment information below via Stripe.
+          </p>
+        )}
+      </div>
+
+      {/* Subscription interval */}
+      <div className="py-3">
+        <p>
+          You have <b>{subscription_interval}</b> subscription
+        </p>
+        {subscription_interval !== 'yearly' &&
+          subscription_type !== 'managed_member' && (
+            <p>
+              Save <b>n%</b> with YEARLY subscription
+            </p>
+          )}
+      </div>
+
+      {/* Current period end date */}
+      <div className="py-3">
+        <p>Current period end date: {current_period_end_date}</p>
+      </div>
+
+      {/* List of Managed Members and Seat Counts / Contact team manager */}
+      {managed_members_list && subscription_type === 'managed_owner' && (
+        <div className="py-3">
+          <p>You are the team manager.</p>
+          <p>List of team members:</p>
+          <ul className="list-disc pl-6">
+            {managed_members_list.map((item, i) => {
+              return (
+                <li key={i}>
+                  <i>
+                    {item.full_name} ({item.email})
+                  </i>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
+
+      {/* List of Managed Members and Seat Counts / Contact team manager */}
+      {subscription_type === 'managed_member' && (
+        <div className="py-3">
+          <p>You can't manage the subscription.</p>
+          <p>Contact your team manager:</p>
+          <i>Alex Ferguson (alex.ferguson@manchester.com)</i>
+        </div>
+      )}
+
+      {/* Stripe Portal Link */}
+      {subscription_type !== 'managed_member' && stripe_portal_link && (
+        <div className="py-3">
+          <Link href="/">
+            <a className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700">
+              Manage Subscription
+            </a>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }
@@ -247,6 +370,29 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
           subscriptionState={subscriptionState}
           setSubscriptionState={setSubscriptionState}
         />
+        <div className="mb-12 space-y-2">
+          <div>
+            subscription_state:{' '}
+            <b>
+              {subscriptionState?.subscription_state ??
+                typeof subscriptionState?.subscription_state}
+            </b>
+          </div>
+          <div>
+            subscription_type:{' '}
+            <b>
+              {subscriptionState?.subscription_type ??
+                typeof subscriptionState?.subscription_type}
+            </b>
+          </div>
+          <div>
+            subscription_interval:{' '}
+            <b>
+              {subscriptionState?.subscription_interval ??
+                typeof subscriptionState?.subscription_interval}
+            </b>
+          </div>
+        </div>
         {subscriptionState ? (
           <SubscriptionDetailsWidget data={subscriptionState} />
         ) : (
