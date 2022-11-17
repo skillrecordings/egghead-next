@@ -96,14 +96,6 @@ const Tag = (props: any) => {
                 />
               </div>
             )}
-            {categories && (
-              <ul>
-                Posted in
-                {categories.map((category: any) => (
-                  <li key={category}>{category}</li>
-                ))}
-              </ul>
-            )}
           </header>
           <main>
             <MDXRemote
