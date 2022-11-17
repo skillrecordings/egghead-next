@@ -1,11 +1,13 @@
 import Grid from 'components/grid'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
-import {CardResource} from 'types'
+import analytics from 'utils/analytics'
 
-const ResourceWidget: React.FC<{course: any; cta?: string}> = ({
-  resource,
-}: any) => {
+const ResourceWidget: React.FC<{
+  resource: any
+  cta?: string
+  location?: string
+}> = ({resource, location}: any) => {
   const {podcasts, talks, collections} = resource
   return (
     <>
@@ -22,12 +24,14 @@ const ResourceWidget: React.FC<{course: any; cta?: string}> = ({
                     case 3:
                       return i === 0 ? (
                         <HorizontalResourceCard
+                          location={location}
                           className="col-span-2"
                           key={resource.slug}
                           resource={resource}
                         />
                       ) : (
                         <VerticalResourceCard
+                          location={location}
                           key={resource.slug}
                           resource={resource}
                         />
@@ -35,12 +39,14 @@ const ResourceWidget: React.FC<{course: any; cta?: string}> = ({
                     case 6:
                       return i === 0 || i === 1 ? (
                         <HorizontalResourceCard
+                          location={location}
                           className="col-span-2"
                           key={resource.slug}
                           resource={resource}
                         />
                       ) : (
                         <VerticalResourceCard
+                          location={location}
                           key={resource.slug}
                           resource={resource}
                         />
@@ -48,12 +54,14 @@ const ResourceWidget: React.FC<{course: any; cta?: string}> = ({
                     case 7:
                       return i === 0 ? (
                         <HorizontalResourceCard
+                          location={location}
                           className="col-span-2"
                           key={resource.slug}
                           resource={resource}
                         />
                       ) : (
                         <VerticalResourceCard
+                          location={location}
                           key={resource.slug}
                           resource={resource}
                         />
@@ -61,6 +69,7 @@ const ResourceWidget: React.FC<{course: any; cta?: string}> = ({
                     default:
                       return (
                         <VerticalResourceCard
+                          location={location}
                           key={resource.slug}
                           resource={resource}
                         />
@@ -74,11 +83,21 @@ const ResourceWidget: React.FC<{course: any; cta?: string}> = ({
       {(podcasts || talks) && (
         <Grid className="grid grid-cols-2 gap-2 md:grid-cols-4 xl:gap-5 sm:gap-3">
           {talks.map((talk: any) => {
-            return <VerticalResourceCard key={talk.slug} resource={talk} />
+            return (
+              <VerticalResourceCard
+                key={talk.slug}
+                resource={talk}
+                location={talk.location}
+              />
+            )
           })}
           {podcasts.map((podcast: any) => {
             return (
-              <VerticalResourceCard key={podcast.slug} resource={podcast} />
+              <VerticalResourceCard
+                key={podcast.slug}
+                resource={podcast}
+                location={podcast.location}
+              />
             )
           })}
         </Grid>
