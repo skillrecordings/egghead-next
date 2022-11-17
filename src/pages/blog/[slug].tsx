@@ -114,7 +114,11 @@ const Tag = (props: any) => {
                   const resource = find(articleResources, {slug: resourceSlug})
                   return resource ? (
                     <div className="not-prose my-8">
-                      <ResourceWidget resource={resource} {...props} />
+                      <ResourceWidget
+                        resource={resource}
+                        location={resource.location}
+                        {...props}
+                      />
                     </div>
                   ) : null
                 },
@@ -175,6 +179,7 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   coverImage,
   body,
   "articleResources": resources[type == "collection"]{
+    "location": content[0].text,
     title,
     "slug": slug.current,
     "podcasts": resources[type == "podcast"]{
