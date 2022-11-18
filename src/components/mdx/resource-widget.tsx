@@ -87,7 +87,7 @@ const ResourceWidget: React.FC<{
               <VerticalResourceCard
                 key={talk.slug}
                 resource={talk}
-                location={talk.location}
+                location={location}
               />
             )
           })}
@@ -96,7 +96,7 @@ const ResourceWidget: React.FC<{
               <VerticalResourceCard
                 key={podcast.slug}
                 resource={podcast}
-                location={podcast.location}
+                location={location}
               />
             )
           })}
