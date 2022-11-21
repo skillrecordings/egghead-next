@@ -12,6 +12,7 @@ import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
 import {withProse} from 'utils/remark/with-prose'
 import CourseWidget from 'components/mdx/course-widget'
+import ResourceWidget from 'components/mdx/resource-widget'
 import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
@@ -28,6 +29,7 @@ const Tag = (props: any) => {
     seo = {},
     coverImage,
     source,
+    articleResources,
     resources,
   } = props
 
@@ -94,14 +96,6 @@ const Tag = (props: any) => {
                 />
               </div>
             )}
-            {categories && (
-              <ul>
-                Posted in
-                {categories.map((category: any) => (
-                  <li key={category}>{category}</li>
-                ))}
-              </ul>
-            )}
           </header>
           <main>
             <MDXRemote
@@ -113,6 +107,18 @@ const Tag = (props: any) => {
                   return course ? (
                     <div className="not-prose my-8">
                       <CourseWidget course={course} {...props} />
+                    </div>
+                  ) : null
+                },
+                ResourceWidget: ({resource: resourceSlug, ...props}: any) => {
+                  const resource = find(articleResources, {slug: resourceSlug})
+                  return resource ? (
+                    <div className="not-prose my-8">
+                      <ResourceWidget
+                        resource={resource}
+                        location={resource.location}
+                        {...props}
+                      />
                     </div>
                   ) : null
                 },
@@ -172,6 +178,46 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
   seo,
   coverImage,
   body,
+  "articleResources": resources[type == "collection"]{
+    "location": content[0].text,
+    title,
+    "slug": slug.current,
+    "podcasts": resources[type == "podcast"]{
+      title,
+      image,
+      path,
+      "description": byline,
+      "slug": slug.current,
+      "name": type,
+  },
+   "collections": resources[type == "collection"]{
+     title,
+     'courses': resources[]->{
+       type,
+       title,
+       image,
+       path,
+       "description": summary,
+       byline,
+       'instructor': collaborators[]->[role == 'instructor'][0]{
+        title,
+        'slug': person->slug.current,
+        'name': person->name,
+        'path': person->website,
+        'twitter': person->twitter,
+        'image': person->image.url
+      },
+     }
+   },
+   "talks": resources[_type == "reference"]->{
+     title,
+     image,
+     "description": byline,
+     byline,
+     path,
+     "name": type,
+   }
+  },
   "resources": resources[]-> {
     title,
     'instructor': collaborators[]->[role == 'instructor'][0]{
