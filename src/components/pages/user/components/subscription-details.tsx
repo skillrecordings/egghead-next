@@ -154,13 +154,93 @@ const AccessLevelSummary: React.FC<{isBasic: boolean}> = ({isBasic}) => {
   return <div>{isBasic ? <BasicAccessMessage /> : <ProAccessMessage />}</div>
 }
 
+const IndividualSubscriptionDetails: React.FC<any> = ({
+  status,
+  type,
+  interval,
+  currentPeriodEndDate,
+  fullPrice,
+  discount,
+}) => {
+  const finalPrice = isEmpty(discount) ? fullPrice : discount.priceWithDiscount
+  return (
+    <div>
+      {type === 'gift' && (
+        <p>
+          You currently have a <strong>Gift Subscription</strong> that ends on{' '}
+          <strong>{currentPeriodEndDate}</strong>. After that, you would need to
+          subscribe to a Pro plan to access our Pro Lessons.
+        </p>
+      )}
+      {type === 'paid' && status === 'active' && (
+        <>
+          <p>
+            Your <strong>{interval}</strong> subscription will automatically
+            renew for <strong>${finalPrice}</strong> on{' '}
+            <strong>{currentPeriodEndDate}</strong>.
+          </p>
+          <p>
+            If you would like to cancel autorenewal, you can use the manage
+            subscription link to make changes.
+          </p>
+        </>
+      )}
+      {type === 'paid' && status === 'pending_cancelation' && (
+        <p>
+          Your <strong>{interval}</strong> subscription will end on{' '}
+          <strong>{currentPeriodEndDate}</strong>. You will still have access to
+          our Basic lessons, and you will not be charged again.
+        </p>
+      )}
+      {type === 'paid' && status === 'canceled' && (
+        <p>
+          Your subscription was cancelled and ended on{' '}
+          <strong>{currentPeriodEndDate}</strong>. You can still watch all of
+          our Basic lessons, but you will need subscribe to a Pro plan for
+          access to our full catalogue of Pro lessons.
+        </p>
+      )}
+    </div>
+  )
+}
+
+const TeamSubscriptionDetails: React.FC<any> = () => {
+  return (
+    <div>
+      <div>TeamSubscriptionDetails</div>
+    </div>
+  )
+}
+
 const SubscriptionDetailsWidget: React.FC<{
   subscriptionDetails: SubscriptionDetails
 }> = ({subscriptionDetails = TEMP_DEFAULT_SUBSCRIPTION_DETAILS}) => {
   const {subscription, team} = subscriptionDetails
+  const {
+    status,
+    autoRenew,
+    type,
+    interval,
+    currentPeriodEndDate,
+    fullPrice,
+    discount,
+  } = subscription
+  const subscriptionIsCanceled = status === 'canceled'
   return (
     <div className="space-y-5">
-      <AccessLevelSummary isBasic={subscription.status === 'canceled'} />
+      <AccessLevelSummary isBasic={subscriptionIsCanceled} />
+      {isEmpty(team) ? (
+        <IndividualSubscriptionDetails
+          status={status}
+          type={type}
+          interval={interval}
+          currentPeriodEndDate={currentPeriodEndDate}
+          fullPrice={fullPrice}
+          discount={discount}
+        />
+      ) : (
+        <TeamSubscriptionDetails status={status} />
+      )}
     </div>
   )
 }
@@ -488,7 +568,7 @@ const TempControls: React.FC<{
               })}
             </div>
           </div>
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold">autorenew:</h3>
             <div className="flex space-x-3">
               <label
@@ -534,7 +614,7 @@ const TempControls: React.FC<{
                 <span>off</span>
               </label>
             </div>
-          </div>
+          </div> */}
           <div>
             <h3 className="text-lg font-semibold">discount:</h3>
             <div className="flex space-x-3">
