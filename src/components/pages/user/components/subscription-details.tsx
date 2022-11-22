@@ -129,12 +129,38 @@ const MissingSubscription = () => {
   )
 }
 
-const SubscriptionDetailsWidget: React.FC<{data: SubscriptionDetails}> = ({
-  data,
-}) => {
+// TODO: add a case when user has no subscription at all
+const AccessLevelSummary: React.FC<{isBasic: boolean}> = ({isBasic}) => {
+  const BasicAccessMessage = () => (
+    <>
+      <strong>egghead Basic Membership</strong>
+      <p>
+        You have access to all of our Basic videos. You can subscribe for full
+        access to all of our Pro<sup>⭐️</sup> lessons any time.
+      </p>
+    </>
+  )
+  const ProAccessMessage = () => (
+    <>
+      <strong>
+        egghead Pro<sup>⭐️</sup> Membership
+      </strong>
+      <p>
+        You currently have access to all of our Pro<sup>⭐️</sup> and Basic
+        lessons.
+      </p>
+    </>
+  )
+  return <div>{isBasic ? <BasicAccessMessage /> : <ProAccessMessage />}</div>
+}
+
+const SubscriptionDetailsWidget: React.FC<{
+  subscriptionDetails: SubscriptionDetails
+}> = ({subscriptionDetails = TEMP_DEFAULT_SUBSCRIPTION_DETAILS}) => {
+  const {subscription, team} = subscriptionDetails
   return (
-    <div>
-      <div>123</div>
+    <div className="space-y-5">
+      <AccessLevelSummary isBasic={subscription.status === 'canceled'} />
     </div>
   )
 }
@@ -161,7 +187,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         </div>
 
         {subscriptionState ? (
-          <SubscriptionDetailsWidget data={subscriptionState} />
+          <SubscriptionDetailsWidget subscriptionDetails={subscriptionState} />
         ) : (
           <MissingSubscription />
         )}
