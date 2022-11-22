@@ -18,6 +18,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="me" href="https://hachyderm.io/@joelhooks" />
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=UA-36512724-7"
