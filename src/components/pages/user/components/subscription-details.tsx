@@ -12,27 +12,13 @@ type SubscriptionDetailsProps = {
   slug: string
 }
 
-enum SubscriptionTypes {
-  Paid = 'paid',
-  Gift = 'gift',
-}
+type SubscriptionTypes = 'paid' | 'gift'
 
-enum SubscriptionStatuses {
-  Active = 'active',
-  PendingCancelation = 'pending_cancelation',
-  Canceled = 'canceled',
-}
+type SubscriptionStatuses = 'active' | 'pending_cancelation' | 'canceled'
 
-enum SubscriptionIntervals {
-  Monthly = 'monthly',
-  Quarterly = 'quarterly',
-  Yearly = 'yearly',
-}
+type SubscriptionIntervals = 'monthly' | 'quarterly' | 'yearly'
 
-enum SubscriptionDiscountTypes {
-  Ppp = 'ppp',
-  Sale = 'sale',
-}
+type SubscriptionDiscountTypes = 'ppp' | 'sale'
 
 type SubscriptionTeamMember = {
   name: string
@@ -41,27 +27,17 @@ type SubscriptionTeamMember = {
 
 type SubscriptionDetails = {
   subscription: {
-    // type: SubscriptionTypes.Paid | SubscriptionTypes.Gift
-    // status:
-    //   | SubscriptionStatuses.Active
-    //   | SubscriptionStatuses.PendingCancelation
-    //   | SubscriptionStatuses.Canceled
-    // interval:
-    //   | SubscriptionIntervals.Monthly
-    //   | SubscriptionIntervals.Quarterly
-    //   | SubscriptionIntervals.Yearly
-    type: 'paid' | 'gift'
-    status: 'active' | 'pending_cancelation' | 'canceled'
-    interval: 'monthly' | 'quarterly' | 'yearly'
+    type: SubscriptionTypes
+    status: SubscriptionStatuses
+    interval: SubscriptionIntervals
     autoRenew: boolean
     currentPeriodEndDate: string // should be Date??
     fullPrice: number
     discount?: {
-      // type: SubscriptionDiscountTypes.Ppp | SubscriptionDiscountTypes.Sale
-      type: 'sale' | 'ppp'
+      type: SubscriptionDiscountTypes
       country: string | null
       percentage: number
-      priceWithDiscount: number // Used "priceWithDiscount" instead of "newPrice"
+      priceWithDiscount: number
     }
     upgrade: {
       savingsPercentage: number
@@ -412,7 +388,7 @@ const TempControls: React.FC<{
           <div>
             <h3 className="text-lg font-semibold">type:</h3>
             <div className="flex space-x-3">
-              {Object.values(SubscriptionTypes).map((type, i) => {
+              {['paid', 'gift'].map((type, i) => {
                 return (
                   <label
                     key={i}
@@ -428,7 +404,7 @@ const TempControls: React.FC<{
                           ...subscriptionState,
                           subscription: {
                             ...subscriptionState.subscription,
-                            type: type,
+                            type: type as SubscriptionTypes,
                           },
                         })
                       }
@@ -444,41 +420,43 @@ const TempControls: React.FC<{
             <div>
               <h3 className="text-lg font-semibold">status:</h3>
               <div>
-                {Object.values(SubscriptionStatuses).map((status, i) => {
-                  return (
-                    <label
-                      key={i}
-                      htmlFor={`subscription-state-${status}`}
-                      className="space-x-1 flex items-center cursor-pointer"
-                    >
-                      <input
-                        type="radio"
-                        name="subscription-state"
-                        id={`subscription-state-${status}`}
-                        onChange={() =>
-                          setSubscriptionState({
-                            ...subscriptionState,
-                            subscription: {
-                              ...subscriptionState.subscription,
-                              status: status,
-                            },
-                          })
-                        }
-                        checked={
-                          subscriptionState?.subscription.status === status
-                        }
-                      />
-                      <span>{status}</span>
-                    </label>
-                  )
-                })}
+                {['active', 'pending_cancelation', 'canceled'].map(
+                  (status, i) => {
+                    return (
+                      <label
+                        key={i}
+                        htmlFor={`subscription-state-${status}`}
+                        className="space-x-1 flex items-center cursor-pointer"
+                      >
+                        <input
+                          type="radio"
+                          name="subscription-state"
+                          id={`subscription-state-${status}`}
+                          onChange={() =>
+                            setSubscriptionState({
+                              ...subscriptionState,
+                              subscription: {
+                                ...subscriptionState.subscription,
+                                status: status as SubscriptionStatuses,
+                              },
+                            })
+                          }
+                          checked={
+                            subscriptionState?.subscription.status === status
+                          }
+                        />
+                        <span>{status}</span>
+                      </label>
+                    )
+                  },
+                )}
               </div>
             </div>
           )}
           <div>
             <h3 className="text-lg font-semibold">interval:</h3>
             <div className="flex space-x-3">
-              {Object.values(SubscriptionIntervals).map((interval, i) => {
+              {['monthly', 'quarterly', 'yearly'].map((interval, i) => {
                 return (
                   <label
                     key={i}
@@ -494,7 +472,7 @@ const TempControls: React.FC<{
                           ...subscriptionState,
                           subscription: {
                             ...subscriptionState.subscription,
-                            interval: interval,
+                            interval: interval as SubscriptionIntervals,
                           },
                         })
                       }
