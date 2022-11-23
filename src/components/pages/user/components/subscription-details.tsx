@@ -159,10 +159,8 @@ const IndividualSubscriptionDetails: React.FC<any> = ({
   type,
   interval,
   currentPeriodEndDate,
-  fullPrice,
-  discount,
+  price,
 }) => {
-  const finalPrice = isEmpty(discount) ? fullPrice : discount.priceWithDiscount
   return (
     <div>
       {type === 'gift' && (
@@ -176,7 +174,7 @@ const IndividualSubscriptionDetails: React.FC<any> = ({
         <>
           <p>
             Your <strong>{interval}</strong> subscription will automatically
-            renew for <strong>${finalPrice}</strong> on{' '}
+            renew for <strong>${price}</strong> on{' '}
             <strong>{currentPeriodEndDate}</strong>.
           </p>
           <p>
@@ -194,7 +192,7 @@ const IndividualSubscriptionDetails: React.FC<any> = ({
       )}
       {type === 'paid' && status === 'canceled' && (
         <p>
-          Your subscription was cancelled and ended on{' '}
+          Your subscription was canceled and ended on{' '}
           <strong>{currentPeriodEndDate}</strong>. You can still watch all of
           our Basic lessons, but you will need subscribe to a Pro plan for
           access to our full catalogue of Pro lessons.
@@ -204,11 +202,98 @@ const IndividualSubscriptionDetails: React.FC<any> = ({
   )
 }
 
-const TeamSubscriptionDetails: React.FC<any> = () => {
+const TeamOwnerSubscriptionDetails: React.FC<any> = ({
+  status,
+  interval,
+  seatsNumber,
+  price,
+  currentPeriodEndDate,
+}) => {
   return (
     <div>
-      <div>TeamSubscriptionDetails</div>
+      {status === 'active' && (
+        <>
+          <p>
+            Your <strong>{interval}</strong> team subscription for{' '}
+            <strong>{seatsNumber}</strong> seats will automatically renew for $
+            <strong>{price}</strong> on <strong>{currentPeriodEndDate}</strong>.
+          </p>
+          <p>
+            If you would like to cancel auto-renewal or change the number of
+            seats for your team, you can use the manage subscription link to
+            make changes.
+          </p>
+        </>
+      )}
+      {status === 'pending_cancelation' && (
+        <p>
+          Your <strong>{interval}</strong> team subscription for{' '}
+          <strong>{seatsNumber}</strong> seats will end on{' '}
+          <strong>{currentPeriodEndDate}</strong>. Your team will still have
+          access to our Basic lessons, and you will not be charged again.
+        </p>
+      )}
+      {status === 'canceled' && (
+        <p>
+          Your team subscription was canceled and ended on{' '}
+          <strong>{currentPeriodEndDate}</strong>. You can still watch all of
+          our Basic lessons, but you will need subscribe to a Pro plan for
+          access to our Pro lessons.
+        </p>
+      )}
     </div>
+  )
+}
+
+const TeamMemberSubscriptionDetails: React.FC<any> = ({
+  status,
+  owner,
+  currentPeriodEndDate,
+}) => {
+  return (
+    <div>
+      {status === 'active' && (
+        <p>
+          You have Pro access through a team subscription managed by{' '}
+          <strong>{owner.name}</strong> (
+          <a href={`mailto:${owner.email}`} className="text-blue-600">
+            {owner.email}
+          </a>
+          ).
+        </p>
+      )}
+      {status === 'pending_cancelation' && (
+        <p>
+          Your Pro access through your team's subscription will end on{' '}
+          <strong>{currentPeriodEndDate}</strong>. You will still have access to
+          our Basic lessons, and you will not be charged again.
+        </p>
+      )}
+      {status === 'canceled' && (
+        <p>
+          Your Pro access through your team's subscription was cancelled and
+          ended on <strong>{currentPeriodEndDate}</strong>. You can still watch
+          all of our Basic lessons, but you will need subscribe to a Pro plan
+          for access to our Pro lessons.
+        </p>
+      )}
+    </div>
+  )
+}
+
+const TeamMembers: React.FC<any> = ({members}) => {
+  return (
+    <ul className="list-disc pl-6">
+      {members.map((member: any, i: number) => {
+        return (
+          <li key={i}>
+            <i>
+              {member.name} - ({member.email})
+            </i>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
@@ -216,33 +301,42 @@ const SubscriptionDetailsWidget: React.FC<{
   subscriptionDetails: SubscriptionDetails
 }> = ({subscriptionDetails = TEMP_DEFAULT_SUBSCRIPTION_DETAILS}) => {
   const {subscription, team} = subscriptionDetails
-  const {
-    status,
-    autoRenew,
-    type,
-    interval,
-    currentPeriodEndDate,
-    fullPrice,
-    discount,
-  } = subscription
+  const {status, type, interval, currentPeriodEndDate, fullPrice, discount} =
+    subscription
   const subscriptionIsCanceled = status === 'canceled'
-  const isTeamOwner = team?.owner && team?.members
-  const isTeamMember = team?.owner && !team?.members
+  const owner = team?.owner
+  const members = team?.members
+  const price = isEmpty(discount) ? fullPrice : discount?.priceWithDiscount
   return (
     <div className="space-y-5">
       <AccessLevelSummary isBasic={subscriptionIsCanceled} />
-      {}
-      {isEmpty(team) ? (
+      {!owner && (
         <IndividualSubscriptionDetails
           status={status}
           type={type}
           interval={interval}
           currentPeriodEndDate={currentPeriodEndDate}
-          fullPrice={fullPrice}
-          discount={discount}
+          price={price}
         />
-      ) : (
-        <TeamSubscriptionDetails status={status} />
+      )}
+      {owner && members && (
+        <>
+          <TeamOwnerSubscriptionDetails
+            status={status}
+            interval={interval}
+            seatsNumber={members.length}
+            price={price}
+            currentPeriodEndDate={currentPeriodEndDate}
+          />
+          {!subscriptionIsCanceled && <TeamMembers members={members} />}
+        </>
+      )}
+      {owner && !members && (
+        <TeamMemberSubscriptionDetails
+          status={status}
+          owner={owner}
+          currentPeriodEndDate={currentPeriodEndDate}
+        />
       )}
     </div>
   )
