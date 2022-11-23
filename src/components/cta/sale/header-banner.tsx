@@ -25,7 +25,7 @@ const SaleHeaderBanner = () => {
             <span role="img" aria-hidden="true">
               🌟
             </span>{' '}
-            Fall Sale:{' '}
+            End of Year Sale:{' '}
             <span>
               Save <strong>{percentOff}%</strong> on yearly memberships
               {appliedCoupon.coupon_expires_at && ' for limited time'}.{' '}
