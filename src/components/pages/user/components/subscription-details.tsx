@@ -60,7 +60,7 @@ type SubscriptionDetails = {
       // type: SubscriptionDiscountTypes.Ppp | SubscriptionDiscountTypes.Sale
       type: 'sale' | 'ppp'
       country: string | null
-      percentage: 50
+      percentage: number
       priceWithDiscount: number // Used "priceWithDiscount" instead of "newPrice"
     }
     upgrade: {
