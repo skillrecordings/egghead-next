@@ -226,9 +226,12 @@ const SubscriptionDetailsWidget: React.FC<{
     discount,
   } = subscription
   const subscriptionIsCanceled = status === 'canceled'
+  const isTeamOwner = team?.owner && team?.members
+  const isTeamMember = team?.owner && !team?.members
   return (
     <div className="space-y-5">
       <AccessLevelSummary isBasic={subscriptionIsCanceled} />
+      {}
       {isEmpty(team) ? (
         <IndividualSubscriptionDetails
           status={status}
@@ -260,7 +263,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
             />
           </div>
           <div>
-            <div className="space-y-2 text-xs p-3 bg-gray-100 border-2 border-dashed border-gray-300">
+            <div className="space-y-2 text-xs p-3 bg-gray-100 border-2 border-dashed border-gray-300 h-full">
               <pre>{JSON.stringify(subscriptionState, null, 2)}</pre>
             </div>
           </div>
@@ -277,165 +280,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
 
 export default SubscriptionDetails
 
-// type ManagedMember = {
-//   full_name: string
-//   email: string
-// }
-
-// enum SubscriptionStates {
-//   Active = 'active',
-//   PendingCancelation = 'pending_cancelation',
-//   Canceled = 'canceled',
-// }
-// enum SubscriptionTypes {
-//   IndividualPaid = 'individual_paid',
-//   IndividualGift = 'individual_gift',
-//   ManagedOwner = 'managed_owner',
-//   ManagedMember = 'managed_member',
-// }
-// enum SubscriptionIntervals {
-//   Monthly = 'monthly',
-//   Quarterly = 'quarterly',
-//   Yearly = 'yearly',
-// }
-
-// type SubscriptionData = {
-//   subscription_state:
-//     | SubscriptionStates.Active
-//     | SubscriptionStates.PendingCancelation
-//     | SubscriptionStates.Canceled
-//   subscription_auto_renew: boolean
-//   subscription_type:
-//     | SubscriptionTypes.IndividualPaid
-//     | SubscriptionTypes.IndividualGift
-//     | SubscriptionTypes.ManagedOwner
-//     | SubscriptionTypes.ManagedMember
-//   subscription_interval:
-//     | SubscriptionIntervals.Monthly
-//     | SubscriptionIntervals.Quarterly
-//     | SubscriptionIntervals.Yearly
-//   current_period_end_date: string
-//   managed_members_list?: ManagedMember[]
-//   stripe_portal_link?: string
-//   current_plan_price: number
-//   current_plan_name: string
-//   current_plan_discount: number
-// }
-
-// const TEMP_DEFAULT_SUBSCRIPTION_DATA: SubscriptionData = {
-//   subscription_state: SubscriptionStates.Active,
-//   subscription_auto_renew: true,
-//   subscription_type: SubscriptionTypes.IndividualPaid,
-//   subscription_interval: SubscriptionIntervals.Monthly,
-//   current_period_end_date: '12/11/2022',
-//   managed_members_list: [
-//     {
-//       full_name: 'Dmitri Mendeleev',
-//       email: 'dmitri.mendeleev@periodic.table.com',
-//     },
-//     {
-//       full_name: 'Viktor Pelevin',
-//       email: 'vik.tor@pelevin.com',
-//     },
-//   ],
-//   stripe_portal_link: 'www.stripeportallink.com',
-//   current_plan_price: 50,
-//   current_plan_name: 'Monthly',
-//   current_plan_discount: 25,
-// }
-
-// const {
-//   subscription_state,
-//   subscription_auto_renew,
-//   subscription_type,
-//   subscription_interval,
-//   current_period_end_date,
-//   managed_members_list,
-//   stripe_portal_link,
-//   current_plan_price,
-//   current_plan_name,
-//   current_plan_discount,
-// } = data
-// return (
-//   <div className="divide-y divide-gray-200">
-//     {/* Greeting */}
-//     <div className="py-3 bg-gray-100 px-4">
-//       <p>
-//         ⭐️ You're an <strong>egghead Member!</strong>
-//       </p>
-//       <p>
-//         You have a PRO access via <b>{subscription_type}</b> subscription.
-//       </p>
-//       {subscription_type !== 'managed_member' && (
-//         <p>
-//           You can update your plan and payment information below via Stripe.
-//         </p>
-//       )}
-//     </div>
-
-//     {/* Subscription interval */}
-//     <div className="py-3 bg-red-100 px-4">
-//       <p>
-//         You have <b>{subscription_interval}</b> subscription
-//       </p>
-//       {subscription_interval !== 'yearly' &&
-//         subscription_type !== 'managed_member' && (
-//           <p>
-//             Save <b>n%</b> with YEARLY subscription
-//           </p>
-//         )}
-//     </div>
-
-//     {/* Current period end date */}
-//     <div className="py-3 bg-lime-100 px-4">
-//       <p>
-//         Current period end date: <b>{current_period_end_date}</b>
-//       </p>
-//     </div>
-
-//     {/* List of Managed Members and Seat Counts / Contact team manager */}
-//     {managed_members_list && subscription_type === 'managed_owner' && (
-//       <div className="py-3 bg-violet-100 px-4">
-//         <p>
-//           You are the <b>team manager</b>.
-//         </p>
-//         <p>List of team members:</p>
-//         <ul className="list-disc pl-6">
-//           {managed_members_list.map((item, i) => {
-//             return (
-//               <li key={i}>
-//                 <i>
-//                   {item.full_name} ({item.email})
-//                 </i>
-//               </li>
-//             )
-//           })}
-//         </ul>
-//       </div>
-//     )}
-
-//     {/* List of Managed Members and Seat Counts / Contact team manager */}
-//     {subscription_type === 'managed_member' && (
-//       <div className="py-3 bg-emerald-100 px-4">
-//         <p>You can't manage the subscription.</p>
-//         <p>Contact your team manager:</p>
-//         <i>Alex Ferguson (alex.ferguson@manchester.com)</i>
-//       </div>
-//     )}
-
-//     {/* Stripe Portal Link */}
-//     {subscription_type !== 'managed_member' && stripe_portal_link && (
-//       <div className="py-3">
-//         <Link href="/">
-//           <a className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700">
-//             Manage Subscription
-//           </a>
-//         </Link>
-//       </div>
-//     )}
-//   </div>
-// )
-
 const TempControls: React.FC<{
   subscriptionState: SubscriptionDetails | undefined
   setSubscriptionState: React.Dispatch<
@@ -451,7 +295,7 @@ const TempControls: React.FC<{
     }
   }
   return (
-    <div className="mb-8 space-y-3 flex flex-col items-start bg-yellow-100 px-3 border-2 border-dashed border-gray-300 py-2 h-full">
+    <div className="space-y-3 flex flex-col items-start bg-yellow-100 px-3 border-2 border-dashed border-gray-300 py-2 h-full">
       <label
         htmlFor="subscription-state-toggle"
         className="space-x-1 flex items-center cursor-pointer"
@@ -502,39 +346,41 @@ const TempControls: React.FC<{
               })}
             </div>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold">status:</h3>
+          {subscriptionState?.subscription.type === 'paid' && (
             <div>
-              {Object.values(SubscriptionStatuses).map((status, i) => {
-                return (
-                  <label
-                    key={i}
-                    htmlFor={`subscription-state-${status}`}
-                    className="space-x-1 flex items-center cursor-pointer"
-                  >
-                    <input
-                      type="radio"
-                      name="subscription-state"
-                      id={`subscription-state-${status}`}
-                      onChange={() =>
-                        setSubscriptionState({
-                          ...subscriptionState,
-                          subscription: {
-                            ...subscriptionState.subscription,
-                            status: status,
-                          },
-                        })
-                      }
-                      checked={
-                        subscriptionState?.subscription.status === status
-                      }
-                    />
-                    <span>{status}</span>
-                  </label>
-                )
-              })}
+              <h3 className="text-lg font-semibold">status:</h3>
+              <div>
+                {Object.values(SubscriptionStatuses).map((status, i) => {
+                  return (
+                    <label
+                      key={i}
+                      htmlFor={`subscription-state-${status}`}
+                      className="space-x-1 flex items-center cursor-pointer"
+                    >
+                      <input
+                        type="radio"
+                        name="subscription-state"
+                        id={`subscription-state-${status}`}
+                        onChange={() =>
+                          setSubscriptionState({
+                            ...subscriptionState,
+                            subscription: {
+                              ...subscriptionState.subscription,
+                              status: status,
+                            },
+                          })
+                        }
+                        checked={
+                          subscriptionState?.subscription.status === status
+                        }
+                      />
+                      <span>{status}</span>
+                    </label>
+                  )
+                })}
+              </div>
             </div>
-          </div>
+          )}
           <div>
             <h3 className="text-lg font-semibold">interval:</h3>
             <div className="flex space-x-3">
@@ -568,166 +414,190 @@ const TempControls: React.FC<{
               })}
             </div>
           </div>
-          {/* <div>
-            <h3 className="text-lg font-semibold">autorenew:</h3>
-            <div className="flex space-x-3">
-              <label
-                htmlFor="subscription-autorenew-on"
-                className="space-x-1 flex items-center cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subscription-autorenew"
-                  id="subscription-autorenew-on"
-                  onChange={() =>
-                    setSubscriptionState({
-                      ...subscriptionState,
-                      subscription: {
-                        ...subscriptionState.subscription,
-                        autoRenew: true,
-                      },
-                    })
-                  }
-                  checked={subscriptionState?.subscription.autoRenew === true}
-                />
-                <span>on</span>
-              </label>
-              <label
-                htmlFor="subscription-autorenew-off"
-                className="space-x-1 flex items-center cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subscription-autorenew"
-                  id="subscription-autorenew-off"
-                  onChange={() =>
-                    setSubscriptionState({
-                      ...subscriptionState,
-                      subscription: {
-                        ...subscriptionState.subscription,
-                        autoRenew: false,
-                      },
-                    })
-                  }
-                  checked={subscriptionState?.subscription.autoRenew === false}
-                />
-                <span>off</span>
-              </label>
-            </div>
-          </div> */}
-          <div>
-            <h3 className="text-lg font-semibold">discount:</h3>
-            <div className="flex space-x-3">
-              <label
-                htmlFor="subscription-discount-on"
-                className="space-x-1 flex items-center cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subscription-discount"
-                  id="subscription-discount-on"
-                  onChange={() =>
-                    setSubscriptionState({
-                      ...subscriptionState,
-                      subscription: {
-                        ...subscriptionState.subscription,
-                        discount: {
-                          type: 'ppp',
-                          country: 'Ukraine',
-                          percentage: 50,
-                          priceWithDiscount: 125,
-                        },
-                      },
-                    })
-                  }
-                  checked={
-                    subscriptionState?.subscription.discount !== undefined
-                  }
-                />
-                <span>on</span>
-              </label>
-              <label
-                htmlFor="subscription-discount-off"
-                className="space-x-1 flex items-center cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subscription-discount"
-                  id="subscription-discount-off"
-                  onChange={() =>
-                    setSubscriptionState({
-                      ...subscriptionState,
-                      subscription: {
-                        ...subscriptionState.subscription,
-                        discount: undefined,
-                      },
-                    })
-                  }
-                  checked={
-                    subscriptionState?.subscription.discount === undefined
-                  }
-                />
-                <span>off</span>
-              </label>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold">team:</h3>
-            <div className="flex space-x-3">
-              <label
-                htmlFor="subscription-team-on"
-                className="space-x-1 flex items-center cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subscription-team"
-                  id="subscription-team-on"
-                  onChange={() =>
-                    setSubscriptionState({
-                      ...subscriptionState,
-                      team: {
-                        owner: {
-                          name: 'John Owner',
-                          email: 'john@owner.com',
-                          member: true,
-                        },
-                        members: [
-                          {
-                            name: 'Dmitri Mendeleev',
-                            email: 'dmitri.mendeleev@periodic.table.com',
+          {subscriptionState?.subscription.type === 'paid' && (
+            <div>
+              <h3 className="text-lg font-semibold">discount:</h3>
+              <div className="flex space-x-3">
+                <label
+                  htmlFor="subscription-discount-on"
+                  className="space-x-1 flex items-center cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="subscription-discount"
+                    id="subscription-discount-on"
+                    onChange={() =>
+                      setSubscriptionState({
+                        ...subscriptionState,
+                        subscription: {
+                          ...subscriptionState.subscription,
+                          discount: {
+                            type: 'ppp',
+                            country: 'Ukraine',
+                            percentage: 50,
+                            priceWithDiscount: 125,
                           },
-                          {
-                            name: 'Viktor Pelevin',
-                            email: 'viktor@pelevin.com',
-                          },
-                        ],
-                      },
-                    })
-                  }
-                  checked={subscriptionState?.team !== undefined}
-                />
-                <span>on</span>
-              </label>
-              <label
-                htmlFor="subscription-team-off"
-                className="space-x-1 flex items-center cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subscription-team"
-                  id="subscription-team-off"
-                  onChange={() =>
-                    setSubscriptionState({
-                      ...subscriptionState,
-                      team: undefined,
-                    })
-                  }
-                  checked={subscriptionState?.team === undefined}
-                />
-                <span>off</span>
-              </label>
+                        },
+                      })
+                    }
+                    checked={
+                      subscriptionState?.subscription.discount !== undefined
+                    }
+                  />
+                  <span>on</span>
+                </label>
+                <label
+                  htmlFor="subscription-discount-off"
+                  className="space-x-1 flex items-center cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="subscription-discount"
+                    id="subscription-discount-off"
+                    onChange={() =>
+                      setSubscriptionState({
+                        ...subscriptionState,
+                        subscription: {
+                          ...subscriptionState.subscription,
+                          discount: undefined,
+                        },
+                      })
+                    }
+                    checked={
+                      subscriptionState?.subscription.discount === undefined
+                    }
+                  />
+                  <span>off</span>
+                </label>
+              </div>
             </div>
-          </div>
+          )}
+          {subscriptionState?.subscription.type === 'paid' && (
+            <div>
+              <h3 className="text-lg font-semibold">team:</h3>
+              <div className="flex space-x-3">
+                <label
+                  htmlFor="subscription-team-on"
+                  className="space-x-1 flex items-center cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="subscription-team"
+                    id="subscription-team-on"
+                    onChange={() =>
+                      setSubscriptionState({
+                        ...subscriptionState,
+                        team: {
+                          owner: {
+                            name: 'John Owner',
+                            email: 'john@owner.com',
+                            member: true,
+                          },
+                          members: [
+                            {
+                              name: 'Dmitri Mendeleev',
+                              email: 'dmitri.mendeleev@periodic.table.com',
+                            },
+                            {
+                              name: 'Viktor Pelevin',
+                              email: 'viktor@pelevin.com',
+                            },
+                          ],
+                        },
+                      })
+                    }
+                    checked={subscriptionState?.team !== undefined}
+                  />
+                  <span>on</span>
+                </label>
+                <label
+                  htmlFor="subscription-team-off"
+                  className="space-x-1 flex items-center cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="subscription-team"
+                    id="subscription-team-off"
+                    onChange={() =>
+                      setSubscriptionState({
+                        ...subscriptionState,
+                        team: undefined,
+                      })
+                    }
+                    checked={subscriptionState?.team === undefined}
+                  />
+                  <span>off</span>
+                </label>
+              </div>
+            </div>
+          )}
+          {subscriptionState?.team !== undefined &&
+            subscriptionState?.subscription.type === 'paid' && (
+              <div>
+                <h3 className="text-lg font-semibold">team owner/member:</h3>
+                <div className="flex space-x-3">
+                  <label
+                    htmlFor="subscription-team-owner"
+                    className="space-x-1 flex items-center cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="subscription-team-role"
+                      id="subscription-team-owner"
+                      onChange={() =>
+                        setSubscriptionState({
+                          ...subscriptionState,
+                          team: {
+                            owner: {
+                              name: 'John Owner',
+                              email: 'john@owner.com',
+                              member: true,
+                            },
+                            members: [
+                              {
+                                name: 'Dmitri Mendeleev',
+                                email: 'dmitri.mendeleev@periodic.table.com',
+                              },
+                              {
+                                name: 'Viktor Pelevin',
+                                email: 'viktor@pelevin.com',
+                              },
+                            ],
+                          },
+                        })
+                      }
+                      checked={subscriptionState?.team?.members !== undefined}
+                    />
+                    <span>owner</span>
+                  </label>
+                  <label
+                    htmlFor="subscription-team-member"
+                    className="space-x-1 flex items-center cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="subscription-team-role"
+                      id="subscription-team-member"
+                      onChange={() =>
+                        setSubscriptionState({
+                          ...subscriptionState,
+                          team: {
+                            owner: {
+                              name: 'John Owner',
+                              email: 'john@owner.com',
+                              member: true,
+                            },
+                            members: undefined,
+                          },
+                        })
+                      }
+                      checked={subscriptionState?.team?.members === undefined}
+                    />
+                    <span>member</span>
+                  </label>
+                </div>
+              </div>
+            )}
         </div>
       )}
     </div>
