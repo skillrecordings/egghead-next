@@ -95,7 +95,11 @@ const TEMP_DEFAULT_SUBSCRIPTION_DETAILS: SubscriptionDetails = {
 const MissingSubscription = () => {
   return (
     <div className="border border-gray-200 p-4">
-      <div>You have no active subscription yet.</div>
+      <strong>egghead Basic Membership</strong>
+      <p>
+        You have access to all of our Basic videos. You can subscribe for full
+        access to all of our Pro<sup>⭐️</sup> lessons any time.
+      </p>
       <Link href="/pricing">
         <a className="inline-flex items-center justify-center px-6 py-4 font-semibold text-white transition-all duration-200 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 mt-8">
           Start to learn
