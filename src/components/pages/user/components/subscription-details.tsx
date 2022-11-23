@@ -389,7 +389,7 @@ const TempControls: React.FC<{
     }
   }
   return (
-    <div className="space-y-3 flex flex-col items-start bg-yellow-100 px-3 border-2 border-dashed border-gray-300 py-2 h-full">
+    <div className="space-y-3 flex flex-col items-start bg-yellow-100 px-3 border-2 border-dashed border-gray-300 py-2 h-full min-h-[620px]">
       <label
         htmlFor="subscription-state-toggle"
         className="space-x-1 flex items-center cursor-pointer"
