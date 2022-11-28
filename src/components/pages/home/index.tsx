@@ -46,9 +46,9 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
             .filter((s: any) => s.slug !== 'jumbotron')
             .map((section: any, i: number) => {
               return section.slug === 'topics' ? (
-                <Topics data={section} />
+                <Topics data={section} key={i} />
               ) : (
-                <section className="pb-16" key={section.id}>
+                <section className="pb-16" key={section.slug}>
                   {!section.image && !section.description ? (
                     // simple section
                     <div className="flex items-center justify-between w-full pb-6">
