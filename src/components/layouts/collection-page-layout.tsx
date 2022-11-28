@@ -3,12 +3,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
 import toast from 'react-hot-toast'
+import {useQuery} from '@tanstack/react-query'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
 import {get, first, filter, isEmpty, take} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
+import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
@@ -29,6 +31,7 @@ import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
+import {loadUserCompletedCourses} from 'lib/users'
 
 import LoginForm from 'pages/login'
 
@@ -118,6 +121,18 @@ export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
   </div>
 )
 
+const useIsCourseCompleted = (viewerId: number, slug: string) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      const isCompleted = completeCourses.some(
+        (course: any) => course?.collection?.slug === slug,
+      )
+      return isCompleted
+    }
+  })
+}
+
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons = [],
   course,
@@ -126,7 +141,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies: any = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
-
+  const {viewer} = useViewer()
+  const viewerId = viewer?.id
+  const {data: isCourseCompleted} = useIsCourseCompleted(viewerId, course.slug)
   const defaultPairWithResources: any[] = take(
     [
       {
@@ -433,15 +450,25 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 </div>
               )}
-              {access_state && (
-                <div
-                  className={`${
-                    access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
-                  } text-white w-12 items-center text-center py-1 rounded-full uppercase font-bold my-2 text-xs mx-auto md:m-0 md:mb-2`}
-                >
-                  {access_state}
-                </div>
-              )}
+              <div className="flex justify-center md:justify-start space-x-3 my-2 md:m-0 md:mb-2">
+                {access_state && (
+                  <div
+                    className={`${
+                      access_state === 'free' ? 'bg-orange-500' : 'bg-blue-500'
+                    } text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs cursor-default`}
+                  >
+                    {access_state}
+                  </div>
+                )}
+                {isCourseCompleted && (
+                  <div
+                    className="text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs bg-green-500 cursor-default"
+                    title="You have already completed this course"
+                  >
+                    Completed
+                  </div>
+                )}
+              </div>
               {moduleResource && (
                 <div className="mt-4 -mb-4 text-base leading-loose text-center md:mb-0 md:mt-0 md:text-left">
                   <Link href={multiModuleSlug}>
