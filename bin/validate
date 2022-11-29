@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# Description:
+#   Checks for foundation development dependencies. Basically, if it needs to be installed manually
+#     by using Homebrew or an installer, it belongs here. If it's a dependency via a package manager
+#     then that doesn't need to be checked here. Essentially, this should just ensure that all of
+#     the necessary tools to run `bin/setup` are installed properly.
+# Usage:
+#   bin/doctor
+
+start_red="\x1B[31m"
+start_green="\x1B[32m"
+start_gray="\x1B[90m"
+reset_color="\x1B[0m"
+
+arm_string='x86_64' # This is the string value that will show up in the `uname -a` command if it's ARM
+brew_string="brew install"
+arm_flag="arch -arm64" # This is the flag for Homebrew if it should be installed under ARM
+
+# Usage:
+#   All of the following are acceptable. If the installation command or version command are not
+#     provided, it assumes "brew install <command>" and "<command> -v" as defaults.
+#   verify_installation 'node'
+#   verify_installation 'node' 'brew install node'
+#   verify_installation 'node' 'brew install node' 'node -v'
+function verify_installation () {
+  local command_name=$1
+
+  # If an installation command isn't provided, assume it uses Homebrew
+  local installation_command=${2-"brew install $command_name"}
+
+  # If a version command isn't provided, assume it uses -v as the option
+  local version_command=${3-"$command_name -v"}
+
+  if ! command -v $command_name &> /dev/null; then
+    echo
+    echo -e "- $start_red$command_name$reset_color not found"
+
+    echo -n "  Run \`$installation_command\` to install it? (yn)"
+    read install_it
+
+    # Let's get it installed...
+    if [ $install_it == 'y' ]; then
+      # Installing, so clear the screen to focus on the install process
+      clear
+
+      # Get the architecture so we can run brew accordingly
+      system_architecture=`uname -a`
+
+      # If it's an ARM machine and this installion command uses Homebrew, update the install command
+      #   to include the necessary architecture flag
+      if [[ $system_architecture == *$arm_string* && $installation_command == *$brew_string* ]]; then
+        installation_command="$arm_flag $installation_command"
+      fi
+
+      # Install it
+      echo "  Running \`$installation_command\`"
+      $installation_command
+    else
+      echo -e "  You must install '$command_name' before you can run this application"
+      exit 1
+    fi
+  else
+    local which_command="which $command_name"
+    echo -e "- $start_green$command_name$reset_color > `$version_command` @ $start_gray`$which_command`$reset_color" | tr -d '\n'
+    echo
+  fi
+}
+
+echo
+echo "Verifying system-level requirements..."
+verify_installation 'brew' '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+verify_installation 'node'
+verify_installation 'yarn'
+verify_isntallation 'vercel' 'yarn global add vercel'
+verify_installation 'stripe' 'brew install stripe/stripe-cli/stripe'
