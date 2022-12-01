@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {useRouter} from 'next/router'
+import {useQuery} from '@tanstack/react-query'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import Search from 'components/pages/home/search'
@@ -14,9 +15,27 @@ import Jumbotron from 'components/pages/home/jumbotron'
 import {Jumbotron as HolidayReleaseJumbotron} from 'components/pages/20-days-of-egghead/course-grid'
 import toast, {Toaster} from 'react-hot-toast'
 import analytics from 'utils/analytics'
+import {loadUserCompletedCourses} from 'lib/users'
+import {useViewer} from 'context/viewer-context'
+import {isEmpty} from 'lodash'
+
+const useUserCompletedCourses = (viewerId: number) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      return completeCourses
+    }
+  })
+}
 
 const Home: React.FC<any> = ({data, jumbotron, location}) => {
   const router = useRouter()
+  const {viewer} = useViewer()
+  const viewerId = viewer?.id
+  const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+  const completedCoursesIds =
+    !isEmpty(completeCourseData) &&
+    completeCourseData.map((course: any) => course.collection.id)
 
   React.useEffect(() => {
     const {query} = router
@@ -94,12 +113,14 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             ) : (
                               <VerticalResourceCard
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             )
                           case 6:
@@ -109,12 +130,14 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             ) : (
                               <VerticalResourceCard
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             )
                           case 7:
@@ -124,12 +147,14 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             ) : (
                               <VerticalResourceCard
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             )
                           default:
@@ -138,6 +163,7 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                                 key={resource.id}
                                 resource={resource}
                                 location={location}
+                                completedCoursesIds={completedCoursesIds}
                               />
                             )
                         }

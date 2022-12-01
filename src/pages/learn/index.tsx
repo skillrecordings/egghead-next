@@ -60,6 +60,7 @@ const homepageQuery = groq`*[_type == 'resource' && slug.current == "curated-hom
       },
       resources[]->{
         'id': _id,
+        externalId,
         title,
         'name': type,
         'description': summary,

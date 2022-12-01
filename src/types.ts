@@ -10,6 +10,7 @@ export type Resource = {
 
 export type CardResource = Resource & {
   id?: string
+  externalId?: string
   image: string | {src: string; alt: string}
   name: string
   tag?: any

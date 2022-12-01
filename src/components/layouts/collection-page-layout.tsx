@@ -463,7 +463,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 {isCourseCompleted && (
                   <div
                     className="text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs bg-green-500 cursor-default"
-                    title="You have already completed this course"
+                    title="Course completed"
                   >
                     Completed
                   </div>
