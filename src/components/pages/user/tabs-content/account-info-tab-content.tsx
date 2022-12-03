@@ -11,6 +11,7 @@ import {
   RequestEmailChangeForm,
   // RequestNameChangeForm,
 } from '../components'
+import {trpc} from '../../../../utils/trpc'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -32,17 +33,12 @@ const AccountInfoTabContent: React.FC<any> = () => {
   const {viewer, authToken, loading} = useViewer()
   const {email: currentEmail, accounts, providers} = viewer || {}
   const isConnectedToGithub = providers?.includes('github')
-  const [account, setAccount] = React.useState<ViewerAccount>()
   const {slug} = getAccountWithSubscription(accounts)
-  React.useEffect(() => {
-    const loadAccountForSlug = async (slug: string) => {
-      if (slug) {
-        const account: any = await loadAccount(slug, authToken)
-        setAccount(account)
-      }
-    }
-    loadAccountForSlug(slug)
-  }, [slug, authToken])
+
+  const {data: account, status: accountLoadingStatus} =
+    trpc.user.current.useQuery()
+
+  console.log({account, accountLoadingStatus})
 
   return (
     <div className="space-y-10 md:space-y-14 xl:space-y-16">
@@ -73,10 +69,12 @@ const AccountInfoTabContent: React.FC<any> = () => {
           </>
         )}
       </ItemWrapper>
-      {account && (
+      {account?.account_users[0].account.stripe_customer_id && (
         <ItemWrapper title="Subscription">
           <SubscriptionDetails
-            stripeCustomerId={account.stripe_customer_id}
+            stripeCustomerId={
+              account?.account_users[0].account.stripe_customer_id
+            }
             slug={slug}
           />
         </ItemWrapper>

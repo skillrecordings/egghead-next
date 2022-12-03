@@ -10,6 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model OathAccessToken {
+  id                     Int                 @id @default(autoincrement())
+  token     String   @unique
+  resource_owner_id BigInt
+  user      User     @relation(fields: [resource_owner_id], references: [id])
+  created_at DateTime @default(now())
+  expires_in DateTime
+  @@map(name: "oauth_access_tokens")
+}
+
 model User {
   id                   BigInt        @id @default(autoincrement())
   first_name           String?       @db.VarChar(255)
@@ -20,7 +30,7 @@ model User {
   updated_at           DateTime?     @db.Timestamp(6)
   kvstore              Json?         @default("{}")
   account_users        AccountUser[]
-
+  access_tokens        OathAccessToken[]
   @@index([kvstore], map: "index_users_on_kvstore", type: Gin)
   @@map("users")
 }

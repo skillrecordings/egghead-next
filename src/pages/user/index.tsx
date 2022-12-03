@@ -7,19 +7,8 @@ import AccountInfoTabContent from 'components/pages/user/tabs-content/account-in
 import BookmarksTabContent from 'components/pages/user/tabs-content/bookmarks-tab-content'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
-import {PrismaClient} from '@prisma/client'
 
-const prisma = new PrismaClient()
-
-type ViewerAccount = {
-  stripe_customer_id: string
-  slug: string
-  subscriptions: any[]
-}
-
-const User: React.FunctionComponent<
-  LoginRequiredParams & {account: ViewerAccount}
-> = () => {
+const User: React.FunctionComponent<LoginRequiredParams> = () => {
   const {viewer} = useViewer()
   const [currentTab, setCurrentTab] = React.useState<string>('Activity')
   const router = useRouter()
@@ -105,35 +94,5 @@ const tabs = [
   {label: 'Bookmarks', component: <BookmarksTabContent />},
   {label: 'Account Info', component: <AccountInfoTabContent />},
 ]
-
-export async function getServerSideProps(context) {
-  // const {viewer, authToken, loading} = useViewer()
-  console.log({context})
-  const authToken = 'asdf'
-  const slug = 'asdf'
-
-  // Really need Account and AccountSubscription
-  // User -> Account User -> Account -> Account Subscriptions where state is "enabled"
-
-  const user: User = await prisma.user.findUnique({
-    where: {
-      authentication_token: authToken,
-    },
-  })
-  const account: Account = await prisma.account.findFirst({
-    where: {
-      slug: slug,
-    },
-    include: {
-      account_subscriptions: true,
-    },
-  })
-  return {
-    props: {
-      user,
-      account,
-    },
-  }
-}
 
 export default User

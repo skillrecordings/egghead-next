@@ -26,7 +26,6 @@ export default function SearchFilipHric({
   } = instructor
   const [primaryCourse, secondCourse] = courses.resources
 
-  console.log({socials})
   return (
     <div className="">
       <SearchInstructorEssential
