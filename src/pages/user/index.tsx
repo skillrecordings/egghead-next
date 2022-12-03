@@ -2,13 +2,14 @@ import * as React from 'react'
 import cx from 'classnames'
 import {useViewer} from 'context/viewer-context'
 import LoginRequired, {LoginRequiredParams} from 'components/login-required'
-import {
-  ActivityTabContent,
-  AccountInfoTabContent,
-  BookmarksTabContent,
-} from 'components/pages/user'
+import ActivityTabContent from 'components/pages/user/tabs-content/activity-tab-content'
+import AccountInfoTabContent from 'components/pages/user/tabs-content/account-info-tab-content'
+import BookmarksTabContent from 'components/pages/user/tabs-content/bookmarks-tab-content'
 import {NextSeo} from 'next-seo'
 import {useRouter} from 'next/router'
+import {PrismaClient} from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -99,10 +100,40 @@ const User: React.FunctionComponent<
   )
 }
 
-export default User
-
 const tabs = [
   {label: 'Activity', component: <ActivityTabContent />},
   {label: 'Bookmarks', component: <BookmarksTabContent />},
   {label: 'Account Info', component: <AccountInfoTabContent />},
 ]
+
+export async function getServerSideProps(context) {
+  // const {viewer, authToken, loading} = useViewer()
+  console.log({context})
+  const authToken = 'asdf'
+  const slug = 'asdf'
+
+  // Really need Account and AccountSubscription
+  // User -> Account User -> Account -> Account Subscriptions where state is "enabled"
+
+  const user: User = await prisma.user.findUnique({
+    where: {
+      authentication_token: authToken,
+    },
+  })
+  const account: Account = await prisma.account.findFirst({
+    where: {
+      slug: slug,
+    },
+    include: {
+      account_subscriptions: true,
+    },
+  })
+  return {
+    props: {
+      user,
+      account,
+    },
+  }
+}
+
+export default User

@@ -1,0 +1,2084 @@
+// *************************************************************************************************
+// IMPORTANT: This is the generated schema for the existing database so that we can use it as a
+//   reference when building up the actual prisma.schema. To update the schema, use the standard
+//   `prisma.schema` file.
+// *************************************************************************************************
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model account_ownership_transfer_invitations {
+  id                                                                    BigInt    @id @default(autoincrement())
+  guid                                                                  String    @db.VarChar
+  invitee_email                                                         String    @db.VarChar
+  status                                                                String    @db.VarChar
+  accepted_at                                                           DateTime? @db.Timestamp(6)
+  account_id                                                            BigInt
+  owner_id                                                              BigInt
+  transferred_to_id                                                     BigInt?
+  created_at                                                            DateTime  @db.Timestamp(6)
+  updated_at                                                            DateTime  @db.Timestamp(6)
+  users_account_ownership_transfer_invitations_owner_idTousers          users     @relation("account_ownership_transfer_invitations_owner_idTousers", fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_0824b8e5d2")
+  accounts                                                              accounts  @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_0f8d838e56")
+  users_account_ownership_transfer_invitations_transferred_to_idTousers users?    @relation("account_ownership_transfer_invitations_transferred_to_idTousers", fields: [transferred_to_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a9ab42229c")
+
+  @@index([transferred_to_id], map: "index_account_ownership_t_i_on_transferred_to_id")
+  @@index([account_id], map: "index_account_ownership_transfer_invitations_on_account_id")
+  @@index([owner_id], map: "index_account_ownership_transfer_invitations_on_owner_id")
+}
+
+model account_subscriptions {
+  id                     BigInt    @id @default(autoincrement())
+  stripe_subscription_id String?   @unique(map: "index_account_subscriptions_on_stripe_subscription_id") @db.VarChar
+  account_id             BigInt?
+  created_at             DateTime  @db.Timestamp(6)
+  updated_at             DateTime  @db.Timestamp(6)
+  coupon_id              BigInt?
+  subscribable_type      String?   @db.VarChar
+  subscribable_id        BigInt?
+  current_period_end     Int?
+  current_period_start   Int?
+  quantity               Int
+  status                 String?   @db.VarChar
+  string                 String?   @db.VarChar
+  cancel_at_period_end   Boolean?
+  price                  Int?
+  interval               String?   @db.VarChar
+  interval_count         Int?
+  accounts               accounts? @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_85fdcd8805")
+
+  @@index([subscribable_type, subscribable_id], map: "index_account_sub_on_subscribable")
+  @@index([account_id], map: "index_account_subscriptions_on_account_id")
+  @@index([coupon_id], map: "index_account_subscriptions_on_coupon_id")
+}
+
+model account_users {
+  id         BigInt   @id @default(autoincrement())
+  user_id    BigInt
+  account_id BigInt
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_685e030c15")
+  accounts   accounts @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_c96445f213")
+
+  @@unique([user_id, account_id], map: "index_account_users_on_user_id_and_account_id")
+  @@index([account_id], map: "index_account_users_on_account_id")
+  @@index([user_id], map: "index_account_users_on_user_id")
+}
+
+model accounts {
+  id                                     BigInt                                   @id @default(autoincrement())
+  slug                                   String?                                  @db.VarChar
+  name                                   String?                                  @db.VarChar
+  stripe_customer_id                     String?                                  @unique(map: "index_accounts_on_stripe_customer_id") @db.VarChar
+  created_at                             DateTime                                 @db.Timestamp(6)
+  updated_at                             DateTime                                 @db.Timestamp(6)
+  guid                                   String?                                  @db.VarChar
+  additional_billing_info                String?
+  team_invite_id                         String?                                  @default(dbgenerated("public.gen_random_uuid()")) @db.Uuid
+  account_ownership_transfer_invitations account_ownership_transfer_invitations[]
+  account_subscriptions                  account_subscriptions[]
+  account_users                          account_users[]
+  saml_details                           saml_details[]
+  transactions                           transactions[]
+}
+
+model admin_discount_codes {
+  id          Int       @id @default(autoincrement())
+  code        String?   @db.VarChar(255)
+  expires_on  DateTime? @db.Date
+  usage_limit Int?
+  will_expire Boolean?  @default(false)
+  used_count  Int?
+  created_at  DateTime? @db.Timestamp(6)
+  updated_at  DateTime? @db.Timestamp(6)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model admin_discount_codes_plans {
+  discount_code_id Int?
+  plan_id          Int?
+
+  @@ignore
+}
+
+model admin_promos {
+  id              Int       @id @default(autoincrement())
+  offer_type      String?   @db.VarChar(255)
+  subscription_id Int?
+  is_sent         Boolean?  @default(false)
+  redeem_url      String?   @db.VarChar(255)
+  sent_on         DateTime? @db.Date
+  created_at      DateTime? @db.Timestamp(6)
+  updated_at      DateTime? @db.Timestamp(6)
+
+  @@index([subscription_id], map: "index_admin_promos_on_subscription_id")
+}
+
+model admin_special_offers {
+  id           Int       @id @default(autoincrement())
+  code         String
+  guid         String
+  expires_on   DateTime? @db.Timestamp(6)
+  name         String    @db.VarChar(255)
+  use_limit    Int?      @default(0)
+  duration     Int?      @default(30)
+  is_active    Boolean?  @default(true)
+  will_expire  Boolean?  @default(false)
+  is_streaming Boolean?  @default(true)
+  use_count    Int?      @default(0)
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+  affiliate_id Int?
+
+  @@index([affiliate_id], map: "index_admin_special_offers_on_affiliate_id")
+}
+
+model affiliates {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  name         String?   @db.VarChar(255)
+  trial_length Int?
+  is_streaming Boolean?
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+
+  @@index([user_id], map: "index_affiliates_on_user_id")
+}
+
+model ar_internal_metadata {
+  key        String   @id @db.VarChar
+  value      String?  @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+}
+
+model articles {
+  id                        Int       @id @default(autoincrement())
+  title                     String?   @db.VarChar(255)
+  slug                      String?   @db.VarChar(255)
+  content                   String?
+  author_id                 Int?
+  created_at                DateTime? @db.Timestamp(6)
+  updated_at                DateTime? @db.Timestamp(6)
+  header_image_file_name    String?   @db.VarChar(255)
+  header_image_content_type String?   @db.VarChar(255)
+  header_image_file_size    Int?
+  header_image_updated_at   DateTime? @db.Timestamp(6)
+  tweeted_on                DateTime? @db.Timestamp(6)
+  tagline                   String?   @db.VarChar(125)
+  description               String?
+  summary                   String?
+  visibility_state          String?   @default("hidden") @db.VarChar
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+
+  @@index([author_id], map: "index_articles_on_author_id")
+  @@index([created_at], map: "index_articles_on_created_at")
+}
+
+model attachments {
+  id                    Int       @id @default(autoincrement())
+  file_file_name        String?   @db.VarChar
+  file_content_type     String?   @db.VarChar
+  file_file_size        Int?
+  file_updated_at       DateTime? @db.Timestamp(6)
+  attachment_owner_id   Int?
+  attachment_owner_type String?   @db.VarChar
+  created_at            DateTime? @db.Timestamp(6)
+  updated_at            DateTime? @db.Timestamp(6)
+
+  @@index([attachment_owner_id, attachment_owner_type], map: "index_attachments_with_attachment_owner")
+}
+
+model blazer_audits {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  query_id    Int?
+  statement   String?
+  data_source String?   @db.VarChar
+  created_at  DateTime? @db.Timestamp(6)
+
+  @@index([query_id], map: "index_blazer_audits_on_query_id")
+  @@index([user_id], map: "index_blazer_audits_on_user_id")
+}
+
+model blazer_checks {
+  id          Int       @id @default(autoincrement())
+  creator_id  Int?
+  query_id    Int?
+  state       String?   @db.VarChar
+  schedule    String?   @db.VarChar
+  emails      String?
+  check_type  String?   @db.VarChar
+  message     String?
+  last_run_at DateTime? @db.Timestamp(6)
+  created_at  DateTime  @db.Timestamp(6)
+  updated_at  DateTime  @db.Timestamp(6)
+
+  @@index([creator_id], map: "index_blazer_checks_on_creator_id")
+  @@index([query_id], map: "index_blazer_checks_on_query_id")
+}
+
+model blazer_dashboard_queries {
+  id           Int      @id @default(autoincrement())
+  dashboard_id Int?
+  query_id     Int?
+  position     Int?
+  created_at   DateTime @db.Timestamp(6)
+  updated_at   DateTime @db.Timestamp(6)
+
+  @@index([dashboard_id], map: "index_blazer_dashboard_queries_on_dashboard_id")
+  @@index([query_id], map: "index_blazer_dashboard_queries_on_query_id")
+}
+
+model blazer_dashboards {
+  id         Int      @id @default(autoincrement())
+  creator_id Int?
+  name       String?
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+
+  @@index([creator_id], map: "index_blazer_dashboards_on_creator_id")
+}
+
+model blazer_queries {
+  id          Int      @id @default(autoincrement())
+  creator_id  Int?
+  name        String?  @db.VarChar
+  description String?
+  statement   String?
+  data_source String?  @db.VarChar
+  created_at  DateTime @db.Timestamp(6)
+  updated_at  DateTime @db.Timestamp(6)
+
+  @@index([creator_id], map: "index_blazer_queries_on_creator_id")
+}
+
+model broadcast_messages {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  subject      String?
+  body         String?
+  filter       Json?
+  utm_source   String?
+  utm_campaign String?
+  send_at      DateTime? @db.Timestamp(6)
+  state        String?   @db.VarChar
+  guid         String?   @db.VarChar
+  created_at   DateTime  @db.Timestamp(6)
+  updated_at   DateTime  @db.Timestamp(6)
+  batch_id     String?   @db.VarChar
+  sender       String?
+  commercial   Boolean?  @default(true)
+  kvstore      Json?     @default("{}")
+  signature    String?
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_323082523b")
+
+  @@index([kvstore], map: "index_broadcast_messages_on_kvstore", type: Gin)
+  @@index([signature], map: "index_broadcast_messages_on_signature")
+  @@index([user_id], map: "index_broadcast_messages_on_user_id")
+}
+
+model casting_words_events {
+  id         Int       @id @default(autoincrement())
+  order      String?   @db.VarChar(255)
+  status     String?   @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  audio_file String?   @db.VarChar(255)
+}
+
+model channel_subs {
+  id                       Int       @id @default(autoincrement())
+  target_id                Int
+  target_type              String    @db.VarChar
+  key                      String    @db.VarChar
+  subscribing              Boolean   @default(true)
+  subscribing_to_email     Boolean   @default(true)
+  subscribed_at            DateTime? @db.Timestamp(6)
+  unsubscribed_at          DateTime? @db.Timestamp(6)
+  subscribed_to_email_at   DateTime? @db.Timestamp(6)
+  unsubscribed_to_email_at DateTime? @db.Timestamp(6)
+  optional_targets         String?
+  created_at               DateTime? @db.Timestamp(6)
+  updated_at               DateTime? @db.Timestamp(6)
+
+  @@unique([target_type, target_id, key], map: "index_channel_subs_on_target_type_and_target_id_and_key")
+  @@index([key], map: "index_channel_subs_on_key")
+  @@index([target_type, target_id], map: "index_channel_subs_on_target_type_and_target_id")
+}
+
+model comment_subscriptions {
+  id               Int      @id @default(autoincrement())
+  commentable_id   Int?
+  commentable_type String?  @db.VarChar
+  user_id          Int?
+  created_at       DateTime @db.Timestamp(6)
+  updated_at       DateTime @db.Timestamp(6)
+  state            String?  @db.VarChar
+}
+
+model comments {
+  id               Int       @id @default(autoincrement())
+  title            String?   @default("") @db.VarChar(50)
+  comment          String?
+  commentable_id   Int?
+  commentable_type String?   @db.VarChar
+  user_id          Int?
+  role             String?   @default("comments") @db.VarChar
+  created_at       DateTime? @db.Timestamp(6)
+  updated_at       DateTime? @db.Timestamp(6)
+  state            String?   @db.VarChar
+  reply_to_id      Int?
+  context          Json?     @default("{}")
+
+  @@index([commentable_id], map: "index_comments_on_commentable_id")
+  @@index([commentable_type], map: "index_comments_on_commentable_type")
+  @@index([context], map: "index_comments_on_context", type: Gin)
+  @@index([user_id], map: "index_comments_on_user_id")
+}
+
+model contact_form_entries {
+  id         Int      @id @default(autoincrement())
+  guid       String
+  user_id    Int?
+  fields     Json     @default("{}")
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+
+  @@index([fields], map: "index_contact_form_entries_on_fields", type: Gin)
+}
+
+model contacts {
+  id            Int         @id @default(autoincrement())
+  guid          String?     @db.VarChar
+  email         String?     @unique(map: "index_contacts_on_email") @db.VarChar
+  user_id       Int?
+  confirmed_at  DateTime?   @db.Timestamp(6)
+  kvstore       Json?       @default("{}")
+  created_at    DateTime    @db.Timestamp(6)
+  updated_at    DateTime    @db.Timestamp(6)
+  ip_address    String?     @db.VarChar
+  city          String?     @db.VarChar
+  state         String?     @db.VarChar
+  country       String?     @db.VarChar
+  convertkit_id BigInt?
+  users         users?      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_8d2134e55e")
+  responses     responses[]
+
+  @@index([guid], map: "index_contacts_on_guid")
+  @@index([kvstore], map: "index_contacts_on_kvstore", type: Gin)
+  @@index([user_id], map: "index_contacts_on_user_id")
+}
+
+model coupons {
+  id                              Int                  @id @default(autoincrement())
+  site                            String               @default("egghead.io") @db.VarChar
+  code                            String               @db.VarChar
+  percent_off                     Decimal              @db.Decimal
+  created_at                      DateTime             @db.Timestamp(6)
+  updated_at                      DateTime             @db.Timestamp(6)
+  expires_at                      DateTime?            @db.Timestamp(6)
+  sellable_purchases_count        Int?                 @default(0)
+  max_uses                        Int?
+  default                         Boolean?             @default(false)
+  generated_by_purchase_id        Int?
+  conditions                      Json                 @default("{}")
+  restricted_to_sellable_type     String?              @db.VarChar
+  restricted_to_sellable_id       Int?
+  stripe_coupon_id                String?              @db.VarChar
+  stripe_promotion_code_id        String?              @db.VarChar
+  restricted_to_subscribable_type String?              @db.VarChar
+  restricted_to_subscribable_id   BigInt?
+  generated_by_subscription_id    Int?
+  account_subscriptions_count     Int?                 @default(0)
+  stripe_charge_id                String?              @db.VarChar
+  minimum_amount                  Int?
+  sellable_purchases              sellable_purchases[]
+
+  @@unique([site, code], map: "index_coupons_on_site_and_code")
+  @@index([conditions], map: "index_coupons_on_conditions", type: Gin)
+  @@index([expires_at], map: "index_coupons_on_expires_at")
+  @@index([expires_at, site], map: "index_coupons_on_expires_at_and_site")
+  @@index([site], map: "index_coupons_on_site")
+}
+
+model data_migrations {
+  version String @unique(map: "unique_data_migrations") @db.VarChar
+}
+
+model downloads {
+  id                        Int       @id @default(autoincrement())
+  guid                      String?   @unique(map: "index_downloads_on_guid") @db.VarChar
+  owner_id                  Int?
+  slug                      String?   @unique(map: "index_downloads_on_slug") @db.VarChar
+  title                     String?   @db.VarChar
+  summary                   String?
+  description               String?
+  price                     Decimal?  @db.Decimal
+  revshare_percent          Decimal?  @db.Decimal
+  file_file_name            String?   @db.VarChar
+  file_content_type         String?   @db.VarChar
+  file_file_size            Int?
+  file_updated_at           DateTime? @db.Timestamp(6)
+  created_at                DateTime? @db.Timestamp(6)
+  updated_at                DateTime? @db.Timestamp(6)
+  state                     String?   @default("new") @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+  visibility_state          String?   @default("hidden") @db.VarChar
+  downloadable_type         String?   @db.VarChar
+  downloadable_id           Int?
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+
+  @@index([downloadable_type, downloadable_id], map: "index_downloads_on_downloadable_type_and_downloadable_id")
+  @@index([owner_id], map: "index_downloads_on_owner_id")
+}
+
+model editor_invites {
+  id                  Int       @id @default(autoincrement())
+  guid                String?   @db.VarChar
+  first_name          String?   @db.VarChar
+  last_name           String?   @db.VarChar
+  email               String?   @db.VarChar
+  invited_by_user_id  Int?
+  accepted_by_user_id Int?
+  accepted_on         DateTime? @db.Timestamp(6)
+  state               String?   @db.VarChar
+  created_at          DateTime  @db.Timestamp(6)
+  updated_at          DateTime  @db.Timestamp(6)
+  can_edit_content    Boolean?  @default(false)
+}
+
+model email_change_requests {
+  id         BigInt    @id @default(autoincrement())
+  user_id    BigInt
+  email      String    @db.VarChar
+  token      String    @db.Uuid
+  expires_at DateTime? @db.Timestamp(6)
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_4137d23536")
+
+  @@index([user_id], map: "index_email_change_requests_on_user_id")
+}
+
+model enhanced_transcripts {
+  id         Int       @id @default(autoincrement())
+  lesson_id  Int?
+  title      String?   @db.VarChar
+  markdown   String?
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+
+  @@index([lesson_id], map: "index_enhanced_transcripts_on_lesson_id")
+}
+
+model feed_events {
+  id           Int       @id @default(autoincrement())
+  subject_id   Int?
+  subject_type String?   @db.VarChar(255)
+  actor_id     Int?
+  event_type   String?   @db.VarChar(255)
+  title        String?   @db.VarChar(255)
+  body         String?
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+
+  @@index([actor_id], map: "index_feed_events_on_actor_id")
+  @@index([event_type], map: "index_feed_events_on_event_type")
+  @@index([subject_id, subject_type], map: "index_feed_events_on_subject_id_and_subject_type")
+}
+
+model forem_categories {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+  slug       String?   @unique(map: "index_forem_categories_on_slug") @db.VarChar(255)
+  position   Int?      @default(0)
+}
+
+model forem_forums {
+  id          Int     @id @default(autoincrement())
+  name        String? @db.VarChar(255)
+  description String?
+  category_id Int?
+  views_count Int?    @default(0)
+  slug        String? @unique(map: "index_forem_forums_on_slug") @db.VarChar(255)
+  position    Int?    @default(0)
+}
+
+model forem_posts {
+  id          Int       @id @default(autoincrement())
+  topic_id    Int?
+  text        String?
+  user_id     Int?
+  created_at  DateTime? @db.Timestamp(6)
+  updated_at  DateTime? @db.Timestamp(6)
+  reply_to_id Int?
+  state       String?   @default("pending_review") @db.VarChar(255)
+  notified    Boolean?  @default(false)
+
+  @@index([reply_to_id], map: "index_forem_posts_on_reply_to_id")
+  @@index([state], map: "index_forem_posts_on_state")
+  @@index([topic_id], map: "index_forem_posts_on_topic_id")
+  @@index([user_id], map: "index_forem_posts_on_user_id")
+}
+
+model forem_subscriptions {
+  id            Int  @id @default(autoincrement())
+  subscriber_id Int?
+  topic_id      Int?
+}
+
+model forem_topics {
+  id           Int       @id @default(autoincrement())
+  forum_id     Int?
+  user_id      Int?
+  subject      String?   @db.VarChar(255)
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+  locked       Boolean   @default(false)
+  pinned       Boolean?  @default(false)
+  hidden       Boolean?  @default(false)
+  last_post_at DateTime? @db.Timestamp(6)
+  state        String?   @default("pending_review") @db.VarChar(255)
+  views_count  Int?      @default(0)
+  slug         String?   @unique(map: "index_forem_topics_on_slug") @db.VarChar(255)
+  lesson_id    Int?
+
+  @@index([forum_id], map: "index_forem_topics_on_forum_id")
+  @@index([lesson_id], map: "index_forem_topics_on_lesson_id")
+  @@index([state], map: "index_forem_topics_on_state")
+  @@index([user_id], map: "index_forem_topics_on_user_id")
+}
+
+model forem_views {
+  id                Int       @id @default(autoincrement())
+  user_id           Int?
+  viewable_id       Int?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+  count             Int?      @default(0)
+  viewable_type     String?   @db.VarChar(255)
+  current_viewed_at DateTime? @db.Timestamp(6)
+  past_viewed_at    DateTime? @db.Timestamp(6)
+
+  @@index([updated_at], map: "index_forem_views_on_updated_at")
+  @@index([user_id], map: "index_forem_views_on_user_id")
+  @@index([viewable_id], map: "index_forem_views_on_viewable_id")
+}
+
+model friendly_id_slugs {
+  id             Int       @id @default(autoincrement())
+  slug           String    @db.VarChar(255)
+  sluggable_id   Int
+  sluggable_type String?   @db.VarChar(50)
+  scope          String?   @db.VarChar(255)
+  created_at     DateTime? @db.Timestamp(6)
+
+  @@unique([slug, sluggable_type, scope], map: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope")
+  @@index([slug, sluggable_type], map: "index_friendly_id_slugs_on_slug_and_sluggable_type")
+  @@index([sluggable_id], map: "index_friendly_id_slugs_on_sluggable_id")
+  @@index([sluggable_type], map: "index_friendly_id_slugs_on_sluggable_type")
+}
+
+model gifts {
+  id                      Int       @id @default(autoincrement())
+  guid                    String?   @db.VarChar(255)
+  email                   String?   @db.VarChar(255)
+  stripe_id               String?   @db.VarChar(255)
+  claimed_at              DateTime? @db.Timestamp(6)
+  user_id                 Int?
+  subscription_id         Int?
+  created_at              DateTime? @db.Timestamp(6)
+  updated_at              DateTime? @db.Timestamp(6)
+  price                   Int?
+  ip_address              String?   @db.VarChar
+  country                 String?   @db.VarChar
+  state                   String?   @db.VarChar
+  city                    String?   @db.VarChar
+  duration_months         Int?
+  gift_type               String?   @db.VarChar
+  expires_at              DateTime? @db.Timestamp(6)
+  lock_to_email           Boolean?  @default(false)
+  account_subscription_id BigInt?
+
+  @@index([account_subscription_id], map: "index_gifts_on_account_subscription_id")
+  @@index([subscription_id], map: "index_gifts_on_subscription_id")
+  @@index([user_id], map: "index_gifts_on_user_id")
+}
+
+model instructor_revenue_splits {
+  id                      Int       @id @default(autoincrement())
+  instructor_id           Int?
+  percentage              Decimal?  @default(0.2) @db.Decimal(3, 2)
+  from_date               DateTime? @db.Date
+  to_date                 DateTime? @db.Date
+  created_at              DateTime? @db.Timestamp(6)
+  updated_at              DateTime? @db.Timestamp(6)
+  split_type              String?   @db.VarChar(255)
+  credit_to_instructor_id Int?
+
+  @@index([instructor_id], map: "index_instructor_revenue_splits_on_instructor_id")
+}
+
+model instructor_transactions {
+  id                Int       @id @default(autoincrement())
+  guid              String?   @db.VarChar(255)
+  revshare_run_guid String?   @db.VarChar(255)
+  instructor_id     Int?
+  linked_obj_id     Int?
+  linked_obj_type   String?   @db.VarChar(255)
+  transaction_type  String?   @db.VarChar(255)
+  amount            Decimal?  @db.Decimal
+  metadata          String?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+  revenue_month     DateTime? @db.Date
+
+  @@index([instructor_id], map: "index_instructor_transactions_on_instructor_id")
+  @@index([linked_obj_id, linked_obj_type], map: "index_instructor_transactions_on_linked_obj")
+}
+
+model instructors {
+  id                       Int       @id @default(autoincrement())
+  first_name               String?   @db.VarChar(255)
+  last_name                String?   @db.VarChar(255)
+  profile_picture_url      String?   @db.VarChar(255)
+  twitter                  String?   @db.VarChar(255)
+  website                  String?   @db.VarChar(255)
+  bio_short                String?
+  created_at               DateTime? @db.Timestamp(6)
+  updated_at               DateTime? @db.Timestamp(6)
+  avatar_file_name         String?   @db.VarChar(255)
+  avatar_content_type      String?   @db.VarChar(255)
+  avatar_file_size         Int?
+  avatar_updated_at        DateTime? @db.Timestamp(6)
+  percentage               Decimal?  @default(0.2) @db.Decimal(3, 2)
+  user_id                  Int?
+  slug                     String?   @unique(map: "index_instructors_on_slug") @db.VarChar(255)
+  trained_by_instructor_id Int?
+  slack_id                 String?   @db.VarChar(255)
+  state                    String?   @db.VarChar
+  email                    String?   @unique(map: "index_instructors_on_email") @db.VarChar
+  gear_tracking_number     String?   @db.VarChar
+  contract_id              String?
+  avatar_processing        Boolean?
+  slack_group_id           String?   @db.VarChar
+  skip_onboarding          Boolean?
+  internal_note            String?   @db.VarChar
+  lessons                  lessons[]
+
+  @@index([user_id], map: "index_instructors_on_user_id")
+}
+
+model lesson_coinstructors {
+  id            Int  @id @default(autoincrement())
+  lesson_id     Int?
+  instructor_id Int?
+
+  @@index([instructor_id], map: "index_lesson_coinstructors_on_instructor_id")
+  @@index([lesson_id], map: "index_lesson_coinstructors_on_lesson_id")
+}
+
+model lesson_errata {
+  id         Int       @id @default(autoincrement())
+  title      String?   @db.VarChar(255)
+  message    String?
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model lesson_errata_lessons {
+  lesson_erratum_id Int?
+  lesson_id         Int?
+
+  @@ignore
+}
+
+model lesson_transcripts {
+  id                  Int       @id @default(autoincrement())
+  text                String?
+  casting_words_order String?
+  lesson_version_id   Int?
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+
+  @@index([lesson_version_id], map: "index_lesson_transcripts_on_lesson_version_id")
+}
+
+model lesson_uploads {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+  title         String?   @db.VarChar(255)
+  technology    String?   @db.VarChar(255)
+  instructor_id Int?
+  title_url     String?
+  summary       String?
+  uploaded_by   String?   @db.VarChar(255)
+  jsbin         String?   @db.VarChar(255)
+  github_repo   String?   @db.VarChar(255)
+  github_branch String?   @db.VarChar(255)
+  series_id     Int?
+  ascii         String?
+  tags          String?   @db.VarChar(255)
+  github_user   String?   @db.VarChar(255)
+  plunker_url   String?   @db.VarChar(255)
+  gist_url      String?
+
+  @@index([instructor_id], map: "index_lesson_uploads_on_instructor_id")
+  @@index([series_id], map: "index_lesson_uploads_on_series_id")
+}
+
+model lesson_version_flags {
+  id                Int       @id @default(autoincrement())
+  lesson_version_id Int?
+  lesson_id         Int?
+  severity          Int?
+  notes             String?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+  user_id           Int?
+
+  @@index([lesson_id], map: "index_lesson_version_flags_on_lesson_id")
+  @@index([lesson_version_id], map: "index_lesson_version_flags_on_lesson_version_id")
+  @@index([user_id], map: "index_lesson_version_flags_on_user_id")
+}
+
+model lesson_versions {
+  id         Int       @id @default(autoincrement())
+  lesson_id  Int?
+  user_id    Int?
+  notes      String?
+  created_at DateTime? @db.Timestamp(6)
+
+  @@index([lesson_id], map: "index_lesson_versions_on_lesson_id")
+  @@index([user_id], map: "index_lesson_versions_on_user_id")
+}
+
+model lesson_views {
+  id                 Int       @id @default(autoincrement())
+  subscription_id    Int?
+  lesson_id          Int?
+  segments           Int?      @default(0)
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+  is_download        Boolean?  @default(false)
+  did_complete       Boolean?  @default(false)
+  user_id            Int?
+  countable          Boolean?  @default(true)
+  is_purchased       Boolean?  @default(false)
+  lesson_version_id  Int?
+  instructor_id      Int?
+  collection_type    String?   @db.VarChar
+  collection_id      Int?
+  series_progress_id Int?
+
+  @@index([lesson_id, lesson_version_id, subscription_id, user_id, is_download, did_complete], map: "idx_lesson_views_on_lesson_lv_sub_user_download_complete")
+  @@index([collection_type, collection_id], map: "index_lesson_views_on_collection_type_and_collection_id")
+  @@index([created_at], map: "index_lesson_views_on_created_at")
+  @@index([lesson_id, lesson_version_id], map: "index_lesson_views_on_lesson_id_and_lesson_version_id")
+  @@index([lesson_version_id], map: "index_lesson_views_on_lesson_version_id")
+  @@index([subscription_id], map: "index_lesson_views_on_subscription_id")
+  @@index([user_id], map: "index_lesson_views_on_user_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model lesson_views_by_day_series_lesson {
+  day        DateTime? @db.Date
+  lesson_id  Int?
+  series_id  Int?
+  view_count Int?
+
+  @@index([day, lesson_id, series_id, view_count], map: "index_lvbdsl")
+  @@ignore
+}
+
+model lessons {
+  id                          Int                    @id @default(autoincrement())
+  title                       String?                @db.VarChar(255)
+  youtube_id                  String?                @db.VarChar(255)
+  summary                     String?
+  duration                    Int?
+  position                    Int?
+  created_at                  DateTime?              @db.Timestamp(6)
+  updated_at                  DateTime?              @db.Timestamp(6)
+  slug                        String?                @db.VarChar(255)
+  ascii                       String?
+  wistia_id                   String?                @db.VarChar(255)
+  thumb_url                   String?
+  published                   Boolean?               @default(false)
+  embed_markup                String?
+  transcript                  String?
+  wistia_embed_meta           String?
+  is_pro_content              Boolean?               @default(false)
+  aws_filename                String?
+  instructor_id               Int?
+  can_count_views             Boolean?               @default(true)
+  full_source_download        Boolean?               @default(false)
+  series_id                   Int?
+  file_sizes                  String?
+  display_id                  Int?
+  rss_url                     String?
+  title_url                   String?
+  casting_words_order         String?
+  audio_url                   String?
+  plays_count                 Int                    @default(0)
+  github_repo                 String?                @db.VarChar(255)
+  repo_tag                    String?                @db.VarChar(255)
+  jsbin_url                   String?                @db.VarChar(255)
+  codepen_id                  String?                @db.VarChar(255)
+  git_branch                  String?                @db.VarChar(255)
+  tweeted_on                  DateTime?              @db.Timestamp(6)
+  state                       String?                @db.VarChar(255)
+  published_at                DateTime?              @db.Timestamp(6)
+  publish_at                  DateTime?              @db.Timestamp(6)
+  row_order                   Int?
+  github_user                 String?                @db.VarChar(255)
+  current_lesson_version_id   Int?
+  difficulty_rating           Int?                   @default(0)
+  retired_at                  DateTime?              @db.Timestamp(6)
+  series_row_order            Int?
+  assembly_id                 String?                @db.VarChar(255)
+  plunker_url                 String?
+  creator_id                  Int?
+  cached_tag_list             String?                @db.VarChar
+  cached_library_list         String?                @db.VarChar
+  cached_language_list        String?                @db.VarChar
+  cached_framework_list       String?                @db.VarChar
+  cached_tool_list            String?                @db.VarChar
+  cached_platform_list        String?                @db.VarChar
+  cached_skillset_list        String?                @db.VarChar
+  cached_skill_level_list     String?                @db.VarChar
+  gist_url                    String?
+  popularity_order            Int?
+  srt                         String?
+  free_forever                Boolean?               @default(false)
+  old_technology              String?                @db.VarChar
+  visibility_state            String?                @default("hidden") @db.VarChar
+  square_cover_file_name      String?                @db.VarChar
+  square_cover_content_type   String?                @db.VarChar
+  square_cover_file_size      Int?
+  square_cover_updated_at     DateTime?              @db.Timestamp(6)
+  square_cover_processing     Boolean?
+  site                        String?                @default("egghead.io") @db.VarChar
+  code_url                    String?
+  notes                       String?
+  resource_type               String?                @default("lesson") @db.VarChar
+  guid                        String?                @db.VarChar
+  current_video_dash_url      String?                @db.VarChar
+  current_video_hls_url       String?                @db.VarChar
+  staff_notes_url             String?                @db.VarChar
+  revenue_share_instructor_id Int?
+  users                       users?                 @relation(fields: [creator_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5e4fbd8e41")
+  instructors                 instructors?           @relation(fields: [revenue_share_instructor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_dcecc98c13")
+  resources_videos            resources_videos[]
+  video_transcode_jobs        video_transcode_jobs[]
+
+  @@index([created_at], map: "idx_lessons_created_at")
+  @@index([creator_id], map: "index_lessons_on_creator_id")
+  @@index([instructor_id], map: "index_lessons_on_instructor_id")
+  @@index([popularity_order], map: "index_lessons_on_popularity_order")
+  @@index([revenue_share_instructor_id], map: "index_lessons_on_revenue_share_instructor_id")
+  @@index([series_id], map: "index_lessons_on_series_id")
+  @@index([series_id, state], map: "index_lessons_on_series_id_state")
+  @@index([site], map: "index_lessons_on_site")
+  @@index([slug], map: "index_lessons_on_slug")
+  @@index([updated_at], map: "index_lessons_on_updated_at")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model lessons_library_versions {
+  library_version_id Int?
+  lesson_id          Int?
+
+  @@ignore
+}
+
+model links {
+  id              Int      @id @default(autoincrement())
+  ancestor_id     Int?
+  descendant_id   Int?
+  direct          Boolean?
+  count           Int?
+  created_at      DateTime @db.Timestamp(6)
+  updated_at      DateTime @db.Timestamp(6)
+  ancestor_type   String?  @db.VarChar
+  descendant_type String?  @db.VarChar
+
+  @@index([ancestor_id, ancestor_type], map: "index_links_on_ancestor_id_and_ancestor_type")
+  @@index([descendant_id, descendant_type], map: "index_links_on_descendant_id_and_descendant_type")
+}
+
+model live_events {
+  id                        BigInt    @id @default(autoincrement())
+  guid                      String?   @unique(map: "index_live_events_on_guid") @db.VarChar
+  owner_id                  Int?
+  slug                      String?   @unique(map: "index_live_events_on_slug") @db.VarChar
+  title                     String?   @db.VarChar
+  description               String?
+  row_order                 Int?
+  state                     String?   @default("new") @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  visibility_state          String?   @default("hidden") @db.VarChar
+  resource_type             String?   @default("event") @db.VarChar
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+
+  @@index([owner_id], map: "index_live_events_on_owner_id")
+}
+
+model mailkick_opt_outs {
+  id         Int       @id @default(autoincrement())
+  email      String?   @db.VarChar
+  user_id    Int?
+  user_type  String?   @db.VarChar
+  active     Boolean   @default(true)
+  reason     String?   @db.VarChar
+  list       String?   @db.VarChar
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+
+  @@index([email], map: "index_mailkick_opt_outs_on_email")
+  @@index([user_id, user_type], map: "index_mailkick_opt_outs_on_user_id_and_user_type")
+}
+
+model managed_subscription_manager_invitations {
+  id                      Int       @id @default(autoincrement())
+  managed_subscription_id Int?
+  email                   String?   @db.VarChar(255)
+  guid                    String?   @db.VarChar(255)
+  state                   String?   @db.VarChar(255)
+  created_at              DateTime? @db.Timestamp(6)
+  updated_at              DateTime? @db.Timestamp(6)
+
+  @@index([managed_subscription_id], map: "idx_managed_sub_manager_invit_managed_sub_id")
+  @@index([managed_subscription_id], map: "idx_managed_sub_manager_invite_managed_sub_id")
+}
+
+model managed_subscriptions {
+  id                        Int       @id @default(autoincrement())
+  manager_id                Int?
+  subscription_id           Int?
+  guid                      String?
+  is_active                 Boolean?  @default(true)
+  user_limit                Int?      @default(0)
+  created_at                DateTime? @db.Timestamp(6)
+  updated_at                DateTime? @db.Timestamp(6)
+  email_whitelist           String[]  @default([])
+  saml_idp_metadata_url     String?
+  saml_first_name_attribute String?   @db.VarChar(255)
+  saml_last_name_attribute  String?   @db.VarChar(255)
+  saml_email_attribute      String?   @db.VarChar
+  saml_idp_sso_target_url   String?
+  saml_idp_get              Boolean?
+  state                     String?   @default("active") @db.VarChar
+  organization_name         String?
+
+  @@index([manager_id], map: "index_managed_subscriptions_on_manager_id")
+  @@index([subscription_id], map: "index_managed_subscriptions_on_subscription_id")
+}
+
+model notifications {
+  id              Int       @id @default(autoincrement())
+  target_id       Int
+  target_type     String    @db.VarChar
+  notifiable_id   Int
+  notifiable_type String    @db.VarChar
+  key             String    @db.VarChar
+  group_id        Int?
+  group_type      String?   @db.VarChar
+  group_owner_id  Int?
+  notifier_id     Int?
+  notifier_type   String?   @db.VarChar
+  parameters      String?
+  opened_at       DateTime? @db.Timestamp(6)
+  created_at      DateTime? @db.Timestamp(6)
+  updated_at      DateTime? @db.Timestamp(6)
+
+  @@index([group_owner_id], map: "index_notifications_on_group_owner_id")
+  @@index([group_type, group_id], map: "index_notifications_on_group_type_and_group_id")
+  @@index([notifiable_type, notifiable_id], map: "index_notifications_on_notifiable_type_and_notifiable_id")
+  @@index([notifier_type, notifier_id], map: "index_notifications_on_notifier_type_and_notifier_id")
+  @@index([target_type, target_id], map: "index_notifications_on_target_type_and_target_id")
+}
+
+model oauth_access_grants {
+  id                 Int                @id @default(autoincrement())
+  resource_owner_id  Int
+  application_id     Int
+  token              String             @unique(map: "index_oauth_access_grants_on_token") @db.VarChar
+  expires_in         Int
+  redirect_uri       String
+  created_at         DateTime           @db.Timestamp(6)
+  revoked_at         DateTime?          @db.Timestamp(6)
+  scopes             String?            @db.VarChar
+  oauth_applications oauth_applications @relation(fields: [application_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b4b53e07b8")
+}
+
+model oauth_access_tokens {
+  id                     Int                 @id @default(autoincrement())
+  resource_owner_id      Int?
+  application_id         Int?
+  token                  String              @unique(map: "index_oauth_access_tokens_on_token") @db.VarChar
+  refresh_token          String?             @unique(map: "index_oauth_access_tokens_on_refresh_token") @db.VarChar
+  expires_in             Int?
+  revoked_at             DateTime?           @db.Timestamp(6)
+  created_at             DateTime            @db.Timestamp(6)
+  scopes                 String?             @db.VarChar
+  previous_refresh_token String              @default("") @db.VarChar
+  nickname               String?             @db.VarChar
+  oauth_applications     oauth_applications? @relation(fields: [application_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_732cb83ab7")
+
+  @@index([resource_owner_id], map: "index_oauth_access_tokens_on_resource_owner_id")
+}
+
+model oauth_applications {
+  id                   Int                   @id @default(autoincrement())
+  name                 String                @db.VarChar
+  uid                  String                @unique(map: "index_oauth_applications_on_uid") @db.VarChar
+  secret               String                @db.VarChar
+  redirect_uri         String
+  scopes               String                @default("") @db.VarChar
+  created_at           DateTime              @db.Timestamp(6)
+  updated_at           DateTime              @db.Timestamp(6)
+  internal_application Boolean?              @default(true)
+  confidential         Boolean               @default(true)
+  image                String?               @db.VarChar
+  site_url             String?               @db.VarChar
+  statement_descriptor String?               @db.VarChar
+  login_redirect       String?
+  oauth_access_grants  oauth_access_grants[]
+  oauth_access_tokens  oauth_access_tokens[]
+}
+
+model payment_requests {
+  id              Int            @id @default(autoincrement())
+  guid            String?        @db.VarChar
+  subscription_id Int?
+  user_id         Int?
+  plan_id         Int?
+  email           String?        @db.VarChar
+  email_contents  String?        @db.VarChar
+  state           String?        @db.VarChar
+  created_at      DateTime       @db.Timestamp(6)
+  updated_at      DateTime       @db.Timestamp(6)
+  users           users?         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_271bc31f18")
+  subscriptions   subscriptions? @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_6624613b8b")
+
+  @@index([plan_id], map: "index_payment_requests_on_plan_id")
+  @@index([subscription_id], map: "index_payment_requests_on_subscription_id")
+  @@index([user_id], map: "index_payment_requests_on_user_id")
+}
+
+model plans {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  stripe_id      String?   @db.VarChar(255)
+  price          Float?
+  interval       String?   @db.VarChar(255)
+  features       String?
+  highlight      Boolean?
+  display_order  Int?
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+  is_published   Boolean?  @default(true)
+  discount_code  String?   @db.VarChar(255)
+  is_managed     Boolean?  @default(false)
+  user_limit     Int?      @default(0)
+  is_enterprise  Boolean?  @default(false)
+  is_free        Boolean?  @default(false)
+  slogan         String?   @db.VarChar(255)
+  guid           String?   @db.VarChar(255)
+  per_user_price Decimal?  @db.Decimal
+  is_disabled    Boolean?
+  tier           String?   @db.VarChar
+}
+
+model playlist_licensors {
+  id          BigInt    @id @default(autoincrement())
+  user_id     BigInt
+  playlist_id BigInt
+  created_at  DateTime  @db.Timestamp(6)
+  updated_at  DateTime  @db.Timestamp(6)
+  users       users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_2dd27b667c")
+  playlists   playlists @relation(fields: [playlist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_2e1cf1c0ae")
+
+  @@index([playlist_id], map: "index_playlist_licensors_on_playlist_id")
+  @@index([user_id], map: "index_playlist_licensors_on_user_id")
+}
+
+model playlist_saves {
+  id          Int       @id @default(autoincrement())
+  playlist_id Int
+  user_id     Int
+  created_at  DateTime? @db.Timestamp(6)
+  updated_at  DateTime? @db.Timestamp(6)
+
+  @@index([playlist_id], map: "index_playlist_saves_on_playlist_id")
+  @@index([user_id], map: "index_playlist_saves_on_user_id")
+}
+
+model playlists {
+  id                        Int                  @id @default(autoincrement())
+  title                     String               @db.VarChar(255)
+  description               String?
+  owner_id                  Int
+  created_at                DateTime?            @db.Timestamp(6)
+  updated_at                DateTime?            @db.Timestamp(6)
+  slug                      String?              @db.VarChar(255)
+  featured                  Boolean?
+  published                 Boolean?             @default(true)
+  is_complete               Boolean?
+  published_at              DateTime?            @db.Timestamp(6)
+  tweeted_on                DateTime?            @db.Timestamp(6)
+  square_cover_file_name    String?              @db.VarChar
+  square_cover_content_type String?              @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime?            @db.Timestamp(6)
+  tagline                   String?
+  summary                   String?
+  price                     Float?
+  revshare_percent          Decimal?             @db.Decimal
+  site                      String?              @default("egghead.io") @db.VarChar
+  visibility_state          String?              @default("hidden") @db.VarChar
+  square_cover_processing   Boolean?
+  kvstore                   Json?                @default("{}")
+  state                     String?              @default("new") @db.VarChar
+  row_order                 Int?
+  code_url                  String?
+  access_state              String?
+  guid                      String?              @db.VarChar
+  queue_order               Int?
+  playlist_licensors        playlist_licensors[]
+  users                     users                @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_53741b10fc")
+
+  @@index([kvstore], map: "index_playlists_on_kvstore", type: Gin)
+  @@index([owner_id], map: "index_playlists_on_owner_id")
+  @@index([site], map: "index_playlists_on_site")
+  @@index([slug], map: "index_playlists_on_slug")
+}
+
+model plays {
+  id         Int       @id @default(autoincrement())
+  lesson_id  Int
+  user_id    Int
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+
+  @@index([lesson_id], map: "index_plays_on_lesson_id")
+  @@index([user_id], map: "index_plays_on_user_id")
+}
+
+model plutus_accounts {
+  id                 Int       @id @default(autoincrement())
+  name               String?   @db.VarChar
+  type               String?   @db.VarChar
+  contra             Boolean?
+  owner_id           Int?
+  owner_type         String?   @db.VarChar
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+  linked_object_type String?   @db.VarChar
+  linked_object_id   Int?
+
+  @@index([linked_object_type, linked_object_id], map: "idx_plutus_accounts_on_linked_object")
+  @@index([type, owner_id, owner_type, linked_object_id, linked_object_type], map: "idx_plutus_accounts_on_type_owner_linked_object")
+  @@index([name, type], map: "index_plutus_accounts_on_name_and_type")
+  @@index([owner_id, owner_type], map: "index_plutus_accounts_on_owner_id_and_owner_type")
+}
+
+model plutus_amounts {
+  id         Int      @id @default(autoincrement())
+  type       String?  @db.VarChar
+  account_id Int?
+  entry_id   Int?
+  amount     Decimal? @db.Decimal(20, 10)
+
+  @@index([account_id], map: "idx_plutus_amounts_on_account_id")
+  @@index([account_id, entry_id], map: "index_plutus_amounts_on_account_id_and_entry_id")
+  @@index([entry_id, account_id], map: "index_plutus_amounts_on_entry_id_and_account_id")
+  @@index([type], map: "index_plutus_amounts_on_type")
+}
+
+model plutus_entries {
+  id                       Int       @id @default(autoincrement())
+  description              String?   @db.VarChar
+  date                     DateTime? @db.Date
+  commercial_document_id   Int?
+  commercial_document_type String?   @db.VarChar
+  metadata                 Json?
+  created_at               DateTime? @db.Timestamp(6)
+  updated_at               DateTime? @db.Timestamp(6)
+
+  @@index([commercial_document_id, commercial_document_type], map: "index_entries_on_commercial_doc")
+  @@index([date], map: "index_plutus_entries_on_date")
+  @@index([metadata], map: "index_plutus_entries_on_metadata", type: Gin)
+}
+
+model podcast_shows {
+  id                        BigInt    @id @default(autoincrement())
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+  guid                      String?   @unique(map: "index_podcast_shows_on_guid") @db.VarChar
+  slug                      String?   @unique(map: "index_podcast_shows_on_slug") @db.VarChar
+  title                     String?   @db.VarChar
+  summary                   String?
+  description               String?
+  price                     Decimal?  @db.Decimal
+  revshare_percent          Decimal?  @db.Decimal
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  state                     String?   @default("new") @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+  visibility_state          String?   @default("hidden") @db.VarChar
+}
+
+model podcasts {
+  id                        Int       @id @default(autoincrement())
+  title                     String?   @db.VarChar
+  summary                   String?
+  media_url                 String?   @db.VarChar
+  image_url                 String?   @db.VarChar
+  related_content           String[]  @default([]) @db.VarChar
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+  slug                      String?   @db.VarChar
+  image_file_name           String?   @db.VarChar
+  image_content_type        String?   @db.VarChar
+  image_file_size           Int?
+  image_updated_at          DateTime? @db.Timestamp(6)
+  simplecast_uid            String?   @db.VarChar
+  transcript                String?
+  episode_number            Int?
+  description               String?
+  published_at              DateTime? @db.Timestamp(6)
+  duration                  Int?
+  visibility_state          String?   @default("hidden") @db.VarChar
+  contributors              String?   @db.VarChar
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  show_guid                 String?   @db.VarChar
+  row_order                 Int?
+
+  @@index([episode_number], map: "index_podcasts_on_episode_number")
+  @@index([simplecast_uid], map: "index_podcasts_on_simplecast_uid")
+  @@index([slug], map: "index_podcasts_on_slug")
+}
+
+model publish_buffer_slots {
+  id           Int       @id @default(autoincrement())
+  day_of_week  Int?
+  publish_time DateTime? @db.Time(6)
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model ranked_lessons {
+  lesson_id       Int?
+  popularity_rank Int?
+
+  @@ignore
+}
+
+model ratings {
+  id            Int       @id @default(autoincrement())
+  rating        Float?
+  rateable_id   Int?
+  rateable_type String?   @db.VarChar
+  user_id       Int?
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+  users         users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a7dfeb9f5f")
+
+  @@unique([user_id, rateable_id], map: "index_ratings_on_user_id_and_rateable_id")
+  @@index([rateable_type, rateable_id], map: "index_ratings_on_rateable_type_and_rateable_id")
+  @@index([user_id], map: "index_ratings_on_user_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model related_lessons {
+  lesson_id         Int?
+  related_lesson_id Int?
+
+  @@unique([lesson_id, related_lesson_id], map: "index_related_lessons_on_lesson_id_and_related_lesson_id")
+  @@unique([related_lesson_id, lesson_id], map: "index_related_lessons_on_related_lesson_id_and_lesson_id")
+  @@ignore
+}
+
+model replacement_videos {
+  id                Int       @id @default(autoincrement())
+  video_url         String?
+  audio_url         String?
+  title_url         String?
+  download_url      String?
+  rss_url           String?
+  wistia_id         String?   @db.VarChar(255)
+  poster_frame_url  String?
+  thumb_url         String?
+  lesson_id         Int?
+  pending_lesson_id Int?
+  created_at        DateTime? @db.Timestamp(6)
+  updated_at        DateTime? @db.Timestamp(6)
+  duration          Int?
+  assembly_id       String?   @db.VarChar
+
+  @@index([lesson_id], map: "index_replacement_videos_on_lesson_id")
+  @@index([pending_lesson_id], map: "index_replacement_videos_on_pending_lesson_id")
+}
+
+model resources_events {
+  id                        Int       @id @default(autoincrement())
+  guid                      String
+  title                     String?   @db.VarChar
+  description               String?
+  row_order                 Int?
+  revshare_percent          Decimal?  @db.Decimal
+  price                     Float?
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  visibility_state          String?   @db.VarChar
+  state                     String?   @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+}
+
+model resources_files {
+  id                        Int       @id @default(autoincrement())
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+  guid                      String?   @unique(map: "index_resources_files_on_guid") @db.VarChar
+  owner_id                  Int?
+  slug                      String?   @unique(map: "index_resources_files_on_slug") @db.VarChar
+  title                     String?   @db.VarChar
+  summary                   String?
+  description               String?
+  price                     Decimal?  @db.Decimal
+  revshare_percent          Decimal?  @db.Decimal
+  file_file_name            String?   @db.VarChar
+  file_content_type         String?   @db.VarChar
+  file_file_size            Int?
+  file_updated_at           DateTime? @db.Timestamp(6)
+  state                     String?   @default("new") @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+  visibility_state          String?   @default("hidden") @db.VarChar
+  downloadable_type         String?   @db.VarChar
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  resource_type             String?   @db.VarChar
+
+  @@index([owner_id], map: "index_resources_files_on_owner_id")
+}
+
+model resources_memberships {
+  id                        Int       @id @default(autoincrement())
+  guid                      String?   @unique(map: "index_resources_memberships_on_guid") @db.VarChar
+  owner_id                  Int?
+  slug                      String?   @unique(map: "index_resources_memberships_on_slug") @db.VarChar
+  title                     String?   @db.VarChar
+  description               String?
+  duration                  Int?      @default(1)
+  interval                  String?   @default("year") @db.VarChar
+  row_order                 Int?
+  revshare_percent          Decimal?  @db.Decimal
+  price                     Float?
+  state                     String?   @default("new") @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  visibility_state          String?   @default("hidden") @db.VarChar
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+
+  @@index([owner_id], map: "index_resources_memberships_on_owner_id")
+}
+
+model resources_urls {
+  id                        Int       @id @default(autoincrement())
+  guid                      String
+  title                     String?   @db.VarChar
+  description               String?
+  url                       String?   @db.VarChar
+  row_order                 Int?
+  revshare_percent          Decimal?  @db.Decimal
+  price                     Float?
+  created_at                DateTime  @db.Timestamp(6)
+  updated_at                DateTime  @db.Timestamp(6)
+  square_cover_file_name    String?   @db.VarChar
+  square_cover_content_type String?   @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  visibility_state          String?   @db.VarChar
+  state                     String?   @db.VarChar
+  site                      String?   @default("egghead.io") @db.VarChar
+  resource_type             String?   @db.VarChar
+}
+
+model resources_videos {
+  id                        Int                 @id @default(autoincrement())
+  guid                      String
+  title                     String?             @db.VarChar
+  description               String?
+  dash_url                  String?
+  hls_url                   String?
+  progressive_url           String?
+  row_order                 Int?
+  revshare_percent          Decimal?            @db.Decimal
+  price                     Float?
+  created_at                DateTime            @db.Timestamp(6)
+  updated_at                DateTime            @db.Timestamp(6)
+  lesson_id                 Int?
+  transloadit_event_id      Int?
+  square_cover_file_name    String?             @db.VarChar
+  square_cover_content_type String?             @db.VarChar
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime?           @db.Timestamp(6)
+  square_cover_processing   Boolean?
+  visibility_state          String?             @db.VarChar
+  state                     String?             @db.VarChar
+  site                      String?             @default("egghead.io") @db.VarChar
+  lessons                   lessons?            @relation(fields: [lesson_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b7b88a0990")
+  transloadit_events        transloadit_events? @relation(fields: [transloadit_event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f21f03e692")
+
+  @@index([lesson_id], map: "index_resources_videos_on_lesson_id")
+  @@index([transloadit_event_id], map: "index_resources_videos_on_transloadit_event_id")
+}
+
+model responses {
+  id            Int       @id @default(autoincrement())
+  content       Json      @default("{}")
+  contact_id    Int?
+  created_at    DateTime  @db.Timestamp(6)
+  updated_at    DateTime  @db.Timestamp(6)
+  visit_id      BigInt?
+  ahoy_visit_id BigInt?
+  contacts      contacts? @relation(fields: [contact_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_00aaafcc2f")
+
+  @@index([contact_id], map: "index_responses_on_contact_id")
+  @@index([content], map: "index_responses_on_content", type: Gin)
+}
+
+model revenue_share_runs {
+  id                   Int       @id @default(autoincrement())
+  guid                 String?   @unique(map: "index_revenue_share_runs_on_guid") @db.VarChar
+  period_start         DateTime? @db.Timestamp(6)
+  period_end           DateTime? @db.Timestamp(6)
+  total_revenue        Decimal?  @db.Decimal
+  start_transaction_id Int?
+  end_transaction_id   Int?
+  run_end_at           DateTime? @db.Timestamp(6)
+  run_options          Json?     @default("{}")
+  created_at           DateTime  @db.Timestamp(6)
+  updated_at           DateTime  @db.Timestamp(6)
+
+  @@unique([period_start, period_end], map: "index_revenue_share_runs_on_period_start_and_period_end")
+  @@unique([start_transaction_id, end_transaction_id], map: "index_revenue_share_runs_on_transaction_ids")
+  @@index([run_options], map: "index_revenue_share_runs_on_run_options", type: Gin)
+}
+
+model roles {
+  id            Int           @id @default(autoincrement())
+  name          String?       @db.VarChar(255)
+  resource_id   Int?
+  resource_type String?       @db.VarChar(255)
+  created_at    DateTime?     @db.Timestamp(6)
+  updated_at    DateTime?     @db.Timestamp(6)
+  users_roles   users_roles[] @ignore
+
+  @@index([name], map: "index_roles_on_name")
+  @@index([name, resource_type, resource_id], map: "index_roles_on_name_and_resource_type_and_resource_id")
+}
+
+model sales_quotes {
+  id             Int       @id @default(autoincrement())
+  guid           String?   @db.VarChar(255)
+  user_id        Int?
+  po_number      String?   @db.VarChar(255)
+  user_limit     Int?
+  signature      String?   @db.VarChar(255)
+  signed_at      DateTime? @db.Timestamp(6)
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+  per_user_price Decimal?  @db.Decimal
+  approver_id    Int?
+  approved_at    DateTime? @db.Timestamp(6)
+  company_name   String?
+
+  @@index([user_id], map: "index_sales_quotes_on_user_id")
+}
+
+model saml_certificates {
+  id                      Int           @id @default(autoincrement())
+  managed_subscription_id Int?
+  certificate             String?
+  created_at              DateTime?     @db.Timestamp(6)
+  updated_at              DateTime?     @db.Timestamp(6)
+  saml_detail_id          BigInt?
+  saml_details            saml_details? @relation(fields: [saml_detail_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_1e3b47b27d")
+
+  @@index([managed_subscription_id], map: "index_saml_certificates_on_managed_subscription_id")
+  @@index([saml_detail_id], map: "index_saml_certificates_on_saml_detail_id")
+}
+
+model saml_details {
+  id                   BigInt              @id @default(autoincrement())
+  idp_metadata_url     String?
+  first_name_attribute String?             @db.VarChar
+  last_name_attribute  String?             @db.VarChar
+  email_attribute      String?             @db.VarChar
+  idp_sso_target_url   String?
+  idp_get              Boolean             @default(false)
+  account_id           BigInt
+  created_at           DateTime            @db.Timestamp(6)
+  updated_at           DateTime            @db.Timestamp(6)
+  saml_certificates    saml_certificates[]
+  accounts             accounts            @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e286189d9c")
+
+  @@index([account_id], map: "index_saml_details_on_account_id")
+}
+
+model schema_migrations {
+  version String @unique(map: "unique_schema_migrations") @db.VarChar(255)
+}
+
+model sellable_purchases {
+  id                        Int           @id @default(autoincrement())
+  user_id                   Int?
+  sellable_type             String        @db.VarChar
+  sellable_id               Int
+  guid                      String        @unique(map: "index_sellable_purchases_on_guid") @db.VarChar
+  price                     Float?
+  stripe_id                 String?       @db.VarChar
+  created_at                DateTime      @db.Timestamp(6)
+  updated_at                DateTime      @db.Timestamp(6)
+  purchase_transaction_id   Int?
+  ip_address                String?       @db.VarChar
+  city                      String?       @db.VarChar
+  state                     String?       @db.VarChar
+  country                   String?       @db.VarChar
+  coupon_id                 Int?
+  application_id            Int?
+  upgraded_from_purchase_id Int?
+  bulk                      Boolean?      @default(false)
+  quantity                  Int?
+  bulk_coupon_id            Int?
+  purchase_state            String?       @default("paid") @db.VarChar
+  refund_transaction_id     Int?
+  expires_at                DateTime?     @db.Timestamp(6)
+  coupons                   coupons?      @relation(fields: [coupon_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_42aa1f46c3")
+  transactions              transactions? @relation(fields: [refund_transaction_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5d0c725794")
+  users                     users?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d17a673308")
+
+  @@index([coupon_id], map: "index_sellable_purchases_on_coupon_id")
+  @@index([created_at], map: "index_sellable_purchases_on_created_at")
+  @@index([purchase_state], map: "index_sellable_purchases_on_purchase_state")
+  @@index([purchase_transaction_id], map: "index_sellable_purchases_on_purchase_transaction_id")
+  @@index([refund_transaction_id], map: "index_sellable_purchases_on_refund_transaction_id")
+  @@index([sellable_type, sellable_id], map: "index_sellable_purchases_on_sellable_type_and_sellable_id")
+  @@index([user_id], map: "index_sellable_purchases_on_user_id")
+}
+
+model series {
+  id                        Int       @id @default(autoincrement())
+  title                     String?   @db.VarChar(255)
+  description               String?
+  instructor_id             Int?
+  created_at                DateTime? @db.Timestamp(6)
+  updated_at                DateTime? @db.Timestamp(6)
+  slug                      String?   @unique(map: "index_series_on_slug") @db.VarChar(255)
+  is_complete               Boolean?  @default(false)
+  tweeted_on                DateTime? @db.Timestamp(6)
+  purchase_price            Decimal?  @db.Decimal
+  state                     String?   @db.VarChar(255)
+  square_cover_file_name    String?   @db.VarChar(255)
+  square_cover_content_type String?   @db.VarChar(255)
+  square_cover_file_size    Int?
+  square_cover_updated_at   DateTime? @db.Timestamp(6)
+  row_order                 Int?
+  published_at              DateTime? @db.Timestamp(6)
+  queue_order               Int?
+  cached_tag_list           String?   @db.VarChar
+  cached_library_list       String?   @db.VarChar
+  cached_language_list      String?   @db.VarChar
+  cached_framework_list     String?   @db.VarChar
+  cached_tool_list          String?   @db.VarChar
+  cached_platform_list      String?   @db.VarChar
+  cached_skillset_list      String?   @db.VarChar
+  cached_skill_level_list   String?   @db.VarChar
+  free_forever              Boolean?  @default(false)
+  tagline                   String?
+  summary                   String?
+  kvstore                   Json?     @default("{}")
+  square_cover_processing   Boolean?
+  publish_subject           String?   @db.VarChar
+  publish_body              String?
+  repo                      String?   @db.VarChar
+  publish_at                DateTime? @db.Timestamp(6)
+  price                     Float?
+  revshare_percent          Float?
+  site                      String?   @default("egghead.io") @db.VarChar
+  visibility_state          String?   @default("hidden") @db.VarChar
+  resources_id              BigInt?
+
+  @@index([instructor_id], map: "index_series_on_instructor_id")
+  @@index([kvstore], map: "index_series_on_kvstore", type: Gin)
+  @@index([resources_id], map: "index_series_on_resources_id")
+  @@index([row_order], map: "index_series_on_row_order")
+}
+
+model series_progresses {
+  id                     Int       @id @default(autoincrement())
+  user_id                Int?
+  series_id              Int?
+  completed_at           DateTime? @db.Timestamp(6)
+  last_lesson_watched_at DateTime? @db.Timestamp(6)
+  is_complete            Boolean?  @default(false)
+  created_at             DateTime? @db.Timestamp(6)
+  updated_at             DateTime? @db.Timestamp(6)
+  progressable_type      String?   @db.VarChar
+  progressable_id        Int?
+  site                   String?   @default("egghead.io")
+
+  @@index([progressable_type, progressable_id], map: "index_series_progresses_on_progressable")
+  @@index([series_id], map: "index_series_progresses_on_series_id")
+  @@index([user_id], map: "index_series_progresses_on_user_id")
+}
+
+model session_activations {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  session_id String    @unique(map: "index_session_activations_on_session_id") @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
+
+  @@index([user_id], map: "index_session_activations_on_user_id")
+}
+
+model short_urls {
+  id           Int       @id @default(autoincrement())
+  short_code   String?   @unique(map: "index_short_urls_on_short_code") @db.VarChar
+  original_url String?   @db.VarChar
+  created_at   DateTime? @db.Timestamp(6)
+  updated_at   DateTime? @db.Timestamp(6)
+
+  @@index([original_url], map: "index_short_urls_on_original_url")
+  @@index([updated_at], map: "index_short_urls_on_updated_at")
+}
+
+model sign_in_tokens {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  guid       String?   @unique(map: "index_sign_in_tokens_on_guid") @db.VarChar
+  expires_at DateTime? @db.Timestamp(6)
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a9860dd74e")
+
+  @@index([user_id], map: "index_sign_in_tokens_on_user_id")
+}
+
+model site_tenants {
+  id             Int             @id @default(autoincrement())
+  name           String?         @db.VarChar
+  application_id Int?
+  stripe_events  stripe_events[]
+}
+
+model stripe_events {
+  id               Int           @id @default(autoincrement())
+  stripe_id        String?       @db.VarChar(255)
+  stripe_type      String?       @db.VarChar(255)
+  created_at       DateTime?     @db.Timestamp(6)
+  updated_at       DateTime?     @db.Timestamp(6)
+  site_tenant_id   BigInt?
+  status           Int           @default(0)
+  error_identifier String?       @db.VarChar
+  site_tenants     site_tenants? @relation(fields: [site_tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_13cdc07bee")
+
+  @@index([stripe_id], map: "idx_stripe_events")
+}
+
+model subscription_affiliate_links {
+  id         Int      @id @default(autoincrement())
+  user_id    Int?
+  percentage Decimal? @db.Decimal
+  guid       String?  @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  users      users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_6469c2b130")
+
+  @@index([guid], map: "index_subscription_affiliate_links_on_guid")
+  @@index([updated_at], map: "index_subscription_affiliate_links_on_updated_at")
+  @@index([user_id], map: "index_subscription_affiliate_links_on_user_id")
+}
+
+model subscription_affiliates {
+  id              Int            @id @default(autoincrement())
+  subscription_id Int?
+  user_id         Int?
+  percentage      Decimal?       @db.Decimal
+  from_date       DateTime?      @default(dbgenerated("'1970-01-01'::date")) @db.Date
+  to_date         DateTime?      @db.Date
+  created_at      DateTime       @db.Timestamp(6)
+  updated_at      DateTime       @db.Timestamp(6)
+  subscriptions   subscriptions? @relation(fields: [subscription_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_6f9623c6ac")
+  users           users?         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b45d293ce1")
+
+  @@index([from_date], map: "index_subscription_affiliates_on_from_date")
+  @@index([subscription_id], map: "index_subscription_affiliates_on_subscription_id")
+  @@index([to_date], map: "index_subscription_affiliates_on_to_date")
+  @@index([user_id], map: "index_subscription_affiliates_on_user_id")
+}
+
+model subscription_plans {
+  id                BigInt   @id @default(autoincrement())
+  title             String?  @db.VarChar(255)
+  site              String?  @default("egghead.io") @db.VarChar
+  stripe_product_id String   @db.VarChar
+  created_at        DateTime @db.Timestamp(6)
+  updated_at        DateTime @db.Timestamp(6)
+}
+
+model subscription_referrals {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  referrer_id Int?
+  created_at  DateTime? @db.Timestamp(6)
+  updated_at  DateTime? @db.Timestamp(6)
+
+  @@index([user_id], map: "index_subscription_referrals_on_user_id")
+}
+
+model subscriptions {
+  id                      Int                       @id @default(autoincrement())
+  stripe_id               String?                   @db.VarChar(255)
+  plan_id                 Int?
+  last_four               String?                   @db.VarChar(255)
+  card_type               String?                   @db.VarChar(255)
+  current_price           Float?
+  user_id                 Int?
+  created_at              DateTime?                 @db.Timestamp(6)
+  updated_at              DateTime?                 @db.Timestamp(6)
+  willCancelAfterPeriod   Boolean?
+  currentPeriodEnd        DateTime?                 @db.Date
+  guid                    String?                   @db.VarChar(255)
+  state                   String?                   @db.VarChar(255)
+  error                   String?
+  card_expiration         DateTime?                 @db.Date
+  fee_amount              Int?
+  cancelled_on            DateTime?                 @db.Date
+  is_managed              Boolean?                  @default(false)
+  expires_on              DateTime?                 @db.Timestamp(6)
+  requested_cancel_on     DateTime?                 @db.Timestamp(6)
+  billing_address         String?
+  metrics                 Unsupported("hstore")?
+  cancel_reason           String?
+  is_streaming            Boolean?                  @default(false)
+  referrer_code           String?                   @db.VarChar(255)
+  cancelled_from_plan_id  Int?
+  stripe_subscription_id  String?                   @db.VarChar
+  payment_requests        payment_requests[]
+  subscription_affiliates subscription_affiliates[]
+
+  @@index([user_id], map: "index_subscriptions_on_user_id")
+}
+
+model taggings {
+  id            Int       @id @default(autoincrement())
+  tag_id        Int?
+  taggable_id   Int?
+  taggable_type String?   @db.VarChar(255)
+  tagger_id     Int?
+  tagger_type   String?   @db.VarChar(255)
+  context       String?   @db.VarChar(128)
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+
+  @@unique([tag_id, taggable_id, taggable_type, context, tagger_id, tagger_type], map: "taggings_idx")
+  @@index([created_at], map: "idx_taggings_on_created_at")
+  @@index([context], map: "index_taggings_on_context")
+  @@index([tag_id], map: "index_taggings_on_tag_id")
+  @@index([taggable_id], map: "index_taggings_on_taggable_id")
+  @@index([taggable_id, taggable_type, context], map: "index_taggings_on_taggable_id_and_taggable_type_and_context")
+  @@index([taggable_type], map: "index_taggings_on_taggable_type")
+  @@index([tagger_id], map: "index_taggings_on_tagger_id")
+  @@index([tagger_id, tagger_type], map: "index_taggings_on_tagger_id_and_tagger_type")
+  @@index([taggable_id, taggable_type, tagger_id, context], map: "taggings_idy")
+}
+
+model tags {
+  id                 Int       @id @default(autoincrement())
+  name               String?   @unique(map: "index_tags_on_name") @db.VarChar(255)
+  taggings_count     Int?      @default(0)
+  image_file_name    String?   @db.VarChar
+  image_content_type String?   @db.VarChar
+  image_file_size    Int?
+  image_updated_at   DateTime? @db.Timestamp(6)
+  slug               String?   @db.VarChar
+  description        String?
+  url                String?
+  label              String?   @db.VarChar
+  popularity_order   Int?
+  updated_at         DateTime? @db.Timestamp(6)
+  context            String?   @db.VarChar
+
+  @@index([context], map: "index_tags_on_context")
+  @@index([popularity_order], map: "index_tags_on_popularity_order")
+}
+
+model testimonials {
+  id                           Int       @id @default(autoincrement())
+  first_name                   String?   @db.VarChar(255)
+  last_name                    String?   @db.VarChar(255)
+  quote                        String?
+  summary                      String?
+  location                     String?   @db.VarChar(255)
+  company                      String?   @db.VarChar(255)
+  twitter                      String?   @db.VarChar(255)
+  linkedin                     String?   @db.VarChar(255)
+  google_plus                  String?   @db.VarChar(255)
+  stack_overflow               String?   @db.VarChar(255)
+  github                       String?   @db.VarChar(255)
+  created_at                   DateTime? @db.Timestamp(6)
+  updated_at                   DateTime? @db.Timestamp(6)
+  location_avatar_file_name    String?   @db.VarChar(255)
+  location_avatar_content_type String?   @db.VarChar(255)
+  location_avatar_file_size    Int?
+  location_avatar_updated_at   DateTime? @db.Timestamp(6)
+  avatar_file_name             String?   @db.VarChar(255)
+  avatar_content_type          String?   @db.VarChar(255)
+  avatar_file_size             Int?
+  avatar_updated_at            DateTime? @db.Timestamp(6)
+  featured                     Boolean?
+  slug                         String?   @db.VarChar(255)
+  personal                     String?   @db.VarChar(255)
+  facebook                     String?   @db.VarChar(255)
+}
+
+model tracklists {
+  id                 Int       @id @default(autoincrement())
+  tracklistable_id   Int
+  playlist_id        Int
+  created_at         DateTime? @db.Timestamp(6)
+  updated_at         DateTime? @db.Timestamp(6)
+  row_order          Int?
+  tracklistable_type String?   @db.VarChar
+
+  @@index([playlist_id], map: "index_tracklists_on_playlist_id")
+  @@index([tracklistable_id], map: "index_tracklists_on_tracklistable_id")
+  @@index([tracklistable_type, tracklistable_id], map: "index_tracklists_on_tracklistable_type_and_tracklistable_id")
+}
+
+model transactions {
+  id                 Int                  @id @default(autoincrement())
+  subscription_id    Int?
+  guid               String?
+  amount             Int?
+  fee                Int?
+  stripe_id          String?              @unique(map: "index_transactions_on_stripe_id") @db.VarChar(255)
+  stripe_customer_id String?              @db.VarChar(255)
+  created_at         DateTime?            @db.Timestamp(6)
+  updated_at         DateTime?            @db.Timestamp(6)
+  plan_id            Int?
+  pool               Boolean?             @default(true)
+  account_id         BigInt?
+  application_id     Int?
+  user_id            BigInt?
+  sellable_purchases sellable_purchases[]
+  accounts           accounts?            @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_01f020e267")
+  users              users?               @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_77364e6416")
+
+  @@index([account_id], map: "index_transactions_on_account_id")
+  @@index([application_id], map: "index_transactions_on_application_id")
+  @@index([plan_id], map: "index_transactions_on_plan_id")
+  @@index([subscription_id], map: "index_transactions_on_subscription_id")
+  @@index([user_id], map: "index_transactions_on_user_id")
+}
+
+model transloadit_events {
+  id                Int                @id @default(autoincrement())
+  assembly_id       String?            @db.VarChar(255)
+  video_url         String?
+  created_at        DateTime?          @db.Timestamp(6)
+  updated_at        DateTime?          @db.Timestamp(6)
+  status            String?            @db.VarChar(255)
+  poster_frame_url  String?
+  thumb_url         String?
+  title             String?            @db.VarChar(255)
+  technology        String?            @db.VarChar(255)
+  summary           String?
+  instructor_id     Int?
+  title_url         String?
+  duration          Int?
+  series_id         Int?
+  rss_url           String?
+  audio_url         String?
+  ascii             String?
+  jsbin             String?            @db.VarChar(255)
+  github_repo       String?            @db.VarChar(255)
+  github_branch     String?            @db.VarChar(255)
+  github_user       String?            @db.VarChar(255)
+  lesson_id         Int?
+  pending_lesson_id Int?
+  replaces_video    Boolean?           @default(false)
+  plunker_url       String?
+  codepen_id        String?            @db.VarChar(255)
+  gist_url          String?
+  dash_url          String?
+  hls_url           String?
+  resources_videos  resources_videos[]
+
+  @@index([lesson_id], map: "index_transloadit_events_on_lesson_id")
+  @@index([pending_lesson_id], map: "index_transloadit_events_on_pending_lesson_id")
+}
+
+model trigrams {
+  id          Int     @id @default(autoincrement())
+  trigram     String? @db.VarChar(3)
+  score       Int?    @db.SmallInt
+  owner_id    Int?
+  owner_type  String? @db.VarChar(255)
+  fuzzy_field String? @db.VarChar(255)
+
+  @@index([owner_id, owner_type], map: "index_by_owner")
+  @@index([owner_id, owner_type, fuzzy_field, trigram, score], map: "index_for_match")
+}
+
+model users {
+  id                                                                                                     Int                                      @id @default(autoincrement())
+  email                                                                                                  String                                   @unique(map: "index_users_on_email") @default("") @db.VarChar(255)
+  encrypted_password                                                                                     String                                   @default("") @db.VarChar(255)
+  reset_password_token                                                                                   String?                                  @unique(map: "index_users_on_reset_password_token") @db.VarChar(255)
+  reset_password_sent_at                                                                                 DateTime?                                @db.Timestamp(6)
+  remember_created_at                                                                                    DateTime?                                @db.Timestamp(6)
+  sign_in_count                                                                                          Int?                                     @default(0)
+  current_sign_in_at                                                                                     DateTime?                                @db.Timestamp(6)
+  last_sign_in_at                                                                                        DateTime?                                @db.Timestamp(6)
+  current_sign_in_ip                                                                                     String?                                  @db.VarChar(255)
+  last_sign_in_ip                                                                                        String?                                  @db.VarChar(255)
+  created_at                                                                                             DateTime?                                @db.Timestamp(6)
+  updated_at                                                                                             DateTime?                                @db.Timestamp(6)
+  first_name                                                                                             String?                                  @db.VarChar(255)
+  last_name                                                                                              String?                                  @db.VarChar(255)
+  confirmation_token                                                                                     String?                                  @unique(map: "index_users_on_confirmation_token") @db.VarChar(255)
+  confirmed_at                                                                                           DateTime?                                @db.Timestamp(6)
+  confirmation_sent_at                                                                                   DateTime?                                @db.Timestamp(6)
+  unconfirmed_email                                                                                      String?                                  @db.VarChar(255)
+  avatar_url                                                                                             String?                                  @db.VarChar(255)
+  can_contact                                                                                            Boolean?                                 @default(true)
+  managed_subscription_id                                                                                Int?
+  authentication_token                                                                                   String?                                  @unique(map: "index_users_on_authentication_token") @db.VarChar(255)
+  favorite_playlist_id                                                                                   Int?
+  provider                                                                                               String?                                  @db.VarChar(255)
+  uid                                                                                                    String?                                  @db.VarChar(255)
+  has_random_password                                                                                    Boolean?
+  is_banned                                                                                              Boolean?                                 @default(false)
+  avatar_file_name                                                                                       String?                                  @db.VarChar(255)
+  avatar_content_type                                                                                    String?                                  @db.VarChar(255)
+  avatar_file_size                                                                                       Int?
+  avatar_updated_at                                                                                      DateTime?                                @db.Timestamp(6)
+  slack_id                                                                                               String?                                  @db.VarChar
+  is_invited_to_slack                                                                                    Boolean?                                 @default(false)
+  country                                                                                                String?                                  @db.VarChar
+  city                                                                                                   String?                                  @db.VarChar
+  state                                                                                                  String?                                  @db.VarChar
+  second_factor_attempts_count                                                                           Int?                                     @default(0)
+  encrypted_otp_secret_key                                                                               String?                                  @unique(map: "index_users_on_encrypted_otp_secret_key") @db.VarChar
+  encrypted_otp_secret_key_iv                                                                            String?                                  @db.VarChar
+  encrypted_otp_secret_key_salt                                                                          String?                                  @db.VarChar
+  direct_otp                                                                                             String?                                  @db.VarChar
+  direct_otp_sent_at                                                                                     DateTime?                                @db.Timestamp(6)
+  totp_timestamp                                                                                         DateTime?                                @db.Timestamp(6)
+  trial_started_at                                                                                       DateTime?                                @db.Timestamp(6)
+  kvstore                                                                                                Json?                                    @default("{}")
+  community_status                                                                                       String?                                  @default("nonmember") @db.VarChar
+  discord_id                                                                                             String?                                  @db.VarChar
+  account_ownership_transfer_invitations_account_ownership_transfer_invitations_owner_idTousers          account_ownership_transfer_invitations[] @relation("account_ownership_transfer_invitations_owner_idTousers")
+  account_ownership_transfer_invitations_account_ownership_transfer_invitations_transferred_to_idTousers account_ownership_transfer_invitations[] @relation("account_ownership_transfer_invitations_transferred_to_idTousers")
+  account_users                                                                                          account_users[]
+  broadcast_messages                                                                                     broadcast_messages[]
+  contacts                                                                                               contacts[]
+  email_change_requests                                                                                  email_change_requests[]
+  lessons                                                                                                lessons[]
+  payment_requests                                                                                       payment_requests[]
+  playlist_licensors                                                                                     playlist_licensors[]
+  playlists                                                                                              playlists[]
+  ratings                                                                                                ratings[]
+  sellable_purchases                                                                                     sellable_purchases[]
+  sign_in_tokens                                                                                         sign_in_tokens[]
+  subscription_affiliate_links                                                                           subscription_affiliate_links[]
+  subscription_affiliates                                                                                subscription_affiliates[]
+  transactions                                                                                           transactions[]
+  users_roles                                                                                            users_roles[]                            @ignore
+
+  @@index([favorite_playlist_id], map: "index_users_on_favorite_playlist_id")
+  @@index([kvstore], map: "index_users_on_kvstore", type: Gin)
+  @@index([managed_subscription_id], map: "index_users_on_managed_subscription_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model users_roles {
+  user_id Int
+  role_id Int
+  users   users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_4a41696df6")
+  roles   roles @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_eb7b4658f8")
+
+  @@index([role_id], map: "index_users_roles_on_role_id")
+  @@index([user_id], map: "index_users_roles_on_user_id")
+  @@index([user_id, role_id], map: "index_users_roles_on_user_id_and_role_id")
+  @@ignore
+}
+
+model video_transcode_jobs {
+  id               Int      @id @default(autoincrement())
+  guid             String?  @db.VarChar
+  lesson_id        Int?
+  source_media_url String?
+  video_stream_id  String?  @db.VarChar
+  created_at       DateTime @db.Timestamp(6)
+  updated_at       DateTime @db.Timestamp(6)
+  status           String?  @db.VarChar
+  lessons          lessons? @relation(fields: [lesson_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_1a01c46db5")
+
+  @@index([lesson_id], map: "index_video_transcode_jobs_on_lesson_id")
+}
