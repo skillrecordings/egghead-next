@@ -147,6 +147,7 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
             title
             image: image_thumb_url
             path
+            id
           }
         }
       }
