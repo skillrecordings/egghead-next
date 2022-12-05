@@ -17,6 +17,7 @@ import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import analytics from 'utils/analytics'
 import Heading from './heading'
+import CheckIcon from 'components/icons/check'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -25,6 +26,7 @@ const VerticalResourceCard: React.FC<{
   className?: string
   small?: boolean
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
+  completedCoursesIds?: string[]
 }> = ({
   children,
   resource,
@@ -33,9 +35,15 @@ const VerticalResourceCard: React.FC<{
   describe = false,
   small = false,
   as,
+  completedCoursesIds,
   ...props
 }) => {
   if (isEmpty(resource)) return null
+  const {externalId} = resource
+  const isCourseCompleted =
+    !isEmpty(completedCoursesIds) &&
+    externalId &&
+    completedCoursesIds?.some((courseId: string) => courseId === externalId)
 
   return (
     <ResourceLink
@@ -68,12 +76,19 @@ const VerticalResourceCard: React.FC<{
             className={`row-span-3 text-center flex flex-col items-center justify-center `}
           >
             {resource.name && (
-              <p
-                aria-hidden
-                className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
-              >
-                {resource.name}
-              </p>
+              <div className="flex items-center mb-1">
+                {isCourseCompleted && (
+                  <span title="Course completed" className=" text-green-500">
+                    <CheckIcon />
+                  </span>
+                )}
+                <p
+                  aria-hidden
+                  className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] text-gray-700 dark:text-indigo-100 opacity-60"
+                >
+                  {resource.name}
+                </p>
+              </div>
             )}
             <Textfit
               mode="multi"
