@@ -57,7 +57,7 @@ const cioIdentify = async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader('Set-Cookie', cioCookie)
       res.status(200).json(customer)
     } catch (error) {
-      console.error(error.message)
+      console.error(error)
       res.status(200).end()
     }
   } else {
