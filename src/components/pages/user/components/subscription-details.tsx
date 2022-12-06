@@ -18,7 +18,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
       stripeCustomerId,
     })
 
-    console.log({subscriptionData})
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
