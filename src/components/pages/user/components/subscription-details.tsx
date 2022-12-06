@@ -4,6 +4,7 @@ import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import {get} from 'lodash'
 import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
+import PricingWidget from '../../../pricing/pricing-widget'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -16,6 +17,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     const {subscriptionData, loading} = useSubscriptionDetails({
       stripeCustomerId,
     })
+
+    console.log({subscriptionData})
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
@@ -80,9 +83,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
           </>
         ) : (
           <>
-            <h3 className="mb-2 text-lg font-medium">
-              No paid subscription found.
-            </h3>
             {(viewer.is_pro || viewer.is_instructor) && (
               <p>
                 You still have access to a Pro Membership. If you feel this is
@@ -95,37 +95,46 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                 </a>
               </p>
             )}
-            <p className="mt-1">
-              You can still update your payment information below via Stripe.
-            </p>
           </>
         )}
         {(subscriptionData?.subscription?.cancel_at_period_end ||
-          subscriptionData?.portalUrl) && (
-          <div className="p-4 border-t border-accents-1 bg-primary-2 text-accents-3 rounded-b-md">
-            <div className="flex flex-col items-start justify-between sm:items-center">
-              {subscriptionData?.subscription?.cancel_at_period_end && (
-                <p className="pb-4 sm:pb-0">
-                  Your account is currently cancelled. You'll have access until
-                  the end of your current billing period. You can also renew at
-                  any time.
-                </p>
-              )}
-              {subscriptionData?.portalUrl && (
-                <Link href={subscriptionData.portalUrl}>
-                  <a
-                    onClick={() => {
-                      track(`clicked manage membership`)
-                    }}
-                    className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                  >
-                    Manage Your Membership
-                  </a>
-                </Link>
-              )}
+          subscriptionData?.portalUrl) &&
+          !(viewer.is_pro || viewer.is_instructor) && (
+            <div className="p-4 bg-primary-2 text-accents-3 rounded-b-md">
+              <div className="flex flex-col items-start justify-between sm:items-center">
+                {subscriptionData?.subscription?.cancel_at_period_end && (
+                  <p className="pb-4 sm:pb-0">
+                    Your account is currently cancelled. You'll have access
+                    until the end of your current billing period. You can also
+                    renew at any time.
+                  </p>
+                )}
+                {subscriptionData.subscription &&
+                subscriptionData?.portalUrl ? (
+                  <>
+                    <p className="mt-1">
+                      You can still update your payment information below via
+                      Stripe.
+                    </p>
+                    <Link href={subscriptionData.portalUrl}>
+                      <a
+                        onClick={() => {
+                          track(`clicked manage membership`)
+                        }}
+                        className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                      >
+                        Manage Your Membership
+                      </a>
+                    </Link>
+                  </>
+                ) : (
+                  <div className="mt-8">
+                    <PricingWidget />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     ) : null
   }
