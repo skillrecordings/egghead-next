@@ -80,12 +80,13 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
               {ctaContent.headline}
             </h3>
             {ctaContent.linksTo.map((content: any) => {
+              const contentPath =
+                content.type === 'blog'
+                  ? `/blog/${content.slug}`
+                  : `/${content.type}s/${content.slug}`
+
               return (
-                <Link
-                  href={
-                    content.slug ? `/${content.type}s/${content.slug}` : '#'
-                  }
-                >
+                <Link href={content.slug ? `${contentPath}` : '#'}>
                   <a
                     onClick={() => {
                       track('clicked cta content', {
