@@ -20,7 +20,7 @@ const User: React.FunctionComponent<
   LoginRequiredParams & {account: ViewerAccount}
 > = () => {
   const {viewer} = useViewer()
-  const [currentTab, setCurrentTab] = React.useState<string>('Activity')
+  const [currentTab, setCurrentTab] = React.useState<string>('Account Info')
   const router = useRouter()
 
   return (
@@ -102,7 +102,7 @@ const User: React.FunctionComponent<
 export default User
 
 const tabs = [
+  {label: 'Account Info', component: <AccountInfoTabContent />},
   {label: 'Activity', component: <ActivityTabContent />},
   {label: 'Bookmarks', component: <BookmarksTabContent />},
-  {label: 'Account Info', component: <AccountInfoTabContent />},
 ]

@@ -46,6 +46,14 @@ const AccountInfoTabContent: React.FC<any> = () => {
 
   return (
     <div className="space-y-10 md:space-y-14 xl:space-y-16">
+      {account && (
+        <ItemWrapper title="Subscription">
+          <SubscriptionDetails
+            stripeCustomerId={account.stripe_customer_id}
+            slug={slug}
+          />
+        </ItemWrapper>
+      )}
       <ItemWrapper title="Email address">
         <RequestEmailChangeForm originalEmail={currentEmail} />
       </ItemWrapper>
@@ -73,14 +81,6 @@ const AccountInfoTabContent: React.FC<any> = () => {
           </>
         )}
       </ItemWrapper>
-      {account && (
-        <ItemWrapper title="Subscription">
-          <SubscriptionDetails
-            stripeCustomerId={account.stripe_customer_id}
-            slug={slug}
-          />
-        </ItemWrapper>
-      )}
     </div>
   )
 }
