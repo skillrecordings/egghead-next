@@ -43,6 +43,27 @@ const specialLessons: any = {
       },
     ],
   },
+  'chrome-devtools-analyze-http-requests-and-responses-with-chrome-devtools': {
+    headline: 'Understand HTTP with these in-depth resources:',
+    linksTo: [
+      {
+        title: 'Building an API with Express',
+        isPro: true,
+        slug: 'building-an-api-with-express-f1ea',
+        type: 'course',
+        imageUrl:
+          'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/359/full/expressjslogo.png',
+      },
+      {
+        title: 'Understanding API Mocking: The HTTP Request Journey',
+        isPro: false,
+        slug: 'understanding-api-mocking-the-http-request-journey',
+        type: 'blog',
+        imageUrl:
+          'https://res.cloudinary.com/dg3gyk0gu/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1667942317/egghead-next-ebombs/understanding-api-mocking-the-http-request-journey/DALL_E_2022-11-08_15.14.46_-_retro_futurism_art_of_a_satelite_dish.png',
+      },
+    ],
+  },
 }
 
 export default specialLessons

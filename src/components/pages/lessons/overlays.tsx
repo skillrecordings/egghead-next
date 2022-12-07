@@ -63,22 +63,22 @@ const Overlays: React.FC<OverlaysProps> = ({
         }}
       />
     )
-  } else if (lessonState.matches('pitchingCourse')) {
-    overlayToRender = (
-      <WatchFullCourseCtaOverlay
-        lesson={lesson}
-        onClickRewatch={() => {
-          lessonSend('VIEW')
-          videoService.send({type: 'PLAY'})
-        }}
-      />
-    )
   } else if (lessonState.matches('showingNext')) {
     overlayToRender = (
       <WatchNextLessonCtaOverlay
         lesson={lesson}
         nextLesson={nextLesson}
         ctaContent={specialLessons[lesson.slug]}
+        onClickRewatch={() => {
+          lessonSend('VIEW')
+          videoService.send({type: 'PLAY'})
+        }}
+      />
+    )
+  } else if (lessonState.matches('pitchingCourse')) {
+    overlayToRender = (
+      <WatchFullCourseCtaOverlay
+        lesson={lesson}
         onClickRewatch={() => {
           lessonSend('VIEW')
           videoService.send({type: 'PLAY'})

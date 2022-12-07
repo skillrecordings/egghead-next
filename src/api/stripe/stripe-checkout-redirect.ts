@@ -2,11 +2,11 @@ import {loadStripe} from '@stripe/stripe-js'
 import axios from 'utils/configured-axios'
 import cookie from '../../utils/cookies'
 
-if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
-  throw new Error('no Stripe public key found')
-}
+// if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
+//   throw new Error('no Stripe public key found')
+// }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const stripeCheckoutRedirect = async (options: {
   priceId: string

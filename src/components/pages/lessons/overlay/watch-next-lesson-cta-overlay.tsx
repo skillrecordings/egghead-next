@@ -39,7 +39,7 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
           Back to the video
         </button>
         {courseImage && (
-          <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
+          <div className="w-0 h-0 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
             <Image
               src={courseImage}
               alt={`illustration of ${lesson.collection.title} course`}
@@ -80,12 +80,13 @@ const WatchNextLessonCtaOverlay: React.FunctionComponent<{
               {ctaContent.headline}
             </h3>
             {ctaContent.linksTo.map((content: any) => {
+              const contentPath =
+                content.type === 'blog'
+                  ? `/blog/${content.slug}`
+                  : `/${content.type}s/${content.slug}`
+
               return (
-                <Link
-                  href={
-                    content.slug ? `/${content.type}s/${content.slug}` : '#'
-                  }
-                >
+                <Link href={content.slug ? `${contentPath}` : '#'}>
                   <a
                     onClick={() => {
                       track('clicked cta content', {
