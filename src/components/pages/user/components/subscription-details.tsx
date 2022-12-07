@@ -18,7 +18,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
       stripeCustomerId,
     })
 
-
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
       subscriptionData,
@@ -97,43 +96,41 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
           </>
         )}
         {(subscriptionData?.subscription?.cancel_at_period_end ||
-          subscriptionData?.portalUrl) &&
-          !(viewer.is_pro || viewer.is_instructor) && (
-            <div className="p-4 bg-primary-2 text-accents-3 rounded-b-md">
-              <div className="flex flex-col items-start justify-between sm:items-center">
-                {subscriptionData?.subscription?.cancel_at_period_end && (
-                  <p className="pb-4 sm:pb-0">
-                    Your account is currently cancelled. You'll have access
-                    until the end of your current billing period. You can also
-                    renew at any time.
+          subscriptionData?.portalUrl) && (
+          <div className="p-4 bg-primary-2 text-accents-3 rounded-b-md">
+            <div className="flex flex-col items-start justify-between sm:items-center">
+              {subscriptionData?.subscription?.cancel_at_period_end && (
+                <p className="pb-4 sm:pb-0">
+                  Your account is currently cancelled. You'll have access until
+                  the end of your current billing period. You can also renew at
+                  any time.
+                </p>
+              )}
+              {subscriptionData.subscription && subscriptionData?.portalUrl ? (
+                <>
+                  <p className="mt-1">
+                    You can still update your payment information below via
+                    Stripe.
                   </p>
-                )}
-                {subscriptionData.subscription &&
-                subscriptionData?.portalUrl ? (
-                  <>
-                    <p className="mt-1">
-                      You can still update your payment information below via
-                      Stripe.
-                    </p>
-                    <Link href={subscriptionData.portalUrl}>
-                      <a
-                        onClick={() => {
-                          track(`clicked manage membership`)
-                        }}
-                        className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                      >
-                        Manage Your Membership
-                      </a>
-                    </Link>
-                  </>
-                ) : (
-                  <div className="mt-8">
-                    <PricingWidget />
-                  </div>
-                )}
-              </div>
+                  <Link href={subscriptionData.portalUrl}>
+                    <a
+                      onClick={() => {
+                        track(`clicked manage membership`)
+                      }}
+                      className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                    >
+                      Manage Your Membership
+                    </a>
+                  </Link>
+                </>
+              ) : (
+                <div className="mt-8">
+                  <PricingWidget />
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        )}
       </div>
     ) : null
   }
