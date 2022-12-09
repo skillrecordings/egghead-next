@@ -135,7 +135,7 @@ const AccountOwnershipTransfer: React.FunctionComponent<AccountOwnershipTransfer
                           'You are now the owner of this account.',
                           {icon: '✅'},
                         )
-                        router.replace('/user')
+                        router.replace('/user/account')
                       } else {
                         toast.error(
                           'This link for transferring account ownership is no longer valid. You can either request a new invite from the current account owner or reach out to support@egghead.io for help.',

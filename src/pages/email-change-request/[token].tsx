@@ -117,7 +117,7 @@ const EmailChangeRequest: React.FunctionComponent<{
                     expired. Feel free to{' '}
                     <a
                       className="font-bold underline transition-colors ease-in-out duration-150"
-                      href="/user"
+                      href="/user/account"
                     >
                       request a new link
                     </a>
@@ -153,7 +153,7 @@ const EmailChangeRequest: React.FunctionComponent<{
                           "You've successfully updated your email address",
                           {icon: '✅'},
                         )
-                        router.replace('/user')
+                        router.replace('/user/account')
                       }
                     } catch (e) {
                       toast.error(
