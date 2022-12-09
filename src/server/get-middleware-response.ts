@@ -42,7 +42,7 @@ export async function getMiddlewareResponse(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith(PRICING_PAGE_PATH)) {
     switch (true) {
       case isLoggedInMember:
-        response = rewriteToPath('/user/account', req)
+        response = rewriteToPath('/user/subscription', req)
         break
       case isMember:
         response = rewriteToPath('/login', req)
