@@ -4,7 +4,7 @@ import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
 import {BookmarksTabContent} from 'components/pages/user'
 
-const Activity = () => {
+const Bookmarks = () => {
   return (
     <div className="min-h-[20rem]">
       <BookmarksTabContent />
@@ -12,9 +12,9 @@ const Activity = () => {
   )
 }
 
-export default Activity
+export default Bookmarks
 
-Activity.getLayout = function getLayout(Page: any, pageProps: any) {
+Bookmarks.getLayout = function getLayout(Page: any, pageProps: any) {
   return (
     <AppLayout>
       <UserLayout>
