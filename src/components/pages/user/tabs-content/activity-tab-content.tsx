@@ -47,7 +47,7 @@ const ActivityTabContent: React.FC<any> = () => {
     error: completeCourseError,
   } = useUserCompletedCourses(viewerId)
   const completedCourseCount = !!completeCourseData?.length
-    ? completeCourseData.length
+    ? completeCourseData?.length
     : 0
   const learnerStatsData = {
     ...progressData?.completionStats,
@@ -72,6 +72,7 @@ const ActivityTabContent: React.FC<any> = () => {
         <CompletedCourses
           completeCourseData={completeCourseData}
           completedCourseStatus={completedCourseStatus}
+          completedCourseCount={completedCourseCount}
         />
       </ItemWrapper>
     </div>

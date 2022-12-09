@@ -24,7 +24,12 @@ type CourseData = {
 const CompletedCourses: React.FC<{
   completeCourseData: CourseData[]
   completedCourseStatus: 'loading' | 'success' | 'error'
-}> = ({completeCourseData = [], completedCourseStatus}) => {
+  completedCourseCount: number
+}> = ({
+  completeCourseData = [],
+  completedCourseStatus,
+  completedCourseCount,
+}) => {
   return (
     <>
       {completedCourseStatus === 'loading' ? (
@@ -33,7 +38,7 @@ const CompletedCourses: React.FC<{
         </div>
       ) : completedCourseStatus === 'error' ? (
         <span>There was an error fetching stats</span>
-      ) : !null || completeCourseData?.length === 0 ? (
+      ) : completedCourseCount === 0 ? (
         <span>You haven't finished any courses yet</span>
       ) : (
         <ul className="max-h-[400px] md:max-h-[570px] overscroll-contain overflow-y-auto">
