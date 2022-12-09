@@ -34,7 +34,6 @@ export async function loadUserProgress(
   const query = gql`
     query AllProgress($user_id: Int!, $page: Int!, $per_page: Int!) {
       user(id: $user_id) {
-        courses_completed
         lessons_completed
         minutes_watched
         email
