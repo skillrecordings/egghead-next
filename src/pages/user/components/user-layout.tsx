@@ -28,17 +28,16 @@ export default function UserLayout({children}: any) {
   const router = useRouter()
   const currentPath = router.asPath
 
-  console.log(children)
   return (
-    <>
+    <div className="">
       <LoginRequired>
-        <div className="px-4 sm:px-6 md:px-0 ml-8 pt-10 pb-4">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Hello, {viewer?.full_name || viewer?.username}!
-          </h1>
-        </div>
-        <main className="relative">
-          <div className="mx-auto max-w-screen-xl px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+        <main className="">
+          <div className="max-w-screen-xl mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+            <div className="sm:px-6 md:px-0 pt-10 pb-4">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                Hello, {viewer?.full_name || viewer?.username}!
+              </h1>
+            </div>
             <div className="overflow-hidden rounded-lg bg-white shadow">
               <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
                 <aside className="py-6 lg:col-span-3">
@@ -78,6 +77,6 @@ export default function UserLayout({children}: any) {
           </div>
         </main>
       </LoginRequired>
-    </>
+    </div>
   )
 }
