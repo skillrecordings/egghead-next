@@ -100,7 +100,7 @@ const Header: FunctionComponent = () => {
 
   const User = () => {
     return (
-      <Link href="/user">
+      <Link href="/user/account">
         <a
           onClick={() =>
             track('clicked account', {
