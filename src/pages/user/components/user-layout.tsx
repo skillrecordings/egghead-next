@@ -1,4 +1,9 @@
-import {FireIcon, BookmarkIcon, UserCircleIcon} from '@heroicons/react/outline'
+import {
+  FireIcon,
+  BookmarkIcon,
+  UserCircleIcon,
+  CreditCardIcon,
+} from '@heroicons/react/outline'
 import cx from 'classnames'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -7,8 +12,13 @@ import LoginRequired from 'components/login-required'
 
 const userPagesMap = [
   {
-    path: '/user/account',
-    name: 'Account',
+    path: '/user/subscription',
+    name: 'Subscription',
+    icon: CreditCardIcon,
+  },
+  {
+    path: '/user/profile',
+    name: 'Profile',
     icon: UserCircleIcon,
   },
   {
@@ -38,8 +48,8 @@ export default function UserLayout({children}: any) {
                 Hello, {viewer?.full_name || viewer?.username}!
               </h1>
             </div>
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-              <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+            <div className="overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800 shadow">
+              <div className="divide-y dark:divide-gray-700 divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
                 <aside className="py-6 lg:col-span-3">
                   <nav className="space-y-1">
                     {userPagesMap.map((page) => {
@@ -48,15 +58,15 @@ export default function UserLayout({children}: any) {
                           <a
                             className={cx(
                               page.path === currentPath
-                                ? 'bg-blue-50 border-blue-500 text-blue-700 hover:bg-blue-50 hover:text-blue-700'
-                                : 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900',
-                              'group border-l-4 px-3 py-2 flex items-center text-sm font-medium',
+                                ? 'bg-blue-50 dark:bg-gray-900 border-blue-500 text-blue-700 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-700'
+                                : 'border-transparent text-gray-900 dark:hover:bg-gray-900 hover:bg-gray-50 hover:text-gray-900',
+                              'group border-l-4 px-3 py-2 flex items-center text-sm font-medium dark:text-gray-50',
                             )}
                           >
                             <page.icon
                               className={cx(
                                 page.path === currentPath
-                                  ? 'text-blue-500 group-hover:text-blue-500'
+                                  ? 'text-blue-500 group-hover:text-blue-500 '
                                   : 'text-gray-400 group-hover:text-gray-500',
                                 'flex-shrink-0 -ml-1 mr-3 h-6 w-6',
                               )}

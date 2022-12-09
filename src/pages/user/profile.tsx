@@ -1,10 +1,8 @@
-import type {ReactElement} from 'react'
-
 import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
 import {AccountInfoTabContent} from 'components/pages/user'
 
-const Account = () => {
+const Profile = () => {
   return (
     <div>
       <AccountInfoTabContent />
@@ -12,9 +10,9 @@ const Account = () => {
   )
 }
 
-export default Account
+export default Profile
 
-Account.getLayout = function getLayout(Page: any, pageProps: any) {
+Profile.getLayout = function getLayout(Page: any, pageProps: any) {
   return (
     <AppLayout>
       <UserLayout>

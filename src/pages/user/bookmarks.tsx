@@ -1,5 +1,3 @@
-import type {ReactElement} from 'react'
-
 import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
 import {BookmarksTabContent} from 'components/pages/user'
