@@ -51,7 +51,7 @@ const CompletedCourses: React.FC<{
               return (
                 <li
                   key={collection.slug}
-                  className="flex border-b border-gray-200 dark:border-gray-800 py-3 items-center space-x-2 pr-3 first:pt-0 last:pb-0 last:border-0"
+                  className="flex py-3 items-center space-x-2 pr-3 first:pt-0 last:pb-0 last:border-0"
                 >
                   {collection?.path ? (
                     <Link href={collection.path}>
