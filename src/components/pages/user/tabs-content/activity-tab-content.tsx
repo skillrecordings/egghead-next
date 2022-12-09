@@ -41,12 +41,14 @@ const ActivityTabContent: React.FC<any> = () => {
   const viewerId = viewer?.id
   const {status: progressStatus, data: progressData} =
     useProgressForUser(viewerId)
-  const {
+  let {
     status: completedCourseStatus,
     data: completeCourseData,
     error: completeCourseError,
   } = useUserCompletedCourses(viewerId)
-  const completedCourseCount = completeCourseData.length
+  const completedCourseCount = !!completeCourseData?.length
+    ? completeCourseData.length
+    : 0
   const learnerStatsData = {
     ...progressData?.completionStats,
     completedCourseCount,
