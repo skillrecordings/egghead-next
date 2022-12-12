@@ -55,7 +55,7 @@ const RequestEmailChangeForm: React.FunctionComponent<RequestEmailChangeFormProp
             setFieldValue,
           } = props
           return (
-            <form className="grow" onSubmit={handleSubmit}>
+            <form className="grow min-w-[24rem]" onSubmit={handleSubmit}>
               <div className="flex flex-col">
                 <div className="mb-2 text-sm text-gray-600 dark:text-gray-200 empty:hidden">
                   {state.matches('edit') && (

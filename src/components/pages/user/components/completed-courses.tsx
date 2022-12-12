@@ -24,7 +24,12 @@ type CourseData = {
 const CompletedCourses: React.FC<{
   completeCourseData: CourseData[]
   completedCourseStatus: 'loading' | 'success' | 'error'
-}> = ({completeCourseData = [], completedCourseStatus}) => {
+  completedCourseCount: number
+}> = ({
+  completeCourseData = [],
+  completedCourseStatus,
+  completedCourseCount,
+}) => {
   return (
     <>
       {completedCourseStatus === 'loading' ? (
@@ -33,7 +38,7 @@ const CompletedCourses: React.FC<{
         </div>
       ) : completedCourseStatus === 'error' ? (
         <span>There was an error fetching stats</span>
-      ) : completeCourseData.length === 0 ? (
+      ) : completedCourseCount === 0 ? (
         <span>You haven't finished any courses yet</span>
       ) : (
         <ul className="max-h-[400px] md:max-h-[570px] overscroll-contain overflow-y-auto">
@@ -51,7 +56,7 @@ const CompletedCourses: React.FC<{
               return (
                 <li
                   key={collection.slug}
-                  className="flex border-b border-gray-200 dark:border-gray-800 py-3 items-center space-x-2 pr-3 first:pt-0 last:pb-0 last:border-0"
+                  className="flex py-3 items-center space-x-2 pr-3 first:pt-0 last:pb-0 last:border-0"
                 >
                   {collection?.path ? (
                     <Link href={collection.path}>
