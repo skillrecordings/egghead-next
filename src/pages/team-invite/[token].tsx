@@ -70,7 +70,7 @@ const TeamInvite: React.FunctionComponent<TeamInviteProps> = ({
   return (
     <section className="mb-32">
       <div className="p-4 w-full">
-        <div className="w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center text-gray-900 dark:text-trueGray-100">
+        <div className="w-full mx-auto md:py-32 py-16 flex flex-col items-center justify-center text-gray-900 dark:text-gray-100">
           <h2 className="text-center text-3xl leading-9 font-bold">
             Team Invite
           </h2>
@@ -78,16 +78,17 @@ const TeamInvite: React.FunctionComponent<TeamInviteProps> = ({
             <p className="text-center pb-4">
               You've been invited by{' '}
               <span className="font-bold">{teamOwnerEmail}</span> to join{' '}
-              <TeamName teamName={teamName} /> on egghead. Click 'Join Team' to
-              accept the invitation and get full access to everything on
-              egghead.
+              <TeamName teamName={teamName} /> on egghead.
+              <br />
+              Click <span className="font-bold">Join Team</span> to accept the
+              invitation and get full access to everything on egghead.io.
             </p>
             {!alreadySignedIn && (
               <p className="text-center mb-4 p-4 bg-blue-50 dark:bg-gray-800 rounded">
                 You need to{' '}
                 <a
                   href="/login"
-                  className="text-blue-600 hover:text-blue-800 cursor-pointer transition-colors ease-in-out duration-150"
+                  className="text-blue-600 dark:text-blue-400 dark:hover:text-blue-500 hover:text-blue-800 cursor-pointer transition-colors ease-in-out duration-150"
                 >
                   sign in
                 </a>{' '}
