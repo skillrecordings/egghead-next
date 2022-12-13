@@ -121,14 +121,11 @@ export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
   </div>
 )
 
-const useIsCourseCompleted = (viewerId: number, slug: string) => {
+const useCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
     if (viewerId) {
       const {completeCourses} = await loadUserCompletedCourses()
-      const isCompleted = completeCourses.some(
-        (course: any) => course?.collection?.slug === slug,
-      )
-      return isCompleted
+      return completeCourses
     }
   })
 }
@@ -143,7 +140,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const [clickable, setIsClickable] = React.useState(true)
   const {viewer} = useViewer()
   const viewerId = viewer?.id
-  const {data: isCourseCompleted} = useIsCourseCompleted(viewerId, course.slug)
+  const {data: completedCourses} = useCompletedCourses(viewerId)
+  const isCourseCompleted =
+    !isEmpty(completedCourses) &&
+    completedCourses.some(
+      (courseItem: any) => courseItem?.collection?.slug === course.slug,
+    )
   const defaultPairWithResources: any[] = take(
     [
       {
