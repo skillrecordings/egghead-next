@@ -568,7 +568,7 @@ const Lesson: React.FC<LessonProps> = ({
             />
           </div>
           {withSidePanel && (
-            <div className="col-span-3 flex flex-col dark:bg-gray-800 bg-gray-50">
+            <div className="flex flex-col col-span-3 dark:bg-gray-800 bg-gray-50">
               <PlayerSidebar
                 relatedResources={specialLessons[lesson.slug]}
                 videoResource={lesson}
@@ -581,6 +581,12 @@ const Lesson: React.FC<LessonProps> = ({
       <div className="container max-w-screen-lg py-8 md:py-12 lg:py-16">
         <div className="grid grid-cols-1 gap-8 divide-y lg:grid-cols-1 lg:gap-12 md:divide-transparent divide-gray-50">
           <div className="row-start-1 space-y-6 md:col-span-8 md:row-start-1 md:space-y-8 lg:space-y-10">
+            {lesson.state === 'RETIRED' && (
+              <div className="p-3 -my-4 text-orange-800 bg-orange-100 border border-orange-900 rounded-md textmy--lg md:-my-8 border-opacity-20">
+                ⚠️ This lesson has been retired and might contain outdated
+                information.
+              </div>
+            )}
             <div className="pb-2 space-y-4 sm:pb-8">
               {title && (
                 <h1 className="text-xl font-extrabold leading-tight lg:text-3xl">

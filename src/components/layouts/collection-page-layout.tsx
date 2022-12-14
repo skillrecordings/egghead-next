@@ -435,7 +435,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (
-          <div className="w-full p-3 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
+          <div className="w-full p-3 mt-4 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
             ⚠️ This course has been retired and might contain outdated
             information.
           </div>
@@ -452,7 +452,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 </div>
               )}
-              <div className="flex justify-center md:justify-start space-x-3 my-2 md:m-0 md:mb-2">
+              <div className="flex justify-center my-2 space-x-3 md:justify-start md:m-0 md:mb-2">
                 {access_state && (
                   <div
                     className={`${
@@ -464,7 +464,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
                 {isCourseCompleted && (
                   <div
-                    className="text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs bg-green-500 cursor-default"
+                    className="items-center px-2 py-1 text-xs font-bold text-center text-white uppercase bg-green-500 rounded-full cursor-default"
                     title="Course completed"
                   >
                     Completed
