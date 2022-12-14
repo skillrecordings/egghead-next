@@ -12,6 +12,7 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
@@ -452,7 +453,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 </div>
               )}
-              <div className="flex justify-center md:justify-start space-x-3 my-2 md:m-0 md:mb-2">
+              <div className="flex justify-center my-2 space-x-3 md:justify-start md:m-0 md:mb-2">
                 {access_state && (
                   <div
                     className={`${
@@ -464,7 +465,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
                 {isCourseCompleted && (
                   <div
-                    className="text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs bg-green-500 cursor-default"
+                    className="items-center px-2 py-1 text-xs font-bold text-center text-white uppercase bg-green-500 rounded-full cursor-default"
                     title="Course completed"
                   >
                     Completed
@@ -609,9 +610,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Link href={download_url}>
                     <a
                       onClick={() => {
-                        track(`clicked download course`, {
-                          course: course.slug,
-                        })
+                        analytics.events.activityCtaClick(
+                          'course download',
+                          slug,
+                          name,
+                        )
                       }}
                     >
                       <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
