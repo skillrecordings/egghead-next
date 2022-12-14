@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import axios from 'utils/configured-axios'
-import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import Tippy from '@tippyjs/react'
 import Link from 'next/link'
 
@@ -33,12 +33,10 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
             window.location.href = data
           })
         }
-        track(`clicked download lesson`, {
-          lesson: slug,
-        })
+        analytics.events.activityCtaClick('lesson download', slug)
       }}
       aria-label="download video"
-      className="w-10 h-10 flex items-center justify-center border-none text-white"
+      className="flex items-center justify-center w-10 h-10 text-white border-none"
       type="button"
     >
       <IconDownload className="w-6" />
@@ -47,7 +45,7 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
     <Link href="/pricing" passHref>
       <a
         aria-label="become a member to download this lesson"
-        className="w-10 h-10 flex items-center justify-center opacity-50"
+        className="flex items-center justify-center w-10 h-10 opacity-50"
       >
         <IconDownload className="w-6" />
       </a>
@@ -64,7 +62,7 @@ const DownloadControl: FunctionComponent<DownloadControlProps> = ({
     <Tippy
       offset={[0, -2]}
       content={
-        <div className="text-sm bg-gray-900 px-2 py-1 rounded-sm">
+        <div className="px-2 py-1 text-sm bg-gray-900 rounded-sm">
           {download_url
             ? 'Download video'
             : 'Become a member to download this lesson'}

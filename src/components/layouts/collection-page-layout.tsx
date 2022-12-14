@@ -12,6 +12,7 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
@@ -609,9 +610,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Link href={download_url}>
                     <a
                       onClick={() => {
-                        track(`clicked download course`, {
-                          course: course.slug,
-                        })
+                        analytics.events.activityCtaClick(
+                          'course download',
+                          slug,
+                          name,
+                        )
                       }}
                     >
                       <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">

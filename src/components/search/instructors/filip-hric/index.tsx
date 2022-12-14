@@ -43,20 +43,20 @@ export default function SearchFilipHric({
           />
         }
       />
-      <div className="flex flex-wrap justify-center xl:flex-nowrap gap-4">
+      <div className="flex flex-wrap justify-center gap-4 xl:flex-nowrap">
         <section className="text-center xl:text-left">
-          <h2 className="my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          <h2 className="my-4 text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
             Courses
           </h2>
           <div className="my-4">
             <div className="flex flex-wrap sm:flex-nowrap gap-3 justify-center sm:h-[424px]">
               <VerticalResourceCard
-                className="col-span-1 flex flex-col h-full justify-center text-center sm:w-64 bg-white p-4 rounded dark:bg-gray-800 dark:text-gray-200 shadow-sm"
+                className="flex flex-col justify-center h-full col-span-1 p-4 text-center bg-white rounded shadow-sm sm:w-64 dark:bg-gray-800 dark:text-gray-200"
                 resource={primaryCourse}
                 as="h3"
               />
               <VerticalResourceCard
-                className="col-span-1 flex flex-col justify-center text-center sm:w-64 bg-white p-4 rounded dark:bg-gray-800 dark:text-gray-200 shadow-sm"
+                className="flex flex-col justify-center col-span-1 p-4 text-center bg-white rounded shadow-sm sm:w-64 dark:bg-gray-800 dark:text-gray-200"
                 resource={secondCourse}
                 as="h3"
               />
@@ -64,10 +64,10 @@ export default function SearchFilipHric({
           </div>
         </section>
         <section className="text-center xl:text-left">
-          <h2 className="my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+          <h2 className="my-4 text-lg font-semibold leading-tight lg:text-2xl sm:text-xl dark:text-white">
             Articles
           </h2>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 justify-center max-w-xl mx-auto">
+          <div className="grid justify-center max-w-xl grid-cols-1 gap-3 mx-auto lg:grid-cols-2">
             <HorizontalResourceCard
               className="col-span-2"
               resource={articles.resources[0]}
@@ -170,8 +170,8 @@ const NewExternalTrackedLink: React.FunctionComponent<any> = ({
       analytics.events
         .activityCtaClick(
           'workshop',
-          instructor,
           currentLocation,
+          instructor,
           topic,
           redirectTo,
         )
@@ -206,7 +206,7 @@ const CypressCourseCTA: React.FC<{
     <NewExternalTrackedLink
       eventName="clicked epic react banner"
       params={{currentLocation, instructor, topic, redirectTo}}
-      className="block md:col-span-4 lg:w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
+      className="relative block h-full overflow-hidden text-center border-0 border-gray-100 md:col-span-4 lg:w-full"
       href={url}
       target="_blank"
       rel="noopener"
