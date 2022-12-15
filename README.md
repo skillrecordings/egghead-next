@@ -35,6 +35,8 @@ If you want to test something that requires Stripe webhooks to be connected, you
 - `STRIPE_WEBHOOK_SECRET` will be provided by the `stripe listen` command in egghead-rails that will display a 90-day secret that it auto-generates for connecting webhooks.
 - `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` & `STRIPE_SECRET_KEY` can be found on the [Stripe Development API Keys page](https://dashboard.stripe.com/test/apikeys)
 
+You'll also need to ensure that the `webhook_signing_secret` is updated in the `egghead-rails` `config/credentials.yml.enc`. For instructions on that, view the [`config/credentials/editing_credentials.md` file](https://github.com/skillrecordings/egghead-rails/blob/main/config/credentials/editing_credentials.md) in `egghead-rails`.
+
 ## 4. Start Developing
 
 To run `egghead-next` once `egghead-rails` is running, use:
