@@ -8,6 +8,7 @@ import Link from 'next/link'
 type DownloadButtonProps = {
   slug: string
   download_url?: string
+  state?: string
 }
 
 type DownloadControlProps = {
@@ -15,11 +16,13 @@ type DownloadControlProps = {
   download_url?: string
   key?: string
   order?: number
+  state?: string
 }
 
 const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
   slug,
   download_url,
+  state,
 }) => {
   return download_url ? (
     <button
@@ -38,7 +41,7 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
     >
       <IconDownload className="w-6" />
     </button>
-  ) : (
+  ) : state === 'RETIRED' ? null : (
     <Link href="/pricing" passHref>
       <a
         aria-label="become a member to download this lesson"
@@ -53,6 +56,7 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
 const DownloadControl: FunctionComponent<DownloadControlProps> = ({
   slug,
   download_url,
+  state,
 }) => {
   return (
     <Tippy
@@ -66,7 +70,7 @@ const DownloadControl: FunctionComponent<DownloadControlProps> = ({
       }
     >
       <div>
-        <DownloadButton slug={slug} download_url={download_url} />
+        <DownloadButton slug={slug} download_url={download_url} state={state} />
       </div>
     </Tippy>
   )

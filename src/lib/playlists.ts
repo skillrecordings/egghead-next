@@ -150,6 +150,7 @@ export async function loadPlaylist(slug: string, token?: string) {
         published_at
         access_state
         visibility_state
+        state
         tags {
           name
           image_url

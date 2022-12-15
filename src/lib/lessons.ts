@@ -185,6 +185,7 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       icon_url
       download_url
       staff_notes_url
+      state
       repo_url
       code_url
       created_at

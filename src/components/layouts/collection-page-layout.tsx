@@ -436,7 +436,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (
-          <div className="w-full p-3 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
+          <div className="w-full p-3 mt-4 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
             ⚠️ This course has been retired and might contain outdated
             information.
           </div>
@@ -622,7 +622,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       </div>
                     </a>
                   </Link>
-                ) : (
+                ) : state === 'retired' ? null : (
                   <MembershipDialogButton
                     buttonText="Download"
                     title="Become a member to download this course"
