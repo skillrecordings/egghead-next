@@ -16,7 +16,7 @@ For the basic stuff like Homebrew, Node, Yarn, etc., run `bin/validate` to ensur
 
 ## 2. Vercel & Develoment Environment Variables
 
-Before you cRun the following commands to connect the development environment to Vercel
+Before you run the following commands to connect the development environment to Vercel
 
 `vercel login` will prompt you to login and verify
 `vercel link` will ask you to choose the `eggheadio` organization and the `egghead-io-nextjs` project.
@@ -27,6 +27,13 @@ Before you cRun the following commands to connect the development environment to
 You'll need to walk through the [`egghead-rails`](https://github.com/eggheadio/egghead-rails) setup instructions. Once it's running, you should be able to start it by running the following from the project root:
 
 `foreman start -f Procfile.dev`
+
+If you want to test something that requires Stripe webhooks to be connected, you'll need to use the `stripe listen` command. Review [docs/stripe/webhook.md](https://github.com/skillrecordings/egghead-rails/blob/main/docs/stripe/webhooks.md) for the details.
+
+**Important:** For the Stripe webhook process to work, you'll want to ensure that the following values are updated to the correct latest values:
+
+- `STRIPE_WEBHOOK_SECRET` will be provided by the `stripe listen` command in egghead-rails that will display a 90-day secret that it auto-generates for connecting webhooks.
+- `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` & `STRIPE_SECRET_KEY` can be found on the [Stripe Development API Keys page](https://dashboard.stripe.com/test/apikeys)
 
 ## 4. Start Developing
 
