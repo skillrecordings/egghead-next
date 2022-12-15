@@ -30,6 +30,7 @@ const useUserCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
     if (viewerId) {
       const {completeCourses} = await loadUserCompletedCourses()
+
       return completeCourses
     }
   })
@@ -40,16 +41,24 @@ const ActivityTabContent: React.FC<any> = () => {
   const viewerId = viewer?.id
   const {status: progressStatus, data: progressData} =
     useProgressForUser(viewerId)
-  const {
+  let {
     status: completedCourseStatus,
     data: completeCourseData,
     error: completeCourseError,
   } = useUserCompletedCourses(viewerId)
+  const completedCourseCount = !!completeCourseData?.length
+    ? completeCourseData?.length
+    : 0
+  const learnerStatsData = {
+    ...progressData?.completionStats,
+    completedCourseCount,
+  }
+
   return (
     <div className="space-y-10 md:space-y-14 xl:space-y-16">
       <ItemWrapper title="Learner Stats">
         <LearnerStats
-          learnerStatsData={progressData?.completionStats}
+          learnerStatsData={learnerStatsData}
           learnerStatsStatus={progressStatus}
         />
       </ItemWrapper>
@@ -63,6 +72,7 @@ const ActivityTabContent: React.FC<any> = () => {
         <CompletedCourses
           completeCourseData={completeCourseData}
           completedCourseStatus={completedCourseStatus}
+          completedCourseCount={completedCourseCount}
         />
       </ItemWrapper>
     </div>

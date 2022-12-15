@@ -18,21 +18,30 @@ import ReactMarkdown from 'react-markdown'
 import cx from 'classnames'
 import truncate from 'lodash/truncate'
 import analytics from 'utils/analytics'
+import CheckIcon from 'components/icons/check'
 
 const HorizontalResourceCard: React.FC<{
   resource: CardResource
   location?: string
   describe?: boolean
   className?: string
+  completedCoursesIds?: string[]
 }> = ({
   children,
   resource,
   location,
   className = '',
   describe = true,
+  completedCoursesIds,
   ...props
 }) => {
   if (isEmpty(resource)) return null
+  const {externalId} = resource
+  const isCourseCompleted =
+    !isEmpty(completedCoursesIds) &&
+    externalId &&
+    completedCoursesIds?.some((courseId: string) => courseId === externalId)
+
   const defaultClassName =
     'rounded-md aspect-w-4 aspect-h-2 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50'
   return (
@@ -55,12 +64,19 @@ const HorizontalResourceCard: React.FC<{
           </CardHeader>
           <CardBody className="col-span-5">
             {resource.name && (
-              <p
-                aria-hidden
-                className="uppercase font-medium sm:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
-              >
-                {resource.name}
-              </p>
+              <div className="flex items-center mb-1">
+                {isCourseCompleted && (
+                  <span title="Course completed" className=" text-green-500">
+                    <CheckIcon />
+                  </span>
+                )}
+                <p
+                  aria-hidden
+                  className="uppercase font-medium lg:text-[0.65rem] text-[0.55rem] text-gray-700 dark:text-indigo-100 opacity-60"
+                >
+                  {resource.name}
+                </p>
+              </div>
             )}
             <Textfit
               mode="multi"
