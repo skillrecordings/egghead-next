@@ -619,7 +619,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       </div>
                     </a>
                   </Link>
-                ) : (
+                ) : state === 'retired' ? null : (
                   <MembershipDialogButton
                     buttonText="Download"
                     title="Become a member to download this course"

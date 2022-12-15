@@ -517,6 +517,7 @@ const Lesson: React.FC<LessonProps> = ({
                     key={lesson.download_url}
                     download_url={lesson.download_url}
                     slug={lesson.slug}
+                    state={lesson.state}
                   />
                 }
                 // poster={lesson.thumb_url}
