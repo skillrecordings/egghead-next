@@ -584,7 +584,7 @@ const Lesson: React.FC<LessonProps> = ({
           <div className="row-start-1 space-y-6 md:col-span-8 md:row-start-1 md:space-y-8 lg:space-y-10">
             {lesson.state === 'RETIRED' && (
               <div className="p-3 -my-4 text-orange-800 bg-orange-100 border border-orange-900 rounded-md textmy--lg md:-my-8 border-opacity-20">
-                ⚠️ This lesson has been retired and might contain outdated
+                ⚠️ This lesson is retired and might contain outdated
                 information.
               </div>
             )}
