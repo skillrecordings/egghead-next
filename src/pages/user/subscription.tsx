@@ -33,8 +33,6 @@ const Account = () => {
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {slug} = getAccountWithSubscription(accounts)
 
-  console.log({account})
-
   React.useEffect(() => {
     const loadAccountForSlug = async (slug: string) => {
       if (slug) {
