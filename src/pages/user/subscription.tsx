@@ -64,7 +64,7 @@ const Account = () => {
           <PricingWidget />
         </>
       )}
-      <Invoices />
+      <Invoices headingAs="h3" />
     </div>
   )
 }
