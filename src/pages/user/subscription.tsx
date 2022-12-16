@@ -9,7 +9,7 @@ import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
 import {AccountInfoTabContent} from 'components/pages/user'
 import PricingWidget from 'components/pricing/pricing-widget'
-import Invoices from 'pages/invoices'
+import Invoices from 'components/invoices'
 
 type ViewerAccount = {
   stripe_customer_id: string
