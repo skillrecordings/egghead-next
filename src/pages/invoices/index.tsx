@@ -4,9 +4,15 @@ import axios from 'utils/configured-axios'
 import {isEmpty} from 'lodash'
 import {format, parseISO} from 'date-fns'
 
-const Invoices: React.FunctionComponent<any> = () => {
+type HeadingProps = React.ComponentPropsWithoutRef<any> & {
+  headingAs?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
+}
+
+const Invoices: React.FunctionComponent<HeadingProps> = ({headingAs}) => {
   const [transactions, setTransactions] = React.useState([])
   const [transactionsLoading, setTransactionsLoading] = React.useState(true)
+
+  const Heading = headingAs ?? 'h1'
 
   React.useEffect(() => {
     axios
@@ -25,14 +31,14 @@ const Invoices: React.FunctionComponent<any> = () => {
         ) : (
           <div className="max-w-screen-md mx-auto">
             {isEmpty(transactions) ? (
-              <h1 className="text-lg font-medium md:font-normal md:text-xl leading-none">
+              <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none">
                 No Transactions
-              </h1>
+              </Heading>
             ) : (
               <div className="flex flex-col space-y-8">
-                <h1 className="text-lg font-medium md:font-normal md:text-xl leading-none">
+                <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none">
                   Transactions
-                </h1>
+                </Heading>
                 <div>
                   <ul className="space-y-6">
                     {transactions.map((transaction: any) => {
