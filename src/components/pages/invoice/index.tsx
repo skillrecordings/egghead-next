@@ -30,8 +30,8 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
         </button>
       </div>
       <div className="border border-gray-200 print:border-none rounded-sm">
-        <div className="px-10 py-16 print:text-black">
-          <div className="grid grid-cols-3 w-full justify-between items-start">
+        <div className="p-4 md:px-10 md:py-16 print:text-black">
+          <div className="grid md:grid-cols-3 print:grid-cols-3 w-full justify-between items-start">
             <div className="col-span-2 flex items-center">
               <div className="w-10 mr-2">
                 <Image src={Eggo} alt="" />
@@ -51,8 +51,8 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
               972-992-5951
             </div>
           </div>
-          <div className="grid grid-cols-3 pb-48 mt-6">
-            <div className="col-span-2">
+          <div className="grid md:grid-cols-3 print:grid-cols-3 mt-6">
+            <div className="md:col-span-2 print:col-span-2">
               <h5 className="text-2xl font-bold mb-2">Invoice</h5>
               Invoice ID: <strong>{transaction.transaction.source.id}</strong>
               <br />
@@ -64,7 +64,7 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
                 )}
               </strong>
             </div>
-            <div className="pt-13">
+            <div className="mt-8 md:mt-0 print:mt-0">
               <h5 className="uppercase text-xs mb-2 text-gray-500">
                 Invoice For
               </h5>
@@ -74,17 +74,18 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
               </div>
               <br className="print:hidden" />
               <textarea
-                className={`form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none resize-none print:bg-transparent ${
+                className={`form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full print:p-0 print:border-none resize-none print:bg-transparent ${
                   invoiceInfo ? '' : 'print:hidden'
                 }`}
                 value={invoiceInfo}
+                rows={5}
                 onChange={(e) => setInvoiceInfo(e.target.value)}
                 placeholder="Enter company info here (optional)"
               />
             </div>
           </div>
-          <table className="table-auto w-full text-left">
-            <thead className="table-header-group">
+          <table className="table-auto w-full text-left md:mt-32 print:mt-32 mt-8">
+            <thead className="table-header-group whitespace-nowrap">
               <tr className="table-row">
                 <th>Description</th>
                 <th>Unit Price</th>
