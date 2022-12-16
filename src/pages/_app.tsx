@@ -112,7 +112,9 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
                 <MDXProvider components={mdxComponents}>
                   {getLayout(Component, pageProps)}
                 </MDXProvider>
-                <ReactQueryDevtools />
+                <div className="print:hidden">
+                  <ReactQueryDevtools />
+                </div>
               </QueryClientProvider>
             </CioProvider>
           </LogRocketProvider>
