@@ -45,7 +45,7 @@ const InvoicePage: React.FunctionComponent<any> = ({transactionId}) => {
     <LoginRequired>
       <main className="container py-5 mb-16 max-w-screen-md">
         <Link href="/user/subscription">
-          <a>
+          <a className="print:hidden">
             <div className="flex ">
               {' '}
               <ArrowNarrowLeftIcon className="flex-shrink-0 mr-2 h-6 w-6" />{' '}

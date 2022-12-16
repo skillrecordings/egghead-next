@@ -30,7 +30,7 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
         </button>
       </div>
       <div className="border border-gray-200 print:border-none rounded-sm">
-        <div className="px-10 py-16">
+        <div className="px-10 py-16 print:text-black">
           <div className="grid grid-cols-3 w-full justify-between items-start">
             <div className="col-span-2 flex items-center">
               <div className="w-10 mr-2">
@@ -51,7 +51,7 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
               972-992-5951
             </div>
           </div>
-          <div className="grid grid-cols-3 pb-64">
+          <div className="grid grid-cols-3 pb-48 mt-6">
             <div className="col-span-2">
               <h5 className="text-2xl font-bold mb-2">Invoice</h5>
               Invoice ID: <strong>{transaction.transaction.source.id}</strong>
@@ -68,14 +68,13 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
               <h5 className="uppercase text-xs mb-2 text-gray-500">
                 Invoice For
               </h5>
-              <div>
-                {viewer.full_name}
-                <br />
-                {viewer.email}
+              <div className="space-y-2">
+                <div>{viewer.full_name}</div>
+                <div>{viewer.email}</div>
               </div>
               <br className="print:hidden" />
               <textarea
-                className={`form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none print:bg-transparent ${
+                className={`form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full h-full print:p-0 print:border-none resize-none print:bg-transparent ${
                   invoiceInfo ? '' : 'print:hidden'
                 }`}
                 value={invoiceInfo}
@@ -116,7 +115,7 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
               })}
             </tbody>
           </table>
-          <div className="flex flex-col items-end py-16">
+          <div className="flex flex-col items-end mt-16">
             <div>
               <span className="mr-3">Total</span>
               <strong>
