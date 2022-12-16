@@ -9,6 +9,7 @@ import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
 import {AccountInfoTabContent} from 'components/pages/user'
 import PricingWidget from 'components/pricing/pricing-widget'
+import Invoices from 'pages/invoices'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -31,6 +32,8 @@ const Account = () => {
   const {email: currentEmail, accounts, providers} = viewer || {}
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {slug} = getAccountWithSubscription(accounts)
+
+  console.log({account})
 
   React.useEffect(() => {
     const loadAccountForSlug = async (slug: string) => {
@@ -63,6 +66,7 @@ const Account = () => {
           <PricingWidget />
         </>
       )}
+      <Invoices />
     </div>
   )
 }
