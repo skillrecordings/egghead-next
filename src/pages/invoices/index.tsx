@@ -19,16 +19,20 @@ const Invoices: React.FunctionComponent<any> = () => {
 
   return (
     <LoginRequired>
-      <main className="container py-5 mb-16">
+      <main className="py-5 mb-16">
         {transactionsLoading ? (
           <div></div>
         ) : (
           <div className="max-w-screen-md mx-auto">
             {isEmpty(transactions) ? (
-              <h1 className="text-2xl font-bold">No Transactions</h1>
+              <h1 className="text-lg font-medium md:font-normal md:text-xl leading-none">
+                No Transactions
+              </h1>
             ) : (
               <div className="flex flex-col space-y-8">
-                <h1 className="text-2xl font-bold">Transactions:</h1>
+                <h1 className="text-lg font-medium md:font-normal md:text-xl leading-none">
+                  Transactions
+                </h1>
                 <div>
                   <ul className="space-y-6">
                     {transactions.map((transaction: any) => {
