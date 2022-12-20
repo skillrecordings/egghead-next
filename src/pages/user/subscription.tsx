@@ -7,7 +7,6 @@ import {loadAccount} from 'lib/accounts'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
-import {AccountInfoTabContent} from 'components/pages/user'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 
@@ -32,26 +31,34 @@ const Account = () => {
   const {email: currentEmail, accounts, providers} = viewer || {}
   const [account, setAccount] = React.useState<ViewerAccount>()
   const {slug} = getAccountWithSubscription(accounts)
+  const [accountIsLoading, setAccountIsLoading] = React.useState<boolean>(true)
+
+  const loadAccountForSlug = async (slug: string) => {
+    if (slug) {
+      const account: any = await loadAccount(slug, authToken)
+      setAccount(account)
+    }
+    setAccountIsLoading(false)
+  }
 
   React.useEffect(() => {
-    const loadAccountForSlug = async (slug: string) => {
-      if (slug) {
-        const account: any = await loadAccount(slug, authToken)
-        setAccount(account)
-      }
-    }
     loadAccountForSlug(slug)
   }, [slug, authToken])
 
   return (
     <div>
-      {account ? (
-        <ItemWrapper title="Subscription">
-          <SubscriptionDetails
-            stripeCustomerId={account.stripe_customer_id}
-            slug={slug}
-          />
-        </ItemWrapper>
+      {accountIsLoading ? (
+        <p className="text-center text-white">Loading...</p>
+      ) : account ? (
+        <>
+          <ItemWrapper title="Subscription">
+            <SubscriptionDetails
+              stripeCustomerId={account.stripe_customer_id}
+              slug={slug}
+            />
+          </ItemWrapper>
+          <Invoices headingAs="h3" />
+        </>
       ) : (
         <>
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
@@ -64,7 +71,6 @@ const Account = () => {
           <PricingWidget />
         </>
       )}
-      <Invoices headingAs="h3" />
     </div>
   )
 }
