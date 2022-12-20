@@ -23,11 +23,11 @@ const Invoices: React.FunctionComponent<HeadingProps> = ({headingAs}) => {
   }, [])
 
   return (
-    <main className="py-5 mb-16">
+    <main className="mt-16">
       {transactionsLoading ? (
         <div></div>
       ) : (
-        <div className="max-w-screen-md mx-auto">
+        <div>
           {isEmpty(transactions) ? (
             <Heading className="text-lg font-medium md:font-normal md:text-xl leading-none">
               No Transactions
