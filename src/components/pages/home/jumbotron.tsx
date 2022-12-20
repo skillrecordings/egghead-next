@@ -39,27 +39,6 @@ const Jumbotron: React.FC<any> = ({data}) => {
                   <PlayIcon className="w-4 text-black" />
                 </div>
               </div>
-              {/* <div
-                aria-hidden
-                className="lg:hidden flex flex-shrink-0 relative items-center justify-center p-5"
-              >
-                <Image
-                  src={resource.image}
-                  alt={resource.title}
-                  width={240}
-                  height={240}
-                  quality={100}
-                  loading="eager"
-                  priority
-                  className="group-hover:scale-95 group-hover:opacity-90 transition-all ease-in-out duration-300"
-                />
-                <div
-                  aria-hidden
-                  className="absolute flex items-center justify-center group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0 transition-all ease-in-out duration-300 w-10 h-10 rounded-full bg-white bg-opacity-80 shadow-smooth"
-                >
-                  <PlayIcon className="w-4 text-black" />
-                </div>
-              </div> */}
               <div>
                 <p className="uppercase font-mono text-xs pb-1 opacity-80">
                   Fresh Course
