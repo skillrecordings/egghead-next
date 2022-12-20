@@ -52,7 +52,7 @@ const Account = () => {
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
         </div>
-      ) : account ? (
+      ) : account?.stripe_customer_id ? (
         <>
           <ItemWrapper title="Subscription">
             <SubscriptionDetails
