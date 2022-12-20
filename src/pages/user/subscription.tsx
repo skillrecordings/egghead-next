@@ -9,6 +9,7 @@ import AppLayout from 'components/app/layout'
 import UserLayout from './components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
+import Spinner from 'components/spinner'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -48,7 +49,9 @@ const Account = () => {
   return (
     <div>
       {accountIsLoading ? (
-        <p className="text-center text-white">Loading...</p>
+        <div className="relative flex justify-center">
+          <Spinner className="w-6 h-6 text-gray-600" />
+        </div>
       ) : account ? (
         <>
           <ItemWrapper title="Subscription">
