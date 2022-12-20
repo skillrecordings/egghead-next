@@ -6,11 +6,7 @@ import PlayIcon from 'components/pages/courses/play-icon'
 const Jumbotron: React.FC<any> = ({data}) => {
   const resource = data.resources[0]
   return (
-    <div
-      onClick={() => {
-        console.log(resource.tag.name)
-      }}
-    >
+    <div>
       <ResourceLink
         location="jumbotron"
         path={resource.path}
@@ -21,10 +17,10 @@ const Jumbotron: React.FC<any> = ({data}) => {
       >
         <header className="md:aspect-w-16 md:aspect-h-6 relative h-full rounded-b-lg text-white ">
           <div className="flex items-center justify-center relative z-10 md:pb-16 pb-32 md:px-0 px-5 md:pt-0 pt-10">
-            <div className="w-full lg:max-w-screen-lg md:max-w-screen-sm flex md:flex-row flex-col items-center justify-center md:text-left text-center lg:pt-0 md:pt-10">
+            <div className="w-full lg:max-w-screen-lg md:max-w-screen-sm flex md:flex-row flex-col items-center justify-center md:text-left text-center md:pt-8 md:px-5 xl:px-0">
               <div
                 aria-hidden
-                className="hidden flex-shrink-0 relative lg:flex items-center justify-center p-5"
+                className="flex-shrink-0 relative flex items-center justify-center p-5 w-[240px] lg:w-[300px] xl:w-[360px]"
               >
                 <Image
                   src={resource.image}
@@ -43,7 +39,7 @@ const Jumbotron: React.FC<any> = ({data}) => {
                   <PlayIcon className="w-4 text-black" />
                 </div>
               </div>
-              <div
+              {/* <div
                 aria-hidden
                 className="lg:hidden flex flex-shrink-0 relative items-center justify-center p-5"
               >
@@ -63,12 +59,12 @@ const Jumbotron: React.FC<any> = ({data}) => {
                 >
                   <PlayIcon className="w-4 text-black" />
                 </div>
-              </div>
-              <div className="md:pt-10">
+              </div> */}
+              <div>
                 <p className="uppercase font-mono text-xs pb-1 opacity-80">
                   Fresh Course
                 </p>
-                <h1 className="md:pt-0 pt-2 leading-tighter lg:text-3xl sm:text-2xl text-xl tracking-tight font-bold">
+                <h1 className="md:pt-0 pt-2 leading-tighter lg:text-3xl sm:text-2xl md:text-xl text-xl tracking-tight font-bold">
                   {resource.title}
                 </h1>
                 <div className="flex items-center md:justify-start justify-center py-4">
@@ -97,7 +93,7 @@ const Jumbotron: React.FC<any> = ({data}) => {
             layout="fill"
             priority={true}
             quality={100}
-            className="pointer-events-none md:object-contain object-cover"
+            className="pointer-events-none object-cover"
           />
         </header>
       </ResourceLink>
