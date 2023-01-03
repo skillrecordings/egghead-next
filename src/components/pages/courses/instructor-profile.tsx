@@ -13,10 +13,9 @@ const InstructorProfile: React.FunctionComponent<{
   <div className={className ? className : ''}>
     <div className="flex flex-shrink-0">
       <div
-        className="sm:w-10 sm:h-10 w-8 h-8 rounded-full flex-shrink-0"
+        className="sm:w-10 sm:h-10 w-8 h-8 rounded-full flex-shrink-0 bg-cover"
         style={{
           background: `url(${avatar_url})`,
-          backgroundSize: 'cover',
         }}
       />
       <div className="sm:pl-2 pl-1 flex flex-col justify-center">
