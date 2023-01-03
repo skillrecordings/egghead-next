@@ -763,7 +763,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <EpicReactBanner />
                   {relatedResources.map((resource: any) => {
                     return (
-                      <div key={resource.slug}>
+                      <div key={resource.title}>
                         <HorizontalResourceCard
                           className="my-4 border border-gray-400 border-opacity-10 dark:border-gray-700"
                           resource={resource}
