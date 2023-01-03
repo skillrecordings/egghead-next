@@ -97,7 +97,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         )}
         {(subscriptionData?.subscription?.cancel_at_period_end ||
           subscriptionData?.portalUrl) && (
-          <div className="p-4 bg-primary-2 text-accents-3 rounded-b-md">
+          <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
             <div className="flex flex-col items-start justify-between sm:items-center">
               {subscriptionData?.subscription?.cancel_at_period_end && (
                 <p className="pb-4 sm:pb-0">
