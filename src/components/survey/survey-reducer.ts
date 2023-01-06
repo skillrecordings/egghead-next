@@ -83,7 +83,6 @@ export const surveyReducer = (
 
     return state
   } catch (error) {
-    console.error(error.message)
     track(`survey error`, {
       survey: state.surveyTitle,
       version: state.data.version,

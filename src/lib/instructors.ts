@@ -57,7 +57,6 @@ export async function loadInstructor(slug: string) {
 
   if (canLoadSanityInstructor(slug)) {
     sanityInstructor = await loadSanityInstructor(slug)
-    console.log({sanityInstructor, slug})
   }
 
   return {...instructor, ...sanityInstructor}
