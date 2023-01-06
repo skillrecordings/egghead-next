@@ -10,6 +10,7 @@ import UserLayout from './components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
+import {trpc} from 'utils/trpc'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -30,51 +31,68 @@ function getAccountWithSubscription(accounts: ViewerAccount[]) {
 const Account = () => {
   const {viewer, authToken, loading} = useViewer()
   const {email: currentEmail, accounts, providers} = viewer || {}
-  const [account, setAccount] = React.useState<ViewerAccount>()
+  // const [account, setAccount] = React.useState<ViewerAccount>()
   const {slug} = getAccountWithSubscription(accounts)
   const [accountIsLoading, setAccountIsLoading] = React.useState<boolean>(true)
 
-  const loadAccountForSlug = async (slug: string) => {
-    if (slug) {
-      const account: any = await loadAccount(slug, authToken)
-      setAccount(account)
-    }
-    setAccountIsLoading(false)
-  }
+  // const loadAccountForSlug = async (slug: string) => {
+  //   if (slug) {
+  //     const account: any = await loadAccount(slug, authToken)
+  //     setAccount(account)
+  //   }
+  //   setAccountIsLoading(false)
+  // }
 
-  React.useEffect(() => {
-    loadAccountForSlug(slug)
-  }, [slug, authToken])
+  const {data: account, status: accountLoadingStatus} =
+    trpc.user.current.useQuery()
+
+  console.log({account, accountLoadingStatus})
+
+  // React.useEffect(() => {
+  //   loadAccountForSlug(slug)
+  // }, [slug, authToken])
 
   return (
     <div>
-      {accountIsLoading ? (
-        <div className="relative flex justify-center">
-          <Spinner className="w-6 h-6 text-gray-600" />
-        </div>
-      ) : account?.stripe_customer_id ? (
-        <>
-          <ItemWrapper title="Subscription">
-            <SubscriptionDetails
-              stripeCustomerId={account.stripe_customer_id}
-              slug={slug}
-            />
-          </ItemWrapper>
-          <Invoices headingAs="h3" />
-        </>
-      ) : (
-        <>
-          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
-            No Subscription Found
-          </h2>
-          <p className="w-fit mx-auto mb-12">
-            If this is incorrect, please reach out to{' '}
-            <strong>support@egghead.io</strong>
-          </p>
-          <PricingWidget />
-        </>
+      {account?.account_users[0].account.stripe_customer_id && (
+        <ItemWrapper title="Subscription">
+          <SubscriptionDetails
+            stripeCustomerId={
+              account?.account_users[0].account.stripe_customer_id
+            }
+            slug={slug}
+          />
+        </ItemWrapper>
       )}
     </div>
+    // <div>
+    //   {accountIsLoading ? (
+    //     <div className="relative flex justify-center">
+    //       <Spinner className="w-6 h-6 text-gray-600" />
+    //     </div>
+    //   ) : account?.stripe_customer_id ? (
+    //     <>
+    //       <ItemWrapper title="Subscription">
+    //         <SubscriptionDetails
+    //           stripeCustomerId={account.stripe_customer_id}
+    //           slug={slug}
+    //         />
+    //       </ItemWrapper>
+    //       <Invoices headingAs="h3" />
+    //     </>
+    //   ) : (
+    //     <>
+    //       <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+    //         No Subscription Found
+    //       </h2>
+    //       <p className="w-fit mx-auto mb-12">
+    //         If this is incorrect, please reach out to{' '}
+    //         <strong>support@egghead.io</strong>
+    //       </p>
+    //       <PricingWidget />
+    //     </>
+    //   )}
+    // </div>
   )
 }
 
