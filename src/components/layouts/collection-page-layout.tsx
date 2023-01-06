@@ -12,6 +12,7 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
@@ -121,14 +122,11 @@ export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
   </div>
 )
 
-const useIsCourseCompleted = (viewerId: number, slug: string) => {
+const useCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
     if (viewerId) {
       const {completeCourses} = await loadUserCompletedCourses()
-      const isCompleted = completeCourses.some(
-        (course: any) => course?.collection?.slug === slug,
-      )
-      return isCompleted
+      return completeCourses
     }
   })
 }
@@ -143,7 +141,12 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const [clickable, setIsClickable] = React.useState(true)
   const {viewer} = useViewer()
   const viewerId = viewer?.id
-  const {data: isCourseCompleted} = useIsCourseCompleted(viewerId, course.slug)
+  const {data: completedCourses} = useCompletedCourses(viewerId)
+  const isCourseCompleted =
+    !isEmpty(completedCourses) &&
+    completedCourses.some(
+      (courseItem: any) => courseItem?.collection?.slug === course.slug,
+    )
   const defaultPairWithResources: any[] = take(
     [
       {
@@ -433,7 +436,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (
-          <div className="w-full p-3 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
+          <div className="w-full p-3 mt-4 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
             ⚠️ This course has been retired and might contain outdated
             information.
           </div>
@@ -450,7 +453,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 </div>
               )}
-              <div className="flex justify-center md:justify-start space-x-3 my-2 md:m-0 md:mb-2">
+              <div className="flex justify-center my-2 space-x-3 md:justify-start md:m-0 md:mb-2">
                 {access_state && (
                   <div
                     className={`${
@@ -462,7 +465,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
                 {isCourseCompleted && (
                   <div
-                    className="text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs bg-green-500 cursor-default"
+                    className="items-center px-2 py-1 text-xs font-bold text-center text-white uppercase bg-green-500 rounded-full cursor-default"
                     title="Course completed"
                   >
                     Completed
@@ -607,9 +610,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Link href={download_url}>
                     <a
                       onClick={() => {
-                        track(`clicked download course`, {
-                          course: course.slug,
-                        })
+                        analytics.events.activityCtaClick(
+                          'course download',
+                          slug,
+                          name,
+                        )
                       }}
                     >
                       <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
@@ -617,7 +622,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       </div>
                     </a>
                   </Link>
-                ) : (
+                ) : state === 'retired' ? null : (
                   <MembershipDialogButton
                     buttonText="Download"
                     title="Become a member to download this course"
@@ -758,7 +763,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <EpicReactBanner />
                   {relatedResources.map((resource: any) => {
                     return (
-                      <div key={resource.slug}>
+                      <div key={resource.title}>
                         <HorizontalResourceCard
                           className="my-4 border border-gray-400 border-opacity-10 dark:border-gray-700"
                           resource={resource}

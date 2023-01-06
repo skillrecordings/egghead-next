@@ -173,10 +173,10 @@ export const activityExternalLinkClick = (
 /* We implement different CTAs to invite the user to intentinally go to a course or any type of content. This event will help us understand  how CTA's do on different pages */
 export const activityCtaClick = (
   resourceType: string,
-  instructor: string,
   currentLocation: string,
-  topic: string,
-  redirectTo: string,
+  instructor?: string,
+  topic?: string,
+  redirectTo?: string,
 ) =>
   track('clicked CTA', {
     eventGroup: 'activity',

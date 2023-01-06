@@ -6,10 +6,10 @@ const SvgIcon = ({
   title,
   height,
   width,
-  viewBoxMinWidth,
-  viewBoxMinHeight,
-  viewBoxWidth,
-  viewBoxHeight,
+  viewBoxMinWidth = 0,
+  viewBoxMinHeight = 0,
+  viewBoxWidth = 22,
+  viewBoxHeight = 22,
 }) => (
   <svg
     className={className}

@@ -26,16 +26,11 @@ const LearnerRatings: React.FunctionComponent<{collection: any}> = ({
   const {viewer} = useViewer()
 
   React.useEffect(() => {
-    if (!isEmpty(ratings)) {
+    loadRatings(slug, type).then((ratings: any) => {
       setLoadingRatings(false)
-    }
-    if (loadingRatings) {
-      setLoadingRatings(false)
-      loadRatings(slug, type).then((ratings: any) => {
-        setRatings(ratings)
-      })
-    }
-  }, [loadingRatings, type, slug, ratings])
+      setRatings(ratings)
+    })
+  }, [slug, type, loadingRatings])
 
   const {reviewImageUrl} = useShareCourseReview(ratings, collection)
 
