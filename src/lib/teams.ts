@@ -33,7 +33,6 @@ export async function loadTeams(token: string): Promise<TeamResponse> {
     return accounts
   } catch (e) {
     console.error(e)
-    console.error(e.response.errors)
     return {data: undefined}
   }
 }

@@ -35,4 +35,5 @@ yarn-error.log*
 
 .vercel
 .idea
-/.env
+.env
+prisma/generated.schema.prisma

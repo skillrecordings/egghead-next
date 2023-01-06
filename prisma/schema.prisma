@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model OathAccessToken {
+  id                     Int                 @id @default(autoincrement())
+  token     String   @unique
+  resource_owner_id BigInt
+  user      User     @relation(fields: [resource_owner_id], references: [id])
+  created_at DateTime @default(now())
+  expires_in DateTime
+  @@map(name: "oauth_access_tokens")
+}
+
+model User {
+  id                   BigInt        @id @default(autoincrement())
+  first_name           String?       @db.VarChar(255)
+  last_name            String?       @db.VarChar(255)
+  authentication_token String?       @unique(map: "index_users_on_authentication_token") @db.VarChar(255)
+  email                String        @unique(map: "index_users_on_email") @default("") @db.VarChar(255)
+  created_at           DateTime?     @db.Timestamp(6)
+  updated_at           DateTime?     @db.Timestamp(6)
+  kvstore              Json?         @default("{}")
+  account_users        AccountUser[]
+  access_tokens        OathAccessToken[]
+  @@index([kvstore], map: "index_users_on_kvstore", type: Gin)
+  @@map("users")
+}
+
+model Account {
+  id                    BigInt                @id @default(autoincrement())
+  slug                  String?               @db.VarChar
+  name                  String?               @db.VarChar
+  stripe_customer_id    String?               @unique(map: "index_accounts_on_stripe_customer_id") @db.VarChar
+  created_at            DateTime              @db.Timestamp(6)
+  updated_at            DateTime              @db.Timestamp(6)
+  account_subscriptions AccountSubscription[]
+  AccountUser           AccountUser[]
+  @@map("accounts")
+}
+
+model AccountUser {
+  id         BigInt   @id @default(autoincrement())
+  user_id    BigInt
+  account_id BigInt
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_685e030c15")
+  account    Account  @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_c96445f213")
+  @@unique([user_id, account_id], map: "index_account_users_on_user_id_and_account_id")
+  @@index([account_id], map: "index_account_users_on_account_id")
+  @@index([user_id], map: "index_account_users_on_user_id")
+  @@map("account_users")
+}
+
+model AccountSubscription {
+  id                     BigInt   @id @default(autoincrement())
+  account_id             BigInt
+  stripe_subscription_id String?  @unique(map: "index_account_subscriptions_on_stripe_subscription_id") @db.VarChar
+  status                 String?  @db.VarChar
+  interval               String?  @db.VarChar
+  interval_count         Int?
+  price                  Int?
+  quantity               Int
+  current_period_start   Int?
+  current_period_end     Int?
+  cancel_at_period_end   Boolean?
+  created_at             DateTime @db.Timestamp(6)
+  updated_at             DateTime @db.Timestamp(6)
+  account                Account  @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_85fdcd8805")
+  @@index([account_id], map: "index_account_subscriptions_on_account_id")
+  @@map("account_subscriptions")
+}
