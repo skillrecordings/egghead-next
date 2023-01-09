@@ -34,6 +34,8 @@ const Account = () => {
   const {slug} = getAccountWithSubscription(accounts)
   const [accountIsLoading, setAccountIsLoading] = React.useState<boolean>(true)
 
+  console.log({account})
+
   const loadAccountForSlug = async (slug: string) => {
     if (slug) {
       const account: any = await loadAccount(slug, authToken)
