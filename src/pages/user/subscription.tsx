@@ -62,7 +62,9 @@ const Account = () => {
               slug={slug}
             />
           </ItemWrapper>
-          <Invoices headingAs="h3" />
+          <div className="mt-16">
+            <Invoices headingAs="h3" />
+          </div>
         </>
       ) : (
         <>

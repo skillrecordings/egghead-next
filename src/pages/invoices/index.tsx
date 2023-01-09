@@ -5,7 +5,11 @@ import Invoices from 'components/invoices'
 const InvoicesPage: React.FunctionComponent<any> = () => {
   return (
     <LoginRequired>
-      <Invoices headingAs="h1" />
+      <main className="mt-16">
+        <div className="container">
+          <Invoices headingAs="h1" />
+        </div>
+      </main>
     </LoginRequired>
   )
 }
