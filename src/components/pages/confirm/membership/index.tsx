@@ -186,10 +186,11 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
   const [transactionsLoading, setTransactionsLoading] = React.useState(true)
 
   const invoiceUrl =
-    (!isEmpty(transactions) &&
-      last(transactions) &&
-      get(last(transactions), 'stripe_transaction_id')) ||
-    null
+    !isEmpty(transactions) &&
+    last(transactions) &&
+    get(last(transactions), 'stripe_transaction_id')
+      ? `/invoices/${last(transactions).stripe_transaction_id}`
+      : null
 
   React.useEffect(() => {
     axios
