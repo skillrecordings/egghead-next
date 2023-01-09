@@ -7,8 +7,6 @@ import axios from 'utils/configured-axios'
 import Invoice from 'components/pages/invoice'
 import {useRouter} from 'next/router'
 import {useViewer} from '../../context/viewer-context'
-import {ArrowNarrowLeftIcon} from '@heroicons/react/outline'
-import Link from 'next/link'
 
 const tracer = getTracer('invoices-index-page')
 
@@ -44,15 +42,6 @@ const InvoicePage: React.FunctionComponent<any> = ({transactionId}) => {
   return (
     <LoginRequired>
       <main className="container py-5 mb-16 max-w-screen-md">
-        <Link href="/user/subscription">
-          <a className="print:hidden">
-            <div className="flex ">
-              {' '}
-              <ArrowNarrowLeftIcon className="flex-shrink-0 mr-2 h-6 w-6" />{' '}
-              Back to Profile
-            </div>
-          </a>
-        </Link>
         {transaction && viewer && (
           <Invoice transaction={transaction} viewer={viewer}></Invoice>
         )}

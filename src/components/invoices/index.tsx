@@ -50,9 +50,7 @@ const Invoices: React.FunctionComponent<HeadingProps> = ({headingAs}) => {
                   </div>
                   <div>
                     <Link
-                      href={{
-                        pathname: `/invoices/${transaction.stripe_transaction_id}`,
-                      }}
+                      href={`/invoices/${transaction.stripe_transaction_id}`}
                     >
                       <a className="w-full px-2 py-1 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md shadow-lg md:w-auto hover:bg-indigo-600 hover:scale-105">
                         full invoice

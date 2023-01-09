@@ -1,6 +1,7 @@
 import * as React from 'react'
 import useLastResource from 'hooks/use-last-resource'
-import {isEmpty} from 'lodash'
+import {isEmpty, last} from 'lodash'
+import axios from 'utils/configured-axios'
 import Link from 'next/link'
 import Image from 'next/image'
 import Spinner from 'components/spinner'
@@ -181,6 +182,18 @@ const StartLearning: React.FC = () => {
 
 const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
   const {theme, setTheme} = useTheme()
+  const [transactions, setTransactions] = React.useState([])
+  const [transactionsLoading, setTransactionsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/transactions`)
+      .then(({data}) => {
+        setTransactionsLoading(false)
+        setTransactions(data)
+      })
+      .catch((error) => console.log({error}))
+  }, [])
 
   React.useEffect(() => {
     setTheme('dark')
@@ -204,9 +217,18 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
           </>
         }
       />
-
+      <div className="flex justify-center h-12">
+        {transactionsLoading ? (
+          <Spinner className="w-6 h-6 text-gray-600" />
+        ) : !isEmpty(transactions) ? (
+          <Link href={`/invoices/${last(transactions).stripe_transaction_id}`}>
+            <a className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700 duration-100">
+              Get your invoice
+            </a>
+          </Link>
+        ) : null}
+      </div>
       <PostPurchase email={session?.email} />
-
       <div className="space-y-10">
         <PopularTopics />
         <LastResource />

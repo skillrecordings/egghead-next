@@ -3,6 +3,7 @@ import Eggo from '../../images/eggo.svg'
 import Image from 'next/image'
 import {useLocalStorage} from 'react-use'
 import {format} from 'date-fns'
+import cx from 'classnames'
 
 type InvoiceProps = {
   viewer: any
@@ -29,7 +30,7 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
           Download PDF or Print
         </button>
       </div>
-      <div className="border border-gray-200 print:border-none rounded-sm">
+      <div className="border border-gray-200 print:border-none rounded-md">
         <div className="p-4 md:px-10 md:py-16 print:text-black">
           <div className="grid md:grid-cols-3 print:grid-cols-3 w-full justify-between items-start">
             <div className="col-span-2 flex items-center">
@@ -72,11 +73,20 @@ const Invoice: React.FunctionComponent<InvoiceProps> = ({
                 <div>{viewer.full_name}</div>
                 <div>{viewer.email}</div>
               </div>
-              <br className="print:hidden" />
+              <br />
+              <h5
+                className={cx(
+                  'uppercase text-xs mb-2 text-gray-500 hidden',
+                  invoiceInfo ? 'print:block' : 'print:hidden',
+                )}
+              >
+                Additional Info:
+              </h5>
               <textarea
-                className={`form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full print:p-0 print:border-none resize-none print:bg-transparent ${
-                  invoiceInfo ? '' : 'print:hidden'
-                }`}
+                className={cx(
+                  'form-textarea dark:text-black text-black placeholder-gray-700 border border-gray-200 bg-gray-50 w-full print:p-0 print:border-none resize-none rounded-md print:bg-transparent',
+                  !invoiceInfo && 'print:hidden',
+                )}
                 value={invoiceInfo}
                 rows={5}
                 onChange={(e) => setInvoiceInfo(e.target.value)}
