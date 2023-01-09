@@ -1,6 +1,6 @@
 import * as React from 'react'
 import useLastResource from 'hooks/use-last-resource'
-import {isEmpty, last} from 'lodash'
+import {isEmpty, last, get} from 'lodash'
 import axios from 'utils/configured-axios'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -185,6 +185,12 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
   const [transactions, setTransactions] = React.useState([])
   const [transactionsLoading, setTransactionsLoading] = React.useState(true)
 
+  const invoiceUrl =
+    (!isEmpty(transactions) &&
+      last(transactions) &&
+      get(last(transactions), 'stripe_transaction_id')) ||
+    null
+
   React.useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/transactions`)
@@ -220,8 +226,8 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
       <div className="flex justify-center h-12">
         {transactionsLoading ? (
           <Spinner className="w-6 h-6 text-gray-600" />
-        ) : !isEmpty(transactions) ? (
-          <Link href={`/invoices/${last(transactions).stripe_transaction_id}`}>
+        ) : invoiceUrl ? (
+          <Link href={invoiceUrl}>
             <a className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700 duration-100">
               Get your invoice
             </a>
