@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useQuery} from '@tanstack/react-query'
 import Grid from 'components/grid'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
@@ -9,18 +10,24 @@ import cx from 'classnames'
 import {NextSeo} from 'next-seo'
 import {CARD_TYPES} from 'components/search/curated/curated-essential'
 import {useRouter} from 'next/router'
+import {useViewer} from 'context/viewer-context'
+import {loadUserCompletedCourses} from 'lib/users'
+
+const useUserCompletedCourses = (viewerId: number) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      return completeCourses
+    }
+  })
+}
 
 type CuratedTopicProps = {
   topicData: any
   topic: any
-  completedCoursesIds: any
 }
 
-const CuratedTopic: React.FC<CuratedTopicProps> = ({
-  topic,
-  topicData,
-  completedCoursesIds,
-}) => {
+const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
   const {title, description, image, ogImage, sections, levels, jumbotron} =
     topicData
   const location = `${topic.name} landing`
@@ -29,6 +36,12 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({
     topic.label
   } Tutorials for ${new Date().getFullYear()}`
   const router = useRouter()
+  const {viewer} = useViewer()
+  const viewerId = viewer?.id
+  const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+  const completedCoursesIds =
+    !isEmpty(completeCourseData) &&
+    completeCourseData.map((course: any) => course.collection.id)
 
   return (
     <>
