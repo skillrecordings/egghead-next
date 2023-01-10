@@ -131,9 +131,6 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                       </h2>
                       <h3 className="opacity-80">{section.subTitle}</h3>
                     </div>
-                    <h1 className="text-6xl text-red-500 border border-red-500 p-3 my-6">
-                      awfafdfd
-                    </h1>
                     <div className="grid xl:gap-5 gap-3">
                       {section.resources.map((resource: any) => {
                         return (
