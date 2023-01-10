@@ -105,7 +105,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                       'sm:pt-24': i === 1,
                       'sm:pt-48': i === 0,
                     })}
-                    key={section.id}
+                    key={section.title}
                   >
                     <div className="flex flex-col w-full pb-6">
                       <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
@@ -134,7 +134,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
           {!isEmpty(sections) &&
             sections.map((section: any) => {
               return (
-                <section className="pb-16" key={section.id}>
+                <section className="pb-16" key={section.title}>
                   {!section.image && !section.description ? (
                     // simple section
                     <div className="flex w-full pb-6 items-center justify-between">
@@ -176,7 +176,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           return (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
@@ -185,13 +185,13 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           return i === 0 ? (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
                           ) : (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
@@ -200,13 +200,13 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           return i === 0 || i === 1 ? (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
                           ) : (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
@@ -215,13 +215,13 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           return i === 0 ? (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
                           ) : (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
@@ -229,7 +229,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                         default:
                           return (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
                             />
