@@ -14,6 +14,9 @@ import {
 } from 'react-instantsearch-dom'
 import {get, isEmpty} from 'lodash'
 import {useToggle} from 'react-use'
+import {useQuery} from '@tanstack/react-query'
+import {useViewer} from 'context/viewer-context'
+import {loadUserCompletedCourses} from 'lib/users'
 import config from 'lib/config'
 import InstructorsIndex from 'components/search/instructors/index'
 import NoSearchResults from 'components/search/components/no-search-results'
@@ -39,6 +42,15 @@ type SearchProps = {
   loading?: boolean
 }
 
+const useUserCompletedCourses = (viewerId: number) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      return completeCourses
+    }
+  })
+}
+
 const Search: FunctionComponent<SearchProps> = ({
   children = [],
   searchClient,
@@ -50,7 +62,12 @@ const Search: FunctionComponent<SearchProps> = ({
   ...rest
 }) => {
   const [isFilterShown, setShowFilter] = useToggle(false)
-
+  const {viewer} = useViewer()
+  const viewerId = viewer?.id
+  const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+  const completedCoursesIds =
+    !isEmpty(completeCourseData) &&
+    completeCourseData.map((course: any) => course.collection.id)
   const noInstructorsSelected = (searchState: any) => {
     return get(searchState, 'refinementList.instructor_name', []).length === 0
   }
@@ -274,6 +291,7 @@ const Search: FunctionComponent<SearchProps> = ({
                           <NewCuratedTopicPage
                             topicData={topicData}
                             topic={topic}
+                            completedCoursesIds={completedCoursesIds}
                           />
                         )}
                       </>
