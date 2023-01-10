@@ -59,6 +59,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
         subTitle,
         resources[]->{
           'id': _id,
+          externalId,
           title,
           'name': type,
           path,
@@ -80,6 +81,7 @@ export const topicQuery = groq`*[_type == 'resource' && type == 'landing-page' &
       resources[]{
         _type == 'reference' => @->{
           'id': _id,
+          externalId,
           title,
           'name': type,
           'description': summary,
