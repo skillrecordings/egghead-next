@@ -5,6 +5,7 @@ import {NextSeo} from 'next-seo'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import groq from 'groq'
+import {trpc} from '../trpc/trpc.client'
 
 const HomePage: FunctionComponent<any> = ({data}) => {
   const location = 'curated home landing'

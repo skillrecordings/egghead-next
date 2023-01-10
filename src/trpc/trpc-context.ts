@@ -1,6 +1,6 @@
 import * as trpc from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
-import {prisma} from './prisma'
+import {prisma} from '../server/prisma'
 
 // create context based of incoming request
 // set as optional here so it can also be re-used for `getStaticProps()`
@@ -12,4 +12,4 @@ export const createContext = async (
     prisma,
   }
 }
-export type Context = trpc.inferAsyncReturnType<typeof createContext>
+export type TrpcContext = trpc.inferAsyncReturnType<typeof createContext>

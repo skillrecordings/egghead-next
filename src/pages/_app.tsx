@@ -20,7 +20,7 @@ import {ThemeProvider} from 'next-themes'
 import {Toaster} from 'react-hot-toast'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
-import {trpc} from 'utils/trpc'
+import {trpc} from 'trpc/trpc.client'
 
 declare global {
   interface Window {
