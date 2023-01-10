@@ -57,17 +57,21 @@ const Header: FunctionComponent = () => {
       ),
     )
 
+  const isProOrInstructor = viewer?.is_pro || viewer?.is_instructor
+
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
   React.useEffect(() => {
     switch (true) {
-      case !subscriber?.attributes?.portfolio_foundations:
-        setActiveCTA(<PortfolioFoundationsCTA variant="header" />)
-        break
-      case !subscriber?.attributes?.online_presence:
-        setActiveCTA(<OnlinePresenceCTA variant="header" />)
-        break
-      case !subscriber && !loadingSubscriber:
-        setActiveCTA(<OnlinePresenceCTA variant="header" />)
+      case !isProOrInstructor && !subscriber?.attributes?.team_interest:
+        setActiveCTA(
+          <HeaderButtonShapedLink
+            url="/egghead-for-teams"
+            label="egghead for teams"
+            onClick={() => {
+              track('clicked egghead for teams', {location: 'header'})
+            }}
+          />,
+        )
         break
       case !viewer?.is_pro && !viewer?.is_instructor:
         setActiveCTA(

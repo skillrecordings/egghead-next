@@ -43,6 +43,10 @@ const about = [
     nonMemberRequired: true,
   },
   {
+    path: '/egghead-for-teams',
+    label: 'egghead for teams',
+  },
+  {
     path: 'https://store.egghead.io/',
     label: 'Store',
   },
