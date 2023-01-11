@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from 'react'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import Head from 'next/head'
 import Hits from './hits'
 import Stats from './stats'
@@ -38,6 +39,8 @@ type SearchProps = {
   topicData?: any
   loading?: boolean
 }
+
+const queryClient = new QueryClient()
 
 const Search: FunctionComponent<SearchProps> = ({
   children = [],
@@ -290,7 +293,9 @@ const Search: FunctionComponent<SearchProps> = ({
                   <h2 className="sm:px-5 px-3 mt-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
                     Search Results
                   </h2>
-                  <Hits />
+                  <QueryClientProvider client={queryClient}>
+                    <Hits />
+                  </QueryClientProvider>
                   {mounted && (
                     <div className="pb-16 pt-10 flex-grow bg-gradient-to-t dark:from-gray-1000 dark:to-transparent from-gray-100 to-transparent">
                       <Pagination />
