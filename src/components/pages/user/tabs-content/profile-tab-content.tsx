@@ -32,7 +32,12 @@ const ProfileTabContent: React.FC<any> = () => {
         }
       >
         {isConnectedToGithub ? (
-          <p>You are able to login to egghead using your Github account!</p>
+          <>
+            <p>You are able to login to egghead using your Github account!</p>
+            <div className="mt-2">
+              <GithubDisConnectButton authToken={authToken} />
+            </div>
+          </>
         ) : (
           <>
             <p>Connect your GitHub account to log in with GitHub Oauth.</p>
@@ -47,6 +52,19 @@ const ProfileTabContent: React.FC<any> = () => {
 }
 
 export default ProfileTabContent
+
+const GithubDisConnectButton: React.FunctionComponent<{
+  authToken: string
+}> = ({authToken}) => {
+  return (
+    <a
+      href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/remove_github_link?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
+      className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700"
+    >
+      Disconnect your GitHub account
+    </a>
+  )
+}
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
