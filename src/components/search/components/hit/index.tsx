@@ -3,9 +3,13 @@ import {SearchHitResourceCard} from 'components/card/search-hit-resource-card'
 
 type HitComponentProps = {
   hit: any
+  completedCoursesIds: string[]
 }
 
-const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
+const HitComponent: FunctionComponent<HitComponentProps> = ({
+  hit,
+  completedCoursesIds,
+}) => {
   const {image, type, instructor_url, instructor_name, instructor} = hit
 
   const hasImage = image !== 'https://d2eip9sf3oo6c2.cloudfront.net/logo.svg'
@@ -36,6 +40,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({hit}) => {
             : null,
         },
       }}
+      completedCoursesIds={completedCoursesIds}
     />
   )
 }
