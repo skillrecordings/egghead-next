@@ -65,6 +65,7 @@
     "@trpc/next": "10.4.3",
     "@trpc/react-query": "10.4.3",
     "@trpc/server": "10.4.3",
+    "@typeform/embed-react": "^2.11.0",
     "@videojs/http-streaming": "^2.9.3",
     "@xstate/react": "^1.5.1",
     "airtable": "^0.11.1",
