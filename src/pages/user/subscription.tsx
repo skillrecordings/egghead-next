@@ -10,6 +10,7 @@ import UserLayout from './components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
+import {format} from 'date-fns'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -34,6 +35,9 @@ const Account = () => {
   const {slug} = getAccountWithSubscription(accounts)
   const [accountIsLoading, setAccountIsLoading] = React.useState<boolean>(true)
 
+  const isGiftMembership = account?.subscriptions[0]?.type === 'gift'
+  const giftExpiration = account?.subscriptions[0]?.current_period_end
+
   const loadAccountForSlug = async (slug: string) => {
     if (slug) {
       const account: any = await loadAccount(slug, authToken)
@@ -51,6 +55,16 @@ const Account = () => {
       {accountIsLoading ? (
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
+        </div>
+      ) : isGiftMembership ? (
+        <div className="h-40 sm:h-60 flex flex-col justify-center">
+          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+            You have claimed a gift membership.
+          </h2>
+          <p className="w-fit mx-auto">
+            Your membership expires on:{' '}
+            <strong>{format(new Date(giftExpiration), 'yyyy/MM/dd')}</strong>.
+          </p>
         </div>
       ) : account?.stripe_customer_id ? (
         <>
