@@ -59,7 +59,7 @@ const Account = () => {
       ) : isGiftMembership ? (
         <div className="h-40 sm:h-60 flex flex-col justify-center">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
-            You have claimed a gift membership.
+            You have an egghead membership.
           </h2>
           <p className="w-fit mx-auto">
             Your membership expires on:{' '}
