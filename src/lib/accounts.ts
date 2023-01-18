@@ -7,6 +7,8 @@ export async function loadAccount(slug: string, token: string) {
         slug
         stripe_customer_id
         subscriptions {
+          type
+          current_period_end
           stripe_subscription_id
         }
       }
