@@ -198,9 +198,6 @@ const Home: React.FC<any> = ({data, jumbotron, location}) => {
                 </section>
               )
             })}
-          <div className="mb-16 bg-white bg-opacity-100 rounded-lg md:container dark:bg-gray-800 dark:bg-opacity-60">
-            <HolidayReleaseJumbotron />
-          </div>
           <Search />
         </main>
       </div>
