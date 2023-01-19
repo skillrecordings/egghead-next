@@ -12,8 +12,8 @@ import LoginRequired from 'components/login-required'
 
 const userPagesMap = [
   {
-    path: '/user/subscription',
-    name: 'Subscription',
+    path: '/user/membership',
+    name: 'Membership',
     icon: CreditCardIcon,
   },
   {

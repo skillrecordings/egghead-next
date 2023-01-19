@@ -44,12 +44,12 @@ const InvoicePage: React.FunctionComponent<any> = ({transactionId}) => {
   return (
     <LoginRequired>
       <main className="container py-5 mb-16 max-w-screen-md">
-        <Link href="/user/subscription">
+        <Link href="/user/membership">
           <a className="print:hidden">
             <div className="flex ">
               {' '}
               <ArrowNarrowLeftIcon className="flex-shrink-0 mr-2 h-6 w-6" />{' '}
-              Back to Profile
+              Back to Membership page
             </div>
           </a>
         </Link>

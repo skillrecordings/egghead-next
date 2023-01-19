@@ -79,7 +79,7 @@ const Account = () => {
       ) : (
         <>
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
-            No Subscription Found
+            No Membership Found
           </h2>
           <p className="w-fit mx-auto mb-12">
             If this is incorrect, please reach out to{' '}

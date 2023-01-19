@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import analytics, {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import {get} from 'lodash'
 import {format} from 'date-fns'
@@ -38,13 +38,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         currency: currency,
         minimumFractionDigits: 0,
       }).format(subscriptionUnitAmount / 100)
-
-    const subscriptionEndDate = get(
-      subscriptionData,
-      'subscriptionData.subscription.current_period_end',
-    )
-
-    console.log(subscriptionData)
 
     return !loading && subscriptionData ? (
       <div className="w-full">
