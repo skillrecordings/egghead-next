@@ -30,36 +30,37 @@ function getAccountWithSubscription(accounts: ViewerAccount[]) {
 }
 
 const Account = () => {
-  const {viewer, authToken, loading} = useViewer()
-  const {email: currentEmail, accounts, providers} = viewer || {}
-  const [account, setAccount] = React.useState<ViewerAccount>()
-  const {slug} = getAccountWithSubscription(accounts)
-  const [accountIsLoading, setAccountIsLoading] = React.useState<boolean>(true)
+  const {viewer} = useViewer()
 
-  const isGiftMembership = account?.subscriptions[0]?.type === 'gift'
-  const giftExpiration = account?.subscriptions[0]?.current_period_end
+  const {data: userAccounts, status: userAccountsLoadingStatus} =
+    trpc.user.accountsForCurrent.useQuery()
 
-  //this call is CACHED
-  const {data: userAccounts} = trpc.user.accountsForCurrent.useQuery()
+  const isActiveAccountMember = userAccounts?.some(
+    (account: {members: {id: number}[]}) => {
+      return account.members?.find((member: {id: number}) => {
+        return member.id === viewer.id
+      })
+    },
+  )
 
-  // from here you can check if view is member, owner etc
-  console.log({userAccounts})
+  const isAccountOwner = userAccounts?.some(
+    (account: {owner: {id: number}}) => {
+      return account.owner?.id === viewer.id
+    },
+  )
 
-  const loadAccountForSlug = async (slug: string) => {
-    if (slug) {
-      const account: any = await loadAccount(slug, authToken)
-      setAccount(account)
-    }
-    setAccountIsLoading(false)
-  }
+  const account =
+    isAccountOwner &&
+    userAccounts?.find((account: {owner: {id: number}}) => {
+      return account.owner?.id === viewer.id
+    })
 
-  React.useEffect(() => {
-    loadAccountForSlug(slug)
-  }, [slug, authToken])
+  const isGiftMembership = account?.subscriptions?.[0]?.type === 'gift'
+  const giftExpiration = account?.subscriptions?.[0]?.current_period_end
 
   return (
     <div>
-      {accountIsLoading ? (
+      {userAccountsLoadingStatus === 'loading' ? (
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
         </div>
@@ -78,10 +79,21 @@ const Account = () => {
           <ItemWrapper title="Subscription">
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
-              slug={slug}
+              slug={account.slug}
             />
           </ItemWrapper>
           <Invoices headingAs="h3" />
+        </>
+      ) : isActiveAccountMember && !isAccountOwner ? (
+        <>
+          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+            You are a member of a team account.
+          </h2>
+          <p className="w-fit mx-auto mb-12">
+            If this is incorrect, please reach out to{' '}
+            <strong>support@egghead.io</strong> or your team owner{' '}
+            {userAccounts.find((account: any) => account.owner).owner.email}.
+          </p>
         </>
       ) : (
         <>

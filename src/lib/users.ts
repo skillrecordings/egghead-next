@@ -21,6 +21,9 @@ export async function loadUserAccounts({
           slug
           name
           stripe_customer_id
+          capacity
+          is_full
+          number_of_members
           members {
             id
             name
