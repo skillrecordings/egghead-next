@@ -58,13 +58,18 @@ const Account = () => {
   const isGiftMembership = account?.subscriptions?.[0]?.type === 'gift'
   const giftExpiration = account?.subscriptions?.[0]?.current_period_end
 
-  return (
-    <div>
-      {userAccountsLoadingStatus === 'loading' ? (
+  const isTeamMember = isActiveAccountMember && !isAccountOwner
+  const hasStripeAccount = Boolean(account?.stripe_customer_id)
+
+  switch (true) {
+    case userAccountsLoadingStatus === 'loading':
+      return (
         <div className="relative flex justify-center">
           <Spinner className="w-6 h-6 text-gray-600" />
         </div>
-      ) : isGiftMembership ? (
+      )
+    case isGiftMembership:
+      return (
         <div className="h-40 sm:h-60 flex flex-col justify-center">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
             You have an egghead membership.
@@ -74,8 +79,10 @@ const Account = () => {
             <strong>{format(new Date(giftExpiration), 'yyyy/MM/dd')}</strong>.
           </p>
         </div>
-      ) : account?.stripe_customer_id ? (
-        <>
+      )
+    case hasStripeAccount:
+      return (
+        <div>
           <ItemWrapper title="Subscription">
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
@@ -83,9 +90,11 @@ const Account = () => {
             />
           </ItemWrapper>
           <Invoices headingAs="h3" />
-        </>
-      ) : isActiveAccountMember && !isAccountOwner ? (
-        <>
+        </div>
+      )
+    case isTeamMember:
+      return (
+        <div>
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
             You are a member of a team account.
           </h2>
@@ -94,19 +103,20 @@ const Account = () => {
             <strong>support@egghead.io</strong> or your team owner{' '}
             {userAccounts.find((account: any) => account.owner).owner.email}.
           </p>
-        </>
-      ) : (
-        <>
-          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
-            No Subscription Found
-          </h2>
-          <p className="w-fit mx-auto mb-12">
-            If this is incorrect, please reach out to{' '}
-            <strong>support@egghead.io</strong>
-          </p>
-          <PricingWidget />
-        </>
-      )}
+        </div>
+      )
+  }
+
+  return (
+    <div>
+      <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        No Subscription Found
+      </h2>
+      <p className="w-fit mx-auto mb-12">
+        If this is incorrect, please reach out to{' '}
+        <strong>support@egghead.io</strong>
+      </p>
+      <PricingWidget />
     </div>
   )
 }
