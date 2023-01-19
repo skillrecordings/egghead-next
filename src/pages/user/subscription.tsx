@@ -11,6 +11,7 @@ import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
 import {format} from 'date-fns'
+import {trpc} from '../../trpc/trpc.client'
 
 type ViewerAccount = {
   stripe_customer_id: string
@@ -37,6 +38,12 @@ const Account = () => {
 
   const isGiftMembership = account?.subscriptions[0]?.type === 'gift'
   const giftExpiration = account?.subscriptions[0]?.current_period_end
+
+  //this call is CACHED
+  const {data: userAccounts} = trpc.user.accountsForCurrent.useQuery()
+
+  // from here you can check if view is member, owner etc
+  console.log({userAccounts})
 
   const loadAccountForSlug = async (slug: string) => {
     if (slug) {
