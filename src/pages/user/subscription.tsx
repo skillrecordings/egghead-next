@@ -62,14 +62,33 @@ const Account = () => {
       )
     case isTeamMember:
       return (
-        <div>
-          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        <div className="text-center">
+          <h2 className="mb-4 md:mb-5 text-lg font-medium md:font-normal md:text-xl leading-none">
             You are a member of a team account.
           </h2>
-          <p className="w-fit mx-auto mb-12">
+          <p className="mb-6">
+            You have an access to all of our <strong>PRO</strong> resources.
+          </p>
+          <p>
             If this is incorrect, please reach out to{' '}
-            <strong>support@egghead.io</strong> or your team owner{' '}
-            {accountOwner.email}.
+            <strong>
+              <a
+                href="mailto:support@egghead.io"
+                className="hover:underline duration-100"
+              >
+                support@egghead.io
+              </a>
+            </strong>{' '}
+            or your{' '}
+            <strong>
+              <a
+                href={`mailto:${accountOwner.email}`}
+                className="hover:underline duration-100"
+              >
+                team member
+              </a>
+            </strong>
+            .
           </p>
         </div>
       )
