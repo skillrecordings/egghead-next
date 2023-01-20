@@ -19,8 +19,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     const {subscriptionData, loading} = useSubscriptionDetails({
       stripeCustomerId,
     })
-    const {isAccountOwner, isActiveAccountMember, isTeamAccountOwner} =
-      useAccount()
+    const {isTeamAccountOwner} = useAccount()
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
@@ -41,13 +40,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         currency: currency,
         minimumFractionDigits: 0,
       }).format(subscriptionUnitAmount / 100)
-
-    const subscriptionEndDate = get(
-      subscriptionData,
-      'subscriptionData.subscription.current_period_end',
-    )
-
-    console.log(subscriptionData)
 
     return !loading && subscriptionData ? (
       <div className="w-full">
