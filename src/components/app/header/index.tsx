@@ -209,7 +209,6 @@ const Header: FunctionComponent = () => {
                 <>
                   {!isEmpty(viewer) && <Bookmarks />}
                   {!isEmpty(viewer) && <Feedback />}
-                  {/* {showTeamNavLink && <Team />} */}
                   <div className="flex items-center px-1">{activeCTA}</div>
                   {!isEmpty(viewer) && <User />}
                   {isEmpty(viewer) && <Login />}
