@@ -8,7 +8,7 @@ import {
   // RequestNameChangeForm,
 } from '../components'
 
-const AccountInfoTabContent: React.FC<any> = () => {
+const ProfileTabContent: React.FC<any> = () => {
   const {viewer, authToken} = useViewer()
   const {email: currentEmail, providers} = viewer || {}
   const isConnectedToGithub = providers?.includes('github')
@@ -46,7 +46,7 @@ const AccountInfoTabContent: React.FC<any> = () => {
   )
 }
 
-export default AccountInfoTabContent
+export default ProfileTabContent
 
 const GithubConnectButton: React.FunctionComponent<{
   authToken: string
