@@ -61,8 +61,18 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                   </strong>
                   ). You can renew at any time.
                 </p>
-                <p></p>
-                <p></p>
+                <p>
+                  You can also get help by emailing{' '}
+                  <strong>
+                    <a
+                      href="mailto:support@egghead.io"
+                      style={{textDecoration: 'underline'}}
+                    >
+                      support@egghead.io
+                    </a>
+                  </strong>
+                  . We'll get back to you as soon as we can.
+                </p>
               </div>
             )}
             {isTeamAccountOwner ? (
