@@ -7,6 +7,53 @@ const eggAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
 })
 
+export async function loadUserAccounts({
+  token,
+  user_id,
+}: {
+  token: string
+  user_id: number
+}) {
+  const query = gql`
+    query UserAccounts($user_id: Int!) {
+      user(id: $user_id) {
+        accounts {
+          slug
+          name
+          stripe_customer_id
+          capacity
+          is_full
+          number_of_members
+          members {
+            id
+            name
+            email
+          }
+          owner {
+            id
+            name
+            email
+          }
+          additional_billing_info
+          invite_token
+          subscriptions {
+            type
+            current_period_end
+            stripe_subscription_id
+          }
+        }
+      }
+    }
+  `
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+  const variables = {
+    user_id,
+  }
+  const {user} = await graphQLClient.request(query, variables)
+  return user?.accounts || null
+}
+
 export async function loadCurrentUser(
   token: string,
   loadMinimalUser: boolean = true,
@@ -31,7 +78,7 @@ export async function loadUserProgress(
   per_page = 5,
   token?: string,
 ): Promise<any> {
-  const query = gql`
+  const query = `
     query AllProgress($user_id: Int!, $page: Int!, $per_page: Int!) {
       user(id: $user_id) {
         lessons_completed

@@ -1,11 +1,11 @@
 import AppLayout from 'components/app/layout'
-import UserLayout from './components/user-layout'
-import {AccountInfoTabContent} from 'components/pages/user'
+import UserLayout from 'components/pages/user/components/user-layout'
+import {ProfileTabContent} from 'components/pages/user'
 
 const Profile = () => {
   return (
     <div>
-      <AccountInfoTabContent />
+      <ProfileTabContent />
     </div>
   )
 }

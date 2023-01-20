@@ -148,10 +148,12 @@ const Team = ({team: teamData}: TeamPageProps) => {
 
   return (
     <LoginRequired>
-      <div className="max-w-screen-xl mx-auto mb-24">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
-          Team Account
-        </h1>
+      <div className="max-w-screen-xl mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+        <div className="sm:px-6 md:px-0 pt-10 pb-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight">
+            Team Account
+          </h1>
+        </div>
         <p className="mt-6 leading-6">
           We are in the process of migrating team accounts to our new website.
           If you would like to manage your account please visit{' '}

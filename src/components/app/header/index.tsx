@@ -48,15 +48,6 @@ const Header: FunctionComponent = () => {
   const isSearch = router.pathname.includes('/q')
   const isTopics = router.pathname.includes('/topics')
 
-  const showTeamNavLink =
-    viewer?.accounts &&
-    !isEmpty(
-      viewer.accounts.filter(
-        (account: {account_capacity: string}) =>
-          account.account_capacity === 'team',
-      ),
-    )
-
   const isProOrInstructor = viewer?.is_pro || viewer?.is_instructor
 
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
@@ -157,23 +148,6 @@ const Header: FunctionComponent = () => {
     )
   }
 
-  const Team = () => {
-    return (
-      <Link href={`/team`}>
-        <a
-          onClick={() =>
-            track('clicked team', {
-              location: 'header',
-            })
-          }
-          className="flex items-center h-full px-2 dark:hover:bg-white hover:bg-gray-50 dark:hover:bg-opacity-5"
-        >
-          Team
-        </a>
-      </Link>
-    )
-  }
-
   const Login = () => {
     return (
       <div>
@@ -200,7 +174,6 @@ const Header: FunctionComponent = () => {
           SearchBar,
           !isEmpty(viewer) && Bookmarks,
           !isEmpty(viewer) && Feedback,
-          showTeamNavLink && Team,
           !isEmpty(viewer) && User,
           isEmpty(viewer) && Login,
         ].map((Item: any, i) => {
@@ -236,7 +209,6 @@ const Header: FunctionComponent = () => {
                 <>
                   {!isEmpty(viewer) && <Bookmarks />}
                   {!isEmpty(viewer) && <Feedback />}
-                  {showTeamNavLink && <Team />}
                   <div className="flex items-center px-1">{activeCTA}</div>
                   {!isEmpty(viewer) && <User />}
                   {isEmpty(viewer) && <Login />}
