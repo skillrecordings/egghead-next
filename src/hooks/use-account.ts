@@ -47,6 +47,6 @@ export const useAccount = () => {
     isTeamMember,
     hasStripeAccount,
     accountLoading: accountLoadingStatus === 'loading',
-    accountOwner: userAccounts?.find((account: any) => account.owner).owner,
+    accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
   }
 }
