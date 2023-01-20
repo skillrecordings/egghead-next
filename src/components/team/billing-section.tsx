@@ -135,7 +135,9 @@ const BillingSection = ({
   )
   return (
     <>
-      <h2 className="font-semibold text-xl mt-16">Team Billing</h2>
+      <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none">
+        Team Billing
+      </h2>
       <div className="flex flex-row justify-between mt-4">
         <h3 className="font-semibold text-lg">Your Team Membership</h3>
         <span>
@@ -149,7 +151,7 @@ const BillingSection = ({
         </span>
       </div>
       {!loading && (
-        <div className="flex flex-col space-y-2 border border-gray-300 mt-4 p-2">
+        <div className="flex flex-col space-y-2 border rounded-md border-gray-300 mt-4 p-3 md:p-4">
           <div className="flex flex-col space-y-3">
             <div className="flex flex-col space-y-4 justify-start md:space-y-0 md:flex-row md:justify-between mt-2">
               <div className="text-lg">{subscriptionName}</div>
