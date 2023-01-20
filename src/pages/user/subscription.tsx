@@ -1,22 +1,14 @@
 import React from 'react'
-import {find, first} from 'lodash'
+import {format} from 'date-fns'
 
-import {useViewer} from 'context/viewer-context'
 import SubscriptionDetails from 'components/pages/user/components/subscription-details'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import AppLayout from 'components/app/layout'
-import UserLayout from './components/user-layout'
+import UserLayout from 'components/pages/user/components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
-import {format} from 'date-fns'
-import {useAccount} from '../../hooks/use-account'
-
-type ViewerAccount = {
-  stripe_customer_id: string
-  slug: string
-  subscriptions: any[]
-}
+import {useAccount} from 'hooks/use-account'
 
 const Account = () => {
   const {
