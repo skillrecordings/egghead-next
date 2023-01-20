@@ -44,7 +44,7 @@ const BillingSection = ({
 
   switch (recurrence) {
     case 'year': {
-      subscriptionName = 'Annual egghead Team Subscription'
+      subscriptionName = 'Annual egghead Team Membership'
       subscriptionDescription = 'Yearly Pro Membership'
       break
     }
@@ -54,7 +54,7 @@ const BillingSection = ({
       break
     }
     case 'month': {
-      subscriptionName = 'Monthly egghead Team Subscription'
+      subscriptionName = 'Monthly egghead Team Membership'
       subscriptionDescription = 'Monthly Pro Membership'
       break
     }

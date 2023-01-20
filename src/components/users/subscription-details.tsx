@@ -91,7 +91,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                   ) : (
                     <div className="px-5 py-4">
                       <h3 className="mb-1 text-2xl font-medium">
-                        No paid subscription found.
+                        No membership found.
                       </h3>
                       {(viewer.is_pro || viewer.is_instructor) && (
                         <p>

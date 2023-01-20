@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import analytics, {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import {get} from 'lodash'
 import {format} from 'date-fns'
