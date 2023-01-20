@@ -62,7 +62,7 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
   const loading = current.matches({open: 'executingAction'})
 
   return (
-    <div>
+    <>
       <TransferOwnershipConfirmDialog
         current={current}
         inviteeEmail={current.context.doubleConfirmText || ''}
@@ -77,7 +77,7 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
           send({type: 'CHANGE', inputConfirmText: value})
         }}
       />
-      <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none">
+      <h2 className="font-semibold text-xl mt-16">
         Account Ownership Transfer
       </h2>
       <p>
@@ -133,7 +133,7 @@ const AccountOwnershipTransfer = ({accountId}: {accountId: number}) => {
           </button>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

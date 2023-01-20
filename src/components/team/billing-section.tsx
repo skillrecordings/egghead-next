@@ -135,9 +135,7 @@ const BillingSection = ({
   )
   return (
     <>
-      <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none">
-        Team Billing
-      </h2>
+      <h2 className="font-semibold text-xl mt-16">Team Billing</h2>
       <div className="flex flex-row justify-between mt-2">
         <h3 className="font-semibold text-lg">Your Team Membership</h3>
         <span>
