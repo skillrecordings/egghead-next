@@ -72,7 +72,7 @@ const TeamName = ({teamData}: TeamNameProps) => {
       <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none">
         Team Name
       </h2>
-      <div className="flex flex-col space-y-2 mt-6">
+      <div className="flex flex-col space-y-2">
         <input
           className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 block w-full sm:w-1/2 md:w-1/3 appearance-none leading-normal"
           type="text"

@@ -165,9 +165,7 @@ const Team = ({team: teamData}: TeamPageProps) => {
             <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none">
               Team Members
             </h2>
-            <p className="mt-6">
-              Your invite link to add new team members is:{' '}
-            </p>
+            <p>Your invite link to add new team members is: </p>
             <div className="flex flex-col md:flex-row items-start md:items-center mt-4 space-y-2 md:space-y-0 md:space-x-2">
               <code className="font-bold bg-gray-100 p-3 rounded-md dark:bg-gray-800">
                 {teamData.inviteUrl}
