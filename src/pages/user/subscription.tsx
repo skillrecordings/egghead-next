@@ -93,7 +93,14 @@ const Account = () => {
       </h2>
       <p className="w-fit mx-auto mb-12">
         If this is incorrect, please reach out to{' '}
-        <strong>support@egghead.io</strong>
+        <strong>
+          <a
+            href="mailto:support@egghead.io"
+            className="hover:underline duration-100"
+          >
+            support@egghead.io
+          </a>
+        </strong>
       </p>
       <PricingWidget />
     </div>

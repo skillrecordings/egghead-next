@@ -27,7 +27,7 @@ export default function UserLayout({children}: any) {
     ...(isTeamAccountOwner
       ? [
           {
-            path: '/user/team',
+            path: '/team',
             name: 'Team',
             icon: UsersIcon,
           },
@@ -51,54 +51,52 @@ export default function UserLayout({children}: any) {
   ]
 
   return (
-    <div className="">
-      <LoginRequired>
-        <main className="">
-          <div className="max-w-screen-xl mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
-            <div className="sm:px-6 md:px-0 pt-10 pb-4">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                Hello, {viewer?.full_name || viewer?.username}!
-              </h1>
-            </div>
-            <div className="overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800 shadow">
-              <div className="divide-y dark:divide-gray-700 divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
-                <aside className="py-6 lg:col-span-3">
-                  <nav className="space-y-1">
-                    {userPagesMap.map((page) => {
-                      return (
-                        <Link key={page.path} href={page.path}>
-                          <a
+    <LoginRequired>
+      <main>
+        <div className="max-w-screen-xl mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+          <div className="sm:px-6 md:px-0 pt-10 pb-4">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Hello, {viewer?.full_name || viewer?.username}!
+            </h1>
+          </div>
+          <div className="overflow-hidden rounded-lg bg-gray-50 dark:bg-gray-800 shadow">
+            <div className="divide-y dark:divide-gray-700 divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+              <aside className="py-6 lg:col-span-3">
+                <nav className="space-y-1">
+                  {userPagesMap.map((page) => {
+                    return (
+                      <Link key={page.path} href={page.path}>
+                        <a
+                          className={cx(
+                            page.path === currentPath
+                              ? 'bg-blue-50 dark:bg-gray-900 border-blue-500 text-blue-700 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-700'
+                              : 'border-transparent text-gray-900 dark:hover:bg-gray-900 hover:bg-gray-50 hover:text-gray-900',
+                            'group border-l-4 px-3 py-2 flex items-center text-sm font-medium dark:text-gray-50',
+                          )}
+                        >
+                          <page.icon
                             className={cx(
                               page.path === currentPath
-                                ? 'bg-blue-50 dark:bg-gray-900 border-blue-500 text-blue-700 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-700'
-                                : 'border-transparent text-gray-900 dark:hover:bg-gray-900 hover:bg-gray-50 hover:text-gray-900',
-                              'group border-l-4 px-3 py-2 flex items-center text-sm font-medium dark:text-gray-50',
+                                ? 'text-blue-500 group-hover:text-blue-500 '
+                                : 'text-gray-400 group-hover:text-gray-500',
+                              'flex-shrink-0 -ml-1 mr-3 h-6 w-6',
                             )}
-                          >
-                            <page.icon
-                              className={cx(
-                                page.path === currentPath
-                                  ? 'text-blue-500 group-hover:text-blue-500 '
-                                  : 'text-gray-400 group-hover:text-gray-500',
-                                'flex-shrink-0 -ml-1 mr-3 h-6 w-6',
-                              )}
-                              aria-hidden="true"
-                            />
-                            <span className="truncate">{page.name}</span>
-                          </a>
-                        </Link>
-                      )
-                    })}
-                  </nav>
-                </aside>
-                <section className="divide-y divide-gray-200 lg:col-span-9">
-                  <div className="py-6 px-4 sm:p-6 lg:pb-8">{children}</div>
-                </section>
-              </div>
+                            aria-hidden="true"
+                          />
+                          <span className="truncate">{page.name}</span>
+                        </a>
+                      </Link>
+                    )
+                  })}
+                </nav>
+              </aside>
+              <section className="divide-y divide-gray-200 lg:col-span-9">
+                <div className="py-6 px-4 sm:p-6 lg:pb-8">{children}</div>
+              </section>
             </div>
           </div>
-        </main>
-      </LoginRequired>
-    </div>
+        </div>
+      </main>
+    </LoginRequired>
   )
 }
