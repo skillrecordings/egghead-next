@@ -5,8 +5,8 @@ import {useViewer} from 'context/viewer-context'
 import {get} from 'lodash'
 import {format} from 'date-fns'
 import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
-import PricingWidget from '../../../pricing/pricing-widget'
-import {useAccount} from '../../../../hooks/use-account'
+import PricingWidget from 'components/pricing/pricing-widget'
+import {useAccount} from 'hooks/use-account'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string

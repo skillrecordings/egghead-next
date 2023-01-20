@@ -27,7 +27,7 @@ export default function UserLayout({children}: any) {
     ...(isTeamAccountOwner
       ? [
           {
-            path: '/user/team',
+            path: '/team',
             name: 'Team',
             icon: UsersIcon,
           },
