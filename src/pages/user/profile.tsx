@@ -1,5 +1,5 @@
 import AppLayout from 'components/app/layout'
-import UserLayout from './components/user-layout'
+import UserLayout from 'components/pages/user/components/user-layout'
 import {AccountInfoTabContent} from 'components/pages/user'
 
 const Profile = () => {
