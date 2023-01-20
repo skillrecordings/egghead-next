@@ -3,40 +3,52 @@ import {
   BookmarkIcon,
   UserCircleIcon,
   CreditCardIcon,
+  UsersIcon,
 } from '@heroicons/react/outline'
 import cx from 'classnames'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
 import LoginRequired from 'components/login-required'
-
-const userPagesMap = [
-  {
-    path: '/user/subscription',
-    name: 'Subscription',
-    icon: CreditCardIcon,
-  },
-  {
-    path: '/user/profile',
-    name: 'Profile',
-    icon: UserCircleIcon,
-  },
-  {
-    path: '/user/activity',
-    name: 'Activity',
-    icon: FireIcon,
-  },
-  {
-    path: '/user/bookmarks',
-    name: 'Bookmarks',
-    icon: BookmarkIcon,
-  },
-]
+import {useAccount} from 'hooks/use-account'
 
 export default function UserLayout({children}: any) {
+  const {isTeamAccountOwner} = useAccount()
   const {viewer} = useViewer()
   const router = useRouter()
   const currentPath = router.asPath
+
+  const userPagesMap = [
+    {
+      path: '/user/subscription',
+      name: 'Subscription',
+      icon: CreditCardIcon,
+    },
+    ...(isTeamAccountOwner
+      ? [
+          {
+            path: '/team',
+            name: 'Team',
+            icon: UsersIcon,
+          },
+        ]
+      : []),
+    {
+      path: '/user/profile',
+      name: 'Profile',
+      icon: UserCircleIcon,
+    },
+    {
+      path: '/user/activity',
+      name: 'Activity',
+      icon: FireIcon,
+    },
+    {
+      path: '/user/bookmarks',
+      name: 'Bookmarks',
+      icon: BookmarkIcon,
+    },
+  ]
 
   return (
     <div className="">
