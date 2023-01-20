@@ -37,6 +37,21 @@ export const useAccount = () => {
   const isTeamMember = isActiveAccountMember && !isAccountOwner
   const hasStripeAccount = Boolean(account?.stripe_customer_id)
 
+  console.debug()
+  console.debug('useAccount', {
+    account,
+    isActiveAccountMember,
+    isTeamAccountOwner,
+    isAccountOwner,
+    isGiftMembership,
+    giftExpiration,
+    isTeamMember,
+    hasStripeAccount,
+    accountLoading: accountLoadingStatus === 'loading',
+    accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
+  })
+  console.debug()
+
   return {
     account,
     isActiveAccountMember,
