@@ -97,10 +97,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                         <p>
                           You still have access to a Pro Membership. If you feel
                           this is in error please email{' '}
-                          <a
-                            className="text-blue-600 underline hover:text-blue-700"
-                            href="mailto:support@egghead.io"
-                          >
+                          <a href="mailto:support@egghead.io?subject=support%20needed%20for%20egghead%20membership">
                             support@egghead.io
                           </a>
                         </p>

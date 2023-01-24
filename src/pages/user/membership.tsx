@@ -68,8 +68,12 @@ const Account = () => {
           </h2>
           <p className="w-fit mx-auto mb-12">
             If this is incorrect, please reach out to{' '}
-            <strong>support@egghead.io</strong> or your team owner{' '}
-            {accountOwner.email}.
+            <strong>
+              <a href="mailto:support@egghead.io?subject=Support needed for egghead team membership">
+                support@egghead.io
+              </a>
+            </strong>{' '}
+            or your team owner {accountOwner.email}.
           </p>
         </div>
       )
