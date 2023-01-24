@@ -1,3 +1,4 @@
+import {isPast} from 'date-fns'
 import {useViewer} from '../context/viewer-context'
 import {trpc} from '../trpc/trpc.client'
 
@@ -31,10 +32,12 @@ export const useAccount = () => {
       return account.owner?.id === viewer.id
     })
 
+  const giftExpiration = account?.subscriptions?.[0]?.current_period_end
+  const isGiftExpired = isPast(new Date(giftExpiration))
   const isGiftMembership =
     account?.subscriptions?.[0]?.type === 'gift' &&
-    account?.subscriptions?.[0]?.status === 'active'
-  const giftExpiration = account?.subscriptions?.[0]?.current_period_end
+    account?.subscriptions?.[0]?.status === 'active' &&
+    !isGiftExpired
 
   const isTeamMember = isActiveAccountMember && !isAccountOwner
   const hasStripeAccount = Boolean(account?.stripe_customer_id)
