@@ -30,7 +30,7 @@ const Membership = () => {
       )
     case isGiftMembership:
       return (
-        <div className="h-40 sm:h-60 flex flex-col justify-center">
+        <div className="flex flex-col justify-center">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
             You have a pre-paid egghead membership.
           </h2>
@@ -87,7 +87,7 @@ const Membership = () => {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
         No Subscription Found
       </h2>
