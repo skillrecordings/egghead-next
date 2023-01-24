@@ -40,6 +40,7 @@ export async function loadUserAccounts({
             type
             current_period_end
             stripe_subscription_id
+            status
           }
         }
       }
