@@ -31,7 +31,9 @@ export const useAccount = () => {
       return account.owner?.id === viewer.id
     })
 
-  const isGiftMembership = account?.subscriptions?.[0]?.type === 'gift'
+  const isGiftMembership =
+    account?.subscriptions?.[0]?.type === 'gift' &&
+    account?.subscriptions?.[0]?.status === 'active'
   const giftExpiration = account?.subscriptions?.[0]?.current_period_end
 
   const isTeamMember = isActiveAccountMember && !isAccountOwner
