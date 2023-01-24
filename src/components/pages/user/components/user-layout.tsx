@@ -90,8 +90,10 @@ export default function UserLayout({children}: any) {
                   })}
                 </nav>
               </aside>
-              <section className="divide-y divide-gray-200 lg:col-span-9">
-                <div className="py-6 px-4 sm:p-6 lg:pb-8">{children}</div>
+              <section className="divide-y divide-gray-200 lg:col-span-9 flex">
+                <div className="py-6 px-4 sm:p-6 lg:pb-8 w-full flex justify-center items-center">
+                  {children}
+                </div>
               </section>
             </div>
           </div>

@@ -4,7 +4,7 @@ import {ActivityTabContent} from 'components/pages/user'
 
 const Activity = () => {
   return (
-    <div>
+    <div className="w-full">
       <ActivityTabContent />
     </div>
   )
