@@ -4,7 +4,7 @@ import {BookmarksTabContent} from 'components/pages/user'
 
 const Bookmarks = () => {
   return (
-    <div className="min-h-[20rem]">
+    <div className="min-h-[20rem] w-full">
       <BookmarksTabContent />
     </div>
   )

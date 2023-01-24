@@ -1,24 +1,16 @@
 import React from 'react'
-import {find, first} from 'lodash'
+import {format} from 'date-fns'
 
-import {useViewer} from 'context/viewer-context'
 import SubscriptionDetails from 'components/pages/user/components/subscription-details'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import AppLayout from 'components/app/layout'
-import UserLayout from './components/user-layout'
+import UserLayout from 'components/pages/user/components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
-import {format} from 'date-fns'
-import {useAccount} from '../../hooks/use-account'
+import {useAccount} from 'hooks/use-account'
 
-type ViewerAccount = {
-  stripe_customer_id: string
-  slug: string
-  subscriptions: any[]
-}
-
-const Account = () => {
+const Membership = () => {
   const {
     account,
     accountLoading,
@@ -38,7 +30,7 @@ const Account = () => {
       )
     case isGiftMembership:
       return (
-        <div className="h-40 sm:h-60 flex flex-col justify-center">
+        <div className="flex flex-col justify-center">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
             You have a pre-paid egghead membership.
           </h2>
@@ -62,45 +54,64 @@ const Account = () => {
       )
     case isTeamMember:
       return (
-        <div>
-          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        <div className="text-center">
+          <h2 className="mb-4 md:mb-5 text-lg font-medium md:font-normal md:text-xl leading-none">
             You are a member of a team account.
           </h2>
-          <p className="w-fit mx-auto mb-12">
+          <p className="mb-6">
+            You have an access to all of our <strong>PRO</strong> resources.
+          </p>
+          <p>
             If this is incorrect, please reach out to{' '}
             <strong>
               <a
-                className="underline"
                 href={`mailto:support@egghead.io?subject=${encodeURIComponent(
                   `Support needed for egghead team membership`,
                 )}`}
+                className="hover:underline duration-100"
               >
                 support@egghead.io
               </a>
             </strong>{' '}
-            or your team owner {accountOwner.email}.
+            or your{' '}
+            <strong>
+              <a
+                href={`mailto:${accountOwner.email}`}
+                className="hover:underline duration-100"
+              >
+                team member
+              </a>
+            </strong>
+            .
           </p>
         </div>
       )
   }
 
   return (
-    <div>
+    <div className="w-full">
       <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
         No Subscription Found
       </h2>
       <p className="w-fit mx-auto mb-12">
         If this is incorrect, please reach out to{' '}
-        <strong>support@egghead.io</strong>
+        <strong>
+          <a
+            href="mailto:support@egghead.io"
+            className="hover:underline duration-100"
+          >
+            support@egghead.io
+          </a>
+        </strong>
       </p>
       <PricingWidget />
     </div>
   )
 }
 
-export default Account
+export default Membership
 
-Account.getLayout = function getLayout(Page: any, pageProps: any) {
+Membership.getLayout = function getLayout(Page: any, pageProps: any) {
   return (
     <AppLayout>
       <UserLayout>
