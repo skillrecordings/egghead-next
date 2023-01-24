@@ -36,7 +36,9 @@ export const useAccount = () => {
   const isGiftExpired = isPast(new Date(giftExpiration))
   const isGiftMembership =
     account?.subscriptions?.[0]?.type === 'gift' &&
-    account?.subscriptions?.[0]?.status === 'active' &&
+    (account?.subscriptions?.[0]?.status === 'active' ||
+      account?.subscriptions?.[0]?.status === 'past_due' ||
+      account?.subscriptions?.[0]?.status === 'trialing') &&
     !isGiftExpired
 
   const isTeamMember = isActiveAccountMember && !isAccountOwner
