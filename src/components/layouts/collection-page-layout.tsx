@@ -12,6 +12,7 @@ import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
 import RSSIcon from '../icons/rss'
 import {convertTimeWithTitles} from 'utils/time-utils'
@@ -435,7 +436,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
         {state === 'retired' && (
-          <div className="w-full p-3 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
+          <div className="w-full p-3 mt-4 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
             ⚠️ This course has been retired and might contain outdated
             information.
           </div>
@@ -452,7 +453,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 </div>
               )}
-              <div className="flex justify-center md:justify-start space-x-3 my-2 md:m-0 md:mb-2">
+              <div className="flex justify-center my-2 space-x-3 md:justify-start md:m-0 md:mb-2">
                 {access_state && (
                   <div
                     className={`${
@@ -464,7 +465,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 )}
                 {isCourseCompleted && (
                   <div
-                    className="text-white items-center text-center py-1 px-2 rounded-full uppercase font-bold text-xs bg-green-500 cursor-default"
+                    className="items-center px-2 py-1 text-xs font-bold text-center text-white uppercase bg-green-500 rounded-full cursor-default"
                     title="Course completed"
                   >
                     Completed
@@ -489,7 +490,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               </h1>
 
               {/* Start of metadata block */}
-              <div className="flex flex-col items-center my-6 space-y-2 md:items-start">
+              <div className="flex flex-col items-center my-6 space-y-3 md:space-y-4 md:items-start">
                 {instructor && (
                   <InstructorProfile
                     name={name}
@@ -500,30 +501,34 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   />
                 )}
 
-                <div className="flex flex-col flex-wrap items-center pt-2 md:flex-row">
+                <div className="flex flex-col flex-wrap items-center md:flex-row space-y-3 md:space-y-0">
                   <TagList
                     tags={sanityTagsPresent() ? sanityTags : railsTags}
                     courseSlug={course.slug}
                   />
-                  <div className="flex items-center justify-center md:justify-start md:mr-4">
+                  <div className="flex items-center justify-center md:justify-start space-x-2">
                     {duration && (
-                      <div className="mt-2 mr-4 md:mt-0">
-                        <Duration duration={convertTimeWithTitles(duration)} />
-                      </div>
+                      <Duration duration={convertTimeWithTitles(duration)} />
                     )}
+                    <span>&middot;</span>
+                    <div>
+                      {lessons.length + playlistLessons.length} lessons{' '}
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center justify-center w-full space-y-4 md:flex-row md:justify-start md:space-y-0 md:space-x-6">
-                  <div className="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
-                    {average_rating_out_of_5 > 0 && (
-                      <StarsRating rating={average_rating_out_of_5} />
-                    )}
-                    {watched_count > 0 && (
-                      <PeopleCompleted count={watched_count} />
-                    )}
+                {(average_rating_out_of_5 > 0 || watched_count > 0) && (
+                  <div className="flex flex-col items-center justify-center w-full space-y-4 md:flex-row md:justify-start md:space-y-0 md:space-x-6">
+                    <div className="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
+                      {average_rating_out_of_5 > 0 && (
+                        <StarsRating rating={average_rating_out_of_5} />
+                      )}
+                      {watched_count > 0 && (
+                        <PeopleCompleted count={watched_count} />
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="flex flex-row space-x-3 text-sm opacity-80 md:items-start">
                   {created_at && (
@@ -609,9 +614,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <Link href={download_url}>
                     <a
                       onClick={() => {
-                        track(`clicked download course`, {
-                          course: course.slug,
-                        })
+                        analytics.events.activityCtaClick(
+                          'course download',
+                          slug,
+                          name,
+                        )
                       }}
                     >
                       <div className="flex flex-row items-center px-4 py-2 text-sm text-gray-600 transition-colors ease-in-out bg-white border border-gray-300 rounded shadow-sm dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-600 xs:text-base">
@@ -619,7 +626,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       </div>
                     </a>
                   </Link>
-                ) : (
+                ) : state === 'retired' ? null : (
                   <MembershipDialogButton
                     buttonText="Download"
                     title="Become a member to download this course"
@@ -760,7 +767,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <EpicReactBanner />
                   {relatedResources.map((resource: any) => {
                     return (
-                      <div key={resource.slug}>
+                      <div key={resource.title}>
                         <HorizontalResourceCard
                           className="my-4 border border-gray-400 border-opacity-10 dark:border-gray-700"
                           resource={resource}

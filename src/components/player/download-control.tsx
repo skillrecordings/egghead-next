@@ -1,13 +1,14 @@
 import * as React from 'react'
 import {FunctionComponent} from 'react'
 import axios from 'utils/configured-axios'
-import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 import Tippy from '@tippyjs/react'
 import Link from 'next/link'
 
 type DownloadButtonProps = {
   slug: string
   download_url?: string
+  state?: string
 }
 
 type DownloadControlProps = {
@@ -15,11 +16,13 @@ type DownloadControlProps = {
   download_url?: string
   key?: string
   order?: number
+  state?: string
 }
 
 const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
   slug,
   download_url,
+  state,
 }) => {
   return download_url ? (
     <button
@@ -30,21 +33,19 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
             window.location.href = data
           })
         }
-        track(`clicked download lesson`, {
-          lesson: slug,
-        })
+        analytics.events.activityCtaClick('lesson download', slug)
       }}
       aria-label="download video"
-      className="w-10 h-10 flex items-center justify-center border-none text-white"
+      className="flex items-center justify-center w-10 h-10 text-white border-none"
       type="button"
     >
       <IconDownload className="w-6" />
     </button>
-  ) : (
+  ) : state === 'RETIRED' ? null : (
     <Link href="/pricing" passHref>
       <a
         aria-label="become a member to download this lesson"
-        className="w-10 h-10 flex items-center justify-center opacity-50"
+        className="flex items-center justify-center w-10 h-10 opacity-50"
       >
         <IconDownload className="w-6" />
       </a>
@@ -55,12 +56,13 @@ const DownloadButton: FunctionComponent<DownloadButtonProps> = ({
 const DownloadControl: FunctionComponent<DownloadControlProps> = ({
   slug,
   download_url,
+  state,
 }) => {
   return (
     <Tippy
       offset={[0, -2]}
       content={
-        <div className="text-sm bg-gray-900 px-2 py-1 rounded-sm">
+        <div className="px-2 py-1 text-sm bg-gray-900 rounded-sm">
           {download_url
             ? 'Download video'
             : 'Become a member to download this lesson'}
@@ -68,7 +70,7 @@ const DownloadControl: FunctionComponent<DownloadControlProps> = ({
       }
     >
       <div>
-        <DownloadButton slug={slug} download_url={download_url} />
+        <DownloadButton slug={slug} download_url={download_url} state={state} />
       </div>
     </Tippy>
   )

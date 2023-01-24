@@ -79,7 +79,7 @@ const PricingWidget: FunctionComponent<{}> = () => {
         .then(({data}) => data)
 
       if (hasProAccess) {
-        const message = `You already have pro access with this account (${viewer?.email}). Please contact support@egghead.io if you need help with your subscription.`
+        const message = `You already have pro access with this account (${viewer?.email}). Please contact support@egghead.io if you need help with your membership.`
 
         toast.error(message, {
           duration: 6000,

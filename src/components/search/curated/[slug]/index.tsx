@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useQuery} from '@tanstack/react-query'
 import Grid from 'components/grid'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
@@ -9,6 +10,17 @@ import cx from 'classnames'
 import {NextSeo} from 'next-seo'
 import {CARD_TYPES} from 'components/search/curated/curated-essential'
 import {useRouter} from 'next/router'
+import {useViewer} from 'context/viewer-context'
+import {loadUserCompletedCourses} from 'lib/users'
+
+const useUserCompletedCourses = (viewerId: number) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      return completeCourses
+    }
+  })
+}
 
 type CuratedTopicProps = {
   topicData: any
@@ -24,6 +36,12 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
     topic.label
   } Tutorials for ${new Date().getFullYear()}`
   const router = useRouter()
+  const {viewer} = useViewer()
+  const viewerId = viewer?.id
+  const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+  const completedCoursesIds =
+    !isEmpty(completeCourseData) &&
+    completeCourseData.map((course: any) => course.collection.id)
 
   return (
     <>
@@ -105,7 +123,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                       'sm:pt-24': i === 1,
                       'sm:pt-48': i === 0,
                     })}
-                    key={section.id}
+                    key={section.title}
                   >
                     <div className="flex flex-col w-full pb-6">
                       <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
@@ -120,6 +138,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                             key={resource.id}
                             resource={resource}
                             location={location}
+                            completedCoursesIds={completedCoursesIds}
                           />
                         )
                       })}
@@ -134,7 +153,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
           {!isEmpty(sections) &&
             sections.map((section: any) => {
               return (
-                <section className="pb-16" key={section.id}>
+                <section className="pb-16" key={section.title}>
                   {!section.image && !section.description ? (
                     // simple section
                     <div className="flex w-full pb-6 items-center justify-between">
@@ -176,62 +195,70 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           return (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           )
                         case 3:
                           return i === 0 ? (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           ) : (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           )
                         case 6:
                           return i === 0 || i === 1 ? (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           ) : (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           )
                         case 7:
                           return i === 0 ? (
                             <HorizontalResourceCard
                               className="col-span-2"
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           ) : (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           )
                         default:
                           return (
                             <VerticalResourceCard
-                              key={resource.id}
+                              key={resource.title}
                               resource={resource}
                               location={location}
+                              completedCoursesIds={completedCoursesIds}
                             />
                           )
                       }

@@ -5,7 +5,10 @@ const AvatarForm: React.FC<{avatarUrl: string}> = ({avatarUrl}) => {
   return (
     <div className="flex">
       <div className="flex flex-col items-center">
-        <div className="w-32 h-32 rounded-full flex overflow-hidden shrink-0 border border-gray-200">
+        <div
+          className="w-32 h-32 rounded-full flex overflow-hidden shrink-0 border border-gray-200"
+          style={{transform: 'translateZ(0)'}}
+        >
           <ImageWithPlaceholder
             src={`https:${avatarUrl}`}
             width={256}

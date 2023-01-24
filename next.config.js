@@ -160,6 +160,16 @@ const searchRoutes = [
 
 const legacyRoutes = [
   {
+    source: `/user/subscription`,
+    destination: `/user/membership`,
+    permanent: true,
+  },
+  {
+    source: `/user`,
+    destination: `/user/membership`,
+    permanent: true,
+  },
+  {
     source: `/membership`,
     destination: `/user`,
     permanent: true,

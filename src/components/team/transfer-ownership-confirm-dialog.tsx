@@ -28,7 +28,7 @@ const TransferOwnershipConfirmDialog: React.FunctionComponent<DialogProps> = ({
       <DialogOverlay isOpen={isOpen} onDismiss={onClose}>
         <DialogContent
           aria-label="Confirm removing team member"
-          className="bg-white rounded-md border-gray-400 p-8"
+          className="dark:bg-gray-900 bg-white rounded-md border-gray-400 p-8 w-96 lg:w-1/3 "
         >
           <div className="flex justify-center relative mb-6">
             <h3 className="text-xl font-medium">Are you sure?</h3>
@@ -40,7 +40,7 @@ const TransferOwnershipConfirmDialog: React.FunctionComponent<DialogProps> = ({
             <p>
               Confirm that you would like to transfer your ownership of this
               team account to{' '}
-              <strong className="font-semibold text-gray-800">
+              <strong className="font-semibold text-gray-800 dark:text-white">
                 {inviteeEmail}
               </strong>{' '}
               by re-typing their email. Then click 'Confirm'.
@@ -60,7 +60,7 @@ const TransferOwnershipConfirmDialog: React.FunctionComponent<DialogProps> = ({
               disabled={loading}
               className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal"
             />
-            <div className="flex flex-row justify-end space-x-2">
+            <div className="flex flex-row justify-center space-x-2">
               <button
                 disabled={loading || !current.matches({open: 'confirmable'})}
                 onClick={onConfirm}

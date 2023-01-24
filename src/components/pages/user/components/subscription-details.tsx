@@ -1,10 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import analytics, {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
 import {get} from 'lodash'
+import {format} from 'date-fns'
 import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
-import PricingWidget from '../../../pricing/pricing-widget'
+import PricingWidget from 'components/pricing/pricing-widget'
+import {useAccount} from 'hooks/use-account'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -17,6 +19,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     const {subscriptionData, loading} = useSubscriptionDetails({
       stripeCustomerId,
     })
+    const {isTeamAccountOwner} = useAccount()
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
@@ -41,44 +44,56 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     return !loading && subscriptionData ? (
       <div className="w-full">
         {subscriptionName ? (
-          <>
-            <h3 className="mb-2 text-lg font-medium">
-              ⭐️ You're an <strong>egghead Member!</strong>
-            </h3>
-            <p className="text-accents-5">
+          <div className="md:w-[75ch] mx-auto">
+            {subscriptionData?.subscription?.cancel_at_period_end && (
+              <div className="my-8 p-4 bg-red-100 rounded text-gray-900 space-y-2">
+                <p>
+                  Your membership is currently cancelled and it will not
+                  auto-renew. You'll have access until the end of your current
+                  billing period (
+                  <strong>
+                    {format(
+                      new Date(
+                        subscriptionData?.subscription?.current_period_end,
+                      ),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  ). You can renew at any time.
+                </p>
+                <p></p>
+                <p></p>
+              </div>
+            )}
+            {isTeamAccountOwner ? (
+              <h3 className="mb-2 text-lg font-medium text-center">
+                ⭐️ You've got a team membership! ⭐️
+              </h3>
+            ) : (
+              <h3 className="mb-2 text-lg font-medium text-center">
+                ⭐️ You're an <strong>egghead Member!</strong>
+              </h3>
+            )}
+            <p className="text-accents-5 text-center">
               You can update your plan and payment information below via Stripe.
             </p>
             <div className="mt-8 mb-4 font-semibold">
               {!subscriptionData?.portalUrl ? (
                 <div className="h-12 mb-6">loading</div>
-              ) : subscriptionPrice ? (
-                <div className="flex space-x-2">
-                  <div>
-                    You are currently paying{' '}
-                    {`${subscriptionPrice}/${recur(subscriptionData.price)}`}{' '}
-                    for your membership
-                  </div>
-                  {subscriptionData?.subscription?.cancel_at_period_end && (
-                    <div className="flex items-center justify-center px-2 py-1 text-xs bg-gray-100 rounded text-gray-1000 mt-2">
-                      cancelled
-                    </div>
-                  )}
-                </div>
               ) : (
-                <Link href="/pricing">
-                  <a
-                    onClick={() => {
-                      track(`clicked pricing`, {
-                        location: 'accounts',
-                      })
-                    }}
-                  >
-                    Join today!
-                  </a>
-                </Link>
+                subscriptionPrice &&
+                !subscriptionData?.subscription?.cancel_at_period_end && (
+                  <div className="flex space-x-2 justify-center">
+                    <div>
+                      You are currently paying{' '}
+                      {`${subscriptionPrice}/${recur(subscriptionData.price)}`}{' '}
+                      for your membership
+                    </div>
+                  </div>
+                )
               )}
             </div>
-          </>
+          </div>
         ) : (
           <>
             {(viewer.is_pro || viewer.is_instructor) && (
@@ -97,29 +112,18 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         )}
         {(subscriptionData?.subscription?.cancel_at_period_end ||
           subscriptionData?.portalUrl) && (
-          <div className="p-4 bg-primary-2 text-accents-3 rounded-b-md">
-            <div className="flex flex-col items-start justify-between sm:items-center">
-              {subscriptionData?.subscription?.cancel_at_period_end && (
-                <p className="pb-4 sm:pb-0">
-                  Your account is currently cancelled. You'll have access until
-                  the end of your current billing period. You can also renew at
-                  any time.
-                </p>
-              )}
+          <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
+            <div className="flex flex-col justify-between items-center">
               {subscriptionData.subscription && subscriptionData?.portalUrl ? (
                 <>
-                  <p className="mt-1">
-                    You can still update your payment information below via
-                    Stripe.
-                  </p>
                   <Link href={subscriptionData.portalUrl}>
                     <a
                       onClick={() => {
                         track(`clicked manage membership`)
                       }}
-                      className="w-full px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                      className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
                     >
-                      Manage Your Membership
+                      Manage Your Membership Billing
                     </a>
                   </Link>
                 </>

@@ -166,9 +166,12 @@ export const commerceMachine = createMachine<
   {
     services: {
       fetchPricingData: async (context): Promise<PricingData | undefined> => {
+        let params = new URLSearchParams(window.location.search)
         return await loadPricingData({
           quantity: context.quantity,
-          coupon: context.couponToApply?.couponCode,
+          coupon:
+            context.couponToApply?.couponCode ||
+            (params.get('coupon') as string),
         })
       },
     },

@@ -31,8 +31,6 @@ const SearchInstructorEssential: FunctionComponent<InstructorProps> = ({
     bio,
   } = instructor
 
-  console.log({socials, slug})
-
   const location = `${name} landing`
   const router = useRouter()
 

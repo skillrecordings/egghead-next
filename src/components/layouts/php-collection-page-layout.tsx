@@ -479,7 +479,7 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                   </h1>
 
                   {/* Start of metadata block */}
-                  <div className="flex flex-col items-center my-6 space-y-2 md:items-start">
+                  <div className="flex flex-col items-center my-6 space-y-3 md:space-y-4 md:items-start">
                     {instructor && (
                       <InstructorProfile
                         name={name}
@@ -489,33 +489,36 @@ const PhpCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
                         twitter={twitter}
                       />
                     )}
-                    <div className="flex flex-col flex-wrap items-center pt-2 md:flex-row">
+                    <div className="flex flex-col flex-wrap items-center md:flex-row space-y-3 md:space-y-0">
                       <TagList
                         tags={sanityTagsPresent() ? sanityTags : railsTags}
                         courseSlug={course.slug}
                       />
-                      <div className="flex items-center justify-center md:justify-start md:mr-4">
+                      <div className="flex items-center justify-center md:justify-start space-x-2">
                         {duration && (
-                          <div className="mt-2 mr-4 md:mt-0">
-                            <Duration
-                              duration={convertTimeWithTitles(duration)}
-                            />
-                          </div>
+                          <Duration
+                            duration={convertTimeWithTitles(duration)}
+                          />
                         )}
-                        {lessons.length + playlistLessons.length} lessons{' '}
+                        <span>&middot;</span>
+                        <div>
+                          {lessons.length + playlistLessons.length} lessons{' '}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center w-full space-y-4 md:flex-row md:justify-start md:space-y-0 md:space-x-6">
-                      <div className="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
-                        {average_rating_out_of_5 > 0 && (
-                          <StarsRating rating={average_rating_out_of_5} />
-                        )}
-                        {watched_count > 0 && (
-                          <PeopleCompleted count={watched_count} />
-                        )}
+                    {(average_rating_out_of_5 > 0 || watched_count > 0) && (
+                      <div className="flex flex-col items-center justify-center w-full space-y-4 md:flex-row md:justify-start md:space-y-0 md:space-x-6">
+                        <div className="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 sm:flex-nowrap">
+                          {average_rating_out_of_5 > 0 && (
+                            <StarsRating rating={average_rating_out_of_5} />
+                          )}
+                          {watched_count > 0 && (
+                            <PeopleCompleted count={watched_count} />
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="flex flex-row space-x-3 text-sm opacity-80 md:items-start">
                       {created_at && (
