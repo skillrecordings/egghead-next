@@ -65,8 +65,10 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                   You can also get help by emailing{' '}
                   <strong>
                     <a
-                      href="mailto:support@egghead.io"
-                      style={{textDecoration: 'underline'}}
+                      href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                        `Support needed for egghead membership`,
+                      )}`}
+                      className="underline"
                     >
                       support@egghead.io
                     </a>

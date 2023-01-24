@@ -97,7 +97,12 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                         <p>
                           You still have access to a Pro Membership. If you feel
                           this is in error please email{' '}
-                          <a href="mailto:support@egghead.io?subject=support%20needed%20for%20egghead%20membership">
+                          <a
+                            href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                              `Support needed for egghead membership`,
+                            )}`}
+                            className="underline"
+                          >
                             support@egghead.io
                           </a>
                         </p>
