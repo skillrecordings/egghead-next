@@ -41,23 +41,22 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         minimumFractionDigits: 0,
       }).format(subscriptionUnitAmount / 100)
 
+    const currentPeriodEnd =
+      subscriptionData?.subscription?.cancel_at_period_end &&
+      subscriptionData?.subscription?.current_period_end * 1000
+
     return !loading && subscriptionData ? (
       <div className="w-full">
         {subscriptionName ? (
           <div className="md:w-[75ch] mx-auto">
-            {subscriptionData?.subscription?.cancel_at_period_end && (
+            {currentPeriodEnd && (
               <div className="my-8 p-4 bg-red-100 rounded text-gray-900 space-y-2">
                 <p>
                   Your membership is currently cancelled and it will not
                   auto-renew. You'll have access until the end of your current
                   billing period (
                   <strong>
-                    {format(
-                      new Date(
-                        subscriptionData?.subscription?.current_period_end,
-                      ),
-                      'yyyy/MM/dd',
-                    )}
+                    {format(new Date(currentPeriodEnd), 'yyyy/MM/dd')}
                   </strong>
                   ). You can renew at any time.
                 </p>
