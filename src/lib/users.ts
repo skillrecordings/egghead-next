@@ -196,6 +196,32 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
             path
             id
           }
+          ... on Course {
+            title
+            lessons {
+              title
+              slug
+              path
+            }
+            image: image_thumb_url
+            type
+            path
+            progress {
+              lesson_count
+              completed_lesson_count
+              is_completed
+              completed_at
+              completed_lessons {
+                title
+                slug
+                path
+              }
+            }
+            instructor {
+              full_name
+              avatar_64_url
+            }
+          }
         }
       }
     }
