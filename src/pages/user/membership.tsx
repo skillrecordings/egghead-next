@@ -2,7 +2,6 @@ import React from 'react'
 import {format} from 'date-fns'
 
 import {useAccount} from 'hooks/use-account'
-import {useViewer} from 'context/viewer-context'
 import SubscriptionDetails from 'components/pages/user/components/subscription-details'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import AppLayout from 'components/app/layout'
@@ -12,7 +11,6 @@ import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
 
 const Membership = () => {
-  const {viewer} = useViewer()
   const {
     account,
     accountLoading,
@@ -22,9 +20,6 @@ const Membership = () => {
     hasStripeAccount,
     accountOwner,
   } = useAccount()
-
-  console.log({account})
-  console.log({viewer})
 
   switch (true) {
     case accountLoading:
@@ -64,7 +59,8 @@ const Membership = () => {
             You are a member of a team account.
           </h2>
           <p className="mb-6">
-            You have an access to all of our <strong>PRO</strong> resources.
+            You have an access to all of our <strong>PRO</strong>
+            <sup>⭐️</sup> resources.
           </p>
           <p>
             If this is incorrect, please reach out to{' '}
@@ -97,8 +93,9 @@ const Membership = () => {
         No Membership Found
       </h2>
       <p className="mb-3 md:mb-4">
-        You have access to all of our Free videos. You can subscribe for full
-        access to all of our Pro<sup>⭐️</sup> lessons any time.
+        You have access to all of our <strong>Free</strong> videos. You can
+        subscribe for full access to all of our Pro<sup>⭐️</sup> lessons any
+        time.
       </p>
       <p className="mb-12">
         If this is incorrect, please reach out to{' '}
