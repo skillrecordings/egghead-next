@@ -57,103 +57,106 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                 ⭐️ You're an <strong>egghead Member!</strong>
               </h3>
             )}
-            {isTeamAccountOwner && wasCanceled && (
-              <div className="w-full leading-relaxed mt-4 text-center">
-                <p>
-                  Your <strong>{recur(subscriptionData.price)}ly</strong> team
-                  membership for <strong>{number_of_members} seats</strong>{' '}
-                  (from <strong>{account?.capacity}</strong> available) is
-                  currently cancelled and it will not auto-renew.
-                </p>
-                <p>
-                  Your team will still have access until the end of your current
-                  billing period -{' '}
-                  <strong>
-                    {format(
-                      new Date(
-                        subscriptionData?.subscription?.current_period_end *
-                          1000,
-                      ),
-                      'yyyy/MM/dd',
-                    )}
-                  </strong>
-                  .
-                </p>
-                <p>
-                  You can renew at any time using the Manage Your Membership
-                  Billing button below.
-                </p>
-              </div>
-            )}
-            {isTeamAccountOwner && !wasCanceled && (
-              <div className="w-full leading-relaxed mt-4 text-center">
-                <p>
-                  Your <strong>{recur(subscriptionData.price)}ly</strong> team
-                  membership for <strong>{number_of_members} seats</strong>{' '}
-                  (from <strong>{account?.capacity}</strong> available) will
-                  automatically renew for <strong>{subscriptionPrice}</strong>{' '}
-                  on{' '}
-                  <strong>
-                    {format(
-                      new Date(account.subscriptions[0].current_period_end),
-                      'yyyy/MM/dd',
-                    )}
-                  </strong>
-                  .
-                </p>
-                <p>
-                  If you would like to cancel auto-renewal or change the number
-                  of seats for your team, you can use the Manage Your Membership
-                  Billing button below.
-                </p>
-              </div>
-            )}
-            {!isTeamAccountOwner && wasCanceled && (
-              <div className="w-full leading-relaxed mt-4 text-center">
-                <p>
-                  Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
-                  membership is currently cancelled and it will not auto-renew.
-                </p>
-                <p>
-                  You will still have access until the end of your current
-                  billing period -{' '}
-                  <strong>
-                    {format(
-                      new Date(
-                        subscriptionData?.subscription?.current_period_end *
-                          1000,
-                      ),
-                      'yyyy/MM/dd',
-                    )}
-                  </strong>
-                  .
-                </p>
-                <p>
-                  You can renew at any time using the Manage Your Membership
-                  Billing button below.
-                </p>
-              </div>
-            )}
-            {!isTeamAccountOwner && !wasCanceled && (
-              <div className="w-full leading-relaxed mt-4 text-center">
-                <p>
-                  Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
-                  membership will automatically renew for{' '}
-                  <strong>{subscriptionPrice}</strong> on{' '}
-                  <strong>
-                    {format(
-                      new Date(account.subscriptions[0].current_period_end),
-                      'yyyy/MM/dd',
-                    )}
-                  </strong>
-                  .
-                </p>
-                <p>
-                  If you would like to cancel auto-renewal you can use the
-                  Manage Your Membership Billing button below.
-                </p>
-              </div>
-            )}
+            <div className="w-full leading-relaxed mt-4 text-center">
+              {isTeamAccountOwner && wasCanceled && (
+                <>
+                  <p>
+                    Your <strong>{recur(subscriptionData.price)}ly</strong> team
+                    membership for <strong>{number_of_members} seats</strong>{' '}
+                    (from <strong>{account?.capacity}</strong> available) is
+                    currently cancelled and it will not auto-renew.
+                  </p>
+                  <p>
+                    Your team will still have access until the end of your
+                    current billing period -{' '}
+                    <strong>
+                      {format(
+                        new Date(
+                          subscriptionData?.subscription?.current_period_end *
+                            1000,
+                        ),
+                        'yyyy/MM/dd',
+                      )}
+                    </strong>
+                    .
+                  </p>
+                  <p>
+                    You can renew at any time using the Manage Your Membership
+                    Billing button below.
+                  </p>
+                </>
+              )}
+              {isTeamAccountOwner && !wasCanceled && (
+                <>
+                  <p>
+                    Your <strong>{recur(subscriptionData.price)}ly</strong> team
+                    membership for <strong>{number_of_members} seats</strong>{' '}
+                    (from <strong>{account?.capacity}</strong> available) will
+                    automatically renew for <strong>{subscriptionPrice}</strong>{' '}
+                    on{' '}
+                    <strong>
+                      {format(
+                        new Date(account.subscriptions[0].current_period_end),
+                        'yyyy/MM/dd',
+                      )}
+                    </strong>
+                    .
+                  </p>
+                  <p>
+                    If you would like to cancel auto-renewal or change the
+                    number of seats for your team, you can use the Manage Your
+                    Membership Billing button below.
+                  </p>
+                </>
+              )}
+              {!isTeamAccountOwner && wasCanceled && (
+                <>
+                  <p>
+                    Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                    membership is currently cancelled and it will not
+                    auto-renew.
+                  </p>
+                  <p>
+                    You will still have access until the end of your current
+                    billing period -{' '}
+                    <strong>
+                      {format(
+                        new Date(
+                          subscriptionData?.subscription?.current_period_end *
+                            1000,
+                        ),
+                        'yyyy/MM/dd',
+                      )}
+                    </strong>
+                    .
+                  </p>
+                  <p>
+                    You can renew at any time using the Manage Your Membership
+                    Billing button below.
+                  </p>
+                </>
+              )}
+              {!isTeamAccountOwner && !wasCanceled && (
+                <>
+                  <p>
+                    Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                    membership will automatically renew for{' '}
+                    <strong>{subscriptionPrice}</strong> on{' '}
+                    <strong>
+                      {format(
+                        new Date(account.subscriptions[0].current_period_end),
+                        'yyyy/MM/dd',
+                      )}
+                    </strong>
+                    .
+                  </p>
+                  <p>
+                    If you would like to cancel auto-renewal you can use the
+                    Manage Your Membership Billing button below.
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         ) : (
           <div className="w-full">
