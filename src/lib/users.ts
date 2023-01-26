@@ -41,7 +41,6 @@ export async function loadUserAccounts({
             current_period_end
             stripe_subscription_id
             status
-            interval
           }
         }
       }
