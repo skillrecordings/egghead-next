@@ -22,8 +22,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     const {isTeamAccountOwner, account} = useAccount()
     const {number_of_members} = account
     const {interval} = account?.subscriptions[0]
-    // console.log({account})
-    console.log({subscriptionData})
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
@@ -50,9 +48,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     return !loading && subscriptionData ? (
       <div className="w-full">
         {subscriptionName ? (
-          // subscriptionName === true
           <div className="w-full">
-            <label htmlFor="">subscriptionName === true</label>
             {isTeamAccountOwner ? (
               <h3 className="text-lg font-medium text-center">
                 ⭐️ You've got a team membership! ⭐️
@@ -63,16 +59,16 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               </h3>
             )}
             {isTeamAccountOwner && wasCanceled && (
-              <div>
-                <label htmlFor="">isTeamAccountOwner && wasCanceled</label>
+              <div className="w-full leading-relaxed mt-4">
                 <p>
                   Your <strong>{recur(subscriptionData.price)}ly</strong> team
-                  membership for <strong>{number_of_members} seats</strong> is
+                  membership for <strong>{number_of_members} seats</strong>{' '}
+                  (from <strong>{account?.capacity}</strong> available) is
                   currently cancelled and it will not auto-renew.
                 </p>
                 <p>
                   Your team will still have access until the end of your current
-                  billing period (
+                  billing period -{' '}
                   <strong>
                     {format(
                       new Date(
@@ -82,16 +78,20 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                       'yyyy/MM/dd',
                     )}
                   </strong>
-                  ). You can renew at any time.
+                  .
+                </p>
+                <p>
+                  You can renew at any time using the Manage Your Membership
+                  Billing button below.
                 </p>
               </div>
             )}
             {isTeamAccountOwner && !wasCanceled && (
-              <div>
-                <label htmlFor="">isTeamAccountOwner && !wasCanceled</label>
+              <div className="w-full leading-relaxed mt-4">
                 <p>
                   Your <strong>{recur(subscriptionData.price)}ly</strong> team
-                  membership for <strong>{number_of_members} seats</strong> will
+                  membership for <strong>{number_of_members} seats</strong>{' '}
+                  (from <strong>{account?.capacity}</strong> available) will
                   automatically renew for <strong>{subscriptionPrice}</strong>{' '}
                   on{' '}
                   <strong>
@@ -110,44 +110,14 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               </div>
             )}
             {!isTeamAccountOwner && wasCanceled && (
-              <div>
-                <label htmlFor="">!isTeamAccountOwner && wasCanceled</label>
-              </div>
-            )}
-            {!isTeamAccountOwner && !wasCanceled && (
-              <div>
-                <label htmlFor="">!isTeamAccountOwner && !wasCanceled</label>
-              </div>
-            )}
-          </div>
-        ) : (
-          // subscriptionName === false
-          <div className="w-full">
-            <label htmlFor="">subscriptionName === false</label>
-          </div>
-        )}
-
-        <div className="mt-16">===========================</div>
-        {subscriptionName ? (
-          <>
-            {isTeamAccountOwner ? (
-              <h3 className="text-lg font-medium text-center">
-                ⭐️ You've got a team membership! ⭐️
-              </h3>
-            ) : (
-              <h3 className="text-lg font-medium text-center">
-                ⭐️ You're an <strong>egghead Member!</strong>
-              </h3>
-            )}
-            {isTeamAccountOwner && wasCanceled ? (
               <div className="w-full leading-relaxed mt-4">
                 <p>
-                  Your membership is currently cancelled and it will not
-                  auto-renew.
+                  Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                  membership is currently cancelled and it will not auto-renew.
                 </p>
                 <p>
-                  Your team will still have access until the end of your current
-                  billing period (
+                  You will still have access until the end of your current
+                  billing period -{' '}
                   <strong>
                     {format(
                       new Date(
@@ -157,81 +127,37 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                       'yyyy/MM/dd',
                     )}
                   </strong>
-                  ). You can renew at any time.
+                  .
+                </p>
+                <p>
+                  You can renew at any time using the Manage Your Membership
+                  Billing button below.
                 </p>
               </div>
-            ) : (
+            )}
+            {!isTeamAccountOwner && !wasCanceled && (
               <div className="w-full leading-relaxed mt-4">
-                {wasCanceled ? (
-                  <>
-                    <p>
-                      Your membership is currently cancelled and it will not
-                      auto-renew.
-                    </p>
-                    <p>
-                      Your team will still have access until the end of your
-                      current billing period (
-                      <strong>
-                        {format(
-                          new Date(
-                            subscriptionData?.subscription?.current_period_end *
-                              1000,
-                          ),
-                          'yyyy/MM/dd',
-                        )}
-                      </strong>
-                      ). You can renew at any time.
-                    </p>
-                  </>
-                ) : (
-                  <div>
-                    <p>
-                      Your <strong>{interval}ly</strong> team subscription for{' '}
-                      <strong>{number_of_members} seats</strong> will
-                      automatically renew for{' '}
-                      <strong>{`${subscriptionPrice}/${recur(
-                        subscriptionData.price,
-                      )}`}</strong>{' '}
-                      on{' '}
-                      <strong>
-                        {format(
-                          new Date(account.subscriptions[0].current_period_end),
-                          'yyyy/MM/dd',
-                        )}
-                      </strong>
-                      .
-                    </p>
-                    <p>
-                      If you would like to cancel auto-renewal or change the
-                      number of seats for your team, you can use the Manage Your
-                      Membership Billing button below.
-                    </p>
-                  </div>
-                )}
+                <p>
+                  Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                  membership will automatically renew for{' '}
+                  <strong>{subscriptionPrice}</strong> on{' '}
+                  <strong>
+                    {format(
+                      new Date(account.subscriptions[0].current_period_end),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  .
+                </p>
+                <p>
+                  If you would like to cancel auto-renewal you can use the
+                  Manage Your Membership Billing button below.
+                </p>
               </div>
             )}
-            {/* <p className="text-accents-5 text-center">
-              You can update your plan and payment information below via Stripe.
-            </p>
-            <div className="mt-8 mb-4 font-semibold">
-              {!subscriptionData?.portalUrl ? (
-                <div className="h-12 mb-6">loading</div>
-              ) : (
-                subscriptionPrice &&
-                !subscriptionData?.subscription?.cancel_at_period_end && (
-                  <div className="flex space-x-2 justify-center">
-                    <div>
-                      You are currently paying{' '}
-                      {`${subscriptionPrice}/${recur(subscriptionData.price)}`}{' '}
-                      for your membership
-                    </div>
-                  </div>
-                )
-              )}
-            </div> */}
-          </>
+          </div>
         ) : (
-          <>
+          <div className="w-full">
             {(viewer.is_pro || viewer.is_instructor) && (
               <p>
                 You still have access to a Pro Membership. If you feel this is
@@ -244,7 +170,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                 </a>
               </p>
             )}
-          </>
+          </div>
         )}
         {(subscriptionData?.subscription?.cancel_at_period_end ||
           subscriptionData?.portalUrl) && (
