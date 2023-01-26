@@ -1,6 +1,8 @@
 import React from 'react'
 import {format} from 'date-fns'
 
+import {useAccount} from 'hooks/use-account'
+import {useViewer} from 'context/viewer-context'
 import SubscriptionDetails from 'components/pages/user/components/subscription-details'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import AppLayout from 'components/app/layout'
@@ -8,9 +10,9 @@ import UserLayout from 'components/pages/user/components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
-import {useAccount} from 'hooks/use-account'
 
 const Membership = () => {
+  const {viewer} = useViewer()
   const {
     account,
     accountLoading,
@@ -21,16 +23,19 @@ const Membership = () => {
     accountOwner,
   } = useAccount()
 
+  console.log({account})
+  console.log({viewer})
+
   switch (true) {
     case accountLoading:
       return (
-        <div className="relative flex justify-center">
+        <div className="relative flex justify-center w-full">
           <Spinner className="w-6 h-6 text-gray-600" />
         </div>
       )
     case isGiftMembership:
       return (
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center w-full">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
             You have a pre-paid egghead membership.
           </h2>
@@ -42,8 +47,8 @@ const Membership = () => {
       )
     case hasStripeAccount:
       return (
-        <div>
-          <ItemWrapper title="Subscription">
+        <div className="w-full">
+          <ItemWrapper title="Membership">
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
               slug={account.slug}
@@ -54,7 +59,7 @@ const Membership = () => {
       )
     case isTeamMember:
       return (
-        <div className="text-center">
+        <div className="text-center w-full">
           <h2 className="mb-4 md:mb-5 text-lg font-medium md:font-normal md:text-xl leading-none">
             You are a member of a team account.
           </h2>
@@ -88,10 +93,14 @@ const Membership = () => {
 
   return (
     <div className="w-full">
-      <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
-        No Subscription Found
+      <h2 className="mb-3 md:mb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        No Membership Found
       </h2>
-      <p className="w-fit mx-auto mb-12">
+      <p className="mb-3 md:mb-4">
+        You have access to all of our Free videos. You can subscribe for full
+        access to all of our Pro<sup>⭐️</sup> lessons any time.
+      </p>
+      <p className="mb-12">
         If this is incorrect, please reach out to{' '}
         <strong>
           <a
