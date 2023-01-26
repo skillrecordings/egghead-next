@@ -21,7 +21,6 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     })
     const {isTeamAccountOwner, account} = useAccount()
     const {number_of_members} = account
-    const {interval} = account?.subscriptions[0]
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
