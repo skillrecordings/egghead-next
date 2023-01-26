@@ -30,13 +30,17 @@ const Membership = () => {
       )
     case isGiftMembership:
       return (
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex flex-col justify-center w-full leading-relaxed">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
             You have a pre-paid egghead membership.
           </h2>
-          <p className="w-fit mx-auto">
-            Your membership expires on:{' '}
+          <p>
+            You currently have <strong>PRO</strong>
+            <sup>⭐️</sup> access through a <strong>Gift Subscription</strong>{' '}
+            that ends on{' '}
             <strong>{format(new Date(giftExpiration), 'yyyy/MM/dd')}</strong>.
+            After that, you would need to subscribe to a <strong>Pro</strong>{' '}
+            plan to access our <strong>Pro</strong> materials.
           </p>
         </div>
       )
@@ -54,13 +58,22 @@ const Membership = () => {
       )
     case isTeamMember:
       return (
-        <div className="text-center w-full">
+        <div className="text-center w-full leading-relaxed">
           <h2 className="mb-4 md:mb-5 text-lg font-medium md:font-normal md:text-xl leading-none">
             You are a member of a team account.
           </h2>
-          <p className="mb-6">
-            You have an access to all of our <strong>PRO</strong>
-            <sup>⭐️</sup> resources.
+          <p className="mb-3 md:mb-4">
+            You have <strong>PRO</strong>
+            <sup>⭐️</sup> access through a team subscription managed by{' '}
+            <strong>
+              <a
+                href={`mailto:${accountOwner.email}`}
+                className="text-white hover:underline"
+              >
+                {accountOwner.email}
+              </a>
+            </strong>
+            .
           </p>
           <p>
             If this is incorrect, please reach out to{' '}
@@ -78,7 +91,7 @@ const Membership = () => {
                 href={`mailto:${accountOwner.email}`}
                 className="hover:underline duration-100"
               >
-                team member
+                team manager
               </a>
             </strong>
             .
@@ -88,7 +101,7 @@ const Membership = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full leading-relaxed">
       <h2 className="mb-3 md:mb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
         No Membership Found
       </h2>
