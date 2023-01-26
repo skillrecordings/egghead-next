@@ -58,7 +58,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               </h3>
             )}
             {isTeamAccountOwner && wasCanceled && (
-              <div className="w-full leading-relaxed mt-4">
+              <div className="w-full leading-relaxed mt-4 text-center">
                 <p>
                   Your <strong>{recur(subscriptionData.price)}ly</strong> team
                   membership for <strong>{number_of_members} seats</strong>{' '}
@@ -86,7 +86,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               </div>
             )}
             {isTeamAccountOwner && !wasCanceled && (
-              <div className="w-full leading-relaxed mt-4">
+              <div className="w-full leading-relaxed mt-4 text-center">
                 <p>
                   Your <strong>{recur(subscriptionData.price)}ly</strong> team
                   membership for <strong>{number_of_members} seats</strong>{' '}
@@ -109,7 +109,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               </div>
             )}
             {!isTeamAccountOwner && wasCanceled && (
-              <div className="w-full leading-relaxed mt-4">
+              <div className="w-full leading-relaxed mt-4 text-center">
                 <p>
                   Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
                   membership is currently cancelled and it will not auto-renew.
@@ -135,7 +135,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               </div>
             )}
             {!isTeamAccountOwner && !wasCanceled && (
-              <div className="w-full leading-relaxed mt-4">
+              <div className="w-full leading-relaxed mt-4 text-center">
                 <p>
                   Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
                   membership will automatically renew for{' '}
