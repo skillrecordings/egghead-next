@@ -30,7 +30,7 @@ const Membership = () => {
       )
     case isGiftMembership:
       return (
-        <div className="flex flex-col justify-center w-full leading-relaxed">
+        <div className="flex flex-col justify-center w-full leading-relaxed text-center">
           <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl">
             You have a pre-paid egghead membership.
           </h2>
@@ -117,7 +117,7 @@ const Membership = () => {
         <strong>
           <a
             href={`mailto:support@egghead.io?subject=${encodeURIComponent(
-              `Support needed for egghead team membership`,
+              `Support needed for egghead membership`,
             )}`}
             className="hover:underline duration-100"
           >
