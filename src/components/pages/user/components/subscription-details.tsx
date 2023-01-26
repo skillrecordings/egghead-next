@@ -19,7 +19,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     const {subscriptionData, loading} = useSubscriptionDetails({
       stripeCustomerId,
     })
-    const {isTeamAccountOwner} = useAccount()
+    const {isTeamAccountOwner, account} = useAccount()
+    const {number_of_members} = account
 
     const subscriptionName = subscriptionData?.product?.name
     const subscriptionUnitAmount = get(
@@ -41,85 +42,136 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         minimumFractionDigits: 0,
       }).format(subscriptionUnitAmount / 100)
 
-    const currentPeriodEnd =
-      subscriptionData?.subscription?.cancel_at_period_end &&
-      subscriptionData?.subscription?.current_period_end * 1000
+    const wasCanceled = subscriptionData?.subscription?.cancel_at_period_end
 
     return !loading && subscriptionData ? (
       <div className="w-full">
         {subscriptionName ? (
-          <div className="md:w-[75ch] mx-auto">
-            {currentPeriodEnd && (
-              <div className="my-8 p-4 bg-red-100 rounded text-gray-900 space-y-2">
-                <p>
-                  Your membership is currently cancelled and it will not
-                  auto-renew. You'll have access until the end of your current
-                  billing period (
-                  <strong>
-                    {format(new Date(currentPeriodEnd), 'yyyy/MM/dd')}
-                  </strong>
-                  ). You can renew at any time.
-                </p>
-                <p>
-                  You can also get help by emailing{' '}
-                  <strong>
-                    <a
-                      href={`mailto:support@egghead.io?subject=${encodeURIComponent(
-                        `Support needed for egghead membership`,
-                      )}`}
-                      className="underline"
-                    >
-                      support@egghead.io
-                    </a>
-                  </strong>
-                  . We'll get back to you as soon as we can.
-                </p>
-              </div>
-            )}
+          <div className="w-full">
             {isTeamAccountOwner ? (
-              <h3 className="mb-2 text-lg font-medium text-center">
+              <h3 className="text-lg font-medium text-center">
                 ⭐️ You've got a team membership! ⭐️
               </h3>
             ) : (
-              <h3 className="mb-2 text-lg font-medium text-center">
+              <h3 className="text-lg font-medium text-center">
                 ⭐️ You're an <strong>egghead Member!</strong>
               </h3>
             )}
-            <p className="text-accents-5 text-center">
-              You can update your plan and payment information below via Stripe.
-            </p>
-            <div className="mt-8 mb-4 font-semibold">
-              {!subscriptionData?.portalUrl ? (
-                <div className="h-12 mb-6">loading</div>
-              ) : (
-                subscriptionPrice &&
-                !subscriptionData?.subscription?.cancel_at_period_end && (
-                  <div className="flex space-x-2 justify-center">
-                    <div>
-                      You are currently paying{' '}
-                      {`${subscriptionPrice}/${recur(subscriptionData.price)}`}{' '}
-                      for your membership
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
+            {isTeamAccountOwner && wasCanceled && (
+              <div className="w-full leading-relaxed mt-4">
+                <p>
+                  Your <strong>{recur(subscriptionData.price)}ly</strong> team
+                  membership for <strong>{number_of_members} seats</strong>{' '}
+                  (from <strong>{account?.capacity}</strong> available) is
+                  currently cancelled and it will not auto-renew.
+                </p>
+                <p>
+                  Your team will still have access until the end of your current
+                  billing period -{' '}
+                  <strong>
+                    {format(
+                      new Date(
+                        subscriptionData?.subscription?.current_period_end *
+                          1000,
+                      ),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  .
+                </p>
+                <p>
+                  You can renew at any time using the Manage Your Membership
+                  Billing button below.
+                </p>
+              </div>
+            )}
+            {isTeamAccountOwner && !wasCanceled && (
+              <div className="w-full leading-relaxed mt-4">
+                <p>
+                  Your <strong>{recur(subscriptionData.price)}ly</strong> team
+                  membership for <strong>{number_of_members} seats</strong>{' '}
+                  (from <strong>{account?.capacity}</strong> available) will
+                  automatically renew for <strong>{subscriptionPrice}</strong>{' '}
+                  on{' '}
+                  <strong>
+                    {format(
+                      new Date(account.subscriptions[0].current_period_end),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  .
+                </p>
+                <p>
+                  If you would like to cancel auto-renewal or change the number
+                  of seats for your team, you can use the Manage Your Membership
+                  Billing button below.
+                </p>
+              </div>
+            )}
+            {!isTeamAccountOwner && wasCanceled && (
+              <div className="w-full leading-relaxed mt-4">
+                <p>
+                  Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                  membership is currently cancelled and it will not auto-renew.
+                </p>
+                <p>
+                  You will still have access until the end of your current
+                  billing period -{' '}
+                  <strong>
+                    {format(
+                      new Date(
+                        subscriptionData?.subscription?.current_period_end *
+                          1000,
+                      ),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  .
+                </p>
+                <p>
+                  You can renew at any time using the Manage Your Membership
+                  Billing button below.
+                </p>
+              </div>
+            )}
+            {!isTeamAccountOwner && !wasCanceled && (
+              <div className="w-full leading-relaxed mt-4">
+                <p>
+                  Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                  membership will automatically renew for{' '}
+                  <strong>{subscriptionPrice}</strong> on{' '}
+                  <strong>
+                    {format(
+                      new Date(account.subscriptions[0].current_period_end),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  .
+                </p>
+                <p>
+                  If you would like to cancel auto-renewal you can use the
+                  Manage Your Membership Billing button below.
+                </p>
+              </div>
+            )}
           </div>
         ) : (
-          <>
+          <div className="w-full">
             {(viewer.is_pro || viewer.is_instructor) && (
               <p>
                 You still have access to a Pro Membership. If you feel this is
                 in error please email{' '}
                 <a
                   className="text-blue-600 underline hover:text-blue-700"
-                  href="mailto:support@egghead.io"
+                  href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                    `Support needed for egghead membership`,
+                  )}`}
                 >
                   support@egghead.io
                 </a>
               </p>
             )}
-          </>
+          </div>
         )}
         {(subscriptionData?.subscription?.cancel_at_period_end ||
           subscriptionData?.portalUrl) && (

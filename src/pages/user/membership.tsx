@@ -116,7 +116,9 @@ const Membership = () => {
         If this is incorrect, please reach out to{' '}
         <strong>
           <a
-            href="mailto:support@egghead.io"
+            href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+              `Support needed for egghead team membership`,
+            )}`}
             className="hover:underline duration-100"
           >
             support@egghead.io
