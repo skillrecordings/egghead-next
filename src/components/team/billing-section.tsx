@@ -1,10 +1,11 @@
 import * as React from 'react'
-import get from 'lodash/get'
 import {format} from 'date-fns'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import isEmpty from 'lodash/isEmpty'
-import {recur} from 'hooks/use-subscription-data'
+import {recur} from 'utils/recur'
+import {Stripe} from 'stripe'
+import {trpc} from '../../trpc/trpc.client'
 
 const formatAmountWithCurrency = (
   amountInCents: number,
@@ -23,21 +24,14 @@ const isValidDate = (date: any) => {
   return date instanceof Date && !isNaN(date.getTime())
 }
 
-const BillingSection = ({
-  subscriptionData,
-  loading,
-}: {
-  subscriptionData: any
-  loading: boolean
-}) => {
-  if (subscriptionData === undefined) return null
+const BillingSection = ({stripeCustomerId}: {stripeCustomerId: string}) => {
+  const {data: subscriptionData, status} =
+    trpc.subscriptionDetails.forStripeCustomerId.useQuery({
+      stripeCustomerId,
+    })
+  if (!subscriptionData || status !== 'success') return null
 
-  const currency = get(
-    subscriptionData,
-    'latestInvoice.currency',
-    subscriptionData?.price?.unit_amount,
-  )
-
+  const currency = subscriptionData.latestInvoice?.currency || 'USD'
   const recurrence = recur(subscriptionData?.price)
 
   let subscriptionName, subscriptionDescription
@@ -65,10 +59,10 @@ const BillingSection = ({
   }
 
   const currentPeriodStart = new Date(
-    get(subscriptionData, 'subscription.current_period_start') * 1000,
+    (subscriptionData.subscription?.current_period_start || 0) * 1000,
   )
   const currentPeriodEnd = new Date(
-    get(subscriptionData, 'subscription.current_period_end') * 1000,
+    (subscriptionData.subscription?.current_period_end || 0) * 1000,
   )
 
   const displayCurrentPeriod = [currentPeriodStart, currentPeriodEnd]
@@ -76,16 +70,14 @@ const BillingSection = ({
     .every((isValid) => isValid)
 
   const activeSubscription =
-    get(subscriptionData, 'subscription.status') === 'active' &&
-    !get(subscriptionData, 'subscription.canceled_at')
+    subscriptionData.subscription?.status === 'active' &&
+    !subscriptionData.subscription.canceled_at
 
   // If it is too early in the billing period or if the subscription was just
   // created, there may not be an upcoming invoice generated yet. In that case,
   // we see the subscription is active and display 'Pending' for now.
-  const nextPaymentAttempt = get(
-    subscriptionData,
-    'upcomingInvoice.next_payment_attempt',
-  )
+  const nextPaymentAttempt =
+    subscriptionData.upcomingInvoice?.next_payment_attempt
   let nextBillDateDisplay: string
   if (!activeSubscription) {
     nextBillDateDisplay = 'Canceled'
@@ -94,7 +86,7 @@ const BillingSection = ({
   } else if (activeSubscription && nextPaymentAttempt) {
     nextBillDateDisplay = format(
       new Date(
-        get(subscriptionData, 'upcomingInvoice.next_payment_attempt') * 1000,
+        (subscriptionData.upcomingInvoice?.next_payment_attempt || 0) * 1000,
       ),
       'yyyy/MM/dd',
     )
@@ -102,33 +94,31 @@ const BillingSection = ({
     nextBillDateDisplay = '-'
   }
 
-  const quantity = get(subscriptionData, 'subscription.quantity', 1)
+  const quantity = subscriptionData.subscription?.items.data[0].quantity || 1
 
   let subscriptionUnitPrice
 
-  if (get(subscriptionData, 'subscription.plan.billing_scheme') === 'tiered') {
+  if (subscriptionData.price?.billing_scheme === 'tiered') {
     // if the user/account is on tiered pricing...
-    const tiers = get(subscriptionData, 'subscription.plan.tiers', [])
-    const matchingTier = tiers.find((tier: {up_to: number}) => {
-      if (quantity <= tier.up_to || tier.up_to === null) return true
-
-      return false
+    const tiers = subscriptionData.price.tiers || []
+    const matchingTier = tiers.find((tier: Stripe.Price.Tier) => {
+      return tier.up_to === null || quantity <= tier.up_to
     })
     subscriptionUnitPrice = formatAmountWithCurrency(
-      matchingTier?.unit_amount,
+      matchingTier?.unit_amount || 0,
       currency,
     )
   } else {
     // otherwise, they are on legacy pricing...
-    const unitAmount = get(subscriptionData, 'subscription.plan.amount')
+    // @ts-ignore
+    const unitAmount = subscriptionData.subscription?.plan.amount || 0
     subscriptionUnitPrice = formatAmountWithCurrency(unitAmount, currency)
   }
 
-  const totalAmountInCents = get(
-    subscriptionData,
-    'upcomingInvoice.amount_due',
-    get(subscriptionData, 'latestInvoice.amount_due'),
-  )
+  const totalAmountInCents =
+    subscriptionData.upcomingInvoice?.amount_due ||
+    subscriptionData.latestInvoice?.amount_due ||
+    0
   const subscriptionTotalPrice = formatAmountWithCurrency(
     totalAmountInCents,
     currency,
@@ -148,7 +138,7 @@ const BillingSection = ({
           </a>
         </span>
       </div>
-      {!loading && (
+      {status === 'success' && (
         <div className="flex flex-col space-y-2 border rounded-md border-gray-300 mt-4 p-3 md:p-4">
           <div className="flex flex-col space-y-3">
             <div className="flex flex-col space-y-4 justify-start md:space-y-0 md:flex-row md:justify-between mt-2">

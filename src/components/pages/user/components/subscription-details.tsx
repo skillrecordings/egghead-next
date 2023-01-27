@@ -1,12 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
-import analytics, {track} from 'utils/analytics'
+import {track} from 'utils/analytics'
 import {useViewer} from 'context/viewer-context'
-import {get} from 'lodash'
 import {format} from 'date-fns'
-import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
+import {recur} from 'utils/recur'
 import PricingWidget from 'components/pricing/pricing-widget'
 import {useAccount} from 'hooks/use-account'
+import {trpc} from '../../../../trpc/trpc.client'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -16,23 +16,22 @@ type SubscriptionDetailsProps = {
 const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
   ({stripeCustomerId, slug}) => {
     const {viewer} = useViewer()
-    const {subscriptionData, loading} = useSubscriptionDetails({
-      stripeCustomerId,
-    })
+    const {data: subscriptionData, status} =
+      trpc.subscriptionDetails.forStripeCustomerId.useQuery({
+        stripeCustomerId,
+      })
     const {isTeamAccountOwner, account} = useAccount()
     const {number_of_members} = account
 
     const subscriptionName = subscriptionData?.product?.name
-    const subscriptionUnitAmount = get(
-      subscriptionData,
-      'latestInvoice.amount_due',
-      subscriptionData?.price?.unit_amount,
-    )
-    const currency = get(
-      subscriptionData,
-      'latestInvoice.currency',
-      subscriptionData?.price?.unit_amount,
-    )
+    const subscriptionUnitAmount =
+      subscriptionData?.latestInvoice?.amount_due ||
+      subscriptionData?.price?.unit_amount
+
+    const currency =
+      subscriptionData?.latestInvoice?.currency ||
+      subscriptionData?.price?.currency
+
     const subscriptionPrice =
       subscriptionUnitAmount &&
       currency &&
@@ -44,7 +43,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
 
     const wasCanceled = subscriptionData?.subscription?.cancel_at_period_end
 
-    return !loading && subscriptionData ? (
+    return status !== 'loading' && subscriptionData ? (
       <div className="w-full">
         {subscriptionName ? (
           <div className="w-full">
@@ -72,8 +71,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     <strong>
                       {format(
                         new Date(
-                          subscriptionData?.subscription?.current_period_end *
-                            1000,
+                          (subscriptionData?.subscription?.current_period_end ||
+                            0) * 1000,
                         ),
                         'yyyy/MM/dd',
                       )}
@@ -122,8 +121,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     <strong>
                       {format(
                         new Date(
-                          subscriptionData?.subscription?.current_period_end *
-                            1000,
+                          (subscriptionData?.subscription?.current_period_end ||
+                            0) * 1000,
                         ),
                         'yyyy/MM/dd',
                       )}

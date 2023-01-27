@@ -1,33 +1,34 @@
-import {NextApiRequest, NextApiResponse} from 'next'
-import isEmpty from 'lodash/isEmpty'
+import {router, baseProcedure} from '../trpc.server'
+import {z} from 'zod'
+import {stripe} from '../../utils/stripe'
 import {Stripe} from 'stripe'
+import isEmpty from 'lodash/isEmpty'
 
-const stripe: Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+export const subscriptionDetailsRouter = router({
+  forStripeCustomerId: baseProcedure
+    .input(
+      z.object({
+        stripeCustomerId: z.string().optional(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const {stripeCustomerId} = input
 
-const StripeCheckoutSession = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-) => {
-  if (req.method === 'GET') {
-    try {
-      const customer_id = req.query.customer_id as string
-
-      if (!customer_id) throw new Error('no customer id')
+      if (!stripeCustomerId) throw new Error('no stripeCustomerId provided')
 
       const session = await stripe.billingPortal.sessions.create({
-        customer: customer_id,
-        return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user`,
+        customer: stripeCustomerId,
+        return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user/membership`,
       })
 
-      if (!session)
-        throw new Error(`no session loaded for ${req.query.session_id}`)
+      if (!session) throw new Error(`no session loaded for ${stripeCustomerId}`)
 
-      const customer = await stripe.customers.retrieve(customer_id, {
+      const customer = await stripe.customers.retrieve(stripeCustomerId, {
         expand: ['default_source', 'subscriptions.data.latest_invoice'],
       })
 
       const subscriptions = await stripe.subscriptions.list({
-        customer: customer_id,
+        customer: stripeCustomerId,
       })
 
       const subscription = subscriptions.data[0]
@@ -43,7 +44,7 @@ const StripeCheckoutSession = async (
         const product =
           typeof price?.product === 'string'
             ? await stripe.products.retrieve(price.product)
-            : price?.product
+            : (price?.product as Stripe.Product)
 
         // Try fetching the upcoming invoice
         let upcomingInvoice: Stripe.Invoice | null = null
@@ -51,11 +52,11 @@ const StripeCheckoutSession = async (
           // Only retrieve it if the subscription hasn't been cancelled,
           // otherwise it will result in a StripeInvalidRequestError.
           upcomingInvoice = await stripe.invoices.retrieveUpcoming({
-            customer: customer_id,
+            customer: stripeCustomerId,
           })
         }
 
-        res.status(200).json({
+        return {
           portalUrl: session.url,
           billingScheme,
           subscription,
@@ -63,18 +64,12 @@ const StripeCheckoutSession = async (
           product,
           latestInvoice,
           upcomingInvoice,
-        })
+        }
       } else {
-        res.status(200).json({portalUrl: session.url, customer})
+        return {
+          portalUrl: session.url,
+          customer,
+        }
       }
-    } catch (error) {
-      console.error(JSON.stringify(error))
-      res.end()
-    }
-  } else {
-    res.statusCode = 404
-    res.end()
-  }
-}
-
-export default StripeCheckoutSession
+    }),
+})
