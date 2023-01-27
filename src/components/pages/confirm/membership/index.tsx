@@ -1,14 +1,14 @@
 import * as React from 'react'
 import useLastResource from 'hooks/use-last-resource'
-import {isEmpty} from 'lodash'
+import {first, isEmpty} from 'lodash'
 import Link from 'next/link'
 import Image from 'next/image'
 import Spinner from 'components/spinner'
 import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
-import {useTheme} from 'next-themes'
 import PostPurchase from 'components/survey/tally/post-purchase'
+import {trpc} from '../../../../trpc/trpc.client'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -16,7 +16,22 @@ type HeaderProps = {
 }
 
 type ConfirmMembershipProps = {
-  session: any
+  session_id: string
+}
+
+const LinkToLatestInvoice = () => {
+  const {data: transactions} = trpc.user.transactionsForCurrent.useQuery()
+  return transactions ? (
+    <p className="pt-5 text-lg text-center">
+      <Link
+        href={`/invoices/${
+          transactions ? first(transactions)?.stripe_transaction_id : null
+        }`}
+      >
+        Get Your Invoice
+      </Link>
+    </p>
+  ) : null
 }
 
 const Illustration = () => (
@@ -179,14 +194,14 @@ const StartLearning: React.FC = () => {
   )
 }
 
-const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
-  const {theme, setTheme} = useTheme()
+const ExistingMemberConfirmation: React.FC<{session_id: string}> = ({
+  session_id,
+}) => {
+  const {data} = trpc.stripe.checkoutSessionById.useQuery({
+    checkoutSessionId: session_id as string,
+  })
 
-  React.useEffect(() => {
-    setTheme('dark')
-  }, [setTheme])
-
-  return (
+  return data ? (
     <>
       <Header
         heading={<>Thank you so much for joining egghead!</>}
@@ -194,9 +209,14 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
           <>
             <p className="text-lg text-center">
               We've charged your credit card{' '}
-              <strong>${session.amount} for your egghead membership</strong> and
-              sent a receipt to <strong>{session.email}</strong>.
+              <strong>
+                ${(data?.session?.amount_total || 0) / 100} for your egghead
+                membership
+              </strong>{' '}
+              and sent a receipt to <strong>{data.customer.email}</strong>.
             </p>
+            <LinkToLatestInvoice />
+
             <p className="pt-5 text-lg text-center">
               You can now learn from all premium resources on egghead, including
               courses, talks, podcasts, articles, and more. Enjoy!
@@ -205,7 +225,7 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
         }
       />
 
-      <PostPurchase email={session?.email} />
+      <PostPurchase email={data.customer.email} />
 
       <div className="space-y-10">
         <PopularTopics />
@@ -216,97 +236,102 @@ const ExistingMemberConfirmation: React.FC<{session: any}> = ({session}) => {
       </div>
       <Support />
     </>
-  )
+  ) : null
 }
 
-const NewMemberConfirmation: React.FC<{session: any; currentState: any}> = ({
-  session,
-  currentState,
-}) => {
-  const {theme, setTheme} = useTheme()
+const NewMemberConfirmation: React.FC<{session_id: string; currentState: any}> =
+  ({session_id, currentState}) => {
+    const {data} = trpc.stripe.checkoutSessionById.useQuery({
+      checkoutSessionId: session_id as string,
+    })
 
-  React.useEffect(() => {
-    setTheme('dark')
-  }, [setTheme])
-
-  return (
-    <>
-      <Header
-        heading={<>Thank you so much for joining egghead! </>}
-        primaryMessage={
-          <>
-            {currentState.matches('pending') && (
-              <Callout>
-                <Spinner color="gray-700" />
-                <p className="text-lg">Setting up your account...</p>
-              </Callout>
-            )}
-            {currentState.matches('pollingExpired') && (
-              <>
+    return data ? (
+      <>
+        <Header
+          heading={<>Thank you so much for joining egghead! </>}
+          primaryMessage={
+            <>
+              {currentState.matches('pending') && (
                 <Callout>
-                  <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
+                  <Spinner color="gray-700" />
+                  <p className="text-lg">Setting up your account...</p>
+                </Callout>
+              )}
+              {currentState.matches('pollingExpired') && (
+                <>
+                  <Callout>
+                    <IconMail className="p-3 rounded-full dark:bg-rose-500 dark:text-white bg-rose-100 text-rose-500" />
+                    <p className="text-lg">
+                      Please check your inbox ({data.customer.email}) to{' '}
+                      <strong>confirm your email address</strong> and{' '}
+                      <strong>access your membership</strong>.
+                    </p>
+                  </Callout>
                   <p className="text-lg">
-                    Please check your inbox ({session.email}) to{' '}
-                    <strong>confirm your email address</strong> and{' '}
-                    <strong>access your membership</strong>.
+                    We've charged your credit card{' '}
+                    <strong>
+                      ${(data.session.amount_subtotal || 0) / 100} for an
+                      egghead membership
+                    </strong>{' '}
+                    and sent an email along with a receipt to{' '}
+                    <strong>{data.customer.email}</strong> so you can log in and
+                    access your membership.
                   </p>
-                </Callout>
-                <p className="text-lg">
-                  We've charged your credit card{' '}
-                  <strong>${session.amount} for an egghead membership</strong>{' '}
-                  and sent an email along with a receipt to{' '}
-                  <strong>{session.email}</strong> so you can log in and access
-                  your membership.
-                </p>
-              </>
-            )}
-            {currentState.matches('authTokenRetrieved') && (
-              <>
-                <Callout>
-                  <p className="w-full text-lg text-center">
-                    <span role="img" aria-label="party popper">
-                      🎉
-                    </span>{' '}
-                    Your egghead membership is ready to go!
+                </>
+              )}
+              {currentState.matches('authTokenRetrieved') && (
+                <>
+                  <Callout>
+                    <p className="w-full text-lg text-center">
+                      <span role="img" aria-label="party popper">
+                        🎉
+                      </span>{' '}
+                      Your egghead membership is ready to go!
+                    </p>
+                  </Callout>
+                  <p className="max-w-lg pb-8 mx-auto text-lg text-center border-b border-gray-100">
+                    We've charged your credit card{' '}
+                    <strong>
+                      ${data.session.amount_subtotal || 0} for an egghead
+                      membership
+                    </strong>{' '}
+                    and sent a receipt to <strong>{data.customer.email}</strong>
+                    . Please check your inbox to{' '}
+                    <strong>confirm your email address</strong>.
                   </p>
-                </Callout>
-                <p className="max-w-lg pb-8 mx-auto text-lg text-center border-b border-gray-100">
-                  We've charged your credit card{' '}
-                  <strong>${session.amount} for an egghead membership</strong>{' '}
-                  and sent a receipt to <strong>{session.email}</strong>. Please
-                  check your inbox to{' '}
-                  <strong>confirm your email address</strong>.
-                </p>
+                  <LinkToLatestInvoice />
+                  <PostPurchase email={data.customer.email} />
 
-                <PostPurchase email={session?.email} />
-
-                <div className="pt-8">
-                  <PopularTopics />
-                </div>
-                <div className="flex justify-center pt-6">
-                  <StartLearning />
-                </div>
-              </>
-            )}
-          </>
-        }
-      />
-      <Support />
-    </>
-  )
-}
+                  <div className="pt-8">
+                    <PopularTopics />
+                  </div>
+                  <div className="flex justify-center pt-6">
+                    <StartLearning />
+                  </div>
+                </>
+              )}
+            </>
+          }
+        />
+        <Support />
+      </>
+    ) : null
+  }
 
 export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
-  session,
+  session_id,
 }) => {
   const [alreadyAuthenticated, currentState] = usePurchaseAndPlay()
 
   return (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-gray-900 dark:text-white">
       {alreadyAuthenticated ? (
-        <ExistingMemberConfirmation session={session} />
+        <ExistingMemberConfirmation session_id={session_id} />
       ) : (
-        <NewMemberConfirmation session={session} currentState={currentState} />
+        <NewMemberConfirmation
+          session_id={session_id}
+          currentState={currentState}
+        />
       )}
     </div>
   )
