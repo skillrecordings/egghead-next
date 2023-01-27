@@ -71,8 +71,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     <strong>
                       {format(
                         new Date(
-                          subscriptionData?.subscription?.current_period_end *
-                            1000,
+                          (subscriptionData?.subscription?.current_period_end ||
+                            0) * 1000,
                         ),
                         'yyyy/MM/dd',
                       )}
@@ -121,8 +121,8 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     <strong>
                       {format(
                         new Date(
-                          subscriptionData?.subscription?.current_period_end *
-                            1000,
+                          (subscriptionData?.subscription?.current_period_end ||
+                            0) * 1000,
                         ),
                         'yyyy/MM/dd',
                       )}
