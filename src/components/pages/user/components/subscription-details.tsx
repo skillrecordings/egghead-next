@@ -65,24 +65,24 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                       cancel
                     </span>{' '}
                     and it will not auto-renew.
+                  </strong>{' '}
+                  Your team still has full access until your current membership
+                  expires on{' '}
+                  <strong>
+                    {format(
+                      new Date(
+                        (subscriptionData?.subscription?.current_period_end ||
+                          0) * 1000,
+                      ),
+                      'PPP',
+                    )}
                   </strong>
                 </p>
-                <p className="mb-4">
-                  Your team will still have access until the end of your current
-                  billing period:
-                </p>
-                <strong>
-                  {format(
-                    new Date(
-                      (subscriptionData?.subscription?.current_period_end ||
-                        0) * 1000,
-                    ),
-                    'yyyy/MM/dd',
-                  )}
-                </strong>
+                <p className="mb-4"></p>
+
                 <p className="mt-4">
-                  You can renew at any time using the Manage Your Membership
-                  Billing button below.
+                  You can update your subscription any time using the update
+                  your subscription button below.
                 </p>
               </div>
             </div>
@@ -96,7 +96,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                       }}
                       className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
                     >
-                      Manage Your Membership Billing
+                      Update Your Subscription or Payment Method
                     </a>
                   </Link>
                 </div>
@@ -119,19 +119,15 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                     automatically renew for {subscriptionPrice} on{' '}
                     {format(
                       new Date(account.subscriptions[0].current_period_end),
-                      'yyyy/MM/dd',
+                      'PPP',
                     )}
                   </strong>
                   .
                 </p>
                 <p>
                   If you would like to cancel auto-renewal or change the number
-                  of seats for your team, you can use the Manage Your Membership
-                  Billing button below or add/remove team members on the{' '}
-                  <Link href="/team">
-                    <a className="underline">Team Page</a>
-                  </Link>
-                  .
+                  of seats for your team, you can use the update your
+                  subscription button below.
                 </p>
               </div>
             </div>
@@ -145,12 +141,19 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                       }}
                       className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
                     >
-                      Manage Your Team Membership Billing
+                      Update Your Subscription or Payment Method
                     </a>
                   </Link>
                 </div>
               </div>
             )}
+            <p className="mt-4 w-fit mx-auto">
+              <Link href="/team">
+                <a className="underline text-blue-600">
+                  add/remove team members here
+                </a>
+              </Link>
+            </p>
           </div>
         )
       case pendingCancelation:
@@ -160,7 +163,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
               <div className="leading-relaxed mt-4 text-center mx-auto">
                 `{' '}
                 <h3 className="text-lg font-medium text-center mb-4">
-                  ⭐️ You've got an egghead membership! ⭐️
+                  ⭐️ You have a pro egghead membership! ⭐️
                 </h3>
                 <p>
                   Your{' '}
@@ -170,20 +173,16 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                       cancelled
                     </span>{' '}
                     and it will not auto-renew.
-                  </strong>
-                </p>
-                <p>
-                  You will still have access until the end of your current
-                  billing period:{' '}
-                </p>
-                <p className="mt-4">
+                  </strong>{' '}
+                  You still have full access until your current membership
+                  expires on{' '}
                   <strong>
                     {format(
                       new Date(
                         (subscriptionData?.subscription?.current_period_end ||
                           0) * 1000,
                       ),
-                      'yyyy/MM/dd',
+                      'PPP',
                     )}
                   </strong>
                 </p>
@@ -219,23 +218,24 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
           <div className="md:w-[75ch] mx-auto">
             <div className="w-full leading-relaxed mt-4 text-center space-y-4">
               <h3 className="text-lg font-medium text-center">
-                ⭐️ You've got an egghead membership! ⭐️
+                ⭐️ You have a pro egghead membership ⭐️
               </h3>
               <p>
-                Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
-                membership will automatically renew for{' '}
-                <strong>{subscriptionPrice}</strong> on{' '}
+                Your {recur(subscriptionData.price)}ly membership will
+                automatically renew for{' '}
                 <strong>
+                  {subscriptionPrice} on{' '}
                   {format(
                     new Date(account.subscriptions[0].current_period_end),
-                    'yyyy/MM/dd',
+                    'PPP',
                   )}
                 </strong>
                 .
               </p>
               <p>
-                If you would like to cancel auto-renewal you can use the Manage
-                Your Membership Billing button below.
+                If you'd like to update payment information, change your billing
+                interval, or cancel auto-renewal you can update your
+                subscription below.
               </p>
             </div>
           </div>
@@ -267,7 +267,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                   }}
                   className="w-2/3 px-5 py-3 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
                 >
-                  Manage Your Membership Billing
+                  Update Your Subscription or Payment Method
                 </a>
               </Link>
             </div>
