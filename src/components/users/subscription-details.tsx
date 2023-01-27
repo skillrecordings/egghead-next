@@ -2,8 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import {useViewer} from 'context/viewer-context'
-import get from 'lodash/get'
-import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
+import {recur} from 'utils/recur'
+import {trpc} from '../../trpc/trpc.client'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -13,21 +13,16 @@ type SubscriptionDetailsProps = {
 const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
   ({stripeCustomerId, slug}) => {
     const {viewer} = useViewer()
-    const {subscriptionData, loading} = useSubscriptionDetails({
-      stripeCustomerId,
-    })
+    const {data: subscriptionData, status} =
+      trpc.subscriptionDetails.forStripeCustomerId.useQuery({
+        stripeCustomerId,
+      })
 
     const subscriptionName = subscriptionData && subscriptionData.product?.name
-    const subscriptionUnitAmount = get(
-      subscriptionData,
-      'latestInvoice.amount_due',
-      subscriptionData?.price?.unit_amount,
-    )
-    const currency = get(
-      subscriptionData,
-      'latestInvoice.currency',
-      subscriptionData?.price?.unit_amount,
-    )
+    const subscriptionUnitAmount =
+      subscriptionData?.latestInvoice?.amount_due ||
+      subscriptionData?.price?.unit_amount
+    const currency = subscriptionData?.latestInvoice?.currency || 'USD'
     const subscriptionPrice =
       subscriptionUnitAmount &&
       currency &&
@@ -40,7 +35,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     return (
       <>
         {/* Payment details */}
-        {!loading && subscriptionData && (
+        {status !== 'loading' && subscriptionData && (
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <section className="mb-32">
               <div className="w-full p-4">

@@ -51,7 +51,7 @@ const Account = () => {
     case hasStripeAccount:
       return (
         <div>
-          <ItemWrapper title="Subscription">
+          <ItemWrapper title="Membership">
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
               slug={account.slug}
