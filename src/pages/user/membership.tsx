@@ -1,24 +1,16 @@
 import React from 'react'
-import {find, first} from 'lodash'
+import {format} from 'date-fns'
 
-import {useViewer} from 'context/viewer-context'
+import {useAccount} from 'hooks/use-account'
 import SubscriptionDetails from 'components/pages/user/components/subscription-details'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
 import AppLayout from 'components/app/layout'
-import UserLayout from './components/user-layout'
+import UserLayout from 'components/pages/user/components/user-layout'
 import PricingWidget from 'components/pricing/pricing-widget'
 import Invoices from 'components/invoices'
 import Spinner from 'components/spinner'
-import {format} from 'date-fns'
-import {useAccount} from '../../hooks/use-account'
 
-type ViewerAccount = {
-  stripe_customer_id: string
-  slug: string
-  subscriptions: any[]
-}
-
-const Account = () => {
+const Membership = () => {
   const {
     account,
     accountLoading,
@@ -32,25 +24,29 @@ const Account = () => {
   switch (true) {
     case accountLoading:
       return (
-        <div className="relative flex justify-center">
+        <div className="relative flex justify-center w-full">
           <Spinner className="w-6 h-6 text-gray-600" />
         </div>
       )
     case isGiftMembership:
       return (
-        <div className="h-40 sm:h-60 flex flex-col justify-center">
-          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        <div className="flex flex-col justify-center w-full leading-relaxed text-center">
+          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl">
             You have a pre-paid egghead membership.
           </h2>
-          <p className="w-fit mx-auto">
-            Your membership expires on:{' '}
+          <p>
+            You currently have <strong>PRO</strong>
+            <sup>⭐️</sup> access through a <strong>Gift Subscription</strong>{' '}
+            that ends on{' '}
             <strong>{format(new Date(giftExpiration), 'yyyy/MM/dd')}</strong>.
+            After that, you would need to subscribe to a <strong>Pro</strong>{' '}
+            plan to access our <strong>Pro</strong> materials.
           </p>
         </div>
       )
     case hasStripeAccount:
       return (
-        <div>
+        <div className="w-full">
           <ItemWrapper title="Membership">
             <SubscriptionDetails
               stripeCustomerId={account.stripe_customer_id}
@@ -62,36 +58,81 @@ const Account = () => {
       )
     case isTeamMember:
       return (
-        <div>
-          <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        <div className="text-center w-full leading-relaxed">
+          <h2 className="mb-4 md:mb-5 text-lg font-medium md:font-normal md:text-xl leading-none">
             You are a member of a team account.
           </h2>
-          <p className="w-fit mx-auto mb-12">
+          <p className="mb-3 md:mb-4">
+            You have <strong>PRO</strong>
+            <sup>⭐️</sup> access through a team subscription managed by{' '}
+            <strong>
+              <a
+                href={`mailto:${accountOwner.email}`}
+                className="text-white hover:underline"
+              >
+                {accountOwner.email}
+              </a>
+            </strong>
+            .
+          </p>
+          <p>
             If this is incorrect, please reach out to{' '}
-            <strong>support@egghead.io</strong> or your team owner{' '}
-            {accountOwner.email}.
+            <strong>
+              <a
+                href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                  `Support needed for egghead team membership`,
+                )}`}
+                className="hover:underline duration-100"
+              >
+                support@egghead.io
+              </a>
+            </strong>{' '}
+            or your{' '}
+            <strong>
+              <a
+                href={`mailto:${accountOwner.email}`}
+                className="hover:underline duration-100"
+              >
+                team manager
+              </a>
+            </strong>
+            .
           </p>
         </div>
       )
   }
 
   return (
-    <div>
-      <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
-        No Subscription Found
+    <div className="w-full leading-relaxed">
+      <h2 className="mb-3 md:mb-4 text-lg font-medium md:font-normal md:text-xl leading-none w-fit mx-auto">
+        No Membership Found
       </h2>
-      <p className="w-fit mx-auto mb-12">
+      <p className="mb-3 md:mb-4">
+        You have access to all of our <strong>Free</strong> videos. You can
+        subscribe for full access to all of our Pro<sup>⭐️</sup> lessons any
+        time.
+      </p>
+      <p className="mb-12">
         If this is incorrect, please reach out to{' '}
-        <strong>support@egghead.io</strong>
+        <strong>
+          <a
+            href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+              `Support needed for egghead membership`,
+            )}`}
+            className="hover:underline duration-100"
+          >
+            support@egghead.io
+          </a>
+        </strong>
       </p>
       <PricingWidget />
     </div>
   )
 }
 
-export default Account
+export default Membership
 
-Account.getLayout = function getLayout(Page: any, pageProps: any) {
+Membership.getLayout = function getLayout(Page: any, pageProps: any) {
   return (
     <AppLayout>
       <UserLayout>

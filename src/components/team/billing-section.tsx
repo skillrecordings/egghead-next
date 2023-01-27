@@ -43,7 +43,7 @@ const BillingSection = ({stripeCustomerId}: {stripeCustomerId: string}) => {
       break
     }
     case 'quarter': {
-      subscriptionName = 'Quarterly egghead Team Subscription'
+      subscriptionName = 'Quarterly egghead Team Membership'
       subscriptionDescription = 'Quarterly Pro Membership'
       break
     }
