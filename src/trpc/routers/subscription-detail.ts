@@ -18,7 +18,7 @@ export const subscriptionDetailsRouter = router({
 
       const session = await stripe.billingPortal.sessions.create({
         customer: stripeCustomerId,
-        return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user`,
+        return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user/membership`,
       })
 
       if (!session) throw new Error(`no session loaded for ${stripeCustomerId}`)
