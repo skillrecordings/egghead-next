@@ -44,6 +44,13 @@ export const useAccount = () => {
   const isTeamMember = isActiveAccountMember && !isAccountOwner
   const hasStripeAccount = Boolean(account?.stripe_customer_id)
 
+  let isDisabled = [
+    'incomplete',
+    'canceled',
+    'incomplete_expired',
+    'unpaid',
+  ].includes(account?.subscriptions?.[0]?.status)
+
   console.debug()
   console.debug('useAccount', {
     account,
@@ -54,6 +61,7 @@ export const useAccount = () => {
     giftExpiration,
     isTeamMember,
     hasStripeAccount,
+
     accountLoading: accountLoadingStatus === 'loading',
     accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
   })
@@ -68,6 +76,7 @@ export const useAccount = () => {
     giftExpiration,
     isTeamMember,
     hasStripeAccount,
+    isDisabled,
     accountLoading: accountLoadingStatus === 'loading',
     accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
   }

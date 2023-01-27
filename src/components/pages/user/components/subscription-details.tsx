@@ -42,120 +42,201 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         minimumFractionDigits: 0,
       }).format(subscriptionUnitAmount / 100)
 
-    const wasCanceled = subscriptionData?.subscription?.cancel_at_period_end
+    const pendingCancelation =
+      subscriptionData?.subscription?.cancel_at_period_end
+    const teamAccountPendingCancelation =
+      isTeamAccountOwner && pendingCancelation
 
-    return !loading && subscriptionData ? (
+    if (loading || !subscriptionData) return null
+    switch (true) {
+      case teamAccountPendingCancelation:
+        return (
+          <div>
+            <div className="md:w-[75ch] mx-auto">
+              <div className="w-full leading-relaxed mt-4 text-center">
+                <h3 className="text-lg font-medium text-center mb-4">
+                  ⭐️ You still have a team egghead membership! ⭐️
+                </h3>
+                <p>
+                  Your {recur(subscriptionData.price)}ly team membership of{' '}
+                  {account?.capacity} seats is{' '}
+                  <strong>
+                    set to{' '}
+                    <span className=" bg-red-100 rounded px-1 text-gray-900">
+                      cancel
+                    </span>{' '}
+                    and it will not auto-renew.
+                  </strong>
+                </p>
+                <p className="mb-4">
+                  Your team will still have access until the end of your current
+                  billing period:
+                </p>
+                <strong>
+                  {format(
+                    new Date(
+                      subscriptionData?.subscription?.current_period_end * 1000,
+                    ),
+                    'yyyy/MM/dd',
+                  )}
+                </strong>
+                <p className="mt-4">
+                  You can renew at any time using the Manage Your Membership
+                  Billing button below.
+                </p>
+              </div>
+            </div>
+            {subscriptionData.portalUrl && (
+              <div className="bg-primary-2 text-accents-3 rounded-b-md">
+                <div className="flex flex-col justify-between items-center">
+                  <Link href={subscriptionData.portalUrl}>
+                    <a
+                      onClick={() => {
+                        track(`clicked manage membership`)
+                      }}
+                      className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                    >
+                      Manage Your Membership Billing
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        )
+      case isTeamAccountOwner:
+        return (
+          <div>
+            <div className="md:w-[75ch] mx-auto">
+              <div className="w-full leading-relaxed mt-4 text-center space-y-4">
+                <h3 className="text-lg font-medium text-center mb-4">
+                  ⭐️ You manage a team membership! ⭐️
+                </h3>
+                <p>
+                  Your {recur(subscriptionData.price)}ly team membership of{' '}
+                  {account?.capacity} seats will{' '}
+                  <strong>
+                    automatically renew for {subscriptionPrice} on{' '}
+                    {format(
+                      new Date(account.subscriptions[0].current_period_end),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                  .
+                </p>
+                <p>
+                  If you would like to cancel auto-renewal or change the number
+                  of seats for your team, you can use the Manage Your Membership
+                  Billing button below or add/remove team members on the{' '}
+                  <Link href="/team">
+                    <a className="underline">Team Page</a>
+                  </Link>
+                  .
+                </p>
+              </div>
+            </div>
+            {subscriptionData.portalUrl && (
+              <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
+                <div className="flex flex-col justify-between items-center">
+                  <Link href={subscriptionData.portalUrl}>
+                    <a
+                      onClick={() => {
+                        track(`clicked manage membership`)
+                      }}
+                      className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                    >
+                      Manage Your Team Membership Billing
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        )
+      case pendingCancelation:
+        return (
+          <div>
+            <div className="w-fit mx-auto">
+              <div className="leading-relaxed mt-4 text-center mx-auto">
+                `{' '}
+                <h3 className="text-lg font-medium text-center mb-4">
+                  ⭐️ You've got an egghead membership! ⭐️
+                </h3>
+                <p>
+                  Your{' '}
+                  <strong>
+                    {recur(subscriptionData.price)}ly membership is currently{' '}
+                    <span className=" bg-red-100 rounded px-1 text-gray-900">
+                      cancelled
+                    </span>{' '}
+                    and it will not auto-renew.
+                  </strong>
+                </p>
+                <p>
+                  You will still have access until the end of your current
+                  billing period:{' '}
+                </p>
+                <p>
+                  <strong>
+                    {format(
+                      new Date(
+                        subscriptionData?.subscription?.current_period_end *
+                          1000,
+                      ),
+                      'yyyy/MM/dd',
+                    )}
+                  </strong>
+                </p>
+                <p className="mt-4">
+                  You can renew at any time using the Manage Your Membership
+                  Billing button below.
+                </p>
+              </div>
+            </div>
+            {subscriptionData.portalUrl && (
+              <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
+                <div className="flex flex-col justify-between items-center">
+                  <Link href={subscriptionData.portalUrl}>
+                    <a
+                      onClick={() => {
+                        track(`clicked manage membership`)
+                      }}
+                      className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                    >
+                      Renew your Membership
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+        )
+    }
+
+    return (
       <div className="w-full">
         {subscriptionName ? (
-          <div className="w-full">
-            {isTeamAccountOwner ? (
+          <div className="md:w-[75ch] mx-auto">
+            <div className="w-full leading-relaxed mt-4 text-center space-y-4">
               <h3 className="text-lg font-medium text-center">
-                ⭐️ You've got a team membership! ⭐️
+                ⭐️ You've got an egghead membership! ⭐️
               </h3>
-            ) : (
-              <h3 className="text-lg font-medium text-center">
-                ⭐️ You're an <strong>egghead Member!</strong>
-              </h3>
-            )}
-            <div className="w-full leading-relaxed mt-4 text-center">
-              {isTeamAccountOwner && wasCanceled && (
-                <>
-                  <p>
-                    Your <strong>{recur(subscriptionData.price)}ly</strong> team
-                    membership for <strong>{number_of_members} seats</strong>{' '}
-                    (from <strong>{account?.capacity}</strong> available) is
-                    currently cancelled and it will not auto-renew.
-                  </p>
-                  <p>
-                    Your team will still have access until the end of your
-                    current billing period -{' '}
-                    <strong>
-                      {format(
-                        new Date(
-                          subscriptionData?.subscription?.current_period_end *
-                            1000,
-                        ),
-                        'yyyy/MM/dd',
-                      )}
-                    </strong>
-                    .
-                  </p>
-                  <p>
-                    You can renew at any time using the Manage Your Membership
-                    Billing button below.
-                  </p>
-                </>
-              )}
-              {isTeamAccountOwner && !wasCanceled && (
-                <>
-                  <p>
-                    Your <strong>{recur(subscriptionData.price)}ly</strong> team
-                    membership for <strong>{number_of_members} seats</strong>{' '}
-                    (from <strong>{account?.capacity}</strong> available) will
-                    automatically renew for <strong>{subscriptionPrice}</strong>{' '}
-                    on{' '}
-                    <strong>
-                      {format(
-                        new Date(account.subscriptions[0].current_period_end),
-                        'yyyy/MM/dd',
-                      )}
-                    </strong>
-                    .
-                  </p>
-                  <p>
-                    If you would like to cancel auto-renewal or change the
-                    number of seats for your team, you can use the Manage Your
-                    Membership Billing button below.
-                  </p>
-                </>
-              )}
-              {!isTeamAccountOwner && wasCanceled && (
-                <>
-                  <p>
-                    Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
-                    membership is currently cancelled and it will not
-                    auto-renew.
-                  </p>
-                  <p>
-                    You will still have access until the end of your current
-                    billing period -{' '}
-                    <strong>
-                      {format(
-                        new Date(
-                          subscriptionData?.subscription?.current_period_end *
-                            1000,
-                        ),
-                        'yyyy/MM/dd',
-                      )}
-                    </strong>
-                    .
-                  </p>
-                  <p>
-                    You can renew at any time using the Manage Your Membership
-                    Billing button below.
-                  </p>
-                </>
-              )}
-              {!isTeamAccountOwner && !wasCanceled && (
-                <>
-                  <p>
-                    Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
-                    membership will automatically renew for{' '}
-                    <strong>{subscriptionPrice}</strong> on{' '}
-                    <strong>
-                      {format(
-                        new Date(account.subscriptions[0].current_period_end),
-                        'yyyy/MM/dd',
-                      )}
-                    </strong>
-                    .
-                  </p>
-                  <p>
-                    If you would like to cancel auto-renewal you can use the
-                    Manage Your Membership Billing button below.
-                  </p>
-                </>
-              )}
+              <p>
+                Your <strong>{recur(subscriptionData.price)}ly</strong>{' '}
+                membership will automatically renew for{' '}
+                <strong>{subscriptionPrice}</strong> on{' '}
+                <strong>
+                  {format(
+                    new Date(account.subscriptions[0].current_period_end),
+                    'yyyy/MM/dd',
+                  )}
+                </strong>
+                .
+              </p>
+              <p>
+                If you would like to cancel auto-renewal you can use the Manage
+                Your Membership Billing button below.
+              </p>
             </div>
           </div>
         ) : (
@@ -176,33 +257,24 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
             )}
           </div>
         )}
-        {(subscriptionData?.subscription?.cancel_at_period_end ||
-          subscriptionData?.portalUrl) && (
+        {subscriptionData.portalUrl && (
           <div className="bg-primary-2 text-accents-3 rounded-b-md mt-6">
             <div className="flex flex-col justify-between items-center">
-              {subscriptionData.subscription && subscriptionData?.portalUrl ? (
-                <>
-                  <Link href={subscriptionData.portalUrl}>
-                    <a
-                      onClick={() => {
-                        track(`clicked manage membership`)
-                      }}
-                      className="w-2/3 px-5 py-3 mt-4 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
-                    >
-                      Manage Your Membership Billing
-                    </a>
-                  </Link>
-                </>
-              ) : (
-                <div className="mt-8">
-                  <PricingWidget />
-                </div>
-              )}
+              <Link href={subscriptionData.portalUrl}>
+                <a
+                  onClick={() => {
+                    track(`clicked manage membership`)
+                  }}
+                  className="w-2/3 px-5 py-3 font-semibold text-center text-white transition-all duration-150 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 active:bg-blue-800 hover:scale-105 hover:shadow-xl"
+                >
+                  Manage Your Membership Billing
+                </a>
+              </Link>
             </div>
           </div>
         )}
       </div>
-    ) : null
+    )
   }
 
 export default SubscriptionDetails
