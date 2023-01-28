@@ -15,6 +15,12 @@ import {Coupon, StripeAccount} from 'types'
 import stripeCheckoutRedirect from 'api/stripe/stripe-checkout-redirect'
 import Countdown from 'components/pricing/countdown'
 import {fromUnixTime} from 'date-fns'
+import Join from '../join'
+import Browse from '../browse'
+import {useTheme} from 'next-themes'
+import {isMember} from '../../../../utils/is-member'
+import CreateAccount from '../create-account'
+import title from 'title'
 
 type FormikValues = {
   email: string
@@ -214,10 +220,39 @@ const PricingCta = () => {
   )
 }
 
+const ProvideEmail: React.FC<{topic?: string}> = ({topic}) => (
+  <div>
+    <h2 className="text-xl py-12">Get Notified of New egghead Courses</h2>
+    <CreateAccount location="homepage header" />
+    <p className="max-w-sm pt-10 text-xs text-left sm:text-sm opacity-60">
+      Enter your email to create an account and start learning from more than
+      3,000 free {title(topic?.replace('_', ' ') ?? 'Full Stack')} lessons on
+      egghead.
+    </p>
+  </div>
+)
+
 const Footer: React.FC<{topic?: string}> = ({topic}) => {
+  const {viewer} = useViewer()
+  const userPresent = Boolean(viewer)
+  const userIsNonMember = userPresent && !isMember(viewer)
+
+  let Offer
+
+  switch (true) {
+    case userIsNonMember:
+      Offer = Join
+      break
+    case userPresent:
+      Offer = Browse
+      break
+    default:
+      Offer = ProvideEmail
+  }
+
   return (
-    <section className="container flex justify-center w-full py-12 sm:py-24">
-      <PricingCta />
+    <section className="sm:min-h-[30vh] relative w-full flex flex-col items-center justify-center sm:py-32 py-24 px-5">
+      <Offer topic={topic} />
     </section>
   )
 }
