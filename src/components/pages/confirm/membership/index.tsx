@@ -20,6 +20,51 @@ type ConfirmMembershipProps = {
   session_id: string
 }
 
+const ExistingMemberConfirmation: React.FC<{session_id: string}> = ({
+  session_id,
+}) => {
+  const {data} = trpc.stripe.checkoutSessionById.useQuery({
+    checkoutSessionId: session_id as string,
+  })
+
+  return data ? (
+    <>
+      <Header
+        heading={<>Thank you so much for joining egghead!</>}
+        primaryMessage={
+          <>
+            <p className="text-lg text-center">
+              We've charged your credit card{' '}
+              <strong>
+                ${(data?.session?.amount_total || 0) / 100} for your egghead
+                membership
+              </strong>{' '}
+              and sent a receipt to <strong>{data.customer.email}</strong>.
+            </p>
+
+            <LinkToLatestInvoice />
+            <Support />
+            <p className="pt-5 text-lg text-center">
+              You can now learn from all premium resources on egghead, including
+              courses, talks, podcasts, articles, and more. Enjoy!
+            </p>
+          </>
+        }
+      />
+
+      <div className="space-y-10">
+        <PopularTopics />
+        <LastResource />
+        <div className="flex justify-center">
+          <StartLearning />
+        </div>
+      </div>
+
+      <PostPurchase email={data.customer.email} />
+    </>
+  ) : null
+}
+
 const LinkToLatestInvoice = () => {
   const {account} = useAccount()
   const {data: subscriptionData, status: subscriptionLoadingStatus} =
@@ -27,7 +72,7 @@ const LinkToLatestInvoice = () => {
       stripeCustomerId: account?.stripe_customer_id,
     })
   const {data: charge, status: chargeLoadingStatus} =
-    trpc.stripe.balanceTransactionById.useQuery({
+    trpc.stripe.chargeById.useQuery({
       chargeId: subscriptionData?.latestInvoice?.charge as string,
     })
 
@@ -95,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({heading, primaryMessage}) => {
 
 const Support: React.FC = () => {
   return (
-    <div className="grid-cols-2 gap-5 pt-16 border-t border-gray-100 dark:border-gray-800 sm:grid">
+    <div className="grid-cols-2 gap-5 py-16 border-y border-gray-100 dark:border-gray-800 sm:grid mt-16">
       <div className="">
         <h4 className="pb-3 text-lg font-bold">Support</h4>
         <p className="prose dark:prose-dark max-w-none">
@@ -120,8 +165,9 @@ const Support: React.FC = () => {
           className="inline-flex items-center px-3 py-2 mt-1 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
         >
           <IconTwitter className="w-5" />{' '}
-          <span className="pl-2">Share with your friends!</span>
+          <span className="pl-2">Share egghead with your friends!</span>
         </a>
+        <p className="text-xs pt-3 text-left">this really helps us out 🙏</p>
       </div>
     </div>
   )
@@ -207,55 +253,10 @@ const StartLearning: React.FC = () => {
   return (
     <Link href="/q">
       <a className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600">
-        Browse Catalog
+        Browse All Courses
       </a>
     </Link>
   )
-}
-
-const ExistingMemberConfirmation: React.FC<{session_id: string}> = ({
-  session_id,
-}) => {
-  const {data} = trpc.stripe.checkoutSessionById.useQuery({
-    checkoutSessionId: session_id as string,
-  })
-
-  return data ? (
-    <>
-      <Header
-        heading={<>Thank you so much for joining egghead!</>}
-        primaryMessage={
-          <>
-            <p className="text-lg text-center">
-              We've charged your credit card{' '}
-              <strong>
-                ${(data?.session?.amount_total || 0) / 100} for your egghead
-                membership
-              </strong>{' '}
-              and sent a receipt to <strong>{data.customer.email}</strong>.
-            </p>
-            <LinkToLatestInvoice />
-
-            <p className="pt-5 text-lg text-center">
-              You can now learn from all premium resources on egghead, including
-              courses, talks, podcasts, articles, and more. Enjoy!
-            </p>
-          </>
-        }
-      />
-
-      <PostPurchase email={data.customer.email} />
-
-      <div className="space-y-10">
-        <PopularTopics />
-        <LastResource />
-        <div className="flex justify-center">
-          <StartLearning />
-        </div>
-      </div>
-      <Support />
-    </>
-  ) : null
 }
 
 const NewMemberConfirmation: React.FC<{session_id: string; currentState: any}> =
@@ -298,37 +299,6 @@ const NewMemberConfirmation: React.FC<{session_id: string; currentState: any}> =
                   </p>
                 </>
               )}
-              {currentState.matches('authTokenRetrieved') && (
-                <>
-                  <Callout>
-                    <p className="w-full text-lg text-center">
-                      <span role="img" aria-label="party popper">
-                        🎉
-                      </span>{' '}
-                      Your egghead membership is ready to go!
-                    </p>
-                  </Callout>
-                  <p className="max-w-lg pb-8 mx-auto text-lg text-center border-b border-gray-100">
-                    We've charged your credit card{' '}
-                    <strong>
-                      ${data.session.amount_subtotal || 0} for an egghead
-                      membership
-                    </strong>{' '}
-                    and sent a receipt to <strong>{data.customer.email}</strong>
-                    . Please check your inbox to{' '}
-                    <strong>confirm your email address</strong>.
-                  </p>
-                  <LinkToLatestInvoice />
-                  <PostPurchase email={data.customer.email} />
-
-                  <div className="pt-8">
-                    <PopularTopics />
-                  </div>
-                  <div className="flex justify-center pt-6">
-                    <StartLearning />
-                  </div>
-                </>
-              )}
             </>
           }
         />
@@ -344,7 +314,7 @@ export const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
 
   return (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-gray-900 dark:text-white">
-      {alreadyAuthenticated ? (
+      {alreadyAuthenticated || currentState.matches('authTokenRetrieved') ? (
         <ExistingMemberConfirmation session_id={session_id} />
       ) : (
         <NewMemberConfirmation

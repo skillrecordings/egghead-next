@@ -27,7 +27,7 @@ export const stripeRouter = router({
         session,
       }
     }),
-  balanceTransactionById: baseProcedure
+  chargeById: baseProcedure
     .input(
       z.object({
         chargeId: z.string(),
@@ -38,8 +38,6 @@ export const stripeRouter = router({
 
       if (!charge) throw new Error(`no session loaded for ${input.chargeId}`)
 
-      return {
-        ...charge,
-      }
+      return charge
     }),
 })
