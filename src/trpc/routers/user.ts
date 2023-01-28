@@ -7,6 +7,14 @@ import {z} from 'zod'
 import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 import {loadCurrentUser, loadUserAccounts} from '../../lib/users'
 
+const transactionsSchema = z.array(
+  z.object({
+    stripe_transaction_id: z.string(),
+    amount: z.number(),
+    created_at: z.string(),
+  }),
+)
+
 export const userRouter = router({
   current: baseProcedure.query(async ({input, ctx}) => {
     // we want to load the token from cookie
@@ -17,6 +25,24 @@ export const userRouter = router({
     if (!token) return null
 
     return await loadCurrentUser(token)
+  }),
+  transactionsForCurrent: baseProcedure.query(async ({input, ctx}) => {
+    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+
+    if (!token) return []
+
+    const transactions =
+      (await fetch(
+        `${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/api/v1/transactions`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'X-SITE-CLIENT': process.env.NEXT_PUBLIC_CLIENT_ID as string,
+          },
+        },
+      ).then((res) => res.json())) || []
+
+    return transactionsSchema.parse(transactions)
   }),
   accountsForCurrent: baseProcedure.query(async ({input, ctx}) => {
     // we want to load the token from cookie
