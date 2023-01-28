@@ -27,4 +27,19 @@ export const stripeRouter = router({
         session,
       }
     }),
+  balanceTransactionById: baseProcedure
+    .input(
+      z.object({
+        chargeId: z.string(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const charge = await stripe.charges.retrieve(input.chargeId)
+
+      if (!charge) throw new Error(`no session loaded for ${input.chargeId}`)
+
+      return {
+        ...charge,
+      }
+    }),
 })

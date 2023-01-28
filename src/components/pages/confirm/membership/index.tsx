@@ -1,6 +1,6 @@
 import * as React from 'react'
 import useLastResource from 'hooks/use-last-resource'
-import {first, isEmpty} from 'lodash'
+import {isEmpty} from 'lodash'
 import Link from 'next/link'
 import Image from 'next/image'
 import Spinner from 'components/spinner'
@@ -8,7 +8,8 @@ import {IconTwitter} from 'components/share'
 import usePurchaseAndPlay from 'hooks/use-purchase-and-play'
 import {Topic} from 'types'
 import PostPurchase from 'components/survey/tally/post-purchase'
-import {trpc} from '../../../../trpc/trpc.client'
+import {trpc} from 'trpc/trpc.client'
+import {useAccount} from 'hooks/use-account'
 
 type HeaderProps = {
   heading: React.ReactElement
@@ -20,18 +21,36 @@ type ConfirmMembershipProps = {
 }
 
 const LinkToLatestInvoice = () => {
-  const {data: transactions} = trpc.user.transactionsForCurrent.useQuery()
-  return transactions ? (
-    <p className="pt-5 text-lg text-center">
-      <Link
-        href={`/invoices/${
-          transactions ? first(transactions)?.stripe_transaction_id : null
-        }`}
-      >
-        Get Your Invoice
-      </Link>
-    </p>
-  ) : null
+  const {account} = useAccount()
+  const {data: subscriptionData, status: subscriptionLoadingStatus} =
+    trpc.subscriptionDetails.forStripeCustomerId.useQuery({
+      stripeCustomerId: account?.stripe_customer_id,
+    })
+  const {data: charge, status: chargeLoadingStatus} =
+    trpc.stripe.balanceTransactionById.useQuery({
+      chargeId: subscriptionData?.latestInvoice?.charge as string,
+    })
+
+  const dataLoading =
+    subscriptionLoadingStatus === 'loading' || chargeLoadingStatus === 'loading'
+
+  return (
+    <div className="mt-5">
+      {charge?.balance_transaction ? (
+        <p className="text-center">
+          <Link href={`/invoices/${charge?.balance_transaction}`}>
+            <a className="px-5 py-3 text-white bg-blue-500 border-0 rounded-md hover:bg-blue-600 inline-block">
+              Get Your Invoice
+            </a>
+          </Link>
+        </p>
+      ) : dataLoading ? (
+        <div className="relative flex justify-center items-center w-full h-12">
+          <Spinner className="w-6 h-6 text-gray-600" />
+        </div>
+      ) : null}
+    </div>
+  )
 }
 
 const Illustration = () => (
