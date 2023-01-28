@@ -19,9 +19,29 @@ const Membership = () => {
     isTeamMember,
     hasStripeAccount,
     accountOwner,
+    isDisabled,
   } = useAccount()
 
   switch (true) {
+    case isDisabled:
+      return (
+        <>
+          <div className="md:w-[75ch] mx-auto">
+            <div className="w-full leading-relaxed mt-4 text-center">
+              <h3 className="text-lg font-medium text-center">
+                You no longer have an egghead Pro Membership
+              </h3>
+              <p>
+                You still have access to all of our free courses. Restart your
+                membership for access to our pro course.
+              </p>
+            </div>
+            <div className="mt-10">
+              <PricingWidget />
+            </div>
+          </div>
+        </>
+      )
     case accountLoading:
       return (
         <div className="relative flex justify-center w-full">
