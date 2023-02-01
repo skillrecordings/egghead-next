@@ -5,7 +5,7 @@ import {PricingData} from 'types'
 
 type CouponToApply = {
   couponCode: string
-  couponType: 'ppp' | 'default'
+  couponType: 'ppp' | 'special' | 'default'
 }
 
 const findAvailablePPPCoupon = (pricingData: PricingData) => {
@@ -22,7 +22,7 @@ const extractAppliedDefaultCoupon = (
   const appliedCoupon = pricingData?.applied_coupon
 
   // no applied default coupon found
-  if (isEmpty(availableDefaultCoupon) || isEmpty(appliedCoupon)) {
+  if (isEmpty(availableDefaultCoupon) && isEmpty(appliedCoupon)) {
     return {}
   }
 
@@ -34,6 +34,17 @@ const extractAppliedDefaultCoupon = (
       couponToApply: {
         couponCode: appliedCoupon.coupon_code,
         couponType: 'default',
+      },
+    }
+  }
+
+  // if we have an appliedCoupon that isn't region restricted and not default
+  // we want to honor it
+  if (appliedCoupon && !appliedCoupon.coupon_region_restricted) {
+    return {
+      couponToApply: {
+        couponCode: appliedCoupon.coupon_code,
+        couponType: 'special',
       },
     }
   }
