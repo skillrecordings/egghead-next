@@ -20,9 +20,27 @@ const Membership = () => {
     hasStripeAccount,
     accountOwner,
     isDisabled,
+    isInstructor,
   } = useAccount()
 
   switch (true) {
+    case isInstructor:
+      return (
+        <>
+          <div className="sm:h-[50vh] md:w-[75ch] mx-auto">
+            <div className="w-full leading-relaxed mt-8 text-center place-items-center">
+              <h3 className="text-xl font-medium text-center">
+                ✨ You are an egghead instructor ✨
+              </h3>
+              <p className="mt-4">
+                You have lifetime access to all of our courses. If you have an
+                active membership, please reach out to egghead staff if you'd
+                like it canceled.
+              </p>
+            </div>
+          </div>
+        </>
+      )
     case isDisabled:
       return (
         <>
