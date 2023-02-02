@@ -7,6 +7,10 @@ export const useAccount = () => {
   const {data: userAccounts, status: accountLoadingStatus} =
     trpc.user.accountsForCurrent.useQuery()
 
+  const isInstructor = viewer?.is_instructor
+
+  console.log({isInstructor})
+
   const isActiveAccountMember = userAccounts?.some(
     (account: {members: {id: number}[]}) => {
       return account.members?.find((member: {id: number}) => {
@@ -77,6 +81,7 @@ export const useAccount = () => {
     isTeamMember,
     hasStripeAccount,
     isDisabled,
+    isInstructor,
     accountLoading: accountLoadingStatus === 'loading',
     accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
   }
