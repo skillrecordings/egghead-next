@@ -9,8 +9,6 @@ export const useAccount = () => {
 
   const isInstructor = viewer?.is_instructor
 
-  console.log({isInstructor})
-
   const isActiveAccountMember = userAccounts?.some(
     (account: {members: {id: number}[]}) => {
       return account.members?.find((member: {id: number}) => {
