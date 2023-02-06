@@ -236,7 +236,7 @@ const SelectPlanNew: React.FunctionComponent<SelectPlanProps> = ({
         <PlanTitle>{currentPlan?.name}</PlanTitle>
         {!isPPP && appliedCoupon?.coupon_expires_at && !pricesLoading && (
           <Countdown
-            label="Save 40% on Yearly Memberships Price goes up in:"
+            label="Save on Yearly Memberships Price goes up in:"
             date={fromUnixTime(appliedCoupon.coupon_expires_at)}
           />
         )}
