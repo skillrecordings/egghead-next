@@ -539,7 +539,7 @@ const Lesson: React.FC<LessonProps> = ({
                     default={subtitle?.language === 'en'}
                   />
                 )}
-                {/* {metadataTracks && (
+                {notesEnabled && metadataTracks && (
                   <track
                     key={lesson.slug}
                     id="notes"
@@ -552,7 +552,7 @@ const Lesson: React.FC<LessonProps> = ({
                     kind="metadata"
                     label="notes"
                   />
-                )} */}
+                )}
               </Player>
             </div>
             {/* <div
