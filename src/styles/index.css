@@ -179,6 +179,10 @@ pre > code {
   }
 }
 
+.cueplayer-react-cue-bar {
+  @apply hidden;
+}
+
 .cueplayer-react .cueplayer-react-cue-form-submit-button {
   @apply bg-blue-600;
 }
