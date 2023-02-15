@@ -179,7 +179,7 @@ pre > code {
   }
 }
 
-.cueplayer-react-cue-bar {
+.cueplayer-react-cue-bar:empty {
   @apply hidden;
 }
 

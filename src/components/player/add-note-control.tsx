@@ -17,8 +17,7 @@ type AddNoteControlProps = {
   onAddNote?: () => void
 }
 
-const notesCreationAvailable =
-  process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
+const notesCreationAvailable = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
 const NewNoteButton: FunctionComponent<AddNoteButtonProps> = ({
   lesson,
