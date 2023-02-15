@@ -114,6 +114,8 @@ type LessonProps = {
 
 const MAX_FREE_VIEWS = 4
 
+const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
+
 const Lesson: React.FC<LessonProps> = ({
   initialLesson,
   state,
@@ -509,7 +511,9 @@ const Lesson: React.FC<LessonProps> = ({
           >
             <div className={cx({hidden: !playerVisible})}>
               <Player
-                canAddNotes={false}
+                canAddNotes={
+                  isEmpty(viewer) || !notesEnabled ? false : !isFullscreen
+                }
                 className="font-sans"
                 container={fullscreenWrapperRef.current || undefined}
                 controls={

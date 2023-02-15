@@ -29,8 +29,7 @@ import {
   AlertDialogContent,
 } from '@reach/alert-dialog'
 
-const notesCreationAvailable =
-  process.env.NEXT_PUBLIC_NOTES_CREATION_AVAILABLE === 'true'
+const notesEnabled = process.env.NEXT_PUBLIC_NOTES_ENABLED === 'true'
 
 const PlayerSidebar: React.FC<{
   videoResource: VideoResource
@@ -47,18 +46,20 @@ const PlayerSidebar: React.FC<{
   return (
     <div className="relative h-full">
       <Tabs
-        index={0}
+        index={(notesEnabled && videoResourceHasNotes && activeSidebarTab) || 0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
         className="top-0 left-0 flex flex-col w-full h-full text-gray-900 bg-gray-100 shadow-sm lg:absolute dark:bg-gray-1000 dark:text-white"
       >
-        {/* <TabList className="relative z-[1] flex-shrink-0">
-          {videoResourceHasCollection && (
-            <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
-          )}
-          {notesCreationAvailable && videoResourceHasNotes && (
-            <Tab onClick={(e) => console.log('e')}>Notes</Tab>
-          )}
-        </TabList> */}
+        {notesEnabled && (
+          <TabList className="relative z-[1] flex-shrink-0">
+            {videoResourceHasCollection && (
+              <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
+            )}
+            {videoResourceHasNotes && (
+              <Tab onClick={(e) => console.log('e')}>Notes</Tab>
+            )}
+          </TabList>
+        )}
         <TabPanels className="relative flex-grow">
           <TabPanel className="inset-0 lg:absolute">
             <LessonListTab
@@ -67,11 +68,11 @@ const PlayerSidebar: React.FC<{
               onActiveTab={activeSidebarTab === 0}
             />
           </TabPanel>
-          {/* {notesCreationAvailable && (
+          {notesEnabled && videoResourceHasNotes && (
             <TabPanel className="inset-0 lg:absolute">
               <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
             </TabPanel>
-          )} */}
+          )}
           {hasRelatedResources &&
             !videoResourceHasCollection &&
             !videoResourceHasNotes && (
