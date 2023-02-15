@@ -19,7 +19,7 @@ const AutoplayControl = () => {
         type="button"
         role="switch"
         aria-checked={autoplay}
-        className="px-3 py-2 flex items-center w-full group"
+        className="px-3 py-2 flex items-center w-full group h-[54px]"
       >
         <span className="text-xs pr-2 font-mono uppercase">
           Autoplay <span className="sr-only">is {autoplay ? 'on' : 'off'}</span>
