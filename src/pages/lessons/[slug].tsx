@@ -509,7 +509,7 @@ const Lesson: React.FC<LessonProps> = ({
           >
             <div className={cx({hidden: !playerVisible})}>
               <Player
-                canAddNotes={isEmpty(viewer) ? false : !isFullscreen}
+                canAddNotes={false}
                 className="font-sans"
                 container={fullscreenWrapperRef.current || undefined}
                 controls={

@@ -47,7 +47,7 @@ const PlayerSidebar: React.FC<{
   return (
     <div className="relative h-full">
       <Tabs
-        index={(videoResourceHasNotes && activeSidebarTab) || 0}
+        index={0}
         onChange={(tabIndex) => setPlayerPrefs({activeSidebarTab: tabIndex})}
         className="top-0 left-0 flex flex-col w-full h-full text-gray-900 bg-gray-100 shadow-sm lg:absolute dark:bg-gray-1000 dark:text-white"
       >
@@ -55,7 +55,7 @@ const PlayerSidebar: React.FC<{
           {videoResourceHasCollection && (
             <Tab onClick={(e) => console.log('e')}>Lessons</Tab>
           )}
-          {videoResourceHasNotes && (
+          {notesCreationAvailable && videoResourceHasNotes && (
             <Tab onClick={(e) => console.log('e')}>Notes</Tab>
           )}
         </TabList>
@@ -67,9 +67,11 @@ const PlayerSidebar: React.FC<{
               onActiveTab={activeSidebarTab === 0}
             />
           </TabPanel>
-          <TabPanel className="inset-0 lg:absolute">
-            <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
-          </TabPanel>
+          {notesCreationAvailable && (
+            <TabPanel className="inset-0 lg:absolute">
+              <NotesTab videoResourceHasNotes={videoResourceHasNotes} />
+            </TabPanel>
+          )}
           {hasRelatedResources &&
             !videoResourceHasCollection &&
             !videoResourceHasNotes && (
