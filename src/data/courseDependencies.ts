@@ -6,22 +6,29 @@ type CourseDependencies =
       type?: string
       guid?: string
       slug: string
-      dependencies?: {
-        [key: string]: string | undefined
-      }
+      image?: string
+      dependencies?: object
+      multiModuleCourse?: boolean
+      multiModuleSlug?: string
+      multiModuletitle?: string
+      totalCourseModules?: number
+      moduleResource?: boolean
+      moduleLabel?: number
       courseProject?: object
       illustrator?: object
       freshness?: object
+      goals?: string[]
       topics?: string[]
       quickFacts?: string[]
       nextSteps?: string[]
-      prerequisites?: string[]
+      prerequisites?: object[]
       essentialQuestions?: string[]
+      reviews?: object[]
       pairWithResources?: object[]
     }
   | undefined
 
 const courseDependencies = (courseSlug: string): CourseDependencies =>
-  dependencies(courseSlug) || undefined
+  dependencies(courseSlug)
 
 export default courseDependencies
