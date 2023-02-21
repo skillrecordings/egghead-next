@@ -3,12 +3,14 @@ import useSWR from 'swr'
 import {loadPlaylist, loadAuthedPlaylistForUser} from 'lib/playlists'
 import {GetServerSideProps} from 'next'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
+import MultiModuleCollectionPageLayout from 'components/layouts/multi-module-collection-page-layout'
 import PhpCollectionPageLayout from 'components/layouts/php-collection-page-layout'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src'
+import courseDependencies from 'data/courseDependencies'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
@@ -29,25 +31,33 @@ const Course: React.FC<CourseProps> = (props) => {
       })
     : lessons
 
-  return (
-    <>
-      {/*  Not setting a pattern. This hard coded ternary is just an experiment for */}
-      {/* displaying modules on courses */}
+  const multiModuleCourse = courseDependencies(slug)
 
-      {slug === 'a-complete-introduction-to-php-33d9d04c' ? (
+  switch (true) {
+    case slug === 'a-complete-introduction-to-php-33d9d04c':
+      return (
         <PhpCollectionPageLayout
           lessons={courseLessons}
           course={course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
-      ) : (
-        <CollectionPageLayout
+      )
+    case multiModuleCourse?.slug === slug:
+      return (
+        <MultiModuleCollectionPageLayout
           lessons={courseLessons}
           course={course}
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
-      )}
-    </>
+      )
+  }
+
+  return (
+    <CollectionPageLayout
+      lessons={courseLessons}
+      course={course}
+      ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
+    />
   )
 }
 
