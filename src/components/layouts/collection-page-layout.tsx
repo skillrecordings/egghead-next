@@ -136,7 +136,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   course,
   ogImageUrl,
 }) => {
-  const courseDependencies: any = getDependencies(course.slug)
+  const courseDependencies = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
   const {viewer} = useViewer()
@@ -204,7 +204,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     quickFacts,
     prerequisites,
     essentialQuestions,
-  } = courseDependencies
+  } = courseDependencies || {}
 
   const {
     title,
