@@ -204,6 +204,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     quickFacts,
     prerequisites,
     essentialQuestions,
+    moduleResource,
+    multiModuleSlug,
+    multiModuletitle,
+    moduleLabel,
   } = courseDependencies || {}
 
   const {
@@ -465,6 +469,19 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
+              {moduleResource && multiModuleSlug && (
+                <div className="mt-4 -mb-4 text-base leading-loose text-center md:mb-0 md:mt-0 md:text-left">
+                  <Link href={multiModuleSlug}>
+                    <a>
+                      <span className="text-gray-700 dark:text-gray-400 hover:underline">
+                        {multiModuletitle && multiModuletitle}
+                      </span>
+                    </a>
+                  </Link>
+                  {' • '}
+                  <span className="font-semibold">Part {moduleLabel}</span>
+                </div>
+              )}
               <h1 className="mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
                 {title}
               </h1>

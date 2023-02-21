@@ -810,7 +810,7 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<CoursePageLayoutP
                   <div className="text-sm font-normal text-gray-600 dark:text-gray-300">
                     {duration && `${convertTimeWithTitles(duration)} • `}
                     {lessons.length + playlistLessons.length} lessons{' '}
-                    {multiModuleCourse && '• 4 Modules'}{' '}
+                    {multiModuleCourse && `• ${totalCourseModules}`}{' '}
                   </div>
                 </div>
                 {multiModuleCourse ? (
