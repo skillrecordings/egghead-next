@@ -31,7 +31,8 @@ const Course: React.FC<CourseProps> = (props) => {
       })
     : lessons
 
-  const multiModuleCourse = courseDependencies(slug)
+  const multimoduleCourse = courseDependencies(slug)
+  const multiModuleCourseSlug = multimoduleCourse?.slug
 
   switch (true) {
     case slug === 'a-complete-introduction-to-php-33d9d04c':
@@ -42,7 +43,7 @@ const Course: React.FC<CourseProps> = (props) => {
           ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${slug}?v=20201103`}
         />
       )
-    case multiModuleCourse?.slug === slug:
+    case multiModuleCourseSlug && multiModuleCourseSlug === slug:
       return (
         <MultiModuleCollectionPageLayout
           lessons={courseLessons}
