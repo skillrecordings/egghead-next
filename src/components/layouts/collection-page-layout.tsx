@@ -7,7 +7,7 @@ import {useQuery} from '@tanstack/react-query'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take} from 'lodash'
+import {get, first, filter, isEmpty, take, truncate} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {useViewer} from 'context/viewer-context'
@@ -204,13 +204,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     quickFacts,
     prerequisites,
     essentialQuestions,
-    multiModuleCourse,
-    moduleResource,
-    moduleLabel,
-    multiModuleSlug,
-    multiModuletitle,
-    totalCourseModules,
-    multiModuleLineheight,
   } = courseDependencies
 
   const {
@@ -413,7 +406,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   return (
     <>
       <NextSeo
-        description={removeMarkdown(description)}
+        description={truncate(removeMarkdown(description), {length: 155})}
         canonical={`${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`}
         title={title}
         titleTemplate={'%s | egghead.io'}
@@ -425,7 +418,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         openGraph={{
           title,
           url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}${path}`,
-          description: removeMarkdown(description),
+          description: truncate(removeMarkdown(description), {length: 155}),
           site_name: 'egghead',
           images: [
             {
@@ -472,19 +465,6 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   </div>
                 )}
               </div>
-              {moduleResource && (
-                <div className="mt-4 -mb-4 text-base leading-loose text-center md:mb-0 md:mt-0 md:text-left">
-                  <Link href={multiModuleSlug}>
-                    <a>
-                      <span className="text-gray-700 dark:text-gray-400 hover:underline">
-                        {multiModuletitle && multiModuletitle}
-                      </span>
-                    </a>
-                  </Link>
-                  {' • '}
-                  <span className="font-semibold">Part {moduleLabel}</span>
-                </div>
-              )}
               <h1 className="mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
                 {title}
               </h1>
@@ -811,157 +791,87 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             </div>
             <section className="mt-8">
               <div className="flex flex-col mb-2 space-y-4 ">
-                {moduleResource && (
-                  <div className="p-4 my-4 border border-gray-100 rounded-md dark:text-gray-400 bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
-                    Part{' '}
-                    {moduleLabel && (
-                      <span className="font-semibold dark:text-gray-100">
-                        {moduleLabel}
-                      </span>
-                    )}{' '}
-                    of {totalCourseModules && totalCourseModules} in the{' '}
-                    <Link href={multiModuleSlug}>
-                      <a>
-                        <span className="font-semibold hover:underline dark:text-gray-100">
-                          {multiModuletitle && multiModuletitle}
-                        </span>
-                      </a>
-                    </Link>
-                  </div>
-                )}
-                <h2 className="text-xl font-bold">
-                  {multiModuleCourse ? 'Modules' : 'Course Content'}
-                </h2>
+                <h2 className="text-xl font-bold">Course Content</h2>
                 <div className="text-sm font-normal text-gray-600 dark:text-gray-300">
                   {duration && `${convertTimeWithTitles(duration)} • `}
                   {lessons.length + playlistLessons.length} lessons{' '}
-                  {multiModuleCourse && '• 4 Modules'}{' '}
                 </div>
               </div>
-              {multiModuleCourse ? (
-                <ul className="relative">
-                  <div
-                    className={`bg-gray-200 dark:bg-gray-700 absolute left-[79px] w-[1px] top-[8%] z-0 ${
-                      multiModuleLineheight
-                        ? `height-[${multiModuleLineheight}]`
-                        : ''
-                    }`}
-                  ></div>
-                  {playlists.map((course: any) => {
+              <div>
+                <ul>
+                  {playlists.map((playlist: any) => {
                     return (
-                      <ul key={course.slug}>
-                        <div className="flex items-center py-10 space-x-10 max-w-max-content">
-                          <Link href={course.path}>
-                            <a>
-                              <div className="flex flex-shrink-0">
-                                <Image
-                                  src={course.square_cover_url}
-                                  width={160}
-                                  height={160}
-                                  layout="fixed"
-                                  quality={100}
-                                />
-                              </div>
-                            </a>
-                          </Link>
-                          <div className="flex flex-col">
-                            <Link href={course.path}>
-                              <a>
-                                <h2 className="text-lg font-semibold leading-tight">
-                                  {course.title}
-                                </h2>
+                      <li key={playlist.slug}>
+                        <div className="flex items-center py-2 font-semibold leading-tight">
+                          {playlist.path && (
+                            <Link href={playlist.path}>
+                              <a
+                                onClick={() => {
+                                  track(
+                                    `clicked collection link on course page`,
+                                    {
+                                      course: course.slug,
+                                      collection: playlist.slug,
+                                    },
+                                  )
+                                }}
+                                className="flex items-center w-full font-semibold hover:underline"
+                              >
+                                <Markdown className="mt-0 prose text-gray-900 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
+                                  {playlist.title}
+                                </Markdown>
                               </a>
                             </Link>
-                            <div className="mt-1 text-xs font-semibold text-gray-700 dark:text-gray-500">
-                              {course.duration &&
-                                `${convertTimeWithTitles(course.duration)} • `}
-                              {course.lessons.length} lessons
-                            </div>
-                          </div>
+                          )}
                         </div>
-                      </ul>
+                        <div>
+                          <ul className="ml-8">
+                            {playlist?.lessons?.map(
+                              (lesson: LessonResource, index: number) => {
+                                const isComplete =
+                                  completedLessonSlugs.includes(lesson.slug)
+                                return (
+                                  <li key={`${playlist.slug}::${lesson.slug}`}>
+                                    <div className="flex items-center py-2 leading-tight">
+                                      <div className="flex items-center flex-grow mr-2">
+                                        <small className="w-4 pt-px font-normal text-gray-500 scale-75 dark:text-gray-600 font-xs">
+                                          {isComplete ? `✔️` : index + 1}
+                                        </small>
+                                        <PlayIcon className="mx-1 text-gray-500 dark:text-gray-100" />
+                                      </div>
+                                      {lesson.path && (
+                                        <Link href={lesson.path}>
+                                          <a
+                                            onClick={() => {
+                                              track(
+                                                `clicked collection video link on course page`,
+                                                {
+                                                  course: course.slug,
+                                                  video: lesson.slug,
+                                                  collection: playlist.slug,
+                                                },
+                                              )
+                                            }}
+                                            className="flex items-center w-full hover:underline"
+                                          >
+                                            <Markdown className="mt-0 prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
+                                              {lesson.title}
+                                            </Markdown>
+                                          </a>
+                                        </Link>
+                                      )}
+                                    </div>
+                                  </li>
+                                )
+                              },
+                            )}
+                          </ul>
+                        </div>
+                      </li>
                     )
                   })}
                 </ul>
-              ) : (
-                <div>
-                  <ul>
-                    {playlists.map((playlist: any) => {
-                      return (
-                        <li key={playlist.slug}>
-                          <div className="flex items-center py-2 font-semibold leading-tight">
-                            {playlist.path && (
-                              <Link href={playlist.path}>
-                                <a
-                                  onClick={() => {
-                                    track(
-                                      `clicked collection link on course page`,
-                                      {
-                                        course: course.slug,
-                                        collection: playlist.slug,
-                                      },
-                                    )
-                                  }}
-                                  className="flex items-center w-full font-semibold hover:underline"
-                                >
-                                  <Markdown className="mt-0 prose text-gray-900 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                    {playlist.title}
-                                  </Markdown>
-                                </a>
-                              </Link>
-                            )}
-                          </div>
-                          <div>
-                            <ul className="ml-8">
-                              {playlist?.lessons?.map(
-                                (lesson: LessonResource, index: number) => {
-                                  const isComplete =
-                                    completedLessonSlugs.includes(lesson.slug)
-                                  return (
-                                    <li
-                                      key={`${playlist.slug}::${lesson.slug}`}
-                                    >
-                                      <div className="flex items-center py-2 leading-tight">
-                                        <div className="flex items-center flex-grow mr-2">
-                                          <small className="w-4 pt-px font-normal text-gray-500 scale-75 dark:text-gray-600 font-xs">
-                                            {isComplete ? `✔️` : index + 1}
-                                          </small>
-                                          <PlayIcon className="mx-1 text-gray-500 dark:text-gray-100" />
-                                        </div>
-                                        {lesson.path && (
-                                          <Link href={lesson.path}>
-                                            <a
-                                              onClick={() => {
-                                                track(
-                                                  `clicked collection video link on course page`,
-                                                  {
-                                                    course: course.slug,
-                                                    video: lesson.slug,
-                                                    collection: playlist.slug,
-                                                  },
-                                                )
-                                              }}
-                                              className="flex items-center w-full hover:underline"
-                                            >
-                                              <Markdown className="mt-0 prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                                {lesson.title}
-                                              </Markdown>
-                                            </a>
-                                          </Link>
-                                        )}
-                                      </div>
-                                    </li>
-                                  )
-                                },
-                              )}
-                            </ul>
-                          </div>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )}
+              </div>
 
               <div>
                 <ul>
