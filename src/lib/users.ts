@@ -268,11 +268,11 @@ export async function loadUserCompletedLessons(token?: string): Promise<any> {
   const {user_progress} = await graphQLClient.request(query)
 
   const completeLessons = flatten(
-    user_progress.map((l: any) => {
-      return l.collection.lessons
-        .filter((item: any) => item.completed === true)
-        .map((i: any) => {
-          return i.slug
+    user_progress.map((p: any) => {
+      return p.collection.lessons
+        .filter((l: any) => l.completed === true)
+        .map((l: any) => {
+          return l.slug
         })
     }),
   )
