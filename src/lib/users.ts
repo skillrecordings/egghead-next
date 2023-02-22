@@ -196,12 +196,6 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
             image: image_thumb_url
             path
             id
-            lessons {
-              title
-              slug
-              path
-              completed
-            }
           }
           ... on Course {
             title
@@ -209,7 +203,6 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
               title
               slug
               path
-              completed
             }
             image: image_thumb_url
             type

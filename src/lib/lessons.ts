@@ -171,7 +171,6 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       title
       description
       duration
-      completed
       free_forever
       path
       transcript
