@@ -25,6 +25,7 @@ const SearchHitResourceCard: React.FC<{
   className?: string
   small?: boolean
   completedCoursesIds: string[]
+  completeLessonsSlugs: string[]
 }> = ({
   children,
   resource,
@@ -33,8 +34,11 @@ const SearchHitResourceCard: React.FC<{
   describe = true,
   small = false,
   completedCoursesIds,
+  completeLessonsSlugs,
   ...props
 }) => {
+  const isLessonCompleted =
+    resource?.type === 'lesson' && completeLessonsSlugs?.includes(resource.slug)
   const isCourseCompleted =
     !isEmpty(completedCoursesIds) &&
     resource.id &&
@@ -72,7 +76,7 @@ const SearchHitResourceCard: React.FC<{
                 aria-hidden
                 className="uppercase font-medium sm:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 flex items-center"
               >
-                {isCourseCompleted && (
+                {(isCourseCompleted || isLessonCompleted) && (
                   <span title="Course completed" className=" text-green-500">
                     <CheckIcon />
                   </span>

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import gql from 'graphql-tag'
+import {flatten} from 'lodash'
 import getAccessTokenFromCookie from 'utils/get-access-token-from-cookie'
 import {getGraphQLClient} from '../utils/configured-graphql-client'
 
@@ -195,6 +196,12 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
             image: image_thumb_url
             path
             id
+            lessons {
+              title
+              slug
+              path
+              completed
+            }
           }
           ... on Course {
             title
@@ -202,6 +209,7 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
               title
               slug
               path
+              completed
             }
             image: image_thumb_url
             type
@@ -236,6 +244,49 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
   if (user_progress) {
     return {
       completeCourses,
+    }
+  }
+}
+
+export async function loadUserCompletedLessons(token?: string): Promise<any> {
+  const query = gql`
+    query completedCourses {
+      user_progress {
+        collection {
+          ... on Playlist {
+            lessons {
+              slug
+              completed
+            }
+          }
+          ... on Course {
+            lessons {
+              slug
+              completed
+            }
+          }
+        }
+      }
+    }
+  `
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+
+  const {user_progress} = await graphQLClient.request(query)
+
+  const completeLessons = flatten(
+    user_progress.map((l: any) => {
+      return l.collection.lessons
+        .filter((item: any) => item.completed === true)
+        .map((i: any) => {
+          return i.slug
+        })
+    }),
+  )
+
+  if (user_progress) {
+    return {
+      completeLessons,
     }
   }
 }

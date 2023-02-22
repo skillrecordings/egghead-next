@@ -4,11 +4,13 @@ import {SearchHitResourceCard} from 'components/card/search-hit-resource-card'
 type HitComponentProps = {
   hit: any
   completedCoursesIds: string[]
+  completeLessonsSlugs: string[]
 }
 
 const HitComponent: FunctionComponent<HitComponentProps> = ({
   hit,
   completedCoursesIds,
+  completeLessonsSlugs,
 }) => {
   const {image, type, instructor_url, instructor_name, instructor} = hit
 
@@ -41,6 +43,7 @@ const HitComponent: FunctionComponent<HitComponentProps> = ({
         },
       }}
       completedCoursesIds={completedCoursesIds}
+      completeLessonsSlugs={completeLessonsSlugs}
     />
   )
 }

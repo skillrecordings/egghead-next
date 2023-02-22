@@ -4,13 +4,22 @@ import {useQuery} from '@tanstack/react-query'
 import {connectHits} from 'react-instantsearch-dom'
 import HitComponent from './components/hit'
 import {useViewer} from 'context/viewer-context'
-import {loadUserCompletedCourses} from 'lib/users'
+import {loadUserCompletedCourses, loadUserCompletedLessons} from 'lib/users'
 
 const useUserCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
     if (viewerId) {
       const {completeCourses} = await loadUserCompletedCourses()
       return completeCourses
+    }
+  })
+}
+
+const useUserCompletedLessons = (viewerId: number) => {
+  return useQuery(['completeLessons'], async () => {
+    if (viewerId) {
+      const {completeLessons} = await loadUserCompletedLessons()
+      return completeLessons
     }
   })
 }
@@ -23,6 +32,7 @@ const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => {
   const {viewer} = useViewer()
   const viewerId = viewer?.id
   const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+  const {data: completeLessonsSlugs} = useUserCompletedLessons(viewerId)
   const completedCoursesIds =
     !isEmpty(completeCourseData) &&
     completeCourseData.map((course: any) => course.collection.id)
@@ -34,6 +44,7 @@ const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => {
             key={hit.objectID}
             hit={hit}
             completedCoursesIds={completedCoursesIds}
+            completeLessonsSlugs={completeLessonsSlugs}
           />
         )
       })}
