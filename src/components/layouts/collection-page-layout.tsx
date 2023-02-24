@@ -35,6 +35,7 @@ import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 import {loadUserCompletedCourses} from 'lib/users'
 
 import LoginForm from 'pages/login'
+import {trpc} from 'trpc/trpc.client'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -142,6 +143,11 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const {viewer} = useViewer()
   const viewerId = viewer?.id
   const {data: completedCourses} = useCompletedCourses(viewerId)
+
+  const {data: courseProgress} = trpc.progress.forPlaylist.useQuery({
+    slug: course.slug,
+  })
+
   const isCourseCompleted =
     !isEmpty(completedCourses) &&
     completedCourses.some(
