@@ -491,8 +491,17 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                       <Duration duration={convertTimeWithTitles(duration)} />
                     )}
                     <span>&middot;</span>
-                    <div>
-                      {lessons.length + playlistLessons.length} lessons{' '}
+                    <div className="flex items-center space-x-1">
+                      <span>
+                        {lessons.length + playlistLessons.length} lessons
+                      </span>
+                      {courseProgress?.completed_lesson_count &&
+                        courseProgress?.completed_lesson_count <
+                          courseProgress.lesson_count && (
+                          <span className="text-gray-700 dark:text-gray-400">
+                            ({courseProgress?.completed_lesson_count} watched)
+                          </span>
+                        )}
                     </div>
                   </div>
                 </div>
