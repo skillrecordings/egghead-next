@@ -277,11 +277,9 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     setIsFavorite(favorited)
   }, [favorited])
 
-  const completedLessonSlugs = get(
-    collection_progress,
-    'completed_lessons',
-    [],
-  ).map((lesson: LessonResource) => lesson.slug)
+  const completedLessonSlugs = get(courseProgress, 'completed_lessons', []).map(
+    (lesson) => lesson.slug,
+  )
 
   const {
     full_name: name,
@@ -309,13 +307,13 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     ? first(
         lessons.filter(
           (lesson: LessonResource) =>
-            !completedLessonSlugs.includes(lesson.slug),
+            !completedLessonSlugs?.includes(lesson.slug),
         ),
       )
     : first(
         playlistLessons.filter(
           (lesson: LessonResource) =>
-            !completedLessonSlugs.includes(lesson.slug),
+            !completedLessonSlugs?.includes(lesson.slug),
         ),
       )
 
@@ -450,7 +448,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               {image_url && (
                 <div className="flex items-center justify-center md:hidden">
                   <CourseArtwork
-                    path={nextLesson.path}
+                    path={nextLesson?.path}
                     trackText="clicked course image on mobile"
                     size={imageIsTag ? 100 : 200}
                   />
@@ -787,7 +785,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             {image_url && (
               <div className="hidden md:block">
                 <CourseArtwork
-                  path={nextLesson.path}
+                  path={nextLesson?.path}
                   size={imageIsTag ? 200 : 420}
                   trackText="clicked course image"
                 />
@@ -852,7 +850,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                             {playlist?.lessons?.map(
                               (lesson: LessonResource, index: number) => {
                                 const isComplete =
-                                  completedLessonSlugs.includes(lesson.slug)
+                                  completedLessonSlugs?.includes(lesson.slug)
                                 return (
                                   <li key={`${playlist.slug}::${lesson.slug}`}>
                                     <div className="flex items-center py-2 leading-tight">
@@ -899,7 +897,7 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div>
                 <ul>
                   {lessons.map((lesson: LessonResource, index: number) => {
-                    const isComplete = completedLessonSlugs.includes(
+                    const isComplete = completedLessonSlugs?.includes(
                       lesson.slug,
                     )
                     return (
