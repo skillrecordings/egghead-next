@@ -3,14 +3,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
 import toast from 'react-hot-toast'
-import {useQuery} from '@tanstack/react-query'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
 import {get, first, filter, isEmpty, take, truncate} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
-import {useViewer} from 'context/viewer-context'
 import {track} from 'utils/analytics'
 import analytics from 'utils/analytics'
 import FolderDownloadIcon from '../icons/folder-download'
@@ -32,7 +30,6 @@ import {HorizontalResourceCard} from '../card/horizontal-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import DialogButton from '../pages/courses/dialog-button'
 import MembershipDialogButton from '../pages/courses/membership-dialog-button'
-import {loadUserCompletedCourses} from 'lib/users'
 
 import LoginForm from 'pages/login'
 import {trpc} from 'trpc/trpc.client'
@@ -123,15 +120,6 @@ export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
   </div>
 )
 
-const useCompletedCourses = (viewerId: number) => {
-  return useQuery(['completeCourses'], async () => {
-    if (viewerId) {
-      const {completeCourses} = await loadUserCompletedCourses()
-      return completeCourses
-    }
-  })
-}
-
 const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons = [],
   course,
@@ -140,19 +128,10 @@ const CollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   const courseDependencies = getDependencies(course.slug)
   const [isFavorite, setIsFavorite] = React.useState(false)
   const [clickable, setIsClickable] = React.useState(true)
-  const {viewer} = useViewer()
-  const viewerId = viewer?.id
-  const {data: completedCourses} = useCompletedCourses(viewerId)
-
   const {data: courseProgress} = trpc.progress.forPlaylist.useQuery({
     slug: course.slug,
   })
-
-  const isCourseCompleted =
-    !isEmpty(completedCourses) &&
-    completedCourses.some(
-      (courseItem: any) => courseItem?.collection?.slug === course.slug,
-    )
+  const isCourseCompleted = courseProgress?.is_complete
   const defaultPairWithResources: any[] = take(
     [
       {
