@@ -13,7 +13,7 @@ type CustomSearchBoxProps = {
 const CustomSearchBox: FunctionComponent<CustomSearchBoxProps> = ({
   currentRefinement,
   refine,
-  placeholder = 'What do you want to learn today?',
+  placeholder = 'Search for Anything',
 }) => {
   const [timerId, setTimerId] = React.useState<any>()
   const [trackTimerId, setTrackTimerId] = React.useState<any>()

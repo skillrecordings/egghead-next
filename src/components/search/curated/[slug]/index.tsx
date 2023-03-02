@@ -86,26 +86,6 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                 {description}
               </ReactMarkdown>
             </div>
-            {jumbotron?.resource ? (
-              <div className="max-w-xs w-full">
-                <VerticalResourceCard
-                  describe={true}
-                  resource={jumbotron.resource}
-                  location={location}
-                  as="h2"
-                />
-              </div>
-            ) : jumbotron?.image ? (
-              <Image
-                src={jumbotron.image}
-                width={460}
-                height={460}
-                alt=""
-                aria-hidden
-                priority
-                quality={100}
-              />
-            ) : null}
           </div>
         </div>
       </header>

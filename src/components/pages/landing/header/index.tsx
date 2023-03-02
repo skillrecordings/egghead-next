@@ -48,12 +48,16 @@ const Header: React.FC<{topic?: string; customer?: any}> = ({
         />
         <div className="relative z-10 flex flex-col items-center justify-center max-w-screen-lg pb-8">
           <h1 className="text-2xl font-bold text-center lg:text-4xl sm:text-3xl leading-tighter sm:max-w-[22ch] tracking-tight">
-            Level-Up Today with No BS Video Courses for Busy Devs
+            Learn Modern Web Development in a Fraction of the Time
           </h1>
           <h2 className="pt-3 pb-10 text-center text-blue-500 dark:text-amber-400 lg:text-lg sm:text-base text-sm leading-tight">
-            high-quality video tutorials and curated learning resources with
-            zero cruft
+            Sharpen your skills and stay current with the modern stack. Start
+            Today.
           </h2>
+        </div>
+
+        <div className="pb-32 z-10">
+          <Browse />
         </div>
         <div className="sm:absolute bottom-10">
           <TechLogos />

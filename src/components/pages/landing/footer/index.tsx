@@ -237,18 +237,18 @@ const Footer: React.FC<{topic?: string}> = ({topic}) => {
   const userPresent = Boolean(viewer)
   const userIsNonMember = userPresent && !isMember(viewer)
 
-  let Offer
-
-  switch (true) {
-    case userIsNonMember:
-      Offer = Join
-      break
-    case userPresent:
-      Offer = Browse
-      break
-    default:
-      Offer = ProvideEmail
-  }
+  let Offer = Browse
+  //
+  // switch (true) {
+  //   case userIsNonMember:
+  //     Offer = Join
+  //     break
+  //   case userPresent:
+  //     Offer = Browse
+  //     break
+  //   default:
+  //     Offer = ProvideEmail
+  // }
 
   return (
     <section className="sm:min-h-[30vh] relative w-full flex flex-col items-center justify-center sm:py-32 py-24 px-5">

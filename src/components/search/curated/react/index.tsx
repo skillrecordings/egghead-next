@@ -74,26 +74,6 @@ You can find courses below curated just for you whether you're looking for a par
 
 `}
         </Topic>
-        <ExternalTrackedLink
-          eventName="clicked epic react banner"
-          params={{location}}
-          className="block md:col-span-4 w-full h-full overflow-hidden border-0 border-gray-100 relative text-center"
-          href="https://epicreact.dev"
-          target="_blank"
-          rel="noopener"
-        >
-          <div className="overflow-hidden flex items-center justify-center">
-            <Image
-              priority
-              quality={100}
-              width={417}
-              height={463}
-              alt="Get Really Good at React on EpicReact.dev by Kent C. Dodds"
-              className="hover:scale-[102%] ease-in-out duration-500"
-              src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1626109728/epic-react/default-banners/banner-react-page_2x.jpg"
-            />
-          </div>
-        </ExternalTrackedLink>
       </div>
       <ThreeLevels
         beginner={beginner}

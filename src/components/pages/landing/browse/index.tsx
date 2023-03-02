@@ -6,15 +6,14 @@ import title from 'title'
 const Browse: React.FC<{topic?: string}> = ({topic}) => {
   return (
     <div className="flex flex-col items-center justify-center">
-      <Link href="/learn" passHref>
+      <Link href="/q?access_state=free" passHref>
         <a
           onClick={() => {
             track('clicked start learning', {location: 'homepage'})
           }}
           className="flex items-center justify-center px-8 py-4 transition-all duration-200 ease-in-out dark:bg-blue-50 bg-gray-900 dark:text-black text-white rounded-md dark:hover:bg-white font-medium group"
         >
-          Learn from Curated {title(topic?.replace('_', ' ') ?? 'Full Stack')}{' '}
-          Courses
+          Explore the Most Free Popular Courses on egghead
           <i
             className="transition-all duration-200 ease-in-out scale-75 gg-arrow-right group-hover:translate-x-1"
             aria-hidden
