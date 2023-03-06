@@ -36,6 +36,7 @@ const Header: FunctionComponent = () => {
   const {subscriber, loadingSubscriber} = useCio()
   const {sm, md} = useBreakpoint()
   const [isOpen, setOpen] = React.useState<boolean>(false)
+  const {is_instructor} = viewer || false
 
   React.useEffect(() => {
     setIsMounted(true)
@@ -57,7 +58,8 @@ const Header: FunctionComponent = () => {
       ),
     )
 
-  const isProOrInstructor = viewer?.is_pro || viewer?.is_instructor
+  const isProOrInstructor = viewer?.is_pro || is_instructor
+  const profileLink = is_instructor ? '/instructor' : '/user/membership'
 
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
   React.useEffect(() => {
@@ -104,7 +106,7 @@ const Header: FunctionComponent = () => {
 
   const User = () => {
     return (
-      <Link href="/user/membership">
+      <Link href={profileLink}>
         <a
           onClick={() =>
             track('clicked account', {

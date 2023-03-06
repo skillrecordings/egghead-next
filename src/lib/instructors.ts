@@ -26,6 +26,16 @@ export type Instructor = {
   avatar_64_url: string
 }
 
+type SanityInstructor = {
+  _id: string
+  eggheadInstructorId: string
+  person: {
+    _id: string
+    image: string
+    name: string
+  }
+}
+
 export async function loadInstructors(page = 1) {
   const query = `query getInstructors($page: Int!){
     instructors(per_page: 24, page:$page){
@@ -99,4 +109,38 @@ export const loadSanityInstructor = async (selectedInstructor: string) => {
   if (!query) return
   console.log(await sanityClient.fetch(query))
   return await sanityClient.fetch(query)
+}
+
+const instructorQuery = groq`
+  *[_type == 'collaborator' && role == 'instructor' && eggheadInstructorId == $eggheadInstructorId][]{
+    'person': person-> {
+        _id,
+        name,
+        'image': image.url,
+      },
+    eggheadInstructorId,
+    _id
+  }`
+
+const topicQuery = groq`
+  *[_type == 'software-library'][]{
+    'id': _id,
+    name
+  }
+`
+
+export const loadSanityInstructorByEggheadId = async (eggheadId: number) => {
+  const instructor: SanityInstructor[] = await sanityClient.fetch(
+    instructorQuery,
+    {eggheadInstructorId: String(eggheadId)},
+  )
+
+  return instructor.find(
+    (instructor) => instructor.eggheadInstructorId === String(eggheadId),
+  )
+}
+
+export const loadInstructorWipContent = async (id: string) => {
+  //   const instructor: Instructor[] = await sanityClient.fetch(instructorQuery)
+  //   const topics: Topic[] = await sanityClient.fetch(topicQuery)
 }

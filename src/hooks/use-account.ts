@@ -80,6 +80,7 @@ export const useAccount = () => {
     hasStripeAccount,
     isDisabled,
     isInstructor,
+    instructorId: viewer?.instructor_id,
     accountLoading: accountLoadingStatus === 'loading',
     accountOwner: userAccounts?.find((account: any) => account?.owner)?.owner,
   }

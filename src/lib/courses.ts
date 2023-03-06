@@ -90,3 +90,15 @@ export async function loadCourseMetadata(id: number) {
 export async function loadCourse(slug: string, token?: string) {
   return loadPlaylist(slug, token)
 }
+
+export async function loadWipSanityCourse(slug: string, token?: string) {
+  const query = groq`*[_type == 'course' && slug.current == $slug][0]{
+    title,
+    slug,
+    description,
+ }`
+
+  const course = await sanityClient.fetch(query, {slug})
+
+  return course
+}

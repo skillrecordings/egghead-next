@@ -4,6 +4,7 @@ import {
   UserCircleIcon,
   CreditCardIcon,
   UsersIcon,
+  PresentationChartBarIcon,
 } from '@heroicons/react/outline'
 import cx from 'classnames'
 import Link from 'next/link'
@@ -13,12 +14,21 @@ import LoginRequired from 'components/login-required'
 import {useAccount} from 'hooks/use-account'
 
 export default function UserLayout({children}: any) {
-  const {isTeamAccountOwner} = useAccount()
+  const {isTeamAccountOwner, isInstructor} = useAccount()
   const {viewer} = useViewer()
   const router = useRouter()
   const currentPath = router.asPath
 
   const userPagesMap = [
+    ...(isInstructor
+      ? [
+          {
+            path: '/instructor',
+            name: 'Instructor',
+            icon: PresentationChartBarIcon,
+          },
+        ]
+      : []),
     {
       path: '/user/membership',
       name: 'Membership',
@@ -91,7 +101,9 @@ export default function UserLayout({children}: any) {
                 </nav>
               </aside>
               <section className="divide-y divide-gray-200 lg:col-span-9 flex">
-                <div className="py-6 px-4 sm:p-6 lg:pb-8 w-full flex justify-center items-center">
+                <div
+                  className={`py-6 px-4 sm:p-6 lg:pb-8 w-full flex justify-center items-center`}
+                >
                   {children}
                 </div>
               </section>
