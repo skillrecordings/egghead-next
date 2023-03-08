@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import {loadPlaylist, loadAuthedPlaylistForUser} from 'lib/playlists'
 import {GetServerSideProps} from 'next'
 import CollectionPageLayout from 'components/layouts/collection-page-layout'
+import DraftCourseLayout from 'components/layouts/draft-course-page-layout'
 import MultiModuleCollectionPageLayout from 'components/layouts/multi-module-collection-page-layout'
 import PhpCollectionPageLayout from 'components/layouts/php-collection-page-layout'
 import filter from 'lodash/filter'
@@ -11,14 +12,26 @@ import get from 'lodash/get'
 import getTracer from 'utils/honeycomb-tracer'
 import {setupHttpTracing} from 'utils/tracing-js/dist/src'
 import courseDependencies from 'data/courseDependencies'
+import {loadDraftSanityCourse} from 'lib/courses'
 const tracer = getTracer('course-page')
 
 type CourseProps = {
   course: any
+  draftCourse: any
 }
 
 const Course: React.FC<CourseProps> = (props) => {
-  const {data} = useSWR(`${props.course.slug}`, loadAuthedPlaylistForUser)
+  const {data} = useSWR(`${props?.course?.slug}`, loadAuthedPlaylistForUser)
+
+  if (props.draftCourse) {
+    return (
+      <DraftCourseLayout
+        lessons={props.draftCourse.lessons}
+        course={props.draftCourse}
+        ogImageUrl={`https://og-image-react-egghead.now.sh/playlists/${props.draftCourse.slug}?v=20201103`}
+      />
+    )
+  }
 
   const course = {...props.course, ...data}
 
@@ -63,6 +76,22 @@ const Course: React.FC<CourseProps> = (props) => {
 
 export default Course
 
+const loadDraftCourse = async (slug: string) => {
+  try {
+    const draftCourse = slug && (await loadDraftSanityCourse(slug))
+
+    if (
+      draftCourse &&
+      (draftCourse.productionProcessState === 'new' ||
+        draftCourse.productionProcessState === 'drafting')
+    ) {
+      return draftCourse
+    }
+  } catch (error) {
+    return undefined
+  }
+}
+
 export const getServerSideProps: GetServerSideProps = async ({
   res,
   req,
@@ -89,6 +118,17 @@ export const getServerSideProps: GetServerSideProps = async ({
       }
     }
   } catch (e) {
+    const draftCourse = params && (await loadDraftCourse(params.slug as string))
+
+    if (draftCourse) {
+      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+      return {
+        props: {
+          draftCourse,
+        },
+      }
+    }
+
     return {
       redirect: {
         destination: '/',

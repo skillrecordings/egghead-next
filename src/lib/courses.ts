@@ -91,14 +91,43 @@ export async function loadCourse(slug: string, token?: string) {
   return loadPlaylist(slug, token)
 }
 
-export async function loadWipSanityCourse(slug: string, token?: string) {
+export async function loadDraftSanityCourse(slug: string, token?: string) {
   const query = groq`*[_type == 'course' && slug.current == $slug][0]{
     title,
-    slug,
+    "slug": slug.current,
+    productionProcessState,
     description,
+    lessons[]-> {
+      title,
+      "type": _type,
+      "thumb_url": thumbnailUrl,
+      "http_url": awsFilename,
+      "icon_url": softwareLibraries[0].library->image.url,
+      "duration": resource->duration,
+      "path": "/lessons/" + slug.current
+    },
+    "instructor": collaborators[0]-> {
+      "avatar_url": person->image.url,
+      "full_name": person->name,
+      "slug": person->slug.current
+    },
+    "tags": softwareLibraries[] {
+      ...(library-> {
+       name,
+      'label': slug.current,
+      'http_url': url,
+      'image_url': image.url
+    }),
+  }
  }`
 
   const course = await sanityClient.fetch(query, {slug})
 
-  return course
+  const courseWithDefaults = {
+    square_cover_480_url:
+      'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1678295001/eggo/eggo_building_square.png',
+    ...course,
+  }
+
+  return courseWithDefaults
 }

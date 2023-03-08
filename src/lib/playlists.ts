@@ -103,6 +103,8 @@ export async function loadAllPlaylists() {
 }
 
 export async function loadAuthedPlaylistForUser(slug: string) {
+  if (slug === 'undefined') return
+
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
       playlist(slug: $slug) {
