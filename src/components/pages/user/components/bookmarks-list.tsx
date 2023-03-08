@@ -88,10 +88,10 @@ const Bookmark: React.FunctionComponent<any> = ({
                   >
                     <CheckIcon className="translate-x-0 w-5 h-5" />
                   </span>
-                  <span className="opacity-70 dark:opacity-30">Completed</span>
+                  <span className="opacity-80 dark:opacity-30">Completed</span>
                 </>
               ) : (
-                <span className="opacity-70 dark:opacity-30">
+                <span className="opacity-80 dark:opacity-30">
                   (watched {courseProgress.completed_lesson_count} from{' '}
                   {courseProgress.lesson_count} lessons)
                 </span>
