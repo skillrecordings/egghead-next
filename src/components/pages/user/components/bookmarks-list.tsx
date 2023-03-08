@@ -92,7 +92,7 @@ const Bookmark: React.FunctionComponent<any> = ({
                 </>
               ) : (
                 <span className="opacity-80 dark:opacity-30">
-                  (watched {courseProgress.completed_lesson_count} from{' '}
+                  (watched {courseProgress.completed_lesson_count} of{' '}
                   {courseProgress.lesson_count} lessons)
                 </span>
               )}
