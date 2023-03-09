@@ -4,8 +4,13 @@ import Image from 'next/image'
 import Markdown from 'react-markdown'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
-import getDependencies from 'data/courseDependencies'
-import {get, first, filter, isEmpty, take, truncate} from 'lodash'
+import {
+  PencilAltIcon,
+  XCircleIcon,
+  CheckCircleIcon,
+  PlusCircleIcon,
+} from '@heroicons/react/outline'
+import {get, first, filter, isEmpty, truncate} from 'lodash'
 import {NextSeo} from 'next-seo'
 import removeMarkdown from 'remove-markdown'
 import {track} from 'utils/analytics'
@@ -13,13 +18,19 @@ import {convertTimeWithTitles} from 'utils/time-utils'
 import ClockIcon from '../icons/clock'
 import {LessonResource} from 'types'
 import LearnerRatings from '../pages/courses/learner-ratings'
-import FiveStars from '../five-stars'
 import CommunityResource from 'components/community-resource'
 import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
-import ExternalTrackedLink from 'components/external-tracked-link'
+import {Formik} from 'formik'
+import {useMachine} from '@xstate/react'
+import {
+  requestDraftCourseChangeMachine,
+  DoneEventObject,
+} from 'machines/draft-course-machine'
+import {trpc} from 'trpc/trpc.client'
+import toast from 'react-hot-toast'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -79,12 +90,251 @@ export const Duration: React.FunctionComponent<{duration: string}> = ({
   </div>
 )
 
+const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
+  title,
+  sanityCourseId,
+}) => {
+  const [state, send] = useMachine(requestDraftCourseChangeMachine, {
+    services: {
+      requestChange: (_, event: DoneEventObject) => {
+        return updateCourseTitleMutation.mutateAsync({
+          title: event.data.title,
+          id: sanityCourseId,
+        })
+      },
+    },
+  })
+  const updateCourseTitleMutation =
+    trpc.instructor.updateDraftCourseTitle.useMutation<{
+      title: string
+      id: string
+    }>({
+      onSuccess: (data) => {
+        toast.success(`Your course title has been updated.`, {
+          duration: 6000,
+          icon: '✅',
+        })
+      },
+      onError: (error) => {
+        toast.error(
+          `There was a problem updating your course title. Contact egghead staff if the issue persists.`,
+          {
+            duration: 6000,
+            icon: '❌',
+          },
+        )
+      },
+    })
+  let currentTitle = state.context.title ? state.context.title : title
+  return (
+    <Formik
+      initialValues={{title: currentTitle}}
+      // validationSchema={emailChangeSchema}
+      onSubmit={async (values) => {
+        send({type: 'SUBMIT', data: {title: values.title}})
+      }}
+    >
+      {(props) => {
+        const {
+          values,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+        } = props
+        return (
+          <form className="grow" onSubmit={handleSubmit}>
+            <div className="flex flex-col">
+              <div className="relative flex flex-col sm:flex-row sm:space-y-0 sm:space-x-2 text-center sm:text-left">
+                {state.matches('edit') || state.matches('loading') ? (
+                  <div className="container w-full px-0">
+                    <div className="flex flex-row-reverse gap-2 absolute -top-6 right-4 z-10">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFieldValue('title', currentTitle)
+                          send({type: 'CANCEL'})
+                        }}
+                      >
+                        <XCircleIcon className="text-red-400" height={20} />
+                      </button>
+                      <button type="submit" disabled={isSubmitting}>
+                        <CheckCircleIcon
+                          className="text-green-400"
+                          height={20}
+                        />
+                      </button>
+                    </div>
+                    <textarea
+                      rows={3}
+                      maxLength={90}
+                      id="title"
+                      value={state.matches('edit') ? values.title : title}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                      disabled={isSubmitting || !state.matches('edit')}
+                      className="p-2 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md w-full max-w-[34ch] break-normal"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="container relative px-0">
+                      <PencilAltIcon
+                        height={20}
+                        className="absolute -top-6 right-4 z-10 text-gray-400 cursor-pointer"
+                        onClick={() => send({type: 'EDIT'})}
+                      />
+                      <h1 className="p-2 mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
+                        {currentTitle}
+                      </h1>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </form>
+        )
+      }}
+    </Formik>
+  )
+}
+
+export type RequestDraftCourseFormProps = {
+  description?: string
+  title?: string
+  sanityCourseId: string
+}
+
+const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> =
+  ({description, sanityCourseId}) => {
+    const [state, send] = useMachine(requestDraftCourseChangeMachine, {
+      services: {
+        requestChange: (_, event: DoneEventObject) => {
+          return updateCourseDescriptionMutation.mutateAsync({
+            description: event.data.description,
+            id: sanityCourseId,
+          })
+        },
+      },
+    })
+    const updateCourseDescriptionMutation =
+      trpc.instructor.updateDraftCourseDescription.useMutation<{
+        description: string
+        id: string
+      }>({
+        onSuccess: (data) => {
+          toast.success(`Your course description has been updated.`, {
+            duration: 6000,
+            icon: '✅',
+          })
+        },
+        onError: (error) => {
+          toast.error(
+            `There was a problem updating your course description. Contact egghead staff if the issue persists.`,
+            {
+              duration: 6000,
+              icon: '❌',
+            },
+          )
+        },
+      })
+
+    let currentDescription = state.context.description
+      ? state.context.description
+      : description
+
+    return (
+      <Formik
+        initialValues={{description: currentDescription}}
+        // validationSchema={emailChangeSchema}
+        onSubmit={async (values) => {
+          send({type: 'SUBMIT', data: {description: values.description}})
+        }}
+      >
+        {(props) => {
+          const {
+            values,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            setFieldValue,
+          } = props
+          return (
+            <form className="grow" onSubmit={handleSubmit}>
+              <div className="flex flex-col">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2o">
+                  {state.matches('edit') || state.matches('loading') ? (
+                    <div className="relative w-full">
+                      <div className="flex flex-row-reverse gap-2 absolute top-4 right-2 z-10">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFieldValue('description', currentDescription)
+                            send({type: 'CANCEL'})
+                          }}
+                        >
+                          <XCircleIcon className="text-red-400" height={20} />
+                        </button>
+                        <button type="submit" disabled={isSubmitting}>
+                          <CheckCircleIcon
+                            className="text-green-400"
+                            height={20}
+                          />
+                        </button>
+                      </div>
+                      <textarea
+                        rows={20}
+                        id="description"
+                        value={
+                          state.matches('edit')
+                            ? values.description
+                            : description
+                        }
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                        disabled={isSubmitting || !state.matches('edit')}
+                        className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <div className="container relative px-0">
+                        <PencilAltIcon
+                          height={20}
+                          className="absolute top-4 right-2 z-10 text-gray-400 cursor-pointer"
+                          onClick={() => send({type: 'EDIT'})}
+                        />
+                        {currentDescription && (
+                          <Markdown
+                            allowDangerousHtml
+                            className="mb-6 mt-14 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600"
+                          >
+                            {currentDescription}
+                          </Markdown>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </form>
+          )
+        }}
+      </Formik>
+    )
+  }
+
 const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons = [],
   course,
   ogImageUrl,
 }) => {
   const {
+    id: sanityCourseId,
     title,
     image_thumb_url,
     square_cover_480_url,
@@ -216,12 +466,6 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
         }}
       />
       <div className="container pb-8 sm:pb-16 dark:text-gray-100">
-        {state === 'retired' && (
-          <div className="w-full p-3 mt-4 text-lg text-orange-800 bg-orange-100 border border-orange-900 rounded-md border-opacity-20">
-            ⚠️ This course has been retired and might contain outdated
-            information.
-          </div>
-        )}
         <div className="left-0 grid w-full grid-cols-1 gap-5 mt-10 mb-4 rounded-md md:grid-cols-5 md:gap-16">
           <div className="flex flex-col w-full h-full mx-auto md:col-span-3 md:row-start-auto max-w-screen-2xl">
             <header>
@@ -248,13 +492,11 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   className="items-center px-2 py-1 text-xs font-bold text-center text-white uppercase bg-orange-500 rounded-full cursor-default"
                   title="Draft Course"
                 >
-                  Drafting
+                  Draft
                 </div>
               </div>
 
-              <h1 className="mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
-                {title}
-              </h1>
+              <TitleChangeForm title={title} sanityCourseId={sanityCourseId} />
 
               {/* Start of metadata block */}
               <div className="flex flex-col items-center my-6 space-y-3 md:space-y-4 md:items-start">
@@ -288,12 +530,12 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
               <div className="flex items-center justify-center w-full mt-5 md:hidden">
                 <PlayButton lesson={nextLesson} />
               </div>
-              <Markdown
-                allowDangerousHtml
-                className="mb-6 prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mt-14"
-              >
-                {description}
-              </Markdown>
+
+              <DescriptionChangeForm
+                description={description}
+                sanityCourseId={sanityCourseId}
+              />
+
               <div className="block pt-5 md:hidden">
                 {get(course, 'access_state') === 'free' && (
                   <div className="p-4 my-8 border border-gray-100 rounded-md bg-gray-50 dark:border-gray-800 dark:bg-gray-800">
@@ -348,7 +590,16 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
             </div>
             <section className="mt-8">
               <div className="flex flex-col mb-2 space-y-4 ">
-                <h2 className="text-xl font-bold">Course Content</h2>
+                <div className="flex flex-row gap-4">
+                  <h2 className="text-xl font-bold">Course Content</h2>
+                  <button className="w-10 h-8 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 flex justify-center place-self-center">
+                    <PlusCircleIcon
+                      className=" place-self-center"
+                      height={20}
+                    />
+                  </button>
+                </div>
+
                 <div className="text-sm font-normal text-gray-600 dark:text-gray-300">
                   {duration && `${convertTimeWithTitles(duration)} • `}
                   {lessons.length + playlistLessons.length} lessons{' '}
@@ -474,6 +725,9 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                     )
                   })}
                 </ul>
+                <button className="w-full h-10 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 flex justify-center">
+                  <PlusCircleIcon className=" place-self-center" height={20} />
+                </button>
               </div>
             </section>
             {!isEmpty(pairWithResources) && (

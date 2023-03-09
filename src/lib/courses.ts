@@ -93,6 +93,7 @@ export async function loadCourse(slug: string, token?: string) {
 
 export async function loadDraftSanityCourse(slug: string, token?: string) {
   const query = groq`*[_type == 'course' && slug.current == $slug][0]{
+    "id": _id,
     title,
     "slug": slug.current,
     productionProcessState,
@@ -104,7 +105,8 @@ export async function loadDraftSanityCourse(slug: string, token?: string) {
       "http_url": awsFilename,
       "icon_url": softwareLibraries[0].library->image.url,
       "duration": resource->duration,
-      "path": "/lessons/" + slug.current
+      "path": "/lessons/" + slug.current,
+      "slug": slug.current,
     },
     "instructor": collaborators[0]-> {
       "avatar_url": person->image.url,

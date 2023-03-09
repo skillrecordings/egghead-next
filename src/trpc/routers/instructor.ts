@@ -71,6 +71,20 @@ const createSanityCourse = async (sanityCourse: SanityCourse) => {
     })
 }
 
+const updateSanityCourseMeta = async ({
+  id,
+  title,
+  description,
+}: {
+  id: string
+  title?: string
+  description?: string
+}) => {
+  if (title) return await sanityClient.patch(id).set({title}).commit()
+  if (description)
+    return await sanityClient.patch(id).set({description}).commit()
+}
+
 export const instructorRouter = router({
   draftCourses: baseProcedure
     .input(
@@ -92,5 +106,33 @@ export const instructorRouter = router({
       })
 
       return {draftCourses}
+    }),
+  updateDraftCourseTitle: baseProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const {id, title} = input
+
+      const result = await updateSanityCourseMeta({id, title})
+
+      return {titleMutation: result}
+    }),
+  updateDraftCourseDescription: baseProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        description: z.string(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const {id, description} = input
+
+      const result = await updateSanityCourseMeta({id, description})
+
+      return {descriptionMutation: result}
     }),
 })
