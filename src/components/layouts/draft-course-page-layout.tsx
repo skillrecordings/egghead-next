@@ -23,7 +23,7 @@ import TagList from './tag-list'
 import {useTheme} from 'next-themes'
 import ClosedCaptionIcon from '../icons/closed-captioning'
 import {HorizontalResourceCard} from '../card/horizontal-resource-card'
-import {Formik} from 'formik'
+import {Field, Form, Formik} from 'formik'
 import {useMachine} from '@xstate/react'
 import {
   requestDraftCourseChangeMachine,
@@ -31,11 +31,44 @@ import {
 } from 'machines/draft-course-machine'
 import {trpc} from 'trpc/trpc.client'
 import toast from 'react-hot-toast'
+import {Dialog, Transition} from '@headlessui/react'
 
 type CoursePageLayoutProps = {
   lessons: any
   course: any
   ogImageUrl: string
+}
+
+type SanitySlug = {
+  current: string
+}
+
+type SanityReference = {
+  _type: 'reference'
+  _ref: string
+}
+
+type SanityReferenceArray = Array<
+  {
+    _key: string
+  } & SanityReference
+>
+
+type SanitySoftwareLibrary = {
+  _type: 'versioned-software-library'
+  _key: string
+  library: SanityReference
+}
+
+type SanityLesson = {
+  _type: 'lesson'
+  _id: string
+  title: string
+  description?: string
+  repoUrl?: string
+  softwareLibraries?: SanitySoftwareLibrary[]
+  slug: SanitySlug
+  resource?: SanityReference
 }
 
 type CollectionResource = {
@@ -183,7 +216,7 @@ const TitleChangeForm: React.FunctionComponent<RequestDraftCourseFormProps> = ({
                     <div className="container relative px-0">
                       <PencilAltIcon
                         height={20}
-                        className="absolute -top-6 right-4 z-10 text-gray-400 cursor-pointer"
+                        className="absolute -top-6 right-2 z-10 text-gray-400 cursor-pointer"
                         onClick={() => send({type: 'EDIT'})}
                       />
                       <h1 className="p-2 mt-4 text-2xl font-bold leading-tight text-center sm:text-3xl md:text-4xl md:leading-tighter md:text-left md:mt-0">
@@ -328,6 +361,221 @@ const DescriptionChangeForm: React.FunctionComponent<RequestDraftCourseFormProps
     )
   }
 
+const LessonCreationForm: React.FunctionComponent<any> = ({
+  setIsOpen,
+  sanityCourseId,
+}) => {
+  const createLessonMutation = trpc.instructor.createLesson.useMutation<{
+    description: string
+    sanityCourseId: string
+    title: string
+  }>({
+    onSuccess: (data) => {
+      toast.success(`Lesson added.`, {
+        duration: 6000,
+        icon: '✅',
+      })
+    },
+    onError: (error) => {
+      toast.error(
+        `There was a problem adding this lesson. Contact egghead staff if the issue persists.`,
+        {
+          duration: 6000,
+          icon: '❌',
+        },
+      )
+    },
+  })
+
+  return (
+    <Formik
+      initialValues={{title: undefined, description: undefined}}
+      // validationSchema={emailChangeSchema}
+      onSubmit={async (values) => {
+        let mut = await createLessonMutation.mutateAsync({
+          description: values.description,
+          sanityCourseId,
+          title: values.title,
+        })
+        setIsOpen(false)
+      }}
+    >
+      {(props) => {
+        const {
+          values,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+        } = props
+        return (
+          <Form className="grow w-fit" onSubmit={handleSubmit}>
+            <div className="w-full mt-4 space-y-4 p-8">
+              <label className="font-semibold text-base">
+                Lesson Title
+                <Field
+                  type="input"
+                  id="title"
+                  value={values.title}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  disabled={isSubmitting}
+                  className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 block w-full appearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 mb-4"
+                />
+              </label>
+              <label className="font-semibold text-base">
+                Lesson description
+                <Field
+                  as="textarea"
+                  rows={5}
+                  id="description"
+                  value={values.description}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  required
+                  disabled={isSubmitting}
+                  className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 blockappearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 w-96"
+                />
+              </label>
+              <div className="space-x-4 mt-4">
+                <button
+                  className=" bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded text-white"
+                  type="submit"
+                >
+                  Submit
+                </button>
+                <button
+                  className=" py-2 px-4 rounded text-red-500 hover:bg-red-50"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </Form>
+        )
+      }}
+    </Formik>
+  )
+}
+
+const LessonCreationDialog = ({
+  isOpen,
+  setIsOpen,
+  sanityCourseId,
+}: {
+  isOpen: boolean
+  setIsOpen: Function
+  sanityCourseId: string
+}) => {
+  return (
+    <Transition show={isOpen} as="div">
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="relative z-50 w-full"
+      >
+        <Transition.Child
+          as={React.Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div
+            className="fixed inset-0 bg-black/30 dark:bg-white/30"
+            aria-hidden="true"
+          />
+        </Transition.Child>
+        <Transition.Child
+          as={React.Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          <div className="fixed inset-0 flex items-center justify-center p-4 w-full">
+            <Dialog.Panel className="flex flex-col items-center max-w-lg rounded dark:bg-gray-900 bg-white dark:text-gray-200 text-black p-8 w-full">
+              <Dialog.Title className=" text-xl font-bold">
+                Create a Lesson
+              </Dialog.Title>
+
+              <LessonCreationForm
+                setIsOpen={setIsOpen}
+                sanityCourseId={sanityCourseId}
+              />
+            </Dialog.Panel>
+          </div>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
+  )
+}
+
+const LessonList = ({
+  courseId,
+  setDialog,
+}: {
+  courseId: string
+  setDialog: Function
+}) => {
+  const {data: lessons} = trpc.instructor.draftCourseLessonList.useQuery({
+    courseId,
+  })
+
+  return lessons ? (
+    <div>
+      <ul>
+        {lessons.map((lesson: LessonResource, index: number) => {
+          return (
+            <li key={lesson.slug}>
+              <div className="flex py-2 font-semibold leading-tight">
+                <div className="flex items-center mr-2 space-x-2">
+                  {lesson.icon_url && (
+                    <div className="flex items-center flex-shrink-0 w-8">
+                      <Image src={lesson.icon_url} width={24} height={24} />
+                    </div>
+                  )}
+                </div>
+                {lesson.path && (
+                  <div className="flex flex-col ">
+                    <div>
+                      <Link href={lesson.path}>
+                        <a className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100">
+                          {lesson.title}
+                        </a>
+                      </Link>
+                    </div>
+                    <div className="text-xs text-gray-700 dark:text-gray-500">
+                      {lesson.duration
+                        ? convertTimeWithTitles(lesson.duration, {
+                            showSeconds: true,
+                          })
+                        : '0m 0s'}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+      <button
+        className="w-full h-10 mt-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 rounded-b  flex justify-center"
+        onClick={() => setDialog(true)}
+      >
+        <PlusCircleIcon className=" place-self-center" height={20} />
+      </button>
+    </div>
+  ) : null
+}
+
 const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
   lessons = [],
   course,
@@ -349,6 +597,8 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
     tags,
     relatedResources,
   } = course
+
+  const [dialogIsOpen, setDialogIsOpen] = React.useState(false)
 
   const ogImage = customOgImage ? customOgImage.url : ogImageUrl
 
@@ -577,7 +827,7 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                 />
               </div>
             )}
-            <div className="hidden space-y-6 md:block">
+            {/* <div className="hidden space-y-6 md:block">
               <div className="flex justify-center w-full mt-10 mb-4">
                 <PlayButton lesson={nextLesson} />
               </div>
@@ -587,14 +837,17 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   <CommunityResource type="course" />
                 </div>
               )}
-            </div>
+            </div> */}
             <section className="mt-8">
               <div className="flex flex-col mb-2 space-y-4 ">
                 <div className="flex flex-row gap-4">
                   <h2 className="text-xl font-bold">Course Content</h2>
-                  <button className="w-10 h-8 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 flex justify-center place-self-center">
+                  <button
+                    className="w-10 h-8 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 rounded flex justify-center place-self-center"
+                    onClick={() => setDialogIsOpen(true)}
+                  >
                     <PlusCircleIcon
-                      className=" place-self-center"
+                      className=" place-self-center "
                       height={20}
                     />
                   </button>
@@ -605,130 +858,16 @@ const DraftCourseLayout: React.FunctionComponent<CoursePageLayoutProps> = ({
                   {lessons.length + playlistLessons.length} lessons{' '}
                 </div>
               </div>
-              <div>
-                <ul>
-                  {playlists.map((playlist: any) => {
-                    return (
-                      <li key={playlist.slug}>
-                        <div className="flex items-center py-2 font-semibold leading-tight">
-                          {playlist.path && (
-                            <Link href={playlist.path}>
-                              <a
-                                onClick={() => {
-                                  track(
-                                    `clicked collection link on course page`,
-                                    {
-                                      course: course.slug,
-                                      collection: playlist.slug,
-                                    },
-                                  )
-                                }}
-                                className="flex items-center w-full font-semibold hover:underline"
-                              >
-                                <Markdown className="mt-0 prose text-gray-900 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                  {playlist.title}
-                                </Markdown>
-                              </a>
-                            </Link>
-                          )}
-                        </div>
-                        <div>
-                          <ul className="ml-8">
-                            {playlist?.lessons?.map(
-                              (lesson: LessonResource, index: number) => {
-                                return (
-                                  <li key={`${playlist.slug}::${lesson.slug}`}>
-                                    <div className="flex items-center py-2 leading-tight">
-                                      <div className="flex items-center flex-grow mr-2">
-                                        <PlayIcon className="mx-1 text-gray-500 dark:text-gray-100" />
-                                      </div>
-                                      {lesson.path && (
-                                        <Link href={lesson.path}>
-                                          <a
-                                            onClick={() => {
-                                              track(
-                                                `clicked collection video link on course page`,
-                                                {
-                                                  course: course.slug,
-                                                  video: lesson.slug,
-                                                  collection: playlist.slug,
-                                                },
-                                              )
-                                            }}
-                                            className="flex items-center w-full hover:underline"
-                                          >
-                                            <Markdown className="mt-0 prose text-gray-700 dark:prose-dark md:dark:prose-lg-dark md:prose-lg dark:text-gray-100">
-                                              {lesson.title}
-                                            </Markdown>
-                                          </a>
-                                        </Link>
-                                      )}
-                                    </div>
-                                  </li>
-                                )
-                              },
-                            )}
-                          </ul>
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
 
-              <div>
-                <ul>
-                  {lessons.map((lesson: LessonResource, index: number) => {
-                    return (
-                      <li key={lesson.slug}>
-                        <div className="flex py-2 font-semibold leading-tight">
-                          <div className="flex items-center mr-2 space-x-2">
-                            {lesson.icon_url && (
-                              <div className="flex items-center flex-shrink-0 w-8">
-                                <Image
-                                  src={lesson.icon_url}
-                                  width={24}
-                                  height={24}
-                                />
-                              </div>
-                            )}
-                          </div>
-                          {lesson.path && (
-                            <div className="flex flex-col ">
-                              <div>
-                                <Link href={lesson.path}>
-                                  <a
-                                    onClick={() => {
-                                      track(
-                                        `clicked video link on course page`,
-                                        {
-                                          course: course.slug,
-                                          video: lesson.slug,
-                                        },
-                                      )
-                                    }}
-                                    className="text-lg font-semibold hover:underline hover:text-blue-600 dark:text-gray-100"
-                                  >
-                                    {lesson.title}
-                                  </a>
-                                </Link>
-                              </div>
-                              <div className="text-xs text-gray-700 dark:text-gray-500">
-                                {convertTimeWithTitles(lesson.duration, {
-                                  showSeconds: true,
-                                })}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-                <button className="w-full h-10 bg-slate-100 hover:bg-slate-200 rounded text-slate-600 flex justify-center">
-                  <PlusCircleIcon className=" place-self-center" height={20} />
-                </button>
-              </div>
+              <LessonCreationDialog
+                isOpen={dialogIsOpen}
+                setIsOpen={setDialogIsOpen}
+                sanityCourseId={sanityCourseId}
+              />
+              <LessonList
+                courseId={sanityCourseId}
+                setDialog={setDialogIsOpen}
+              />
             </section>
             {!isEmpty(pairWithResources) && (
               <div className="flex flex-col my-12 space-y-2 md:hidden">

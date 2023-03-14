@@ -7,6 +7,7 @@ import {z} from 'zod'
 import {nanoid} from 'nanoid'
 import slugify from 'slugify'
 import {loadSanityInstructorByEggheadId} from '../../lib/instructors'
+import {loadDraftSanityCourseById} from '../../lib/courses'
 import {TRPCError} from '@trpc/server'
 import client from '@sanity/client'
 import groq from 'groq'
@@ -134,5 +135,88 @@ export const instructorRouter = router({
       const result = await updateSanityCourseMeta({id, description})
 
       return {descriptionMutation: result}
+    }),
+  draftCourseLessonList: baseProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      }),
+    )
+    .query(async ({input, ctx}) => {
+      const {courseId} = input
+
+      const query = groq`*[_type == 'course' && _id == $id][0]{
+        lessons[]-> {
+          title,
+          "type": _type,
+          "thumb_url": thumbnailUrl,
+          "http_url": awsFilename,
+          "icon_url": softwareLibraries[0].library->image.url,
+          "duration": resource->duration,
+          "path": "/lessons/" + slug.current
+        },
+     }`
+
+      let {lessons} = await sanityClient.fetch(query, {
+        id: courseId,
+      })
+
+      let lessonsWithDefaultImage = lessons.map((lesson: any) => {
+        if (!lesson.icon_url) {
+          lesson.icon_url =
+            'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1569292667/eggo/eggo_flair.png'
+        }
+        if (!lesson.duration) {
+          lesson.duration = 0
+        }
+        return lesson
+      })
+
+      return lessons
+    }),
+  createLesson: baseProcedure
+    .input(
+      z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        sanityCourseId: z.string(),
+      }),
+    )
+    .mutation(async ({input, ctx}) => {
+      const {title, description, sanityCourseId} = input
+
+      const {instructor} = await loadDraftSanityCourseById(sanityCourseId)
+      const {id: instructorId} = instructor
+      const lessonSlug = slugify(`${title}`.toLowerCase(), {
+        remove: /[*+~.()'"!:@]/g,
+      })
+
+      console.log({instructorId})
+
+      let lesson = {
+        _id: nanoid(),
+        _type: 'lesson',
+        title,
+        description,
+        accessLevel: 'pro',
+        slug: {current: lessonSlug},
+        status: 'needs-review',
+        collaborators: [
+          {
+            _key: nanoid(),
+            _type: 'reference',
+            _ref: instructorId,
+          },
+        ],
+      }
+
+      await sanityClient.create(lesson)
+
+      return await sanityClient
+        .patch(sanityCourseId)
+        .append('lessons', [
+          {_key: nanoid(), _ref: lesson._id, _type: 'reference'},
+        ])
+        .commit()
     }),
 })

@@ -79,7 +79,6 @@ export default Course
 const loadDraftCourse = async (slug: string) => {
   try {
     const draftCourse = slug && (await loadDraftSanityCourse(slug))
-
     if (
       draftCourse &&
       (draftCourse.productionProcessState === 'new' ||
@@ -119,7 +118,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   } catch (e) {
     const draftCourse = params && (await loadDraftCourse(params.slug as string))
-
     if (draftCourse) {
       res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
       return {
