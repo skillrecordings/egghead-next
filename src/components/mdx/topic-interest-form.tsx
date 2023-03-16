@@ -1,11 +1,10 @@
 import React, {FunctionComponent} from 'react'
-import {track} from 'utils/analytics'
 import * as yup from 'yup'
 import useCio from 'hooks/use-cio'
 import {useViewer} from 'context/viewer-context'
 import {requestSignInEmail} from 'utils/request-signin-email'
 import {Formik} from 'formik'
-import {format} from 'date-fns'
+import {useRouter} from 'next/router'
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('enter your email'),
@@ -50,7 +49,7 @@ const EmailForm: FunctionComponent<LoginFormProps> = ({
       >
         {isSubmitted && (
           <h1 className="text-center text-3xl leading-9 font-bold prose dark:prose-dark">
-            Thank you so much!
+            You're subscribed to {topic}!
           </h1>
         )}
         {isError && (
@@ -173,6 +172,8 @@ const EmailForm: FunctionComponent<LoginFormProps> = ({
 }
 
 const TopicInterestEmailEntryForm: React.FC<{topic: string}> = ({topic}) => {
+  const router = useRouter()
+  const slug = router.query.slug as string
   const {subscriber, cioIdentify} = useCio()
   const {viewer} = useViewer()
 
@@ -186,12 +187,9 @@ const TopicInterestEmailEntryForm: React.FC<{topic: string}> = ({topic}) => {
       id = contact_id
     }
 
-    const currentDate = new Date()
-    const formattedDate = format(currentDate, 'yyyy/MM/dd')
-
     cioIdentify(id, {
-      email: email || subscriber?.email || viewer?.email,
-      [`${topic.toLowerCase()}_interested`]: formattedDate,
+      email: subscriber?.email || viewer?.email || email,
+      [`${topic.toLowerCase()}_interested`]: slug,
     })
   }
 
@@ -202,6 +200,7 @@ const TopicInterestEmailEntryForm: React.FC<{topic: string}> = ({topic}) => {
         label="Email address"
         formClassName="max-w-xs md:max-w-sm mx-auto w-full"
         button={`Sign up for ${topic} content`}
+        topic={topic}
         onSubmit={onSubmit}
       >
         <div className="text-center">
