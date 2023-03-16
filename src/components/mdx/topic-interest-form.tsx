@@ -189,7 +189,7 @@ const TopicInterestEmailEntryForm: React.FC<{topic: string}> = ({topic}) => {
 
     cioIdentify(id, {
       email: subscriber?.email || viewer?.email || email,
-      [`${topic.toLowerCase()}_interested`]: slug,
+      [`${topic.toLowerCase()}_interest`]: slug,
     })
   }
 
