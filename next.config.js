@@ -160,6 +160,11 @@ const searchRoutes = [
 
 const legacyRoutes = [
   {
+    source: `/blog/manage-reactive-state-with-solid-js-signals`,
+    destination: `/blog/manage-reactive-state-with-solidjs-signals`,
+    permanent: true,
+  },
+  {
     source: `/user/subscription`,
     destination: `/user/membership`,
     permanent: true,
