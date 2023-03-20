@@ -13,6 +13,22 @@ type SubscriptionDetailsProps = {
   slug: string
 }
 
+const formatAmountWithCurrency = (
+  amountInCents: number,
+  currency: string,
+): string => {
+  if (!amountInCents || !currency) return ''
+
+  let positiveAmount = Math.abs(amountInCents)
+  let formattedAmount = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+  }).format(positiveAmount / 100)
+
+  return formattedAmount
+}
+
 const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
   ({stripeCustomerId, slug}) => {
     const {viewer} = useViewer()
@@ -40,6 +56,11 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
         currency: currency,
         minimumFractionDigits: 0,
       }).format(subscriptionUnitAmount / 100)
+
+    const accountBalance =
+      subscriptionData?.accountBalance && currency
+        ? formatAmountWithCurrency(subscriptionData?.accountBalance, currency)
+        : 0
 
     const pendingCancelation =
       subscriptionData?.subscription?.cancel_at_period_end
@@ -112,6 +133,14 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                 <h3 className="text-lg font-medium text-center mb-4">
                   ⭐️ You manage a team membership! ⭐️
                 </h3>
+                {subscriptionData?.accountBalance &&
+                subscriptionData?.accountBalance < 0 ? (
+                  <p>
+                    You're account has a{' '}
+                    <strong>credit of {accountBalance}</strong> which will be
+                    applied to your next payment.
+                  </p>
+                ) : null}
                 <p>
                   Your {recur(subscriptionData.price)}ly team membership of{' '}
                   {account?.capacity} seats will{' '}
