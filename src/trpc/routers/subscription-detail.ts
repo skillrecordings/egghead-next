@@ -57,7 +57,6 @@ export const subscriptionDetailsRouter = router({
             customer: stripeCustomerId,
           })
         }
-        console.log({session, customer, subscriptions})
 
         return {
           portalUrl: session.url,
