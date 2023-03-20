@@ -16,16 +16,18 @@ export const subscriptionDetailsRouter = router({
 
       if (!stripeCustomerId) throw new Error('no stripeCustomerId provided')
 
-      const session = await stripe.billingPortal.sessions.create({
+      const session = (await stripe.billingPortal.sessions.create({
         customer: stripeCustomerId,
         return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user/membership`,
-      })
+      })) as Stripe.BillingPortal.Session
 
       if (!session) throw new Error(`no session loaded for ${stripeCustomerId}`)
 
-      const customer = await stripe.customers.retrieve(stripeCustomerId, {
+      const customer = (await stripe.customers.retrieve(stripeCustomerId, {
         expand: ['default_source', 'subscriptions.data.latest_invoice'],
-      })
+      })) as Stripe.Customer
+
+      const balance = customer?.balance
 
       const subscriptions = await stripe.subscriptions.list({
         customer: stripeCustomerId,
@@ -55,6 +57,7 @@ export const subscriptionDetailsRouter = router({
             customer: stripeCustomerId,
           })
         }
+        console.log({session, customer, subscriptions})
 
         return {
           portalUrl: session.url,
@@ -64,6 +67,7 @@ export const subscriptionDetailsRouter = router({
           product,
           latestInvoice,
           upcomingInvoice,
+          accountBalance: balance,
         }
       } else {
         return {

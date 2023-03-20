@@ -13,11 +13,22 @@ const formatAmountWithCurrency = (
 ): string => {
   if (!amountInCents || !currency) return ''
 
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: 0,
-  }).format(amountInCents / 100)
+  if (amountInCents < 0) {
+    let positiveAmount = Math.abs(amountInCents)
+    let formattedAmount = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 0,
+    }).format(positiveAmount / 100)
+
+    return `(${formattedAmount})`
+  } else {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 0,
+    }).format(amountInCents / 100)
+  }
 }
 
 const isValidDate = (date: any) => {
@@ -33,6 +44,10 @@ const BillingSection = ({stripeCustomerId}: {stripeCustomerId: string}) => {
 
   const currency = subscriptionData.latestInvoice?.currency || 'USD'
   const recurrence = recur(subscriptionData?.price)
+
+  const accountBalanceDisplay = subscriptionData?.accountBalance
+    ? formatAmountWithCurrency(subscriptionData?.accountBalance, currency)
+    : 0
 
   let subscriptionName, subscriptionDescription
 
@@ -176,6 +191,12 @@ const BillingSection = ({stripeCustomerId}: {stripeCustomerId: string}) => {
                 Next Billing Date
               </span>
               <span className="">{nextBillDateDisplay}</span>
+            </div>
+            <div className="flex flex-col space-y-0.5">
+              <span className="font-semibold text-sm text-gray-500 dark:text-gray-400">
+                Account Balance
+              </span>
+              <span className="">{accountBalanceDisplay}</span>
             </div>
             <div className="flex flex-row space-x-8">
               <div className="flex flex-col space-y-0.5">
