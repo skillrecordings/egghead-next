@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Markdown from 'react-markdown'
 import toast from 'react-hot-toast'
-import {useQuery} from '@tanstack/react-query'
 import InstructorProfile from 'components/pages/courses/instructor-profile'
 import PlayIcon from 'components/pages/courses/play-icon'
 import getDependencies from 'data/courseDependencies'
@@ -35,6 +34,7 @@ import MembershipDialogButton from '../pages/courses/membership-dialog-button'
 import {loadUserCompletedCourses} from 'lib/users'
 
 import LoginForm from 'pages/login'
+import {trpc} from 'trpc/trpc.client'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -122,15 +122,6 @@ export const PeopleCompleted: React.FunctionComponent<{count: number}> = ({
   </div>
 )
 
-const useCompletedCourses = (viewerId: number) => {
-  return useQuery(['completeCourses'], async () => {
-    if (viewerId) {
-      const {completeCourses} = await loadUserCompletedCourses()
-      return completeCourses
-    }
-  })
-}
-
 const MultiModuleCollectionPageLayout: React.FunctionComponent<CoursePageLayoutProps> =
   ({lessons = [], course, ogImageUrl}) => {
     const courseDependencies: any = getDependencies(course.slug)
@@ -138,10 +129,10 @@ const MultiModuleCollectionPageLayout: React.FunctionComponent<CoursePageLayoutP
     const [clickable, setIsClickable] = React.useState(true)
     const {viewer} = useViewer()
     const viewerId = viewer?.id
-    const {data: completedCourses} = useCompletedCourses(viewerId)
+    const {data: completeCourseData} = trpc.progress.completedCourses.useQuery()
     const isCourseCompleted =
-      !isEmpty(completedCourses) &&
-      completedCourses.some(
+      !isEmpty(completeCourseData) &&
+      completeCourseData.some(
         (courseItem: any) => courseItem?.collection?.slug === course.slug,
       )
     const defaultPairWithResources: any[] = take(
