@@ -479,7 +479,6 @@ const Lesson: React.FC<LessonProps> = ({
           video: data.lesson_slug,
         })
         console.debug('RATE')
-        console.log('sent rating')
         send('RATE')
       }
     },
