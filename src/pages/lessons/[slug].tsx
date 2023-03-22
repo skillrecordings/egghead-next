@@ -472,6 +472,16 @@ const Lesson: React.FC<LessonProps> = ({
   const markComplete = trpc.progress.markLessonComplete.useMutation({
     onSuccess: (data) => {
       trpcUtils.progress.forLesson.invalidate({slug: data.lesson_slug})
+
+      if (data?.collection_progress?.rate_url) {
+        console.debug('presenting opportunity to rate course', {
+          data,
+          video: data.lesson_slug,
+        })
+        console.debug('RATE')
+        console.log('sent rating')
+        send('RATE')
+      }
     },
     onError: (error) => {
       console.error(error)
@@ -479,7 +489,7 @@ const Lesson: React.FC<LessonProps> = ({
   })
 
   const markLessonComplete = () => {
-    markComplete.mutate({
+    markComplete.mutateAsync({
       lessonId: lesson.id,
       collectionId: lesson.collection?.id,
     })
