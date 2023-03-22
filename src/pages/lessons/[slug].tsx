@@ -65,6 +65,10 @@ import {
 } from '@skillrecordings/player/dist/machines/video-machine'
 import {useSelector} from '@xstate/react'
 import {addCueNote, deleteCueNote} from '../../lib/notes'
+import {CheckCircleIcon as CheckCircleIconOutline} from '@heroicons/react/outline'
+import {CheckCircleIcon} from '@heroicons/react/solid'
+import {trpc} from 'trpc/trpc.client'
+import {LessonProgress} from 'lib/progress'
 
 const tracer = getTracer('lesson-page')
 
@@ -210,6 +214,12 @@ const Lesson: React.FC<LessonProps> = ({
   }
 
   const spinnerVisible = ['loading', 'completed'].includes(currentLessonState)
+
+  const {data} = trpc.progress.forLesson.useQuery<LessonProgress>({
+    slug: lesson.slug,
+  })
+  const trpcUtils = trpc.useContext()
+  const lessonCompleted = data?.lessonProgress?.completed
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -459,6 +469,22 @@ const Lesson: React.FC<LessonProps> = ({
     }
   }, [video])
 
+  const markComplete = trpc.progress.markLessonComplete.useMutation({
+    onSuccess: (data) => {
+      trpcUtils.progress.forLesson.invalidate({slug: data.lesson_slug})
+    },
+    onError: (error) => {
+      console.error(error)
+    },
+  })
+
+  const markLessonComplete = () => {
+    markComplete.mutate({
+      lessonId: lesson.id,
+      collectionId: lesson.collection?.id,
+    })
+  }
+
   return (
     <>
       <NextSeo
@@ -594,9 +620,20 @@ const Lesson: React.FC<LessonProps> = ({
             )}
             <div className="pb-2 space-y-4 sm:pb-8">
               {title && (
-                <h1 className="text-xl font-extrabold leading-tight lg:text-3xl">
-                  {title}
-                </h1>
+                <div className="flex space-x-2 -ml-7">
+                  {lessonCompleted ? (
+                    <span className="self-center">
+                      <CheckCircleIcon className="h-5 w-5 text-green-500  rounded-full" />
+                    </span>
+                  ) : (
+                    <span className="self-center " onClick={markLessonComplete}>
+                      <CheckCircleIconOutline className="h-5 w-5 text-gray-300 hover:text-green-500 hover:cursor-pointer " />
+                    </span>
+                  )}
+                  <h1 className="text-xl font-extrabold leading-tight lg:text-3xl">
+                    {title}
+                  </h1>
+                </div>
               )}
               <div className="flex flex-col flex-wrap justify-between w-full pt-4 space-y-5 lg:flex-row lg:space-x-8 lg:space-y-0 lg:items-center">
                 <div className="flex items-center justify-between w-full space-x-5 md:w-auto">
