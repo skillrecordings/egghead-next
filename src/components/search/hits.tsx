@@ -2,12 +2,17 @@ import React, {FunctionComponent} from 'react'
 import {isEmpty} from 'lodash'
 import {connectHits} from 'react-instantsearch-dom'
 import HitComponent from './components/hit'
-import {trpc} from 'trpc/trpc.client'
+import {useViewer} from 'context/viewer-context'
+import {loadUserCompletedCourses} from 'lib/users'
+import {useQuery} from '@tanstack/react-query'
 
-const useUserCompletedCourses = () => {
-  const {data: completeCourseData} = trpc.progress.completedCourses.useQuery()
-
-  return completeCourseData
+const useUserCompletedCourses = (viewerId: number) => {
+  return useQuery(['completeCourses'], async () => {
+    if (viewerId) {
+      const {completeCourses} = await loadUserCompletedCourses()
+      return completeCourses
+    }
+  })
 }
 
 type CustomHitsProps = {
@@ -15,7 +20,10 @@ type CustomHitsProps = {
 }
 
 const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => {
-  const {data: completeCourseData} = useUserCompletedCourses()
+  const {viewer} = useViewer()
+  const viewerId = viewer?.id
+  const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+
   const completedCoursesIds =
     !isEmpty(completeCourseData) &&
     completeCourseData.map((course: any) => course.collection.id)
