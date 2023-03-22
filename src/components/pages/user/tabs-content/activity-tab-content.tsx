@@ -9,6 +9,7 @@ import {
   LearnerStats,
 } from 'components/pages/user/components'
 import {ItemWrapper} from 'components/pages/user/components/widget-wrapper'
+import {trpc} from 'trpc/trpc.client'
 
 const useProgressForUser = (viewerId: number) => {
   return useQuery(['progress'], async () => {
@@ -26,32 +27,22 @@ const useProgressForUser = (viewerId: number) => {
   })
 }
 
-const useUserCompletedCourses = (viewerId: number) => {
-  return useQuery(['completeCourses'], async () => {
-    if (viewerId) {
-      const {completeCourses} = await loadUserCompletedCourses()
-
-      return completeCourses
-    }
-  })
-}
-
 const ActivityTabContent: React.FC<any> = () => {
   const {viewer, authToken} = useViewer()
   const viewerId = viewer?.id
   const {status: progressStatus, data: progressData} =
     useProgressForUser(viewerId)
-  let {
-    status: completedCourseStatus,
+  const {
     data: completeCourseData,
+    status: completeCourseStatus,
     error: completeCourseError,
-  } = useUserCompletedCourses(viewerId)
-  const completedCourseCount = !!completeCourseData?.length
+  } = trpc.progress.completedCourses.useQuery()
+  const completeCourseCount = !!completeCourseData?.length
     ? completeCourseData?.length
     : 0
   const learnerStatsData = {
     ...progressData?.completionStats,
-    completedCourseCount,
+    completeCourseCount,
   }
 
   return (
@@ -71,8 +62,8 @@ const ActivityTabContent: React.FC<any> = () => {
       <ItemWrapper title="Completed Courses">
         <CompletedCourses
           completeCourseData={completeCourseData}
-          completedCourseStatus={completedCourseStatus}
-          completedCourseCount={completedCourseCount}
+          completedCourseStatus={completeCourseStatus}
+          completedCourseCount={completeCourseCount}
         />
       </ItemWrapper>
     </div>

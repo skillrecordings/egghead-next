@@ -2,8 +2,16 @@ import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
 import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 import {loadLessonProgress, loadPlaylistProgress} from '../../lib/progress'
+import {loadUserCompletedCourses} from 'lib/users'
 
 export const progressRouter = router({
+  completedCourses: baseProcedure.query(async ({ctx}) => {
+    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+    if (!token) return []
+
+    const {completeCourses} = await loadUserCompletedCourses(token)
+    return completeCourses
+  }),
   forPlaylist: baseProcedure
     .input(
       z.object({
@@ -63,7 +71,6 @@ export const progressRouter = router({
         },
       ).then((res) => res.json())
 
-      console.log({res})
       return res
     }),
 })
