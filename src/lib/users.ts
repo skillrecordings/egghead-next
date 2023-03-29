@@ -178,7 +178,9 @@ export async function loadUserProgress(
     return {
       completionStats: {
         minutesWatched: user.minutes_watched,
-        completedCourseCount: user.courses_completed,
+        completedCourseCount: user.all_progress.data.filter(
+          (p: any) => p.is_complete,
+        ).length,
         completedLessonCount: user.lessons_completed,
       },
       progress: user.all_progress,
