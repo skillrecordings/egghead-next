@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import {MdKitchen as icon} from 'react-icons/md'
 import React from 'react'
 import PathInput from '../components/path-input'
@@ -380,12 +381,19 @@ export default {
         },
         {
           type: 'reference',
+          name: 'resourceRefs',
           title: 'Resources Refs',
           to: [{type: 'resource'}],
         },
         {
           type: 'post',
           title: 'Blog Post',
+        },
+        {
+          type: 'reference',
+          name: 'postRefs',
+          title: 'Blog Post Refs',
+          to: [{type: 'post'}],
         },
       ],
     },
