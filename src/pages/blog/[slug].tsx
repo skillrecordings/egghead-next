@@ -16,6 +16,7 @@ import ResourceWidget from 'components/mdx/resource-widget'
 import find from 'lodash/find'
 import {useScrollTracker} from 'react-scroll-tracker'
 import analytics from 'utils/analytics'
+import LessonWidget from 'components/mdx/lesson-widget'
 
 function urlFor(source: any): any {
   return imageUrlBuilder(sanityClient).image(source)
@@ -107,6 +108,25 @@ const Tag = (props: any) => {
                   return course ? (
                     <div className="not-prose my-8">
                       <CourseWidget course={course} {...props} />
+                    </div>
+                  ) : null
+                },
+                LessonWidget: ({
+                  course: courseSlug,
+                  lesson: lessonSlug,
+                  ...props
+                }: any) => {
+                  console.log({courseSlug, lessonSlug})
+                  const course = find(resources, {slug: courseSlug})
+                  const lesson = find(course?.lessons, {slug: lessonSlug})
+                  console.log({course, lesson})
+                  return course && lesson ? (
+                    <div className="not-prose my-8">
+                      <LessonWidget
+                        course={course}
+                        lesson={lesson}
+                        {...props}
+                      />
                     </div>
                   ) : null
                 },
@@ -228,7 +248,8 @@ const query = groq`*[_type == "post" && slug.current == $slug][0]{
     "image_thumb_url": image,
     "lessons": resources[] {
         title,
-        path
+        path,
+        "slug": slug.current
     }
   }
 }`
