@@ -218,8 +218,17 @@ const Lesson: React.FC<LessonProps> = ({
   const {data} = trpc.progress.forLesson.useQuery<LessonProgress>({
     slug: lesson.slug,
   })
+
+  const [lessonCompleted, setLessonCompleted] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    const completed = data?.lessonProgress?.completed
+    if (completed) {
+      setLessonCompleted(completed)
+    }
+  }, [data?.lessonProgress?.completed])
+
   const trpcUtils = trpc.useContext()
-  const lessonCompleted = data?.lessonProgress?.completed
 
   React.useEffect(() => {
     setPlayerVisible(
@@ -492,6 +501,8 @@ const Lesson: React.FC<LessonProps> = ({
       lessonId: lesson.id,
       collectionId: lesson.collection?.id,
     })
+
+    setLessonCompleted(true)
   }
 
   return (
