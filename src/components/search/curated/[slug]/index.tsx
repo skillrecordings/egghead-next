@@ -91,7 +91,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
       </header>
       <div>
         {!isEmpty(levels) && (
-          <div className="relative sm:pt-16 pt-8 sm:pb-28 pb-10">
+          <div className="relative sm:pt-16 pt-8 sm:pb-12 pb-2">
             <p className="sm:text-sm text-xs font-mono text-medium tracking-wide uppercase opacity-80 sm:pl-12 sm:text-left text-center sm:pb-0 pb-8">
               {levels.subTitle}
             </p>
@@ -129,21 +129,21 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
             </div>
           </div>
         )}
-        <div className="sm:px-5 px-3">
+        <div className="sm:px-5 px-3 sm:pt-16 pt-8">
           {!isEmpty(sections) &&
             sections.map((section: any) => {
               return (
                 <section className="pb-16" key={section.title}>
                   {!section.image && !section.description ? (
                     // simple section
-                    <div className="flex w-full pb-6 items-center justify-between">
-                      <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+                    <div className="flex w-full pb-6 items-center justify-start">
+                      <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight sm:px-7 px-5">
                         {section.title}
                       </h2>
                     </div>
                   ) : (
                     // section with image and description
-                    <div className="flex md:flex-row flex-col md:items-start items-center justify-center w-full mb-5 pb-8 md:space-x-10">
+                    <div className="flex md:flex-row flex-col md:items-start items-center justify-start w-full mb-5 pb-8 md:space-x-10 sm:px-7 px-5">
                       {section.image && (
                         <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
                           <Image
