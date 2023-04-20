@@ -261,10 +261,10 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           />
                         </div>
                       )}
-                      <div className="grid sm:grid-cols-4 gap-4 ">
+                      <div className="grid md:grid-cols-4 gap-4 ">
                         <div
                           className={`col-span-2  ${cx({
-                            'sm:order-last': i % 2 !== 0,
+                            'md:order-last': i % 2 !== 0,
                           })}`}
                         >
                           <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
@@ -278,7 +278,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                         </div>
                         {section.resources.map((resource: any) => {
                           return (
-                            <div className="sm:h-80 self-center">
+                            <div className="self-center">
                               <VerticalResourceCard
                                 key={resource.title}
                                 resource={resource}
@@ -311,7 +311,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           </div>
                           {secondarySections.map((resource: any) => {
                             return (
-                              <div className="hidden lg:block">
+                              <div className="hidden lg:block self-center">
                                 <VerticalResourceCard
                                   key={resource.title}
                                   resource={resource}
