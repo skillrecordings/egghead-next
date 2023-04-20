@@ -12,6 +12,7 @@ import {CARD_TYPES} from 'components/search/curated/curated-essential'
 import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
 import {loadUserCompletedCourses} from 'lib/users'
+import {twMerge} from 'tailwind-merge'
 
 const useUserCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
@@ -25,6 +26,102 @@ const useUserCompletedCourses = (viewerId: number) => {
 type CuratedTopicProps = {
   topicData: any
   topic: any
+}
+
+const DynamicCardGrid = ({
+  section,
+  completedCoursesIds,
+  location,
+  className,
+}: {
+  section: any
+  completedCoursesIds: string[]
+  location: string
+  className?: string
+}) => {
+  return (
+    <Grid
+      className={twMerge(
+        'grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3 gap-2',
+        className,
+      )}
+    >
+      {section.resources.map((resource: any, i: number) => {
+        switch (section.resources.length) {
+          case 2:
+            return (
+              <HorizontalResourceCard
+                className="col-span-2"
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            )
+          case 3:
+            return i === 0 ? (
+              <HorizontalResourceCard
+                className="col-span-2"
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            ) : (
+              <VerticalResourceCard
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            )
+          case 6:
+            return i === 0 || i === 1 ? (
+              <HorizontalResourceCard
+                className="col-span-2"
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            ) : (
+              <VerticalResourceCard
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            )
+          case 7:
+            return i === 0 ? (
+              <HorizontalResourceCard
+                className="col-span-2"
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            ) : (
+              <VerticalResourceCard
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            )
+          default:
+            return (
+              <VerticalResourceCard
+                key={resource.title}
+                resource={resource}
+                location={location}
+                completedCoursesIds={completedCoursesIds}
+              />
+            )
+        }
+      })}
+    </Grid>
+  )
 }
 
 const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
@@ -131,19 +228,27 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
         )}
         <div className="sm:px-5 px-3 sm:pt-16 pt-8">
           {!isEmpty(sections) &&
-            sections.map((section: any) => {
-              return (
-                <section className="pb-16" key={section.title}>
-                  {!section.image && !section.description ? (
-                    // simple section
-                    <div className="flex w-full pb-6 items-center justify-start">
-                      <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight sm:px-7 px-5">
-                        {section.title}
-                      </h2>
-                    </div>
-                  ) : (
+            sections.map((section: any, i: number) => {
+              switch (true) {
+                case !section.image && !section.description:
+                  return (
+                    <section className="pb-16" key={section.title}>
+                      <div className="flex w-full pb-6 items-center justify-start">
+                        <h2 className="lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
+                          {section.title}
+                        </h2>
+                      </div>
+                      <DynamicCardGrid
+                        section={section}
+                        completedCoursesIds={completedCoursesIds}
+                        location={location}
+                      />
+                    </section>
+                  )
+                case section.resources.length === 2:
+                  return (
                     // section with image and description
-                    <div className="flex md:flex-row flex-col md:items-start items-center justify-start w-full mb-5 pb-8 md:space-x-10 sm:px-7 px-5">
+                    <div className="flex md:flex-row flex-col md:items-start items-center justify-start w-full mb-5 pb-8 md:space-x-10">
                       {section.image && (
                         <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
                           <Image
@@ -156,94 +261,125 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                           />
                         </div>
                       )}
-                      <div>
-                        <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
-                          {section.title}
-                        </h2>
-                        {section.description && (
-                          <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700">
-                            {section.description}
-                          </ReactMarkdown>
-                        )}
+                      <div className="grid sm:grid-cols-4 gap-4 ">
+                        <div
+                          className={`col-span-2  ${cx({
+                            'sm:order-last': i % 2 !== 0,
+                          })}`}
+                        >
+                          <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
+                            {section.title}
+                          </h2>
+                          {section.description && (
+                            <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700 dark:prose-sm">
+                              {section.description}
+                            </ReactMarkdown>
+                          )}
+                        </div>
+                        {section.resources.map((resource: any) => {
+                          return (
+                            <div className="sm:h-80 self-center">
+                              <VerticalResourceCard
+                                key={resource.title}
+                                resource={resource}
+                                location={location}
+                                completedCoursesIds={completedCoursesIds}
+                              />
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
-                  )}
-                  <Grid className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 sm:gap-3 gap-2">
-                    {section.resources.map((resource: any, i: number) => {
-                      switch (section.resources.length) {
-                        case 2:
-                          return (
-                            <HorizontalResourceCard
-                              className="col-span-2"
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          )
-                        case 3:
-                          return i === 0 ? (
-                            <HorizontalResourceCard
-                              className="col-span-2"
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          ) : (
-                            <VerticalResourceCard
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          )
-                        case 6:
-                          return i === 0 || i === 1 ? (
-                            <HorizontalResourceCard
-                              className="col-span-2"
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          ) : (
-                            <VerticalResourceCard
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          )
-                        case 7:
-                          return i === 0 ? (
-                            <HorizontalResourceCard
-                              className="col-span-2"
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          ) : (
-                            <VerticalResourceCard
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          )
-                        default:
-                          return (
-                            <VerticalResourceCard
-                              key={resource.title}
-                              resource={resource}
-                              location={location}
-                              completedCoursesIds={completedCoursesIds}
-                            />
-                          )
-                      }
-                    })}
-                  </Grid>
+                  )
+                case section.resources.length === 4 && !section.image:
+                  let primarySections = section.resources.slice(0, 2)
+                  let secondarySections = section.resources.slice(2, 4)
+
+                  return (
+                    <div>
+                      <div className="flex md:flex-row flex-col md:items-start items-center justify-start w-full mb-5 pb-8 md:space-x-10">
+                        <div className="grid lg:grid-cols-4 gap-4">
+                          <div className="col-span-2">
+                            <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
+                              {section.title}
+                            </h2>
+                            {section.description && (
+                              <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700 dark:prose-sm">
+                                {section.description}
+                              </ReactMarkdown>
+                            )}
+                          </div>
+                          {secondarySections.map((resource: any) => {
+                            return (
+                              <div className="hidden lg:block">
+                                <VerticalResourceCard
+                                  key={resource.title}
+                                  resource={resource}
+                                  location={location}
+                                  completedCoursesIds={completedCoursesIds}
+                                />
+                              </div>
+                            )
+                          })}
+                          {primarySections.map((resource: any) => {
+                            return (
+                              <HorizontalResourceCard
+                                className="col-span-2  hidden lg:block"
+                                key={resource.title}
+                                resource={resource}
+                                location={location}
+                                completedCoursesIds={completedCoursesIds}
+                              />
+                            )
+                          })}
+                          {section.resources.map((resource: any) => {
+                            return (
+                              <VerticalResourceCard
+                                className="lg:hidden"
+                                key={resource.title}
+                                resource={resource}
+                                location={location}
+                                completedCoursesIds={completedCoursesIds}
+                              />
+                            )
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )
+              }
+
+              return (
+                <section className="pb-16" key={section.title}>
+                  <div className="flex md:flex-row flex-col md:items-start items-center justify-start w-full mb-5 pb-8 md:space-x-10 sm:px-7 px-5">
+                    {section.image && (
+                      <div className="flex-shrink-0 md:max-w-none max-w-[200px]">
+                        <Image
+                          aria-hidden
+                          src={section.image}
+                          quality={100}
+                          width={240}
+                          height={240}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
+                        {section.title}
+                      </h2>
+                      {section.description && (
+                        <ReactMarkdown className="prose sm:prose prose-sm dark:prose-dark dark:text-gray-300 text-gray-700 dark:prose-sm">
+                          {section.description}
+                        </ReactMarkdown>
+                      )}
+                    </div>
+                  </div>
+                  <DynamicCardGrid
+                    section={section}
+                    completedCoursesIds={completedCoursesIds}
+                    location={location}
+                  />
                 </section>
               )
             })}

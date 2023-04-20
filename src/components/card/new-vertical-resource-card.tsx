@@ -18,6 +18,7 @@ import {Textfit} from 'react-textfit'
 import analytics from 'utils/analytics'
 import Heading from './heading'
 import CheckIcon from 'components/icons/check'
+import {twMerge} from 'tailwind-merge'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -54,7 +55,14 @@ const VerticalResourceCard: React.FC<{
       instructor={resource?.instructor?.name}
       tag={resource.tag?.name}
     >
-      <Card {...props} resource={resource} className={className}>
+      <Card
+        {...props}
+        resource={resource}
+        className={twMerge(
+          'rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50',
+          className,
+        )}
+      >
         {resource.background && (
           <Image
             src={resource.background}
