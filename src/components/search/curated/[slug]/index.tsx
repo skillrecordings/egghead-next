@@ -14,15 +14,6 @@ import {loadUserCompletedCourses} from 'lib/users'
 import {twMerge} from 'tailwind-merge'
 import {trpc} from 'trpc/trpc.client'
 
-const useUserCompletedCourses = (viewerId: number) => {
-  return useQuery(['completeCourses'], async () => {
-    if (viewerId) {
-      const {completeCourses} = await loadUserCompletedCourses()
-      return completeCourses
-    }
-  })
-}
-
 type CuratedTopicProps = {
   topicData: any
   topic: any
