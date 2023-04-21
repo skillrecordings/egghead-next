@@ -108,6 +108,7 @@ export async function loadUserProgress(
                   is_completed
                   completed_at
                   completed_lessons {
+                    id
                     title
                     slug
                     path
@@ -115,6 +116,7 @@ export async function loadUserProgress(
                 }
                 items {
                   ... on Lesson {
+                    id
                     title
                     slug
                     path
@@ -127,8 +129,10 @@ export async function loadUserProgress(
                 }
               }
               ... on Course {
+                id
                 title
                 lessons {
+                  id
                   title
                   slug
                   path
@@ -142,6 +146,7 @@ export async function loadUserProgress(
                   is_completed
                   completed_at
                   completed_lessons {
+                    id
                     title
                     slug
                     path
@@ -173,7 +178,9 @@ export async function loadUserProgress(
     return {
       completionStats: {
         minutesWatched: user.minutes_watched,
-        completedCourseCount: user.courses_completed,
+        completedCourseCount: user.all_progress.data.filter(
+          (p: any) => p.is_complete,
+        ).length,
         completedLessonCount: user.lessons_completed,
       },
       progress: user.all_progress,

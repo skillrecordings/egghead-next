@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {useQuery} from '@tanstack/react-query'
 import Grid from 'components/grid'
 import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
@@ -13,6 +12,7 @@ import {useRouter} from 'next/router'
 import {useViewer} from 'context/viewer-context'
 import {loadUserCompletedCourses} from 'lib/users'
 import {twMerge} from 'tailwind-merge'
+import {trpc} from 'trpc/trpc.client'
 
 const useUserCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
@@ -133,9 +133,7 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
     topic.label
   } Tutorials for ${new Date().getFullYear()}`
   const router = useRouter()
-  const {viewer} = useViewer()
-  const viewerId = viewer?.id
-  const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+  const {data: completeCourseData} = trpc.progress.completedCourses.useQuery()
   const completedCoursesIds =
     !isEmpty(completeCourseData) &&
     completeCourseData.map((course: any) => course.collection.id)
