@@ -251,7 +251,11 @@ const CuratedTopic: React.FC<CuratedTopicProps> = ({topic, topicData}) => {
                         </div>
                       )}
                       <div className="grid md:grid-cols-4 gap-4 ">
-                        <div className={`col-span-2  `}>
+                        <div
+                          className={`col-span-2  ${cx({
+                            'md:order-last': i % 2 !== 0,
+                          })}`}
+                        >
                           <h2 className="w-full lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight pb-4">
                             {section.title}
                           </h2>
