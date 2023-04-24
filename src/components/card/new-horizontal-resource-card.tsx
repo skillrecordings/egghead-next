@@ -54,8 +54,12 @@ const HorizontalResourceCard: React.FC<{
       tag={resource.tag?.name}
     >
       <Card {...props} resource={resource} className={defaultClassName}>
-        <CardContent className="grid grid-cols-8 gap-5 items-center px-5 py-2">
-          <CardHeader className="col-span-3 flex items-center justify-center">
+        <CardContent className="grid grid-cols-8 gap-5   items-center px-5 py-2">
+          <CardHeader
+            className={`col-span-3 flex items-center justify-center ${cx({
+              '-ml-32 -my-64': resource.name === 'article',
+            })}`}
+          >
             <PreviewImage
               name={resource.name}
               image={resource.image}
@@ -149,6 +153,8 @@ const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
         return 40
       case 'talk':
         return 80
+      case 'article':
+        return 300
       default:
         return 200
     }
@@ -159,13 +165,14 @@ const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
         'max-w-[40px]': name === 'lesson',
         'max-w-[80px]': name === 'talk',
         'xl:max-w-[200px] sm:max-w-[150px] max-w-[100px]': name === 'course',
+        'object-cover': name === 'article',
       })}`}
     >
       <Image
         aria-hidden
         src={get(image, 'src', image)}
-        width={getSize(name)}
-        height={getSize(name)}
+        width={name === 'article' ? 500 : getSize(name)}
+        height={name === 'article' ? 500 : getSize(name)}
         quality={100}
         alt=""
       />
