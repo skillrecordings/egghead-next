@@ -177,7 +177,6 @@ const PreviewImage: React.FC<{
   small?: boolean
   resourceType: string
 }> = ({title, image, small, resourceType}) => {
-  console.log({resourceType})
   if (!image) return null
 
   return (

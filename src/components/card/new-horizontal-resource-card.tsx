@@ -154,7 +154,7 @@ const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
       case 'talk':
         return 80
       case 'article':
-        return 300
+        return 500
       default:
         return 200
     }
@@ -171,8 +171,8 @@ const PreviewImage: React.FC<{title: string; image: any; name: string}> = ({
       <Image
         aria-hidden
         src={get(image, 'src', image)}
-        width={name === 'article' ? 500 : getSize(name)}
-        height={name === 'article' ? 500 : getSize(name)}
+        width={getSize(name)}
+        height={getSize(name)}
         quality={100}
         alt=""
       />
