@@ -10,8 +10,8 @@ import {Card} from 'components/card'
 import {bpMinMD} from 'utils/breakpoints'
 import {track} from 'utils/analytics'
 import ExternalTrackedLink from 'components/external-tracked-link'
-import {HorizontalResourceCard} from 'components/card/horizontal-resource-card'
-import {VerticalResourceCard} from '../../../card/verticle-resource-card'
+import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
+import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 
 export default function SearchStephanieEckles({instructor}: {instructor: any}) {
   const combinedInstructor = {...instructor}
@@ -35,25 +35,27 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
         <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
           Featured Resources
         </h2>
-        <div className="grid lg:grid-cols-6 grid-cols-1 mb-10 pb-10 w-full gap-0 lg:gap-3">
+        <div className="grid lg:grid-cols-6 grid-cols-1 mb-10 pb-10 w-full gap-2 justify-center">
           <ProjectStack
-            className="col-span-2 mb-3 lg:mb-0"
+            className="mb-3 lg:mb-0 col-span-2"
             data={projects.resources}
           />
-          <div className="col-span-4 grid lg:grid-cols-2 grid-cols-1 auto-cols-max gap-3">
-            <HorizontalResourceCard
-              className="col-span-2"
-              resource={secondCourse}
-            />
-            <VerticalResourceCard
-              className="col-span-1"
-              resource={thirdCourse}
-            />
-            <VerticalResourceCard
-              className="col-span-1"
-              resource={fourthCourse}
-            />
-          </div>
+
+          {/* <div className="col-span-4 grid lg:grid-cols-2 gap-3"> */}
+          <HorizontalResourceCard
+            className="col-span-4"
+            resource={secondCourse}
+          />
+
+          <HorizontalResourceCard
+            className="col-span-3"
+            resource={thirdCourse}
+          />
+          <HorizontalResourceCard
+            className="col-span-3"
+            resource={fourthCourse}
+          />
+          {/* </div> */}
         </div>
       </section>
     </div>
@@ -93,7 +95,7 @@ const ProjectStack: FunctionComponent<any> = ({data, className}) => {
         </h3>
         <hr />
         <div className="h-full">
-          <ul className="flex flex-col h-full justify-evenly">
+          <ul className="flex flex-col h-full ">
             {data.map((item: any) => {
               const {description, title, image, path} = item
               return (

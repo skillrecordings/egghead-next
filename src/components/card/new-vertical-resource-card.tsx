@@ -55,14 +55,12 @@ const VerticalResourceCard: React.FC<{
       resource_type={resource.name}
       instructor={resource?.instructor?.name}
       tag={resource.tag?.name}
+      className={className}
     >
       <Card
         {...props}
         resource={resource}
-        className={twMerge(
-          'rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50',
-          className,
-        )}
+        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50"
       >
         {resource.background && (
           <Image
@@ -154,6 +152,7 @@ export const ResourceLink: React.FC<{
 }) => (
   <Link href={path}>
     <a
+      className={className}
       onClick={() => {
         analytics.events.activityInternalLinkClick(
           resource_type,
