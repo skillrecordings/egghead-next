@@ -35,27 +35,24 @@ export default function SearchStephanieEckles({instructor}: {instructor: any}) {
         <h2 className="sm:px-5 px-3 my-4 lg:text-2xl sm:text-xl text-lg dark:text-white font-semibold leading-tight">
           Featured Resources
         </h2>
-        <div className="grid lg:grid-cols-6 grid-cols-1 mb-10 pb-10 w-full gap-2 justify-center">
+        <div className="grid lg:grid-cols-6  mb-10 pb-10 w-full gap-2">
           <ProjectStack
             className="mb-3 lg:mb-0 col-span-2"
             data={projects.resources}
           />
-
-          {/* <div className="col-span-4 grid lg:grid-cols-2 gap-3"> */}
           <HorizontalResourceCard
-            className="col-span-4"
+            className="col-span-2 sm:col-span-4"
             resource={secondCourse}
           />
 
           <HorizontalResourceCard
-            className="col-span-3"
+            className="col-span-2 sm:col-span-3"
             resource={thirdCourse}
           />
           <HorizontalResourceCard
-            className="col-span-3"
+            className="col-span-2 sm:col-span-3"
             resource={fourthCourse}
           />
-          {/* </div> */}
         </div>
       </section>
     </div>
