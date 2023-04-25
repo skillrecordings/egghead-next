@@ -33,7 +33,7 @@ const VerticalResourceCard: React.FC<{
   children,
   resource,
   location,
-  className = 'rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50',
+  className,
   describe = false,
   small = false,
   as,
