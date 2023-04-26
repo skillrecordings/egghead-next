@@ -127,6 +127,7 @@ export type Prices = {
 export type Coupon = {
   coupon_code: string
   coupon_discount: number
+  coupon_region_restricted: boolean
   coupon_region_restricted_to: string
   coupon_region_restricted_to_name: string
   coupon_expires_at: number

@@ -2,8 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import {track} from '../../utils/analytics'
 import {useViewer} from 'context/viewer-context'
-import get from 'lodash/get'
-import useSubscriptionDetails, {recur} from 'hooks/use-subscription-data'
+import {recur} from 'utils/recur'
+import {trpc} from '../../trpc/trpc.client'
 
 type SubscriptionDetailsProps = {
   stripeCustomerId: string
@@ -13,21 +13,16 @@ type SubscriptionDetailsProps = {
 const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
   ({stripeCustomerId, slug}) => {
     const {viewer} = useViewer()
-    const {subscriptionData, loading} = useSubscriptionDetails({
-      stripeCustomerId,
-    })
+    const {data: subscriptionData, status} =
+      trpc.subscriptionDetails.forStripeCustomerId.useQuery({
+        stripeCustomerId,
+      })
 
     const subscriptionName = subscriptionData && subscriptionData.product?.name
-    const subscriptionUnitAmount = get(
-      subscriptionData,
-      'latestInvoice.amount_due',
-      subscriptionData?.price?.unit_amount,
-    )
-    const currency = get(
-      subscriptionData,
-      'latestInvoice.currency',
-      subscriptionData?.price?.unit_amount,
-    )
+    const subscriptionUnitAmount =
+      subscriptionData?.latestInvoice?.amount_due ||
+      subscriptionData?.price?.unit_amount
+    const currency = subscriptionData?.latestInvoice?.currency || 'USD'
     const subscriptionPrice =
       subscriptionUnitAmount &&
       currency &&
@@ -40,7 +35,7 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
     return (
       <>
         {/* Payment details */}
-        {!loading && subscriptionData && (
+        {status !== 'loading' && subscriptionData && (
           <div className="sm:px-6 lg:px-0 lg:col-span-9">
             <section className="mb-32">
               <div className="w-full p-4">
@@ -91,15 +86,17 @@ const SubscriptionDetails: React.FunctionComponent<SubscriptionDetailsProps> =
                   ) : (
                     <div className="px-5 py-4">
                       <h3 className="mb-1 text-2xl font-medium">
-                        No paid subscription found.
+                        No membership found.
                       </h3>
                       {(viewer.is_pro || viewer.is_instructor) && (
                         <p>
                           You still have access to a Pro Membership. If you feel
                           this is in error please email{' '}
                           <a
-                            className="text-blue-600 underline hover:text-blue-700"
-                            href="mailto:support@egghead.io"
+                            href={`mailto:support@egghead.io?subject=${encodeURIComponent(
+                              `Support needed for egghead membership`,
+                            )}`}
+                            className="underline"
                           >
                             support@egghead.io
                           </a>

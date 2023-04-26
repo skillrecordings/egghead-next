@@ -12,7 +12,7 @@ import {isEmpty, find} from 'lodash'
 import BillingSection from 'components/team/billing-section'
 import MemberTable from 'components/team/member-table'
 import AccountOwnershipTransfer from 'components/team/account-ownership-transfer'
-import useSubscriptionDetails from 'hooks/use-subscription-data'
+import {trpc} from '../../trpc/trpc.client'
 
 export type TeamData = {
   accountId: number
@@ -33,11 +33,7 @@ const TeamComposition = ({
   capacity: number
   numberOfMembers: number
 }) => {
-  const valid =
-    typeof numberOfMembers === 'number' &&
-    numberOfMembers > 0 &&
-    typeof capacity === 'number' &&
-    capacity > 0
+  const valid = numberOfMembers > 0 && capacity > 0
 
   if (valid) {
     return <span>{`(${numberOfMembers}/${capacity})`}</span>
@@ -49,11 +45,11 @@ const TeamComposition = ({
 const AtCapacityNotice = ({
   isFull,
   billingPortalUrl,
-  billingScheme,
+  billingScheme = 'per_unit',
 }: {
   isFull: boolean
   billingPortalUrl: string | undefined
-  billingScheme: 'tiered' | 'per_unit'
+  billingScheme?: 'tiered' | 'per_unit'
 }) => {
   if (!isFull) {
     return null
@@ -139,8 +135,8 @@ const Team = ({team: teamData}: TeamPageProps) => {
     }
   }, [teamDataNotAvailable])
 
-  const {subscriptionData, loading: subscriptionDataLoading} =
-    useSubscriptionDetails({
+  const {data: subscriptionData, status} =
+    trpc.subscriptionDetails.forStripeCustomerId.useQuery({
       stripeCustomerId: teamData?.stripeCustomerId,
     })
 
@@ -148,10 +144,12 @@ const Team = ({team: teamData}: TeamPageProps) => {
 
   return (
     <LoginRequired>
-      <div className="max-w-screen-xl mx-auto mb-24">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight md:text-left text-center mt-4 md:mt-0">
-          Team Account
-        </h1>
+      <div className="max-w-screen-xl mx-auto px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+        <div className="sm:px-6 md:px-0 pt-10 pb-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight">
+            Team Account
+          </h1>
+        </div>
         <p className="mt-6 leading-6">
           We are in the process of migrating team accounts to our new website.
           If you would like to manage your account please visit{' '}
@@ -174,8 +172,8 @@ const Team = ({team: teamData}: TeamPageProps) => {
         </div>
         <AtCapacityNotice
           isFull={teamData.isFull}
-          billingPortalUrl={subscriptionData.portalUrl}
-          billingScheme={subscriptionData.billingScheme}
+          billingPortalUrl={subscriptionData?.portalUrl}
+          billingScheme={subscriptionData?.billingScheme}
         />
         <h2 className="font-semibold text-xl mt-16">
           Current Team Members{' '}
@@ -189,12 +187,9 @@ const Team = ({team: teamData}: TeamPageProps) => {
           members={members}
           setMembers={setMembers}
         />
-        <BillingSection
-          subscriptionData={subscriptionData}
-          loading={subscriptionDataLoading}
-        />
-        {!subscriptionDataLoading &&
-          subscriptionData.billingScheme === 'per_unit' && (
+        <BillingSection stripeCustomerId={teamData.stripeCustomerId} />
+        {status !== 'loading' &&
+          subscriptionData?.billingScheme === 'per_unit' && (
             <div
               className="relative px-4 py-1 mt-4 mb-4 leading-normal text-blue-700 bg-blue-100 dark:text-blue-100 dark:bg-blue-800 rounded"
               role="alert"

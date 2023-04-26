@@ -26,11 +26,8 @@ const Tags: React.FC<{
   lessonSlug: string
   collectionSlug: string
 }> = ({tags, lessonSlug, collectionSlug}) => {
-  const courseDependencies: {
-    [Key: string]: any
-    dependencies?: CourseDependencies
-  } = getDependencies(collectionSlug)
-  const dependencies = courseDependencies.dependencies || {}
+  const courseDependencies = getDependencies(collectionSlug)
+  const dependencies = courseDependencies?.dependencies || {}
 
   const collectionTags: TagWithVersion[] = tags.map((tag: any) => {
     const version = get(dependencies, tag.name)

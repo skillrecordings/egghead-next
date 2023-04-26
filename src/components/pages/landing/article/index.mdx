@@ -1,13 +1,18 @@
 import title from 'title'
 
-<Byline>Your Time is precious</Byline>
+<H3>Your deep catalog of byte-sized courses</H3>
 
-<H3>
-  Obviously you can pick up a new framework, language or platform on your own.
-  You’ve done it before.
-</H3>
+<Prose>
 
-<List title={<p className="font-semibold">You know the drill...</p>}>
+Get access to 1000s of to the point, practical video lessons on modern web development.
+
+egghead courses are focused and don't waste your time. There's no meandering, no fluff, no filler. Just the best, most relevant content for modern web developers.
+
+</Prose>
+
+<Spacer />
+
+<List title={<p className="font-semibold">You can...</p>}>
   <ListItemEmoji
     emoji={{image: DissapointedFace, alt: 'dissapointed face emoji'}}
   >
@@ -29,50 +34,30 @@ import title from 'title'
   </ListItemEmoji>
 </List>
 
-<Prose>
-
-All the while, your poor computer screams under the weight of all those tabs.
-
-What about learning from books? Books are great! They're sometimes edited by professionals, which is more than you can say for most tutorials you find. But publishers can’t keep up with the pace of modern web development. You can't keep up either, at least not with your old approach.
-
-Nobody’s paying you to find the bugs in their crummy tutorials. You don’t have time to dig your way out of all those rabbit holes for a supposedly free education.
-
-So you’ve been procrastinating a little. Or… a lot.
-
-Your time is precious. You're a professional.
-
-</Prose>
-
 <Spacer />
 
 <Byline>
-  There <HighlightWord>has</HighlightWord> to be an easier way
+  or maybe Skip <HighlightWord>all</HighlightWord> of that?
 </Byline>
 
 <H3 className="max-w-lg">
-  Don't you wish you could jack into the Matrix and inject{' '}
-  {props.topic
-    ? title(props.topic?.replace('_', ' '))
-    : 'Full Stack Web Development'}{' '}
-  directly to your brain?
+  Staying current as a web developer doesn't have to take hours or rob you of
+  your precious little free time.
 </H3>
 
 <Prose>
-
-Sounds convenient, but it's not going to happen anytime soon.
-
-But what if you had the next best thing?
 
 What if you could simply sit down and start learning? What if you could skip all the searching, the cobbling, the contradictory advice, the bugs, the forums, and the dead ends?
 
 What if you had on-demand experts available to hand you the best, curated material on modern web development?
 
-Think how much easier it would be for you to stay on the bleeding edge of our industry. With just 10-30 minutes a day, you'd be able to power through a major topic every week.
+Think how much easier it would be for you to stay on the bleeding edge of our industry. With just 10-30 minutes a week, you are able to learn and stay current without getting left behind.
 
 With the right teacher and the right courses, this isn't a pipe dream.
-Picture yourself months from now, sitting down to a heady programming challenge, and whispering I know wtf I am doing.
 
-That is what egghead can do for you.
+Picture yourself months from now, solving juicier problems, using the best tools, and whispering to yourself "I know wtf I am doing."
+
+That is what egghead does for you.
 
 </Prose>
 
@@ -83,28 +68,17 @@ That is what egghead can do for you.
 </Byline>
 
 <H3>
-  egghead will turn you into a badass web developer. Learn any time, any place,
-  at your own pace.
+  egghead will turn you into a goto problem-solving web development team player.
+  Learn any time, any place, at your own pace.
 </H3>
 
 <Prose>
 
-We're here to help you level up. We've designed everything from our courses to our tools to our community to advance your skills without sacrificing your precious time.
-
-egghead is not a sloppy video marketplace or grab-bag of random content. We're a boutique label curating high-quality video courses for professional web developers.
+We're here to keep your skills sharp. We've designed our courses to advance your skills without sacrificing your precious time.
 
 </Prose>
 
 <Spacer />
-
-export const getListOfInstructors = (topic) => {
-  switch (topic) {
-    case 'react':
-      return `Dan Abramov, Kent C. Dodds, Jason Lengstorf, and Laurie Barth`
-    default:
-      return `Dan Abramov, Max Stoiber, and Marcy Sutton`
-  }
-}
 
 <List
   title={
@@ -115,16 +89,15 @@ export const getListOfInstructors = (topic) => {
   className="sm:p-10 p-5 md:-mx-10 sm:mx-0 -mx-5 sm:rounded-md dark:bg-gray-800 bg-gray-50"
 >
   <ListItemEmoji emoji={{image: HuggingFace, alt: 'hugging face emoji'}}>
-    Access to hundreds of courses by world-class folks like{' '}
-    {getListOfInstructors(props.topic)}
+    On-demand instant access to hundreds of courses by world-class professional
+    instructors
   </ListItemEmoji>
   <ListItemEmoji emoji={{image: WingingFace, alt: 'winging face emoji'}}>
     Lessons designed to teach you exactly what you need to know, without any of
     the fluff or cruft
   </ListItemEmoji>
   <ListItemEmoji emoji={{image: NerdFace, alt: 'nerd face emoji'}}>
-    Code examples (without the bugs) and projects to immediately test your
-    knowledge
+    Code examples and projects to immediately test your knowledge
   </ListItemEmoji>
   <ListItemEmoji
     emoji={{image: SunglassesFace, alt: 'smiling face with sunglasses emoji'}}
@@ -132,39 +105,9 @@ export const getListOfInstructors = (topic) => {
     Professionally produced and edited videos with high-quality sound and
     resolution
   </ListItemEmoji>
-  <ListItemEmoji emoji={{image: PartyingFace, alt: 'partying face emoji'}}>
-    Tools to help you plan, track, and follow through on your learning goals
-  </ListItemEmoji>
 </List>
 
 <Spacer />
-
-<Prose>
-
-<div>
-  And unlike book publishers, we move at the speed of the web. When you need the
-  most up-to-date tutorials on{' '}
-  <span>
-    {props.topic
-      ? title(props.topic?.replace('_', ' '))
-      : 'Full Stack Web Development'}
-  </span>
-  , we've got you covered.
-</div>
-
-**We have over 5,500 lessons and 250+ courses, with new material released every week.**
-
-Our lessons are 3-7 minutes long – short, sweet, and to the point. They're designed to be watched either individually or as part of a course, so you can jump around and get exactly the information you need.
-
-Our courses will give you a comprehensive tour through a topic. They cover all the essentials from beginning to end. This includes a realistic practice project and all the code you'll need to complete it.
-
-This means you can pick up individual skills anytime you want. New languages, frameworks, and libraries are easy to add to your professional toolkit.
-
-Learn at your desk, on the train, or in the bathroom – whenever and wherever you want. Videos, transcripts, and code examples are always available – even offline.
-
-And all of it is nop-notch quality. Your secret weapon to get ahead, shine at work, and build things you love.
-
-</Prose>
 
 export const List = ({children, title, className = ''}) => {
   return (

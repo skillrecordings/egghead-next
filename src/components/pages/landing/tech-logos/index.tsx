@@ -64,23 +64,24 @@ const TechLogos = () => {
             </a>
           </Link>
         ) : (
-          <div
-            key={tech}
-            className="px-2 py-1 scale-75 lg:px-4 md:px-2 sm:scale-90"
-            onClick={() => {
-              track('clicked topic', {
-                topic: tech,
-                location: 'signup page (no link)',
-              })
-            }}
-          >
-            <Image
-              src={require(`./${
-                resolvedTheme === 'dark' ? 'dark' : 'light'
-              }/${tech}.svg`)}
-              alt={tech}
-            />
-          </div>
+          <Link key={tech} href={`/q?q=${tech}`}>
+            <a
+              className="px-2 py-1 scale-75 lg:px-4 md:px-2 sm:scale-90"
+              onClick={() => {
+                track('clicked topic', {
+                  topic: tech,
+                  location: 'signup page',
+                })
+              }}
+            >
+              <Image
+                src={require(`./${
+                  resolvedTheme === 'dark' ? 'dark' : 'light'
+                }/${tech}.svg`)}
+                alt={tech}
+              />
+            </a>
+          </Link>
         )
       })}
     </div>

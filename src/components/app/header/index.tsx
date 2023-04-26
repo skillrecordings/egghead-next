@@ -62,22 +62,22 @@ const Header: FunctionComponent = () => {
   const [activeCTA, setActiveCTA] = React.useState<any>(null)
   React.useEffect(() => {
     switch (true) {
-      case !isProOrInstructor && !subscriber?.attributes?.team_interest:
-        setActiveCTA(
-          <HeaderButtonShapedLink
-            url="/egghead-for-teams"
-            label="egghead for teams"
-            onClick={() => {
-              track('clicked egghead for teams', {location: 'header'})
-            }}
-          />,
-        )
-        break
+      // case !isProOrInstructor && !subscriber?.attributes?.team_interest:
+      //   setActiveCTA(
+      //     <HeaderButtonShapedLink
+      //       url="/egghead-for-teams"
+      //       label="egghead for teams"
+      //       onClick={() => {
+      //         track('clicked egghead for teams', {location: 'header'})
+      //       }}
+      //     />,
+      //   )
+      //   break
       case !viewer?.is_pro && !viewer?.is_instructor:
         setActiveCTA(
           <HeaderButtonShapedLink
             url="/pricing"
-            label="Go Pro"
+            label="Enroll Today"
             onClick={() => {
               track('clicked go pro', {location: 'header'})
             }}
@@ -104,7 +104,7 @@ const Header: FunctionComponent = () => {
 
   const User = () => {
     return (
-      <Link href="/user/subscription">
+      <Link href="/user/membership">
         <a
           onClick={() =>
             track('clicked account', {

@@ -42,7 +42,7 @@ const MemberTable = ({
         }}
         member={current.context.memberToRemove}
       />
-      <div className="bg-white shadow overflow-hidden sm:rounded-md mt-2">
+      <div className="bg-white border border-gray-200 dark:border-gray-700 overflow-hidden sm:rounded-md">
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {members.map((member: any, i: number) => {
             const {

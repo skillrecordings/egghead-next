@@ -1,8 +1,8 @@
-import {first, get} from 'lodash'
 import {NextApiRequest, NextApiResponse} from 'next'
 import isEmpty from 'lodash/isEmpty'
+import {Stripe} from 'stripe'
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const stripe: Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const StripeCheckoutSession = async (
   req: NextApiRequest,
@@ -10,7 +10,7 @@ const StripeCheckoutSession = async (
 ) => {
   if (req.method === 'GET') {
     try {
-      const customer_id = req.query.customer_id
+      const customer_id = req.query.customer_id as string
 
       if (!customer_id) throw new Error('no customer id')
 
@@ -18,6 +18,7 @@ const StripeCheckoutSession = async (
         customer: customer_id,
         return_url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/user`,
       })
+
       if (!session)
         throw new Error(`no session loaded for ${req.query.session_id}`)
 
@@ -25,19 +26,27 @@ const StripeCheckoutSession = async (
         expand: ['default_source', 'subscriptions.data.latest_invoice'],
       })
 
-      const subscription = customer.subscriptions?.data[0]
+      const subscriptions = await stripe.subscriptions.list({
+        customer: customer_id,
+      })
+
+      const subscription = subscriptions.data[0]
 
       if (subscription) {
-        const price = get(first(subscription.items.data), 'price')
-        const latestInvoice = get(subscription, 'latest_invoice')
-        const billingScheme = get(subscription, 'plan.billing_scheme')
+        const price = subscription.items.data[0]?.price
+        const latestInvoice =
+          typeof subscription.latest_invoice === 'string'
+            ? await stripe.invoices.retrieve(subscription.latest_invoice)
+            : subscription.latest_invoice
+        const billingScheme = price?.billing_scheme || 'per_unit'
 
-        const {product: product_id} = price
-
-        const product = await stripe.products.retrieve(product_id)
+        const product =
+          typeof price?.product === 'string'
+            ? await stripe.products.retrieve(price.product)
+            : price?.product
 
         // Try fetching the upcoming invoice
-        let upcomingInvoice = {}
+        let upcomingInvoice: Stripe.Invoice | null = null
         if (!isEmpty(subscription.canceled_at)) {
           // Only retrieve it if the subscription hasn't been cancelled,
           // otherwise it will result in a StripeInvalidRequestError.

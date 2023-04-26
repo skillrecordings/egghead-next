@@ -95,10 +95,8 @@ const GiftClaim: React.FC<GiftClaimProps> = ({error, gift}) => {
                 <em>
                   <b>on top of your existing membership</b>
                 </em>
-                . They stack. You can claim 10 gift memberships and have PRO
-                access for 10 years. When the gift expires, your existing
-                membership will resume. You will not lose any membership
-                time/money.
+                . When the gift expires, your existing membership will resume.
+                You will not lose any membership time/money.
               </p>
             ) : (
               <p>

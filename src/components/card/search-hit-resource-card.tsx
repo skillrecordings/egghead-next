@@ -16,6 +16,7 @@ import {CardResource} from 'types'
 import {Textfit} from 'react-textfit'
 import ReactMarkdown from 'react-markdown'
 import useFitText from 'use-fit-text'
+import CheckIcon from 'components/icons/check'
 
 const SearchHitResourceCard: React.FC<{
   resource: CardResource
@@ -23,6 +24,7 @@ const SearchHitResourceCard: React.FC<{
   describe?: boolean
   className?: string
   small?: boolean
+  completedCoursesIds: string[]
 }> = ({
   children,
   resource,
@@ -30,8 +32,13 @@ const SearchHitResourceCard: React.FC<{
   className = '',
   describe = true,
   small = false,
+  completedCoursesIds,
   ...props
 }) => {
+  const isCourseCompleted =
+    !isEmpty(completedCoursesIds) &&
+    resource.id &&
+    completedCoursesIds?.some((courseId: string) => courseId === resource.id)
   const {fontSize, ref} = useFitText()
   if (isEmpty(resource)) return null
   const defaultClassName =
@@ -63,9 +70,14 @@ const SearchHitResourceCard: React.FC<{
             {resource.name && (
               <p
                 aria-hidden
-                className="uppercase font-medium sm:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 opacity-60"
+                className="uppercase font-medium sm:text-[0.65rem] text-[0.55rem] pb-1 text-gray-700 dark:text-indigo-100 flex items-center"
               >
-                {resource.name}
+                {isCourseCompleted && (
+                  <span title="Course completed" className=" text-green-500">
+                    <CheckIcon />
+                  </span>
+                )}
+                <span className="opacity-60">{resource.name}</span>
               </p>
             )}
             {/* <Textfit

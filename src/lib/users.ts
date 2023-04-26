@@ -7,6 +7,54 @@ const eggAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
 })
 
+export async function loadUserAccounts({
+  token,
+  user_id,
+}: {
+  token: string
+  user_id: number
+}) {
+  const query = gql`
+    query UserAccounts($user_id: Int!) {
+      user(id: $user_id) {
+        accounts {
+          slug
+          name
+          stripe_customer_id
+          capacity
+          is_full
+          number_of_members
+          members {
+            id
+            name
+            email
+          }
+          owner {
+            id
+            name
+            email
+          }
+          additional_billing_info
+          invite_token
+          subscriptions {
+            type
+            current_period_end
+            stripe_subscription_id
+            status
+          }
+        }
+      }
+    }
+  `
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+  const variables = {
+    user_id,
+  }
+  const {user} = await graphQLClient.request(query, variables)
+  return user?.accounts || null
+}
+
 export async function loadCurrentUser(
   token: string,
   loadMinimalUser: boolean = true,
@@ -31,7 +79,7 @@ export async function loadUserProgress(
   per_page = 5,
   token?: string,
 ): Promise<any> {
-  const query = gql`
+  const query = `
     query AllProgress($user_id: Int!, $page: Int!, $per_page: Int!) {
       user(id: $user_id) {
         lessons_completed
@@ -60,6 +108,7 @@ export async function loadUserProgress(
                   is_completed
                   completed_at
                   completed_lessons {
+                    id
                     title
                     slug
                     path
@@ -67,6 +116,7 @@ export async function loadUserProgress(
                 }
                 items {
                   ... on Lesson {
+                    id
                     title
                     slug
                     path
@@ -79,8 +129,10 @@ export async function loadUserProgress(
                 }
               }
               ... on Course {
+                id
                 title
                 lessons {
+                  id
                   title
                   slug
                   path
@@ -94,6 +146,7 @@ export async function loadUserProgress(
                   is_completed
                   completed_at
                   completed_lessons {
+                    id
                     title
                     slug
                     path
@@ -125,7 +178,9 @@ export async function loadUserProgress(
     return {
       completionStats: {
         minutesWatched: user.minutes_watched,
-        completedCourseCount: user.courses_completed,
+        completedCourseCount: user.all_progress.data.filter(
+          (p: any) => p.is_complete,
+        ).length,
         completedLessonCount: user.lessons_completed,
       },
       progress: user.all_progress,
@@ -147,6 +202,32 @@ export async function loadUserCompletedCourses(token?: string): Promise<any> {
             image: image_thumb_url
             path
             id
+          }
+          ... on Course {
+            title
+            lessons {
+              title
+              slug
+              path
+            }
+            image: image_thumb_url
+            type
+            path
+            progress {
+              lesson_count
+              completed_lesson_count
+              is_completed
+              completed_at
+              completed_lessons {
+                title
+                slug
+                path
+              }
+            }
+            instructor {
+              full_name
+              avatar_64_url
+            }
           }
         }
       }

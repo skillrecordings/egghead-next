@@ -159,36 +159,6 @@ const NewMemberConfirmation: React.FC<{
               </p>
             </>
           )}
-          {currentState.matches('authTokenRetrieved') && (
-            <div className="flex flex-col items-center">
-              <Callout>
-                <p className="w-full text-lg text-center">
-                  <span role="img" aria-label="party popper">
-                    🎉
-                  </span>{' '}
-                  Your egghead membership is ready to go!
-                </p>
-              </Callout>
-              <p className="max-w-lg mx-auto text-lg text-center">
-                We've charged your credit card{' '}
-                <strong>${session.amount} for an egghead membership</strong> and
-                sent a receipt to <strong>{session.email}</strong>. Please check
-                your inbox to <strong>confirm your email address</strong>.
-              </p>
-              <button
-                className="mt-8 px-10 py-4 h-[60px] font-medium flex justify-center items-center text-white transition-all duration-300 ease-in-out bg-blue-600 rounded-md hover:bg-blue-700 hover:scale-105 self-center"
-                onClick={(_e) => {
-                  track('clicked watch lesson', {
-                    location: 'pay and play on lesson',
-                    lesson: lesson.slug,
-                  })
-                  viewLesson()
-                }}
-              >
-                Watch this Lesson
-              </button>
-            </div>
-          )}
         </>
       }
     />
@@ -283,7 +253,7 @@ const ConfirmMembership: React.FC<ConfirmMembershipProps> = ({
 
   return session ? (
     <div className="w-full max-w-screen-lg mx-auto space-y-16 text-white dark:text-white">
-      {alreadyAuthenticated ? (
+      {alreadyAuthenticated || currentState.matches('authTokenRetrieved') ? (
         <ExistingMemberConfirmation
           lesson={lesson}
           session={session}
