@@ -18,6 +18,8 @@ import {Textfit} from 'react-textfit'
 import analytics from 'utils/analytics'
 import Heading from './heading'
 import CheckIcon from 'components/icons/check'
+import {twMerge} from 'tailwind-merge'
+import cx from 'classnames'
 
 const VerticalResourceCard: React.FC<{
   resource: CardResource
@@ -31,7 +33,7 @@ const VerticalResourceCard: React.FC<{
   children,
   resource,
   location,
-  className = 'rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50',
+  className,
   describe = false,
   small = false,
   as,
@@ -53,8 +55,13 @@ const VerticalResourceCard: React.FC<{
       resource_type={resource.name}
       instructor={resource?.instructor?.name}
       tag={resource.tag?.name}
+      className={className}
     >
-      <Card {...props} resource={resource} className={className}>
+      <Card
+        {...props}
+        resource={resource}
+        className="rounded-md aspect-w-3 aspect-h-4 w-full h-full transition-all ease-in-out duration-200 relative overflow-hidden group dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50"
+      >
         {resource.background && (
           <Image
             src={resource.background}
@@ -65,11 +72,20 @@ const VerticalResourceCard: React.FC<{
           />
         )}
         <CardContent className="grid grid-rows-6 xl:p-5 p-2 pt-5">
-          <CardHeader className={`row-span-3 relative `}>
+          <CardHeader
+            className={`
+            row-span-3 
+            relative 
+            ${cx({
+              '-mx-5 -mt-5': resource.name === 'article',
+            })}
+            `}
+          >
             <PreviewImage
               small={small}
               image={resource.image}
               title={resource.title}
+              resourceType={resource.name}
             />
           </CardHeader>
           <CardMeta
@@ -136,6 +152,7 @@ export const ResourceLink: React.FC<{
 }) => (
   <Link href={path}>
     <a
+      className={className}
       onClick={() => {
         analytics.events.activityInternalLinkClick(
           resource_type,
@@ -153,18 +170,19 @@ export const ResourceLink: React.FC<{
   </Link>
 )
 
-const PreviewImage: React.FC<{title: string; image: any; small?: boolean}> = ({
-  title,
-  image,
-  small,
-}) => {
+const PreviewImage: React.FC<{
+  title: string
+  image: any
+  small?: boolean
+  resourceType: string
+}> = ({title, image, small, resourceType}) => {
   if (!image) return null
 
   return (
     <Image
       aria-hidden
       src={get(image, 'src', image)}
-      objectFit="contain"
+      objectFit={resourceType === 'article' ? 'cover' : 'contain'}
       layout="fill"
       quality={100}
       alt=""

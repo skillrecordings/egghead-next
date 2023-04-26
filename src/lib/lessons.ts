@@ -167,6 +167,8 @@ export async function loadLesson(
 const loadLessonGraphQLQuery = /* GraphQL */ `
   query getLesson($slug: String!) {
     lesson(slug: $slug) {
+      id
+      completed
       slug
       title
       description
@@ -193,6 +195,7 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
       published_at
       collection {
         ... on Playlist {
+          id
           title
           slug
           type
@@ -210,6 +213,7 @@ const loadLessonGraphQLQuery = /* GraphQL */ `
           }
         }
         ... on Course {
+          id
           title
           slug
           type
