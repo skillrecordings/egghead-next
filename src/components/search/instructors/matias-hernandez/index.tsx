@@ -5,16 +5,23 @@ import {track} from 'utils/analytics'
 import SearchInstructorEssential from '../instructor-essential'
 import {CardResource} from 'types'
 import CtaCard from 'components/search/components/cta-card'
-import {VerticalResourceCard} from 'components/card/verticle-resource-card'
+import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import ExternalTrackedLink from 'components/external-tracked-link'
 import Image from 'next/image'
 import {bpMinMD} from 'utils/breakpoints'
 import {get} from 'lodash'
+import Grid from 'components/grid'
+import {HorizontalResourceCard} from 'components/card/new-horizontal-resource-card'
 
-export default function SearchMatiasHernandez({instructor}: {instructor: any}) {
+export default function SearchMatiasHernandez({
+  instructor,
+}: {
+  instructor: any
+  props: any
+}) {
   const combinedInstructor = {...instructor}
 
-  const {courses} = instructor
+  const {courses, articles} = instructor
   const [primaryCourse, ...restCourses] = courses.resources
 
   return (
@@ -22,7 +29,7 @@ export default function SearchMatiasHernandez({instructor}: {instructor: any}) {
       <SearchInstructorEssential
         instructor={combinedInstructor}
         CTAComponent={
-          <FeaturedReactHooksCourse
+          <FeaturedPrimaryCourse
             resource={primaryCourse}
             location="Matias Hernandez instructor page"
           />
@@ -31,20 +38,84 @@ export default function SearchMatiasHernandez({instructor}: {instructor: any}) {
 
       <section className="xl:px-0 px-5">
         <h2 className="text-xl sm:font-semibold font-bold mb-3 dark:text-white">
-          JavaScript Resources
+          Courses
         </h2>
         <div className="flex sm:flex-nowrap flex-wrap gap-4 mt-4">
           {restCourses.map((course: CardResource) => {
             return (
               <VerticalResourceCard
-                className="mt-0 sm:w-1/2 w-full flex flex-col items-center justify-center text-center sm:py-8 py-6"
+                className=" dark:bg-gray-800 bg-white dark:bg-opacity-60 shadow-smooth dark:hover:bg-gray-700 dark:hover:bg-opacity-50 rounded"
                 resource={course}
-                describe
                 location="Matias Hernandez instructor Landing page"
               />
             )
           })}
         </div>
+      </section>
+
+      <section className="xl:px-0 px-5">
+        <h2 className="text-xl sm:font-semibold font-bold mb-3 mt-4 dark:text-white">
+          Articles
+        </h2>
+        <Grid>
+          {articles.resources.map((resource: CardResource, i: number) => {
+            switch (articles.resources.length) {
+              case 3:
+                return i === 0 ? (
+                  <HorizontalResourceCard
+                    className="col-span-2"
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                ) : (
+                  <VerticalResourceCard
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                )
+              case 6:
+                return i === 0 || i === 1 ? (
+                  <HorizontalResourceCard
+                    className="col-span-2"
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                ) : (
+                  <VerticalResourceCard
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                )
+              case 7:
+                return i === 0 ? (
+                  <HorizontalResourceCard
+                    className="col-span-2"
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                ) : (
+                  <VerticalResourceCard
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                )
+              default:
+                return (
+                  <VerticalResourceCard
+                    key={resource.id}
+                    resource={resource}
+                    location="Matias Hernandez instructor page"
+                  />
+                )
+            }
+          })}
+        </Grid>
       </section>
     </div>
   )
@@ -63,9 +134,22 @@ export const MatiasHernandezQuery = groq`*[_type == 'resource' && slug.current =
     	},
     }
   },
+  'articles': resources[slug.current == 'instructor-landing-page-featured-articles'][0]{
+    resources[] {
+      title,
+      summary,
+      image,
+      byline,
+      path,
+      collaborators[0]-> {
+        'name': person->name,
+        'image': person->image.url
+      }
+    }
+  }
 }`
 
-const FeaturedReactHooksCourse: React.FC<{location: string; resource: any}> = ({
+const FeaturedPrimaryCourse: React.FC<{location: string; resource: any}> = ({
   location,
   resource,
 }) => {
@@ -78,7 +162,7 @@ const FeaturedReactHooksCourse: React.FC<{location: string; resource: any}> = ({
       href={path}
     >
       <div className="md:min-h-[477px] md:-mt-5 flex items-center justify-center text-white overflow-hidden ">
-        <div className="absolute top-0 left-0 bg-gradient-to-r from-blue-400 to-cyan-400 w-full h-2 z-20" />
+        <div className="absolute top-0 left-0 bg-gradient-to-r from-indigo-500 to-pink-900 w-full h-2 z-20" />
         <div className="relative z-10 px-5 sm:py-16 py-10 sm:text-left text-center">
           <div className="space-y-5 mx-auto flex items-center justify-center max-w-screen-xl">
             <div className="flex flex-col items-center justify-center sm:space-x-5 sm:space-y-0 space-y-5 gap-10">
