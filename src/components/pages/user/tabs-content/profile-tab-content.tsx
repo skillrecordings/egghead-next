@@ -60,9 +60,9 @@ const GithubDisConnectButton: React.FunctionComponent<{
   return (
     <button
       onClick={handleClick}
-      className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700"
+      className="inline-block px-4 py-3 text-white border-blue-600 border rounded focus:outline-none hover:bg-blue-700"
     >
-      Disconnect your GitHub account
+      Disconnect Your GitHub Account
     </button>
   )
 }
@@ -75,7 +75,7 @@ const GithubConnectButton: React.FunctionComponent<{
       href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/github_passthrough?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
       className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700"
     >
-      Connect your GitHub account
+      Connect Your GitHub Account
     </a>
   )
 }
@@ -96,14 +96,18 @@ const ConnectGithub: React.FunctionComponent<{
     >
       {isConnected ? (
         <>
-          <p>You are able to login to egghead using your Github account!</p>
-          <div className="mt-2">
+          <p className="opacity-80">
+            You are able to login to egghead using your Github account.
+          </p>
+          <div className="mt-4">
             <GithubDisConnectButton setIsConnected={setIsConnected} />
           </div>
         </>
       ) : (
         <>
-          <p>Connect your GitHub account to log in with GitHub Oauth.</p>
+          <p className="opacity-80">
+            Connect your GitHub account to log in with GitHub Oauth.
+          </p>
           <div className="mt-2">
             <GithubConnectButton authToken={authToken} />
           </div>
