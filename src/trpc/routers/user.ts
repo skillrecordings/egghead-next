@@ -6,6 +6,8 @@ import {router, baseProcedure} from '../trpc.server'
 import {z} from 'zod'
 import {ACCESS_TOKEN_KEY} from '../../utils/auth'
 import {loadCurrentUser, loadUserAccounts} from '../../lib/users'
+import {getGraphQLClient} from 'utils/configured-graphql-client'
+import {gql} from 'graphql-request'
 
 const transactionsSchema = z.array(
   z.object({
@@ -55,5 +57,35 @@ export const userRouter = router({
     const user = await loadCurrentUser(token)
 
     return await loadUserAccounts({token, user_id: user.id})
+  }),
+  removeGithubLink: baseProcedure.mutation(async ({input, ctx}) => {
+    const token = ctx.req?.cookies[ACCESS_TOKEN_KEY]
+
+    if (!token) return null
+
+    const graphQLClient = getGraphQLClient(token)
+
+    const mutation = gql`
+      mutation RemoveGithubLink {
+        remove_github_link {
+          user {
+            id
+          }
+          errors {
+            message
+          }
+        }
+      }
+    `
+
+    let res = await graphQLClient
+      .request(mutation)
+      .then((data) => {
+        return data
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+    return res
   }),
 })
