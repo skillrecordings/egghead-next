@@ -7,6 +7,8 @@ import {
   RequestEmailChangeForm,
   // RequestNameChangeForm,
 } from '../components'
+import {trpc} from 'trpc/trpc.client'
+import toast from 'react-hot-toast'
 
 const ProfileTabContent: React.FC<any> = () => {
   const {viewer, authToken} = useViewer()
@@ -24,29 +26,10 @@ const ProfileTabContent: React.FC<any> = () => {
       <ItemWrapper title="Avatar">
         <AvatarForm avatarUrl={viewer.avatar_url} />
       </ItemWrapper>
-      <ItemWrapper
-        title={
-          isConnectedToGithub
-            ? 'Your Account is Connected to Github'
-            : 'Connect to GitHub'
-        }
-      >
-        {isConnectedToGithub ? (
-          <>
-            <p>You are able to login to egghead using your Github account!</p>
-            <div className="mt-2">
-              <GithubDisConnectButton authToken={authToken} />
-            </div>
-          </>
-        ) : (
-          <>
-            <p>Connect your GitHub account to log in with GitHub Oauth.</p>
-            <div className="mt-2">
-              <GithubConnectButton authToken={authToken} />
-            </div>
-          </>
-        )}
-      </ItemWrapper>
+      <ConnectGithub
+        isConnectedToGithub={isConnectedToGithub}
+        authToken={authToken}
+      />
     </div>
   )
 }
@@ -54,15 +37,33 @@ const ProfileTabContent: React.FC<any> = () => {
 export default ProfileTabContent
 
 const GithubDisConnectButton: React.FunctionComponent<{
-  authToken: string
-}> = ({authToken}) => {
+  setIsConnected: Function
+}> = ({setIsConnected}) => {
+  let removeLink = trpc.user.removeGithubLink.useMutation({
+    onSuccess: (data) => {
+      toast.success('Github account disconnected', {duration: 3000, icon: '✅'})
+    },
+    onError: (error) => {
+      setIsConnected(true)
+      toast.error('Error disconnecting Github account', {
+        duration: 3000,
+        icon: '❌',
+      })
+    },
+  })
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsConnected(false)
+    removeLink.mutate()
+  }
+
   return (
-    <a
-      href={`${process.env.NEXT_PUBLIC_AUTH_DOMAIN}/users/remove_github_link?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&auth_token=${authToken}`}
+    <button
+      onClick={handleClick}
       className="inline-block px-4 py-3 text-white bg-blue-600 border-0 rounded focus:outline-none hover:bg-blue-700"
     >
       Disconnect your GitHub account
-    </a>
+    </button>
   )
 }
 
@@ -76,5 +77,38 @@ const GithubConnectButton: React.FunctionComponent<{
     >
       Connect your GitHub account
     </a>
+  )
+}
+
+const ConnectGithub: React.FunctionComponent<{
+  isConnectedToGithub: boolean
+  authToken: string
+}> = ({isConnectedToGithub, authToken}) => {
+  let [isConnected, setIsConnected] = React.useState(isConnectedToGithub)
+
+  return (
+    <ItemWrapper
+      title={
+        isConnected
+          ? 'Your Account is Connected to Github'
+          : 'Connect to GitHub'
+      }
+    >
+      {isConnected ? (
+        <>
+          <p>You are able to login to egghead using your Github account!</p>
+          <div className="mt-2">
+            <GithubDisConnectButton setIsConnected={setIsConnected} />
+          </div>
+        </>
+      ) : (
+        <>
+          <p>Connect your GitHub account to log in with GitHub Oauth.</p>
+          <div className="mt-2">
+            <GithubConnectButton authToken={authToken} />
+          </div>
+        </>
+      )}
+    </ItemWrapper>
   )
 }
