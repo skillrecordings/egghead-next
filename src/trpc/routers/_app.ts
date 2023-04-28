@@ -6,6 +6,7 @@ import {userRouter} from './user'
 import {subscriptionDetailsRouter} from './subscription-detail'
 import {stripeRouter} from './stripe'
 import {progressRouter} from './progress'
+import {topicRouter} from './topics'
 
 export const appRouter = router({
   healthcheck: baseProcedure.query(() => 'yay!'),
@@ -13,6 +14,7 @@ export const appRouter = router({
   subscriptionDetails: subscriptionDetailsRouter,
   stripe: stripeRouter,
   progress: progressRouter,
+  topics: topicRouter,
 })
 
 export type AppRouter = typeof appRouter
