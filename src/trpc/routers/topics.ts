@@ -27,9 +27,13 @@ export const topicRouter = router({
     )
     .query(async ({input, ctx}) => {
       const index = searchClient.initIndex(ALGOLIA_INDEX_NAME)
+      // top 10 free playlists for a topic
+      const filters = `access_state:free AND type:playlist ${
+        input?.topic ? ` AND _tags:${input.topic}` : ''
+      }`
       const {hits} = await index.search(input?.topic || '', {
         hitsPerPage: 10,
-        ...(input?.topic ? {filters: `_tags:${input?.topic}`} : {}),
+        filters,
       })
       return hits
     }),
