@@ -4,12 +4,12 @@ import {Form, Formik} from 'formik'
 import {isEmpty} from 'lodash'
 import analytics from 'utils/analytics'
 
-const SearchBar = () => {
+const SearchBar = ({initialValue = ''}: {initialValue?: string}) => {
   const router = useRouter()
   return (
     <Formik
       initialValues={{
-        query: '',
+        query: initialValue,
       }}
       onSubmit={(values) => {
         if (isEmpty(values.query)) {
