@@ -101,21 +101,12 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
             }}
           />
           <div className="lg:grid grid-rows-2 p-4 hidden lg:visible">
-            <HorizontalResourceCard
-              resource={{
-                name: '',
-                byline: `kent c. dodds`,
-                instructor: {
-                  name: 'Kent C. Dodds',
-                  image: `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/medium/photo-512.png`,
-                },
-                slug: `the-beginner-s-guide-to-react`,
-                title: `the beginner's guide to react`,
-                path: `/courses/the-beginner-s-guide-to-react`,
-                image: `https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/490/full/EGH_BeginnersReact2.png`,
-                description: `A complete beginner's guide to React`,
-              }}
-            />
+            <div className="w-full h-full relative">
+              <Image
+                src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1641463980/egghead-next-pages/Javascript/og-image--javascript_2x.png"
+                layout="fill"
+              />
+            </div>
             <div className="grid grid-cols-2 pt-4">
               <VerticalResourceCard
                 className="px-2"
