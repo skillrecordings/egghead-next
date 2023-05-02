@@ -39,6 +39,7 @@ const SearchVideoControls: React.FunctionComponent<{
   router: any
   nextLesson: any
   lesson: any
+  tag: any
   courseImage: any
   onClickRewatch: any
   className?: string
@@ -46,6 +47,7 @@ const SearchVideoControls: React.FunctionComponent<{
   router,
   nextLesson,
   lesson,
+  tag,
   courseImage,
   onClickRewatch,
   className = '',
@@ -58,29 +60,28 @@ const SearchVideoControls: React.FunctionComponent<{
       )}
     >
       <div className="hidden sm:flex flex-col justify-center items-center space-y-4">
-        {courseImage && (
-          <div className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-64 xl:h-64 relative">
-            <Image
-              src={
-                'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039554/eggodex/search-eggo.svg'
-              }
-              alt={`illustration of ${lesson.collection.title} course`}
-              layout="fill"
-            />
-          </div>
-        )}
+        <div className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-64 xl:h-64 relative">
+          <Image
+            src={
+              'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039554/eggodex/search-eggo.svg'
+            }
+            alt="search eggo"
+            layout="fill"
+          />
+        </div>
+
         <h3 className="text-lg xl:text-xl 2xl:text-2xl font-semibold text-center">
-          Search for more JavaScript:
+          Search for more {tag.label}:
         </h3>
         <SearchBar
           className="rounded-lg shadow-md transition duration-200 hover:shadow-lg focus-within:shadow-lg bg-gray-800 border-gray-700 focus-within:border-gray-500 hover:bg-gray-700 w-full max-w-md"
-          initialValue="JavaScript"
+          initialValue={tag.label}
         />
       </div>
-      <div className="flex flex-col items-center sm:flex-row w-full space-y-4 sm:space-y-0 sm:space-x-4">
+      <div className="flex flex-col items-center sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
         {/* bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base */}
         <button
-          className="border border-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base"
+          className="border border-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
           onClick={() => {
             analytics.events.engagementClickedWatchedLessonAgain(lesson.slug)
             onClickRewatch()
@@ -96,7 +97,7 @@ const SearchVideoControls: React.FunctionComponent<{
               location: 'lesson overlay',
             })
           }}
-          className="bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base"
+          className="bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base whitespace-nowrap"
         >
           <IconPlay className="w-5 mr-2" /> Play next
         </button>
@@ -113,42 +114,14 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
 }> = ({lesson, nextLesson, onClickRewatch = noop, ctaContent}) => {
   const courseImage = lesson?.collection?.square_cover_480_url
   const router = useRouter()
-
+  const tag = lesson.tags[0]
+  console.log(lesson)
   const hits = transformHits(
-    trpc.topics.top.useQuery({topic: 'javascript'})?.data,
+    trpc.topics.top.useQuery({topic: tag.name})?.data,
     2,
   )
 
-  // const hits = [
-  //   {
-  //     title: 'Scale React Development with Nx',
-  //     instructor: {
-  //       name: 'Juri Strumpflohner',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/137/original/eggheadshirt.jpg',
-  //     },
-  //     slug: 'scale-react-development-with-nx-4038',
-  //     image:
-  //       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
-  //     path: `/courses/scale-react-development-with-nx-4038`,
-  //     description: '',
-  //     byline: '',
-  //   },
-  //   {
-  //     title: 'Scale React Development with Nx',
-  //     instructor: {
-  //       name: 'Juri Strumpflohner',
-  //       image:
-  //         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/137/original/eggheadshirt.jpg',
-  //     },
-  //     slug: 'scale-react-development-with-nx-4038',
-  //     image:
-  //       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
-  //     path: `/courses/scale-react-development-with-nx-4038`,
-  //     description: '',
-  //     byline: '',
-  //   },
-  // ]
+  console.log(hits)
 
   return (
     <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full dark">
@@ -159,26 +132,42 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
           courseImage={courseImage}
           lesson={lesson}
           onClickRewatch={onClickRewatch}
+          tag={tag}
         />
-        <div className="xl:grid grid-rows-2 p-8 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16 3xl:p-4 gap-y-4">
+        {hits.length > 0 ? (
+          <div className="xl:grid grid-rows-2 p-8 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16 3xl:p-4 gap-y-4">
+            <HorizontalResourceCard
+              resource={
+                {
+                  title: `More Expert Curated ${tag.label} Courses`,
+                  slug: tag.name,
+                  image: tag.image_url,
+                  path: `/q/${tag.name}?access_state=free&type=playlist`,
+                  description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
+                  byline: ``,
+                } as any
+              }
+            />
+            <div className="grid grid-cols-2 gap-x-4">
+              <VerticalResourceCard resource={hits[0] as any} />
+              <VerticalResourceCard resource={hits[1] as any} />
+            </div>
+          </div>
+        ) : (
           <HorizontalResourceCard
             resource={
               {
-                title: 'More Expert Curated JavaScript Courses',
-                slug: 'scale-react-development-with-nx-4038',
-                image:
-                  'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
-                path: `/q/javascript?access_state=free&type=playlist`,
-                description: `A strong understanding of JavaScript is essential for having a successful career, no matter which framework you use.`,
+                title: `More Expert Curated ${tag.label} Courses`,
+                slug: tag.name,
+                image: tag.image_url,
+                path: `/q/${tag.name}?access_state=free&type=playlist`,
+                description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
                 byline: ``,
               } as any
             }
+            className="p-8 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16 3xl:p-4"
           />
-          <div className="grid grid-cols-2 gap-x-4">
-            <VerticalResourceCard resource={hits[0] as any} />
-            <VerticalResourceCard resource={hits[1] as any} />
-          </div>
-        </div>
+        )}
       </div>
       <div className="grid sm:grid-cols-2 xl:hidden w-full mx-8 justify-center">
         <SearchVideoControls
@@ -188,16 +177,16 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
           lesson={lesson}
           onClickRewatch={onClickRewatch}
           className="p-16"
+          tag={tag}
         />
         <VerticalResourceCard
           resource={
             {
-              title: 'More Expert Curated JavaScript Courses',
-              slug: 'scale-react-development-with-nx-4038',
-              image:
-                'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
-              path: `/q/javascript?access_state=free&type=playlist`,
-              description: `A strong understanding of JavaScript is essential for having a successful career, no matter which framework you use.`,
+              title: `More Expert Curated ${tag.label} Courses`,
+              slug: tag.name,
+              image: tag.image_url,
+              path: `/q/${tag.name}?access_state=free&type=playlist`,
+              description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
               byline: ``,
             } as any
           }
