@@ -94,12 +94,12 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
       </div>
     </div>
   ) : (
-    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full">
+    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full dark">
       <div className="flex flex-row w-full mx-auto justify-center">
-        <div className="flex flex-col items-center justify-center p-4">
-          <div className="hidden sm:flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center p-4 space-y-6">
+          <div className="hidden sm:flex flex-col justify-center items-center space-y-4">
             {courseImage && (
-              <div className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-48 xl:h-48 relative flex-shrink-0">
+              <div className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-64 xl:h-64 relative">
                 <Image
                   src={
                     'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039554/eggodex/search-eggo.svg'
@@ -109,14 +109,18 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                 />
               </div>
             )}
-            <h3 className="text-md md:text-lg font-semibold mt-4 text-center">
+            <h3 className="text-lg md:text-2xl font-semibold text-center">
               Search for more JavaScript:
             </h3>
-            <SearchBar initialValue="JavaScript" />
+            <SearchBar
+              className="rounded-lg shadow-md transition duration-200 hover:shadow-lg focus-within:shadow-lg bg-gray-800 border-gray-700 focus-within:border-gray-500 hover:bg-gray-700 w-full max-w-md"
+              initialValue="JavaScript"
+            />
           </div>
-          <div className="flex flex-col items-center sm:flex-row mt-6 md:mt-8">
+          <div className="flex flex-col items-center sm:flex-row w-full space-y-4 sm:space-y-0 sm:space-x-4">
+            {/* bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base */}
             <button
-              className="border border-blue-600 rounded px-3 py-2 flex w-48 sm:w-auto items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out"
+              className="border border-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-gray-900 transition-colors duration-200 ease-in-out text-xs md:text-base"
               onClick={() => {
                 analytics.events.engagementClickedWatchedLessonAgain(
                   lesson.slug,
@@ -124,7 +128,7 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                 onClickRewatch()
               }}
             >
-              <IconRefresh className="w-6 mr-2" /> Watch again
+              <IconRefresh className="w-5 mr-2" /> Watch again
             </button>
             <button
               onClick={() => {
@@ -134,12 +138,13 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
                   location: 'lesson overlay',
                 })
               }}
-              className="bg-blue-600 rounded px-3 py-2 flex items-center w-48 justify-center sm:w-auto mt-4 sm:mt-0 sm:ml-4 hover:bg-blue-500 transition-colors duration-200 ease-in-out"
+              className="bg-blue-600 rounded px-4 py-2 flex sm:w-full w-48 items-center justify-center hover:bg-blue-500 transition-colors duration-200 ease-in-out text-xs md:text-base"
             >
-              <IconPlay className="w-6 mr-2" /> Play next
+              <IconPlay className="w-5 mr-2" /> Play next
             </button>
           </div>
         </div>
+
         <div className="hidden md:visible xl:hidden w-[16rem] pl-8">
           <VerticalResourceCard
             resource={{
@@ -157,11 +162,11 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
             }}
           />
         </div>
-        <div className="xl:grid grid-rows-2 p-4 min-w-0 3xl:w-[40rem] lg:w-[30rem] hidden md:visible">
+        <div className="xl:grid grid-rows-2 p-4 min-w-0 3xl:w-[40rem] lg:w-[30rem] hidden md:visible ml-32">
           <HorizontalResourceCard resource={hits[0] as any} />
           <div className="grid grid-cols-2 pt-4">
-            <VerticalResourceCard className="px-2" resource={hits[0] as any} />
-            <VerticalResourceCard className="px-2" resource={hits[1] as any} />
+            <VerticalResourceCard className="pr-4" resource={hits[0] as any} />
+            <VerticalResourceCard resource={hits[1] as any} />
           </div>
         </div>
       </div>
