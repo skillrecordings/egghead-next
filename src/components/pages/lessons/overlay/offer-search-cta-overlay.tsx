@@ -69,7 +69,7 @@ const SearchVideoControls: React.FunctionComponent<{
             />
           </div>
         )}
-        <h3 className="text-lg md:text-2xl font-semibold text-center">
+        <h3 className="text-lg xl:text-xl 2xl:text-2xl font-semibold text-center">
           Search for more JavaScript:
         </h3>
         <SearchBar
@@ -114,43 +114,41 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
   const courseImage = lesson?.collection?.square_cover_480_url
   const router = useRouter()
 
-  // const hits = transformHits(
-  //   trpc.topics.top.useQuery({topic: 'javascript'})?.data,
-  //   2,
-  // )
+  const hits = transformHits(
+    trpc.topics.top.useQuery({topic: 'javascript'})?.data,
+    2,
+  )
 
-  const hits = [
-    {
-      title: 'Scale React Development with Nx',
-      instructor: {
-        name: 'Juri Strumpflohner',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/137/original/eggheadshirt.jpg',
-      },
-      slug: 'scale-react-development-with-nx-4038',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
-      path: `/courses/scale-react-development-with-nx-4038`,
-      description: '',
-      byline: '',
-    },
-    {
-      title: 'Scale React Development with Nx',
-      instructor: {
-        name: 'Juri Strumpflohner',
-        image:
-          'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/137/original/eggheadshirt.jpg',
-      },
-      slug: 'scale-react-development-with-nx-4038',
-      image:
-        'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
-      path: `/courses/scale-react-development-with-nx-4038`,
-      description: '',
-      byline: '',
-    },
-  ]
-
-  console.log('HITS', hits)
+  // const hits = [
+  //   {
+  //     title: 'Scale React Development with Nx',
+  //     instructor: {
+  //       name: 'Juri Strumpflohner',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/137/original/eggheadshirt.jpg',
+  //     },
+  //     slug: 'scale-react-development-with-nx-4038',
+  //     image:
+  //       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
+  //     path: `/courses/scale-react-development-with-nx-4038`,
+  //     description: '',
+  //     byline: '',
+  //   },
+  //   {
+  //     title: 'Scale React Development with Nx',
+  //     instructor: {
+  //       name: 'Juri Strumpflohner',
+  //       image:
+  //         'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/137/original/eggheadshirt.jpg',
+  //     },
+  //     slug: 'scale-react-development-with-nx-4038',
+  //     image:
+  //       'https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/405/344/thumb/EGH_ScalingReactNx.png',
+  //     path: `/courses/scale-react-development-with-nx-4038`,
+  //     description: '',
+  //     byline: '',
+  //   },
+  // ]
 
   return (
     <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full dark">
@@ -162,10 +160,22 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
           lesson={lesson}
           onClickRewatch={onClickRewatch}
         />
-        <div className="xl:grid grid-rows-2 p-4 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16">
-          <HorizontalResourceCard resource={hits[0] as any} />
-          <div className="grid grid-cols-2 pt-4">
-            <VerticalResourceCard className="pr-4" resource={hits[0] as any} />
+        <div className="xl:grid grid-rows-2 p-8 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16 3xl:p-4 gap-y-4">
+          <HorizontalResourceCard
+            resource={
+              {
+                title: 'More Expert Curated JavaScript Courses',
+                slug: 'scale-react-development-with-nx-4038',
+                image:
+                  'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
+                path: `/q/javascript?access_state=free&type=playlist`,
+                description: `A strong understanding of JavaScript is essential for having a successful career, no matter which framework you use.`,
+                byline: ``,
+              } as any
+            }
+          />
+          <div className="grid grid-cols-2 gap-x-4">
+            <VerticalResourceCard resource={hits[0] as any} />
             <VerticalResourceCard resource={hits[1] as any} />
           </div>
         </div>
@@ -180,19 +190,17 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
           className="p-16"
         />
         <VerticalResourceCard
-          resource={{
-            name: '',
-            byline: `kent c. dodds`,
-            slug: `the-beginner-s-guide-to-react`,
-            title: `the beginner's guide to react`,
-            instructor: {
-              name: 'Kent C. Dodds',
-              image: `https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/011/medium/photo-512.png`,
-            },
-            path: `/courses/the-beginner-s-guide-to-react`,
-            image: `https://d2eip9sf3oo6c2.cloudfront.net/playlists/square_covers/000/432/490/full/EGH_BeginnersReact2.png`,
-            description: ``,
-          }}
+          resource={
+            {
+              title: 'More Expert Curated JavaScript Courses',
+              slug: 'scale-react-development-with-nx-4038',
+              image:
+                'https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/000/205/thumb/javascriptlang.png',
+              path: `/q/javascript?access_state=free&type=playlist`,
+              description: `A strong understanding of JavaScript is essential for having a successful career, no matter which framework you use.`,
+              byline: ``,
+            } as any
+          }
           className="hidden sm:block p-16"
         />
       </div>
