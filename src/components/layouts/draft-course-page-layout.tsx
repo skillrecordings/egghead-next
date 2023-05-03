@@ -32,6 +32,8 @@ import {
 import {trpc} from 'trpc/trpc.client'
 import toast from 'react-hot-toast'
 import {Dialog, Transition} from '@headlessui/react'
+import useFileUploadReducer from 'hooks/use-file-upload-reducer'
+import VideoUploader from 'components/upload/video-uploader'
 
 type CoursePageLayoutProps = {
   lessons: any
@@ -365,6 +367,10 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
   setIsOpen,
   sanityCourseId,
 }) => {
+  const [fileUploadState, dispatch] = useFileUploadReducer([])
+
+  console.log({fileUploadState})
+
   const createLessonMutation = trpc.instructor.createLesson.useMutation<{
     description: string
     sanityCourseId: string
@@ -389,7 +395,11 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
 
   return (
     <Formik
-      initialValues={{title: undefined, description: undefined}}
+      initialValues={{
+        title: undefined,
+        description: undefined,
+        lessons: undefined,
+      }}
       // validationSchema={emailChangeSchema}
       onSubmit={async (values) => {
         let mut = await createLessonMutation.mutateAsync({
@@ -438,6 +448,85 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
                   disabled={isSubmitting}
                   className="bg-gray-50 dark:bg-gray-800 focus:outline-none focus:shadow-outline border border-gray-100 dark:border-gray-700 rounded-md py-2 px-4 blockappearance-none leading-normal resize-y prose text-gray-900 dark:prose-dark md:prose-lg md:dark:prose-lg-dark dark:text-gray-100 dark:prose-a:text-blue-300 dark:hover:prose-a:text-blue-200 prose-a:text-blue-500 hover:prose-a-:text-blue-600 w-96"
                 />
+              </label>
+              <label className="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+                <span className="flex items-center space-x-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-6 h-6 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <span className="font-medium text-gray-600">
+                    Drop video files, or{' '}
+                    <span className="text-blue-600 underline">browse</span>
+                  </span>
+                </span>
+                <VideoUploader dispatch={dispatch} />
+                {/* {values?.lessons?.map((lesson, i) => {
+            const uploadState = find(
+              fileUploadState.files,
+              (file) => file.file.name === lesson.fileMetadata.fileName,
+            )
+            return (
+              <div className="space-y-4 lg:space-y-6">
+                <p className="block text-xs font-medium text-gray-600 dark:text-white uppercase">
+                  Lesson ({i + 1}/{values.lessons.length})
+                  {uploadState?.percent && ` - ${uploadState?.percent}%`}
+                </p>
+                <label
+                  htmlFor={`lessons.${i}.title`}
+                  className="block text-sm font-medium text-gray-700 space-y-1"
+                >
+                  <span>
+                    <span className="dark:text-white">Title</span>{' '}
+                    <span className="text-gray-400">
+                      ({lesson.fileMetadata.fileName})
+                    </span>
+                  </span>
+                  <Field
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    name={`lessons.${i}.title`}
+                    type="text"
+                  />
+                </label>
+                <label
+                  htmlFor={`lessons.${i}.description`}
+                  className="block text-sm font-medium text-gray-700 space-y-1"
+                >
+                  <span className="dark:text-white">Description</span>
+                  <Field
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    name={`lessons.${i}.description`}
+                    as="textarea"
+                    rows="3"
+                  />
+                </label>
+                <label
+                  htmlFor={`lessons.${i}.repoUrl`}
+                  className="block text-sm font-medium text-gray-700 space-y-1"
+                >
+                  <span className="dark:text-white">Repo URL</span>
+                  <Field
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    name={`lessons.${i}.repoUrl`}
+                    type="text"
+                  />
+                </label>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                  Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}
+                </p>
+              </div>
+            )
+          })} */}
               </label>
               <div className="space-x-4 mt-4">
                 <button
