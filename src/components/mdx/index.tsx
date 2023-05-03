@@ -11,6 +11,7 @@ import DefaultLayout from '../../layouts'
 import CodeBlock from './code-block'
 import ArticleCourseCard from 'components/blog/article-course-card'
 import ArticleTalkCard from 'components/blog/article-talk-card'
+import TopicInterestEmailEntryForm from './topic-interest-form'
 // @ts-ignore
 import {TwitterTweetEmbed} from 'react-twitter-embed'
 
@@ -28,6 +29,7 @@ const mdxComponents = {
   DefaultLayout,
   ArticleCourseCard,
   ArticleTalkCard,
+  TopicInterestEmailEntryForm,
   pre: (props: any) => (
     <CodeBlock
       language={props.children.props.className || ''}

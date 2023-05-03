@@ -20957,6 +20957,11 @@ table@^6.0.9:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
 
+tailwind-merge@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.12.0.tgz#747d09d64a25a4864150e8930f8e436866066cc8"
+  integrity sha512-Y17eDp7FtN1+JJ4OY0Bqv9OA41O+MS8c1Iyr3T6JFLnOgLg3EvcyMKZAnQ8AGyvB5Nxm3t9Xb5Mhe139m8QT/g==
+
 tailwindcss-autofill@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/tailwindcss-autofill/-/tailwindcss-autofill-0.1.0.tgz#ca5872c866bea13ac45fd1610c7b48199156702f"

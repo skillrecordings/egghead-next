@@ -16,6 +16,18 @@ const PlaylistProgressSchema = z
   })
   .nullish()
 
+const LessonProgressSchema = z
+  .object({
+    lessonProgress: z.object({
+      completed: z.boolean(),
+      title: z.string(),
+      slug: z.string(),
+      path: z.string(),
+    }),
+  })
+
+  .nullish()
+
 export type PlaylistProgress = z.infer<typeof PlaylistProgressSchema>
 
 export async function loadPlaylistProgress({
@@ -48,3 +60,31 @@ export async function loadPlaylistProgress({
   )
   return PlaylistProgressSchema.parse(progress)
 }
+
+export async function loadLessonProgress({
+  token,
+  slug,
+}: {
+  token?: string
+  slug: string
+}) {
+  const query = gql`
+    query getLessonProgress($slug: String!) {
+      lesson(slug: $slug) {
+        title
+        slug
+        path
+        completed
+      }
+    }
+  `
+  token = token || getAccessTokenFromCookie()
+  const graphQLClient = getGraphQLClient(token)
+  const variables = {
+    slug,
+  }
+  const {lesson} = await graphQLClient.request(query, variables)
+  return LessonProgressSchema.parse({lessonProgress: lesson})
+}
+
+export type LessonProgress = z.infer<typeof LessonProgressSchema>

@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from 'react'
 import {isEmpty} from 'lodash'
-import {useQuery} from '@tanstack/react-query'
 import {connectHits} from 'react-instantsearch-dom'
 import HitComponent from './components/hit'
 import {useViewer} from 'context/viewer-context'
 import {loadUserCompletedCourses} from 'lib/users'
+import {useQuery} from '@tanstack/react-query'
 
 const useUserCompletedCourses = (viewerId: number) => {
   return useQuery(['completeCourses'], async () => {
@@ -23,6 +23,7 @@ const CustomHits: FunctionComponent<CustomHitsProps> = ({hits}) => {
   const {viewer} = useViewer()
   const viewerId = viewer?.id
   const {data: completeCourseData} = useUserCompletedCourses(viewerId)
+
   const completedCoursesIds =
     !isEmpty(completeCourseData) &&
     completeCourseData.map((course: any) => course.collection.id)

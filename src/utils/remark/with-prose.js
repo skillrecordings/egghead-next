@@ -34,7 +34,7 @@ module.exports.withProse = () => {
           {
             type: 'jsx',
             value:
-              '<div className="prose dark:prose-dark sm:prose-lg lg:prose-xl mt-5 max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">',
+              '<div className="prose dark:prose-dark sm:prose-lg lg:prose-xl max-w-none dark:prose-a:text-blue-300 prose-a:text-blue-500">',
           },
           node,
           ...(i === tree.children.length - 1
