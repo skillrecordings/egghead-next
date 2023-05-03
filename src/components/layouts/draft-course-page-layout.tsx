@@ -369,6 +369,8 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
 }) => {
   const [fileUploadState, dispatch] = useFileUploadReducer([])
 
+  const isUploaded = fileUploadState.files[0]?.percent === 100
+
   console.log({fileUploadState})
 
   const createLessonMutation = trpc.instructor.createLesson.useMutation<{
@@ -402,7 +404,9 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
       }}
       // validationSchema={emailChangeSchema}
       onSubmit={async (values) => {
-        let mut = await createLessonMutation.mutateAsync({
+        // Use the response from this later to update the lesson list.
+        // We could also just do an optimistic update here.
+        await createLessonMutation.mutateAsync({
           description: values.description,
           sanityCourseId,
           title: values.title,
@@ -530,8 +534,9 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
               </label>
               <div className="space-x-4 mt-4">
                 <button
-                  className=" bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded text-white"
+                  className=" bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded text-white disabled:bg-gray-200 disabled:hover:cursor-not-allowed"
                   type="submit"
+                  disabled={!isUploaded}
                 >
                   Submit
                 </button>
