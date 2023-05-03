@@ -60,18 +60,8 @@ const SearchVideoControls: React.FunctionComponent<{
       )}
     >
       <div className="hidden sm:flex flex-col justify-center items-center space-y-4">
-        <div className="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 xl:w-64 xl:h-64 relative">
-          <Image
-            src={
-              'https://res.cloudinary.com/dg3gyk0gu/image/upload/v1659039554/eggodex/search-eggo.svg'
-            }
-            alt="search eggo"
-            layout="fill"
-          />
-        </div>
-
         <h3 className="text-lg xl:text-xl 2xl:text-2xl font-semibold text-center">
-          Search for more {tag.label}:
+          Search for more {tag.label}
         </h3>
         <SearchBar
           className="rounded-lg shadow-md transition duration-200 hover:shadow-lg focus-within:shadow-lg bg-gray-800 border-gray-700 focus-within:border-gray-500 hover:bg-gray-700 w-full max-w-md"
