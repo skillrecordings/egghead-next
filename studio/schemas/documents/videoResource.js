@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import isEmpty from 'lodash/isEmpty'
 
 export default {
@@ -25,17 +26,9 @@ export default {
         }),
     },
     {
-      name: 'hlsUrl',
-      title: 'HLS URL',
-      type: 'url',
-      validation: (Rule) =>
-        Rule.custom((hlsUrl, context) => {
-          if (isEmpty(hlsUrl) && isEmpty(context.document.originalVideoUrl)) {
-            return 'Either "HLS URL" or "Original Video URL" must be set.'
-          }
-
-          return true
-        }),
+      name: 'muxAsset',
+      title: 'Mux Asset',
+      type: 'muxAsset',
     },
     {
       name: 'transcriptBody',

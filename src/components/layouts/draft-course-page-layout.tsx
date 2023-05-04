@@ -410,6 +410,7 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
           description: values.description,
           sanityCourseId,
           title: values.title,
+          awsFilename: fileUploadState.files[0].signedUrl as string,
         })
         setIsOpen(false)
       }}
@@ -475,62 +476,6 @@ const LessonCreationForm: React.FunctionComponent<any> = ({
                   </span>
                 </span>
                 <VideoUploader dispatch={dispatch} />
-                {/* {values?.lessons?.map((lesson, i) => {
-            const uploadState = find(
-              fileUploadState.files,
-              (file) => file.file.name === lesson.fileMetadata.fileName,
-            )
-            return (
-              <div className="space-y-4 lg:space-y-6">
-                <p className="block text-xs font-medium text-gray-600 dark:text-white uppercase">
-                  Lesson ({i + 1}/{values.lessons.length})
-                  {uploadState?.percent && ` - ${uploadState?.percent}%`}
-                </p>
-                <label
-                  htmlFor={`lessons.${i}.title`}
-                  className="block text-sm font-medium text-gray-700 space-y-1"
-                >
-                  <span>
-                    <span className="dark:text-white">Title</span>{' '}
-                    <span className="text-gray-400">
-                      ({lesson.fileMetadata.fileName})
-                    </span>
-                  </span>
-                  <Field
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    name={`lessons.${i}.title`}
-                    type="text"
-                  />
-                </label>
-                <label
-                  htmlFor={`lessons.${i}.description`}
-                  className="block text-sm font-medium text-gray-700 space-y-1"
-                >
-                  <span className="dark:text-white">Description</span>
-                  <Field
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    name={`lessons.${i}.description`}
-                    as="textarea"
-                    rows="3"
-                  />
-                </label>
-                <label
-                  htmlFor={`lessons.${i}.repoUrl`}
-                  className="block text-sm font-medium text-gray-700 space-y-1"
-                >
-                  <span className="dark:text-white">Repo URL</span>
-                  <Field
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    name={`lessons.${i}.repoUrl`}
-                    type="text"
-                  />
-                </label>
-                <p className="mt-2 text-center text-sm text-gray-600">
-                  Signed URL: {lesson.fileMetadata.signedUrl || 'processing...'}
-                </p>
-              </div>
-            )
-          })} */}
               </label>
               <div className="space-x-4 mt-4">
                 <button

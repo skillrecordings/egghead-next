@@ -180,10 +180,11 @@ export const instructorRouter = router({
         title: z.string().optional(),
         description: z.string().optional(),
         sanityCourseId: z.string(),
+        awsFilename: z.string(),
       }),
     )
     .mutation(async ({input, ctx}) => {
-      const {title, description, sanityCourseId} = input
+      const {title, description, sanityCourseId, awsFilename} = input
 
       const {instructor} = await loadDraftSanityCourseById(sanityCourseId)
       const {id: instructorId} = instructor
@@ -201,6 +202,7 @@ export const instructorRouter = router({
         accessLevel: 'pro',
         slug: {current: lessonSlug},
         status: 'needs-review',
+        awsFilename,
         collaborators: [
           {
             _key: nanoid(),

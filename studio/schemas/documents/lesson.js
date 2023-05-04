@@ -31,11 +31,6 @@ export default {
       },
     },
     {
-      title: 'AWS Filename (URL)',
-      name: 'awsFilename',
-      type: 'url',
-    },
-    {
       name: 'resource',
       description:
         'Attach a resource to this lesson (Video, Audio, Text, etc.)',
