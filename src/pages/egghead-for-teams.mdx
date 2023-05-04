@@ -7,12 +7,40 @@ export const meta = {
 }
 
 import FancyGuide from 'layouts/fancy-guide'
+import GridBenefitsList from 'components/mdx/grid-benefits-list'
+import CompanyList from 'components/mdx/company-logos'
+import Button from 'components/mdx/button'
+import InstructorsList from 'components/mdx/instructors-list'
 
-export default ({children}) => <FancyGuide meta={meta}>{children}</FancyGuide>
+export default ({children}) => <FancyGuide>{children}</FancyGuide>
 
 <ProseSection>
 
-Keeping your team up to date and consistent with the application of frameworks, patterns, and best practices is an ongoing and extreme challenge for any organization.
+<img
+  style={{
+    width: '40%',
+    margin: '3em auto',
+  }}
+  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1682701917/eggodex/egh_climbers.png"
+/>
+
+<center>
+  {' '}
+  <h1> egghead for Teams </h1>
+  <p style={{color: 'rgb(251 191 36)'}}>
+    {' '}
+    Keeping your team up to date and consistent with the application of frameworks,
+    patterns, and best practices is an ongoing and extreme challenge for any organization.
+  </p>
+</center>
+
+<img
+  style={{
+    width: '15%',
+    margin: '3em auto',
+  }}
+  src="https://res.cloudinary.com/dg3gyk0gu/image/upload/v1683150081/assets/Rectangle_10.png"
+/>
 
 The pressure is always on to SHIP, which means that we have to make trade-offs in terms of how we spend our time. When the ongoing education and upskilling of your team is neglected the long-term consequences can be massive... and expensive.
 
@@ -20,12 +48,11 @@ On the flip side of that coin, when continued education and upskilling is a prio
 
 Access to high-quality learning material, and the space to learn, is essential for the developers on your team.
 
-- high quality product development
-- consistent shared knowledge and understanding of tools
-- alignment on best practices
-- similar basis for understanding around "how we got here"
+<GridBenefitsList />
 
 egghead has been providing developers with efficient, in-depth, to the point courses for over a decade. Trusted by enterprises like Microsoft, Apple, Facebook, Google, Goldman-Sachs, Sony, Epic Games, and countless others large and small, your developers skillup with egghead so you can ship better products, faster, and more consistently over time.
+
+<CompanyList />
 
 In addition to your deep egghead course catalog, we can also offer your team custom learning paths and are happy to discuss the learning content your organization wants to see.
 
@@ -33,16 +60,28 @@ Do you need live workshops? We can do that.
 
 egghead's deep bench of experienced instructors are here to help you meet your education goals and provide your team with the support you need.
 
-Ready to get started? Contact us below to discuss your team's needs or [join today](/pricing).
+<InstructorsList />
+
+<center>
+  <h2> Ready to get started? </h2>
+  <p>Contact us to discuss your team's needs:</p>
+
+<div className="">
+  <Widget
+    id="JWBc8Ohx"
+    style={{width: '100%', height: '500px'}}
+    className="my-form"
+  />
+</div>
+
+or
+
+<div class="text-center">
+  <Button href="/pricing">Join Today</Button>
+</div>
+
+</center>
 
 </ProseSection>
 
 import {Widget} from '@typeform/embed-react'
-
-<div className="pt-16">
-  <Widget
-    id="JWBc8Ohx"
-    style={{width: '100%', height: '600px'}}
-    className="my-form"
-  />
-</div>
