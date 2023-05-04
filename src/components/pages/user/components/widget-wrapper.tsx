@@ -22,7 +22,7 @@ const ItemWrapper: React.FC<{title: string; children: React.ReactNode}> = ({
       <h2 className="pb-3 md:pb-4 text-lg font-medium md:font-normal md:text-xl leading-none">
         {title}
       </h2>
-      <div className="mt-4">{children}</div>
+      <div className="">{children}</div>
     </div>
   )
 }
