@@ -13,19 +13,24 @@ const sanityClient = client({
 
 const secret = process.env.SANITY_WEBHOOK_SECRET || ''
 
+interface MuxAsset {
+  muxAssetId: string
+  muxPlaybackId: string
+}
+
 async function createMuxAsset({
-  awsFilename,
+  originalVideoUrl,
   muxAsset,
   duration,
 }: {
-  awsFilename: string
-  muxAsset: {muxAssetId: string; muxPlaybackId: string}
+  originalVideoUrl: string
+  muxAsset: MuxAsset
   duration: number
 }) {
   if (!muxAsset?.muxAssetId) {
     const {Video} = new Mux()
     const newMuxAsset = await Video.Assets.create({
-      input: awsFilename,
+      input: originalVideoUrl,
       playback_policy: ['public'],
     })
 
@@ -41,21 +46,35 @@ async function createMuxAsset({
   return {...muxAsset, duration}
 }
 
-const createVideoResource = async (newMuxAsset, duration) => {
-  sanityClient.create({
-    _id: nanoid(),
-    _type: 'videoResource',
-    _updatedAt: '2022-09-06T16:06:49Z',
-    duration: 123,
-    filename: 'big_buck_bunny_720p_2mb copy.mp4',
-    hlsUrl:
-      'https://egghead-video-uploads.s3.amazonaws.com/development/6e976e36-c18d-46d0-ade9-eb13d023b6cf/big_buck_bunny_720p_2mbcopy-z9byoghqa.mp4',
-    originalVideoUrl:
-      'https://egghead-video-uploads.s3.amazonaws.com/development/6e976e36-c18d-46d0-ade9-eb13d023b6cf/big_buck_bunny_720p_2mbcopy-z9byoghqa.mp4',
-  })
+const patchVideoResource = async (
+  id: string,
+  newMuxAsset: MuxAsset,
+  duration: string,
+) => {
+  const {muxPlaybackId, muxAssetId} = newMuxAsset
+
+  return await sanityClient
+    .patch(id)
+    .set({
+      muxAsset: {
+        _type: 'muxAsset',
+        muxPlaybackId: muxPlaybackId,
+        muxAssetId: muxAssetId,
+      },
+      duration,
+    })
+    .commit()
+    .then((sanityRes) => {
+      console.log(`mux asset patched to ${id}`, sanityRes)
+      return sanityRes
+    })
+    .catch((err) => {
+      console.log(`ERROR when patching mux asset to ${id}`, err)
+      return err
+    })
 }
 
-const patchLessonWithVideoResource = async (lessonId, videoResourceId) => {}
+// const patchLessonWithVideoResource = async (lessonId, videoResourceId) => {}
 
 /**
  * link to webhook {@link} https://www.sanity.io/organizations/om9qNpcXE/project/z9io1e0u/api/webhooks/xV5ZY6656qclI76i
@@ -72,11 +91,11 @@ const sanityLessonCreatedWebhook = async (
 
   try {
     if (isValid) {
-      const {_id, awsFilename, muxAsset, duration} = req.body
+      const {_id, originalVideoUrl, muxAsset, duration} = req.body
       console.info('processing Sanity webhook: Lesson created', _id)
 
       const {duration: assetDuration, ...newMuxAsset} = await createMuxAsset({
-        awsFilename,
+        originalVideoUrl,
         muxAsset,
         duration,
       })
@@ -84,8 +103,8 @@ const sanityLessonCreatedWebhook = async (
       // create a video resource
       // patch lesson resources array with ref using the video resource id
       try {
-        const resource = await createVideoResource(newMuxAsset, duration)
-        await patchLessonWithVideoResource(_id, resource._id)
+        const resource = await patchVideoResource(_id, newMuxAsset, duration)
+        // await patchLessonWithVideoResource(_id, resource._id)
       } catch (e) {
         console.error(e)
         res.status(500).json({success: false})

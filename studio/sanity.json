@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "egghead-next"
+    "name": "egghead-next-test"
   },
   "api": {
-    "projectId": "sb1i5dlc",
+    "projectId": "junsargs",
     "dataset": "production"
   },
   "plugins": [
