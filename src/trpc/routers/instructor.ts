@@ -184,7 +184,7 @@ export const instructorRouter = router({
       }),
     )
     .mutation(async ({input, ctx}) => {
-      const {title, description, sanityCourseId, awsFilename} = input
+      const {title = '', description, sanityCourseId, awsFilename} = input
 
       const {instructor} = await loadDraftSanityCourseById(sanityCourseId)
       const {id: instructorId} = instructor
@@ -192,9 +192,18 @@ export const instructorRouter = router({
         remove: /[*+~.()'"!:@]/g,
       })
 
+      const videoResourceId = nanoid()
+
       console.log({instructorId})
 
-      let lesson = {
+      const videoResource = {
+        _id: videoResourceId,
+        _type: 'videoResource',
+        filename: `${slugify(title.toLowerCase())}-video-resource`,
+        originalVideoUrl: awsFilename,
+      }
+
+      const lesson = {
         _id: nanoid(),
         _type: 'lesson',
         title,
@@ -202,7 +211,6 @@ export const instructorRouter = router({
         accessLevel: 'pro',
         slug: {current: lessonSlug},
         status: 'needs-review',
-        awsFilename,
         collaborators: [
           {
             _key: nanoid(),
@@ -210,15 +218,34 @@ export const instructorRouter = router({
             _ref: instructorId,
           },
         ],
+        resource: {
+          _key: nanoid(),
+          _ref: videoResourceId,
+          _type: 'reference',
+        },
       }
 
-      await sanityClient.create(lesson)
-
-      return await sanityClient
+      const coursePatch = sanityClient
         .patch(sanityCourseId)
         .append('lessons', [
           {_key: nanoid(), _ref: lesson._id, _type: 'reference'},
         ])
+
+      let transaction = sanityClient.transaction()
+
+      transaction.create(videoResource)
+      transaction.create(lesson)
+      transaction.patch(coursePatch)
+
+      return transaction
         .commit()
+        .then((sanityRes) => {
+          console.log('Transaction', sanityRes)
+          return sanityRes
+        })
+        .catch((err) => {
+          console.log('ERROR', err)
+          return err
+        })
     }),
 })
