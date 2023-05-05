@@ -12,6 +12,14 @@ import {VerticalResourceCard} from 'components/card/new-vertical-resource-card'
 import {trpc} from 'trpc/trpc.client'
 import {integer} from 'aws-sdk/clients/cloudfront'
 import {twMerge} from 'tailwind-merge'
+import {
+  Card,
+  CardPreview,
+  CardHeader,
+  CardContent,
+  CardBody,
+  CardMeta,
+} from 'components/card/index'
 
 const shapeHit = (hit: any) => {
   const {title, instructor_name, instructor_avatar_url, slug, image} = hit
@@ -33,6 +41,30 @@ const transformHits = (hits: any, amount: integer) => {
   if (!hits) return []
   const slicedHits = hits.slice(0, amount)
   return slicedHits.map((hit: any) => shapeHit(hit as any))
+}
+
+const SearchCard = ({tagLabel}: {tagLabel: string}) => {
+  const className = `bg-white dark:bg-gray-800 dark:text-gray-200 shadow-sm rounded-lg overflow-hidden p-5 flex sm:flex-row flex-col sm:space-x-5 space-x-0 sm:space-y-0 space-y-5 items-center sm:text-left text-center`
+  return (
+    <Card className={className}>
+      <CardContent className="flex flex-col justify-center sm:items-start items-center">
+        <CardHeader>
+          <p className=" uppercase font-semibold text-xs tracking-tight text-gray-700 dark:text-gray-300 mb-1">
+            Search for more {tagLabel}
+          </p>
+        </CardHeader>
+        {/* <CardMeta className="text-xs text-gray-600 dark:text-gray-300 pb-2 pt-1">
+          {resource.byline}
+        </CardMeta> */}
+        <CardBody className="prose dark:prose-dark dark:prose-dark-sm dark:prose-a:text-blue-300 prose-a:text-blue-500 prose-sm max-w-none">
+          <SearchBar
+            className="rounded-lg shadow-md transition duration-200 hover:shadow-lg focus-within:shadow-lg bg-gray-800 border-gray-700 focus-within:border-gray-500 hover:bg-gray-700 w-full max-w-md"
+            initialValue={tagLabel}
+          />
+        </CardBody>
+      </CardContent>
+    </Card>
+  )
 }
 
 const SearchVideoControls: React.FunctionComponent<{
@@ -114,18 +146,25 @@ const OfferSearchCTAOverlay: React.FunctionComponent<{
   console.log(hits)
 
   return (
-    <OverlayWrapper className="absolute top-0 z-10 h-full max-w-full dark">
-      <div className="hidden xl:flex xl:flex-row w-full mx-8 justify-center">
-        <SearchVideoControls
-          router={router}
-          nextLesson={nextLesson}
-          courseImage={courseImage}
-          lesson={lesson}
-          onClickRewatch={onClickRewatch}
-          tag={tag}
-        />
+    <OverlayWrapper className="@container absolute top-0 z-10 h-full max-w-full dark">
+      <div className="hidden xl:grid md:w-full grid-cols-2 gap-4 mx-8">
+        <div className="grid grid-rows-2 gap-4">
+          <HorizontalResourceCard
+            resource={
+              {
+                title: `More Expert Curated ${tag.label} Courses`,
+                slug: tag.name,
+                image: tag.image_url,
+                path: `/q/${tag.name}?access_state=free&type=playlist`,
+                description: `A hand-curated collection of the best free ${tag.label} courses on egghead.io.`,
+                byline: ``,
+              } as any
+            }
+          />
+          <SearchCard tagLabel={tag.label as string} />
+        </div>
         {hits.length > 0 ? (
-          <div className="xl:grid grid-rows-2 p-8 min-w-0 3xl:w-[40rem] lg:w-[30rem] xl:ml-16 3xl:p-4 gap-y-4">
+          <div className="xl:grid grid-rows-2 gap-4">
             <HorizontalResourceCard
               resource={
                 {
