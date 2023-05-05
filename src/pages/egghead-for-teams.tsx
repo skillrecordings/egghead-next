@@ -1,9 +1,9 @@
 import {Widget} from '@typeform/embed-react'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
 import Image from 'next/image'
 import Layout from 'components/app/layout'
 import {NextSeo} from 'next-seo'
+import analytics from 'utils/analytics'
 
 const EggheadForTeams = () => {
   return (
@@ -108,7 +108,12 @@ const EggheadForTeams = () => {
           <Link
             passHref
             onClick={() => {
-              track('clicked Join Today', {location: 'egghead-for-teams'})
+              analytics.events.activityInternalLinkClick(
+                'CTA',
+                'browser page',
+                'egghead for teams',
+                '/pricing',
+              )
             }}
             href="/pricing"
           >
