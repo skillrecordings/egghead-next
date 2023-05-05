@@ -126,6 +126,27 @@ export default {
       },
     },
     {
+      name: 'displayComponent',
+      type: 'string',
+      title: 'Display Component',
+      description:
+        'What component should be used in egghead-next to display this feature?',
+      // hidden: ({document}) => document.type !== 'feature',
+      options: {
+        list: [
+          {
+            title: 'Dynamic Grid',
+            value: 'DynamicGrid',
+            default: true,
+          },
+          {
+            title: 'egghead For Teams CTA',
+            value: 'eggheadForTeamsCta',
+          },
+        ],
+      },
+    },
+    {
       name: 'productionProcessState',
       title: 'Production Process State',
       type: 'productionProcessState',
