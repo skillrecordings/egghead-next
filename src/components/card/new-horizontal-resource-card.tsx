@@ -25,7 +25,7 @@ const HorizontalResourceCard: React.FC<{
   location?: string
   describe?: boolean
   className?: string
-  completedCoursesIds?: string[]
+  completedCoursesIds?: number[]
 }> = ({
   children,
   resource,

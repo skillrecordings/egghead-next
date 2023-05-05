@@ -28,7 +28,7 @@ const VerticalResourceCard: React.FC<{
   className?: string
   small?: boolean
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p'
-  completedCoursesIds?: string[]
+  completedCoursesIds?: number[]
 }> = ({
   children,
   resource,
