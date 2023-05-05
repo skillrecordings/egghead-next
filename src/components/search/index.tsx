@@ -28,7 +28,7 @@ import SimpleBar from 'simplebar-react'
 import cx from 'classnames'
 import NewCuratedTopicPage from './curated/[slug]'
 import Link from 'next/link'
-import {track} from 'utils/analytics'
+import analytics from 'utils/analytics'
 
 const ALGOLIA_INDEX_NAME =
   process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME || 'content_production'
@@ -179,9 +179,12 @@ const Search: FunctionComponent<SearchProps> = ({
         <Link
           passHref
           onClick={() => {
-            track('clicked egghead for teams', {
-              location: 'egghead-for-teams',
-            })
+            analytics.events.activityInternalLinkClick(
+              'CTA',
+              'browser page',
+              'egghead for teams',
+              '/pricing',
+            )
           }}
           href="/pricing"
         >
